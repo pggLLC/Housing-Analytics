@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About | LIHTC Analytics Hub</title>
+<style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            color: var(--accent-gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .content-section {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-content {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .data-sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .source-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .source-name {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .source-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .source-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .source-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+<script defer="defer" src="js/navigation.js"></script>
+
+<style>
+/* Intro card matching dashboard */
+body[data-page="about.html"] .intro-card{
+  background: var(--surface, rgba(17,26,36,.95));
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 10px 0 12px;
+}
+
+body[data-page="about.html"] .intro-card h1{
+  margin-bottom: .25rem !important;
+}
+
+body[data-page="about.html"] .intro-card p{
+  margin-bottom: .55rem !important;
+  line-height: 1.45 !important;
+}
+
+body[data-page="about.html"] .intro-card h2{
+  margin-top: .75rem !important;
+  margin-bottom: .3rem !important;
+}
+
+body[data-page="about.html"] .hero{
+  margin-bottom: 6px !important;
+}
+</style>
+
+
+
+  <link rel="stylesheet" href="css/site-theme.css"/>
+</head>
+<body>
+<main>
+<div class="container">
+<div class="page-header">
+<h1 class="page-title">About LIHTC Analytics Hub</h1>
+<p class="page-subtitle">
+                    A comprehensive platform for understanding Low-Income Housing Tax Credit allocations, 
+                    market dynamics, and affordable housing development across the United States.
+                </p>
+</div>
+<div class="content-section">
+<h2 class="section-title">Platform Purpose</h2>
+<div class="section-content">
+<p>
+                        The LIHTC Analytics Hub provides data-driven insights into how federal housing tax credits 
+                        are allocated, priced, and deployed across states and metro regions. Our platform serves 
+                        affordable housing developers, tax credit investors, housing finance agencies, and community 
+                        development professionals.
+                    </p>
+<p>
+                        We consolidate data from authoritative sources to help users understand policy variations, 
+                        market conditions, and development opportunities in the affordable housing sector.
+                    </p>
+</div>
+</div>
+<div class="content-section">
+<h2 class="section-title">Why LIHTC Matters</h2>
+<div class="section-content">
+<p>
+                        The Low-Income Housing Tax Credit program is the federal government's primary tool for 
+                        encouraging private investment in affordable rental housing. Since 1986, LIHTC has financed 
+                        approximately 3.6 million affordable rental units across all 50 states.
+                    </p>
+<p>
+                        While federally authorized, LIHTC operates through a state-level allocation system. Each 
+                        state housing finance agency designs its own Qualified Allocation Plan (QAP), creating 
+                        distinct development environments, risk profiles, and investment outcomes across regions.
+                    </p>
+</div>
+</div>
+<div class="content-section">
+<h2 class="section-title">Data Sources</h2>
+<div class="section-content">
+<p>
+                        Our platform integrates data from multiple authoritative sources to provide comprehensive 
+                        market intelligence:
+                    </p>
+</div>
+<div class="data-sources-grid">
+<div class="source-card">
+<div class="source-name">Novogradac</div>
+<div class="source-description">
+                            LIHTC allocation data, credit pricing trends, and state-level program information.
+                        </div>
+<a class="source-link" href="https://www.novoco.com" rel="noopener" target="_blank">
+                            Visit Novogradac →
+                        </a>
+</div>
+<div class="source-card">
+<div class="source-name">Federal Reserve (FRED)</div>
+<div class="source-description">
+                            Economic indicators including construction costs, housing starts, and interest rates.
+                        </div>
+<a class="source-link" href="https://fred.stlouisfed.org" rel="noopener" target="_blank">
+                            Visit FRED →
+                        </a>
+</div>
+<div class="source-card">
+<div class="source-name">HUD</div>
+<div class="source-description">
+                            LIHTC property database, fair market rents, and program documentation.
+                        </div>
+<a class="source-link" href="https://www.huduser.gov" rel="noopener" target="_blank">
+                            Visit HUD →
+                        </a>
+</div>
+<div class="source-card">
+<div class="source-name">Bureau of Labor Statistics</div>
+<div class="source-description">
+                            Construction employment, wage data, and labor market indicators.
+                        </div>
+<a class="source-link" href="https://www.bls.gov" rel="noopener" target="_blank">
+                            Visit BLS →
+                        </a>
+</div>
+<div class="source-card">
+<div class="source-name">NCSHA</div>
+<div class="source-description">
+                            State housing finance agency information and policy resources.
+                        </div>
+<a class="source-link" href="https://www.ncsha.org" rel="noopener" target="_blank">
+                            Visit NCSHA →
+                        </a>
+</div>
+<div class="source-card">
+<div class="source-name">Census Bureau</div>
+<div class="source-description">
+                            Population data, housing statistics, and demographic information.
+                        </div>
+<a class="source-link" href="https://www.census.gov" rel="noopener" target="_blank">
+                            Visit Census →
+                        </a>
+</div>
+</div>
+</div>
+<div class="content-section">
+<h2 class="section-title">Methodology</h2>
+<div class="section-content">
+<p>
+<strong>Data Aggregation:</strong> We collect data quarterly from authoritative sources 
+                        and validate it against multiple references to ensure accuracy.
+                    </p>
+<p>
+<strong>State Allocations:</strong> Per-capita calculations use Census Bureau population 
+                        estimates. Allocation tiers are based on total dollar amounts, not adjusted for cost of 
+                        living or construction costs.
+                    </p>
+<p>
+<strong>Market Analysis:</strong> Pricing data reflects secondary market transactions and 
+                        may vary by deal structure, investor type, and state-specific factors.
+                    </p>
+<p>
+<strong>Economic Indicators:</strong> Federal Reserve Economic Data (FRED) provides 
+                        standardized metrics updated according to each series' publication schedule.
+                    </p>
+<p>
+<strong>Legislative Impact Modeling:</strong> Estimated cost savings based on analysis of H.R. 6644 provisions compared to current regulatory requirements. NEPA streamlining timeline reductions based on HUD environmental review data. HOME program improvements modeled using historical gap financing patterns. Total project impact aggregated across typical 100-unit development pro forma.
+</p>
+<p>
+<strong>Stock Analysis:</strong> Companies selected based on multifamily/affordable housing exposure, asset under management scale, and sensitivity to regulatory changes. Outlook based on historical regulatory relief impacts on REIT performance plus company-specific fundamentals.
+</p>
+<p>
+<strong>Commodity Forecasting:</strong> Forward projections combine futures market pricing, analyst consensus estimates, tariff policy assumptions, and supply-demand modeling. Historical baseline (2019) used to show cumulative price changes. High-risk scenario incorporates potential tariff escalation and labor constraint intensification.
+</p>
+</div>
+</div>
+<div class="content-section">
+<h2 class="section-title">Disclaimer</h2>
+<div class="section-content">
+<p>
+                        This platform is provided for educational and informational purposes. Data is sourced from 
+                        publicly available information and third-party providers. While we strive for accuracy, 
+                        users should verify critical information with original sources before making investment or 
+                        development decisions.
+                    </p>
+<p>
+                        This platform does not provide investment advice, legal guidance, or tax counsel. Consult 
+                        qualified professionals for project-specific guidance.
+                    </p>
+</div>
+</div>
+<div class="content-section">
+<h2 class="section-title">Updates &amp; Maintenance</h2>
+<div class="section-content">
+<p>
+<strong>Data Refresh:</strong> Quarterly updates from Novogradac and other sources.
+                    </p>
+<p>
+<strong>Economic Indicators:</strong> Real-time updates from Federal Reserve FRED API.
+                    </p>
+<p>
+<strong>Policy Changes:</strong> QAP updates tracked as state agencies publish new allocation plans.
+                    </p>
+<p>
+<strong>Last Update:</strong> Q1 2026
+                    </p>
+</div>
+</div>
+</div>
+</main>
+
+<script src="js/contrast-guard.js"></script>
+</body>
+</html>
