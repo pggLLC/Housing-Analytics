@@ -138,6 +138,8 @@
   .leaflet-pane, .leaflet-tile-pane, .leaflet-overlay-pane, .leaflet-marker-pane, .leaflet-shadow-pane { z-index: 200; }
   .leaflet-control { z-index: 500; }
 </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 
 <body data-page="colorado-deep-dive.html">
@@ -871,13 +873,45 @@ function $id(id) { return document.getElementById(id); }
     }
     return all;
   }
-
-  const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
+  // CO_PLACES_URL removed: county boundaries now loaded from us-atlas TopoJSON
   const HUD_LIHTC_LAYER  = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30';
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
 
-  function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
+  
+
+// --- Colorado counties boundary (robust, CORS-friendly) ---
+  async function loadColoradoCounties(){
+    // Use us-atlas TopoJSON (public CDN) and filter state FIPS=08.
+    const countiesTopoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
+    const statesTopoUrl   = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
+    const [countiesTopo, statesTopo] = await Promise.all([
+      fetchJSON(countiesTopoUrl),
+      fetchJSON(statesTopoUrl)
+    ]);
+    const topo = window.topojson;
+    if (!topo || !topo.feature) throw new Error("topojson-client not loaded");
+
+    const countiesObj = countiesTopo.objects && (countiesTopo.objects.counties || Object.values(countiesTopo.objects)[0]);
+    const statesObj   = statesTopo.objects && (statesTopo.objects.states   || Object.values(statesTopo.objects)[0]);
+    const counties = topo.feature(countiesTopo, countiesObj);
+    const states   = topo.feature(statesTopo,   statesObj);
+
+    // Colorado state boundary for fitBounds
+    const coState = {
+      type: "FeatureCollection",
+      features: (states.features || []).filter(f => String(f.id) === "8" || String(f.id) === "08")
+    };
+
+    // Colorado counties: 5-digit FIPS, starting with "08"
+    const coCounties = {
+      type: "FeatureCollection",
+      features: (counties.features || []).filter(f => String(f.id).padStart(5,"0").startsWith("08"))
+    };
+
+    return { coState, coCounties };
+  }
+function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
   function styleCounty() { return { color: 'rgba(255,255,255,0.45)', weight: 1.2, fill: false }; }
   function stylePlace()  { return { color: 'rgba(140,200,255,0.35)', weight: 0.8, fill: false, dashArray: '3,5' }; }
   function styleQCT()    { return { color: 'rgba(80,220,160,0.9)',  weight: 1.5, fillColor: 'rgba(80,220,160,0.18)', fillOpacity: 1 }; }
@@ -1128,7 +1162,7 @@ map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
     async function loadPlaces() {
       try {
         setStatus(statusEl, 'Loading places…', 'info');
-        const gj = await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
+        const gj = /* removed tigerweb call */ await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
         if (!gj.features.length) throw new Error('empty');
         placesLayer = L.geoJSON(gj, {
           style: stylePlace,
