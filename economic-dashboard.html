@@ -33,32 +33,23 @@
 <button class="btn primary" id="refresh" type="button">Refresh</button>
 </div>
 </div>
-<div class="census-construction-header" style="margin-top:14px; padding-top:0; border-top:none;">
-  <span class="census-construction-title">Housing Construction Activity</span>
-  <span class="census-construction-note">National · Census Bureau via FRED · Most recent monthly data</span>
-</div>
-<div class="census-grid" id="census-construction"></div>
-<div class="census-construction-header" style="margin-top:18px; padding-top:16px; border-top:1px solid var(--border, rgba(255,255,255,0.1));">
-  <span class="census-construction-title">Key Macro Indicators</span>
-  <span class="census-construction-note">FRED · Most recent observations</span>
-</div>
-<div class="census-grid" id="macro-kpis">
-<div class="card census-construction-card">
+<div class="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">
+<div class="card stat">
 <p class="num" id="statCpi">—</p>
 <p class="lbl">Inflation (CPI YoY)</p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
+<div class="card stat">
 <p class="num" id="statUnemp">—</p>
 <p class="lbl">Unemployment rate</p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
+<div class="card stat">
 <p class="num" id="stat10y">—</p>
 <p class="lbl">10-Year Treasury</p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
+<div class="card stat">
 <p class="num" id="statStarts">—</p>
 <p class="lbl">Housing starts (SAAR)</p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
 </div>
 <p class="note">
         Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis.
@@ -79,6 +70,11 @@
 </div>
 <div class="census-grid"></div>
 
+<div class="census-construction-header">
+  <span class="census-construction-title">Housing Construction Activity</span>
+  <span class="census-construction-note">National · Census Bureau via FRED · Most recent monthly data</span>
+</div>
+<div class="census-grid" id="census-construction"></div>
 </section>
 <!-- Collapsible sections (Nixvir-like: metric cards with inline charts) -->
 <details class="card" open="">
