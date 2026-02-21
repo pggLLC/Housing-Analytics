@@ -24,6 +24,24 @@
     { key: "DP02_0067PE", label: "Bachelor's degree+",      fmt: formatPct      },
     { key: "DP03_0009PE", label: "Unemployment rate",       fmt: formatPct      },
     { key: "DP04_0003PE", label: "Vacancy rate",            fmt: formatPct      },
+
+    // If available in ACS profile: percent below poverty level (all people)
+    { key: "DP03_0128PE", label: "Poverty rate",            fmt: formatPct      },
+
+    // Derived (HUD cost burden definition: >=30% of income toward housing costs).
+    // Uses ACS 5-year profile variables referenced by FRED Burdened Households release:
+    // Renters: DP04_0141E (30.0–34.9%) + DP04_0142E (35.0%+) divided by DP04_0136E (total renters).
+    { calc: (r) => {
+        const totalRenters = Number(r.DP04_0136E);
+        const rent30_34    = Number(r.DP04_0141E);
+        const rent35p      = Number(r.DP04_0142E);
+        if (!isFinite(totalRenters) || totalRenters <= 0) return NaN;
+        if (!isFinite(rent30_34) || !isFinite(rent35p)) return NaN;
+        return ((rent30_34 + rent35p) / totalRenters) * 100;
+      },
+      label: "Rent burdened (≥30%)",
+      fmt: formatPct
+    },
   ];
 
   /* ---- Housing construction metrics (national, from FRED cache) ---- */
@@ -194,13 +212,14 @@
      ACS STAT CARDS
      ============================================================ */
   function renderStats(name, record, vintage) {
-    const grid      = $(".census-grid");
+    const grid      = document.getElementById("census-stats");
+    if (!grid) return;
     const vintageEl = document.querySelector("[data-census-vintage]");
     if (vintageEl) vintageEl.textContent = `ACS ${vintage} 5-year (profile) • ${name}`;
 
     grid.innerHTML = "";
     METRICS.forEach(m => {
-      const val  = Number(record[m.key]);
+      const val = (typeof m.calc === "function") ? m.calc(record) : Number(record[m.key]);
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p>`;
