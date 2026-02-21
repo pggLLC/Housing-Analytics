@@ -100,6 +100,14 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
 .ok  { color: var(--good); } 
 .bad { color: var(--bad); }
 </style>
+
+<style>
+  /* LIHTC spacing fix: remove gap below injected nav */
+  header.site-header + main { padding-top: 12px !important; }
+  main { margin-top: 0 !important; }
+  main > :first-child { margin-top: 0 !important; }
+</style>
+
 </head>
 <body>
 
@@ -107,7 +115,7 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
 
 <main id="main-content">
 <section class="hero">
-<h1>LIHTC Dashboard</h1>
+<h1>LIHTC Allocations</h1>
 <p>One-page workspace combining the Dashboard, Regional Analysis, and State Allocation Map. Each section runs the original page inside an embedded frame to keep all maps, tables, dropdowns, exports, and tooltips working without conflicts.</p>
 <div class="sub">Distribution / allocation of LIHTC by region and state.</div>
 </section>
