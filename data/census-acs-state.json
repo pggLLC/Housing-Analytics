@@ -2,7 +2,7 @@
   "meta": {
     "source": "U.S. Census Bureau API (ACS 5-year)",
     "dataset": "2024/acs/acs5",
-    "pulled_at_utc": "2026-02-20T16:15:26Z",
+    "pulled_at_utc": "2026-02-21T07:07:17Z",
     "geography": "state",
     "variables": {
       "B01001_001E": "population_total",
