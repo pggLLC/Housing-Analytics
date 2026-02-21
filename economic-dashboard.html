@@ -33,52 +33,30 @@
 <button class="btn primary" id="refresh" type="button">Refresh</button>
 </div>
 </div>
-<div class="census-construction-header" style="margin-top:14px; padding-top:0; border-top:none;">
-  <span class="census-construction-title">Housing Construction Activity</span>
-  <span class="census-construction-note">National · Census Bureau via FRED · Most recent monthly data</span>
-</div>
-<div class="census-grid" id="census-construction"></div>
-<div class="census-construction-header" style="margin-top:18px; padding-top:16px; border-top:1px solid var(--border, rgba(255,255,255,0.1));">
-  <span class="census-construction-title">Key Macro Indicators</span>
-  <span class="census-construction-note">FRED · Most recent observations</span>
-</div>
-<div class="census-grid" >
-<div class="card census-construction-card">
+<div class="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">
+<div class="card stat">
 <p class="num" id="statCpi">—</p>
 <p class="lbl">Inflation (CPI YoY)</p>
-<p class="sub-lbl">FRED: CPIAUCSL</p>
-<p class="census-date" id="statCpiDate"></p>
-<p class="census-yoy" id="statCpiYoy"></p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">FRED ↗</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
+<div class="card stat">
 <p class="num" id="statUnemp">—</p>
 <p class="lbl">Unemployment rate</p>
-<p class="sub-lbl">FRED: UNRATE</p>
-<p class="census-date" id="statUnempDate"></p>
-<p class="census-yoy" id="statUnempYoy"></p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">FRED ↗</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
+<div class="card stat">
 <p class="num" id="stat10y">—</p>
 <p class="lbl">10-Year Treasury</p>
-<p class="sub-lbl">FRED: DGS10</p>
-<p class="census-date" id="stat10yDate"></p>
-<p class="census-yoy" id="stat10yYoy"></p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">FRED ↗</a></p></div>
-<div class="card census-construction-card">
+<p class="src small"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
+<div class="card stat">
 <p class="num" id="statStarts">—</p>
 <p class="lbl">Housing starts (SAAR)</p>
-<p class="sub-lbl">FRED: HOUST</p>
-<p class="census-date" id="statStartsDate"></p>
-<p class="census-yoy" id="statStartsYoy"></p>
-<p class="census-src"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">FRED ↗</a></p></div>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
 </div>
 <p class="note">
         Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis.
         If charts don’t load, confirm your key is valid and check browser console for errors.
       </p>
 </section><section id="census-stats" style="margin:18px 0; padding:18px;">
-<h2>Census Snapshot</h2>
-<p class="note">Source: U.S. Census Bureau American Community Survey (ACS) 5-year, Data Profile via Census API <a href="https://api.census.gov/data.html" target="_blank" rel="noopener">Census API ↗</a></p>
+<h2>Census snapshot</h2>
 <div class="census-controls">
   <label>Geography<select id="censusLevel">
     <option value="national" selected>National (U.S.)</option>
@@ -92,6 +70,11 @@
 </div>
 <div class="census-grid"></div>
 
+<div class="census-construction-header">
+  <span class="census-construction-title">Housing Construction Activity</span>
+  <span class="census-construction-note">National · Census Bureau via FRED · Most recent monthly data</span>
+</div>
+<div class="census-grid" id="census-construction"></div>
 </section>
 <!-- Collapsible sections (Nixvir-like: metric cards with inline charts) -->
 <details class="card" open="">
@@ -194,14 +177,6 @@
     statUnemp: document.getElementById("statUnemp"),
     stat10y: document.getElementById("stat10y"),
     statStarts: document.getElementById("statStarts"),
-    statCpiDate: document.getElementById("statCpiDate"),
-    statUnempDate: document.getElementById("statUnempDate"),
-    stat10yDate: document.getElementById("stat10yDate"),
-    statStartsDate: document.getElementById("statStartsDate"),
-    statCpiYoy: document.getElementById("statCpiYoy"),
-    statUnempYoy: document.getElementById("statUnempYoy"),
-    stat10yYoy: document.getElementById("stat10yYoy"),
-    statStartsYoy: document.getElementById("statStartsYoy"),
     sec: {
       construction: document.getElementById("sec-construction"),
       housing: document.getElementById("sec-housing"),
@@ -217,35 +192,12 @@ function getKey(){ return CONFIG_KEY || ""; }
     const n = Number(v);
     if (!isFinite(n)) return "—";
     if (fmt === "pct") return n.toFixed(2).replace(/\.00$/,"") + "%";
-    if (fmt === "index") return n.toFixed(1).replace(/\.0$/,"");
-    if (fmt === "int") return Math.round(n).toLocaleString();
     if (fmt === "usd") {
       // show no decimals for large numbers, two decimals for small
       const abs = Math.abs(n);
       const decimals = abs >= 100 ? 0 : 2;
       return n.toLocaleString(undefined,{style:"currency",currency:"USD",maximumFractionDigits:decimals});
     }
-    return String(n);
-  }
-
-function formatObsDate(iso){
-    try{
-      const d = new Date(iso + "T12:00:00Z");
-      return d.toLocaleDateString(undefined, { month:"short", year:"numeric" });
-    }catch(_){ return iso; }
-  }catch(_){ return iso; }
-  }
-
-  function setYoy(el, pct){
-    if (!el) return;
-    if (!isFinite(pct)) { el.textContent=""; el.classList.remove("delta-up","delta-down"); return; }
-    const up = pct >= 0;
-    const sign = up ? "▲" : "▼";
-    el.textContent = `${sign} ${Math.abs(pct).toFixed(1)}% yr/yr`;
-    el.classList.toggle("delta-up", up);
-    el.classList.toggle("delta-down", !up);
-  }
-
     if (fmt === "int") return Math.round(n).toLocaleString();
     return n.toLocaleString(undefined,{maximumFractionDigits:2});
   }
@@ -408,41 +360,23 @@ function formatObsDate(iso){
     // Load headline stats (CPI YoY, UNRATE, DGS10, HOUST)
     // Each stat loads independently so one failure cannot block the others.
     await Promise.allSettled([
-      fetchFRED("CPIAUCSL", apiKey, 180).then(cpi => {
+      fetchFRED("CPIAUCSL", apiKey, 90).then(cpi => {
         const last = cpi[cpi.length-1];
         const prev = cpi[Math.max(0, cpi.length-13)];
         const yoy = (last.value/prev.value - 1) * 100;
-        // Display latest level; show YoY separately
-        els.statCpi.textContent = fmtValue(last.value, "index");
-        if (els.statCpiDate) els.statCpiDate.textContent = formatObsDate(last.date);
-        setYoy(els.statCpiYoy, yoy);
+        els.statCpi.textContent = yoy.toFixed(1) + "%";
       }).catch(e => { console.warn("Headline CPI failed:", e); els.statCpi.textContent = "—"; }),
 
-      fetchFRED("UNRATE", apiKey, 180).then(unemp => {
-        const last = unemp[unemp.length-1];
-        const prev = unemp[Math.max(0, unemp.length-13)];
-        const yoy = prev && isFinite(prev.value) ? ((last.value - prev.value) / Math.abs(prev.value)) * 100 : NaN;
-        els.statUnemp.textContent = fmtValue(last.value, "pct");
-        if (els.statUnempDate) els.statUnempDate.textContent = formatObsDate(last.date);
-        setYoy(els.statUnempYoy, yoy);
+      fetchFRED("UNRATE", apiKey, 90).then(unemp => {
+        els.statUnemp.textContent = fmtValue(unemp[unemp.length-1].value, "pct");
       }).catch(e => { console.warn("Headline UNRATE failed:", e); els.statUnemp.textContent = "—"; }),
 
-      fetchFRED("DGS10", apiKey, 400).then(teny => {
-        const last = teny[teny.length-1];
-        const prev = teny[Math.max(0, teny.length-252)];
-        const yoy = prev && isFinite(prev.value) ? ((last.value - prev.value) / Math.abs(prev.value)) * 100 : NaN;
-        els.stat10y.textContent = fmtValue(last.value, "pct");
-        if (els.stat10yDate) els.stat10yDate.textContent = formatObsDate(last.date);
-        setYoy(els.stat10yYoy, yoy);
+      fetchFRED("DGS10", apiKey, 90).then(teny => {
+        els.stat10y.textContent = fmtValue(teny[teny.length-1].value, "pct");
       }).catch(e => { console.warn("Headline DGS10 failed:", e); els.stat10y.textContent = "—"; }),
 
-      fetchFRED("HOUST", apiKey, 180).then(starts => {
-        const last = starts[starts.length-1];
-        const prev = starts[Math.max(0, starts.length-13)];
-        const yoy = prev && isFinite(prev.value) ? ((last.value - prev.value) / Math.abs(prev.value)) * 100 : NaN;
-        els.statStarts.textContent = (Math.round(last.value) * 1000).toLocaleString() + " /yr";
-        if (els.statStartsDate) els.statStartsDate.textContent = formatObsDate(last.date);
-        setYoy(els.statStartsYoy, yoy);
+      fetchFRED("HOUST", apiKey, 90).then(starts => {
+        els.statStarts.textContent = (Math.round(starts[starts.length-1].value) * 1000).toLocaleString() + " /yr";
       }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
     ]);
 
