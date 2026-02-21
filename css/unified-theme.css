@@ -511,8 +511,3 @@ footer {
 .mt-md { margin-top: var(--spacing-md); }
 .mt-lg { margin-top: var(--spacing-lg); }
 .mt-xl { margin-top: var(--spacing-xl); }
-
-
-/* Fix spacing below injected navigation */
-header.site-header + main { margin-top: 0; padding-top: 12px; }
-body { margin: 0; }
