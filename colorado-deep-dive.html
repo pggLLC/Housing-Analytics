@@ -130,6 +130,14 @@
   /* Align content under injected navigation */
   header.site-header + main.page-container { margin-top: 0; padding-top: 12px; }
 </style>
+
+<style>
+  /* Leaflet safety overrides for theme resets */
+  .leaflet-container { background: #0b1220; }
+  .leaflet-container img { max-width: none !important; }
+  .leaflet-pane, .leaflet-tile-pane, .leaflet-overlay-pane, .leaflet-marker-pane, .leaflet-shadow-pane { z-index: 200; }
+  .leaflet-control { z-index: 500; }
+</style>
 </head>
 
 <body data-page="colorado-deep-dive.html">
@@ -1359,8 +1367,7 @@ map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
       });
     })();
   </script>
-  <script src="js/navigation.js"></script>
-  </main>
+</main>
   <script src="js/navigation.js"></script>
 </body>
 </html>
