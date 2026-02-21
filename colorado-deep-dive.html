@@ -815,7 +815,17 @@
 (function () {
   'use strict';
 
-  function $id(id) { return document.getElementById(id); }
+  
+
+// Ensure Leaflet recalculates size after navigation inject/layout shift (GitHub Pages + injected header)
+  function _fixLeafletSize(m){
+    try { m.invalidateSize(true); } catch(_) {}
+    setTimeout(()=>{ try { m.invalidateSize(true); } catch(_) {} }, 250);
+    setTimeout(()=>{ try { m.invalidateSize(true); } catch(_) {} }, 900);
+    window.addEventListener('resize', ()=>{ try { m.invalidateSize(); } catch(_) {} });
+  }
+
+function $id(id) { return document.getElementById(id); }
 
   async function fetchJSON(url, opts) {
     const res = await fetch(url, opts);
@@ -1060,7 +1070,9 @@
       maxBoundsViscosity: 1.0
     });
 
-    map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
+    
+  _fixLeafletSize(map);
+map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
     map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
     map.createPane('transportPane'); map.getPane('transportPane').style.zIndex = 215;
 
