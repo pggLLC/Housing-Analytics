@@ -100,10 +100,10 @@
     return res.json();
   }
 
-  function apiKey() { return KEY ? `&key=${encodeURIComponent(KEY)}` : ""; }
+  function apiKey() { return KEY ? ("&key=" + encodeURIComponent(KEY)) : ""; }` : ""; }
 
   function buildUrl(vintage, geography, params) {
-    const vars = ["NAME", ...METRICS.map(m => m.key)].join(",");
+    const vars = ["NAME", ...METRICS.filter(m => m.key).map(m => m.key)].join(",");
     if (geography === "national") return `${DATASET(vintage)}?get=${vars}&for=us:1${apiKey()}`;
     if (geography === "state")    return `${DATASET(vintage)}?get=${vars}&for=state:*${apiKey()}`;
     if (geography === "county")   return `${DATASET(vintage)}?get=${vars}&for=county:*&in=state:${params.state}${apiKey()}`;
