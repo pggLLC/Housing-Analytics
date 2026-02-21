@@ -100,14 +100,21 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
 .ok  { color: var(--good); } 
 .bad { color: var(--bad); }
 </style>
+
+<style>
+/* nav spacing fix */
+header.site-header + main { margin-top: 0 !important; padding-top: 12px !important; }
+main > :first-child { margin-top: 0 !important; }
+</style>
 </head>
+
 <body>
 
 
 
 <main id="main-content">
 <section class="hero">
-<h1>LIHTC Dashboard</h1>
+<h1>LIHTC Allocations</h1>
 <p>One-page workspace combining the Dashboard, Regional Analysis, and State Allocation Map. Each section runs the original page inside an embedded frame to keep all maps, tables, dropdowns, exports, and tooltips working without conflicts.</p>
 <div class="sub">Distribution / allocation of LIHTC by region and state.</div>
 </section>
@@ -286,6 +293,61 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
       statesTable: document.getElementById('states-table'),
     };
 
+// --- Dynamic state list (single source of truth) ---
+    let STATE_META = null;     // Array<{abbr,name,region}>
+    let REGIONS_META = null;   // { region: Set<abbr> }
+
+    async function loadAllocationsMeta(){
+      try{
+        const res = await fetch("data/allocations.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("allocations.json load failed");
+        const data = await res.json();
+        const statesObj = data && data.states ? data.states : {};
+        const list = Object.values(statesObj).map(s => ({
+          abbr: s.abbr || s.code || "",
+          name: s.name || "",
+          region: (s.region || "").toLowerCase()
+        })).filter(s => s.abbr && s.name);
+        STATE_META = list.sort((a,b)=>a.name.localeCompare(b.name));
+
+        REGIONS_META = {};
+        for (const s of STATE_META){
+          if (!REGIONS_META[s.region]) REGIONS_META[s.region] = new Set();
+          REGIONS_META[s.region].add(s.abbr);
+        }
+        return true;
+      }catch(err){
+        console.warn("Allocations meta unavailable; falling back to dataset-derived states.", err);
+        return false;
+      }
+    }
+
+    function getAllowedStatesForRegion(region){
+      if (region && region !== "all"){
+        // Prefer allocations.json region mapping; fallback to hardcoded REGIONS.
+        if (REGIONS_META && REGIONS_META[region]) return REGIONS_META[region];
+        return new Set(REGIONS[region] || []);
+      }
+      // all regions
+      if (STATE_META) return new Set(STATE_META.map(s=>s.abbr));
+      return null;
+    }
+
+    function populateStateSelectFromMeta(region){
+      if (!STATE_META) return false;
+      const allowed = getAllowedStatesForRegion(region);
+      els.state.innerHTML = '<option value="all" selected>All states</option>';
+      for (const s of STATE_META){
+        if (allowed && !allowed.has(s.abbr)) continue;
+        const opt = document.createElement('option');
+        opt.value = s.abbr;
+        opt.textContent = s.name;
+        els.state.appendChild(opt);
+      }
+      return true;
+    }
+
+
     function fmtShortMoney(n){
       n = Number(n)||0;
       if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
@@ -313,10 +375,16 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
       return 'other';
     }
 
-    function populateStateSelect(dataset){
+    function populateStateSelect(dataset, region){
+      // Prefer allocations.json for a stable, single source of truth
+      if (populateStateSelectFromMeta(region || els.region.value)) return;
+
+      // Fallback: derive from embedded year dataset
       const all = getAllStates(dataset).sort((a,b)=>a.name.localeCompare(b.name));
+      const allowed = (region && region !== "all") ? new Set(REGIONS[region] || []) : null;
       els.state.innerHTML = '<option value="all" selected>All states</option>';
       for (const s of all){
+        if (allowed && !allowed.has(s.abbr)) continue;
         const opt = document.createElement('option');
         opt.value = s.abbr;
         opt.textContent = s.name;
@@ -731,5 +799,31 @@ th.sort-desc::after { content: "  ▼"; color: var(--faint); }
     document.addEventListener('DOMContentLoaded', init);
   </script>
 <script src="js/contrast-guard.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const regionSelect = document.getElementById("regionSelect");
+  const stateSelect = document.getElementById("stateSelect");
+  if (!regionSelect || !stateSelect) return;
+
+  function restrictStatesByRegion() {
+    const selectedRegion = regionSelect.value;
+    Array.from(stateSelect.options).forEach(opt => {
+      const region = opt.getAttribute("data-region");
+      if (!opt.value) {
+        opt.hidden = false;
+      } else if (!selectedRegion || selectedRegion === "all") {
+        opt.hidden = false;
+      } else {
+        opt.hidden = region !== selectedRegion;
+      }
+    });
+    stateSelect.selectedIndex = 0;
+  }
+
+  regionSelect.addEventListener("change", restrictStatesByRegion);
+});
+</script>
+
 </body>
 </html>
