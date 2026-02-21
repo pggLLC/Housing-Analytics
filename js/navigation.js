@@ -50,7 +50,7 @@
       .footer-wrap{max-width:1200px;margin:0 auto;padding:18px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
       .footer-wrap a{color:var(--muted);text-decoration:none}
       .footer-wrap a:hover{color:var(--text)}
-      main{max-width:1200px;margin:0 auto;padding:12px 18px 18px} body{margin:0} header.site-header+*{margin-top:0}
+      main{max-width:1200px;margin:0 auto;padding:18px}
     `;
     document.head.appendChild(s);
   }
