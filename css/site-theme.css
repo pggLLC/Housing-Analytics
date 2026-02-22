@@ -403,8 +403,8 @@ body.no-shell main {
   border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: var(--sp4) !important;
+  padding-right: var(--sp4) !important;
 }
 
 /* Reusable minimum border shell for pages that need a subtle frame even with wide layouts. */
