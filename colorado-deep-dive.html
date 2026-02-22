@@ -2058,6 +2058,107 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   }
 })();
 </script>
+  <!-- ═══════════════════════════════════════════════════════════════
+       AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="amiGapModule" aria-label="Colorado AMI Gap Analysis" style="margin:2.5rem 0;">
+    <h2>AMI Gap Analysis — Households vs. Affordable Units</h2>
+    <p style="color:var(--muted);margin-bottom:1rem;font-size:.9rem;">
+      Compares eligible renter households to priced-affordable units by AMI band.
+      <span id="amiGapMeta" aria-live="polite"></span>
+    </p>
+
+    <div class="chart-card" style="padding:1rem 1.25rem .75rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+      <label for="amiGapCountySelect" style="font-size:.875rem;font-weight:600;">Geography:</label>
+      <select id="amiGapCountySelect" aria-label="Select county or statewide" style="font-size:.875rem;padding:.3rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);">
+        <option value="STATE">Colorado (statewide)</option>
+      </select>
+      <button id="amiGapExportCsv" type="button"
+              aria-label="Export AMI gap data as CSV"
+              style="margin-left:auto;font-size:.8rem;padding:.35rem .8rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2,var(--card));color:var(--text);cursor:pointer;">
+        ⬇ Export CSV
+      </button>
+    </div>
+
+    <div role="alert" id="amiGapError" style="display:none;color:var(--color-error,#e74c3c);padding:.75rem 1rem;border:1px solid var(--color-error,#e74c3c);border-radius:8px;margin-bottom:1rem;"></div>
+
+    <h3 id="amiGapGeoTitle" style="font-size:1.05rem;font-weight:700;margin:.5rem 0 .75rem;">Colorado (statewide)</h3>
+    <p style="font-size:.78rem;color:var(--muted);">Endpoint: <code id="amiGapEndpoint"></code></p>
+
+    <!-- Summary KPI cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-bottom:1.25rem;">
+      <div class="chart-card" style="padding:.85rem 1rem;">
+        <div style="font-size:.8rem;color:var(--muted);">4-Person AMI</div>
+        <div id="amiGapAmi4" style="font-size:1.35rem;font-weight:700;">—</div>
+      </div>
+      <div class="chart-card" style="padding:.85rem 1rem;">
+        <div style="font-size:.8rem;color:var(--muted);">Households ≤ 100% AMI</div>
+        <div id="amiGapHouseholds100" style="font-size:1.35rem;font-weight:700;">—</div>
+      </div>
+      <div class="chart-card" style="padding:.85rem 1rem;">
+        <div style="font-size:.8rem;color:var(--muted);">Affordable Units ≤ 100% AMI</div>
+        <div id="amiGapUnits100" style="font-size:1.35rem;font-weight:700;">—</div>
+      </div>
+      <div class="chart-card" style="padding:.85rem 1rem;">
+        <div style="font-size:.8rem;color:var(--muted);">Coverage Rate</div>
+        <div id="amiGapCoverage100" style="font-size:1.35rem;font-weight:700;">—</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-card" style="margin-bottom:1.25rem;">
+      <div class="chart-header">
+        <h3 class="chart-title">Households vs. Affordable Units by AMI Band</h3>
+        <p class="chart-subtitle">Blue line = eligible households · Green line = affordable units · Bars = gap</p>
+      </div>
+      <div style="height:320px;position:relative;padding:.5rem;">
+        <canvas id="amiGapChart" aria-label="AMI gap bar chart"></canvas>
+      </div>
+    </div>
+
+    <!-- Detail table -->
+    <div class="chart-card" style="overflow-x:auto;margin-bottom:1.25rem;">
+      <div class="chart-header">
+        <h3 class="chart-title">AMI Gap Detail Table</h3>
+      </div>
+      <div class="data-table" style="padding:.5rem 1rem 1rem;">
+        <table aria-label="AMI gap data by band" style="width:100%;border-collapse:collapse;font-size:.875rem;">
+          <thead>
+            <tr>
+              <th scope="col">AMI Band</th>
+              <th scope="col" title="Maximum gross rent considered affordable at 30% of income">Affordable Rent</th>
+              <th scope="col" title="Renter households with income at or below the AMI band">Households</th>
+              <th scope="col" title="Renter-occupied units with rent at or below the threshold">Affordable Units</th>
+              <th scope="col" title="Affordable units minus eligible households">Gap</th>
+              <th scope="col" title="Ratio of affordable units to eligible households">Coverage</th>
+            </tr>
+          </thead>
+          <tbody id="amiGapTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Methodology -->
+    <details class="chart-card" style="margin-bottom:1.25rem;">
+      <summary style="padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.9rem;">Methodology &amp; Data Notes</summary>
+      <div id="amiGapMethodology" style="padding:.75rem 1rem 1rem;font-size:.875rem;line-height:1.7;color:var(--muted);"></div>
+    </details>
+
+    <style>
+      .ami-shortage { color: var(--color-error, #e74c3c); font-weight: 600; }
+      .ami-surplus  { color: var(--color-success, #27ae60); font-weight: 600; }
+    </style>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TREND ANALYSIS MODULE  (trend-analysis.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="trend-analysis-section" style="margin:2.5rem 0;" aria-label="Colorado Housing Trend Analysis"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       POLICY SIMULATOR MODULE  (policy-simulator.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="policy-simulator-section" style="margin:2.5rem 0;" aria-label="LIHTC Policy Simulator"></div>
 
   <div id="site-footer"></div>
 
@@ -2675,6 +2776,16 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
                   scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } }
       });
     })();
+  </script>
+  <!-- Deep Dive analysis modules -->
+  <script src="js/co-ami-gap.js"></script>
+  <script src="js/trend-analysis.js"></script>
+  <script src="js/policy-simulator.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.TrendAnalysis) TrendAnalysis.init();
+      if (window.PolicySimulator) PolicySimulator.init();
+    });
   </script>
   <script src="js/co-ami-gap.js"></script>
 </body>
