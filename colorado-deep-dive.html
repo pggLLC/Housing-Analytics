@@ -1145,9 +1145,24 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
-    (prefersDark ? darkBasemap : lightBasemap).addTo(map);
+    // Add basemap with fallback if the preferred tiles fail (some networks block dark_all)
+    let activeBase = (prefersDark ? darkBasemap : lightBasemap).addTo(map);
 
-    const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    function swapBasemap(next) {
+      try { map.removeLayer(activeBase); } catch(e) {}
+      activeBase = next.addTo(map);
+    }
+
+    // If the first tiles fail to load, fall back to a different provider so overlays are still readable
+    activeBase.on('tileerror', () => {
+      console.warn('Basemap tile error — falling back');
+      // Prefer light CARTO first (usually least blocked), then OSM HOT
+      const alt1 = lightBasemap;
+      const alt2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution:'&copy; OpenStreetMap contributors',maxZoom:19});
+      if (activeBase === darkBasemap) swapBasemap(alt1);
+      else swapBasemap(alt2);
+    });
+const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
       {attribution:'&copy; OpenStreetMap contributors',opacity:0.25,pane:'transportPane',maxZoom:19});
 
     addLegend(map);

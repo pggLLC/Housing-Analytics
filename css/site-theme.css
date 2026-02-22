@@ -192,7 +192,7 @@ header.site-header, footer.site-footer, section, .section,
 
 .container, .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--sp4); }
 .container-wide { max-width: 100%; padding: 0 var(--sp4); }
-.page-container { max-width: 1240px; margin: 0 auto; padding: 5.5rem var(--sp4) var(--sp6); }
+.page-container { max-width: 1240px; margin: 0 auto; padding: var(--sp4) var(--sp4) var(--sp6); }
 
 /* navigation.js main override */
 main { max-width: 1240px; margin: 0 auto; padding: var(--sp4); }
