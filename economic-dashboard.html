@@ -126,7 +126,19 @@
       Implementation notes: FRED data is fetched client-side via the FRED API “observations” endpoint.
       Some series update monthly or quarterly; charts show the most recent 5 years (or max available if shorter).
     </p>
+
+         HOUSING PREDICTIVE MODELING SECTION  (housing-predictions.js)
+         ═══════════════════════════════════════════════════════════════ -->
+    <div id="housing-predictions-section" aria-label="Housing Predictive Modeling"></div>
+
 </main>
+<link rel="stylesheet" href="css/predictions-dashboard.css"/>
+<script src="js/housing-predictions.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (window.HousingPredictions) HousingPredictions.init();
+  });
+</script>
 <script>
 (() => {
   const CONFIG_KEY = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : "";

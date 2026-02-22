@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test:lighthouse": "node test/lighthouse.js",
+    "test:scripts": "node test/scripts.js",
+    "test:fallback": "node test/fallback.js",
+    "test:vendor": "node test/vendor.js",
+    "test:all": "npm run test:lighthouse && npm run test:scripts && npm run test:fallback && npm run test:vendor"
+  }
+}
