@@ -1,0 +1,484 @@
+/* ================================================================
+   site-theme.css — LIHTC Analytics Hub
+   Professional financial intelligence theme.
+   Single source of truth. All pages must link this CSS LAST.
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+/* ================================================================
+   1. DESIGN TOKENS — light mode default
+   ================================================================ */
+:root {
+  /* Semantic color tokens — light mode */
+  --bg:           #eef2f7;
+  --bg2:          #e4ecf4;
+  --bg3:          #dae4f0;
+  --card:         #ffffff;
+  --card2:        #f7fafd;
+  --surface:      #ffffff;
+  --text:         #0d1f35;
+  --text-strong:  #060f1d;
+  --muted:        #476080;
+  --faint:        #7a96b0;
+  --border:       rgba(13,31,53,.11);
+  --border-strong:rgba(13,31,53,.20);
+  --link:         #0b7285;
+  --link-hover:   #096075;
+
+  /* Accent colors */
+  --accent:       #0ea5a0;
+  --accent-dim:   rgba(14,165,160,.10);
+  --accent2:      #e8891a;
+  --accent2-dim:  rgba(232,137,26,.10);
+  --good:         #059669;
+  --good-dim:     rgba(5,150,105,.10);
+  --warn:         #d97706;
+  --warn-dim:     rgba(217,119,6,.10);
+  --bad:          #dc2626;
+  --bad-dim:      rgba(220,38,38,.10);
+  --info:         #2563eb;
+  --info-dim:     rgba(37,99,235,.09);
+
+  /* Shadows */
+  --shadow-sm:    0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);
+  --shadow:       0 4px 16px rgba(13,31,53,.08),0 1px 4px rgba(13,31,53,.05);
+  --shadow-lg:    0 12px 40px rgba(13,31,53,.12),0 4px 12px rgba(13,31,53,.07);
+  --shadow-card:  0 2px 8px rgba(13,31,53,.06),0 0 0 1px rgba(13,31,53,.07);
+
+  /* Layout */
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  /* Spacing */
+  --sp1: 0.35rem; --sp2: 0.6rem; --sp3: 0.9rem;
+  --sp4: 1.25rem; --sp5: 2rem;   --sp6: 3rem;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', 'Fira Code', monospace;
+  --h1:  clamp(1.7rem, 3.5vw, 2.6rem);
+  --h2:  clamp(1.15rem, 2vw, 1.4rem);
+  --h3:  1.05rem;
+  --body: 0.875rem;
+  --small: 0.775rem;
+
+  --focus-ring: 0 0 0 3px rgba(14,165,160,.30);
+
+  /* Legacy aliases */
+  --color-background:     var(--bg);
+  --color-background-alt: var(--bg2);
+  --color-surface:        var(--card);
+  --color-text:           var(--text);
+  --color-text-light:     var(--muted);
+  --color-text-muted:     var(--faint);
+  --color-border:         var(--border);
+  --color-primary:        var(--accent);
+  --color-accent:         var(--accent2);
+  --bg-primary:           var(--bg);
+  --bg-secondary:         var(--bg2);
+  --text-primary:         var(--text);
+  --text-secondary:       var(--muted);
+  --accent-gold:          var(--accent2);
+  --border-color:         var(--border);
+}
+
+/* ================================================================
+   2. DARK MODE
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:           #08121e;
+    --bg2:          #0c1928;
+    --bg3:          #0f1e30;
+    --card:         #0d1e30;
+    --card2:        #102234;
+    --surface:      #112438;
+    --text:         rgba(215,232,248,.93);
+    --text-strong:  #e4f0fc;
+    --muted:        rgba(155,185,215,.72);
+    --faint:        rgba(120,155,190,.48);
+    --border:       rgba(90,150,210,.11);
+    --border-strong:rgba(90,150,210,.22);
+    --link:         #5ecbcc;
+    --link-hover:   #7dd8d9;
+
+    --accent:       #0fd4cf;
+    --accent-dim:   rgba(15,212,207,.12);
+    --accent2:      #fbbf24;
+    --accent2-dim:  rgba(251,191,36,.12);
+    --good:         #34d399;
+    --good-dim:     rgba(52,211,153,.12);
+    --warn:         #fbbf24;
+    --warn-dim:     rgba(251,191,36,.12);
+    --bad:          #f87171;
+    --bad-dim:      rgba(248,113,113,.12);
+    --info:         #60a5fa;
+    --info-dim:     rgba(96,165,250,.11);
+
+    --shadow-sm:    0 1px 3px rgba(0,0,0,.30);
+    --shadow:       0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
+    --shadow-lg:    0 16px 48px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.35);
+    --shadow-card:  0 2px 8px rgba(0,0,0,.35),0 0 0 1px rgba(90,150,210,.10);
+
+    /* Legacy dark */
+    --color-background:     var(--bg);
+    --color-background-alt: var(--bg2);
+    --color-surface:        var(--card);
+    --color-text:           var(--text);
+    --color-text-light:     var(--muted);
+    --color-text-muted:     var(--faint);
+    --color-border:         var(--border);
+    --bg-primary:           var(--bg);
+    --bg-secondary:         var(--bg2);
+    --text-primary:         var(--text);
+    --text-secondary:       var(--muted);
+    --accent-gold:          var(--accent2);
+    --border-color:         var(--border);
+  }
+}
+
+/* ================================================================
+   3. RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { color-scheme: light dark; scroll-behavior: smooth; font-size: 16px; }
+
+html, body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: var(--font-sans);
+  font-size: var(--body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ================================================================
+   4. TYPOGRAPHY
+   ================================================================ */
+h1 { font-size: var(--h1); font-weight: 800; color: var(--text-strong, var(--text)) !important; line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 var(--sp3); }
+h2 { font-size: var(--h2); font-weight: 700; color: var(--text) !important; line-height: 1.25; letter-spacing: -0.015em; margin: 0 0 var(--sp2); }
+h3 { font-size: var(--h3); font-weight: 700; color: var(--text) !important; margin: 0 0 var(--sp2); }
+h4, h5, h6 { color: var(--text) !important; font-weight: 600; }
+
+p  { color: var(--muted) !important; line-height: 1.65; }
+li { color: var(--muted) !important; }
+td, th { color: var(--muted) !important; }
+strong, b { color: var(--text) !important; font-weight: 700; }
+small { font-size: var(--small); color: var(--faint) !important; }
+code, kbd { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); }
+hr { border: none; border-top: 1px solid var(--border); margin: var(--sp4) 0; }
+
+.card h1, .card h2, .card h3, .card h4,
+.panel h1, .panel h2, .panel h3,
+.metric h3, .stat-card h3, summary,
+.kpi-card h3, .kpi-card h4 { color: var(--text) !important; }
+
+a { color: var(--link) !important; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: color 0.15s; }
+a:hover  { color: var(--link-hover) !important; }
+a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
+
+/* ================================================================
+   5. LAYOUT
+   ================================================================ */
+main { background: transparent !important; min-height: calc(100vh - 200px); }
+
+header.site-header, footer.site-footer, section, .section,
+.page, .content, .container, .wrap { background: transparent !important; }
+
+.container, .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--sp4); }
+.container-wide { max-width: 100%; padding: 0 var(--sp4); }
+.page-container { max-width: 1240px; margin: 0 auto; padding: var(--sp4) var(--sp4) var(--sp6); }
+
+/* navigation.js main override (site content shell) */
+main { 
+  max-width: 1240px; 
+  margin: var(--sp3) auto; 
+  padding: var(--sp4); 
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 760px){
+  main{ margin: var(--sp2) auto; padding: var(--sp3); border-radius: var(--radius-lg); }
+}
+
+/* ================================================================
+   6. NAVIGATION (injected by navigation.js)
+   ================================================================ */
+header.site-header {
+  position: sticky !important; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--card) 85%, transparent) !important;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: saturate(1.4) blur(18px);
+  -webkit-backdrop-filter: saturate(1.4) blur(18px);
+}
+.nav-wrap {
+  max-width: 1240px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 20px; gap: 16px;
+}
+.brand { display: flex; flex-direction: column; gap: 1px; }
+.brand a { font-weight: 800; font-size: 0.92rem; letter-spacing: -0.01em; color: var(--text) !important; text-decoration: none !important; }
+.brand small { font-size: 0.7rem; color: var(--faint) !important; font-weight: 500; letter-spacing: 0.04em; }
+nav.site-nav { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+nav.site-nav a {
+  padding: 6px 11px; border-radius: var(--radius-sm); border: 1px solid transparent;
+  color: var(--muted) !important; text-decoration: none !important;
+  font-weight: 600; font-size: 0.82rem; letter-spacing: 0.01em;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+nav.site-nav a:hover { background: var(--accent-dim); color: var(--accent) !important; border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+nav.site-nav a.is-active { background: var(--accent-dim); color: var(--accent) !important; border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+
+footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border); background: var(--card) !important; }
+.footer-wrap {
+  max-width: 1240px; margin: 0 auto; padding: 18px 20px;
+  color: var(--faint) !important; display: flex; flex-wrap: wrap;
+  gap: 12px; justify-content: space-between; align-items: center;
+  font-size: var(--small);
+}
+.footer-wrap a { color: var(--faint) !important; text-decoration: none; }
+.footer-wrap a:hover { color: var(--muted) !important; }
+
+/* ================================================================
+   7. CARDS & SURFACES
+   ================================================================ */
+.card, .kpi-card, .panel, .tile, .box, .callout, .content-card,
+.stat-card, .chart-card, .section-card, .data-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+.card p, .panel p, .tile p, .callout p, .card li, .panel li { color: var(--muted) !important; }
+.surface-tint { background: var(--card2) !important; border: 1px solid var(--border) !important; border-radius: var(--radius); }
+
+/* ================================================================
+   8. STAT / KPI CARDS
+   ================================================================ */
+.stat, .kpi { padding: var(--sp3) var(--sp4); }
+.stat .num, .kpi-value, .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; line-height: 1.1; }
+.stat .lbl, .kpi-label, .stat-label { color: var(--muted) !important; font-size: var(--small); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+.stat .src, .kpi-source { color: var(--faint) !important; font-size: 0.72rem; margin-top: 5px; }
+.stat .src a, .kpi-source a { color: var(--faint) !important; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: var(--sp3) 0; }
+.delta { font-weight: 700; font-size: 0.82rem; }
+.delta.up { color: var(--good) !important; }
+.delta.down { color: var(--bad) !important; }
+.delta.flat { color: var(--faint) !important; }
+
+/* ================================================================
+   9. METRIC CHART CARDS
+   ================================================================ */
+.metric-grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 12px; }
+.metric { grid-column: span 12; padding: var(--sp3); }
+@media (min-width: 860px) { .metric { grid-column: span 4; } }
+.metric h3 { font-size: 0.9rem; color: var(--text) !important; margin: 0 0 6px; font-weight: 700; }
+.metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
+.metric .meta { color: var(--muted) !important; font-size: var(--small); display: flex; gap: 10px; margin-top: 4px; }
+.chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+canvas { width: 100% !important; height: 180px !important; }
+
+/* ================================================================
+   10. TABLES
+   ================================================================ */
+table { background: transparent !important; color: var(--text) !important; width: 100%; border-collapse: collapse; }
+table th { color: var(--text) !important; font-weight: 700; font-size: var(--small); text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg2) !important; padding: 10px 14px; border-bottom: 2px solid var(--border-strong); }
+table td { color: var(--muted) !important; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: var(--accent-dim); }
+.table-container { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+
+/* ================================================================
+   11. FORM CONTROLS
+   ================================================================ */
+select, input, textarea {
+  background: var(--bg2) !important; color: var(--text) !important;
+  border: 1px solid var(--border-strong) !important;
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  font-family: var(--font-sans); font-size: var(--body); width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent) !important; box-shadow: var(--focus-ring); }
+label { color: var(--muted) !important; font-size: var(--small); font-weight: 600; display: block; margin-bottom: 5px; }
+
+/* ================================================================
+   12. BUTTONS
+   ================================================================ */
+.btn { cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--card); color: var(--text) !important; padding: 8px 16px; font-family: var(--font-sans); font-size: 0.84rem; font-weight: 700; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none !important; }
+.btn:hover { background: var(--bg2); box-shadow: var(--shadow-sm); }
+.btn.primary, .btn-primary { background: var(--accent) !important; border-color: transparent; color: #fff !important; }
+.btn.primary:hover { opacity: 0.9; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ================================================================
+   13. PILLS, BADGES
+   ================================================================ */
+.pill, .badge, .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted) !important; font-weight: 600; font-size: 0.77rem; }
+.pill strong, .badge strong { color: var(--text) !important; }
+.pill.accent { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent) !important; }
+.pill.warn   { background: var(--warn-dim);   border-color: color-mix(in srgb, var(--warn) 30%, transparent);  color: var(--warn) !important; }
+.pill.good   { background: var(--good-dim);   border-color: color-mix(in srgb, var(--good) 30%, transparent);  color: var(--good) !important; }
+.pill.bad    { background: var(--bad-dim);    border-color: color-mix(in srgb, var(--bad) 30%, transparent);   color: var(--bad) !important; }
+
+/* ================================================================
+   14. TOOLBAR
+   ================================================================ */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: var(--sp3) 0; }
+.controls-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; margin: var(--sp3) 0; }
+
+/* ================================================================
+   15. DETAILS / ACCORDIONS
+   ================================================================ */
+details { border: 1px solid var(--border); border-radius: var(--radius); margin-top: var(--sp3); overflow: hidden; }
+details > summary { list-style: none; cursor: pointer; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; font-size: 0.9rem; color: var(--text) !important; background: var(--card); transition: background 0.15s; }
+details[open] > summary { background: var(--bg2); border-bottom: 1px solid var(--border); }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: "›"; font-size: 1.2em; color: var(--faint) !important; transition: transform 0.2s; }
+details[open] > summary::after { transform: rotate(90deg); }
+.section-body { padding: var(--sp3) var(--sp4); }
+.section-desc { color: var(--muted) !important; margin: 0 0 12px; }
+
+/* ================================================================
+   16. KICKER / UTILITY TEXT
+   ================================================================ */
+.kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent) !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
+.sub  { color: var(--muted) !important; max-width: 72ch; }
+.note { color: var(--faint) !important; font-size: 0.79rem; margin-top: var(--sp3); }
+.err  { color: var(--bad) !important; font-weight: 700; }
+.ok   { color: var(--good) !important; font-weight: 700; }
+.text-muted { color: var(--muted) !important; }
+.text-faint { color: var(--faint) !important; }
+.text-accent { color: var(--accent) !important; }
+.text-good  { color: var(--good) !important; }
+.text-warn  { color: var(--warn) !important; }
+.text-bad   { color: var(--bad) !important; }
+.text-upper { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.74rem; font-weight: 700; }
+.text-mono  { font-family: var(--font-mono); }
+
+/* ================================================================
+   17. CENSUS DASHBOARD
+   ================================================================ */
+#census-stats { margin: var(--sp4) 0; padding: var(--sp4); }
+.census-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.census-controls label { display: flex; flex-direction: column; gap: 6px; }
+.census-controls select { min-width: 220px; }
+.census-vintage { color: var(--muted) !important; font-weight: 700; }
+.census-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 12px; margin-top: 12px; }
+.census-grid .card { padding: var(--sp3); }
+.census-grid .card .num { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 4px; }
+.census-grid .card .lbl { color: var(--muted) !important; font-size: var(--small); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0; }
+
+/* ================================================================
+   18. LEAFLET
+   ================================================================ */
+.leaflet-container { background: var(--bg2) !important; font-family: var(--font-sans) !important; }
+.leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text) !important; border-color: var(--border) !important; }
+.leaflet-tooltip { background: var(--surface) !important; color: var(--text) !important; border: 1px solid var(--border-strong) !important; box-shadow: var(--shadow) !important; border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 0.8rem; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; box-shadow: var(--shadow-lg) !important; border: 1px solid var(--border) !important; }
+.leaflet-popup-content { color: var(--muted) !important; }
+.leaflet-popup-content strong, .leaflet-popup-content b { color: var(--text) !important; }
+.leaflet-bar { border: 1px solid var(--border) !important; border-radius: var(--radius-sm) !important; box-shadow: var(--shadow-sm) !important; }
+
+/* Leaflet tile sizing can break if a global `img { max-width: 100%; }` rule exists elsewhere.
+   Enforce Leaflet's expected behavior so basemaps always render and tooltips remain usable. */
+.leaflet-container img.leaflet-tile,
+.leaflet-container img.leaflet-marker-icon,
+.leaflet-container img.leaflet-marker-shadow {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Optional per-page override: remove the centered "shell" styling when a page needs full-bleed layout. */
+body.no-shell main {
+  max-width: none !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Reusable minimum border shell for pages that need a subtle frame even with wide layouts. */
+.content-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ================================================================
+   19. SCROLLBAR
+   ================================================================ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+
+::selection { background: var(--accent-dim); color: var(--text); }
+
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  header.site-header, footer.site-footer, nav { display: none; }
+}
+
+/* ---- Census Housing Construction sub-section ---- */
+.census-construction-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border, rgba(255,255,255,0.1));
+}
+.census-construction-title {
+  font-size: var(--small, 0.85rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+.census-construction-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.census-construction-card .sub-lbl {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 2px 0 0;
+  line-height: 1.3;
+}
+.census-construction-card .census-date {
+  font-size: 0.72rem;
+  color: var(--faint, var(--muted));
+  margin: 6px 0 0;
+  font-weight: 500;
+}
+.census-construction-card .census-yoy {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin: 3px 0 0;
+}
+.census-construction-card .delta-up   { color: var(--good, #34d399); }
+.census-construction-card .delta-down { color: var(--bad,  #f87171); }
+.census-construction-card .census-src {
+  font-size: 0.68rem;
+  margin: 6px 0 0;
+}
+.census-construction-card .census-src a {
+  color: var(--accent, var(--muted));
+  text-decoration: none;
+  opacity: 0.7;
+}
+.census-construction-card .census-src a:hover { opacity: 1; text-decoration: underline; }
