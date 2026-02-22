@@ -1,0 +1,9 @@
+# Local environment variables — never commit real credentials
+.env
+
+# Node.js dependencies
+node_modules/
+
+# Monitoring report artifacts (JSON files with run data)
+# Uncomment the line below if you do NOT want to track reports in git
+# monitoring-reports/
