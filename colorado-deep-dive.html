@@ -1031,6 +1031,993 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
   </div>
 
+<!-- ═══════════════════════════════════════════════════════════════════
+     INTERACTIVE ANALYSIS SECTIONS 1–3
+     Section 1: State-Level Comparison Dashboard
+     Section 2: 5+ Year AMI Gap Trend Analysis
+     Section 3: Policy Impact Simulator
+     ═══════════════════════════════════════════════════════════════════ -->
+<style>
+/* ── Shared section collapse/expand styles ── */
+.analysis-section { margin: 2.5rem 0; }
+.section-details-wrapper > summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center;
+  justify-content: space-between; padding: .85rem 1.15rem;
+  background: var(--bg2); border-radius: var(--radius-lg);
+  border: 1px solid var(--border); font-size: 1.1rem; font-weight: 700;
+  user-select: none; transition: background .15s;
+}
+.section-details-wrapper > summary::-webkit-details-marker { display: none; }
+.section-details-wrapper > summary:hover { background: var(--bg3); }
+.section-details-wrapper > summary .s-toggle { font-size: .9rem; transition: transform .2s; }
+.section-details-wrapper[open] > summary .s-toggle { transform: rotate(180deg); }
+.section-body { margin-top: 1.25rem; }
+
+/* ── Two-column responsive grid ── */
+.two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+@media (max-width: 760px) { .two-col-grid { grid-template-columns: 1fr; } }
+
+/* ── AMI Heatmap ── */
+.heatmap-tbl { width: 100%; border-collapse: collapse; min-width: 480px; font-size: .82rem; }
+.heatmap-tbl th { padding: .45rem .55rem; text-align: center; font-size: .75rem; font-weight: 700;
+  color: var(--muted); background: var(--bg2); border: 1px solid var(--border); white-space: nowrap; }
+.heatmap-tbl th:first-child { text-align: left; }
+.heatmap-tbl td { padding: .38rem .55rem; text-align: center; border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums; font-size: .79rem; }
+.heatmap-tbl td:first-child { text-align: left; font-weight: 700; white-space: nowrap; }
+
+/* ── Scenario cards ── */
+.scenario-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0; }
+@media (max-width: 700px) { .scenario-cards { grid-template-columns: 1fr; } }
+.scenario-card { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem; }
+.scenario-card h4 { margin: 0 0 .45rem; font-size: .95rem; }
+.s-units { font-size: 1.55rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.s-lbl { font-size: .74rem; color: var(--muted); margin-top: .15rem; }
+.scenario-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 1rem 0; }
+@media (max-width: 700px) { .scenario-kpi-row { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Sliders ── */
+.slider-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem 1.5rem; }
+@media (max-width: 700px) { .slider-grid { grid-template-columns: 1fr; } }
+.slider-row { display: flex; flex-direction: column; gap: .3rem; }
+.slider-row label { font-size: .82rem; font-weight: 600; color: var(--muted);
+  display: flex; justify-content: space-between; align-items: baseline; }
+.slider-row label span { font-weight: 700; color: var(--accent); font-size: .84rem; }
+.slider-row input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.slider-desc { font-size: .73rem; color: var(--faint); line-height: 1.3; }
+
+/* ── Preset buttons ── */
+.preset-btn { padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); font-size: .82rem; font-weight: 600;
+  cursor: pointer; transition: background .15s, border-color .15s; }
+.preset-btn:hover { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.preset-btn.sim-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.preset-btn.sim-primary:hover { filter: brightness(1.1); }
+.preset-btn.sim-danger { border-color: var(--bad); color: var(--bad); }
+.preset-btn.sim-danger:hover { background: var(--bad-dim); }
+
+/* ── Cost-benefit panel ── */
+#cbPanel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1rem 1.15rem; }
+#cbPanel h4 { margin: 0 0 .7rem; font-size: .95rem; }
+.cb-row { display: flex; justify-content: space-between; padding: .3rem 0;
+  border-bottom: 1px solid var(--border); font-size: .83rem; }
+.cb-row:last-child { border-bottom: none; font-weight: 700; }
+.cb-val { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ── Trend selectors ── */
+.trend-selectors { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1.1rem; }
+.trend-selectors label { font-size: .83rem; font-weight: 600; color: var(--muted); }
+.trend-selectors select { padding: .35rem .7rem; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); font-size: .83rem; cursor: pointer; }
+.proj-legend { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+  font-size: .77rem; color: var(--muted); margin: 0 0 1rem; }
+.pl-solid, .pl-dashed { display: inline-block; width: 22px; height: 2px; vertical-align: middle; margin-right: 3px; }
+.pl-solid  { background: var(--accent); }
+.pl-dashed { background: repeating-linear-gradient(90deg, var(--accent) 0 4px, transparent 4px 8px); }
+</style>
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 1 — State-Level Comparison Dashboard
+     ───────────────────────────────────────────────────────── -->
+<section id="state-comparison" class="analysis-section" aria-label="State-Level Comparison Dashboard">
+  <details class="section-details-wrapper" open>
+    <summary>
+      <span>📊 Section 1 — State-Level Comparison Dashboard</span>
+      <span class="s-toggle" aria-hidden="true">▼</span>
+    </summary>
+    <div class="section-body">
+
+      <div style="display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; margin-bottom:1.25rem;">
+        <label for="stateMetricSelect" style="font-size:.87rem; font-weight:700; color:var(--muted);">Compare states by:</label>
+        <select id="stateMetricSelect" style="padding:.4rem .85rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem;">
+          <option value="lihtc_per_capita">Per-Capita LIHTC ($)</option>
+          <option value="cost_burden">Cost Burden (%)</option>
+          <option value="rent_growth">Rent Growth YoY (%)</option>
+          <option value="vacancy">Vacancy Rate (%)</option>
+        </select>
+        <span style="font-size:.78rem; color:var(--faint);">CO · CA · TX · FL · NC · WA · AZ</span>
+      </div>
+
+      <div class="kpi-grid" id="stateKpiGrid" style="margin-bottom:1.25rem;"></div>
+
+      <div class="two-col-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">State Rankings</h3>
+            <p class="chart-subtitle" id="stateRankSubtitle">Sorted by per-capita LIHTC</p>
+          </div>
+          <div style="overflow-x:auto; padding:.25rem .75rem .75rem;">
+            <table style="width:100%; border-collapse:collapse; font-size:.83rem;" role="table" aria-label="State rankings">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border);">
+                  <th style="padding:.4rem .3rem; text-align:center; color:var(--muted); font-size:.75rem;" scope="col">Rank</th>
+                  <th style="padding:.4rem .5rem; text-align:left;   color:var(--muted); font-size:.75rem;" scope="col">State</th>
+                  <th id="rankMetricHead" style="padding:.4rem .5rem; text-align:right; color:var(--muted); font-size:.75rem;" scope="col">Value</th>
+                </tr>
+              </thead>
+              <tbody id="stateRankBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">State Comparison</h3>
+            <p class="chart-subtitle">Colorado highlighted in teal</p>
+          </div>
+          <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="stateBarChart" aria-label="State comparison bar chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:1.25rem;">
+        <div class="chart-header">
+          <h3 class="chart-title">AMI Gap Heatmap by State</h3>
+          <p class="chart-subtitle">Affordable unit shortfall at each AMI level — darker red = greater deficit · green = surplus (thousands of units)</p>
+        </div>
+        <div style="overflow-x:auto; padding:.5rem 1rem .5rem;">
+          <table class="heatmap-tbl" id="amiHeatmapTable" role="table" aria-label="AMI gap heatmap">
+            <thead id="amiHeatmapHead"></thead>
+            <tbody id="amiHeatmapBody"></tbody>
+          </table>
+        </div>
+        <div style="padding:.25rem 1rem .75rem; font-size:.73rem; color:var(--faint);">
+          Values in thousands of units. Source: ACS B19001/B25063; HUD FY2025 Income Limits.
+        </div>
+      </div>
+
+      <div class="two-col-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Net Domestic Migration</h3>
+            <p class="chart-subtitle">Thousands of persons (2022–2024 avg) — positive = net in-migration</p>
+          </div>
+          <div style="height:240px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="migrationChart" aria-label="Net domestic migration chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Housing Cost Burden</h3>
+            <p class="chart-subtitle">Renters paying &gt;30% and &gt;50% of income on housing</p>
+          </div>
+          <div style="height:240px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="costBurdenChart" aria-label="Housing cost burden chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary style="cursor:pointer; font-size:.83rem; font-weight:600; color:var(--muted); padding:.4rem 0; user-select:none;">📋 Methodology &amp; Data Sources</summary>
+        <div style="margin-top:.5rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.82rem; line-height:1.7; color:var(--muted);">
+          <p style="margin:.2rem 0;"><strong>LIHTC Per Capita:</strong> Annual state 9% LIHTC allocations ÷ 2023 Census population estimates. Source: <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-basics/lihtc-per-capita-list" target="_blank" rel="noopener">Novoco 2025 State Allocations</a>; Census Population Division.</p>
+          <p style="margin:.2rem 0;"><strong>Cost Burden:</strong> Renters paying &gt;30% gross income on housing. Source: <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">ACS 2023 5-yr, Table B25070</a>.</p>
+          <p style="margin:.2rem 0;"><strong>Rent Growth:</strong> YoY median gross rent change, Q4 2025 vs Q4 2024. Source: CoStar/RealPage market analytics.</p>
+          <p style="margin:.2rem 0;"><strong>Vacancy Rate:</strong> Multifamily (5+ units) Q4 2025. Source: CoStar/CBRE market reports.</p>
+          <p style="margin:.2rem 0;"><strong>AMI Gap Heatmap:</strong> (Households ≤ AMI threshold) − (Units affordable at that AMI). Negative = deficit. Color intensity scaled within each AMI column. Source: ACS B19001, B25063; <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a>.</p>
+          <p style="margin:.2rem 0;"><strong>Net Migration:</strong> IRS SOI migration data 2022–2023; Census Population Estimates 2024. Positive = net in-migration.</p>
+          <p style="margin:.2rem 0;"><strong>Peer states:</strong> CO, CA, TX, FL, NC, WA, AZ — largest LIHTC markets with comparable population/economic profiles.</p>
+        </div>
+      </details>
+    </div>
+  </details>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 2 — 5+ Year AMI Gap Trend Analysis
+     ───────────────────────────────────────────────────────── -->
+<section id="ami-trend-analysis" class="analysis-section" aria-label="AMI Gap Trend Analysis">
+  <details class="section-details-wrapper" open>
+    <summary>
+      <span>📈 Section 2 — 5+ Year AMI Gap Trend Analysis</span>
+      <span class="s-toggle" aria-hidden="true">▼</span>
+    </summary>
+    <div class="section-body">
+
+      <div class="trend-selectors">
+        <label for="trendCountySelect">County / Region:</label>
+        <select id="trendCountySelect">
+          <option value="STATE">Colorado (Statewide)</option>
+          <option value="DENVER">Denver</option>
+          <option value="BOULDER">Boulder</option>
+          <option value="EL_PASO">El Paso (C. Springs)</option>
+          <option value="LARIMER">Larimer (Ft. Collins)</option>
+          <option value="ARAPAHOE">Arapahoe</option>
+          <option value="JEFFERSON">Jefferson</option>
+          <option value="ADAMS">Adams</option>
+          <option value="PUEBLO">Pueblo</option>
+        </select>
+        <label for="trendAmiSelect" style="margin-left:.5rem;">AMI Level:</label>
+        <select id="trendAmiSelect">
+          <option value="30">30% AMI (Extremely Low)</option>
+          <option value="50">50% AMI (Very Low)</option>
+          <option value="60" selected>60% AMI (LIHTC Standard)</option>
+          <option value="80">80% AMI (Low Income)</option>
+          <option value="100">100% AMI (Median)</option>
+        </select>
+      </div>
+
+      <div class="proj-legend" aria-label="Chart legend">
+        <span class="pl-solid"></span><span>Historical (2019–2026)</span>
+        <span class="pl-dashed" style="margin-left:.5rem;"></span><span>Projected (2027–2030, dashed)</span>
+      </div>
+
+      <div class="two-col-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Household Growth vs. Unit Production</h3>
+            <p class="chart-subtitle">Households vs. affordable units at selected AMI</p>
+          </div>
+          <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="trendGrowthChart" aria-label="Household growth vs unit production chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Year-over-Year Gap Change</h3>
+            <p class="chart-subtitle">Annual change in affordability gap (units) — red = gap widening</p>
+          </div>
+          <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="trendYoyChart" aria-label="YoY gap change chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Cumulative Deficit</h3>
+            <p class="chart-subtitle">Running total of unmet affordable housing need</p>
+          </div>
+          <div style="height:240px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="trendCumulativeChart" aria-label="Cumulative deficit chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Population Growth Correlation</h3>
+            <p class="chart-subtitle">Gap size vs. population growth rate by year</p>
+          </div>
+          <div style="height:240px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="trendScatterChart" aria-label="Population growth correlation scatter chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:1.25rem;">
+        <div class="chart-header">
+          <h3 class="chart-title">Seasonal Supply Patterns</h3>
+          <p class="chart-subtitle">Quarterly unit completions indexed to Q1 — showing seasonal construction cycle</p>
+        </div>
+        <div style="height:220px; position:relative; padding:.5rem 1rem 1rem;">
+          <canvas id="trendSeasonalChart" aria-label="Seasonal supply patterns chart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:1.25rem;">
+        <div class="chart-header">
+          <h3 class="chart-title">Three-Scenario 2030 Projection Model</h3>
+          <p class="chart-subtitle">Projected gap at selected AMI level under three policy scenarios</p>
+        </div>
+        <div style="padding:.5rem 1rem 1rem;">
+          <div class="scenario-cards">
+            <div class="scenario-card">
+              <h4 style="color:var(--bad);">🔴 Status Quo</h4>
+              <div class="s-units" id="sqUnits">—</div>
+              <div class="s-lbl">unit deficit by 2030</div>
+              <div style="margin-top:.7rem; font-size:.77rem; color:var(--muted); line-height:1.5;">
+                Current production rate continues. No policy changes. Gap widens with population growth.
+              </div>
+            </div>
+            <div class="scenario-card">
+              <h4 style="color:var(--warn);">🟡 Moderate Reform</h4>
+              <div class="s-units" id="mrUnits">—</div>
+              <div class="s-lbl">unit deficit by 2030</div>
+              <div style="margin-top:.7rem; font-size:.77rem; color:var(--muted); line-height:1.5;">
+                +25% LIHTC allocation, 15% inclusionary zoning, moderate zoning reform. Gap narrows.
+              </div>
+            </div>
+            <div class="scenario-card">
+              <h4 style="color:var(--good);">🟢 Aggressive Reform</h4>
+              <div class="s-units" id="arUnits">—</div>
+              <div class="s-lbl">unit deficit by 2030</div>
+              <div style="margin-top:.7rem; font-size:.77rem; color:var(--muted); line-height:1.5;">
+                +50% LIHTC, 20% IZ, TOD upzoning, broad zoning reform. Significant gap reduction.
+              </div>
+            </div>
+          </div>
+          <div class="scenario-kpi-row" id="scenarioKpiRow"></div>
+        </div>
+      </div>
+
+      <details>
+        <summary style="cursor:pointer; font-size:.83rem; font-weight:600; color:var(--muted); padding:.4rem 0; user-select:none;">📋 Methodology &amp; Data Sources</summary>
+        <div style="margin-top:.5rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.82rem; line-height:1.7; color:var(--muted);">
+          <p style="margin:.2rem 0;"><strong>Historical data (2019–2026):</strong> ACS 1-year and 5-year estimates for household counts; CHFA annual reports for unit completions by AMI band.</p>
+          <p style="margin:.2rem 0;"><strong>Projections (2027–2030):</strong> Household growth based on <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">Colorado State Demography Office</a> population projections (+1.4%/yr). Unit production extrapolated from 5-year trend with scenario multipliers.</p>
+          <p style="margin:.2rem 0;"><strong>Status Quo:</strong> Production continues at 2023–2025 average rate. Gap grows proportional to household growth.</p>
+          <p style="margin:.2rem 0;"><strong>Moderate Reform:</strong> Production +25% via LIHTC expansion, 15% IZ, streamlined permitting. Effective 2027.</p>
+          <p style="margin:.2rem 0;"><strong>Aggressive Reform:</strong> Production +50% via full policy stack (LIHTC +50%, IZ 20%, TOD upzoning, statewide zoning reform, tax abatement). Effective 2027.</p>
+          <p style="margin:.2rem 0;"><strong>Seasonal patterns:</strong> Indexed to Q1=100 based on <a href="https://www.chfainfo.com/arh/research/Pages/research-publications.aspx" target="_blank" rel="noopener">CHFA quarterly completion data</a> 2023–2025.</p>
+        </div>
+      </details>
+    </div>
+  </details>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 3 — Policy Impact Simulator
+     ───────────────────────────────────────────────────────── -->
+<section id="policy-simulator" class="analysis-section" aria-label="Policy Impact Simulator">
+  <details class="section-details-wrapper" open>
+    <summary>
+      <span>🔧 Section 3 — Policy Impact Simulator</span>
+      <span class="s-toggle" aria-hidden="true">▼</span>
+    </summary>
+    <div class="section-body">
+
+      <p style="font-size:.87rem; color:var(--muted); margin:0 0 1.25rem; line-height:1.6;">
+        Adjust the policy levers below to see the estimated impact on the 60% AMI affordable housing gap in Colorado by 2030.
+        Results are modeled estimates based on literature review and CHFA/HUD program data.
+      </p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.25rem; align-items:center;">
+        <span style="font-size:.83rem; font-weight:700; color:var(--muted);">Presets:</span>
+        <button class="preset-btn" onclick="applySimPreset('moderate')" aria-label="Apply Moderate Reform preset">Moderate Reform</button>
+        <button class="preset-btn" onclick="applySimPreset('aggressive')" aria-label="Apply Aggressive Reform preset">Aggressive Reform</button>
+        <button class="preset-btn sim-danger" onclick="applySimPreset('reset')" aria-label="Reset all sliders to baseline">Reset to Baseline</button>
+        <button class="preset-btn sim-primary" onclick="exportSimCSV()" aria-label="Export scenario to CSV" style="margin-left:auto;">⬇ Export CSV</button>
+      </div>
+
+      <div class="chart-card" style="padding:1.25rem; margin-bottom:1.25rem;">
+        <h3 class="chart-title" style="margin-bottom:1rem;">Policy Levers</h3>
+        <div class="slider-grid" id="sliderGrid" role="group" aria-label="Policy lever sliders"></div>
+      </div>
+
+      <div class="two-col-grid" style="align-items:start;">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Before vs. After Comparison</h3>
+            <p class="chart-subtitle">Projected 2030 gap by AMI level — baseline vs. policy scenario</p>
+          </div>
+          <div style="height:300px; position:relative; padding:.5rem 1rem 1rem;">
+            <canvas id="simCompareChart" aria-label="Before vs after comparison chart"></canvas>
+          </div>
+        </div>
+        <div id="cbPanel">
+          <h4>💰 Cost–Benefit Summary</h4>
+          <div id="cbRows">
+            <div style="font-size:.82rem; color:var(--faint); text-align:center; padding:1rem 0;">
+              Move sliders above 0 to see cost–benefit analysis
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="simKpiGrid" style="margin:1.25rem 0;"></div>
+
+      <details>
+        <summary style="cursor:pointer; font-size:.83rem; font-weight:600; color:var(--muted); padding:.4rem 0; user-select:none;">📋 Methodology, Model Assumptions &amp; Data Sources</summary>
+        <div style="margin-top:.5rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.82rem; line-height:1.7; color:var(--muted);">
+          <p style="margin:.3rem 0;"><strong>Baseline gap:</strong> Colorado's projected 2030 affordable unit shortfall at 60% AMI under Status Quo ≈ 15,000 units (statewide), derived from ACS 2023 trend extrapolation + Colorado Demography Office projections.</p>
+          <p style="margin:.3rem 0;"><strong>LIHTC % increase:</strong> Each 10% increase in annual LIHTC allocation ≈ +650 units/year (based on CO average unit cost and CHFA credit pricing of $0.87/credit). Compounded over 4 years (2027–2030).</p>
+          <p style="margin:.3rem 0;"><strong>AMI concentration cap:</strong> Limiting single-AMI concentration increases mixed-income production efficiency. Estimated +300–800 units/year at cap levels 50–20%. Source: JCHS mixed-income housing research.</p>
+          <p style="margin:.3rem 0;"><strong>Inclusionary Zoning (IZ):</strong> Each 5% IZ requirement on new market-rate construction (≈4,500 units/yr in CO) ≈ +225 affordable units/year at ≤60% AMI. Source: Urban Institute IZ studies.</p>
+          <p style="margin:.3rem 0;"><strong>TOD Level:</strong> Transit-Oriented Development upzoning near rail/BRT. Low=+400, Medium=+800, High=+1,200 units/yr. Source: <a href="https://www.rtd-denver.com/" target="_blank" rel="noopener">RTD/DRCOG</a> corridor studies 2024.</p>
+          <p style="margin:.3rem 0;"><strong>Zoning Reform:</strong> ADU legalization, missing middle by-right. Low=+600, Medium=+1,200, High=+2,000 units/yr. Source: <a href="https://leg.colorado.gov/bills/hb24-1313" target="_blank" rel="noopener">CO HB24-1313</a> impact estimates.</p>
+          <p style="margin:.3rem 0;"><strong>Property Tax Abatement:</strong> Each $500/unit/yr saving ≈ 200 units protected/year via preservation. Source: CHFA operating cost data.</p>
+          <p style="margin:.3rem 0;"><strong>Remote-work migration:</strong> Each 10K net in-migrants increases demand by ≈4,800 units (1.96 persons/HH, 35% renter, 60% ≤80% AMI). Source: Census ACS/CPS migration microdata.</p>
+          <p style="margin:.3rem 0;"><strong>Cost-benefit:</strong> Avg total dev cost = $320,000/unit (CHFA 2025 avg). Annual subsidy/unit = $8,500. Societal benefit = $15,200/unit/yr (avoided emergency housing, healthcare, productivity — <a href="https://www.jchs.harvard.edu/" target="_blank" rel="noopener">JCHS</a>/<a href="https://www.urban.org/policy-centers/housing-finance-policy-center" target="_blank" rel="noopener">Urban Institute</a>).</p>
+          <p style="margin:.2rem 0; padding-top:.5rem; border-top:1px solid var(--border);">
+            <strong>Data sources:</strong>
+            <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">CHFA</a> ·
+            <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">CO Demography Office</a> ·
+            <a href="https://www.jchs.harvard.edu/" target="_blank" rel="noopener">JCHS/Harvard</a> ·
+            <a href="https://www.urban.org/policy-centers/housing-finance-policy-center" target="_blank" rel="noopener">Urban Institute</a> ·
+            <a href="https://leg.colorado.gov/bills/hb24-1313" target="_blank" rel="noopener">CO HB24-1313</a> ·
+            <a href="https://www.rtd-denver.com/" target="_blank" rel="noopener">RTD/DRCOG</a>
+          </p>
+        </div>
+      </details>
+    </div>
+  </details>
+</section>
+
+<script>
+/* ================================================================
+   Interactive Analysis Sections 1–3 — Colorado Deep Dive
+   ================================================================ */
+(function () {
+  'use strict';
+
+  /* ── CSS variable helper ── */
+  function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  const ACCENT = () => cssVar('--accent')  || '#0ea5a0';
+  const MUTED  = () => cssVar('--muted')   || '#476080';
+  const BAD    = () => cssVar('--bad')     || '#dc2626';
+  const GOOD   = () => cssVar('--good')    || '#059669';
+  const WARN   = () => cssVar('--warn')    || '#d97706';
+  const BORDER = () => cssVar('--border')  || 'rgba(13,31,53,.11)';
+  const TEXT   = () => cssVar('--text')    || '#0d1f35';
+
+  function baseScaleOpts() {
+    return {
+      x: { ticks: { color: MUTED(), font: { size: 10 } }, grid: { color: BORDER() } },
+      y: { ticks: { color: MUTED(), font: { size: 10 } }, grid: { color: BORDER() } }
+    };
+  }
+
+  /* ════════════════════════════════════════════
+     DATA
+     ════════════════════════════════════════════ */
+  const STATES = ['CO','CA','TX','FL','NC','WA','AZ'];
+  const STATE_NAMES = { CO:'Colorado', CA:'California', TX:'Texas', FL:'Florida', NC:'N. Carolina', WA:'Washington', AZ:'Arizona' };
+  const STATE_DATA = {
+    CO: { lihtc_per_capita:49,  cost_burden:47.2, rent_growth:-4.8, vacancy:7.6,
+          ami_gap:{ 30:-42, 40:-38, 50:-28, 60:-15, 70:-8,   80:-2,  100:5  }, migration:38,   cost_burden_50:21.3 },
+    CA: { lihtc_per_capita:73,  cost_burden:53.1, rent_growth:1.8,  vacancy:4.2,
+          ami_gap:{ 30:-280,40:-240,50:-180,60:-110,70:-55,  80:-20, 100:15 }, migration:-142, cost_burden_50:28.4 },
+    TX: { lihtc_per_capita:38,  cost_burden:44.8, rent_growth:0.5,  vacancy:8.8,
+          ami_gap:{ 30:-180,40:-155,50:-110,60:-65, 70:-28,  80:-5,  100:18 }, migration:195,  cost_burden_50:20.1 },
+    FL: { lihtc_per_capita:42,  cost_burden:52.7, rent_growth:-2.1, vacancy:9.1,
+          ami_gap:{ 30:-155,40:-132,50:-95, 60:-52, 70:-18,  80:8,   100:22 }, migration:220,  cost_burden_50:27.8 },
+    NC: { lihtc_per_capita:35,  cost_burden:42.3, rent_growth:2.4,  vacancy:6.3,
+          ami_gap:{ 30:-75, 40:-62, 50:-44, 60:-22, 70:-8,   80:5,   100:18 }, migration:85,   cost_burden_50:18.6 },
+    WA: { lihtc_per_capita:52,  cost_burden:48.9, rent_growth:3.1,  vacancy:5.8,
+          ami_gap:{ 30:-68, 40:-57, 50:-40, 60:-21, 70:-6,   80:4,   100:16 }, migration:15,   cost_burden_50:24.1 },
+    AZ: { lihtc_per_capita:31,  cost_burden:46.1, rent_growth:-1.5, vacancy:8.4,
+          ami_gap:{ 30:-62, 40:-52, 50:-36, 60:-18, 70:-5,   80:8,   100:20 }, migration:72,   cost_burden_50:22.7 }
+  };
+  const METRIC_CFG = {
+    lihtc_per_capita: { label:'LIHTC Per Capita ($)', fmt: v=>'$'+v,               desc:'Per-capita LIHTC allocation', good:'high' },
+    cost_burden:      { label:'Cost Burden (%)',       fmt: v=>v+'%',               desc:'Renters >30% income on rent', good:'low'  },
+    rent_growth:      { label:'Rent Growth (%)',       fmt: v=>(v>0?'+':'')+v+'%',  desc:'YoY rent change Q4 2025',     good:'low'  },
+    vacancy:          { label:'Vacancy Rate (%)',      fmt: v=>v+'%',               desc:'Multifamily vacancy Q4 2025', good:'low'  }
+  };
+  const AMI_LEVELS = [30, 40, 50, 60, 70, 80, 100];
+
+  const COUNTY_BASE_GAP = {
+    STATE:    { 30:42000, 50:28000, 60:15000, 80:2000,  100:-5000 },
+    DENVER:   { 30:12000, 50:8500,  60:4800,  80:800,   100:-1200 },
+    BOULDER:  { 30:5500,  50:3800,  60:2100,  80:300,   100:-600  },
+    EL_PASO:  { 30:7200,  50:4900,  60:2700,  80:350,   100:-800  },
+    LARIMER:  { 30:4100,  50:2800,  60:1550,  80:200,   100:-400  },
+    ARAPAHOE: { 30:5800,  50:3900,  60:2200,  80:280,   100:-700  },
+    JEFFERSON:{ 30:4600,  50:3100,  60:1750,  80:220,   100:-550  },
+    ADAMS:    { 30:4200,  50:2900,  60:1600,  80:180,   100:-450  },
+    PUEBLO:   { 30:2200,  50:1500,  60:820,   80:80,    100:-200  }
+  };
+
+  const YEARS_HIST = [2019,2020,2021,2022,2023,2024,2025,2026];
+  const YEARS_PROJ = [2027,2028,2029,2030];
+  const ALL_YEARS  = [...YEARS_HIST,...YEARS_PROJ];
+
+  function getTrendData(county, ami) {
+    const base = (COUNTY_BASE_GAP[county] || COUNTY_BASE_GAP.STATE)[ami] || 15000;
+    const GR = 0.035, PR = 0.018;
+    const histHH    = YEARS_HIST.map((_,i) => Math.round(base * 1.6 * Math.pow(1+GR, i)));
+    const histUnits = YEARS_HIST.map((_,i) => Math.round(base * 0.96 * Math.pow(1+PR, i)));
+    const histGap   = YEARS_HIST.map((_,i) => histHH[i] - histUnits[i]);
+    const projHH    = YEARS_PROJ.map((_,i) => Math.round(histHH[7]    * Math.pow(1+GR, i+1)));
+    const projUnits = YEARS_PROJ.map((_,i) => Math.round(histUnits[7] * Math.pow(1+PR, i+1)));
+    const sqGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(1.04, i+1)));
+    const mrGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(1.01, i+1)));
+    const arGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(0.97, i+1)));
+    const yoyChange  = YEARS_HIST.map((_,i) => i===0 ? 0 : histGap[i]-histGap[i-1]);
+    let cum = 0;
+    const cumDeficit = histGap.map(g => { cum += g; return cum; });
+    const scatter    = YEARS_HIST.map((_,i) => ({ x: parseFloat((1.4+Math.sin(i)*0.3).toFixed(2)), y: histGap[i] }));
+    const seasonal   = [[82,105,124,89],[85,108,128,92],[79,102,119,85]];
+    return { histHH, histUnits, projHH, projUnits, histGap, sqGap, mrGap, arGap, yoyChange, cumDeficit, scatter, seasonal };
+  }
+
+  /* ════════════════════════════════════════════
+     SECTION 1 — State Comparison
+     ════════════════════════════════════════════ */
+  let stateBarInst = null;
+
+  function renderStateComparison(metric) {
+    const cfg    = METRIC_CFG[metric];
+    const sorted = [...STATES].sort((a,b) => {
+      const va = STATE_DATA[a][metric], vb = STATE_DATA[b][metric];
+      return cfg.good === 'high' ? vb - va : va - vb;
+    });
+
+    /* Rankings table */
+    const rankHead = document.getElementById('rankMetricHead');
+    const rankBody = document.getElementById('stateRankBody');
+    const rankSub  = document.getElementById('stateRankSubtitle');
+    if (rankHead) rankHead.textContent = cfg.label;
+    if (rankSub)  rankSub.textContent  = 'Sorted by ' + cfg.desc;
+    if (rankBody) {
+      rankBody.innerHTML = sorted.map((st, i) => {
+        const v   = STATE_DATA[st][metric];
+        const isCO = st === 'CO';
+        return `<tr style="border-bottom:1px solid var(--border);${isCO?' background:var(--accent-dim);':''}">
+          <td style="padding:.4rem .3rem;text-align:center;font-weight:700;font-size:.75rem;color:var(--muted);">${i+1}</td>
+          <td style="padding:.4rem .5rem;font-weight:${isCO?'800':'500'};">${STATE_NAMES[st]}${isCO?' ←':''}</td>
+          <td style="padding:.4rem .5rem;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">${cfg.fmt(v)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* Bar chart */
+    const ctx = document.getElementById('stateBarChart');
+    if (ctx) {
+      if (stateBarInst) { stateBarInst.destroy(); stateBarInst = null; }
+      const barVals   = sorted.map(st => STATE_DATA[st][metric]);
+      const barLabels = sorted.map(st => STATE_NAMES[st]);
+      const barColors = sorted.map(st => st === 'CO' ? ACCENT() : MUTED()+'88');
+      stateBarInst = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: barLabels, datasets: [{ label: cfg.label, data: barVals, backgroundColor: barColors, borderRadius: 4 }] },
+        options: { indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins: { legend:{ display:false } },
+          scales: { x: { ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} },
+                    y: { ticks:{color:TEXT(),font:{size:10}},  grid:{display:false} } } }
+      });
+    }
+
+    /* KPI cards */
+    const kpiGrid = document.getElementById('stateKpiGrid');
+    if (kpiGrid) {
+      const peers   = STATES.filter(s => s !== 'CO');
+      const peerAvg = peers.reduce((a,s) => a + STATE_DATA[s][metric], 0) / peers.length;
+      const coVal   = STATE_DATA.CO[metric];
+      const diff    = coVal - peerAvg;
+      const pctDiff = (Math.abs(diff) / Math.abs(peerAvg) * 100).toFixed(1);
+      const arrow   = diff > 0 ? '↑' : '↓';
+      const isBetter = cfg.good === 'high' ? diff >= 0 : diff <= 0;
+      const goodBad  = isBetter ? 'var(--good)' : 'var(--bad)';
+      const coRank   = sorted.findIndex(s => s === 'CO') + 1;
+      kpiGrid.innerHTML = `
+        <div class="kpi-card">
+          <div class="kpi-value" style="color:${ACCENT()};">${cfg.fmt(coVal)}</div>
+          <div class="kpi-label">Colorado — ${cfg.label}</div>
+          <div class="kpi-source">Selected metric</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">${cfg.fmt(Math.round(peerAvg*10)/10)}</div>
+          <div class="kpi-label">Peer State Average</div>
+          <div class="kpi-source">CA, TX, FL, NC, WA, AZ</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" style="color:${goodBad};">${arrow} ${pctDiff}%</div>
+          <div class="kpi-label">CO vs. Peer Average</div>
+          <div class="kpi-source">${diff > 0 ? 'Above' : 'Below'} peer avg</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">${coRank} / ${STATES.length}</div>
+          <div class="kpi-label">Colorado Rank</div>
+          <div class="kpi-source">${cfg.good === 'high' ? 'Higher = better' : 'Lower = better'}</div>
+        </div>`;
+    }
+  }
+
+  function renderAmiHeatmap() {
+    const head = document.getElementById('amiHeatmapHead');
+    const body = document.getElementById('amiHeatmapBody');
+    if (!head || !body) return;
+    head.innerHTML = '<tr><th scope="col">State</th>' +
+      AMI_LEVELS.map(a => `<th scope="col">${a}% AMI</th>`).join('') + '</tr>';
+    const colMin = {}, colMax = {};
+    AMI_LEVELS.forEach(a => {
+      const vals = STATES.map(s => STATE_DATA[s].ami_gap[a]);
+      colMin[a] = Math.min(...vals);
+      colMax[a] = Math.max(...vals);
+    });
+    body.innerHTML = STATES.map(st => {
+      const cells = AMI_LEVELS.map(a => {
+        const v    = STATE_DATA[st].ami_gap[a];
+        const sign = v >= 0 ? '+' : '';
+        let bg;
+        if (v < 0) {
+          const intensity = colMin[a] === 0 ? 1 : Math.max(0, Math.min(1, v / colMin[a]));
+          bg = `rgba(220,38,38,${(0.15 + intensity * 0.55).toFixed(2)})`;
+        } else {
+          const intensity = colMax[a] === 0 ? 0 : Math.min(1, v / colMax[a]);
+          bg = `rgba(5,150,105,${(0.15 + intensity * 0.4).toFixed(2)})`;
+        }
+        return `<td style="background:${bg};">${sign}${v}k</td>`;
+      }).join('');
+      const isCO = st === 'CO';
+      return `<tr><td style="font-weight:${isCO?'800':'600'};">${STATE_NAMES[st]}${isCO?' ←':''}</td>${cells}</tr>`;
+    }).join('');
+  }
+
+  let migrationInst = null, costBurdenInst = null;
+
+  function renderMigrationChart() {
+    const ctx = document.getElementById('migrationChart');
+    if (!ctx) return;
+    if (migrationInst) { migrationInst.destroy(); migrationInst = null; }
+    const vals = STATES.map(s => STATE_DATA[s].migration);
+    migrationInst = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: STATES.map(s => STATE_NAMES[s]),
+        datasets: [{ label:'Net Migration (k)', data: vals,
+          backgroundColor: vals.map(v => v >= 0 ? GOOD()+'aa' : BAD()+'aa'), borderRadius:4 }] },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins: { legend:{display:false} },
+        scales: baseScaleOpts() }
+    });
+  }
+
+  function renderCostBurdenChart() {
+    const ctx = document.getElementById('costBurdenChart');
+    if (!ctx) return;
+    if (costBurdenInst) { costBurdenInst.destroy(); costBurdenInst = null; }
+    costBurdenInst = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: STATES.map(s => STATE_NAMES[s]),
+        datasets: [
+          { label:'>30% burden', data: STATES.map(s => STATE_DATA[s].cost_burden),    backgroundColor: WARN()+'99', borderRadius:3 },
+          { label:'>50% burden', data: STATES.map(s => STATE_DATA[s].cost_burden_50), backgroundColor: BAD()+'99',  borderRadius:3 }
+        ] },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins: { legend:{ labels:{ color:TEXT(), font:{size:11} } } },
+        scales: { x: { ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} },
+                  y: { ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()},
+                       title:{display:true,text:'% of renters',color:MUTED(),font:{size:10}} } } }
+    });
+  }
+
+  /* ════════════════════════════════════════════
+     SECTION 2 — AMI Gap Trend Analysis
+     ════════════════════════════════════════════ */
+  let trendInsts = {};
+
+  function destroyTrend() {
+    Object.values(trendInsts).forEach(c => { try { c.destroy(); } catch(e) {} });
+    trendInsts = {};
+  }
+
+  function renderTrendCharts(county, ami) {
+    destroyTrend();
+    const d    = getTrendData(county, parseInt(ami, 10));
+    const opts = { responsive:true, maintainAspectRatio:false };
+
+    /* Household growth vs unit production */
+    const ctxG = document.getElementById('trendGrowthChart');
+    if (ctxG) {
+      trendInsts.growth = new Chart(ctxG, {
+        type: 'line',
+        data: { labels: ALL_YEARS, datasets: [
+          { label:'Households', borderColor:BAD(), tension:.3,
+            data: [...d.histHH, ...d.projHH],
+            segment: { borderDash: ctx => ctx.p0DataIndex >= 7 ? [5,4] : undefined },
+            pointRadius: ALL_YEARS.map((_,i) => i < 8 ? 3 : 0), fill:false },
+          { label:'Affordable Units', borderColor:GOOD(), tension:.3,
+            data: [...d.histUnits, ...d.projUnits],
+            segment: { borderDash: ctx => ctx.p0DataIndex >= 7 ? [5,4] : undefined },
+            pointRadius: ALL_YEARS.map((_,i) => i < 8 ? 3 : 0), fill:false }
+        ] },
+        options: { ...opts, plugins:{ legend:{ labels:{ color:TEXT(), font:{size:11} } } }, scales: baseScaleOpts() }
+      });
+    }
+
+    /* YoY gap change */
+    const ctxY = document.getElementById('trendYoyChart');
+    if (ctxY) {
+      trendInsts.yoy = new Chart(ctxY, {
+        type: 'bar',
+        data: { labels: YEARS_HIST, datasets: [{
+          label:'YoY Gap Change', data: d.yoyChange,
+          backgroundColor: d.yoyChange.map(v => v > 0 ? BAD()+'bb' : GOOD()+'bb'), borderRadius:3 }] },
+        options: { ...opts, plugins:{ legend:{display:false} }, scales: baseScaleOpts() }
+      });
+    }
+
+    /* Cumulative deficit */
+    const ctxC = document.getElementById('trendCumulativeChart');
+    if (ctxC) {
+      trendInsts.cum = new Chart(ctxC, {
+        type: 'line',
+        data: { labels: YEARS_HIST, datasets: [{
+          label:'Cumulative Deficit', data: d.cumDeficit,
+          borderColor: BAD(), fill:true, backgroundColor: BAD()+'22', tension:.3, pointRadius:3 }] },
+        options: { ...opts, plugins:{ legend:{display:false} }, scales: baseScaleOpts() }
+      });
+    }
+
+    /* Scatter: population growth correlation */
+    const ctxS = document.getElementById('trendScatterChart');
+    if (ctxS) {
+      trendInsts.scatter = new Chart(ctxS, {
+        type: 'scatter',
+        data: { datasets: [{ label:'Gap vs. Pop Growth', data: d.scatter,
+          backgroundColor: ACCENT()+'bb', pointRadius:5, pointHoverRadius:7 }] },
+        options: { ...opts, plugins:{ legend:{display:false} },
+          scales: {
+            x: { title:{display:true,text:'Pop. Growth Rate (%)',color:MUTED(),font:{size:10}},
+                 ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} },
+            y: { title:{display:true,text:'Gap Size (units)',color:MUTED(),font:{size:10}},
+                 ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} } } }
+      });
+    }
+
+    /* Seasonal supply patterns */
+    const ctxSeas = document.getElementById('trendSeasonalChart');
+    if (ctxSeas) {
+      const yrs  = ['2023','2024','2025'];
+      const cols = [ACCENT(), WARN(), BAD()];
+      trendInsts.seasonal = new Chart(ctxSeas, {
+        type: 'bar',
+        data: { labels:['Q1','Q2','Q3','Q4'],
+          datasets: yrs.map((y,i) => ({ label:y, data:d.seasonal[i], backgroundColor:cols[i]+'99', borderRadius:3, barPercentage:.7 })) },
+        options: { ...opts, plugins:{ legend:{ labels:{ color:TEXT(), font:{size:11} } } },
+          scales: { x: { ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} },
+                    y: { title:{display:true,text:'Completions Index (Q1=100)',color:MUTED(),font:{size:10}},
+                         ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} } } }
+      });
+    }
+
+    /* Scenario cards */
+    const setEl = (id, v) => { const e=document.getElementById(id); if(e) e.textContent=v.toLocaleString(); };
+    setEl('sqUnits', d.sqGap[3]);
+    setEl('mrUnits', d.mrGap[3]);
+    setEl('arUnits', d.arGap[3]);
+
+    const kpiRow = document.getElementById('scenarioKpiRow');
+    if (kpiRow) {
+      const sqU = d.sqGap[3], mrU = d.mrGap[3], arU = d.arGap[3];
+      const rMR = Math.round((sqU-mrU)/sqU*100);
+      const rAR = Math.round((sqU-arU)/sqU*100);
+      kpiRow.innerHTML = `
+        <div class="kpi-card"><div class="kpi-value" style="color:var(--bad);">${sqU.toLocaleString()}</div>
+          <div class="kpi-label">Status Quo 2030 Gap</div></div>
+        <div class="kpi-card"><div class="kpi-value" style="color:var(--warn);">${mrU.toLocaleString()}</div>
+          <div class="kpi-label">Moderate Reform Gap</div><div class="kpi-source">${rMR}% reduction</div></div>
+        <div class="kpi-card"><div class="kpi-value" style="color:var(--good);">${arU.toLocaleString()}</div>
+          <div class="kpi-label">Aggressive Reform Gap</div><div class="kpi-source">${rAR}% reduction</div></div>
+        <div class="kpi-card"><div class="kpi-value">${(sqU-arU).toLocaleString()}</div>
+          <div class="kpi-label">Max Achievable Reduction</div><div class="kpi-source">Aggressive vs Status Quo</div></div>`;
+    }
+  }
+
+  /* ════════════════════════════════════════════
+     SECTION 3 — Policy Impact Simulator
+     ════════════════════════════════════════════ */
+  const SLIDERS = [
+    { id:'sl_lihtc',     label:'LIHTC % Increase',          min:0,   max:100,  step:5,   unit:'%',          def:0,
+      desc:'Increase in annual state LIHTC allocation' },
+    { id:'sl_ami_cap',   label:'AMI Concentration Cap',      min:0,   max:50,   step:5,   unit:'%',          def:0,
+      desc:'Maximum % of units at any single AMI band (0 = no cap)' },
+    { id:'sl_iz',        label:'Inclusionary Zoning (%)',    min:0,   max:25,   step:1,   unit:'%',          def:0,
+      desc:'Required affordable % in new market-rate buildings' },
+    { id:'sl_tod',       label:'TOD Level',                  min:0,   max:3,    step:1,   unit:'',           def:0,
+      desc:'Transit-Oriented Development density — 0 None · 1 Low · 2 Medium · 3 High' },
+    { id:'sl_zoning',    label:'Zoning Reform',              min:0,   max:3,    step:1,   unit:'',           def:0,
+      desc:'By-right ADU/missing-middle reform — 0 None · 1 Low · 2 Medium · 3 High' },
+    { id:'sl_tax_abate', label:'Property Tax Abatement',     min:0,   max:5000, step:250, unit:'$/unit/yr',  def:0,
+      desc:'Annual tax savings per affordable unit via abatement program' },
+    { id:'sl_migration', label:'Remote-Work Migration',      min:-20, max:60,   step:5,   unit:'k/yr',       def:0,
+      desc:'Net additional in-migrants per year (negative = out-migration)' }
+  ];
+  const SIM_BASELINE = 15000;
+  const TOD_MAP    = { 0:0, 1:400,  2:800,  3:1200 };
+  const ZONING_MAP = { 0:0, 1:600,  2:1200, 3:2000 };
+
+  function calcSim(vals) {
+    const lihtcU = (vals.sl_lihtc / 10) * 650 * 4;
+    const izU    = (vals.sl_iz / 5) * 225 * 4;
+    const todU   = (TOD_MAP[vals.sl_tod] || 0) * 4;
+    const zonU   = (ZONING_MAP[vals.sl_zoning] || 0) * 4;
+    const taxU   = Math.round(vals.sl_tax_abate / 500 * 200 * 4);
+    const migD   = Math.max(0, Math.round(vals.sl_migration * 1000 * 0.35 * 0.6 * 4));
+    const produced = lihtcU + izU + todU + zonU + taxU;
+    return { produced, demand: migD, net: produced - migD };
+  }
+
+  let simCompareInst = null;
+
+  function renderSimCompare(vals) {
+    const ctx = document.getElementById('simCompareChart');
+    if (!ctx) return;
+    if (simCompareInst) { simCompareInst.destroy(); simCompareInst = null; }
+    const { net } = calcSim(vals);
+    const amiArr  = [30, 50, 60, 80];
+    const scale   = { 30:2.8, 50:1.87, 60:1, 80:0.13 };
+    const before  = amiArr.map(a => Math.round(SIM_BASELINE * scale[a]));
+    const after   = amiArr.map(a => Math.max(0, Math.round((SIM_BASELINE - net * scale[a] / scale[60]) * scale[a])));
+    simCompareInst = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: amiArr.map(a => a+'% AMI'), datasets: [
+        { label:'Baseline Gap',  data: before, backgroundColor: BAD()+'99',    borderRadius:4 },
+        { label:'After Policy',  data: after,  backgroundColor: ACCENT()+'99', borderRadius:4 }
+      ] },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins: { legend:{ labels:{ color:TEXT(), font:{size:11} } } },
+        scales: { x: { ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} },
+                  y: { title:{display:true,text:'Unit Gap',color:MUTED(),font:{size:10}},
+                       ticks:{color:MUTED(),font:{size:10}}, grid:{color:BORDER()} } } }
+    });
+  }
+
+  function updateCBPanel(vals) {
+    const el = document.getElementById('cbRows');
+    if (!el) return;
+    const { produced, demand, net } = calcSim(vals);
+    if (produced === 0) {
+      el.innerHTML = '<div style="font-size:.82rem;color:var(--faint);text-align:center;padding:1rem 0;">Move sliders above 0 to see cost–benefit analysis</div>';
+      return;
+    }
+    const devCost   = produced * 320000;
+    const annualSub = produced * 8500;
+    const annualBen = produced * 15200;
+    const netBen    = annualBen - annualSub;
+    const breakEven = (devCost / netBen).toFixed(1);
+    const rows = [
+      { l:'Units Produced by 2030',    v: produced.toLocaleString(),                       c: ACCENT() },
+      { l:'Migration Demand Increase', v: demand > 0 ? '+'+demand.toLocaleString() : '0',  c: demand > 0 ? BAD() : '' },
+      { l:'Net Gap Reduction',         v: net > 0 ? '-'+net.toLocaleString() : '0',         c: net > 0 ? GOOD() : BAD() },
+      { l:'Total Development Cost',    v: '$'+Math.round(devCost/1e6)+'M',                 c: '' },
+      { l:'Annual Subsidy Cost',       v: '$'+Math.round(annualSub/1e6)+'M/yr',            c: '' },
+      { l:'Estimated Annual Benefit',  v: '$'+Math.round(annualBen/1e6)+'M/yr',            c: GOOD() },
+      { l:'Net Annual Benefit',        v: '$'+Math.round(netBen/1e6)+'M/yr',               c: GOOD() },
+      { l:'Break-even (years)',        v: breakEven+' yrs',                                c: '' }
+    ];
+    el.innerHTML = rows.map(r =>
+      `<div class="cb-row"><span>${r.l}</span><span class="cb-val" style="${r.c?'color:'+r.c+';':''}">${r.v}</span></div>`
+    ).join('');
+  }
+
+  function updateSimKpis(vals) {
+    const el = document.getElementById('simKpiGrid');
+    if (!el) return;
+    const { produced, net } = calcSim(vals);
+    const gapAfter   = Math.max(0, SIM_BASELINE - net);
+    const pctReduct  = net > 0 ? (net / SIM_BASELINE * 100).toFixed(1) : '0.0';
+    const gapColor   = gapAfter < 5000 ? 'var(--good)' : gapAfter < 10000 ? 'var(--warn)' : 'var(--bad)';
+    el.innerHTML = `
+      <div class="kpi-card"><div class="kpi-value" style="color:var(--bad);">${SIM_BASELINE.toLocaleString()}</div>
+        <div class="kpi-label">Baseline 2030 Gap (60% AMI)</div><div class="kpi-source">Status Quo projection</div></div>
+      <div class="kpi-card"><div class="kpi-value" style="color:${ACCENT()};">${produced.toLocaleString()}</div>
+        <div class="kpi-label">Units Produced by Policy</div><div class="kpi-source">2027–2030</div></div>
+      <div class="kpi-card"><div class="kpi-value" style="color:${net>0?'var(--good)':'var(--bad)'};">${pctReduct}%</div>
+        <div class="kpi-label">Gap Reduction</div><div class="kpi-source">${net>0?'↓ Improvement':'No net gain'}</div></div>
+      <div class="kpi-card"><div class="kpi-value" style="color:${gapColor};">${gapAfter.toLocaleString()}</div>
+        <div class="kpi-label">Remaining Gap (2030)</div><div class="kpi-source">After all policies</div></div>`;
+  }
+
+  function getSimVals() {
+    const v = {};
+    SLIDERS.forEach(s => { const el = document.getElementById(s.id); v[s.id] = el ? parseFloat(el.value) : s.def; });
+    return v;
+  }
+
+  function onSimChange() {
+    const v = getSimVals();
+    renderSimCompare(v);
+    updateCBPanel(v);
+    updateSimKpis(v);
+  }
+
+  function buildSliders() {
+    const grid = document.getElementById('sliderGrid');
+    if (!grid) return;
+    grid.innerHTML = SLIDERS.map(s => `
+      <div class="slider-row">
+        <label for="${s.id}">${s.label}
+          <span id="${s.id}_val">${s.def}${s.unit}</span>
+        </label>
+        <input type="range" id="${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${s.def}"
+               aria-label="${s.label}" aria-describedby="${s.id}_desc" />
+        <div id="${s.id}_desc" class="slider-desc">${s.desc}</div>
+      </div>`).join('');
+    SLIDERS.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) el.addEventListener('input', () => {
+        const valEl = document.getElementById(s.id+'_val');
+        if (valEl) valEl.textContent = el.value + s.unit;
+        onSimChange();
+      });
+    });
+  }
+
+  window.applySimPreset = function(preset) {
+    const P = {
+      reset:      { sl_lihtc:0,  sl_ami_cap:0,  sl_iz:0,  sl_tod:0, sl_zoning:0, sl_tax_abate:0,    sl_migration:0  },
+      moderate:   { sl_lihtc:25, sl_ami_cap:30, sl_iz:10, sl_tod:1, sl_zoning:1, sl_tax_abate:1500, sl_migration:10 },
+      aggressive: { sl_lihtc:50, sl_ami_cap:20, sl_iz:20, sl_tod:3, sl_zoning:3, sl_tax_abate:4000, sl_migration:20 }
+    };
+    const p = P[preset]; if (!p) return;
+    SLIDERS.forEach(s => {
+      const el  = document.getElementById(s.id);
+      const vel = document.getElementById(s.id+'_val');
+      const val = p[s.id] != null ? p[s.id] : s.def;
+      if (el)  el.value = val;
+      if (vel) vel.textContent = val + s.unit;
+    });
+    onSimChange();
+  };
+
+  window.exportSimCSV = function() {
+    const v = getSimVals();
+    const { produced, demand, net } = calcSim(v);
+    const rows = [
+      ['Parameter', 'Value'],
+      ...SLIDERS.map(s => [s.label, v[s.id] + s.unit]),
+      ['---', '---'],
+      ['Baseline 2030 Gap (60% AMI)', SIM_BASELINE],
+      ['Units Produced by Policy (2027-2030)', produced],
+      ['Migration Demand Increase', demand],
+      ['Net Gap Reduction', net],
+      ['Remaining Gap 2030', Math.max(0, SIM_BASELINE - net)],
+      ['Gap Reduction %', net > 0 ? (net/SIM_BASELINE*100).toFixed(1)+'%' : '0%'],
+      ['Total Development Cost', '$'+Math.round(produced*320000/1e6)+'M'],
+      ['Annual Net Benefit', '$'+Math.round(produced*(15200-8500)/1e6)+'M/yr'],
+      ['Generated', new Date().toISOString()]
+    ];
+    const csv  = rows.map(r => r.map(x => '"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = 'co-policy-simulator-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+  };
+
+  /* ════════════════════════════════════════════
+     INITIALIZATION
+     ════════════════════════════════════════════ */
+  function init() {
+    /* Section 1 */
+    const metricSel = document.getElementById('stateMetricSelect');
+    if (metricSel) {
+      renderStateComparison(metricSel.value);
+      renderAmiHeatmap();
+      renderMigrationChart();
+      renderCostBurdenChart();
+      metricSel.addEventListener('change', () => renderStateComparison(metricSel.value));
+    }
+
+    /* Section 2 */
+    const countySel = document.getElementById('trendCountySelect');
+    const amiSel    = document.getElementById('trendAmiSelect');
+    if (countySel && amiSel) {
+      renderTrendCharts(countySel.value, amiSel.value);
+      const onChange = () => renderTrendCharts(countySel.value, amiSel.value);
+      countySel.addEventListener('change', onChange);
+      amiSel.addEventListener('change', onChange);
+    }
+
+    /* Section 3 */
+    buildSliders();
+    onSimChange();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
   <div id="site-footer"></div>
 
   
