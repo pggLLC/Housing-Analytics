@@ -746,9 +746,9 @@ main > :first-child { margin-top: 0 !important; }
         if (!dataset?.states) return;
 
         // keep state select in sync with year (same state list but safe)
-        if (!els.state.__populatedForYear || els.state.__populatedForYear !== `${els.year.value}|${els.region.value}`) {
-          populateStateSelect(dataset, els.region.value);
-          els.state.__populatedForYear = `${els.year.value}|${els.region.value}`;
+        if (!els.state.__populatedForYear || els.state.__populatedForYear !== els.year.value) {
+          populateStateSelect(dataset);
+          els.state.__populatedForYear = els.year.value;
           els.state.value = 'all';
         }
 
@@ -758,17 +758,16 @@ main > :first-child { margin-top: 0 !important; }
 
       // Events
       els.year.addEventListener('change', () => {
-        // keep region selection; reset state/search and rerender
+        // clear filters to avoid empty due to alias mismatch
+        els.region.value = 'all';
         els.state.value = 'all';
         els.search.value = '';
         rerender();
       });
       els.mode.addEventListener('change', () => rerender());
       els.region.addEventListener('change', () => {
-        // Reset state selection and force repopulation based on region
-        els.state.__populatedForYear = null;
+        // reset state selection when region changes for clarity
         els.state.value = 'all';
-        els.search.value = '';
         rerender();
       });
       els.state.addEventListener('change', () => {

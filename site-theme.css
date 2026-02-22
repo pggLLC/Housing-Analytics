@@ -370,3 +370,9 @@ body[data-page="housing-legislation-2026.html"] ol {
   background: rgba(17,26,36,0.98) !important;
   color: rgba(255,255,255,0.92) !important;
 }
+
+
+/* Colorado Deep Dive map */
+#coMap{height:560px; min-height:420px; width:100%; border-radius:14px; overflow:hidden; border:1px solid var(--border);}
+@media (max-width: 900px){#coMap{height:460px;}}
+.leaflet-container{font-family:inherit;}

@@ -4,8 +4,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Colorado Affordable Housing Deep Dive - LIHTC Analytics Hub</title>
+  <link rel="stylesheet" href="unified-theme.css"/>
+  <link rel="stylesheet" href="site-theme.css"/>
 
-  <link rel="stylesheet" href="css/site-theme.css"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
@@ -69,6 +70,108 @@
 
   
 <style>
+/* ── Core design tokens ── */
+:root {
+  --bg: #0d1117; --bg2: #111820; --card: #151e28;
+  --text: #e2e8f0; --muted: #7a91aa; --faint: #4a6070;
+  --border: rgba(255,255,255,0.09); --accent: #5fa8ff;
+  --good: #34d399; --warn: #fbbf24; --bad: #f87171;
+  --radius: 8px; --radius-lg: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.45);
+  --sp3: 12px; --sp4: 18px; --small: 0.82rem;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--accent); }
+
+/* ── Page layout ── */
+.page-container { max-width: 1240px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+
+/* ── Cards ── */
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.chart-header { padding: 1rem 1.25rem 0.5rem; }
+.chart-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+.chart-subtitle { font-size: 0.82rem; color: var(--muted); }
+
+/* ── Map section ── */
+#coMap {
+  height: 78vh; min-height: 580px; width: 100%;
+  border-radius: 0;
+}
+.map-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  align-items: center; padding: 0.65rem 1.25rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.map-controls label {
+  display: flex; gap: 0.4rem; align-items: center;
+  color: var(--muted); font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; padding: 4px 10px;
+  border-radius: 999px; border: 1px solid var(--border);
+  background: var(--card); transition: background 0.15s;
+}
+.map-controls label:hover { background: rgba(95,168,255,0.1); color: var(--text); }
+.map-controls input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; }
+
+/* ── Map legend ── */
+.map-legend {
+  background: rgba(21,30,40,0.92) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(8px);
+  padding: 10px 12px; border-radius: 10px;
+  font-size: 12px; line-height: 1.3;
+}
+.map-legend .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink:0; }
+.swatch { width: 14px; height: 10px; border-radius: 3px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); flex-shrink:0; }
+
+/* ── Leaflet overrides ── */
+.leaflet-tooltip {
+  background: var(--card) !important; color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: 6px; font-size: 12px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--card) !important; color: var(--text) !important;
+}
+
+/* ── KPI grid ── */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: .75rem; margin: .25rem 0 1rem;
+}
+@media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .85rem .9rem;
+}
+.kpi-value { font-size: 1.15rem; font-weight: 750; line-height: 1.1; margin-bottom: .25rem; }
+.kpi-label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.kpi-source { font-size: .7rem; color: var(--faint); margin-top: .3rem; }
+.kpi-source a { color: var(--faint); }
+
+/* ── Legend swatch in info panel ── */
+.legend-item { display: flex; gap: 10px; align-items: center; }
+h2 { font-size: 1.35rem; font-weight: 700; margin: 1.5rem 0 0.75rem; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+</style>
+
+<style>
 /* Colorado Deep Dive — map section */
 .page-container { max-width: 1240px; margin: 0 auto; padding: 5.5rem 1.5rem 3rem; }
 @media (max-width: 700px) { .page-container { padding: 5rem 1rem 2.5rem; } }
@@ -125,21 +228,6 @@
 .leaflet-tooltip { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important; box-shadow: var(--shadow) !important; }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; }
 </style>
-
-<style>
-  /* Align content under injected navigation */
-  header.site-header + main.page-container { margin-top: 0; padding-top: 12px; }
-</style>
-
-<style>
-  /* Leaflet safety overrides for theme resets */
-  .leaflet-container { background: #0b1220; }
-  .leaflet-container img { max-width: none !important; }
-  .leaflet-pane, .leaflet-tile-pane, .leaflet-overlay-pane, .leaflet-marker-pane, .leaflet-shadow-pane { z-index: 200; }
-  .leaflet-control { z-index: 500; }
-</style>
-
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 
 <body data-page="colorado-deep-dive.html">
@@ -147,8 +235,8 @@
 
   <div class="page-container">
     
-<div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
-<h1 >Colorado Affordable Housing Market Analysis</h1>
+<div class="pill" style="margin-bottom:1rem;">Colorado Affordable Housing Data</div>
+<h1 >Colorado Affordable Housing Data</h1>
 <p style="margin-bottom:2rem;">
             Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
         </p>
@@ -190,11 +278,23 @@
         <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
         <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
         <label><input type="checkbox" id="layerTransport"> Transportation</label>
+        <label><input type="checkbox" id="layerProp123" checked> Prop 123 Jurisdictions</label>
         <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
         <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
-        <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
+        <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span><span id="prop123Status" style="margin-left:12px; font-size:0.78rem; color:var(--faint);"></span>
       </div>
       <div id="coMap"></div></div>
+      <details style="margin-top:.75rem">
+        <summary style="cursor:pointer; font-weight:600">Prop 123 overlay: data & method</summary>
+        <div style="margin-top:.5rem; color: var(--text-muted); font-size: .95rem; line-height:1.5">
+          <p><strong>What the layer shows:</strong> Colorado municipalities and counties that have filed a Proposition 123 commitment/implementation filing.</p>
+          <p><strong>Source:</strong> Colorado Department of Local Affairs (DOLA) commitment filings page and its linked spreadsheet (when available). If the live endpoint is not configured, the site uses a small static fallback list.</p>
+          <p><strong>Geometry:</strong> U.S. Census TIGERweb Places + Counties boundary services (public). Jurisdiction names are normalized and matched to TIGER <code>NAME</code> fields.</p>
+          <p><strong>Tooltip fields:</strong> required commitment, status, filing date, and a source link when present in the filings spreadsheet.</p>
+          <p><em>Note:</em> Filing/commitment details are reported by jurisdictions and may change; the serverless endpoint should cache results daily/weekly.</p>
+        </div>
+      </details>
+
 
       <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
@@ -807,7 +907,59 @@
 </div>
 </div>
 </div>
-  </div>
+  
+    <section class="chart-card" id="amiGapModule" style="margin-top:1.5rem;">
+      <div class="chart-header">
+        <h2>Households vs. Affordable Units by %AMI (Colorado counties)</h2>
+        <p class="muted" id="amiGapMeta">Loading…</p>
+      </div>
+
+      <div class="controls" style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin: 0.75rem 0 1rem;">
+        <label for="amiGapCountySelect" class="muted" style="font-weight:600;">Geography</label>
+        <select id="amiGapCountySelect" style="min-width: 260px;"></select>
+        <span class="muted" style="margin-left:auto;">Data endpoint: <span id="amiGapEndpoint"></span></span>
+      </div>
+
+      <div id="amiGapError" class="note" style="display:none;"></div>
+
+      <div class="kpi-grid" style="display:grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
+        <div class="kpi-card"><div class="kpi-label">Selected</div><div class="kpi-value" id="amiGapGeoTitle">—</div></div>
+        <div class="kpi-card"><div class="kpi-label">HUD AMI (4-person)</div><div class="kpi-value" id="amiGapAmi4">—</div></div>
+        <div class="kpi-card"><div class="kpi-label">Households ≤100% AMI</div><div class="kpi-value" id="amiGapHouseholds100">—</div></div>
+        <div class="kpi-card"><div class="kpi-label">Priced-affordable units ≤100% AMI rent</div><div class="kpi-value" id="amiGapUnits100">—</div><div class="kpi-sub" style="margin-top:0.25rem;">Coverage: <span id="amiGapCoverage100">—</span></div></div>
+      </div>
+
+      <div style="height:320px; margin-bottom: 1rem;">
+        <canvas id="amiGapChart" aria-label="Gap chart" role="img"></canvas>
+      </div>
+
+      <div style="overflow:auto;">
+        <table class="data-table" style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th>%AMI (cumulative)</th>
+              <th>Affordable gross rent (monthly)</th>
+              <th>Households ≤%AMI</th>
+              <th>Units priced ≤%AMI rent</th>
+              <th>Gap (units − households)</th>
+              <th>Coverage</th>
+            </tr>
+          </thead>
+          <tbody id="amiGapTableBody"></tbody>
+        </table>
+      </div>
+
+      <details style="margin-top:1rem;">
+        <summary style="cursor:pointer; font-weight:700;">Methodology & data sources</summary>
+        <div id="amiGapMethodology" style="margin-top:0.75rem;"></div>
+        <p class="muted" style="margin-top:0.75rem;">
+          Important: ACS measures existing rent distributions, not availability, and does not capture concessions.
+          This module estimates “priced-affordable” units only.
+        </p>
+      </details>
+    </section>
+
+</div>
 
   <div id="site-footer"></div>
 
@@ -825,17 +977,7 @@
 (function () {
   'use strict';
 
-  
-
-// Ensure Leaflet recalculates size after navigation inject/layout shift (GitHub Pages + injected header)
-  function _fixLeafletSize(m){
-    try { m.invalidateSize(true); } catch(_) {}
-    setTimeout(()=>{ try { m.invalidateSize(true); } catch(_) {} }, 250);
-    setTimeout(()=>{ try { m.invalidateSize(true); } catch(_) {} }, 900);
-    window.addEventListener('resize', ()=>{ try { m.invalidateSize(); } catch(_) {} });
-  }
-
-function $id(id) { return document.getElementById(id); }
+  function $id(id) { return document.getElementById(id); }
 
   async function fetchJSON(url, opts) {
     const res = await fetch(url, opts);
@@ -873,45 +1015,13 @@ function $id(id) { return document.getElementById(id); }
     }
     return all;
   }
-  // CO_PLACES_URL removed: county boundaries now loaded from us-atlas TopoJSON
+
+  const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
   const HUD_LIHTC_LAYER  = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30';
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
 
-  
-
-// --- Colorado counties boundary (robust, CORS-friendly) ---
-  async function loadColoradoCounties(){
-    // Use us-atlas TopoJSON (public CDN) and filter state FIPS=08.
-    const countiesTopoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
-    const statesTopoUrl   = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-    const [countiesTopo, statesTopo] = await Promise.all([
-      fetchJSON(countiesTopoUrl),
-      fetchJSON(statesTopoUrl)
-    ]);
-    const topo = window.topojson;
-    if (!topo || !topo.feature) throw new Error("topojson-client not loaded");
-
-    const countiesObj = countiesTopo.objects && (countiesTopo.objects.counties || Object.values(countiesTopo.objects)[0]);
-    const statesObj   = statesTopo.objects && (statesTopo.objects.states   || Object.values(statesTopo.objects)[0]);
-    const counties = topo.feature(countiesTopo, countiesObj);
-    const states   = topo.feature(statesTopo,   statesObj);
-
-    // Colorado state boundary for fitBounds
-    const coState = {
-      type: "FeatureCollection",
-      features: (states.features || []).filter(f => String(f.id) === "8" || String(f.id) === "08")
-    };
-
-    // Colorado counties: 5-digit FIPS, starting with "08"
-    const coCounties = {
-      type: "FeatureCollection",
-      features: (counties.features || []).filter(f => String(f.id).padStart(5,"0").startsWith("08"))
-    };
-
-    return { coState, coCounties };
-  }
-function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
+  function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
   function styleCounty() { return { color: 'rgba(255,255,255,0.45)', weight: 1.2, fill: false }; }
   function stylePlace()  { return { color: 'rgba(140,200,255,0.35)', weight: 0.8, fill: false, dashArray: '3,5' }; }
   function styleQCT()    { return { color: 'rgba(80,220,160,0.9)',  weight: 1.5, fillColor: 'rgba(80,220,160,0.18)', fillOpacity: 1 }; }
@@ -1104,6 +1214,7 @@ function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   
     const CO_MAX_BOUNDS = L.latLngBounds([[36.27,-109.96],[41.72,-101.14]]);
 
     const map = L.map('coMap', {
+
       preferCanvas: true,
       zoomControl: true,
       minZoom: 6,
@@ -1112,9 +1223,10 @@ function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   
       maxBoundsViscosity: 1.0
     });
 
-    
-  _fixLeafletSize(map);
-map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
+    // Expose map for add-on modules (Prop 123, etc.)
+    window.CODeepDiveMap = { map };
+
+    map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
     map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
     map.createPane('transportPane'); map.getPane('transportPane').style.zIndex = 215;
 
@@ -1162,7 +1274,7 @@ map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
     async function loadPlaces() {
       try {
         setStatus(statusEl, 'Loading places…', 'info');
-        const gj = /* removed tigerweb call */ await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
+        const gj = await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
         if (!gj.features.length) throw new Error('empty');
         placesLayer = L.geoJSON(gj, {
           style: stylePlace,
@@ -1401,7 +1513,9 @@ map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
       });
     })();
   </script>
-</main>
-  <script src="js/navigation.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/navigation.js">
+  <script src="js/prop123-map.js"></script>
+  <script src="js/co-ami-gap.js"></script>
 </body>
 </html>
