@@ -9,9 +9,9 @@ window.APP_CONFIG = {
 
   // Optional: URL to your serverless endpoint that returns AMI gap JSON.
   // Example (Cloudflare Worker): "https://your-worker.yourdomain.workers.dev/co-ami-gap"
-  AMI_GAP_API_URL: "",
+  AMI_GAP_API_URL: "https://affordable-housing-api.pgg.workers.dev/co-ami-gap",
 
   // Optional: URL to your serverless endpoint that returns Prop 123 commitments JSON (for map + table).
   // Example: "https://your-worker.yourdomain.workers.dev/prop123"
-  PROP123_API_URL: ""
+  PROP123_API_URL: "https://affordable-housing-api.pgg.workers.dev/prop123"
 };
