@@ -386,6 +386,35 @@ details[open] > summary::after { transform: rotate(90deg); }
 .leaflet-popup-content strong, .leaflet-popup-content b { color: var(--text) !important; }
 .leaflet-bar { border: 1px solid var(--border) !important; border-radius: var(--radius-sm) !important; box-shadow: var(--shadow-sm) !important; }
 
+/* Leaflet tile sizing can break if a global `img { max-width: 100%; }` rule exists elsewhere.
+   Enforce Leaflet's expected behavior so basemaps always render and tooltips remain usable. */
+.leaflet-container img.leaflet-tile,
+.leaflet-container img.leaflet-marker-icon,
+.leaflet-container img.leaflet-marker-shadow {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Optional per-page override: remove the centered "shell" styling when a page needs full-bleed layout. */
+body.no-shell main {
+  max-width: none !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Reusable minimum border shell for pages that need a subtle frame even with wide layouts. */
+.content-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
 /* ================================================================
    19. SCROLLBAR
    ================================================================ */

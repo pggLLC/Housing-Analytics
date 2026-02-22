@@ -213,7 +213,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 <body data-page="colorado-deep-dive.html">
 
-  <main id="main-content" class="page-container">
+  <main id="main-content" class="page-container content-shell">
     
 <div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
 <h1 >Colorado Affordable Housing Market Analysis</h1>
@@ -260,6 +260,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <label><input type="checkbox" id="layerTransport"> Transportation</label>
         <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
         <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
+        <label style="gap:.5rem;">
+          Basemap
+          <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
+            <option value="auto" selected>Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
         <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
       </div>
       <div id="coMap"></div></div>
@@ -941,7 +949,16 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
 
   function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
-  function styleCounty() { return { color: 'rgba(255,255,255,0.45)', weight: 1.2, fill: false }; }
+  function styleCounty() {
+    // Keep county outlines readable even if basemap tiles are blocked.
+    return {
+      color: 'rgba(255,255,255,0.55)',
+      weight: 1.2,
+      fill: true,
+      fillColor: 'rgba(255,255,255,0.04)',
+      fillOpacity: 0.20
+    };
+  }
   function stylePlace()  { return { color: 'rgba(140,200,255,0.35)', weight: 0.8, fill: false, dashArray: '3,5' }; }
   function styleQCT()    { return { color: 'rgba(80,220,160,0.9)',  weight: 1.5, fillColor: 'rgba(80,220,160,0.18)', fillOpacity: 1 }; }
   function styleDDA()    { return { color: 'rgba(255,185,60,0.9)',  weight: 1.5, fillColor: 'rgba(255,185,60,0.15)', fillOpacity: 1 }; }
@@ -992,6 +1009,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     if (!el) return;
     const c = { ok:'var(--good)', warn:'var(--warn)', err:'var(--bad)', info:'var(--muted)' };
     el.textContent = msg; el.style.color = c[type]||'var(--muted)';
+    if (type === 'ok') el.dataset.ok = '1';
   }
 
   /* =====================================================================
@@ -1148,15 +1166,25 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
-    // Add basemap with fallback if the preferred tiles fail (some networks block dark_all)
-    let activeBase = lightBasemap.addTo(map);
+    const baseByKey = { light: lightBasemap, dark: darkBasemap };
+
+    // Default basemap: Auto (matches OS theme), with a manual override.
+    let desiredBaseKey = prefersDark ? 'dark' : 'light';
+    let activeBase = baseByKey[desiredBaseKey].addTo(map);
+
+    function markTilesLoaded(){ setStatus(statusEl, 'Basemap loaded ✓', 'ok'); }
+    // Leaflet fires `load` when all visible tiles are loaded.
+    activeBase.once('load', markTilesLoaded);
 
     function swapBasemap(next) {
       try { map.removeLayer(activeBase); } catch(e) {}
       activeBase = next.addTo(map);
+      // Reset OK flag so we can show "loaded" after swaps as well.
+      if (statusEl) delete statusEl.dataset.ok;
+      activeBase.once('load', () => setStatus(statusEl, 'Basemap loaded ✓', 'ok'));
     }
 
-    // If the first tiles fail to load, fall back to a different provider so overlays are still readable
+    // If the tiles fail to load, fall back to a different provider so overlays are still readable.
     activeBase.on('tileerror', () => {
       console.warn('Basemap tile error — falling back');
       // Prefer light CARTO first (usually least blocked), then OSM HOT
@@ -1165,6 +1193,29 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       if (activeBase === darkBasemap) swapBasemap(alt1);
       else swapBasemap(alt2);
     });
+
+    // Manual basemap selector (Auto/Light/Dark). Auto follows OS theme on load.
+    const baseSel = $id('basemapSelect');
+    if (baseSel) {
+      baseSel.value = 'auto';
+      baseSel.addEventListener('change', () => {
+        const v = baseSel.value;
+        const key = (v === 'auto') ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : v;
+        desiredBaseKey = key;
+        const next = baseByKey[key] || lightBasemap;
+        swapBasemap(next);
+        next.once('load', markTilesLoaded);
+      });
+    }
+
+    // If the basemap is blocked entirely, show a hint quickly.
+    // Overlays should still render, so the map remains useful.
+    setTimeout(() => {
+      // If we haven't marked OK yet, keep status informative (don't overwrite later success)
+      if (statusEl && !statusEl.dataset.ok) {
+        setStatus(statusEl, 'Basemap may be blocked — overlays should still load', 'warn');
+      }
+    }, 2500);
 const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
       {attribution:'&copy; OpenStreetMap contributors',opacity:0.25,pane:'transportPane',maxZoom:19});
 
