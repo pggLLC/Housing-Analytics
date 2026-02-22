@@ -455,6 +455,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
               style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
         <option value="STATE">Colorado (statewide)</option>
       </select>
+      <button id="amiGapExportBtn"
+              style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">
+        ⬇ CSV
+      </button>
     </div>
   </div>
 
@@ -1029,6 +1033,19 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       Colorado vs Peer States — Trend Analysis
+       Powered by js/trend-analysis.js
+       ══════════════════════════════════════════════════════════════ -->
+  <section id="trend-analysis-section" aria-label="Colorado vs Peer States Trend Analysis" style="margin:2rem 0;"></section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LIHTC Policy Scenario Simulator
+       Powered by js/policy-simulator.js
+       ══════════════════════════════════════════════════════════════ -->
+  <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
+
   </div>
 
   <div id="site-footer"></div>
@@ -1649,5 +1666,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     })();
   </script>
   <script src="js/co-ami-gap.js"></script>
+  <script defer src="js/trend-analysis.js"></script>
+  <script defer src="js/policy-simulator.js"></script>
 </body>
 </html>
