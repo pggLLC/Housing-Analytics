@@ -135,7 +135,7 @@
 </div>
 <!-- Include Scripts -->
 <script src="js/state-allocations-2026.js"></script>
-<script src="https://d3js.org/d3.v7.min.js"></script><script src="https://d3js.org/topojson.v3.min.js"></script><script>
+<script src="js/vendor/d3.v7.min.js"></script><script src="js/vendor/topojson.v3.min.js"></script><script>
 /* State Allocation Map – real state boundaries using us-atlas + topojson */
 document.addEventListener('DOMContentLoaded', () => {
   const fmtMoney = n => '$' + (Number(n)||0).toLocaleString();
@@ -219,7 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxPerCap = Math.max(...perCaps, 1);
     const color = d3.scaleSequential(d3.interpolateBlues).domain([0, maxPerCap]);
 
-    d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(us => {
+    // Load local topology first (no CDN required), fall back to CDN
+    const loadTopo = d3.json('data/states-10m.json').catch(() =>
+      d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+    );
+    loadTopo.then(us => {
       const features = topojson.feature(us, us.objects.states).features;
       const projection = d3.geoAlbersUsa().fitSize([width, height], {type:'FeatureCollection', features});
       const path = d3.geoPath(projection);

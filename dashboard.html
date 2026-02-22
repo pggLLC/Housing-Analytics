@@ -8,10 +8,10 @@
 <!-- Unified Theme -->
 
 <!-- D3.js for map -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://d3js.org/topojson.v3.min.js"></script>
+<script src="js/vendor/d3.v7.min.js"></script>
+<script src="js/vendor/topojson.v3.min.js"></script>
 <!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/vendor/chart.umd.min.js"></script>
 <style>
         .dashboard-container {
             max-width: 1400px;
@@ -446,7 +446,13 @@
         async function renderUSMap() {
             try {
                 console.log('Loading map data...');
-                const us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+                let us;
+                try {
+                  us = await d3.json('data/states-10m.json');
+                } catch(localErr) {
+                  console.warn('Local topology not found, trying CDN:', localErr.message);
+                  us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+                }
                 const svg = d3.select('#us-map');
                 svg.selectAll('*').remove();
                 
