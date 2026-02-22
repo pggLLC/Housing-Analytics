@@ -16,9 +16,8 @@
   
   
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""/>
+  <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css"/>
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
@@ -1040,8 +1039,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   
 </main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          crossorigin=""></script>
+<script src="js/vendor/leaflet.js"></script>
   <script>
 /**
  * co-lihtc-map.js  — Colorado Deep Dive Leaflet map
@@ -1050,6 +1048,15 @@ h3 { font-size: 1.05rem; font-weight: 700; }
  */
 (function () {
   'use strict';
+
+  // Fix Leaflet marker icon paths when using vendored assets
+  if (window.L && L.Icon && L.Icon.Default) {
+    L.Icon.Default.mergeOptions({
+      iconUrl:       'js/vendor/images/marker-icon.png',
+      iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
+      shadowUrl:     'js/vendor/images/marker-shadow.png'
+    });
+  }
 
   function $id(id) { return document.getElementById(id); }
 
