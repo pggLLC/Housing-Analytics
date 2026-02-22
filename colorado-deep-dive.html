@@ -16,12 +16,11 @@
   
   
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""/>
+  <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css"/>
 
   <!-- Chart.js for existing canvases -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
 
   
 
@@ -208,6 +207,19 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 /* Leaflet overrides */
 .leaflet-tooltip { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important; box-shadow: var(--shadow) !important; }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; }
+
+/* ── AMI Gap Module ── */
+#amiGapModule .kpi-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width: 900px) { #amiGapModule .kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px) { #amiGapModule .kpi-grid { grid-template-columns: 1fr; } }
+#amiGapModule .ami-gap-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+@media (max-width: 760px) { #amiGapModule .ami-gap-grid-2 { grid-template-columns:1fr; } }
+.ami-gap-cov-bar {
+  margin-top:.35rem; height:6px; border-radius:999px;
+  background: linear-gradient(90deg, var(--accent,#0ea5a0) var(--pct,0%), var(--border,rgba(13,31,53,.12)) var(--pct,0%));
+}
+#amiGapModule .data-table table th { white-space:nowrap; }
+#amiGapModule .data-table table td:nth-child(5) { font-weight:600; font-variant-numeric:tabular-nums; }
 </style>
 </head>
 
@@ -424,6 +436,140 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </table>
 </div>
 </div>
+<!-- ══════════════════════════════════════════════════════════════
+     Colorado AMI Households vs Available Units — Interactive
+     Powered by js/co-ami-gap.js + data/co_ami_gap_by_county.json
+     ══════════════════════════════════════════════════════════════ -->
+<section id="amiGapModule" aria-label="Colorado AMI Households vs Available Units" style="margin: 2rem 0;">
+
+  <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:1rem;">
+    <div>
+      <h2 style="margin:0 0 .2rem;">Colorado AMI Households vs Available Units</h2>
+      <p style="margin:0; color:var(--muted); font-size:.88rem;">
+        Affordability gap by AMI level — households at or below income threshold vs. priced-affordable rental units
+      </p>
+    </div>
+    <div style="display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;">
+      <label for="amiGapCountySelect" style="font-size:.83rem; font-weight:600; color:var(--muted);">County / Region:</label>
+      <select id="amiGapCountySelect"
+              style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
+        <option value="STATE">Colorado (statewide)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Error banner -->
+  <div id="amiGapError" role="alert"
+       style="display:none; padding:.75rem 1rem; margin-bottom:1rem; background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.35); border-radius:8px; color:var(--bad,#e05252); font-size:.87rem;"></div>
+
+  <!-- Metadata bar -->
+  <div id="amiGapMeta" style="font-size:.78rem; color:var(--faint); margin-bottom:1rem;"></div>
+
+  <!-- KPI Summary Cards -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:1.25rem;">
+    <div class="kpi-card">
+      <div id="amiGapGeoTitle" class="kpi-value" style="font-size:1rem;">Colorado (statewide)</div>
+      <div class="kpi-label">Selected Geography</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapAmi4" class="kpi-value">—</div>
+      <div class="kpi-label">4-Person AMI (100%)</div>
+      <div class="kpi-source">HUD FY2025 Income Limits</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapHouseholds100" class="kpi-value">—</div>
+      <div class="kpi-label">Households ≤ 100% AMI</div>
+      <div class="kpi-source">ACS B19001</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapUnits100" class="kpi-value">—</div>
+      <div class="kpi-label">Affordable Units ≤ 100% AMI</div>
+      <div class="kpi-source">ACS B25063</div>
+    </div>
+  </div>
+
+  <!-- Main comparison chart: households vs units -->
+  <div class="chart-card" style="margin-bottom:1.25rem;">
+    <div class="chart-header">
+      <h3 class="chart-title">Households vs. Priced-Affordable Units by AMI Level</h3>
+      <p class="chart-subtitle">Blue = households with income at or below threshold · Green = rental units with rent at or below affordable threshold</p>
+    </div>
+    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;">
+      <canvas id="amiGapComparisonChart" aria-label="Bar chart: households vs affordable units by AMI level"></canvas>
+    </div>
+  </div>
+
+  <!-- Gap chart + Coverage card side-by-side -->
+  <div class="ami-gap-grid-2" style="margin-bottom:1.25rem;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Affordability Gap</h3>
+        <p class="chart-subtitle">Units minus households at each AMI level · Red = deficit · Green = surplus</p>
+      </div>
+      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+        <canvas id="amiGapChart" aria-label="Bar chart: affordability gap by AMI level"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Coverage Ratio at 100% AMI</h3>
+        <p class="chart-subtitle">Affordable units ÷ households · <50% = critical · 50–80% = moderate gap</p>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:260px; gap:.5rem; padding:1rem;">
+        <div id="amiGapCoverage100" style="font-size:2.8rem; font-weight:800; line-height:1; letter-spacing:-.02em;">—</div>
+        <div style="font-size:.85rem; color:var(--muted); text-align:center;">rental units priced at or below 100% AMI affordable threshold per household at that income level</div>
+        <div style="width:100%; max-width:260px; margin-top:.5rem;">
+          <div style="height:8px; border-radius:999px; background:var(--border); overflow:hidden;">
+            <div id="amiGapCovBar" style="height:100%; border-radius:999px; background:var(--accent); transition:width .4s ease; width:0%"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:.72rem; color:var(--faint); margin-top:.3rem;">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data table -->
+  <div class="chart-card" style="margin-bottom:1.25rem;">
+    <div class="chart-header">
+      <h3 class="chart-title">AMI Gap Detail Table</h3>
+      <p class="chart-subtitle">All metrics by AMI band for the selected county/region</p>
+    </div>
+    <div class="data-table" style="overflow-x:auto; padding:0 .25rem .75rem;">
+      <table style="width:100%; min-width:560px;">
+        <thead>
+          <tr>
+            <th>AMI Band</th>
+            <th>Affordable Rent<br><span style="font-weight:400;opacity:.7;">(4-person, 30% of income)</span></th>
+            <th>Households</th>
+            <th>Affordable Units</th>
+            <th>Gap (Units − HH)</th>
+            <th>Coverage Ratio</th>
+          </tr>
+        </thead>
+        <tbody id="amiGapTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <details style="margin-bottom:.5rem;">
+    <summary style="cursor:pointer; font-size:.85rem; font-weight:600; color:var(--muted); padding:.5rem 0; user-select:none;">
+      📋 Methodology &amp; Data Sources
+    </summary>
+    <div id="amiGapMethodology"
+         style="margin-top:.6rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.83rem; line-height:1.7; color:var(--muted);">
+    </div>
+  </details>
+
+  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;">
+    Data endpoint: <code id="amiGapEndpoint" style="font-size:.75rem; background:var(--bg2); padding:1px 4px; border-radius:4px;"></code>
+  </div>
+
+</section>
+
 <h2>Multifamily Concessions Analysis</h2>
 <div style="background: rgba(192, 57, 43, 0.05); padding: 2rem; border-left: 4px solid var(--color-error); border-radius: 4px; margin: 2rem 0;">
 <h3 style="color: var(--color-error); margin-bottom: 1rem;">Critical Market Alert: Record Concessions</h3>
@@ -804,7 +950,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 <h2>Market Outlook &amp; Strategic Implications</h2>
-<div style="display: grid; gap: 2rem; margin: 3rem 0;">
+<div style="display: grid; gap: 2rem; margin: 1.25rem 0;">
 <div class="chart-card">
 <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For LIHTC Developers</h3>
 <div style="background: rgba(52, 152, 219, 0.05); padding: 1.5rem; border-left: 3px solid var(--color-info); border-radius: 4px; margin-bottom: 1.5rem;">
@@ -831,7 +977,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </ul>
 </div>
 </div>
-<div style="background: var(--color-primary-dark); color: white; padding: 2.5rem; border-radius: 8px; margin: 3rem 0;">
+<div style="background: var(--color-primary-dark); color: white; padding: 2.5rem; border-radius: 8px; margin: 1.25rem 0;">
 <h3 style="color: white; margin-bottom: 1rem;">Bottom Line: Colorado Market Snapshot</h3>
 <p style="line-height: 1.7; margin-bottom: 1rem; opacity: 0.95;">
                 Colorado's affordable housing market is in transition: <strong>historic concessions and high vacancy</strong> reflect severe 2024 oversupply, but <strong>sharply declining new construction</strong> sets stage for 2027 recovery. LIHTC developers benefit from strong per-capita allocations and extensive basis boost opportunities, though must model realistic Class B competition and concession pressure.
@@ -841,7 +987,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
             </p>
 </div>
 <!-- Sources -->
-<div style="margin-top: 4rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
+<div style="margin-top: 1.5rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
 <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
 <div style="margin-bottom: 2rem;">
 <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">DDA/QCT Data:</h4>
@@ -893,8 +1039,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   
 </main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          crossorigin=""></script>
+<script src="js/vendor/leaflet.js"></script>
   <script>
 /**
  * co-lihtc-map.js  — Colorado Deep Dive Leaflet map
@@ -903,6 +1048,15 @@ h3 { font-size: 1.05rem; font-weight: 700; }
  */
 (function () {
   'use strict';
+
+  // Fix Leaflet marker icon paths when using vendored assets
+  if (window.L && L.Icon && L.Icon.Default) {
+    L.Icon.Default.mergeOptions({
+      iconUrl:       'js/vendor/images/marker-icon.png',
+      iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
+      shadowUrl:     'js/vendor/images/marker-shadow.png'
+    });
+  }
 
   function $id(id) { return document.getElementById(id); }
 
@@ -1494,5 +1648,6 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       });
     })();
   </script>
+  <script src="js/co-ami-gap.js"></script>
 </body>
 </html>

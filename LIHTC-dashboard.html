@@ -6,8 +6,8 @@
 <title>LIHTC Dashboard</title>
 
 <!-- External libs (same approach as existing pages) -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://d3js.org/topojson.v3.min.js"></script>
+<script src="js/vendor/d3.v7.min.js"></script>
+<script src="js/vendor/topojson.v3.min.js"></script>
 
 <!-- Data by year (expects these files in /js/) -->
 <script src="js/state-allocations-2026.js"></script>
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="css/site-theme.css"/>
 <style>
 /* LIHTC Dashboard layout */
-main#main-content { max-width: none !important; width: 100%; padding: 5.5rem 1.25rem 3rem; }
+main#main-content { max-width: none !important; width: 100%; padding: 1.5rem 1.25rem 2rem; }
 
 .hero { margin-bottom: 1.25rem; }
 .hero h1 { margin: 0 0 0.5rem; }
@@ -730,11 +730,16 @@ main > :first-child { margin-top: 0 !important; }
     let rerender = () => {};
 
     async function init(){
-      // Load topo once
+      // Load topo once — local copy first (no CDN required), CDN as fallback
       try {
-        usTopo = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+        usTopo = await d3.json('data/states-10m.json');
       } catch(e) {
-        console.error('Failed to load US topojson', e);
+        console.warn('Local topology not found, trying CDN:', e.message);
+        try {
+          usTopo = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+        } catch(e2) {
+          console.error('Failed to load US topojson', e2);
+        }
       }
       ensureMap();
 
