@@ -1,36 +1,31 @@
-// Navigation functionality for the Housing Analytics application
+// navigation.js
+// Responsive navigation and menu functionality
 
-// Function to initialize and manage the navigation menu
-function initNavigation() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('navigation-menu');
+// Function to toggle the navigation menu
+function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    menu.classList.toggle('active');
+}
 
-    // Toggle menu visibility
-    menuToggle.addEventListener('click', () => {
-        menu.classList.toggle('visible');
+// Event listener for the menu button
+const menuButton = document.getElementById('menu-button');
+if (menuButton) {
+    menuButton.addEventListener('click', toggleMenu);
+}
+
+// Close the menu when a link is clicked
+const navLinks = document.querySelectorAll('#nav-menu a');
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.remove('active');
     });
-}
+});
 
-// Function to handle navigation link clicks
-function handleNavigation() {
-    const links = document.querySelectorAll('#navigation-menu a');
-    links.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const targetPage = link.getAttribute('href');
-            loadPage(targetPage); // Function to load the respective page
-        });
-    });
-}
-
-// Function to load the respective page content
-function loadPage(page) {
-    // Logic to load page content goes here
-    console.log('Loading page:', page);
-}
-
-// Initialize navigation when the document is ready
-document.addEventListener('DOMContentLoaded', () => {
-    initNavigation();
-    handleNavigation();
+// Adjust menu for responsive design
+window.addEventListener('resize', () => {
+    const menu = document.getElementById('nav-menu');
+    if (window.innerWidth > 768) {
+        menu.classList.remove('active');
+    }
 });
