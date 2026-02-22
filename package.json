@@ -1,0 +1,1 @@
+{\n  "scripts": {\n    "test:lighthouse": "node test/lighthouse.js",\n    "test:scripts": "node test/scripts.js",\n    "test:fallback": "node test/fallback.js",\n    "test:vendor": "node test/vendor.js",\n    "test:all": "npm run test:lighthouse && npm run test:scripts && npm run test:fallback && npm run test:vendor"\n  }\n}
