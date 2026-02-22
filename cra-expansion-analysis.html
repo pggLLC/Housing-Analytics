@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRA Expansion Impact Analysis - LIHTC Analytics Hub</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script defer="defer" src="js/navigation.js"></script>
+
+
+  <link rel="stylesheet" href="css/site-theme.css"/>
+</head>
+<body data-page="cra-expansion-analysis.html">
+<div id="site-header"></div>
+<div style="max-width: 1000px; margin: 0 auto; padding: 2.5rem 2rem 4rem;">
+<div style="display: inline-block; padding: 0.5rem 1rem; background: var(--color-info); color: white; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1.5rem;">
+            Policy Analysis
+        </div>
+<h1 style="font-size: 3rem; margin-bottom: 1rem;">CRA Expansion Impact on LIHTC Pricing</h1>
+<p style="font-size: 1.25rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 3rem;">
+            Predictive modeling of tax credit pricing scenarios if pending housing legislation expands Community Reinvestment Act credit to additional institutions.
+        </p>
+<div class="hero-stats" style="margin: 3rem 0;">
+<div class="stat-card">
+<div class="stat-value">40%</div>
+<div class="stat-label">Baseline Probability</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">35%</div>
+<div class="stat-label">Moderate Expansion</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">20%</div>
+<div class="stat-label">Aggressive Expansion</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">5%</div>
+<div class="stat-label">Transformative Reform</div>
+</div>
+</div>
+<h2>Four Scenarios</h2>
+<div class="chart-card" style="margin: 2rem 0;">
+<div class="chart-header">
+<h3 class="chart-title">Pricing Forecast by CRA Scenario</h3>
+<p class="chart-subtitle">9% credit pricing projections through Q4 2027</p>
+</div>
+<div style="height: 400px; position: relative;">
+<canvas id="scenarios-chart"></canvas>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; margin: 3rem 0;">
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title" style="color: var(--color-text);">Scenario 1: Baseline (No Change)</h3>
+<span style="background: rgba(108, 122, 137, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">40% Probability</span>
+</div>
+<div style="padding: 1rem 0;">
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Current CRA rules remain unchanged</strong></p>
+<p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
+                        Only depository institutions subject to CRA. Modest supply pressure from increased allocations offset by steady bank demand.
+                    </p>
+<div style="background: var(--color-background-alt); padding: 1rem; border-radius: 4px;">
+<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.84-$0.86</div>
+<div><strong>Change from current:</strong> <span style="color: var(--color-warning);">-1% to -3%</span></div>
+</div>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title" style="color: var(--color-info);">Scenario 2: Moderate Expansion</h3>
+<span style="background: rgba(52, 152, 219, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">35% Probability</span>
+</div>
+<div style="padding: 1rem 0;">
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Credit unions gain CRA-equivalent mandate</strong></p>
+<p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
+                        Major credit unions (&gt;$1B assets) required to meet CRA-like standards. Insurance companies receive enhanced incentives. 15-20% investor pool expansion.
+                    </p>
+<div style="background: rgba(52, 152, 219, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(52, 152, 219, 0.2);">
+<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.92-$0.95</div>
+<div><strong>Change from current:</strong> <span style="color: var(--color-success);">+6% to +9%</span></div>
+</div>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title" style="color: var(--color-success);">Scenario 3: Aggressive Expansion</h3>
+<span style="background: rgba(39, 174, 96, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">20% Probability</span>
+</div>
+<div style="padding: 1rem 0;">
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>All credit unions + non-bank lenders covered</strong></p>
+<p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
+                        Comprehensive expansion including all credit unions, insurance companies with mandates, and major FinTech lenders. 30-40% pool expansion.
+                    </p>
+<div style="background: rgba(39, 174, 96, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(39, 174, 96, 0.2);">
+<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.98-$1.02</div>
+<div><strong>Change from current:</strong> <span style="color: var(--color-success);">+13% to +17%</span></div>
+</div>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title" style="color: var(--color-accent);">Scenario 4: Transformative Reform</h3>
+<span style="background: rgba(212, 165, 116, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">5% Probability</span>
+</div>
+<div style="padding: 1rem 0;">
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Complete CRA restructuring with LIHTC priority</strong></p>
+<p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
+                        All financial institutions subject to CRA. LIHTC investments receive enhanced weight (double counting). Tax incentives layer on top. 50-70% pool expansion.
+                    </p>
+<div style="background: rgba(212, 165, 116, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(212, 165, 116, 0.3);">
+<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $1.05-$1.12</div>
+<div><strong>Change from current:</strong> <span style="color: var(--color-success);">+21% to +29%</span></div>
+</div>
+</div>
+</div>
+</div>
+<h2>Key Predictive Factors</h2>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Demand Drivers (Positive Impact)</h3>
+<table style="width: 100%;">
+<thead style="background: var(--color-background-alt);">
+<tr>
+<th style="padding: 1rem; text-align: left;">Factor</th>
+<th style="padding: 1rem; text-align: left;">Impact</th>
+<th style="padding: 1rem; text-align: left;">Magnitude</th>
+<th style="padding: 1rem; text-align: left;">Timeline</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid var(--color-border);">
+<td style="padding: 1rem;"><strong>Expanded Investor Base</strong><br/><span style="font-size: 0.875rem; color: var(--color-text-light);">Credit unions, insurance cos, non-banks</span></td>
+<td style="padding: 1rem; color: var(--color-success);">Very Positive</td>
+<td style="padding: 1rem;">+15% to +70%</td>
+<td style="padding: 1rem;">2-4 quarters</td>
+</tr>
+<tr style="border-top: 1px solid var(--color-border);">
+<td style="padding: 1rem;"><strong>CRA Exam Enhancement</strong><br/><span style="font-size: 0.875rem; color: var(--color-text-light);">LIHTC more valuable for ratings</span></td>
+<td style="padding: 1rem; color: var(--color-success);">Positive</td>
+<td style="padding: 1rem;">+5% to +15%</td>
+<td style="padding: 1rem;">1-2 quarters</td>
+</tr>
+<tr style="border-top: 1px solid var(--color-border);">
+<td style="padding: 1rem;"><strong>Competitive Bidding</strong><br/><span style="font-size: 0.875rem; color: var(--color-text-light);">More investors per deal</span></td>
+<td style="padding: 1rem; color: var(--color-success);">Positive</td>
+<td style="padding: 1rem;">+3% to +8%</td>
+<td style="padding: 1rem;">Immediate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Supply Pressures (Negative Impact)</h3>
+<table style="width: 100%;">
+<thead style="background: var(--color-background-alt);">
+<tr>
+<th style="padding: 1rem; text-align: left;">Factor</th>
+<th style="padding: 1rem; text-align: left;">Impact</th>
+<th style="padding: 1rem; text-align: left;">Magnitude</th>
+<th style="padding: 1rem; text-align: left;">Timeline</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid var(--color-border);">
+<td style="padding: 1rem;"><strong>Increased 9% Allocations</strong><br/><span style="font-size: 0.875rem; color: var(--color-text-light);">12% credit ceiling bump</span></td>
+<td style="padding: 1rem; color: var(--color-warning);">Negative</td>
+<td style="padding: 1rem;">-3% to -5%</td>
+<td style="padding: 1rem;">Ongoing</td>
+</tr>
+<tr style="border-top: 1px solid var(--color-border);">
+<td style="padding: 1rem;"><strong>Lower 4% Threshold</strong><br/><span style="font-size: 0.875rem; color: var(--color-text-light);">50% → 25% bond requirement</span></td>
+<td style="padding: 1rem; color: var(--color-text-light);">Neutral-Negative</td>
+<td style="padding: 1rem;">0% to -2%</td>
+<td style="padding: 1rem;">2-4 quarters</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>Project Impact Calculator</h2>
+<div class="chart-card" style="margin: 2rem 0;">
+<p style="margin-bottom: 1.5rem; line-height: 1.7;">Example: $3M credit allocation project</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Baseline Scenario</div>
+<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">$2.55M</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">At $0.85 pricing</div>
+</div>
+<div style="padding: 1.5rem; background: rgba(52, 152, 219, 0.05); border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.2);">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Moderate Expansion</div>
+<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-info); margin-bottom: 0.5rem;">$2.79M</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">+$240K equity</div>
+</div>
+<div style="padding: 1.5rem; background: rgba(39, 174, 96, 0.05); border-radius: 8px; border: 1px solid rgba(39, 174, 96, 0.2);">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Aggressive Expansion</div>
+<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.5rem;">$3.00M</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">+$450K equity</div>
+</div>
+<div style="padding: 1.5rem; background: rgba(212, 165, 116, 0.05); border-radius: 8px; border: 1px solid rgba(212, 165, 116, 0.3);">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Transformative Reform</div>
+<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem;">$3.26M</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">+$710K equity</div>
+</div>
+</div>
+</div>
+<h2>Pending Legislation</h2>
+<div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
+<div class="chart-card">
+<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+<h3 style="margin: 0; color: var(--color-primary);">Affordable Housing Credit Improvement Act (AHCIA)</h3>
+<span style="background: rgba(52, 152, 219, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; white-space: nowrap;">Medium (40%)</span>
+</div>
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Status:</strong> Introduced in both chambers</p>
+<p style="margin-bottom: 1rem; line-height: 1.7; color: var(--color-text-light);"><strong>CRA Provisions:</strong> Enhances CRA credit value for LIHTC investments; encourages credit union participation</p>
+<p style="margin: 0; line-height: 1.7; color: var(--color-text-light);"><strong>Impact if Passed:</strong> Aligns with Moderate Expansion scenario (~15-20% investor pool increase)</p>
+</div>
+<div class="chart-card">
+<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+<h3 style="margin: 0; color: var(--color-primary);">Community Reinvestment Act Modernization</h3>
+<span style="background: rgba(243, 156, 18, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; white-space: nowrap;">Medium-Low (25%)</span>
+</div>
+<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Status:</strong> Under regulatory review</p>
+<p style="margin-bottom: 1rem; line-height: 1.7; color: var(--color-text-light);"><strong>CRA Provisions:</strong> Expands institutions subject to CRA; includes credit unions, insurance companies, potentially FinTech</p>
+<p style="margin: 0; line-height: 1.7; color: var(--color-text-light);"><strong>Impact if Passed:</strong> Could trigger Aggressive Expansion scenario (30-40% pool increase)</p>
+</div>
+</div>
+<h2>Strategic Implications</h2>
+<div style="background: var(--color-background-alt); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For Developers:</h3>
+<ul style="line-height: 1.8;">
+<li><strong>Build contingencies:</strong> Structure financing to accommodate 85-95¢ pricing range</li>
+<li><strong>Monitor legislation:</strong> Track AHCIA and CRA modernization bills closely</li>
+<li><strong>Optimize timing:</strong> Consider delaying syndication if moderate/aggressive scenarios likely within 2-3 quarters</li>
+<li><strong>Diversify investors:</strong> Build relationships with credit unions and insurance companies now</li>
+<li><strong>Geographic strategy:</strong> Target CRA-eligible census tracts to maximize appeal to expanded investor base</li>
+</ul>
+</div>
+<div style="background: rgba(52, 152, 219, 0.05); padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid rgba(52, 152, 219, 0.2);">
+<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For Investors:</h3>
+<ul style="line-height: 1.8;">
+<li><strong>Competitive positioning:</strong> CRA expansion increases competition - lock in deals early if baseline likely</li>
+<li><strong>Portfolio allocation:</strong> Increase LIHTC allocation if CRA expansion probable</li>
+<li><strong>New entrant strategy:</strong> Credit unions/insurance cos should prepare infrastructure for LIHTC investment</li>
+<li><strong>Pricing discipline:</strong> Don't overpay based on speculative scenarios - use probability-weighted forecasts</li>
+</ul>
+</div>
+<div style="margin-top: 3rem; padding: 2rem; background: var(--color-primary-dark); color: white; border-radius: 8px;">
+<h3 style="color: white; margin-bottom: 1rem;">Probability-Weighted Forecast</h3>
+<p style="margin-bottom: 1.5rem; opacity: 0.9;">Based on 40% baseline, 35% moderate, 20% aggressive, 5% transformative probabilities:</p>
+<div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">$0.90 - $0.93</div>
+<div style="opacity: 0.9;">Expected 9% credit pricing range by Q4 2027</div>
+</div>
+</div>
+
+<script src="js/citations.js"></script>
+<script src="js/cra-expansion-forecast.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('scenarios-chart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Current', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027', 'Q3 2027', 'Q4 2027'],
+                        datasets: [
+                            {
+                                label: 'Baseline (No Change)',
+                                data: [0.87, 0.86, 0.86, 0.85, 0.85, 0.85, 0.84, 0.84, 0.84, 0.85, 0.85],
+                                borderColor: '#6c7a89',
+                                backgroundColor: 'rgba(108, 122, 137, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Moderate Expansion',
+                                data: [0.87, 0.87, 0.88, 0.89, 0.90, 0.91, 0.92, 0.93, 0.93, 0.94, 0.94],
+                                borderColor: '#3498db',
+                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Aggressive Expansion',
+                                data: [0.87, 0.88, 0.90, 0.92, 0.94, 0.96, 0.97, 0.99, 1.00, 1.01, 1.01],
+                                borderColor: '#27ae60',
+                                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Transformative Reform',
+                                data: [0.87, 0.89, 0.92, 0.95, 0.98, 1.01, 1.04, 1.06, 1.08, 1.10, 1.11],
+                                borderColor: '#d4a574',
+                                backgroundColor: 'rgba(212, 165, 116, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { usePointStyle: true, padding: 15 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 0.80,
+                                max: 1.15,
+                                ticks: { callback: v => '$' + v.toFixed(2) }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+<script src="js/contrast-guard.js"></script>
+</body>
+</html>
+<div style="margin-top: 4rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
+<h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Sources &amp; Methodology</h3>
+<div style="margin-bottom: 2rem;">
+<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Legislative Sources:</h4>
+<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
+<li><strong>Affordable Housing Credit Improvement Act (AHCIA)</strong> - H.R. 3238 / S. 1557, introduced 118th Congress</li>
+<li><strong>Community Reinvestment Act Modernization proposals</strong> - Federal Reserve, OCC, FDIC regulatory proposals</li>
+<li><strong>Congressional Budget Office (CBO)</strong> - Cost estimates and policy impact analysis</li>
+<li><strong>National Low Income Housing Coalition</strong> - Legislative tracking and advocacy positions</li>
+</ul>
+</div>
+<div style="margin-bottom: 2rem;">
+<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Market Data Sources:</h4>
+<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
+<li><strong>Novogradac</strong> - Current LIHTC pricing ($0.87 for 9% credits, June 2025) and historical trends</li>
+<li><strong>HUD LIHTC Database</strong> - Allocation volumes and project counts</li>
+<li><strong>Federal Financial Institutions Examination Council (FFIEC)</strong> - CRA examination data and performance metrics</li>
+<li><strong>National Credit Union Administration (NCUA)</strong> - Credit union industry data</li>
+<li><strong>National Association of Insurance Commissioners (NAIC)</strong> - Insurance company investment patterns</li>
+</ul>
+</div>
+<div style="margin-bottom: 2rem;">
+<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Forecasting Methodology:</h4>
+<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
+<strong>Scenario Construction:</strong> Four scenarios developed based on graduated levels of CRA expansion, from baseline (no change) through transformative reform. Each scenario models investor pool expansion, pricing impacts, and implementation timelines based on historical regulatory changes and policy precedents.
+                </p>
+<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
+<strong>Probability Weighting:</strong> Probabilities assigned based on: (1) Congressional sponsor support levels, (2) historical passage rates for housing legislation, (3) current political environment analysis, (4) stakeholder advocacy strength, and (5) regulatory agency positions. Baseline (40%) reflects status quo bias; moderate (35%) aligns with AHCIA support levels; aggressive (20%) and transformative (5%) reflect increasing political difficulty.
+                </p>
+<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
+<strong>Pricing Impact Modeling:</strong> Demand increases estimated from: current CRA-eligible institution count vs. potential expansion universe, historical pricing responses to demand shocks, supply elasticity of LIHTC allocations (relatively fixed), and equilibrium price theory. Supply pressures (increased 9% allocations, lower 4% threshold) factored as offsets.
+                </p>
+<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem;">
+<strong>Implementation Timeline:</strong> 2-4 quarter ramp-up based on: Federal Reserve historical CRA rule implementation (18-24 months), investor onboarding timelines for new asset classes (6-12 months), and state HFA process adaptations (3-6 months). Full market impact modeled at 12-18 months post-passage.
+                </p>
+</div>
+<div style="margin-bottom: 2rem;">
+<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Key Assumptions:</h4>
+<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
+<li>Credit union universe: ~5,000 institutions &gt;$100M assets eligible for CRA-equivalent mandate</li>
+<li>Insurance company participation: Major life insurers (~50 companies) with tax credit appetite</li>
+<li>Corporate tax rate stability: No major changes to corporate income tax affecting base demand</li>
+<li>Supply response: State allocations relatively fixed (minor adjustments only)</li>
+<li>Competition effect: More investors = higher pricing (standard market dynamics)</li>
+</ul>
+</div>
+<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px;">
+<p style="font-size: 0.875rem; line-height: 1.7; margin: 0;">
+<strong>Critical Disclaimer:</strong> These forecasts are analytical estimates based on policy analysis and economic modeling. Actual outcomes depend on: (1) specific legislative language and implementation rules, (2) macroeconomic conditions, (3) corporate tax policy changes, (4) state HFA responses, and (5) investor behavior changes. Pricing could vary significantly from projections. Legislative passage is uncertain - bill text may change materially in conference or final passage. This analysis is for informational purposes only and should not be the sole basis for investment or development decisions. Consult qualified professionals for project-specific guidance.
+                </p>
+</div>
+</div>

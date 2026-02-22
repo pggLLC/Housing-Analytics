@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Colorado Affordable Housing Data</title>
+<link rel="stylesheet" href="css/site-theme.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+<main class="page-shell">
+<h1>Colorado Affordable Housing Data</h1>
+<div id="coMap"></div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const map = L.map("coMap").setView([39.1, -105.5], 7);
+
+  const light = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { maxZoom: 19, attribution: "© OpenStreetMap" }
+  ).addTo(map);
+
+  const dark = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    { maxZoom: 19, attribution: "© CARTO" }
+  );
+
+  L.control.layers({"Light": light, "Dark": dark}).addTo(map);
+
+  L.marker([39.7392, -104.9903]).addTo(map)
+    .bindTooltip("Denver LIHTC Example")
+    .openTooltip();
+});
+</script>
+</body>
+</html>
