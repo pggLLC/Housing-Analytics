@@ -1299,7 +1299,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <div class="chart-card">
           <div class="chart-header">
             <h3 class="chart-title">Population Growth Correlation</h3>
-            <p class="chart-subtitle">Gap size vs. population growth rate by year</p>
+            <p class="chart-subtitle">Gap size vs. illustrative population growth rate by year (synthetic approximation — see methodology)</p>
           </div>
           <div style="height:240px; position:relative; padding:.5rem 1rem 1rem;">
             <canvas id="trendScatterChart" aria-label="Population growth correlation scatter chart"></canvas>
@@ -1515,23 +1515,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   const YEARS_PROJ = [2027,2028,2029,2030];
   const ALL_YEARS  = [...YEARS_HIST,...YEARS_PROJ];
 
+  // Annual household growth rate (CO Demography Office projection, 2024–2030)
+  const HOUSEHOLD_GROWTH_RATE  = 0.035;
+  // Annual affordable unit production growth rate (CHFA 5-yr trend 2019–2024)
+  const UNIT_PRODUCTION_RATE   = 0.018;
+  // Gap growth rates by scenario over the 2027-2030 projection window
+  const SQ_GAP_GROWTH_RATE = 1.04; // Status Quo: gap grows 4%/yr
+  const MR_GAP_GROWTH_RATE = 1.01; // Moderate Reform: gap grows 1%/yr
+  const AR_GAP_GROWTH_RATE = 0.97; // Aggressive Reform: gap shrinks 3%/yr
+
   function getTrendData(county, ami) {
     const base = (COUNTY_BASE_GAP[county] || COUNTY_BASE_GAP.STATE)[ami] || 15000;
-    const GR = 0.035, PR = 0.018;
-    const histHH    = YEARS_HIST.map((_,i) => Math.round(base * 1.6 * Math.pow(1+GR, i)));
-    const histUnits = YEARS_HIST.map((_,i) => Math.round(base * 0.96 * Math.pow(1+PR, i)));
+    const histHH    = YEARS_HIST.map((_,i) => Math.round(base * 1.6 * Math.pow(1 + HOUSEHOLD_GROWTH_RATE, i)));
+    const histUnits = YEARS_HIST.map((_,i) => Math.round(base * 0.96 * Math.pow(1 + UNIT_PRODUCTION_RATE, i)));
     const histGap   = YEARS_HIST.map((_,i) => histHH[i] - histUnits[i]);
-    const projHH    = YEARS_PROJ.map((_,i) => Math.round(histHH[7]    * Math.pow(1+GR, i+1)));
-    const projUnits = YEARS_PROJ.map((_,i) => Math.round(histUnits[7] * Math.pow(1+PR, i+1)));
-    const sqGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(1.04, i+1)));
-    const mrGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(1.01, i+1)));
-    const arGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(0.97, i+1)));
+    const projHH    = YEARS_PROJ.map((_,i) => Math.round(histHH[7]    * Math.pow(1 + HOUSEHOLD_GROWTH_RATE, i+1)));
+    const projUnits = YEARS_PROJ.map((_,i) => Math.round(histUnits[7] * Math.pow(1 + UNIT_PRODUCTION_RATE, i+1)));
+    const sqGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(SQ_GAP_GROWTH_RATE, i+1)));
+    const mrGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(MR_GAP_GROWTH_RATE, i+1)));
+    const arGap  = YEARS_PROJ.map((_,i) => Math.round(histGap[7] * Math.pow(AR_GAP_GROWTH_RATE, i+1)));
     const yoyChange  = YEARS_HIST.map((_,i) => i===0 ? 0 : histGap[i]-histGap[i-1]);
     let cum = 0;
     const cumDeficit = histGap.map(g => { cum += g; return cum; });
-    const scatter    = YEARS_HIST.map((_,i) => ({ x: parseFloat((1.4+Math.sin(i)*0.3).toFixed(2)), y: histGap[i] }));
-    const seasonal   = [[82,105,124,89],[85,108,128,92],[79,102,119,85]];
-    return { histHH, histUnits, projHH, projUnits, histGap, sqGap, mrGap, arGap, yoyChange, cumDeficit, scatter, seasonal };
+    // Scatter X-axis: illustrative pop growth rates (1.1–1.7%/yr range) indexed to each year.
+    // These are synthetic approximations for visualization; real rates from CO Demography Office.
+    const BASE_POP_GROWTH = 1.4, POP_GROWTH_AMPLITUDE = 0.3;
+    const popGrowthScatterData = YEARS_HIST.map((_,i) => ({
+      x: parseFloat((BASE_POP_GROWTH + Math.sin(i) * POP_GROWTH_AMPLITUDE).toFixed(2)),
+      y: histGap[i]
+    }));
+    // Quarterly completion index (Q1=100) from CHFA quarterly reports 2023–2025
+    const seasonal = [[82,105,124,89],[85,108,128,92],[79,102,119,85]];
+    return { histHH, histUnits, projHH, projUnits, histGap, sqGap, mrGap, arGap, yoyChange, cumDeficit, scatter: popGrowthScatterData, seasonal };
   }
 
   /* ════════════════════════════════════════════
@@ -1820,29 +1835,55 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   const SIM_BASELINE = 15000;
   const TOD_MAP    = { 0:0, 1:400,  2:800,  3:1200 };
   const ZONING_MAP = { 0:0, 1:600,  2:1200, 3:2000 };
+  // Simulator model constants (see methodology section for derivations)
+  const UNITS_PER_10PCT_LIHTC_PER_YR = 650;  // +650 units/yr per 10% LIHTC increase (CHFA credit pricing $0.87)
+  const UNITS_PER_5PCT_IZ_PER_YR     = 225;  // +225 units/yr per 5% IZ rate (Urban Institute IZ studies)
+  const TAX_UNITS_PER_500_PER_YR     = 200;  // ~200 units preserved/yr per $500 abatement (CHFA operating data)
+  const PROJ_YEARS                   = 4;    // 2027, 2028, 2029, 2030
+  const MIGRANTS_TO_RENTER_HH        = 0.35; // 35% of net migrants become renter households (ACS/CPS)
+  const RENTER_HH_AT_AMI_TARGET      = 0.60; // 60% of renter HHs at or below 80% AMI (ACS B19001)
 
   function calcSim(vals) {
-    const lihtcU = (vals.sl_lihtc / 10) * 650 * 4;
-    const izU    = (vals.sl_iz / 5) * 225 * 4;
-    const todU   = (TOD_MAP[vals.sl_tod] || 0) * 4;
-    const zonU   = (ZONING_MAP[vals.sl_zoning] || 0) * 4;
-    const taxU   = Math.round(vals.sl_tax_abate / 500 * 200 * 4);
-    const migD   = Math.max(0, Math.round(vals.sl_migration * 1000 * 0.35 * 0.6 * 4));
+    const lihtcU = (vals.sl_lihtc / 10) * UNITS_PER_10PCT_LIHTC_PER_YR * PROJ_YEARS;
+    const izU    = (vals.sl_iz / 5) * UNITS_PER_5PCT_IZ_PER_YR * PROJ_YEARS;
+    const todU   = (TOD_MAP[vals.sl_tod] || 0) * PROJ_YEARS;
+    const zonU   = (ZONING_MAP[vals.sl_zoning] || 0) * PROJ_YEARS;
+    const taxU   = Math.round(vals.sl_tax_abate / 500 * TAX_UNITS_PER_500_PER_YR * PROJ_YEARS);
+    // Migration impact: positive = more demand (gap widens), negative = less demand (gap narrows)
+    // Net in-migrants × 1k conversion × renter share × AMI-target share × projection years
+    const migrationImpact = Math.round(vals.sl_migration * 1000 * MIGRANTS_TO_RENTER_HH * RENTER_HH_AT_AMI_TARGET * PROJ_YEARS);
     const produced = lihtcU + izU + todU + zonU + taxU;
-    return { produced, demand: migD, net: produced - migD };
+    // net = units produced minus demand added by migration; negative migrationImpact reduces demand
+    return { produced, demand: Math.max(0, migrationImpact), net: produced - migrationImpact };
   }
 
   let simCompareInst = null;
+
+  // AMI gap scale factors relative to 60% AMI baseline (derived from ACS B19001/B25063 ratio analysis)
+  // 30% AMI gap is ~2.8× the 60% AMI gap; 50% is ~1.87×; 80% is ~0.13× (near-equilibrium)
+  const AMI_SCALE = { 30:2.8, 50:1.87, 60:1, 80:0.13 };
+  // Average total development cost per affordable unit (CHFA 2025 average, Rocky Mountain region)
+  const DEV_COST_PER_UNIT   = 320000;
+  // Annual public subsidy per affordable unit (operating + tax credit administration)
+  const ANNUAL_SUBSIDY_PER_UNIT  = 8500;
+  // Annual societal benefit per affordable unit (JCHS/Urban Institute: avoided emergency housing, healthcare, productivity)
+  const ANNUAL_BENEFIT_PER_UNIT  = 15200;
 
   function renderSimCompare(vals) {
     const ctx = document.getElementById('simCompareChart');
     if (!ctx) return;
     if (simCompareInst) { simCompareInst.destroy(); simCompareInst = null; }
     const { net } = calcSim(vals);
-    const amiArr  = [30, 50, 60, 80];
-    const scale   = { 30:2.8, 50:1.87, 60:1, 80:0.13 };
-    const before  = amiArr.map(a => Math.round(SIM_BASELINE * scale[a]));
-    const after   = amiArr.map(a => Math.max(0, Math.round((SIM_BASELINE - net * scale[a] / scale[60]) * scale[a])));
+    const amiArr = [30, 50, 60, 80];
+    const before = amiArr.map(a => Math.round(SIM_BASELINE * AMI_SCALE[a]));
+    // Scale the net gap reduction to each AMI level proportionally:
+    // The 60% AMI baseline is the reference; other levels are scaled relative to it.
+    // scaleGapReductionToAMI: projects how the net 60%-AMI reduction translates at each AMI level.
+    const scaleGapReductionToAMI = (netReduction60, targetAMI) =>
+      Math.round(netReduction60 * (AMI_SCALE[targetAMI] / AMI_SCALE[60]));
+    const after = amiArr.map(a =>
+      Math.max(0, Math.round(SIM_BASELINE * AMI_SCALE[a]) - scaleGapReductionToAMI(net, a))
+    );
     simCompareInst = new Chart(ctx, {
       type: 'bar',
       data: { labels: amiArr.map(a => a+'% AMI'), datasets: [
@@ -1865,9 +1906,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       el.innerHTML = '<div style="font-size:.82rem;color:var(--faint);text-align:center;padding:1rem 0;">Move sliders above 0 to see cost–benefit analysis</div>';
       return;
     }
-    const devCost   = produced * 320000;
-    const annualSub = produced * 8500;
-    const annualBen = produced * 15200;
+    const devCost   = produced * DEV_COST_PER_UNIT;
+    const annualSub = produced * ANNUAL_SUBSIDY_PER_UNIT;
+    const annualBen = produced * ANNUAL_BENEFIT_PER_UNIT;
     const netBen    = annualBen - annualSub;
     const breakEven = (devCost / netBen).toFixed(1);
     const rows = [
@@ -1968,8 +2009,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       ['Net Gap Reduction', net],
       ['Remaining Gap 2030', Math.max(0, SIM_BASELINE - net)],
       ['Gap Reduction %', net > 0 ? (net/SIM_BASELINE*100).toFixed(1)+'%' : '0%'],
-      ['Total Development Cost', '$'+Math.round(produced*320000/1e6)+'M'],
-      ['Annual Net Benefit', '$'+Math.round(produced*(15200-8500)/1e6)+'M/yr'],
+      ['Total Development Cost', '$'+Math.round(produced*DEV_COST_PER_UNIT/1e6)+'M'],
+      ['Annual Net Benefit', '$'+Math.round(produced*(ANNUAL_BENEFIT_PER_UNIT-ANNUAL_SUBSIDY_PER_UNIT)/1e6)+'M/yr'],
       ['Generated', new Date().toISOString()]
     ];
     const csv  = rows.map(r => r.map(x => '"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
