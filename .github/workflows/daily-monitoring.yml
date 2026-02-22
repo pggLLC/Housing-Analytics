@@ -1,0 +1,56 @@
+name: Daily Website Monitoring
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs every day at 9:00 AM UTC
+  workflow_dispatch:      # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Install monitoring dependencies
+        run: npm install nodemailer jsdom node-fetch
+
+      - name: Run website monitor
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          WEBSITE_URL: ${{ secrets.WEBSITE_URL }}
+          RECIPIENT_EMAIL: communityplanner@gmail.com
+        run: node test/website-monitor-enhanced.js
+
+      - name: Run Lighthouse audit
+        run: node test/lighthouse-audit.js
+        continue-on-error: true
+
+      - name: Run script verification
+        run: node test/verify-script-loads.js
+        continue-on-error: true
+
+      - name: Run fallback mechanism tests
+        run: node test/test-fallback-mechanisms.js
+        continue-on-error: true
+
+      - name: Run vendor console error checks
+        run: node test/test-vendor-console-errors.js
+        continue-on-error: true
+
+      - name: Upload monitoring reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: monitoring-reports
+          path: monitoring-reports/
+          retention-days: 30
