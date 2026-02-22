@@ -1,0 +1,19 @@
+
+.page-shell {
+  max-width: 1240px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+}
+
+#coMap {
+  height: 560px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.leaflet-container img.leaflet-tile {
+  max-width: none !important;
+}
