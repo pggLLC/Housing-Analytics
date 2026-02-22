@@ -18,7 +18,7 @@
     {
       id: 'current',
       label: 'Current Policy',
-      description: 'Colorado's baseline LIHTC program: standard 9% and 4% tax credits per current federal/state allocation rules.',
+      description: 'Colorado baseline LIHTC program: standard 9% and 4% tax credits per current federal/state allocation rules.',
       color: '#546e7a',
       unitsProduced: 2400,
       totalPublicCostM: 312,      // $ millions
@@ -44,7 +44,7 @@
     {
       id: 'perCapita',
       label: 'Increased Per-Capita Allocation',
-      description: 'Increase Colorado's per-capita LIHTC allocation from $2.75 to $4.00 (matching highest-performing state programs).',
+      description: 'Increase Colorado per-capita LIHTC allocation from $2.75 to $4.00 (matching highest-performing state programs).',
       color: '#43a047',
       unitsProduced: 3800,
       totalPublicCostM: 472,
