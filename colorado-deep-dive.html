@@ -109,7 +109,7 @@
 
 /* ── Map legend ── */
 .map-legend {
-  background: rgba(21,30,40,0.92) !important;
+  background: var(--surface) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow) !important;
@@ -213,7 +213,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 <body data-page="colorado-deep-dive.html">
 
-  <main class="page-container">
+  <main id="main-content" class="page-container">
     
 <div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
 <h1 >Colorado Affordable Housing Market Analysis</h1>
@@ -242,7 +242,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <div class="kpi-label">Avg Monthly Concession</div>
       <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
     </div>
-  </main>
+  
 </section>
 
 <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
@@ -882,7 +882,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   
   
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           crossorigin=""></script>
   <script>
 /**
@@ -1146,7 +1149,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     // Add basemap with fallback if the preferred tiles fail (some networks block dark_all)
-    let activeBase = (prefersDark ? darkBasemap : lightBasemap).addTo(map);
+    let activeBase = lightBasemap.addTo(map);
 
     function swapBasemap(next) {
       try { map.removeLayer(activeBase); } catch(e) {}
