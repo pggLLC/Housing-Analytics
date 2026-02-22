@@ -1,1 +1,56 @@
-// verify-script-loads.js\nconst axios = require('axios');\n\nconst scripts = [\n    'script1.js',  // replace with actual script paths\n    'script2.js',\n    'script3.js'\n];\n\nconst checkScriptLoad = async (script) => {\n    const startTime = Date.now();\n    try {\n        const response = await axios.get(script);\n        const endTime = Date.now();\n        const loadTime = endTime - startTime;\n\n        if (response.status === 200) {\n            console.log(`${script} loaded successfully in ${loadTime}ms`);\n        } else {\n            console.error(`Error loading ${script}: Status ${response.status}`);\n        }\n    } catch (error) {\n        console.error(`Error loading ${script}: ${error.code} - ${error.message}`);\n    }\n};\n\nconst verifyScripts = async () => {\n    for (const script of scripts) {\n        await checkScriptLoad(script);\n    }\n};\n\nverifyScripts();\n
+// test/verify-script-loads.js
+
+async function verifyScriptLoads() {
+    const scripts = [];
+    const loadResults = [];
+
+    // Fetch the colorado-deep-dive.html file
+    const response = await fetch('colorado-deep-dive.html');
+    const htmlText = await response.text();
+
+    // Create a DOM parser to extract script tags
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
+    const scriptTags = doc.querySelectorAll('script[src]');
+
+    for (const script of scriptTags) {
+        const scriptUrl = script.src;
+        const startTime = performance.now();
+
+        try {
+            const loadResponse = await fetch(scriptUrl);
+            const endTime = performance.now();
+            const loadTime = endTime - startTime;
+
+            if (loadResponse.ok) {
+                loadResults.push({
+                    url: scriptUrl,
+                    status: loadResponse.status,
+                    loadTime: loadTime.toFixed(2) + ' ms'
+                });
+            } else {
+                loadResults.push({
+                    url: scriptUrl,
+                    status: loadResponse.status,
+                    error: 'Failed to load'
+                });
+            }
+        } catch (error) {
+            loadResults.push({
+                url: scriptUrl,
+                error: 'Loading error'
+            });
+        }
+    }
+
+    return loadResults;
+}
+
+verifyScriptLoads().then(results => {
+    console.table(results);
+    results.forEach(result => {
+        if (result.error) {
+            alert(`Error loading ${result.url}: ${result.error}`);
+        }
+    });
+});
