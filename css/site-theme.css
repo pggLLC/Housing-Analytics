@@ -194,8 +194,19 @@ header.site-header, footer.site-footer, section, .section,
 .container-wide { max-width: 100%; padding: 0 var(--sp4); }
 .page-container { max-width: 1240px; margin: 0 auto; padding: var(--sp4) var(--sp4) var(--sp6); }
 
-/* navigation.js main override */
-main { max-width: 1240px; margin: 0 auto; padding: var(--sp4); }
+/* navigation.js main override (site content shell) */
+main { 
+  max-width: 1240px; 
+  margin: var(--sp3) auto; 
+  padding: var(--sp4); 
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 760px){
+  main{ margin: var(--sp2) auto; padding: var(--sp3); border-radius: var(--radius-lg); }
+}
 
 /* ================================================================
    6. NAVIGATION (injected by navigation.js)
