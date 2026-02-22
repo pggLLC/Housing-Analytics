@@ -141,13 +141,13 @@
         : "";
 
       /* Color-code entire row: surplus = subtle green tint, shortage = subtle red tint */
-      const rowBg = gap == null ? ""
+      const rowBgValue = gap == null ? ""
         : gap >= 0
-          ? `style="background:${cssVar("--good-dim", "rgba(5,150,105,.06)")}"`
-          : `style="background:${cssVar("--bad-dim",  "rgba(220,38,38,.06)")}"`;
+          ? `background:${cssVar("--good-dim", "rgba(5,150,105,.06)")}`
+          : `background:${cssVar("--bad-dim",  "rgba(220,38,38,.06)")}`;
 
       const tr = document.createElement("tr");
-      tr.setAttribute("style", rowBg ? rowBg.replace(/^style="|"$/g, "") : "");
+      if (rowBgValue) tr.style.cssText = rowBgValue;
       tr.innerHTML = `
         <td><strong>≤ ${b}% AMI</strong></td>
         <td>${rent != null ? "$" + fmt(rent) + "/mo" : "—"}</td>

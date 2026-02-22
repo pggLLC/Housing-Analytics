@@ -206,8 +206,7 @@
         maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
         plugins: {
-          legend: { labels: { color: textColor, font: { size: 11 }, padding: 10,
-            filter: (item) => item.text === "Colorado" || true } }
+          legend: { labels: { color: textColor, font: { size: 11 }, padding: 10 } }
         },
         scales: {
           x: { ticks: { color: mutedColor }, grid: { color: gridColor } },
@@ -258,7 +257,7 @@
     if (!root) return;
 
     let activeMetric = METRICS[0];
-    let activeRange  = 5;
+    let activeRange  = 1;
 
     /* Inject markup */
     root.innerHTML = `
