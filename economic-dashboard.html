@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="css/site-theme.css"/>
 </head>
-<body>
+<body class="no-shell" data-page="economic-dashboard.html">
 <!-- Navigation (mimics HousingMetrics style) -->
 <main class="container">
 
@@ -36,18 +36,22 @@
 <div class="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">
 <div class="card stat">
 <p class="num" id="statCpi">—</p>
+<p class="src small" id="deltaCpi" style="margin-top:-6px;">—</p>
 <p class="lbl">Inflation (CPI YoY)</p>
 <p class="src small"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
 <div class="card stat">
 <p class="num" id="statUnemp">—</p>
+<p class="src small" id="deltaUnemp" style="margin-top:-6px;">—</p>
 <p class="lbl">Unemployment rate</p>
 <p class="src small"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
 <div class="card stat">
 <p class="num" id="stat10y">—</p>
+<p class="src small" id="delta10y" style="margin-top:-6px;">—</p>
 <p class="lbl">10-Year Treasury</p>
 <p class="src small"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
 <div class="card stat">
 <p class="num" id="statStarts">—</p>
+<p class="src small" id="deltaStarts" style="margin-top:-6px;">—</p>
 <p class="lbl">Housing starts (SAAR)</p>
 <p class="src small"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
 </div>
@@ -174,9 +178,13 @@
     lastUpdated: document.getElementById("lastUpdated"),
     count: document.getElementById("count"),
     statCpi: document.getElementById("statCpi"),
+    deltaCpi: document.getElementById("deltaCpi"),
     statUnemp: document.getElementById("statUnemp"),
+    deltaUnemp: document.getElementById("deltaUnemp"),
     stat10y: document.getElementById("stat10y"),
+    delta10y: document.getElementById("delta10y"),
     statStarts: document.getElementById("statStarts"),
+    deltaStarts: document.getElementById("deltaStarts"),
     sec: {
       construction: document.getElementById("sec-construction"),
       housing: document.getElementById("sec-housing"),
@@ -365,18 +373,57 @@ function getKey(){ return CONFIG_KEY || ""; }
         const prev = cpi[Math.max(0, cpi.length-13)];
         const yoy = (last.value/prev.value - 1) * 100;
         els.statCpi.textContent = yoy.toFixed(1) + "%";
+
+        // Show how the YoY rate has changed versus one year ago (in percentage points)
+        if (els.deltaCpi) {
+          let pp = NaN;
+          if (cpi.length >= 25) {
+            const last1y = cpi[cpi.length-13];
+            const prev1y = cpi[cpi.length-25];
+            const yoyPrev = (last1y.value/prev1y.value - 1) * 100;
+            pp = yoy - yoyPrev;
+          }
+          els.deltaCpi.textContent = isFinite(pp)
+            ? `Δ vs 1y ago: ${pp>=0?'+':''}${pp.toFixed(1)} pp`
+            : "Δ vs 1y ago: —";
+        }
       }).catch(e => { console.warn("Headline CPI failed:", e); els.statCpi.textContent = "—"; }),
 
       fetchFRED("UNRATE", apiKey, 90).then(unemp => {
         els.statUnemp.textContent = fmtValue(unemp[unemp.length-1].value, "pct");
+
+        if (els.deltaUnemp) {
+          const { delta, label } = pickChange(unemp);
+          // UNRATE is a percent level; delta is percentage points
+          els.deltaUnemp.textContent = isFinite(delta)
+            ? `${label}: ${delta>=0?'+':''}${delta.toFixed(1)} pp`
+            : `${label}: —`;
+        }
       }).catch(e => { console.warn("Headline UNRATE failed:", e); els.statUnemp.textContent = "—"; }),
 
       fetchFRED("DGS10", apiKey, 90).then(teny => {
         els.stat10y.textContent = fmtValue(teny[teny.length-1].value, "pct");
+
+        if (els.delta10y) {
+          const { delta, label } = pickChange(teny);
+          // DGS10 is a percent level; delta is percentage points
+          els.delta10y.textContent = isFinite(delta)
+            ? `${label}: ${delta>=0?'+':''}${delta.toFixed(2)} pp`
+            : `${label}: —`;
+        }
       }).catch(e => { console.warn("Headline DGS10 failed:", e); els.stat10y.textContent = "—"; }),
 
       fetchFRED("HOUST", apiKey, 90).then(starts => {
         els.statStarts.textContent = (Math.round(starts[starts.length-1].value) * 1000).toLocaleString() + " /yr";
+
+        if (els.deltaStarts) {
+          const last = starts[starts.length-1].value;
+          const prev = starts[Math.max(0, starts.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaStarts.textContent = isFinite(pct)
+            ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%`
+            : "YoY: —";
+        }
       }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
     ]);
 
