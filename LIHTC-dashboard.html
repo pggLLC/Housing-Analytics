@@ -747,7 +747,8 @@ main > :first-child { margin-top: 0 !important; }
 
         // keep state select in sync with year (same state list but safe)
         if (!els.state.__populatedForYear || els.state.__populatedForYear !== els.year.value) {
-          populateStateSelect(dataset);
+          // Populate with region restriction so the dropdown stays consistent.
+          populateStateSelect(dataset, els.region.value);
           els.state.__populatedForYear = els.year.value;
           els.state.value = 'all';
         }
@@ -766,6 +767,9 @@ main > :first-child { margin-top: 0 !important; }
       });
       els.mode.addEventListener('change', () => rerender());
       els.region.addEventListener('change', () => {
+        // When a region is selected, restrict the state dropdown to states in that region.
+        const dataset = getDatasetForYear(els.year.value);
+        populateStateSelect(dataset, els.region.value);
         // reset state selection when region changes for clarity
         els.state.value = 'all';
         rerender();
@@ -800,30 +804,7 @@ main > :first-child { margin-top: 0 !important; }
   </script>
 <script src="js/contrast-guard.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const regionSelect = document.getElementById("regionSelect");
-  const stateSelect = document.getElementById("stateSelect");
-  if (!regionSelect || !stateSelect) return;
-
-  function restrictStatesByRegion() {
-    const selectedRegion = regionSelect.value;
-    Array.from(stateSelect.options).forEach(opt => {
-      const region = opt.getAttribute("data-region");
-      if (!opt.value) {
-        opt.hidden = false;
-      } else if (!selectedRegion || selectedRegion === "all") {
-        opt.hidden = false;
-      } else {
-        opt.hidden = region !== selectedRegion;
-      }
-    });
-    stateSelect.selectedIndex = 0;
-  }
-
-  regionSelect.addEventListener("change", restrictStatesByRegion);
-});
-</script>
+<!-- Region → State restriction is handled in the main init() logic above. -->
 
 </body>
 </html>

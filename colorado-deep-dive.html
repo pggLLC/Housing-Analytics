@@ -4,13 +4,14 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Colorado Affordable Housing Deep Dive - LIHTC Analytics Hub</title>
-  <link rel="stylesheet" href="unified-theme.css"/>
-  <link rel="stylesheet" href="site-theme.css"/>
-
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <!-- Standard site theme + navigation (matches index/about/insights) -->
+  <link rel="stylesheet" href="css/site-theme.css"/>
+  <script defer="defer" src="js/navigation.js"></script>
 
   
   
@@ -70,27 +71,8 @@
 
   
 <style>
-/* ── Core design tokens ── */
-:root {
-  --bg: #0d1117; --bg2: #111820; --card: #151e28;
-  --text: #e2e8f0; --muted: #7a91aa; --faint: #4a6070;
-  --border: rgba(255,255,255,0.09); --accent: #5fa8ff;
-  --good: #34d399; --warn: #fbbf24; --bad: #f87171;
-  --radius: 8px; --radius-lg: 14px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.45);
-  --sp3: 12px; --sp4: 18px; --small: 0.82rem;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 15px; line-height: 1.6;
-  min-height: 100vh;
-}
-a { color: var(--accent); }
-
-/* ── Page layout ── */
-.page-container { max-width: 1240px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+/* Colorado Deep Dive page-level layout overrides (core theme comes from css/site-theme.css) */
+.page-container { max-width: 1200px; margin: 0 auto; padding: 18px; }
 
 /* ── Cards ── */
 .chart-card {
@@ -173,8 +155,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 <style>
 /* Colorado Deep Dive — map section */
-.page-container { max-width: 1240px; margin: 0 auto; padding: 5.5rem 1.5rem 3rem; }
-@media (max-width: 700px) { .page-container { padding: 5rem 1rem 2.5rem; } }
+/* Note: page container padding is handled above to stay consistent across the site */
 
 #coMap {
   height: 78vh;
@@ -231,12 +212,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </head>
 
 <body data-page="colorado-deep-dive.html">
-  <div id="site-header"></div>
 
-  <div class="page-container">
+  <main class="page-container">
     
-<div class="pill" style="margin-bottom:1rem;">Colorado Affordable Housing Data</div>
-<h1 >Colorado Affordable Housing Data</h1>
+<div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
+<h1 >Colorado Affordable Housing Market Analysis</h1>
 <p style="margin-bottom:2rem;">
             Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
         </p>
@@ -262,7 +242,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <div class="kpi-label">Avg Monthly Concession</div>
       <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
     </div>
-  </div>
+  </main>
 </section>
 
 <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
@@ -278,23 +258,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
         <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
         <label><input type="checkbox" id="layerTransport"> Transportation</label>
-        <label><input type="checkbox" id="layerProp123" checked> Prop 123 Jurisdictions</label>
         <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
         <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
-        <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span><span id="prop123Status" style="margin-left:12px; font-size:0.78rem; color:var(--faint);"></span>
+        <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
       </div>
       <div id="coMap"></div></div>
-      <details style="margin-top:.75rem">
-        <summary style="cursor:pointer; font-weight:600">Prop 123 overlay: data & method</summary>
-        <div style="margin-top:.5rem; color: var(--text-muted); font-size: .95rem; line-height:1.5">
-          <p><strong>What the layer shows:</strong> Colorado municipalities and counties that have filed a Proposition 123 commitment/implementation filing.</p>
-          <p><strong>Source:</strong> Colorado Department of Local Affairs (DOLA) commitment filings page and its linked spreadsheet (when available). If the live endpoint is not configured, the site uses a small static fallback list.</p>
-          <p><strong>Geometry:</strong> U.S. Census TIGERweb Places + Counties boundary services (public). Jurisdiction names are normalized and matched to TIGER <code>NAME</code> fields.</p>
-          <p><strong>Tooltip fields:</strong> required commitment, status, filing date, and a source link when present in the filings spreadsheet.</p>
-          <p><em>Note:</em> Filing/commitment details are reported by jurisdictions and may change; the serverless endpoint should cache results daily/weekly.</p>
-        </div>
-      </details>
-
 
       <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
@@ -907,59 +875,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 </div>
-  
-    <section class="chart-card" id="amiGapModule" style="margin-top:1.5rem;">
-      <div class="chart-header">
-        <h2>Households vs. Affordable Units by %AMI (Colorado counties)</h2>
-        <p class="muted" id="amiGapMeta">Loading…</p>
-      </div>
-
-      <div class="controls" style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin: 0.75rem 0 1rem;">
-        <label for="amiGapCountySelect" class="muted" style="font-weight:600;">Geography</label>
-        <select id="amiGapCountySelect" style="min-width: 260px;"></select>
-        <span class="muted" style="margin-left:auto;">Data endpoint: <span id="amiGapEndpoint"></span></span>
-      </div>
-
-      <div id="amiGapError" class="note" style="display:none;"></div>
-
-      <div class="kpi-grid" style="display:grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
-        <div class="kpi-card"><div class="kpi-label">Selected</div><div class="kpi-value" id="amiGapGeoTitle">—</div></div>
-        <div class="kpi-card"><div class="kpi-label">HUD AMI (4-person)</div><div class="kpi-value" id="amiGapAmi4">—</div></div>
-        <div class="kpi-card"><div class="kpi-label">Households ≤100% AMI</div><div class="kpi-value" id="amiGapHouseholds100">—</div></div>
-        <div class="kpi-card"><div class="kpi-label">Priced-affordable units ≤100% AMI rent</div><div class="kpi-value" id="amiGapUnits100">—</div><div class="kpi-sub" style="margin-top:0.25rem;">Coverage: <span id="amiGapCoverage100">—</span></div></div>
-      </div>
-
-      <div style="height:320px; margin-bottom: 1rem;">
-        <canvas id="amiGapChart" aria-label="Gap chart" role="img"></canvas>
-      </div>
-
-      <div style="overflow:auto;">
-        <table class="data-table" style="width:100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th>%AMI (cumulative)</th>
-              <th>Affordable gross rent (monthly)</th>
-              <th>Households ≤%AMI</th>
-              <th>Units priced ≤%AMI rent</th>
-              <th>Gap (units − households)</th>
-              <th>Coverage</th>
-            </tr>
-          </thead>
-          <tbody id="amiGapTableBody"></tbody>
-        </table>
-      </div>
-
-      <details style="margin-top:1rem;">
-        <summary style="cursor:pointer; font-weight:700;">Methodology & data sources</summary>
-        <div id="amiGapMethodology" style="margin-top:0.75rem;"></div>
-        <p class="muted" style="margin-top:0.75rem;">
-          Important: ACS measures existing rent distributions, not availability, and does not capture concessions.
-          This module estimates “priced-affordable” units only.
-        </p>
-      </details>
-    </section>
-
-</div>
+  </div>
 
   <div id="site-footer"></div>
 
@@ -1214,7 +1130,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     const CO_MAX_BOUNDS = L.latLngBounds([[36.27,-109.96],[41.72,-101.14]]);
 
     const map = L.map('coMap', {
-
       preferCanvas: true,
       zoomControl: true,
       minZoom: 6,
@@ -1222,9 +1137,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       maxBounds: CO_MAX_BOUNDS,
       maxBoundsViscosity: 1.0
     });
-
-    // Expose map for add-on modules (Prop 123, etc.)
-    window.CODeepDiveMap = { map };
 
     map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
     map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
@@ -1513,9 +1425,5 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       });
     })();
   </script>
-  <script src="js/config.js"></script>
-  <script src="js/navigation.js">
-  <script src="js/prop123-map.js"></script>
-  <script src="js/co-ami-gap.js"></script>
 </body>
 </html>
