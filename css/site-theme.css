@@ -482,3 +482,21 @@ body.no-shell main {
   opacity: 0.7;
 }
 .census-construction-card .census-src a:hover { opacity: 1; text-decoration: underline; }
+
+/* ================================================================
+   20. VERTICAL SPACING — minimal logical gaps
+   ================================================================ */
+/* Tighten heading top-margin when preceded by other content */
+main h2 { margin-top: var(--sp4); }
+main h2:first-child, main > *:first-child > h2:first-child { margin-top: 0; }
+main h3 { margin-top: var(--sp3); }
+main h3:first-child { margin-top: 0; }
+
+/* Hero-stat grids and KPI rows: consistent moderate gap */
+.hero-stats { margin: var(--sp4) 0 !important; }
+
+/* Section-level divs that use margin: 2rem 0 pattern — normalize */
+.section-block { margin: var(--sp4) 0; }
+
+/* Reduce default paragraph-to-paragraph gap inside cards */
+.card p + p, .panel p + p { margin-top: var(--sp2); }
