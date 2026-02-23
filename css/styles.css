@@ -76,7 +76,7 @@ a:hover { opacity: 0.82; }
 .data-table, table { width: 100%; border-collapse: collapse; background: transparent; }
 .data-table th, table th {
   color: var(--text, #0d1f35); font-weight: 700;
-  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: var(--small); text-transform: uppercase; letter-spacing: 0.04em;
   border-bottom: 2px solid var(--border-strong, rgba(0,0,0,.15));
   padding: 0.7rem 0.9rem; background: var(--bg2, #e4ecf4);
 }
