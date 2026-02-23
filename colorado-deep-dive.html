@@ -348,6 +348,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
         <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
         <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
+        <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color:var(--faint);"></span></label>
         <label style="gap:.5rem;">
           Theme:
           <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
@@ -1138,6 +1139,42 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
   <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
 
+  <section id="prop123Section" aria-label="Proposition 123 — Local Government Commitments" style="margin:2.5rem 0;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Proposition 123 — Local Government Commitments</h3>
+        <p class="chart-subtitle">
+          Jurisdictions that have filed a Local Government Affordable Housing Commitment. Use the “Prop 123 jurisdictions” layer on the map to visualize coverage.
+        </p>
+      </div>
+      <div style="padding: 0 1.25rem 1.25rem;">
+        <p style="margin:0 0 .5rem;color:var(--muted);font-size:.92rem;">
+          Data source: Colorado Department of Local Affairs (DOLA) / Division of Housing. Learn more:
+          <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">cdola.colorado.gov/prop123</a>
+        </p>
+        <div id="prop123Summary" style="font-size:.9rem;color:var(--text);margin:.25rem 0 1rem;"></div>
+        <div class="data-table">
+          <table aria-label="Prop 123 jurisdictions list">
+            <thead>
+              <tr>
+                <th>Jurisdiction</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Commitment Date</th>
+              </tr>
+            </thead>
+            <tbody id="prop123TableBody">
+              <tr><td colspan="4" style="color:var(--muted);">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-sources-small" style="margin-top:.75rem;">
+          Local file fallback: <code>data/prop123_jurisdictions.json</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1180,111 +1217,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <!-- ═══════════════════════════════════════════════════════════════
        AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
        ═══════════════════════════════════════════════════════════════ -->
-  <section id="amiGapModule" aria-label="Colorado AMI Gap Analysis" style="margin:2.5rem 0;">
-    <h2>AMI Gap Analysis — Households vs. Affordable Units</h2>
-    <p style="color:var(--muted);margin-bottom:1rem;font-size:.9rem;">
-      Compares eligible renter households to priced-affordable units by AMI band.
-      <span id="amiGapMeta" aria-live="polite"></span>
-    </p>
-
-    <div class="chart-card" style="padding:1rem 1.25rem .75rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
-      <label for="amiGapCountySelect" style="font-size:.875rem;font-weight:600;">Geography:</label>
-      <select id="amiGapCountySelect" aria-label="Select county or statewide" style="font-size:.875rem;padding:.3rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);">
-        <option value="STATE">Colorado (statewide)</option>
-      </select>
-      <button id="amiGapExportCsv" type="button"
-              aria-label="Export AMI gap data as CSV"
-              style="margin-left:auto;font-size:.8rem;padding:.35rem .8rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2,var(--card));color:var(--text);cursor:pointer;">
-        ⬇ Export CSV
-      </button>
-    </div>
-
-    <div role="alert" id="amiGapError" style="display:none;color:var(--color-error,#e74c3c);padding:.75rem 1rem;border:1px solid var(--color-error,#e74c3c);border-radius:8px;margin-bottom:1rem;"></div>
-
-    <h3 id="amiGapGeoTitle" style="font-size:1.05rem;font-weight:700;margin:.5rem 0 .75rem;">Colorado (statewide)</h3>
-    <p style="font-size:.78rem;color:var(--muted);">Endpoint: <code id="amiGapEndpoint"></code></p>
-
-    <!-- Summary KPI cards -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-bottom:1.25rem;">
-      <div class="chart-card" style="padding:.85rem 1rem;">
-        <div style="font-size:.8rem;color:var(--muted);">4-Person AMI</div>
-        <div id="amiGapAmi4" style="font-size:1.35rem;font-weight:700;">—</div>
-      </div>
-      <div class="chart-card" style="padding:.85rem 1rem;">
-        <div style="font-size:.8rem;color:var(--muted);">Households ≤ 100% AMI</div>
-        <div id="amiGapHouseholds100" style="font-size:1.35rem;font-weight:700;">—</div>
-      </div>
-      <div class="chart-card" style="padding:.85rem 1rem;">
-        <div style="font-size:.8rem;color:var(--muted);">Affordable Units ≤ 100% AMI</div>
-        <div id="amiGapUnits100" style="font-size:1.35rem;font-weight:700;">—</div>
-      </div>
-      <div class="chart-card" style="padding:.85rem 1rem;">
-        <div style="font-size:.8rem;color:var(--muted);">Coverage Rate</div>
-        <div id="amiGapCoverage100" style="font-size:1.35rem;font-weight:700;">—</div>
-      </div>
-    </div>
-
-    <!-- Chart -->
-    <div class="chart-card" style="margin-bottom:1.25rem;">
-      <div class="chart-header">
-        <h3 class="chart-title">Households vs. Affordable Units by AMI Band</h3>
-        <p class="chart-subtitle">Blue line = eligible households · Green line = affordable units · Bars = gap</p>
-      </div>
-      <div style="height:320px;position:relative;padding:.5rem;">
-        <canvas id="amiGapChart" aria-label="AMI gap bar chart"></canvas>
-      </div>
-    </div>
-
-    <!-- Detail table -->
-    <div class="chart-card" style="overflow-x:auto;margin-bottom:1.25rem;">
-      <div class="chart-header">
-        <h3 class="chart-title">AMI Gap Detail Table</h3>
-      </div>
-      <div class="data-table" style="padding:.5rem 1rem 1rem;">
-        <table aria-label="AMI gap data by band" style="width:100%;border-collapse:collapse;font-size:.875rem;">
-          <thead>
-            <tr>
-              <th scope="col">AMI Band</th>
-              <th scope="col" title="Maximum gross rent considered affordable at 30% of income">Affordable Rent</th>
-              <th scope="col" title="Renter households with income at or below the AMI band">Households</th>
-              <th scope="col" title="Renter-occupied units with rent at or below the threshold">Affordable Units</th>
-              <th scope="col" title="Affordable units minus eligible households">Gap</th>
-              <th scope="col" title="Ratio of affordable units to eligible households">Coverage</th>
-            </tr>
-          </thead>
-          <tbody id="amiGapTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Methodology -->
-    <details class="chart-card" style="margin-bottom:1.25rem;">
-      <summary style="padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.9rem;">Methodology &amp; Data Notes</summary>
-      <div id="amiGapMethodology" style="padding:.75rem 1rem 1rem;font-size:.875rem;line-height:1.7;color:var(--muted);"></div>
-    </details>
-
-    <style>
-      .ami-shortage { color: var(--color-error, #e74c3c); font-weight: 600; }
-      .ami-surplus  { color: var(--color-success, #27ae60); font-weight: 600; }
-    </style>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       TREND ANALYSIS MODULE  (trend-analysis.js)
-       ═══════════════════════════════════════════════════════════════ -->
-  <div id="trend-analysis-section" style="margin:2.5rem 0;" aria-label="Colorado Housing Trend Analysis"></div>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       POLICY SIMULATOR MODULE  (policy-simulator.js)
-       ═══════════════════════════════════════════════════════════════ -->
-  <div id="policy-simulator-section" style="margin:2.5rem 0;" aria-label="LIHTC Policy Simulator"></div>
-
-  <div id="site-footer"></div>
-
   
-  
-
-  
+  <!-- Legacy duplicate modules removed: content is provided within tabs above. -->
 </main>
 
 <script src="js/vendor/leaflet.js"></script>
@@ -1949,6 +1883,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
   </script>
   <script src="js/map-overlay.js"></script>
   <script src="js/ui-interactions.js"></script>
-  <script src="js/colorado-deep-dive.js"></script>
+  <script src="js/prop123-map.js"></script>
+<script src="js/colorado-deep-dive.js"></script>
 </body>
 </html>
