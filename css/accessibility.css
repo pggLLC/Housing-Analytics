@@ -244,7 +244,7 @@ label.required::after {
   content: " *";
   color: var(--bad);
   font-weight: 700;
-  aria-hidden: true;
+  /* Note: add aria-hidden="true" in HTML to hide the asterisk from screen readers */
 }
 
 /* ----------------------------------------------------------------
