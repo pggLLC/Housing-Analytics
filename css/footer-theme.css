@@ -1,0 +1,70 @@
+/* Footer Theme Fix (additive, low-risk)
+   - Defines footer-specific variables for light/dark so contrast stays correct
+   - Works with either:
+     1) `.dark` class on html/body, OR
+     2) `data-theme="dark"` attribute on html/body
+*/
+
+/* Default (LIGHT) theme variables */
+:root {
+  --footer-bg: #f3f4f6;          /* slightly darker than pure white */
+  --footer-text: #111827;        /* near-black */
+  --footer-muted: #374151;       /* readable muted */
+  --footer-link: #0b3b8a;        /* accessible link color */
+  --footer-link-hover: #082f6b;  /* hover */
+  --footer-border: rgba(17,24,39,0.12);
+}
+
+/* DARK theme variables — support `.dark` toggles */
+:root.dark, html.dark, body.dark,
+:root [data-theme="dark"], html[data-theme="dark"], body[data-theme="dark"] {
+  --footer-bg: rgba(255,255,255,0.04); /* subtle */
+  --footer-text: rgba(255,255,255,0.92);
+  --footer-muted: rgba(255,255,255,0.72);
+  --footer-link: rgba(255,255,255,0.92);
+  --footer-link-hover: rgba(255,255,255,1);
+  --footer-border: rgba(255,255,255,0.14);
+}
+
+/* Apply to common footer elements/classes */
+footer, .site-footer, .footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 1px solid var(--footer-border);
+}
+
+footer a, .site-footer a, .footer a {
+  color: var(--footer-link);
+  text-decoration-color: color-mix(in srgb, var(--footer-link) 55%, transparent);
+}
+
+footer a:hover, .site-footer a:hover, .footer a:hover,
+footer a:focus-visible, .site-footer a:focus-visible, .footer a:focus-visible {
+  color: var(--footer-link-hover);
+  text-decoration-color: var(--footer-link-hover);
+}
+
+footer .muted, footer .text-muted, footer .small, footer small,
+.site-footer .muted, .site-footer .text-muted, .site-footer .small, .site-footer small,
+.footer .muted, .footer .text-muted, .footer .small, .footer small {
+  color: var(--footer-muted);
+}
+
+/* Tables inside footers (rare, but prevents "washed out" look) */
+footer table, .site-footer table, .footer table {
+  color: var(--footer-text);
+}
+
+/* Make sure icons inherit readable color */
+footer svg, .site-footer svg, .footer svg {
+  fill: currentColor;
+  color: inherit;
+}
+
+/* If your footer uses transparent backgrounds in light theme and feels "too light",
+   this slightly increases separation from the page body. Remove if undesired. */
+@media (prefers-reduced-transparency: no-preference) {
+  footer, .site-footer, .footer {
+    backdrop-filter: saturate(120%);
+  }
+}
