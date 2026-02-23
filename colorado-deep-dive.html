@@ -1092,6 +1092,43 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       CAR MARKET DATA SECTION  (housing-data-integration.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="carMarketSection" aria-label="CAR Market Data" style="margin:2.5rem 0;">
+    <h2>Colorado Market Conditions <small style="font-size:.7em;font-weight:400;color:var(--muted);">— CAR</small></h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">
+      Statewide metrics from the Colorado Association of REALTORS monthly market report.
+      <span id="carFreshness" style="font-size:.78rem;color:var(--faint);"></span>
+    </p>
+    <div id="carMarketLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading CAR market data…</div>
+    <div id="carMarketError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
+    <div id="carMarketContent" style="display:none;">
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+        <div class="kpi-card">
+          <div id="carMedianPrice" class="kpi-value">—</div>
+          <div class="kpi-label">Median Sale Price</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carInventory" class="kpi-value">—</div>
+          <div class="kpi-label">Active Listings</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carDaysOnMarket" class="kpi-value">—</div>
+          <div class="kpi-label">Median Days on Market</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carPricePerSqFt" class="kpi-value">—</div>
+          <div class="kpi-label">Price per Sq Ft</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
        ═══════════════════════════════════════════════════════════════ -->
   <section id="amiGapModule" aria-label="Colorado AMI Gap Analysis" style="margin:2.5rem 0;">
@@ -1811,6 +1848,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     })();
   </script>
   <!-- Deep Dive analysis modules -->
+  <script src="js/housing-data-integration.js"></script>
   <script src="js/co-ami-gap.js"></script>
   <script src="js/trend-analysis.js"></script>
   <script src="js/policy-simulator.js"></script>
@@ -1818,6 +1856,39 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     document.addEventListener("DOMContentLoaded", function() {
       if (window.TrendAnalysis) TrendAnalysis.init();
       if (window.PolicySimulator) PolicySimulator.init();
+      // Load CAR market data
+      if (window.HousingDataIntegration) {
+        window.HousingDataIntegration.loadCARData().then(function(car) {
+          var section = document.getElementById("carMarketSection");
+          if (!section) return;
+          var loading = document.getElementById("carMarketLoading");
+          var content = document.getElementById("carMarketContent");
+          var error   = document.getElementById("carMarketError");
+          if (!car) {
+            if (loading) loading.style.display = "none";
+            if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+            return;
+          }
+          if (loading) loading.style.display = "none";
+          if (content) {
+            var sw = car.statewide || {};
+            var fmt = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
+            var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
+            document.getElementById("carMedianPrice")  && (document.getElementById("carMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+            document.getElementById("carInventory")    && (document.getElementById("carInventory").textContent    = fmt(sw.active_listings));
+            document.getElementById("carDaysOnMarket") && (document.getElementById("carDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
+            document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+            var freshnessEl = document.getElementById("carFreshness");
+            if (freshnessEl && car.month) { freshnessEl.textContent = "Report month: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+            content.style.display = "block";
+          }
+        }).catch(function() {
+          var loading = document.getElementById("carMarketLoading");
+          var error   = document.getElementById("carMarketError");
+          if (loading) loading.style.display = "none";
+          if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
+        });
+      }
     });
   </script>
 </body>

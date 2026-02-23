@@ -12,13 +12,10 @@
  */
 (function () {
   const DEFAULT_BANDS = [30, 40, 50, 60, 70, 80, 100];
-  const COLOR_SURPLUS  = "rgba(34,163,111,0.65)";
-  const COLOR_DEFICIT  = "rgba(224,82,82,0.65)";
+  const COLOR_SURPLUS       = "rgba(34,163,111,0.65)";
+  const COLOR_DEFICIT       = "rgba(224,82,82,0.65)";
   const COLOR_SURPLUS_SOLID = "rgba(34,163,111,1)";
   const COLOR_DEFICIT_SOLID = "rgba(224,82,82,1)";
-
-  // In-memory cache keyed by endpoint URL
-  const _cache = {};
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function fmt(n) {
@@ -30,7 +27,6 @@
     return (x * 100).toFixed(1) + "%";
   }
 
-  // Fetch with in-memory caching
   /* Read a CSS custom property value from the document root */
   function cssVar(name, fallback) {
     const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -38,11 +34,12 @@
   }
 
   async function fetchJson(url) {
+    if (_fetchCache[url]) return _fetchCache[url];
     if (_cache[url]) return _cache[url];
     const res = await fetch(url, { cache: "default" });
     if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
     const data = await res.json();
-    _cache[url] = data;
+    _fetchCache[url] = data;
     return data;
   }
 
@@ -187,27 +184,35 @@
   }
 
   /* CSV export for AMI gap data */
-  function exportAmiGapCSV(payload, item) {
+  function exportCsv(payload, item, geoLabel) {
     const bands = payload.bands || DEFAULT_BANDS;
-    const rows = [["AMI Band","Affordable Rent ($/mo)","Households","Affordable Units","Gap (units-HH)","Coverage"]];
+    const rows = [["AMI Band", "Affordable Rent", "Households", "Affordable Units", "Gap", "Coverage"]];
     bands.forEach(b => {
       const key = String(b);
+      const hh = item.households_le_ami_pct?.[key];
+      const un = item.units_priced_affordable_le_ami_pct?.[key];
+      const gap = item.gap_units_minus_households_le_ami_pct?.[key];
+      const cov = item.coverage_le_ami_pct?.[key];
+      const rent = item.affordable_rent_monthly?.[key];
       rows.push([
-        `<=${b}% AMI`,
-        item.affordable_rent_monthly?.[key] ?? "",
-        item.households_le_ami_pct?.[key] ?? "",
-        item.units_priced_affordable_le_ami_pct?.[key] ?? "",
-        item.gap_units_minus_households_le_ami_pct?.[key] ?? "",
-        item.coverage_le_ami_pct?.[key] ?? ""
+        `<=${b}%`,
+        rent != null ? rent : "",
+        hh != null ? Math.round(hh) : "",
+        un != null ? Math.round(un) : "",
+        gap != null ? Math.round(gap) : "",
+        cov != null ? (cov * 100).toFixed(1) + "%" : ""
       ]);
     });
-    const csv = rows.map(r => r.join(",")).join("\n");
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url; a.download = "co_ami_gap.csv";
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    a.href = url;
+    a.download = `co-ami-gap-${geoLabel.replace(/\s+/g, "-").toLowerCase()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   /* Bar chart: households vs priced-affordable units at each AMI band */
@@ -343,7 +348,7 @@
             borderColor: "rgba(34,163,111,.85)",
             backgroundColor: "transparent",
             borderWidth: 2,
-            borderDash: [4,3],
+            borderDash: [4, 3],
             pointRadius: 3,
             tension: 0.3,
             yAxisID: "yCount",
@@ -366,6 +371,8 @@
               label: (c) => {
                 const v = c.parsed.y;
                 if (c.dataset.label === "Gap (units − households)") {
+                  const s = (v >= 0 ? "+" : "") + Math.round(v).toLocaleString();
+                  return ` Gap: ${s} units`;
                   return ` Gap: ${(v >= 0 ? "+" : "") + Math.round(v).toLocaleString()} units`;
                 }
                 return ` ${c.dataset.label}: ${Math.round(v).toLocaleString()}`;
@@ -430,17 +437,6 @@
         payload.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(" • ") +
         "</p>";
     }
-    /* Methodology tooltips via title + aria-describedby */
-    el.querySelectorAll("[data-tooltip]").forEach(node => {
-      node.title = node.dataset.tooltip;
-      const tipId = "amiTip_" + Math.random().toString(36).slice(2);
-      const span = document.createElement("span");
-      span.id = tipId;
-      span.className = "sr-only";
-      span.textContent = node.dataset.tooltip;
-      node.insertAdjacentElement("afterend", span);
-      node.setAttribute("aria-describedby", tipId);
-    });
   }
 
   function pickItem(payload, fips) {
@@ -448,43 +444,85 @@
     return (payload.counties || []).find(c => c.fips === fips) || payload.statewide;
   }
 
-  // CSV export
-  function exportCsv(payload, item, geoLabel) {
-    const bands = payload.bands || DEFAULT_BANDS;
-    const rows = [["AMI Band", "Affordable Rent", "Households", "Affordable Units", "Gap", "Coverage"]];
-    bands.forEach(b => {
-      const key = String(b);
-      const hh = item.households_le_ami_pct?.[key];
-      const un = item.units_priced_affordable_le_ami_pct?.[key];
-      const gap = item.gap_units_minus_households_le_ami_pct?.[key];
-      const cov = item.coverage_le_ami_pct?.[key];
-      const rent = item.affordable_rent_monthly?.[key];
-      rows.push([
-        `<=${b}%`,
-        rent != null ? rent : "",
-        hh != null ? Math.round(hh) : "",
-        un != null ? Math.round(un) : "",
-        gap != null ? Math.round(gap) : "",
-        cov != null ? (cov * 100).toFixed(1) + "%" : ""
-      ]);
-    });
-    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `co-ami-gap-${geoLabel.replace(/\s+/g, "-").toLowerCase()}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
   async function init() {
     const root = $("#amiGapModule");
     if (!root) return;
 
     const endpoint = pickEndpoint();
+    const epEl = $("#amiGapEndpoint");
+    if (epEl) epEl.textContent = endpoint;
+
+    const loadData = async () => {
+      let payload;
+      try {
+        payload = await fetchJson(endpoint);
+      } catch (e) {
+        console.error(e);
+        const errEl = $("#amiGapError");
+        if (errEl) {
+          errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
+          errEl.style.display = "block";
+        }
+        return;
+      }
+
+      renderMetadata(payload.meta);
+      renderMethodology(payload);
+      buildCountyOptions(payload.counties || []);
+
+      const refs = { comparison: null, gap: null };
+
+      function update() {
+        const sel = $("#amiGapCountySelect");
+        const fips = sel ? sel.value : "STATE";
+        const item = pickItem(payload, fips);
+        const geoLabel = (fips === "STATE") ? "Colorado (statewide)" : (item.county_name || fips);
+
+        const titleEl = $("#amiGapGeoTitle");
+        if (titleEl) titleEl.textContent = geoLabel;
+        renderCards(payload, item);
+        renderTable(payload, item);
+        renderComparisonChart(payload, item, refs);
+        renderGapChart(payload, item, refs);
+
+        // Wire export button each time geography changes
+        const btn = $("#amiGapExportBtn");
+        if (btn) {
+          btn.onclick = () => exportCsv(payload, item, geoLabel);
+        }
+      }
+
+      const sel = $("#amiGapCountySelect");
+      if (sel) sel.addEventListener("change", update);
+      update();
+
+      // Supplement with demographics data if housing-data-integration is available
+      if (window.HousingDataIntegration) {
+        window.HousingDataIntegration.loadDemographicsData().then(demo => {
+          if (!demo) return;
+          const metaEl = $("#amiGapMeta");
+          if (metaEl && demo.updated_at) {
+            const existing = metaEl.textContent;
+            const demoNote = `Demographics: ${demo.updated_at}`;
+            if (!existing.includes(demoNote)) {
+              metaEl.textContent = existing ? `${existing} • ${demoNote}` : demoNote;
+            }
+          }
+        }).catch(() => {});
+      }
+    };
+
+    // Use IntersectionObserver for lazy loading if available
+    if ("IntersectionObserver" in window) {
+      const obs = new IntersectionObserver((entries, observer) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          loadData();
+        }
+      }, { rootMargin: "200px" });
+      obs.observe(root);
+    } else {
+      loadData();
     const endpointEl = $("#amiGapEndpoint");
     if (endpointEl) endpointEl.textContent = endpoint;
 
