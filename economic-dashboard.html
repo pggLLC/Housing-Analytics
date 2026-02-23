@@ -519,5 +519,79 @@ function getKey(){ return CONFIG_KEY || ""; }
 <section id="housing-predictions-section" aria-label="Housing Predictive Modeling" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;"></section>
 <script defer src="js/housing-predictions.js"></script>
 
+<!-- ══════════════════════════════════════════════════════════════
+     CAR Colorado Market Data
+     Powered by js/housing-data-integration.js
+     ══════════════════════════════════════════════════════════════ -->
+<section id="carMarketDashSection" aria-label="CAR Colorado Market Data" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;">
+  <div class="card" style="padding:1.5rem;">
+    <h2 style="font-size:1.2rem;font-weight:700;margin:0 0 .25rem;">Colorado Market Conditions <small style="font-size:.75em;font-weight:400;opacity:.65;">— CAR Monthly Report</small></h2>
+    <p style="font-size:.85rem;opacity:.7;margin:0 0 1rem;">
+      Statewide data from the Colorado Association of REALTORS.
+      Updated monthly via manual workflow.
+      <span id="carDashFreshness" style="font-size:.78rem;margin-left:.5rem;"></span>
+    </p>
+    <div id="carDashLoading" style="font-size:.88rem;opacity:.65;">Loading CAR data…</div>
+    <div id="carDashError" role="alert" style="display:none;font-size:.87rem;padding:.6rem .9rem;background:rgba(224,82,82,.08);border-radius:6px;border:1px solid rgba(224,82,82,.3);margin-bottom:.75rem;"></div>
+    <div id="carDashContent" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;">
+        <div class="card stat">
+          <p class="num" id="carDashMedianPrice">—</p>
+          <p class="lbl">Median Sale Price</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashInventory">—</p>
+          <p class="lbl">Active Listings</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashDaysOnMarket">—</p>
+          <p class="lbl">Median Days on Market</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashPricePerSqFt">—</p>
+          <p class="lbl">Price per Sq Ft</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="js/housing-data-integration.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (!window.HousingDataIntegration) return;
+    window.HousingDataIntegration.loadCARData().then(function(car) {
+      var loading = document.getElementById("carDashLoading");
+      var content = document.getElementById("carDashContent");
+      var error   = document.getElementById("carDashError");
+      if (!car) {
+        if (loading) loading.style.display = "none";
+        if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+        return;
+      }
+      if (loading) loading.style.display = "none";
+      var sw = car.statewide || {};
+      var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
+      var fmt    = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
+      var el = function(id) { return document.getElementById(id); };
+      el("carDashMedianPrice")  && (el("carDashMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+      el("carDashInventory")    && (el("carDashInventory").textContent    = fmt(sw.active_listings));
+      el("carDashDaysOnMarket") && (el("carDashDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
+      el("carDashPricePerSqFt") && (el("carDashPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+      var freshnessEl = el("carDashFreshness");
+      if (freshnessEl && car.month) { freshnessEl.textContent = "Report: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+      if (content) content.style.display = "block";
+    }).catch(function() {
+      var loading = document.getElementById("carDashLoading");
+      var error   = document.getElementById("carDashError");
+      if (loading) loading.style.display = "none";
+      if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
+    });
+  });
+</script>
+
 </body>
 </html>

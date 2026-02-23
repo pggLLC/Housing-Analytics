@@ -12,13 +12,10 @@
  */
 (function () {
   const DEFAULT_BANDS = [30, 40, 50, 60, 70, 80, 100];
-  const COLOR_SURPLUS  = "rgba(34,163,111,0.65)";
-  const COLOR_DEFICIT  = "rgba(224,82,82,0.65)";
+  const COLOR_SURPLUS       = "rgba(34,163,111,0.65)";
+  const COLOR_DEFICIT       = "rgba(224,82,82,0.65)";
   const COLOR_SURPLUS_SOLID = "rgba(34,163,111,1)";
   const COLOR_DEFICIT_SOLID = "rgba(224,82,82,1)";
-
-  // In-memory cache keyed by endpoint URL
-  const _cache = {};
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function fmt(n) {
@@ -30,7 +27,6 @@
     return (x * 100).toFixed(1) + "%";
   }
 
-  // Fetch with in-memory caching
   /* Read a CSS custom property value from the document root */
   function cssVar(name, fallback) {
     const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -41,15 +37,10 @@
   const _fetchCache = {};
   async function fetchJson(url) {
     if (_fetchCache[url]) return _fetchCache[url];
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
-    const data = await res.json();
-    _fetchCache[url] = data;
-    if (_cache[url]) return _cache[url];
     const res = await fetch(url, { cache: "default" });
     if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
     const data = await res.json();
-    _cache[url] = data;
+    _fetchCache[url] = data;
     return data;
   }
 
@@ -124,8 +115,6 @@
       ami4El.textContent = ami4 ? `$${fmt(ami4)}` : "—";
       addTooltip(ami4El, TOOLTIPS.ami4person);
     }
-    const amiEl = $("#amiGapAmi4");
-    if (amiEl) amiEl.textContent = ami4 ? `$${fmt(ami4)}` : "—";
 
     const hh = item.households_le_ami_pct?.[last];
     const un = item.units_priced_affordable_le_ami_pct?.[last];
@@ -137,9 +126,6 @@
     if (hhEl) { hhEl.textContent = fmt(hh); addTooltip(hhEl, TOOLTIPS.households); }
     if (unEl) { unEl.textContent = fmt(un); addTooltip(unEl, TOOLTIPS.units); }
     if (covEl) { covEl.textContent = fmtPct(cov); addTooltip(covEl, TOOLTIPS.coverage); }
-    if (hhEl) hhEl.textContent = fmt(hh);
-    if (unEl) unEl.textContent = fmt(un);
-    if (covEl) covEl.textContent = fmtPct(cov);
 
     /* Color-code coverage: < 0.5 = bad, 0.5-0.8 = warn, >= 0.8 = ok */
     if (covEl && cov != null) {
@@ -168,17 +154,6 @@
       const cov = item.coverage_le_ami_pct?.[key];
       const rent = item.affordable_rent_monthly?.[key];
 
-      const gapVal = gap == null ? "—" : (gap >= 0 ? "+" : "") + fmt(gap);
-      const gapClass = gap == null ? "" : gap < 0 ? "ami-shortage" : "ami-surplus";
-
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>≤ ${b}%</td>
-        <td title="${TOOLTIPS.affordableRent}">${rent != null ? "$" + fmt(rent) : "—"}</td>
-        <td title="${TOOLTIPS.households}">${fmt(hh)}</td>
-        <td title="${TOOLTIPS.units}">${fmt(un)}</td>
-        <td title="${TOOLTIPS.gap}" class="${gapClass}">${gapVal}</td>
-        <td title="${TOOLTIPS.coverage}">${fmtPct(cov)}</td>
       const gapStr = gap == null ? "—" : (gap >= 0 ? "+" : "") + fmt(gap);
       const gapColor = gap == null ? "" : gap >= 0
         ? `style="color:${cssVar("--good", "#22a36f")}"`
@@ -210,27 +185,35 @@
   }
 
   /* CSV export for AMI gap data */
-  function exportAmiGapCSV(payload, item) {
+  function exportCsv(payload, item, geoLabel) {
     const bands = payload.bands || DEFAULT_BANDS;
-    const rows = [["AMI Band","Affordable Rent ($/mo)","Households","Affordable Units","Gap (units-HH)","Coverage"]];
+    const rows = [["AMI Band", "Affordable Rent", "Households", "Affordable Units", "Gap", "Coverage"]];
     bands.forEach(b => {
       const key = String(b);
+      const hh = item.households_le_ami_pct?.[key];
+      const un = item.units_priced_affordable_le_ami_pct?.[key];
+      const gap = item.gap_units_minus_households_le_ami_pct?.[key];
+      const cov = item.coverage_le_ami_pct?.[key];
+      const rent = item.affordable_rent_monthly?.[key];
       rows.push([
-        `<=${b}% AMI`,
-        item.affordable_rent_monthly?.[key] ?? "",
-        item.households_le_ami_pct?.[key] ?? "",
-        item.units_priced_affordable_le_ami_pct?.[key] ?? "",
-        item.gap_units_minus_households_le_ami_pct?.[key] ?? "",
-        item.coverage_le_ami_pct?.[key] ?? ""
+        `<=${b}%`,
+        rent != null ? rent : "",
+        hh != null ? Math.round(hh) : "",
+        un != null ? Math.round(un) : "",
+        gap != null ? Math.round(gap) : "",
+        cov != null ? (cov * 100).toFixed(1) + "%" : ""
       ]);
     });
-    const csv = rows.map(r => r.join(",")).join("\n");
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url; a.download = "co_ami_gap.csv";
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    a.href = url;
+    a.download = `co-ami-gap-${geoLabel.replace(/\s+/g, "-").toLowerCase()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   /* Bar chart: households vs priced-affordable units at each AMI band */
@@ -324,55 +307,7 @@
     const gaps = getSeries(item.gap_units_minus_households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const hhs  = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const uns  = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
-    const households = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
-    const units = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
 
-    destroyChart(chartRefHolder.current);
-
-    // Color bars: red for shortage, green for surplus
-    const barColors = gaps.map(v => v < 0
-      ? "rgba(231,76,60,0.75)"
-      : "rgba(39,174,96,0.75)");
-
-    ctx.setAttribute("aria-label", "AMI Gap bar chart showing affordable unit surplus or shortage by AMI band");
-    ctx.setAttribute("role", "img");
-
-    chartRefHolder.current = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: bands.map(b => `≤${b}%`),
-        datasets: [
-          {
-            label: "Households",
-            data: households,
-            type: "line",
-            borderColor: "rgba(52,152,219,0.8)",
-            backgroundColor: "transparent",
-            pointRadius: 3,
-            borderWidth: 2,
-            tension: 0.3,
-            yAxisID: "y"
-          },
-          {
-            label: "Affordable Units",
-            data: units,
-            type: "line",
-            borderColor: "rgba(39,174,96,0.8)",
-            backgroundColor: "transparent",
-            pointRadius: 3,
-            borderWidth: 2,
-            tension: 0.3,
-            yAxisID: "y"
-          },
-          {
-            label: "Gap (units − households)",
-            data: gaps,
-            backgroundColor: barColors,
-            borderColor: barColors,
-            borderWidth: 1,
-            yAxisID: "yGap"
-          }
-        ]
     destroyChart(refs.gap);
 
     const textColor   = cssVar("--text",   "rgba(13,31,53,.85)");
@@ -414,7 +349,7 @@
             borderColor: "rgba(34,163,111,.85)",
             backgroundColor: "transparent",
             borderWidth: 2,
-            borderDash: [4,3],
+            borderDash: [4, 3],
             pointRadius: 3,
             tension: 0.3,
             yAxisID: "yCount",
@@ -430,7 +365,6 @@
           legend: {
             labels: { color: textColor, font: { size: 12 }, padding: 14 }
           },
-          legend: { display: true, labels: { boxWidth: 12 } },
           tooltip: {
             mode: "index",
             intersect: false,
@@ -438,30 +372,15 @@
               label: (c) => {
                 const v = c.parsed.y;
                 if (c.dataset.label === "Gap (units − households)") {
-                  return ` Gap: ${(v >= 0 ? "+" : "") + Math.round(v).toLocaleString()} units`;
-                }
-                return ` ${c.dataset.label}: ${Math.round(v).toLocaleString()}`;
                   const s = (v >= 0 ? "+" : "") + Math.round(v).toLocaleString();
-                  return ` Gap: ${s}`;
+                  return ` Gap: ${s} units`;
                 }
                 return ` ${c.dataset.label}: ${Math.round(v).toLocaleString()}`;
-                const s = (v >= 0 ? "+" : "") + Math.round(v).toLocaleString();
-                return ` Gap: ${s} units`;
               }
             }
           }
         },
         scales: {
-          y: {
-            position: "left",
-            title: { display: true, text: "Households / Units" },
-            ticks: { callback: (v) => Number(v).toLocaleString() }
-          },
-          yGap: {
-            position: "right",
-            title: { display: true, text: "Gap" },
-            grid: { drawOnChartArea: false },
-            ticks: { callback: (v) => Number(v).toLocaleString() }
           x: {
             ticks: { color: mutedColor, font: { size: 11 } },
             grid: { color: gridColor },
@@ -513,26 +432,11 @@
       "AMI thresholds use HUD FY 2025 Income Limits for 4-person households."
     ];
     el.innerHTML = lines.map(p => `<p>${p}</p>`).join("");
-    if (!el || !payload.methodology) return;
-    el.innerHTML = payload.methodology
-      .map(p => `<p>${p}</p>`)
-      .join("");
     if (payload.sources && payload.sources.length) {
       el.innerHTML += "<p><strong>Sources:</strong> " +
         payload.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(" • ") +
         "</p>";
     }
-    /* Methodology tooltips via title + aria-describedby */
-    el.querySelectorAll("[data-tooltip]").forEach(node => {
-      node.title = node.dataset.tooltip;
-      const tipId = "amiTip_" + Math.random().toString(36).slice(2);
-      const span = document.createElement("span");
-      span.id = tipId;
-      span.className = "sr-only";
-      span.textContent = node.dataset.tooltip;
-      node.insertAdjacentElement("afterend", span);
-      node.setAttribute("aria-describedby", tipId);
-    });
   }
 
   function pickItem(payload, fips) {
@@ -540,86 +444,14 @@
     return (payload.counties || []).find(c => c.fips === fips) || payload.statewide;
   }
 
-  // CSV export
-  function exportCsv(payload, item, geoLabel) {
-    const bands = payload.bands || DEFAULT_BANDS;
-    const rows = [["AMI Band", "Affordable Rent", "Households", "Affordable Units", "Gap", "Coverage"]];
-    bands.forEach(b => {
-      const key = String(b);
-      const hh = item.households_le_ami_pct?.[key];
-      const un = item.units_priced_affordable_le_ami_pct?.[key];
-      const gap = item.gap_units_minus_households_le_ami_pct?.[key];
-      const cov = item.coverage_le_ami_pct?.[key];
-      const rent = item.affordable_rent_monthly?.[key];
-      rows.push([
-        `<=${b}%`,
-        rent != null ? rent : "",
-        hh != null ? Math.round(hh) : "",
-        un != null ? Math.round(un) : "",
-        gap != null ? Math.round(gap) : "",
-        cov != null ? (cov * 100).toFixed(1) + "%" : ""
-      ]);
-    });
-    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `co-ami-gap-${geoLabel.replace(/\s+/g, "-").toLowerCase()}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
   async function init() {
     const root = $("#amiGapModule");
     if (!root) return;
 
     const endpoint = pickEndpoint();
-    const endpointEl = $("#amiGapEndpoint");
-    if (endpointEl) endpointEl.textContent = endpoint;
     const epEl = $("#amiGapEndpoint");
     if (epEl) epEl.textContent = endpoint;
 
-    /* IntersectionObserver-based lazy loading */
-    function loadModule() {
-      let payload;
-      const load = async () => {
-        try {
-          payload = await fetchJson(endpoint);
-        } catch (e) {
-          console.error(e);
-          const errEl = $("#amiGapError");
-          if (errEl) {
-            errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
-            errEl.style.display = "block";
-          }
-          return;
-        }
-
-        renderMetadata(payload.meta);
-        renderMethodology(payload);
-
-        buildCountyOptions(payload.counties || []);
-        const refs = { comparison: null, gap: null };
-
-        function update() {
-          const sel = $("#amiGapCountySelect");
-          const fips = sel ? sel.value : "STATE";
-          const item = pickItem(payload, fips);
-
-          const titleEl = $("#amiGapGeoTitle");
-          if (titleEl) titleEl.textContent = (fips === "STATE") ? "Colorado (statewide)" : item.county_name;
-          renderCards(payload, item);
-          renderTable(payload, item);
-          renderComparisonChart(payload, item, refs);
-          renderGapChart(payload, item, refs);
-        }
-
-        const sel = $("#amiGapCountySelect");
-        if (sel) sel.addEventListener("change", update);
-    // Lazy-load: defer heavy fetch until module scrolls into view
     const loadData = async () => {
       let payload;
       try {
@@ -638,7 +470,7 @@
       renderMethodology(payload);
       buildCountyOptions(payload.counties || []);
 
-      const chartRefHolder = { current: null };
+      const refs = { comparison: null, gap: null };
 
       function update() {
         const sel = $("#amiGapCountySelect");
@@ -650,10 +482,11 @@
         if (titleEl) titleEl.textContent = geoLabel;
         renderCards(payload, item);
         renderTable(payload, item);
-        renderGapChart(payload, item, chartRefHolder);
+        renderComparisonChart(payload, item, refs);
+        renderGapChart(payload, item, refs);
 
         // Wire export button each time geography changes
-        const btn = $("#amiGapExportCsv");
+        const btn = $("#amiGapExportBtn");
         if (btn) {
           btn.onclick = () => exportCsv(payload, item, geoLabel);
         }
@@ -662,6 +495,21 @@
       const sel = $("#amiGapCountySelect");
       if (sel) sel.addEventListener("change", update);
       update();
+
+      // Supplement with demographics data if housing-data-integration is available
+      if (window.HousingDataIntegration) {
+        window.HousingDataIntegration.loadDemographicsData().then(demo => {
+          if (!demo) return;
+          const metaEl = $("#amiGapMeta");
+          if (metaEl && demo.updated_at) {
+            const existing = metaEl.textContent;
+            const demoNote = `Demographics: ${demo.updated_at}`;
+            if (!existing.includes(demoNote)) {
+              metaEl.textContent = existing ? `${existing} • ${demoNote}` : demoNote;
+            }
+          }
+        }).catch(() => {});
+      }
     };
 
     // Use IntersectionObserver for lazy loading if available
@@ -675,34 +523,6 @@
       obs.observe(root);
     } else {
       loadData();
-    }
-    buildCountyOptions(payload.counties || []);
-    const refs = { comparison: null, gap: null };
-
-        /* CSV export button */
-        const exportBtn = $("#amiGapExportBtn");
-        if (exportBtn) {
-          exportBtn.addEventListener("click", () => {
-            const fips = sel ? sel.value : "STATE";
-            exportAmiGapCSV(payload, pickItem(payload, fips));
-          });
-        }
-
-        update();
-      };
-      load();
-    }
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        if (entries.some(e => e.isIntersecting)) {
-          obs.unobserve(root);
-          loadModule();
-        }
-      }, { rootMargin: "200px" });
-      observer.observe(root);
-    } else {
-      loadModule();
     }
   }
 
