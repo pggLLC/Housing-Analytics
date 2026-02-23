@@ -1,0 +1,264 @@
+/* ================================================================
+   css/pages/about.css — About page specific styles
+   Depends on: css/site-theme.css, css/layout.css
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Page header
+   ---------------------------------------------------------------- */
+.about-header {
+  text-align: center;
+  padding-block: var(--sp5);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp5);
+}
+
+.about-header h1 {
+  margin-bottom: var(--sp3);
+}
+
+.about-header .subtitle {
+  color: var(--muted) !important;
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 70ch;
+  margin-inline: auto;
+}
+
+/* ----------------------------------------------------------------
+   Mission statement
+   ---------------------------------------------------------------- */
+.mission-section {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  padding: var(--sp5);
+  margin-bottom: var(--sp4);
+  border-left: 4px solid var(--accent);
+}
+
+.mission-section h2 {
+  margin-bottom: var(--sp3);
+}
+
+.mission-section p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: var(--sp3);
+}
+
+.mission-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ----------------------------------------------------------------
+   Content sections (Why LIHTC Matters, Methodology, etc.)
+   ---------------------------------------------------------------- */
+.content-section {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  margin-bottom: var(--sp4);
+}
+
+.content-section h2 {
+  color: var(--accent) !important;
+  margin-bottom: var(--sp3);
+  padding-bottom: var(--sp2);
+  border-bottom: 1px solid var(--border);
+}
+
+.content-section p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: var(--sp3);
+}
+
+.content-section p:last-child {
+  margin-bottom: 0;
+}
+
+.content-section strong {
+  color: var(--text) !important;
+}
+
+/* ----------------------------------------------------------------
+   Data sources grid
+   ---------------------------------------------------------------- */
+.data-sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--sp3);
+  margin-top: var(--sp4);
+}
+
+.source-card {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
+  padding: var(--sp3);
+  border-left: 3px solid var(--accent);
+  transition: box-shadow 0.15s;
+}
+
+.source-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.source-name {
+  font-weight: 700;
+  color: var(--text) !important;
+  font-size: 0.95rem;
+  margin-bottom: var(--sp1);
+}
+
+.source-description {
+  color: var(--muted) !important;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin-bottom: var(--sp2);
+}
+
+.source-link {
+  color: var(--accent) !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding-block: 4px;
+}
+
+.source-link:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------
+   Team section (placeholder for future)
+   ---------------------------------------------------------------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp4);
+  margin-top: var(--sp3);
+}
+
+.team-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  text-align: center;
+}
+
+.team-card .avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  margin: 0 auto var(--sp3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.team-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: var(--sp1);
+}
+
+.team-card .role {
+  font-size: var(--small);
+  color: var(--muted) !important;
+}
+
+/* ----------------------------------------------------------------
+   Contact information
+   ---------------------------------------------------------------- */
+.contact-section {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  margin-bottom: var(--sp4);
+}
+
+.contact-section h2 {
+  color: var(--accent) !important;
+  margin-bottom: var(--sp3);
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp2);
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp2);
+  font-size: 0.95rem;
+}
+
+/* ----------------------------------------------------------------
+   Partner logos (placeholder)
+   ---------------------------------------------------------------- */
+.partners-section {
+  margin-bottom: var(--sp4);
+}
+
+.partners-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp3);
+  align-items: center;
+  margin-top: var(--sp3);
+}
+
+.partner-logo {
+  padding: var(--sp2) var(--sp3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--muted) !important;
+}
+
+/* ----------------------------------------------------------------
+   Disclaimer callout
+   ---------------------------------------------------------------- */
+.disclaimer-box {
+  background: var(--warn-dim);
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  border-radius: var(--radius);
+  padding: var(--sp3) var(--sp4);
+  margin-bottom: var(--sp4);
+}
+
+.disclaimer-box p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .data-sources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-section {
+    padding: var(--sp4);
+  }
+}

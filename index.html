@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LIHTC Analytics Hub | Affordable Housing Market Intelligence</title>
-<meta content="Data-driven insights into LIHTC allocations and affordable housing development" name="description"/>
-<!-- Unified Theme -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIHTC Analytics Hub | Affordable Housing Market Intelligence</title>
+  <meta name="description" content="Data-driven insights into LIHTC allocations, affordable housing development, and market dynamics across the United States.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+  <script defer src="js/navigation.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
 <style>
         .hero-section {
@@ -159,6 +165,7 @@
 <script defer="defer" src="js/dark-mode-toggle.js"></script>
 <script defer="defer" src="js/mobile-menu.js"></script>
 
+  <main id="main-content" class="page-home">
 
   <link rel="stylesheet" href="css/site-theme.css"/>
   <link rel="stylesheet" href="css/dark-mode.css"/>
@@ -173,89 +180,126 @@
 <section class="section" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
   <div class="container" style="max-width: 900px;">
 
-    <h1 style="margin-bottom: 0.5rem;">
-      Affordable Housing Market Intelligence Powered by LIHTC Analytics
-    </h1>
+          <article class="featured-card">
+            <span class="tag pill accent">Regional Focus</span>
+            <h3>Colorado Market Analysis &amp; Forecast</h3>
+            <p>
+              Deep dive into Colorado's $287M LIHTC market, Denver metro trends, CHFA priorities,
+              and econometric forecasts through 2028.
+            </p>
+            <div class="card-meta">Feb 10, 2026 &middot; 8 min read &middot; <em>CHFA, Census, FRED</em></div>
+            <a href="colorado-market.html" class="btn btn-primary">Read Analysis</a>
+          </article>
+        </div>
+        <p class="featured-view-all">
+          <a href="insights.html" class="btn">View All Insights &rarr;</a>
+        </p>
+      </div>
+    </section>
 
-    <p style="margin-bottom: 0.75rem;">
-      The Low-Income Housing Tax Credit (LIHTC) program is the primary driver of affordable rental housing production in the United States. This platform provides data-driven insights into how policies, allocation, and market conditions influence where and how affordable housing is built.
-    </p>
+    <!-- User Journey Cards -->
+    <section class="journey-section" aria-label="Tools by audience">
+      <div class="container">
+        <div class="section-heading">
+          <span class="kicker">Built For</span>
+          <h2>Who Uses LIHTC Analytics Hub?</h2>
+        </div>
+        <div class="journey-grid">
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#127963;</div>
+            <h3>Policymakers</h3>
+            <p>
+              Track state QAP priorities, compare allocation strategies across HFAs, and measure
+              program outcomes to inform housing policy decisions.
+            </p>
+            <a href="state-allocation-map.html" class="btn">State Allocations &rarr;</a>
+          </div>
 
-    <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem;">
-      Built for
-    </h3>
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#127959;</div>
+            <h3>Developers</h3>
+            <p>
+              Analyze market feasibility, track construction costs, and identify high-opportunity
+              geographies for affordable housing development.
+            </p>
+            <a href="colorado-deep-dive.html" class="btn">Market Deep Dive &rarr;</a>
+          </div>
 
-    <ul style="margin-top: 0; margin-bottom: 1rem; padding-left: 1.2rem;">
-      <li style="margin-bottom: 0.25rem;">Affordable housing developers</li>
-      <li style="margin-bottom: 0.25rem;">Tax credit investors and syndicators</li>
-      <li style="margin-bottom: 0.25rem;">Housing finance agencies</li>
-      <li style="margin-bottom: 0.25rem;">Planners and community development professionals</li>
-    </ul>
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#128300;</div>
+            <h3>Researchers</h3>
+            <p>
+              Access comprehensive data on LIHTC allocations, AMI trends, and housing market
+              indicators from authoritative federal and state sources.
+            </p>
+            <a href="economic-dashboard.html" class="btn">Economic Dashboard &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem;">
-      Why this Matters
-    </h3>
+    <!-- Call to Action -->
+    <section class="cta-section" aria-label="Get started">
+      <div class="container">
+        <h2>Ready to Explore the Data?</h2>
+        <p>
+          Access comprehensive LIHTC market intelligence, state-level allocations, and economic
+          indicators&mdash;all in one platform.
+        </p>
+        <div class="cta-actions">
+          <a href="economic-dashboard.html" class="btn-white">View Dashboard</a>
+          <a href="colorado-deep-dive.html" class="btn-outline-white">Colorado Deep Dive</a>
+          <a href="LIHTC-dashboard.html" class="btn-outline-white">Allocation Maps</a>
+        </div>
+      </div>
+    </section>
 
-    <p style="margin-bottom: 0;">
-      While LIHTC is federally authorized, each state allocates credits differently through its Qualified Allocation Plan (QAP). These policy differences create distinct development environments, risk profiles, and investment outcomes across states. States design their own allocation priorities even though credits originate federally.
-      (<a class="reference-link" href="https://www.congress.gov" rel="noopener" target="_blank">Congress.gov</a>)
-    </p>
+    <!-- Page Footer -->
+    <footer class="page-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <a href="index.html" class="brand-name">LIHTC Analytics Hub</a>
+            <p>Affordable Housing Market Intelligence</p>
+          </div>
+          <div class="footer-links">
+            <div class="footer-link-group">
+              <h4>Tools</h4>
+              <ul>
+                <li><a href="economic-dashboard.html">Economic Dashboard</a></li>
+                <li><a href="LIHTC-dashboard.html">LIHTC Allocations</a></li>
+                <li><a href="state-allocation-map.html">State Map</a></li>
+                <li><a href="regional.html">Regional Analysis</a></li>
+              </ul>
+            </div>
+            <div class="footer-link-group">
+              <h4>Insights</h4>
+              <ul>
+                <li><a href="insights.html">Market Insights</a></li>
+                <li><a href="colorado-deep-dive.html">Colorado Deep Dive</a></li>
+                <li><a href="housing-legislation-2026.html">Legislation 2026</a></li>
+                <li><a href="article-pricing.html">Credit Pricing</a></li>
+              </ul>
+            </div>
+            <div class="footer-link-group">
+              <h4>About</h4>
+              <ul>
+                <li><a href="about.html">Methodology</a></li>
+                <li><a href="about.html">Data Sources</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 LIHTC Analytics Hub</span>
+          <span>Data: Novogradac &middot; HUD &middot; NCSHA &middot; FRED &middot; Census &middot; BLS</span>
+          <a href="about.html">Disclaimer</a>
+        </div>
+      </div>
+    </footer>
 
-  </div>
-</section>
-</div>
-<!-- Features Grid -->
-<div class="features-grid">
-<div class="feature-card">
-<h3 class="feature-title">LIHTC Allocations</h3>
-<p class="feature-description">
-                    Map state housing finance agency allocations, per-capita credits, and competitive vs. non-competitive awards with data from Novogradac.
-                </p>
-<div class="data-source-note">
-<strong>Data Source:</strong> Novogradac LIHTC Database
-                </div>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Market Analysis</h3>
-<p class="feature-description">
-                    Track tax credit pricing trends, investor demand, and market conditions affecting affordable housing development.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Economic Indicators</h3>
-<p class="feature-description">
-                    Monitor construction costs, labor markets, and housing market conditions from Federal Reserve Economic Data (FRED).
-                </p>
-<div class="data-source-note">
-<strong>Data Source:</strong> Federal Reserve Bank of St. Louis (FRED)
-                </div>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Regional Insights</h3>
-<p class="feature-description">
-                    Compare state policies, allocation patterns, and development outcomes across regions.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">State Allocations</h3>
-<p class="feature-description">
-                    Interactive map showing 2026 federal LIHTC allocations by state with per-capita analysis.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Policy Analysis</h3>
-<p class="feature-description">
-                    Understand how Qualified Allocation Plans (QAPs) shape development opportunities and investment strategies.
-                </p>
-</div>
-</div>
-</main>
-<!-- Navigation Script -->
+  </main>
 
-<script src="js/contrast-guard.js"></script>
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>
-<style>
-main p { margin:0.5rem 0; }
-section { padding-top:20px; padding-bottom:20px; }
-</style>
