@@ -1,13 +1,14 @@
 /**
  * Census snapshot (ACS Profile) with geography dropdowns for:
  *  - National (United States aggregate)
- *  - States
+ *  - States (uses cached data/census-acs-state.json first, no API key required)
  *  - Counties (within a state)
  *  - Places (within a state)
  *
  * Also renders a Housing Construction Activity sub-section from fred-data.json.
  *
- * Uses window.APP_CONFIG.CENSUS_API_KEY (js/config.js)
+ * Uses window.APP_CONFIG.CENSUS_API_KEY (js/config.js) for county/place/national.
+ * State-level data is served from data/census-acs-state.json (pre-fetched cache).
  */
 (() => {
   const KEY      = (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : "";
@@ -75,6 +76,97 @@
   function formatNumber(n)   { return isFinite(n) ? Math.round(n).toLocaleString() : "—"; }
   function formatCurrency(n) { return isFinite(n) ? Math.round(n).toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 }) : "—"; }
   function formatPct(n)      { return isFinite(n) ? Number(n).toFixed(1) + "%" : "—"; }
+
+  /* ---- Cached state data (data/census-acs-state.json) ---- */
+  let _stateCache = null;
+  async function loadStateCacheJson() {
+    if (_stateCache) return _stateCache;
+    const res = await fetch("data/census-acs-state.json");
+    if (!res.ok) throw new Error("Could not load census-acs-state.json (" + res.status + ")");
+    const json = await res.json();
+    _stateCache = json;
+    return json;
+  }
+
+  /* ---- Derived metrics (computed client-side from cached fields) ---- */
+  const DERIVED_METRICS = [
+    {
+      key: "rent_to_income",
+      label: "Rent-to-income ratio",
+      compute: (r) => {
+        const rent = Number(r.median_gross_rent);
+        const inc  = Number(r.median_household_income);
+        if (!isFinite(rent) || !isFinite(inc) || inc <= 0) return null;
+        return (rent * 12) / inc;
+      },
+      fmt: (v) => (v * 100).toFixed(1) + "% of income",
+      note: "Annual rent as % of median household income"
+    },
+    {
+      key: "renter_share",
+      label: "Renter-occupied share",
+      compute: (r) => {
+        // Prefer pre-computed field; fall back to derived
+        if (r.renter_share != null && isFinite(Number(r.renter_share))) return Number(r.renter_share);
+        const own  = Number(r.owner_occupied);
+        const rent = Number(r.renter_occupied);
+        if (!isFinite(own) || !isFinite(rent) || (own + rent) <= 0) return null;
+        return rent / (own + rent);
+      },
+      fmt: (v) => (v * 100).toFixed(1) + "%",
+      note: "Share of occupied housing units that are renter-occupied"
+    },
+    {
+      key: "newer_stock_share",
+      label: "Built 2010 or later",
+      compute: (r) => {
+        const newer = Number(r.built_2010_or_later);
+        const total = Number(r.housing_units_year_built_total);
+        if (!isFinite(newer) || !isFinite(total) || total <= 0) return null;
+        return newer / total;
+      },
+      fmt: (v) => (v * 100).toFixed(1) + "% of stock",
+      note: "Share of housing units built in 2010 or later"
+    }
+  ];
+
+  function renderDerivedMetrics(record, container) {
+    DERIVED_METRICS.forEach(dm => {
+      const val = dm.compute(record);
+      const existing = container.querySelector(`[data-derived="${dm.key}"]`);
+      if (existing) existing.remove();
+      if (val === null || !isFinite(val)) return; // hide if fields missing
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.derived = dm.key;
+      card.title = dm.note;
+      card.innerHTML = `<p class="num">${dm.fmt(val)}</p><p class="lbl">${dm.label}</p>`;
+      container.appendChild(card);
+    });
+  }
+
+  function renderCachedStateStats(record, vintage, grid, vintageEl) {
+    if (vintageEl) vintageEl.textContent = `ACS ${vintage} 5-year (cached) \u2022 ${record.state_name}`;
+    grid.innerHTML = "";
+
+    // Standard metrics from cache
+    const CACHE_METRICS = [
+      { field: "population_total",        label: "Population",              fmt: formatNumber   },
+      { field: "median_household_income", label: "Median household income", fmt: formatCurrency },
+      { field: "median_gross_rent",       label: "Median gross rent",       fmt: formatCurrency },
+      { field: "median_home_value",       label: "Median home value",       fmt: formatCurrency },
+    ];
+    CACHE_METRICS.forEach(m => {
+      const val = Number(record[m.field]);
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p>`;
+      grid.appendChild(card);
+    });
+
+    // Derived metrics (hidden individually if fields missing)
+    renderDerivedMetrics(record, grid);
+  }
 
   async function fetchJson(url) {
     const res = await fetch(url);
@@ -254,7 +346,6 @@
     const vintageEl = document.querySelector("[data-census-vintage]");
 
     if (!levelEl || !stateEl || !geoEl) return;
-    if (!KEY) console.warn("[census-geo] Missing CENSUS_API_KEY — requests may be rate-limited.");
 
     showEl("censusStateWrap", false);
     showEl("censusGeoWrap", false);
@@ -262,43 +353,56 @@
     /* Always render the construction section from FRED cache */
     renderConstructionSection().catch(e => console.warn("[census-geo] construction section:", e));
 
-    /* Load national + state list in parallel */
+    /* --- Try to load cached state data first (no API key required) --- */
+    let cachedStateData = null; // array of state records from census-acs-state.json
+    let cachedVintage   = "";
+    try {
+      const cacheJson  = await loadStateCacheJson();
+      cachedStateData  = cacheJson.data || [];
+      cachedVintage    = (cacheJson.meta && cacheJson.meta.dataset) ? cacheJson.meta.dataset.split("/")[0] : String(new Date().getFullYear() - 2);
+    } catch (e) {
+      console.warn("[census-geo] Could not load census-acs-state.json:", e);
+    }
+
+    /* Build state list from cache and populate select */
+    if (cachedStateData && cachedStateData.length) {
+      const cacheStates = cachedStateData
+        .map(r => ({ value: r.state_fips, label: r.state_name }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+      fillOptions(stateEl, cacheStates, "Select a state…");
+      fillOptions(geoEl,   cacheStates, "Select a state…");
+    }
+
+    /* Load national + state list from Census API in parallel (fallback for non-cached geographies) */
     let statesInfo   = null;
     let nationalInfo = null;
 
-    try {
-      const [natResult, stResult] = await Promise.allSettled([loadNational(), loadStates()]);
-
+    Promise.allSettled([loadNational(), loadStates()]).then(([natResult, stResult]) => {
       if (natResult.status === "fulfilled") nationalInfo = natResult.value;
-      else console.warn("[census-geo] National fetch:", natResult.reason);
-
       if (stResult.status === "fulfilled") {
         statesInfo = stResult.value;
-        fillOptions(stateEl, statesInfo.states, "Select a state…");
-      } else {
-        console.warn("[census-geo] States fetch:", stResult.reason);
-      }
-
-      /* Default: national */
-      if (nationalInfo) {
-        levelEl.value = "national";
-        renderStats("United States", nationalInfo.record, nationalInfo.vintage);
-      } else if (statesInfo) {
-        levelEl.value = "state";
-        showEl("censusGeoWrap", true);
-        const co = statesInfo.states.find(s => s.label === "Colorado") || statesInfo.states[0];
-        if (co) {
-          fillOptions(geoEl, statesInfo.states, "Select a state…");
-          geoEl.value = co.value;
-          const rec = statesInfo.rows.find(r => r.state === co.value);
-          if (rec) renderStats(rec.NAME, rec, statesInfo.vintage);
+        // Only refill if we don't have cached data
+        if (!cachedStateData || !cachedStateData.length) {
+          fillOptions(stateEl, statesInfo.states, "Select a state…");
+          fillOptions(geoEl,   statesInfo.states, "Select a state…");
         }
       }
+    }).catch(err => console.warn("[census-geo] API pre-fetch:", err));
 
-    } catch (e) {
-      console.warn("[census-geo] init error:", e);
-      if (vintageEl) vintageEl.textContent = "Unable to load Census data";
-      return;
+    const grid = $(".census-grid");
+
+    /* Default: show state view using cached data */
+    if (cachedStateData && cachedStateData.length) {
+      levelEl.value = "state";
+      showEl("censusGeoWrap", true);
+      // Default to Colorado if available, else first state
+      const defaultRec = cachedStateData.find(r => r.state_name === "Colorado") || cachedStateData[0];
+      if (defaultRec) {
+        geoEl.value = defaultRec.state_fips;
+        renderCachedStateStats(defaultRec, cachedVintage, grid, vintageEl);
+      }
+    } else if (vintageEl) {
+      vintageEl.textContent = "Loading Census data…";
     }
 
     /* ---- level change ---- */
@@ -325,21 +429,38 @@
       if (lvl === "state") {
         showEl("censusStateWrap", false);
         showEl("censusGeoWrap", true);
-        if (!statesInfo) {
+        if (cachedStateData && cachedStateData.length) {
+          // Use cached data — no API needed
+          const cacheStates = cachedStateData
+            .map(r => ({ value: r.state_fips, label: r.state_name }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+          fillOptions(geoEl, cacheStates, "Select a state…");
+          geoEl.value = "";
+          geoEl.onchange = () => {
+            const rec = cachedStateData.find(r => r.state_fips === geoEl.value);
+            if (rec) renderCachedStateStats(rec, cachedVintage, grid, vintageEl);
+          };
+        } else if (statesInfo) {
+          fillOptions(geoEl, statesInfo.states, "Select a state…");
+          geoEl.value = "";
+          geoEl.onchange = () => {
+            const rec = statesInfo.rows.find(r => r.state === geoEl.value);
+            if (rec) renderStats(rec.NAME, rec, statesInfo.vintage);
+          };
+        } else {
+          // Neither cache nor API available yet; try API
           try {
             statesInfo = await loadStates();
-            fillOptions(stateEl, statesInfo.states, "Select a state…");
+            fillOptions(geoEl, statesInfo.states, "Select a state…");
+            geoEl.value = "";
+            geoEl.onchange = () => {
+              const rec = statesInfo.rows.find(r => r.state === geoEl.value);
+              if (rec) renderStats(rec.NAME, rec, statesInfo.vintage);
+            };
           } catch (e) {
             if (vintageEl) vintageEl.textContent = "Unable to load state list";
-            return;
           }
         }
-        fillOptions(geoEl, statesInfo.states, "Select a state…");
-        geoEl.value = "";
-        geoEl.onchange = () => {
-          const rec = statesInfo.rows.find(r => r.state === geoEl.value);
-          if (rec) renderStats(rec.NAME, rec, statesInfo.vintage);
-        };
         return;
       }
 
