@@ -1,238 +1,158 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Colorado LIHTC Market Analysis - LIHTC Analytics Hub</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-
-<script src="js/vendor/chart.umd.min.js"></script>
-
-<script src="js/config.js"></script>
-<script defer="defer" src="js/navigation.js"></script>
-<script defer="defer" src="js/dark-mode-toggle.js"></script>
-<script defer="defer" src="js/mobile-menu.js"></script>
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
-  <link rel="stylesheet" href="css/dark-mode.css"/>
-  <link rel="stylesheet" href="css/responsive.css"/>
-  <link rel="stylesheet" href="css/accessibility.css"/>
-  <link rel="stylesheet" href="css/performance.css"/>
-  <link rel="stylesheet" href="css/print.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado LIHTC Market Analysis | LIHTC Analytics Hub</title>
+  <meta name="description" content="Deep dive into Colorado's $287M LIHTC market, Denver metro trends, CHFA priorities, and econometric forecasts through 2028.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
-<body data-page="colorado-market.html">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<div id="site-header"></div>
-<div id="main-content" style="max-width: 900px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem;">
-<h1 style="font-size: 3rem; margin-bottom: 2rem;">Colorado LIHTC Market Analysis</h1>
-<div class="hero-stats" style="margin: 1.25rem 0;">
-<div class="stat-card">
-<div class="stat-value">$287M</div>
-<div class="stat-label">2026 Total Allocation</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">78</div>
-<div class="stat-label">Active Projects</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">8,940</div>
-<div class="stat-label">Units in Development</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">$49</div>
-<div class="stat-label">Per Capita Allocation</div>
-</div>
-</div>
-<h2>Market Overview</h2>
-<p style="font-size: 1.125rem; line-height: 1.7;">
-            Colorado's LIHTC market represents $287 million in annual allocations, serving 78 active projects across the state. The Denver-Aurora-Lakewood metro area accounts for 62% of statewide activity, with significant development also occurring in Colorado Springs, Fort Collins, and Pueblo.
-        </p>
-<h2>Econometric Forecast: 2026-2028</h2>
-<div class="chart-card" style="margin: 2rem 0;">
-<div class="chart-header">
-<h3 class="chart-title">Colorado Credit Pricing Forecast</h3>
-<p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals</p>
-</div>
-<div style="height: 300px; position: relative;">
-<canvas id="co-pricing-forecast"></canvas>
-</div>
-</div>
-<div class="chart-card" style="margin: 2rem 0;">
-<div class="chart-header">
-<h3 class="chart-title">Housing Starts Forecast</h3>
-<p class="chart-subtitle">Quarterly multifamily housing starts projection</p>
-</div>
-<div style="height: 300px; position: relative;">
-<canvas id="co-starts-forecast"></canvas>
-</div>
-</div>
-<h2>Key Findings</h2>
-<ul style="font-size: 1.125rem; line-height: 1.8;">
-<li>Credit pricing expected to stabilize at $0.87-$0.86 through 2026</li>
-<li>Housing starts forecast to grow 3.5% annually driven by Front Range population growth</li>
-<li>Denver metro maintains 62% share of statewide allocations</li>
-<li>Rural set-aside fully subscribed; demand exceeds supply by 40%</li>
-<li>Transit-oriented development receives scoring premium in 2026 QAP</li>
-</ul>
-<h2>Metro Area Breakdown</h2>
-<div class="data-table" style="margin: 2rem 0;">
-<table>
-<thead>
-<tr>
-<th>Metro Area</th>
-<th>Allocation</th>
-<th>Projects</th>
-<th>Units</th>
-<th>% of State</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Denver-Aurora-Lakewood</td>
-<td>$178M</td>
-<td>48</td>
-<td>5,820</td>
-<td>62%</td>
-</tr>
-<tr>
-<td>Colorado Springs</td>
-<td>$42M</td>
-<td>12</td>
-<td>1,340</td>
-<td>15%</td>
-</tr>
-<tr>
-<td>Fort Collins</td>
-<td>$28M</td>
-<td>8</td>
-<td>890</td>
-<td>10%</td>
-</tr>
-<tr>
-<td>Boulder</td>
-<td>$22M</td>
-<td>6</td>
-<td>620</td>
-<td>8%</td>
-</tr>
-<tr>
-<td>Pueblo</td>
-<td>$17M</td>
-<td>4</td>
-<td>270</td>
-<td>6%</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2>CHFA 2026 Priorities</h2>
-<p style="font-size: 1.125rem; line-height: 1.7;">
-            Colorado Housing and Finance Authority (CHFA) has identified five strategic priorities for 2026:
-        </p>
-<ol style="font-size: 1.125rem; line-height: 1.8;">
-<li><strong>Transit-Oriented Development:</strong> Projects within 1/2 mile of light rail or rapid bus transit receive 15-point scoring advantage</li>
-<li><strong>Rural Housing:</strong> $28.7M set-aside with priority for towns under 20,000 population</li>
-<li><strong>Extremely Low Income Targeting:</strong> 20% bonus for projects serving 30% AMI households</li>
-<li><strong>Preservation:</strong> $21.5M reserved for acquisition/rehab of at-risk properties</li>
-<li><strong>Green Building:</strong> Enterprise Green Communities certification required for all 9% deals</li>
-</ol>
-<div style="margin-top: 3rem; padding: 2rem; background: var(--color-background-alt); border-radius: 8px;">
-<p style="font-weight: 600; margin-bottom: 1rem;">Data Sources:</p>
-<ul style="margin: 0;">
-<li>Colorado Housing and Finance Authority (CHFA)</li>
-<li>HUD LIHTC Database</li>
-<li>U.S. Census Bureau</li>
-<li>Novoco Market Reports</li>
-</ul>
-</div>
-</div>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<script src="js/data-service.js"></script>
-<script src="js/citations.js"></script>
-<script src="js/forecasting.js"></script>
-<script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            const colors = {primary: '#1a3a52', accent: '#d4a574', info: '#3498db'};
-            
-            // Pricing forecast chart
-            const pricingCtx = document.getElementById('co-pricing-forecast');
-            if (pricingCtx) {
-                const quarters = ['Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027'];
-                new Chart(pricingCtx, {
-                    type: 'line',
-                    data: {
-                        labels: quarters,
-                        datasets: [{
-                            label: 'Forecast',
-                            data: [0.87, 0.83, 0.87, 0.87, 0.85, 0.85, 0.86, 0.86],
-                            borderColor: colors.primary,
-                            backgroundColor: 'rgba(26, 58, 82, 0.1)',
-                            borderWidth: 3,
-                            fill: '+1'
-                        }, {
-                            label: 'Upper Bound',
-                            data: [0.87, 0.86, 0.87, 0.87, 0.88, 0.88, 0.89, 0.89],
-                            borderColor: colors.accent,
-                            borderWidth: 1,
-                            borderDash: [5, 5],
-                            fill: false
-                        }, {
-                            label: 'Lower Bound',
-                            data: [0.81, 0.80, 0.81, 0.81, 0.82, 0.82, 0.83, 0.83],
-                            borderColor: colors.accent,
-                            borderWidth: 1,
-                            borderDash: [5, 5],
-                            fill: '-1'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {legend: {position: 'top'}},
-                        scales: {
-                            y: {
-                                min: 0.75,
-                                max: 0.95,
-                                ticks: {callback: v => '$' + v.toFixed(2)}
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Housing starts forecast
-            const startsCtx = document.getElementById('co-starts-forecast');
-            if (startsCtx) {
-                new Chart(startsCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027'],
-                        datasets: [{
-                            label: 'Projected Starts',
-                            data: [3400, 3520, 3380, 3340, 3480, 3620, 3510, 3450],
-                            backgroundColor: colors.info
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {legend: {display: false}},
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                min: 3000,
-                                ticks: {callback: v => v.toLocaleString() + ' units'}
-                            }
-                        }
-                    }
-                });
-            }
+  <main id="main-content">
+    <article class="article-wrap">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="insights.html">Insights</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Colorado Market</span>
+      </nav>
+
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <span class="kicker">Regional Analysis</span>
+        <h1>Colorado LIHTC Market Analysis</h1>
+        <p class="page-sub">Econometric analysis of Colorado's affordable housing market, CHFA priorities, and forecasts through 2028.</p>
+        <div class="page-meta"><span>Feb 10, 2026</span><span>8 min read</span><span>Sources: CHFA, Census, FRED</span></div>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-card"><div class="stat-value">$287M</div><div class="stat-label">2026 Total Allocation</div></div>
+        <div class="stat-card"><div class="stat-value">78</div><div class="stat-label">Active Projects</div></div>
+        <div class="stat-card"><div class="stat-value">8,940</div><div class="stat-label">Units in Development</div></div>
+        <div class="stat-card"><div class="stat-value">$49</div><div class="stat-label">Per Capita Allocation</div></div>
+      </div>
+
+      <div class="article-body">
+
+        <h2>Market Overview</h2>
+        <p>Colorado's LIHTC market represents $287 million in annual allocations, serving 78 active projects across the state. The Denver-Aurora-Lakewood metro area accounts for 62% of statewide activity, with significant development also occurring in Colorado Springs, Fort Collins, and Pueblo.</p>
+
+        <!-- Forecast charts -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Colorado Credit Pricing Forecast</h3>
+            <p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals</p>
+          </div>
+          <div style="height:280px;position:relative;">
+            <canvas id="co-pricing-forecast"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Housing Starts Forecast</h3>
+            <p class="chart-subtitle">Quarterly multifamily housing starts projection</p>
+          </div>
+          <div style="height:280px;position:relative;">
+            <canvas id="co-starts-forecast"></canvas>
+          </div>
+        </div>
+
+        <h2>Key Findings</h2>
+        <ul>
+          <li>Credit pricing expected to stabilize at $0.87–$0.86 through 2026</li>
+          <li>Housing starts forecast to grow 3.5% annually driven by Front Range population growth</li>
+          <li>Denver metro maintains 62% share of statewide allocations</li>
+          <li>Rural set-aside fully subscribed; demand exceeds supply by 40%</li>
+          <li>Transit-oriented development receives scoring premium in 2026 QAP</li>
+        </ul>
+
+        <h2>Metro Area Breakdown</h2>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr><th>Metro Area</th><th>Allocation</th><th>Projects</th><th>Units</th><th>% of State</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Denver-Aurora-Lakewood</td><td>$178M</td><td>48</td><td>5,820</td><td>62%</td></tr>
+              <tr><td>Colorado Springs</td><td>$42M</td><td>12</td><td>1,340</td><td>15%</td></tr>
+              <tr><td>Fort Collins</td><td>$28M</td><td>8</td><td>890</td><td>10%</td></tr>
+              <tr><td>Boulder</td><td>$22M</td><td>6</td><td>620</td><td>8%</td></tr>
+              <tr><td>Pueblo</td><td>$17M</td><td>4</td><td>270</td><td>6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>CHFA 2026 Priorities</h2>
+        <p>Colorado Housing and Finance Authority (CHFA) has identified five strategic priorities for 2026:</p>
+        <ol>
+          <li><strong>Transit-Oriented Development:</strong> Projects within ½ mile of light rail or rapid bus transit receive 15-point scoring advantage</li>
+          <li><strong>Rural Housing:</strong> $28.7M set-aside with priority for towns under 20,000 population</li>
+          <li><strong>Extremely Low Income Targeting:</strong> 20% bonus for projects serving 30% AMI households</li>
+          <li><strong>Preservation:</strong> $21.5M reserved for acquisition/rehab of at-risk properties</li>
+          <li><strong>Green Building:</strong> Enterprise Green Communities certification required for all 9% deals</li>
+        </ol>
+
+        <div class="sources-box">
+          <h3>Data Sources</h3>
+          <ul>
+            <li>Colorado Housing and Finance Authority (CHFA)</li>
+            <li>HUD LIHTC Database</li>
+            <li>U.S. Census Bureau</li>
+            <li>Novogradac Market Reports</li>
+          </ul>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <script src="js/data-service.js"></script>
+  <script src="js/citations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chartColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#0ea5a0';
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim() || '#e8891a';
+
+      const pricingCtx = document.getElementById('co-pricing-forecast');
+      if (pricingCtx) {
+        const quarters = ['Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026','Q3 2026','Q4 2026','Q1 2027'];
+        new Chart(pricingCtx, {
+          type: 'line',
+          data: {
+            labels: quarters,
+            datasets: [
+              { label: 'Forecast', data: [0.87,0.83,0.87,0.87,0.85,0.85,0.86,0.86], borderColor: chartColor, backgroundColor: 'rgba(14,165,160,.08)', borderWidth: 2.5, fill: '+1' },
+              { label: 'Upper Bound', data: [0.87,0.86,0.87,0.87,0.88,0.88,0.89,0.89], borderColor: accentColor, borderWidth: 1, borderDash: [5,5], fill: false },
+              { label: 'Lower Bound', data: [0.81,0.80,0.81,0.81,0.82,0.82,0.83,0.83], borderColor: accentColor, borderWidth: 1, borderDash: [5,5], fill: '-1' }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0.75, max: 0.95, ticks: { callback: v => '$' + v.toFixed(2) } } } }
         });
-    </script>
+      }
 
-<script src="js/contrast-guard.js"></script>
+      const startsCtx = document.getElementById('co-starts-forecast');
+      if (startsCtx) {
+        new Chart(startsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026','Q3 2026','Q4 2026','Q1 2027'],
+            datasets: [{ label: 'Projected Starts', data: [3400,3520,3380,3340,3480,3620,3510,3450], backgroundColor: chartColor + '99' }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 3000, ticks: { callback: v => v.toLocaleString() + ' units' } } } }
+        });
+      }
+    });
+  </script>
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>

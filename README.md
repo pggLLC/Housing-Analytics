@@ -1,89 +1,196 @@
-# Housing-Analytics
+# LIHTC Analytics Hub
 
-An educational platform providing data-driven insights into LIHTC (Low-Income Housing Tax Credit) allocations, affordable housing market trends, and related economic indicators.
+> Data-driven market intelligence for affordable housing professionals — policymakers, developers, and researchers tracking the Low-Income Housing Tax Credit (LIHTC) program.
 
-## Repository Contents
+[![Deploy to GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-brightgreen)](https://your-org.github.io/lihtc-analytics-hub/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-### HTML Pages
+---
 
-| File | Description |
+## Overview
+
+LIHTC Analytics Hub is a static web application providing comprehensive data insights on:
+- **State LIHTC Allocations** — IRS per-capita cap data, year-over-year comparisons
+- **Colorado Market Deep Dive** — CHFA priorities, Denver metro trends, AMI gap analysis
+- **Economic Indicators** — Federal Reserve FRED data, construction costs, CPI
+- **Legislative Tracker** — AHCIA, CRA expansion, housing policy updates
+- **Regional Analysis** — Multifamily trends, CRA footprints, national allocation maps
+
+## Live Pages
+
+| Page | Description |
 |------|-------------|
-| `index.html` | Home page — LIHTC Analytics Hub overview |
-| `dashboard.html` | Main analytics dashboard |
-| `about.html` | About the project |
-| `insights.html` | Housing market insights |
-| `regional.html` | Regional housing data |
-| `census-dashboard.html` | U.S. Census data dashboard |
-| `economic-dashboard.html` | Economic indicators dashboard |
-| `colorado-market.html` | Colorado housing market deep dive |
-| `colorado-deep-dive.html` | Extended Colorado analysis |
-| `construction-commodities.html` | Construction commodity prices |
-| `article-pricing.html` | Pricing analysis articles |
-| `LIHTC-dashboard.html` | LIHTC-specific analytics |
-| `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `lihtc-guide-for-stakeholders.html` | Stakeholder reference guide |
+| `index.html` | Home — overview and navigation hub |
+| `economic-dashboard.html` | FRED-powered economic indicators dashboard |
+| `LIHTC-dashboard.html` | State LIHTC allocation maps and data |
+| `state-allocation-map.html` | D3 choropleth map of federal allocations |
+| `regional.html` | Regional housing market analysis |
+| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps) |
+| `colorado-market.html` | Colorado market overview and forecast |
+| `construction-commodities.html` | Construction cost commodity tracking |
+| `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
-| `cra-expansion-analysis.html` | CRA expansion analysis |
-| `state-allocation-map.html` | Federal LIHTC allocation map by state |
+| `insights.html` | Market insights and research articles |
+| `article-pricing.html` | Housing pricing analysis article |
+| `lihtc-guide-for-stakeholders.html` | LIHTC program guide |
+| `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
+| `census-dashboard.html` | U.S. Census data integration |
+| `dashboard.html` | Analytics dashboard |
+| `about.html` | About the project and methodology |
 
-### Stylesheets (`css/`)
+## Project Structure
 
-| File | Purpose |
-|------|---------|
-| `css/styles.css` | Base site styles |
-| `css/site-theme.css` | Site-wide color theme and typography |
-| `css/unified-theme.css` | Unified dark/light theme variables |
-| `css/responsive-nav.css` | Responsive navigation styles |
-| `css/predictions-dashboard.css` | Predictions dashboard layout |
+```
+lihtc-analytics-hub/
+├── index.html                   # Entry point
+├── *.html                       # 17 page files
+│
+├── css/
+│   ├── site-theme.css           # Design tokens, dark/light mode, typography
+│   ├── layout.css               # Containers, grids, print styles
+│   ├── pages.css                # Shared components (buttons, cards, hero, etc.)
+│   ├── predictions-dashboard.css # Economic dashboard layout
+│   └── colorado-deep-dive.css   # Colorado deep dive specific styles
+│
+├── js/
+│   ├── navigation.js            # Header/footer injection + mobile menu styles
+│   ├── dark-mode-toggle.js      # OS-aware dark/light mode with persistence
+│   ├── mobile-menu.js           # Hamburger menu for mobile
+│   ├── config.js                # API configuration (FRED, Census keys)
+│   ├── api-config-wrapper.js    # API key wrapper/guard
+│   ├── contrast-guard.js        # Accessibility contrast checking
+│   ├── citations.js             # Data source citation tooltips
+│   ├── data-service.js          # Data fetching utilities
+│   ├── fred-cards.js            # Federal Reserve FRED KPI cards
+│   ├── fred-commodities.js      # Commodity price charts
+│   ├── housing-data-integration.js # Housing market data integration
+│   ├── housing-predictions.js   # Forecasting models
+│   ├── census-geo.js            # Census geographic data
+│   ├── co-ami-gap.js            # Colorado AMI gap analysis
+│   ├── state-allocations-2024.js # 2024 IRS allocation data
+│   ├── state-allocations-2025.js # 2025 IRS allocation data
+│   ├── state-allocations-2026.js # 2026 IRS allocation data
+│   ├── trend-analysis.js        # Trend computation utilities
+│   ├── policy-simulator.js      # Policy impact simulator
+│   ├── map-overlay.js           # Map overlay utilities
+│   ├── ui-interactions.js       # UI interaction handlers
+│   └── vendor/                  # Vendored libraries (no CDN dependency)
+│       ├── chart.umd.min.js     # Chart.js v4
+│       ├── d3.v7.min.js         # D3.js v7
+│       ├── topojson.v3.min.js   # TopoJSON v3
+│       ├── leaflet.js           # Leaflet.js maps
+│       └── leaflet.css          # Leaflet map styles
+│
+├── data/
+│   ├── allocations.json         # LIHTC allocation data
+│   ├── census-acs-state.json    # ACS state-level data
+│   ├── co_ami_gap_by_county.json # Colorado AMI gap by county
+│   ├── fred-data.json           # Cached FRED economic data
+│   ├── prop123_jurisdictions.json # Prop 123 jurisdiction data
+│   └── states-10m.json          # US states TopoJSON
+│
+└── .github/
+    └── workflows/
+        └── deploy.yml           # Auto-deploy to GitHub Pages
+```
 
-### JavaScript (`js/`)
+## CSS Architecture
 
-| File | Purpose |
-|------|---------|
-| `js/main.js` | Site entry point |
-| `js/navigation.js` | Site navigation logic |
-| `js/responsive-nav.js` | Responsive nav with resize handling |
-| `js/dashboard.js` | Dashboard initialization |
-| `js/data.js` / `js/data-service.js` | Data loading and transformation |
-| `js/config.js` | API and feature configuration |
-| `js/app.js` | Application bootstrap |
-| `js/metrics.js` | Key metrics computation |
-| `js/forecasting.js` | Housing trend forecasting |
-| `js/trend-analysis.js` | Trend analysis utilities |
-| `js/policy-simulator.js` | Policy impact simulator |
-| `js/fred-kpi-cards.js` | FRED economic KPI cards |
-| `js/fred-construction-commodities.js` | Construction commodity price charts |
-| `js/state-allocations-*.js` | State LIHTC allocation data (2024–2026) |
-| `js/vendor/` | Bundled third-party libraries (Chart.js, D3, Leaflet, TopoJSON) |
+The site uses a **3-file CSS stack** — no build step required:
 
-### Documentation (`docs/`)
+```html
+<link rel="stylesheet" href="css/site-theme.css">   <!-- tokens, dark mode -->
+<link rel="stylesheet" href="css/layout.css">        <!-- containers, grids -->
+<link rel="stylesheet" href="css/pages.css">         <!-- all shared components -->
+```
 
-| File | Description |
-|------|-------------|
-| `docs/IMPLEMENTATION-GUIDE.md` | Upgrade and implementation instructions |
-| `docs/QUICK-REFERENCE.md` | Developer quick-reference card |
-| `docs/EXAMPLE-USAGE.html` | Component usage examples |
+Some pages add a 4th file for page-specific styles (e.g., `predictions-dashboard.css`).
 
-### Other
+### Design Tokens (in `site-theme.css`)
 
-| File/Folder | Description |
-|-------------|-------------|
-| `DEPLOYMENT_GUIDE.md` | GitHub Pages deployment instructions |
-| `AUTOMATION_SETUP_GUIDE.md` | Automated monitoring setup |
-| `DAILY_AUTOMATION_SETUP.md` | Daily monitoring schedule setup |
-| `WEBSITE_MONITORING_SETUP.md` | Website health monitoring guide |
-| `TESTING_GUIDE.md` | Testing procedures |
-| `test/` | Automated test scripts |
-| `.github/workflows/` | GitHub Actions CI/CD workflows |
-| `data/` | Static data files |
-| `includes/` | Shared HTML fragments (e.g., header) |
-| `serverless/` | Serverless function configuration |
-| `cloudflare-worker/` | Cloudflare Worker scripts |
+```css
+/* Colors */
+--accent, --accent2, --good, --warn, --bad, --info
+--bg, --bg2, --bg3, --card, --text, --text-strong, --muted, --faint, --border
+
+/* Spacing */
+--sp1 through --sp6
+
+/* Typography */
+--h1, --h2, --font-sans, --font-mono, --small, --tiny
+
+/* Shadows & Radius */
+--shadow, --shadow-lg, --radius, --radius-lg
+```
+
+Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` and the `.dark-mode` class for manual override.
+
+## API Configuration
+
+Some dashboards use live API data. Create `js/config.local.js` (gitignored) with your API keys:
+
+```js
+// js/config.local.js — NOT committed to git
+window.LIHTC_CONFIG = {
+  FRED_API_KEY: 'your-fred-api-key-here',
+  CENSUS_API_KEY: 'your-census-api-key-here'
+};
+```
+
+Free API keys:
+- **FRED**: https://fred.stlouisfed.org/docs/api/api_key.html
+- **Census**: https://api.census.gov/data/key_signup.html
+
+Without API keys, dashboards fall back to cached data in `/data/*.json`.
 
 ## Deployment
 
-See [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) for step-by-step instructions to deploy this site on GitHub Pages.
+### GitHub Pages (Recommended)
+
+1. Fork / push this repo to GitHub
+2. Go to **Settings → Pages**
+3. Source: `Deploy from a branch` → `main` / `/ (root)`
+4. The GitHub Actions workflow (`.github/workflows/deploy.yml`) will auto-deploy on every push to `main`
+
+### Local Development
+
+```bash
+# Using npx serve (no install needed)
+npx serve . -p 3000
+
+# Or Python 3
+python3 -m http.server 3000
+```
+
+Then open `http://localhost:3000`
+
+### Netlify / Vercel
+
+Drop the repo into Netlify or Vercel with these settings:
+- **Build command**: *(none — static site)*
+- **Publish directory**: `.` (root)
+
+## Data Sources
+
+All data is sourced from authoritative public sources:
+
+| Source | Data |
+|--------|------|
+| [IRS LIHTC Database](https://www.irs.gov/credits-deductions/businesses/low-income-housing-tax-credit) | Annual allocation caps and per-capita amounts |
+| [U.S. Census ACS](https://www.census.gov/programs-surveys/acs) | AMI, income, housing cost burden |
+| [Federal Reserve FRED](https://fred.stlouisfed.org/) | Construction costs, CPI, interest rates |
+| [HUD / HUDUSER](https://www.huduser.gov/) | Fair market rents, income limits |
+| [CHFA Colorado](https://www.chfainfo.com/) | Colorado-specific LIHTC QAP and allocations |
+| [BLS & BEA](https://www.bls.gov/) | Employment, wages, economic indicators |
+
+## Browser Support
+
+- Chrome 90+, Firefox 90+, Safari 14+, Edge 90+
+- Requires CSS Custom Properties, Grid, and `color-mix()` (for hover effects)
+- `color-mix()` gracefully degrades on older browsers — hover states just use the base color
 
 ## License
 
-See [LICENSE](LICENSE) for terms of use.
+MIT © LIHTC Analytics Hub
+
+This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.

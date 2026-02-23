@@ -1,27 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CRA Expansion Impact Analysis - LIHTC Analytics Hub</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-
-<script src="js/vendor/chart.umd.min.js"></script>
-
-<script src="js/config.js"></script>
-<script defer="defer" src="js/navigation.js"></script>
-<script defer="defer" src="js/dark-mode-toggle.js"></script>
-<script defer="defer" src="js/mobile-menu.js"></script>
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
-  <link rel="stylesheet" href="css/dark-mode.css"/>
-  <link rel="stylesheet" href="css/responsive.css"/>
-  <link rel="stylesheet" href="css/accessibility.css"/>
-  <link rel="stylesheet" href="css/performance.css"/>
-  <link rel="stylesheet" href="css/print.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRA Expansion Impact Analysis | LIHTC Analytics Hub</title>
+  <meta name="description" content="Predictive modeling of CRA expansion scenarios and LIHTC pricing forecasts.">
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
 <body data-page="cra-expansion-analysis.html">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -263,9 +253,6 @@
 <div style="opacity: 0.9;">Expected 9% credit pricing range by Q4 2027</div>
 </div>
 </div>
-
-<script src="js/citations.js"></script>
-<script src="js/cra-expansion-forecast.js"></script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('scenarios-chart');
@@ -331,58 +318,6 @@
         });
     </script>
 
-<script src="js/contrast-guard.js"></script>
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>
-<div style="margin-top: 4rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Sources &amp; Methodology</h3>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Legislative Sources:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li><strong>Affordable Housing Credit Improvement Act (AHCIA)</strong> - H.R. 3238 / S. 1557, introduced 118th Congress</li>
-<li><strong>Community Reinvestment Act Modernization proposals</strong> - Federal Reserve, OCC, FDIC regulatory proposals</li>
-<li><strong>Congressional Budget Office (CBO)</strong> - Cost estimates and policy impact analysis</li>
-<li><strong>National Low Income Housing Coalition</strong> - Legislative tracking and advocacy positions</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Market Data Sources:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li><strong>Novogradac</strong> - Current LIHTC pricing ($0.87 for 9% credits, June 2025) and historical trends</li>
-<li><strong>HUD LIHTC Database</strong> - Allocation volumes and project counts</li>
-<li><strong>Federal Financial Institutions Examination Council (FFIEC)</strong> - CRA examination data and performance metrics</li>
-<li><strong>National Credit Union Administration (NCUA)</strong> - Credit union industry data</li>
-<li><strong>National Association of Insurance Commissioners (NAIC)</strong> - Insurance company investment patterns</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Forecasting Methodology:</h4>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
-<strong>Scenario Construction:</strong> Four scenarios developed based on graduated levels of CRA expansion, from baseline (no change) through transformative reform. Each scenario models investor pool expansion, pricing impacts, and implementation timelines based on historical regulatory changes and policy precedents.
-                </p>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
-<strong>Probability Weighting:</strong> Probabilities assigned based on: (1) Congressional sponsor support levels, (2) historical passage rates for housing legislation, (3) current political environment analysis, (4) stakeholder advocacy strength, and (5) regulatory agency positions. Baseline (40%) reflects status quo bias; moderate (35%) aligns with AHCIA support levels; aggressive (20%) and transformative (5%) reflect increasing political difficulty.
-                </p>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
-<strong>Pricing Impact Modeling:</strong> Demand increases estimated from: current CRA-eligible institution count vs. potential expansion universe, historical pricing responses to demand shocks, supply elasticity of LIHTC allocations (relatively fixed), and equilibrium price theory. Supply pressures (increased 9% allocations, lower 4% threshold) factored as offsets.
-                </p>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem;">
-<strong>Implementation Timeline:</strong> 2-4 quarter ramp-up based on: Federal Reserve historical CRA rule implementation (18-24 months), investor onboarding timelines for new asset classes (6-12 months), and state HFA process adaptations (3-6 months). Full market impact modeled at 12-18 months post-passage.
-                </p>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Key Assumptions:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>Credit union universe: ~5,000 institutions &gt;$100M assets eligible for CRA-equivalent mandate</li>
-<li>Insurance company participation: Major life insurers (~50 companies) with tax credit appetite</li>
-<li>Corporate tax rate stability: No major changes to corporate income tax affecting base demand</li>
-<li>Supply response: State allocations relatively fixed (minor adjustments only)</li>
-<li>Competition effect: More investors = higher pricing (standard market dynamics)</li>
-</ul>
-</div>
-<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px;">
-<p style="font-size: 0.875rem; line-height: 1.7; margin: 0;">
-<strong>Critical Disclaimer:</strong> These forecasts are analytical estimates based on policy analysis and economic modeling. Actual outcomes depend on: (1) specific legislative language and implementation rules, (2) macroeconomic conditions, (3) corporate tax policy changes, (4) state HFA responses, and (5) investor behavior changes. Pricing could vary significantly from projections. Legislative passage is uncertain - bill text may change materially in conference or final passage. This analysis is for informational purposes only and should not be the sole basis for investment or development decisions. Consult qualified professionals for project-specific guidance.
-                </p>
-</div>
-</div>

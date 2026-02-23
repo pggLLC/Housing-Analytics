@@ -1,9 +1,18 @@
 {
+  "name": "lihtc-analytics-hub",
+  "version": "2.0.0",
+  "description": "Data-driven insights into LIHTC allocations, affordable housing development, and market dynamics across the United States.",
+  "homepage": "https://github.com/your-org/lihtc-analytics-hub",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "test:lighthouse": "node test/lighthouse.js",
-    "test:scripts": "node test/scripts.js",
-    "test:fallback": "node test/fallback.js",
-    "test:vendor": "node test/vendor.js",
-    "test:all": "npm run test:lighthouse && npm run test:scripts && npm run test:fallback && npm run test:vendor"
+    "serve": "npx serve . -p 3000",
+    "validate": "node scripts/validate.js",
+    "lint:html": "npx htmlhint '*.html'",
+    "lint:css": "npx stylelint 'css/*.css'"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16"
   }
 }

@@ -6,12 +6,9 @@
 (function () {
   const LINKS = [
     { label: "Home", href: "index.html" },
-    { label: "Economic Dashboard", href: "economic-dashboard.html" },
-    { label: "LIHTC Allocations", href: "LIHTC-dashboard.html" },
-    { label: "State Allocation Map", href: "state-allocation-map.html" },
-    { label: "Regional", href: "regional.html" },
-    { label: "Colorado Deep Dive", href: "colorado-deep-dive.html" },
+    { label: "Dashboard", href: "economic-dashboard.html" },
     { label: "Market Insights", href: "insights.html" },
+    { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
     { label: "About", href: "about.html" },
   ];
 
@@ -54,6 +51,19 @@
       .footer-wrap a{color:var(--muted);text-decoration:none}
       .footer-wrap a:hover{color:var(--text)}
       main{max-width:1200px;margin:0 auto;padding:18px}
+      .mobile-menu-btn{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:8px}
+      .mobile-menu-btn span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.2s,opacity 0.2s}
+      .mobile-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+      .mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+      .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+      @media(max-width:768px){
+        .mobile-menu-btn{display:flex}
+        nav.site-nav{position:fixed;top:58px;left:0;right:0;bottom:0;background:var(--card);flex-direction:column;padding:1.25rem;gap:4px;overflow-y:auto;z-index:49;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+        nav.site-nav.nav-collapsed{display:none}
+        nav.site-nav.nav-expanded{display:flex}
+        nav.site-nav a{padding:14px 16px;border-radius:10px;font-size:1rem;border:1px solid transparent}
+        nav.site-nav a:hover,nav.site-nav a.is-active{background:var(--bg2);border-color:var(--border)}
+      }
     `;
     document.head.appendChild(s);
   }

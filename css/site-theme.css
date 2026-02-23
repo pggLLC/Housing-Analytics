@@ -504,3 +504,97 @@ main h3:first-child { margin-top: 0; }
 
 /* Reduce default paragraph-to-paragraph gap inside cards */
 .card p + p, .panel p + p { margin-top: var(--sp2); }
+
+/* ================================================================
+   DARK MODE TOGGLE (class-based override + toggle button styles)
+   ================================================================ */
+   3. MANUAL TOGGLE support (.dark-mode class on <html>)
+      Allows js/dark-mode-toggle.js to force dark regardless of OS.
+   ---------------------------------------------------------------- */
+html.dark-mode {
+  color-scheme: dark;
+
+  /* Mirror dark-mode variable values when forced via JS toggle */
+  --bg:            #08121e;
+  --bg2:           #0c1928;
+  --bg3:           #0f1e30;
+  --card:          #0d1e30;
+  --card2:         #102234;
+  --surface:       #112438;
+  --text:          rgba(215,232,248,.93);
+  --text-strong:   #e4f0fc;
+  --muted:         rgba(155,185,215,.72);
+  --faint:         rgba(120,155,190,.48);
+  --border:        rgba(90,150,210,.11);
+  --border-strong: rgba(90,150,210,.22);
+  --link:          #5ecbcc;
+  --link-hover:    #7dd8d9;
+  --accent:        #0fd4cf;
+  --accent-dim:    rgba(15,212,207,.12);
+  --accent2:       #fbbf24;
+  --accent2-dim:   rgba(251,191,36,.12);
+  --good:          #34d399;
+  --good-dim:      rgba(52,211,153,.12);
+  --warn:          #fbbf24;
+  --warn-dim:      rgba(251,191,36,.12);
+  --bad:           #f87171;
+  --bad-dim:       rgba(248,113,113,.12);
+  --info:          #60a5fa;
+  --info-dim:      rgba(96,165,250,.11);
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.30);
+  --shadow:        0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
+  --shadow-lg:     0 16px 48px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.35);
+  --shadow-card:   0 2px 8px rgba(0,0,0,.35),0 0 0 1px rgba(90,150,210,.10);
+  --color-background:     var(--bg);
+  --color-background-alt: var(--bg2);
+  --color-surface:        var(--card);
+  --color-text:           var(--text);
+  --color-text-light:     var(--muted);
+  --color-text-muted:     var(--faint);
+  --color-border:         var(--border);
+  --bg-primary:           var(--bg);
+  --bg-secondary:         var(--bg2);
+  --text-primary:         var(--text);
+  --text-secondary:       var(--muted);
+  --accent-gold:          var(--accent2);
+  --border-color:         var(--border);
+}
+
+html.dark-mode body,
+html.dark-mode html {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* ----------------------------------------------------------------
+   4. DARK MODE TOGGLE BUTTON (optional, injected by dark-mode-toggle.js)
+   ---------------------------------------------------------------- */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--bg2);
+  box-shadow: var(--shadow-lg);
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), var(--shadow);
+}
