@@ -176,7 +176,9 @@ function loadCache(key) {
           const continueBtn = await page.$('button[type="submit"]');
           if (continueBtn) {
             await continueBtn.click();
-            await page.waitForSelector('input[type="password"]', { timeout: 10000 }).catch(() => {});
+            await page.waitForSelector('input[type="password"]', { timeout: 10000 }).catch(() => {
+              console.warn('  Password field not found within timeout.');
+            });
           }
         }
 
@@ -224,9 +226,7 @@ function loadCache(key) {
         console.warn(`  No CSV link found for "${dataset.label}". Falling back to cache.`);
         const cached = loadCache(dataset.key);
         if (cached) {
-          cached.fetchedAt = new Date().toISOString();
-          cached.source = 'cache';
-          saveJson(dataset.key, cached);
+          saveJson(dataset.key, { ...cached, fetchedAt: new Date().toISOString(), source: 'cache' });
         } else {
           console.warn(`  No cache available for "${dataset.label}". Skipping.`);
         }
@@ -241,9 +241,7 @@ function loadCache(key) {
         console.warn(`  Download failed: ${dlErr.message}. Falling back to cache.`);
         const cached = loadCache(dataset.key);
         if (cached) {
-          cached.fetchedAt = new Date().toISOString();
-          cached.source = 'cache';
-          saveJson(dataset.key, cached);
+          saveJson(dataset.key, { ...cached, fetchedAt: new Date().toISOString(), source: 'cache' });
         }
         continue;
       }
@@ -255,9 +253,7 @@ function loadCache(key) {
         console.warn(`  CSV parse error: ${parseErr.message}. Falling back to cache.`);
         const cached = loadCache(dataset.key);
         if (cached) {
-          cached.fetchedAt = new Date().toISOString();
-          cached.source = 'cache';
-          saveJson(dataset.key, cached);
+          saveJson(dataset.key, { ...cached, fetchedAt: new Date().toISOString(), source: 'cache' });
         }
         continue;
       }
