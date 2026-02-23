@@ -13,88 +13,172 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- Navigation injected by navigation.js -->
+<style>
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+        
+        .hero-title {
+            color: var(--accent-gold);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+        
+        .built-for-section {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .built-for-title {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .built-for-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .built-for-list li {
+            color: var(--text-primary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .built-for-list li:before {
+            content: "•";
+            color: var(--accent-gold);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .why-matters-section {
+            background-color: var(--bg-primary);
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+        }
+        
+        .section-title {
+            color: var(--accent-gold);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-content {
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .reference-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-gold);
+        }
+        
+        .reference-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border-left: 4px solid var(--accent-gold);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-title {
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .data-source-note {
+            background-color: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script defer="defer" src="js/navigation.js"></script>
+<script defer="defer" src="js/dark-mode-toggle.js"></script>
+<script defer="defer" src="js/mobile-menu.js"></script>
 
   <main id="main-content" class="page-home">
 
-    <!-- Hero -->
-    <section class="hero" aria-label="Introduction">
-      <div class="container">
-        <span class="kicker">Affordable Housing Intelligence</span>
-        <h1>LIHTC Analytics Hub</h1>
-        <p class="hero-sub">
-          Data-driven market intelligence for the Low-Income Housing Tax Credit program.
-          Track allocations, pricing trends, and development opportunities across all 50 states.
-        </p>
-        <div class="hero-actions">
-          <a href="economic-dashboard.html" class="btn btn-primary">Explore Dashboard</a>
-          <a href="colorado-deep-dive.html" class="btn">Colorado Deep Dive</a>
-          <a href="insights.html" class="btn">Market Insights</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Key Metrics KPI Grid -->
-    <section class="kpi-section" aria-label="Key market metrics">
-      <div class="container">
-        <div class="section-heading">
-          <span class="kicker">Market Snapshot</span>
-          <h2>Key Performance Indicators</h2>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card card">
-            <div class="kpi-value">$0.87</div>
-            <div class="kpi-label">9% Credit Price (Q1 2026)</div>
-            <div class="kpi-source"><a href="https://www.novoco.com" target="_blank" rel="noopener">Novogradac</a></div>
-          </div>
-          <div class="kpi-card card">
-            <div class="kpi-value">3.6M</div>
-            <div class="kpi-label">Affordable Units Financed (since 1986)</div>
-            <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
-          </div>
-          <div class="kpi-card card">
-            <div class="kpi-value">50</div>
-            <div class="kpi-label">States with Active Allocations</div>
-            <div class="kpi-source"><a href="https://www.ncsha.org" target="_blank" rel="noopener">NCSHA</a></div>
-          </div>
-          <div class="kpi-card card">
-            <div class="kpi-value">$11B+</div>
-            <div class="kpi-label">Annual Federal LIHTC Authority</div>
-            <div class="kpi-source"><a href="https://www.congress.gov" target="_blank" rel="noopener">Congress.gov</a></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Insights -->
-    <section class="featured-section" aria-label="Featured insights">
-      <div class="container">
-        <div class="section-heading">
-          <span class="kicker">Latest Analysis</span>
-          <h2>Featured Insights</h2>
-        </div>
-        <div class="featured-grid">
-          <article class="featured-card">
-            <span class="tag pill accent">Breaking News</span>
-            <h3>Housing for the 21st Century Act Passes House 390&ndash;9</h3>
-            <p>
-              Analysis of H.R. 6644's impact on LIHTC development, publicly traded housing stocks,
-              and construction commodity forecasts showing +5&ndash;10% cost increases for 2026.
-            </p>
-            <div class="card-meta">Feb 13, 2026 &middot; 15 min read &middot; <em>Congress.gov, BLS, NAHB</em></div>
-            <a href="housing-legislation-2026.html" class="btn btn-primary">Read Analysis</a>
-          </article>
-
-          <article class="featured-card">
-            <span class="tag pill warn">Q1 2026 Report</span>
-            <h3>Tax Credit Pricing Reaches Historic Lows</h3>
-            <p>
-              9% credit pricing drops to $0.84 in Q1 2026, the lowest level in three years as
-              corporate tax appetite softens and credit supply increases.
-            </p>
-            <div class="card-meta">Feb 8, 2026 &middot; 6 min read &middot; <em>Novogradac, HUD</em></div>
-            <a href="article-pricing.html" class="btn btn-primary">Read Analysis</a>
-          </article>
+  <link rel="stylesheet" href="css/site-theme.css"/>
+  <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/accessibility.css"/>
+  <link rel="stylesheet" href="css/performance.css"/>
+  <link rel="stylesheet" href="css/print.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content">
+<section class="section" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
+  <div class="container" style="max-width: 900px;">
 
           <article class="featured-card">
             <span class="tag pill accent">Regional Focus</span>
