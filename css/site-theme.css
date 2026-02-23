@@ -62,8 +62,10 @@
   --h1:  clamp(1.7rem, 3.5vw, 2.6rem);
   --h2:  clamp(1.15rem, 2vw, 1.4rem);
   --h3:  1.05rem;
-  --body: 0.875rem;
-  --small: 0.775rem;
+  --body: 0.938rem;
+  --small: 0.875rem;
+  --tiny: 0.75rem;
+  --caption: 0.688rem;
 
   --focus-ring: 0 0 0 3px rgba(14,165,160,.30);
 
@@ -281,7 +283,7 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 @media (min-width: 860px) { .metric { grid-column: span 4; } }
 .metric h3 { font-size: 0.9rem; color: var(--text) !important; margin: 0 0 6px; font-weight: 700; }
 .metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
-.metric .meta { color: var(--muted) !important; font-size: var(--small); display: flex; gap: 10px; margin-top: 4px; }
+.metric .meta { color: var(--muted) !important; font-size: var(--tiny); display: flex; gap: 10px; margin-top: 4px; }
 .chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
 canvas { width: 100% !important; height: 180px !important; }
 
@@ -290,7 +292,7 @@ canvas { width: 100% !important; height: 180px !important; }
    ================================================================ */
 table { background: transparent !important; color: var(--text) !important; width: 100%; border-collapse: collapse; }
 table th { color: var(--text) !important; font-weight: 700; font-size: var(--small); text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg2) !important; padding: 10px 14px; border-bottom: 2px solid var(--border-strong); }
-table td { color: var(--muted) !important; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+table td { color: var(--muted) !important; padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: var(--body); }
 table tr:last-child td { border-bottom: none; }
 table tr:hover td { background: var(--accent-dim); }
 .table-container { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
@@ -311,7 +313,7 @@ label { color: var(--muted) !important; font-size: var(--small); font-weight: 60
 /* ================================================================
    12. BUTTONS
    ================================================================ */
-.btn { cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--card); color: var(--text) !important; padding: 8px 16px; font-family: var(--font-sans); font-size: 0.84rem; font-weight: 700; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none !important; }
+.btn { cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--card); color: var(--text) !important; padding: 8px 16px; font-family: var(--font-sans); font-size: var(--small); font-weight: 700; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none !important; }
 .btn:hover { background: var(--bg2); box-shadow: var(--shadow-sm); }
 .btn.primary, .btn-primary { background: var(--accent) !important; border-color: transparent; color: #fff !important; }
 .btn.primary:hover { opacity: 0.9; }
@@ -320,7 +322,7 @@ label { color: var(--muted) !important; font-size: var(--small); font-weight: 60
 /* ================================================================
    13. PILLS, BADGES
    ================================================================ */
-.pill, .badge, .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted) !important; font-weight: 600; font-size: 0.77rem; }
+.pill, .badge, .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted) !important; font-weight: 600; font-size: var(--small); }
 .pill strong, .badge strong { color: var(--text) !important; }
 .pill.accent { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent) !important; }
 .pill.warn   { background: var(--warn-dim);   border-color: color-mix(in srgb, var(--warn) 30%, transparent);  color: var(--warn) !important; }
@@ -350,7 +352,9 @@ details[open] > summary::after { transform: rotate(90deg); }
    ================================================================ */
 .kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent) !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
 .sub  { color: var(--muted) !important; max-width: 72ch; }
-.note { color: var(--faint) !important; font-size: 0.79rem; margin-top: var(--sp3); }
+.card-meta { color: var(--faint) !important; font-size: var(--tiny); }
+.note { color: var(--faint) !important; font-size: var(--caption); margin-top: var(--sp3); }
+.disclaimer { color: var(--faint) !important; font-size: var(--caption); }
 .err  { color: var(--bad) !important; font-weight: 700; }
 .ok   { color: var(--good) !important; font-weight: 700; }
 .text-muted { color: var(--muted) !important; }
