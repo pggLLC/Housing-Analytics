@@ -1,0 +1,199 @@
+/* ================================================================
+   layout.css — LIHTC Analytics Hub
+   Global layout styles: containers, page wrappers, grid baseline,
+   print styles. Loaded after site-theme.css and before page CSS.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Container helpers
+   ---------------------------------------------------------------- */
+.container {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: var(--sp4);
+}
+
+.container-sm {
+  max-width: 860px;
+  margin-inline: auto;
+  padding-inline: var(--sp4);
+}
+
+.container-wide {
+  max-width: 100%;
+  padding-inline: var(--sp4);
+}
+
+/* ----------------------------------------------------------------
+   Page wrapper — gives each page a consistent inner shell
+   ---------------------------------------------------------------- */
+.page-wrapper {
+  min-height: calc(100vh - 120px);
+  padding-block: var(--sp5);
+}
+
+/* ----------------------------------------------------------------
+   Section spacing
+   ---------------------------------------------------------------- */
+.section {
+  padding-block: var(--sp5);
+}
+
+.section-sm {
+  padding-block: var(--sp4);
+}
+
+.section-lg {
+  padding-block: var(--sp6);
+}
+
+/* ----------------------------------------------------------------
+   Two-column and three-column layouts
+   ---------------------------------------------------------------- */
+.layout-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp5);
+}
+
+.layout-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp4);
+}
+
+@media (max-width: 1024px) {
+  .layout-3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-2col,
+  .layout-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Sidebar layout
+   ---------------------------------------------------------------- */
+.layout-sidebar {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--sp4);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .layout-sidebar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Breadcrumbs
+   ---------------------------------------------------------------- */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: var(--small);
+  color: var(--muted);
+  margin-bottom: var(--sp3);
+}
+
+.breadcrumb a {
+  color: var(--muted) !important;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--accent) !important;
+}
+
+.breadcrumb-sep {
+  color: var(--faint);
+  user-select: none;
+}
+
+/* ----------------------------------------------------------------
+   Page header block (used on inner pages)
+   ---------------------------------------------------------------- */
+.page-header {
+  margin-bottom: var(--sp4);
+  padding-bottom: var(--sp3);
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header h1 {
+  margin-bottom: var(--sp2);
+}
+
+.page-header .subtitle {
+  color: var(--muted) !important;
+  font-size: 1rem;
+  max-width: 72ch;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------
+   Skip link (accessibility)
+   ---------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--sp4);
+  background: var(--accent);
+  color: #fff !important;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-decoration: none !important;
+  z-index: 9999;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: var(--sp3);
+}
+
+/* ----------------------------------------------------------------
+   Print styles
+   ---------------------------------------------------------------- */
+@media print {
+  .skip-link,
+  header.site-header,
+  footer.site-footer,
+  nav,
+  .btn,
+  .toolbar {
+    display: none !important;
+  }
+
+  main {
+    max-width: none !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .card,
+  .kpi-card,
+  .chart-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  @page {
+    margin: 1cm;
+  }
+}
