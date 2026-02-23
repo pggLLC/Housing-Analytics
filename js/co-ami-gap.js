@@ -37,7 +37,14 @@
     return v || fallback;
   }
 
+  /* In-memory fetch cache */
+  const _fetchCache = {};
   async function fetchJson(url) {
+    if (_fetchCache[url]) return _fetchCache[url];
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
+    const data = await res.json();
+    _fetchCache[url] = data;
     if (_cache[url]) return _cache[url];
     const res = await fetch(url, { cache: "default" });
     if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
@@ -182,7 +189,14 @@
         ? `<div class="ami-gap-cov-bar" style="--pct:${Math.min(100, covPct).toFixed(1)}%"></div>`
         : "";
 
+      /* Color-code entire row: surplus = subtle green tint, shortage = subtle red tint */
+      const rowBgValue = gap == null ? ""
+        : gap >= 0
+          ? `background:${cssVar("--good-dim", "rgba(5,150,105,.06)")}`
+          : `background:${cssVar("--bad-dim",  "rgba(220,38,38,.06)")}`;
+
       const tr = document.createElement("tr");
+      if (rowBgValue) tr.style.cssText = rowBgValue;
       tr.innerHTML = `
         <td><strong>≤ ${b}% AMI</strong></td>
         <td>${rent != null ? "$" + fmt(rent) + "/mo" : "—"}</td>
@@ -195,11 +209,38 @@
     });
   }
 
+  /* CSV export for AMI gap data */
+  function exportAmiGapCSV(payload, item) {
+    const bands = payload.bands || DEFAULT_BANDS;
+    const rows = [["AMI Band","Affordable Rent ($/mo)","Households","Affordable Units","Gap (units-HH)","Coverage"]];
+    bands.forEach(b => {
+      const key = String(b);
+      rows.push([
+        `<=${b}% AMI`,
+        item.affordable_rent_monthly?.[key] ?? "",
+        item.households_le_ami_pct?.[key] ?? "",
+        item.units_priced_affordable_le_ami_pct?.[key] ?? "",
+        item.gap_units_minus_households_le_ami_pct?.[key] ?? "",
+        item.coverage_le_ami_pct?.[key] ?? ""
+      ]);
+    });
+    const csv = rows.map(r => r.join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "co_ami_gap.csv";
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  }
+
   /* Bar chart: households vs priced-affordable units at each AMI band */
   function renderComparisonChart(payload, item, refs) {
     const bands = payload.bands || DEFAULT_BANDS;
     const ctx = $("#amiGapComparisonChart");
     if (!ctx || !window.Chart) return;
+
+    ctx.setAttribute("role", "img");
+    ctx.setAttribute("aria-label", "Bar chart comparing households and affordable units by AMI band");
 
     const hhs = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const uns = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
@@ -271,13 +312,18 @@
     });
   }
 
-  /* Bar chart: affordability gap (units minus households) at each AMI band */
+  /* Dual-axis chart: gap bars (left axis) + households & units lines (right axis) */
   function renderGapChart(payload, item, refs) {
     const bands = payload.bands || DEFAULT_BANDS;
     const ctx = $("#amiGapChart");
     if (!ctx || !window.Chart) return;
 
+    ctx.setAttribute("role", "img");
+    ctx.setAttribute("aria-label", "Dual-axis chart: affordability gap bars with households and units trend lines");
+
     const gaps = getSeries(item.gap_units_minus_households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
+    const hhs  = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
+    const uns  = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const households = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const units = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
 
@@ -338,19 +384,52 @@
       type: "bar",
       data: {
         labels: bands.map(b => `≤${b}% AMI`),
-        datasets: [{
-          label: "Gap (units − households)",
-          data: gaps,
-          backgroundColor: gaps.map(v => v >= 0 ? COLOR_SURPLUS        : COLOR_DEFICIT),
-          borderColor:     gaps.map(v => v >= 0 ? COLOR_SURPLUS_SOLID   : COLOR_DEFICIT_SOLID),
-          borderWidth: 1,
-          borderRadius: 4
-        }]
+        datasets: [
+          {
+            label: "Gap (units − households)",
+            data: gaps,
+            backgroundColor: gaps.map(v => v >= 0 ? COLOR_SURPLUS        : COLOR_DEFICIT),
+            borderColor:     gaps.map(v => v >= 0 ? COLOR_SURPLUS_SOLID   : COLOR_DEFICIT_SOLID),
+            borderWidth: 1,
+            borderRadius: 4,
+            yAxisID: "yGap",
+            order: 2
+          },
+          {
+            label: "Households",
+            data: hhs,
+            type: "line",
+            borderColor: "rgba(59,130,246,.85)",
+            backgroundColor: "transparent",
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.3,
+            yAxisID: "yCount",
+            order: 1
+          },
+          {
+            label: "Affordable Units",
+            data: uns,
+            type: "line",
+            borderColor: "rgba(34,163,111,.85)",
+            backgroundColor: "transparent",
+            borderWidth: 2,
+            borderDash: [4,3],
+            pointRadius: 3,
+            tension: 0.3,
+            yAxisID: "yCount",
+            order: 1
+          }
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
         plugins: {
+          legend: {
+            labels: { color: textColor, font: { size: 12 }, padding: 14 }
+          },
           legend: { display: true, labels: { boxWidth: 12 } },
           tooltip: {
             mode: "index",
@@ -359,6 +438,9 @@
               label: (c) => {
                 const v = c.parsed.y;
                 if (c.dataset.label === "Gap (units − households)") {
+                  return ` Gap: ${(v >= 0 ? "+" : "") + Math.round(v).toLocaleString()} units`;
+                }
+                return ` ${c.dataset.label}: ${Math.round(v).toLocaleString()}`;
                   const s = (v >= 0 ? "+" : "") + Math.round(v).toLocaleString();
                   return ` Gap: ${s}`;
                 }
@@ -385,7 +467,9 @@
             grid: { color: gridColor },
             border: { color: borderColor }
           },
-          y: {
+          yGap: {
+            type: "linear",
+            position: "left",
             ticks: {
               color: mutedColor, font: { size: 11 },
               callback: (v) => {
@@ -395,7 +479,23 @@
               }
             },
             grid: { color: gridColor },
-            border: { color: borderColor }
+            border: { color: borderColor },
+            title: { display: true, text: "Gap (units)", color: mutedColor, font: { size: 10 } }
+          },
+          yCount: {
+            type: "linear",
+            position: "right",
+            ticks: {
+              color: mutedColor, font: { size: 11 },
+              callback: (v) => {
+                if (v >= 1e6) return (v / 1e6).toFixed(1) + "M";
+                if (v >= 1e3) return (v / 1e3).toFixed(0) + "K";
+                return v;
+              }
+            },
+            grid: { drawOnChartArea: false },
+            border: { color: borderColor },
+            title: { display: true, text: "HH / Units", color: mutedColor, font: { size: 10 } }
           }
         }
       }
@@ -422,6 +522,17 @@
         payload.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(" • ") +
         "</p>";
     }
+    /* Methodology tooltips via title + aria-describedby */
+    el.querySelectorAll("[data-tooltip]").forEach(node => {
+      node.title = node.dataset.tooltip;
+      const tipId = "amiTip_" + Math.random().toString(36).slice(2);
+      const span = document.createElement("span");
+      span.id = tipId;
+      span.className = "sr-only";
+      span.textContent = node.dataset.tooltip;
+      node.insertAdjacentElement("afterend", span);
+      node.setAttribute("aria-describedby", tipId);
+    });
   }
 
   function pickItem(payload, fips) {
@@ -471,19 +582,43 @@
     const epEl = $("#amiGapEndpoint");
     if (epEl) epEl.textContent = endpoint;
 
-    let payload;
-    try {
-      payload = await fetchJson(endpoint);
-    } catch (e) {
-      console.error(e);
-      const errEl = $("#amiGapError");
-      if (errEl) {
-        errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
-        errEl.style.display = "block";
-      }
-      return;
-    }
+    /* IntersectionObserver-based lazy loading */
+    function loadModule() {
+      let payload;
+      const load = async () => {
+        try {
+          payload = await fetchJson(endpoint);
+        } catch (e) {
+          console.error(e);
+          const errEl = $("#amiGapError");
+          if (errEl) {
+            errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
+            errEl.style.display = "block";
+          }
+          return;
+        }
 
+        renderMetadata(payload.meta);
+        renderMethodology(payload);
+
+        buildCountyOptions(payload.counties || []);
+        const refs = { comparison: null, gap: null };
+
+        function update() {
+          const sel = $("#amiGapCountySelect");
+          const fips = sel ? sel.value : "STATE";
+          const item = pickItem(payload, fips);
+
+          const titleEl = $("#amiGapGeoTitle");
+          if (titleEl) titleEl.textContent = (fips === "STATE") ? "Colorado (statewide)" : item.county_name;
+          renderCards(payload, item);
+          renderTable(payload, item);
+          renderComparisonChart(payload, item, refs);
+          renderGapChart(payload, item, refs);
+        }
+
+        const sel = $("#amiGapCountySelect");
+        if (sel) sel.addEventListener("change", update);
     // Lazy-load: defer heavy fetch until module scrolls into view
     const loadData = async () => {
       let payload;
@@ -544,22 +679,31 @@
     buildCountyOptions(payload.counties || []);
     const refs = { comparison: null, gap: null };
 
-    function update() {
-      const sel = $("#amiGapCountySelect");
-      const fips = sel ? sel.value : "STATE";
-      const item = pickItem(payload, fips);
+        /* CSV export button */
+        const exportBtn = $("#amiGapExportBtn");
+        if (exportBtn) {
+          exportBtn.addEventListener("click", () => {
+            const fips = sel ? sel.value : "STATE";
+            exportAmiGapCSV(payload, pickItem(payload, fips));
+          });
+        }
 
-      const titleEl = $("#amiGapGeoTitle");
-      if (titleEl) titleEl.textContent = (fips === "STATE") ? "Colorado (statewide)" : item.county_name;
-      renderCards(payload, item);
-      renderTable(payload, item);
-      renderComparisonChart(payload, item, refs);
-      renderGapChart(payload, item, refs);
+        update();
+      };
+      load();
     }
 
-    const sel = $("#amiGapCountySelect");
-    if (sel) sel.addEventListener("change", update);
-    update();
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        if (entries.some(e => e.isIntersecting)) {
+          obs.unobserve(root);
+          loadModule();
+        }
+      }, { rootMargin: "200px" });
+      observer.observe(root);
+    } else {
+      loadModule();
+    }
   }
 
   document.addEventListener("DOMContentLoaded", init);
