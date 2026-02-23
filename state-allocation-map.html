@@ -1,277 +1,231 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>2026 Federal LIHTC Information by State | LIHTC Analytics Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 Federal LIHTC Information by State | LIHTC Analytics Hub</title>
+  <meta name="description" content="Interactive map showing Low-Income Housing Tax Credit allocations across all 50 states.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/vendor/d3.v7.min.js"></script>
+  <script src="js/vendor/topojson.v3.min.js"></script>
+  <script src="js/state-allocations-2026.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    /* Map tooltip */
+    .map-tooltip {
+      position: fixed;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp3);
+      font-size: var(--small);
+      box-shadow: var(--shadow);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 100;
+    }
+    .map-tooltip.visible { opacity: 1; }
+    .map-tooltip .tooltip-title { font-weight: 700; color: var(--text-strong); margin-bottom: 0.4rem; }
+    .map-tooltip .tooltip-data { color: var(--muted); line-height: 1.7; }
 
-<style>
-#map-wrapper, body { background: var(--bg); }
-.legend-label { color: var(--muted); }
-.legend-label-success { color: var(--good); }
-.legend-label-warning { color: var(--warn); }
-</style>
+    /* State paths */
+    .state { cursor: pointer; transition: opacity 0.15s; }
+    .state:hover { opacity: 0.8; }
 
-<script defer="defer" src="js/navigation.js"></script>
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
+    /* Stats grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp3); margin-bottom: var(--sp4); }
+  </style>
 </head>
 <body>
-<header>
-<h1>2026 Federal LIHTC Information by State</h1>
-<p>Interactive map showing Low-Income Housing Tax Credit allocations across all 50 states</p>
-</header>
-<div class="container">
-<!-- Statistics Cards -->
-<div class="stats-grid" id="statistics">
-<div class="stat-card">
-<div class="stat-label">Total Allocation</div>
-<div class="stat-value" id="total-allocation">Loading...</div>
-<div class="stat-detail">Across all 50 states + DC</div>
-</div>
-<div class="stat-card">
-<div class="stat-label">Confirmed States</div>
-<div class="stat-value" id="confirmed-states">Loading...</div>
-<div class="stat-detail">Data from CSV source</div>
-</div>
-<div class="stat-card">
-<div class="stat-label">Average Per Capita</div>
-<div class="stat-value" id="avg-per-capita">Loading...</div>
-<div class="stat-detail">National average allocation</div>
-</div>
-<div class="stat-card">
-<div class="stat-label">Largest Allocation</div>
-<div class="stat-value" id="largest-state">Loading...</div>
-<div class="stat-detail" id="largest-amount"></div>
-</div>
-</div>
-<!-- Map Section -->
-<div class="section" id="map">
-<h2>Interactive US State Map</h2>
-<p style="margin-bottom: 1rem; opacity: 0.8;">Click on any state to see detailed allocation information. Colors indicate relative allocation amounts.</p>
-<div id="us-map-container">
-<svg id="us-map" style="width: 100%; height: auto;" viewbox="0 0 960 600"></svg>
-</div>
-<!-- Legend -->
-<div class="legend" style="background-color: #1a1714; border-radius: 8px; padding: 1.5rem; margin-top: 2rem;">
-<h3 style="color: #d4a574; margin-bottom: 1rem; font-size: 1.2rem;">Allocation Range</h3>
-<div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<div style="width: 40px; height: 20px; background-color: #8B4513; border-radius: 4px; border: 1px solid #d4a574;"></div>
-<span>$100M+ (Highest)</span>
-</div>
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<div style="width: 40px; height: 20px; background-color: #A0522D; border-radius: 4px; border: 1px solid #d4a574;"></div>
-<span>$50M - $100M</span>
-</div>
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<div style="width: 40px; height: 20px; background-color: #BC8F8F; border-radius: 4px; border: 1px solid #d4a574;"></div>
-<span>$25M - $50M</span>
-</div>
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<div style="width: 40px; height: 20px; background-color: #D4A574; border-radius: 4px; border: 1px solid #d4a574;"></div>
-<span>$10M - $25M</span>
-</div>
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<div style="width: 40px; height: 20px; background-color: #E8DCC4; border-radius: 4px; border: 1px solid #d4a574;"></div>
-<span>Under $10M</span>
-</div>
-</div>
-</div>
-<!-- Source Attribution -->
-<div class="map-source-info" style="background-color: rgba(232, 220, 196, 0.1); border-left: 3px solid #d4a574; padding: 1.5rem; margin-top: 2rem; border-radius: 4px;">
-<p style="margin: 0.5rem 0;"><strong>Data Source:</strong>
-<a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" rel="noopener" style="color: #d4a574; font-weight: 500;" target="_blank">
-                        Novogradac - 2026 Federal LIHTC Information by State
-                    </a>
-</p>
-<p style="margin: 0.5rem 0;"><small>Last Updated: February 2026 | Update Frequency: Quarterly</small></p>
-<p style="margin: 0.5rem 0;"><small>27 states with confirmed data, 23 states estimated pending official confirmation. Check source URL for latest updates.</small></p>
-</div>
-</div>
-<!-- Top States Tables -->
-<div class="section" id="top-states">
-<h3>Top 10 States by Allocation Amount</h3>
-<table>
-<thead>
-<tr>
-<th>Rank</th>
-<th>State</th>
-<th>Total Allocation</th>
-<th>Per Capita</th>
-<th>Population</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody id="top-states-body">
-<tr><td colspan="6" style="text-align: center; padding: 2rem;">Loading data...</td></tr>
-</tbody>
-</table>
-</div>
-<div class="section">
-<h3>Highest Per Capita Allocations</h3>
-<table>
-<thead>
-<tr>
-<th>Rank</th>
-<th>State</th>
-<th>Per Capita</th>
-<th>Total Allocation</th>
-<th>Population</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody id="per-capita-body">
-<tr><td colspan="6" style="text-align: center; padding: 2rem;">Loading data...</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Tooltip -->
-<div class="map-tooltip" id="map-tooltip">
-<div class="tooltip-title" id="tooltip-title"></div>
-<div class="tooltip-data" id="tooltip-data"></div>
-</div>
-<!-- Include Scripts -->
-<script src="js/state-allocations-2026.js"></script>
-<script src="js/vendor/d3.v7.min.js"></script><script src="js/vendor/topojson.v3.min.js"></script><script>
-/* State Allocation Map – real state boundaries using us-atlas + topojson */
-document.addEventListener('DOMContentLoaded', () => {
-  const fmtMoney = n => '$' + (Number(n)||0).toLocaleString();
-  const fmtNum = (n,d=2) => (Number(n)||0).toFixed(d);
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  const waitForData = (tries=0) => {
-    const ds = window.StateAllocations2026;
-    if (ds && ds.states) return start(ds);
-    if (tries > 60) { console.error('StateAllocations2026 not found'); return; }
-    setTimeout(() => waitForData(tries+1), 120);
-  };
+  <main id="main-content">
+    <div class="dashboard-wrap">
 
-  const start = (ds) => {
-    const rows = Object.entries(ds.states).map(([abbr,s]) => ({abbr, ...s}));
-    const total = rows.reduce((sum,s)=>sum+(Number(s.allocation)||0),0);
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <span class="kicker">2026 Data</span>
+        <h1>Federal LIHTC Allocations by State</h1>
+        <p class="page-sub">Interactive map showing Low-Income Housing Tax Credit allocations across all 50 states and D.C.</p>
+      </div>
 
-    // Update quick stats if present
-    const setText=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; };
-    const confirmed = rows.filter(s => Number(s.allocation||0) > 0).length;
-    const largest = rows.slice().sort((a,b)=>(Number(b.allocation)||0)-(Number(a.allocation)||0))[0];
-    const avgPerCap = rows.reduce((sum,s)=>sum+(Number(s.perCapita)||0),0) / (rows.length||1);
+      <!-- Statistics Cards -->
+      <div class="stats-grid" id="statistics">
+        <div class="stat-card"><div class="stat-value" id="total-allocation">—</div><div class="stat-label">Total Allocation</div></div>
+        <div class="stat-card"><div class="stat-value" id="confirmed-states">—</div><div class="stat-label">Confirmed States</div></div>
+        <div class="stat-card"><div class="stat-value" id="avg-per-capita">—</div><div class="stat-label">Average Per Capita</div></div>
+        <div class="stat-card"><div class="stat-value" id="largest-state">—</div><div class="stat-label" id="largest-amount">Largest Allocation</div></div>
+      </div>
 
-    setText('total-allocation', fmtMoney(total));
-    setText('confirmed-states', String(confirmed));
-    setText('largest-amount', fmtMoney(largest?.allocation||0));
-    setText('largest-state', largest?.name || largest?.abbr || '—');
-    setText('avg-per-capita', '$' + fmtNum(avgPerCap,2));
+      <!-- Map -->
+      <section class="chart-card" id="map" aria-label="US state allocation map">
+        <div class="chart-header">
+          <h2 class="chart-title">Interactive US State Map</h2>
+          <p class="chart-subtitle">Click any state to see detailed allocation information. Colors indicate per-capita allocation amounts.</p>
+        </div>
+        <div id="us-map-container" style="width:100%;overflow:hidden;">
+          <svg id="us-map" style="width:100%;height:auto;"></svg>
+        </div>
 
-    // Update tables if present
-    const topBody=document.getElementById('top-states-body');
-    if(topBody){
-      const top10=rows.slice().sort((a,b)=>(Number(b.allocation)||0)-(Number(a.allocation)||0)).slice(0,10);
-      topBody.innerHTML=top10.map((s,i)=>`
-        <tr>
-          <td>${i+1}</td><td>${s.name||''}</td><td>${s.abbr}</td>
-          <td>${fmtMoney(s.allocation||0)}</td><td>$${fmtNum(s.perCapita||0,2)}</td>
-        </tr>`).join('');
-    }
-    const perCapBody=document.getElementById('per-capita-body');
-    if(perCapBody){
-      const top=rows.slice().sort((a,b)=>(Number(b.perCapita)||0)-(Number(a.perCapita)||0)).slice(0,10);
-      perCapBody.innerHTML=top.map((s,i)=>`
-        <tr>
-          <td>${i+1}</td><td>${s.name||''}</td><td>${s.abbr}</td>
-          <td>$${fmtNum(s.perCapita||0,2)}</td><td>${fmtMoney(s.allocation||0)}</td>
-        </tr>`).join('');
-    }
+        <!-- Legend -->
+        <div style="display:flex;flex-wrap:wrap;gap:var(--sp3);align-items:center;margin-top:var(--sp3);padding-top:var(--sp3);border-top:1px solid var(--border);">
+          <span style="font-size:var(--tiny);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);">Per Capita:</span>
+          <div style="display:flex;gap:0.4rem;align-items:center;font-size:var(--tiny);color:var(--muted);">
+            <span style="display:inline-block;width:32px;height:14px;border-radius:3px;background:#cfe2f3;"></span> Low
+          </div>
+          <div style="display:flex;gap:0.4rem;align-items:center;font-size:var(--tiny);color:var(--muted);">
+            <span style="display:inline-block;width:32px;height:14px;border-radius:3px;background:#6aaed6;"></span> Mid
+          </div>
+          <div style="display:flex;gap:0.4rem;align-items:center;font-size:var(--tiny);color:var(--muted);">
+            <span style="display:inline-block;width:32px;height:14px;border-radius:3px;background:#2171b5;"></span> High
+          </div>
+          <div style="display:flex;gap:0.4rem;align-items:center;font-size:var(--tiny);color:var(--muted);">
+            <span style="display:inline-block;width:32px;height:14px;border-radius:3px;background:#08306b;"></span> Highest
+          </div>
+        </div>
 
-    renderMap(ds, total);
-  };
+        <!-- Source -->
+        <div style="background:var(--bg2);border-left:3px solid var(--accent2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:var(--sp3);margin-top:var(--sp3);">
+          <p style="margin:0 0 0.3rem;font-size:var(--small);"><strong>Data Source:</strong>
+            <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" rel="noopener" target="_blank" style="color:var(--link);">Novogradac — 2026 Federal LIHTC Information by State</a>
+          </p>
+          <p style="margin:0;font-size:var(--tiny);color:var(--faint);">Last Updated: February 2026 · Update Frequency: Quarterly · 27 states confirmed, 23 states estimated pending official confirmation.</p>
+        </div>
+      </section>
 
-  const renderMap = (ds, total) => {
-    const container = document.getElementById('us-map');
-    const wrapper = document.getElementById('us-map-container') || container;
-    if (!container) return;
+      <!-- Tables -->
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:var(--sp4);margin-top:var(--sp4);" aria-label="Allocation tables">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top 10 States by Total Allocation</h3>
+          </div>
+          <div class="data-table">
+            <table>
+              <thead><tr><th>#</th><th>State</th><th>Allocation</th><th>Per Capita</th></tr></thead>
+              <tbody id="top-states-body"><tr><td colspan="4" style="text-align:center;padding:var(--sp4);color:var(--muted);">Loading data…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Highest Per Capita Allocations</h3>
+          </div>
+          <div class="data-table">
+            <table>
+              <thead><tr><th>#</th><th>State</th><th>Per Capita</th><th>Total</th></tr></thead>
+              <tbody id="per-capita-body"><tr><td colspan="4" style="text-align:center;padding:var(--sp4);color:var(--muted);">Loading data…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-    container.innerHTML = '';
-    const width = (wrapper && wrapper.clientWidth) ? wrapper.clientWidth : 1000;
-    const height = 520;
+    </div>
+  </main>
 
-    const svg = d3.select(container).append('svg')
-      .attr('width', width).attr('height', height)
-      .attr('viewBox', `0 0 ${width} ${height}`);
+  <!-- Tooltip -->
+  <div class="map-tooltip" id="map-tooltip">
+    <div class="tooltip-title" id="tooltip-title"></div>
+    <div class="tooltip-data" id="tooltip-data"></div>
+  </div>
 
-    const tip=document.getElementById('map-tooltip');
-    const tipTitle=document.getElementById('tooltip-title');
-    const tipData=document.getElementById('tooltip-data');
-    const showTip=(x,y,title,html)=>{ 
-      if(!tip) return;
-      if(tipTitle) tipTitle.textContent=title;
-      if(tipData) tipData.innerHTML=html;
-      tip.style.left=(x+12)+'px';
-      tip.style.top=(y+12)+'px';
-      tip.classList.add('visible');
-    };
-    const hideTip=()=>{ if(tip) tip.classList.remove('visible'); };
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fmt = n => '$' + (Number(n)||0).toLocaleString();
+      const fmtN = (n, d=2) => (Number(n)||0).toFixed(d);
 
-    const fipsToAbbr = {1:'AL',2:'AK',4:'AZ',5:'AR',6:'CA',8:'CO',9:'CT',10:'DE',11:'DC',12:'FL',13:'GA',15:'HI',16:'ID',17:'IL',18:'IN',19:'IA',20:'KS',21:'KY',22:'LA',23:'ME',24:'MD',25:'MA',26:'MI',27:'MN',28:'MS',29:'MO',30:'MT',31:'NE',32:'NV',33:'NH',34:'NJ',35:'NM',36:'NY',37:'NC',38:'ND',39:'OH',40:'OK',41:'OR',42:'PA',44:'RI',45:'SC',46:'SD',47:'TN',48:'TX',49:'UT',50:'VT',51:'VA',53:'WA',54:'WV',55:'WI',56:'WY'};
+      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
-    const perCaps = Object.values(ds.states).map(s => Number(s.perCapita)||0);
-    const maxPerCap = Math.max(...perCaps, 1);
-    const color = d3.scaleSequential(d3.interpolateBlues).domain([0, maxPerCap]);
+      const waitForData = (tries = 0) => {
+        const ds = window.StateAllocations2026;
+        if (ds && ds.states) return init(ds);
+        if (tries > 60) { console.error('StateAllocations2026 not found'); return; }
+        setTimeout(() => waitForData(tries + 1), 120);
+      };
 
-    // Load local topology first (no CDN required), fall back to CDN
-    const loadTopo = d3.json('data/states-10m.json').catch(() =>
-      d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
-    );
-    loadTopo.then(us => {
-      const features = topojson.feature(us, us.objects.states).features;
-      const projection = d3.geoAlbersUsa().fitSize([width, height], {type:'FeatureCollection', features});
-      const path = d3.geoPath(projection);
+      const init = (ds) => {
+        const rows = Object.entries(ds.states).map(([abbr, s]) => ({ abbr, ...s }));
+        const total = rows.reduce((sum, s) => sum + (Number(s.allocation) || 0), 0);
+        const confirmed = rows.filter(s => Number(s.allocation || 0) > 0).length;
+        const largest = rows.slice().sort((a, b) => (Number(b.allocation)||0) - (Number(a.allocation)||0))[0];
+        const avgPerCap = rows.reduce((sum, s) => sum + (Number(s.perCapita)||0), 0) / (rows.length || 1);
 
-      svg.append('g').selectAll('path')
-        .data(features).join('path')
-        .attr('class','state')
-        .attr('d', path)
-        .attr('fill', d => {
-          const abbr=fipsToAbbr[Number(d.id)];
-          const s=abbr ? ds.states[abbr] : null;
-          return s ? color(Number(s.perCapita)||0) : '#2a2a2a';
-        })
-        .attr('stroke','rgba(255,255,255,0.6)')
-        .attr('stroke-width',0.85)
-        .on('mousemove', (event, d) => {
-          const abbr=fipsToAbbr[Number(d.id)];
-          const s=abbr ? ds.states[abbr] : null;
-          if(!s) return;
-          const alloc=Number(s.allocation)||0;
-          const pct = total ? (alloc/total*100) : 0;
-          showTip(event.pageX, event.pageY, `${s.name} (${abbr})`,
-            `<div><strong>Total allocation:</strong> ${fmtMoney(alloc)}</div>
-             <div><strong>Per-capita:</strong> $${fmtNum(s.perCapita||0,2)}</div>
-             <div><strong>% of national:</strong> ${fmtNum(pct,2)}%</div>
-             <div><strong>Region:</strong> ${s.region||''}</div>`);
-        })
-        .on('mouseleave', hideTip);
+        setText('total-allocation', fmt(total));
+        setText('confirmed-states', String(confirmed));
+        setText('largest-state', largest?.name || largest?.abbr || '—');
+        setText('largest-amount', fmt(largest?.allocation || 0));
+        setText('avg-per-capita', '$' + fmtN(avgPerCap));
 
-      // Boundary mesh for crisp state borders
-      svg.append('path')
-        .datum(topojson.mesh(us, us.objects.states, (a,b)=>a!==b))
-        .attr('fill','none')
-        .attr('stroke','rgba(255,255,255,0.75)')
-        .attr('stroke-width',0.65)
-        .attr('d', path);
-    }).catch(err => console.error('Boundary map failed', err));
-  };
+        const topBody = document.getElementById('top-states-body');
+        if (topBody) {
+          const top10 = rows.slice().sort((a, b) => (Number(b.allocation)||0) - (Number(a.allocation)||0)).slice(0, 10);
+          topBody.innerHTML = top10.map((s, i) => `<tr><td>${i+1}</td><td>${s.name||s.abbr}</td><td>${fmt(s.allocation||0)}</td><td>$${fmtN(s.perCapita||0)}</td></tr>`).join('');
+        }
+        const perCapBody = document.getElementById('per-capita-body');
+        if (perCapBody) {
+          const top = rows.slice().sort((a, b) => (Number(b.perCapita)||0) - (Number(a.perCapita)||0)).slice(0, 10);
+          perCapBody.innerHTML = top.map((s, i) => `<tr><td>${i+1}</td><td>${s.name||s.abbr}</td><td>$${fmtN(s.perCapita||0)}</td><td>${fmt(s.allocation||0)}</td></tr>`).join('');
+        }
 
-  waitForData();
-});
-</script>
-<!-- LIHTC Upgrade Package -->
+        renderMap(ds, total);
+      };
 
+      const renderMap = (ds, total) => {
+        const container = document.getElementById('us-map-container');
+        const svg = document.getElementById('us-map');
+        if (!container || !svg) return;
 
-<script src="js/fred-commodities.js"></script>
-<script src="js/config.js"></script>
+        svg.innerHTML = '';
+        const width = container.clientWidth || 960;
+        const height = Math.round(width * 0.55);
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-<script src="js/contrast-guard.js"></script>
+        const tip = document.getElementById('map-tooltip');
+        const tipTitle = document.getElementById('tooltip-title');
+        const tipData = document.getElementById('tooltip-data');
+        const showTip = (x, y, title, html) => { if (tipTitle) tipTitle.textContent = title; if (tipData) tipData.innerHTML = html; if (tip) { tip.style.left = (x + 14) + 'px'; tip.style.top = (y + 14) + 'px'; tip.classList.add('visible'); } };
+        const hideTip = () => { if (tip) tip.classList.remove('visible'); };
+
+        const fipsToAbbr = {1:'AL',2:'AK',4:'AZ',5:'AR',6:'CA',8:'CO',9:'CT',10:'DE',11:'DC',12:'FL',13:'GA',15:'HI',16:'ID',17:'IL',18:'IN',19:'IA',20:'KS',21:'KY',22:'LA',23:'ME',24:'MD',25:'MA',26:'MI',27:'MN',28:'MS',29:'MO',30:'MT',31:'NE',32:'NV',33:'NH',34:'NJ',35:'NM',36:'NY',37:'NC',38:'ND',39:'OH',40:'OK',41:'OR',42:'PA',44:'RI',45:'SC',46:'SD',47:'TN',48:'TX',49:'UT',50:'VT',51:'VA',53:'WA',54:'WV',55:'WI',56:'WY'};
+        const perCaps = Object.values(ds.states).map(s => Number(s.perCapita) || 0);
+        const maxPerCap = Math.max(...perCaps, 1);
+        const color = d3.scaleSequential(d3.interpolateBlues).domain([0, maxPerCap]);
+
+        const svgEl = d3.select(svg);
+
+        d3.json('data/states-10m.json').catch(() => d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')).then(us => {
+          const features = topojson.feature(us, us.objects.states).features;
+          const proj = d3.geoAlbersUsa().fitSize([width, height], { type: 'FeatureCollection', features });
+          const path = d3.geoPath(proj);
+
+          svgEl.append('g').selectAll('path').data(features).join('path')
+            .attr('class', 'state')
+            .attr('d', path)
+            .attr('fill', d => { const abbr = fipsToAbbr[Number(d.id)]; const s = abbr ? ds.states[abbr] : null; return s ? color(Number(s.perCapita)||0) : 'var(--bg3)'; })
+            .attr('stroke', 'var(--bg)')
+            .attr('stroke-width', 0.7)
+            .on('mousemove', (event, d) => {
+              const abbr = fipsToAbbr[Number(d.id)];
+              const s = abbr ? ds.states[abbr] : null;
+              if (!s) return;
+              const alloc = Number(s.allocation) || 0;
+              const pct = total ? (alloc / total * 100) : 0;
+              showTip(event.pageX, event.pageY, `${s.name} (${abbr})`,
+                `<div><strong>Total allocation:</strong> ${fmt(alloc)}</div><div><strong>Per-capita:</strong> $${fmtN(s.perCapita||0)}</div><div><strong>% of national:</strong> ${fmtN(pct, 2)}%</div>`);
+            })
+            .on('mouseleave', hideTip);
+
+          svgEl.append('path').datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
+            .attr('fill', 'none').attr('stroke', 'var(--bg)').attr('stroke-width', 0.5).attr('d', path);
+        }).catch(err => console.error('Map load failed', err));
+      };
+
+      waitForData();
+    });
+  </script>
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>

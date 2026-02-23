@@ -1,0 +1,232 @@
+/* ================================================================
+   utilities.css — Helper / Utility Classes
+   Housing Analytics Component Library
+   Requires: css/site-theme.css for design tokens
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Text Alignment
+   ---------------------------------------------------------------- */
+.text-left    { text-align: left !important; }
+.text-center  { text-align: center !important; }
+.text-right   { text-align: right !important; }
+.text-justify { text-align: justify !important; }
+
+/* ----------------------------------------------------------------
+   Text Color
+   ---------------------------------------------------------------- */
+.text-primary  { color: var(--text, #0d1f35) !important; }
+.text-muted    { color: var(--muted, #476080) !important; }
+.text-faint    { color: var(--faint, #7a96b0) !important; }
+.text-accent   { color: var(--accent, #0ea5a0) !important; }
+.text-good     { color: var(--good,  #059669) !important; }
+.text-warn     { color: var(--warn,  #d97706) !important; }
+.text-bad      { color: var(--bad,   #dc2626) !important; }
+.text-info     { color: var(--info,  #2563eb) !important; }
+
+/* ----------------------------------------------------------------
+   Font Weight
+   ---------------------------------------------------------------- */
+.font-normal   { font-weight: 400 !important; }
+.font-medium   { font-weight: 500 !important; }
+.font-semibold { font-weight: 600 !important; }
+.font-bold     { font-weight: 700 !important; }
+.font-extrabold{ font-weight: 800 !important; }
+
+/* ----------------------------------------------------------------
+   Font Size
+   ---------------------------------------------------------------- */
+.text-sm   { font-size: var(--small, 0.775rem) !important; }
+.text-base { font-size: var(--body,  0.875rem) !important; }
+.text-lg   { font-size: 1rem !important; }
+.text-xl   { font-size: 1.125rem !important; }
+
+/* ----------------------------------------------------------------
+   Display
+   ---------------------------------------------------------------- */
+.d-none          { display: none !important; }
+.d-block         { display: block !important; }
+.d-inline        { display: inline !important; }
+.d-inline-block  { display: inline-block !important; }
+.d-flex          { display: flex !important; }
+.d-inline-flex   { display: inline-flex !important; }
+.d-grid          { display: grid !important; }
+
+/* ----------------------------------------------------------------
+   Flex Utilities
+   ---------------------------------------------------------------- */
+.flex          { display: flex !important; }
+.flex-col      { flex-direction: column !important; }
+.flex-row      { flex-direction: row !important; }
+.flex-wrap     { flex-wrap: wrap !important; }
+.flex-nowrap   { flex-wrap: nowrap !important; }
+.flex-1        { flex: 1 !important; }
+.flex-auto     { flex: auto !important; }
+.flex-none     { flex: none !important; }
+.flex-shrink-0 { flex-shrink: 0 !important; }
+
+.items-start   { align-items: flex-start !important; }
+.items-center  { align-items: center !important; }
+.items-end     { align-items: flex-end !important; }
+.items-stretch { align-items: stretch !important; }
+
+.justify-start   { justify-content: flex-start !important; }
+.justify-center  { justify-content: center !important; }
+.justify-end     { justify-content: flex-end !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-around  { justify-content: space-around !important; }
+
+.self-start   { align-self: flex-start !important; }
+.self-center  { align-self: center !important; }
+.self-end     { align-self: flex-end !important; }
+.self-stretch { align-self: stretch !important; }
+
+/* ----------------------------------------------------------------
+   Gap
+   ---------------------------------------------------------------- */
+.gap-0  { gap: 0 !important; }
+.gap-1  { gap: var(--sp1, 0.35rem) !important; }
+.gap-2  { gap: var(--sp2, 0.6rem) !important; }
+.gap-3  { gap: var(--sp3, 0.9rem) !important; }
+.gap-4  { gap: var(--sp4, 1.25rem) !important; }
+.gap-5  { gap: var(--sp5, 2rem) !important; }
+.gap-6  { gap: var(--sp6, 3rem) !important; }
+
+/* ----------------------------------------------------------------
+   Spacing — Margin / Padding shorthands
+   ---------------------------------------------------------------- */
+.m-0  { margin: 0 !important; }
+.mt-0 { margin-top: 0 !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mt-1 { margin-top: var(--sp1, 0.35rem) !important; }
+.mt-2 { margin-top: var(--sp2, 0.6rem) !important; }
+.mt-3 { margin-top: var(--sp3, 0.9rem) !important; }
+.mt-4 { margin-top: var(--sp4, 1.25rem) !important; }
+.mb-1 { margin-bottom: var(--sp1, 0.35rem) !important; }
+.mb-2 { margin-bottom: var(--sp2, 0.6rem) !important; }
+.mb-3 { margin-bottom: var(--sp3, 0.9rem) !important; }
+.mb-4 { margin-bottom: var(--sp4, 1.25rem) !important; }
+
+.p-0  { padding: 0 !important; }
+.p-1  { padding: var(--sp1, 0.35rem) !important; }
+.p-2  { padding: var(--sp2, 0.6rem) !important; }
+.p-3  { padding: var(--sp3, 0.9rem) !important; }
+.p-4  { padding: var(--sp4, 1.25rem) !important; }
+
+/* ----------------------------------------------------------------
+   Border Radius
+   ---------------------------------------------------------------- */
+.rounded-sm { border-radius: var(--radius-sm, 6px) !important; }
+.rounded    { border-radius: var(--radius, 10px) !important; }
+.rounded-lg { border-radius: var(--radius-lg, 16px) !important; }
+.rounded-xl { border-radius: var(--radius-xl, 22px) !important; }
+.rounded-full { border-radius: 9999px !important; }
+
+/* ----------------------------------------------------------------
+   Width / Height
+   ---------------------------------------------------------------- */
+.w-full   { width: 100% !important; }
+.w-auto   { width: auto !important; }
+.h-full   { height: 100% !important; }
+.h-auto   { height: auto !important; }
+
+/* ----------------------------------------------------------------
+   Overflow
+   ---------------------------------------------------------------- */
+.overflow-hidden { overflow: hidden !important; }
+.overflow-auto   { overflow: auto !important; }
+.overflow-x-auto { overflow-x: auto !important; }
+
+/* ----------------------------------------------------------------
+   Position
+   ---------------------------------------------------------------- */
+.relative { position: relative !important; }
+.absolute { position: absolute !important; }
+.fixed    { position: fixed !important; }
+.sticky   { position: sticky !important; }
+
+/* ----------------------------------------------------------------
+   Visibility
+   ---------------------------------------------------------------- */
+.invisible    { visibility: hidden !important; }
+.visible      { visibility: visible !important; }
+.opacity-0    { opacity: 0 !important; }
+.opacity-50   { opacity: 0.5 !important; }
+.opacity-100  { opacity: 1 !important; }
+
+/* Screen-reader only (accessible hide) */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Undo sr-only when focused (for skip links) */
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-within {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* ----------------------------------------------------------------
+   Responsive Utilities
+   ---------------------------------------------------------------- */
+
+/* Hide below breakpoints */
+@media (max-width: 480px) {
+  .hide-xs { display: none !important; }
+}
+@media (max-width: 640px) {
+  .hide-sm { display: none !important; }
+}
+@media (max-width: 768px) {
+  .hide-md { display: none !important; }
+}
+@media (max-width: 1024px) {
+  .hide-lg { display: none !important; }
+}
+
+/* Show only below breakpoints */
+@media (min-width: 641px) {
+  .show-sm-only { display: none !important; }
+}
+@media (min-width: 769px) {
+  .show-md-only { display: none !important; }
+}
+
+/* ----------------------------------------------------------------
+   Truncate / Ellipsis
+   ---------------------------------------------------------------- */
+.truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* ----------------------------------------------------------------
+   Divider
+   ---------------------------------------------------------------- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border, rgba(13,31,53,.11));
+  margin: var(--sp3, 0.9rem) 0;
+}
+
+/* ----------------------------------------------------------------
+   Cursor
+   ---------------------------------------------------------------- */
+.cursor-pointer { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }

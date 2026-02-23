@@ -1,0 +1,177 @@
+/* ================================================================
+   tables.css — Data Table Styling
+   Housing Analytics Component Library
+   Requires: css/site-theme.css for design tokens
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Table Wrapper (responsive scroll on mobile)
+   ---------------------------------------------------------------- */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border, rgba(13,31,53,.11));
+  border-radius: var(--radius, 10px);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04));
+}
+
+/* ----------------------------------------------------------------
+   Base Table
+   ---------------------------------------------------------------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: var(--body, 0.875rem);
+  color: var(--text, #0d1f35);
+  background: var(--card, #ffffff);
+  min-width: 480px; /* prevent excessive squishing */
+}
+
+/* ----------------------------------------------------------------
+   Header Row
+   ---------------------------------------------------------------- */
+.table thead {
+  background: var(--bg2, #e4ecf4);
+  border-bottom: 2px solid var(--border-strong, rgba(13,31,53,.20));
+}
+
+.table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: var(--small, 0.775rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted, #476080);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* ----------------------------------------------------------------
+   Body Rows
+   ---------------------------------------------------------------- */
+.table tbody tr {
+  border-bottom: 1px solid var(--border, rgba(13,31,53,.11));
+  transition: background-color 0.12s ease;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Alternating row backgrounds */
+.table-striped tbody tr:nth-child(even) {
+  background-color: var(--card2, #f7fafd);
+}
+
+/* Hover effect */
+.table tbody tr:hover,
+.table-hover tbody tr:hover {
+  background-color: var(--accent-dim, rgba(14,165,160,.07));
+}
+
+.table td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+  color: var(--text, #0d1f35);
+}
+
+/* ----------------------------------------------------------------
+   Alignment helpers
+   ---------------------------------------------------------------- */
+.table .col-left,
+.table th.col-left,
+.table td.col-left  { text-align: left; }
+
+.table .col-center,
+.table th.col-center,
+.table td.col-center { text-align: center; }
+
+.table .col-right,
+.table th.col-right,
+.table td.col-right  { text-align: right; }
+
+/* Numeric columns use mono font for alignment */
+.table .col-num,
+.table th.col-num,
+.table td.col-num {
+  text-align: right;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+}
+
+/* ----------------------------------------------------------------
+   Sorted column indicators
+   ---------------------------------------------------------------- */
+.table th[aria-sort] {
+  cursor: pointer;
+}
+.table th[aria-sort="ascending"]::after {
+  content: ' ↑';
+  color: var(--accent, #0ea5a0);
+}
+.table th[aria-sort="descending"]::after {
+  content: ' ↓';
+  color: var(--accent, #0ea5a0);
+}
+.table th[aria-sort="none"]::after {
+  content: ' ↕';
+  color: var(--faint, #7a96b0);
+  opacity: 0.5;
+}
+
+/* Highlighted sorted column */
+.table .col-sorted {
+  background-color: var(--accent-dim, rgba(14,165,160,.05));
+}
+
+/* ----------------------------------------------------------------
+   Condensed / comfortable size variants
+   ---------------------------------------------------------------- */
+.table-sm th,
+.table-sm td {
+  padding: 0.5rem 0.75rem;
+}
+
+.table-lg th,
+.table-lg td {
+  padding: 1rem 1.25rem;
+}
+
+/* ----------------------------------------------------------------
+   Status badges in table cells
+   ---------------------------------------------------------------- */
+.table .badge {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.table .badge-good    { background: var(--good-dim,  rgba(5,150,105,.10)); color: var(--good,  #059669); }
+.table .badge-warn    { background: var(--warn-dim,  rgba(217,119,6,.10)); color: var(--warn,  #d97706); }
+.table .badge-bad     { background: var(--bad-dim,   rgba(220,38,38,.10)); color: var(--bad,   #dc2626); }
+.table .badge-info    { background: var(--info-dim,  rgba(37,99,235,.09)); color: var(--info,  #2563eb); }
+
+/* ----------------------------------------------------------------
+   Footer row (totals)
+   ---------------------------------------------------------------- */
+.table tfoot {
+  border-top: 2px solid var(--border-strong, rgba(13,31,53,.20));
+  background: var(--bg2, #e4ecf4);
+}
+.table tfoot td {
+  font-weight: 700;
+  color: var(--text-strong, #060f1d);
+}
+
+/* ----------------------------------------------------------------
+   Mobile: hide less important columns via utility class
+   ---------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .table .col-hide-sm {
+    display: none;
+  }
+}
