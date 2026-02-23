@@ -1,0 +1,269 @@
+/* ================================================================
+   accessibility.css — LIHTC Analytics Hub
+   WCAG 2.1 AA compliance: focus states, skip links, screen-reader
+   utilities, high-contrast support, and reduced-motion.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. SKIP LINK (keyboard / screen-reader navigation)
+   ---------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -999px;
+  left: 0;
+  z-index: 10000;
+  padding: 12px 20px;
+  background: var(--accent);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 0 0 var(--radius-sm) 0;
+  text-decoration: none !important;
+  transition: top 0.1s;
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--text-strong);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------------
+   2. FOCUS STATES — visible 2 px minimum ring (WCAG 2.4.7)
+   ---------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Override browser's default :focus for all interactive elements
+   when keyboard is in use (handled by :focus-visible) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Buttons & form controls get a stronger ring */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+details > summary:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px var(--accent-dim) !important;
+}
+
+/* ----------------------------------------------------------------
+   3. SCREEN-READER ONLY TEXT (.sr-only)
+   ---------------------------------------------------------------- */
+.sr-only,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Allow the element to become visible when focused */
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  white-space: normal;
+}
+
+/* ----------------------------------------------------------------
+   4. LINK UNDERLINES for clarity (WCAG 1.4.1 — not only color)
+   ---------------------------------------------------------------- */
+a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* Navigation links: underline not needed (color + context sufficient) */
+nav.site-nav a,
+.btn,
+.footer-wrap a {
+  text-decoration: none;
+}
+
+nav.site-nav a:hover,
+.footer-wrap a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ----------------------------------------------------------------
+   5. COLOR NOT THE ONLY INDICATOR (WCAG 1.4.1)
+      Deltas and status pills use weight/icons in addition to color.
+   ---------------------------------------------------------------- */
+.delta.up::before   { content: "▲ "; font-size: 0.7em; }
+.delta.down::before { content: "▼ "; font-size: 0.7em; }
+.delta.flat::before { content: "→ "; font-size: 0.7em; }
+
+/* Form error — border + icon, not just red color */
+.field-error input,
+.field-error select,
+.field-error textarea {
+  border-color: var(--bad) !important;
+  padding-left: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 18px 18px;
+}
+
+.field-error-message {
+  color: var(--bad) !important;
+  font-size: var(--small);
+  font-weight: 600;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-error-message::before {
+  content: "⚠";
+  font-size: 0.85em;
+}
+
+/* ----------------------------------------------------------------
+   6. REDUCED MOTION (WCAG 2.3.3 / prefers-reduced-motion)
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto  !important;
+  }
+
+  /* Disable specific animations in the design system */
+  .feature-card:hover,
+  .btn:hover,
+  .btn-primary:hover {
+    transform: none !important;
+  }
+}
+
+/* ----------------------------------------------------------------
+   7. HIGH CONTRAST MODE (WCAG 1.4.11 — prefers-contrast)
+   ---------------------------------------------------------------- */
+@media (prefers-contrast: more) {
+  :root {
+    --border:        rgba(0,0,0,.5);
+    --border-strong: rgba(0,0,0,.75);
+    --muted:         #333;
+    --faint:         #555;
+  }
+
+  a { text-decoration: underline !important; }
+  a:focus-visible { outline-width: 3px !important; }
+
+  .card, .panel, .kpi-card, .stat-card {
+    border-width: 2px !important;
+  }
+
+  button, .btn, input, select, textarea {
+    border-width: 2px !important;
+  }
+}
+
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root {
+    --border:        rgba(255,255,255,.5);
+    --border-strong: rgba(255,255,255,.75);
+    --muted:         rgba(215,232,248,.9);
+    --faint:         rgba(155,185,215,.7);
+  }
+}
+
+/* ----------------------------------------------------------------
+   8. LANDMARK REGIONS — visible structure aids for sighted users
+   ---------------------------------------------------------------- */
+/* Ensure <main> has a recognizable top-of-content landmark */
+main { display: block; }
+
+/* ----------------------------------------------------------------
+   9. ARIA LIVE REGIONS — loading states
+   ---------------------------------------------------------------- */
+[aria-live] {
+  position: relative;
+}
+
+[aria-busy="true"]::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 8px auto 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [aria-busy="true"]::after { animation: none; border-top-color: var(--accent); }
+}
+
+/* ----------------------------------------------------------------
+   10. FORM ACCESSIBILITY
+   ---------------------------------------------------------------- */
+label {
+  cursor: pointer;
+}
+
+/* Required field indicator */
+label[data-required]::after,
+label.required::after {
+  content: " *";
+  color: var(--bad);
+  font-weight: 700;
+  /* Note: add aria-hidden="true" in HTML to hide the asterisk from screen readers */
+}
+
+/* ----------------------------------------------------------------
+   11. TABLES — explicit header association aids
+   ---------------------------------------------------------------- */
+table caption {
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 6px;
+  color: var(--text) !important;
+}
+
+/* ----------------------------------------------------------------
+   12. DETAILS / SUMMARY keyboard support
+   ---------------------------------------------------------------- */
+details > summary {
+  cursor: pointer;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}

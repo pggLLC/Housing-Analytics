@@ -33,10 +33,9 @@
     return v || fallback;
   }
 
-  /* In-memory fetch cache */
-  const _fetchCache = {};
   async function fetchJson(url) {
     if (_fetchCache[url]) return _fetchCache[url];
+    if (_cache[url]) return _cache[url];
     const res = await fetch(url, { cache: "default" });
     if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
     const data = await res.json();
@@ -374,6 +373,7 @@
                 if (c.dataset.label === "Gap (units − households)") {
                   const s = (v >= 0 ? "+" : "") + Math.round(v).toLocaleString();
                   return ` Gap: ${s} units`;
+                  return ` Gap: ${(v >= 0 ? "+" : "") + Math.round(v).toLocaleString()} units`;
                 }
                 return ` ${c.dataset.label}: ${Math.round(v).toLocaleString()}`;
               }
@@ -523,6 +523,71 @@
       obs.observe(root);
     } else {
       loadData();
+    const endpointEl = $("#amiGapEndpoint");
+    if (endpointEl) endpointEl.textContent = endpoint;
+
+    /* IntersectionObserver-based lazy loading */
+    function loadModule() {
+      let payload;
+      const load = async () => {
+        try {
+          payload = await fetchJson(endpoint);
+        } catch (e) {
+          console.error(e);
+          const errEl = $("#amiGapError");
+          if (errEl) {
+            errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
+            errEl.style.display = "block";
+          }
+          return;
+        }
+
+        renderMetadata(payload.meta);
+        renderMethodology(payload);
+
+        buildCountyOptions(payload.counties || []);
+        const refs = { comparison: null, gap: null };
+
+        function update() {
+          const sel = $("#amiGapCountySelect");
+          const fips = sel ? sel.value : "STATE";
+          const item = pickItem(payload, fips);
+
+          const titleEl = $("#amiGapGeoTitle");
+          if (titleEl) titleEl.textContent = (fips === "STATE") ? "Colorado (statewide)" : item.county_name;
+          renderCards(payload, item);
+          renderTable(payload, item);
+          renderComparisonChart(payload, item, refs);
+          renderGapChart(payload, item, refs);
+        }
+
+        const sel = $("#amiGapCountySelect");
+        if (sel) sel.addEventListener("change", update);
+
+        /* CSV export button */
+        const exportBtn = $("#amiGapExportBtn");
+        if (exportBtn) {
+          exportBtn.addEventListener("click", () => {
+            const fips = sel ? sel.value : "STATE";
+            exportAmiGapCSV(payload, pickItem(payload, fips));
+          });
+        }
+
+        update();
+      };
+      load();
+    }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        if (entries.some(e => e.isIntersecting)) {
+          obs.unobserve(root);
+          loadModule();
+        }
+      }, { rootMargin: "200px" });
+      observer.observe(root);
+    } else {
+      loadModule();
     }
   }
 
