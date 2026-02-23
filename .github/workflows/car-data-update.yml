@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       month:
-        description: 'Report month (YYYY-MM format)'
-        required: true
+        description: 'Report month (YYYY-MM format, leave blank for current month)'
+        required: false
         default: ''
       medianPrice:
         description: 'Statewide median sale price (e.g. 550000)'
