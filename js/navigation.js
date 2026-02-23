@@ -83,7 +83,7 @@
     header.innerHTML = `
       <div class="nav-wrap">
         <div class="brand">
-          <a href="${normalizeHref('index.html')}">LIHTC Analytics Hub</a>
+          <a href="${normalizeHref('index.html')}">Affordable Housing Intelligence</a>
           <small>Affordable Housing Market Intelligence</small>
         </div>
         <nav class="site-nav" aria-label="Primary">
@@ -99,7 +99,7 @@
     footer.setAttribute('role', 'contentinfo');
     footer.innerHTML = `
       <div class="footer-wrap">
-        <div>© ${year} LIHTC Analytics Hub</div>
+        <div>© ${year} Affordable Housing Intelligence</div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <a href="${normalizeHref('about.html')}">Methodology</a>
           <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>

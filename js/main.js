@@ -1,4 +1,4 @@
-// LIHTC Analytics Hub - Main JavaScript
+// Affordable Housing Intelligence - Main JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle

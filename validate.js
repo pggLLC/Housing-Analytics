@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * validate.js — LIHTC Analytics Hub
+ * validate.js — Affordable Housing Intelligence
  * Checks that all referenced CSS and JS files exist.
  */
 const fs = require('fs');
