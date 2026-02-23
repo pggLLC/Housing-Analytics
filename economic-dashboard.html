@@ -130,18 +130,12 @@
       Some series update monthly or quarterly; charts show the most recent 5 years (or max available if shorter).
     </p>
 
-         HOUSING PREDICTIVE MODELING SECTION  (housing-predictions.js)
-         ═══════════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════════
+     HOUSING PREDICTIVE MODELING SECTION  (housing-predictions.js)
+     ══════════════════════════════════════════════════════════════ -->
     <div id="housing-predictions-section" aria-label="Housing Predictive Modeling"></div>
 
 </main>
-<link rel="stylesheet" href="css/predictions-dashboard.css"/>
-<script src="js/housing-predictions.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    if (window.HousingPredictions) HousingPredictions.init();
-  });
-</script>
 <script>
 (() => {
   const CONFIG_KEY = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : "";
@@ -168,21 +162,24 @@
     {section:"housing", id:"UNDCONTSA",   title:"Units Under Construction", units:"thousands", fmt:"int"},
     {section:"housing", id:"COMPUTSA",    title:"Multifamily Completions (5+ units)", units:"thousands", fmt:"int"},
 
-    // Finance (6)
+    // Finance (cached + SOFR in registry, hidden until cache populated)
     {section:"finance", id:"DGS10", title:"10-Year Treasury Yield", units:"%", fmt:"pct"},
     {section:"finance", id:"DGS2", title:"2-Year Treasury Yield", units:"%", fmt:"pct"},
     {section:"finance", id:"DFF", title:"Effective Fed Funds Rate", units:"%", fmt:"pct"},
     {section:"finance", id:"MORTGAGE30US", title:"30-Year Fixed Mortgage Rate", units:"%", fmt:"pct"},
     {section:"finance", id:"BAA10Y", title:"Moody’s Baa - 10Y Treasury Spread", units:"pts", fmt:"pct"},
     {section:"finance", id:"T10Y2Y", title:"Yield Curve (10Y-2Y)", units:"pts", fmt:"pct"},
+    {section:"finance", id:"SOFR", title:"SOFR (Secured Overnight Financing Rate)", units:"%", fmt:"pct"},
 
-    // Labor (6)
+    // Labor (cached + shelter CPI in registry, hidden until cache populated)
     {section:"labor", id:"UNRATE", title:"Unemployment Rate", units:"%", fmt:"pct"},
     {section:"labor", id:"PAYEMS", title:"Nonfarm Payrolls", units:"thousands", fmt:"int"},
     {section:"labor", id:"CIVPART", title:"Labor Force Participation", units:"%", fmt:"pct"},
     {section:"labor", id:"CES0500000003", title:"Average Hourly Earnings", units:"$", fmt:"usd"},
     {section:"labor", id:"JTSJOL", title:"Job Openings (JOLTS)", units:"thousands", fmt:"int"},
-    {section:"labor", id:"ICSA", title:"Initial Jobless Claims", units:"count", fmt:"int"}
+    {section:"labor", id:"ICSA", title:"Initial Jobless Claims", units:"count", fmt:"int"},
+    {section:"labor", id:"CPIAUCSL", title:"CPI: All Items", units:"index", fmt:"index"},
+    {section:"labor", id:"CUUR0000SAH1", title:"CPI: Shelter", units:"index", fmt:"index"}
   ];
 
   const els = {
@@ -209,7 +206,8 @@
     }
   };
 
-  if (els.count) els.count.textContent = String(INDICATORS.length);
+  // count will be updated after indicators successfully render
+  if (els.count) els.count.textContent = "…";
 function getKey(){ return CONFIG_KEY || ""; }
     
   function fmtValue(v, fmt){
@@ -373,16 +371,27 @@ function getKey(){ return CONFIG_KEY || ""; }
   async function loadAll(){
     // Data served from data/fred-data.json — no API key needed in the browser
     const apiKey = true; // kept to avoid ReferenceError in calls below
-    if (els.conn) els.conn.textContent = "Yes";
 
     // Build metric cards
     for (const s of Object.values(els.sec)) s.innerHTML = "";
+    const cardMap = new Map(); // seriesId -> card element
     for (const ind of INDICATORS){
-      els.sec[ind.section].appendChild(buildMetricCard(ind));
+      const card = buildMetricCard(ind);
+      els.sec[ind.section].appendChild(card);
+      cardMap.set(ind.id, card);
     }
 
-    // Load headline stats (CPI YoY, UNRATE, DGS10, HOUST)
-    // Each stat loads independently so one failure cannot block the others.
+    // Attempt to load the FRED cache; update conn pill accordingly
+    let cacheLoaded = false;
+    try {
+      await _loadFredData();
+      cacheLoaded = true;
+      if (els.conn) els.conn.textContent = "Yes (cached)";
+    } catch(e) {
+      if (els.conn) els.conn.textContent = "No";
+    }
+
+    // Load headline stats (CPI YoY, UNRATE, DGS10, HOUST) — each independently
     await Promise.allSettled([
       fetchFRED("CPIAUCSL", apiKey, 90).then(cpi => {
         const last = cpi[cpi.length-1];
@@ -410,7 +419,6 @@ function getKey(){ return CONFIG_KEY || ""; }
 
         if (els.deltaUnemp) {
           const { delta, label } = pickChange(unemp);
-          // UNRATE is a percent level; delta is percentage points
           els.deltaUnemp.textContent = isFinite(delta)
             ? `${label}: ${delta>=0?'+':''}${delta.toFixed(1)} pp`
             : `${label}: —`;
@@ -422,7 +430,6 @@ function getKey(){ return CONFIG_KEY || ""; }
 
         if (els.delta10y) {
           const { delta, label } = pickChange(teny);
-          // DGS10 is a percent level; delta is percentage points
           els.delta10y.textContent = isFinite(delta)
             ? `${label}: ${delta>=0?'+':''}${delta.toFixed(2)} pp`
             : `${label}: —`;
@@ -443,26 +450,26 @@ function getKey(){ return CONFIG_KEY || ""; }
       }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
     ]);
 
-    // Load all indicator series and render
     // Show when the cached FRED data was last fetched by the GitHub Action
     try {
       const meta = await _loadFredData();
-      if (meta.updated) {
+      if (meta.updated && els.lastUpdated) {
         const updatedAt = new Date(meta.updated);
         els.lastUpdated.textContent = "Data as of " + updatedAt.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
       }
     } catch(e) {}
 
-    await Promise.all(INDICATORS.map(async (ind) => {
+    // Load and render all indicator series; hide card on failure
+    let rendered = 0;
+    const results = await Promise.allSettled(INDICATORS.map(async (ind) => {
       const idSafe = ind.id.replace(/[^a-zA-Z0-9_-]/g,"_");
       const valEl = document.getElementById(`val-${idSafe}`);
       const dateEl = document.getElementById(`date-${idSafe}`);
       const deltaEl = document.getElementById(`delta-${idSafe}`);
-      const errEl = document.getElementById(`err-${idSafe}`);
       const canvas = document.getElementById(`ch-${idSafe}`);
+      const card = cardMap.get(ind.id);
 
       try{
-        errEl.textContent = "";
         const series = await fetchFRED(ind.id, apiKey, 120);
         const last = series[series.length-1];
         valEl.textContent = fmtValue(last.value, ind.fmt);
@@ -477,7 +484,6 @@ function getKey(){ return CONFIG_KEY || ""; }
           if (ind.fmt === "pct") {
             deltaText = `${arr} ${change.delta.toFixed(2)} pts ${change.label}`;
           } else if (ind.fmt === "usd" || ind.fmt === "index" || ind.fmt === "int") {
-            // percent change is more intuitive for these
             const base = series[Math.max(0, series.length-13)].value;
             const pct = base ? ((last.value/base - 1)*100) : NaN;
             if (isFinite(pct)) deltaText = `${arr} ${pct.toFixed(1)}% ${change.label}`;
@@ -493,19 +499,32 @@ function getKey(){ return CONFIG_KEY || ""; }
         const labels = series.map(p => monthLabel(p.date));
         const values = series.map(p => p.value);
         renderChart(canvas, labels, values);
+        return true; // success
       } catch(e){
-        console.warn("Indicator failed:", ind.id, e);
-        valEl.textContent = "—";
-        dateEl.textContent = "—";
-        deltaEl.className = "delta flat";
-        deltaEl.textContent = "—";
-        errEl.innerHTML = `<span class="err">Data unavailable:</span> ${String(e.message || e)}`;
+        console.warn("Indicator failed (hidden):", ind.id, e.message || e);
+        // Hide the card — keep it in the DOM so IDs remain stable but remove from view
+        if (card) { card.style.display = "none"; card.dataset.indicatorHidden = "1"; }
+        return false; // failure
       }
     }));
+
+    // Update count pill with number of successfully rendered indicators
+    rendered = results.filter(r => r.status === "fulfilled" && r.value === true).length;
+    if (els.count) els.count.textContent = String(rendered);
+
+    // Update section pill counts to reflect visible cards
+    document.querySelectorAll("details.card").forEach(det => {
+      const grid = det.querySelector(".metric-grid");
+      if (!grid) return;
+      const visible = grid.querySelectorAll(".card.metric:not([data-indicator-hidden])").length;
+      const pill = det.querySelector("summary .pill.small");
+      if (pill && visible > 0) pill.textContent = visible + " indicator" + (visible !== 1 ? "s" : "");
+      else if (pill && visible === 0) pill.textContent = "no data";
+    });
   }
 
   // Init controls
-  els.conn.textContent = "Yes";
+  if (els.conn) els.conn.textContent = "…";
   if (els.lastUpdated) els.lastUpdated.textContent = "—";
   els.refresh.addEventListener("click", () => loadAll());
 
@@ -515,11 +534,6 @@ function getKey(){ return CONFIG_KEY || ""; }
 </script>
 <script src="js/contrast-guard.js"></script><script src="js/census-geo.js"></script><script src="js/fred-cards.js"></script>
 
-<!-- ══════════════════════════════════════════════════════════════
-     Housing Predictive Modeling
-     Powered by js/housing-predictions.js
-     ══════════════════════════════════════════════════════════════ -->
-<section id="housing-predictions-section" aria-label="Housing Predictive Modeling" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;"></section>
 <script defer src="js/housing-predictions.js"></script>
 
 <!-- ══════════════════════════════════════════════════════════════
