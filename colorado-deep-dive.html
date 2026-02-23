@@ -1763,7 +1763,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
                      { label:"US Avg (index)", data:[55, 60, 55, 62, 60] }]
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } }
+                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
       });
     })();
   </script>
@@ -1777,8 +1777,5 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       if (window.PolicySimulator) PolicySimulator.init();
     });
   </script>
-  <script src="js/co-ami-gap.js"></script>
-  <script defer src="js/trend-analysis.js"></script>
-  <script defer src="js/policy-simulator.js"></script>
 </body>
 </html>
