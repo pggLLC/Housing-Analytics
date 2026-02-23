@@ -73,7 +73,7 @@
 
     const cfg = (global.APP_CONFIG) || {};
     const url = (cfg.HUD_MARKETS_API_URL && String(cfg.HUD_MARKETS_API_URL).trim())
-      || "/api/hud-markets";
+      || "data/hud-markets.json";
 
     try {
       const data = await _fetchJson(url);
@@ -94,7 +94,7 @@
 
     const cfg = (global.APP_CONFIG) || {};
     const url = (cfg.DEMOGRAPHICS_API_URL && String(cfg.DEMOGRAPHICS_API_URL).trim())
-      || "/api/co-demographics";
+      || "data/co-demographics.json";
 
     try {
       const data = await _fetchJson(url);

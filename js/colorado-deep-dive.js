@@ -118,12 +118,138 @@
     clearLoadingState(panelId);
   }
 
-  function initPolicyPanel(panelId) {
+  
+  function initProp123Section() {
+    var tbody = document.getElementById('prop123TableBody');
+    var summary = document.getElementById('prop123Summary');
+    var status = document.getElementById('prop123Status');
+    if (!tbody) return;
+
+    function setStatus(msg) {
+      if (status) status.textContent = msg || '';
+    }
+
+    var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : 'api/prop123';
+    var fallbackUrl = 'data/prop123_jurisdictions.json';
+
+    // Try serverless first (if you later host it), then local fallback for GitHub Pages
+    fetch(primaryUrl, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('Prop123 API unavailable');
+      return r.json();
+    }).catch(function () {
+      return fetch(fallbackUrl, { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('Prop123 fallback missing');
+        return r.json();
+      });
+    }).then(function (data) {
+      var jurisdictions = data.jurisdictions || data.items || data || [];
+      // Allow the fallback file schema: { updated, jurisdictions: [...] }
+      if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
+      if (!Array.isArray(jurisdictions)) jurisdictions = [];
+      var count = jurisdictions.length;
+      if (summary) summary.textContent = count ? (count + ' jurisdictions currently listed in the Prop 123 commitment dataset.') : 'No jurisdictions found in the dataset.';
+      setStatus(count ? ('(' + count + ')') : '(0)');
+
+      // Render table rows
+      tbody.innerHTML = '';
+      if (!count) {
+        tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">No Prop 123 jurisdictions found.</td></tr>';
+        return;
+      }
+
+      jurisdictions.slice(0, 500).forEach(function (j) {
+        var name = j.name || j.jurisdiction || j.place || j.county || '—';
+        var type = j.type || j.jurisdiction_type || (j.is_county ? 'County' : (j.is_place ? 'Municipality' : '—'));
+        var statusTxt = j.status || j.commitment_status || '—';
+        var dt = j.commitment_date || j.date || j.filed_date || '';
+        var dateTxt = dt ? String(dt).replace('T00:00:00.000Z','') : '—';
+
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + escapeHtml(name) + '</td>' +
+                       '<td>' + escapeHtml(type) + '</td>' +
+                       '<td>' + escapeHtml(statusTxt) + '</td>' +
+                       '<td>' + escapeHtml(dateTxt) + '</td>';
+        tbody.appendChild(tr);
+      });
+    }).catch(function (e) {
+      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable (missing API and fallback file).</td></tr>';
+      if (summary) summary.textContent = '';
+      setStatus('unavailable');
+      console.warn(e);
+    });
+  }
+
+  function loadCarMarketKpis() {
+    // This section is present in the HTML, but may not have a data feed configured.
+    var section = document.getElementById('carMarketSection');
+    if (!section) return;
+
+    var ids = ['carMedianPrice','carInventory','carDaysOnMarket','carPricePerSqFt'];
+    var any = ids.some(function (id) { return document.getElementById(id); });
+    if (!any) return;
+
+    var url = (window.APP_CONFIG && window.APP_CONFIG.CAR_MARKET_URL) ? window.APP_CONFIG.CAR_MARKET_URL : 'data/car-market.json';
+
+    fetch(url, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('CAR market file missing');
+      return r.json();
+    }).then(function (d) {
+      // Expected schema example:
+      // { updated: "YYYY-MM-DD", median_price: 0, active_listings: 0, median_dom: 0, price_per_sqft: 0 }
+      var mp  = d.median_price ?? d.medianPrice;
+      var inv = d.active_listings ?? d.inventory;
+      var dom = d.median_dom ?? d.days_on_market;
+      var ppsf = d.price_per_sqft ?? d.pricePerSqFt;
+
+      setText('carMedianPrice', formatCurrency(mp));
+      setText('carInventory', formatNumber(inv));
+      setText('carDaysOnMarket', dom == null ? '—' : String(dom));
+      setText('carPricePerSqFt', formatCurrency(ppsf));
+    }).catch(function () {
+      // If the file doesn't exist, keep dashes but add an explanatory note
+      var noteId = 'carMarketNote';
+      if (!document.getElementById(noteId)) {
+        var p = document.createElement('p');
+        p.id = noteId;
+        p.className = 'data-sources-small';
+        p.style.marginTop = '0.75rem';
+        p.textContent = 'CAR KPIs are placeholders until a static data file is added at data/car-market.json (recommended via scheduled GitHub Actions).';
+        section.appendChild(p);
+      }
+    });
+
+    function setText(id, txt) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    }
+    function formatNumber(x) {
+      if (x == null || x === '') return '—';
+      try { return Number(x).toLocaleString(); } catch (e) { return String(x); }
+    }
+    function formatCurrency(x) {
+      if (x == null || x === '') return '—';
+      try { return '$' + Math.round(Number(x)).toLocaleString(); } catch (e) { return String(x); }
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+function initPolicyPanel(panelId) {
     showLoadingState(panelId);
     try {
       if (window.PolicySimulator && typeof window.PolicySimulator.init === 'function') {
         window.PolicySimulator.init();
       }
+      // Fill Prop 123 section and any configured market KPIs
+      initProp123Section();
+      loadCarMarketKpis();
     } catch (e) {
       handleDataError('policy-simulator', e);
     } finally {
@@ -132,7 +258,9 @@
   }
 
   /* ── Tab activation ────────────────────────────────────────────── */
-  function activateTab(panelId) {
+  function activateTab(panelId, opts) {
+    opts = opts || {};
+    var updateHash = opts.updateHash !== false;
     var tabList = document.querySelector('[role="tablist"]');
     if (!tabList) return;
 
@@ -166,10 +294,26 @@
     /* Lazy-load the panel's module */
     loadPanel(panelId);
 
-    /* Update the URL hash for deep linking */
+    /* Update the URL hash for deep linking (only on user intent) */
+    if (updateHash) {
+      try {
+        history.replaceState(null, '', '#' + panelId);
+      } catch (e) { /* ignore */ }
+    }
+
+    /* Leaflet maps in hidden panels need a size refresh after becoming visible */
     try {
-      history.replaceState(null, '', '#' + panelId);
-    } catch (e) { /* ignore in environments where history isn't available */ }
+      var activePanel = document.getElementById(panelId);
+      if (activePanel && activePanel.querySelector && activePanel.querySelector('#coMap')) {
+        requestAnimationFrame(function () {
+          if (window.coLihtcMap && typeof window.coLihtcMap.invalidateSize === 'function') {
+            window.coLihtcMap.invalidateSize(true);
+          } else if (window.CODeepDiveMap && window.CODeepDiveMap.map && typeof window.CODeepDiveMap.map.invalidateSize === 'function') {
+            window.CODeepDiveMap.map.invalidateSize(true);
+          }
+        });
+      }
+    } catch (e) { /* ignore */ }
   }
 
   /* ── Tab setup ─────────────────────────────────────────────────── */
@@ -185,7 +329,7 @@
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         var target = btn.getAttribute('aria-controls');
-        if (target) activateTab(target);
+        if (target) activateTab(target, { updateHash: true });
       });
 
       btn.addEventListener('keydown', function (e) {
@@ -207,7 +351,7 @@
         }
         if (next) {
           next.focus();
-          activateTab(next.getAttribute('aria-controls'));
+          activateTab(next.getAttribute('aria-controls'), { updateHash: true });
         }
       });
     });
@@ -227,7 +371,7 @@
         : (buttons[0] ? buttons[0].getAttribute('aria-controls') : null);
     }
 
-    if (startPanel) activateTab(startPanel);
+    if (startPanel) activateTab(startPanel, { updateHash: false });
 
     /* Handle browser back/forward navigation */
     window.addEventListener('popstate', function () {
@@ -235,7 +379,7 @@
       if (h) {
         var el = document.getElementById(h);
         if (el && el.getAttribute('role') === 'tabpanel') {
-          activateTab(h);
+          activateTab(h, { updateHash: false });
         }
       }
     });
@@ -253,6 +397,10 @@
 
   /* ── Init ──────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
+    try {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
   });
