@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Regional Analysis | LIHTC Analytics Hub</title>
+<meta content="State and metro-level LIHTC data analysis and housing market insights." name="description"/>
+<!-- Unified Theme -->
+
+<!-- D3.js for map -->
+<script src="js/vendor/d3.v7.min.js"></script>
+<script src="js/vendor/topojson.v3.min.js"></script>
+<!-- Chart.js -->
+<script src="js/vendor/chart.umd.min.js"></script>
+<style>
+        .regional-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            color: var(--accent-gold);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-label {
+            display: block;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-gold);
+            text-align: center;
+        }
+        
+        .stat-value {
+            color: var(--accent-gold);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        /* Map Section */
+        .map-section {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        #us-map-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 1.5rem auto;
+            position: relative;
+        }
+        
+        #us-map {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .state-path {
+            stroke: var(--accent2);
+            stroke-width: 1.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .state-path:hover {
+            stroke: #e4b584;
+            stroke-width: 2.5;
+            filter: brightness(1.2);
+        }
+        
+        .state-path.selected {
+            stroke: #ffd700;
+            stroke-width: 3;
+        }
+        
+        .state-label {
+            fill: var(--text);
+            font-size: 10px;
+            font-weight: 600;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        /* Allocation tier colors */
+        .tier-1 { fill: #1a4d2e; }
+        .tier-2 { fill: #2d6b4f; }
+        .tier-3 { fill: #4a8a70; }
+        .tier-4 { fill: #6aa88a; }
+        .tier-5 { fill: #4a4035; }
+        
+        /* Region colors */
+        .region-northeast { fill: #2d6b4f; }
+        .region-south { fill: var(--accent2); }
+        .region-midwest { fill: #5a9fb8; }
+        .region-west { fill: #c49563; }
+        
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .legend-color {
+            width: 25px;
+            height: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+        }
+        
+        /* Tooltip */
+        .map-tooltip {
+            position: absolute;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--accent-gold);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .map-tooltip.visible {
+            opacity: 1;
+        }
+        
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin-top: 1rem;
+        }
+        
+        /* Table */
+        .data-table-container {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .data-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background-color: var(--bg-primary);
+            color: var(--accent-gold);
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            padding: 0.9rem 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .data-table tr:hover {
+            background-color: rgba(212, 165, 116, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .regional-container {
+                padding: 1rem;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+<script defer="defer" src="js/navigation.js"></script>
+<script defer="defer" src="js/dark-mode-toggle.js"></script>
+<script defer="defer" src="js/mobile-menu.js"></script>
+
+
+  <link rel="stylesheet" href="css/site-theme.css"/>
+  <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/accessibility.css"/>
+  <link rel="stylesheet" href="css/performance.css"/>
+  <link rel="stylesheet" href="css/print.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content">
+<div class="regional-container">
+<!-- Page Header -->
+<div class="page-header">
+<h1 class="page-title">Regional Market Analysis</h1>
+<p class="page-subtitle">State-level LIHTC allocations and housing market trends</p>
+</div>
+<!-- Filters -->
+<div class="filter-section">
+<div class="filter-group">
+<label class="filter-label">Color Map By</label>
+<select class="filter-select" id="map-mode-select">
+<option value="allocation">Allocation Amount</option>
+<option value="region">Geographic Region</option>
+</select>
+</div>
+<div class="filter-group">
+<label class="filter-label">Filter by State</label>
+<select class="filter-select" id="state-select">
+<option value="all">All States</option>
+</select>
+</div>
+</div>
+<!-- Summary Stats -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-value" id="stat-total">$12.8B</div>
+<div class="stat-label" id="stat-total-label">Total Allocations</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="stat-states">51</div>
+<div class="stat-label">States + DC</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="stat-per-capita">$3.75</div>
+<div class="stat-label">Avg Per Capita</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">$0.87</div>
+<div class="stat-label">9% Credit Price</div>
+</div>
+</div>
+<!-- Interactive Map -->
+<div class="map-section">
+<h2 class="section-title" id="map-title">LIHTC Allocations by State</h2>
+<p class="section-subtitle">Click any state to view detailed information and top projects</p>
+<div id="us-map-container">
+<svg id="us-map" preserveaspectratio="xMidYMid meet" viewbox="0 0 960 600">
+<text fill="#e8dcc4" font-size="16" text-anchor="middle" x="480" y="300">
+                            Loading map...
+                        </text>
+</svg>
+</div>
+<div class="map-legend" id="map-legend"></div>
+</div>
+<!-- Tooltip -->
+<div class="map-tooltip" id="map-tooltip"></div>
+<!-- Charts Grid -->
+<div class="charts-grid">
+<div class="chart-card">
+<h3 class="section-title">Top 10 States by Allocation</h3>
+<p class="section-subtitle">Total allocation amounts</p>
+<div class="chart-container">
+<canvas id="allocations-chart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<h3 class="section-title">Per Capita Leaders</h3>
+<p class="section-subtitle">Highest per capita allocation</p>
+<div class="chart-container">
+<canvas id="per-capita-chart"></canvas>
+</div>
+</div>
+</div>
+<!-- LIHTC Allocation by State Table -->
+<div class="data-table-container">
+<h2 class="section-title">LIHTC Allocation by State</h2>
+<p class="section-subtitle">Complete state allocation data</p>
+<div class="data-table">
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>State</th>
+<th>Population</th>
+<th>Total Allocation</th>
+<th>Per Capita</th>
+<th>% of National</th>
+</tr>
+</thead>
+<tbody id="states-table-body">
+<tr><td colspan="6" style="text-align: center; padding: 2rem;">Loading data...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Script -->
+<script src="js/config.js"></script>
+
+<!-- State Data -->
+<script src="js/state-allocations-2026.js"></script>
+<script>
+        console.log('Regional page initializing...');
+        
+        // Region definitions
+        const REGIONS = {
+            northeast: ['CT', 'ME', 'MA', 'NH', 'NJ', 'NY', 'PA', 'RI', 'VT'],
+            south: ['AL', 'AR', 'DE', 'FL', 'GA', 'KY', 'LA', 'MD', 'MS', 'NC', 'OK', 'SC', 'TN', 'TX', 'VA', 'WV', 'DC'],
+            midwest: ['IL', 'IN', 'IA', 'KS', 'MI', 'MN', 'MO', 'NE', 'ND', 'OH', 'SD', 'WI'],
+            west: ['AK', 'AZ', 'CA', 'CO', 'HI', 'ID', 'MT', 'NV', 'NM', 'OR', 'UT', 'WA', 'WY']
+        };
+        
+        let currentMapMode = 'allocation';
+        let selectedState = 'all';
+        
+        function getRegion(stateAbbr) {
+            for (const [region, states] of Object.entries(REGIONS)) {
+                if (states.includes(stateAbbr)) return region;
+            }
+            return 'other';
+        }
+        
+        function getAllocationTier(allocation) {
+            if (allocation >= 300000000) return 1;
+            if (allocation >= 100000000) return 2;
+            if (allocation >= 50000000) return 3;
+            if (allocation >= 25000000) return 4;
+            return 5;
+        }
+        
+        function getTierLabel(tier) {
+            const labels = {
+                1: '$300M+',
+                2: '$100M-$300M',
+                3: '$50M-$100M',
+                4: '$25M-$50M',
+                5: 'Under $25M'
+            };
+            return labels[tier] || 'Unknown';
+        }
+        
+        function updateLegend() {
+            const legend = document.getElementById('map-legend');
+            
+            if (currentMapMode === 'allocation') {
+                legend.innerHTML = `
+                    <div class="legend-item">
+                        <div class="legend-color tier-1"></div>
+                        <span>$300M+</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color tier-2"></div>
+                        <span>$100M-$300M</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color tier-3"></div>
+                        <span>$50M-$100M</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color tier-4"></div>
+                        <span>$25M-$50M</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color tier-5"></div>
+                        <span>Under $25M</span>
+                    </div>
+                `;
+            } else {
+                legend.innerHTML = `
+                    <div class="legend-item">
+                        <div class="legend-color region-northeast"></div>
+                        <span>Northeast</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color region-south"></div>
+                        <span>South</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color region-midwest"></div>
+                        <span>Midwest</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color region-west"></div>
+                        <span>West</span>
+                    </div>
+                `;
+            }
+        }
+        
+        async function renderUSMap() {
+            try {
+                console.log('Loading map data...');
+                let us;
+                try {
+                  us = await d3.json('data/states-10m.json');
+                } catch(localErr) {
+                  console.warn('Local topology not found, trying CDN:', localErr.message);
+                  us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+                }
+                const svg = d3.select('#us-map');
+                svg.selectAll('*').remove();
+                
+                const width = 960, height = 600;
+                const projection = d3.geoAlbersUsa().scale(1200).translate([width/2, height/2]);
+                const path = d3.geoPath().projection(projection);
+                const states = topojson.feature(us, us.objects.states);
+                
+                const fipsToAbbr = {
+                    '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT',
+                    '10':'DE','11':'DC','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL',
+                    '18':'IN','19':'IA','20':'KS','21':'KY','22':'LA','23':'ME','24':'MD',
+                    '25':'MA','26':'MI','27':'MN','28':'MS','29':'MO','30':'MT','31':'NE',
+                    '32':'NV','33':'NH','34':'NJ','35':'NM','36':'NY','37':'NC','38':'ND',
+                    '39':'OH','40':'OK','41':'OR','42':'PA','44':'RI','45':'SC','46':'SD',
+                    '47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA','54':'WV',
+                    '55':'WI','56':'WY'
+                };
+                
+                window.mapPaths = svg.selectAll('path')
+                    .data(states.features)
+                    .enter()
+                    .append('path')
+                    .attr('class', d => {
+                        const abbr = fipsToAbbr[String(d.id).padStart(2,'0')];
+                        if (currentMapMode === 'region') {
+                            return `state-path region-${getRegion(abbr)}`;
+                        } else {
+                            const stateData = window.StateAllocations2026?.states?.[abbr];
+                            const tier = stateData ? getAllocationTier(stateData.allocation) : 5;
+                            return `state-path tier-${tier}`;
+                        }
+                    })
+                    .attr('d', path)
+                    .attr('data-state', d => fipsToAbbr[String(d.id).padStart(2,'0')])
+                    .on('click', function(event, d) {
+                        const abbr = fipsToAbbr[String(d.id).padStart(2,'0')];
+                        handleStateClick(abbr);
+                    })
+                    .on('mouseenter', function(event, d) {
+                        const abbr = fipsToAbbr[String(d.id).padStart(2,'0')];
+                        showTooltip(event, abbr);
+                    })
+                    .on('mousemove', moveTooltip)
+                    .on('mouseleave', hideTooltip);
+                
+                svg.selectAll('text.state-label')
+                    .data(states.features)
+                    .enter()
+                    .append('text')
+                    .attr('class', 'state-label')
+                    .attr('transform', d => `translate(${path.centroid(d)})`)
+                    .text(d => fipsToAbbr[String(d.id).padStart(2,'0')]);
+                
+                console.log('✓ Map rendered successfully');
+            } catch (error) {
+                console.error('Map rendering error:', error);
+            }
+        }
+        
+        function updateMapColors() {
+            if (!window.mapPaths) return;
+            
+            window.mapPaths.attr('class', function(d) {
+                const fipsToAbbr = {
+                    '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT',
+                    '10':'DE','11':'DC','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL',
+                    '18':'IN','19':'IA','20':'KS','21':'KY','22':'LA','23':'ME','24':'MD',
+                    '25':'MA','26':'MI','27':'MN','28':'MS','29':'MO','30':'MT','31':'NE',
+                    '32':'NV','33':'NH','34':'NJ','35':'NM','36':'NY','37':'NC','38':'ND',
+                    '39':'OH','40':'OK','41':'OR','42':'PA','44':'RI','45':'SC','46':'SD',
+                    '47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA','54':'WV',
+                    '55':'WI','56':'WY'
+                };
+                const abbr = fipsToAbbr[String(d.id).padStart(2,'0')];
+                
+                if (currentMapMode === 'region') {
+                    return `state-path region-${getRegion(abbr)}`;
+                } else {
+                    const stateData = window.StateAllocations2026?.states?.[abbr];
+                    const tier = stateData ? getAllocationTier(stateData.allocation) : 5;
+                    return `state-path tier-${tier}`;
+                }
+            });
+            
+            updateLegend();
+            console.log('✓ Map colors updated to', currentMapMode, 'mode');
+        }
+        
+        function handleStateClick(stateAbbr) {
+            selectedState = stateAbbr;
+            document.getElementById('state-select').value = stateAbbr;
+            updateStats(stateAbbr);
+            updateTable(stateAbbr);
+            
+            // Highlight selected state
+            if (window.mapPaths) {
+                window.mapPaths.classed('selected', function(d) {
+                    const fipsMap = {
+                        '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT',
+                        '10':'DE','11':'DC','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL',
+                        '18':'IN','19':'IA','20':'KS','21':'KY','22':'LA','23':'ME','24':'MD',
+                        '25':'MA','26':'MI','27':'MN','28':'MS','29':'MO','30':'MT','31':'NE',
+                        '32':'NV','33':'NH','34':'NJ','35':'NM','36':'NY','37':'NC','38':'ND',
+                        '39':'OH','40':'OK','41':'OR','42':'PA','44':'RI','45':'SC','46':'SD',
+                        '47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA','54':'WV',
+                        '55':'WI','56':'WY'
+                    };
+                    return fipsMap[String(d.id).padStart(2,'0')] === stateAbbr;
+                });
+            }
+            
+            console.log('State selected:', stateAbbr);
+        }
+        
+        function showTooltip(event, stateAbbr) {
+            const stateData = window.StateAllocations2026?.states?.[stateAbbr];
+            const tooltip = document.getElementById('map-tooltip');
+            const region = getRegion(stateAbbr);
+            
+            if (stateData) {
+                const tier = getAllocationTier(stateData.allocation);
+                tooltip.innerHTML = `
+                    <div style="color: var(--accent-gold); font-weight: 600; margin-bottom: 0.5rem;">
+                        ${stateData.name}
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.8;">
+                        <strong>Region:</strong> ${region.charAt(0).toUpperCase() + region.slice(1)}<br>
+                        <strong>Tier:</strong> ${getTierLabel(tier)}<br>
+                        <strong>Allocation:</strong> $${(stateData.allocation / 1000000).toFixed(1)}M<br>
+                        <strong>Per Capita:</strong> $${stateData.perCapita.toFixed(2)}<br>
+                        <em style="color: var(--text-secondary); font-size: 0.8rem;">Click to select</em>
+                    </div>
+                `;
+                tooltip.classList.add('visible');
+            }
+        }
+        
+        function moveTooltip(event) {
+            const tooltip = document.getElementById('map-tooltip');
+            tooltip.style.left = (event.pageX + 15) + 'px';
+            tooltip.style.top = (event.pageY + 15) + 'px';
+        }
+        
+        function hideTooltip() {
+            document.getElementById('map-tooltip').classList.remove('visible');
+        }
+        
+        function updateStats(filterState = 'all') {
+            if (!window.StateAllocations2026?.states) return;
+            
+            if (filterState !== 'all') {
+                const stateData = window.StateAllocations2026.states[filterState];
+                if (stateData) {
+                    document.getElementById('stat-total').textContent = 
+                        '$' + (stateData.allocation / 1000000).toFixed(1) + 'M';
+                    document.getElementById('stat-total-label').textContent = 
+                        stateData.name + ' Allocation';
+                    document.getElementById('stat-per-capita').textContent = 
+                        '$' + stateData.perCapita.toFixed(2);
+                }
+            } else {
+                const allStates = Object.values(window.StateAllocations2026.states);
+                const totalAllocation = allStates.reduce((sum, s) => sum + s.allocation, 0);
+                const totalPop = allStates.reduce((sum, s) => sum + s.population, 0);
+                
+                document.getElementById('stat-total').textContent = 
+                    '$' + (totalAllocation / 1000000000).toFixed(1) + 'B';
+                document.getElementById('stat-total-label').textContent = 'Total Allocations';
+                document.getElementById('stat-per-capita').textContent = 
+                    '$' + (totalAllocation / totalPop).toFixed(2);
+            }
+            
+            console.log('✓ Stats updated for', filterState);
+        }
+        
+        function updateTable(filterState = 'all') {
+            if (!window.StateAllocations2026?.states) return;
+            
+            const allStates = Object.values(window.StateAllocations2026.states);
+            let displayStates = filterState === 'all' ? allStates : 
+                               allStates.filter(s => s.abbr === filterState);
+            
+            displayStates.sort((a, b) => b.allocation - a.allocation);
+            const totalAllocation = allStates.reduce((sum, s) => sum + s.allocation, 0);
+            
+            const tbody = document.getElementById('states-table-body');
+            tbody.innerHTML = displayStates.slice(0, 15).map((s, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${s.name}</strong></td>
+                    <td>${s.population.toLocaleString()}</td>
+                    <td>$${(s.allocation / 1000000).toFixed(1)}M</td>
+                    <td>$${s.perCapita.toFixed(2)}</td>
+                    <td>${((s.allocation / totalAllocation) * 100).toFixed(1)}%</td>
+                </tr>
+            `).join('');
+            
+            console.log('✓ Table updated');
+        }
+        
+        function renderCharts() {
+            if (!window.StateAllocations2026?.states) {
+                setTimeout(renderCharts, 500);
+                return;
+            }
+            
+            const states = Object.values(window.StateAllocations2026.states);
+            const byAllocation = [...states].sort((a, b) => b.allocation - a.allocation).slice(0, 10);
+            const byPerCapita = [...states].sort((a, b) => b.perCapita - a.perCapita).slice(0, 10);
+            
+            // Allocations Chart
+            new Chart(document.getElementById('allocations-chart'), {
+                type: 'bar',
+                data: {
+                    labels: byAllocation.map(s => s.abbr),
+                    datasets: [{
+                        label: 'Allocation ($M)',
+                        data: byAllocation.map(s => s.allocation / 1000000),
+                        backgroundColor: '#d4a574'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#e8dcc4', callback: v => '$' + v + 'M' },
+                            grid: { color: 'rgba(58, 53, 48, 0.3)' }
+                        },
+                        x: {
+                            ticks: { color: '#e8dcc4' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+            
+            // Per Capita Chart
+            new Chart(document.getElementById('per-capita-chart'), {
+                type: 'bar',
+                data: {
+                    labels: byPerCapita.map(s => s.abbr),
+                    datasets: [{
+                        label: 'Per Capita ($)',
+                        data: byPerCapita.map(s => s.perCapita),
+                        backgroundColor: '#5a9fb8'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#e8dcc4', callback: v => '$' + v.toFixed(2) },
+                            grid: { color: 'rgba(58, 53, 48, 0.3)' }
+                        },
+                        x: {
+                            ticks: { color: '#e8dcc4' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+            
+            console.log('✓ Charts rendered');
+        }
+        
+        function populateStateDropdown() {
+            if (!window.StateAllocations2026?.states) {
+                setTimeout(populateStateDropdown, 500);
+                return;
+            }
+            
+            const select = document.getElementById('state-select');
+            const states = Object.entries(window.StateAllocations2026.states)
+                .sort((a, b) => a[1].name.localeCompare(b[1].name));
+            
+            states.forEach(([abbr, data]) => {
+                const option = document.createElement('option');
+                option.value = abbr;
+                option.textContent = data.name;
+                select.appendChild(option);
+            });
+            
+            console.log('✓ State dropdown populated');
+        }
+        
+        // Event listeners
+        document.getElementById('map-mode-select').addEventListener('change', function(e) {
+            currentMapMode = e.target.value;
+            updateMapColors();
+        });
+        
+        document.getElementById('state-select').addEventListener('change', function(e) {
+            const state = e.target.value;
+            selectedState = state;
+            updateStats(state);
+            updateTable(state);
+        });
+        
+        // Initialize
+        function initializePage() {
+            console.log('Initializing page with data...');
+            renderUSMap();
+            updateLegend();
+            populateStateDropdown();
+            renderCharts();
+            updateStats('all');
+            updateTable('all');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            if (window.StateAllocations2026) {
+                initializePage();
+            } else {
+                console.log('Waiting for state data...');
+                let attempts = 0;
+                const checkData = setInterval(() => {
+                    attempts++;
+                    if (window.StateAllocations2026) {
+                        clearInterval(checkData);
+                        console.log('State data loaded after', attempts, 'attempts');
+                        initializePage();
+                    } else if (attempts > 50) {
+                        clearInterval(checkData);
+                        console.error('State data failed to load');
+                    }
+                }, 100);
+            }
+        });
+    </script>
+<script src="js/contrast-guard.js"></script>
+</body>
+</html>

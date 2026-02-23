@@ -1,0 +1,91 @@
+{
+  "_comment": "CAR Market Report template — copy this file, fill in all fields, then commit to data/car-market-report-YYYY-MM.json OR trigger the car-data-update workflow.",
+  "month": "YYYY-MM",
+  "generated_at": "ISO-8601 timestamp (set automatically by workflow)",
+  "source": "Colorado Association of REALTORS (CAR)",
+  "source_url": "https://coloradorealtors.com/market-trends/",
+  "version": "1.0",
+  "statewide": {
+    "median_sale_price": null,
+    "active_listings": null,
+    "median_days_on_market": null,
+    "median_price_per_sqft": null,
+    "closed_sales": null,
+    "new_listings": null,
+    "months_of_supply": null,
+    "list_to_sale_ratio": null
+  },
+  "metro_areas": {
+    "denver": {
+      "name": "Denver Metro",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "colorado_springs": {
+      "name": "Colorado Springs",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "fort_collins": {
+      "name": "Fort Collins / Greeley",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "boulder": {
+      "name": "Boulder",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "pueblo": {
+      "name": "Pueblo",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "grand_junction": {
+      "name": "Grand Junction",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    }
+  },
+  "validation": {
+    "required_fields": [
+      "month",
+      "statewide.median_sale_price",
+      "statewide.active_listings",
+      "statewide.median_days_on_market",
+      "statewide.median_price_per_sqft"
+    ],
+    "notes": "Metro-level fields are optional but recommended for richer analysis."
+  },
+  "notes": "Add any data quality notes here, e.g. 'Denver metro figure includes Adams, Arapahoe, Broomfield, Denver, Douglas, Elbert, Jefferson counties.'"
+}

@@ -1,0 +1,191 @@
+/* ===============================================
+   RESPONSIVE NAVIGATION FIX
+   Version: 1.0 - February 2026
+   Fixes dropdown menu issues when browser resized
+   =============================================== */
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #e8dcc4;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    color: #d4a574;
+}
+
+/* Desktop Navigation - Default State */
+nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    color: #e8dcc4;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    background-color: rgba(232, 220, 196, 0.1);
+    color: #d4a574;
+}
+
+/* Dropdown Menu Styles */
+nav ul li .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2a2520;
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    z-index: 1000;
+    margin-top: 0.25rem;
+}
+
+nav ul li:hover .dropdown {
+    display: block;
+}
+
+nav ul li .dropdown li {
+    display: block;
+    width: 100%;
+}
+
+nav ul li .dropdown li a {
+    padding: 0.75rem 1.25rem;
+    white-space: nowrap;
+    border-radius: 0;
+}
+
+nav ul li .dropdown li a:hover {
+    background-color: rgba(212, 165, 116, 0.2);
+}
+
+/* ===============================================
+   TABLET BREAKPOINT (768px - 1024px)
+   =============================================== */
+@media screen and (max-width: 1024px) {
+    nav ul {
+        gap: 0.25rem;
+    }
+    
+    nav ul li a {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    nav ul li .dropdown {
+        min-width: 200px;
+    }
+}
+
+/* ===============================================
+   MOBILE BREAKPOINT (below 768px)
+   =============================================== */
+@media screen and (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: #2a2520;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+    
+    nav ul.mobile-active {
+        display: flex;
+    }
+    
+    nav ul li {
+        width: 100%;
+        border-bottom: 1px solid rgba(232, 220, 196, 0.1);
+    }
+    
+    nav ul li:last-child {
+        border-bottom: none;
+    }
+    
+    nav ul li a {
+        padding: 1rem;
+        display: block;
+        width: 100%;
+    }
+    
+    nav ul li .dropdown {
+        position: static;
+        display: none;
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+    }
+    
+    nav ul li.mobile-dropdown-active .dropdown {
+        display: block;
+    }
+    
+    nav ul li .dropdown li a {
+        padding-left: 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===============================================
+   RESIZE EVENT FIX
+   Ensures menu resets properly when resizing
+   =============================================== */
+@media screen and (min-width: 769px) {
+    nav ul {
+        display: flex !important;
+        flex-direction: row !important;
+        position: static !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+    
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+    
+    nav ul li .dropdown {
+        position: absolute !important;
+        background-color: #2a2520 !important;
+    }
+}
