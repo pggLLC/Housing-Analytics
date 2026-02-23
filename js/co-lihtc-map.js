@@ -1,77 +1,128 @@
-// Load dependencies
-import 'leaflet';
+/**
+ * co-lihtc-map.js — Colorado Deep Dive Leaflet map (standalone, no bundler required)
+ * Depends on: js/vendor/leaflet.js loaded before this script.
+ * Exports: window.coLihtcMap — the Leaflet map instance (set after initialization).
+ */
+(function () {
+  'use strict';
 
-// Define the fallback data
-const FALLBACK_LIHTC = [...]; // Define your fallback data
-const FALLBACK_QCT = [...]; // Define your fallback data
-const FALLBACK_DDA = [...]; // Define your fallback data
+  // ── Fallback embedded data (used when HUD ArcGIS APIs are unreachable) ──────
+  var FALLBACK_LIHTC = [];
+  var FALLBACK_QCT   = [];
+  var FALLBACK_DDA   = [];
 
-// Initialize map function
-function initMap() {
-    const map = L.map('map').setView([39.7392, -104.9903], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
-        maxZoom: 19 
-    }).addTo(map);
+  // ── Status helper ────────────────────────────────────────────────────────────
+  function updateStatus(message) {
+    var el = document.getElementById('map-status') || document.getElementById('status');
+    if (el) el.textContent = message;
+  }
 
-    // Fetch data from APIs
-    fetchData();
-}
-
-// Fetch data from APIs
-async function fetchData() {
-    try {
-        const response = await fetch('https://api.example.com/data');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        validateData(data) ? renderData(data) : renderFallback();
-    } catch (error) {
-        console.error('API Fetch Error:', error);
-        renderFallback();
-    }
-}
-
-// Validate data before rendering
-function validateData(data) {
-    // Add validation logic as per the expected structure; e.g., check data types and required fields
-    return Array.isArray(data) && data.length > 0;
-}
-
-// Render data on map
-function renderData(data) {
-    data.forEach(item => {
-        // Add null checks before accessing properties
-        if (item && item.coordinates) {
-            L.marker(item.coordinates).addTo(map);
-        } else {
-            console.warn('Invalid item:', item);
-        }
+  // ── Fetch with timeout ───────────────────────────────────────────────────────
+  function fetchWithTimeout(url, options, timeout) {
+    timeout = timeout || 5000;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, timeout);
+    var merged = Object.assign({}, options || {}, { signal: ctrl.signal });
+    return fetch(url, merged).then(function (res) {
+      clearTimeout(timer);
+      return res;
+    }, function (err) {
+      clearTimeout(timer);
+      throw err;
     });
-}
+  }
 
-// Render fallback data
-function renderFallback() {
-    console.warn('Rendering fallback data');
-    renderData(FALLBACK_LIHTC);
-}
+  // ── Data validation ──────────────────────────────────────────────────────────
+  function validateData(data) {
+    return Array.isArray(data) && data.length > 0;
+  }
 
-// Improve user status messaging
-function updateStatus(message) {
-    const statusElement = document.getElementById('status');
-    if (statusElement) {
-        statusElement.innerText = message;
+  // ── Render markers ───────────────────────────────────────────────────────────
+  function renderData(map, data) {
+    data.forEach(function (item) {
+      if (item && item.coordinates) {
+        L.marker(item.coordinates).addTo(map);
+      } else {
+        console.warn('[co-lihtc-map] Invalid item (no coordinates):', item);
+      }
+    });
+  }
+
+  // ── Fetch data from API, fall back to embedded data ──────────────────────────
+  function fetchData(map) {
+    updateStatus('Loading LIHTC data…');
+    fetchWithTimeout('https://api.example.com/data', {}, 8000)
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (validateData(data)) {
+          renderData(map, data);
+          updateStatus('');
+        } else {
+          console.warn('[co-lihtc-map] API returned invalid data; using fallback.');
+          renderData(map, FALLBACK_LIHTC);
+          updateStatus('Using embedded fallback data.');
+        }
+      })
+      .catch(function (err) {
+        console.warn('[co-lihtc-map] API fetch failed; using fallback.', err.message);
+        renderData(map, FALLBACK_LIHTC);
+        updateStatus('Using embedded fallback data.');
+      });
+  }
+
+  // ── Map initialization ───────────────────────────────────────────────────────
+  function initMap() {
+    if (typeof L === 'undefined') {
+      console.error('[co-lihtc-map] Leaflet (L) is not defined. Ensure js/vendor/leaflet.js loads before this script.');
+      updateStatus('Map unavailable — Leaflet failed to load.');
+      return null;
     }
-}
 
-// Add timeout handling for slow responses
-async function fetchDataWithTimeout(url, options, timeout = 5000) {
-    return Promise.race([
-        fetch(url, options),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeout))
-    ]);
-}
+    var mapEl = document.getElementById('coMap') || document.getElementById('map');
+    if (!mapEl) {
+      console.error('[co-lihtc-map] Map container element not found.');
+      return null;
+    }
 
-// On document loaded, initialize map
-document.addEventListener('DOMContentLoaded', () => {
-    updateStatus('Loading map...');
+    // Fix vendored marker icon paths
+    if (L.Icon && L.Icon.Default) {
+      L.Icon.Default.mergeOptions({
+        iconUrl:       'js/vendor/images/marker-icon.png',
+        iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
+        shadowUrl:     'js/vendor/images/marker-shadow.png'
+      });
+    }
+
+    try {
+      var map = L.map(mapEl).setView([39.5501, -105.7821], 7);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      updateStatus('Map ready.');
+      console.info('[co-lihtc-map] Map initialized on', mapEl.id || mapEl.tagName);
+
+      // Expose map globally so map-overlay.js and other scripts can use it
+      window.coLihtcMap = map;
+
+      fetchData(map);
+      return map;
+    } catch (err) {
+      console.error('[co-lihtc-map] Map initialization error:', err);
+      updateStatus('Map failed to initialize.');
+      return null;
+    }
+  }
+
+  // ── Boot ─────────────────────────────────────────────────────────────────────
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap);
+  } else {
     initMap();
-});
+  }
+}());

@@ -12,10 +12,13 @@
   <!-- Standard site theme + navigation (matches index/about/insights) -->
   <link rel="stylesheet" href="css/site-theme.css"/>
   <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/dark-mode-transitions.css"/>
   <link rel="stylesheet" href="css/responsive.css"/>
   <link rel="stylesheet" href="css/accessibility.css"/>
   <link rel="stylesheet" href="css/performance.css"/>
   <link rel="stylesheet" href="css/print.css"/>
+  <link rel="stylesheet" href="css/pages/colorado-deep-dive.css"/>
+  <link rel="stylesheet" href="css/button-enhancements.css"/>
   <script defer="defer" src="js/navigation.js"></script>
 <script defer="defer" src="js/dark-mode-toggle.js"></script>
 <script defer="defer" src="js/mobile-menu.js"></script>
@@ -234,11 +237,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell">
     
-<div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
-<h1 >Colorado Affordable Housing Market Analysis</h1>
-<p style="margin-bottom:2rem;">
+<div class="page-hero">
+<div class="pill">Colorado Market Deep Dive</div>
+<h1>Colorado Affordable Housing Market Analysis</h1>
+<p class="hero-subtitle">
             Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
         </p>
+<span class="freshness-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"></span>
+</div>
 <section class="section" aria-label="Key indicators">
   <div class="kpi-grid">
     <div class="kpi-card">
@@ -272,6 +278,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
     <span aria-current="page">Colorado Deep Dive</span>
   </nav>
+
+  <!-- Tab Help / Guide Section -->
+  <section class="tab-guide" aria-label="Tab guide">
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📊</span>
+      <div>
+        <div class="tab-guide-title">AMI Gap Analysis</div>
+        <p class="tab-guide-desc">Explore Area Median Income limits and the gap between affordable-unit supply and household demand across Colorado counties.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">🗺️</span>
+      <div>
+        <div class="tab-guide-title">State Comparison</div>
+        <p class="tab-guide-desc">Compare Colorado's LIHTC allocation, vacancy rates, rent growth, and market performance against other states and national averages.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">⚙️</span>
+      <div>
+        <div class="tab-guide-title">Policy Simulator</div>
+        <p class="tab-guide-desc">Model the impact of tax credit adjustments, AMI targeting changes, and other policy levers on projected affordable-unit production.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📈</span>
+      <div>
+        <div class="tab-guide-title">Market Trends</div>
+        <p class="tab-guide-desc">Review concessions, foreclosure filings, builder confidence, and other leading indicators shaping Colorado's housing market outlook.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Tab Navigation -->
   <div role="tablist" class="tab-nav" aria-label="Analysis sections">
@@ -1891,5 +1929,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       }
     });
   </script>
+  <script src="js/map-overlay.js"></script>
+  <script src="js/ui-interactions.js"></script>
 </body>
 </html>
