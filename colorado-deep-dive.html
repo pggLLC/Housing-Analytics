@@ -1554,6 +1554,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
     map.createPane('transportPane'); map.getPane('transportPane').style.zIndex = 215;
 
+    // Expose map globally so prop123-map.js, map-overlay.js, and other scripts can access it
+    window.CODeepDiveMap = { map: map };
+    window.coLihtcMap = map;
+
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
@@ -1817,6 +1821,9 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     setTimeout(() => map.invalidateSize(), 300);
     window.addEventListener('resize', () => map.invalidateSize());
   }
+
+  // Scroll to top on every page load so the page always starts at the beginning
+  window.scrollTo(0, 0);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
