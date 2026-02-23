@@ -193,7 +193,7 @@
   color: var(--muted);
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   line-height: 1.7;
-  max-width: 68ch;
+  max-width: 92ch;
   margin-inline: auto;
   margin-bottom: var(--sp4);
 }
