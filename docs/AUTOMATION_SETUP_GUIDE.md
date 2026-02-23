@@ -6,7 +6,11 @@ This guide explains how to configure the automated website monitoring system for
 
 - Scans all links on the target website daily
 - Detects broken links (404, 503, network errors, etc.)
-- Sends beautifully formatted HTML email reports
+- Retries transient failures automatically (timeouts, 5xx errors)
+- Checks links concurrently with configurable rate limiting
+- Tracks response times and flags slow links (>2 seconds)
+- Detects redirects and recommends updates
+- Sends beautifully formatted HTML email reports with performance metrics
 - Saves JSON reports to `monitoring-reports/` for historical tracking
 - Runs automatically via GitHub Actions every day at 9:00 AM UTC
 
@@ -15,6 +19,9 @@ This guide explains how to configure the automated website monitoring system for
 | File | Purpose |
 |------|---------|
 | `test/website-monitor-enhanced.js` | Main monitoring script |
+| `test/website-monitor-config.js` | Configuration with sensible defaults; reads env vars |
+| `test/website-monitor-utils.js` | Utility functions: retry logic, concurrency, caching |
+| `test/website-monitor.test.js` | Unit tests for core utility functions |
 | `test/send-test-email.js` | Sends sample reports to verify email setup |
 | `.github/workflows/daily-monitoring.yml` | GitHub Actions workflow |
 | `.env.example` | Template for local `.env` file |
@@ -112,6 +119,62 @@ The script will:
 
 ---
 
+## Configuration Options
+
+All options below can be set via environment variables. Copy `.env.example` to `.env` and uncomment the lines you wish to override.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MONITOR_TIMEOUT_MS` | `10000` | HTTP request timeout in milliseconds |
+| `MONITOR_MAX_RETRIES` | `3` | Maximum retries for transient failures |
+| `MONITOR_RETRY_DELAY_MS` | `1000` | Base retry delay in ms (doubles each attempt) |
+| `MONITOR_CONCURRENCY` | `5` | Maximum concurrent link-check requests |
+| `MONITOR_RATE_LIMIT_MS` | `200` | Delay between requests per worker |
+| `MONITOR_SLOW_THRESHOLD_MS` | `2000` | Response time above which a link is flagged as slow |
+| `MONITOR_CACHE_ENABLED` | `true` | Cache results to avoid re-checking the same URL |
+| `MONITOR_CACHE_TTL_MS` | `60000` | TTL for cached results in milliseconds |
+| `MONITOR_DEBUG` | `false` | Enable verbose debug output |
+| `MONITOR_DRY_RUN` | `false` | Scan and report but skip sending email |
+| `MONITOR_IGNORE_PATTERNS` | _(empty)_ | Comma-separated URL substrings to skip |
+
+### Example: Stricter Settings
+
+```
+MONITOR_TIMEOUT_MS=5000
+MONITOR_MAX_RETRIES=2
+MONITOR_CONCURRENCY=3
+MONITOR_SLOW_THRESHOLD_MS=1000
+MONITOR_IGNORE_PATTERNS=mailto:,tel:,#
+```
+
+### Dry-Run Mode
+
+Run without sending emails (useful for testing):
+
+```bash
+MONITOR_DRY_RUN=true node test/website-monitor-enhanced.js
+```
+
+### Debug Mode
+
+Enable verbose per-link output:
+
+```bash
+MONITOR_DEBUG=true node test/website-monitor-enhanced.js
+```
+
+---
+
+## Running Unit Tests
+
+```bash
+node test/website-monitor.test.js
+```
+
+This runs 25 tests covering retry logic, concurrency, caching, statistics, and URL filtering.
+
+---
+
 ## GitHub Actions Workflow
 
 The workflow file `.github/workflows/daily-monitoring.yml` runs automatically every day at 9:00 AM UTC and can also be triggered manually.
@@ -139,7 +202,7 @@ Edit the `cron` line in the workflow file:
 
 | Location | What you'll find |
 |----------|-----------------|
-| Your email inbox | HTML report with ✅ or ⚠️ status |
+| Your email inbox | HTML report with ✅ or ⚠️ status, performance metrics, redirects |
 | GitHub Actions → workflow run | Console logs and step summaries |
 | `monitoring-reports/` | JSON reports (also uploaded as GitHub artifacts with 30-day retention) |
 
@@ -152,10 +215,13 @@ Edit the `cron` line in the workflow file:
 ```
 ✅ Everything is Fine
 
-Total Links Checked:  45
-Healthy Links:        45
-Broken Links:          0
-Health Score:        100%
+Total Links Checked:        45
+Healthy Links:              45
+Broken Links:                0
+⏱️ Slow Links (>2000ms):     1
+Health Score:              100%
+Response Time (min/avg/max): 45ms / 312ms / 2100ms
+Monitoring Run Duration:    18.4s
 ```
 
 ### Issues Found
@@ -163,20 +229,21 @@ Health Score:        100%
 ```
 ⚠️ Issues Found (3 broken links)
 
-Total Links Checked:  45
-Healthy Links:        42
-Broken Links:          3
-Health Score:         93%
+Total Links Checked:        45
+Healthy Links:              42
+Broken Links:                3
+⏱️ Slow Links (>2000ms):     1
+Health Score:               93%
+Response Time (min/avg/max): 38ms / 290ms / 2100ms
+Monitoring Run Duration:    19.1s
 
 Broken Links:
   https://example.com/old-page        | 404 | Page not found — update or remove this link.
   https://example.com/api/data        | 503 | Service unavailable — contact the host.
   https://broken.example.com/resource | N/A | Network error — verify the URL is reachable.
 
-Action Items:
-  ☐ https://example.com/old-page — update or remove this link
-  ☐ https://example.com/api/data — retry later or contact host
-  ☐ https://broken.example.com/resource — verify URL is reachable
+🔀 Redirected Links:
+  https://example.com/old → https://example.com/new  (consider updating)
 ```
 
 ---
@@ -190,6 +257,8 @@ Action Items:
 | 535 Authentication error | Re-generate Gmail App Password; ensure 2-Step Verification is on |
 | No links found | Confirm `WEBSITE_URL` is publicly accessible |
 | `node-fetch` not found | Run `npm install nodemailer jsdom node-fetch` |
+| Too many requests / rate-limited | Increase `MONITOR_RATE_LIMIT_MS` or reduce `MONITOR_CONCURRENCY` |
+| Too slow | Increase `MONITOR_CONCURRENCY` or reduce `MONITOR_TIMEOUT_MS` |
 
 ---
 
