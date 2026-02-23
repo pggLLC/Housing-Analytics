@@ -1,7 +1,7 @@
 // trigger-car-workflow.js
 
 // Editable variables
-const GITHUB_TOKEN = 'your_github_token_here'; // Replace with your GitHub token
+const GITHUB_TOKEN = 'your_github_token_here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'; // Replace with your GitHub token
 const CAR_DATA = {
     // Add your car data details here
     make: 'Toyota',
