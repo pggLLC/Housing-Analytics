@@ -1,0 +1,162 @@
+/* ================================================================
+   design-tokens.css — Housing Analytics Design System
+   Color palette and CSS custom properties.
+   Import order: design-tokens → typography → spacing → borders
+   ================================================================ */
+
+/* ================================================================
+   1. COLOR TOKENS — light mode default
+   ================================================================ */
+:root {
+  /* --- Primary: Blue --- */
+  --color-blue-50:  #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* --- Primary: Green (teal accent) --- */
+  --color-green-50:  #ecfdf5;
+  --color-green-100: #d1fae5;
+  --color-green-200: #a7f3d0;
+  --color-green-300: #6ee7b7;
+  --color-green-400: #34d399;
+  --color-green-500: #10b981;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065f46;
+  --color-green-900: #064e3b;
+
+  /* --- Secondary: Warning --- */
+  --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* --- Secondary: Error --- */
+  --color-error-50:  #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+  --color-error-900: #7f1d1d;
+
+  /* --- Secondary: Info --- */
+  --color-info-50:  #eff6ff;
+  --color-info-100: #dbeafe;
+  --color-info-500: #3b82f6;
+  --color-info-600: #2563eb;
+  --color-info-700: #1d4ed8;
+
+  /* --- Neutral: Text & Backgrounds --- */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #eef2f7;
+  --color-neutral-100: #e4ecf4;
+  --color-neutral-200: #dae4f0;
+  --color-neutral-300: #c3d4e5;
+  --color-neutral-400: #7a96b0;
+  --color-neutral-500: #476080;
+  --color-neutral-600: #2c4360;
+  --color-neutral-700: #1a2f48;
+  --color-neutral-800: #0d1f35;
+  --color-neutral-900: #060f1d;
+
+  /* --- Semantic surface tokens (light mode) --- */
+  --color-bg:             var(--color-neutral-50);
+  --color-bg-alt:         var(--color-neutral-100);
+  --color-bg-subtle:      var(--color-neutral-200);
+  --color-surface:        var(--color-neutral-0);
+  --color-surface-raised: var(--color-neutral-0);
+
+  /* --- Semantic text tokens (light mode) --- */
+  --color-text:           var(--color-neutral-800);   /* #0d1f35 — WCAG AA ✓ on bg */
+  --color-text-strong:    var(--color-neutral-900);   /* #060f1d */
+  --color-text-muted:     var(--color-neutral-500);   /* #476080 */
+  --color-text-faint:     var(--color-neutral-400);   /* #7a96b0 */
+
+  /* --- Semantic border tokens (light mode) --- */
+  --color-border:         rgba(13, 31, 53, 0.11);
+  --color-border-strong:  rgba(13, 31, 53, 0.20);
+
+  /* --- Semantic link tokens (light mode) --- */
+  --color-link:           #0b7285;
+  --color-link-hover:     #096075;
+
+  /* --- Semantic accent tokens (light mode) --- */
+  --color-accent:         #0ea5a0;
+  --color-accent-dim:     rgba(14, 165, 160, 0.10);
+  --color-accent2:        #e8891a;
+  --color-accent2-dim:    rgba(232, 137, 26, 0.10);
+
+  /* --- Semantic state tokens (light mode) --- */
+  --color-success:        var(--color-green-600);
+  --color-success-dim:    rgba(5, 150, 105, 0.10);
+  --color-warning:        var(--color-warning-600);
+  --color-warning-dim:    rgba(217, 119, 6, 0.10);
+  --color-error:          var(--color-error-600);
+  --color-error-dim:      rgba(220, 38, 38, 0.10);
+  --color-info:           var(--color-info-600);
+  --color-info-dim:       rgba(37, 99, 235, 0.09);
+
+  /* --- Focus ring --- */
+  --color-focus-ring:     rgba(14, 165, 160, 0.30);
+}
+
+/* ================================================================
+   2. DARK MODE OVERRIDES
+   ================================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Semantic surface tokens (dark mode) */
+    --color-bg:             #08121e;
+    --color-bg-alt:         #0c1928;
+    --color-bg-subtle:      #0f1e30;
+    --color-surface:        #0d1e30;
+    --color-surface-raised: #102234;
+
+    /* Semantic text tokens (dark mode) — all meet WCAG AA on dark bg */
+    --color-text:           rgba(215, 232, 248, 0.93);
+    --color-text-strong:    #e4f0fc;
+    --color-text-muted:     rgba(155, 185, 215, 0.72);
+    --color-text-faint:     rgba(120, 155, 190, 0.48);
+
+    /* Semantic border tokens (dark mode) */
+    --color-border:         rgba(90, 150, 210, 0.11);
+    --color-border-strong:  rgba(90, 150, 210, 0.22);
+
+    /* Semantic link tokens (dark mode) */
+    --color-link:           #5ecbcc;
+    --color-link-hover:     #7dd8d9;
+
+    /* Semantic accent tokens (dark mode) */
+    --color-accent:         #0fd4cf;
+    --color-accent-dim:     rgba(15, 212, 207, 0.12);
+    --color-accent2:        #fbbf24;
+    --color-accent2-dim:    rgba(251, 191, 36, 0.12);
+
+    /* Semantic state tokens (dark mode) */
+    --color-success:        #34d399;
+    --color-success-dim:    rgba(52, 211, 153, 0.12);
+    --color-warning:        #fbbf24;
+    --color-warning-dim:    rgba(251, 191, 36, 0.12);
+    --color-error:          #f87171;
+    --color-error-dim:      rgba(248, 113, 113, 0.12);
+    --color-info:           #60a5fa;
+    --color-info-dim:       rgba(96, 165, 250, 0.11);
+  }
+}
