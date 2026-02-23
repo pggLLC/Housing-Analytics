@@ -9,9 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
 
-  <!-- Standard site theme + navigation (matches index/about/insights) -->
-  <link rel="stylesheet" href="css/site-theme.css"/>
-  <script defer="defer" src="js/navigation.js"></script>
+  <!-- Site theme, layout & components -->
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/colorado-deep-dive.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 
   
   
@@ -224,14 +229,17 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </head>
 
 <body data-page="colorado-deep-dive.html">
-
+<a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell">
     
-<div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
-<h1 >Colorado Affordable Housing Market Analysis</h1>
-<p style="margin-bottom:2rem;">
+<div class="page-hero">
+<div class="pill">Colorado Market Deep Dive</div>
+<h1>Colorado Affordable Housing Market Analysis</h1>
+<p class="hero-subtitle">
             Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
         </p>
+<span class="freshness-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"></span>
+</div>
 <section class="section" aria-label="Key indicators">
   <div class="kpi-grid">
     <div class="kpi-card">
@@ -256,6 +264,58 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     </div>
   
 </section>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <a href="insights.html">Market Insights</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span aria-current="page">Colorado Deep Dive</span>
+  </nav>
+
+  <!-- Tab Help / Guide Section -->
+  <section class="tab-guide" aria-label="Tab guide">
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📊</span>
+      <div>
+        <div class="tab-guide-title">AMI Gap Analysis</div>
+        <p class="tab-guide-desc">Explore Area Median Income limits and the gap between affordable-unit supply and household demand across Colorado counties.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">🗺️</span>
+      <div>
+        <div class="tab-guide-title">State Comparison</div>
+        <p class="tab-guide-desc">Compare Colorado's LIHTC allocation, vacancy rates, rent growth, and market performance against other states and national averages.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">⚙️</span>
+      <div>
+        <div class="tab-guide-title">Policy Simulator</div>
+        <p class="tab-guide-desc">Model the impact of tax credit adjustments, AMI targeting changes, and other policy levers on projected affordable-unit production.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📈</span>
+      <div>
+        <div class="tab-guide-title">Market Trends</div>
+        <p class="tab-guide-desc">Review concessions, foreclosure filings, builder confidence, and other leading indicators shaping Colorado's housing market outlook.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab Navigation -->
+  <div role="tablist" class="tab-nav" aria-label="Analysis sections">
+    <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-ami-gap" id="tab-btn-ami-gap">AMI Gap Analysis</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">State Comparison</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Policy Simulator</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-market-trends" id="tab-btn-market-trends">Market Trends</button>
+  </div>
+
+  <!-- Tab 1: AMI Gap Analysis -->
+  <div class="tab-panel is-active" id="tab-ami-gap" role="tabpanel" aria-labelledby="tab-btn-ami-gap">
 
 <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
     <div class="chart-card" style="margin: 1.5rem 0;">
@@ -574,6 +634,12 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 </section>
 
+
+  </div><!-- /tab-ami-gap -->
+
+  <!-- Tab 4: Market Trends -->
+  <div class="tab-panel" id="tab-market-trends" role="tabpanel" aria-labelledby="tab-btn-market-trends">
+
 <h2>Multifamily Concessions Analysis</h2>
 <div style="background: rgba(192, 57, 43, 0.05); padding: 2rem; border-left: 4px solid var(--color-error); border-radius: 4px; margin: 2rem 0;">
 <h3 style="color: var(--color-error); margin-bottom: 1rem;">Critical Market Alert: Record Concessions</h3>
@@ -770,6 +836,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 </div>
+
+  </div><!-- /tab-market-trends -->
+
+  <!-- Tab 2: State Comparison -->
+  <div class="tab-panel" id="tab-state-comparison" role="tabpanel" aria-labelledby="tab-btn-state-comparison">
 <h2>Colorado vs National Comparison</h2>
 <div style="background: rgba(192, 57, 43, 0.05); padding: 2.5rem; border-left: 4px solid var(--color-error); border-radius: 8px; margin: 2rem 0;">
 <h3 style="color: var(--color-error); margin-bottom: 1rem;">⚠️ Critical Analysis: Colorado Pricing Pressure vs. National Trends</h3>
@@ -1044,9 +1115,51 @@ h3 { font-size: 1.05rem; font-weight: 700; }
        LIHTC Policy Scenario Simulator
        Powered by js/policy-simulator.js
        ══════════════════════════════════════════════════════════════ -->
+  </div><!-- /tab-state-comparison -->
+
+  <!-- Tab 3: Policy Simulator -->
+  <div class="tab-panel" id="tab-policy-simulator" role="tabpanel" aria-labelledby="tab-btn-policy-simulator">
+
   <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
 
   </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CAR MARKET DATA SECTION  (housing-data-integration.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="carMarketSection" aria-label="CAR Market Data" style="margin:2.5rem 0;">
+    <h2>Colorado Market Conditions <small style="font-size:.7em;font-weight:400;color:var(--muted);">— CAR</small></h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">
+      Statewide metrics from the Colorado Association of REALTORS monthly market report.
+      <span id="carFreshness" style="font-size:.78rem;color:var(--faint);"></span>
+    </p>
+    <div id="carMarketLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading CAR market data…</div>
+    <div id="carMarketError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
+    <div id="carMarketContent" style="display:none;">
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+        <div class="kpi-card">
+          <div id="carMedianPrice" class="kpi-value">—</div>
+          <div class="kpi-label">Median Sale Price</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carInventory" class="kpi-value">—</div>
+          <div class="kpi-label">Active Listings</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carDaysOnMarket" class="kpi-value">—</div>
+          <div class="kpi-label">Median Days on Market</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carPricePerSqFt" class="kpi-value">—</div>
+          <div class="kpi-label">Price per Sq Ft</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
        AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
@@ -1436,6 +1549,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
     map.createPane('transportPane'); map.getPane('transportPane').style.zIndex = 215;
 
+    // Expose map globally so prop123-map.js, map-overlay.js, and other scripts can access it
+    window.CODeepDiveMap = { map: map };
+    window.coLihtcMap = map;
+
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
     const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
@@ -1700,6 +1817,9 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     window.addEventListener('resize', () => map.invalidateSize());
   }
 
+  // Scroll to top on every page load so the page always starts at the beginning
+  window.scrollTo(0, 0);
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -1763,11 +1883,12 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
                      { label:"US Avg (index)", data:[55, 60, 55, 62, 60] }]
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } }
+                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
       });
     })();
   </script>
   <!-- Deep Dive analysis modules -->
+  <script src="js/housing-data-integration.js"></script>
   <script src="js/co-ami-gap.js"></script>
   <script src="js/trend-analysis.js"></script>
   <script src="js/policy-simulator.js"></script>
@@ -1775,10 +1896,42 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     document.addEventListener("DOMContentLoaded", function() {
       if (window.TrendAnalysis) TrendAnalysis.init();
       if (window.PolicySimulator) PolicySimulator.init();
+      // Load CAR market data
+      if (window.HousingDataIntegration) {
+        window.HousingDataIntegration.loadCARData().then(function(car) {
+          var section = document.getElementById("carMarketSection");
+          if (!section) return;
+          var loading = document.getElementById("carMarketLoading");
+          var content = document.getElementById("carMarketContent");
+          var error   = document.getElementById("carMarketError");
+          if (!car) {
+            if (loading) loading.style.display = "none";
+            if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+            return;
+          }
+          if (loading) loading.style.display = "none";
+          if (content) {
+            var sw = car.statewide || {};
+            var fmt = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
+            var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
+            document.getElementById("carMedianPrice")  && (document.getElementById("carMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+            document.getElementById("carInventory")    && (document.getElementById("carInventory").textContent    = fmt(sw.active_listings));
+            document.getElementById("carDaysOnMarket") && (document.getElementById("carDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
+            document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+            var freshnessEl = document.getElementById("carFreshness");
+            if (freshnessEl && car.month) { freshnessEl.textContent = "Report month: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+            content.style.display = "block";
+          }
+        }).catch(function() {
+          var loading = document.getElementById("carMarketLoading");
+          var error   = document.getElementById("carMarketError");
+          if (loading) loading.style.display = "none";
+          if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
+        });
+      }
     });
   </script>
-  <script src="js/co-ami-gap.js"></script>
-  <script defer src="js/trend-analysis.js"></script>
-  <script defer src="js/policy-simulator.js"></script>
+  <script src="js/map-overlay.js"></script>
+  <script src="js/ui-interactions.js"></script>
 </body>
 </html>

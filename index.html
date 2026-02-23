@@ -1,253 +1,155 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LIHTC Analytics Hub | Affordable Housing Market Intelligence</title>
-<meta content="Data-driven insights into LIHTC allocations and affordable housing development" name="description"/>
-<!-- Unified Theme -->
-
-<style>
-        .hero-section {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-            padding: 4rem 2rem;
-            text-align: center;
-            border-bottom: 2px solid var(--accent-gold);
-        }
-        
-        .hero-title {
-            color: var(--accent-gold);
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        
-        .hero-subtitle {
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            max-width: 900px;
-            margin: 0 auto 2rem;
-        }
-        
-        .built-for-section {
-            background-color: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-        
-        .built-for-title {
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .built-for-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .built-for-list li {
-            color: var(--text-primary);
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .built-for-list li:before {
-            content: "•";
-            color: var(--accent-gold);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
-        .why-matters-section {
-            background-color: var(--bg-primary);
-            padding: 3rem 2rem;
-            margin: 2rem 0;
-        }
-        
-        .section-title {
-            color: var(--accent-gold);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .section-content {
-            color: var(--text-primary);
-            font-size: 1rem;
-            line-height: 1.8;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .reference-link {
-            color: var(--accent-gold);
-            text-decoration: none;
-            border-bottom: 1px dotted var(--accent-gold);
-        }
-        
-        .reference-link:hover {
-            color: var(--text-primary);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .feature-card {
-            background-color: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            border-left: 4px solid var(--accent-gold);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-title {
-            color: var(--accent-gold);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .feature-description {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        .data-source-note {
-            background-color: var(--bg-secondary);
-            padding: 1rem;
-            border-radius: var(--radius-sm);
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-<script defer="defer" src="js/navigation.js"></script>
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIHTC Analytics Hub | Affordable Housing Market Intelligence</title>
+  <meta name="description" content="Data-driven insights into LIHTC allocations, affordable housing development, and market dynamics across the United States.">
+  <meta property="og:title" content="LIHTC Analytics Hub">
+  <meta property="og:description" content="Track state allocations, analyze market feasibility, and access authoritative economic indicators for affordable housing.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
 <body>
-<main>
-<section class="section" style="padding-top: var(--space-4); padding-bottom: var(--space-4);">
-  <div class="container" style="max-width: 900px;">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content">
 
-    <h1 style="margin-bottom: 0.5rem;">
-      Affordable Housing Market Intelligence Powered by LIHTC Analytics
-    </h1>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <span class="kicker">Affordable Housing Intelligence</span>
+        <h1>LIHTC Market Data,<br><em>All in One Place</em></h1>
+        <p class="hero-sub">
+          Track state allocations, analyze market feasibility, and access authoritative
+          economic indicators — built for policymakers, developers, and housing researchers.
+        </p>
+        <div class="hero-actions">
+          <a href="economic-dashboard.html" class="btn">View Dashboard</a>
+          <a href="colorado-deep-dive.html" class="btn btn-outline">Colorado Deep Dive</a>
+          <a href="LIHTC-dashboard.html" class="btn btn-outline">Allocation Maps</a>
+        </div>
+      </div>
+    </section>
 
-    <p style="margin-bottom: 0.75rem;">
-      The Low-Income Housing Tax Credit (LIHTC) program is the primary driver of affordable rental housing production in the United States. This platform provides data-driven insights into how policies, allocation, and market conditions influence where and how affordable housing is built.
-    </p>
+    <!-- KPI Strip -->
+    <div class="kpi-strip" role="region" aria-label="Key metrics">
+      <div class="kpi-strip-item">
+        <div class="kpi-strip-value">$287M</div>
+        <div class="kpi-strip-label">Colorado LIHTC Market</div>
+      </div>
+      <div class="kpi-strip-item">
+        <div class="kpi-strip-value">50</div>
+        <div class="kpi-strip-label">States Tracked</div>
+      </div>
+      <div class="kpi-strip-item">
+        <div class="kpi-strip-value">2028</div>
+        <div class="kpi-strip-label">Forecast Horizon</div>
+      </div>
+      <div class="kpi-strip-item">
+        <div class="kpi-strip-value">6+</div>
+        <div class="kpi-strip-label">Federal Data Sources</div>
+      </div>
+    </div>
 
-    <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem;">
-      Built for
-    </h3>
+    <!-- Featured Insights -->
+    <section class="featured-section" aria-labelledby="featured-heading">
+      <div class="container">
+        <div class="section-heading" style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <span class="kicker">Featured</span>
+            <h2 id="featured-heading">Latest Market Insights</h2>
+          </div>
+          <a href="insights.html" class="btn btn-outline btn-sm">View All &#8594;</a>
+        </div>
+        <div class="featured-grid">
+          <article class="featured-card">
+            <span class="tag tag-orange">Regional Focus</span>
+            <h3>Colorado Market Analysis &amp; Forecast</h3>
+            <p>Deep dive into Colorado's $287M LIHTC market, Denver metro trends, CHFA priorities, and econometric forecasts through 2028.</p>
+            <div class="card-meta">Feb 10, 2026 &middot; 8 min read &middot; <em>CHFA, Census, FRED</em></div>
+            <a href="colorado-market.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Read Analysis &#8594;</a>
+          </article>
+          <article class="featured-card" style="border-top-color:var(--accent2);">
+            <span class="tag tag-blue">Policy</span>
+            <h3>2026 Housing Legislation Tracker</h3>
+            <p>Track AHCIA expansion provisions, basis boost increases, and the latest Congressional activity affecting LIHTC programs nationally.</p>
+            <div class="card-meta">Jan 28, 2026 &middot; 6 min read &middot; <em>HUD, Treasury, Congress</em></div>
+            <a href="housing-legislation-2026.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Read Update &#8594;</a>
+          </article>
+          <article class="featured-card" style="border-top-color:var(--good);">
+            <span class="tag tag-green">Data Update</span>
+            <h3>2026 State Allocation Maps Now Live</h3>
+            <p>Explore per-capita LIHTC allocations across all 50 states with updated 2026 IRS cap data and comparative year-over-year analysis.</p>
+            <div class="card-meta">Jan 15, 2026 &middot; 4 min read &middot; <em>IRS, HUD, State HFAs</em></div>
+            <a href="state-allocation-map.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Explore Maps &#8594;</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <ul style="margin-top: 0; margin-bottom: 1rem; padding-left: 1.2rem;">
-      <li style="margin-bottom: 0.25rem;">Affordable housing developers</li>
-      <li style="margin-bottom: 0.25rem;">Tax credit investors and syndicators</li>
-      <li style="margin-bottom: 0.25rem;">Housing finance agencies</li>
-      <li style="margin-bottom: 0.25rem;">Planners and community development professionals</li>
-    </ul>
+    <!-- Audience Cards -->
+    <section class="journey-section" aria-labelledby="audience-heading">
+      <div class="container">
+        <div class="section-heading" style="text-align:center;">
+          <span class="kicker">Built For</span>
+          <h2 id="audience-heading">Who Uses LIHTC Analytics Hub?</h2>
+        </div>
+        <div class="journey-grid">
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#127963;</div>
+            <h3>Policymakers</h3>
+            <p>Track state QAP priorities, compare allocation strategies across HFAs, and measure program outcomes to inform housing policy decisions.</p>
+            <a href="state-allocation-map.html" class="btn">State Allocations &#8594;</a>
+          </div>
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#127959;</div>
+            <h3>Developers</h3>
+            <p>Analyze market feasibility, track construction costs, and identify high-opportunity geographies for affordable housing development.</p>
+            <a href="colorado-deep-dive.html" class="btn">Market Deep Dive &#8594;</a>
+          </div>
+          <div class="journey-card card">
+            <div class="journey-icon" aria-hidden="true">&#128300;</div>
+            <h3>Researchers</h3>
+            <p>Access comprehensive data on LIHTC allocations, AMI trends, and housing market indicators from authoritative federal and state sources.</p>
+            <a href="economic-dashboard.html" class="btn">Economic Dashboard &#8594;</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem;">
-      Why this Matters
-    </h3>
+    <!-- Data Sources -->
+    <section aria-label="Data sources" style="padding-block:var(--sp4);background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+      <div class="container" style="text-align:center;">
+        <p style="font-size:var(--tiny);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--faint);margin-bottom:var(--sp3);">Powered by authoritative federal &amp; state data sources</p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--sp2);justify-content:center;align-items:center;">
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">IRS LIHTC Database</span>
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">U.S. Census ACS</span>
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">Federal Reserve FRED</span>
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">HUD / HUDUSER</span>
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">CHFA Colorado</span>
+          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">BLS &amp; BEA</span>
+        </div>
+      </div>
+    </section>
 
-    <p style="margin-bottom: 0;">
-      While LIHTC is federally authorized, each state allocates credits differently through its Qualified Allocation Plan (QAP). These policy differences create distinct development environments, risk profiles, and investment outcomes across states. States design their own allocation priorities even though credits originate federally.
-      (<a class="reference-link" href="https://www.congress.gov" rel="noopener" target="_blank">Congress.gov</a>)
-    </p>
+    <!-- CTA -->
+    <section class="cta-section" aria-label="Get started">
+      <div class="container">
+        <h2>Ready to Explore the Data?</h2>
+        <p>Access comprehensive LIHTC market intelligence, state-level allocations, and economic indicators &#8212; all in one platform.</p>
+        <div class="cta-actions">
+          <a href="economic-dashboard.html" class="btn-white">View Dashboard</a>
+          <a href="colorado-deep-dive.html" class="btn-outline-white">Colorado Deep Dive</a>
+          <a href="LIHTC-dashboard.html" class="btn-outline-white">Allocation Maps</a>
+        </div>
+      </div>
+    </section>
 
-  </div>
-</section>
-</div>
-<!-- Features Grid -->
-<div class="features-grid">
-<div class="feature-card">
-<h3 class="feature-title">LIHTC Allocations</h3>
-<p class="feature-description">
-                    Map state housing finance agency allocations, per-capita credits, and competitive vs. non-competitive awards with data from Novogradac.
-                </p>
-<div class="data-source-note">
-<strong>Data Source:</strong> Novogradac LIHTC Database
-                </div>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Market Analysis</h3>
-<p class="feature-description">
-                    Track tax credit pricing trends, investor demand, and market conditions affecting affordable housing development.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Economic Indicators</h3>
-<p class="feature-description">
-                    Monitor construction costs, labor markets, and housing market conditions from Federal Reserve Economic Data (FRED).
-                </p>
-<div class="data-source-note">
-<strong>Data Source:</strong> Federal Reserve Bank of St. Louis (FRED)
-                </div>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Regional Insights</h3>
-<p class="feature-description">
-                    Compare state policies, allocation patterns, and development outcomes across regions.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">State Allocations</h3>
-<p class="feature-description">
-                    Interactive map showing 2026 federal LIHTC allocations by state with per-capita analysis.
-                </p>
-</div>
-<div class="feature-card">
-<h3 class="feature-title">Policy Analysis</h3>
-<p class="feature-description">
-                    Understand how Qualified Allocation Plans (QAPs) shape development opportunities and investment strategies.
-                </p>
-</div>
-</div>
-</main>
-<!-- Navigation Script -->
-
-<script src="js/contrast-guard.js"></script>
+  </main>
 </body>
 </html>
-<style>
-main p { margin:0.5rem 0; }
-section { padding-top:20px; padding-bottom:20px; }
-</style>

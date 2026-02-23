@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Census Data | LIHTC Analytics Hub</title>
-<script src="js/vendor/chart.umd.min.js"></script>
-<script defer="defer" src="js/navigation.js"></script>
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Census Data | LIHTC Analytics Hub</title>
+  <meta name="description" content="Census Bureau housing data and demographic statistics.">
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="navigation-container"></div>
-<main class="container" style="max-width: 1100px; margin: 0 auto; padding: 24px 16px;">
+<main id="main-content" class="container" style="max-width: 1100px; margin: 0 auto; padding: 24px 16px;">
 <h1>Census Multifamily Lens</h1>
 <p style="opacity:.85; max-width: 70ch;">
       Pulls American Community Survey (ACS) housing profile indicators and lets you switch between
@@ -68,8 +72,8 @@
       Data: Census Bureau ACS 1-year profile (DP04). Variables are documented in the Census API DP04 group reference.
     </div>
 </main>
-
-<script src="js/census-multifamily.js"></script>
 <script src="js/contrast-guard.js"></script>
+
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>
