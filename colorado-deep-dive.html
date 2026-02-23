@@ -11,7 +11,14 @@
 
   <!-- Standard site theme + navigation (matches index/about/insights) -->
   <link rel="stylesheet" href="css/site-theme.css"/>
+  <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/accessibility.css"/>
+  <link rel="stylesheet" href="css/performance.css"/>
+  <link rel="stylesheet" href="css/print.css"/>
   <script defer="defer" src="js/navigation.js"></script>
+<script defer="defer" src="js/dark-mode-toggle.js"></script>
+<script defer="defer" src="js/mobile-menu.js"></script>
 
   
   
@@ -224,7 +231,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </head>
 
 <body data-page="colorado-deep-dive.html">
-
+<a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell">
     
 <div class="pill" style="margin-bottom:1rem;">Colorado Market Deep Dive</div>
@@ -455,6 +462,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
               style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
         <option value="STATE">Colorado (statewide)</option>
       </select>
+      <button id="amiGapExportBtn"
+              style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">
+        ⬇ CSV
+      </button>
     </div>
   </div>
 
@@ -1029,6 +1040,19 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       Colorado vs Peer States — Trend Analysis
+       Powered by js/trend-analysis.js
+       ══════════════════════════════════════════════════════════════ -->
+  <section id="trend-analysis-section" aria-label="Colorado vs Peer States Trend Analysis" style="margin:2rem 0;"></section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LIHTC Policy Scenario Simulator
+       Powered by js/policy-simulator.js
+       ══════════════════════════════════════════════════════════════ -->
+  <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
+
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1746,7 +1770,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
                      { label:"US Avg (index)", data:[55, 60, 55, 62, 60] }]
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
-                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } }
+                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
       });
     })();
   </script>
@@ -1760,6 +1784,5 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       if (window.PolicySimulator) PolicySimulator.init();
     });
   </script>
-  <script src="js/co-ami-gap.js"></script>
 </body>
 </html>

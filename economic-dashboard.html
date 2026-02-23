@@ -10,13 +10,22 @@
 <script src="js/api-config-wrapper.js"></script>
 <script src="js/vendor/chart.umd.min.js"></script>
 <script defer="defer" src="js/navigation.js"></script>
+<script defer="defer" src="js/dark-mode-toggle.js"></script>
+<script defer="defer" src="js/mobile-menu.js"></script>
 
 
   <link rel="stylesheet" href="css/site-theme.css"/>
+  <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/accessibility.css"/>
+  <link rel="stylesheet" href="css/performance.css"/>
+  <link rel="stylesheet" href="css/print.css"/>
+  <link rel="stylesheet" href="css/predictions-dashboard.css"/>
 </head>
 <body class="no-shell" data-page="economic-dashboard.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <!-- Navigation (mimics HousingMetrics style) -->
-<main class="container">
+<main id="main-content" class="container">
 
 <section class="hero">
 <div class="kicker">Real-time • FRED</div>
@@ -510,6 +519,13 @@ function getKey(){ return CONFIG_KEY || ""; }
 })();
 </script>
 <script src="js/contrast-guard.js"></script><script src="js/census-geo.js"></script><script src="js/fred-cards.js"></script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     Housing Predictive Modeling
+     Powered by js/housing-predictions.js
+     ══════════════════════════════════════════════════════════════ -->
+<section id="housing-predictions-section" aria-label="Housing Predictive Modeling" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;"></section>
+<script defer src="js/housing-predictions.js"></script>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: '0 9 * * *'  # Runs every day at 9:00 AM UTC
   workflow_dispatch:      # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:      # Allow manual triggering
 
 jobs:
   monitor:
@@ -17,6 +18,10 @@ jobs:
 
       - name: Set up Node.js 16
         uses: actions/setup-node@v4
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
@@ -29,6 +34,10 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           WEBSITE_URL: ${{ secrets.WEBSITE_URL }}
           RECIPIENT_EMAIL: communityplanner@gmail.com
+          WEBSITE_URL: ${{ secrets.WEBSITE_URL }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: node test/website-monitor-enhanced.js
 
       - name: Run Lighthouse audit
@@ -44,11 +53,21 @@ jobs:
         continue-on-error: true
 
       - name: Run vendor console error checks
+      - name: Verify script loads
+        run: node test/verify-script-loads.js
+        continue-on-error: true
+
+      - name: Test fallback mechanisms
+        run: node test/test-fallback-mechanisms.js
+        continue-on-error: true
+
+      - name: Test vendor console errors
         run: node test/test-vendor-console-errors.js
         continue-on-error: true
 
       - name: Upload monitoring reports
         uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: monitoring-reports
