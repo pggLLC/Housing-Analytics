@@ -470,7 +470,7 @@ body.no-shell main {
   font-weight: 500;
 }
 .census-construction-card .census-yoy {
-  font-size: 0.78rem;
+  font-size: var(--tiny);
   font-weight: 700;
   margin: 3px 0 0;
 }

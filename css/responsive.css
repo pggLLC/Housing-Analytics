@@ -31,8 +31,8 @@ html, body {
     --h1:    clamp(1.4rem, 6vw, 1.8rem);
     --h2:    clamp(1.05rem, 4vw, 1.25rem);
     --h3:    0.95rem;
-    --body:  0.875rem;
-    --small: 0.75rem;
+    --body:  0.9375rem;
+    --small: 0.8125rem;
     --sp4:   1rem;
     --sp5:   1.5rem;
     --sp6:   2rem;
@@ -100,7 +100,7 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
   }
 
   nav.site-nav a {
-    font-size: 0.78rem;
+    font-size: var(--small);
     padding: 8px 8px;
   }
 
