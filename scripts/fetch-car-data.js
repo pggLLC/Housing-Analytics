@@ -1,34 +1,24 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+// Updated script to fetch car data without Puppeteer
 
-const fetchCarData = async () => {
+// Function to fetch data from the API
+async function fetchCarData() {
     try {
-        // Fetch the HTML from the target URL
-        const { data } = await axios.get('https://coloradorealtors.com/market-trends/');
-
-        // Load the HTML into cheerio
-        const $ = cheerio.load(data);
-        
-        // Initialize an object to hold the market data
-        const marketData = [];
-
-        // Scrape relevant market data
-        $('selector-for-data').each((index, element) => {
-            const dataItem = {};
-            dataItem.date = new Date(); // or fetch specific date from the page
-            dataItem.value = $(element).text(); // modify selector as necessary
-            marketData.push(dataItem);
-        });
-
-        // Convert to JSON string and structure
-        const jsonOutput = JSON.stringify(marketData, null, 2);
-        
-        // You might want to write this JSON to a file or export as needed
-        console.log(jsonOutput);
-
+        const response = await fetch('https://api.example.com/cars'); // Replace with actual API
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.json();
+        console.log('Car Data:', data);
+        return data;
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('There was a problem with the fetch operation:', error);
+        console.log('If you are unable to fetch data, please enter car details manually:');
+        console.log('1. Make: 
+2. Model: 
+3. Year: 
+4. Price: ');
     }
-};
+}
 
+// Call the function to fetch car data
 fetchCarData();
