@@ -289,3 +289,165 @@
     font-size: 0.8rem;
   }
 }
+
+/* ----------------------------------------------------------------
+   Hero section — gradient background + visual hierarchy
+   ---------------------------------------------------------------- */
+.page-hero {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent, #0ea5a0) 15%, var(--bg, #f0f4f8)) 0%,
+    var(--bg, #f0f4f8) 60%);
+  border-radius: var(--radius-lg, 16px);
+  padding: 2rem 2rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-hero .pill {
+  display: inline-block;
+  background: color-mix(in srgb, var(--accent, #0ea5a0) 15%, transparent);
+  color: var(--accent, #0ea5a0);
+  border: 1px solid color-mix(in srgb, var(--accent, #0ea5a0) 30%, transparent);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.page-hero h1 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.page-hero .hero-subtitle {
+  font-size: 1rem;
+  color: var(--muted, #476080);
+  line-height: 1.6;
+  max-width: 70ch;
+  margin-bottom: 0;
+}
+
+/* ----------------------------------------------------------------
+   Data freshness badge
+   ---------------------------------------------------------------- */
+.freshness-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--muted, #476080);
+  background: var(--bg2, #e4ecf4);
+  border: 1px solid var(--border, rgba(13, 31, 53, .12));
+  border-radius: 999px;
+  padding: 2px 10px;
+  vertical-align: middle;
+}
+
+.freshness-badge::before {
+  content: '🕐';
+  font-size: 0.7rem;
+}
+
+/* ----------------------------------------------------------------
+   Card hover micro-interactions
+   ---------------------------------------------------------------- */
+.kpi-card,
+.chart-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpi-card.is-hovered,
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
+}
+
+.chart-card.is-hovered,
+.chart-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+}
+
+/* ----------------------------------------------------------------
+   Loading overlay (managed by ui-interactions.js)
+   ---------------------------------------------------------------- */
+.ui-relative {
+  position: relative;
+}
+
+.ui-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: color-mix(in srgb, var(--card, #fff) 85%, transparent);
+  backdrop-filter: blur(4px);
+  border-radius: inherit;
+  z-index: 10;
+}
+
+.ui-spinner {
+  display: inline-block;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid var(--border, rgba(13, 31, 53, .12));
+  border-top-color: var(--accent, #0ea5a0);
+  border-radius: 50%;
+  animation: ui-spin 0.7s linear infinite;
+}
+
+@keyframes ui-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ui-loading-msg {
+  font-size: 0.85rem;
+  color: var(--muted, #476080);
+}
+
+/* ----------------------------------------------------------------
+   Tab help / guide section
+   ---------------------------------------------------------------- */
+.tab-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: var(--sp4, 1.25rem);
+  padding: 1.25rem;
+  background: var(--bg2, #e4ecf4);
+  border: 1px solid var(--border, rgba(13, 31, 53, .12));
+  border-radius: var(--radius-lg, 16px);
+}
+
+.tab-guide-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.tab-guide-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.tab-guide-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  color: var(--text, #0d1f35);
+}
+
+.tab-guide-desc {
+  font-size: 0.8rem;
+  color: var(--muted, #476080);
+  line-height: 1.5;
+  margin: 0;
+}
