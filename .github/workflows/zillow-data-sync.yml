@@ -1,0 +1,42 @@
+name: Weekly Zillow Data Sync
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Runs every Monday at 2:00 AM UTC
+  workflow_dispatch:       # Allow manual triggering
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install puppeteer csv-parse
+
+      - name: Run Zillow fetch script
+        env:
+          ZILLOW_EMAIL: ${{ secrets.ZILLOW_EMAIL }}
+          ZILLOW_PASSWORD: ${{ secrets.ZILLOW_PASSWORD }}
+        run: node scripts/fetch-zillow.js
+
+      - name: Commit and push data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/zillow-*.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update Zillow data [$(date -u '+%Y-%m-%d')]"
+            git push
+          fi
