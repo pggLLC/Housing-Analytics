@@ -487,3 +487,49 @@
   line-height: 1.5;
   margin: 0;
 }
+
+
+/* ----------------------------------------------------------------
+   Map container sizing (Leaflet requires explicit height)
+   ---------------------------------------------------------------- */
+#coMap{
+  height: 560px;
+  min-height: 560px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: rgba(0,0,0,0.06);
+}
+@media (max-width: 900px){
+  #coMap{ height: 440px; min-height: 440px; }
+}
+
+/* Improve readability for tables and long content blocks */
+.data-table table{
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th,
+.data-table td{
+  padding: .55rem .6rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+  font-size: .9rem;
+  line-height: 1.25;
+}
+.data-table th{
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-strong, var(--text));
+  font-weight: 700;
+}
+
+/* Small, readable attribution text */
+.data-sources-small{
+  font-size: 11px;
+  color: var(--muted);
+  opacity: .82;
+}
