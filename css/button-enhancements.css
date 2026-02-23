@@ -1,0 +1,93 @@
+/* ================================================================
+   css/button-enhancements.css — Enhanced CTA button styling
+   Extends css/components/buttons.css with richer interactions.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   CTA / hero buttons — elevated visual hierarchy
+   ---------------------------------------------------------------- */
+.btn-cta {
+  background: linear-gradient(135deg, var(--accent, #0ea5a0) 0%, var(--link, #0b7285) 100%);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(14, 165, 160, 0.35);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.2s ease;
+}
+
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14, 165, 160, 0.45);
+  background: linear-gradient(135deg, var(--link, #0b7285) 0%, var(--link-hover, #096075) 100%);
+  color: #fff;
+}
+
+.btn-cta:active,
+.btn-cta.is-pressed {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(14, 165, 160, 0.25);
+}
+
+/* ----------------------------------------------------------------
+   Arrow icon on CTA buttons
+   ---------------------------------------------------------------- */
+.btn-cta::after {
+  content: ' →';
+  font-style: normal;
+  font-size: 1.1em;
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.btn-cta:hover::after {
+  transform: translateX(3px);
+}
+
+/* ----------------------------------------------------------------
+   Focus indicator — high visibility
+   ---------------------------------------------------------------- */
+.btn:focus-visible,
+.btn-cta:focus-visible {
+  outline: 3px solid var(--accent, #0ea5a0);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+/* ----------------------------------------------------------------
+   Subtle icon buttons (export, refresh, etc.)
+   ---------------------------------------------------------------- */
+.btn-icon {
+  padding: 0.5rem;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: var(--radius, 10px);
+  background: transparent;
+  border: 1px solid var(--border, rgba(13, 31, 53, .12));
+  color: var(--muted, #476080);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-icon:hover {
+  background: var(--accent-dim, rgba(14, 165, 160, .10));
+  border-color: var(--accent, #0ea5a0);
+  color: var(--accent, #0ea5a0);
+}
+
+.btn-icon:active,
+.btn-icon.is-pressed {
+  transform: scale(0.96);
+}
+
+/* ----------------------------------------------------------------
+   Map layer toggle labels (also treated as buttons)
+   ---------------------------------------------------------------- */
+.map-controls label[data-active="true"] {
+  background: var(--accent-dim, rgba(14, 165, 160, .12));
+  border-color: color-mix(in srgb, var(--accent, #0ea5a0) 40%, transparent);
+  color: var(--text, #0d1f35);
+  font-weight: 700;
+}
