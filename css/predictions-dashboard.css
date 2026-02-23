@@ -370,7 +370,7 @@
 }
 
 .hp-binary-desc {
-  font-size: 0.78rem;
+  font-size: var(--tiny);
   color: var(--muted, #666);
   margin: 0 0 0.75rem;
   line-height: 1.45;
@@ -552,7 +552,7 @@
 .hp-acc-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.84rem;
+  font-size: var(--small);
   min-width: 520px;
 }
 
@@ -601,7 +601,7 @@
 }
 
 .hp-methodology p {
-  font-size: 0.84rem;
+  font-size: var(--small);
   color: var(--text2, #444);
   line-height: 1.6;
   margin: 0 0 0.6rem;
