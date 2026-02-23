@@ -249,7 +249,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     </div>
     <div class="kpi-card">
       <div class="kpi-value">78</div>
-      <div class="kpi-label">Active Projects</div>
+      <div class="kpi-label">HUD LIHTC Properties</div>
       <div class="kpi-source"><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">Source</a></div>
     </div>
     <div class="kpi-card">
@@ -274,6 +274,22 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <span aria-current="page">Colorado Deep Dive</span>
   </nav>
 
+  <!-- Intro card -->
+  <section class="intro-card" aria-label="Page introduction">
+    <p>
+      This page provides a comprehensive, data-driven look at Colorado's affordable-housing landscape.
+      Use the tabs below to explore AMI gap analysis by county, Colorado-vs-national market comparisons,
+      LIHTC policy scenarios, and market-trend indicators including concessions, foreclosures, and builder confidence.
+    </p>
+    <p class="data-sources-small">
+      Data sources:
+      <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> ·
+      <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS (Census Bureau)</a> ·
+      <a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of REALTORS</a> ·
+      <a href="https://www.cbre.com/insights" target="_blank" rel="noopener">CBRE Multifamily Outlook</a>
+    </p>
+  </section>
+
   <!-- Tab Help / Guide Section -->
   <section class="tab-guide" aria-label="Tab guide">
     <div class="tab-guide-item">
@@ -286,15 +302,15 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <div class="tab-guide-item">
       <span class="tab-guide-icon" aria-hidden="true">🗺️</span>
       <div>
-        <div class="tab-guide-title">State Comparison</div>
+        <div class="tab-guide-title">Colorado vs National</div>
         <p class="tab-guide-desc">Compare Colorado's LIHTC allocation, vacancy rates, rent growth, and market performance against other states and national averages.</p>
       </div>
     </div>
     <div class="tab-guide-item">
       <span class="tab-guide-icon" aria-hidden="true">⚙️</span>
       <div>
-        <div class="tab-guide-title">Policy Simulator</div>
-        <p class="tab-guide-desc">Model the impact of tax credit adjustments, AMI targeting changes, and other policy levers on projected affordable-unit production.</p>
+        <div class="tab-guide-title">Market Conditions</div>
+        <p class="tab-guide-desc">Explore LIHTC policy scenarios — basis boost, per-capita increases, zoning reform, and rural focus — and compare projected unit production and household impact.</p>
       </div>
     </div>
     <div class="tab-guide-item">
@@ -309,8 +325,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <!-- Tab Navigation -->
   <div role="tablist" class="tab-nav" aria-label="Analysis sections">
     <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-ami-gap" id="tab-btn-ami-gap">AMI Gap Analysis</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">State Comparison</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Policy Simulator</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">Colorado vs National</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Market Conditions</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-market-trends" id="tab-btn-market-trends">Market Trends</button>
   </div>
 
@@ -320,7 +336,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
     <div class="chart-card" style="margin: 1.5rem 0;">
       <div class="chart-header">
-        <h3 class="chart-title">Colorado LIHTC Opportunity Zones Map</h3>
+        <h3 class="chart-title">Colorado LIHTC Basis Boost Map (QCT/DDA) and Projects</h3>
         <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
       </div>
 
@@ -329,11 +345,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <label><input type="checkbox" id="layerPlaces"> Places</label>
         <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
         <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
-        <label><input type="checkbox" id="layerTransport"> Transportation</label>
+        <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
         <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
         <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
         <label style="gap:.5rem;">
-          Basemap
+          Theme:
           <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
             <option value="auto" selected>Auto</option>
             <option value="light">Light</option>
@@ -628,7 +644,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     </div>
   </details>
 
-  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;">
+  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;" id="amiGapEndpointRow" hidden>
     Data endpoint: <code id="amiGapEndpoint" style="font-size:.75rem; background:var(--bg2); padding:1px 4px; border-radius:4px;"></code>
   </div>
 
@@ -1117,7 +1133,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
        ══════════════════════════════════════════════════════════════ -->
   </div><!-- /tab-state-comparison -->
 
-  <!-- Tab 3: Policy Simulator -->
+  <!-- Tab 3: Market Conditions -->
   <div class="tab-panel" id="tab-policy-simulator" role="tabpanel" aria-labelledby="tab-btn-policy-simulator">
 
   <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
@@ -1933,5 +1949,6 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
   </script>
   <script src="js/map-overlay.js"></script>
   <script src="js/ui-interactions.js"></script>
+  <script src="js/colorado-deep-dive.js"></script>
 </body>
 </html>

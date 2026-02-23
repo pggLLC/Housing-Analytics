@@ -450,7 +450,11 @@
 
     const endpoint = pickEndpoint();
     const epEl = $("#amiGapEndpoint");
-    if (epEl) epEl.textContent = endpoint;
+    if (epEl) {
+      epEl.textContent = endpoint;
+      var epRow = document.getElementById('amiGapEndpointRow');
+      if (epRow) epRow.removeAttribute('hidden');
+    }
 
     const loadData = async () => {
       let payload;
