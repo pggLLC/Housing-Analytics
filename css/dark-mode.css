@@ -1,0 +1,168 @@
+/* ================================================================
+   dark-mode.css — LIHTC Analytics Hub
+   Supplementary dark mode styles.
+   The primary dark mode tokens live in css/site-theme.css.
+   This file adds smooth transitions and any component-level
+   overrides that cannot be handled by CSS variables alone.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. SMOOTH TRANSITION between light / dark
+   ---------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.25s ease,
+    border-color     0.25s ease,
+    color            0.25s ease,
+    box-shadow       0.25s ease;
+}
+
+/* Exempt elements where transitions would hurt UX */
+img,
+video,
+canvas,
+svg,
+.leaflet-container,
+.leaflet-tile,
+[data-no-transition] {
+  transition: none !important;
+}
+
+/* ----------------------------------------------------------------
+   2. DARK MODE — component overrides
+      These supplement the :root variable swaps in site-theme.css.
+   ---------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+
+  /* Charts: ensure chart canvas backgrounds are dark */
+  canvas {
+    filter: none;
+  }
+
+  /* Leaflet map controls */
+  .leaflet-control-attribution {
+    background: rgba(8, 18, 30, 0.85) !important;
+    color: rgba(155, 185, 215, 0.72) !important;
+  }
+
+  /* Code blocks */
+  pre, code, kbd {
+    background: var(--bg3) !important;
+    border-color: var(--border-strong) !important;
+  }
+
+  /* Scrollbar — already handled by site-theme.css, keep dark tones */
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+  /* Status / alert boxes */
+  .alert-info    { background: var(--info-dim)  !important; border-color: var(--info)  !important; }
+  .alert-success { background: var(--good-dim)  !important; border-color: var(--good)  !important; }
+  .alert-warning { background: var(--warn-dim)  !important; border-color: var(--warn)  !important; }
+  .alert-error   { background: var(--bad-dim)   !important; border-color: var(--bad)   !important; }
+
+  /* Tables: zebra-stripe in dark mode */
+  table tr:nth-child(even) td {
+    background: rgba(90, 150, 210, 0.04) !important;
+  }
+
+  /* Input placeholders */
+  ::placeholder { color: var(--faint) !important; opacity: 1; }
+
+  /* Selection highlight */
+  ::selection { background: var(--accent-dim); color: var(--text-strong); }
+}
+
+/* ----------------------------------------------------------------
+   3. MANUAL TOGGLE support (.dark-mode class on <html>)
+      Allows js/dark-mode-toggle.js to force dark regardless of OS.
+   ---------------------------------------------------------------- */
+html.dark-mode {
+  color-scheme: dark;
+
+  /* Mirror dark-mode variable values when forced via JS toggle */
+  --bg:            #08121e;
+  --bg2:           #0c1928;
+  --bg3:           #0f1e30;
+  --card:          #0d1e30;
+  --card2:         #102234;
+  --surface:       #112438;
+  --text:          rgba(215,232,248,.93);
+  --text-strong:   #e4f0fc;
+  --muted:         rgba(155,185,215,.72);
+  --faint:         rgba(120,155,190,.48);
+  --border:        rgba(90,150,210,.11);
+  --border-strong: rgba(90,150,210,.22);
+  --link:          #5ecbcc;
+  --link-hover:    #7dd8d9;
+  --accent:        #0fd4cf;
+  --accent-dim:    rgba(15,212,207,.12);
+  --accent2:       #fbbf24;
+  --accent2-dim:   rgba(251,191,36,.12);
+  --good:          #34d399;
+  --good-dim:      rgba(52,211,153,.12);
+  --warn:          #fbbf24;
+  --warn-dim:      rgba(251,191,36,.12);
+  --bad:           #f87171;
+  --bad-dim:       rgba(248,113,113,.12);
+  --info:          #60a5fa;
+  --info-dim:      rgba(96,165,250,.11);
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.30);
+  --shadow:        0 4px 20px rgba(0,0,0,.40),0 1px 4px rgba(0,0,0,.25);
+  --shadow-lg:     0 16px 48px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.35);
+  --shadow-card:   0 2px 8px rgba(0,0,0,.35),0 0 0 1px rgba(90,150,210,.10);
+  --color-background:     var(--bg);
+  --color-background-alt: var(--bg2);
+  --color-surface:        var(--card);
+  --color-text:           var(--text);
+  --color-text-light:     var(--muted);
+  --color-text-muted:     var(--faint);
+  --color-border:         var(--border);
+  --bg-primary:           var(--bg);
+  --bg-secondary:         var(--bg2);
+  --text-primary:         var(--text);
+  --text-secondary:       var(--muted);
+  --accent-gold:          var(--accent2);
+  --border-color:         var(--border);
+}
+
+html.dark-mode body,
+html.dark-mode html {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* ----------------------------------------------------------------
+   4. DARK MODE TOGGLE BUTTON (optional, injected by dark-mode-toggle.js)
+   ---------------------------------------------------------------- */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--bg2);
+  box-shadow: var(--shadow-lg);
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), var(--shadow);
+}
