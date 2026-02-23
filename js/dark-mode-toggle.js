@@ -1,5 +1,5 @@
 /**
- * dark-mode-toggle.js — LIHTC Analytics Hub
+ * dark-mode-toggle.js — Affordable Housing Intelligence
  *
  * Detects the OS colour-scheme preference, allows the user to
  * manually override it, and persists the choice to localStorage.

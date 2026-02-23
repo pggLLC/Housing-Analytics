@@ -1,5 +1,5 @@
 /**
- * mobile-menu.js — LIHTC Analytics Hub
+ * mobile-menu.js — Affordable Housing Intelligence
  *
  * Handles the mobile hamburger menu injected by navigation.js.
  * - Toggles nav.site-nav visibility on small screens.
