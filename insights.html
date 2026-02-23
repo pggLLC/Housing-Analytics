@@ -1,563 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Market Insights - LIHTC Analytics Hub</title>
-<meta content="Expert analysis and market intelligence for LIHTC professionals and investors." name="description"/>
-
-<script src="js/config.js"></script>
-<script defer="defer" src="js/navigation.js"></script>
-<script defer="defer" src="js/dark-mode-toggle.js"></script>
-<script defer="defer" src="js/mobile-menu.js"></script>
-
-<style>
-/* Compact layout override for insights page */
-body[data-page="insights.html"], body {
-  font-size: 0.92rem !important;
-  line-height: 1.45 !important;
-}
-
-.dashboard-header {
-  margin-bottom: 1.25rem !important;
-}
-
-.feature-card {
-  margin-bottom: 1rem !important;
-  padding: 1.1rem !important;
-}
-
-.trend-item {
-  margin-bottom: 1.25rem !important;
-  padding-bottom: 1.25rem !important;
-}
-
-.chart-card {
-  padding: 1rem !important;
-}
-
-.data-sources {
-  margin-top: 1.75rem !important;
-  padding: 1.25rem !important;
-}
-
-h1 { font-size: 1.4rem !important; }
-h2 { font-size: 1.15rem !important; }
-h3 { font-size: 1.05rem !important; }
-h4 { font-size: 1rem !important; }
-
-p, li {
-  margin-bottom: 0.6rem !important;
-}
-</style>
-
-<style>
-/* CLEAN INSIGHTS FULLY: ultra-compact dashboard density (matches economic-dashboard.html) */
-body[data-page="insights.html"]{
-  font-size: 0.90rem !important;
-  line-height: 1.42 !important;
-}
-body[data-page="insights.html"] .container{max-width: 980px;}
-
-body[data-page="insights.html"] .section-divider{margin: 1.05rem 0 !important;}
-
-body[data-page="insights.html"] .dashboard-header{
-  margin-bottom: 0.85rem !important;
-  padding-bottom: 0.7rem !important;
-}
-
-body[data-page="insights.html"] h1{font-size: 1.25rem !important; margin: 0 0 .35rem !important;}
-body[data-page="insights.html"] h2{font-size: 1.05rem !important; margin: 0 0 .4rem !important;}
-body[data-page="insights.html"] h3{font-size: 1.0rem !important; margin: 0 0 .35rem !important;}
-body[data-page="insights.html"] h4{font-size: .95rem !important; margin: 0 0 .3rem !important;}
-
-body[data-page="insights.html"] p,
-body[data-page="insights.html"] li{
-  margin: 0 0 .5rem !important;
-}
-
-body[data-page="insights.html"] .feature-card{
-  padding: 0.95rem !important;
-  margin-bottom: 0.8rem !important;
-  border-radius: 10px !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-body[data-page="insights.html"] .features-grid{gap: 0.85rem !important;}
-
-body[data-page="insights.html"] .trend-item{
-  margin-bottom: 0.95rem !important;
-  padding-bottom: 0.95rem !important;
-}
-
-body[data-page="insights.html"] .chart-card{
-  padding: 0.95rem !important;
-  margin-bottom: 0.95rem !important;
-}
-
-body[data-page="insights.html"] .chart-header{
-  margin-bottom: 0.85rem !important;
-  padding-bottom: 0.65rem !important;
-}
-
-body[data-page="insights.html"] .data-sources{
-  padding: 1.0rem !important;
-  margin-top: 1.1rem !important;
-}
-
-body[data-page="insights.html"] .data-sources h3{font-size: 1.05rem !important; margin-bottom: 0.9rem !important;}
-body[data-page="insights.html"] .data-sources ul{line-height: 1.6 !important;}
-body[data-page="insights.html"] .data-sources li{margin-bottom: .45rem !important;}
-
-/* Tighten the featured hero block */
-body[data-page="insights.html"] .dashboard-container > .container > div[style*="Featured Analysis"]{
-  margin-bottom: 0.9rem !important;
-}
-/* Reduce big CTA button */
-body[data-page="insights.html"] a[href="colorado-deep-dive.html"]{
-  padding: .75rem 1.1rem !important;
-  font-size: .95rem !important;
-}
-
-/* ── 1. Color variable definitions ──────────────────────────────
-   Use hardcoded values (not variable chains) so these work in
-   both light and dark mode regardless of what --good/--warn
-   resolve to in each theme.                                       */
-body[data-page="insights.html"] {
-  --color-success:      #059669;
-  --color-warning:      #d97706;
-  --color-info:         #2563eb;
-  --color-error:        #dc2626;
-  --color-primary-dark: var(--text);
-}
-
-/* ── 2. All inline-styled badge divs ────────────────────────────
-   Every badge uses  background: var(--color-*)  with a hardcoded
-   inline  color:white.  In dark mode the variables resolve to
-   pastel tints (#34d399 mint, #60a5fa sky-blue, #fbbf24 yellow)
-   making white text illegible.  Override ALL badge backgrounds and
-   text colours here, scoped to this page.                         */
-
-/* Generic: any small uppercase pill-style div inside the page */
-body[data-page="insights.html"] [style*="text-transform: uppercase"][style*="background: var(--color-"] {
-  color: #fff !important;
-}
-
-/* Featured Analysis badge (class-based from prior fix) */
-body[data-page="insights.html"] .featured-badge {
-  background: #d97706 !important;   /* amber — readable in light+dark */
-  color: #fff !important;
-}
-
-/* ── 3. "View Full Analysis →" CTA ─────────────────────────────
-   site-theme.css:  a { color: var(--link) !important }  overrides
-   the inline color:white. Must beat it with !important here.      */
-body[data-page="insights.html"] a[href="colorado-deep-dive.html"] {
-  color: #fff !important;
-  text-decoration: none !important;
-  background: var(--accent, #0ea5a0) !important;
-}
-body[data-page="insights.html"] a[href="colorado-deep-dive.html"]:hover {
-  color: #fff !important;
-  opacity: 0.88;
-}
-
-/* ── 4. Read full analysis links ────────────────────────────────
-   These are anchors so the global a { color: !important } makes
-   them show as blue link colour instead of styled text.           */
-body[data-page="insights.html"] .feature-card a[href],
-body[data-page="insights.html"] [style*="Read full"] {
-  text-decoration: none !important;
-}
-
-/* ── 5. Trend icon boxes ────────────────────────────────────────
-   Hardcoded solid colours — no variable chains, guaranteed visible */
-body[data-page="insights.html"] .trend-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-  font-family: system-ui, sans-serif;
-  color: #fff !important;
-}
-body[data-page="insights.html"] .trend-icon.up      { background: #059669 !important; }
-body[data-page="insights.html"] .trend-icon.warning { background: #d97706 !important; }
-body[data-page="insights.html"] .trend-icon.info    { background: #2563eb !important; }
-body[data-page="insights.html"] .trend-icon.accent  { background: #e8891a !important; }
-</style>
-
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
-  <link rel="stylesheet" href="css/dark-mode.css"/>
-  <link rel="stylesheet" href="css/responsive.css"/>
-  <link rel="stylesheet" href="css/accessibility.css"/>
-  <link rel="stylesheet" href="css/performance.css"/>
-  <link rel="stylesheet" href="css/print.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Insights | LIHTC Analytics Hub</title>
+  <meta name="description" content="Expert analysis and market intelligence for LIHTC professionals and investors.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
-<body data-page="insights.html">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<main id="main-content">
-<div class="dashboard-container">
-<div class="container">
-<!-- Header -->
-<div class="dashboard-header" style="margin-bottom: 1.25rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--border-color);">
-<h1 class="dashboard-title">Market Insights &amp; Reports</h1>
-<p class="hero-subtitle">Expert analysis on LIHTC markets, pricing trends, and investment opportunities</p>
-</div>
-<!-- Colorado Deep Dive - Featured Section -->
-<div style="margin-bottom: 1.25rem; padding: 0.9rem; background: linear-gradient(135deg, rgba(26, 58, 82, 0.05) 0%, rgba(212, 165, 116, 0.05) 100%); border-radius: 12px; border: 2px solid var(--color-accent);">
-<div class="featured-badge" style="display: inline-block; padding: 0.5rem 1rem; background: #d97706; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.75rem;">
-Featured Analysis
-</div>
-<h2 style="font-size: 0.98rem; margin-bottom: 1rem; color: var(--color-primary);">Colorado Affordable Housing Market Deep Dive</h2>
-<p style="font-size: 0.95rem; line-height: 1.5; color: var(--color-text-light); margin-bottom: 1.0rem;">
-Comprehensive analysis featuring interactive maps of DDAs &amp; QCTs, AMI breakdowns, record-breaking concessions data, foreclosure trends, consumer confidence metrics, and detailed comparisons to national dashboard trends.
-</p>
-<!-- Stats Grid -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.0rem;">
-<div style="text-align: center; padding: 0.9rem; background: var(--accent-dim); border-radius: 8px;">
-<div style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary);">$169</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Avg Concession/Month</div>
-</div>
-<div style="text-align: center; padding: 0.9rem; background: var(--accent-dim); border-radius: 8px;">
-<div style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary);">7.6%</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Denver Vacancy (16-yr high)</div>
-</div>
-<div style="text-align: center; padding: 0.9rem; background: var(--accent-dim); border-radius: 8px;">
-<div style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary);">3.7%</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Unemployment (4th lowest)</div>
-</div>
-<div style="text-align: center; padding: 0.9rem; background: var(--accent-dim); border-radius: 8px;">
-<div style="font-size: 1.1rem; font-weight: 700; color: var(--color-success);">LOW</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Foreclosure Risk</div>
-</div>
-</div>
-<a href="colorado-deep-dive.html" style="display: inline-block; padding: 1rem 2rem; background: var(--color-primary); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-View Full Analysis →
-</a>
-</div>
-<div class="section-divider"></div>
-<!-- Featured Articles -->
-<div style="margin-bottom: 1.25rem;">
-<h2 style="font-size: 1.1rem; margin-bottom: 1.1rem; color: var(--color-primary); padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">Featured Insights</h2>
-<div class="features-grid" style="display: grid; gap: 0.9rem;">
-<!-- Housing Legislation -->
-<a class="feature-card" href="housing-legislation-2026.html" style="display: block; text-decoration: none; color: inherit;">
-<div style="display: inline-block; padding: 0.5rem 1rem; background: #059669; color: #fff; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">
-Breaking Legislative News
-</div>
-<h3 class="feature-title" style="font-size: 0.92rem; margin-bottom: 1rem;">Housing for the 21st Century Act Passes House 390-9</h3>
-<p class="feature-description">
-Comprehensive analysis of H.R. 6644's impact on LIHTC development, plus publicly traded housing stocks and construction commodity forecasts showing +5-10% cost increases for 2026.
-</p>
-<span class="read-more">Read full analysis →</span>
-<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem;">
-Published: February 13, 2026 • 15 min read • <em>Sources: Congress.gov, BLS, NAHB, AGC</em>
-</div>
-</a>
-<!-- Pricing Article -->
-<a class="feature-card" href="article-pricing.html" style="display: block; text-decoration: none; color: inherit;">
-<div style="display: inline-block; padding: 0.5rem 1rem; background: #dc2626; color: #fff; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">
-Q1 2026 Report
-</div>
-<h3 class="feature-title" style="font-size: 0.92rem; margin-bottom: 1rem;">Tax Credit Pricing Reaches Historic Lows</h3>
-<p class="feature-description">
-9% credit pricing drops to $0.84 in Q1 2026, marking the lowest level in three years as corporate tax appetite softens and credit supply increases.
-</p>
-<span class="read-more">Read full analysis →</span>
-<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem;">
-Published: February 8, 2026 • 6 min read • <em>Sources: Novogradac, HUD LIHTC Database</em>
-</div>
-</a>
-<!-- Colorado Market -->
-<a class="feature-card" href="colorado-market.html" style="display: block; text-decoration: none; color: inherit;">
-<div style="display: inline-block; padding: 0.5rem 1rem; background: #2563eb; color: #fff; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">
-Regional Focus
-</div>
-<h3 class="feature-title" style="font-size: 0.92rem; margin-bottom: 1rem;">Colorado Market Analysis &amp; Forecast</h3>
-<p class="feature-description">
-Deep dive into Colorado's $287M LIHTC market, including Denver metro trends, CHFA priorities, and econometric forecasts through 2028.
-</p>
-<span class="read-more">Read full analysis →</span>
-<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem;">
-Published: February 10, 2026 • 8 min read • <em>Sources: CHFA, Census Bureau, FRED</em>
-</div>
-</a>
-<!-- CRA Expansion -->
-<a class="feature-card" href="cra-expansion-analysis.html" style="display: block; text-decoration: none; color: inherit;">
-<div style="display: inline-block; padding: 0.5rem 1rem; background: #059669; color: #fff; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1rem;">
-Policy Analysis
-</div>
-<h3 class="feature-title" style="font-size: 0.92rem; margin-bottom: 1rem;">CRA Expansion Impact: Pricing Forecasts</h3>
-<p class="feature-description">
-Predictive modeling of four scenarios if pending housing bills expand Community Reinvestment Act credit. Could lift pricing to $0.90-$1.10 range.
-</p>
-<span class="read-more">Read full analysis →</span>
-<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem;">
-Published: February 13, 2026 • 12 min read • <em>Sources: FFIEC, NCUA, Novogradac</em>
-</div>
-</a>
-</div>
-</div>
-<div class="section-divider"></div>
-<!-- Key Market Trends -->
-<div class="chart-card" style="margin-bottom: 1.25rem;">
-<div class="chart-header" style="margin-bottom: 1.0rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
-<h3 class="chart-title" style="font-size: 1.1rem;">Key Market Trends - 2026</h3>
-<p class="chart-subtitle">What's shaping the LIHTC landscape</p>
-</div>
-<div style="padding: 0.75rem 0;">
-<!-- Trend 1 -->
-<div class="trend-item">
-<div style="display: flex; align-items: start; gap: 0.9rem;">
-<div class="trend-icon up">↑</div>
-<div style="flex: 1;">
-<h4 style="font-size: 0.98rem; margin-bottom: 1rem; color: var(--color-primary-dark);">Rising Investor Demand</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; font-size: 0.92rem;">
-Corporate tax credit appetites have strengthened significantly, with major banks and insurance companies increasing their LIHTC allocations by 15-20% year-over-year.
-</p>
-<div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: Novogradac investor surveys, Q4 2025
-</div>
-</div>
-</div>
-</div>
-<!-- Trend 2 -->
-<div class="trend-item">
-<div style="display: flex; align-items: start; gap: 0.9rem;">
-<div class="trend-icon warning">⚠</div>
-<div style="flex: 1;">
-<h4 style="font-size: 0.98rem; margin-bottom: 1rem; color: var(--color-primary-dark);">Construction Cost Pressures</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; font-size: 0.92rem;">
-While material costs have stabilized, labor shortages continue to impact timelines. Developers are adjusting underwriting assumptions and seeking additional gap financing sources.
-</p>
-<div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: AGC Construction Cost Reports, BLS Producer Price Index
-</div>
-</div>
-</div>
-</div>
-<!-- Trend 3 -->
-<div class="trend-item">
-<div style="display: flex; align-items: start; gap: 0.9rem;">
-<div class="trend-icon info">✦</div>
-<div style="flex: 1;">
-<h4 style="font-size: 0.98rem; margin-bottom: 1rem; color: var(--color-primary-dark);">QAP Evolution</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; font-size: 0.92rem;">
-State housing agencies are refining scoring criteria to prioritize climate resilience, transit access, and extremely low-income targeting. Developers must adapt strategies to remain competitive.
-</p>
-<div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: NCSHA QAP analysis, State HFA policy announcements
-</div>
-</div>
-</div>
-</div>
-<!-- Trend 4 -->
-<div class="trend-item">
-<div style="display: flex; align-items: start; gap: 0.9rem;">
-<div class="trend-icon accent">◆</div>
-<div style="flex: 1;">
-<h4 style="font-size: 0.98rem; margin-bottom: 1rem; color: var(--color-primary-dark);">Mixed-Income Models Gain Traction</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; font-size: 0.92rem;">
-Developers are increasingly combining 4% and 9% credits with market-rate units to create financially stable, economically integrated communities.
-</p>
-<div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: HUD LIHTC Database project analysis
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section-divider"></div>
-<!-- Market Data Snapshot -->
-<div style="margin-bottom: 1.25rem;">
-<h2 style="font-size: 1.1rem; margin-bottom: 1.1rem; color: var(--color-primary); padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">Market Data Snapshot</h2>
-<div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 0.9rem;">
-<!-- Credit Pricing Table -->
-<div class="chart-card">
-<div class="chart-header" style="margin-bottom: 0.9rem;">
-<h3 class="chart-title">Credit Pricing Analysis</h3>
-<p class="chart-subtitle">Current market rates and historical context</p>
-</div>
-<div class="data-table">
-<table>
-<thead>
-<tr>
-<th>Credit Type</th>
-<th>Current Price</th>
-<th>QoQ Change</th>
-<th>YoY Change</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>9% Competitive</td>
-<td style="font-weight: 600; color: var(--color-primary);">$0.87</td>
-<td style="color: var(--color-success);">+2.2%</td>
-<td style="color: var(--color-success);">+5.6%</td>
-</tr>
-<tr>
-<td>4% Non-Competitive</td>
-<td style="font-weight: 600; color: var(--color-primary);">$0.89</td>
-<td style="color: var(--color-success);">+1.1%</td>
-<td style="color: var(--color-success);">+3.5%</td>
-</tr>
-<tr>
-<td>State Credits (Avg)</td>
-<td style="font-weight: 600; color: var(--color-primary);">$0.86</td>
-<td style="color: var(--color-success);">+0.7%</td>
-<td style="color: var(--color-success);">+2.4%</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: Novogradac LIHTC Equity Pricing Trends, Q1 2026
-</div>
-</div>
-<!-- Risk Indicators -->
-<div class="chart-card">
-<div class="chart-header" style="margin-bottom: 0.9rem;">
-<h3 class="chart-title">Risk Indicators</h3>
-<p class="chart-subtitle">Market health metrics</p>
-</div>
-<div style="padding: 1.5rem 0;">
-<div style="margin-bottom: 0.9rem;">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-<span style="font-weight: 500;">Foreclosure Rate</span>
-<span style="color: var(--color-success); font-weight: 600;">0.8%</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Below historical average of 1.2%</div>
-<div style="height: 8px; background: var(--color-background-alt); border-radius: 4px; overflow: hidden;">
-<div style="width: 67%; height: 100%; background: var(--color-success);"></div>
-</div>
-</div>
-<div style="margin-bottom: 0.9rem;">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-<span style="font-weight: 500;">Vacancy Rate</span>
-<span style="color: var(--color-success); font-weight: 600;">4.2%</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Healthy occupancy levels</div>
-<div style="height: 8px; background: var(--color-background-alt); border-radius: 4px; overflow: hidden;">
-<div style="width: 85%; height: 100%; background: var(--color-success);"></div>
-</div>
-</div>
-<div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-<span style="font-weight: 500;">Investor Demand Index</span>
-<span style="color: var(--color-success); font-weight: 600;">142</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Strong market conditions (baseline: 100)</div>
-<div style="height: 8px; background: var(--color-background-alt); border-radius: 4px; overflow: hidden;">
-<div style="width: 90%; height: 100%; background: var(--color-success);"></div>
-</div>
-</div>
-</div>
-<div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Sources: HUD, Census Bureau, Novogradac Market Analysis
-</div>
-</div>
-</div>
-</div>
-<div class="section-divider"></div>
-<!-- 2026 Market Outlook -->
-<div class="chart-card" style="margin-bottom: 1.25rem;">
-<div class="chart-header" style="margin-bottom: 1.0rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
-<h3 class="chart-title" style="font-size: 1.1rem;">2026 Market Outlook</h3>
-<p class="chart-subtitle">Expert projections and strategic considerations</p>
-</div>
-<div style="padding: 0.75rem 0;">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.1rem;">
-<!-- Credit Pricing Forecast -->
-<div>
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem; font-size: 0.98rem;">Credit Pricing Forecast</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; margin-bottom: 0.75rem; font-size: 0.92rem;">
-We expect 9% credit pricing to stabilize in the $0.93-$0.96 range through 2026, supported by sustained investor appetite and controlled inflation.
-</p>
-<ul style="color: var(--color-text-light); line-height: 1.5; margin-left: 1.5rem; font-size: 1rem;">
-<li style="margin-bottom: 0.5rem;">Banks increasing CRA-driven investments</li>
-<li style="margin-bottom: 0.5rem;">Insurance companies seeking stable yields</li>
-<li style="margin-bottom: 0.5rem;">Corporate tax appetite remains strong</li>
-</ul>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: Consensus forecast from industry analysts
-</div>
-</div>
-<!-- Development Pipeline -->
-<div>
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem; font-size: 0.98rem;">Development Pipeline</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; margin-bottom: 0.75rem; font-size: 0.92rem;">
-Housing starts projected to increase 8-12% nationally, with particularly strong growth in Sun Belt and selected Mountain West markets.
-</p>
-<ul style="color: var(--color-text-light); line-height: 1.5; margin-left: 1.5rem; font-size: 1rem;">
-<li style="margin-bottom: 0.5rem;">Increased state QAP allocations</li>
-<li style="margin-bottom: 0.5rem;">Basis boost driving feasibility</li>
-<li style="margin-bottom: 0.5rem;">Public land initiatives expanding</li>
-</ul>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: Census Bureau, NCSHA allocation data
-</div>
-</div>
-<!-- Key Risks -->
-<div>
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem; font-size: 0.98rem;">Key Risks to Monitor</h4>
-<p style="color: var(--color-text-light); line-height: 1.5; margin-bottom: 0.75rem; font-size: 0.92rem;">
-Primary concerns include labor market tightness, potential regulatory changes, and regional market variations in rental demand.
-</p>
-<ul style="color: var(--color-text-light); line-height: 1.5; margin-left: 1.5rem; font-size: 1rem;">
-<li style="margin-bottom: 0.5rem;">Construction labor availability</li>
-<li style="margin-bottom: 0.5rem;">Interest rate volatility</li>
-<li style="margin-bottom: 0.5rem;">Local zoning constraints</li>
-</ul>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
-Source: AGC, Federal Reserve, State HFAs
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section-divider"></div>
-<!-- Comprehensive Data Sources Section -->
-<div class="data-sources">
-<h3>Data Sources &amp; Methodology</h3>
-<div style="margin-bottom: 0.9rem;">
-<h4 style="font-size: 0.95rem; margin-bottom: 1rem; color: var(--color-primary-dark);">Primary Data Sources:</h4>
-<ul>
-<li><strong>Novogradac &amp; Company LLP</strong> — LIHTC equity pricing trends, investor surveys, and market analysis • <a href="https://www.novoco.com" target="_blank">www.novoco.com</a></li>
-<li><strong>HUD LIHTC Database</strong> — Project-level allocation data, development pipeline tracking, and historical trends • <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank">HUD User</a></li>
-<li><strong>National Council of State Housing Agencies (NCSHA)</strong> — State QAP analysis, allocation announcements, and policy tracking • <a href="https://www.ncsha.org" target="_blank">www.ncsha.org</a></li>
-<li><strong>U.S. Census Bureau</strong> — Housing starts data, construction statistics, and demographic trends • <a href="https://www.census.gov/construction" target="_blank">Census Construction Data</a></li>
-<li><strong>Federal Reserve Economic Data (FRED)</strong> — Economic indicators, interest rates, and construction cost indices • <a href="https://fred.stlouisfed.org" target="_blank">FRED</a></li>
-<li><strong>Bureau of Labor Statistics (BLS)</strong> — Producer Price Index for construction inputs, employment data • <a href="https://www.bls.gov/ppi" target="_blank">BLS PPI</a></li>
-<li><strong>Associated General Contractors (AGC)</strong> — Construction cost reports and workforce surveys • <a href="https://www.agc.org" target="_blank">www.agc.org</a></li>
-<li><strong>National Association of Home Builders (NAHB)</strong> — Housing market reports and lumber pricing • <a href="https://www.nahb.org" target="_blank">www.nahb.org</a></li>
-<li><strong>Federal Financial Institutions Examination Council (FFIEC)</strong> — CRA examination data and bank lending patterns • <a href="https://www.ffiec.gov" target="_blank">www.ffiec.gov</a></li>
-<li><strong>State Housing Finance Agencies</strong> — Colorado Housing and Finance Authority (CHFA) and other state HFAs for regional data and QAP information</li>
-</ul>
-</div>
-<div style="margin-bottom: 0.9rem;">
-<h4 style="font-size: 0.95rem; margin-bottom: 1rem; color: var(--color-primary-dark);">Methodology:</h4>
-<p style="line-height: 1.5; color: var(--color-text-light); margin-left: 1rem;">
-Market insights and forecasts are derived from a combination of quantitative data analysis, industry expert consultations, and econometric modeling. Credit pricing data represents market averages and should not be relied upon as the sole source for project underwriting. Regional variations and project-specific factors can significantly impact actual pricing and terms.
-</p>
-</div>
-<div style="padding: 0.9rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px; margin-top: 1.0rem;">
-<p style="font-size: 0.875rem; line-height: 1.5; margin: 0;">
-<strong>Disclaimer:</strong> All data and analysis provided on this page is for informational and educational purposes only. It does not constitute investment advice, legal guidance, or project underwriting recommendations. Market conditions can change rapidly. Developers, investors, and other professionals should consult with qualified advisors for project-specific guidance and due diligence.
-</p>
-</div>
-</div>
-</div>
-</div>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-</main>
-<script src="js/contrast-guard.js"></script>
+  <main id="main-content">
+    <div class="dashboard-wrap">
+
+      <!-- Header -->
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <span class="kicker">Analysis &amp; Reports</span>
+        <h1>Market Insights</h1>
+        <p class="page-sub">Expert analysis on LIHTC markets, pricing trends, and investment opportunities.</p>
+      </div>
+
+      <!-- Featured: Colorado Deep Dive -->
+      <section class="chart-card" style="border-top:3px solid var(--accent2);" aria-label="Featured analysis">
+        <span class="tag tag-orange" style="margin-bottom:var(--sp3);display:inline-block;">Featured Analysis</span>
+        <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp2);">Colorado Affordable Housing Market Deep Dive</h2>
+        <p style="color:var(--muted);line-height:1.6;margin-bottom:var(--sp3);">
+          Comprehensive analysis featuring interactive maps of DDAs &amp; QCTs, AMI breakdowns, record-breaking
+          concessions data, foreclosure trends, consumer confidence metrics, and detailed comparisons to national trends.
+        </p>
+        <div class="stats-strip" style="margin:0 0 var(--sp3);">
+          <div class="stat-card"><div class="stat-value">$169</div><div class="stat-label">Avg Concession/Month</div></div>
+          <div class="stat-card"><div class="stat-value">7.6%</div><div class="stat-label">Denver Vacancy (16-yr high)</div></div>
+          <div class="stat-card"><div class="stat-value">3.7%</div><div class="stat-label">Unemployment (4th lowest)</div></div>
+          <div class="stat-card"><div class="stat-value" style="color:var(--good);">LOW</div><div class="stat-label">Foreclosure Risk</div></div>
+        </div>
+        <a href="colorado-deep-dive.html" class="btn">View Full Analysis →</a>
+      </section>
+
+      <!-- Featured Articles -->
+      <section aria-labelledby="articles-heading" style="margin-top:var(--sp4);">
+        <div class="section-header">
+          <h2 id="articles-heading">Featured Insights</h2>
+        </div>
+        <div style="display:grid;gap:var(--sp3);">
+
+          <a class="feature-card" href="housing-legislation-2026.html">
+            <span class="tag tag-green" style="margin-bottom:var(--sp2);display:inline-block;">Legislative Analysis</span>
+            <h3>Housing for the 21st Century Act: Complete Legislative Analysis</h3>
+            <p>H.R. 6644 passes House 390-9 with sweeping bipartisan support. Comprehensive analysis of LIHTC provisions, FHA loan limit increases, NEPA streamlining, and HOME program improvements.</p>
+            <div class="card-footer">
+              Published: Feb 13, 2026 · 15 min read · <em>Sources: Congress.gov, HUD, CHFA</em>
+              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
+            </div>
+          </a>
+
+          <a class="feature-card" href="article-pricing.html">
+            <span class="tag tag-red" style="margin-bottom:var(--sp2);display:inline-block;">Q1 2026 Report</span>
+            <h3>Tax Credit Pricing Reaches Historic Lows</h3>
+            <p>9% credit pricing drops to $0.84 in Q1 2026, marking the lowest level in three years as corporate tax appetite softens and credit supply increases.</p>
+            <div class="card-footer">
+              Published: Feb 8, 2026 · 6 min read · <em>Sources: Novogradac, HUD LIHTC Database</em>
+              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
+            </div>
+          </a>
+
+          <a class="feature-card" href="colorado-market.html">
+            <span class="tag tag-blue" style="margin-bottom:var(--sp2);display:inline-block;">Regional Focus</span>
+            <h3>Colorado Market Analysis &amp; Forecast</h3>
+            <p>Deep dive into Colorado's $287M LIHTC market, including Denver metro trends, CHFA priorities, and econometric forecasts through 2028.</p>
+            <div class="card-footer">
+              Published: Feb 10, 2026 · 8 min read · <em>Sources: CHFA, Census Bureau, FRED</em>
+              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
+            </div>
+          </a>
+
+          <a class="feature-card" href="cra-expansion-analysis.html">
+            <span class="tag tag-teal" style="margin-bottom:var(--sp2);display:inline-block;">Policy Analysis</span>
+            <h3>CRA Expansion Impact: Pricing Forecasts</h3>
+            <p>Predictive modeling of four scenarios if pending housing bills expand Community Reinvestment Act credit. Could lift pricing to $0.90–$1.10 range.</p>
+            <div class="card-footer">
+              Published: Feb 13, 2026 · 12 min read · <em>Sources: FFIEC, NCUA, Novogradac</em>
+              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- Key Market Trends -->
+      <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="trends-heading">
+        <div class="chart-header">
+          <h3 class="chart-title" id="trends-heading">Key Market Trends — 2026</h3>
+          <p class="chart-subtitle">What's shaping the LIHTC landscape</p>
+        </div>
+        <div class="trend-list" style="padding-top:var(--sp2);">
+          <div class="trend-item">
+            <div class="trend-icon up">↑</div>
+            <div class="trend-body">
+              <h4>Rising Investor Demand</h4>
+              <p>Corporate tax credit appetites have strengthened, with major banks and insurance companies increasing LIHTC allocations by 15–20% year-over-year.</p>
+              <div class="trend-source">Source: Novogradac investor surveys, Q4 2025</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon warning">⚠</div>
+            <div class="trend-body">
+              <h4>Construction Cost Pressures</h4>
+              <p>While material costs have stabilized, labor shortages continue to impact timelines. Developers are adjusting underwriting assumptions and seeking additional gap financing.</p>
+              <div class="trend-source">Source: AGC Construction Cost Reports, BLS Producer Price Index</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon info">✦</div>
+            <div class="trend-body">
+              <h4>QAP Evolution</h4>
+              <p>State housing agencies are refining scoring criteria to prioritize climate resilience, transit access, and extremely low-income targeting.</p>
+              <div class="trend-source">Source: NCSHA QAP analysis, State HFA policy announcements</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon accent">◆</div>
+            <div class="trend-body">
+              <h4>Mixed-Income Models Gain Traction</h4>
+              <p>Developers are increasingly combining 4% and 9% credits with market-rate units to create financially stable, economically integrated communities.</p>
+              <div class="trend-source">Source: HUD LIHTC Database project analysis</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Market Data Snapshot -->
+      <section aria-labelledby="snapshot-heading" style="margin-top:var(--sp4);">
+        <div class="section-header">
+          <h2 id="snapshot-heading">Market Data Snapshot</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--sp3);">
+
+          <!-- Credit Pricing Table -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3 class="chart-title">Credit Pricing Analysis</h3>
+              <p class="chart-subtitle">Current market rates and historical context</p>
+            </div>
+            <div class="data-table">
+              <table>
+                <thead>
+                  <tr><th>Credit Type</th><th>Current Price</th><th>QoQ</th><th>YoY</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>9% Competitive</td>
+                    <td style="font-weight:700;color:var(--accent);">$0.87</td>
+                    <td style="color:var(--good);">+2.2%</td>
+                    <td style="color:var(--good);">+5.6%</td>
+                  </tr>
+                  <tr>
+                    <td>4% Non-Competitive</td>
+                    <td style="font-weight:700;color:var(--accent);">$0.89</td>
+                    <td style="color:var(--good);">+1.1%</td>
+                    <td style="color:var(--good);">+3.5%</td>
+                  </tr>
+                  <tr>
+                    <td>State Credits (Avg)</td>
+                    <td style="font-weight:700;color:var(--accent);">$0.86</td>
+                    <td style="color:var(--good);">+0.7%</td>
+                    <td style="color:var(--good);">+2.4%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: Novogradac LIHTC Equity Pricing Trends, Q1 2026</div>
+          </div>
+
+          <!-- Risk Indicators -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3 class="chart-title">Risk Indicators</h3>
+              <p class="chart-subtitle">Market health metrics</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:var(--sp3);padding:var(--sp2) 0;">
+              <div class="progress-row">
+                <div class="progress-row-header">
+                  <span>Foreclosure Rate</span>
+                  <strong style="color:var(--good);">0.8%</strong>
+                </div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Below historical average of 1.2%</div>
+                <div class="progress-bar"><div class="progress-fill" style="width:67%;"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-row-header">
+                  <span>Vacancy Rate</span>
+                  <strong style="color:var(--good);">4.2%</strong>
+                </div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Healthy occupancy levels</div>
+                <div class="progress-bar"><div class="progress-fill" style="width:85%;"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-row-header">
+                  <span>Investor Demand Index</span>
+                  <strong style="color:var(--good);">142</strong>
+                </div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;">Strong market conditions (baseline: 100)</div>
+                <div class="progress-bar"><div class="progress-fill" style="width:90%;"></div></div>
+              </div>
+            </div>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources: HUD, Census Bureau, Novogradac Market Analysis</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 2026 Outlook -->
+      <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="outlook-heading">
+        <div class="chart-header">
+          <h3 class="chart-title" id="outlook-heading">2026 Market Outlook</h3>
+          <p class="chart-subtitle">Expert projections and strategic considerations</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp4);padding-top:var(--sp2);">
+          <div>
+            <h4 style="color:var(--text-strong);font-size:var(--small);margin-bottom:var(--sp2);">Credit Pricing Forecast</h4>
+            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">9% credit pricing expected to stabilize in the $0.93–$0.96 range through 2026, supported by sustained investor appetite and controlled inflation.</p>
+            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
+              <li>Banks increasing CRA-driven investments</li>
+              <li>Insurance companies seeking stable yields</li>
+              <li>Corporate tax appetite remains strong</li>
+            </ul>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: Consensus forecast from industry analysts</div>
+          </div>
+          <div>
+            <h4 style="color:var(--text-strong);font-size:var(--small);margin-bottom:var(--sp2);">Development Pipeline</h4>
+            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">Housing starts projected to increase 8–12% nationally, with particularly strong growth in Sun Belt and Mountain West markets.</p>
+            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
+              <li>Increased state QAP allocations</li>
+              <li>Basis boost driving feasibility</li>
+              <li>Public land initiatives expanding</li>
+            </ul>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: Census Bureau, NCSHA allocation data</div>
+          </div>
+          <div>
+            <h4 style="color:var(--text-strong);font-size:var(--small);margin-bottom:var(--sp2);">Key Risks to Monitor</h4>
+            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">Primary concerns include labor market tightness, potential regulatory changes, and regional market variations in rental demand.</p>
+            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
+              <li>Construction labor availability</li>
+              <li>Interest rate volatility</li>
+              <li>Local zoning constraints</li>
+            </ul>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: AGC, Federal Reserve, State HFAs</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sources -->
+      <div class="sources-box" style="margin-top:var(--sp4);">
+        <h3>Data Sources &amp; Methodology</h3>
+        <ul>
+          <li><strong>Novogradac &amp; Company LLP</strong> — LIHTC equity pricing trends, investor surveys · <a href="https://www.novoco.com" target="_blank">www.novoco.com</a></li>
+          <li><strong>HUD LIHTC Database</strong> — Project-level allocation data · <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank">HUD User</a></li>
+          <li><strong>NCSHA</strong> — State QAP analysis and allocation announcements · <a href="https://www.ncsha.org" target="_blank">www.ncsha.org</a></li>
+          <li><strong>U.S. Census Bureau</strong> — Housing starts data and demographic trends · <a href="https://www.census.gov/construction" target="_blank">Census Construction Data</a></li>
+          <li><strong>Federal Reserve (FRED)</strong> — Economic indicators and interest rates · <a href="https://fred.stlouisfed.org" target="_blank">FRED</a></li>
+          <li><strong>Bureau of Labor Statistics</strong> — PPI for construction inputs and employment data · <a href="https://www.bls.gov/ppi" target="_blank">BLS PPI</a></li>
+        </ul>
+        <div class="disclaimer">
+          <strong>Disclaimer:</strong> All data and analysis is for informational and educational purposes only. It does not constitute investment advice, legal guidance, or project underwriting recommendations. Consult with qualified advisors for project-specific guidance.
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>

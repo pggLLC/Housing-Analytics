@@ -1,557 +1,108 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Housing for the 21st Century Act Analysis - LIHTC Analytics Hub</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-
-<script src="js/vendor/chart.umd.min.js"></script>
-
-<script src="js/config.js"></script>
-<script defer="defer" src="js/navigation.js"></script>
-<script defer="defer" src="js/dark-mode-toggle.js"></script>
-<script defer="defer" src="js/mobile-menu.js"></script>
-
-
-
-  <link rel="stylesheet" href="css/site-theme.css"/>
-  <link rel="stylesheet" href="css/dark-mode.css"/>
-  <link rel="stylesheet" href="css/responsive.css"/>
-  <link rel="stylesheet" href="css/accessibility.css"/>
-  <link rel="stylesheet" href="css/performance.css"/>
-  <link rel="stylesheet" href="css/print.css"/>
-<style>
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-}
-@media (max-width: 640px) {
-  .hero-stats { grid-template-columns: repeat(2, 1fr); }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Housing for the 21st Century Act Analysis | LIHTC Analytics Hub</title>
+  <meta name="description" content="Comprehensive analysis of H.R. 6644 and its impact on LIHTC markets, pricing, and affordable housing development.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
-<body data-page="housing-legislation-2026.html">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<div id="site-header"></div>
-<div id="main-content" style="max-width: 1100px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem;">
-<div style="display: inline-block; padding: 0.5rem 1rem; background: var(--color-success); color: white; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1.5rem;">
-            Legislative Analysis
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <article class="article-wrap">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="insights.html">Insights</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Housing for the 21st Century Act</span>
+      </nav>
+
+      <span class="tag tag-green" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Legislative Analysis</span>
+      <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--text-strong);letter-spacing:-0.02em;line-height:1.2;margin-bottom:var(--sp2);">Housing for the 21st Century Act</h1>
+      <p style="font-size:1.1rem;color:var(--muted);line-height:1.7;margin-bottom:var(--sp2);">House passes sweeping bipartisan housing reform 390-9, advancing to conference with Senate ROAD Act</p>
+      <div class="page-meta"><span>Published: February 13, 2026</span><span>H.R. 6644 Status: Passed House | Conference Committee Next</span></div>
+
+      <div class="stats-strip" style="margin:var(--sp4) 0;">
+        <div class="stat-card"><div class="stat-value">390-9</div><div class="stat-label">House Vote</div></div>
+        <div class="stat-card"><div class="stat-value">43</div><div class="stat-label">Bills Incorporated</div></div>
+        <div class="stat-card"><div class="stat-value">27</div><div class="stat-label">Bipartisan Bills</div></div>
+        <div class="stat-card"><div class="stat-value">Q2 2026</div><div class="stat-label">Target Passage</div></div>
+      </div>
+
+      <div class="article-body">
+
+        <div class="callout callout-success">
+          <h3>Breaking Development</h3>
+          <p>On February 9, 2026, the House passed H.R. 6644 by a 390-9 vote, sending comprehensive housing reform to conference committee with the Senate's ROAD Act. This represents the most significant federal housing policy advancement in nearly a decade, with strong bipartisan support signaling high likelihood of passage by mid-2026.</p>
+          <p style="margin:var(--sp2) 0 0;">This legislation would expand the Community Reinvestment Act (CRA) framework while fortifying LIHTC, particularly through provisions in the Affordable Housing Credit Improvement Act (AHCIA). If enacted, it would augment the credit available per project and broaden the investor base, substantially expanding demand for LIHTC equity.</p>
         </div>
-<h1 style="font-size: 3rem; margin-bottom: 1rem;">Housing for the 21st Century Act</h1>
-<p style="font-size: 1.25rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
-            House passes sweeping bipartisan housing reform 390-9, advancing to conference with Senate ROAD Act
-        </p>
-<p style="font-size: 0.9375rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
-            Published: February 13, 2026 • H.R. 6644 Status: Passed House | Conference Committee Next
-        </p>
-<div class="hero-stats" style="margin: 1.25rem 0;">
-<div class="stat-card">
-<div class="stat-value">390-9</div>
-<div class="stat-label">House Vote</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">43</div>
-<div class="stat-label">Bills Incorporated</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">27</div>
-<div class="stat-label">Bipartisan Bills</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">Q2 2026</div>
-<div class="stat-label">Target Passage</div>
-</div>
-</div>
-<div style="background: rgba(39, 174, 96, 0.05); padding: 2rem; border-left: 4px solid var(--color-success); border-radius: 4px; margin: 2rem 0;">
-<h3 style="color: var(--color-success); margin-bottom: 1rem;">Breaking Development</h3>
-<p style="line-height: 1.7; margin: 0.5;">
-                On February 9, 2026, the House passed H.R. 6644 by a 390-9 vote, sending comprehensive housing reform to conference committee with the Senate's ROAD Act. This represents the most significant federal housing policy advancement in nearly a decade, with strong bipartisan support signaling high likelihood of passage by mid-2026.
-            </p>
-<p></p>
-<p style="line-height: 1.7; margin: .5;">
-                This legislation that would expand the Community Reinvestment Act (CRA) framework while fortifying the Low-Income Housing Tax Credit (LIHTC), particularly through provisions contained in another provision within the Affordable Housing Credit Improvement Act (AHCIA) and related housing supply packages advancing in both chambers. The AHCIA is spearheaded by Senators Maria Cantwell (D-WA) and Todd Young (R-IN) in the Senate, and Representatives Darin LaHood (R-IL) and Suzan DelBene (D-WA) in the House, with broad bipartisan support and numerous co-sponsors from both parties. The bill proposes expanding LIHTC allocations, mitigating financing obstacles, and augmenting credit equity flows by permitting additional financial institutions—including certain insurance companies and non-bank lenders—to receive regulatory or tax advantages aligned with CRA-type community investment objectives.
-            </p>
-<p></p>
-<p style="line-height: 1.7; margin: .5;">
-                If enacted, the legislation would augment the credit available per project and broaden the investor base eligible to benefit from affordable housing investments, substantially expanding demand for LIHTC equity. This modification could elevate tax credit pricing, alleviate financing gaps for developers, and expedite new affordable housing production, particularly in high-cost and underserved markets. While standalone passage timing remains uncertain, the proposal enjoys strong bipartisan backing and is widely regarded as having a moderate-to-high likelihood of passage if incorporated into a broader tax, housing, or economic package, such as an end-of-year tax extender bill or comprehensive housing supply legislation. Its inclusion in a larger legislative vehicle significantly enhances the probability that CRA-aligned investment expansion and LIHTC enhancements will be enacted within the current or subsequent congressional session.
-            </p>
-</div>
-<h2>Key Provisions Impacting LIHTC Market</h2>
-<div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Direct LIHTC Benefits</h3>
-<div style="display: grid; gap: 1.5rem;">
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="margin-bottom: 0.75rem;">FHA Multifamily Loan Limit Increases</h4>
-<p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 0.5rem;">
-                        Updates FHA mortgage insurance limits to reflect current construction costs, making more LIHTC projects eligible for FHA-insured permanent financing with 4% credits.
-                    </p>
-<div style="font-weight: 600; color: var(--color-success);">Impact: Improved 4% deal feasibility</div>
-</div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="margin-bottom: 0.75rem;">NEPA Streamlining</h4>
-<p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 0.5rem;">
-                        Reclassifies many housing activities as categorical exclusions, reducing environmental review timelines for LIHTC developments by 3-6 months on average.
-                    </p>
-<div style="font-weight: 600; color: var(--color-success);">Impact: Faster project completion = lower costs</div>
-</div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="margin-bottom: 0.75rem;">HOME Program Modernization</h4>
-<p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 0.5rem;">
-                        Updates HOME Investment Partnerships Program rules, making it easier to layer HOME funds with LIHTC for gap financing.
-                    </p>
-<div style="font-weight: 600; color: var(--color-success);">Impact: More gap financing availability</div>
-</div>
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="margin-bottom: 0.75rem;">Housing Supply Frameworks</h4>
-<p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 0.5rem;">
-                        Directs HUD to publish best practice frameworks for state/local zoning, potentially reducing local NIMBY opposition to LIHTC projects.
-                    </p>
-<div style="font-weight: 600; color: var(--color-success);">Impact: Easier site approvals</div>
-</div>
-</div>
-</div>
-<h2>Market Impact Analysis</h2>
-<div class="dashboard-grid">
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Estimated Impact on Development Costs</h3>
-<p class="chart-subtitle">Per typical 100-unit LIHTC project</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="margin-bottom: 1.5rem;">
-<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-<span>NEPA Streamlining (time savings)</span>
-<span style="color: var(--color-success); font-weight: 600;">-$150K</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">3-6 month reduction in carrying costs</div>
-</div>
-<div style="margin-bottom: 1.5rem;">
-<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-<span>Zoning/approval process improvement</span>
-<span style="color: var(--color-success); font-weight: 600;">-$75K</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Fewer delays, lower soft costs</div>
-</div>
-<div style="margin-bottom: 1.5rem;">
-<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-<span>Additional HOME gap funding</span>
-<span style="color: var(--color-success); font-weight: 600;">+$200K</span>
-</div>
-<div style="font-size: 0.875rem; color: var(--color-text-muted);">Improved access to state/local funds</div>
-</div>
-<div style="padding-top: 1rem; border-top: 2px solid var(--color-primary);">
-<div style="display: flex; justify-content: space-between;">
-<span style="font-weight: 600; font-size: 1.125rem;">Net Benefit Per Project</span>
-<span style="color: var(--color-success); font-weight: 700; font-size: 1.25rem;">~$425K</span>
-</div>
-</div>
-</div>
-</div>
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Projected Impact Timeline</h3>
-<p class="chart-subtitle">If enacted Q2 2026</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="margin-bottom: 2rem;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Q3 2026</div>
-<div style="font-size: 0.9375rem; color: var(--color-text-light);">HUD begins rule-making for NEPA changes</div>
-</div>
-<div style="margin-bottom: 2rem;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Q4 2026 - Q1 2027</div>
-<div style="font-size: 0.9375rem; color: var(--color-text-light);">State HFAs update processes; first projects benefit</div>
-</div>
-<div style="margin-bottom: 2rem;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Q2 2027</div>
-<div style="font-size: 0.9375rem; color: var(--color-text-light);">Full implementation; measurable impact on development pipeline</div>
-</div>
-<div>
-<div style="font-weight: 600; margin-bottom: 0.5rem;">2028+</div>
-<div style="font-size: 0.9375rem; color: var(--color-text-light);">Sustained increase in LIHTC production, improved pricing from efficiency gains</div>
-</div>
-</div>
-</div>
-</div>
-<h2>Publicly Traded Housing Developer Stocks</h2>
-<div class="chart-card" style="margin: 2rem 0;">
-<div class="chart-header">
-<h3 class="chart-title">Key Stocks to Watch</h3>
-<p class="chart-subtitle">Companies with significant affordable/multifamily exposure</p>
-</div>
-<div class="data-table">
-<table>
-<thead>
-<tr>
-<th>Company</th>
-<th>Ticker</th>
-<th>Type</th>
-<th>LIHTC Exposure</th>
-<th>2026 Outlook</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>UMH Properties</strong></td>
-<td>UMH</td>
-<td>REIT - Affordable</td>
-<td>High</td>
-<td style="color: var(--color-success);">Positive ↑</td>
-</tr>
-<tr>
-<td><strong>Equity Residential</strong></td>
-<td>EQR</td>
-<td>REIT - Multifamily</td>
-<td>Medium</td>
-<td style="color: var(--color-success);">Positive ↑</td>
-</tr>
-<tr>
-<td><strong>Camden Property Trust</strong></td>
-<td>CPT</td>
-<td>REIT - Multifamily</td>
-<td>Medium</td>
-<td style="color: var(--color-success);">Positive ↑</td>
-</tr>
-<tr>
-<td><strong>UDR (United Dominion)</strong></td>
-<td>UDR</td>
-<td>REIT - Multifamily</td>
-<td>Medium</td>
-<td style="color: var(--color-success);">Positive ↑</td>
-</tr>
-<tr>
-<td><strong>Mid-America Apartment</strong></td>
-<td>MAA</td>
-<td>REIT - Multifamily</td>
-<td>Medium-High</td>
-<td style="color: var(--color-success);">Positive ↑</td>
-</tr>
-<tr>
-<td><strong>Lennar Corporation</strong></td>
-<td>LEN</td>
-<td>Homebuilder</td>
-<td>Low-Medium</td>
-<td style="color: var(--color-info);">Neutral →</td>
-</tr>
-<tr>
-<td><strong>NVR Inc</strong></td>
-<td>NVR</td>
-<td>Homebuilder</td>
-<td>Low</td>
-<td style="color: var(--color-info);">Neutral →</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div style="background: rgba(52, 152, 219, 0.05); padding: 2rem; border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.2); margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1rem;">Investment Thesis</h3>
-<p style="line-height: 1.7; margin-bottom: 1rem;">
-<strong>Multifamily REITs with affordable housing focus</strong> (UMH, MAA) stand to benefit most from:
-            </p>
-<ul style="line-height: 1.8;">
-<li>Reduced regulatory friction lowering development costs</li>
-<li>Improved HOME/LIHTC layering increasing project feasibility</li>
-<li>Federal zoning guidance reducing local opposition</li>
-<li>Streamlined approvals accelerating pipeline conversion</li>
-</ul>
-<p style="margin-top: 1.5rem; line-height: 1.7;">
-<strong>Key Risk:</strong> Construction cost inflation (see commodities below) may offset regulatory savings
-            </p>
-</div>
-<h2>Construction Commodities Forecast</h2>
-<div class="chart-card" style="margin: 2rem 0;">
-<div class="chart-header">
-<h3 class="chart-title">Key Material Price Trends - 2026</h3>
-<p class="chart-subtitle">Critical inputs for LIHTC development cost modeling</p>
-</div>
-<div style="height: 350px; position: relative;">
-<canvas id="commodities-chart"></canvas>
-</div>
-</div>
-<div class="dashboard-grid">
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Steel</h3>
-<p class="chart-subtitle">Structural &amp; Rebar</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.5rem;">+20-30%</div>
-<div style="margin-bottom: 1.5rem; color: var(--color-text-light);">Year-over-year increase due to tariffs</div>
-<div style="background: rgba(192, 57, 43, 0.1); padding: 1rem; border-radius: 4px;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Key Drivers:</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0;">
-<li>Section 232 tariffs (up to 50%)</li>
-<li>Data center demand surge</li>
-<li>EV manufacturing growth</li>
-</ul>
-</div>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
-<strong>Mitigation:</strong> New US capacity (1.5M tons) coming online Q3-Q4 2026
-                    </div>
-</div>
-</div>
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Lumber</h3>
-<p class="chart-subtitle">Framing &amp; Structural</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-warning); margin-bottom: 0.5rem;">+17%</div>
-<div style="margin-bottom: 1.5rem; color: var(--color-text-light);">Above historical average, but stabilizing</div>
-<div style="background: rgba(243, 156, 18, 0.1); padding: 1rem; border-radius: 4px;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Key Drivers:</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0;">
-<li>Canadian softwood tariffs</li>
-<li>Mill closures reducing supply</li>
-<li>Modest demand recovery</li>
-</ul>
-</div>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
-<strong>Current:</strong> $590-610 per thousand board feet (Feb 2026)
-                    </div>
-</div>
-</div>
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Concrete/Cement</h3>
-<p class="chart-subtitle">Foundation &amp; Structure</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-warning); margin-bottom: 0.5rem;">+4-6%</div>
-<div style="margin-bottom: 1.5rem; color: var(--color-text-light);">Energy costs driving increases</div>
-<div style="background: rgba(243, 156, 18, 0.1); padding: 1rem; border-radius: 4px;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Key Drivers:</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0;">
-<li>EPA kiln regulations</li>
-<li>Energy-intensive production</li>
-<li>Infrastructure Bill demand</li>
-</ul>
-</div>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
-<strong>Risk:</strong> Localized sand/aggregate shortages
-                    </div>
-</div>
-</div>
-<div class="chart-card">
-<div class="chart-header">
-<h3 class="chart-title">Copper &amp; Aluminum</h3>
-<p class="chart-subtitle">Electrical &amp; HVAC</p>
-</div>
-<div style="padding: 1rem 0;">
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.5rem;">+40%</div>
-<div style="margin-bottom: 1.5rem; color: var(--color-text-light);">Aluminum wire up 1,390% since 2019</div>
-<div style="background: rgba(192, 57, 43, 0.1); padding: 1rem; border-radius: 4px;">
-<div style="font-weight: 600; margin-bottom: 0.5rem;">Key Drivers:</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0;">
-<li>Tariff impacts (aluminum)</li>
-<li>Data center build-out</li>
-<li>EV charging infrastructure</li>
-</ul>
-</div>
-<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
-<strong>Trend:</strong> Copper wire down 6% Q4 2025; aluminum stable
-                    </div>
-</div>
-</div>
-</div>
-<div class="chart-card" style="margin: 2rem 0;">
-<div class="chart-header">
-<h3 class="chart-title">Overall Construction Cost Index Forecast</h3>
-<p class="chart-subtitle">Aggregate PPI for Construction Inputs</p>
-</div>
-<div style="padding: 2rem;">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-<div style="text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">2025 (Actual)</div>
-<div style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary);">+1.7%</div>
-</div>
-<div style="text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">2026 Forecast</div>
-<div style="font-size: 2.5rem; font-weight: 700; color: var(--color-warning);">+5.0%</div>
-</div>
-<div style="text-align: center;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">High-Risk Scenario</div>
-<div style="font-size: 2.5rem; font-weight: 700; color: var(--color-error);">+8-10%</div>
-</div>
-</div>
-<div style="background: var(--color-background-alt); padding: 1.5rem; border-radius: 8px;">
-<p style="font-weight: 600; margin-bottom: 1rem;">Critical Risk Factors:</p>
-<ul style="line-height: 1.8; color: var(--color-text-light);">
-<li><strong>Tariff Escalation:</strong> Current 25-50% rates on steel/aluminum could expand to other materials</li>
-<li><strong>Labor Shortage:</strong> 499,000 worker gap projected for 2026; wage pressure outpacing materials</li>
-<li><strong>Energy Costs:</strong> Production of concrete, asphalt, glass heavily energy-dependent</li>
-<li><strong>Supply Chain:</strong> Red Sea &amp; Panama Canal disruptions ongoing</li>
-</ul>
-</div>
-</div>
-</div>
-<h2>Strategic Recommendations</h2>
-<div style="display: grid; gap: 2rem; margin: 1.25rem 0;">
-<div class="chart-card">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For LIHTC Developers</h3>
-<ol style="line-height: 1.8; color: var(--color-text-light);">
-<li><strong>Include Escalation Clauses:</strong> Any project &gt;6 months duration needs material price adjustment mechanisms</li>
-<li><strong>Lock in Steel Early:</strong> Pre-buy structural steel for 2027 projects given tariff uncertainty</li>
-<li><strong>Leverage Bill Benefits:</strong> Target projects in jurisdictions likely to adopt HUD best practices</li>
-<li><strong>Model 8-10% Cost Increases:</strong> Conservative underwriting essential given commodity volatility</li>
-<li><strong>Optimize NEPA Strategy:</strong> Position projects to qualify for categorical exclusions</li>
-</ol>
-</div>
-<div class="chart-card">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For Investors</h3>
-<ol style="line-height: 1.8; color: var(--color-text-light);">
-<li><strong>Multifamily REIT Opportunities:</strong> UMH, MAA, EQR positioned to benefit from regulatory tailwinds</li>
-<li><strong>Monitor Commodity Hedges:</strong> Developers with strong procurement strategies will outperform</li>
-<li><strong>Timeline Expectations:</strong> Full bill benefits won't materialize until 2027-2028</li>
-<li><strong>Regional Focus:</strong> States that quickly adopt HUD frameworks will see faster supply response</li>
-</ol>
-</div>
-</div>
-<div style="background: var(--color-primary-dark); color: white; padding: 2rem; border-radius: 8px; margin: 1.25rem 0;">
-<h3 style="color: white; margin-bottom: 1rem;">Bottom Line</h3>
-<p style="line-height: 1.7; margin-bottom: 1rem; opacity: 0.95;">
-                The Housing for the 21st Century Act represents meaningful regulatory relief that could reduce LIHTC development costs by ~$400K per project through streamlined approvals and improved financing access.
-            </p>
-<p style="line-height: 1.7; margin: 0; opacity: 0.95;">
-                However, construction commodity inflation (+5-10% projected for 2026) driven by tariffs and labor shortages may offset 60-100% of these savings. <strong>Net impact: Neutral to slightly positive for development feasibility, but significant variability by region and project timing.</strong>
-</p>
-</div>
-<div style="margin-top: 4rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Legislative Analysis Sources:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li><strong>Housing Finance Magazine</strong> - "House Approves Sweeping Housing Package" (February 9, 2026) • <a href="https://www.housingfinance.com" style="color: var(--color-primary);" target="_blank">www.housingfinance.com</a></li>
-<li><strong>Congressional Record</strong> - H.R. 6644 bill text and vote record (390-9 passage)</li>
-<li><strong>Bipartisan Policy Center</strong> - Housing policy analysis and impact modeling</li>
-<li><strong>National Low Income Housing Coalition (NLIHC)</strong> - Legislative tracking and advocacy</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Stock &amp; REIT Data Sources:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li><strong>Yahoo Finance</strong> - Real-time stock quotes and historical performance data • <a href="https://finance.yahoo.com" style="color: var(--color-primary);" target="_blank">finance.yahoo.com</a></li>
-<li><strong>SEC EDGAR Database</strong> - Company 10-K and 10-Q filings for fundamental analysis</li>
-<li><strong>National Association of Real Estate Investment Trusts (NAREIT)</strong> - REIT industry data and benchmarks • <a href="https://www.reit.com" style="color: var(--color-primary);" target="_blank">www.reit.com</a></li>
-<li><strong>Motley Fool</strong> - REIT analysis and affordable housing sector coverage</li>
-<li><strong>Company Investor Relations</strong> - Quarterly earnings reports and presentations</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Construction Commodity Data Sources:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li><strong>Bureau of Labor Statistics (BLS)</strong> - Producer Price Index (PPI) for construction inputs • <a href="https://www.bls.gov/ppi" style="color: var(--color-primary);" target="_blank">www.bls.gov/ppi</a></li>
-<li><strong>National Association of Home Builders (NAHB)</strong> - Lumber market reports and cost analysis • <a href="https://www.nahb.org" style="color: var(--color-primary);" target="_blank">www.nahb.org</a></li>
-<li><strong>Random Lengths</strong> - Lumber pricing service (industry standard for wood products)</li>
-<li><strong>Associated General Contractors (AGC)</strong> - Construction cost surveys and market reports • <a href="https://www.agc.org" style="color: var(--color-primary);" target="_blank">www.agc.org</a></li>
-<li><strong>Portland Cement Association</strong> - Concrete and cement market data • <a href="https://www.cement.org" style="color: var(--color-primary);" target="_blank">www.cement.org</a></li>
-<li><strong>Metal Construction News</strong> - Steel market updates and tariff impact analysis</li>
-<li><strong>Trading Economics</strong> - Commodity futures and forecasts</li>
-<li><strong>Deloitte</strong> - Engineering &amp; Construction Industry Outlook 2026</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Key Data Points &amp; Citations:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>Construction input costs +1.7% YoY (August 2025) - BLS PPI</li>
-<li>Steel tariffs up to 50% (Section 232) - U.S. Department of Commerce</li>
-<li>Lumber pricing $590-610/MBF, +17.2% YoY - Random Lengths, NAHB</li>
-<li>Aluminum wire +1,390% since 2019 - AGC Construction Cost Reports</li>
-<li>Labor shortage: 499,000 workers needed - AGC Workforce Survey 2026</li>
-<li>Overall construction cost forecast +5% (2026) - Consensus of AGC, Deloitte, NAHB</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Analytical Methodology:</h4>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
-<strong>Legislative Impact Modeling:</strong> Estimated cost savings based on analysis of H.R. 6644 provisions compared to current regulatory requirements. NEPA streamlining timeline reductions based on HUD environmental review data. HOME program improvements modeled using historical gap financing patterns. Total project impact aggregated across typical 100-unit development pro forma.
-                </p>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem; margin-bottom: 1rem;">
-<strong>Stock Analysis:</strong> Companies selected based on multifamily/affordable housing exposure, asset under management scale, and sensitivity to regulatory changes. Outlook based on historical regulatory relief impacts on REIT performance plus company-specific fundamentals.
-                </p>
-<p style="line-height: 1.7; color: var(--color-text-light); margin-left: 1rem;">
-<strong>Commodity Forecasting:</strong> Forward projections combine futures market pricing, analyst consensus estimates, tariff policy assumptions, and supply-demand modeling. Historical baseline (2019) used to show cumulative price changes. High-risk scenario incorporates potential tariff escalation and labor constraint intensification.
-                </p>
-</div>
-<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px;">
-<p style="font-size: 0.875rem; line-height: 1.7; margin: 0;">
-<strong>Important Disclaimers:</strong> This analysis is for informational and educational purposes only. It does not constitute investment advice, legal guidance, or project underwriting recommendations. Legislative outcomes are uncertain - H.R. 6644 must pass conference committee and Senate before becoming law. Commodity price forecasts are inherently uncertain and actual costs may vary significantly. Stock performance depends on numerous factors beyond those analyzed here. Readers should consult qualified professionals for investment, development, and legal decisions. Past performance does not guarantee future results.
-                </p>
-</div>
-</div>
-</div>
-<script src="js/citations.js"></script>
 
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('commodities-chart');
-            if (ctx) {
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026 (Est)', 'Q3 2026 (Est)', 'Q4 2026 (Est)'],
-                        datasets: [
-                            {
-                                label: 'Steel (Index)',
-                                data: [100, 105, 112, 118, 125, 128, 130, 130],
-                                borderColor: '#c0392b',
-                                backgroundColor: 'rgba(192, 57, 43, 0.1)',
-                                borderWidth: 3,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Lumber (Index)',
-                                data: [100, 98, 102, 108, 115, 117, 117, 115],
-                                borderColor: '#f39c12',
-                                backgroundColor: 'rgba(243, 156, 18, 0.1)',
-                                borderWidth: 3,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Concrete (Index)',
-                                data: [100, 101, 103, 104, 106, 106, 105, 105],
-                                borderColor: '#3498db',
-                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                                borderWidth: 3,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Copper Wire (Index)',
-                                data: [100, 95, 92, 88, 85, 84, 85, 86],
-                                borderColor: '#27ae60',
-                                backgroundColor: 'rgba(39, 174, 96, 0.1)',
-                                borderWidth: 3,
-                                tension: 0.4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: { usePointStyle: true, padding: 15 }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                min: 80,
-                                max: 135,
-                                ticks: { callback: v => v }
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    </script>
+        <h2>Key Provisions Impacting LIHTC Market</h2>
 
-<script src="js/contrast-guard.js"></script>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Direct LIHTC Benefits</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp3);">
+            <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);">
+              <h4 style="margin:0 0 var(--sp2);color:var(--text-strong);">FHA Multifamily Loan Limit Increases</h4>
+              <p style="color:var(--muted);margin:0 0 var(--sp2);line-height:1.7;">Updates FHA mortgage insurance limits to reflect current construction costs, making more LIHTC projects eligible for FHA-insured permanent financing with 4% credits.</p>
+              <div style="font-weight:700;color:var(--good);font-size:var(--small);">Impact: Improved 4% deal feasibility</div>
+            </div>
+            <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);">
+              <h4 style="margin:0 0 var(--sp2);color:var(--text-strong);">NEPA Streamlining</h4>
+              <p style="color:var(--muted);margin:0 0 var(--sp2);line-height:1.7;">Reclassifies many housing activities as categorical exclusions, reducing environmental review timelines for LIHTC developments by 3–6 months on average.</p>
+              <div style="font-weight:700;color:var(--good);font-size:var(--small);">Impact: Faster project completion = lower costs</div>
+            </div>
+            <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);">
+              <h4 style="margin:0 0 var(--sp2);color:var(--text-strong);">HOME Program Improvements</h4>
+              <p style="color:var(--muted);margin:0 0 var(--sp2);line-height:1.7;">Increases HOME Investment Partnerships funding and streamlines regulatory requirements, improving the effectiveness of HOME as a gap financing source for LIHTC projects.</p>
+              <div style="font-weight:700;color:var(--good);font-size:var(--small);">Impact: More available gap financing</div>
+            </div>
+          </div>
+        </div>
+
+        <h2>Market Impact Analysis</h2>
+        <p>If enacted as currently written, H.R. 6644 could materially improve LIHTC market conditions across several dimensions:</p>
+        <ul>
+          <li><strong>Credit Pricing:</strong> Expanded investor base could push 9% pricing back above $0.90, potentially reaching $0.93–$0.96 by end of 2026</li>
+          <li><strong>Deal Volume:</strong> Faster permitting and stronger financing could increase completed projects by 12–18%</li>
+          <li><strong>Equity Gaps:</strong> Larger basis and expanded credit amounts reduce per-project financing gaps</li>
+          <li><strong>Rural Markets:</strong> Targeted rural provisions could unlock development in currently underserved areas</li>
+        </ul>
+
+        <h2>Legislative Outlook</h2>
+        <p>The bill now enters conference committee to reconcile with the Senate ROAD Act. Key differences to be negotiated include credit allocation formulas, income targeting requirements, and the scope of CRA expansion. Both chambers have indicated strong interest in reaching agreement before the August recess, making a Q2 2026 passage realistic.</p>
+        <p>Developers and investors should begin modeling project economics under both current-law and post-enactment scenarios to be prepared for rapid market shifts upon passage.</p>
+
+        <div class="sources-box">
+          <h3>Data Sources</h3>
+          <ul>
+            <li>Congress.gov — H.R. 6644 bill text and vote records</li>
+            <li>HUD — LIHTC program data and HOME program information</li>
+            <li>NCSHA — State HFA analysis and policy tracking</li>
+            <li>Novogradac — Market impact analysis and pricing forecasts</li>
+          </ul>
+          <div class="disclaimer">
+            <strong>Disclaimer:</strong> Legislative analysis reflects the bill as passed by the House and is subject to change through the conference committee process. This analysis is for informational purposes only and does not constitute legal or investment advice.
+          </div>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <script src="js/citations.js"></script>
+  <script src="js/contrast-guard.js"></script>
 </body>
 </html>
