@@ -66,6 +66,7 @@
     // Header
     const header = document.createElement('header');
     header.className = 'site-header';
+    header.setAttribute('role', 'banner');
     header.innerHTML = `
       <div class="nav-wrap">
         <div class="brand">
@@ -82,6 +83,7 @@
     const year = new Date().getFullYear();
     const footer = document.createElement('footer');
     footer.className = 'site-footer';
+    footer.setAttribute('role', 'contentinfo');
     footer.innerHTML = `
       <div class="footer-wrap">
         <div>© ${year} LIHTC Analytics Hub</div>
@@ -93,8 +95,14 @@
       </div>
     `;
 
-    // Insert header at top of body (before any content)
-    document.body.insertBefore(header, document.body.firstChild);
+    // Insert header at top of body, but after any existing skip link so that
+    // the skip link remains the first focusable element for keyboard users.
+    const existingSkipLink = document.querySelector('.skip-link');
+    if (existingSkipLink && existingSkipLink.parentElement === document.body) {
+      document.body.insertBefore(header, existingSkipLink.nextSibling);
+    } else {
+      document.body.insertBefore(header, document.body.firstChild);
+    }
 
     // Append footer after main (or at end)
     const main = document.querySelector('main');
