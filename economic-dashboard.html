@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Economic Dashboard | Affordable Housing</title>
+<meta content="Real-time economic indicators from FRED affecting affordable housing development." name="description"/>
+<!-- Chart.js (client-side) -->
+<script src="js/config.js"></script>
+<script src="js/api-config-wrapper.js"></script>
+<script src="js/vendor/chart.umd.min.js"></script>
+<script defer="defer" src="js/navigation.js"></script>
+<script defer="defer" src="js/dark-mode-toggle.js"></script>
+<script defer="defer" src="js/mobile-menu.js"></script>
+
+
+  <link rel="stylesheet" href="css/site-theme.css"/>
+  <link rel="stylesheet" href="css/dark-mode.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/accessibility.css"/>
+  <link rel="stylesheet" href="css/performance.css"/>
+  <link rel="stylesheet" href="css/print.css"/>
+  <link rel="stylesheet" href="css/predictions-dashboard.css"/>
+<style>
+main#main-content { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+</style>
+</head>
+<body class="no-shell" data-page="economic-dashboard.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<!-- Navigation (mimics HousingMetrics style) -->
+<main id="main-content" class="container">
+
+<section class="hero">
+<div class="kicker">Real-time • FRED</div>
+<h1>Economic Dashboard</h1>
+<p class="sub">
+        Live economic indicators from the Federal Reserve Economic Data (FRED) that influence affordable housing development:
+        construction costs, interest rates, labor, and housing market conditions.
+      </p>
+<div class="toolbar">
+<div class="card control" style="flex-wrap:wrap;">
+<span class="pill">FRED connected: <strong id="conn">…</strong></span>
+<span class="pill">Indicators: <strong id="count">—</strong></span>
+<span class="pill">Last updated: <strong id="lastUpdated">—</strong></span>
+<button class="btn primary" id="refresh" type="button">Refresh</button>
+</div>
+</div>
+<div class="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">
+<div class="card stat">
+<p class="num" id="statCpi">—</p>
+<p class="src small" id="deltaCpi" style="margin-top:-6px;">—</p>
+<p class="lbl">Inflation (CPI YoY)</p>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
+<div class="card stat">
+<p class="num" id="statUnemp">—</p>
+<p class="src small" id="deltaUnemp" style="margin-top:-6px;">—</p>
+<p class="lbl">Unemployment rate</p>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
+<div class="card stat">
+<p class="num" id="stat10y">—</p>
+<p class="src small" id="delta10y" style="margin-top:-6px;">—</p>
+<p class="lbl">10-Year Treasury</p>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
+<div class="card stat">
+<p class="num" id="statStarts">—</p>
+<p class="src small" id="deltaStarts" style="margin-top:-6px;">—</p>
+<p class="lbl">Housing starts (SAAR)</p>
+<p class="src small"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
+</div>
+<p class="note">
+        Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis.
+        If charts don’t load, confirm your key is valid and check browser console for errors.
+      </p>
+</section><section id="census-stats" style="margin:18px 0; padding:18px;">
+<h2>Census snapshot</h2>
+<div class="census-controls">
+  <label>Geography<select id="censusLevel">
+    <option value="national" selected>National (U.S.)</option>
+    <option value="state">State</option>
+    <option value="county">County</option>
+    <option value="place">Place</option>
+  </select></label>
+  <label id="censusStateWrap" style="display:none;">State<select id="censusState"></select></label>
+  <label id="censusGeoWrap" style="display:none;">Select<select id="censusGeo"></select></label>
+  <div class="census-vintage" data-census-vintage="">Loading…</div>
+</div>
+<div class="census-grid"></div>
+
+<div class="census-construction-header">
+  <span class="census-construction-title">Housing Construction Activity</span>
+  <span class="census-construction-note">National · Census Bureau via FRED · Most recent monthly data</span>
+</div>
+<div class="census-grid" id="census-construction"></div>
+</section>
+<!-- Collapsible sections (Nixvir-like: metric cards with inline charts) -->
+<details class="card" open="">
+<summary>
+        Construction Costs
+        <span class="pill small">6 indicators</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">Producer price indices and cost proxies that impact per-unit construction budgets and feasibility.</p>
+<div class="metric-grid" id="sec-construction"></div>
+</div>
+</details>
+<details class="card" open="">
+<summary>
+        Housing Market
+        <span class="pill small">9 indicators</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">Starts, permits, prices, and affordability signals that shape pipeline and underwriting assumptions.</p>
+<div class="metric-grid" id="sec-housing"></div>
+</div>
+</details>
+<details class="card">
+<summary>
+        Financial &amp; Interest Rates
+        <span class="pill small">6 indicators</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">Rates and spreads that move equity pricing, permanent debt terms, and bond execution costs.</p>
+<div class="metric-grid" id="sec-finance"></div>
+</div>
+</details>
+<details class="card">
+<summary>
+        Labor Market
+        <span class="pill small">6 indicators</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">Employment, earnings, and labor supply indicators relevant to labor cost pressure and demand.</p>
+<div class="metric-grid" id="sec-labor"></div>
+</div>
+</details>
+<p class="note small">
+      Implementation notes: FRED data is fetched client-side via the FRED API “observations” endpoint.
+      Some series update monthly or quarterly; charts show the most recent 5 years (or max available if shorter).
+    </p>
+
+         HOUSING PREDICTIVE MODELING SECTION  (housing-predictions.js)
+         ═══════════════════════════════════════════════════════════════ -->
+    <div id="housing-predictions-section" aria-label="Housing Predictive Modeling"></div>
+
+</main>
+<link rel="stylesheet" href="css/predictions-dashboard.css"/>
+<script src="js/housing-predictions.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (window.HousingPredictions) HousingPredictions.init();
+  });
+</script>
+<script>
+(() => {
+  const CONFIG_KEY = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : "";
+
+  // Keep your "desired indicators" (24) but render them nixvir-style.
+  const INDICATORS = [
+    // Construction (6)
+    {section:"construction", id:"WPUFD49207", title:"PPI: Inputs to construction", units:"index", fmt:"index"},
+    {section:"construction", id:"WPUSI012011", title:"PPI: Lumber & wood products", units:"index", fmt:"index"},
+    {section:"construction", id:"WPUFD4", title:"PPI: Construction materials", units:"index", fmt:"index"},
+    {section:"construction", id:"PCU236115236115", title:"PPI: New multifamily construction", units:"index", fmt:"index"},
+    {section:"construction", id:"CES2000000008", title:"Construction Avg Hourly Earnings", units:"$/hr", fmt:"usd"},
+    {section:"construction", id:"ECIALLCIV", title:"Employment Cost Index (Total comp)", units:"index", fmt:"index"},
+
+    // Housing (6)
+    {section:"housing", id:"HOUST", title:"Housing Starts (SAAR)", units:"thousands", fmt:"int"},
+    {section:"housing", id:"PERMIT", title:"Building Permits (SAAR)", units:"thousands", fmt:"int"},
+    {section:"housing", id:"CSUSHPISA", title:"Case-Shiller Home Price Index", units:"index", fmt:"index"},
+    {section:"housing", id:"MSPUS", title:"Median Sales Price of Houses", units:"$", fmt:"usd"},
+    {section:"housing", id:"RHORUSQ156N", title:"Homeownership Rate", units:"%", fmt:"pct"},
+    {section:"housing", id:"RRVRUSQ156N", title:"Rental Vacancy Rate", units:"%", fmt:"pct"},
+    {section:"housing", id:"HOUST5F",     title:"Multifamily Starts (5+ units)", units:"thousands", fmt:"int"},
+    {section:"housing", id:"PERMIT5",     title:"Multifamily Permits (5+ units)", units:"thousands", fmt:"int"},
+    {section:"housing", id:"UNDCONTSA",   title:"Units Under Construction", units:"thousands", fmt:"int"},
+    {section:"housing", id:"COMPUTSA",    title:"Multifamily Completions (5+ units)", units:"thousands", fmt:"int"},
+
+    // Finance (6)
+    {section:"finance", id:"DGS10", title:"10-Year Treasury Yield", units:"%", fmt:"pct"},
+    {section:"finance", id:"DGS2", title:"2-Year Treasury Yield", units:"%", fmt:"pct"},
+    {section:"finance", id:"DFF", title:"Effective Fed Funds Rate", units:"%", fmt:"pct"},
+    {section:"finance", id:"MORTGAGE30US", title:"30-Year Fixed Mortgage Rate", units:"%", fmt:"pct"},
+    {section:"finance", id:"BAA10Y", title:"Moody’s Baa - 10Y Treasury Spread", units:"pts", fmt:"pct"},
+    {section:"finance", id:"T10Y2Y", title:"Yield Curve (10Y-2Y)", units:"pts", fmt:"pct"},
+
+    // Labor (6)
+    {section:"labor", id:"UNRATE", title:"Unemployment Rate", units:"%", fmt:"pct"},
+    {section:"labor", id:"PAYEMS", title:"Nonfarm Payrolls", units:"thousands", fmt:"int"},
+    {section:"labor", id:"CIVPART", title:"Labor Force Participation", units:"%", fmt:"pct"},
+    {section:"labor", id:"CES0500000003", title:"Average Hourly Earnings", units:"$", fmt:"usd"},
+    {section:"labor", id:"JTSJOL", title:"Job Openings (JOLTS)", units:"thousands", fmt:"int"},
+    {section:"labor", id:"ICSA", title:"Initial Jobless Claims", units:"count", fmt:"int"}
+  ];
+
+  const els = {
+    
+    
+    
+    conn: document.getElementById("conn"),
+    refresh: document.getElementById("refresh"),
+    lastUpdated: document.getElementById("lastUpdated"),
+    count: document.getElementById("count"),
+    statCpi: document.getElementById("statCpi"),
+    deltaCpi: document.getElementById("deltaCpi"),
+    statUnemp: document.getElementById("statUnemp"),
+    deltaUnemp: document.getElementById("deltaUnemp"),
+    stat10y: document.getElementById("stat10y"),
+    delta10y: document.getElementById("delta10y"),
+    statStarts: document.getElementById("statStarts"),
+    deltaStarts: document.getElementById("deltaStarts"),
+    sec: {
+      construction: document.getElementById("sec-construction"),
+      housing: document.getElementById("sec-housing"),
+      finance: document.getElementById("sec-finance"),
+      labor: document.getElementById("sec-labor"),
+    }
+  };
+
+  if (els.count) els.count.textContent = String(INDICATORS.length);
+function getKey(){ return CONFIG_KEY || ""; }
+    
+  function fmtValue(v, fmt){
+    const n = Number(v);
+    if (!isFinite(n)) return "—";
+    if (fmt === "pct") return n.toFixed(2).replace(/\.00$/,"") + "%";
+    if (fmt === "usd") {
+      // show no decimals for large numbers, two decimals for small
+      const abs = Math.abs(n);
+      const decimals = abs >= 100 ? 0 : 2;
+      return n.toLocaleString(undefined,{style:"currency",currency:"USD",maximumFractionDigits:decimals});
+    }
+    if (fmt === "int") return Math.round(n).toLocaleString();
+    return n.toLocaleString(undefined,{maximumFractionDigits:2});
+  }
+
+  function deltaClass(d){
+    if (!isFinite(d)) return "flat";
+    if (d > 0) return "up";
+    if (d < 0) return "down";
+    return "flat";
+  }
+  function arrow(d){
+    if (!isFinite(d)) return "→";
+    if (d > 0) return "↑";
+    if (d < 0) return "↓";
+    return "→";
+  }
+
+  // Data is pre-fetched daily by a GitHub Action (.github/workflows/fetch-fred-data.yml)
+  // and stored in data/fred-data.json — no CORS issues, no API key needed in browser.
+  let _fredCache = null;
+  async function _loadFredData(){
+    if (_fredCache) return _fredCache;
+    const res = await fetch("data/fred-data.json");
+    if (!res.ok) throw new Error("Could not load data/fred-data.json (HTTP " + res.status + ")");
+    _fredCache = await res.json();
+    return _fredCache;
+  }
+
+  async function fetchFRED(seriesId, apiKey, limit=84){
+    const data = await _loadFredData();
+    const entry = data.series && data.series[seriesId];
+
+    // If the series isn't in cached data (e.g., CPIAUCSL may be missing), fall back to live FRED API.
+    if (!entry || !entry.observations){
+      const key = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : (apiKey || "");
+      if (!key) throw new Error(seriesId + ": missing FRED_API_KEY in js/config.js");
+
+      const params = new URLSearchParams({
+        series_id: seriesId,
+        api_key: key,
+        file_type: "json",
+        sort_order: "desc",
+        limit: String(Math.max(24, limit || 84))
+      });
+      const res = await fetch("https://api.stlouisfed.org/fred/series/observations?" + params.toString());
+      if (!res.ok) throw new Error(seriesId + ": live FRED fetch failed (HTTP " + res.status + ")");
+      const j = await res.json();
+      const obs = (j.observations || [])
+        .filter(o => o && o.value !== "." && o.value != null && o.date)
+        .map(o => ({date: o.date, value: Number(o.value)}))
+        .filter(o => isFinite(o.value))
+        .reverse(); // chronological
+      return obs.slice(Math.max(0, obs.length - (limit || 84)));
+    }
+    const obs = entry.observations
+      .filter(o => o && o.value !== "." && o.value !== null && o.date)
+      .map(o => ({date: o.date, value: Number(o.value)}))
+      .filter(o => isFinite(o.value));
+    // Apply limit from tail (most recent)
+    const sliced = obs.slice(-limit);
+    if (!sliced.length) throw new Error(seriesId + " no observations");
+    return sliced;
+  }
+
+  function buildMetricCard(ind){
+    const idSafe = ind.id.replace(/[^a-zA-Z0-9_-]/g,"_");
+    const wrap = document.createElement("div");
+    wrap.className = "card metric";
+    wrap.innerHTML = `
+      <h3><a href="https://fred.stlouisfed.org/series/${encodeURIComponent(ind.id)}" target="_blank" rel="noopener">${ind.title}</a></h3>
+      <p class="value" id="val-${idSafe}">Loading…</p>
+      <div class="meta">
+        <span id="date-${idSafe}">—</span>
+        <span class="delta flat" id="delta-${idSafe}">—</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="ch-${idSafe}" aria-label="${ind.title} chart"></canvas>
+        <div class="small" id="err-${idSafe}" style="margin-top:8px;"></div>
+      </div>
+    `;
+    return wrap;
+  }
+
+  const charts = new Map();
+
+  // Re-render charts when a collapsed <details> section is opened,
+  // because Chart.js cannot measure a hidden (zero-size) canvas.
+  document.querySelectorAll("details").forEach(det => {
+    det.addEventListener("toggle", () => {
+      if (!det.open) return;
+      det.querySelectorAll("canvas").forEach(canvas => {
+        const ch = charts.get(canvas.id);
+        if (ch) { ch.resize(); ch.update(); }
+      });
+    });
+  });
+
+  function renderChart(canvas, labels, values){
+    const ctx = canvas.getContext("2d");
+    const existing = charts.get(canvas.id);
+    if (existing) existing.destroy();
+
+    const ch = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "",
+          data: values,
+          pointRadius: 0,
+          borderWidth: 2,
+          tension: 0.25
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
+        scales: {
+          x: { ticks: { maxTicksLimit: 6 }, grid: { display: false } },
+          y: { ticks: { maxTicksLimit: 5 }, grid: { color: "rgba(148,163,184,.22)" } }
+        }
+      }
+    });
+
+    charts.set(canvas.id, ch);
+  }
+
+  function monthLabel(iso){
+    // "2026-01-01" -> "Jan 26"
+    const d = new Date(iso + "T00:00:00");
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined, {month:"short", year:"2-digit"});
+  }
+
+  function pickChange(series){
+    // Prefer YoY if enough history, else last period change
+    if (series.length < 2) return {delta: NaN, label:"—"};
+    const last = series[series.length - 1].value;
+    // Find ~12 periods back if dates are monthly-ish. If not, use previous point.
+    const idx = Math.max(0, series.length - 13);
+    const prev = series[idx].value;
+    const delta = last - prev;
+    // If we likely used YoY, label it; else generic chg
+    const label = (series.length >= 13) ? "YoY" : "chg";
+    return {delta, label};
+  }
+
+  async function loadAll(){
+    // Data served from data/fred-data.json — no API key needed in the browser
+    const apiKey = true; // kept to avoid ReferenceError in calls below
+    if (els.conn) els.conn.textContent = "Yes";
+
+    // Build metric cards
+    for (const s of Object.values(els.sec)) s.innerHTML = "";
+    for (const ind of INDICATORS){
+      els.sec[ind.section].appendChild(buildMetricCard(ind));
+    }
+
+    // Load headline stats (CPI YoY, UNRATE, DGS10, HOUST)
+    // Each stat loads independently so one failure cannot block the others.
+    await Promise.allSettled([
+      fetchFRED("CPIAUCSL", apiKey, 90).then(cpi => {
+        const last = cpi[cpi.length-1];
+        const prev = cpi[Math.max(0, cpi.length-13)];
+        const yoy = (last.value/prev.value - 1) * 100;
+        els.statCpi.textContent = yoy.toFixed(1) + "%";
+
+        // Show how the YoY rate has changed versus one year ago (in percentage points)
+        if (els.deltaCpi) {
+          let pp = NaN;
+          if (cpi.length >= 25) {
+            const last1y = cpi[cpi.length-13];
+            const prev1y = cpi[cpi.length-25];
+            const yoyPrev = (last1y.value/prev1y.value - 1) * 100;
+            pp = yoy - yoyPrev;
+          }
+          els.deltaCpi.textContent = isFinite(pp)
+            ? `Δ vs 1y ago: ${pp>=0?'+':''}${pp.toFixed(1)} pp`
+            : "Δ vs 1y ago: —";
+        }
+      }).catch(e => { console.warn("Headline CPI failed:", e); els.statCpi.textContent = "—"; }),
+
+      fetchFRED("UNRATE", apiKey, 90).then(unemp => {
+        els.statUnemp.textContent = fmtValue(unemp[unemp.length-1].value, "pct");
+
+        if (els.deltaUnemp) {
+          const { delta, label } = pickChange(unemp);
+          // UNRATE is a percent level; delta is percentage points
+          els.deltaUnemp.textContent = isFinite(delta)
+            ? `${label}: ${delta>=0?'+':''}${delta.toFixed(1)} pp`
+            : `${label}: —`;
+        }
+      }).catch(e => { console.warn("Headline UNRATE failed:", e); els.statUnemp.textContent = "—"; }),
+
+      fetchFRED("DGS10", apiKey, 90).then(teny => {
+        els.stat10y.textContent = fmtValue(teny[teny.length-1].value, "pct");
+
+        if (els.delta10y) {
+          const { delta, label } = pickChange(teny);
+          // DGS10 is a percent level; delta is percentage points
+          els.delta10y.textContent = isFinite(delta)
+            ? `${label}: ${delta>=0?'+':''}${delta.toFixed(2)} pp`
+            : `${label}: —`;
+        }
+      }).catch(e => { console.warn("Headline DGS10 failed:", e); els.stat10y.textContent = "—"; }),
+
+      fetchFRED("HOUST", apiKey, 90).then(starts => {
+        els.statStarts.textContent = (Math.round(starts[starts.length-1].value) * 1000).toLocaleString() + " /yr";
+
+        if (els.deltaStarts) {
+          const last = starts[starts.length-1].value;
+          const prev = starts[Math.max(0, starts.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaStarts.textContent = isFinite(pct)
+            ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%`
+            : "YoY: —";
+        }
+      }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
+    ]);
+
+    // Load all indicator series and render
+    // Show when the cached FRED data was last fetched by the GitHub Action
+    try {
+      const meta = await _loadFredData();
+      if (meta.updated) {
+        const updatedAt = new Date(meta.updated);
+        els.lastUpdated.textContent = "Data as of " + updatedAt.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+      }
+    } catch(e) {}
+
+    await Promise.all(INDICATORS.map(async (ind) => {
+      const idSafe = ind.id.replace(/[^a-zA-Z0-9_-]/g,"_");
+      const valEl = document.getElementById(`val-${idSafe}`);
+      const dateEl = document.getElementById(`date-${idSafe}`);
+      const deltaEl = document.getElementById(`delta-${idSafe}`);
+      const errEl = document.getElementById(`err-${idSafe}`);
+      const canvas = document.getElementById(`ch-${idSafe}`);
+
+      try{
+        errEl.textContent = "";
+        const series = await fetchFRED(ind.id, apiKey, 120);
+        const last = series[series.length-1];
+        valEl.textContent = fmtValue(last.value, ind.fmt);
+        dateEl.textContent = monthLabel(last.date);
+
+        const change = pickChange(series);
+        const cls = deltaClass(change.delta);
+        const arr = arrow(change.delta);
+
+        let deltaText = "—";
+        if (isFinite(change.delta)){
+          if (ind.fmt === "pct") {
+            deltaText = `${arr} ${change.delta.toFixed(2)} pts ${change.label}`;
+          } else if (ind.fmt === "usd" || ind.fmt === "index" || ind.fmt === "int") {
+            // percent change is more intuitive for these
+            const base = series[Math.max(0, series.length-13)].value;
+            const pct = base ? ((last.value/base - 1)*100) : NaN;
+            if (isFinite(pct)) deltaText = `${arr} ${pct.toFixed(1)}% ${change.label}`;
+            else deltaText = `${arr} ${change.delta.toFixed(2)} ${change.label}`;
+          } else {
+            deltaText = `${arr} ${change.delta.toFixed(2)} ${change.label}`;
+          }
+        }
+
+        deltaEl.className = `delta ${cls}`;
+        deltaEl.textContent = deltaText;
+
+        const labels = series.map(p => monthLabel(p.date));
+        const values = series.map(p => p.value);
+        renderChart(canvas, labels, values);
+      } catch(e){
+        console.warn("Indicator failed:", ind.id, e);
+        valEl.textContent = "—";
+        dateEl.textContent = "—";
+        deltaEl.className = "delta flat";
+        deltaEl.textContent = "—";
+        errEl.innerHTML = `<span class="err">Data unavailable:</span> ${String(e.message || e)}`;
+      }
+    }));
+  }
+
+  // Init controls
+  els.conn.textContent = "Yes";
+  if (els.lastUpdated) els.lastUpdated.textContent = "—";
+  els.refresh.addEventListener("click", () => loadAll());
+
+  // Load on start
+  loadAll();
+})();
+</script>
+<script src="js/contrast-guard.js"></script><script src="js/census-geo.js"></script><script src="js/fred-cards.js"></script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     Housing Predictive Modeling
+     Powered by js/housing-predictions.js
+     ══════════════════════════════════════════════════════════════ -->
+<section id="housing-predictions-section" aria-label="Housing Predictive Modeling" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;"></section>
+<script defer src="js/housing-predictions.js"></script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAR Colorado Market Data
+     Powered by js/housing-data-integration.js
+     ══════════════════════════════════════════════════════════════ -->
+<section id="carMarketDashSection" aria-label="CAR Colorado Market Data" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;">
+  <div class="card" style="padding:1.5rem;">
+    <h2 style="font-size:1.2rem;font-weight:700;margin:0 0 .25rem;">Colorado Market Conditions <small style="font-size:.75em;font-weight:400;opacity:.65;">— CAR Monthly Report</small></h2>
+    <p style="font-size:.85rem;opacity:.7;margin:0 0 1rem;">
+      Statewide data from the Colorado Association of REALTORS.
+      Updated monthly via manual workflow.
+      <span id="carDashFreshness" style="font-size:.78rem;margin-left:.5rem;"></span>
+    </p>
+    <div id="carDashLoading" style="font-size:.88rem;opacity:.65;">Loading CAR data…</div>
+    <div id="carDashError" role="alert" style="display:none;font-size:.87rem;padding:.6rem .9rem;background:rgba(224,82,82,.08);border-radius:6px;border:1px solid rgba(224,82,82,.3);margin-bottom:.75rem;"></div>
+    <div id="carDashContent" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;">
+        <div class="card stat">
+          <p class="num" id="carDashMedianPrice">—</p>
+          <p class="lbl">Median Sale Price</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashInventory">—</p>
+          <p class="lbl">Active Listings</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashDaysOnMarket">—</p>
+          <p class="lbl">Median Days on Market</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+        <div class="card stat">
+          <p class="num" id="carDashPricePerSqFt">—</p>
+          <p class="lbl">Price per Sq Ft</p>
+          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="js/housing-data-integration.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (!window.HousingDataIntegration) return;
+    window.HousingDataIntegration.loadCARData().then(function(car) {
+      var loading = document.getElementById("carDashLoading");
+      var content = document.getElementById("carDashContent");
+      var error   = document.getElementById("carDashError");
+      if (!car) {
+        if (loading) loading.style.display = "none";
+        if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+        return;
+      }
+      if (loading) loading.style.display = "none";
+      var sw = car.statewide || {};
+      var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
+      var fmt    = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
+      var el = function(id) { return document.getElementById(id); };
+      el("carDashMedianPrice")  && (el("carDashMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+      el("carDashInventory")    && (el("carDashInventory").textContent    = fmt(sw.active_listings));
+      el("carDashDaysOnMarket") && (el("carDashDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
+      el("carDashPricePerSqFt") && (el("carDashPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+      var freshnessEl = el("carDashFreshness");
+      if (freshnessEl && car.month) { freshnessEl.textContent = "Report: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+      if (content) content.style.display = "block";
+    }).catch(function() {
+      var loading = document.getElementById("carDashLoading");
+      var error   = document.getElementById("carDashError");
+      if (loading) loading.style.display = "none";
+      if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
+    });
+  });
+</script>
+
+</body>
+</html>

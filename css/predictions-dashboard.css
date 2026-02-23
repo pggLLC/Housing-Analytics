@@ -1,0 +1,694 @@
+/* predictions-dashboard.css
+ * Mobile-first styles for the Housing Predictions section.
+ * Inherits CSS variables from site-theme.css.
+ * Dark mode via prefers-color-scheme (variables handled by site-theme.css).
+ */
+
+/* ── Container ─────────────────────────────────────────────────── */
+#housing-predictions-section {
+  margin: 2rem 0;
+}
+
+/* ── Disclaimer banner ─────────────────────────────────────────── */
+#housing-predictions-section [role="note"] {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* ── Forecast grid — mobile-first single column ─────────────────── */
+#predGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  #predGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Chart canvases ─────────────────────────────────────────────── */
+#housing-predictions-section canvas {
+  display: block;
+  width: 100% !important;
+}
+
+/* ── Accuracy table ─────────────────────────────────────────────── */
+#housing-predictions-section table {
+  width: 100%;
+  font-size: var(--small, 0.775rem);
+  border-collapse: collapse;
+}
+
+#housing-predictions-section table th,
+#housing-predictions-section table td {
+  padding: 0.35rem 0.5rem;
+}
+
+#housing-predictions-section table thead tr {
+  border-bottom: 2px solid var(--border);
+}
+
+#housing-predictions-section table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+#housing-predictions-section table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* ── Methodology details ────────────────────────────────────────── */
+#housing-predictions-section details summary::-webkit-details-marker {
+  display: none;
+}
+
+#housing-predictions-section details[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+/* ── Export buttons ─────────────────────────────────────────────── */
+#housing-predictions-section .pred-export-btn {
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+#housing-predictions-section .pred-export-btn:hover,
+#housing-predictions-section .pred-export-btn:focus-visible {
+  background: var(--accent-dim, rgba(14,165,160,.10)) !important;
+  color: var(--accent, #0ea5a0) !important;
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(14,165,160,.30));
+}
+
+/* ── Focus ring for interactive elements ────────────────────────── */
+#housing-predictions-section button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(14,165,160,.30));
+}
+
+/* ── Dark mode overrides (supplement site-theme.css variables) ──── */
+@media (prefers-color-scheme: dark) {
+  #housing-predictions-section [role="note"] {
+    border-color: var(--warn, #d97706);
+    background: var(--warn-dim, rgba(217,119,6,.15));
+  }
+}
+
+/* ── Print styles ───────────────────────────────────────────────── */
+@media print {
+  #housing-predictions-section [role="note"] {
+    border: 1px solid #000;
+    background: #fff8e1;
+  }
+  #housing-predictions-section details {
+    display: block;
+  }
+  #housing-predictions-section details > * {
+    display: block !important;
+/**
+ * predictions-dashboard.css
+ * Styles for the Housing Prediction Market Dashboard
+ * (#housing-predictions-section)
+ *
+ * Uses CSS custom properties defined in site-theme.css.
+ * Supports both light and dark modes via CSS variable inheritance
+ * and @media (prefers-color-scheme: dark) fallbacks.
+ *
+ * Mobile-first responsive design.
+ */
+
+/* ================================================================
+   Base container
+   ================================================================ */
+
+#housing-predictions-section {
+  font-family: inherit;
+  color: var(--text, #222);
+}
+
+/* ================================================================
+   Header
+   ================================================================ */
+
+.hp-header {
+  margin-bottom: 1.25rem;
+}
+
+.hp-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  color: var(--text, #111);
+  line-height: 1.25;
+}
+
+.hp-subtitle {
+  font-size: 0.9rem;
+  color: var(--muted, #555);
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+/* ================================================================
+   Disclaimer banner
+   ================================================================ */
+
+.hp-disclaimer {
+  background: color-mix(in srgb, var(--color-warning, #e65100) 10%, transparent);
+  border-left: 4px solid var(--color-warning, #e65100);
+  border-radius: 0 6px 6px 0;
+  padding: 0.65rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text2, #444);
+  line-height: 1.5;
+}
+
+/* Fallback for browsers without color-mix */
+@supports not (background: color-mix(in srgb, red 10%, transparent)) {
+  .hp-disclaimer {
+    background: #fff3e0;
+  }
+}
+
+/* ================================================================
+   Legend
+   ================================================================ */
+
+.hp-legend {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  font-size: 0.83rem;
+}
+
+.hp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text2, #444);
+}
+
+.hp-legend-market {
+  color: rgba(26, 115, 232, 1);
+}
+
+.hp-legend-expert {
+  color: rgba(251, 140, 0, 1);
+}
+
+/* ================================================================
+   Distribution charts grid
+   ================================================================ */
+
+.hp-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 600px) {
+  .hp-charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hp-charts-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.hp-chart-card {
+  background: var(--card, #fff);
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: var(--radius-lg, 8px);
+  padding: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.hp-chart-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================================================
+   Section headings
+   ================================================================ */
+
+.hp-section-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--text, #222);
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border, #e0e0e0);
+}
+
+/* ================================================================
+   Probability bars
+   ================================================================ */
+
+.hp-prob-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 48px;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 479px) {
+  .hp-prob-row {
+    grid-template-columns: 100px 1fr 40px;
+  }
+}
+
+.hp-prob-label {
+  font-size: 0.82rem;
+  color: var(--text2, #444);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hp-bar-wrap {
+  position: relative;
+  height: 14px;
+  background: var(--bg2, #f0f0f0);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.hp-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 7px;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+
+.hp-bar--market {
+  background: rgba(26, 115, 232, 0.8);
+  z-index: 1;
+}
+
+.hp-bar--expert {
+  background: transparent;
+  border: 2px dashed rgba(251, 140, 0, 0.9);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.hp-prob-pct {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text, #222);
+  text-align: right;
+}
+
+/* ================================================================
+   Binary prediction cards
+   ================================================================ */
+
+.hp-binary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 600px) {
+  .hp-binary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hp-binary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.hp-binary-card {
+  background: var(--card, #fff);
+  border: 1px solid var(--border, #e0e0e0);
+  border-top: 4px solid var(--hp-cat-color, var(--color-primary, #1a73e8));
+  border-radius: var(--radius-lg, 8px);
+  padding: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.hp-binary-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hp-category-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 10px;
+  background: var(--hp-cat-color, var(--color-primary, #1a73e8));
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.hp-binary-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text, #222);
+  margin: 0 0 0.4rem;
+  line-height: 1.4;
+}
+
+.hp-binary-desc {
+  font-size: var(--tiny);
+  color: var(--muted, #666);
+  margin: 0 0 0.75rem;
+  line-height: 1.45;
+}
+
+/* Odds display */
+.hp-odds-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.hp-odds-yes,
+.hp-odds-no {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+}
+
+.hp-odds-yes .hp-odds-pct {
+  color: var(--color-success, #2e7d32);
+}
+
+.hp-odds-no .hp-odds-pct {
+  color: var(--color-error, #c62828);
+}
+
+.hp-odds-pct {
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hp-odds-lbl {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted, #777);
+}
+
+.hp-odds-sep {
+  font-size: 1.4rem;
+  color: var(--muted, #bbb);
+  font-weight: 300;
+}
+
+/* Binary probability bar */
+.hp-binary-bar {
+  height: 8px;
+  background: var(--bg2, #f0f0f0);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.hp-binary-bar-fill {
+  height: 100%;
+  background: var(--color-primary, #1a73e8);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* Market vs expert difference */
+.hp-diff {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hp-diff-higher {
+  color: var(--color-success, #2e7d32);
+}
+
+.hp-diff-lower {
+  color: var(--color-error, #c62828);
+}
+
+.hp-diff-neutral {
+  color: var(--muted, #888);
+}
+
+/* ================================================================
+   Colorado predictions
+   ================================================================ */
+
+.hp-co-panel {
+  margin-bottom: 1.75rem;
+}
+
+.hp-co-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .hp-co-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .hp-co-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.hp-co-item {
+  background: var(--card, #fff);
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: var(--radius-lg, 8px);
+  padding: 0.85rem 0.75rem;
+  text-align: center;
+}
+
+.hp-co-label {
+  font-size: 0.75rem;
+  color: var(--muted, #666);
+  margin: 0 0 0.35rem;
+  line-height: 1.3;
+}
+
+.hp-co-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text, #111);
+  margin: 0 0 0.25rem;
+}
+
+.hp-co-range {
+  font-size: 0.7rem;
+  color: var(--muted, #888);
+  margin: 0 0 0.25rem;
+}
+
+.hp-co-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Trend icons */
+.hp-trend-icon {
+  font-size: 0.8em;
+  vertical-align: middle;
+}
+
+.hp-trend-up {
+  color: var(--color-success, #2e7d32);
+}
+
+.hp-trend-down {
+  color: var(--color-error, #c62828);
+}
+
+.hp-trend-neutral {
+  color: var(--muted, #888);
+}
+
+/* ================================================================
+   Historical accuracy table
+   ================================================================ */
+
+.hp-acc-note {
+  font-size: 0.83rem;
+  color: var(--muted, #777);
+  margin: 0 0 0.75rem;
+}
+
+.hp-table-scroll {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg, 8px);
+  border: 1px solid var(--border, #e0e0e0);
+}
+
+.hp-acc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--small);
+  min-width: 520px;
+}
+
+.hp-acc-table th,
+.hp-acc-table td {
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--border, #e0e0e0);
+  text-align: left;
+}
+
+.hp-acc-table th {
+  background: var(--bg2, #f5f5f5);
+  font-weight: 600;
+  color: var(--text, #222);
+}
+
+.hp-acc-table tr:last-child td {
+  border-bottom: none;
+}
+
+.hp-acc-table tr:nth-child(even) td {
+  background: var(--bg2, #fafafa);
+}
+
+.hp-acc-correct {
+  color: var(--color-success, #2e7d32);
+  font-weight: 600;
+}
+
+.hp-acc-wrong {
+  color: var(--color-error, #c62828);
+  font-weight: 600;
+}
+
+/* ================================================================
+   Methodology section
+   ================================================================ */
+
+.hp-methodology {
+  background: var(--bg2, #f9f9f9);
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: var(--radius-lg, 8px);
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hp-methodology p {
+  font-size: var(--small);
+  color: var(--text2, #444);
+  line-height: 1.6;
+  margin: 0 0 0.6rem;
+}
+
+.hp-methodology p:last-child {
+  margin-bottom: 0;
+}
+
+/* ================================================================
+   Dark mode — CSS variable override (auto via site-theme.css)
+   Explicit @media fallback for pages that don't set variables
+   ================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  #housing-predictions-section {
+    color: var(--text, #eee);
+  }
+
+  .hp-chart-card,
+  .hp-binary-card,
+  .hp-co-item {
+    background: var(--card, #1e1e1e);
+    border-color: var(--border, #333);
+  }
+
+  .hp-disclaimer {
+    background: rgba(230, 81, 0, 0.15);
+    color: var(--text2, #ccc);
+  }
+
+  .hp-bar-wrap {
+    background: var(--bg2, #2a2a2a);
+  }
+
+  .hp-acc-table th {
+    background: var(--bg2, #252525);
+    color: var(--text, #eee);
+  }
+
+  .hp-acc-table tr:nth-child(even) td {
+    background: var(--bg2, #1f1f1f);
+  }
+
+  .hp-methodology {
+    background: var(--bg2, #1a1a1a);
+    border-color: var(--border, #333);
+  }
+
+  .hp-methodology p {
+    color: var(--text2, #bbb);
+  }
+
+  .hp-section-heading {
+    color: var(--text, #eee);
+    border-bottom-color: var(--border, #333);
+  }
+
+  .hp-title {
+    color: var(--text, #f0f0f0);
+  }
+}
+
+/* ================================================================
+   Responsive adjustments
+   ================================================================ */
+
+@media (max-width: 479px) {
+  .hp-title {
+    font-size: 1.25rem;
+  }
+
+  .hp-binary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hp-co-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hp-odds-pct {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .hp-charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
