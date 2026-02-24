@@ -81,9 +81,7 @@
   let _stateCache = null;
   async function loadStateCacheJson() {
     if (_stateCache) return _stateCache;
-    const res = await fetch("data/census-acs-state.json");
-    if (!res.ok) throw new Error("Could not load census-acs-state.json (" + res.status + ")");
-    const json = await res.json();
+    const json = await DataService.getJSON(DataService.baseData("census-acs-state.json"));
     _stateCache = json;
     return json;
   }

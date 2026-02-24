@@ -179,9 +179,8 @@ class FREDCommodityPrices {
     async fetchLiveData(seriesId) {
         try {
             if (!this._fredCache) {
-                const res = await fetch('data/fred-data.json');
-                if (!res.ok) throw new Error('Could not load data/fred-data.json');
-                this._fredCache = await res.json();
+                const _data = await DataService.getJSON(DataService.baseData('fred-data.json'));
+                this._fredCache = _data;
             }
             const fredSeriesId = this.series[seriesId];
             const entry = this._fredCache.series && this._fredCache.series[fredSeriesId];
