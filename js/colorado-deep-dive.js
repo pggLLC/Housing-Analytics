@@ -133,15 +133,13 @@
     var fallbackUrl = 'data/prop123_jurisdictions.json';
 
     // Try serverless first (if you later host it), then local fallback for GitHub Pages
-    fetch(primaryUrl, { cache: 'no-store' }).then(function (r) {
-      if (!r.ok) throw new Error('Prop123 API unavailable');
-      return r.json();
-    }).catch(function () {
-      return fetch(fallbackUrl, { cache: 'no-store' }).then(function (r) {
-        if (!r.ok) throw new Error('Prop123 fallback missing');
-        return r.json();
+    function loadWithFallback(primary, fallback) {
+      return DataService.getJSON(primary).catch(function () {
+        console.warn('[colorado-deep-dive] Primary failed, using fallback:', fallback);
+        return DataService.getJSON(DataService.baseData(fallback.replace(/^data\//, '')));
       });
-    }).then(function (data) {
+    }
+    loadWithFallback(primaryUrl, fallbackUrl).then(function (data) {
       var jurisdictions = data.jurisdictions || data.items || data || [];
       // Allow the fallback file schema: { updated, jurisdictions: [...] }
       if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
@@ -190,10 +188,7 @@
 
     var url = (window.APP_CONFIG && window.APP_CONFIG.CAR_MARKET_URL) ? window.APP_CONFIG.CAR_MARKET_URL : 'data/car-market.json';
 
-    fetch(url, { cache: 'no-store' }).then(function (r) {
-      if (!r.ok) throw new Error('CAR market file missing');
-      return r.json();
-    }).then(function (d) {
+    DataService.getJSON(url).then(function (d) {
       // Expected schema example:
       // { updated: "YYYY-MM-DD", median_price: 0, active_listings: 0, median_dom: 0, price_per_sqft: 0 }
       var mp  = d.median_price ?? d.medianPrice;

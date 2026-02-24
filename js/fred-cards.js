@@ -21,9 +21,7 @@
   async function run() {
     let data;
     try {
-      const res = await fetch("data/fred-data.json");
-      if (!res.ok) throw new Error("Could not load data/fred-data.json");
-      data = await res.json();
+      data = await DataService.getJSON(DataService.baseData("fred-data.json"));
     } catch (e) {
       console.warn("[fred-cards] failed to load cache:", e);
       return; // leave values as-is; inline loadAll() will populate them
