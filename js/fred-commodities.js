@@ -139,9 +139,7 @@ const FREDCommodities = {
     _fredDataCache: null,
     async _loadData() {
         if (this._fredDataCache) return this._fredDataCache;
-        const res = await fetch('data/fred-data.json');
-        if (!res.ok) throw new Error('Could not load data/fred-data.json');
-        this._fredDataCache = await res.json();
+        this._fredDataCache = await DataService.getJSON(DataService.baseData('fred-data.json'));
         return this._fredDataCache;
     },
     async fetchSeries(seriesId, observationStart = null) {
