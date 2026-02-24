@@ -1,17 +1,8 @@
 export async function loadData() {
 
-  const base = window.location.pathname.includes("github.io")
-    ? "/lihtc-analytics-hub"
-    : "";
+  const allocations = await DataService.getJSON(DataService.baseData("allocations.json"));
 
-  const allocations = await fetch(`${base}/data/allocations.json`)
-    .then(r => {
-      if (!r.ok) throw new Error("Allocations failed");
-      return r.json();
-    });
-
-  const geo = await fetch(`${base}/maps/us-states.geojson`)
-    .then(r => r.json());
+  const geo = await DataService.getGeoJSON(DataService.baseMaps("us-states.geojson"));
 
   return { allocations, geo };
 }

@@ -1,0 +1,97 @@
+DEPLOYMENT GUIDE — Housing Analytics GitHub Pages
+==================================================
+
+OVERVIEW
+--------
+This site is a static GitHub Pages deployment.  All data is pre-fetched by
+GitHub Actions workflows and stored as JSON files in the data/ directory.
+
+
+HOW TO UPLOAD / REDEPLOY TO GITHUB PAGES
+-----------------------------------------
+1. Commit all changes to the main (or gh-pages) branch.
+2. Go to: Settings → Pages in your GitHub repository.
+3. Set "Source" to "Deploy from a branch" and select the correct branch (usually "main").
+4. Click Save.  GitHub will rebuild and deploy automatically within 1-2 minutes.
+
+If the site is deployed from a sub-path (e.g. https://username.github.io/housing-analytics/)
+the path-resolver.js script auto-detects the base path — no manual configuration is needed.
+
+
+HOW TO CLEAR CACHE
+------------------
+Browser cache:
+  • Hard-refresh the page:  Ctrl+Shift+R  (Windows/Linux)  or  Cmd+Shift+R  (Mac)
+  • Or open DevTools → Network tab → check "Disable cache" and reload.
+
+GitHub Pages CDN cache (if content is stale after a deploy):
+  • Wait up to 10 minutes for CDN propagation.
+  • Alternatively, append ?v=<timestamp> to the URL to bypass CDN caching.
+
+The fetch-helper.js script adds automatic cache-busting (?v=<timestamp>) to all
+local asset requests so stale data should not be an issue.
+
+
+VERIFICATION STEPS AFTER DEPLOYMENT
+-------------------------------------
+1. Open the live URL in a browser and check the browser console (F12) for errors.
+2. Verify that the KPI strip on the home page shows real numbers (not "Loading…").
+3. Navigate to the Economic Dashboard and confirm the FRED charts render.
+4. Open the Colorado Deep Dive page and confirm the AMI Gap chart loads.
+5. Open the LIHTC Dashboard and confirm the state allocation table populates.
+6. Check the Census Dashboard for population/income/rent metrics.
+7. If any panel shows a red error banner, check the console for the failed URL
+   and confirm the corresponding file exists in the data/ or maps/ directory.
+
+
+DIRECTORY STRUCTURE
+-------------------
+/
+├── *.html              — Page files
+├── js/
+│   ├── path-resolver.js       — Base-path detection (load first)
+│   ├── config.js              — API keys (NEVER commit real keys publicly)
+│   ├── fetch-helper.js        — safeFetchJSON() + resolveAssetUrl()
+│   ├── data-service-portable.js — Centralised DataService
+│   ├── scroll-fix.js          — Scroll-to-top on page load
+│   └── ...                    — Feature scripts
+├── css/                — Stylesheets
+├── data/               — Pre-fetched JSON data (populated by GitHub Actions)
+└── maps/               — GeoJSON boundary files
+
+
+API KEY MANAGEMENT
+------------------
+API keys are stored in js/config.js which is NOT committed to the public repo
+(.gitignore includes it).  For GitHub Pages deployments:
+
+  Option A (recommended): Use GitHub Actions secrets + a workflow step to
+    generate js/config.js at deploy time.
+
+  Option B: Commit a config with rate-limited public-use keys (acceptable for
+    free-tier Census and FRED keys which are designed for public use).
+
+The FRED and Census keys in config.js are free-tier and publicly documented.
+If you rotate them, update js/config.js (and js/config.js.template).
+
+
+TROUBLESHOOTING
+---------------
+• "Cannot read properties of undefined (reading 'getJSON')"
+  → DataService failed to load. Confirm js/data-service-portable.js is present
+    and listed in the <head> before other page scripts.
+
+• Red error banner at top of page
+  → A data file failed to load. Check that the file exists in data/ or maps/.
+    Re-run the relevant GitHub Actions workflow to regenerate the data.
+
+• Map shows no shapes
+  → maps/us-states.geojson is missing. Download a copy (see maps/README.md).
+
+• FRED charts empty / "missing FRED_API_KEY"
+  → Ensure js/config.js is present with a valid FRED_API_KEY.
+    Free keys: https://research.stlouisfed.org/useraccount/apikey
+
+• Census data unavailable
+  → Check CENSUS_API_KEY in js/config.js.
+    Free keys: https://api.census.gov/data/key_signup.html
