@@ -1,0 +1,66 @@
+name: Build Redeploy ZIP + Portability Checks
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  validate-and-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Portability checks
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking for fragile fetch paths..."
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules 'fetch("data/' .; then
+            echo "::error::Found fetch(\"data/\") usage. Replace with DataService.getJSON(DataService.baseData(...))"
+            exit 1
+          fi
+
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules 'fetch("maps/' .; then
+            echo "::error::Found fetch(\"maps/\") usage. Replace with DataService.getGeoJSON(DataService.baseMaps(...))"
+            exit 1
+          fi
+
+          echo "Checking for hardcoded deployment path..."
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules '\/housing-analytics\/' . | grep -v 'APP_BASE_PATH' ; then
+            echo "::error::Found hardcoded /housing-analytics/ path. Use resolveAssetUrl/safeFetchJSON/DataService instead."
+            exit 1
+          fi
+
+          echo "Checking for junk files..."
+          if find . -name "__MACOSX" -o -name ".DS_Store" -o -name "Thumbs.db" | grep -q .; then
+            echo "::error::Found junk files (__MACOSX/.DS_Store/Thumbs.db). Remove them."
+            exit 1
+          fi
+
+          echo "Checks passed ✅"
+
+      - name: Create redeploy ZIP
+        shell: bash
+        run: |
+          set -e
+          ZIP_NAME="Housing-Analytics-REDEPLOY.zip"
+          rm -f "$ZIP_NAME"
+          zip -r "$ZIP_NAME" . \
+            -x ".git/*" \
+            -x "node_modules/*" \
+            -x ".github/*" \
+            -x "**/__MACOSX/*" \
+            -x "**/.DS_Store" \
+            -x "**/Thumbs.db"
+
+          ls -lh "$ZIP_NAME"
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Housing-Analytics-REDEPLOY
+          path: Housing-Analytics-REDEPLOY.zip
