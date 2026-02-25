@@ -36,8 +36,10 @@
   async function fetchJson(url) {
     if (_fetchCache[url]) return _fetchCache[url];
     if (_cache[url]) return _cache[url];
-    const res = await fetch(url, { cache: "default" });
-    if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url}`);
+    // Use resolveAssetUrl when available so the base path is correctly prepended
+    const resolvedUrl = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl(url) : url;
+    const res = await fetch(resolvedUrl, { cache: "default" });
+    if (!res.ok) throw new Error(`Fetch failed ${res.status} for ${url} (resolved: ${resolvedUrl})`);
     const data = await res.json();
     _fetchCache[url] = data;
     return data;
