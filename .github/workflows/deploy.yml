@@ -24,6 +24,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate js/config.js from secrets
+        run: |
+          cat > js/config.js << EOF
+          window.APP_CONFIG = window.APP_CONFIG || {};
+          var _defaults = {
+            CENSUS_API_KEY: "${{ secrets.CENSUS_API_KEY }}",
+            FRED_API_KEY:   "${{ secrets.FRED_API_KEY }}"
+          };
+          Object.keys(_defaults).forEach(function (k) {
+            if (!Object.prototype.hasOwnProperty.call(window.APP_CONFIG, k)) {
+              window.APP_CONFIG[k] = _defaults[k];
+            }
+          });
+          EOF
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
