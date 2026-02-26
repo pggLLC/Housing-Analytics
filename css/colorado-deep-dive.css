@@ -112,10 +112,7 @@
   background: var(--card) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-lg);
-}
-
-.chart-card-map {
-  overflow: visible;
+  overflow: hidden;
 }
 
 .chart-header {
@@ -497,10 +494,11 @@
    ---------------------------------------------------------------- */
 #coMap{
   height: 560px;
-  min-height: 580px;
+  min-height: 560px;
   width: 100%;
   border-radius: 12px;
   border: 1px solid var(--border);
+  overflow: hidden;
   background: rgba(0,0,0,0.06);
 }
 @media (max-width: 900px){
