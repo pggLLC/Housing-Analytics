@@ -394,10 +394,13 @@ function initPolicyPanel(panelId) {
   document.addEventListener('DOMContentLoaded', function () {
     try {
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      window.scrollTo(0, 0);
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
+  });
+
+  window.addEventListener('load', function () {
+    try { window.scrollTo(0, 0); } catch (e) { /* ignore */ }
   });
 
   /* ── Public API ────────────────────────────────────────────────── */
