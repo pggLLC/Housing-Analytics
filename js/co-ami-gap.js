@@ -17,6 +17,9 @@
   const COLOR_SURPLUS_SOLID = "rgba(34,163,111,1)";
   const COLOR_DEFICIT_SOLID = "rgba(224,82,82,1)";
 
+  const _fetchCache = {};
+  const _cache = {};
+
   function $(sel, root) { return (root || document).querySelector(sel); }
   function fmt(n) {
     if (n === null || n === undefined || Number.isNaN(n)) return "—";
@@ -529,73 +532,9 @@
       obs.observe(root);
     } else {
       loadData();
-    const endpointEl = $("#amiGapEndpoint");
-    if (endpointEl) endpointEl.textContent = endpoint;
-
-    /* IntersectionObserver-based lazy loading */
-    function loadModule() {
-      let payload;
-      const load = async () => {
-        try {
-          payload = await fetchJson(endpoint);
-        } catch (e) {
-          console.error(e);
-          const errEl = $("#amiGapError");
-          if (errEl) {
-            errEl.textContent = `Could not load AMI gap data. Check endpoint or cached JSON. (${e.message})`;
-            errEl.style.display = "block";
-          }
-          return;
-        }
-
-        renderMetadata(payload.meta);
-        renderMethodology(payload);
-
-        buildCountyOptions(payload.counties || []);
-        const refs = { comparison: null, gap: null };
-
-        function update() {
-          const sel = $("#amiGapCountySelect");
-          const fips = sel ? sel.value : "STATE";
-          const item = pickItem(payload, fips);
-
-          const titleEl = $("#amiGapGeoTitle");
-          if (titleEl) titleEl.textContent = (fips === "STATE") ? "Colorado (statewide)" : item.county_name;
-          renderCards(payload, item);
-          renderTable(payload, item);
-          renderComparisonChart(payload, item, refs);
-          renderGapChart(payload, item, refs);
-        }
-
-        const sel = $("#amiGapCountySelect");
-        if (sel) sel.addEventListener("change", update);
-
-        /* CSV export button */
-        const exportBtn = $("#amiGapExportBtn");
-        if (exportBtn) {
-          exportBtn.addEventListener("click", () => {
-            const fips = sel ? sel.value : "STATE";
-            exportAmiGapCSV(payload, pickItem(payload, fips));
-          });
-        }
-
-        update();
-      };
-      load();
-    }
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        if (entries.some(e => e.isIntersecting)) {
-          obs.unobserve(root);
-          loadModule();
-        }
-      }, { rootMargin: "200px" });
-      observer.observe(root);
-    } else {
-      loadModule();
     }
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  window.CoAmiGap = { init };
+
 })();
