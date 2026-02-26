@@ -59,11 +59,11 @@
     var base = 'https://api.stlouisfed.org/fred/series/observations';
     var p = Object.assign({
       series_id: seriesId,
-      api_key:   key,
       file_type: 'json',
       sort_order: 'desc',
       limit: '1'
     }, params || {});
+    if (key) p.api_key = key;
     var qs = Object.keys(p).map(function (k) {
       return encodeURIComponent(k) + '=' + encodeURIComponent(p[k]);
     }).join('&');
