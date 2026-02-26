@@ -78,6 +78,12 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
         except urllib.error.HTTPError as e:
             status = e.code
             print(f"HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
+            if status == 400:
+                try:
+                    body = e.read().decode('utf-8', errors='replace')
+                    print(f"  API error body: {body[:500]}", file=sys.stderr)
+                except Exception:
+                    pass
             if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
                 time.sleep(wait)
                 wait *= backoff
@@ -283,8 +289,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         'NAME'
     ]
 
-    def build_url(year: int, endpoint: str) -> str:
-        base = f'https://api.census.gov/data/{year}/acs/acs1/{endpoint}'
+    def build_url(year: int, endpoint: str, series: str = 'acs1') -> str:
+        base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
             params = {'get': ','.join(vars_), 'for': for_}
@@ -299,33 +305,26 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
             params['key'] = key
         return base + '?' + urllib.parse.urlencode(params)
 
-    # Try ACS1 profile first
-    url1 = build_url(2024, 'profile')
-    result = http_get_json(url1)
-    if result and len(result) > 1:
-        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+    # Try in priority order: ACS1/profile → ACS1/subject → ACS5/profile for each year
+    for year in [2024, 2023]:
+        url = build_url(year, 'profile', 'acs1')
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            if year != 2024:
+                print(f"ℹ Using ACS1/profile {year} for {geo_type}:{geoid}", file=sys.stderr)
+            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    # Fallback to ACS1 subject
-    url2 = build_url(2024, 'subject')
-    print(f"ℹ Falling back to ACS1/subject for {geo_type}:{geoid}", file=sys.stderr)
-    result = http_get_json(url2)
-    if result and len(result) > 1:
-        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+        url = build_url(year, 'subject', 'acs1')
+        print(f"ℹ Falling back to ACS1/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    # Fallback to ACS5 profile
-    url3 = f'https://api.census.gov/data/2024/acs/acs5/profile?get={",".join(vars_)}'
-    if geo_type == 'county':
-        url3 += f'&for=county:{geoid[-3:]}'
-    elif geo_type == 'place':
-        url3 += f'&for=place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
-    else:
-        url3 += f'&for=census designated place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
-    if census_key():
-        url3 += f'&key={census_key()}'
-    print(f"ℹ Falling back to ACS5/profile for {geo_type}:{geoid}", file=sys.stderr)
-    result = http_get_json(url3)
-    if result and len(result) > 1:
-        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+        url = build_url(year, 'profile', 'acs5')
+        print(f"ℹ Falling back to ACS5/profile {year} for {geo_type}:{geoid}", file=sys.stderr)
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
     print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid}", file=sys.stderr)
     return None
@@ -339,8 +338,8 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         'NAME'
     ]
 
-    def build_url(year: int, endpoint: str) -> str:
-        base = f'https://api.census.gov/data/{year}/acs/acs1/{endpoint}'
+    def build_url(year: int, endpoint: str, series: str = 'acs1') -> str:
+        base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
             params = {'get': ','.join(vars_), 'for': for_}
@@ -355,26 +354,20 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
             params['key'] = key
         return base + '?' + urllib.parse.urlencode(params)
 
-    # Try ACS1 subject
-    url1 = build_url(2024, 'subject')
-    result = http_get_json(url1)
-    if result and len(result) > 1:
-        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+    # Try ACS1/subject → ACS5/subject for each year
+    for year in [2024, 2023]:
+        url = build_url(year, 'subject', 'acs1')
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            if year != 2024:
+                print(f"ℹ Using ACS1/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
+            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    # Fallback to ACS5 subject
-    url2 = f'https://api.census.gov/data/2024/acs/acs5/subject?get={",".join(vars_)}'
-    if geo_type == 'county':
-        url2 += f'&for=county:{geoid[-3:]}'
-    elif geo_type == 'place':
-        url2 += f'&for=place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
-    else:
-        url2 += f'&for=census designated place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
-    if census_key():
-        url2 += f'&key={census_key()}'
-    print(f"ℹ Falling back to ACS5/subject for {geo_type}:{geoid}", file=sys.stderr)
-    result = http_get_json(url2)
-    if result and len(result) > 1:
-        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+        url = build_url(year, 'subject', 'acs5')
+        print(f"ℹ Falling back to ACS5/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
     print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid}", file=sys.stderr)
     return None
@@ -629,7 +622,10 @@ def build_dola_projections_by_county():
 
     print('Downloading DOLA/SDO county components-of-change...')
     comp_text = http_get(url_components, timeout=180).decode('utf-8', errors='replace')
-    comp_reader = csv.DictReader(io.StringIO(comp_text))
+    comp_lines = comp_text.splitlines()
+    comp_start = next((i for i, ln in enumerate(comp_lines)
+                       if any(kw in ln.lower() for kw in ['fips', 'county', 'year'])), 0)
+    comp_reader = csv.DictReader(comp_lines[comp_start:])
     comp_fields = comp_reader.fieldnames or []
 
     def pick(fields, *cands):
@@ -644,7 +640,8 @@ def build_dola_projections_by_county():
     f_netmig = pick(comp_fields, 'net_migration', 'netmigration', 'net_mig', 'NetMigration', 'netmig')
 
     if not all([f_cf, f_year, f_pop, f_netmig]):
-        raise RuntimeError(f"Unexpected components-change-county schema. Fields: {comp_fields}")
+        print(f"⚠ Skipped projections build: unexpected components-change-county schema. Fields: {comp_fields}", file=sys.stderr)
+        return
 
     # Read into dict[county][year] = {pop, netmig}
     comp = {}
@@ -661,7 +658,10 @@ def build_dola_projections_by_county():
 
     print('Downloading DOLA/SDO county population profiles...')
     prof_text = http_get(url_profiles, timeout=180).decode('utf-8', errors='replace')
-    prof_reader = csv.DictReader(io.StringIO(prof_text))
+    prof_lines = prof_text.splitlines()
+    prof_start = next((i for i, ln in enumerate(prof_lines)
+                       if any(kw in ln.lower() for kw in ['fips', 'county', 'year'])), 0)
+    prof_reader = csv.DictReader(prof_lines[prof_start:])
     prof_fields = prof_reader.fieldnames or []
 
     p_cf = pick(prof_fields, 'countyfips', 'county_fips', 'fips', 'county')
@@ -671,7 +671,8 @@ def build_dola_projections_by_county():
     p_vac = pick(prof_fields, 'vacancy_rate', 'vacancyrate', 'VacancyRate', 'vac_rate')
 
     if not all([p_cf, p_year, p_hh, p_units]):
-        raise RuntimeError(f"Unexpected profiles-county schema. Fields: {prof_fields}")
+        print(f"⚠ Skipped projections build: unexpected profiles-county schema. Fields: {prof_fields}", file=sys.stderr)
+        return
 
     profiles = {}
     max_profile_year = 0
