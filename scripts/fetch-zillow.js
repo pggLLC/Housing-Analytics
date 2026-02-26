@@ -52,20 +52,47 @@ const DATA_DIR = path.resolve(__dirname, '..', 'data');
 
 /**
  * Download a URL to a temporary buffer and return the raw string content.
+ * Retries up to maxRetries times with exponential backoff on 429/403/5xx errors.
  */
-function downloadUrl(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
-      if (res.statusCode !== 200) {
-        res.resume();
-        return reject(new Error(`HTTP ${res.statusCode} for ${url}`));
-      }
-      const chunks = [];
-      res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-      res.on('error', reject);
-    }).on('error', reject);
-  });
+function downloadUrl(url, maxRetries = 3) {
+  const userAgents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  ];
+  const ua = userAgents[Math.floor(Math.random() * userAgents.length)];
+
+  function tryFetch(retryCount) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        headers: {
+          'User-Agent': ua,
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+        },
+      };
+      https.get(url, options, (res) => {
+        const retryable = res.statusCode === 403 || res.statusCode === 429 ||
+                          (res.statusCode >= 500 && res.statusCode < 600);
+        if (res.statusCode !== 200) {
+          res.resume();
+          const err = new Error(`HTTP ${res.statusCode} for ${url}`);
+          if (retryable && retryCount < maxRetries) {
+            const delay = Math.min(Math.pow(2, retryCount) * 2000, 10000);
+            console.warn(`  ${err.message} — retrying in ${delay / 1000}s (attempt ${retryCount + 1}/${maxRetries})…`);
+            return setTimeout(() => tryFetch(retryCount + 1).then(resolve, reject), delay);
+          }
+          return reject(err);
+        }
+        const chunks = [];
+        res.on('data', (chunk) => chunks.push(chunk));
+        res.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+        res.on('error', reject);
+      }).on('error', reject);
+    });
+  }
+
+  return tryFetch(0);
 }
 
 /**
