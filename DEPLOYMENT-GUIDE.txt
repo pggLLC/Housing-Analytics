@@ -14,7 +14,7 @@ HOW TO UPLOAD / REDEPLOY TO GITHUB PAGES
 3. Set "Source" to "Deploy from a branch" and select the correct branch (usually "main").
 4. Click Save.  GitHub will rebuild and deploy automatically within 1-2 minutes.
 
-If the site is deployed from a sub-path (e.g. https://username.github.io/housing-analytics/)
+If the site is deployed from a sub-path (e.g. https://username.github.io/your-repo/)
 the path-resolver.js script auto-detects the base path — no manual configuration is needed.
 
 
