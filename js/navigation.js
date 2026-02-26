@@ -9,6 +9,7 @@
     { label: "Dashboard", href: "economic-dashboard.html" },
     { label: "Market Insights", href: "insights.html" },
     { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
+    { label: "Housing Needs", href: "housing-needs-assessment.html" },
     { label: "About", href: "about.html" },
   ];
 
