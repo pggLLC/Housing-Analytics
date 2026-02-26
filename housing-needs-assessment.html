@@ -13,14 +13,12 @@
   <link rel="stylesheet" href="css/dark-mode.css" />
   <link rel="stylesheet" href="css/print.css" />
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css" />
+  <script defer src="js/vendor/leaflet.js"></script>
 
-  <!-- Chart.js -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Chart.js (vendored locally) -->
+  <script defer src="js/vendor/chart.umd.min.js"></script>
 
   <!-- PDF export (client-side) -->
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
