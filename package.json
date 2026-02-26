@@ -9,6 +9,7 @@
     "serve": "npx serve . -p 3000",
     "validate": "node scripts/validate.js",
     "test:hna": "node test/hna-functionality-check.js",
+    "test:pages": "node test/pages-availability-check.js",
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'"
   },
