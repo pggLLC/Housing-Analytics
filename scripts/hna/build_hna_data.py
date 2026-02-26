@@ -78,10 +78,10 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
         except urllib.error.HTTPError as e:
             status = e.code
             print(f"HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
-            if status == 400:
+            if status >= 400:
                 try:
                     body = e.read().decode('utf-8', errors='replace')
-                    print(f"  API error body: {body[:500]}", file=sys.stderr)
+                    print(f"  Response body: {body[:500]}", file=sys.stderr)
                 except Exception:
                     pass
             if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
@@ -306,11 +306,16 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         return base + '?' + urllib.parse.urlencode(params)
 
     # Try in priority order: ACS1/profile → ACS1/subject → ACS5/profile for each year
-    for year in [2024, 2023]:
+    # Years are configurable: ACS_START_YEAR (default 2024), ACS_FALLBACK_YEARS (default 3)
+    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
+    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+
+    for year in years_to_try:
         url = build_url(year, 'profile', 'acs1')
         result = http_get_json(url)
         if result and len(result) > 1:
-            if year != 2024:
+            if year != start_year:
                 print(f"ℹ Using ACS1/profile {year} for {geo_type}:{geoid}", file=sys.stderr)
             return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
@@ -326,7 +331,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         if result and len(result) > 1:
             return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid}", file=sys.stderr)
+    print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
     return None
 
 
@@ -355,11 +360,16 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         return base + '?' + urllib.parse.urlencode(params)
 
     # Try ACS1/subject → ACS5/subject for each year
-    for year in [2024, 2023]:
+    # Years are configurable: ACS_START_YEAR (default 2024), ACS_FALLBACK_YEARS (default 3)
+    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
+    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+
+    for year in years_to_try:
         url = build_url(year, 'subject', 'acs1')
         result = http_get_json(url)
         if result and len(result) > 1:
-            if year != 2024:
+            if year != start_year:
                 print(f"ℹ Using ACS1/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
             return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
@@ -369,7 +379,7 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         if result and len(result) > 1:
             return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid}", file=sys.stderr)
+    print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
     return None
 
 
@@ -381,17 +391,22 @@ def build_summary_cache():
         try:
             acs_profile = fetch_acs_profile(geo_type, geoid)
             acs_s0801 = fetch_acs_s0801(geo_type, geoid)
-            if acs_profile is None or acs_s0801 is None:
-                print(f"⚠ summary {geo_type}:{geoid}: missing ACS data (skipped)", file=sys.stderr)
+            if acs_profile is None and acs_s0801 is None:
+                print(f"⚠ summary {geo_type}:{geoid}: no ACS data available (skipped)", file=sys.stderr)
                 continue
+            if acs_profile is None:
+                print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
+            if acs_s0801 is None:
+                print(f"⚠ summary {geo_type}:{geoid}: ACS S0801 missing; writing partial summary", file=sys.stderr)
+            start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
             payload = {
                 'updated': utc_now_z(),
                 'geo': g,
                 'acsProfile': acs_profile,
                 'acsS0801': acs_s0801,
                 'source': {
-                    'acs_profile_endpoint': 'https://api.census.gov/data/2024/acs/acs1/profile',
-                    'acs_s0801_endpoint': 'https://api.census.gov/data/2024/acs/acs1/subject'
+                    'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
+                    'acs_s0801_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/subject'
                 }
             }
             with open(out_path, 'w', encoding='utf-8') as f:
@@ -619,25 +634,61 @@ def build_dola_projections_by_county():
     """
     url_components = 'https://storage.googleapis.com/co-publicdata/components-change-county.csv'
     url_profiles = 'https://storage.googleapis.com/co-publicdata/profiles-county.csv'
+    comp_cache = os.path.join(OUT['cache_dir'], 'dola_components_county.csv')
+    prof_cache = os.path.join(OUT['cache_dir'], 'dola_profiles_county.csv')
 
-    print('Downloading DOLA/SDO county components-of-change...')
-    comp_text = http_get(url_components, timeout=180).decode('utf-8', errors='replace')
+    def fetch_csv_with_cache(url: str, cache_path: str, label: str) -> str | None:
+        """Download CSV to cache; on failure try existing cache. Returns text or None."""
+        print(f'Downloading DOLA/SDO {label}...')
+        status, text = http_get_text(url, timeout=180, retries=3)
+        if status == 200:
+            try:
+                with open(cache_path, 'w', encoding='utf-8') as f:
+                    f.write(text)
+            except Exception as e:
+                print(f"⚠ Could not cache {label}: {e}", file=sys.stderr)
+            return text
+        print(f"⚠ Download failed for {label} (HTTP {status})", file=sys.stderr)
+        if os.path.exists(cache_path):
+            print(f"ℹ Using cached {label}: {cache_path}", file=sys.stderr)
+            try:
+                with open(cache_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+            except Exception as e:
+                print(f"✗ Could not read cached {label}: {e}", file=sys.stderr)
+        return None
+
+    def pick_substr(fields: list[str], *keywords: str) -> str | None:
+        """Find first field whose lowercased name contains any keyword as a substring.
+        Tries exact match first, then substring match for schema drift tolerance."""
+        fields_lower = [f.lower() for f in fields]
+        kws_lower = [kw.lower() for kw in keywords]
+        # Exact match first
+        for kw_l in kws_lower:
+            if kw_l in fields_lower:
+                return fields[fields_lower.index(kw_l)]
+        # Substring match
+        for kw_l in kws_lower:
+            for i, fl in enumerate(fields_lower):
+                if kw_l in fl:
+                    return fields[i]
+        return None
+
+    comp_text = fetch_csv_with_cache(url_components, comp_cache, 'county components-of-change')
+    if comp_text is None:
+        print("⚠ Skipped projections build: could not obtain components-of-change data", file=sys.stderr)
+        return
+
     comp_lines = comp_text.splitlines()
     comp_start = next((i for i, ln in enumerate(comp_lines)
                        if any(kw in ln.lower() for kw in ['fips', 'county', 'year'])), 0)
     comp_reader = csv.DictReader(comp_lines[comp_start:])
-    comp_fields = comp_reader.fieldnames or []
+    comp_fields = list(comp_reader.fieldnames or [])
 
-    def pick(fields, *cands):
-        for c in cands:
-            if c in fields:
-                return c
-        return None
-
-    f_cf = pick(comp_fields, 'countyfips', 'county_fips', 'fips', 'county')
-    f_year = pick(comp_fields, 'year', 'Year')
-    f_pop = pick(comp_fields, 'population', 'pop', 'Population', 'total_population', 'totalpop')
-    f_netmig = pick(comp_fields, 'net_migration', 'netmigration', 'net_mig', 'NetMigration', 'netmig')
+    f_cf = pick_substr(comp_fields, 'countyfips', 'county_fips', 'fips', 'county')
+    f_year = pick_substr(comp_fields, 'year')
+    f_pop = pick_substr(comp_fields, 'totalpop', 'total_population', 'population', 'pop')
+    f_netmig = pick_substr(comp_fields, 'netmigration', 'net_migration', 'net_mig', 'netmig')
 
     if not all([f_cf, f_year, f_pop, f_netmig]):
         print(f"⚠ Skipped projections build: unexpected components-change-county schema. Fields: {comp_fields}", file=sys.stderr)
@@ -656,37 +707,38 @@ def build_dola_projections_by_county():
         except Exception:
             continue
 
-    print('Downloading DOLA/SDO county population profiles...')
-    prof_text = http_get(url_profiles, timeout=180).decode('utf-8', errors='replace')
-    prof_lines = prof_text.splitlines()
-    prof_start = next((i for i, ln in enumerate(prof_lines)
-                       if any(kw in ln.lower() for kw in ['fips', 'county', 'year'])), 0)
-    prof_reader = csv.DictReader(prof_lines[prof_start:])
-    prof_fields = prof_reader.fieldnames or []
-
-    p_cf = pick(prof_fields, 'countyfips', 'county_fips', 'fips', 'county')
-    p_year = pick(prof_fields, 'year', 'Year')
-    p_hh = pick(prof_fields, 'households', 'hh', 'Households')
-    p_units = pick(prof_fields, 'total_housing_units', 'housing_units', 'totalhousingunits', 'TotalHousingUnits', 'units')
-    p_vac = pick(prof_fields, 'vacancy_rate', 'vacancyrate', 'VacancyRate', 'vac_rate')
-
-    if not all([p_cf, p_year, p_hh, p_units]):
-        print(f"⚠ Skipped projections build: unexpected profiles-county schema. Fields: {prof_fields}", file=sys.stderr)
-        return
-
-    profiles = {}
+    prof_text = fetch_csv_with_cache(url_profiles, prof_cache, 'county population profiles')
+    profiles: dict = {}
     max_profile_year = 0
-    for r in prof_reader:
-        try:
-            cf = str(r[p_cf]).zfill(5)
-            yr = int(float(r[p_year]))
-            hh = float(r[p_hh])
-            units = float(r[p_units])
-            vac = float(r[p_vac]) if p_vac and r.get(p_vac) not in (None, '', 'NA') else None
-            profiles.setdefault(cf, {})[yr] = {'households': hh, 'units': units, 'vacancy_rate': vac}
-            max_profile_year = max(max_profile_year, yr)
-        except Exception:
-            continue
+    if prof_text is None:
+        print("⚠ County housing/profile data unavailable; projections will proceed without housing metrics", file=sys.stderr)
+    else:
+        prof_lines = prof_text.splitlines()
+        prof_start = next((i for i, ln in enumerate(prof_lines)
+                           if any(kw in ln.lower() for kw in ['fips', 'county', 'year'])), 0)
+        prof_reader = csv.DictReader(prof_lines[prof_start:])
+        prof_fields = list(prof_reader.fieldnames or [])
+
+        p_cf = pick_substr(prof_fields, 'countyfips', 'county_fips', 'fips', 'county')
+        p_year = pick_substr(prof_fields, 'year')
+        p_hh = pick_substr(prof_fields, 'households', 'hh')
+        p_units = pick_substr(prof_fields, 'totalhousingunits', 'total_housing_units', 'housing_units', 'units')
+        p_vac = pick_substr(prof_fields, 'vacancy_rate', 'vacancyrate', 'vac_rate', 'vacancy')
+
+        if not all([p_cf, p_year, p_hh, p_units]):
+            print(f"⚠ Unexpected profiles-county schema; housing metrics will be omitted. Fields: {prof_fields}", file=sys.stderr)
+        else:
+            for r in prof_reader:
+                try:
+                    cf = str(r[p_cf]).zfill(5)
+                    yr = int(float(r[p_year]))
+                    hh = float(r[p_hh])
+                    units = float(r[p_units])
+                    vac = float(r[p_vac]) if p_vac and r.get(p_vac) not in (None, '', 'NA') else None
+                    profiles.setdefault(cf, {})[yr] = {'households': hh, 'units': units, 'vacancy_rate': vac}
+                    max_profile_year = max(max_profile_year, yr)
+                except Exception:
+                    continue
 
     counties = fetch_counties()
     county_ids = {c['geoid'] for c in counties}
@@ -697,7 +749,7 @@ def build_dola_projections_by_county():
             continue
 
         # Choose base year: prefer max year with profiles (typically 2024), else last year before forecast.
-        base_year = max_profile_year
+        base_year = max_profile_year if max_profile_year > 0 else max(years)
         if cf in profiles and base_year not in profiles[cf]:
             base_year = max(profiles[cf].keys())
 
