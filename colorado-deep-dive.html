@@ -31,6 +31,19 @@
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
+  <script>
+  // Set Chart.js defaults using CSS custom properties for legibility
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.Chart) return;
+    const cs = getComputedStyle(document.documentElement);
+    const text   = cs.getPropertyValue('--text').trim()   || 'rgba(13,31,53,.85)';
+    const muted  = cs.getPropertyValue('--muted').trim()  || 'rgba(71,96,128,.7)';
+    const border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.12)';
+    Chart.defaults.color = muted;
+    Chart.defaults.borderColor = border;
+    Chart.defaults.plugins.legend.labels.color = text;
+  });
+  </script>
 
   
 
@@ -88,7 +101,6 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
 }
 .chart-header { padding: 1rem 1.25rem 0.5rem; }
 .chart-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
@@ -168,10 +180,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 #coMap {
   height: 78vh;
-  min-height: 640px;
+  min-height: 580px;
   width: 100%;
   border-radius: 0 0 var(--radius-lg, 12px) var(--radius-lg, 12px);
-  overflow: hidden;
 }
 
 .map-section-header {
@@ -339,7 +350,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <div class="tab-panel is-active" id="tab-ami-gap" role="tabpanel" aria-labelledby="tab-btn-ami-gap">
 
 <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
-    <div class="chart-card" style="margin: 1.5rem 0;">
+    <div class="chart-card chart-card-map" style="margin: 1.5rem 0;">
       <div class="chart-header">
         <h3 class="chart-title">Colorado LIHTC Basis Boost Map (QCT/DDA) and Projects</h3>
         <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
@@ -1086,40 +1097,18 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <!-- Sources -->
 <div style="margin-top: 1.5rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
 <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">DDA/QCT Data:</h4>
 <ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>HUD 2026 DDA and QCT Designations (Effective January 1, 2026)</li>
-<li>Novogradac DDA/QCT Mapping Tool</li>
-<li>Federal Register Notice (September 30, 2025)</li>
+  <li><a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA Designations</a> — 2026 DDA and QCT designations (Effective January 1, 2026); Federal Register Notice (September 30, 2025)</li>
+  <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool" target="_blank" rel="noopener">Novogradac QCT/DDA Mapping Tool</a> — Interactive mapping of qualified census tracts and difficult development areas</li>
+  <li><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a> — FY 2025 Income Limits (Effective April 1, 2025)</li>
+  <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Dataset</a> — Project-level allocation data · <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">Query tool</a></li>
+  <li><a href="https://www.chfainfo.com/rental-housing/lihtc" target="_blank" rel="noopener">CHFA</a> — Colorado Housing and Finance Authority LIHTC program data and priorities</li>
+  <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123</a> — Local government affordable housing commitment data</li>
+  <li><a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS (American Community Survey)</a> — Renter household income distribution (B19001), gross rent by unit (B25063)</li>
+  <li><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve (FRED)</a> — Economic indicators: vacancy rates, housing starts, employment</li>
+  <li><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of REALTORS (CAR)</a> — 2025 Market Trends Report, concessions data, foreclosure data</li>
 </ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">AMI &amp; Income Data:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>HUD FY 2025 Income Limits (Effective April 1, 2025)</li>
-<li>Colorado Division of Housing - 2025 HOME Income Limits</li>
-<li>Denver Housing Authority - 2025 LIHTC Rent Limits</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Concessions &amp; Market Data:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>The Colorado Sun - "Apartment vacancy in metro Denver reaches highest rate in 16 years" (January 21, 2026)</li>
-<li>Apartment Association of Metro Denver - Q4 2025 Market Report</li>
-<li>RealPage Market Analytics - Denver Market Profile (November 2025)</li>
-<li>National Apartment Association - 2026 Housing Outlook</li>
-</ul>
-</div>
-<div style="margin-bottom: 2rem;">
-<h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--color-primary-dark);">Foreclosure &amp; Economic Data:</h4>
-<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
-<li>Colorado Association of REALTORS - 2025 Market Trends Report</li>
-<li>Auction.com - Q3 2025 Auction Market Dispatch</li>
-<li>Denver Metro Association of Realtors - 2026 Economic Summit</li>
-</ul>
-</div>
-<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px;">
+<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px; margin-top: 1.5rem;">
 <p style="font-size: 0.875rem; line-height: 1.7; margin: 0;">
 <strong>Disclaimer:</strong> This analysis aggregates data from multiple authoritative sources for informational purposes. Market conditions change rapidly. Developers and investors should conduct independent due diligence, verify current pricing and incentives, and consult qualified professionals for project-specific guidance. DDA/QCT designations shown are based on 2026 HUD designations effective January 1, 2026.
                 </p>
