@@ -18,9 +18,10 @@ import io
 import json
 import os
 import sys
+import time
 import urllib.parse
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -41,13 +42,142 @@ OUT = {
     "dola_dir": os.path.join(ROOT, 'data', 'hna', 'dola_sya'),
     "proj_dir": os.path.join(ROOT, 'data', 'hna', 'projections'),
     "derived_dir": os.path.join(ROOT, 'data', 'hna', 'derived'),
+    "cache_dir": os.path.join(ROOT, 'data', 'hna', 'source'),
 }
 
 
+# ============================================================================
+# Helper Functions: Reliability & Resilience
+# ============================================================================
+
+
+def utc_now_z() -> str:
+    """Return ISO 8601 UTC timestamp string ending with 'Z'."""
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def redact(s: str) -> str:
+    """Redact sensitive API keys from logs."""
+    s = s.replace(os.environ.get('CENSUS_API_KEY', ''), '***CENSUS_API_KEY***')
+    s = s.replace(os.environ.get('FRED_API_KEY', ''), '***FRED_API_KEY***')
+    return s
+
+
+def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float = 1.7) -> tuple[int, str]:
+    """Fetch URL with exponential backoff retry.
+    
+    Returns: (status_code, text)
+    On error, returns (status_code, error_message)
+    """
+    wait = 1
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return (r.status, r.read().decode('utf-8', errors='replace'))
+        except urllib.error.HTTPError as e:
+            status = e.code
+            print(f"HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
+            if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
+                time.sleep(wait)
+                wait *= backoff
+                continue
+            return (status, f"HTTP {status}: {e.reason}")
+        except Exception as e:
+            print(f"Error fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
+            if attempt < retries - 1:
+                time.sleep(wait)
+                wait *= backoff
+                continue
+            return (0, str(e))
+    return (0, "Max retries exceeded")
+
+
+def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
+    """Fetch URL and parse as JSON. Returns None on error."""
+    status, text = http_get_text(url, timeout=timeout, retries=1)
+    if status != 200:
+        print(f"⚠ Failed to fetch JSON from {redact(url)}: HTTP {status}", file=sys.stderr)
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        print(f"⚠ Failed to parse JSON from {redact(url)}: {e}", file=sys.stderr)
+        return None
+
+
+def read_csv_with_banner_skip(path: str, encoding: str = "utf-8") -> tuple[list[str], list[dict]]:
+    """Read CSV, auto-detecting and skipping banner rows.
+    
+    Returns: (header_list, row_list_of_dicts)
+    Skips leading rows that don't look like headers (e.g., "Vintage 2023...").
+    """
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            lines = f.readlines()
+    except Exception as e:
+        print(f"⚠ Error reading {path}: {e}", file=sys.stderr)
+        return ([], [])
+
+    # Find first line that looks like a header
+    header = None
+    start_idx = 0
+    for i, line in enumerate(lines):
+        fields = [f.strip() for f in line.split(',')]
+        # Heuristic: header should have >=3 non-empty fields AND contain a known column
+        if len([f for f in fields if f]) >= 3:
+            fields_lower = [f.lower() for f in fields]
+            if any(col in fields_lower for col in ['fips', 'countyfips', 'geoid', 'age', 'year']):
+                header = fields
+                start_idx = i
+                break
+
+    if header is None:
+        print(f"⚠ Could not detect CSV header in {path}", file=sys.stderr)
+        return ([], [])
+
+    # Parse remaining rows
+    rows = []
+    try:
+        reader = csv.DictReader(lines[start_idx:])
+        for row in reader:
+            if row:
+                rows.append(row)
+    except Exception as e:
+        print(f"⚠ Error parsing CSV rows from {path}: {e}", file=sys.stderr)
+
+    return (header, rows)
+
+
+def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
+    """Fetch Census API with fallback support.
+    
+    Returns: JSON dict or None on failure.
+    Tries primary URL; if HTTP 400, tries fallback_url if provided.
+    """
+    result = http_get_json(url)
+    if result is not None:
+        return result
+
+    # If HTTP 400 (Bad Request) and we have a fallback, try it
+    status, _ = http_get_text(url, timeout=30, retries=1)
+    if status == 400 and fallback_url:
+        print(f"ℹ Falling back to {redact(fallback_url)}", file=sys.stderr)
+        return http_get_json(fallback_url)
+
+    return None
+
+
 def http_get(url: str, timeout: int = 60) -> bytes:
+    """Original http_get for LEHD (critical path, no fallback)."""
     req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read()
+
+
+# ============================================================================
+# Core Functions
+# ============================================================================
 
 
 def ensure_dirs():
@@ -57,6 +187,7 @@ def ensure_dirs():
     os.makedirs(OUT['dola_dir'], exist_ok=True)
     os.makedirs(OUT['proj_dir'], exist_ok=True)
     os.makedirs(OUT['derived_dir'], exist_ok=True)
+    os.makedirs(OUT['cache_dir'], exist_ok=True)
 
 
 def safe_float(v):
@@ -137,7 +268,8 @@ def census_key() -> str:
     return os.environ.get('CENSUS_API_KEY', '').strip()
 
 
-def fetch_acs_profile(geo_type: str, geoid: str) -> dict:
+def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
+    """Fetch ACS profile with fallback chain: ACS1/profile → ACS1/subject → ACS5/profile → ACS5/subject."""
     vars_ = [
         'DP05_0001E',
         'DP03_0062E',
@@ -150,52 +282,102 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict:
         'DP04_0142PE','DP04_0143PE','DP04_0144PE','DP04_0145PE','DP04_0146PE',
         'NAME'
     ]
-    base = 'https://api.census.gov/data/2024/acs/acs1/profile'
+
+    def build_url(year: int, endpoint: str) -> str:
+        base = f'https://api.census.gov/data/{year}/acs/acs1/{endpoint}'
+        if geo_type == 'county':
+            for_ = f"county:{geoid[-3:]}"
+            params = {'get': ','.join(vars_), 'for': for_}
+        elif geo_type == 'place':
+            for_ = f"place:{geoid[2:]}"
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        else:
+            for_ = f"census designated place:{geoid[2:]}"
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        key = census_key()
+        if key:
+            params['key'] = key
+        return base + '?' + urllib.parse.urlencode(params)
+
+    # Try ACS1 profile first
+    url1 = build_url(2024, 'profile')
+    result = http_get_json(url1)
+    if result and len(result) > 1:
+        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+
+    # Fallback to ACS1 subject
+    url2 = build_url(2024, 'subject')
+    print(f"ℹ Falling back to ACS1/subject for {geo_type}:{geoid}", file=sys.stderr)
+    result = http_get_json(url2)
+    if result and len(result) > 1:
+        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+
+    # Fallback to ACS5 profile
+    url3 = f'https://api.census.gov/data/2024/acs/acs5/profile?get={",".join(vars_)}'
     if geo_type == 'county':
-        for_ = f"county:{geoid[-3:]}"
-        params = {'get': ','.join(vars_), 'for': for_}
+        url3 += f'&for=county:{geoid[-3:]}'
     elif geo_type == 'place':
-        for_ = f"place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        url3 += f'&for=place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
     else:
-        for_ = f"census designated place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        url3 += f'&for=census designated place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
+    if census_key():
+        url3 += f'&key={census_key()}'
+    print(f"ℹ Falling back to ACS5/profile for {geo_type}:{geoid}", file=sys.stderr)
+    result = http_get_json(url3)
+    if result and len(result) > 1:
+        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    key = census_key()
-    if key:
-        params['key'] = key
-
-    url = base + '?' + urllib.parse.urlencode(params)
-    arr = json.loads(http_get(url))
-    header, row = arr[0], arr[1]
-    return {header[i]: row[i] for i in range(len(header))}
+    print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid}", file=sys.stderr)
+    return None
 
 
-def fetch_acs_s0801(geo_type: str, geoid: str) -> dict:
+def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
+    """Fetch ACS S0801 with fallback: ACS1/subject → ACS5/subject."""
     vars_ = [
         'S0801_C01_001E','S0801_C01_002E','S0801_C01_003E','S0801_C01_004E','S0801_C01_005E','S0801_C01_006E','S0801_C01_007E',
         'S0801_C01_018E',
         'NAME'
     ]
-    base = 'https://api.census.gov/data/2024/acs/acs1/subject'
+
+    def build_url(year: int, endpoint: str) -> str:
+        base = f'https://api.census.gov/data/{year}/acs/acs1/{endpoint}'
+        if geo_type == 'county':
+            for_ = f"county:{geoid[-3:]}"
+            params = {'get': ','.join(vars_), 'for': for_}
+        elif geo_type == 'place':
+            for_ = f"place:{geoid[2:]}"
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        else:
+            for_ = f"census designated place:{geoid[2:]}"
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        key = census_key()
+        if key:
+            params['key'] = key
+        return base + '?' + urllib.parse.urlencode(params)
+
+    # Try ACS1 subject
+    url1 = build_url(2024, 'subject')
+    result = http_get_json(url1)
+    if result and len(result) > 1:
+        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+
+    # Fallback to ACS5 subject
+    url2 = f'https://api.census.gov/data/2024/acs/acs5/subject?get={",".join(vars_)}'
     if geo_type == 'county':
-        for_ = f"county:{geoid[-3:]}"
-        params = {'get': ','.join(vars_), 'for': for_}
+        url2 += f'&for=county:{geoid[-3:]}'
     elif geo_type == 'place':
-        for_ = f"place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        url2 += f'&for=place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
     else:
-        for_ = f"census designated place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        url2 += f'&for=census designated place:{geoid[2:]}&in=state:{STATE_FIPS_CO}'
+    if census_key():
+        url2 += f'&key={census_key()}'
+    print(f"ℹ Falling back to ACS5/subject for {geo_type}:{geoid}", file=sys.stderr)
+    result = http_get_json(url2)
+    if result and len(result) > 1:
+        return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
-    key = census_key()
-    if key:
-        params['key'] = key
-
-    url = base + '?' + urllib.parse.urlencode(params)
-    arr = json.loads(http_get(url))
-    header, row = arr[0], arr[1]
-    return {header[i]: row[i] for i in range(len(header))}
+    print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid}", file=sys.stderr)
+    return None
 
 
 def build_summary_cache():
@@ -206,8 +388,11 @@ def build_summary_cache():
         try:
             acs_profile = fetch_acs_profile(geo_type, geoid)
             acs_s0801 = fetch_acs_s0801(geo_type, geoid)
+            if acs_profile is None or acs_s0801 is None:
+                print(f"⚠ summary {geo_type}:{geoid}: missing ACS data (skipped)", file=sys.stderr)
+                continue
             payload = {
-                'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+                'updated': utc_now_z(),
                 'geo': g,
                 'acsProfile': acs_profile,
                 'acsS0801': acs_s0801,
@@ -261,7 +446,7 @@ def build_lehd_by_county():
 
     for c in sorted(county_ids):
         payload = {
-            'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+            'updated': utc_now_z(),
             'year': int(year),
             'countyFips': c,
             'within': within.get(c, 0),
@@ -281,13 +466,52 @@ def build_lehd_by_county():
 def build_dola_sya_by_county():
     # URL discovered via SDO Data Download page: https://demography.dola.colorado.gov/assets/html/sdodata.html
     url = 'https://storage.googleapis.com/co-publicdata/sya-county.csv'
+    cache_path = os.path.join(OUT['cache_dir'], 'dola_sya_county.csv')
+    
     print('Downloading DOLA/SDO single-year-of-age county file...')
-    raw = http_get(url, timeout=120)
-    text = raw.decode('utf-8', errors='replace')
+    status, text = http_get_text(url, timeout=120, retries=3)
+    
+    if status != 200:
+        # Download failed; try cache
+        if os.path.exists(cache_path):
+            print(f"ℹ Using cached DOLA file: {cache_path}", file=sys.stderr)
+            try:
+                with open(cache_path, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                status = 200
+            except Exception as e:
+                print(f"✗ Could not read cached DOLA file: {e}", file=sys.stderr)
+                print(f"⚠ Skipped SYA build: download failed and no cached file available", file=sys.stderr)
+                return
+        else:
+            print(f"⚠ Skipped SYA build: download failed and no cached file available", file=sys.stderr)
+            return
 
-    # Try to detect column names
-    reader = csv.DictReader(io.StringIO(text))
-    fieldnames = reader.fieldnames or []
+    # Save to cache
+    try:
+        with open(cache_path, 'w', encoding='utf-8') as f:
+            f.write(text)
+    except Exception as e:
+        print(f"⚠ Could not cache DOLA file: {e}", file=sys.stderr)
+
+    # Parse CSV with banner row tolerance
+    lines = text.split('\n')
+    
+    # Find header row (skip banner rows like "Vintage 2023...")
+    reader = None
+    for i, line in enumerate(lines):
+        if 'fips' in line.lower() or 'age' in line.lower() or 'year' in line.lower():
+            try:
+                reader = csv.DictReader(lines[i:])
+                break
+            except Exception:
+                continue
+
+    if reader is None or reader.fieldnames is None:
+        print(f"⚠ Skipped SYA build: could not detect CSV header", file=sys.stderr)
+        return
+
+    fieldnames = reader.fieldnames
 
     # heuristics
     def pick(*cands):
@@ -303,7 +527,8 @@ def build_dola_sya_by_county():
     f_pop = pick('population', 'pop', 'Population', 'total')
 
     if not all([f_county, f_year, f_age, f_sex, f_pop]):
-        raise RuntimeError(f"Unexpected sya-county.csv schema. Fields: {fieldnames}")
+        print(f"⚠ Skipped SYA build: could not find required columns. Fields: {fieldnames}", file=sys.stderr)
+        return
 
     # Gather available years and max age
     rows = []
@@ -321,6 +546,10 @@ def build_dola_sya_by_county():
             rows.append((cf, yr, age, sex, pop))
         except Exception:
             continue
+
+    if not rows:
+        print(f"⚠ Skipped SYA build: no valid data rows found", file=sys.stderr)
+        return
 
     years_sorted = sorted(years)
     # pick a pyramid year: 2030 if present else latest
@@ -364,7 +593,7 @@ def build_dola_sya_by_county():
         share65 = [round((pop65[i] / tot[i] * 100), 3) if tot[i] else 0 for i in range(len(years_out))]
 
         payload = {
-            'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+            'updated': utc_now_z(),
             'countyFips': cf,
             'pyramidYear': pyramid_year,
             'ages': ages,
@@ -540,7 +769,7 @@ def build_dola_projections_by_county():
             netmig_20y = None
 
         payload = {
-            'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+            'updated': utc_now_z(),
             'countyFips': cf,
             'baseYear': base_year,
             'years': out_years,
@@ -598,7 +827,7 @@ def build_geo_derived_inputs():
     vars_ = ['NAME', 'DP05_0001E', 'DP02_0001E', 'DP04_0001E']
 
     derived = {
-        'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+        'updated': utc_now_z(),
         'acs5_years': {'y0': y0, 'y1': y1},
         'geos': {}
     }
@@ -685,7 +914,7 @@ def build_geo_derived_inputs():
 def write_geo_config():
     counties = fetch_counties()
     payload = {
-        'updated': datetime.utcnow().replace(microsecond=0).isoformat() + 'Z',
+        'updated': utc_now_z(),
         'featured': FEATURED,
         'counties': counties,
         'source': {
