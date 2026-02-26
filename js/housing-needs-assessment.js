@@ -294,11 +294,36 @@
 
   function ensureMap(){
     if (map) return;
+
+    // Fix vendored Leaflet marker icon paths
+    if (window.L && L.Icon && L.Icon.Default) {
+      L.Icon.Default.mergeOptions({
+        iconUrl:       'js/vendor/images/marker-icon.png',
+        iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
+        shadowUrl:     'js/vendor/images/marker-shadow.png',
+      });
+    }
+
     map = L.map('hnaMap', { scrollWheelZoom: false });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const darkTile  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 });
+    const lightTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 });
+    let activeBase = (prefersDark ? darkTile : lightTile).addTo(map);
+
+    // Fall back to OpenStreetMap HOT if CartoDB tiles are blocked (only once)
+    activeBase.once('tileerror', function() {
+      try { map.removeLayer(activeBase); } catch(e) {}
+      activeBase = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+      }).addTo(map);
+    });
+
     map.setView([39.0, -108.55], 9);
+
+    // Ensure map renders correctly after container is visible
+    setTimeout(function(){ map.invalidateSize(); }, 300);
+    window.addEventListener('resize', function(){ map.invalidateSize(); });
   }
 
   function renderBoundary(geojson){
