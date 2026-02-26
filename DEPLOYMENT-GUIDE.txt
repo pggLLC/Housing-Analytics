@@ -95,3 +95,76 @@ TROUBLESHOOTING
 • Census data unavailable
   → Check CENSUS_API_KEY in js/config.js.
     Free keys: https://api.census.gov/data/key_signup.html
+
+
+HOUSING NEEDS ASSESSMENT (HNA) — DATA REFRESH & TROUBLESHOOTING
+-----------------------------------------------------------------
+
+Data sources used by housing-needs-assessment.html
+  • ACS 1-year / 5-year profile (DP03, DP04, DP05) — live Census API fallback
+  • ACS Subject Table S0801 (commuting) — live Census API fallback
+  • LEHD LODES OD county inflow/outflow — cached JSON (data/hna/lehd/)
+  • DOLA/SDO single-year-of-age county files — cached JSON (data/hna/dola_sya/)
+  • DOLA/SDO population projections — cached JSON (data/hna/projections/)
+  • Census TIGERweb boundary geometry — live API (no key required)
+
+Data loading strategy
+  1. The page always tries the cached JSON files under data/hna/ first.
+  2. For ACS data (summary, profile, S0801) the page falls back to the live
+     Census API if the cache is absent or fails to load.
+  3. LEHD, DOLA, and projection caches do not have live fallbacks; the relevant
+     panel shows a user-facing "not yet available" note until the workflow runs.
+
+Refreshing HNA cache files
+  • Go to Actions → "Build HNA Data Cache" → Run workflow  (workflow_dispatch).
+  • The workflow runs automatically every Monday at 06:30 UTC.
+  • It commits updated JSON files to data/hna/ and pushes to main, which then
+    triggers the "Deploy to GitHub Pages" workflow automatically.
+  • To force an immediate redeploy after the cache build: Actions → "Deploy to
+    GitHub Pages" → Run workflow.
+
+Directory layout for HNA data
+  data/hna/
+  ├── geo-config.json          — Featured geographies + full county list
+  ├── local-resources.json     — Curated local housing authority / advocacy links
+  ├── acs_debug_log.txt        — Diagnostics output when ACS fetches fail (ETL)
+  ├── summary/{geoid}.json     — ACS profile + S0801 cache per featured geography
+  ├── lehd/{countyFips5}.json  — LEHD LODES OD inflow/outflow/within per county
+  ├── dola_sya/{fips5}.json    — DOLA/SDO age pyramid + senior pressure per county
+  ├── projections/{fips5}.json — DOLA/SDO 20-year population + housing-need model
+  └── derived/geo-derived.json — ETL-computed inputs for municipal scaling
+
+Running the automated functionality test
+  node test/hna-functionality-check.js
+  • Performs static analysis on housing-needs-assessment.html and
+    js/housing-needs-assessment.js without a browser or network calls.
+  • Checks that all required UI element IDs exist, that the diagnostic banner
+    code is present, that fallback/error-handling paths are in place, that
+    the deploy workflow is correctly configured, and that the data/hna
+    directory structure is intact.
+  • Exit code 0 = all checks passed.
+
+HNA-specific troubleshooting
+• "No ACS Census data could be found for this area" banner
+  → All ACS cache and live API attempts failed. Check:
+      1. CENSUS_API_KEY is set in js/config.js or via GitHub Actions secret.
+      2. The selected geography is an ACS-published area (some small CDPs are
+         only in ACS 5-year; the page already tries both 1-year and 5-year).
+      3. Download the Debug Log linked in the banner and share it with support.
+
+• LEHD / DOLA panels show "not yet available"
+  → The cache files for this county have not been generated yet.
+    Run the "Build HNA Data Cache" workflow from the Actions tab.
+
+• Projections panel shows "Projections module not available"
+  → Same as above; re-run the "Build HNA Data Cache" workflow.
+
+• Map shows only a tile layer, no boundary polygon
+  → Census TIGERweb is temporarily unavailable (outage or rate-limit).
+    The rest of the page still populates; the map will recover on reload.
+    A warning banner ("Boundary failed to load") is shown automatically.
+
+• Page looks correct but methodology section is blank
+  → JavaScript failed silently. Open DevTools (F12) → Console and look for
+    errors. The most common cause is a CDN asset (Leaflet or Chart.js) being
+    blocked by a browser extension or corporate firewall.
