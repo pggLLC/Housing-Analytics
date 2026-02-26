@@ -313,7 +313,7 @@ def fetch_acs5_profile_year(year: int, geo_type: str, geoid: str, vars_: list[st
         for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
     else:
-        for_ = f"census designated place:{geoid[2:]}"
+        for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
 
     key = census_key()
@@ -375,7 +375,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
             for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         else:
-            for_ = f"census designated place:{geoid[2:]}"
+            for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         key = census_key()
         if key:
@@ -419,7 +419,7 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
             for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         else:
-            for_ = f"census designated place:{geoid[2:]}"
+            for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         key = census_key()
         if key:
