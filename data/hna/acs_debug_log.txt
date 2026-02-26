@@ -1,0 +1,57 @@
+ACS Diagnostics Log
+Generated : 2026-02-26T23:38:22Z
+Geography : cdp:0815165
+Outcome   : ALL ATTEMPTS FAILED
+
+========================================================================
+Attempted endpoints
+========================================================================
+
+[FAIL] 2024 acs1/profile
+  URL    : https://api.census.gov/data/2024/acs/acs1/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2024 acs1/subject
+  URL    : https://api.census.gov/data/2024/acs/acs1/subject?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2024 acs5/profile
+  URL    : https://api.census.gov/data/2024/acs/acs5/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2023 acs1/profile
+  URL    : https://api.census.gov/data/2023/acs/acs1/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2023 acs1/subject
+  URL    : https://api.census.gov/data/2023/acs/acs1/subject?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2023 acs5/profile
+  URL    : https://api.census.gov/data/2023/acs/acs5/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2022 acs1/profile
+  URL    : https://api.census.gov/data/2022/acs/acs1/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2022 acs1/subject
+  URL    : https://api.census.gov/data/2022/acs/acs1/subject?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+[FAIL] 2022 acs5/profile
+  URL    : https://api.census.gov/data/2022/acs/acs5/profile?get=DP05_0001E%2CDP03_0062E%2CDP04_0001E%2CNAME&for=census+designated+place%3A15165&in=state%3A08&key=***CENSUS_API_KEY***
+  Status : 400
+  Body   : error: unknown/unsupported geography hierarchy
+
+========================================================================
+No ACS data could be retrieved for this geography.
+Please share this file with your technical support team.
