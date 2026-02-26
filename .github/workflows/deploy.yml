@@ -39,6 +39,17 @@ jobs:
           });
           EOF
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run deploy preflight checks
+        run: node scripts/deploy-preflight.js
+
+      - name: Run pages availability checks
+        run: node test/pages-availability-check.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
