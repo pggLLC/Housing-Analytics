@@ -32,11 +32,11 @@
     const base = "https://api.stlouisfed.org/fred/series/observations";
     const params = new URLSearchParams({
       series_id: seriesId,
-      api_key: KEY,
       file_type: "json",
       sort_order: "desc",
       limit: "1"
     });
+    if (KEY) params.set("api_key", KEY);
     if (units && units !== "lin") params.set("units", units);
     return `${base}?${params.toString()}`;
   }
