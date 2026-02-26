@@ -13,14 +13,20 @@
       if (window.APP_CONFIG) {
         // FRED
         if ( (url.includes("fred.stlouisfed.org") || url.includes("api.stlouisfed.org"))  && !url.includes("api_key=")) {
-          const sep = url.includes("?") ? "&" : "?";
-          url = url + sep + "api_key=" + encodeURIComponent(window.APP_CONFIG.FRED_API_KEY || "");
+          const fredKey = window.APP_CONFIG.FRED_API_KEY || "";
+          if (fredKey) {
+            const sep = url.includes("?") ? "&" : "?";
+            url = url + sep + "api_key=" + encodeURIComponent(fredKey);
+          }
         }
 
         // Census
         if (url.includes("api.census.gov") && !url.includes("key=")) {
-          const sep = url.includes("?") ? "&" : "?";
-          url = url + sep + "key=" + encodeURIComponent(window.APP_CONFIG.CENSUS_API_KEY || "");
+          const censusKey = window.APP_CONFIG.CENSUS_API_KEY || "";
+          if (censusKey) {
+            const sep = url.includes("?") ? "&" : "?";
+            url = url + sep + "key=" + encodeURIComponent(censusKey);
+          }
         }
       }
 
