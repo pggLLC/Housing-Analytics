@@ -26,12 +26,18 @@
 <!-- Navigation (mimics HousingMetrics style) -->
 <main id="main-content" class="container">
 
-<section class="hero">
+<section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
+<div style="padding:0 var(--sp4) var(--sp4);">
 <div class="kicker">Real-time • FRED</div>
 <h1>Economic Dashboard</h1>
-<p class="sub">
-        Live economic indicators from the Federal Reserve Economic Data (FRED) that influence affordable housing development:
-        construction costs, interest rates, labor, and housing market conditions.
+<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
+        Macro conditions that determine deal outcomes are tracked in real time. Interest rate movements affect equity pricing and permanent debt terms. Construction cost indices influence per-unit budgets and change-order exposure. Labor market tightness impacts contractor bids and development timelines. Housing supply and vacancy data define the market case for new units.
+      </p>
+<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
+        Whether underwriting a LIHTC deal, sizing a construction loan, assessing rental demand, or shaping housing policy, these numbers move outcomes: the rate environment that prices tax credit equity, the CPI trajectory that determines rent restrictions’ viability, pipeline pressure signals from starts and permits data, and labor costs in contractor estimates.
+      </p>
+<p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp4);">
+        Construction PPIs feed feasibility models, Treasury yields and mortgage spreads set permanent debt terms, SOFR for variable-rate exposure, and vacancy and homeownership rates anchor market studies. All sourced from FRED, the Federal Reserve’s public data repository, and updated on each series’ schedule. In affordable housing finance, assumptions are made months before closing, and the market rarely waits.
       </p>
 <div class="toolbar">
 <div class="card control" style="flex-wrap:wrap;">
@@ -41,31 +47,53 @@
 <button class="btn primary" id="refresh" type="button">Refresh</button>
 </div>
 </div>
-<div class="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">
-<div class="card stat">
-<p class="num" id="statCpi">—</p>
-<p class="src small" id="deltaCpi" style="margin-top:-6px;">—</p>
-<p class="lbl">Inflation (CPI YoY)</p>
-<p class="src small"><a href="https://fred.stlouisfed.org/series/CPIAUCSL" rel="noopener" target="_blank">Source: FRED (CPIAUCSL)</a></p></div>
-<div class="card stat">
-<p class="num" id="statUnemp">—</p>
-<p class="src small" id="deltaUnemp" style="margin-top:-6px;">—</p>
-<p class="lbl">Unemployment rate</p>
-<p class="src small"><a href="https://fred.stlouisfed.org/series/UNRATE" rel="noopener" target="_blank">Source: FRED (UNRATE)</a></p></div>
-<div class="card stat">
-<p class="num" id="stat10y">—</p>
-<p class="src small" id="delta10y" style="margin-top:-6px;">—</p>
-<p class="lbl">10-Year Treasury</p>
-<p class="src small"><a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">Source: FRED (DGS10)</a></p></div>
-<div class="card stat">
-<p class="num" id="statStarts">—</p>
-<p class="src small" id="deltaStarts" style="margin-top:-6px;">—</p>
-<p class="lbl">Housing starts (SAAR)</p>
-<p class="src small"><a href="https://fred.stlouisfed.org/series/HOUST" rel="noopener" target="_blank">Source: FRED (HOUST)</a></p></div>
 </div>
-<p class="note">
-        Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis.
-        If charts don’t load, confirm your key is valid and check browser console for errors.
+<!-- Hero KPI Strip — full width -->
+<div class="kpi-strip" role="region" aria-label="Key economic indicators" style="margin-top:var(--sp3);margin-left:calc(-1 * var(--sp4));margin-right:calc(-1 * var(--sp4));">
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statCpi">—</div>
+<div class="kpi-strip-label">Inflation (CPI YoY)</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaCpi">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statUnemp">—</div>
+<div class="kpi-strip-label">Unemployment Rate</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaUnemp">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="stat10y">—</div>
+<div class="kpi-strip-label">10-Year Treasury</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="delta10y">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statStarts">—</div>
+<div class="kpi-strip-label">Housing Starts (SAAR)</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaStarts">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statMfStarts">—</div>
+<div class="kpi-strip-label">Multifamily Starts</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaMfStarts">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statPermits">—</div>
+<div class="kpi-strip-label">Building Permits</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaPermits">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statUnderConst">—</div>
+<div class="kpi-strip-label">Units Under Construction</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaUnderConst">—</div>
+</div>
+<div class="kpi-strip-item">
+<div class="kpi-strip-value" id="statCompletions">—</div>
+<div class="kpi-strip-label">Completions</div>
+<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaCompletions">—</div>
+</div>
+</div>
+<div style="padding:0 var(--sp4);">
+<p class="note" style="margin-top:var(--sp3);">
+        Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis. Data refreshed daily via automated workflow.
       </p>
 <div class="sources-box" style="margin:1rem 0;">
   <h3>Data Sources by Section</h3>
@@ -118,7 +146,7 @@
 <div class="metric-grid" id="sec-housing"></div>
 </div>
 </details>
-<details class="card">
+<details class="card" open="">
 <summary>
         Financial &amp; Interest Rates
         <span class="pill small">6 indicators</span>
@@ -128,7 +156,7 @@
 <div class="metric-grid" id="sec-finance"></div>
 </div>
 </details>
-<details class="card">
+<details class="card" open="">
 <summary>
         Labor Market
         <span class="pill small">6 indicators</span>
@@ -199,9 +227,6 @@
   ];
 
   const els = {
-    
-    
-    
     conn: document.getElementById("conn"),
     refresh: document.getElementById("refresh"),
     lastUpdated: document.getElementById("lastUpdated"),
@@ -214,6 +239,14 @@
     delta10y: document.getElementById("delta10y"),
     statStarts: document.getElementById("statStarts"),
     deltaStarts: document.getElementById("deltaStarts"),
+    statMfStarts: document.getElementById("statMfStarts"),
+    deltaMfStarts: document.getElementById("deltaMfStarts"),
+    statPermits: document.getElementById("statPermits"),
+    deltaPermits: document.getElementById("deltaPermits"),
+    statUnderConst: document.getElementById("statUnderConst"),
+    deltaUnderConst: document.getElementById("deltaUnderConst"),
+    statCompletions: document.getElementById("statCompletions"),
+    deltaCompletions: document.getElementById("deltaCompletions"),
     sec: {
       construction: document.getElementById("sec-construction"),
       housing: document.getElementById("sec-housing"),
@@ -266,27 +299,10 @@ function getKey(){ return CONFIG_KEY || ""; }
     const data = await _loadFredData();
     const entry = data.series && data.series[seriesId];
 
-    // If the series isn't in cached data (e.g., CPIAUCSL may be missing), fall back to live FRED API.
+    // If the series isn't in cached data, report as unavailable.
+    // Live FRED API calls are blocked by CORS when running on GitHub Pages.
     if (!entry || !entry.observations){
-      const key = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : (apiKey || "");
-      if (!key) throw new Error(seriesId + ": missing FRED_API_KEY in js/config.js");
-
-      const params = new URLSearchParams({
-        series_id: seriesId,
-        api_key: key,
-        file_type: "json",
-        sort_order: "desc",
-        limit: String(Math.max(24, limit || 84))
-      });
-      const res = await fetch("https://api.stlouisfed.org/fred/series/observations?" + params.toString());
-      if (!res.ok) throw new Error(seriesId + ": live FRED fetch failed (HTTP " + res.status + ")");
-      const j = await res.json();
-      const obs = (j.observations || [])
-        .filter(o => o && o.value !== "." && o.value != null && o.date)
-        .map(o => ({date: o.date, value: Number(o.value)}))
-        .filter(o => isFinite(o.value))
-        .reverse(); // chronological
-      return obs.slice(Math.max(0, obs.length - (limit || 84)));
+      throw new Error(seriesId + ": not available in cached FRED data (data/fred-data.json)");
     }
     const obs = entry.observations
       .filter(o => o && o.value !== "." && o.value !== null && o.date)
@@ -462,6 +478,43 @@ function getKey(){ return CONFIG_KEY || ""; }
             : "YoY: —";
         }
       }).catch(e => { console.warn("Headline HOUST failed:", e); els.statStarts.textContent = "—"; }),
+
+      // Construction activity stats for KPI strip
+      fetchFRED("HOUST5F", apiKey, 90).then(mf => {
+        if (els.statMfStarts) els.statMfStarts.textContent = (Math.round(mf[mf.length-1].value) * 1000).toLocaleString();
+        if (els.deltaMfStarts) {
+          const last = mf[mf.length-1].value, prev = mf[Math.max(0, mf.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaMfStarts.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
+        }
+      }).catch(e => { console.warn("Headline HOUST5F failed:", e); if (els.statMfStarts) els.statMfStarts.textContent = "—"; }),
+
+      fetchFRED("PERMIT", apiKey, 90).then(permits => {
+        if (els.statPermits) els.statPermits.textContent = (Math.round(permits[permits.length-1].value) * 1000).toLocaleString();
+        if (els.deltaPermits) {
+          const last = permits[permits.length-1].value, prev = permits[Math.max(0, permits.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaPermits.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
+        }
+      }).catch(e => { console.warn("Headline PERMIT failed:", e); if (els.statPermits) els.statPermits.textContent = "—"; }),
+
+      fetchFRED("UNDCONTSA", apiKey, 90).then(uc => {
+        if (els.statUnderConst) els.statUnderConst.textContent = (Math.round(uc[uc.length-1].value) * 1000).toLocaleString();
+        if (els.deltaUnderConst) {
+          const last = uc[uc.length-1].value, prev = uc[Math.max(0, uc.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaUnderConst.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
+        }
+      }).catch(e => { console.warn("Headline UNDCONTSA failed:", e); if (els.statUnderConst) els.statUnderConst.textContent = "—"; }),
+
+      fetchFRED("COMPUTSA", apiKey, 90).then(comp => {
+        if (els.statCompletions) els.statCompletions.textContent = (Math.round(comp[comp.length-1].value) * 1000).toLocaleString();
+        if (els.deltaCompletions) {
+          const last = comp[comp.length-1].value, prev = comp[Math.max(0, comp.length-13)].value;
+          const pct = (isFinite(prev) && prev !== 0) ? ((last/prev) - 1) * 100 : NaN;
+          els.deltaCompletions.textContent = isFinite(pct) ? `YoY: ${pct>=0?'+':''}${pct.toFixed(1)}%` : "YoY: —";
+        }
+      }).catch(e => { console.warn("Headline COMPUTSA failed:", e); if (els.statCompletions) els.statCompletions.textContent = "—"; }),
     ]);
 
     // Show when the cached FRED data was last fetched by the GitHub Action
@@ -549,80 +602,6 @@ function getKey(){ return CONFIG_KEY || ""; }
 <script src="js/contrast-guard.js"></script><script src="js/census-geo.js"></script><script src="js/fred-cards.js"></script>
 
 <script defer src="js/housing-predictions.js"></script>
-
-<!-- ══════════════════════════════════════════════════════════════
-     CAR Colorado Market Data
-     Powered by js/housing-data-integration.js
-     ══════════════════════════════════════════════════════════════ -->
-<section id="carMarketDashSection" aria-label="CAR Colorado Market Data" style="margin:2rem 0;max-width:1200px;margin-left:auto;margin-right:auto;padding:0 18px;">
-  <div class="card" style="padding:1.5rem;">
-    <h2 style="font-size:1.2rem;font-weight:700;margin:0 0 .25rem;">Colorado Market Conditions <small style="font-size:.75em;font-weight:400;opacity:.65;">— CAR Monthly Report</small></h2>
-    <p style="font-size:.85rem;opacity:.7;margin:0 0 1rem;">
-      Statewide data from the Colorado Association of REALTORS.
-      Updated monthly via manual workflow.
-      <span id="carDashFreshness" style="font-size:.78rem;margin-left:.5rem;"></span>
-    </p>
-    <div id="carDashLoading" style="font-size:.88rem;opacity:.65;">Loading CAR data…</div>
-    <div id="carDashError" role="alert" style="display:none;font-size:.87rem;padding:.6rem .9rem;background:rgba(224,82,82,.08);border-radius:6px;border:1px solid rgba(224,82,82,.3);margin-bottom:.75rem;"></div>
-    <div id="carDashContent" style="display:none;">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;">
-        <div class="card stat">
-          <p class="num" id="carDashMedianPrice">—</p>
-          <p class="lbl">Median Sale Price</p>
-          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
-        </div>
-        <div class="card stat">
-          <p class="num" id="carDashInventory">—</p>
-          <p class="lbl">Active Listings</p>
-          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
-        </div>
-        <div class="card stat">
-          <p class="num" id="carDashDaysOnMarket">—</p>
-          <p class="lbl">Median Days on Market</p>
-          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
-        </div>
-        <div class="card stat">
-          <p class="num" id="carDashPricePerSqFt">—</p>
-          <p class="lbl">Price per Sq Ft</p>
-          <p class="src small"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Source: CAR</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<script src="js/housing-data-integration.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    if (!window.HousingDataIntegration) return;
-    window.HousingDataIntegration.loadCARData().then(function(car) {
-      var loading = document.getElementById("carDashLoading");
-      var content = document.getElementById("carDashContent");
-      var error   = document.getElementById("carDashError");
-      if (!car) {
-        if (loading) loading.style.display = "none";
-        if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
-        return;
-      }
-      if (loading) loading.style.display = "none";
-      var sw = car.statewide || {};
-      var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
-      var fmt    = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
-      var el = function(id) { return document.getElementById(id); };
-      el("carDashMedianPrice")  && (el("carDashMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
-      el("carDashInventory")    && (el("carDashInventory").textContent    = fmt(sw.active_listings));
-      el("carDashDaysOnMarket") && (el("carDashDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
-      el("carDashPricePerSqFt") && (el("carDashPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
-      var freshnessEl = el("carDashFreshness");
-      if (freshnessEl && car.month) { freshnessEl.textContent = "Report: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
-      if (content) content.style.display = "block";
-    }).catch(function() {
-      var loading = document.getElementById("carDashLoading");
-      var error   = document.getElementById("carDashError");
-      if (loading) loading.style.display = "none";
-      if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
-    });
-  });
-</script>
 
 </body>
 </html>
