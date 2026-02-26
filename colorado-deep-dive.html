@@ -1257,7 +1257,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       let gj;
       try {
         const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 12000);
+        const timer = setTimeout(() => ctrl.abort(), 6000);
         gj = await fetchJSON(`${layerUrl}/query?${p}`, { signal: ctrl.signal });
         clearTimeout(timer);
       } catch (e) { console.warn('ArcGIS query failed:', layerUrl, e.message); break; }
