@@ -28,15 +28,20 @@ jobs:
           ZILLOW_EMAIL: ${{ secrets.ZILLOW_EMAIL }}
           ZILLOW_PASSWORD: ${{ secrets.ZILLOW_PASSWORD }}
         run: node scripts/fetch-zillow.js
+        continue-on-error: true
 
       - name: Commit and push data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/zillow-*.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
+          if ls data/zillow-*.json 1>/dev/null 2>&1; then
+            git add data/zillow-*.json
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "chore: update Zillow data [$(date -u '+%Y-%m-%d')]"
+              git push
+            fi
           else
-            git commit -m "chore: update Zillow data [$(date -u '+%Y-%m-%d')]"
-            git push
+            echo "No Zillow data files found; skipping commit."
           fi
