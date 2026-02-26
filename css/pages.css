@@ -803,10 +803,3 @@
     justify-content: center;
   }
 }
-
-/* ── Chart container baseline sizing ─────────────────────── */
-.chart-container {
-  min-height: 360px;
-  height: 360px;
-  position: relative;
-}
