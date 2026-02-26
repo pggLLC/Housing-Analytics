@@ -7,8 +7,8 @@
 (function(){
   const STATE_FIPS_CO = '08';
 
-  const ACS_YEAR_PRIMARY  = 2024;
-  const ACS_YEAR_FALLBACK = 2023;
+  const ACS_YEAR_PRIMARY  = 2023;
+  const ACS_YEAR_FALLBACK = 2022;
   const DEBUG_HNA = new URLSearchParams(location.search).has('debug');
 
   function redactKey(url){
@@ -55,8 +55,8 @@
 
   const SOURCES = {
     tigerweb: 'https://www.census.gov/data/developers/data-sets/TIGERweb.html',
-    acsProfile: 'https://api.census.gov/data/2024/acs/acs1/profile/groups.html',
-    acsS0801: 'https://api.census.gov/data/2024/acs/acs1/subject/groups/S0801.html',
+    acsProfile: 'https://api.census.gov/data/2023/acs/acs1/profile/groups.html',
+    acsS0801: 'https://api.census.gov/data/2023/acs/acs1/subject/groups/S0801.html',
     lodesRoot: 'https://lehd.ces.census.gov/data/lodes/LODES8/',
     lodesTech: 'https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf',
     sdoDownloads: 'https://demography.dola.colorado.gov/assets/html/sdodata.html',
