@@ -19,18 +19,18 @@ jobs:
           set -e
 
           echo "Checking for fragile fetch paths..."
-          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules 'fetch("data/' .; then
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 'fetch("data/' .; then
             echo "::error::Found fetch(\"data/\") usage. Replace with DataService.getJSON(DataService.baseData(...))"
             exit 1
           fi
 
-          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules 'fetch("maps/' .; then
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 'fetch("maps/' .; then
             echo "::error::Found fetch(\"maps/\") usage. Replace with DataService.getGeoJSON(DataService.baseMaps(...))"
             exit 1
           fi
 
           echo "Checking for hardcoded deployment path..."
-          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules '\/housing-analytics\/' . | grep -v 'APP_BASE_PATH' ; then
+          if grep -R --line-number --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github '\/housing-analytics\/' . | grep -v 'APP_BASE_PATH' ; then
             echo "::error::Found hardcoded /housing-analytics/ path. Use resolveAssetUrl/safeFetchJSON/DataService instead."
             exit 1
           fi
