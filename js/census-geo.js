@@ -143,8 +143,18 @@
     });
   }
 
+  function censusProfileUrl(record) {
+    // Build a data.census.gov profile link for the selected geography
+    if (record.county && record.state) return `https://data.census.gov/profile?g=0500000US${record.state}${record.county}`;
+    if (record.place  && record.state) return `https://data.census.gov/profile?g=1600000US${record.state}${record.place}`;
+    if (record.state && !record.county && !record.place) return `https://data.census.gov/profile?g=0400000US${record.state}`;
+    return "https://data.census.gov/";
+  }
+
   function renderCachedStateStats(record, vintage, grid, vintageEl) {
-    if (vintageEl) vintageEl.textContent = `ACS ${vintage} 5-year (cached) \u2022 ${record.state_name}`;
+    const stateFips = record.state_fips || record.state;
+    const srcUrl = stateFips ? `https://data.census.gov/profile?g=0400000US${stateFips}` : "https://data.census.gov/";
+    if (vintageEl) vintageEl.innerHTML = `ACS ${vintage} 5-year (cached) &bull; ${record.state_name} &bull; <a href="${srcUrl}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">View source ↗</a>`;
     grid.innerHTML = "";
 
     // Standard metrics from cache
@@ -286,7 +296,8 @@
   function renderStats(name, record, vintage) {
     const grid      = $(".census-grid");
     const vintageEl = document.querySelector("[data-census-vintage]");
-    if (vintageEl) vintageEl.textContent = `ACS ${vintage} 5-year (profile) • ${name}`;
+    const srcUrl = censusProfileUrl(record);
+    if (vintageEl) vintageEl.innerHTML = `ACS ${vintage} 5-year (profile) &bull; ${name} &bull; <a href="${srcUrl}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">View source ↗</a>`;
 
     grid.innerHTML = "";
     METRICS.forEach(m => {
