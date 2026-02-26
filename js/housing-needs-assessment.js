@@ -7,6 +7,14 @@
 (function(){
   const STATE_FIPS_CO = '08';
 
+  const ACS_YEAR_PRIMARY  = 2024;
+  const ACS_YEAR_FALLBACK = 2023;
+  const DEBUG_HNA = new URLSearchParams(location.search).has('debug');
+
+  function redactKey(url){
+    return url.replace(/([?&]key=)[^&]*/g, '$1REDACTED');
+  }
+
   const DEFAULTS = {
     geoType: 'county',
     // Mesa County
@@ -316,7 +324,7 @@
 
   async function fetchAcsProfile(geoType, geoid){
     // Use ACS 1-year profile tables for a fast report-like snapshot.
-    // NOTE: For smaller places/CDPs, ACS1 may have gaps. The cached ETL can switch to ACS5 if needed.
+    // Falls back to ACS 5-year if the primary year is unavailable.
 
     // Variables
     const vars = [
@@ -349,8 +357,6 @@
       'DP04_0146PE', // 35+
     ];
 
-    const base = 'https://api.census.gov/data/2024/acs/acs1/profile';
-
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
       : geoType === 'place'
@@ -358,17 +364,31 @@
         : `census%20designated%20place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
-
-    const params = new URLSearchParams();
-    params.set('get', vars.join(',') + ',NAME');
-    params.set('for', forParam);
-    if (geoType !== 'county') params.set('in', inParam);
     const key = censusKey();
-    if (key) params.set('key', key);
 
-    const url = `${base}?${params.toString()}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`ACS profile failed (${r.status})`);
+    function buildUrl(year, dataset){
+      const base = `https://api.census.gov/data/${year}/${dataset}`;
+      const params = new URLSearchParams();
+      params.set('get', vars.join(',') + ',NAME');
+      params.set('for', forParam);
+      params.set('in', inParam);
+      if (key) params.set('key', key);
+      return `${base}?${params.toString()}`;
+    }
+
+    const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/profile');
+    let r = await fetch(url1);
+    let url2 = null;
+    if (!r.ok){
+      url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/profile');
+      r = await fetch(url2);
+      if (!r.ok){
+        const msg = DEBUG_HNA
+          ? `ACS failed. Tried: ${redactKey(url1)} then ${redactKey(url2)}`
+          : `ACS profile failed (${r.status})`;
+        throw new Error(msg);
+      }
+    }
     const arr = await r.json();
     const header = arr[0];
     const row = arr[1];
@@ -389,7 +409,6 @@
       'S0801_C01_007E', // worked from home
       'S0801_C01_018E', // mean travel time (minutes)
     ];
-    const base = 'https://api.census.gov/data/2024/acs/acs1/subject';
 
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
@@ -398,17 +417,31 @@
         : `census%20designated%20place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
-
-    const params = new URLSearchParams();
-    params.set('get', vars.join(',') + ',NAME');
-    params.set('for', forParam);
-    if (geoType !== 'county') params.set('in', inParam);
     const key = censusKey();
-    if (key) params.set('key', key);
 
-    const url = `${base}?${params.toString()}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`ACS S0801 failed (${r.status})`);
+    function buildUrl(year, dataset){
+      const base = `https://api.census.gov/data/${year}/${dataset}`;
+      const params = new URLSearchParams();
+      params.set('get', vars.join(',') + ',NAME');
+      params.set('for', forParam);
+      params.set('in', inParam);
+      if (key) params.set('key', key);
+      return `${base}?${params.toString()}`;
+    }
+
+    const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/subject');
+    let r = await fetch(url1);
+    let url2 = null;
+    if (!r.ok){
+      url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/subject');
+      r = await fetch(url2);
+      if (!r.ok){
+        const msg = DEBUG_HNA
+          ? `ACS failed. Tried: ${redactKey(url1)} then ${redactKey(url2)}`
+          : `ACS S0801 failed (${r.status})`;
+        throw new Error(msg);
+      }
+    }
     const arr = await r.json();
     const header = arr[0];
     const row = arr[1];
