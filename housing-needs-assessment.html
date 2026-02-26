@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Housing Needs Assessment | Affordable Housing Intelligence</title>
+  <meta name="description" content="Interactive starter housing needs assessment for Colorado counties and municipalities using public ACS and Census TIGERweb data." />
+
+  <link rel="stylesheet" href="css/site-theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/dark-mode.css" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <script defer src="js/config.js"></script>
+  <script defer src="js/navigation.js"></script>
+
+  <style>
+    :root{
+      --text: #111;
+      --muted: rgba(17,17,17,.72);
+      --border: rgba(17,17,17,.18);
+      --card: rgba(255,255,255,.85);
+      --shadow: 0 10px 28px rgba(0,0,0,.10);
+    }
+    main.container { max-width: 1220px; margin: 0 auto; padding: 1.25rem; }
+
+    .hero{
+      display:flex; gap:1rem; align-items:flex-start; justify-content:space-between;
+      padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 16px;
+      background: var(--card); box-shadow: var(--shadow);
+      margin-top: 1rem;
+    }
+    .hero h1{ margin:0; font-size: 1.35rem; line-height:1.25; color: var(--text); }
+    .hero p{ margin:.5rem 0 0; color: var(--muted); max-width: 78ch; }
+
+    .controls{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
+    select, input, button{
+      border:1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      padding:.5rem .6rem;
+      border-radius: 10px;
+      font: inherit;
+    }
+    input{ min-width: 220px; }
+    button{ cursor:pointer; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card{
+      border:1px solid var(--border);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+    .card h2{ margin:0 0 .6rem; font-size: 1.05rem; color: var(--text); }
+    .card p{ margin:.4rem 0; color: var(--muted); }
+
+    .stat-row{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .75rem;
+      margin-top: .75rem;
+    }
+    .stat{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: .75rem .8rem;
+      background: rgba(255,255,255,.55);
+    }
+    .stat .label{ color: var(--muted); font-size: .86rem; }
+    .stat .value{ color: var(--text); font-size: 1.15rem; font-weight: 700; margin-top:.2rem; }
+    .stat .note{ color: var(--muted); font-size: .82rem; margin-top:.2rem; }
+
+    #hnaMap{ height: 62vh; min-height: 520px; width:100%; border-radius: 14px; border:1px solid var(--border); overflow: hidden; }
+
+    .chart-container{ position: relative; height: 360px; min-height: 360px; }
+    .span-12{ grid-column: span 12; }
+    .span-8{ grid-column: span 8; }
+    .span-4{ grid-column: span 4; }
+    .span-6{ grid-column: span 6; }
+
+    .banner{
+      display:none;
+      margin-top: .75rem;
+      padding: .65rem .8rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 216, 102, .22);
+      color: var(--text);
+    }
+    .banner.show{ display:block; }
+
+    .source-list{ margin: .75rem 0 0; padding-left: 1.1rem; color: var(--muted); }
+    .pill{
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.2rem .55rem; border:1px solid var(--border); border-radius: 999px;
+      color: var(--muted); font-size: .82rem;
+      background: rgba(255,255,255,.35);
+    }
+
+    @media (max-width: 980px){
+      .span-8,.span-4,.span-6{ grid-column: span 12; }
+      .stat-row{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #hnaMap{ height: 56vh; min-height: 440px; }
+      input{ min-width: 160px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>Housing Needs Assessment</h1>
+        <p>
+          Select a Colorado county or municipality to generate a starter, report-style Housing Needs Assessment:
+          boundary map, affordability indicators, tenure/vacancy context, and an executive-summary narrative.
+          This page is designed to grow into a full HNA (needs by AMI, pipeline, and actions) while staying GitHub Pages-friendly.
+        </p>
+        <div id="msg" class="banner"></div>
+      </div>
+
+      <div class="controls" aria-label="Geography controls">
+        <span class="pill" id="modePill">Mode: County</span>
+        <button id="modeBtn" type="button" title="Toggle between counties and municipalities">Toggle</button>
+        <input id="filter" type="search" placeholder="Filter list (e.g., Mesa, Fruita)" aria-label="Filter geographies" />
+        <select id="geoSel" aria-label="Select geography"></select>
+        <button id="refreshBtn" type="button">Refresh</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card span-12">
+        <h2>Executive Snapshot</h2>
+        <p>
+          Headline indicators based on ACS profile tables. Use these to frame the “why” of the HNA:
+          affordability stress, supply constraints, and who is most impacted.
+          <span class="pill" id="acsTag">ACS 2022 5-year</span>
+        </p>
+
+        <div class="stat-row" aria-label="Headline indicators">
+          <div class="stat">
+            <div class="label">Population</div>
+            <div class="value" id="statPop">—</div>
+            <div class="note">DP05</div>
+          </div>
+          <div class="stat">
+            <div class="label">Housing units</div>
+            <div class="value" id="statUnits">—</div>
+            <div class="note">DP04</div>
+          </div>
+          <div class="stat">
+            <div class="label">Median gross rent</div>
+            <div class="value" id="statRent">—</div>
+            <div class="note">DP04</div>
+          </div>
+          <div class="stat">
+            <div class="label">Median home value</div>
+            <div class="value" id="statValue">—</div>
+            <div class="note">DP04</div>
+          </div>
+        </div>
+
+        <div class="stat-row" aria-label="Market context">
+          <div class="stat">
+            <div class="label">Renter cost-burden (≥30%)</div>
+            <div class="value" id="statBurden30">—</div>
+            <div class="note">Derived from GRAPI bins</div>
+          </div>
+          <div class="stat">
+            <div class="label">Vacant units (share)</div>
+            <div class="value" id="statVacant">—</div>
+            <div class="note">DP04 vacant %</div>
+          </div>
+          <div class="stat">
+            <div class="label">Owner-occupied (share)</div>
+            <div class="value" id="statOwner">—</div>
+            <div class="note">DP04 tenure</div>
+          </div>
+          <div class="stat">
+            <div class="label">Rental vacancy rate</div>
+            <div class="value" id="statRentVac">—</div>
+            <div class="note">DP04</div>
+          </div>
+        </div>
+
+        <ul class="source-list">
+          <li>ACS Profile: DP04 (Selected Housing Characteristics) and DP05 (Demographic). </li>
+          <li>Map boundary: Census TIGERweb (Counties; Incorporated Places).</li>
+        </ul>
+      </div>
+
+      <div class="card span-8">
+        <h2>Community Map</h2>
+        <p>
+          The boundary layer is fetched live from Census TIGERweb. Add overlays later (LIHTC sites, QCT/DDA, permits, hazards).
+        </p>
+        <div id="hnaMap" role="img" aria-label="Map showing selected geography boundary"></div>
+      </div>
+
+      <div class="card span-4">
+        <h2>Starter findings</h2>
+        <p id="localFindings" style="margin-top:.2rem;">
+          This section can be customized per community (key issues, focus areas, and suggested “next analyses”).
+        </p>
+        <div id="localBullets" style="margin-top:.6rem;"></div>
+
+        <p style="margin-top: .8rem; color: var(--muted);">
+          <strong>Next build-out (v2):</strong> Add “Needs by AMI” (HUD CHAS) and a pipeline section (permits/starts/completions),
+          served from <code class="pill">/data/hna/</code> JSON caches via GitHub Actions.
+        </p>
+      </div>
+
+      <div class="card span-6">
+        <h2>Renter burden distribution (GRAPI)</h2>
+        <p>
+          Share of renter households by rent as a percentage of income. “≥30%” is the standard cost-burden threshold.
+        </p>
+        <div class="chart-container">
+          <canvas id="chartBurdenBins"></canvas>
+        </div>
+      </div>
+
+      <div class="card span-6">
+        <h2>Tenure & vacancy context</h2>
+        <p>
+          Housing tenure and vacancy help interpret price pressure: low rental vacancy often correlates with rent growth.
+        </p>
+        <div class="chart-container">
+          <canvas id="chartTenureVacancy"></canvas>
+        </div>
+      </div>
+
+      <div class="card span-12">
+        <h2>Executive Summary Narrative (auto-generated)</h2>
+        <p id="narrative">Select a geography to generate the narrative.</p>
+        <p style="margin-top:.6rem; color: var(--muted);">
+          This narrative intentionally uses only indicators we can pull reliably from public ACS profile tables.
+          It becomes stronger once you add CHAS-by-AMI and pipeline data caches.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Utilities
+    const $ = (sel) => document.querySelector(sel);
+
+    function getCssVar(name, fallback){
+      try{ return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback; }
+      catch(e){ return fallback; }
+    }
+    function banner(text){
+      const el = $("#msg");
+      if(!text){ el.classList.remove("show"); el.textContent=""; return; }
+      el.textContent = text; el.classList.add("show");
+    }
+    function money(n){
+      const x = Number(n);
+      if (!Number.isFinite(x)) return "—";
+      return x.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    }
+    function num(n){
+      const x = Number(n);
+      if (!Number.isFinite(x)) return "—";
+      return x.toLocaleString();
+    }
+    function pct(n){
+      const x = Number(n);
+      if (!Number.isFinite(x)) return "—";
+      return (Math.round(x * 10) / 10).toFixed(1) + "%";
+    }
+
+    // Chart defaults for light/dark
+    function applyChartDefaults(){
+      if (!window.Chart) return;
+      const text  = getCssVar("--text",  "#111");
+      const muted = getCssVar("--muted", "rgba(17,17,17,.72)");
+      const border= getCssVar("--border","rgba(17,17,17,.18)");
+
+      Chart.defaults.color = text;
+      Chart.defaults.borderColor = border;
+      if (Chart.defaults.scale){
+        Chart.defaults.scale.grid = Chart.defaults.scale.grid || {};
+        Chart.defaults.scale.ticks = Chart.defaults.scale.ticks || {};
+        Chart.defaults.scale.grid.color = border;
+        Chart.defaults.scale.ticks.color = muted;
+      }
+      if (Chart.defaults.plugins?.legend?.labels){
+        Chart.defaults.plugins.legend.labels.color = text;
+      }
+    }
+
+    // Geography loaders (TIGERweb)
+    // Counties: TIGERweb/State_County/MapServer/1
+    const TIGER_COUNTIES = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query";
+    // Incorporated Places: TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4
+    const TIGER_PLACES  = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query";
+
+    async function tigerQuery(url, where, outFields){
+      const qs = new URLSearchParams({
+        where,
+        outFields,
+        returnGeometry: "false",
+        f: "json"
+      });
+      const res = await fetch(url + "?" + qs.toString());
+      if (!res.ok) throw new Error("TIGERweb query failed (" + res.status + ")");
+      const json = await res.json();
+      return (json.features || []).map(f => f.attributes);
+    }
+
+    async function loadColoradoCounties(){
+      const rows = await tigerQuery(TIGER_COUNTIES, "STATE='08'", "NAME,STATE,COUNTY,GEOID");
+      // Sort alpha
+      rows.sort((a,b)=> (a.NAME||"").localeCompare(b.NAME||""));
+      return rows.map(r => ({
+        type: "county",
+        state: "08",
+        code: String(r.COUNTY).padStart(3,"0"),
+        geoid: r.GEOID,
+        name: r.NAME + " County, CO"
+      }));
+    }
+
+    async function loadColoradoPlaces(){
+      const rows = await tigerQuery(TIGER_PLACES, "STATE='08'", "BASENAME,STATE,PLACE,GEOID");
+      rows.sort((a,b)=> (a.BASENAME||"").localeCompare(b.BASENAME||""));
+      return rows.map(r => ({
+        type: "place",
+        state: "08",
+        code: String(r.PLACE).padStart(5,"0"),
+        geoid: r.GEOID,
+        name: r.BASENAME + ", CO"
+      }));
+    }
+
+    // Map boundary fetch (geoJSON)
+    async function fetchBoundaryGeoJSON(type, stateFips, code){
+      const layerUrl = type === "county"
+        ? "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query"
+        : "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query";
+
+      const where = type === "county"
+        ? `STATE='${stateFips}' AND COUNTY='${code}'`
+        : `STATE='${stateFips}' AND PLACE='${code}'`;
+
+      const qs = new URLSearchParams({
+        where,
+        outFields: "GEOID,NAME,BASENAME,STATE,COUNTY,PLACE",
+        returnGeometry: "true",
+        f: "geojson"
+      });
+      const res = await fetch(layerUrl + "?" + qs.toString());
+      if (!res.ok) throw new Error(`Boundary request failed (${res.status})`);
+      return await res.json();
+    }
+
+    // ACS profile loader
+    const ACS_YEAR = 2022; // stable 5-year
+    const ACS_PROFILE_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5/profile`;
+
+    async function fetchAcsProfile(geoFor, geoIn){
+      const key = (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : "";
+
+      // variables used (DP04/DP05)
+      const vars = [
+        "NAME",
+        "DP05_0001E",   // population
+        "DP04_0001E",   // total housing units
+        "DP04_0003PE",  // vacant share %
+        "DP04_0005E",   // rental vacancy rate
+        "DP04_0046PE",  // owner-occupied %
+        "DP04_0047PE",  // renter-occupied %
+        "DP04_0089E",   // median home value
+        "DP04_0134E",   // median gross rent
+        // GRAPI bins (rent as % income)
+        "DP04_0137PE",  // <15
+        "DP04_0138PE",  // 15-19.9
+        "DP04_0139PE",  // 20-24.9
+        "DP04_0140PE",  // 25-29.9
+        "DP04_0141PE",  // 30-34.9
+        "DP04_0142PE"   // 35%+
+      ].join(",");
+
+      const url = `${ACS_PROFILE_BASE}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(geoFor)}&in=${encodeURIComponent(geoIn)}${key ? `&key=${encodeURIComponent(key)}` : ""}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`ACS request failed (${res.status})`);
+      const json = await res.json();
+      const header = json[0];
+      const row = json[1];
+      const out = {};
+      header.forEach((h, i) => out[h] = row[i]);
+      return out;
+    }
+
+    // Optional local notes: /data/hna/local-notes.json
+    let localNotes = null;
+    async function loadLocalNotes(){
+      if (localNotes) return localNotes;
+      try{
+        const res = await fetch("data/hna/local-notes.json", { cache: "no-store" });
+        if (!res.ok) return (localNotes = {});
+        localNotes = await res.json();
+        return localNotes;
+      }catch(e){
+        return (localNotes = {});
+      }
+    }
+
+    // Map and charts
+    let map, boundaryLayer, burdenChart, tvChart;
+
+    function initMap(){
+      if (map) return;
+      map = L.map("hnaMap", { scrollWheelZoom: false });
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18, attribution: "&copy; OpenStreetMap contributors"
+      }).addTo(map);
+      map.setView([39.1, -108.6], 8);
+    }
+    function styleBoundary(){
+      return {
+        color: getCssVar("--text", "#111"),
+        weight: 2,
+        fillColor: "#000",
+        fillOpacity: 0.06
+      };
+    }
+    function upsertBoundary(geojson, name){
+      if (boundaryLayer){ boundaryLayer.remove(); boundaryLayer = null; }
+      boundaryLayer = L.geoJSON(geojson, {
+        style: styleBoundary,
+        onEachFeature: (feat, layer) => layer.bindTooltip(name || "Selected geography", { sticky: true })
+      }).addTo(map);
+      try{ map.fitBounds(boundaryLayer.getBounds(), { padding: [18,18] }); }catch(e){}
+    }
+
+    function upsertBurdenChart(bins){
+      const ctx = $("#chartBurdenBins");
+      const labels = ["<15%","15–19.9%","20–24.9%","25–29.9%","30–34.9%","35%+"];
+
+      if (burdenChart){
+        burdenChart.data.labels = labels;
+        burdenChart.data.datasets[0].data = bins;
+        burdenChart.update();
+        return;
+      }
+      burdenChart = new Chart(ctx, {
+        type: "bar",
+        data: { labels, datasets: [{ label: "Share of renter households", data: bins }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display:false }, tooltip:{ callbacks:{ label:(c)=> `${c.parsed.y}%` } } },
+          scales: { x:{ type:"category" }, y:{ beginAtZero:true, suggestedMax: 50, ticks:{ callback:(v)=> v+"%" } } }
+        }
+      });
+    }
+
+    function upsertTenureVacancyChart(ownerPct, renterPct, vacantPct, rentalVacRate){
+      const ctx = $("#chartTenureVacancy");
+      const labels = ["Owner-occupied %","Renter-occupied %","Vacant units %","Rental vacancy rate %"];
+      const data = [ownerPct, renterPct, vacantPct, rentalVacRate].map(v => Number.isFinite(v) ? Math.round(v*10)/10 : null);
+
+      if (tvChart){
+        tvChart.data.labels = labels;
+        tvChart.data.datasets[0].data = data;
+        tvChart.update();
+        return;
+      }
+
+      tvChart = new Chart(ctx, {
+        type: "bar",
+        data: { labels, datasets: [{ label: "Percent", data }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display:false }, tooltip:{ callbacks:{ label:(c)=> `${c.parsed.y}%` } } },
+          scales: { x:{ type:"category" }, y:{ beginAtZero:true, suggestedMax: 100, ticks:{ callback:(v)=> v+"%" } } }
+        }
+      });
+    }
+
+    // Narrative builder
+    function buildNarrative(name, stats){
+      const pop = Number(stats.pop);
+      const rent = Number(stats.rent);
+      const value = Number(stats.value);
+      const burden30 = Number(stats.burden30);
+      const rentVac = Number(stats.rentVac);
+      const vacant = Number(stats.vacant);
+
+      const burdenText = Number.isFinite(burden30)
+        ? (burden30 >= 45 ? "very high" : burden30 >= 35 ? "high" : burden30 >= 25 ? "moderate" : "lower")
+        : "unknown";
+      const vacText = Number.isFinite(rentVac)
+        ? (rentVac <= 3 ? "tight" : rentVac <= 6 ? "balanced" : "looser")
+        : "unknown";
+
+      const parts = [];
+      parts.push(`<strong>${name}:</strong>`);
+      if (Number.isFinite(pop)) parts.push(`Population is approximately <strong>${num(pop)}</strong> (ACS ${ACS_YEAR} 5-year).`);
+      if (Number.isFinite(rent)) parts.push(`Median gross rent is about <strong>${money(rent)}</strong>.`);
+      if (Number.isFinite(value)) parts.push(`Median home value is about <strong>${money(value)}</strong>.`);
+      if (Number.isFinite(burden30)) parts.push(`Renter cost burden (≥30% of income) is <strong>${pct(burden30)}</strong>—<strong>${burdenText}</strong>.`);
+      if (Number.isFinite(rentVac)) parts.push(`Rental vacancy rate is <strong>${pct(rentVac)}</strong>, suggesting a <strong>${vacText}</strong> rental market.`);
+      if (Number.isFinite(vacant)) parts.push(`Overall vacant units are <strong>${pct(vacant)}</strong> of the housing stock (seasonal and “held off market” can drive this in some CO markets).`);
+
+      parts.push(`<br/><br/><strong>HNA next steps:</strong> Add “needs by AMI” using HUD CHAS, then compare to production/pipeline (permits/starts/completions). Use the gap to prioritize actions: preservation, rental production, ownership attainability, and targeted supportive housing where appropriate.`);
+      return parts.join(" ");
+    }
+
+    // UI state
+    let mode = "county"; // county | place
+    let allGeos = [];    // full list for mode
+    let filtered = [];
+
+    function setMode(next){
+      mode = next;
+      $("#modePill").textContent = "Mode: " + (mode === "county" ? "County" : "Municipality");
+      $("#filter").value = "";
+      renderOptions();
+      // default selection: Mesa County or Grand Junction
+      if (mode === "county"){
+        const mesa = filtered.find(g => g.code === "077");
+        if (mesa) $("#geoSel").value = mesa.type + ":" + mesa.code + "|state:" + mesa.state;
+      } else {
+        const gj = filtered.find(g => /Grand Junction/i.test(g.name));
+        if (gj) $("#geoSel").value = gj.type + ":" + gj.code + "|state:" + gj.state;
+      }
+    }
+
+    function renderOptions(){
+      const sel = $("#geoSel");
+      sel.innerHTML = "";
+      const q = ($("#filter").value || "").trim().toLowerCase();
+      filtered = allGeos.filter(g => !q || g.name.toLowerCase().includes(q));
+      filtered.slice(0, 400).forEach(g => {
+        const opt = document.createElement("option");
+        opt.value = `${g.type}:${g.code}|state:${g.state}`;
+        opt.textContent = g.name;
+        sel.appendChild(opt);
+      });
+      if (filtered.length === 0){
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No matches";
+        sel.appendChild(opt);
+      }
+    }
+
+    async function updateLocalBox(geoid, defaultName){
+      const notes = await loadLocalNotes();
+      const entry = notes[geoid] || null;
+      $("#localFindings").textContent = entry?.intro || `Starter findings for ${defaultName}. Customize this per community in data/hna/local-notes.json.`;
+
+      const bullets = entry?.bullets || [];
+      const wrap = $("#localBullets");
+      if (!bullets.length){
+        wrap.innerHTML = `<ul class="source-list">
+          <li>Confirm priority geographies (county + key municipalities) and target AMI bands.</li>
+          <li>Add CHAS needs-by-AMI and pipeline data to quantify the gap.</li>
+          <li>Overlay LIHTC/QCT/DDA and recent production to focus strategies.</li>
+        </ul>`;
+        return;
+      }
+      wrap.innerHTML = `<ul class="source-list">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>`;
+    }
+
+    async function load(){
+      banner("");
+      applyChartDefaults();
+      initMap();
+      $("#acsTag").textContent = `ACS ${ACS_YEAR} 5-year`;
+
+      const raw = $("#geoSel").value;
+      if (!raw){ banner("Select a geography."); return; }
+      const [forPart, inPart] = raw.split("|");
+      const [geoType, geoCode] = forPart.split(":");
+      const [inType, stateFips] = inPart.split(":");
+
+      // boundary
+      try{
+        const gj = await fetchBoundaryGeoJSON(geoType, stateFips, geoCode);
+        upsertBoundary(gj, "Selected geography");
+      }catch(e){
+        banner(`Map boundary failed: ${e.message}`);
+      }
+
+      // ACS
+      try{
+        const acs = await fetchAcsProfile(`${geoType}:${geoCode}`, `${inType}:${stateFips}`);
+        const name = acs.NAME || "Selected geography";
+
+        const pop = acs.DP05_0001E;
+        const units= acs.DP04_0001E;
+        const rent = acs.DP04_0134E;
+        const value= acs.DP04_0089E;
+
+        const vacant = Number(acs.DP04_0003PE);
+        const rentVac = Number(acs.DP04_0005E);
+        const ownerPct = Number(acs.DP04_0046PE);
+        const renterPct = Number(acs.DP04_0047PE);
+
+        const b_lt15 = Number(acs.DP04_0137PE);
+        const b_15_19= Number(acs.DP04_0138PE);
+        const b_20_24= Number(acs.DP04_0139PE);
+        const b_25_29= Number(acs.DP04_0140PE);
+        const b_30_34= Number(acs.DP04_0141PE);
+        const b_35p  = Number(acs.DP04_0142PE);
+
+        const bins = [b_lt15,b_15_19,b_20_24,b_25_29,b_30_34,b_35p].map(v => Number.isFinite(v) ? Math.round(v*10)/10 : null);
+        const burden30 = (Number.isFinite(b_30_34) ? b_30_34 : 0) + (Number.isFinite(b_35p) ? b_35p : 0);
+
+        $("#statPop").textContent = num(pop);
+        $("#statUnits").textContent = num(units);
+        $("#statRent").textContent = money(rent);
+        $("#statValue").textContent = money(value);
+        $("#statBurden30").textContent = pct(burden30);
+        $("#statVacant").textContent = pct(vacant);
+        $("#statOwner").textContent = pct(ownerPct);
+        $("#statRentVac").textContent = pct(rentVac);
+
+        $("#narrative").innerHTML = buildNarrative(name, { pop, rent, value, burden30, rentVac, vacant });
+
+        // local notes (by GEOID)
+        let geoid = null;
+        try{
+          // County GEOID is state+county; Place GEOID is state+place; TIGERweb returns GEOID, but ACS response doesn't.
+          // We can reconstruct:
+          geoid = (geoType === "county") ? (stateFips + geoCode) : (stateFips + geoCode);
+        }catch(e){}
+        if (geoid) await updateLocalBox(geoid, name);
+
+        upsertBurdenChart(bins);
+        upsertTenureVacancyChart(ownerPct, renterPct, vacant, rentVac);
+
+        if (!(window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY)){
+          banner("Tip: no Census API key detected in js/config.js. The page will still work, but may hit rate limits under heavy use.");
+        }
+      }catch(e){
+        banner(`ACS indicators failed: ${e.message}`);
+      }
+    }
+
+    async function boot(){
+      applyChartDefaults();
+      initMap();
+
+      // Load geos for default mode
+      try{
+        allGeos = await loadColoradoCounties();
+      }catch(e){
+        banner("Failed to load Colorado counties list from TIGERweb.");
+        allGeos = [{ type:"county", state:"08", code:"077", geoid:"08077", name:"Mesa County, CO" }];
+      }
+
+      renderOptions();
+      // default Mesa County
+      $("#geoSel").value = "county:077|state:08";
+
+      // preload local notes + default box
+      await updateLocalBox("08077", "Mesa County, CO");
+
+      // events
+      $("#refreshBtn").addEventListener("click", load);
+      $("#geoSel").addEventListener("change", load);
+      $("#filter").addEventListener("input", renderOptions);
+      $("#modeBtn").addEventListener("click", async () => {
+        if (mode === "county"){
+          mode = "place";
+          try{ allGeos = await loadColoradoPlaces(); } catch(e){ allGeos = []; banner("Failed to load municipalities list from TIGERweb."); }
+          setMode("place");
+        } else {
+          mode = "county";
+          try{ allGeos = await loadColoradoCounties(); } catch(e){ allGeos = []; banner("Failed to load counties list from TIGERweb."); }
+          setMode("county");
+        }
+        await load();
+      });
+
+      await load();
+    }
+
+    window.addEventListener("load", boot);
+  </script>
+</body>
+</html>
