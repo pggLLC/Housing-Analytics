@@ -50,6 +50,7 @@
     dolaSya: (countyFips5) => `data/hna/dola_sya/${countyFips5}.json`,
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
     derived: 'data/hna/derived/geo-derived.json',
+    acsDebugLog: 'data/hna/acs_debug_log.txt',
   };
 
   const SOURCES = {
@@ -1186,7 +1187,6 @@
         profile = await fetchAcsProfile(geoType, geoid);
       }catch(e){
         console.warn(e);
-        setBanner('ACS profile data failed to load for this geography. Try again later or rely on cached builds.', 'warn');
       }
     }
 
@@ -1197,6 +1197,21 @@
         console.warn(e);
         // keep going
       }
+    }
+
+    if (!profile){
+      // Build the ACS failure banner using DOM elements to avoid innerHTML/XSS risks
+      const msgSpan = document.createElement('span');
+      msgSpan.textContent = 'No ACS Census data could be found for this area. Diagnostics have been run and saved for support review. Please contact your manager or support and reference this log file. ';
+      const dlLink = document.createElement('a');
+      dlLink.href = PATHS.acsDebugLog;
+      dlLink.download = 'acs_debug_log.txt';
+      dlLink.style.cssText = 'color:inherit;text-decoration:underline';
+      dlLink.textContent = 'Download Debug Log';
+      els.banner.textContent = '';
+      els.banner.appendChild(msgSpan);
+      els.banner.appendChild(dlLink);
+      els.banner.classList.add('show');
     }
 
     if (profile){
