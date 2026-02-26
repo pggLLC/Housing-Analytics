@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = __dirname;
 let errors = 0;
 
 const htmlFiles = fs.readdirSync(ROOT)
@@ -25,6 +25,8 @@ htmlFiles.forEach(file => {
   const jsRefs = [...content.matchAll(/src="(js\/[^"]+)"/g)].map(m => m[1]);
   
   [...cssRefs, ...jsRefs].forEach(ref => {
+    // js/config.js is generated at deploy time from secrets — skip it here
+    if (ref === 'js/config.js') return;
     const abs = path.join(ROOT, ref);
     if (!fs.existsSync(abs)) {
       console.error(`  ❌ ${rel}: MISSING ${ref}`);
