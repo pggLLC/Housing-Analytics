@@ -362,7 +362,7 @@
       ? `county:${geoid.slice(2,5)}`
       : geoType === 'place'
         ? `place:${geoid.slice(2)}`
-        : `census%20designated%20place:${geoid.slice(2)}`;
+        : `census designated place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
     const key = censusKey();
@@ -415,7 +415,7 @@
       ? `county:${geoid.slice(2,5)}`
       : geoType === 'place'
         ? `place:${geoid.slice(2)}`
-        : `census%20designated%20place:${geoid.slice(2)}`;
+        : `census designated place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
     const key = censusKey();
