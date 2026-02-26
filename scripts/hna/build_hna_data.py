@@ -25,6 +25,13 @@ from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
+# Diagnostics module - imported lazily to keep startup fast
+sys.path.insert(0, os.path.dirname(__file__))
+try:
+    import acs_debug_tools as _acs_diag
+except ImportError:
+    _acs_diag = None  # type: ignore[assignment]
+
 STATE_FIPS_CO = '08'
 
 FEATURED = [
@@ -43,6 +50,7 @@ OUT = {
     "proj_dir": os.path.join(ROOT, 'data', 'hna', 'projections'),
     "derived_dir": os.path.join(ROOT, 'data', 'hna', 'derived'),
     "cache_dir": os.path.join(ROOT, 'data', 'hna', 'source'),
+    "acs_debug_log": os.path.join(ROOT, 'data', 'hna', 'acs_debug_log.txt'),
 }
 
 
@@ -442,6 +450,24 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
     return None
 
 
+def _run_diagnostics(geo_type: str, geoid: str) -> None:
+    """Run ACS diagnostics and log results when all fetch attempts fail."""
+    if _acs_diag is None:
+        print("⚠ acs_debug_tools not available; skipping diagnostics", file=sys.stderr)
+        return
+    log_path = OUT['acs_debug_log']
+    print(f"ℹ Running ACS diagnostics for {geo_type}:{geoid} → {log_path}", file=sys.stderr)
+    result = _acs_diag.run_acs_diagnostics(geo_type, geoid, log_path)
+    if result['success']:
+        print(f"ℹ Diagnostics found working endpoint: {result['source']}", file=sys.stderr)
+    else:
+        print(
+            f"⚠ ACS diagnostics: all endpoints failed for {geo_type}:{geoid}. "
+            f"Log written to {log_path}",
+            file=sys.stderr,
+        )
+
+
 def build_summary_cache():
     for g in FEATURED:
         geoid = g['geoid']
@@ -451,7 +477,8 @@ def build_summary_cache():
             acs_profile = fetch_acs_profile(geo_type, geoid)
             acs_s0801 = fetch_acs_s0801(geo_type, geoid)
             if acs_profile is None and acs_s0801 is None:
-                print(f"⚠ summary {geo_type}:{geoid}: no ACS data available (skipped)", file=sys.stderr)
+                print(f"⚠ summary {geo_type}:{geoid}: no ACS data available – running diagnostics", file=sys.stderr)
+                _run_diagnostics(geo_type, geoid)
                 continue
             if acs_profile is None:
                 print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
