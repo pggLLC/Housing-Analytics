@@ -15,20 +15,6 @@
 
   <!-- Leaflet (vendored locally — no CDN required) -->
   <link rel="stylesheet" href="js/vendor/leaflet.css" />
-  <script defer src="js/vendor/leaflet.js"></script>
-
-  <!-- Chart.js (vendored locally) -->
-  <script defer src="js/vendor/chart.umd.min.js"></script>
-
-  <!-- PDF export (client-side) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
-  <!-- Site scripts -->
-  <script src="js/config.js"></script>
-  <script src="js/api-config-wrapper.js"></script>
-  <script defer src="js/navigation.js"></script>
-  <script defer src="js/housing-needs-assessment.js"></script>
 
   <style>
     /* Keep page-specific styling minimal; rely on site theme */
@@ -71,8 +57,22 @@
 
     .pill{display:inline-flex;gap:6px;align-items:center;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:color-mix(in oklab, var(--card) 80%, var(--accent) 20%);font-weight:900;font-size:.82rem}
   </style>
-<script defer src="js/dark-mode-toggle.js"></script>
+
+  <!-- Vendor scripts -->
+  <script defer src="js/vendor/leaflet.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+
+  <!-- PDF export (client-side) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <!-- Site scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/api-config-wrapper.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
