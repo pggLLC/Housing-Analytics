@@ -507,9 +507,9 @@ main h3:first-child { margin-top: 0; }
 
 /* ================================================================
    DARK MODE TOGGLE (class-based override + toggle button styles)
-   ================================================================ */
-   3. MANUAL TOGGLE support (.dark-mode class on <html>)
-      Allows js/dark-mode-toggle.js to force dark regardless of OS.
+   ================================================================
+   MANUAL TOGGLE support (.dark-mode class on <html>)
+   Allows js/dark-mode-toggle.js to force dark regardless of OS.
    ---------------------------------------------------------------- */
 html.dark-mode {
   color-scheme: dark;
