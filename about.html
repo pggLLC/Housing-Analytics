@@ -68,73 +68,54 @@
       </section>
 
       <!-- Data Sources -->
-      <section class="chart-card" aria-label="Core data sources" style="margin-bottom:var(--sp4);">
-        <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Core Sources</h2>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">Economy &amp; Inflation</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve Economic Data (FRED)</a> — economic indicators, interest rates, housing starts</li>
-          <li><a href="https://www.bls.gov/ppi" target="_blank" rel="noopener">BLS Producer Price Index (PPI)</a> — construction input costs by material category</li>
-          <li><a href="https://www.bls.gov/cps" target="_blank" rel="noopener">BLS Current Population Survey (CPS)</a> — labor force and employment</li>
-          <li><a href="https://www.bls.gov/jlt" target="_blank" rel="noopener">BLS JOLTS</a> — job openings and labor turnover</li>
-        </ul>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">Census</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">American Community Survey (ACS)</a> — population, housing, and income data</li>
-          <li><a href="https://www.census.gov/construction/nrc/" target="_blank" rel="noopener">Census New Residential Construction</a> — housing starts and permits</li>
-        </ul>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">HUD</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA Designations</a> — qualified census tracts and difficult development areas</li>
-          <li><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a> — area median income limits by geography</li>
-          <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Dataset</a> (landing page) — project-level LIHTC allocation data</li>
-          <li><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Query Tool</a> — interactive project search</li>
-        </ul>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">LIHTC &amp; Policy</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://www.ncsha.org/advocacy-issues/lihtc/" target="_blank" rel="noopener">NCSHA</a> — state housing finance agency information and LIHTC policy resources</li>
-          <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac Affordable Housing Tax Credits Hub</a> — market analysis and pricing data</li>
-          <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool" target="_blank" rel="noopener">Novogradac QCT/DDA Mapping Tool</a> — interactive mapping tool</li>
-        </ul>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">Colorado</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://www.chfainfo.com/rental-housing/lihtc" target="_blank" rel="noopener">CHFA</a> — Colorado Housing and Finance Authority LIHTC program and allocations</li>
-          <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123</a> — local government affordable housing commitments</li>
-        </ul>
-
-        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">CRA / Finance</h3>
-        <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
-          <li><a href="https://www.ffiec.gov/craadweb/main.aspx" target="_blank" rel="noopener">FFIEC CRA</a> — Community Reinvestment Act data and disclosure reports</li>
-          <li><a href="https://ncua.gov/support-services/credit-union-resources-expansion/grants-loans/grants" target="_blank" rel="noopener">NCUA Grants &amp; Community Development</a> — credit union community development resources</li>
-        </ul>
+      <section class="chart-card" aria-label="Data sources" style="margin-bottom:var(--sp4);">
+        <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Data Sources</h2>
+        <p style="color:var(--muted);margin-bottom:var(--sp3);">
+          Our platform integrates data from multiple authoritative sources:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp3);">
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">Novogradac</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">LIHTC allocation data, credit pricing trends, and state-level program information.</div>
+            <a href="https://www.novoco.com" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit Novogradac →</a>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">Federal Reserve (FRED)</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">Economic indicators including construction costs, housing starts, and interest rates.</div>
+            <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit FRED →</a>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">HUD</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">LIHTC property database, fair market rents, and program documentation.</div>
+            <a href="https://www.huduser.gov" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit HUD →</a>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">Bureau of Labor Statistics</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">Construction employment, wage data, and labor market indicators.</div>
+            <a href="https://www.bls.gov" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit BLS →</a>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">NCSHA</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">State housing finance agency information and policy resources.</div>
+            <a href="https://www.ncsha.org" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit NCSHA →</a>
+          </div>
+          <div style="background:var(--bg2);border-radius:var(--radius);padding:var(--sp3);border-left:3px solid var(--accent2);">
+            <div style="font-weight:700;color:var(--text-strong);margin-bottom:0.4rem;">Census Bureau</div>
+            <div style="font-size:var(--small);color:var(--muted);line-height:1.6;">Population data, housing statistics, and demographic information.</div>
+            <a href="https://www.census.gov" target="_blank" rel="noopener" style="font-size:var(--tiny);color:var(--link);display:inline-block;margin-top:0.5rem;">Visit Census →</a>
+          </div>
+        </div>
       </section>
 
       <!-- Methodology -->
       <section class="chart-card" aria-label="Methodology" style="margin-bottom:var(--sp4);">
         <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Methodology</h2>
         <div style="display:flex;flex-direction:column;gap:var(--sp3);color:var(--muted);font-size:var(--small);line-height:1.8;">
-          <p><strong style="color:var(--text-strong);">Data Aggregation:</strong> Data is consolidated from authoritative public sources and validated against multiple references to ensure accuracy.</p>
-          <p><strong style="color:var(--text-strong);">State Allocations:</strong> Per-capita calculations use Census Bureau population estimates (ACS population or Census estimates as used on the page). Allocation tiers are based on total dollar amounts, not adjusted for cost of living or construction costs. Rankings are sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
+          <p><strong style="color:var(--text-strong);">Data Aggregation:</strong> We collect data quarterly from authoritative sources and validate it against multiple references to ensure accuracy.</p>
+          <p><strong style="color:var(--text-strong);">State Allocations:</strong> Per-capita calculations use Census Bureau population estimates. Allocation tiers are based on total dollar amounts, not adjusted for cost of living or construction costs.</p>
           <p><strong style="color:var(--text-strong);">Market Analysis:</strong> Pricing data reflects secondary market transactions and may vary by deal structure, investor type, and state-specific factors.</p>
-          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> Federal Reserve Economic Data (FRED) provides standardized metrics updated according to each series' publication schedule. CPI and PPI are index levels, not dollars; changes are computed on index levels. Charts show native units (SAAR, %, index, or dollars as labeled).</p>
-          <p><strong style="color:var(--text-strong);">Commodity &amp; Cost Indicators:</strong> Commodity and cost indicators are reported from BLS PPI series accessed via FRED. The site charts observed data and simple changes (e.g., year-over-year), not forward projections unless explicitly labeled.</p>
-        </div>
-      </section>
-
-      <!-- Site Calculations -->
-      <section class="chart-card" aria-label="Site calculations" style="margin-bottom:var(--sp4);">
-        <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Site Calculations</h2>
-        <div style="display:flex;flex-direction:column;gap:var(--sp3);color:var(--muted);font-size:var(--small);line-height:1.8;">
-          <p><strong style="color:var(--text-strong);">Year-over-Year % Change:</strong> <code>(current − prior_year) / prior_year × 100</code></p>
-          <p><strong style="color:var(--text-strong);">Per-Capita Allocations:</strong> <code>allocation ÷ population</code> using ACS population estimates or Census estimates as available for the geography shown.</p>
-          <p><strong style="color:var(--text-strong);">Ranking Logic:</strong> Sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
-          <p><strong style="color:var(--text-strong);">Index Series:</strong> CPI and PPI are index levels, not dollar amounts. Changes are computed directly on index levels.</p>
-          <p><strong style="color:var(--text-strong);">Units &amp; Scaling:</strong> Charts show native units — SAAR (seasonally adjusted annual rate), percentage points, index levels, or dollars — as labeled on each chart.</p>
-          <p><strong style="color:var(--text-strong);">Maps:</strong> Maps are rendered with Leaflet; basemap tiles may be sourced from OpenStreetMap contributors (per tile provider attribution).</p>
+          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> Federal Reserve Economic Data (FRED) provides standardized metrics updated according to each series' publication schedule.</p>
+          <p><strong style="color:var(--text-strong);">Commodity Forecasting:</strong> Forward projections combine futures market pricing, analyst consensus estimates, tariff policy assumptions, and supply-demand modeling.</p>
         </div>
       </section>
 
@@ -150,8 +131,8 @@
       <section class="chart-card" style="margin-bottom:var(--sp5);">
         <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Updates &amp; Maintenance</h2>
         <div style="display:flex;flex-direction:column;gap:var(--sp2);font-size:var(--small);color:var(--muted);line-height:1.8;">
-          <p><strong style="color:var(--text-strong);">Data Refresh:</strong> Data updates are automated via GitHub Actions where configured; refresh cadence varies by source/series. Some datasets update daily/weekly/monthly; others update when agencies publish new releases.</p>
-          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> FRED series are fetched daily by a scheduled workflow and cached in <code>data/fred-data.json</code>; individual series update on FRED's own publication schedule.</p>
+          <p><strong style="color:var(--text-strong);">Data Refresh:</strong> Quarterly updates from Novogradac and other sources.</p>
+          <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> Real-time updates from Federal Reserve FRED API.</p>
           <p><strong style="color:var(--text-strong);">Policy Changes:</strong> QAP updates tracked as state agencies publish new allocation plans.</p>
           <p><strong style="color:var(--text-strong);">Last Update:</strong> Q1 2026</p>
         </div>

@@ -60,16 +60,9 @@
 </div>
 <!-- Data Source -->
 <div class="content-section" style="margin-top: 2rem;">
-<div class="sources-box">
-  <h3>Data Sources</h3>
-  <ul>
-    <li><strong>Steel &amp; Metal Products</strong> — <a href="https://fred.stlouisfed.org/series/WPU10170503" target="_blank" rel="noopener">WPU10170503: Steel Reinforcing Bar</a>, <a href="https://fred.stlouisfed.org/series/PCU331111331111" target="_blank" rel="noopener">PCU331111331111: Iron and Steel Mills PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU3313153313153" target="_blank" rel="noopener">PCU3313153313153: Aluminum PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
-    <li><strong>Lumber &amp; Wood Products</strong> — <a href="https://fred.stlouisfed.org/series/WPU0811" target="_blank" rel="noopener">WPU0811: Lumber PPI</a>, <a href="https://fred.stlouisfed.org/series/WPU0812" target="_blank" rel="noopener">WPU0812: Plywood PPI</a>, <a href="https://fred.stlouisfed.org/series/WPUSI012011" target="_blank" rel="noopener">WPUSI012011: Lumber &amp; Wood Products PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
-    <li><strong>Concrete &amp; Cement</strong> — <a href="https://fred.stlouisfed.org/series/WPU13310101" target="_blank" rel="noopener">WPU13310101: Portland Cement PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU32731327313" target="_blank" rel="noopener">PCU32731327313: Cement &amp; Concrete Products PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
-    <li><strong>Composite Index</strong> — <a href="https://fred.stlouisfed.org/series/WPUFD49207" target="_blank" rel="noopener">WPUFD49207: PPI Inputs to Construction</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
-  </ul>
-  <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 0;">All series from <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve Economic Data (FRED)</a>, Federal Reserve Bank of St. Louis. Data updates monthly.</p>
-</div>
+<p style="color: var(--text-secondary); font-size: 0.9rem;">
+<strong>Data Source:</strong> All commodity prices from <a href="https://fred.stlouisfed.org" style="color: var(--accent-gold);" target="_blank">Federal Reserve Economic Data (FRED)</a>. Data updates monthly.
+                </p>
 </div>
 </div>
 </main>
@@ -105,30 +98,28 @@
                 const colors = ['#d4a574', '#c0392b', '#3498db', '#2ecc71', '#f39c12'];
                 return {
                     label: commodity.name,
-                    data: commodity.history
-                        ? commodity.history.filter(h => h && h.value != null).map(h => parseFloat(h.value))
-                        : [],
+                    data: commodity.history ? commodity.history.map(h => ({
+                        x: h.date,
+                        y: parseFloat(h.value)
+                    })) : [],
                     borderColor: colors[index % colors.length],
                     backgroundColor: 'transparent',
                     borderWidth: 2,
                     tension: 0.4
                 };
             });
-
-            const labels = (commodities[0] && commodities[0].history)
-                ? commodities[0].history.filter(h => h && h.date).map(h => h.date)
-                : [];
             
             new Chart(ctx, {
                 type: 'line',
-                data: { labels, datasets },
+                data: { datasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         x: {
-                            type: 'category',
-                            ticks: { color: '#e8dcc4', maxTicksLimit: 8 },
+                            type: 'time',
+                            time: { unit: 'month' },
+                            ticks: { color: '#e8dcc4' },
                             grid: { color: 'rgba(232, 220, 196, 0.1)' }
                         },
                         y: {
