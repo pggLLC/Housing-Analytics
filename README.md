@@ -28,6 +28,7 @@ LIHTC Analytics Hub is a static web application providing comprehensive data ins
 | `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps) |
 | `colorado-market.html` | Colorado market overview and forecast |
 | `construction-commodities.html` | Construction cost commodity tracking |
+| `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
 | `insights.html` | Market insights and research articles |
