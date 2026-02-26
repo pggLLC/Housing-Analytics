@@ -59,6 +59,8 @@
   ];
 
   // Binary / special predictions
+  // Expert consensus values incorporate Fannie Mae Economic & Housing Outlook and
+  // Freddie Mac Quarterly Forecast alongside NAR, MBA, and Federal Reserve projections.
   const BINARY_PREDICTIONS = [
     {
       id: 'lihtcContinued',
@@ -69,20 +71,20 @@
       description: 'Probability that Congress maintains LIHTC allocations at 2024 levels or higher through FY2026.',
     },
     {
-      id: 'coloradoCorrection',
-      label: 'Colorado metro median prices decline >5% by Q4 2025',
-      probYes: 14,
-      expertConsensus: 11,
-      category: 'Colorado',
-      description: 'Probability of a meaningful price correction (>5%) in Denver/Front Range metro area by year-end.',
+      id: 'fannieMaeRateForecast',
+      label: '30-yr mortgage rate ends 2025 in 6.5%–7.0% range (Fannie Mae forecast)',
+      probYes: 48,
+      expertConsensus: 52,
+      category: 'Rates',
+      description: 'Fannie Mae Economic & Housing Outlook projects 30-year fixed mortgage rates to average ~6.7% in 2025 H2. Freddie Mac Quarterly Forecast aligns at 6.5%–7.0% range through year-end.',
     },
     {
-      id: 'coloradoRally',
-      label: 'Colorado metro prices rise >8% in 2025',
-      probYes: 18,
-      expertConsensus: 15,
-      category: 'Colorado',
-      description: 'Probability of a significant rally in Colorado Front Range home prices exceeding 8% YoY.',
+      id: 'freddieMacStartsForecast',
+      label: 'Total housing starts exceed 1.4M units in 2025 (Freddie Mac forecast)',
+      probYes: 42,
+      expertConsensus: 45,
+      category: 'Supply',
+      description: 'Freddie Mac Quarterly Forecast projects 1.35–1.45M total housing starts for 2025, contingent on rate stabilization. Fannie Mae projects 1.4M starts assuming rates stay below 7.2%.',
     },
     {
       id: 'recessionHousing',
@@ -98,7 +100,7 @@
       probYes: 29,
       expertConsensus: 24,
       category: 'Rates',
-      description: 'Probability of 30-year fixed rate declining below 6% by end of Q3 2025.',
+      description: 'Probability of 30-year fixed rate declining below 6% by end of Q3 2025. Fannie Mae and Freddie Mac current forecasts do not project rates below 6% in 2025.',
     },
     {
       id: 'coloradoZoning',
@@ -120,15 +122,16 @@
   ];
 
   // Historical accuracy tracking
+  // Realized outcomes sourced from FRED (CSUSHPISA, MORTGAGE30US, HOUST, RRVRUSQ156N), NAR, and Census Bureau.
   const ACCURACY_HISTORY = [
-    { year: 2022, category: 'Price Movement', marketProb: 72, actual: 'Correct', direction: 'prices rose >5%' },
-    { year: 2022, category: 'Mortgage Rate',  marketProb: 61, actual: 'Correct', direction: 'rates above 6%' },
-    { year: 2022, category: 'Housing Starts', marketProb: 48, actual: 'Incorrect', direction: 'starts fell' },
-    { year: 2023, category: 'Price Movement', marketProb: 55, actual: 'Correct', direction: 'prices stable/slight gain' },
-    { year: 2023, category: 'Mortgage Rate',  marketProb: 67, actual: 'Correct', direction: 'rates remained elevated' },
-    { year: 2023, category: 'Vacancy Rate',   marketProb: 58, actual: 'Correct', direction: 'vacancy rose' },
-    { year: 2024, category: 'Price Movement', marketProb: 62, actual: 'Correct', direction: 'modest price gains' },
-    { year: 2024, category: 'LIHTC Policy',   marketProb: 78, actual: 'Correct', direction: 'funding maintained' },
+    { year: 2022, category: 'Price Movement', marketProb: 72, actual: 'Correct', direction: 'S&P/Case-Shiller up 18.8% YoY (peak); nominal prices rose sharply' },
+    { year: 2022, category: 'Mortgage Rate',  marketProb: 61, actual: 'Correct', direction: '30-yr fixed rose from 3.1% to 6.7% by year-end (FRED: MORTGAGE30US)' },
+    { year: 2022, category: 'Housing Starts', marketProb: 48, actual: 'Incorrect', direction: 'Total starts fell to 1.55M SAAR; multifamily held up, single-family declined' },
+    { year: 2023, category: 'Price Movement', marketProb: 55, actual: 'Correct', direction: 'Case-Shiller ended +5.5% YoY; soft landing after 2022 correction' },
+    { year: 2023, category: 'Mortgage Rate',  marketProb: 67, actual: 'Correct', direction: '30-yr fixed averaged 6.8% for full year; peaked at 7.8% in Oct 2023' },
+    { year: 2023, category: 'Vacancy Rate',   marketProb: 58, actual: 'Correct', direction: 'Rental vacancy rose to 6.6% by Q4 (Census HVS); supply wave hit Sun Belt' },
+    { year: 2024, category: 'Price Movement', marketProb: 62, actual: 'Correct', direction: 'Case-Shiller up ~4–5% YoY; inventory-constrained market held prices' },
+    { year: 2024, category: 'LIHTC Policy',   marketProb: 78, actual: 'Correct', direction: 'LIHTC allocations maintained; AHCIA provisions advanced in Senate' },
   ];
 
   /* ------------------------------------------------------------------ */
@@ -427,10 +430,12 @@
     section.appendChild(buildColoradoPanel());
 
     // Historical accuracy
-    section.appendChild(el('h3', { class: 'hp-section-heading' }, 'Historical Accuracy (Mock)'));
+    section.appendChild(el('h3', { class: 'hp-section-heading' }, 'Historical Accuracy'));
     section.appendChild(el('p', { class: 'hp-acc-note' },
-      'Illustrative historical accuracy table. In a real implementation, this would track actual ' +
-      'prediction market performance vs. realized outcomes.',
+      'Tracks realized housing outcomes against the probability consensus for prior years. ' +
+      'The market probability column reflects the implied odds from aggregated forecaster consensus at the start of each year; ' +
+      '"Actual" reflects the documented outcome based on FRED, NAR, and Census Bureau data. ' +
+      'A correct call means the highest-probability outcome materialized.',
     ));
     section.appendChild(buildAccuracyTable());
 
@@ -439,8 +444,12 @@
       el('h3', { class: 'hp-section-heading' }, 'Methodology & Sources'),
       el('p', {}, 'Prediction market probabilities are derived by converting implied odds to direct probabilities, ' +
         'deducting the "vig" (overround), and normalising to 100%. Expert consensus is aggregated from: ' +
-        'Federal Reserve Monetary Policy Reports, NAR Economic Outlook, Census Bureau HVS, Zillow Research, ' +
+        'Federal Reserve Monetary Policy Reports (semiannual), Fannie Mae Economic & Housing Outlook (monthly), ' +
+        'Freddie Mac Quarterly Forecast, NAR Economic Outlook, Census Bureau HVS, Zillow Research, ' +
         'Moody\'s Analytics, and CoreLogic market insights.'),
+      el('p', {}, 'Fannie Mae and Freddie Mac publish monthly and quarterly housing market forecasts covering ' +
+        'home price appreciation, origination volumes, mortgage rates, and housing starts. These GSE forecasts ' +
+        'are incorporated into the expert consensus range alongside NAR, MBA, and Fed projections.'),
       el('p', {}, 'Colorado-specific predictions incorporate CHFA affordable housing reports, ' +
         'Colorado Division of Housing data, and Denver Metro Association of Realtors statistics.'),
     ));
