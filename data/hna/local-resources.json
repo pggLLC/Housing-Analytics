@@ -1,0 +1,52 @@
+{
+  "county:08077": {
+    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "housingAuthority": [
+      {"name": "Grand Junction Housing Authority", "url": "https://www.gjha.org/"},
+      {"name": "Fruita Housing Authority", "url": "https://www.fruita.org/694/Fruita-Housing-Authority"}
+    ],
+    "advocacy": [
+      {"name": "Grand Valley Catholic Outreach", "url": "https://gvch.org/"},
+      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"},
+      {"name": "Mesa County Community Services (Homeless Resources)", "url": "https://www.mesacounty.us/departments-and-services/human-services/homeless-resources"},
+      {"name": "Marillac Clinic / Catholic Outreach (MCCUH)", "url": "https://www.mccuh.org/"}
+    ],
+    "housingLead": {"name": "City of Grand Junction Housing (program page)", "url": "https://www.gjcity.org/353/Housing"}
+  },
+
+  "place:0828745": {
+    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "housingAuthority": [
+      {"name": "Fruita Housing Authority", "url": "https://www.fruita.org/694/Fruita-Housing-Authority"}
+    ],
+    "advocacy": [
+      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+    ]
+  },
+
+  "place:0831660": {
+    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "housingAuthority": [
+      {"name": "Grand Junction Housing Authority", "url": "https://www.gjha.org/"}
+    ],
+    "advocacy": [
+      {"name": "Grand Valley Catholic Outreach", "url": "https://gvch.org/"},
+      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+    ],
+    "housingLead": {"name": "Housing Manager (directory listing)", "url": "https://www.gjcity.org/directory.aspx?EID=146"}
+  },
+
+  "place:0856970": {
+    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "advocacy": [
+      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+    ]
+  },
+
+  "cdp:0815165": {
+    "prop123": {"status": "Mesa County context", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "advocacy": [
+      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+    ]
+  }
+}

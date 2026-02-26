@@ -1,0 +1,10 @@
+{
+  "featured": [
+    {"type": "county", "geoid": "08077", "label": "Mesa County"},
+    {"type": "place", "geoid": "0828745", "label": "Fruita (city)", "containingCounty": "08077"},
+    {"type": "place", "geoid": "0831660", "label": "Grand Junction (city)", "containingCounty": "08077"},
+    {"type": "place", "geoid": "0856970", "label": "Palisade (town)", "containingCounty": "08077"},
+    {"type": "cdp", "geoid": "0815165", "label": "Clifton (CDP)", "containingCounty": "08077"}
+  ],
+  "counties": []
+}
