@@ -15,6 +15,10 @@ const ACS_YEAR = 2024;
 const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs1/profile`;
 const GEOINFO_BASE = `https://api.census.gov/data/${ACS_YEAR}/geoinfo`;
 
+function censusKey() {
+  return (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : '';
+}
+
 const VARS = {
   totalHU: "DP04_0001E",
   pct_5_9: "DP04_0011PE",
@@ -74,18 +78,20 @@ async function loadPlaces(stateFips){
 
 function buildAcsUrl({ level, state, local }){
   const get = `NAME,${VARS.totalHU},${VARS.pct_5_9},${VARS.pct_10_19},${VARS.pct_20p}`;
+  const key = censusKey();
+  const keySuffix = key ? `&key=${encodeURIComponent(key)}` : "";
 
   if (level === "us") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=us:1`;
+    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=us:1${keySuffix}`;
   }
   if (level === "state") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=state:${state}`;
+    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=state:${state}${keySuffix}`;
   }
   if (level === "county") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=county:${local}&in=state:${state}`;
+    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=county:${local}&in=state:${state}${keySuffix}`;
   }
   if (level === "place") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=place:${local}&in=state:${state}`;
+    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=place:${local}&in=state:${state}${keySuffix}`;
   }
   throw new Error("Unknown geography level");
 }
@@ -130,24 +136,31 @@ async function refresh(){
 
   $("geo-note").textContent = "Loading…";
 
-  const url = buildAcsUrl({ level, state, local });
-  const data = await fetchJson(url);
+  try {
+    const url = buildAcsUrl({ level, state, local });
+    const data = await fetchJson(url);
 
-  const header = data[0];
-  const row = data[1];
-  const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
+    const header = data[0];
+    const row = data[1];
+    const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
 
-  const name = row[idx["NAME"]];
-  const totalHU = row[idx[VARS.totalHU]];
-  const p1 = row[idx[VARS.pct_5_9]];
-  const p2 = row[idx[VARS.pct_10_19]];
-  const p3 = row[idx[VARS.pct_20p]];
+    const name = row[idx["NAME"]];
+    const totalHU = row[idx[VARS.totalHU]];
+    const p1 = row[idx[VARS.pct_5_9]];
+    const p2 = row[idx[VARS.pct_10_19]];
+    const p3 = row[idx[VARS.pct_20p]];
 
-  $("geo-note").textContent = `Selected: ${name} (ACS ${ACS_YEAR} 1-year, DP04)`;
-  $("hu").textContent = fmtNumber(totalHU);
-  $("hu-meta").textContent = "Total housing units (estimate)";
+    $("geo-note").textContent = `Selected: ${name} (ACS ${ACS_YEAR} 1-year, DP04)`;
+    $("geo-note").style.color = "";
+    $("hu").textContent = fmtNumber(totalHU);
+    $("hu-meta").textContent = "Total housing units (estimate)";
 
-  renderShareChart(name, p1, p2, p3);
+    renderShareChart(name, p1, p2, p3);
+  } catch(e) {
+    console.error("[census-multifamily] refresh failed:", e);
+    $("geo-note").textContent = `Error: ${e.message}`;
+    $("geo-note").style.color = "crimson";
+  }
 }
 
 function setGeoUi(){
@@ -174,19 +187,25 @@ async function onGeoChange(){
   const level = $("geo-level").value;
   setGeoUi();
 
-  if (level === "us") return refresh();
+  try {
+    if (level === "us") return await refresh();
 
-  const state = $("state-select").value;
-  if (level === "state") return refresh();
+    const state = $("state-select").value;
+    if (level === "state") return await refresh();
 
-  if (level === "county") {
-    await loadCounties(state);
-    return refresh();
-  }
+    if (level === "county") {
+      await loadCounties(state);
+      return await refresh();
+    }
 
-  if (level === "place") {
-    await loadPlaces(state);
-    return refresh();
+    if (level === "place") {
+      await loadPlaces(state);
+      return await refresh();
+    }
+  } catch(e) {
+    console.error("[census-multifamily] onGeoChange failed:", e);
+    $("geo-note").textContent = `Error: ${e.message}`;
+    $("geo-note").style.color = "crimson";
   }
 }
 
