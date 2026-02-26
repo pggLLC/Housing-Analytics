@@ -1,0 +1,11 @@
+{
+  "08077": {
+    "intro": "Mesa County starter findings (customize this box as you expand the full HNA).",
+    "bullets": [
+      "Use the county-wide snapshot as context, but add municipality breakouts (Grand Junction, Fruita, Palisade) to avoid averaging away neighborhood issues.",
+      "Add HUD CHAS to quantify cost burden by AMI band (0\u201330 / 30\u201350 / 50\u201380 / 80\u2013100 / 100%+) and size the \u201cunits needed\u201d distribution.",
+      "Add a pipeline section: permits/starts/completions and vacancy trends to interpret whether affordability stress is supply-driven, demand-driven, or both.",
+      "Map overlays to prioritize geographies: LIHTC inventory, QCT/DDA, transit access, jobs, and hazard constraints."
+    ]
+  }
+}
