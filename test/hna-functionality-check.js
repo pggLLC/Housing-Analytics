@@ -100,9 +100,13 @@ test('HTML: banner element has correct CSS class', () => {
     assert(html.includes('class="banner"'), 'banner div has class="banner"');
 });
 
-test('HTML: external CDN dependencies are referenced', () => {
-    assert(html.includes('leaflet'), 'Leaflet CSS/JS is referenced');
-    assert(html.includes('chart.js') || html.includes('Chart.js') || html.includes('chart.umd'), 'Chart.js is referenced');
+test('HTML: Leaflet and Chart.js are loaded from vendored local files', () => {
+    assert(html.includes('js/vendor/leaflet.css'), 'vendored leaflet.css is referenced');
+    assert(html.includes('js/vendor/leaflet.js'),  'vendored leaflet.js is referenced');
+    assert(html.includes('js/vendor/chart.umd.min.js'), 'vendored chart.umd.min.js is referenced');
+    // Should NOT use unpkg or jsdelivr CDN for these core dependencies
+    assert(!html.includes('unpkg.com/leaflet'), 'Leaflet is NOT loaded from unpkg CDN');
+    assert(!html.includes('cdn.jsdelivr.net/npm/chart.js'), 'Chart.js is NOT loaded from jsdelivr CDN');
 });
 
 test('HTML: site scripts are loaded', () => {
@@ -194,10 +198,13 @@ test('JS: fmtNum/fmtMoney/fmtPct guards against null/undefined/NaN', () => {
 // ---------------------------------------------------------------------------
 // JS: map rendering
 // ---------------------------------------------------------------------------
-test('JS: Leaflet map is initialized', () => {
+test('JS: Leaflet map is initialized with tile error fallback', () => {
     assert(js.includes('L.map('), 'L.map() is called to create the map');
     assert(js.includes('L.tileLayer'), 'tile layer is added to the map');
     assert(js.includes('function ensureMap'), 'ensureMap guard function is present');
+    assert(js.includes('tileerror'), 'tile error fallback handler is present');
+    assert(js.includes('tileLayer(') && (js.includes('basemaps') || js.includes('tile.openstreetmap')), 'tile provider URL is configured');
+    assert(js.includes('map.invalidateSize'), 'map.invalidateSize is called to handle layout issues');
 });
 
 test('JS: boundary fetch and rendering is implemented', () => {
