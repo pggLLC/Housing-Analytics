@@ -163,7 +163,7 @@
   text-align: center;
   background:
     radial-gradient(ellipse 80% 60% at 50% 110%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%),
-    linear-gradient(160deg, var(--bg2) 0%, var(--bg3) 40%, var(--bg2) 100%);
+    linear-gradient(160deg, var(--bg2) 0%, var(--bg3) 40%, var(--bg2) 100%) !important;
   border-bottom: 1px solid var(--border);
 }
 .hero::before {
@@ -391,7 +391,7 @@
 .cta-section {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, var(--accent2)) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, var(--accent2)) 100%) !important;
   padding-block: var(--sp6);
   text-align: center;
 }
