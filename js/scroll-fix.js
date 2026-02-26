@@ -11,13 +11,7 @@
     window.history.scrollRestoration = 'manual';
   }
 
-  function scrollTop() {
+  window.addEventListener('load', function () {
     window.scrollTo(0, 0);
-  }
-
-  if (document.readyState === 'loading') {
-    window.addEventListener('load', scrollTop);
-  } else {
-    scrollTop();
-  }
+  });
 })();
