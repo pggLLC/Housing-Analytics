@@ -47,7 +47,7 @@
       nav.site-nav a{padding:8px 10px;border-radius:999px;border:1px solid transparent;color:var(--text);text-decoration:none;font-weight:700;font-size:.92rem}
       nav.site-nav a:hover{background:color-mix(in oklab, var(--card) 70%, var(--accent) 30%);border-color:color-mix(in oklab, var(--border) 60%, var(--accent) 40%)}
       nav.site-nav a.is-active{background:color-mix(in oklab, var(--card) 60%, var(--accent) 40%);border-color:color-mix(in oklab, var(--border) 40%, var(--accent) 60%)}
-      footer.site-footer{margin-top:32px;border-top:1px solid var(--border);background:var(--card)}
+      footer.site-footer{margin-top:32px;border-top:1px solid var(--border);background:var(--bg2)}
       .footer-wrap{max-width:1200px;margin:0 auto;padding:18px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
       .footer-wrap a{color:var(--muted);text-decoration:none}
       .footer-wrap a:hover{color:var(--text)}
