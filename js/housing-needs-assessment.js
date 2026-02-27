@@ -75,32 +75,34 @@
   };
 
   // Colorado LIHTC fallback data (representative projects; source: HUD LIHTC database)
+  // Used only when the HUD ArcGIS API is unreachable. Includes the same fields returned by
+  // the live API so popups render consistently in both paths.
   const LIHTC_FALLBACK_CO = {type:'FeatureCollection',features:[
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',N_UNITS:120,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_CTY:'Denver',N_UNITS:72,YR_PIS:2016,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_CTY:'Denver',N_UNITS:55,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_CTY:'Denver',N_UNITS:96,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',N_UNITS:150,YR_PIS:2021,CREDIT:'4%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_CTY:'Aurora',N_UNITS:90,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',N_UNITS:100,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Boulder',CNTY_FIPS:'08013'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',N_UNITS:130,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'El Paso',CNTY_FIPS:'08041'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',N_UNITS:104,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Larimer',CNTY_FIPS:'08069'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',N_UNITS:90,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Weld',CNTY_FIPS:'08123'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',N_UNITS:80,YR_PIS:2017,CREDIT:'9%',CNTY_NAME:'Pueblo',CNTY_FIPS:'08101'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',N_UNITS:85,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Mesa',CNTY_FIPS:'08077'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5750,39.0850]},properties:{PROJECT:'Mesa Valley Apartments',PROJ_CTY:'Grand Junction',N_UNITS:48,YR_PIS:2017,CREDIT:'9%',CNTY_NAME:'Mesa',CNTY_FIPS:'08077'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_CTY:'Eagle',N_UNITS:50,YR_PIS:2022,CREDIT:'9%',CNTY_NAME:'Eagle',CNTY_FIPS:'08037'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata',CNTY_FIPS:'08067'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9211,39.6861]},properties:{PROJECT:'Englewood Family Flats',PROJ_CTY:'Englewood',N_UNITS:70,YR_PIS:2019,CREDIT:'4%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0211,39.5611]},properties:{PROJECT:'Littleton Senior Homes',PROJ_CTY:'Littleton',N_UNITS:60,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9895,39.7617]},properties:{PROJECT:'Capitol Hill Residences',PROJ_CTY:'Denver',N_UNITS:84,YR_PIS:2022,CREDIT:'4%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0163,39.7392]},properties:{PROJECT:'West Colfax Commons',PROJ_CTY:'Denver',N_UNITS:56,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1311,39.7500]},properties:{PROJECT:'Lakewood Affordable Flats',PROJ_CTY:'Lakewood',N_UNITS:92,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Jefferson',CNTY_FIPS:'08059'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9281,39.5480]},properties:{PROJECT:'Glenwood Springs Workforce',PROJ_CTY:'Glenwood Springs',N_UNITS:44,YR_PIS:2022,CREDIT:'9%',CNTY_NAME:'Garfield',CNTY_FIPS:'08045'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8069,40.3722]},properties:{PROJECT:'Loveland Family Housing',PROJ_CTY:'Loveland',N_UNITS:75,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Larimer',CNTY_FIPS:'08069'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.4222,38.4681]},properties:{PROJECT:'Cañon City Senior Village',PROJ_CTY:'Cañon City',N_UNITS:50,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'Fremont',CNTY_FIPS:'08043'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7506,38.2008]},properties:{PROJECT:'Pueblo West Apartments',PROJ_CTY:'Pueblo West',N_UNITS:66,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Pueblo',CNTY_FIPS:'08101'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3131,37.4681]},properties:{PROJECT:'Alamosa Affordable Homes',PROJ_CTY:'Alamosa',N_UNITS:40,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Alamosa',CNTY_FIPS:'08003'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:120,LI_UNITS:120,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2016,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:55,LI_UNITS:55,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:96,LI_UNITS:96,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:150,LI_UNITS:150,YR_PIS:2021,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',PROJ_ST:'CO',N_UNITS:100,LI_UNITS:100,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Boulder',CNTY_FIPS:'08013',STATEFP:'08',COUNTYFP:'013'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:130,LI_UNITS:130,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'El Paso',CNTY_FIPS:'08041',STATEFP:'08',COUNTYFP:'041'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',PROJ_ST:'CO',N_UNITS:104,LI_UNITS:104,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Larimer',CNTY_FIPS:'08069',STATEFP:'08',COUNTYFP:'069'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'Weld',CNTY_FIPS:'08123',STATEFP:'08',COUNTYFP:'123'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2017,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Pueblo',CNTY_FIPS:'08101',STATEFP:'08',COUNTYFP:'101'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:85,LI_UNITS:85,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Mesa',CNTY_FIPS:'08077',STATEFP:'08',COUNTYFP:'077'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5750,39.0850]},properties:{PROJECT:'Mesa Valley Apartments',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2017,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Mesa',CNTY_FIPS:'08077',STATEFP:'08',COUNTYFP:'077'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_CTY:'Eagle',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Eagle',CNTY_FIPS:'08037',STATEFP:'08',COUNTYFP:'037'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',PROJ_ST:'CO',N_UNITS:62,LI_UNITS:62,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'La Plata',CNTY_FIPS:'08067',STATEFP:'08',COUNTYFP:'067'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9211,39.6861]},properties:{PROJECT:'Englewood Family Flats',PROJ_CTY:'Englewood',PROJ_ST:'CO',N_UNITS:70,LI_UNITS:70,YR_PIS:2019,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0211,39.5611]},properties:{PROJECT:'Littleton Senior Homes',PROJ_CTY:'Littleton',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9895,39.7617]},properties:{PROJECT:'Capitol Hill Residences',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:84,LI_UNITS:84,YR_PIS:2022,CREDIT:'4%',QCT:1,DDA:1,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0163,39.7392]},properties:{PROJECT:'West Colfax Commons',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:56,LI_UNITS:56,YR_PIS:2021,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1311,39.7500]},properties:{PROJECT:'Lakewood Affordable Flats',PROJ_CTY:'Lakewood',PROJ_ST:'CO',N_UNITS:92,LI_UNITS:92,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Jefferson',CNTY_FIPS:'08059',STATEFP:'08',COUNTYFP:'059'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9281,39.5480]},properties:{PROJECT:'Glenwood Springs Workforce',PROJ_CTY:'Glenwood Springs',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Garfield',CNTY_FIPS:'08045',STATEFP:'08',COUNTYFP:'045'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8069,40.3722]},properties:{PROJECT:'Loveland Family Housing',PROJ_CTY:'Loveland',PROJ_ST:'CO',N_UNITS:75,LI_UNITS:75,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Larimer',CNTY_FIPS:'08069',STATEFP:'08',COUNTYFP:'069'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.4222,38.4681]},properties:{PROJECT:'Cañon City Senior Village',PROJ_CTY:'Cañon City',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Fremont',CNTY_FIPS:'08043',STATEFP:'08',COUNTYFP:'043'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7506,38.2008]},properties:{PROJECT:'Pueblo West Apartments',PROJ_CTY:'Pueblo West',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Pueblo',CNTY_FIPS:'08101',STATEFP:'08',COUNTYFP:'101'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3131,37.4681]},properties:{PROJECT:'Alamosa Affordable Homes',PROJ_CTY:'Alamosa',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2021,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Alamosa',CNTY_FIPS:'08003',STATEFP:'08',COUNTYFP:'003'}},
   ]};
 
   // Colorado DDA (Difficult Development Area) designation lookup
@@ -517,21 +519,24 @@
     return { type: 'FeatureCollection', features };
   }
 
-  // Fetch LIHTC projects from HUD ArcGIS REST service for the county, fall back to embedded data
+  // Fetch LIHTC projects from HUD ArcGIS REST service for the county, fall back to embedded data.
+  // Source: HUD LIHTC database via ArcGIS FeatureServer (services.arcgis.com/VTyQ9soqVukalItT)
   async function fetchLihtcProjects(countyFips5){
     if (countyFips5 && countyFips5.length === 5) {
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
+      // Request all fields ('*') so that LI_UNITS, QCT, DDA, address info, HUD_ID, etc. are
+      // all returned.  A limited outFields list was the previous cause of incomplete properties.
       const params = new URLSearchParams({
         where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
-        outFields: 'PROJECT,PROJ_CTY,N_UNITS,YR_PIS,CREDIT,CNTY_NAME,STATEFP,COUNTYFP',
+        outFields: '*',
         f: 'geojson',
         outSR: '4326',
-        resultRecordCount: 500,
+        resultRecordCount: 1000,
       });
       const url = `${SOURCES.hudLihtcQuery}/query?${params}`;
       try {
-        const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+        const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
         if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
@@ -595,6 +600,32 @@
     return null;
   }
 
+  // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)
+  // Source: HUD LIHTC database (https://lihtc.huduser.gov/)
+  function lihtcPopupHtml(p) {
+    const safe = v => (v == null || v === '') ? '—' : String(v);
+    const yn   = v => (v === 1 || v === '1' || v === 'Y' || v === true)
+      ? '<span style="color:#34d399">Yes</span>'
+      : '<span style="color:#94a3b8">No</span>';
+    const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
+      .filter(Boolean).join(', ');
+    return `<div style="min-width:220px;max-width:280px;font-size:13px">
+      <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
+      ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${safe(p.CREDIT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
+        ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
+      </table>
+      <div style="margin-top:6px;font-size:11px;opacity:.55">Source: HUD LIHTC Database</div>
+    </div>`;
+  }
+
   // Render LIHTC project markers on the map
   function renderLihtcLayer(geojson){
     ensureMap();
@@ -616,15 +647,8 @@
       pointToLayer: (f, latlng) => L.marker(latlng, { icon: lihtcIcon }),
       onEachFeature: (f, layer) => {
         const p = f.properties || {};
-        const lines = [
-          `<strong>${p.PROJECT || 'LIHTC Project'}</strong>`,
-          p.PROJ_CTY ? `City: ${p.PROJ_CTY}` : null,
-          p.N_UNITS  ? `Units: ${p.N_UNITS}` : null,
-          p.YR_PIS   ? `Year: ${p.YR_PIS}` : null,
-          p.CREDIT   ? `Credit type: ${p.CREDIT}` : null,
-        ].filter(Boolean).join('<br>');
-        layer.bindPopup(lines);
-        layer.bindTooltip(p.PROJECT || 'LIHTC Project');
+        layer.bindPopup(lihtcPopupHtml(p));
+        layer.bindTooltip(p.PROJECT || p.PROJ_NM || 'LIHTC Project');
       },
     }).addTo(map);
 
@@ -637,17 +661,20 @@
     if (els.statLihtcCount) els.statLihtcCount.textContent = count.toLocaleString();
     if (els.statLihtcUnits) els.statLihtcUnits.textContent = units.toLocaleString();
 
-    // Build project list in info panel
+    // Build project list in info panel (top 10 by total units)
     if (els.lihtcInfoPanel) {
+      // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined
+      const safeCell = v => (v != null && v !== '') ? String(v) : '—';
       const sorted = [...geojson.features].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
       const rows = sorted.slice(0, 10).map(f => {
         const p = f.properties || {};
         return `<tr>
-          <td style="padding:4px 6px">${p.PROJECT || '—'}</td>
-          <td style="padding:4px 6px">${p.PROJ_CTY || '—'}</td>
-          <td style="padding:4px 6px;text-align:right">${p.N_UNITS || '—'}</td>
-          <td style="padding:4px 6px">${p.YR_PIS || '—'}</td>
-          <td style="padding:4px 6px">${p.CREDIT || '—'}</td>
+          <td style="padding:4px 6px">${safeCell(p.PROJECT || p.PROJ_NM)}</td>
+          <td style="padding:4px 6px">${safeCell(p.PROJ_CTY || p.STD_CITY)}</td>
+          <td style="padding:4px 6px;text-align:right">${safeCell(p.N_UNITS)}</td>
+          <td style="padding:4px 6px;text-align:right">${safeCell(p.LI_UNITS)}</td>
+          <td style="padding:4px 6px">${safeCell(p.YR_PIS)}</td>
+          <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
         </tr>`;
       }).join('');
       els.lihtcInfoPanel.innerHTML = rows ? `
@@ -657,7 +684,8 @@
             <thead><tr style="color:var(--muted)">
               <th style="padding:4px 6px;text-align:left">Project</th>
               <th style="padding:4px 6px;text-align:left">City</th>
-              <th style="padding:4px 6px;text-align:right">Units</th>
+              <th style="padding:4px 6px;text-align:right">Total units</th>
+              <th style="padding:4px 6px;text-align:right">LI units</th>
               <th style="padding:4px 6px">Year</th>
               <th style="padding:4px 6px">Credit</th>
             </tr></thead>
