@@ -66,8 +66,13 @@ def utc_now_z() -> str:
 
 def redact(s: str) -> str:
     """Redact sensitive API keys from logs."""
-    s = s.replace(os.environ.get('CENSUS_API_KEY', ''), '***CENSUS_API_KEY***')
-    s = s.replace(os.environ.get('FRED_API_KEY', ''), '***FRED_API_KEY***')
+    census_key_val = os.environ.get('CENSUS_API_KEY', '')
+    fred_key_val = os.environ.get('FRED_API_KEY', '')
+    # Only replace when the key is non-empty; replacing '' corrupts the whole string
+    if census_key_val:
+        s = s.replace(census_key_val, '***CENSUS_API_KEY***')
+    if fred_key_val:
+        s = s.replace(fred_key_val, '***FRED_API_KEY***')
     return s
 
 
@@ -502,14 +507,14 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
 
     for year in years_to_try:
         base = f'https://api.census.gov/data/{year}/acs/acs5'
-        params: dict = {
-            'get': ','.join(b_vars),
-            'for': for_param,
-            'in': f'state:{STATE_FIPS_CO}',
-        }
+        # Build the query string manually to preserve literal colons in the
+        # Census API geography parameters (for= and in=).  urllib.parse.urlencode
+        # encodes ':' as '%3A', which the Census API does not decode, causing it
+        # to report "ambiguous geography" errors for county-level queries.
+        qs = f"get={','.join(b_vars)}&for={for_param}&in=state:{STATE_FIPS_CO}"
         if key:
-            params['key'] = key
-        url = base + '?' + urllib.parse.urlencode(params)
+            qs += f"&key={urllib.parse.quote(key, safe='')}"
+        url = f"{base}?{qs}"
         result = http_get_json(url)
         if result and len(result) > 1:
             raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
@@ -613,17 +618,19 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         elif geo_type == 'place':
             for_ = f"place:{geoid[2:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         else:
             for_ = f"place:{geoid[2:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         key = census_key()
+        # Build the query string manually to preserve literal colons in the
+        # Census API geography parameters (for= and in=).  urllib.parse.urlencode
+        # encodes ':' as '%3A', which the Census API does not decode, causing it
+        # to report "ambiguous geography" errors for county-level queries.
+        qs = f"get={','.join(vars_)}&for={for_}&in=state:{STATE_FIPS_CO}"
         if key:
-            params['key'] = key
-        return base + '?' + urllib.parse.urlencode(params)
+            qs += f"&key={urllib.parse.quote(key, safe='')}"
+        return f"{base}?{qs}"
 
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
     # for each year try ACS1/profile → ACS1/subject → ACS5/profile in order.
@@ -662,17 +669,19 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         elif geo_type == 'place':
             for_ = f"place:{geoid[2:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         else:
             for_ = f"place:{geoid[2:]}"
-            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         key = census_key()
+        # Build the query string manually to preserve literal colons in the
+        # Census API geography parameters (for= and in=).  urllib.parse.urlencode
+        # encodes ':' as '%3A', which the Census API does not decode, causing it
+        # to report "ambiguous geography" errors for county-level queries.
+        qs = f"get={','.join(vars_)}&for={for_}&in=state:{STATE_FIPS_CO}"
         if key:
-            params['key'] = key
-        return base + '?' + urllib.parse.urlencode(params)
+            qs += f"&key={urllib.parse.quote(key, safe='')}"
+        return f"{base}?{qs}"
 
     # Try ACS1/subject → ACS5/subject for each year
     # Years are configurable: ACS_START_YEAR (default 2024), ACS_FALLBACK_YEARS (default 3)
