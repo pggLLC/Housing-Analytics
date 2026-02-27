@@ -10,6 +10,7 @@
     "validate": "node scripts/validate.js",
     "test:hna": "node test/hna-functionality-check.js",
     "test:pages": "node test/pages-availability-check.js",
+    "test:contrast": "node scripts/contrast-audit/run.js",
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
     "audit:contrast": "node scripts/contrast-audit.js"
@@ -20,6 +21,7 @@
     "jsdom": "^24.1.3",
     "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.1",
+    "playwright": "^1.58.2",
     "wcag-contrast": "^3.0.0"
   },
   "engines": {
