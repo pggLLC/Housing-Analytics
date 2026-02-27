@@ -1,13 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Colorado Affordable Housing Deep Dive | Affordable Housing Intelligence</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
   <!-- Site theme, layout & components -->
   <link rel="stylesheet" href="css/site-theme.css">
@@ -19,15 +17,15 @@
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
-<script defer src="js/navigation.js"></script>
-  <script defer src="js/dark-mode-toggle.js"></script>
-  <script defer src="js/mobile-menu.js"></script>
+<script defer="" src="js/navigation.js"></script>
+  <script defer="" src="js/dark-mode-toggle.js"></script>
+  <script defer="" src="js/mobile-menu.js"></script>
 
   
   
 
   <!-- Leaflet (vendored locally — no CDN required) -->
-  <link rel="stylesheet" href="js/vendor/leaflet.css"/>
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
@@ -345,23 +343,23 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
     </div>
     <div class="map-controls" role="group" aria-label="Map layers and filters">
-      <label><input type="checkbox" id="layerCounties" checked> Counties</label>
+      <label><input type="checkbox" id="layerCounties" checked=""> Counties</label>
       <label><input type="checkbox" id="layerPlaces"> Places</label>
-      <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
-      <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
+      <label><input type="checkbox" id="layerQCT" checked=""> QCT 2026</label>
+      <label><input type="checkbox" id="layerDDA" checked=""> DDA 2026</label>
       <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
       <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
       <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
-      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color:var(--faint);"></span></label>
+      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: #0f172a;"></span></label>
       <label style="gap:.5rem;">
         Theme:
         <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
-          <option value="auto" selected>Auto</option>
+          <option value="auto" selected="">Auto</option>
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
       </label>
-      <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
+      <span id="map-status" style="margin-left:auto; font-size:0.78rem; color: #0f172a;"></span>
     </div>
     <div id="coMap"></div>
     <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
@@ -474,7 +472,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">AMI Variations Across Colorado Counties</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">AMI Variations Across Colorado Counties</h3>
 <div class="data-table">
 <table>
 <thead>
@@ -541,20 +539,17 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     </div>
     <div style="display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;">
       <label for="amiGapCountySelect" style="font-size:.83rem; font-weight:600; color:var(--muted);">County / Region:</label>
-      <select id="amiGapCountySelect"
-              style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
+      <select id="amiGapCountySelect" style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
         <option value="STATE">Colorado (statewide)</option>
       </select>
-      <button id="amiGapExportBtn"
-              style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">
+      <button id="amiGapExportBtn" style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">
         ⬇ CSV
       </button>
     </div>
   </div>
 
   <!-- Error banner -->
-  <div id="amiGapError" role="alert"
-       style="display:none; padding:.75rem 1rem; margin-bottom:1rem; background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.35); border-radius:8px; color:var(--bad,#e05252); font-size:.87rem;"></div>
+  <div id="amiGapError" role="alert" style="display:none; padding:.75rem 1rem; margin-bottom:1rem; background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.35); border-radius:8px; color:var(--bad,#e05252); font-size:.87rem;"></div>
 
   <!-- Metadata bar -->
   <div id="amiGapMeta" style="font-size:.78rem; color:var(--faint); margin-bottom:1rem;"></div>
@@ -653,12 +648,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <summary style="cursor:pointer; font-size:.85rem; font-weight:600; color:var(--muted); padding:.5rem 0; user-select:none;">
       📋 Methodology &amp; Data Sources
     </summary>
-    <div id="amiGapMethodology"
-         style="margin-top:.6rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.83rem; line-height:1.7; color:var(--muted);">
+    <div id="amiGapMethodology" style="margin-top:.6rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.83rem; line-height:1.7; color:var(--muted);">
     </div>
   </details>
 
-  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;" id="amiGapEndpointRow" hidden>
+  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;" id="amiGapEndpointRow" hidden="">
     Data endpoint: <code id="amiGapEndpoint" style="font-size:.75rem; background:var(--bg2); padding:1px 4px; border-radius:4px;"></code>
   </div>
 
@@ -730,7 +724,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Statewide Concession Comparison</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Statewide Concession Comparison</h3>
 <div class="data-table">
 <table>
 <thead>
@@ -891,9 +885,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
             </p>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Key Factors Driving Statewide Pricing Pressure</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Key Factors Driving Statewide Pricing Pressure</h3>
 <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--color-background-alt); border-left: 3px solid var(--color-primary); border-radius: 4px;">
-<h4 style="margin-bottom: 1rem; color: var(--color-primary);">1. Broad Investor Caution (Not Just Denver)</h4>
+<h4 style="margin-bottom: 1rem; color: #0f172a;">1. Broad Investor Caution (Not Just Denver)</h4>
 <p style="line-height: 1.7;">
                     LIHTC investors are generally cautious in 2025–2026 due to:
                 </p>
@@ -959,31 +953,31 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">Why Western Slope Pricing is Falling</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Why Western Slope Pricing is Falling</h3>
 <p style="line-height: 1.8; margin-bottom: 1.5rem;">
                 The downward pressure on pricing in rural Colorado is <strong>not arbitrary</strong> — it's a direct result of:
             </p>
 <div style="display: grid; gap: 1.5rem;">
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📈 High Interest Costs</h4>
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">📈 High Interest Costs</h4>
 <p style="line-height: 1.7; margin: 0;">
                         The cost to finance projects has increased significantly. Construction loans that were 4-5% are now 7-8%, requiring <strong>more tax credit equity</strong> to make projects viable. Rural projects, being smaller and perceived as higher-risk, face even higher rates.
                     </p>
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">⚠️ Increased Risk Perception</h4>
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">⚠️ Increased Risk Perception</h4>
 <p style="line-height: 1.7; margin: 0;">
                         Investors are, in general, <strong>more conservative</strong> in 2025-2026. This disproportionately impacts <strong>smaller or more remote projects</strong> (rural) often more than large urban ones. Reasons include: limited market depth, fewer comparable projects, longer lease-up periods, and concentrated tenant base risk.
                     </p>
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">💰 Construction Cost Inflation Squeeze</h4>
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">💰 Construction Cost Inflation Squeeze</h4>
 <p style="line-height: 1.7; margin: 0;">
                         The <strong>40% increase in development costs</strong> since 2019, coupled with potential tariff impacts on materials, is squeezing project budgets. Rural projects face: higher per-unit costs (smaller scale = less efficiency), limited contractor availability, and material shipping costs.
                     </p>
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📊 National Capital Crunch</h4>
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">📊 National Capital Crunch</h4>
 <p style="line-height: 1.7; margin: 0;">
                         This isn't localized fear of Denver. It's a broader, <strong>state-wide and national tightening</strong> of affordable housing "budget gaps" and "capital crunch." Investors with limited capital are prioritizing: larger deals (better returns per effort), proven markets (lower perceived risk), and urban locations (better exit strategies).
                     </p>
@@ -1057,7 +1051,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <h2>Market Outlook &amp; Strategic Implications</h2>
 <div style="display: grid; gap: 2rem; margin: 1.25rem 0;">
 <div class="chart-card">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For LIHTC Developers</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">For LIHTC Developers</h3>
 <div style="background: rgba(52, 152, 219, 0.05); padding: 1.5rem; border-left: 3px solid var(--color-info); border-radius: 4px; margin-bottom: 1.5rem;">
 <p style="font-weight: 600; margin-bottom: 0.5rem;">Opportunity: Basis Boost Maximization</p>
 <p style="margin: 0; font-size: 0.9375rem; line-height: 1.7;">
@@ -1072,7 +1066,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </ul>
 </div>
 <div class="chart-card">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">For Investors</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">For Investors</h3>
 <ul style="line-height: 1.8;">
 <li><strong>Timing:</strong> Current oversupply = buyer's market for acquisitions; stabilization by late 2026</li>
 <li><strong>Class Focus:</strong> Class B outperforming Class C (which fell 5% YoY); avoid older assets without renovation plans</li>
@@ -1093,7 +1087,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 <!-- Sources -->
 <div style="margin-top: 1.5rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
-<h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
+<h3 style="color: #0f172a; margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
 <ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
   <li><a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA Designations</a> — 2026 DDA and QCT designations (Effective January 1, 2026); Federal Register Notice (September 30, 2025)</li>
   <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool" target="_blank" rel="noopener">Novogradac QCT/DDA Mapping Tool</a> — Interactive mapping of qualified census tracts and difficult development areas</li>
@@ -1174,7 +1168,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <h2>Colorado Market Conditions <small style="font-size:.7em;font-weight:400;color:var(--muted);">— CAR</small></h2>
     <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">
       Statewide metrics from the Colorado Association of REALTORS monthly market report.
-      <span id="carFreshness" style="font-size:.78rem;color:var(--faint);"></span>
+      <span id="carFreshness" style="font-size:.78rem;color: #0f172a;"></span>
     </p>
     <div id="carMarketLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading CAR market data…</div>
     <div id="carMarketError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
@@ -1875,5 +1869,6 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
   <script src="js/ui-interactions.js"></script>
   <script src="js/prop123-map.js"></script>
 <script src="js/colorado-deep-dive.js"></script>
-</body>
-</html>
+
+
+</body></html>
