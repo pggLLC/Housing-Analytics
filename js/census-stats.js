@@ -7,13 +7,13 @@
   const API_KEY = (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : null;
 
   // ACS 5-year Data Profile (latest available in Census API; we try a few recent vintages).
-  const VINTAGES = [2023, 2022, 2021, 2020];
+  const VINTAGES = [2024, 2023, 2022, 2021, 2020];
 
   const SERIES = [
-    { id: "DP05_0001E", label: "U.S. Population", fmt: "int" },
-    { id: "DP03_0062E", label: "Median Household Income", fmt: "usd" },
-    { id: "DP04_0134E", label: "Median Gross Rent", fmt: "usd" },
-    { id: "DP04_0089E", label: "Median Home Value", fmt: "usd" }
+    { id: "DP05_0001E", label: "U.S. Population", fmt: "int", table: "DP05" },
+    { id: "DP03_0062E", label: "Median Household Income", fmt: "usd", table: "DP03" },
+    { id: "DP04_0134E", label: "Median Gross Rent", fmt: "usd", table: "DP04" },
+    { id: "DP04_0089E", label: "Median Home Value", fmt: "usd", table: "DP04" }
   ];
 
   function fmt(val, type) {
@@ -38,6 +38,10 @@
     return { vintage: v, values: out };
   }
 
+  function sourceUrl(vintage, table) {
+    return `https://data.census.gov/table/ACSDP5Y${vintage}.${table}?g=0100000US`;
+  }
+
   function render(container, payload) {
     const { vintage, values } = payload;
     container.querySelector('[data-census-vintage]').textContent = `ACS ${vintage} (5-year) · Census API`;
@@ -45,10 +49,12 @@
     const grid = container.querySelector('.census-grid');
     grid.innerHTML = SERIES.map(s => {
       const v = values[s.id];
+      const url = sourceUrl(vintage, s.table);
       return `
         <div class="card" style="padding:14px" data-contrast-surface>
           <div style="font-size:.78rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em">${s.label}</div>
           <div style="font-size:1.6rem;font-weight:900;margin-top:6px">${fmt(v, s.fmt)}</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:4px">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></div>
         </div>
       `;
     }).join("");
