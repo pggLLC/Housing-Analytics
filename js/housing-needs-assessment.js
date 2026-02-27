@@ -7,8 +7,11 @@
 (function(){
   const STATE_FIPS_CO = '08';
 
-  const ACS_YEAR_PRIMARY  = 2023;
-  const ACS_YEAR_FALLBACK = 2022;
+  // Probe vintages newest-first to always surface the most recent data available.
+  const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
+  // Keep named constants so existing checks and references still work.
+  const ACS_YEAR_PRIMARY  = ACS_VINTAGES[0];
+  const ACS_YEAR_FALLBACK = ACS_VINTAGES[1];
   const DEBUG_HNA = new URLSearchParams(location.search).has('debug');
 
   function redactKey(url){
@@ -204,6 +207,49 @@
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
     const v = Number(n);
     return `${v.toFixed(1)}%`;
+  }
+
+  /**
+   * Build a data.census.gov table URL with the correct geography filter
+   * so users can explore the underlying data.
+   * @param {number|null} year  - ACS vintage year (e.g. 2024)
+   * @param {string} series    - 'acs1' or 'acs5'
+   * @param {string} table     - table code, e.g. 'DP04', 'DP05', 'S0801'
+   * @param {string|null} geoType - 'county', 'place', 'cdp', or null (national)
+   * @param {string|null} geoid   - FIPS geoid (5-digit county or 7-digit place)
+   * @returns {string|null}
+   */
+  function censusSourceUrl(year, series, table, geoType, geoid){
+    if (!year || !table) return null;
+    const seriesCode = (series === 'acs1') ? '1Y' : '5Y';
+    // data.census.gov table ID prefix by table type:
+    //   S-prefix (Subject)  → ACSST{seriesCode}
+    //   B-prefix (Detailed) → ACSDT{seriesCode}
+    //   DP-prefix (Profile) → ACSDP{seriesCode}
+    const prefix = table.startsWith('S') ? `ACSST${seriesCode}`
+                 : table.startsWith('B') ? `ACSDT${seriesCode}`
+                 : `ACSDP${seriesCode}`;
+    const tableId = `${prefix}${year}.${table}`;
+    let geoCode = '0100000US'; // default: national
+    if (geoType === 'county' && geoid) {
+      geoCode = `0500000US${geoid}`;
+    } else if ((geoType === 'place' || geoType === 'cdp') && geoid) {
+      geoCode = `1600000US${geoid}`;
+    }
+    return `https://data.census.gov/table/${tableId}?g=${geoCode}`;
+  }
+
+  /**
+   * Render a source badge string (safe HTML) showing the ACS year, table label,
+   * and a clickable [Source] link to data.census.gov.
+   */
+  function srcLink(tableLabel, year, series, table, geoType, geoid){
+    const yearStr = year ? ` ${year}` : '';
+    const url = censusSourceUrl(year, series, table, geoType, geoid);
+    const link = url
+      ? ` · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source table on data.census.gov">[Source]</a>`
+      : '';
+    return `ACS${yearStr} ${tableLabel}${link}`;
   }
 
   function setBanner(msg, kind='info'){
@@ -799,23 +845,40 @@
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/profile');
     let r = await fetch(url1);
+    let usedYear = ACS_YEAR_PRIMARY;
+    let usedSeries = 'acs1';
     let url2 = null;
     if (!r.ok){
-      url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/profile');
-      r = await fetch(url2);
-      if (!r.ok){
-        // ACS profile/subject tables may not support this geography or these
-        // variable codes for the requested year.  Fall back to ACS 5-year
-        // B-series which covers all geography types (county, place, CDP) and
-        // uses stable variable codes.
-        return await fetchAcs5BSeries(geoType, geoid);
+      // Probe vintages newest-first for ACS 1-year
+      r = null;
+      for (const v of ACS_VINTAGES) {
+        const u = buildUrl(v, 'acs/acs1/profile');
+        const resp = await fetch(u);
+        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
       }
+    }
+    if (!r || !r.ok){
+      // Try ACS 5-year vintage probe
+      for (const v of ACS_VINTAGES) {
+        url2 = buildUrl(v, 'acs/acs5/profile');
+        const resp = await fetch(url2);
+        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+      }
+    }
+    if (!r || !r.ok){
+      // ACS profile/subject tables may not support this geography or these
+      // variable codes for the requested year.  Fall back to ACS 5-year
+      // B-series which covers all geography types (county, place, CDP) and
+      // uses stable variable codes.
+      return await fetchAcs5BSeries(geoType, geoid);
     }
     const arr = await r.json();
     const header = arr[0];
     const row = arr[1];
     const out = {};
     header.forEach((h,i)=>{out[h]=row[i];});
+    out._acsYear = usedYear;
+    out._acsSeries = usedSeries;
     return out;
   }
 
@@ -850,20 +913,25 @@
       'B25070_010E', // 50%+
     ];
 
-    const dataset = `https://api.census.gov/data/${ACS_YEAR_FALLBACK}/acs/acs5`;
-    const params = new URLSearchParams();
-    params.set('get', bVars.join(',') + ',NAME');
-    params.set('for', forParam);
-    params.set('in', `state:${STATE_FIPS_CO}`);
-    if (key) params.set('key', key);
-    const url = `${dataset}?${params.toString()}`;
-
-    const r = await fetch(url);
-    if (!r.ok){
-      if (DEBUG_HNA) console.warn(`ACS5 B-series fallback failed: ${r.status} ${redactKey(url)}`);
-      throw new Error(`ACS profile unavailable for this geography (${r.status})`);
+    // Probe vintages newest-first for ACS 5-year B-series
+    let bResp = null;
+    let bYear = ACS_YEAR_FALLBACK;
+    for (const v of ACS_VINTAGES) {
+      const base = `https://api.census.gov/data/${v}/acs/acs5`;
+      const p = new URLSearchParams();
+      p.set('get', bVars.join(',') + ',NAME');
+      p.set('for', forParam);
+      p.set('in', `state:${STATE_FIPS_CO}`);
+      if (key) p.set('key', key);
+      const u = `${base}?${p.toString()}`;
+      const resp = await fetch(u);
+      if (resp.ok){ bResp = resp; bYear = v; break; }
+      if (DEBUG_HNA) console.warn(`ACS5 B-series ${v} failed: ${resp.status}`);
     }
-    const arr = await r.json();
+    if (!bResp){
+      throw new Error(`ACS profile unavailable for this geography`);
+    }
+    const arr = await bResp.json();
     const header = arr[0];
     const row = arr[1] || [];
     const raw = {};
@@ -904,6 +972,8 @@
       DP04_0145PE: pct(si(raw.B25070_007E)),
       DP04_0146PE: pct(burden35),
       NAME: raw.NAME,
+      _acsYear: bYear,
+      _acsSeries: 'acs5',
     };
   }
 
@@ -941,22 +1011,39 @@
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/subject');
     let r = await fetch(url1);
+    let usedYear = ACS_YEAR_PRIMARY;
+    let usedSeries = 'acs1';
     let url2 = null;
     if (!r.ok){
-      url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/subject');
-      r = await fetch(url2);
-      if (!r.ok){
-        const msg = DEBUG_HNA
-          ? `ACS failed. Tried: ${redactKey(url1)} then ${redactKey(url2)}`
-          : `ACS S0801 failed (${r.status})`;
-        throw new Error(msg);
+      // Probe vintages newest-first for ACS 1-year
+      r = null;
+      for (const v of ACS_VINTAGES) {
+        const u = buildUrl(v, 'acs/acs1/subject');
+        const resp = await fetch(u);
+        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
       }
+    }
+    if (!r || !r.ok){
+      // Try ACS 5-year vintage probe
+      for (const v of ACS_VINTAGES) {
+        url2 = buildUrl(v, 'acs/acs5/subject');
+        const resp = await fetch(url2);
+        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+      }
+    }
+    if (!r || !r.ok){
+      const msg = DEBUG_HNA
+        ? `ACS S0801 failed for all vintages tried`
+        : `ACS S0801 failed`;
+      throw new Error(msg);
     }
     const arr = await r.json();
     const header = arr[0];
     const row = arr[1];
     const out = {};
     header.forEach((h,i)=>{out[h]=row[i];});
+    out._acsYear = usedYear;
+    out._acsSeries = usedSeries;
     return out;
   }
 
@@ -1004,14 +1091,20 @@
     const homeValue = profile?.DP04_0089E;
     const rent = profile?.DP04_0134E;
 
+    // Metadata for source links (attached by fetch functions or update() for cached data)
+    const yr   = profile?._acsYear   || null;
+    const sr   = profile?._acsSeries || 'acs5';
+    const gt   = profile?._geoType   || null;
+    const gid  = profile?._geoid     || null;
+
     els.statPop.textContent = fmtNum(pop);
-    els.statPopSrc.textContent = 'ACS DP05';
+    els.statPopSrc.innerHTML = srcLink('DP05', yr, sr, 'DP05', gt, gid);
     els.statMhi.textContent = fmtMoney(mhi);
-    els.statMhiSrc.textContent = 'ACS DP03';
+    els.statMhiSrc.innerHTML = srcLink('DP03', yr, sr, 'DP03', gt, gid);
     els.statHomeValue.textContent = fmtMoney(homeValue);
-    els.statHomeValueSrc.textContent = 'ACS DP04';
+    els.statHomeValueSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
     els.statRent.textContent = fmtMoney(rent);
-    els.statRentSrc.textContent = 'ACS DP04';
+    els.statRentSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
     const owner = Number(profile?.DP04_0047PE);
     const renter = Number(profile?.DP04_0046PE);
@@ -1727,6 +1820,22 @@
         profile = sum.acsProfile;
         s0801 = sum.acsS0801;
         cacheFlags.summary = true;
+        // Extract year and series from cached source endpoint URL if available
+        const endpointMeta = (url) => {
+          if (!url) return {};
+          const m = url.match(/\/data\/(\d{4})\//);
+          return { year: m ? parseInt(m[1], 10) : null, series: url.includes('/acs1/') ? 'acs1' : 'acs5' };
+        };
+        if (!profile._acsYear && sum.source?.acs_profile_endpoint) {
+          const { year, series } = endpointMeta(sum.source.acs_profile_endpoint);
+          if (year) profile._acsYear = year;
+          profile._acsSeries = series;
+        }
+        if (s0801 && !s0801._acsYear && sum.source?.acs_s0801_endpoint) {
+          const { year, series } = endpointMeta(sum.source.acs_s0801_endpoint);
+          if (year) s0801._acsYear = year;
+          s0801._acsSeries = series;
+        }
       }
     }catch(_){/* ignore */}
 
@@ -1737,6 +1846,8 @@
         console.warn(e);
       }
     }
+    // Attach geography metadata to profile and s0801 for source link generation
+    if (profile) { profile._geoType = geoType; profile._geoid = geoid; }
 
     if (!s0801){
       try{

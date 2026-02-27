@@ -431,6 +431,105 @@ test('data/hna/geo-config.json: valid JSON with required fields', () => {
 });
 
 // ---------------------------------------------------------------------------
+// JS: dynamic ACS year detection and source links
+// ---------------------------------------------------------------------------
+test('JS: ACS_VINTAGES array is defined and starts with a year >= 2024', () => {
+    assert(js.includes('ACS_VINTAGES'), 'ACS_VINTAGES array is defined');
+    const m = js.match(/const ACS_VINTAGES\s*=\s*\[\s*(\d+)/);
+    assert(m && parseInt(m[1], 10) >= 2024, 'ACS_VINTAGES first element is >= 2024');
+});
+
+test('JS: ACS_YEAR_PRIMARY and ACS_YEAR_FALLBACK constants are retained', () => {
+    assert(js.includes('ACS_YEAR_PRIMARY'), 'ACS_YEAR_PRIMARY is present');
+    assert(js.includes('ACS_YEAR_FALLBACK'), 'ACS_YEAR_FALLBACK is present');
+});
+
+test('JS: fetchAcsProfile probes vintages newest-first for both acs1 and acs5', () => {
+    assert(js.includes('for (const v of ACS_VINTAGES)'), 'ACS_VINTAGES loop is present in fetch logic');
+    assert(js.includes("'acs/acs1/profile'"), 'ACS1 profile endpoint is targeted');
+    assert(js.includes("'acs/acs5/profile'"), 'ACS5 profile fallback endpoint is present');
+});
+
+test('JS: fetchAcsProfile attaches _acsYear and _acsSeries to returned data', () => {
+    assert(js.includes('out._acsYear = usedYear'), 'fetchAcsProfile sets _acsYear on returned object');
+    assert(js.includes('out._acsSeries = usedSeries'), 'fetchAcsProfile sets _acsSeries on returned object');
+});
+
+test('JS: fetchAcs5BSeries probes vintages newest-first and attaches metadata', () => {
+    assert(js.includes('_acsYear: bYear'), 'fetchAcs5BSeries attaches _acsYear to returned object');
+    assert(js.includes("_acsSeries: 'acs5'"), 'fetchAcs5BSeries attaches _acsSeries to returned object');
+});
+
+test('JS: fetchAcsS0801 probes vintages newest-first and attaches metadata', () => {
+    assert(js.includes("'acs/acs1/subject'"), 'ACS1 subject endpoint is targeted');
+    assert(js.includes("'acs/acs5/subject'"), 'ACS5 subject fallback endpoint is present');
+    assert(js.includes('out._acsYear = usedYear'), '_acsYear is attached to S0801 result');
+});
+
+test('JS: update() attaches _geoType and _geoid to profile for source links', () => {
+    assert(js.includes('profile._geoType = geoType'), '_geoType is attached to profile in update()');
+    assert(js.includes('profile._geoid = geoid'), '_geoid is attached to profile in update()');
+});
+
+test('JS: update() extracts ACS year from cached summary source endpoint', () => {
+    assert(js.includes('acs_profile_endpoint'), 'acs_profile_endpoint is referenced in update()');
+    assert(js.includes('profile._acsYear'), 'profile._acsYear is set from cached source endpoint');
+    assert(js.includes('profile._acsSeries'), 'profile._acsSeries is set from cached source endpoint');
+});
+
+test('JS: censusSourceUrl helper generates data.census.gov URLs', () => {
+    assert(js.includes('function censusSourceUrl'), 'censusSourceUrl helper is defined');
+    assert(js.includes('data.census.gov/table/'), 'censusSourceUrl builds data.census.gov table URLs');
+    assert(js.includes('0500000US'), 'county geography code is used');
+    assert(js.includes('1600000US'), 'place geography code is used');
+    assert(js.includes('0100000US'), 'national geography code is used');
+});
+
+test('JS: srcLink helper generates source badge HTML', () => {
+    assert(js.includes('function srcLink'), 'srcLink helper function is defined');
+    assert(js.includes('[Source]'), 'srcLink includes [Source] text');
+    // censusSourceUrl builds table links; verify the domain is present in the JS source
+    assert(/censusSourceUrl/.test(js) && /data\.census\.gov\/table/.test(js),
+        'srcLink uses censusSourceUrl which links to data.census.gov table URLs');
+});
+
+test('JS: renderSnapshot uses innerHTML for source elements (to render links)', () => {
+    assert(js.includes('statPopSrc.innerHTML'), 'statPopSrc uses innerHTML for source link');
+    assert(js.includes('statMhiSrc.innerHTML'), 'statMhiSrc uses innerHTML for source link');
+    assert(js.includes('statHomeValueSrc.innerHTML'), 'statHomeValueSrc uses innerHTML for source link');
+    assert(js.includes('statRentSrc.innerHTML'), 'statRentSrc uses innerHTML for source link');
+});
+
+test('JS: renderSnapshot passes ACS year and series to srcLink', () => {
+    assert(js.includes("srcLink('DP05', yr, sr"), 'srcLink is called with DP05 for population');
+    assert(js.includes("srcLink('DP03', yr, sr"), 'srcLink is called with DP03 for income');
+    assert(js.includes("srcLink('DP04', yr, sr"), 'srcLink is called with DP04 for housing stats');
+});
+
+// ---------------------------------------------------------------------------
+// census-stats.js: dynamic year detection and source links
+// ---------------------------------------------------------------------------
+test('census-stats.js: VINTAGES list starts at 2024 or newer', () => {
+    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
+    const m = csjs.match(/const VINTAGES\s*=\s*\[\s*(\d+)/);
+    assert(m && parseInt(m[1], 10) >= 2024, 'census-stats.js VINTAGES first element is >= 2024');
+});
+
+test('census-stats.js: render includes [Source] link to data.census.gov', () => {
+    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
+    assert(csjs.includes('[Source]'), 'census-stats.js render includes [Source] text');
+    // sourceUrl helper builds data.census.gov links; verify the domain pattern is present
+    assert(/data\.census\.gov\/table/.test(csjs), 'census-stats.js links to data.census.gov table URLs');
+});
+
+test('census-stats.js: each SERIES entry has a table code for source links', () => {
+    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
+    assert(csjs.includes('table: "DP05"'), 'DP05 table code is in SERIES');
+    assert(csjs.includes('table: "DP03"'), 'DP03 table code is in SERIES');
+    assert(csjs.includes('table: "DP04"'), 'DP04 table code is in SERIES');
+});
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 console.log('\n' + '='.repeat(60));
