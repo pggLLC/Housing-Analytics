@@ -312,20 +312,22 @@ def fetch_acs5_profile_year(year: int, geo_type: str, geoid: str, vars_: list[st
     """Fetch ACS 5-year profile for a given year. Returns (row_dict, url)."""
     base = f'https://api.census.gov/data/{year}/acs/acs5/profile'
     if geo_type == 'county':
-        for_ = f"county:{geoid[-3:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
-    elif geo_type == 'place':
-        for_ = f"place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
+        for_param = f"county:{geoid[-3:]}"
     else:
-        for_ = f"place:{geoid[2:]}"
-        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
-
+        # Both 'place' and 'cdp' geography types use the Census 'place:' prefix;
+        # CDPs are classified as places in the Census API geography hierarchy.
+        for_param = f"place:{geoid[2:]}"
     key = census_key()
+    # Build the query string manually to preserve literal colons in the
+    # Census API geography parameters (for= and in=).  urllib.parse.urlencode
+    # encodes ':' as '%3A', which the Census API does not decode, causing it
+    # to report "ambiguous geography" errors for county-level queries.
+    # The API key is percent-encoded separately since it may contain arbitrary
+    # characters (e.g. '+', '&', '=') that must be escaped.
+    qs = f"get={','.join(vars_)}&for={for_param}&in=state:{STATE_FIPS_CO}"
     if key:
-        params['key'] = key
-
-    url = base + '?' + urllib.parse.urlencode(params)
+        qs += f"&key={urllib.parse.quote(key, safe='')}"
+    url = f"{base}?{qs}"
     arr = json.loads(http_get(url))
     header, row = arr[0], arr[1]
     return ({header[i]: row[i] for i in range(len(header))}, url)
@@ -364,13 +366,13 @@ def fetch_places() -> list[dict]:
     incorporated places (cities, towns) in Colorado.
     """
     key = census_key()
-    params = urllib.parse.urlencode({
-        'get': 'NAME',
-        'for': 'place:*',
-        'in': f'state:{STATE_FIPS_CO}',
-        **(({'key': key}) if key else {})
-    })
-    url = f"https://api.census.gov/data/2022/acs/acs5?{params}"
+    acs5_year = acs_start_year()
+    # Build query string manually to preserve literal colons in Census API
+    # geography params (urlencode encodes ':' as '%3A', breaking the API).
+    qs = f"get=NAME&for=place:*&in=state:{STATE_FIPS_CO}"
+    if key:
+        qs += f"&key={urllib.parse.quote(key, safe='')}"
+    url = f"https://api.census.gov/data/{acs5_year}/acs/acs5?{qs}"
     try:
         raw = http_get(url)
         arr = json.loads(raw)
@@ -406,13 +408,13 @@ def fetch_places() -> list[dict]:
 def fetch_cdps() -> list[dict]:
     """Fetch all Census-Designated Places (CDPs) in Colorado from Census API."""
     key = census_key()
-    params = urllib.parse.urlencode({
-        'get': 'NAME',
-        'for': 'place:*',
-        'in': f'state:{STATE_FIPS_CO}',
-        **(({'key': key}) if key else {})
-    })
-    url = f"https://api.census.gov/data/2022/acs/acs5?{params}"
+    acs5_year = acs_start_year()
+    # Build query string manually to preserve literal colons in Census API
+    # geography params (urlencode encodes ':' as '%3A', breaking the API).
+    qs = f"get=NAME&for=place:*&in=state:{STATE_FIPS_CO}"
+    if key:
+        qs += f"&key={urllib.parse.quote(key, safe='')}"
+    url = f"https://api.census.gov/data/{acs5_year}/acs/acs5?{qs}"
     try:
         raw = http_get(url)
         arr = json.loads(raw)
@@ -451,6 +453,11 @@ def fetch_cdps() -> list[dict]:
 
 def census_key() -> str:
     return os.environ.get('CENSUS_API_KEY', '').strip()
+
+
+def acs_start_year() -> int:
+    """Return the primary ACS data year to target (configurable via ACS_START_YEAR env var)."""
+    return int(os.environ.get('ACS_START_YEAR', '2024'))
 
 
 def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
@@ -501,7 +508,7 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
     else:
         for_param = f"place:{place_code}"
 
-    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    start_year = acs_start_year()
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
 
@@ -635,7 +642,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
     # for each year try ACS1/profile → ACS1/subject → ACS5/profile in order.
     # Years and depth are configurable via env vars for easy maintenance.
-    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    start_year = acs_start_year()
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
 
@@ -685,7 +692,7 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
 
     # Try ACS1/subject → ACS5/subject for each year
     # Years are configurable: ACS_START_YEAR (default 2024), ACS_FALLBACK_YEARS (default 3)
-    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    start_year = acs_start_year()
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
 
@@ -726,7 +733,28 @@ def _run_diagnostics(geo_type: str, geoid: str) -> None:
 
 
 def build_summary_cache():
-    for g in FEATURED:
+    # Build the full list of geographies to cache: FEATURED first, then all
+    # counties, places, and CDPs from geo-config that are not already covered.
+    all_geos: list[dict] = list(FEATURED)
+    featured_geoids = {g['geoid'] for g in FEATURED}
+
+    try:
+        with open(OUT['geo_config'], 'r', encoding='utf-8') as _f:
+            gc = json.load(_f)
+        for c in gc.get('counties', []):
+            if c['geoid'] not in featured_geoids:
+                all_geos.append({'type': 'county', 'geoid': c['geoid'], 'label': c['label']})
+        for p in gc.get('places', []):
+            if p['geoid'] not in featured_geoids:
+                all_geos.append({'type': 'place', 'geoid': p['geoid'], 'label': p['label']})
+        for cdp in gc.get('cdps', []):
+            if cdp['geoid'] not in featured_geoids:
+                all_geos.append({'type': 'cdp', 'geoid': cdp['geoid'], 'label': cdp['label']})
+    except Exception as e:
+        print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
+
+    start_year = acs_start_year()
+    for g in all_geos:
         geoid = g['geoid']
         geo_type = g['type']
         out_path = os.path.join(OUT['summary_dir'], f"{geoid}.json")
@@ -741,7 +769,6 @@ def build_summary_cache():
                 print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
             if acs_s0801 is None:
                 print(f"⚠ summary {geo_type}:{geoid}: ACS S0801 missing; writing partial summary", file=sys.stderr)
-            start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
             payload = {
                 'updated': utc_now_z(),
                 'geo': g,
@@ -1296,7 +1323,7 @@ def write_geo_config():
         'cdps': cdps,
         'source': {
             'county_list': 'TIGERweb State_County MapServer/1',
-            'place_list': 'Census ACS 5-year 2022 place names',
+            'place_list': f"Census ACS 5-year {acs_start_year()} place names (Colorado; regenerated by build_hna_data.py via GitHub Actions)",
         }
     }
     with open(OUT['geo_config'], 'w', encoding='utf-8') as f:
