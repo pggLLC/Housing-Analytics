@@ -146,10 +146,13 @@
     statRent: document.getElementById('statRent'),
     statRentSrc: document.getElementById('statRentSrc'),
     statTenure: document.getElementById('statTenure'),
+    statTenureSrc: document.getElementById('statTenureSrc'),
     statRentBurden: document.getElementById('statRentBurden'),
+    statRentBurdenSrc: document.getElementById('statRentBurdenSrc'),
     statIncomeNeed: document.getElementById('statIncomeNeed'),
     statIncomeNeedNote: document.getElementById('statIncomeNeedNote'),
     statCommute: document.getElementById('statCommute'),
+    statCommuteSrc: document.getElementById('statCommuteSrc'),
 
     localResources: document.getElementById('localResources'),
     affordAssumptions: document.getElementById('affordAssumptions'),
@@ -1109,9 +1112,11 @@
     const owner = Number(profile?.DP04_0047PE);
     const renter = Number(profile?.DP04_0046PE);
     els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
+    els.statTenureSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
     const rb = rentBurden30Plus(profile || {});
     els.statRentBurden.textContent = rb === null ? '—' : fmtPct(rb);
+    els.statRentBurdenSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
     const incomeNeed = computeIncomeNeeded(homeValue);
     els.statIncomeNeed.textContent = incomeNeed ? fmtMoney(incomeNeed.annualIncome) : '—';
@@ -1119,6 +1124,9 @@
 
     const mean = Number(s0801?.S0801_C01_018E);
     els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
+    const commYr = s0801?._acsYear   || yr;
+    const commSr = s0801?._acsSeries || sr;
+    els.statCommuteSrc.innerHTML = srcLink('S0801', commYr, commSr, 'S0801', gt, gid);
 
     els.geoContextPill.textContent = geoLabel;
 
