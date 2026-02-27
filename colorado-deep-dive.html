@@ -338,6 +338,57 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     </div>
   </section>
 
+  <!-- Map Section (above tabs, not in a card) -->
+  <section class="map-section" aria-label="Interactive Map">
+    <div class="map-section-header">
+      <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
+      <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
+    </div>
+    <div class="map-controls" role="group" aria-label="Map layers and filters">
+      <label><input type="checkbox" id="layerCounties" checked> Counties</label>
+      <label><input type="checkbox" id="layerPlaces"> Places</label>
+      <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
+      <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
+      <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
+      <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
+      <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
+      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color:var(--faint);"></span></label>
+      <label style="gap:.5rem;">
+        Theme:
+        <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
+          <option value="auto" selected>Auto</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+      <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
+    </div>
+    <div id="coMap"></div>
+    <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="swatch" style="background:rgba(255,200,90,.20); border-color:rgba(255,200,90,.45)"></span>
+          <span><strong>DDA Zones</strong> — 30% basis boost</span>
+        </div>
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="swatch" style="background:rgba(120,255,170,.22); border-color:rgba(120,255,170,.45)"></span>
+          <span><strong>QCT Zones</strong> — 30% basis boost</span>
+        </div>
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="dot" style="background:#5fa8ff;"></span>
+          <span><strong>LIHTC Projects</strong> — HUD LIHTC Database (mapped)</span>
+        </div>
+      </div>
+      <div style="margin-top:.75rem; font-size: 12px; color: var(--muted); line-height:1.5;">
+        <strong>Data sources:</strong>
+        <a href="https://www.policymap.com/data/sources/hud-lihtc" target="_blank" rel="noopener">PolicyMap: HUD LIHTC</a> •
+        <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> •
+        <a href="https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30" target="_blank" rel="noopener">HUD eGIS LIHTC map service</a> •
+        <a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Tab Navigation -->
   <div role="tablist" class="tab-nav" aria-label="Analysis sections">
     <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-ami-gap" id="tab-btn-ami-gap">AMI Gap Analysis</button>
@@ -348,60 +399,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
   <!-- Tab 1: AMI Gap Analysis -->
   <div class="tab-panel is-active" id="tab-ami-gap" role="tabpanel" aria-labelledby="tab-btn-ami-gap">
-
-<h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
-    <div class="chart-card chart-card-map" style="margin: 1.5rem 0;">
-      <div class="chart-header">
-        <h3 class="chart-title">Colorado LIHTC Basis Boost Map (QCT/DDA) and Projects</h3>
-        <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
-      </div>
-
-            <div class="map-controls" role="group" aria-label="Map layers and filters">
-        <label><input type="checkbox" id="layerCounties" checked> Counties</label>
-        <label><input type="checkbox" id="layerPlaces"> Places</label>
-        <label><input type="checkbox" id="layerQCT" checked> QCT 2026</label>
-        <label><input type="checkbox" id="layerDDA" checked> DDA 2026</label>
-        <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
-        <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
-        <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
-        <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color:var(--faint);"></span></label>
-        <label style="gap:.5rem;">
-          Theme:
-          <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
-            <option value="auto" selected>Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </label>
-        <span id="map-status" style="margin-left:auto; font-size:0.78rem; color:var(--faint);"></span>
-      </div>
-
-      <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
-          <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
-            <span class="swatch" style="background:rgba(255,200,90,.20); border-color:rgba(255,200,90,.45)"></span>
-            <span><strong>DDA Zones</strong> — 30% basis boost</span>
-          </div>
-          <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
-            <span class="swatch" style="background:rgba(120,255,170,.22); border-color:rgba(120,255,170,.45)"></span>
-            <span><strong>QCT Zones</strong> — 30% basis boost</span>
-          </div>
-          <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
-            <span class="dot" style="background:#5fa8ff;"></span>
-            <span><strong>LIHTC Projects</strong> — HUD LIHTC Database (mapped)</span>
-          </div>
-        </div>
-
-        <div style="margin-top:.75rem; font-size: 12px; color: var(--muted); line-height:1.5;">
-          <strong>Data sources:</strong>
-          <a href="https://www.policymap.com/data/sources/hud-lihtc" target="_blank" rel="noopener">PolicyMap: HUD LIHTC</a> •
-          <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> •
-          <a href="https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30" target="_blank" rel="noopener">HUD eGIS LIHTC map service</a> •
-          <a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA</a>
-        </div>
-      </div>
-    </div>
-    <div id="coMap"></div>
 
     <h2>Area Median Income (AMI) Analysis</h2>
 <div class="dashboard-grid" style="margin: 2rem 0;">
