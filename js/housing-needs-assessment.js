@@ -838,12 +838,13 @@
 
     function buildUrl(year, dataset){
       const base = `https://api.census.gov/data/${year}/${dataset}`;
-      const params = new URLSearchParams();
-      params.set('get', vars.join(',') + ',NAME');
-      params.set('for', forParam);
-      params.set('in', inParam);
-      if (key) params.set('key', key);
-      return `${base}?${params.toString()}`;
+      // Build query string manually to keep literal colons in the Census API
+      // geography parameters (for= and in=). URLSearchParams encodes ':' as
+      // '%3A', which the Census API does not decode, causing it to report
+      // "ambiguous geography" errors for county-level queries.
+      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}&in=${inParam}`;
+      if (key) qs += `&key=${encodeURIComponent(key)}`;
+      return `${base}?${qs}`;
     }
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/profile');
@@ -921,12 +922,13 @@
     let bYear = ACS_YEAR_FALLBACK;
     for (const v of ACS_VINTAGES) {
       const base = `https://api.census.gov/data/${v}/acs/acs5`;
-      const p = new URLSearchParams();
-      p.set('get', bVars.join(',') + ',NAME');
-      p.set('for', forParam);
-      p.set('in', `state:${STATE_FIPS_CO}`);
-      if (key) p.set('key', key);
-      const u = `${base}?${p.toString()}`;
+      // Build query string manually to keep literal colons in the Census API
+      // geography parameters (for= and in=). URLSearchParams encodes ':' as
+      // '%3A', which the Census API does not decode, causing it to report
+      // "ambiguous geography" errors for county-level queries.
+      let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}&in=state:${STATE_FIPS_CO}`;
+      if (key) qs += `&key=${encodeURIComponent(key)}`;
+      const u = `${base}?${qs}`;
       const resp = await fetch(u);
       if (resp.ok){ bResp = resp; bYear = v; break; }
       if (DEBUG_HNA) console.warn(`ACS5 B-series ${v} failed: ${resp.status}`);
@@ -1004,12 +1006,13 @@
 
     function buildUrl(year, dataset){
       const base = `https://api.census.gov/data/${year}/${dataset}`;
-      const params = new URLSearchParams();
-      params.set('get', vars.join(',') + ',NAME');
-      params.set('for', forParam);
-      params.set('in', inParam);
-      if (key) params.set('key', key);
-      return `${base}?${params.toString()}`;
+      // Build query string manually to keep literal colons in the Census API
+      // geography parameters (for= and in=). URLSearchParams encodes ':' as
+      // '%3A', which the Census API does not decode, causing it to report
+      // "ambiguous geography" errors for county-level queries.
+      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}&in=${inParam}`;
+      if (key) qs += `&key=${encodeURIComponent(key)}`;
+      return `${base}?${qs}`;
     }
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/subject');
