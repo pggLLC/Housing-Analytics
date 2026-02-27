@@ -352,7 +352,99 @@ def fetch_counties() -> list[dict]:
     return out
 
 
-def census_key() -> str:
+def fetch_places() -> list[dict]:
+    """Fetch all incorporated places (municipalities) in Colorado from Census API.
+
+    Uses the ACS 5-year name lookup to get GEOIDs and names for all
+    incorporated places (cities, towns) in Colorado.
+    """
+    key = census_key()
+    params = urllib.parse.urlencode({
+        'get': 'NAME',
+        'for': 'place:*',
+        'in': f'state:{STATE_FIPS_CO}',
+        **(({'key': key}) if key else {})
+    })
+    url = f"https://api.census.gov/data/2022/acs/acs5?{params}"
+    try:
+        raw = http_get(url)
+        arr = json.loads(raw)
+    except Exception as e:
+        print(f"⚠ fetch_places: unavailable ({e}); returning empty list", file=sys.stderr)
+        return []
+    if len(arr) < 2:
+        return []
+    header = arr[0]
+    name_idx = header.index('NAME') if 'NAME' in header else -1
+    place_idx = header.index('place') if 'place' in header else -1
+    if name_idx < 0 or place_idx < 0:
+        return []
+    out = []
+    cdp_suffixes = (' cdp', ' (cdp)')
+    for row in arr[1:]:
+        name = row[name_idx] if name_idx < len(row) else ''
+        place_code = row[place_idx] if place_idx < len(row) else ''
+        if not name or not place_code:
+            continue
+        # Split "City Name, Colorado" → "City Name"
+        label = name.split(',')[0].strip()
+        # Skip CDPs (they will be in fetch_cdps)
+        label_lower = label.lower()
+        if any(label_lower.endswith(s) for s in cdp_suffixes) or 'cdp' in label_lower.split():
+            continue
+        geoid = STATE_FIPS_CO + place_code.zfill(5)
+        out.append({'geoid': geoid, 'label': label})
+    out.sort(key=lambda x: x['label'])
+    return out
+
+
+def fetch_cdps() -> list[dict]:
+    """Fetch all Census-Designated Places (CDPs) in Colorado from Census API."""
+    key = census_key()
+    params = urllib.parse.urlencode({
+        'get': 'NAME',
+        'for': 'place:*',
+        'in': f'state:{STATE_FIPS_CO}',
+        **(({'key': key}) if key else {})
+    })
+    url = f"https://api.census.gov/data/2022/acs/acs5?{params}"
+    try:
+        raw = http_get(url)
+        arr = json.loads(raw)
+    except Exception as e:
+        print(f"⚠ fetch_cdps: unavailable ({e}); returning empty list", file=sys.stderr)
+        return []
+    if len(arr) < 2:
+        return []
+    header = arr[0]
+    name_idx = header.index('NAME') if 'NAME' in header else -1
+    place_idx = header.index('place') if 'place' in header else -1
+    if name_idx < 0 or place_idx < 0:
+        return []
+    out = []
+    for row in arr[1:]:
+        name = row[name_idx] if name_idx < len(row) else ''
+        place_code = row[place_idx] if place_idx < len(row) else ''
+        if not name or not place_code:
+            continue
+        label = name.split(',')[0].strip()
+        label_lower = label.lower()
+        # Only include CDPs
+        if not (any(label_lower.endswith(s) for s in (' cdp', ' (cdp)')) or
+                '(cdp)' in label_lower):
+            continue
+        # Normalise label: strip trailing " CDP" / "(CDP)"
+        for suffix in [' (CDP)', ' CDP', ' (cdp)', ' cdp']:
+            if label.endswith(suffix):
+                label = label[:-len(suffix)].strip() + ' (CDP)'
+                break
+        geoid = STATE_FIPS_CO + place_code.zfill(5)
+        out.append({'geoid': geoid, 'label': label})
+    out.sort(key=lambda x: x['label'])
+    return out
+
+
+
     return os.environ.get('CENSUS_API_KEY', '').strip()
 
 
@@ -1185,17 +1277,22 @@ def write_geo_config():
         if os.path.exists(OUT['geo_config']):
             print("ℹ geo-config: network unavailable; keeping existing cached file", file=sys.stderr)
             return
+    places = fetch_places()
+    cdps = fetch_cdps()
     payload = {
         'updated': utc_now_z(),
         'featured': FEATURED,
         'counties': counties,
+        'places': places,
+        'cdps': cdps,
         'source': {
-            'county_list': 'TIGERweb State_County MapServer/1'
+            'county_list': 'TIGERweb State_County MapServer/1',
+            'place_list': 'Census ACS 5-year 2022 place names',
         }
     }
     with open(OUT['geo_config'], 'w', encoding='utf-8') as f:
         json.dump(payload, f)
-    print(f"✓ geo-config counties: {len(counties)}")
+    print(f"✓ geo-config counties: {len(counties)}, places: {len(places)}, cdps: {len(cdps)}")
 
 
 def main():
