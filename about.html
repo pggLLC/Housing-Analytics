@@ -102,6 +102,7 @@
 
         <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-strong);margin:var(--sp3) 0 var(--sp2);">Colorado</h3>
         <ul style="color:var(--muted);font-size:var(--small);line-height:1.8;margin-left:var(--sp4);">
+          <li><a href="https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0" target="_blank" rel="noopener">CHFA ArcGIS FeatureServer</a> — <strong>primary source</strong> for Colorado LIHTC project locations and data (Colorado Housing and Finance Authority)</li>
           <li><a href="https://www.chfainfo.com/rental-housing/lihtc" target="_blank" rel="noopener">CHFA</a> — Colorado Housing and Finance Authority LIHTC program and allocations</li>
           <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123</a> — local government affordable housing commitments</li>
         </ul>
@@ -118,6 +119,7 @@
         <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-strong);margin:0 0 var(--sp3);">Methodology</h2>
         <div style="display:flex;flex-direction:column;gap:var(--sp3);color:var(--muted);font-size:var(--small);line-height:1.8;">
           <p><strong style="color:var(--text-strong);">Data Aggregation:</strong> Data is consolidated from authoritative public sources and validated against multiple references to ensure accuracy.</p>
+          <p><strong style="color:var(--text-strong);">Colorado LIHTC Data Provenance:</strong> For Colorado-specific LIHTC analyses, the primary data source is the CHFA (Colorado Housing and Finance Authority) ArcGIS FeatureServer, which provides the most current Colorado project data. If CHFA's endpoint is unreachable or returns an empty result, the system automatically falls back to the HUD LIHTC ArcGIS service. For all other states, HUD is the live source. An embedded Colorado fallback dataset is used when both live APIs are unavailable. The active data source is clearly labeled (Source: CHFA / Source: HUD) on LIHTC project listings and in each project popup.</p>
           <p><strong style="color:var(--text-strong);">State Allocations:</strong> Per-capita calculations use Census Bureau population estimates (ACS population or Census estimates as used on the page). Allocation tiers are based on total dollar amounts, not adjusted for cost of living or construction costs. Rankings are sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
           <p><strong style="color:var(--text-strong);">Market Analysis:</strong> Pricing data reflects secondary market transactions and may vary by deal structure, investor type, and state-specific factors.</p>
           <p><strong style="color:var(--text-strong);">Economic Indicators:</strong> Federal Reserve Economic Data (FRED) provides standardized metrics updated according to each series' publication schedule. CPI and PPI are index levels, not dollars; changes are computed on index levels. Charts show native units (SAAR, %, index, or dollars as labeled).</p>

@@ -307,6 +307,14 @@ test('JS: LIHTC fetch function is implemented with fallback', () => {
     assert(js.includes('hudLihtcQuery'),                     'HUD LIHTC ArcGIS service URL is referenced');
 });
 
+test('JS: CHFA ArcGIS FeatureServer is the primary source for Colorado LIHTC', () => {
+    assert(js.includes('chfaLihtcQuery'),            'chfaLihtcQuery is defined in SOURCES');
+    assert(js.includes("stateFips === '08'"),         'Colorado state FIPS check is present');
+    assert(js.includes("_source: 'CHFA'"),            '_source CHFA is tagged on successful fetch');
+    assert(js.includes("_source: 'HUD'"),             '_source HUD is tagged on HUD fallback');
+    assert(js.includes('CHFA LIHTC ArcGIS API unavailable'), 'CHFA fallback warning message is present');
+});
+
 test('JS: QCT fetch function is implemented', () => {
     assert(js.includes('async function fetchQctTracts'), 'fetchQctTracts is an async function');
     assert(js.includes('hudQctQuery'),                   'HUD QCT ArcGIS service URL is referenced');
@@ -324,6 +332,8 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
+    assert(js.includes('Source: ${dataSource}'),     'source label is displayed in renderLihtcLayer');
+    assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
 
 test('JS: QCT layer is rendered as a GeoJSON overlay', () => {
@@ -356,6 +366,7 @@ test('JS: LIHTC/QCT/DDA methodology entries are added', () => {
     assert(js.includes('SOURCES.lihtcDb'),               'LIHTC source link is referenced');
     assert(js.includes('SOURCES.hudQct'),                'QCT source link is referenced');
     assert(js.includes('SOURCES.hudDda'),                'DDA source link is referenced');
+    assert(js.includes('CHFA ArcGIS FeatureServer'),     'CHFA is referenced as primary CO LIHTC source in methodology');
 });
 
 // ---------------------------------------------------------------------------

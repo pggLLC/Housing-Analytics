@@ -84,28 +84,55 @@
     });
   }
 
-  // ── Fetch data from API, fall back to embedded data ──────────────────────────
+  // ── Fetch data from CHFA ArcGIS FeatureServer (primary), HUD (fallback), or embedded data ──
   function fetchData(map) {
+    var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0/query';
+    var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
+    var params   = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
+
     updateStatus('Loading LIHTC data…');
-    fetchWithTimeout('https://api.example.com/data', {}, 8000)
+
+    function useHUD() {
+      return fetchWithTimeout(HUD_URL + '?' + params, {}, 8000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('HUD HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (hudData) {
+          if (validateData(hudData)) {
+            renderData(map, hudData);
+            updateStatus('Source: HUD');
+          } else {
+            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
+            renderData(map, FALLBACK_LIHTC);
+            updateStatus('Source: embedded fallback');
+          }
+        })
+        .catch(function (hudErr) {
+          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
+          renderData(map, FALLBACK_LIHTC);
+          updateStatus('Source: embedded fallback');
+        });
+    }
+
+    // Try CHFA first
+    fetchWithTimeout(CHFA_URL + '?' + params, {}, 8000)
       .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (!res.ok) throw new Error('CHFA HTTP ' + res.status);
         return res.json();
       })
       .then(function (data) {
         if (validateData(data)) {
           renderData(map, data);
-          updateStatus('');
+          updateStatus('Source: CHFA');
         } else {
-          console.warn('[co-lihtc-map] API returned invalid data; using fallback.');
-          renderData(map, FALLBACK_LIHTC);
-          updateStatus('Using embedded fallback data.');
+          console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
+          return useHUD();
         }
       })
       .catch(function (err) {
-        console.warn('[co-lihtc-map] API fetch failed; using fallback.', err.message);
-        renderData(map, FALLBACK_LIHTC);
-        updateStatus('Using embedded fallback data.');
+        console.warn('[co-lihtc-map] CHFA fetch failed; trying HUD.', err.message);
+        return useHUD();
       });
   }
 

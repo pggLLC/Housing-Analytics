@@ -216,8 +216,11 @@ All data is sourced from authoritative public sources:
 | [U.S. Census ACS](https://www.census.gov/programs-surveys/acs) | AMI, income, housing cost burden |
 | [Federal Reserve FRED](https://fred.stlouisfed.org/) | Construction costs, CPI, interest rates |
 | [HUD / HUDUSER](https://www.huduser.gov/) | Fair market rents, income limits |
+| [CHFA ArcGIS FeatureServer](https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0) | **Primary** source for Colorado LIHTC project locations (Colorado Housing and Finance Authority) |
 | [CHFA Colorado](https://www.chfainfo.com/) | Colorado-specific LIHTC QAP and allocations |
 | [BLS & BEA](https://www.bls.gov/) | Employment, wages, economic indicators |
+
+> **Colorado LIHTC Data Provenance:** For Colorado, the CHFA ArcGIS FeatureServer is queried first for LIHTC project data. If it is unreachable or returns no data, the system automatically falls back to the HUD LIHTC ArcGIS service. The active data source is labeled (Source: CHFA / Source: HUD) on all Colorado LIHTC project listings and popups.
 
 ## Browser Support
 
