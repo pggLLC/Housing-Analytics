@@ -145,6 +145,40 @@ Free API keys:
 
 Without API keys, dashboards fall back to cached data in `/data/*.json`.
 
+### Kalshi Prediction Market Data
+
+The Housing Prediction Market Dashboard (`economic-dashboard.html`) loads live probability
+data from `data/kalshi/prediction-market.json`, fetched weekly by
+`.github/workflows/fetch-kalshi.yml`.
+
+**Required GitHub Actions secrets** (Settings → Secrets and variables → Actions):
+
+| Secret                | Description |
+|-----------------------|-------------|
+| `KALSHI_API_KEY`      | Kalshi access-key ID |
+| `KALSHI_API_SECRET`   | RSA private key in PEM format |
+| `KALSHI_API_BASE_URL` | *(Optional)* Defaults to `https://trading-api.kalshi.com` |
+
+If the secrets are not configured or the Kalshi API is unreachable, the workflow writes an
+empty `data/kalshi/prediction-market.json` and the dashboard automatically falls back to its
+built-in illustrative demo values — the dashboard never breaks.
+
+**Running the fetch script locally:**
+
+```bash
+# Without credentials — writes empty fallback JSON (dashboard uses mock data)
+node scripts/kalshi/fetch_kalshi_prediction_markets.js
+
+# With credentials
+KALSHI_API_KEY=<key_id> \
+KALSHI_API_SECRET="$(cat /path/to/private_key.pem)" \
+  node scripts/kalshi/fetch_kalshi_prediction_markets.js
+```
+
+**Configuring market tickers:** Open `scripts/kalshi/fetch_kalshi_prediction_markets.js` and
+update the `seriesTicker` / `eventTicker` fields in the `MARKET_CONFIG` array with the
+verified Kalshi series or event tickers for each housing metric.
+
 ## Deployment
 
 ### GitHub Pages (Recommended)

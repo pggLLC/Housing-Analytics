@@ -1,12 +1,9 @@
 /**
  * housing-predictions.js
  * Housing Prediction Market Dashboard Module
- * Displays illustrative mock prediction-market-style odds for housing metrics,
- * compares to traditional forecasts, and tracks historical accuracy.
- *
- * ⚠ Data Note: All prediction probabilities and historical data are
- * ILLUSTRATIVE MOCK DATA for demonstration purposes only.
- * They do not represent actual Kalshi, Polymarket, or any other live market data.
+ * Loads live probability data from data/kalshi/prediction-market.json
+ * (fetched weekly by .github/workflows/fetch-kalshi.yml).
+ * Falls back to built-in illustrative mock data if the feed is unavailable.
  *
  * Usage: HousingPredictions.init()  (call after DOMContentLoaded)
  * Renders into: #housing-predictions-section
@@ -15,7 +12,28 @@
   'use strict';
 
   /* ------------------------------------------------------------------ */
-  /*  Mock prediction data                                               */
+  /*  Kalshi data loader (with mock fallback)                            */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * Attempt to load live data from the pre-fetched Kalshi JSON file.
+   * Returns null (uses mock) if the file is missing, fails, or has no items.
+   * @returns {Promise<Object|null>}
+   */
+  async function loadKalshiData() {
+    try {
+      const url = 'data/kalshi/prediction-market.json?v=' + Date.now();
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const json = await res.json();
+      return (json && Array.isArray(json.items) && json.items.length > 0) ? json : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Mock prediction data (fallback)                                    */
   /* ------------------------------------------------------------------ */
 
   const LAST_UPDATED = '2025-Q1 (Illustrative)';
@@ -373,21 +391,76 @@
   /*  Main render                                                        */
   /* ------------------------------------------------------------------ */
 
-  function render(section) {
+  /**
+   * Merge Kalshi live items into the chart data arrays.
+   * Only overrides the datasets for metrics that Kalshi returns.
+   * @param {Object[]} kalshiItems — items array from prediction-market.json
+   * @returns {{ pricePredictions, mortgagePredictions, startsPredictions, vacancyPredictions }}
+   */
+  function mergeKalshiData(kalshiItems) {
+    // Build a map keyed by metric name for quick lookup
+    const byMetric = {};
+    kalshiItems.forEach(item => { byMetric[item.metric] = item; });
+
+    /**
+     * Convert a Kalshi outcomes array into the {label, prob, expertConsensus} format
+     * used by the chart components. expertConsensus is kept from mock data when
+     * the matching entry exists (identified by label), else defaults to prob.
+     * @param {Object[]} outcomes
+     * @param {Object[]} mockArr
+     * @returns {Object[]}
+     */
+    function outcomesToChartData(outcomes, mockArr) {
+      return outcomes.map((o, i) => {
+        const probPct = Math.round(o.prob * 100);
+        // Try to find an expert consensus from the mock data at the same index
+        const mockEntry = mockArr[i];
+        return {
+          label:           o.name,
+          prob:            probPct,
+          expertConsensus: mockEntry ? mockEntry.expertConsensus : probPct,
+        };
+      });
+    }
+
+    const pricePredictions    = byMetric['home_price_growth']
+      ? outcomesToChartData(byMetric['home_price_growth'].outcomes, PRICE_PREDICTIONS)
+      : PRICE_PREDICTIONS;
+
+    const mortgagePredictions = byMetric['30yr_mortgage_rate']
+      ? outcomesToChartData(byMetric['30yr_mortgage_rate'].outcomes, MORTGAGE_PREDICTIONS)
+      : MORTGAGE_PREDICTIONS;
+
+    const startsPredictions   = byMetric['housing_starts']
+      ? outcomesToChartData(byMetric['housing_starts'].outcomes, STARTS_PREDICTIONS)
+      : STARTS_PREDICTIONS;
+
+    const vacancyPredictions  = byMetric['rent_growth']
+      ? outcomesToChartData(byMetric['rent_growth'].outcomes, VACANCY_PREDICTIONS)
+      : VACANCY_PREDICTIONS;
+
+    return { pricePredictions, mortgagePredictions, startsPredictions, vacancyPredictions };
+  }
+
+  function render(section, usingLiveData, updatedLabel, merged) {
     section.innerHTML = '';
     section.setAttribute('aria-label', 'Housing Prediction Market Dashboard');
 
     // Header + disclaimer
+    const disclaimerText = usingLiveData
+      ? 'Data source: Kalshi (when available). If the feed is unavailable, the dashboard displays ' +
+        'illustrative demo probabilities. Last updated: ' + updatedLabel + '.'
+      : 'Data source: Kalshi (when available). If the feed is unavailable, the dashboard displays ' +
+        'illustrative demo probabilities. Currently showing illustrative demo values (Last updated: ' + updatedLabel + ').';
+
     section.appendChild(el('div', { class: 'hp-header' },
       el('h2', { class: 'hp-title' }, 'Housing Prediction Market Dashboard'),
       el('p', { class: 'hp-subtitle' },
-        'Illustrative prediction-market-style probabilities for key housing metrics. ' +
+        'Prediction-market-style probabilities for key housing metrics. ' +
         'Compared against traditional expert consensus forecasts (Fed, NAR, Census Bureau).',
       ),
       el('div', { class: 'hp-disclaimer', role: 'note', 'aria-label': 'Data disclaimer' },
-        '⚠ DISCLAIMER: All data shown is ILLUSTRATIVE MOCK DATA for demonstration purposes only. ' +
-        'It does not represent actual Kalshi, Polymarket, or any real prediction market data. ' +
-        `Last updated: ${LAST_UPDATED}.`,
+        '📊 ' + disclaimerText,
       ),
     ));
 
@@ -401,10 +474,10 @@
     const chartsGrid = el('div', { class: 'hp-charts-grid' });
 
     const chartDefs = [
-      { id: 'hp-chart-price',    data: PRICE_PREDICTIONS,    title: 'National Median Price Change (YoY)',    aria: 'Probability distribution: national home price change' },
-      { id: 'hp-chart-mortgage', data: MORTGAGE_PREDICTIONS, title: '30-Year Fixed Mortgage Rate (Year-End)', aria: 'Probability distribution: 30-year mortgage rate' },
-      { id: 'hp-chart-starts',   data: STARTS_PREDICTIONS,   title: 'Housing Starts (Annualised, Millions)',  aria: 'Probability distribution: housing starts' },
-      { id: 'hp-chart-vacancy',  data: VACANCY_PREDICTIONS,  title: 'National Rental Vacancy Rate (Year-End)', aria: 'Probability distribution: rental vacancy rate' },
+      { id: 'hp-chart-price',    data: merged.pricePredictions,    title: 'National Median Price Change (YoY)',    aria: 'Probability distribution: national home price change' },
+      { id: 'hp-chart-mortgage', data: merged.mortgagePredictions, title: '30-Year Fixed Mortgage Rate (Year-End)', aria: 'Probability distribution: 30-year mortgage rate' },
+      { id: 'hp-chart-starts',   data: merged.startsPredictions,   title: 'Housing Starts (Annualised, Millions)',  aria: 'Probability distribution: housing starts' },
+      { id: 'hp-chart-vacancy',  data: merged.vacancyPredictions,  title: 'National Rental Vacancy Rate (Year-End)', aria: 'Probability distribution: rental vacancy rate' },
     ];
 
     chartDefs.forEach(def => {
@@ -480,7 +553,7 @@
   /*  Public API                                                         */
   /* ------------------------------------------------------------------ */
 
-  function init() {
+  async function init() {
     const section = document.getElementById('housing-predictions-section');
     if (!section) {
       console.warn('HousingPredictions: container #housing-predictions-section not found.');
@@ -491,15 +564,27 @@
       return;
     }
     injectStyles();
-    render(section);
+
+    // Load Kalshi data (falls back to null → mock data used inside render)
+    const kalshiData    = await loadKalshiData();
+    const usingLiveData = kalshiData != null;
+    const updatedLabel  = usingLiveData
+      ? new Date(kalshiData.updated).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+      : LAST_UPDATED;
+    const merged        = usingLiveData
+      ? mergeKalshiData(kalshiData.items)
+      : { pricePredictions: PRICE_PREDICTIONS, mortgagePredictions: MORTGAGE_PREDICTIONS,
+          startsPredictions: STARTS_PREDICTIONS, vacancyPredictions: VACANCY_PREDICTIONS };
+
+    render(section, usingLiveData, updatedLabel, merged);
 
     // Defer chart rendering so canvas elements are in DOM
     requestAnimationFrame(() => {
       const chartDefs = [
-        { id: 'hp-chart-price',    data: PRICE_PREDICTIONS,    title: 'National Median Price Change (YoY)',     aria: 'Probability distribution: national home price change' },
-        { id: 'hp-chart-mortgage', data: MORTGAGE_PREDICTIONS, title: '30-Year Fixed Mortgage Rate (Year-End)', aria: 'Probability distribution: 30-year mortgage rate' },
-        { id: 'hp-chart-starts',   data: STARTS_PREDICTIONS,   title: 'Housing Starts (Annualised, Millions)',  aria: 'Probability distribution: housing starts' },
-        { id: 'hp-chart-vacancy',  data: VACANCY_PREDICTIONS,  title: 'National Rental Vacancy Rate (Year-End)', aria: 'Probability distribution: rental vacancy rate' },
+        { id: 'hp-chart-price',    data: merged.pricePredictions,    title: 'National Median Price Change (YoY)',     aria: 'Probability distribution: national home price change' },
+        { id: 'hp-chart-mortgage', data: merged.mortgagePredictions, title: '30-Year Fixed Mortgage Rate (Year-End)', aria: 'Probability distribution: 30-year mortgage rate' },
+        { id: 'hp-chart-starts',   data: merged.startsPredictions,   title: 'Housing Starts (Annualised, Millions)',  aria: 'Probability distribution: housing starts' },
+        { id: 'hp-chart-vacancy',  data: merged.vacancyPredictions,  title: 'National Rental Vacancy Rate (Year-End)', aria: 'Probability distribution: rental vacancy rate' },
       ];
       chartDefs.forEach(def => renderDistributionChart(def.id, def.data, def.title, def.aria));
     });
