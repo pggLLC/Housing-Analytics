@@ -137,5 +137,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/census-acs-state.json
-          git commit -m "Update Census ACS state data" || echo "No changes to commit"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update Census ACS state data"
+            git pull --rebase origin main
+            git push
+          fi
