@@ -277,14 +277,17 @@ async function main() {
         auth: { user: EMAIL_USER, pass: EMAIL_PASSWORD }
     });
 
-    await transporter.sendMail({
-        from: EMAIL_USER,
-        to: RECIPIENT_EMAIL,
-        subject,
-        html: htmlBody
-    });
-
-    console.log(`Email report sent to ${RECIPIENT_EMAIL}`);
+    try {
+        await transporter.sendMail({
+            from: EMAIL_USER,
+            to: RECIPIENT_EMAIL,
+            subject,
+            html: htmlBody
+        });
+        console.log(`Email report sent to ${RECIPIENT_EMAIL}`);
+    } catch (emailErr) {
+        console.warn(`Warning: Failed to send email report: ${emailErr.message}`);
+    }
 }
 
 main().catch(err => {
