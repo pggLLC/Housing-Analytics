@@ -69,6 +69,7 @@
     lihtcDb: 'https://lihtc.huduser.gov/',
     hudQct: 'https://www.huduser.gov/portal/datasets/qct.html',
     hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
+    chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
     hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2025/FeatureServer/0',
     hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2025/FeatureServer/0',
@@ -519,12 +520,39 @@
     return { type: 'FeatureCollection', features };
   }
 
-  // Fetch LIHTC projects from HUD ArcGIS REST service for the county, fall back to embedded data.
-  // Source: HUD LIHTC database via ArcGIS FeatureServer (services.arcgis.com/VTyQ9soqVukalItT)
+  // Fetch LIHTC projects for a county. For Colorado (FIPS 08), CHFA ArcGIS FeatureServer is
+  // the primary source; HUD ArcGIS is the fallback. For all other states, HUD is the sole
+  // live source. The returned GeoJSON includes a _source field ('CHFA' | 'HUD' | 'fallback')
+  // indicating which data source was used.
   async function fetchLihtcProjects(countyFips5){
     if (countyFips5 && countyFips5.length === 5) {
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
+
+      // Colorado: try CHFA ArcGIS FeatureServer first (most current CO-specific data)
+      if (stateFips === '08') {
+        const chfaParams = new URLSearchParams({
+          where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+          outFields: '*',
+          f: 'geojson',
+          outSR: '4326',
+          resultRecordCount: 1000,
+        });
+        const chfaUrl = `${SOURCES.chfaLihtcQuery}/query?${chfaParams}`;
+        try {
+          const r = await fetch(chfaUrl, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
+          if (!r.ok) throw new Error(`CHFA LIHTC HTTP ${r.status}`);
+          const gj = await r.json();
+          if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
+            return { ...gj, _source: 'CHFA' };
+          }
+          console.warn('[HNA] CHFA LIHTC returned no features; falling back to HUD.');
+        } catch(e) {
+          console.warn('[HNA] CHFA LIHTC ArcGIS API unavailable; falling back to HUD.', e.message);
+        }
+      }
+
+      // All states (and Colorado fallback): HUD ArcGIS FeatureServer
       // Request all fields ('*') so that LI_UNITS, QCT, DDA, address info, HUD_ID, etc. are
       // all returned.  A limited outFields list was the previous cause of incomplete properties.
       const params = new URLSearchParams({
@@ -539,7 +567,7 @@
         const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
         if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
         const gj = await r.json();
-        if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
       } catch(e) {
         console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
       }
@@ -549,7 +577,7 @@
       return await loadJson(PATHS.lihtc(countyFips5));
     } catch(_) {/* no cache */}
     // Return embedded fallback filtered to county
-    return lihtcFallbackForCounty(countyFips5);
+    return { ...lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
   }
 
   // Fetch QCT census tracts from HUD ArcGIS service for the county
@@ -600,15 +628,23 @@
     return null;
   }
 
+  // Returns a human-readable label and badge color for a LIHTC data source identifier.
+  function lihtcSourceInfo(source) {
+    if (source === 'CHFA') return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
+    if (source === 'HUD')  return { label: 'HUD LIHTC Database', color: '#6366f1' };
+    return { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
+  }
+
   // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)
-  // Source: HUD LIHTC database (https://lihtc.huduser.gov/)
-  function lihtcPopupHtml(p) {
+  // source: 'CHFA' | 'HUD' | 'fallback' — indicates which data source provided this record
+  function lihtcPopupHtml(p, source) {
     const safe = v => (v == null || v === '') ? '—' : String(v);
     const yn   = v => (v === 1 || v === '1' || v === 'Y' || v === true)
       ? '<span style="color:#34d399">Yes</span>'
       : '<span style="color:#94a3b8">No</span>';
     const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
       .filter(Boolean).join(', ');
+    const { label: srcLabel } = lihtcSourceInfo(source);
     return `<div style="min-width:220px;max-width:280px;font-size:13px">
       <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
       ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
@@ -622,7 +658,7 @@
         <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
         ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
       </table>
-      <div style="margin-top:6px;font-size:11px;opacity:.55">Source: HUD LIHTC Database</div>
+      <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
     </div>`;
   }
 
@@ -636,6 +672,8 @@
       return;
     }
 
+    const dataSource = geojson._source || 'HUD';
+
     const lihtcIcon = L.divIcon({
       html: '<div style="width:11px;height:11px;border-radius:50%;background:#e84545;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>',
       className: '',
@@ -647,7 +685,7 @@
       pointToLayer: (f, latlng) => L.marker(latlng, { icon: lihtcIcon }),
       onEachFeature: (f, layer) => {
         const p = f.properties || {};
-        layer.bindPopup(lihtcPopupHtml(p));
+        layer.bindPopup(lihtcPopupHtml(p, dataSource));
         layer.bindTooltip(p.PROJECT || p.PROJ_NM || 'LIHTC Project');
       },
     }).addTo(map);
@@ -677,8 +715,9 @@
           <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
         </tr>`;
       }).join('');
+      const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(dataSource).color};color:#fff;margin-left:8px">Source: ${dataSource}</span>`;
       els.lihtcInfoPanel.innerHTML = rows ? `
-        <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):</p>
+        <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
         <div style="overflow-x:auto">
           <table style="width:100%;border-collapse:collapse;font-size:.83rem">
             <thead><tr style="color:var(--muted)">
@@ -784,10 +823,15 @@
     try {
       const lihtcData = await fetchLihtcProjects(countyFips5);
       renderLihtcLayer(lihtcData);
+      if (els.lihtcMapStatus) {
+        const src = lihtcData && lihtcData._source;
+        els.lihtcMapStatus.textContent = src ? `Source: ${src}` : '';
+      }
     } catch(e) {
       console.warn('[HNA] LIHTC render failed', e);
       if (els.statLihtcCount) els.statLihtcCount.textContent = '—';
       if (els.statLihtcUnits) els.statLihtcUnits.textContent = '—';
+      if (els.lihtcMapStatus) els.lihtcMapStatus.textContent = '';
     }
 
     // QCT
@@ -811,8 +855,6 @@
       console.warn('[HNA] DDA render failed', e);
       renderDdaLayer(countyFips5, null);
     }
-
-    if (els.lihtcMapStatus) els.lihtcMapStatus.textContent = '';
   }
 
   // --- Census API (live fallback) ---
@@ -1777,9 +1819,13 @@
 
     items.push({
       title: 'LIHTC (Low-Income Housing Tax Credit)',
-      html: `LIHTC project locations and unit counts are sourced from the HUD LIHTC database, accessed via the ` +
-            `HUD ArcGIS REST service when available (live query, no auth required), with an embedded Colorado ` +
-            `fallback dataset. Red circle markers on the map indicate LIHTC-funded properties. ` +
+      html: `For Colorado, LIHTC project data is sourced primarily from the <strong>CHFA ArcGIS FeatureServer</strong> ` +
+            `(Colorado Housing and Finance Authority), which provides the most current Colorado-specific project data. ` +
+            `If CHFA's endpoint is unreachable or returns no data, the system automatically falls back to the ` +
+            `HUD LIHTC database via ArcGIS REST service. For all other states, HUD is the live source. ` +
+            `An embedded Colorado fallback dataset is used when both live APIs are unavailable. ` +
+            `The active data source is displayed as a badge on the LIHTC project list and in each project popup. ` +
+            `Red circle markers on the map indicate LIHTC-funded properties. ` +
             `<a href="${SOURCES.lihtcDb}" target="_blank" rel="noopener">HUD LIHTC database</a>.`
     });
 

@@ -235,6 +235,58 @@ class LIHTCDataService {
         }
     }
 
+    // CHFA ArcGIS FeatureServer — primary source for Colorado LIHTC project data.
+    // Falls back to HUD LIHTC if the endpoint is unreachable or returns an empty result.
+    // Returns { source: 'CHFA' | 'HUD', features: [...] } for caller transparency.
+    async fetchCHFALihtcData(params = {}) {
+        const CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0/query';
+        const HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
+        const cacheKey = `chfa_lihtc_${Object.keys(params).sort().map(k => `${k}=${params[k]}`).join('&')}`;
+        const cached = this.getFromCache(cacheKey);
+        if (cached) return cached;
+
+        const defaultParams = {
+            where: "STATEFP='08'",
+            outFields: '*',
+            f: 'json',
+            outSR: '4326',
+            resultRecordCount: 2000,
+        };
+        const queryParams = new URLSearchParams({ ...defaultParams, ...params });
+
+        // Try CHFA first
+        try {
+            const r = await fetch(`${CHFA_URL}?${queryParams}`);
+            if (!r.ok) throw new Error(`CHFA HTTP ${r.status}`);
+            const json = await r.json();
+            const features = json.features || [];
+            if (features.length > 0) {
+                const result = { source: 'CHFA', features };
+                this.setCache(cacheKey, result);
+                this.notify('chfa_lihtc', result);
+                return result;
+            }
+            console.warn('[LIHTCDataService] CHFA returned no features; falling back to HUD.');
+        } catch (e) {
+            console.warn('[LIHTCDataService] CHFA LIHTC fetch failed; falling back to HUD.', e.message);
+        }
+
+        // HUD fallback
+        try {
+            const r = await fetch(`${HUD_URL}?${queryParams}`);
+            if (!r.ok) throw new Error(`HUD HTTP ${r.status}`);
+            const json = await r.json();
+            const features = json.features || [];
+            const result = { source: 'HUD', features };
+            this.setCache(cacheKey, result);
+            this.notify('chfa_lihtc', result);
+            return result;
+        } catch (e) {
+            console.error('[LIHTCDataService] HUD LIHTC fallback also failed.', e.message);
+            return { source: 'HUD', features: [] };
+        }
+    }
+
     // State HFA Data (Colorado specific)
     async fetchStateHFAData() {
         const cacheKey = 'state_hfa';
