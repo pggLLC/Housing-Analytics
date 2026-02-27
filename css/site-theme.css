@@ -293,7 +293,8 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
 .metric .meta { color: var(--muted) !important; font-size: var(--tiny); display: flex; gap: 10px; margin-top: 4px; }
 .chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
-canvas { width: 100% !important; height: 180px !important; }
+canvas { width: 100% !important; }
+.chart-wrap canvas { height: 180px; }
 
 /* ================================================================
    10. TABLES
