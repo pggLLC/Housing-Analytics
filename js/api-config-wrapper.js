@@ -28,6 +28,20 @@
             url = url + sep + "key=" + encodeURIComponent(censusKey);
           }
         }
+
+        // Kashli — check hostname exactly to prevent injection via crafted URLs
+        try {
+          const parsed = new URL(url);
+          if (parsed.hostname === "api.kashli.com") {
+            const kashliKey = window.APP_CONFIG.KASHLI_API_KEY || "";
+            if (kashliKey) {
+              init = Object.assign({}, init);
+              init.headers = Object.assign({}, init.headers, {
+                'Authorization': 'Bearer ' + kashliKey
+              });
+            }
+          }
+        } catch (_) { /* invalid URL — skip */ }
       }
 
       return originalFetch.call(this, url, init);
