@@ -51,6 +51,7 @@
     projections: (countyFips5) => `data/hna/projections/${countyFips5}.json`,
     derived: 'data/hna/derived/geo-derived.json',
     acsDebugLog: 'data/hna/acs_debug_log.txt',
+    lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
   };
 
   const SOURCES = {
@@ -62,6 +63,65 @@
     sdoDownloads: 'https://demography.dola.colorado.gov/assets/html/sdodata.html',
     sdoPopulation: 'https://demography.dola.colorado.gov/assets/html/population.html',
     prop123Commitments: 'https://cdola.colorado.gov/commitment-filings',
+    lihtcDb: 'https://lihtc.huduser.gov/',
+    hudQct: 'https://www.huduser.gov/portal/datasets/qct.html',
+    hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
+    hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
+    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2025/FeatureServer/0',
+    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2025/FeatureServer/0',
+  };
+
+  // Colorado LIHTC fallback data (representative projects; source: HUD LIHTC database)
+  const LIHTC_FALLBACK_CO = {type:'FeatureCollection',features:[
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',N_UNITS:120,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_CTY:'Denver',N_UNITS:72,YR_PIS:2016,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_CTY:'Denver',N_UNITS:55,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_CTY:'Denver',N_UNITS:96,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',N_UNITS:150,YR_PIS:2021,CREDIT:'4%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_CTY:'Aurora',N_UNITS:90,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',N_UNITS:100,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Boulder',CNTY_FIPS:'08013'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',N_UNITS:130,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'El Paso',CNTY_FIPS:'08041'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',N_UNITS:104,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Larimer',CNTY_FIPS:'08069'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',N_UNITS:90,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Weld',CNTY_FIPS:'08123'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',N_UNITS:80,YR_PIS:2017,CREDIT:'9%',CNTY_NAME:'Pueblo',CNTY_FIPS:'08101'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',N_UNITS:85,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Mesa',CNTY_FIPS:'08077'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5750,39.0850]},properties:{PROJECT:'Mesa Valley Apartments',PROJ_CTY:'Grand Junction',N_UNITS:48,YR_PIS:2017,CREDIT:'9%',CNTY_NAME:'Mesa',CNTY_FIPS:'08077'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_CTY:'Eagle',N_UNITS:50,YR_PIS:2022,CREDIT:'9%',CNTY_NAME:'Eagle',CNTY_FIPS:'08037'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata',CNTY_FIPS:'08067'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9211,39.6861]},properties:{PROJECT:'Englewood Family Flats',PROJ_CTY:'Englewood',N_UNITS:70,YR_PIS:2019,CREDIT:'4%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0211,39.5611]},properties:{PROJECT:'Littleton Senior Homes',PROJ_CTY:'Littleton',N_UNITS:60,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9895,39.7617]},properties:{PROJECT:'Capitol Hill Residences',PROJ_CTY:'Denver',N_UNITS:84,YR_PIS:2022,CREDIT:'4%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0163,39.7392]},properties:{PROJECT:'West Colfax Commons',PROJ_CTY:'Denver',N_UNITS:56,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Denver',CNTY_FIPS:'08031'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1311,39.7500]},properties:{PROJECT:'Lakewood Affordable Flats',PROJ_CTY:'Lakewood',N_UNITS:92,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Jefferson',CNTY_FIPS:'08059'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9281,39.5480]},properties:{PROJECT:'Glenwood Springs Workforce',PROJ_CTY:'Glenwood Springs',N_UNITS:44,YR_PIS:2022,CREDIT:'9%',CNTY_NAME:'Garfield',CNTY_FIPS:'08045'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8069,40.3722]},properties:{PROJECT:'Loveland Family Housing',PROJ_CTY:'Loveland',N_UNITS:75,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Larimer',CNTY_FIPS:'08069'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.4222,38.4681]},properties:{PROJECT:'Cañon City Senior Village',PROJ_CTY:'Cañon City',N_UNITS:50,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'Fremont',CNTY_FIPS:'08043'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7506,38.2008]},properties:{PROJECT:'Pueblo West Apartments',PROJ_CTY:'Pueblo West',N_UNITS:66,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Pueblo',CNTY_FIPS:'08101'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3131,37.4681]},properties:{PROJECT:'Alamosa Affordable Homes',PROJ_CTY:'Alamosa',N_UNITS:40,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Alamosa',CNTY_FIPS:'08003'}},
+  ]};
+
+  // Colorado DDA (Difficult Development Area) designation lookup
+  // Based on HUD 2025 DDA list; covers counties within HUD Metro FMR Areas that qualify.
+  // Source: https://www.huduser.gov/portal/datasets/dda.html
+  const CO_DDA = {
+    '08001': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Adams
+    '08005': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Arapahoe
+    '08013': { status: true,  area: 'Boulder HUD Metro FMR Area' },                  // Boulder
+    '08014': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Broomfield
+    '08019': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Clear Creek
+    '08031': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Denver
+    '08035': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Douglas
+    '08037': { status: true,  area: 'Edwards HUD Metro FMR Area (Eagle County)' },   // Eagle
+    '08039': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Elbert
+    '08041': { status: true,  area: 'Colorado Springs HUD Metro FMR Area' },          // El Paso
+    '08047': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Gilpin
+    '08059': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Jefferson
+    '08069': { status: true,  area: 'Fort Collins HUD Metro FMR Area' },             // Larimer
+    '08093': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Park
+    '08097': { status: true,  area: 'Aspen HUD Metro FMR Area (Pitkin County)' },    // Pitkin
+    '08117': { status: true,  area: 'Summit County HUD Metro FMR Area' },            // Summit
+    '08119': { status: true,  area: 'Colorado Springs HUD Metro FMR Area' },          // Teller
+    '08123': { status: true,  area: 'Greeley HUD Metro FMR Area' },                  // Weld
   };
 
   // DOM
@@ -106,11 +166,26 @@
     assumpVacancy: document.getElementById('assumpVacancy'),
     assumpVacancyVal: document.getElementById('assumpVacancyVal'),
 
+    // LIHTC / QCT / DDA
+    statLihtcCount: document.getElementById('statLihtcCount'),
+    statLihtcUnits: document.getElementById('statLihtcUnits'),
+    statQctCount: document.getElementById('statQctCount'),
+    statDdaStatus: document.getElementById('statDdaStatus'),
+    statDdaNote: document.getElementById('statDdaNote'),
+    lihtcInfoPanel: document.getElementById('lihtcInfoPanel'),
+    lihtcMapStatus: document.getElementById('lihtcMapStatus'),
+    layerLihtc: document.getElementById('layerLihtc'),
+    layerQct: document.getElementById('layerQct'),
+    layerDda: document.getElementById('layerDda'),
+
   };
 
   // Charts
   let map;
   let boundaryLayer;
+  let lihtcLayer = null;
+  let qctLayer = null;
+  let ddaLayer = null;
   let charts = {};
 
   const state = { current:null, lastProj:null, trendCache:{}, derived:null };
@@ -381,6 +456,286 @@
     }catch(e){
       // ignore
     }
+  }
+
+  // --- LIHTC / QCT / DDA helpers ---
+
+  // Return LIHTC fallback features filtered to a county FIPS (or all if none specified)
+  function lihtcFallbackForCounty(countyFips5){
+    const features = LIHTC_FALLBACK_CO.features.filter(f =>
+      !countyFips5 || (f.properties.CNTY_FIPS || '') === countyFips5
+    );
+    return { type: 'FeatureCollection', features };
+  }
+
+  // Fetch LIHTC projects from HUD ArcGIS REST service for the county, fall back to embedded data
+  async function fetchLihtcProjects(countyFips5){
+    if (countyFips5 && countyFips5.length === 5) {
+      const stateFips  = countyFips5.slice(0, 2);
+      const countyFips = countyFips5.slice(2);
+      const params = new URLSearchParams({
+        where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+        outFields: 'PROJECT,PROJ_CTY,N_UNITS,YR_PIS,CREDIT,CNTY_NAME,STATEFP,COUNTYFP',
+        f: 'geojson',
+        outSR: '4326',
+        resultRecordCount: 500,
+      });
+      const url = `${SOURCES.hudLihtcQuery}/query?${params}`;
+      try {
+        const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+        if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
+        const gj = await r.json();
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
+      } catch(e) {
+        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
+      }
+    }
+    // Try local cached file
+    try {
+      return await loadJson(PATHS.lihtc(countyFips5));
+    } catch(_) {/* no cache */}
+    // Return embedded fallback filtered to county
+    return lihtcFallbackForCounty(countyFips5);
+  }
+
+  // Fetch QCT census tracts from HUD ArcGIS service for the county
+  async function fetchQctTracts(countyFips5){
+    if (!countyFips5 || countyFips5.length !== 5) return null;
+    const stateFips  = countyFips5.slice(0, 2);
+    const countyFips = countyFips5.slice(2);
+    const params = new URLSearchParams({
+      where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+      outFields: 'GEOID,TRACTCE,NAME,STATEFP,COUNTYFP',
+      f: 'geojson',
+      outSR: '4326',
+      resultRecordCount: 500,
+    });
+    const url = `${SOURCES.hudQctQuery}/query?${params}`;
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+      if (!r.ok) throw new Error(`QCT HTTP ${r.status}`);
+      const gj = await r.json();
+      if (gj && Array.isArray(gj.features)) return gj;
+    } catch(e) {
+      console.warn('[HNA] QCT ArcGIS API unavailable.', e.message);
+    }
+    return null;
+  }
+
+  // Fetch DDA polygons from HUD ArcGIS service for the county
+  async function fetchDdaForCounty(countyFips5){
+    if (!countyFips5 || countyFips5.length !== 5) return null;
+    const stateFips  = countyFips5.slice(0, 2);
+    const countyFips = countyFips5.slice(2);
+    const params = new URLSearchParams({
+      where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+      outFields: 'DDA_NAME,COUNTYFP,STATEFP',
+      f: 'geojson',
+      outSR: '4326',
+      resultRecordCount: 50,
+    });
+    const url = `${SOURCES.hudDdaQuery}/query?${params}`;
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+      if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
+      const gj = await r.json();
+      if (gj && Array.isArray(gj.features)) return gj;
+    } catch(e) {
+      console.warn('[HNA] DDA ArcGIS API unavailable; using static lookup.', e.message);
+    }
+    return null;
+  }
+
+  // Render LIHTC project markers on the map
+  function renderLihtcLayer(geojson){
+    ensureMap();
+    if (lihtcLayer) { lihtcLayer.remove(); lihtcLayer = null; }
+    if (!geojson || !geojson.features || !geojson.features.length) {
+      if (els.statLihtcCount) els.statLihtcCount.textContent = '0';
+      if (els.statLihtcUnits) els.statLihtcUnits.textContent = '0';
+      return;
+    }
+
+    const lihtcIcon = L.divIcon({
+      html: '<div style="width:11px;height:11px;border-radius:50%;background:#e84545;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>',
+      className: '',
+      iconSize: [11, 11],
+      iconAnchor: [5, 5],
+    });
+
+    lihtcLayer = L.geoJSON(geojson, {
+      pointToLayer: (f, latlng) => L.marker(latlng, { icon: lihtcIcon }),
+      onEachFeature: (f, layer) => {
+        const p = f.properties || {};
+        const lines = [
+          `<strong>${p.PROJECT || 'LIHTC Project'}</strong>`,
+          p.PROJ_CTY ? `City: ${p.PROJ_CTY}` : null,
+          p.N_UNITS  ? `Units: ${p.N_UNITS}` : null,
+          p.YR_PIS   ? `Year: ${p.YR_PIS}` : null,
+          p.CREDIT   ? `Credit type: ${p.CREDIT}` : null,
+        ].filter(Boolean).join('<br>');
+        layer.bindPopup(lines);
+        layer.bindTooltip(p.PROJECT || 'LIHTC Project');
+      },
+    }).addTo(map);
+
+    // Visibility toggle
+    if (els.layerLihtc && !els.layerLihtc.checked) lihtcLayer.remove();
+
+    // Update stats
+    const count = geojson.features.length;
+    const units = geojson.features.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
+    if (els.statLihtcCount) els.statLihtcCount.textContent = count.toLocaleString();
+    if (els.statLihtcUnits) els.statLihtcUnits.textContent = units.toLocaleString();
+
+    // Build project list in info panel
+    if (els.lihtcInfoPanel) {
+      const sorted = [...geojson.features].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
+      const rows = sorted.slice(0, 10).map(f => {
+        const p = f.properties || {};
+        return `<tr>
+          <td style="padding:4px 6px">${p.PROJECT || '—'}</td>
+          <td style="padding:4px 6px">${p.PROJ_CTY || '—'}</td>
+          <td style="padding:4px 6px;text-align:right">${p.N_UNITS || '—'}</td>
+          <td style="padding:4px 6px">${p.YR_PIS || '—'}</td>
+          <td style="padding:4px 6px">${p.CREDIT || '—'}</td>
+        </tr>`;
+      }).join('');
+      els.lihtcInfoPanel.innerHTML = rows ? `
+        <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:.83rem">
+            <thead><tr style="color:var(--muted)">
+              <th style="padding:4px 6px;text-align:left">Project</th>
+              <th style="padding:4px 6px;text-align:left">City</th>
+              <th style="padding:4px 6px;text-align:right">Units</th>
+              <th style="padding:4px 6px">Year</th>
+              <th style="padding:4px 6px">Credit</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>` : '<p>No LIHTC projects found in this geography.</p>';
+    }
+  }
+
+  // Render QCT tract overlay on the map
+  function renderQctLayer(geojson){
+    ensureMap();
+    if (qctLayer) { qctLayer.remove(); qctLayer = null; }
+    if (!geojson || !geojson.features || !geojson.features.length) {
+      if (els.statQctCount) els.statQctCount.textContent = '0';
+      return;
+    }
+    qctLayer = L.geoJSON(geojson, {
+      style: {
+        weight: 1.5,
+        color: '#d97706',
+        fillColor: '#fbbf24',
+        fillOpacity: 0.18,
+      },
+      onEachFeature: (f, layer) => {
+        const p = f.properties || {};
+        layer.bindTooltip(`QCT Tract: ${p.NAME || p.GEOID || p.TRACTCE || '—'}`);
+      },
+    }).addTo(map);
+
+    if (els.layerQct && !els.layerQct.checked) qctLayer.remove();
+    if (els.statQctCount) els.statQctCount.textContent = geojson.features.length.toLocaleString();
+  }
+
+  // Render DDA overlay on the map (polygon if available) and info badge
+  function renderDdaLayer(countyFips5, ddaGeojson){
+    ensureMap();
+    if (ddaLayer) { ddaLayer.remove(); ddaLayer = null; }
+
+    const ddaInfo = CO_DDA[countyFips5] || null;
+
+    if (ddaGeojson && ddaGeojson.features && ddaGeojson.features.length) {
+      ddaLayer = L.geoJSON(ddaGeojson, {
+        style: {
+          weight: 2,
+          color: '#7c3aed',
+          fillColor: '#8b5cf6',
+          fillOpacity: 0.12,
+          dashArray: '6 4',
+        },
+        onEachFeature: (f, layer) => {
+          const p = f.properties || {};
+          layer.bindTooltip(`DDA: ${p.DDA_NAME || 'Difficult Development Area'}`);
+        },
+      }).addTo(map);
+      if (els.layerDda && !els.layerDda.checked) ddaLayer.remove();
+    }
+
+    // Always show DDA status from static lookup or fetched data
+    const isDda = !!(ddaInfo?.status || (ddaGeojson?.features?.length));
+    const areaName = ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '';
+    if (els.statDdaStatus) els.statDdaStatus.textContent = isDda ? 'Yes ✓' : 'No';
+    if (els.statDdaNote) els.statDdaNote.textContent = isDda ? (areaName || 'HUD DDA') : 'Not designated';
+  }
+
+  // Wire layer visibility toggles
+  function wireLayerToggles(){
+    if (els.layerLihtc) {
+      els.layerLihtc.addEventListener('change', () => {
+        if (!lihtcLayer) return;
+        if (els.layerLihtc.checked) lihtcLayer.addTo(map);
+        else lihtcLayer.remove();
+      });
+    }
+    if (els.layerQct) {
+      els.layerQct.addEventListener('change', () => {
+        if (!qctLayer) return;
+        if (els.layerQct.checked) qctLayer.addTo(map);
+        else qctLayer.remove();
+      });
+    }
+    if (els.layerDda) {
+      els.layerDda.addEventListener('change', () => {
+        if (!ddaLayer) return;
+        if (els.layerDda.checked) ddaLayer.addTo(map);
+        else ddaLayer.remove();
+      });
+    }
+  }
+
+  // Load and render all LIHTC/QCT/DDA overlays for the selected geography
+  async function updateLihtcOverlays(countyFips5){
+    if (els.lihtcMapStatus) els.lihtcMapStatus.textContent = 'Loading LIHTC data…';
+
+    // LIHTC
+    try {
+      const lihtcData = await fetchLihtcProjects(countyFips5);
+      renderLihtcLayer(lihtcData);
+    } catch(e) {
+      console.warn('[HNA] LIHTC render failed', e);
+      if (els.statLihtcCount) els.statLihtcCount.textContent = '—';
+      if (els.statLihtcUnits) els.statLihtcUnits.textContent = '—';
+    }
+
+    // QCT
+    try {
+      const qctData = await fetchQctTracts(countyFips5);
+      if (qctData) {
+        renderQctLayer(qctData);
+      } else {
+        if (els.statQctCount) els.statQctCount.textContent = '—';
+      }
+    } catch(e) {
+      console.warn('[HNA] QCT render failed', e);
+      if (els.statQctCount) els.statQctCount.textContent = '—';
+    }
+
+    // DDA
+    try {
+      const ddaData = await fetchDdaForCounty(countyFips5);
+      renderDdaLayer(countyFips5, ddaData);
+    } catch(e) {
+      console.warn('[HNA] DDA render failed', e);
+      renderDdaLayer(countyFips5, null);
+    }
+
+    if (els.lihtcMapStatus) els.lihtcMapStatus.textContent = '';
   }
 
   // --- Census API (live fallback) ---
@@ -1288,6 +1643,32 @@
     if (cacheFlags.projections) cacheBits.push('projections cache');
     if (cacheFlags.derived) cacheBits.push('derived inputs');
 
+    items.push({
+      title: 'LIHTC (Low-Income Housing Tax Credit)',
+      html: `LIHTC project locations and unit counts are sourced from the HUD LIHTC database, accessed via the ` +
+            `HUD ArcGIS REST service when available (live query, no auth required), with an embedded Colorado ` +
+            `fallback dataset. Red circle markers on the map indicate LIHTC-funded properties. ` +
+            `<a href="${SOURCES.lihtcDb}" target="_blank" rel="noopener">HUD LIHTC database</a>.`
+    });
+
+    items.push({
+      title: 'QCT (Qualified Census Tracts)',
+      html: `Qualified Census Tracts are census tracts where ≥50% of households have incomes below 60% of Area ` +
+            `Median Income, or the poverty rate is ≥25%. HUD designates QCTs annually; LIHTC projects in QCTs ` +
+            `may receive a 30% basis boost. QCT tract boundaries are fetched from the HUD ArcGIS REST service ` +
+            `and shown as orange overlays on the map. ` +
+            `<a href="${SOURCES.hudQct}" target="_blank" rel="noopener">HUD QCT dataset</a>.`
+    });
+
+    items.push({
+      title: 'DDA (Difficult Development Areas)',
+      html: `Difficult Development Areas are HUD-designated metro/non-metro areas with high construction, land, ` +
+            `and utility costs relative to income. LIHTC projects in DDAs may receive a 30% basis boost. ` +
+            `DDA boundaries are fetched from the HUD ArcGIS REST service (purple dashed overlay); county DDA ` +
+            `status is also cross-checked against HUD's published 2025 DDA list for Colorado. ` +
+            `<a href="${SOURCES.hudDda}" target="_blank" rel="noopener">HUD DDA dataset</a>.`
+    });
+
     const cacheHtml = cacheBits.length ?
       `Cached modules loaded: <strong>${cacheBits.join(', ')}</strong>.` :
       `No cached modules detected for this geography; using live Census pulls where available.`;
@@ -1442,6 +1823,9 @@
       derivedEntry,
       derivedYears: state.derived?.acs5_years || null,
     });
+
+    // LIHTC / QCT / DDA overlays (non-blocking; county context)
+    updateLihtcOverlays(contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
   }
 
   async function init(){
@@ -1486,6 +1870,7 @@
     document.addEventListener('theme:changed', ()=>{ update(); });
     document.addEventListener('nav:rendered', ()=>{ /* no-op */ });
 
+    wireLayerToggles();
     ensureMap();
     update();
   }

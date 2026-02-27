@@ -291,6 +291,97 @@ test('JS: PDF export button is wired and has fallback to print()', () => {
 });
 
 // ---------------------------------------------------------------------------
+// JS: LIHTC / QCT / DDA map overlays
+// ---------------------------------------------------------------------------
+test('JS: LIHTC layer variables and fallback data are defined', () => {
+    assert(js.includes('let lihtcLayer'),          'lihtcLayer variable is declared');
+    assert(js.includes('let qctLayer'),            'qctLayer variable is declared');
+    assert(js.includes('let ddaLayer'),            'ddaLayer variable is declared');
+    assert(js.includes('LIHTC_FALLBACK_CO'),       'LIHTC_FALLBACK_CO fallback dataset is defined');
+    assert(js.includes('CO_DDA'),                  'CO_DDA static DDA lookup is defined');
+});
+
+test('JS: LIHTC fetch function is implemented with fallback', () => {
+    assert(js.includes('async function fetchLihtcProjects'), 'fetchLihtcProjects is an async function');
+    assert(js.includes('lihtcFallbackForCounty'),            'lihtcFallbackForCounty fallback is called');
+    assert(js.includes('hudLihtcQuery'),                     'HUD LIHTC ArcGIS service URL is referenced');
+});
+
+test('JS: QCT fetch function is implemented', () => {
+    assert(js.includes('async function fetchQctTracts'), 'fetchQctTracts is an async function');
+    assert(js.includes('hudQctQuery'),                   'HUD QCT ArcGIS service URL is referenced');
+});
+
+test('JS: DDA fetch function is implemented with static fallback', () => {
+    assert(js.includes('async function fetchDdaForCounty'), 'fetchDdaForCounty is an async function');
+    assert(js.includes('hudDdaQuery'),                      'HUD DDA ArcGIS service URL is referenced');
+    assert(js.includes('CO_DDA[countyFips5]'),              'CO_DDA static lookup is used as fallback');
+});
+
+test('JS: LIHTC layer is rendered with Leaflet markers', () => {
+    assert(js.includes('function renderLihtcLayer'), 'renderLihtcLayer function is defined');
+    assert(js.includes('L.divIcon'),                 'LIHTC markers use L.divIcon');
+    assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
+    assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
+    assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
+});
+
+test('JS: QCT layer is rendered as a GeoJSON overlay', () => {
+    assert(js.includes('function renderQctLayer'), 'renderQctLayer function is defined');
+    assert(js.includes('statQctCount'),            'QCT tract count stat is updated');
+});
+
+test('JS: DDA layer is rendered with county status badge', () => {
+    assert(js.includes('function renderDdaLayer'), 'renderDdaLayer function is defined');
+    assert(js.includes('statDdaStatus'),           'DDA status stat is updated');
+    assert(js.includes('statDdaNote'),             'DDA note/area is updated');
+});
+
+test('JS: layer toggle handlers are wired', () => {
+    assert(js.includes('function wireLayerToggles'), 'wireLayerToggles function is defined');
+    assert(js.includes('layerLihtc'),                'LIHTC layer toggle is handled');
+    assert(js.includes('layerQct'),                  'QCT layer toggle is handled');
+    assert(js.includes('layerDda'),                  'DDA layer toggle is handled');
+});
+
+test('JS: LIHTC/QCT/DDA overlays are loaded during update()', () => {
+    assert(js.includes('updateLihtcOverlays'),       'updateLihtcOverlays is called from update()');
+    assert(js.includes('wireLayerToggles'),          'wireLayerToggles is called from init()');
+});
+
+test('JS: LIHTC/QCT/DDA methodology entries are added', () => {
+    assert(js.includes('Low-Income Housing Tax Credit'), 'LIHTC methodology entry is present');
+    assert(js.includes('Qualified Census Tracts'),       'QCT methodology entry is present');
+    assert(js.includes('Difficult Development Areas'),   'DDA methodology entry is present');
+    assert(js.includes('SOURCES.lihtcDb'),               'LIHTC source link is referenced');
+    assert(js.includes('SOURCES.hudQct'),                'QCT source link is referenced');
+    assert(js.includes('SOURCES.hudDda'),                'DDA source link is referenced');
+});
+
+// ---------------------------------------------------------------------------
+// HTML: LIHTC / QCT / DDA elements
+// ---------------------------------------------------------------------------
+test('HTML: LIHTC/QCT/DDA stat elements are present', () => {
+    assert(html.includes('id="statLihtcCount"'),  'id="statLihtcCount" is in HTML');
+    assert(html.includes('id="statLihtcUnits"'),  'id="statLihtcUnits" is in HTML');
+    assert(html.includes('id="statQctCount"'),    'id="statQctCount" is in HTML');
+    assert(html.includes('id="statDdaStatus"'),   'id="statDdaStatus" is in HTML');
+    assert(html.includes('id="statDdaNote"'),     'id="statDdaNote" is in HTML');
+    assert(html.includes('id="lihtcInfoPanel"'),  'id="lihtcInfoPanel" is in HTML');
+    assert(html.includes('id="lihtcMapStatus"'),  'id="lihtcMapStatus" is in HTML');
+});
+
+test('HTML: map layer toggle checkboxes are present', () => {
+    assert(html.includes('id="layerLihtc"'), 'LIHTC layer toggle checkbox is in HTML');
+    assert(html.includes('id="layerQct"'),   'QCT layer toggle checkbox is in HTML');
+    assert(html.includes('id="layerDda"'),   'DDA layer toggle checkbox is in HTML');
+});
+
+test('HTML: LIHTC/QCT/DDA info card is present', () => {
+    assert(html.includes('LIHTC, QCT'), 'LIHTC/QCT/DDA card heading is in HTML');
+});
+
+// ---------------------------------------------------------------------------
 // Deploy workflow: key configuration checks
 // ---------------------------------------------------------------------------
 test('Deploy workflow: workflow_dispatch is enabled', () => {

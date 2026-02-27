@@ -69,6 +69,48 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .methodology li { margin: .35rem 0; color: var(--muted); }
 
 /* ----------------------------------------------------------------
+   Map overlay controls
+   ---------------------------------------------------------------- */
+.hna-map-overlay-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px 0;
+  font-size: .88rem;
+}
+.hna-map-overlay-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text);
+}
+.legend-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  flex-shrink: 0;
+}
+.legend-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  border: 1.5px solid;
+  flex-shrink: 0;
+}
+.hna-layer-status {
+  color: var(--muted);
+  font-size: .82rem;
+  font-style: italic;
+}
+/* ----------------------------------------------------------------
    Pill badge
    ---------------------------------------------------------------- */
 .pill { display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; background: color-mix(in oklab, var(--card) 80%, var(--accent) 20%); font-weight: 900; font-size: .82rem; }
