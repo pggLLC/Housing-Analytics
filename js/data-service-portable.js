@@ -25,7 +25,9 @@
 
   // Local asset helpers
   function baseData(filename) {
-    return 'data/' + (filename || '');
+    // Normalize to prevent "data//foo" when filename starts with a slash
+    var f = (filename || '').replace(/^\/+/, '');
+    return 'data/' + f;
   }
 
   function baseMaps(filename) {
@@ -94,11 +96,28 @@
     });
   }
 
+  /**
+   * Fetch a non-JSON text asset (e.g. CSV, TXT) by relative path.
+   * Uses resolveAssetUrl for base-path resolution, plain fetch for text.
+   * @param {string} relativePath
+   * @returns {Promise<string>}
+   */
+  function getText(relativePath) {
+    var url = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl(relativePath)
+      : relativePath;
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
+      return r.text();
+    });
+  }
+
   window.DataService = {
     getJSON:           getJSON,
     getGeoJSON:        getGeoJSON,
     baseData:          baseData,
     baseMaps:          baseMaps,
+    getText:           getText,
     fredObservations:  fredObservations,
     census:            census
   };
