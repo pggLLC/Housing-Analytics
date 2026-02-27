@@ -42,7 +42,7 @@
 @media (max-width: 980px) {
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-.stat { border: 1px solid var(--border); border-radius: 14px; padding: 10px; background: color-mix(in oklab, var(--card) 82%, var(--bg2) 18%); }
+.stat { border: 1px solid var(--border); border-radius: 14px; padding: 10px; background: color-mix(in oklab, var(--card) 82%, var(--bg2) 18%); text-align: center; }
 .stat .k { font-size: .86rem; color: var(--muted); font-weight: 700; }
 .stat .v { margin-top: 4px; font-size: 1.1rem; font-weight: 900; color: var(--text); }
 .stat .s { margin-top: 2px; font-size: .82rem; color: var(--muted); }
