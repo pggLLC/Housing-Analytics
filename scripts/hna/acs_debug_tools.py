@@ -73,6 +73,24 @@ def _build_url(year: int, series: str, endpoint: str, geo_type: str, geoid: str)
     return base + '?' + urllib.parse.urlencode(params)
 
 
+# B-series probe variables for CDPs (ACS 5-year detailed tables)
+_CDP_B_PROBE_VARS = ['B01003_001E', 'B19013_001E', 'B25001_001E', 'NAME']
+
+
+def _build_b_series_url(year: int, geo_type: str, geoid: str) -> str:
+    """Build an ACS 5-year B-series URL for CDP geography probe."""
+    base = f'https://api.census.gov/data/{year}/acs/acs5'
+    params: dict = {
+        'get': ','.join(_CDP_B_PROBE_VARS),
+        'for': f"place:{geoid[2:]}",
+        'in': f"state:{STATE_FIPS_CO}",
+    }
+    key = os.environ.get('CENSUS_API_KEY', '').strip()
+    if key:
+        params['key'] = key
+    return base + '?' + urllib.parse.urlencode(params)
+
+
 def run_acs_diagnostics(geo_type: str, geoid: str, log_path: str) -> dict:
     """Probe all ACS series/endpoint/year combinations for a geography.
 
@@ -124,6 +142,36 @@ def run_acs_diagnostics(geo_type: str, geoid: str, log_path: str) -> dict:
             if ok and success_data is None:
                 success_data = row_data
                 success_source = f'{series}/{endpoint} year={year}'
+
+    # For CDPs, also probe ACS 5-year B-series (the profile/subject tables don't
+    # support CDP geography, but B-series does).
+    if geo_type == 'cdp' and success_data is None:
+        for year in years_to_try:
+            url = _build_b_series_url(year, geo_type, geoid)
+            status, raw = _http_probe(url)
+            ok = False
+            row_data = None
+            if status == 200:
+                try:
+                    parsed = json.loads(raw)
+                    if isinstance(parsed, list) and len(parsed) > 1:
+                        ok = True
+                        row_data = {parsed[0][i]: parsed[1][i] for i in range(len(parsed[0]))}
+                except Exception:
+                    pass
+            entry = {
+                'year': year,
+                'series': 'acs5',
+                'endpoint': 'B-series (CDP fallback)',
+                'url': _redact(url),
+                'status': status,
+                'ok': ok,
+                'response_preview': '(success – data received)' if ok else raw[:250],
+            }
+            entries.append(entry)
+            if ok and success_data is None:
+                success_data = row_data
+                success_source = f'acs5/B-series year={year}'
 
     # Write the diagnostic log
     _write_log(log_path, geo_type, geoid, entries, success_source)
