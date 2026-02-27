@@ -551,6 +551,13 @@
   margin: 0;
 }
 
+.chart-card canvas,
+.chart-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* ================================================================
    DATA TABLE
    ================================================================ */
