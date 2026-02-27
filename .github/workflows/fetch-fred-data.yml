@@ -68,7 +68,7 @@ jobs:
             "PCU32731327313": "PPI: Cement and Concrete Product Manufacturing",
             "WPU0811": "PPI: Lumber",
             "WPU0812": "PPI: Plywood",
-            "WPU13310101": "PPI: Portland Cement",
+            
             "WPU057303": "PPI: Diesel Fuel",
             "CES2000000003": "Construction Avg Hourly Earnings",
           }
@@ -80,7 +80,7 @@ jobs:
               "api_key": api_key,
               "file_type": "json",
               "sort_order": "asc",
-              "observation_start": "2019-01-01",
+              "observation_start": "2014-01-01",
               "limit": "5000"
             }
             url = base + "?" + urllib.parse.urlencode(params)

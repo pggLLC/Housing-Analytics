@@ -431,9 +431,7 @@ def fetch_cdps() -> list[dict]:
         label_lower = label.lower()
         # Only include CDPs
         if not (any(label_lower.endswith(s) for s in (' cdp', ' (cdp)')) or
-                label_lower.endswith(' cdp') or
-                '(cdp)' in label_lower or
-                label_lower.endswith(' cdp')):
+                '(cdp)' in label_lower):
             continue
         # Normalise label: strip trailing " CDP" / "(CDP)"
         for suffix in [' (CDP)', ' CDP', ' (cdp)', ' cdp']:
