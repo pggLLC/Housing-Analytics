@@ -412,15 +412,11 @@
       url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/profile');
       r = await fetch(url2);
       if (!r.ok){
-        // For CDPs, profile/subject tables don't support CDP geography.
-        // Fall back to ACS 5-year B-series which does support place (CDP) geography.
-        if (geoType === 'cdp'){
-          return await fetchAcs5BSeriesCdp(geoid);
-        }
-        const msg = DEBUG_HNA
-          ? `ACS failed. Tried: ${redactKey(url1)} then ${redactKey(url2)}`
-          : `ACS profile failed (${r.status})`;
-        throw new Error(msg);
+        // ACS profile/subject tables may not support this geography or these
+        // variable codes for the requested year.  Fall back to ACS 5-year
+        // B-series which covers all geography types (county, place, CDP) and
+        // uses stable variable codes.
+        return await fetchAcs5BSeries(geoType, geoid);
       }
     }
     const arr = await r.json();
@@ -431,12 +427,15 @@
     return out;
   }
 
-  async function fetchAcs5BSeriesCdp(geoid){
-    // ACS 5-year B-series fallback for CDPs.
-    // Profile (DP) and subject (S) tables don't support CDP geography via the
-    // Census API hierarchy, but the B-series detailed tables do.
+  async function fetchAcs5BSeries(geoType, geoid){
+    // ACS 5-year B-series fallback for all geography types (county, place, CDP).
+    // Profile (DP) and subject (S) tables may fail due to geography constraints
+    // or variable numbering changes across ACS releases.  The B-series detailed
+    // tables cover all geography types and use stable variable codes.
     // Maps B-series codes to DP-series names for UI compatibility.
-    const placeCode = geoid.slice(2);
+    const forParam = geoType === 'county'
+      ? `county:${geoid.slice(-3)}`
+      : `place:${geoid.slice(2)}`;
     const key = censusKey();
     const bVars = [
       'B01003_001E', // total population        → DP05_0001E
@@ -462,15 +461,15 @@
     const dataset = `https://api.census.gov/data/${ACS_YEAR_FALLBACK}/acs/acs5`;
     const params = new URLSearchParams();
     params.set('get', bVars.join(',') + ',NAME');
-    params.set('for', `place:${placeCode}`);
+    params.set('for', forParam);
     params.set('in', `state:${STATE_FIPS_CO}`);
     if (key) params.set('key', key);
     const url = `${dataset}?${params.toString()}`;
 
     const r = await fetch(url);
     if (!r.ok){
-      if (DEBUG_HNA) console.warn(`ACS5 B-series CDP fallback failed: ${r.status} ${redactKey(url)}`);
-      throw new Error(`ACS profile unavailable for this CDP (${r.status})`);
+      if (DEBUG_HNA) console.warn(`ACS5 B-series fallback failed: ${r.status} ${redactKey(url)}`);
+      throw new Error(`ACS profile unavailable for this geography (${r.status})`);
     }
     const arr = await r.json();
     const header = arr[0];
