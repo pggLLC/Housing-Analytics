@@ -240,7 +240,7 @@ nav.site-nav a.is-active { background: var(--accent-dim); color: var(--accent) !
 
 /* Mobile navigation — hamburger menu */
 @media (max-width: 768px) {
-  nav.site-nav.nav-collapsed { display: none !important; }
+  nav.site-nav { display: none; }
   nav.site-nav.nav-expanded { display: flex !important; flex-direction: column; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; background: var(--card) !important; z-index: 49; padding: 1.25rem; gap: 4px; overflow-y: auto; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
   nav.site-nav.nav-expanded a { padding: 14px 16px !important; border-radius: 10px !important; font-size: 1rem !important; border: 1px solid transparent; }
   nav.site-nav.nav-expanded a:hover, nav.site-nav.nav-expanded a.is-active { background: var(--bg2) !important; border-color: var(--border) !important; }
@@ -292,9 +292,23 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .metric h3 { font-size: 0.9rem; color: var(--text) !important; margin: 0 0 6px; font-weight: 700; }
 .metric .value { font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.02em; }
 .metric .meta { color: var(--muted) !important; font-size: var(--tiny); display: flex; gap: 10px; margin-top: 4px; }
-.chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+.chart-wrap { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: flex; align-items: center; justify-content: center; }
 canvas { width: 100% !important; }
 .chart-wrap canvas { height: 180px; }
+
+/* Chart container centering inside cards */
+.card .chart-box,
+.chart-card .chart-box,
+.panel .chart-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card canvas,
+.chart-card canvas,
+.panel canvas {
+  max-width: 100%;
+}
 
 /* ================================================================
    10. TABLES
@@ -436,7 +450,7 @@ body.no-shell main {
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--faint); }
 
-::selection { background: var(--accent-dim); color: var(--text); }
+::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--text-strong); }
 
 @media print {
   html, body { background: #fff !important; color: #000 !important; }
@@ -517,9 +531,65 @@ main h3:first-child { margin-top: 0; }
 /* ================================================================
    DARK MODE TOGGLE (class-based override + toggle button styles)
    ================================================================
-   MANUAL TOGGLE support (.dark-mode class on <html>)
-   Allows js/dark-mode-toggle.js to force dark regardless of OS.
+   MANUAL TOGGLE support (.dark-mode / .light-mode class on <html>)
+   Allows js/dark-mode-toggle.js to force a scheme regardless of OS.
    ---------------------------------------------------------------- */
+
+/* Force light mode even when OS prefers dark */
+html.light-mode {
+  color-scheme: light;
+
+  --bg:            #eef2f7;
+  --bg2:           #e4ecf4;
+  --bg3:           #dae4f0;
+  --card:          #ffffff;
+  --card2:         #f7fafd;
+  --surface:       #ffffff;
+  --text:          #0d1f35;
+  --text-strong:   #060f1d;
+  --muted:         #476080;
+  --faint:         #7a96b0;
+  --border:        rgba(13,31,53,.11);
+  --border-strong: rgba(13,31,53,.20);
+  --link:          #0b7285;
+  --link-hover:    #096075;
+  --accent:        #0ea5a0;
+  --accent-dim:    rgba(14,165,160,.10);
+  --accent2:       #e8891a;
+  --accent2-dim:   rgba(232,137,26,.10);
+  --good:          #059669;
+  --good-dim:      rgba(5,150,105,.10);
+  --warn:          #d97706;
+  --warn-dim:      rgba(217,119,6,.10);
+  --bad:           #dc2626;
+  --bad-dim:       rgba(220,38,38,.10);
+  --info:          #2563eb;
+  --info-dim:      rgba(37,99,235,.09);
+  --shadow-sm:     0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);
+  --shadow:        0 4px 16px rgba(13,31,53,.08),0 1px 4px rgba(13,31,53,.05);
+  --shadow-lg:     0 12px 40px rgba(13,31,53,.12),0 4px 12px rgba(13,31,53,.07);
+  --shadow-card:   0 2px 8px rgba(13,31,53,.06),0 0 0 1px rgba(13,31,53,.07);
+  --color-background:     var(--bg);
+  --color-background-alt: var(--bg2);
+  --color-surface:        var(--card);
+  --color-text:           var(--text);
+  --color-text-light:     var(--muted);
+  --color-text-muted:     var(--faint);
+  --color-border:         var(--border);
+  --bg-primary:           var(--bg);
+  --bg-secondary:         var(--bg2);
+  --text-primary:         var(--text);
+  --text-secondary:       var(--muted);
+  --accent-gold:          var(--accent2);
+  --border-color:         var(--border);
+}
+
+html.light-mode body,
+html.light-mode html {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
 html.dark-mode {
   color-scheme: dark;
 

@@ -153,6 +153,11 @@
     // Destroy existing
     const id = ctx.canvas.id;
     if (charts[id]) charts[id].destroy();
+    // Apply consistent font size for legibility
+    if (window.Chart && Chart.defaults) {
+      Chart.defaults.font = Chart.defaults.font || {};
+      Chart.defaults.font.size = 12;
+    }
     charts[id] = new Chart(ctx, config);
   }
 
@@ -203,21 +208,29 @@
   // --- Geography helpers ---
   function countyFromGeoid(geoType, geoid){
     if (geoType === 'county') return geoid;
-    // Featured places are all in Mesa County right now; keep config-driven.
-    // The ETL can set containingCounty for any place/cdp.
+    // The ETL can set containingCounty for any featured place/cdp.
+    // For places without a containingCounty, derive from the place GEOID:
+    // Colorado place GEOIDs are 7 digits: 08XXXXX. The containing county
+    // cannot be derived from the place code alone, so we fall back to the
+    // county whose GEOID is closest or use Mesa County as default when
+    // no containingCounty is supplied.
     const conf = window.__HNA_GEO_CONFIG;
-    const item = conf?.featured?.find(x => x.geoid === geoid);
-    return item?.containingCounty || '08077';
+    // Check featured first (they may have containingCounty set)
+    const featured = conf?.featured?.find(x => x.geoid === geoid);
+    if (featured?.containingCounty) return featured.containingCounty;
+    // For non-featured places/CDPs default to the first county
+    // (caller will get data from the Census API for the specific place)
+    return '08077';
   }
 
   function buildSelect(){
     const type = els.geoType.value;
     els.geoSelect.innerHTML='';
-    const list = (window.__HNA_GEO_CONFIG?.featured || FEATURED).filter(x => x.type === type);
+    const cfg = window.__HNA_GEO_CONFIG;
 
-    // If county, append full county list if present
-    if (type === 'county' && Array.isArray(window.__HNA_GEO_CONFIG?.counties) && window.__HNA_GEO_CONFIG.counties.length){
-      for (const c of window.__HNA_GEO_CONFIG.counties){
+    // Prefer full list from config for each type; fall back to featured items
+    if (type === 'county' && Array.isArray(cfg?.counties) && cfg.counties.length){
+      for (const c of cfg.counties){
         const opt = document.createElement('option');
         opt.value = c.geoid;
         opt.textContent = c.label;
@@ -227,6 +240,30 @@
       return;
     }
 
+    if (type === 'place' && Array.isArray(cfg?.places) && cfg.places.length){
+      for (const p of cfg.places){
+        const opt = document.createElement('option');
+        opt.value = p.geoid;
+        opt.textContent = p.label;
+        els.geoSelect.appendChild(opt);
+      }
+      if (!els.geoSelect.value && cfg.places[0]) els.geoSelect.value = cfg.places[0].geoid;
+      return;
+    }
+
+    if (type === 'cdp' && Array.isArray(cfg?.cdps) && cfg.cdps.length){
+      for (const c of cfg.cdps){
+        const opt = document.createElement('option');
+        opt.value = c.geoid;
+        opt.textContent = c.label;
+        els.geoSelect.appendChild(opt);
+      }
+      if (!els.geoSelect.value && cfg.cdps[0]) els.geoSelect.value = cfg.cdps[0].geoid;
+      return;
+    }
+
+    // Fall back to featured items filtered by type
+    const list = (cfg?.featured || FEATURED).filter(x => x.type === type);
     for (const g of list){
       const opt = document.createElement('option');
       opt.value = g.geoid;
