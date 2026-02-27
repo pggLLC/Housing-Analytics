@@ -81,16 +81,46 @@
         <h2>Map</h2>
         <p>Boundary is fetched from Census TIGERweb and used as the base layer for additional overlays.</p>
         <div id="hnaMap" aria-label="Boundary map"></div>
+        <div class="hna-map-overlay-controls" aria-label="Map layer toggles">
+          <label>
+            <input type="checkbox" id="layerLihtc" checked>
+            <span class="legend-dot" style="background:#e84545"></span>
+            LIHTC projects
+          </label>
+          <label>
+            <input type="checkbox" id="layerQct" checked>
+            <span class="legend-swatch" style="background:rgba(251,191,36,.35);border-color:#d97706"></span>
+            QCT tracts
+          </label>
+          <label>
+            <input type="checkbox" id="layerDda" checked>
+            <span class="legend-swatch" style="background:rgba(139,92,246,.2);border-color:#7c3aed"></span>
+            DDA boundary
+          </label>
+          <span id="lihtcMapStatus" class="hna-layer-status"></span>
+        </div>
         <div style="margin-top:10px">
           <details>
-            <summary>Local commitments & resources</summary>
+            <summary>Local commitments &amp; resources</summary>
             <div id="localResources" style="margin-top:8px;color:var(--muted)">—</div>
           </details>
         </div>
       </div>
 
       <div class="chart-card span-4">
-        <h2>Housing stock & tenure</h2>
+        <h2>LIHTC, QCT &amp; DDA</h2>
+        <p>HUD-designated overlays for the selected geography: LIHTC-funded affordable housing projects, Qualified Census Tracts (income/poverty threshold), and Difficult Development Areas (high-cost designation).</p>
+        <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
+          <div class="stat"><div class="k">LIHTC projects</div><div class="v" id="statLihtcCount">—</div><div class="s">HUD database</div></div>
+          <div class="stat"><div class="k">LIHTC units</div><div class="v" id="statLihtcUnits">—</div><div class="s">HUD database</div></div>
+          <div class="stat"><div class="k">QCT tracts</div><div class="v" id="statQctCount">—</div><div class="s">HUD annual list</div></div>
+          <div class="stat"><div class="k">DDA status</div><div class="v" id="statDdaStatus">—</div><div class="s" id="statDdaNote">HUD designation</div></div>
+        </div>
+        <div id="lihtcInfoPanel" style="margin-top:10px"></div>
+      </div>
+
+      <div class="chart-card span-6">
+        <h2>Housing stock &amp; tenure</h2>
         <p>Existing housing stock by structure type and owner/renter shares (ACS).</p>
         <div class="chart-box"><canvas id="chartStock"></canvas></div>
         <div class="chart-box"><canvas id="chartTenure"></canvas></div>
