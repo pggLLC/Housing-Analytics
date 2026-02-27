@@ -343,7 +343,8 @@ def fetch_counties() -> list[dict]:
         geoid = str(a.get('GEOID', '')).zfill(5)
         name = a.get('NAME', '')
         if geoid and name:
-            out.append({'geoid': geoid, 'label': f"{name} County"})
+            label = name if name.lower().endswith('county') else f"{name} County"
+            out.append({'geoid': geoid, 'label': label})
     return out
 
 
@@ -351,8 +352,148 @@ def census_key() -> str:
     return os.environ.get('CENSUS_API_KEY', '').strip()
 
 
+def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
+    """Fetch ACS 5-year B-series data for a CDP.
+
+    The ACS profile (DP) and subject (S) tables do not support CDP geography
+    in the Census API. This function uses ACS 5-year detailed tables (B-series)
+    which DO support CDP geography via 'for=place:XXXXX&in=state:XX', and maps
+    the results to DP-series variable names for compatibility with the UI.
+    """
+    # B-series variables available for CDPs via ACS 5-year
+    b_vars = [
+        'B01003_001E',  # total population           → DP05_0001E
+        'B11001_001E',  # total households            → DP02_0001E
+        'B19013_001E',  # median household income     → DP03_0062E
+        'B25001_001E',  # total housing units         → DP04_0001E
+        'B25003_001E',  # occupied housing units total
+        'B25003_002E',  # owner-occupied              → DP04_0047PE (%)
+        'B25003_003E',  # renter-occupied             → DP04_0046PE (%)
+        'B25077_001E',  # median home value           → DP04_0089E
+        'B25064_001E',  # median gross rent           → DP04_0134E
+        # Structure by units in building              → DP04_0003E–0010E
+        'B25024_002E',  # 1-unit detached
+        'B25024_003E',  # 1-unit attached
+        'B25024_004E',  # 2 units
+        'B25024_005E',  # 3–4 units
+        'B25024_006E',  # 5–9 units
+        'B25024_007E',  # 10–19 units
+        'B25024_008E',  # 20–49 units
+        'B25024_009E',  # 50+ units
+        'B25024_010E',  # mobile home
+        # GRAPI rent burden                           → DP04_0142PE–0146PE
+        'B25070_001E',  # renter-occupied paying rent (GRAPI denominator)
+        'B25070_006E',  # 25.0–29.9 percent
+        'B25070_007E',  # 30.0–34.9 percent          → DP04_0145PE
+        'B25070_008E',  # 35.0–39.9 percent
+        'B25070_009E',  # 40.0–49.9 percent
+        'B25070_010E',  # 50.0 percent or more
+        'NAME',
+    ]
+
+    place_code = geoid[2:]  # strip 2-digit state prefix
+    key = census_key()
+
+    start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
+    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
+    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+
+    for year in years_to_try:
+        base = f'https://api.census.gov/data/{year}/acs/acs5'
+        params: dict = {
+            'get': ','.join(b_vars),
+            'for': f'place:{place_code}',
+            'in': f'state:{STATE_FIPS_CO}',
+        }
+        if key:
+            params['key'] = key
+        url = base + '?' + urllib.parse.urlencode(params)
+        result = http_get_json(url)
+        if result and len(result) > 1:
+            raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            print(f"ℹ CDP {geoid}: resolved via ACS5 B-series year={year}", file=sys.stderr)
+
+            def si(v):
+                try:
+                    n = int(v)
+                    return n if n >= 0 else None
+                except Exception:
+                    return None
+
+            def sf(v):
+                try:
+                    n = float(v)
+                    return n if n >= 0 else None
+                except Exception:
+                    return None
+
+            pop = si(raw.get('B01003_001E'))
+            occ = si(raw.get('B25003_001E'))
+            owner = si(raw.get('B25003_002E'))
+            renter = si(raw.get('B25003_003E'))
+            grapi_tot = si(raw.get('B25070_001E'))
+            burden30 = si(raw.get('B25070_007E'))
+            burden35a = si(raw.get('B25070_008E'))
+            burden35b = si(raw.get('B25070_009E'))
+            burden35c = si(raw.get('B25070_010E'))
+
+            # Compute percentages that mirror DP-series fields
+            owner_pct = round(owner / occ * 100, 1) if (occ and owner is not None) else None
+            renter_pct = round(renter / occ * 100, 1) if (occ and renter is not None) else None
+
+            # Aggregate structure "20+" for DP04_0009E (20–49 + 50+)
+            s20_49 = si(raw.get('B25024_008E'))
+            s50p = si(raw.get('B25024_009E'))
+            units_20p = (s20_49 or 0) + (s50p or 0) if (s20_49 is not None or s50p is not None) else None
+
+            # GRAPI burden bins (% of renter-occupied paying rent)
+            def grapi_pct(n):
+                if n is None or grapi_tot is None or grapi_tot <= 0:
+                    return None
+                return round(n / grapi_tot * 100, 1)
+
+            b25_29 = si(raw.get('B25070_006E'))
+            b30_34 = burden30
+            # DP04_0142PE = <15%, DP04_0143PE = 15–19.9%, DP04_0144PE = 20–24.9%
+            # We cannot compute these exactly from B25070, so leave as None.
+            # DP04_0145PE = 30–34.9%, DP04_0146PE = 35%+
+            burden35_total = sum(
+                v for v in [burden35a, burden35b, burden35c] if v is not None
+            ) if any(v is not None for v in [burden35a, burden35b, burden35c]) else None
+
+            mapped = {
+                'DP05_0001E': raw.get('B01003_001E'),
+                'DP02_0001E': raw.get('B11001_001E'),
+                'DP03_0062E': raw.get('B19013_001E'),
+                'DP04_0001E': raw.get('B25001_001E'),
+                'DP04_0047PE': str(owner_pct) if owner_pct is not None else None,
+                'DP04_0046PE': str(renter_pct) if renter_pct is not None else None,
+                'DP04_0089E': raw.get('B25077_001E'),
+                'DP04_0134E': raw.get('B25064_001E'),
+                'DP04_0003E': raw.get('B25024_002E'),
+                'DP04_0004E': raw.get('B25024_003E'),
+                'DP04_0005E': raw.get('B25024_004E'),
+                'DP04_0006E': raw.get('B25024_005E'),
+                'DP04_0007E': raw.get('B25024_006E'),
+                'DP04_0008E': raw.get('B25024_007E'),
+                'DP04_0009E': str(units_20p) if units_20p is not None else None,
+                'DP04_0010E': raw.get('B25024_010E'),
+                'DP04_0142PE': None,
+                'DP04_0143PE': None,
+                'DP04_0144PE': str(grapi_pct(b25_29)) if b25_29 is not None else None,
+                'DP04_0145PE': str(grapi_pct(b30_34)) if b30_34 is not None else None,
+                'DP04_0146PE': str(grapi_pct(burden35_total)) if burden35_total is not None else None,
+                'NAME': raw.get('NAME'),
+            }
+            return mapped
+
+    print(f"⚠ CDP {geoid}: ACS5 B-series also failed (tried years {years_to_try})", file=sys.stderr)
+    return None
+
+
 def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
-    """Fetch ACS profile with fallback chain: ACS1/profile → ACS1/subject → ACS5/profile → ACS5/subject."""
+    """Fetch ACS profile with fallback chain: ACS1/profile → ACS1/subject → ACS5/profile.
+    For CDPs, adds ACS 5-year B-series as a final fallback."""
     vars_ = [
         'DP05_0001E',
         'DP03_0062E',
@@ -399,6 +540,11 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                 return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
     print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
+    # For CDPs, ACS profile/subject tables don't support CDP geography hierarchy.
+    # Fall back to ACS 5-year B-series which does support place (CDP) geography.
+    if geo_type == 'cdp':
+        print(f"ℹ CDP {geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
+        return _fetch_acs5_b_series_cdp(geoid)
     return None
 
 
