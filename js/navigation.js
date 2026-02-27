@@ -60,9 +60,6 @@
       @media(max-width:768px){
         .mobile-menu-btn{display:flex}
         nav.site-nav{display:none}
-        nav.site-nav.nav-expanded{display:flex;position:fixed;top:58px;left:0;right:0;bottom:0;background:var(--card);flex-direction:column;padding:1.25rem;gap:4px;overflow-y:auto;z-index:49;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-        nav.site-nav a{padding:14px 16px;border-radius:10px;font-size:1rem;border:1px solid transparent}
-        nav.site-nav a:hover,nav.site-nav a.is-active{background:var(--bg2);border-color:var(--border)}
       }
     `;
     document.head.appendChild(s);
@@ -75,6 +72,15 @@
   }
 
     ensureHeaderStyles();
+
+    // Inject mobile-nav stylesheet once
+    if (!document.getElementById('mobile-nav-styles-link')) {
+      const link = document.createElement('link');
+      link.id = 'mobile-nav-styles-link';
+      link.rel = 'stylesheet';
+      link.href = relToRoot() + 'css/mobile-nav.css';
+      document.head.appendChild(link);
+    }
 
     // Header
     const header = document.createElement('header');
@@ -89,7 +95,31 @@
         <nav class="site-nav" aria-label="Primary">
           ${LINKS.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
         </nav>
+        <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileNavDrawer">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    `;
+
+    // Drawer (mobile slide-in)
+    const drawer = document.createElement('aside');
+    drawer.id = 'mobileNavDrawer';
+    drawer.className = 'mobile-nav-drawer';
+    drawer.setAttribute('hidden', '');
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-label', 'Site navigation');
+    drawer.innerHTML = `
+      <div class="mobile-nav-header">
+        <div class="mobile-nav-title">Menu</div>
+        <button type="button" id="mobileNavClose" class="mobile-nav-close" aria-label="Close menu">&#x2715;</button>
+      </div>
+      <nav class="mobile-nav-links">
+        ${LINKS.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
+      </nav>
     `;
 
     // Footer
@@ -124,6 +154,9 @@
     } else {
       document.body.appendChild(footer);
     }
+
+    // Inject drawer into body
+    document.body.appendChild(drawer);
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }
