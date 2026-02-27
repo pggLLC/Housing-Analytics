@@ -444,7 +444,7 @@ def fetch_cdps() -> list[dict]:
     return out
 
 
-
+def census_key() -> str:
     return os.environ.get('CENSUS_API_KEY', '').strip()
 
 
