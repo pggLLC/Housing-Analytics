@@ -26,5 +26,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run WCAG contrast audit
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Start local HTTP server
+        run: npx http-server . -p 8080 --silent &
+        env:
+          CONTRAST_BASE_URL: http://localhost:8080
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:8080 --timeout 15000
+
+      - name: Run Playwright contrast audit
+        run: npm run test:contrast
+        env:
+          CONTRAST_BASE_URL: http://localhost:8080
+
+      - name: Run WCAG contrast audit (static)
         run: npm run audit:contrast
