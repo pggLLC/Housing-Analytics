@@ -12,7 +12,11 @@
     "test:pages": "node test/pages-availability-check.js",
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
-    "audit:contrast": "node scripts/contrast-audit.js"
+    "audit:contrast": "node scripts/contrast-audit.js",
+    "test:contrast": "node scripts/contrast-audit/run.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
   },
   "dependencies": {
     "color": "^4.2.3",
