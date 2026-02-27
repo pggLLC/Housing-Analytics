@@ -187,6 +187,36 @@
   }
 
   /**
+   * Format an ISO date string as dd-mm-yy.
+   * @param {string} isoString
+   * @returns {string}
+   */
+  function formatDDMMYY(isoString) {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return isoString;
+    const dd = String(d.getUTCDate()).padStart(2, "0");
+    const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const yy = String(d.getUTCFullYear()).slice(-2);
+    return `${dd}-${mm}-${yy}`;
+  }
+
+  /**
+   * Return attribution metadata for Kashli data (source name, URL, formatted fetch date).
+   * Returns null if Kashli data has not been loaded yet.
+   * @returns {{ source: string, sourceUrl: string, fetchedAt: string, formattedDate: string }|null}
+   */
+  function getKashliAttribution() {
+    const data = _get("kashli");
+    if (!data) return null;
+    return {
+      source:        data.source      || "Kashli API",
+      sourceUrl:     data.sourceUrl   || "https://api.kashli.com",
+      fetchedAt:     data.fetchedAt   || null,
+      formattedDate: data.fetchedAt ? formatDDMMYY(data.fetchedAt) : null,
+    };
+  }
+
+  /**
    * Load all data sources in parallel and return a unified object.
    * Each source gracefully returns null on failure so the rest still load.
    *
@@ -261,5 +291,7 @@
     loadKashliData,
     loadAllData,
     getCachedData,
+    formatDDMMYY,
+    getKashliAttribution,
   };
 })(window);
