@@ -60,7 +60,7 @@ def _build_url(year: int, series: str, endpoint: str, geo_type: str, geoid: str)
     base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
     if geo_type == 'county':
         for_ = f"county:{geoid[-3:]}"
-        params: dict = {'get': ','.join(_PROBE_VARS), 'for': for_}
+        params: dict = {'get': ','.join(_PROBE_VARS), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
     elif geo_type == 'place':
         for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(_PROBE_VARS), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
@@ -78,11 +78,15 @@ _CDP_B_PROBE_VARS = ['B01003_001E', 'B19013_001E', 'B25001_001E', 'NAME']
 
 
 def _build_b_series_url(year: int, geo_type: str, geoid: str) -> str:
-    """Build an ACS 5-year B-series URL for CDP geography probe."""
+    """Build an ACS 5-year B-series URL for any geography probe."""
     base = f'https://api.census.gov/data/{year}/acs/acs5'
+    if geo_type == 'county':
+        for_param = f"county:{geoid[-3:]}"
+    else:
+        for_param = f"place:{geoid[2:]}"
     params: dict = {
         'get': ','.join(_CDP_B_PROBE_VARS),
-        'for': f"place:{geoid[2:]}",
+        'for': for_param,
         'in': f"state:{STATE_FIPS_CO}",
     }
     key = os.environ.get('CENSUS_API_KEY', '').strip()
@@ -143,9 +147,10 @@ def run_acs_diagnostics(geo_type: str, geoid: str, log_path: str) -> dict:
                 success_data = row_data
                 success_source = f'{series}/{endpoint} year={year}'
 
-    # For CDPs, also probe ACS 5-year B-series (the profile/subject tables don't
-    # support CDP geography, but B-series does).
-    if geo_type == 'cdp' and success_data is None:
+    # For all geography types, also probe ACS 5-year B-series as a fallback
+    # when profile/subject tables fail (B-series covers all geo types and has
+    # more stable variable codes across ACS releases).
+    if success_data is None:
         for year in years_to_try:
             url = _build_b_series_url(year, geo_type, geoid)
             status, raw = _http_probe(url)

@@ -308,7 +308,7 @@ def fetch_acs5_profile_year(year: int, geo_type: str, geoid: str, vars_: list[st
     base = f'https://api.census.gov/data/{year}/acs/acs5/profile'
     if geo_type == 'county':
         for_ = f"county:{geoid[-3:]}"
-        params = {'get': ','.join(vars_), 'for': for_}
+        params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
     elif geo_type == 'place':
         for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
@@ -352,15 +352,15 @@ def census_key() -> str:
     return os.environ.get('CENSUS_API_KEY', '').strip()
 
 
-def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
-    """Fetch ACS 5-year B-series data for a CDP.
+def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
+    """Fetch ACS 5-year B-series data for any geography type.
 
-    The ACS profile (DP) and subject (S) tables do not support CDP geography
-    in the Census API. This function uses ACS 5-year detailed tables (B-series)
-    which DO support CDP geography via 'for=place:XXXXX&in=state:XX', and maps
-    the results to DP-series variable names for compatibility with the UI.
+    Used as a fallback when ACS profile (DP) tables fail.  B-series detailed
+    tables support all geography types (county, place, CDP) and are more
+    stable across ACS releases than DP profile variables.  Results are mapped
+    to DP-series variable names for compatibility with the UI.
     """
-    # B-series variables available for CDPs via ACS 5-year
+    # B-series variables available via ACS 5-year for all geographies
     b_vars = [
         'B01003_001E',  # total population           → DP05_0001E
         'B11001_001E',  # total households            → DP02_0001E
@@ -394,6 +394,12 @@ def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
     place_code = geoid[2:]  # strip 2-digit state prefix
     key = census_key()
 
+    # Build geography parameters based on geo_type
+    if geo_type == 'county':
+        for_param = f"county:{geoid[-3:]}"
+    else:
+        for_param = f"place:{place_code}"
+
     start_year = int(os.environ.get('ACS_START_YEAR', '2024'))
     n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
     years_to_try = list(range(start_year, start_year - n_fallback, -1))
@@ -402,7 +408,7 @@ def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
         base = f'https://api.census.gov/data/{year}/acs/acs5'
         params: dict = {
             'get': ','.join(b_vars),
-            'for': f'place:{place_code}',
+            'for': for_param,
             'in': f'state:{STATE_FIPS_CO}',
         }
         if key:
@@ -411,7 +417,7 @@ def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
         result = http_get_json(url)
         if result and len(result) > 1:
             raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
-            print(f"ℹ CDP {geoid}: resolved via ACS5 B-series year={year}", file=sys.stderr)
+            print(f"ℹ {geo_type}:{geoid}: resolved via ACS5 B-series year={year}", file=sys.stderr)
 
             def si(v):
                 try:
@@ -487,7 +493,7 @@ def _fetch_acs5_b_series_cdp(geoid: str) -> dict | None:
             }
             return mapped
 
-    print(f"⚠ CDP {geoid}: ACS5 B-series also failed (tried years {years_to_try})", file=sys.stderr)
+    print(f"⚠ {geo_type}:{geoid}: ACS5 B-series also failed (tried years {years_to_try})", file=sys.stderr)
     return None
 
 
@@ -511,7 +517,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
-            params = {'get': ','.join(vars_), 'for': for_}
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         elif geo_type == 'place':
             for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
@@ -540,12 +546,12 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                 return {result[0][i]: result[1][i] for i in range(len(result[0]))}
 
     print(f"⚠ Could not fetch ACS profile for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
-    # For CDPs, ACS profile/subject tables don't support CDP geography hierarchy.
-    # Fall back to ACS 5-year B-series which does support place (CDP) geography.
-    if geo_type == 'cdp':
-        print(f"ℹ CDP {geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
-        return _fetch_acs5_b_series_cdp(geoid)
-    return None
+    # ACS profile/subject tables may fail for some geographies and ACS years
+    # (e.g. CDPs not in profile tables; DP variable numbering can shift between
+    # releases).  Fall back to ACS 5-year B-series which covers all geography
+    # types and uses stable variable codes.
+    print(f"ℹ {geo_type}:{geoid}: attempting ACS5 B-series fallback", file=sys.stderr)
+    return _fetch_acs5_b_series(geo_type, geoid)
 
 
 def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
@@ -560,7 +566,7 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
         if geo_type == 'county':
             for_ = f"county:{geoid[-3:]}"
-            params = {'get': ','.join(vars_), 'for': for_}
+            params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
         elif geo_type == 'place':
             for_ = f"place:{geoid[2:]}"
             params = {'get': ','.join(vars_), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
