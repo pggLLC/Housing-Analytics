@@ -336,7 +336,11 @@ def fetch_counties() -> list[dict]:
         'f': 'json'
     })
     url = f"{base}?{params}"
-    data = json.loads(http_get(url))
+    try:
+        data = json.loads(http_get(url))
+    except Exception as e:
+        print(f"⚠ fetch_counties: network unavailable ({e}); returning empty list", file=sys.stderr)
+        return []
     out = []
     for f in data.get('features', []):
         a = f.get('attributes', {})
@@ -741,23 +745,11 @@ def build_dola_sya_by_county():
         print(f"⚠ Could not cache DOLA file: {e}", file=sys.stderr)
 
     # Parse CSV with banner row tolerance
-    lines = text.split('\n')
-    
-    # Find header row (skip banner rows like "Vintage 2023...")
-    reader = None
-    for i, line in enumerate(lines):
-        if 'fips' in line.lower() or 'age' in line.lower() or 'year' in line.lower():
-            try:
-                reader = csv.DictReader(lines[i:])
-                break
-            except Exception:
-                continue
+    fieldnames, reader = detect_header_and_reader(text)
 
-    if reader is None or reader.fieldnames is None:
+    if reader is None or not fieldnames:
         print(f"⚠ Skipped SYA build: could not detect CSV header", file=sys.stderr)
         return
-
-    fieldnames = reader.fieldnames
 
     # heuristics
     def pick(*cands):
@@ -771,8 +763,12 @@ def build_dola_sya_by_county():
     f_age = pick('age', 'Age')
     f_sex = pick('sex', 'Sex')
     f_pop = pick('population', 'pop', 'Population', 'total')
+    # Wide-format fallback: separate male/female columns per row
+    f_male = pick('malepopulation', 'male_population', 'male', 'Male')
+    f_female = pick('femalepopulation', 'female_population', 'female', 'Female')
+    wide_format = f_male is not None and f_female is not None
 
-    if not all([f_county, f_year, f_age, f_sex, f_pop]):
+    if not all([f_county, f_year, f_age]) or (not wide_format and not all([f_sex, f_pop])):
         print(f"⚠ Skipped SYA build: could not find required columns. Fields: {fieldnames}", file=sys.stderr)
         return
 
@@ -782,14 +778,16 @@ def build_dola_sya_by_county():
     max_age = 0
     for r in reader:
         try:
-            cf = str(r[f_county]).zfill(5)
+            cf = STATE_FIPS_CO + str(int(float(r[f_county]))).zfill(3)
             yr = int(float(r[f_year]))
             age = int(float(r[f_age]))
-            sex = str(r[f_sex]).strip().lower()
-            pop = int(float(r[f_pop]))
             years.add(yr)
             max_age = max(max_age, age)
-            rows.append((cf, yr, age, sex, pop))
+            if wide_format:
+                rows.append((cf, yr, age, 'm', int(float(r[f_male]))))
+                rows.append((cf, yr, age, 'f', int(float(r[f_female]))))
+            else:
+                rows.append((cf, yr, age, str(r[f_sex]).strip().lower(), int(float(r[f_pop]))))
         except Exception:
             continue
 
@@ -887,8 +885,9 @@ def build_dola_projections_by_county():
 
     f_cf = pick_substr(comp_fields, 'countyfips', 'county_fips', 'fips', 'county')
     f_year = pick_substr(comp_fields, 'year')
-    f_pop = pick_substr(comp_fields, 'totalpop', 'total_population', 'population', 'pop')
+    f_pop = pick_substr(comp_fields, 'totalpop', 'total_population', 'population', 'pop', 'estimate')
     f_netmig = pick_substr(comp_fields, 'netmigration', 'net_migration', 'net_mig', 'netmig')
+    f_dtype = pick_substr(comp_fields, 'datatype', 'data_type', 'type')
 
     if not all([f_cf, f_year, f_pop, f_netmig]):
         print(f"⚠ Skipped projections build: could not find required columns in components-change-county. Headers: {comp_fields}", file=sys.stderr)
@@ -896,14 +895,21 @@ def build_dola_projections_by_county():
 
     # Read into dict[county][year] = {pop, netmig}
     comp = {}
+    max_estimate_year = 0
     for r in comp_reader:
         try:
-            cf = str(r[f_cf]).zfill(5)
+            raw_cf = int(float(r[f_cf]))
+            if raw_cf <= 0:
+                continue  # skip state-level totals (countyfips=0)
+            cf = STATE_FIPS_CO + str(raw_cf).zfill(3)
             yr = int(float(r[f_year]))
             pop = float(r[f_pop])
             netmig = float(r[f_netmig])
             d = comp.setdefault(cf, {})
             d[yr] = {'pop': pop, 'netmig': netmig}
+            # Track last estimate year (vs projection) for base year selection
+            if f_dtype and str(r.get(f_dtype, '')).strip().lower().startswith('estimate'):
+                max_estimate_year = max(max_estimate_year, yr)
         except Exception:
             continue
 
@@ -927,7 +933,10 @@ def build_dola_projections_by_county():
         else:
             for r in prof_reader:
                 try:
-                    cf = str(r[p_cf]).zfill(5)
+                    raw_cf = int(float(r[p_cf]))
+                    if raw_cf <= 0:
+                        continue
+                    cf = STATE_FIPS_CO + str(raw_cf).zfill(3)
                     yr = int(float(r[p_year]))
                     hh = float(r[p_hh])
                     units = float(r[p_units])
@@ -938,15 +947,23 @@ def build_dola_projections_by_county():
                     continue
 
     counties = fetch_counties()
-    county_ids = {c['geoid'] for c in counties}
+    if not counties:
+        # Fall back to cached geo-config when network is unavailable
+        try:
+            with open(OUT['geo_config'], 'r', encoding='utf-8') as _f:
+                _gc = json.load(_f)
+            counties = _gc.get('counties', [])
+        except Exception:
+            counties = []
+    county_ids = {c['geoid'] for c in counties} if counties else set(comp.keys())
 
     for cf in sorted(county_ids):
         years = sorted(comp.get(cf, {}).keys())
         if not years:
             continue
 
-        # Choose base year: prefer max year with profiles (typically 2024), else last year before forecast.
-        base_year = max_profile_year if max_profile_year > 0 else max(years)
+        # Choose base year: prefer max year with profiles (typically 2024), else last estimate year.
+        base_year = max_profile_year if max_profile_year > 0 else (max_estimate_year if max_estimate_year > 0 else max(years))
         if cf in profiles and base_year not in profiles[cf]:
             base_year = max(profiles[cf].keys())
 
@@ -1163,6 +1180,11 @@ def build_geo_derived_inputs():
 
 def write_geo_config():
     counties = fetch_counties()
+    if not counties:
+        # Network unavailable — preserve existing geo-config if present
+        if os.path.exists(OUT['geo_config']):
+            print("ℹ geo-config: network unavailable; keeping existing cached file", file=sys.stderr)
+            return
     payload = {
         'updated': utc_now_z(),
         'featured': FEATURED,
