@@ -23,8 +23,8 @@
   --faint:        #7a96b0;
   --border:       rgba(13,31,53,.11);
   --border-strong:rgba(13,31,53,.20);
-  --link:         #0b7285;
-  --link-hover:   #096075;
+  --link:         #005a9c;
+  --link-hover:   #004880;
 
   /* Accent colors */
   --accent:       #0ea5a0;
@@ -235,8 +235,8 @@ nav.site-nav a {
   font-weight: 600; font-size: 0.82rem; letter-spacing: 0.01em;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-nav.site-nav a:hover { background: var(--accent-dim); color: var(--accent) !important; border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
-nav.site-nav a.is-active { background: var(--accent-dim); color: var(--accent) !important; border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+nav.site-nav a:hover { background: var(--accent-dim); color: var(--link) !important; border-color: color-mix(in srgb, var(--link) 25%, transparent); }
+nav.site-nav a.is-active { background: var(--accent-dim); color: var(--link) !important; border-color: color-mix(in srgb, var(--link) 35%, transparent); }
 
 /* Mobile navigation — hamburger menu */
 @media (max-width: 768px) {
@@ -551,8 +551,8 @@ html.light-mode {
   --faint:         #7a96b0;
   --border:        rgba(13,31,53,.11);
   --border-strong: rgba(13,31,53,.20);
-  --link:          #0b7285;
-  --link-hover:    #096075;
+  --link:          #005a9c;
+  --link-hover:    #004880;
   --accent:        #0ea5a0;
   --accent-dim:    rgba(14,165,160,.10);
   --accent2:       #e8891a;
