@@ -30,7 +30,6 @@
    */
   function openMenu() {
     if (!navEl || !menuBtn) return;
-    navEl.classList.remove('nav-collapsed');
     navEl.classList.add('nav-expanded');
     menuBtn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
@@ -42,7 +41,6 @@
   function closeMenu() {
     if (!navEl || !menuBtn) return;
     navEl.classList.remove('nav-expanded');
-    navEl.classList.add('nav-collapsed');
     menuBtn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
@@ -115,7 +113,7 @@
    */
   function onResize() {
     if (!isMobile() && navEl) {
-      navEl.classList.remove('nav-collapsed', 'nav-expanded');
+      navEl.classList.remove('nav-expanded');
       if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }
@@ -128,11 +126,6 @@
     injectMenuButton();
     document.addEventListener('keydown', onKeydown);
     window.addEventListener('resize', onResize);
-
-    // Start in correct state
-    if (navEl && isMobile()) {
-      navEl.classList.add('nav-collapsed');
-    }
   }
 
   // Run after navigation.js fires its 'nav:rendered' event,

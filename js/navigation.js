@@ -59,9 +59,8 @@
       .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
       @media(max-width:768px){
         .mobile-menu-btn{display:flex}
-        nav.site-nav{position:fixed;top:58px;left:0;right:0;bottom:0;background:var(--card);flex-direction:column;padding:1.25rem;gap:4px;overflow-y:auto;z-index:49;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-        nav.site-nav.nav-collapsed{display:none}
-        nav.site-nav.nav-expanded{display:flex}
+        nav.site-nav{display:none}
+        nav.site-nav.nav-expanded{display:flex;position:fixed;top:58px;left:0;right:0;bottom:0;background:var(--card);flex-direction:column;padding:1.25rem;gap:4px;overflow-y:auto;z-index:49;box-shadow:0 12px 40px rgba(0,0,0,.25)}
         nav.site-nav a{padding:14px 16px;border-radius:10px;font-size:1rem;border:1px solid transparent}
         nav.site-nav a:hover,nav.site-nav a.is-active{background:var(--bg2);border-color:var(--border)}
       }

@@ -72,7 +72,7 @@ svg,
   ::placeholder { color: var(--faint) !important; opacity: 1; }
 
   /* Selection highlight */
-  ::selection { background: var(--accent-dim); color: var(--text-strong); }
+  ::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--text-strong); }
 }
 
 /* ----------------------------------------------------------------
