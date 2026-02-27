@@ -31,7 +31,7 @@ const config = {
         : [],
 
     // Email
-    websiteUrl: process.env.WEBSITE_URL,
+    websiteUrl: process.env.WEBSITE_URL || 'https://pggllc.github.io/Housing-Analytics/',
     recipientEmail: process.env.RECIPIENT_EMAIL,
     emailUser: process.env.EMAIL_USER,
     emailPassword: process.env.EMAIL_PASSWORD,

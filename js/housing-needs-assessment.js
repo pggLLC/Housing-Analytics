@@ -253,10 +253,11 @@
     const r = await fetch(url);
     if (!r.ok) throw new Error('Failed to fetch county list');
     const d = await r.json();
-    const counties = (d.features || []).map(f => ({
-      geoid: f.attributes.GEOID,
-      label: `${f.attributes.NAME} County`,
-    }));
+    const counties = (d.features || []).map(f => {
+        const name = f.attributes.NAME || '';
+        const label = name.toLowerCase().endsWith('county') ? name : `${name} County`;
+        return { geoid: f.attributes.GEOID, label };
+      });
     return counties;
   }
 
@@ -411,6 +412,11 @@
       url2 = buildUrl(ACS_YEAR_FALLBACK, 'acs/acs5/profile');
       r = await fetch(url2);
       if (!r.ok){
+        // For CDPs, profile/subject tables don't support CDP geography.
+        // Fall back to ACS 5-year B-series which does support place (CDP) geography.
+        if (geoType === 'cdp'){
+          return await fetchAcs5BSeriesCdp(geoid);
+        }
         const msg = DEBUG_HNA
           ? `ACS failed. Tried: ${redactKey(url1)} then ${redactKey(url2)}`
           : `ACS profile failed (${r.status})`;
@@ -423,6 +429,91 @@
     const out = {};
     header.forEach((h,i)=>{out[h]=row[i];});
     return out;
+  }
+
+  async function fetchAcs5BSeriesCdp(geoid){
+    // ACS 5-year B-series fallback for CDPs.
+    // Profile (DP) and subject (S) tables don't support CDP geography via the
+    // Census API hierarchy, but the B-series detailed tables do.
+    // Maps B-series codes to DP-series names for UI compatibility.
+    const placeCode = geoid.slice(2);
+    const key = censusKey();
+    const bVars = [
+      'B01003_001E', // total population        → DP05_0001E
+      'B11001_001E', // total households         → DP02_0001E
+      'B19013_001E', // median household income  → DP03_0062E
+      'B25001_001E', // total housing units      → DP04_0001E
+      'B25003_001E', // occupied housing units
+      'B25003_002E', // owner-occupied
+      'B25003_003E', // renter-occupied
+      'B25077_001E', // median home value        → DP04_0089E
+      'B25064_001E', // median gross rent        → DP04_0134E
+      'B25024_002E', 'B25024_003E', 'B25024_004E', 'B25024_005E',
+      'B25024_006E', 'B25024_007E', 'B25024_008E', 'B25024_009E',
+      'B25024_010E', // housing structure types  → DP04_0003E–0010E
+      'B25070_001E', // renter-occupied paying rent (GRAPI denominator)
+      'B25070_006E', // 25–29.9%
+      'B25070_007E', // 30–34.9%                → DP04_0145PE
+      'B25070_008E', // 35–39.9%
+      'B25070_009E', // 40–49.9%
+      'B25070_010E', // 50%+
+    ];
+
+    const dataset = `https://api.census.gov/data/${ACS_YEAR_FALLBACK}/acs/acs5`;
+    const params = new URLSearchParams();
+    params.set('get', bVars.join(',') + ',NAME');
+    params.set('for', `place:${placeCode}`);
+    params.set('in', `state:${STATE_FIPS_CO}`);
+    if (key) params.set('key', key);
+    const url = `${dataset}?${params.toString()}`;
+
+    const r = await fetch(url);
+    if (!r.ok){
+      if (DEBUG_HNA) console.warn(`ACS5 B-series CDP fallback failed: ${r.status} ${redactKey(url)}`);
+      throw new Error(`ACS profile unavailable for this CDP (${r.status})`);
+    }
+    const arr = await r.json();
+    const header = arr[0];
+    const row = arr[1] || [];
+    const raw = {};
+    header.forEach((h,i)=>{ raw[h]=row[i]; });
+
+    const si = v => { const n=parseInt(v,10); return Number.isFinite(n) && n>=0 ? n : null; };
+    const occ = si(raw.B25003_001E);
+    const owner = si(raw.B25003_002E);
+    const renter = si(raw.B25003_003E);
+    const grapiTot = si(raw.B25070_001E);
+    const pct = (n) => (grapiTot && n!==null) ? String(Math.round(n/grapiTot*10000)/100) : null;
+    const b35 = [raw.B25070_008E,raw.B25070_009E,raw.B25070_010E].map(si).filter(n=>n!==null);
+    const burden35 = b35.length ? b35.reduce((a,b)=>a+b,0) : null;
+    const s20_49 = si(raw.B25024_008E);
+    const s50p = si(raw.B25024_009E);
+    const units20p = (s20_49!==null||s50p!==null) ? (s20_49||0)+(s50p||0) : null;
+
+    return {
+      DP05_0001E: raw.B01003_001E,
+      DP02_0001E: raw.B11001_001E,
+      DP03_0062E: raw.B19013_001E,
+      DP04_0001E: raw.B25001_001E,
+      DP04_0047PE: (occ && owner!==null) ? String(Math.round(owner/occ*1000)/10) : null,
+      DP04_0046PE: (occ && renter!==null) ? String(Math.round(renter/occ*1000)/10) : null,
+      DP04_0089E:  raw.B25077_001E,
+      DP04_0134E:  raw.B25064_001E,
+      DP04_0003E:  raw.B25024_002E,
+      DP04_0004E:  raw.B25024_003E,
+      DP04_0005E:  raw.B25024_004E,
+      DP04_0006E:  raw.B25024_005E,
+      DP04_0007E:  raw.B25024_006E,
+      DP04_0008E:  raw.B25024_007E,
+      DP04_0009E:  units20p!==null ? String(units20p) : null,
+      DP04_0010E:  raw.B25024_010E,
+      DP04_0142PE: null,
+      DP04_0143PE: null,
+      DP04_0144PE: pct(si(raw.B25070_006E)),
+      DP04_0145PE: pct(si(raw.B25070_007E)),
+      DP04_0146PE: pct(burden35),
+      NAME: raw.NAME,
+    };
   }
 
   async function fetchAcsS0801(geoType, geoid){
@@ -848,7 +939,20 @@
 
     const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
     const r = await fetch(url);
-    if (!r.ok) throw new Error(`ACS5 trend HTTP ${r.status}`);
+    if (!r.ok){
+      // For CDPs, ACS5 profile may not support CDP geography; fall back to B-series.
+      if (geoType === 'cdp'){
+        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=${encodeURIComponent(`place:${code}`)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
+        const rb = await fetch(bUrl);
+        if (!rb.ok) throw new Error(`ACS5 trend HTTP ${rb.status}`);
+        const jb = await rb.json();
+        const hb = jb[0], rowb = jb[1] || [];
+        const ob = {};
+        hb.forEach((k,i)=> ob[k]=rowb[i]);
+        return { pop: safeNum(ob.B01003_001E), hh: safeNum(ob.B11001_001E), year };
+      }
+      throw new Error(`ACS5 trend HTTP ${r.status}`);
+    }
     const j = await r.json();
     const h = j[0], row = j[1] || [];
     const out = {};
