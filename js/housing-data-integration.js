@@ -8,11 +8,13 @@
  *   Demo     — /api/co-demographics     (weekly serverless cache)
  *   Zillow   — /data/zillow-*.json      (weekly GitHub Actions)
  *   CAR      — /data/car-*.json         (monthly manual workflow)
+ *   Kashli   — /data/kashli-market-data.json  (weekly GitHub Actions)
  *
  * Usage:
  *   const hdi = window.HousingDataIntegration;
  *   const all = await hdi.loadAllData();
  *   const car = hdi.getCachedData('car');
+ *   const kashli = hdi.getCachedData('kashli');
  */
 (function (global) {
   "use strict";
@@ -168,10 +170,27 @@
   }
 
   /**
+   * Load Kashli Colorado market data from /data/kashli-market-data.json.
+   */
+  async function loadKashliData() {
+    const cached = _get("kashli");
+    if (cached) return cached;
+
+    try {
+      const data = await _fetchJson("data/kashli-market-data.json");
+      _set("kashli", data);
+      return data;
+    } catch (err) {
+      console.warn("[HousingData] Kashli load failed:", err.message);
+      return null;
+    }
+  }
+
+  /**
    * Load all data sources in parallel and return a unified object.
    * Each source gracefully returns null on failure so the rest still load.
    *
-   * @returns {Promise<{census, hud, demographics, zillow, car, metadata}>}
+   * @returns {Promise<{census, hud, demographics, zillow, car, kashli, metadata}>}
    */
   async function loadAllData() {
     const errors = [];
@@ -183,12 +202,13 @@
         return null;
       });
 
-    const [census, hud, demographics, zillow, car] = await Promise.all([
+    const [census, hud, demographics, zillow, car, kashli] = await Promise.all([
       wrap(loadCensusData(),      "census"),
       wrap(loadHUDData(),         "hud"),
       wrap(loadDemographicsData(),"demographics"),
       wrap(loadZillowData(),      "zillow"),
       wrap(loadCARData(),         "car"),
+      wrap(loadKashliData(),      "kashli"),
     ]);
 
     const sources = [];
@@ -197,6 +217,7 @@
     if (demographics) sources.push("CO Demographics");
     if (zillow)       sources.push("Zillow");
     if (car)          sources.push("CAR");
+    if (kashli)       sources.push("Kashli");
 
     const result = {
       census,
@@ -204,6 +225,7 @@
       demographics,
       zillow,
       car,
+      kashli,
       metadata: {
         lastUpdated: new Date(),
         loadTimeMs: Date.now() - startTime,
@@ -236,6 +258,7 @@
     loadDemographicsData,
     loadZillowData,
     loadCARData,
+    loadKashliData,
     loadAllData,
     getCachedData,
   };
