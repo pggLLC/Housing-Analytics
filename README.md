@@ -1,15 +1,16 @@
-# LIHTC Analytics Hub
+# Affordable Housing Intelligence
 
 > Data-driven market intelligence for affordable housing professionals — policymakers, developers, and researchers tracking the Low-Income Housing Tax Credit (LIHTC) program.
 
-[![Deploy to GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-brightgreen)](https://your-org.github.io/lihtc-analytics-hub/)
+[![Deploy to GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-brightgreen)](https://pggllc.github.io/Housing-Analytics/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Open PRs](https://img.shields.io/github/issues-pr/pggLLC/Housing-Analytics)](https://github.com/pggLLC/Housing-Analytics/pulls)
 
 ---
 
 ## Overview
 
-LIHTC Analytics Hub is a static web application providing comprehensive data insights on:
+Affordable Housing Intelligence is a static web application providing comprehensive data insights on:
 - **State LIHTC Allocations** — IRS per-capita cap data, year-over-year comparisons
 - **Colorado Market Deep Dive** — CHFA priorities, Denver metro trends, AMI gap analysis
 - **Economic Indicators** — Federal Reserve FRED data, construction costs, CPI
@@ -42,7 +43,7 @@ LIHTC Analytics Hub is a static web application providing comprehensive data ins
 ## Project Structure
 
 ```
-lihtc-analytics-hub/
+Housing-Analytics/
 ├── index.html                   # Entry point
 ├── *.html                       # 17 page files
 │
@@ -192,6 +193,6 @@ All data is sourced from authoritative public sources:
 
 ## License
 
-MIT © LIHTC Analytics Hub
+MIT © Affordable Housing Intelligence
 
 This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.
