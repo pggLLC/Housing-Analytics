@@ -17,14 +17,14 @@
 
   /* ---- ACS metrics (shown per geography) ---- */
   const METRICS = [
-    { key: "DP05_0001E",  label: "Population",              fmt: formatNumber   },
-    { key: "DP03_0062E",  label: "Median household income", fmt: formatCurrency },
-    { key: "DP04_0134E",  label: "Median gross rent",       fmt: formatCurrency },
-    { key: "DP04_0089E",  label: "Median home value",       fmt: formatCurrency },
-    { key: "DP03_0099PE", label: "Uninsured rate",          fmt: formatPct      },
-    { key: "DP02_0067PE", label: "Bachelor's degree+",      fmt: formatPct      },
-    { key: "DP03_0009PE", label: "Unemployment rate",       fmt: formatPct      },
-    { key: "DP04_0003PE", label: "Vacancy rate",            fmt: formatPct      },
+    { key: "DP05_0001E",  label: "Population",              fmt: formatNumber,   table: "DP05" },
+    { key: "DP03_0062E",  label: "Median household income", fmt: formatCurrency, table: "DP03" },
+    { key: "DP04_0134E",  label: "Median gross rent",       fmt: formatCurrency, table: "DP04" },
+    { key: "DP04_0089E",  label: "Median home value",       fmt: formatCurrency, table: "DP04" },
+    { key: "DP03_0099PE", label: "Uninsured rate",          fmt: formatPct,      table: "DP03" },
+    { key: "DP02_0067PE", label: "Bachelor's degree+",      fmt: formatPct,      table: "DP02" },
+    { key: "DP03_0009PE", label: "Unemployment rate",       fmt: formatPct,      table: "DP03" },
+    { key: "DP04_0003PE", label: "Vacancy rate",            fmt: formatPct,      table: "DP04" },
   ];
 
   /* ---- Housing construction metrics (national, from FRED cache) ---- */
@@ -128,6 +128,25 @@
     }
   ];
 
+  // Build a data.census.gov table URL for a given vintage, table code, and record.
+  // Always uses the 5Y series code because census-geo.js exclusively queries acs5/profile.
+  function censusTableUrl(vintage, table, record) {
+    const seriesCode = "5Y";
+    const prefix = table.startsWith("S") ? `ACSST${seriesCode}`
+                 : table.startsWith("B") ? `ACSDT${seriesCode}`
+                 : `ACSDP${seriesCode}`;
+    const tableId = `${prefix}${vintage}.${table}`;
+    let geoCode = "0100000US";
+    if (record.county && record.state) {
+      geoCode = `0500000US${record.state}${record.county}`;
+    } else if (record.place && record.state) {
+      geoCode = `1600000US${record.state}${record.place}`;
+    } else if (record.state || record.state_fips) {
+      geoCode = `0400000US${record.state || record.state_fips}`;
+    }
+    return `https://data.census.gov/table/${tableId}?g=${geoCode}`;
+  }
+
   function renderDerivedMetrics(record, container) {
     DERIVED_METRICS.forEach(dm => {
       const val = dm.compute(record);
@@ -159,16 +178,17 @@
 
     // Standard metrics from cache
     const CACHE_METRICS = [
-      { field: "population_total",        label: "Population",              fmt: formatNumber   },
-      { field: "median_household_income", label: "Median household income", fmt: formatCurrency },
-      { field: "median_gross_rent",       label: "Median gross rent",       fmt: formatCurrency },
-      { field: "median_home_value",       label: "Median home value",       fmt: formatCurrency },
+      { field: "population_total",        label: "Population",              fmt: formatNumber,   table: "DP05" },
+      { field: "median_household_income", label: "Median household income", fmt: formatCurrency, table: "DP03" },
+      { field: "median_gross_rent",       label: "Median gross rent",       fmt: formatCurrency, table: "DP04" },
+      { field: "median_home_value",       label: "Median home value",       fmt: formatCurrency, table: "DP04" },
     ];
     CACHE_METRICS.forEach(m => {
       const val = Number(record[m.field]);
+      const url = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p>`;
+      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.72rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
       grid.appendChild(card);
     });
 
@@ -302,9 +322,10 @@
     grid.innerHTML = "";
     METRICS.forEach(m => {
       const val  = Number(record[m.key]);
+      const url  = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p>`;
+      card.innerHTML = `<p class="num">${m.fmt(val)}</p><p class="lbl">${m.label}</p><p style="font-size:.72rem;color:var(--muted);margin:4px 0 0">ACS ${vintage} · <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline" title="View source on data.census.gov">[Source]</a></p>`;
       grid.appendChild(card);
     });
   }
