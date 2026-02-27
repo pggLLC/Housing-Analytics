@@ -71,8 +71,8 @@ svg,
   /* Input placeholders */
   ::placeholder { color: var(--faint) !important; opacity: 1; }
 
-  /* Selection highlight */
-  ::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--text-strong); }
+  /* Selection highlight — use dark text so bright accent bg remains legible */
+  ::selection { background: color-mix(in srgb, var(--accent) 70%, transparent); color: var(--bg); }
 }
 
 /* ----------------------------------------------------------------
@@ -133,6 +133,8 @@ html.dark-mode html {
   background: var(--bg) !important;
   color: var(--text) !important;
 }
+
+html.dark-mode ::selection { background: color-mix(in srgb, var(--accent) 70%, transparent); color: var(--bg); }
 
 /* ----------------------------------------------------------------
    4. DARK MODE TOGGLE BUTTON (optional, injected by dark-mode-toggle.js)
