@@ -4,3 +4,6 @@ js/config.local.js
 # Python bytecode cache
 __pycache__/
 *.pyc
+
+# Node.js dependencies
+node_modules/

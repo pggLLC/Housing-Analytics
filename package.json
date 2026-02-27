@@ -11,7 +11,14 @@
     "test:hna": "node test/hna-functionality-check.js",
     "test:pages": "node test/pages-availability-check.js",
     "lint:html": "npx htmlhint '*.html'",
-    "lint:css": "npx stylelint 'css/*.css'"
+    "lint:css": "npx stylelint 'css/*.css'",
+    "audit:contrast": "node scripts/contrast-audit.js"
+  },
+  "dependencies": {
+    "jsdom": "^24.0.0",
+    "color": "^4.2.3",
+    "wcag-contrast": "^3.0.0",
+    "glob": "^10.3.3"
   },
   "devDependencies": {},
   "engines": {
