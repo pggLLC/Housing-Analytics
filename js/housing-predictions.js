@@ -33,6 +33,24 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /*  Date / attribution helpers                                        */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * Format an ISO date string as dd-mm-yy.
+   * @param {string} isoString
+   * @returns {string}
+   */
+  function formatDDMMYY(isoString) {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return isoString;
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const yy = String(d.getUTCFullYear()).slice(-2);
+    return `${dd}-${mm}-${yy}`;
+  }
+
+  /* ------------------------------------------------------------------ */
   /*  Mock prediction data (fallback)                                    */
   /* ------------------------------------------------------------------ */
 
@@ -442,16 +460,31 @@
     return { pricePredictions, mortgagePredictions, startsPredictions, vacancyPredictions };
   }
 
-  function render(section, usingLiveData, updatedLabel, merged) {
+  function render(section, usingLiveData, updatedLabel, merged, sourceUrl) {
     section.innerHTML = '';
     section.setAttribute('aria-label', 'Housing Prediction Market Dashboard');
 
+    // Build the source attribution anchor
+    const kalshiUrl = sourceUrl || 'https://kalshi.com';
+    const sourceLink = el('a', { href: kalshiUrl, target: '_blank', rel: 'noopener noreferrer', class: 'hp-source-link' }, 'Source');
+
     // Header + disclaimer
-    const disclaimerText = usingLiveData
-      ? 'Data source: Kalshi (when available). If the feed is unavailable, the dashboard displays ' +
-        'illustrative demo probabilities. Last updated: ' + updatedLabel + '.'
-      : 'Data source: Kalshi (when available). If the feed is unavailable, the dashboard displays ' +
-        'illustrative demo probabilities. Currently showing illustrative demo values (Last updated: ' + updatedLabel + ').';
+    const disclaimerDiv = el('div', { class: 'hp-disclaimer', role: 'note', 'aria-label': 'Data disclaimer' });
+    if (usingLiveData) {
+      disclaimerDiv.appendChild(document.createTextNode('📊 Data from '));
+      disclaimerDiv.appendChild(sourceLink);
+      disclaimerDiv.appendChild(document.createTextNode(
+        ' (Kalshi). If the feed is unavailable, the dashboard displays ' +
+        'illustrative demo probabilities. Last updated: ' + updatedLabel + '.',
+      ));
+    } else {
+      disclaimerDiv.appendChild(document.createTextNode('📊 Data from '));
+      disclaimerDiv.appendChild(sourceLink);
+      disclaimerDiv.appendChild(document.createTextNode(
+        ' (Kalshi). If the feed is unavailable, the dashboard displays ' +
+        'illustrative demo probabilities. Currently showing illustrative demo values (Last updated: ' + updatedLabel + ').',
+      ));
+    }
 
     section.appendChild(el('div', { class: 'hp-header' },
       el('h2', { class: 'hp-title' }, 'Housing Prediction Market Dashboard'),
@@ -459,9 +492,7 @@
         'Prediction-market-style probabilities for key housing metrics. ' +
         'Compared against traditional expert consensus forecasts (Fed, NAR, Census Bureau).',
       ),
-      el('div', { class: 'hp-disclaimer', role: 'note', 'aria-label': 'Data disclaimer' },
-        '📊 ' + disclaimerText,
-      ),
+      disclaimerDiv,
     ));
 
     // Legend
@@ -569,14 +600,15 @@
     const kalshiData    = await loadKalshiData();
     const usingLiveData = kalshiData != null;
     const updatedLabel  = usingLiveData
-      ? new Date(kalshiData.updated).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+      ? formatDDMMYY(kalshiData.updated)
       : LAST_UPDATED;
+    const sourceUrl     = (kalshiData && kalshiData.sourceUrl) || 'https://kalshi.com';
     const merged        = usingLiveData
       ? mergeKalshiData(kalshiData.items)
       : { pricePredictions: PRICE_PREDICTIONS, mortgagePredictions: MORTGAGE_PREDICTIONS,
           startsPredictions: STARTS_PREDICTIONS, vacancyPredictions: VACANCY_PREDICTIONS };
 
-    render(section, usingLiveData, updatedLabel, merged);
+    render(section, usingLiveData, updatedLabel, merged, sourceUrl);
 
     // Defer chart rendering so canvas elements are in DOM
     requestAnimationFrame(() => {
