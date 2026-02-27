@@ -28,5 +28,10 @@ jobs:
           git config --local user.email 'github-actions@example.com'
           git config --local user.name 'GitHub Action'
           git add .
-          git commit -m 'Update data with affordability index'
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m 'Update data with affordability index'
+            git pull --rebase origin main
+            git push
+          fi
