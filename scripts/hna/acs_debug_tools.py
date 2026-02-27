@@ -65,7 +65,7 @@ def _build_url(year: int, series: str, endpoint: str, geo_type: str, geoid: str)
         for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(_PROBE_VARS), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
     else:
-        for_ = f"census designated place:{geoid[2:]}"
+        for_ = f"place:{geoid[2:]}"
         params = {'get': ','.join(_PROBE_VARS), 'for': for_, 'in': f"state:{STATE_FIPS_CO}"}
     key = os.environ.get('CENSUS_API_KEY', '').strip()
     if key:

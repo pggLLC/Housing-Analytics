@@ -263,7 +263,9 @@
   async function loadJson(url){
     const r = await fetch(url,{cache:'no-cache'});
     if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
-    return await r.json();
+    const text = await r.text();
+    if (!text.trim()) throw new Error(`Empty response: ${url}`);
+    return JSON.parse(text);
   }
 
   // --- TIGERweb boundary ---
@@ -387,7 +389,7 @@
       ? `county:${geoid.slice(2,5)}`
       : geoType === 'place'
         ? `place:${geoid.slice(2)}`
-        : `census designated place:${geoid.slice(2)}`;
+        : `place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
     const key = censusKey();
@@ -440,7 +442,7 @@
       ? `county:${geoid.slice(2,5)}`
       : geoType === 'place'
         ? `place:${geoid.slice(2)}`
-        : `census designated place:${geoid.slice(2)}`;
+        : `place:${geoid.slice(2)}`;
 
     const inParam = `state:${STATE_FIPS_CO}`;
     const key = censusKey();
