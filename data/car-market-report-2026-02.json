@@ -1,0 +1,80 @@
+{
+  "month": "2026-02",
+  "generated_at": "2026-02-27T00:00:00Z",
+  "source": "Colorado Association of REALTORS (CAR)",
+  "source_url": "https://coloradorealtors.com/market-trends/",
+  "version": "1.0",
+  "statewide": {
+    "median_sale_price": null,
+    "active_listings": null,
+    "median_days_on_market": null,
+    "median_price_per_sqft": null,
+    "closed_sales": null,
+    "new_listings": null,
+    "months_of_supply": null,
+    "list_to_sale_ratio": null
+  },
+  "metro_areas": {
+    "denver": {
+      "name": "Denver Metro",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "colorado_springs": {
+      "name": "Colorado Springs",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "fort_collins": {
+      "name": "Fort Collins / Greeley",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "boulder": {
+      "name": "Boulder",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "pueblo": {
+      "name": "Pueblo",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    },
+    "grand_junction": {
+      "name": "Grand Junction",
+      "median_sale_price": null,
+      "active_listings": null,
+      "median_days_on_market": null,
+      "median_price_per_sqft": null,
+      "closed_sales": null,
+      "new_listings": null,
+      "months_of_supply": null
+    }
+  },
+  "notes": "Placeholder for February 2026. Update with actual CAR report data when available."
+}
