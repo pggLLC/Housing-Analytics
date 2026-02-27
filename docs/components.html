@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Component Library — Housing Analytics</title>
-  <meta name="description" content="Living styleguide and component documentation for Housing Analytics. Browse all reusable UI components with usage examples and accessibility notes." />
+  <meta name="description" content="Living styleguide and component documentation for Housing Analytics. Browse all reusable UI components with usage examples and accessibility notes.">
 
   <!-- Design tokens (must load first) -->
-  <link rel="stylesheet" href="../css/site-theme.css" />
+  <link rel="stylesheet" href="../css/site-theme.css">
 
   <!-- Component library -->
-  <link rel="stylesheet" href="../css/components/buttons.css" />
-  <link rel="stylesheet" href="../css/components/cards.css" />
-  <link rel="stylesheet" href="../css/components/grids.css" />
-  <link rel="stylesheet" href="../css/components/forms.css" />
-  <link rel="stylesheet" href="../css/components/navigation.css" />
-  <link rel="stylesheet" href="../css/components/tables.css" />
-  <link rel="stylesheet" href="../css/components/utilities.css" />
+  <link rel="stylesheet" href="../css/components/buttons.css">
+  <link rel="stylesheet" href="../css/components/cards.css">
+  <link rel="stylesheet" href="../css/components/grids.css">
+  <link rel="stylesheet" href="../css/components/forms.css">
+  <link rel="stylesheet" href="../css/components/navigation.css">
+  <link rel="stylesheet" href="../css/components/tables.css">
+  <link rel="stylesheet" href="../css/components/utilities.css">
 
   <style>
     /* Page chrome — not part of the component library */
@@ -148,10 +146,7 @@
         Housing Analytics
       </a>
 
-      <button class="navbar-toggle"
-              aria-expanded="false"
-              aria-controls="navbar-menu"
-              aria-label="Toggle navigation menu">
+      <button class="navbar-toggle" aria-expanded="false" aria-controls="navbar-menu" aria-label="Toggle navigation menu">
         <span class="navbar-toggle-bar"></span>
         <span class="navbar-toggle-bar"></span>
         <span class="navbar-toggle-bar"></span>
@@ -200,7 +195,7 @@
       </nav>
     </header>
 
-    <hr class="divider" style="margin-bottom: var(--sp5);" />
+    <hr class="divider" style="margin-bottom: var(--sp5);">
 
     <!-- ============================================================
          1. DESIGN TOKENS
@@ -286,9 +281,9 @@
       <div class="demo-box" style="margin-top: var(--sp3);">
         <h3 class="section-title" style="margin-bottom: var(--sp3);">States</h3>
         <div class="flex flex-wrap gap-3">
-          <button class="btn btn-primary" type="button" disabled>Disabled</button>
+          <button class="btn btn-primary" type="button" disabled="">Disabled</button>
           <button class="btn btn-primary btn-loading" type="button" aria-label="Loading, please wait" aria-busy="true">Loading</button>
-          <button class="btn btn-outline" type="button" disabled>Outline Disabled</button>
+          <button class="btn btn-outline" type="button" disabled="">Outline Disabled</button>
         </div>
       </div>
 
@@ -297,11 +292,11 @@
         <h3 class="section-title" style="margin-bottom: var(--sp3);">With Icons</h3>
         <div class="flex flex-wrap gap-3">
           <button class="btn btn-primary" type="button">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
             View Report
           </button>
           <a class="btn btn-outline" href="#buttons">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             External Link
           </a>
         </div>
@@ -453,13 +448,13 @@
       <p>Styled form controls with focus, error, and disabled states.</p>
 
       <div class="demo-box">
-        <form novalidate aria-label="Example housing filter form" style="max-width: 540px;">
+        <form novalidate="" aria-label="Example housing filter form" style="max-width: 540px;">
           <div class="form-group">
             <label class="form-label" for="region-select">
               Region <span class="required" aria-hidden="true">*</span>
               <span class="sr-only">(required)</span>
             </label>
-            <select class="form-select" id="region-select" required aria-required="true">
+            <select class="form-select" id="region-select" required="" aria-required="true">
               <option value="">Select a region…</option>
               <option value="denver">Denver Metro</option>
               <option value="boulder">Boulder County</option>
@@ -470,18 +465,15 @@
 
           <div class="form-group">
             <label class="form-label" for="price-min">Minimum Price</label>
-            <input class="form-input" id="price-min" type="number" placeholder="e.g. 200000" min="0" />
+            <input class="form-input" id="price-min" type="number" placeholder="e.g. 200000" min="0">
             <p class="form-hint" id="price-min-hint">Enter the minimum sale price in USD.</p>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="address-field">Address</label>
-            <input class="form-input is-error" id="address-field" type="text"
-                   value="123 Invalid St"
-                   aria-describedby="address-error"
-                   aria-invalid="true" />
+            <input class="form-input is-error" id="address-field" type="text" value="123 Invalid St" aria-describedby="address-error" aria-invalid="true">
             <p class="form-error" id="address-error" role="alert">
-              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
               Please enter a valid street address.
             </p>
           </div>
@@ -493,12 +485,12 @@
 
           <div class="form-group">
             <label class="form-label" for="disabled-field">Disabled Input</label>
-            <input class="form-input" id="disabled-field" type="text" value="Read-only value" disabled />
+            <input class="form-input" id="disabled-field" type="text" value="Read-only value" disabled="">
           </div>
 
           <div class="form-group">
             <label class="form-check">
-              <input class="form-check-input" type="checkbox" />
+              <input class="form-check-input" type="checkbox">
               <span class="form-check-label">Include LIHTC properties</span>
             </label>
           </div>
@@ -747,15 +739,15 @@
        FOOTER
   ============================================================ -->
   <footer role="contentinfo" style="background:var(--bg2); border-top:1px solid var(--border); padding: var(--sp4) var(--sp5); text-align:center; font-size:var(--small); color:var(--muted);">
-    <p>Housing Analytics Component Library &mdash; Built with pure CSS and design tokens.</p>
+    <p>Housing Analytics Component Library — Built with pure CSS and design tokens.</p>
     <p class="mt-1">
-      <a href="#buttons" style="color:var(--accent);">Buttons</a> ·
-      <a href="#cards" style="color:var(--accent);">Cards</a> ·
-      <a href="#grids" style="color:var(--accent);">Grids</a> ·
-      <a href="#forms" style="color:var(--accent);">Forms</a> ·
-      <a href="#navigation" style="color:var(--accent);">Navigation</a> ·
-      <a href="#tables" style="color:var(--accent);">Tables</a> ·
-      <a href="#utilities" style="color:var(--accent);">Utilities</a>
+      <a href="#buttons" style="color: #0f172a;">Buttons</a> ·
+      <a href="#cards" style="color: #0f172a;">Cards</a> ·
+      <a href="#grids" style="color: #0f172a;">Grids</a> ·
+      <a href="#forms" style="color: #0f172a;">Forms</a> ·
+      <a href="#navigation" style="color: #0f172a;">Navigation</a> ·
+      <a href="#tables" style="color: #0f172a;">Tables</a> ·
+      <a href="#utilities" style="color: #0f172a;">Utilities</a>
     </p>
   </footer>
 
@@ -773,5 +765,6 @@
     }());
   </script>
 
-</body>
-</html>
+
+
+</body></html>
