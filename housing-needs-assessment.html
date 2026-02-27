@@ -77,25 +77,24 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
-    <section class="chart-card">
-      <div class="hna-hero">
-        <div>
-          <h1>Housing Needs Assessment</h1>
-          <p>
-            A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability, commuting, and demographic change.
-            Designed for GitHub Pages—modules populate from cached public datasets and fall back to live Census pulls.
-          </p>
-          <div id="hnaBanner" class="banner"></div>
-        </div>
-        <div class="hna-controls">
-          <label style="color:var(--muted);font-weight:900" for="geoType">Type</label>
+    <section class="hero" style="padding-bottom:0;">
+      <div style="padding:0 var(--sp4) var(--sp4);">
+        <div class="kicker">Colorado • Public Data</div>
+        <h1>Housing Needs Assessment</h1>
+        <p class="sub" style="max-width:none;margin-bottom:var(--sp3);">
+          A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
+          commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
+        </p>
+        <div id="hnaBanner" class="banner"></div>
+        <div class="hna-controls" style="margin-top:var(--sp3);">
+          <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
           <select id="geoType">
             <option value="county">County</option>
-            <option value="place">Municipality (featured)</option>
-            <option value="cdp">CDP (featured)</option>
+            <option value="place">Municipality</option>
+            <option value="cdp">Census-Designated Place (CDP)</option>
           </select>
 
-          <label style="color:var(--muted);font-weight:900" for="geoSelect">Geography</label>
+          <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
           <select id="geoSelect"></select>
 
           <button id="btnRefresh" type="button">Refresh</button>
