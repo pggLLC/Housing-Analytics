@@ -52,6 +52,7 @@ jobs:
             "STATE_ABBR='CO'",
             "STUSAB='CO'",
             "STATEFP='08'",
+            "STATE='08'",
           ];
 
           async function fetchAll(where) {
@@ -110,6 +111,7 @@ jobs:
             "STATE_ABBR='CO'",
             "STUSAB='CO'",
             "STATEFP='08'",
+            "STATE='08'",
           ];
 
           async function fetchAll(where) {
