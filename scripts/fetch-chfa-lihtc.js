@@ -50,10 +50,10 @@ const OUT_FIELDS =
   'PROJECT,PROJ_ADD,PROJ_CTY,CNTY_NAME,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF';
 
 /**
- * Field used to order results for stable offset-based pagination.
- * ArcGIS FeatureServer requires a consistent sort when using resultOffset.
+ * Name of the unique row-identifier field on this service.
+ * Used when retrieving all IDs for OBJECTID-based pagination.
  */
-const ORDER_BY_FIELD = 'OBJECTID';
+const OBJECT_ID_FIELD = 'OBJECTID';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -108,20 +108,17 @@ function httpsGet(host, pathAndQuery, retries = 3) {
 }
 
 /**
- * Fetch one page of ArcGIS JSON results.
+ * Fetch all OBJECTID values from the service in a single request.
+ * This avoids offset-based pagination which many FeatureServer endpoints
+ * do not support (returns error 400 with invalid query parameters).
  *
- * @param {number} offset  Record offset for pagination.
- * @returns {Promise<{features: object[], exceededTransferLimit: boolean}>}
+ * @returns {Promise<number[]>} Sorted array of all OBJECTIDs.
  */
-async function fetchPage(offset) {
+async function fetchAllIds() {
   const params = new URLSearchParams({
     where: '1=1',
-    outFields: OUT_FIELDS,
+    returnIdsOnly: 'true',
     f: 'json',
-    outSR: '4326',
-    orderByFields: ORDER_BY_FIELD,
-    resultRecordCount: String(PAGE_SIZE),
-    resultOffset: String(offset),
   });
   const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
   const body = await httpsGet(CHFA_HOST, pathAndQuery);
@@ -129,10 +126,31 @@ async function fetchPage(offset) {
   if (parsed.error) {
     throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
   }
-  return {
-    features: parsed.features || [],
-    exceededTransferLimit: Boolean(parsed.exceededTransferLimit),
-  };
+  const ids = parsed.objectIds || [];
+  ids.sort((a, b) => a - b);
+  return ids;
+}
+
+/**
+ * Fetch a batch of ArcGIS features by their OBJECTID values.
+ *
+ * @param {number[]} ids  OBJECTID values to retrieve.
+ * @returns {Promise<object[]>}
+ */
+async function fetchByIds(ids) {
+  const params = new URLSearchParams({
+    objectIds: ids.join(','),
+    outFields: OUT_FIELDS,
+    f: 'json',
+    outSR: '4326',
+  });
+  const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
+  const body = await httpsGet(CHFA_HOST, pathAndQuery);
+  const parsed = JSON.parse(body);
+  if (parsed.error) {
+    throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
+  }
+  return parsed.features || [];
 }
 
 /**
@@ -188,23 +206,23 @@ function toGeoJsonFeature(esriFeature) {
 
   console.log('Fetching CHFA LIHTC data from ArcGIS FeatureServer…');
 
+  process.stdout.write('  Fetching all OBJECTIDs… ');
+  const allIds = await fetchAllIds();
+  console.log(`${allIds.length} record(s) found`);
+
   const allFeatures = [];
-  let offset = 0;
   let page = 0;
 
-  // Paginate until the service stops returning more records.
-  while (true) {
+  // Iterate over OBJECTID chunks to avoid offset-based pagination,
+  // which is not supported by all ArcGIS FeatureServer endpoints.
+  for (let i = 0; i < allIds.length; i += PAGE_SIZE) {
     page++;
-    process.stdout.write(`  Page ${page} (offset ${offset})… `);
-    const result = await fetchPage(offset);
-    const converted = result.features.map(toGeoJsonFeature).filter(Boolean);
+    const chunk = allIds.slice(i, i + PAGE_SIZE);
+    process.stdout.write(`  Page ${page} (${chunk.length} record(s))… `);
+    const rawFeatures = await fetchByIds(chunk);
+    const converted = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
     allFeatures.push(...converted);
     console.log(`${converted.length} features (${allFeatures.length} total)`);
-
-    if (!result.exceededTransferLimit || result.features.length === 0) {
-      break;
-    }
-    offset += PAGE_SIZE;
   }
 
   const geojson = {
