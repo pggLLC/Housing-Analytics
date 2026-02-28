@@ -84,16 +84,30 @@
     });
   }
 
-  // ── Fetch data from CHFA ArcGIS FeatureServer (primary), HUD (fallback), or embedded data ──
+  // ── Fetch data: local JSON → CHFA ArcGIS → HUD ArcGIS → embedded fallback ──
   function fetchData(map) {
-    var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0/query';
+    // Local pre-fetched file (written by scripts/fetch-chfa-lihtc.js via CI).
+    var LOCAL_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/chfa-lihtc.json')
+      : 'data/chfa-lihtc.json';
+
+    // Live ArcGIS endpoints — used only when the local file is absent/stale.
+    var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
-    var params   = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
+    // CHFA dataset is Colorado-specific — no STATEFP filter needed.
+    var CHFA_PARAMS = 'where=1%3D1&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
+    // HUD dataset is national — filter to Colorado (FIPS 08).
+    var HUD_PARAMS  = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
 
     updateStatus('Loading LIHTC data…');
 
+    function useEmbedded() {
+      renderData(map, FALLBACK_LIHTC);
+      updateStatus('Source: embedded fallback');
+    }
+
     function useHUD() {
-      return fetchWithTimeout(HUD_URL + '?' + params, {}, 8000)
+      return fetchWithTimeout(HUD_URL + '?' + HUD_PARAMS, {}, 8000)
         .then(function (res) {
           if (!res.ok) throw new Error('HUD HTTP ' + res.status);
           return res.json();
@@ -101,38 +115,57 @@
         .then(function (hudData) {
           if (validateData(hudData)) {
             renderData(map, hudData);
-            updateStatus('Source: HUD');
+            updateStatus('Source: HUD ArcGIS');
           } else {
             console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
-            renderData(map, FALLBACK_LIHTC);
-            updateStatus('Source: embedded fallback');
+            useEmbedded();
           }
         })
         .catch(function (hudErr) {
           console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
-          renderData(map, FALLBACK_LIHTC);
-          updateStatus('Source: embedded fallback');
+          useEmbedded();
         });
     }
 
-    // Try CHFA first
-    fetchWithTimeout(CHFA_URL + '?' + params, {}, 8000)
+    function useCHFA() {
+      return fetchWithTimeout(CHFA_URL + '?' + CHFA_PARAMS, {}, 8000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('CHFA HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (validateData(data)) {
+            renderData(map, data);
+            updateStatus('Source: CHFA ArcGIS');
+          } else {
+            console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
+            return useHUD();
+          }
+        })
+        .catch(function (err) {
+          console.warn('[co-lihtc-map] CHFA fetch failed; trying HUD.', err.message);
+          return useHUD();
+        });
+    }
+
+    // 1. Try local pre-fetched JSON first (avoids CORS / availability issues).
+    fetchWithTimeout(LOCAL_URL, {}, 5000)
       .then(function (res) {
-        if (!res.ok) throw new Error('CHFA HTTP ' + res.status);
+        if (!res.ok) throw new Error('Local HTTP ' + res.status);
         return res.json();
       })
-      .then(function (data) {
-        if (validateData(data)) {
-          renderData(map, data);
-          updateStatus('Source: CHFA');
+      .then(function (localData) {
+        if (validateData(localData)) {
+          renderData(map, localData);
+          updateStatus('Source: local CHFA data');
         } else {
-          console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
-          return useHUD();
+          console.warn('[co-lihtc-map] Local file empty; trying CHFA ArcGIS.');
+          return useCHFA();
         }
       })
-      .catch(function (err) {
-        console.warn('[co-lihtc-map] CHFA fetch failed; trying HUD.', err.message);
-        return useHUD();
+      .catch(function (localErr) {
+        console.warn('[co-lihtc-map] Local file unavailable; trying CHFA ArcGIS.', localErr.message);
+        return useCHFA();
       });
   }
 
