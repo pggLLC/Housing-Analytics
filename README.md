@@ -222,6 +222,30 @@ All data is sourced from authoritative public sources:
 
 > **Colorado LIHTC Data Provenance:** For Colorado, the CHFA ArcGIS FeatureServer is queried first for LIHTC project data. If it is unreachable or returns no data, the system automatically falls back to the HUD LIHTC ArcGIS service. The active data source is labeled (Source: CHFA / Source: HUD) on all Colorado LIHTC project listings and popups.
 
+## Multi-Tier Fallback & Persistent Backup
+
+All map overlay data (LIHTC, QCT, DDA) uses a four-tier fallback strategy so pages remain functional even when live APIs are unavailable:
+
+| Tier | Source | Notes |
+|------|--------|-------|
+| 1 | **Live API** (CHFA ArcGIS → HUD ArcGIS) | Most current data; tried first |
+| 2 | **Local `/data/` file** (e.g., `data/chfa-lihtc.json`) | Written by CI scripts on each successful deploy |
+| 3 | **GitHub Pages backup** (`https://pggllc.github.io/Housing-Analytics/data/…`) | Same files served as static assets; always reflects the last good CI run |
+| 4 | **Minimal embedded JSON** | Hard-coded representative records; used only if all above fail |
+
+The persistent backup in tiers 2 and 3 is kept current by running `scripts/fetch-chfa-lihtc.js` (and equivalent scripts) as part of the GitHub Actions deploy workflow. No extra infrastructure is needed — the committed `/data/` files become the GitHub Pages backup automatically.
+
+### Critical Data Files
+
+The following files in `/data/` are **referenced by the UI but are not included as blank placeholders** because they require live data to be meaningful. Panels that depend on them show a warning/placeholder until the files are supplied:
+
+| File | Referenced by | How to supply |
+|------|--------------|--------------|
+| `data/car-market.json` | `colorado-deep-dive.html` CAR market KPI panel | Run `node scripts/fetch-car-data.js` or configure the `FETCH_CAR_DATA` GitHub Actions workflow |
+| `data/prop123_jurisdictions.json` | `colorado-deep-dive.html` Prop 123 commitment table (`js/prop123-map.js`) | Populate from the [CDOLA commitment-filings portal](https://cdola.colorado.gov/commitment-filings) or run `node scripts/fetch-prop123.js` if available |
+
+Without these files the affected panels display placeholder dashes or an explanatory message rather than crashing. All other panels continue to function normally.
+
 ## Browser Support
 
 - Chrome 90+, Firefox 90+, Safari 14+, Edge 90+
