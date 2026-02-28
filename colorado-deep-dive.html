@@ -362,8 +362,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         Theme:
         <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
           <option value="auto" selected="">Auto</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value="light">Light (CARTO)</option>
+          <option value="dark">Dark (CARTO)</option>
+          <option value="osm">OpenStreetMap</option>
+          <option value="satellite">Satellite (Esri)</option>
+          <option value="esri-gray">Gray Canvas (Esri)</option>
         </select>
       </label>
       <span id="map-status" style="margin-left:auto; font-size:0.78rem; color: #0f172a;"></span>
@@ -1272,6 +1275,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   }
 
   const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
+  // TIGERweb State_County layer — STATEFP='08' is the correct field for Colorado county queries
+  const CO_COUNTIES_URL  = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1';
   const CHFA_LIHTC_LAYER = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0';
   const HUD_LIHTC_LAYER  = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30';
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
@@ -1506,12 +1511,23 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     window.coLihtcMap = map;
 
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const darkBasemap  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
-    const lightBasemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
-    const baseByKey = { light: lightBasemap, dark: darkBasemap };
+    // --- Basemap tile providers ---
+    const darkBasemap    = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
+    const lightBasemap   = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
+    const osmBasemap     = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',             {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19});
+    const satelliteBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution:'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18});
+    const esriGrayBasemap  = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {attribution:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',maxZoom:16});
+    const baseByKey = { light: lightBasemap, dark: darkBasemap, osm: osmBasemap, satellite: satelliteBasemap, 'esri-gray': esriGrayBasemap };
 
-    // Default basemap: Auto (matches OS theme), with a manual override.
-    let desiredBaseKey = prefersDark ? 'dark' : 'light';
+    // Default basemap: session-stored choice → auto (OS/site theme).
+    const MAP_BASE_SESSION_KEY = 'co-lihtc-basemap';
+    function autoBaseKey() {
+      if (document.documentElement.classList.contains('dark-mode'))  return 'dark';
+      if (document.documentElement.classList.contains('light-mode')) return 'light';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    const storedBase = (() => { try { return sessionStorage.getItem(MAP_BASE_SESSION_KEY); } catch(_) { return null; } })();
+    let desiredBaseKey = (storedBase && baseByKey[storedBase]) ? storedBase : autoBaseKey();
     let activeBase = baseByKey[desiredBaseKey].addTo(map);
 
     function markTilesLoaded(){ setStatus(statusEl, 'Basemap loaded ✓', 'ok'); }
@@ -1526,28 +1542,37 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       activeBase.once('load', () => setStatus(statusEl, 'Basemap loaded ✓', 'ok'));
     }
 
-    // If the tiles fail to load, fall back to a different provider so overlays are still readable.
+    // If the tiles fail to load, fall back to OSM Standard so overlays remain readable.
     activeBase.on('tileerror', () => {
-      console.warn('Basemap tile error — falling back');
-      // Prefer light CARTO first (usually least blocked), then OSM HOT
-      const alt1 = lightBasemap;
-      const alt2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution:'&copy; OpenStreetMap contributors',maxZoom:19});
-      if (activeBase === darkBasemap) swapBasemap(alt1);
-      else swapBasemap(alt2);
+      console.warn('Basemap tile error — falling back to OpenStreetMap');
+      if (activeBase !== osmBasemap) swapBasemap(osmBasemap);
     });
 
-    // Manual basemap selector (Auto/Light/Dark). Auto follows OS theme on load.
+    // Manual basemap selector. Explicit choice stored in sessionStorage for the session;
+    // 'auto' mode tracks OS/site dark-mode theme changes automatically.
     const baseSel = $id('basemapSelect');
     if (baseSel) {
-      baseSel.value = 'auto';
+      // Restore session choice or show Auto
+      baseSel.value = (storedBase && baseByKey[storedBase]) ? storedBase : 'auto';
       baseSel.addEventListener('change', () => {
         const v = baseSel.value;
-        const key = (v === 'auto') ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : v;
+        const key = (v === 'auto') ? autoBaseKey() : v;
         desiredBaseKey = key;
         const next = baseByKey[key] || lightBasemap;
         swapBasemap(next);
         next.once('load', markTilesLoaded);
+        // Persist explicit choice (omit 'auto') so session restores it on reload
+        try { v === 'auto' ? sessionStorage.removeItem(MAP_BASE_SESSION_KEY) : sessionStorage.setItem(MAP_BASE_SESSION_KEY, v); } catch(_) {}
       });
+      // Auto-follow site theme changes (only when selector is on 'auto')
+      if (window.MutationObserver) {
+        new MutationObserver(() => {
+          if (baseSel.value === 'auto') {
+            const key = autoBaseKey();
+            if (key !== desiredBaseKey) { desiredBaseKey = key; swapBasemap(baseByKey[key]); }
+          }
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      }
     }
 
     // If the basemap is blocked entirely, show a hint quickly.
@@ -1563,24 +1588,33 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
 
     addLegend(map);
 
-    /* ---------- Step 1: Boundaries (embedded — no fetch needed) ---------- */
+    /* ---------- Step 1: Boundaries (embedded fallback → TIGERweb upgrade) ---------- */
+    /* The embedded coCountiesFC contains simple rectangle approximations shown immediately.
+       An async TIGERweb fetch (STATEFP='08') then swaps them for real county polygons.     */
     setStatus(statusEl, 'Loading boundaries…', 'info');
 
     const coStateFC   = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "08", "properties": {"name": "Colorado"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 41.0006], [-102.0424, 41.0006], [-102.0424, 36.9928], [-109.06, 36.9928], [-109.06, 41.0006]]]}}]};
     const coCountiesFC = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "08", "properties": {"name": "Moffat", "fips": "08081"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 40.222], [-107.316, 40.222], [-107.316, 41.0], [-109.06, 41.0], [-109.06, 40.222]]]}}, {"type": "Feature", "id": "08107", "properties": {"name": "Routt", "fips": "08107"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 40.003], [-106.637, 40.003], [-106.637, 41.0], [-107.316, 41.0], [-107.316, 40.003]]]}}, {"type": "Feature", "id": "08057", "properties": {"name": "Jackson", "fips": "08057"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 40.36], [-105.928, 40.36], [-105.928, 41.0], [-106.637, 41.0], [-106.637, 40.36]]]}}, {"type": "Feature", "id": "08069", "properties": {"name": "Larimer", "fips": "08069"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.928, 40.259], [-104.943, 40.259], [-104.943, 41.0], [-105.928, 41.0], [-105.928, 40.259]]]}}, {"type": "Feature", "id": "08123", "properties": {"name": "Weld", "fips": "08123"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.943, 39.915], [-103.574, 39.915], [-103.574, 41.0], [-104.943, 41.0], [-104.943, 39.915]]]}}, {"type": "Feature", "id": "08075", "properties": {"name": "Logan", "fips": "08075"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 40.349], [-102.813, 40.349], [-102.813, 41.0], [-103.574, 41.0], [-103.574, 40.349]]]}}, {"type": "Feature", "id": "08115", "properties": {"name": "Sedgwick", "fips": "08115"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 40.658], [-102.042, 40.658], [-102.042, 41.0], [-102.813, 41.0], [-102.813, 40.658]]]}}, {"type": "Feature", "id": "08095", "properties": {"name": "Phillips", "fips": "08095"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 40.259], [-102.042, 40.259], [-102.042, 40.658], [-102.813, 40.658], [-102.813, 40.259]]]}}, {"type": "Feature", "id": "08103", "properties": {"name": "Rio Blanco", "fips": "08103"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 39.374], [-107.316, 39.374], [-107.316, 40.222], [-109.06, 40.222], [-109.06, 39.374]]]}}, {"type": "Feature", "id": "08045", "properties": {"name": "Garfield", "fips": "08045"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 39.374], [-106.637, 39.374], [-106.637, 40.003], [-107.316, 40.003], [-107.316, 39.374]]]}}, {"type": "Feature", "id": "08037", "properties": {"name": "Eagle", "fips": "08037"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 39.374], [-106.133, 39.374], [-106.133, 40.003], [-106.637, 40.003], [-106.637, 39.374]]]}}, {"type": "Feature", "id": "08117", "properties": {"name": "Summit", "fips": "08117"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.133, 39.374], [-105.558, 39.374], [-105.558, 40.003], [-106.133, 40.003], [-106.133, 39.374]]]}}, {"type": "Feature", "id": "08049", "properties": {"name": "Grand", "fips": "08049"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 39.915], [-105.928, 39.915], [-105.928, 40.36], [-106.637, 40.36], [-106.637, 39.915]]]}}, {"type": "Feature", "id": "08013", "properties": {"name": "Boulder", "fips": "08013"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.558, 39.915], [-104.942, 39.915], [-104.942, 40.259], [-105.558, 40.259], [-105.558, 39.915]]]}}, {"type": "Feature", "id": "08014", "properties": {"name": "Broomfield", "fips": "08014"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.13, 39.915], [-104.943, 39.915], [-104.943, 40.09], [-105.13, 40.09], [-105.13, 39.915]]]}}, {"type": "Feature", "id": "08001", "properties": {"name": "Adams", "fips": "08001"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.943, 39.573], [-103.574, 39.573], [-103.574, 40.0], [-104.943, 40.0], [-104.943, 39.573]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Morgan", "fips": "08087"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 39.915], [-103.006, 39.915], [-103.006, 40.349], [-103.574, 40.349], [-103.574, 39.915]]]}}, {"type": "Feature", "id": "08121", "properties": {"name": "Washington", "fips": "08121"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 39.574], [-103.006, 39.574], [-103.006, 39.915], [-103.574, 39.915], [-103.574, 39.574]]]}}, {"type": "Feature", "id": "08125", "properties": {"name": "Yuma", "fips": "08125"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.006, 39.574], [-102.042, 39.574], [-102.042, 40.659], [-103.006, 40.659], [-103.006, 39.574]]]}}, {"type": "Feature", "id": "08077", "properties": {"name": "Mesa", "fips": "08077"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 38.499], [-107.316, 38.499], [-107.316, 39.374], [-109.06, 39.374], [-109.06, 38.499]]]}}, {"type": "Feature", "id": "08029", "properties": {"name": "Delta", "fips": "08029"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 38.499], [-107.008, 38.499], [-107.008, 39.374], [-107.316, 39.374], [-107.316, 38.499]]]}}, {"type": "Feature", "id": "08051", "properties": {"name": "Gunnison", "fips": "08051"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 38.257], [-106.263, 38.257], [-106.263, 38.499], [-107.316, 38.499], [-107.316, 38.257]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Montrose", "fips": "08085"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.31, 38.257], [-107.316, 38.257], [-107.316, 38.499], [-108.31, 38.499], [-108.31, 38.257]]]}}, {"type": "Feature", "id": "08097", "properties": {"name": "Pitkin", "fips": "08097"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 39.074], [-106.263, 39.074], [-106.263, 39.374], [-107.044, 39.374], [-107.044, 39.074]]]}}, {"type": "Feature", "id": "08065", "properties": {"name": "Lake", "fips": "08065"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.263, 38.857], [-105.928, 38.857], [-105.928, 39.374], [-106.263, 39.374], [-106.263, 38.857]]]}}, {"type": "Feature", "id": "08093", "properties": {"name": "Park", "fips": "08093"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.928, 38.676], [-105.18, 38.676], [-105.18, 39.374], [-105.928, 39.374], [-105.928, 38.676]]]}}, {"type": "Feature", "id": "08059", "properties": {"name": "Jefferson", "fips": "08059"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.24, 39.391], [-104.943, 39.391], [-104.943, 39.914], [-105.24, 39.914], [-105.24, 39.391]]]}}, {"type": "Feature", "id": "08031", "properties": {"name": "Denver", "fips": "08031"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.11, 39.614], [-104.601, 39.614], [-104.601, 39.914], [-105.11, 39.914], [-105.11, 39.614]]]}}, {"type": "Feature", "id": "08005", "properties": {"name": "Arapahoe", "fips": "08005"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.939, 39.391], [-103.574, 39.391], [-103.574, 39.914], [-104.939, 39.914], [-104.939, 39.391]]]}}, {"type": "Feature", "id": "08039", "properties": {"name": "Elbert", "fips": "08039"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.601, 38.686], [-103.574, 38.686], [-103.574, 39.391], [-104.601, 39.391], [-104.601, 38.686]]]}}, {"type": "Feature", "id": "08073", "properties": {"name": "Lincoln", "fips": "08073"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 38.686], [-102.042, 38.686], [-102.042, 39.574], [-103.574, 39.574], [-103.574, 38.686]]]}}, {"type": "Feature", "id": "08063", "properties": {"name": "Kit Carson", "fips": "08063"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 38.686], [-102.042, 38.686], [-102.042, 39.391], [-102.813, 39.391], [-102.813, 38.686]]]}}, {"type": "Feature", "id": "08109", "properties": {"name": "Saguache", "fips": "08109"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.881, 37.574], [-105.636, 37.574], [-105.636, 38.257], [-106.881, 38.257], [-106.881, 37.574]]]}}, {"type": "Feature", "id": "08015", "properties": {"name": "Chaffee", "fips": "08015"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.263, 38.257], [-105.558, 38.257], [-105.558, 38.857], [-106.263, 38.857], [-106.263, 38.257]]]}}, {"type": "Feature", "id": "08043", "properties": {"name": "Fremont", "fips": "08043"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.558, 38.086], [-104.943, 38.086], [-104.943, 38.686], [-105.558, 38.686], [-105.558, 38.086]]]}}, {"type": "Feature", "id": "08119", "properties": {"name": "Teller", "fips": "08119"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.308, 38.676], [-104.601, 38.676], [-104.601, 39.074], [-105.308, 39.074], [-105.308, 38.676]]]}}, {"type": "Feature", "id": "08041", "properties": {"name": "El Paso", "fips": "08041"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.18, 38.086], [-103.574, 38.086], [-103.574, 38.986], [-105.18, 38.986], [-105.18, 38.086]]]}}, {"type": "Feature", "id": "08025", "properties": {"name": "Crowley", "fips": "08025"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.874, 38.086], [-103.245, 38.086], [-103.245, 38.686], [-103.874, 38.686], [-103.874, 38.086]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Otero", "fips": "08089"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.506, 37.574], [-103.006, 37.574], [-103.006, 38.086], [-103.506, 38.086], [-103.506, 37.574]]]}}, {"type": "Feature", "id": "08011", "properties": {"name": "Bent", "fips": "08011"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.506, 37.574], [-102.042, 37.574], [-102.042, 38.086], [-103.506, 38.086], [-103.506, 37.574]]]}}, {"type": "Feature", "id": "08099", "properties": {"name": "Prowers", "fips": "08099"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 37.574], [-102.042, 37.574], [-102.042, 38.086], [-102.813, 38.086], [-102.813, 37.574]]]}}, {"type": "Feature", "id": "08053", "properties": {"name": "Hinsdale", "fips": "08053"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.63, 37.574], [-106.881, 37.574], [-106.881, 38.257], [-107.63, 38.257], [-107.63, 37.574]]]}}, {"type": "Feature", "id": "08079", "properties": {"name": "Mineral", "fips": "08079"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 37.574], [-106.644, 37.574], [-106.644, 37.977], [-107.044, 37.977], [-107.044, 37.574]]]}}, {"type": "Feature", "id": "08105", "properties": {"name": "Rio Grande", "fips": "08105"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.644, 37.574], [-105.636, 37.574], [-105.636, 38.086], [-106.644, 38.086], [-106.644, 37.574]]]}}, {"type": "Feature", "id": "08003", "properties": {"name": "Alamosa", "fips": "08003"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.912, 37.234], [-105.196, 37.234], [-105.196, 37.574], [-105.912, 37.574], [-105.912, 37.234]]]}}, {"type": "Feature", "id": "08021", "properties": {"name": "Conejos", "fips": "08021"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.882, 36.993], [-105.636, 36.993], [-105.636, 37.574], [-106.882, 37.574], [-106.882, 36.993]]]}}, {"type": "Feature", "id": "08023", "properties": {"name": "Costilla", "fips": "08023"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.636, 36.993], [-105.027, 36.993], [-105.027, 37.574], [-105.636, 37.574], [-105.636, 36.993]]]}}, {"type": "Feature", "id": "08055", "properties": {"name": "Huerfano", "fips": "08055"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.18, 37.33], [-104.255, 37.33], [-104.255, 38.086], [-105.18, 38.086], [-105.18, 37.33]]]}}, {"type": "Feature", "id": "08071", "properties": {"name": "Las Animas", "fips": "08071"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.939, 36.993], [-102.813, 36.993], [-102.813, 37.574], [-104.939, 37.574], [-104.939, 36.993]]]}}, {"type": "Feature", "id": "08101", "properties": {"name": "Pueblo", "fips": "08101"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.027, 37.574], [-103.874, 37.574], [-103.874, 38.086], [-105.027, 38.086], [-105.027, 37.574]]]}}, {"type": "Feature", "id": "08033", "properties": {"name": "Dolores", "fips": "08033"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.96, 37.574], [-108.29, 37.574], [-108.29, 38.257], [-108.96, 38.257], [-108.96, 37.574]]]}}, {"type": "Feature", "id": "08113", "properties": {"name": "San Miguel", "fips": "08113"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.96, 37.814], [-107.967, 37.814], [-107.967, 38.257], [-108.96, 38.257], [-108.96, 37.814]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Montezuma", "fips": "08083"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 36.993], [-107.967, 36.993], [-107.967, 37.574], [-109.06, 37.574], [-109.06, 36.993]]]}}, {"type": "Feature", "id": "08067", "properties": {"name": "La Plata", "fips": "08067"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.967, 36.993], [-106.882, 36.993], [-106.882, 37.574], [-107.967, 37.574], [-107.967, 36.993]]]}}, {"type": "Feature", "id": "08007", "properties": {"name": "Archuleta", "fips": "08007"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 36.993], [-106.882, 36.993], [-106.882, 37.574], [-107.044, 37.574], [-107.044, 36.993]]]}}, {"type": "Feature", "id": "08111", "properties": {"name": "San Juan", "fips": "08111"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.964, 37.574], [-107.044, 37.574], [-107.044, 37.977], [-107.964, 37.977], [-107.964, 37.574]]]}}, {"type": "Feature", "id": "08017", "properties": {"name": "Cheyenne", "fips": "08017"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 38.257], [-102.042, 38.257], [-102.042, 38.686], [-103.574, 38.686], [-103.574, 38.257]]]}}, {"type": "Feature", "id": "08061", "properties": {"name": "Kiowa", "fips": "08061"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.006, 38.257], [-102.042, 38.257], [-102.042, 38.686], [-103.006, 38.686], [-103.006, 38.257]]]}}]};
 
+    // Helper: build a counties GeoJSON layer from a feature collection (embedded or TIGERweb)
+    function makeCountiesLayer(fc) {
+      return L.geoJSON(fc, {
+        style: styleCounty,
+        onEachFeature: (f, lyr) => {
+          const nm = (f.properties && (f.properties.name || f.properties.NAME || f.properties.NAMELSAD)) || '';
+          const label = nm ? nm + ' County' : 'Colorado County';
+          lyr.bindTooltip(label, {sticky:true, opacity:0.93, offset:[5,0]});
+          lyr.on('mouseover', function() { this.setStyle({color:'rgba(255,255,255,0.75)',weight:2}); });
+          lyr.on('mouseout',  function() { this.setStyle(styleCounty()); });
+        }
+      });
+    }
+
     L.geoJSON(coStateFC, {style: styleState}).addTo(map);
     const coBounds = L.geoJSON(coStateFC).getBounds();
 
-    const countiesLayer = L.geoJSON(coCountiesFC, {
-      style: styleCounty,
-      onEachFeature: (f, lyr) => {
-        const name = (f.properties && f.properties.name) ? f.properties.name + ' County' : 'Colorado County';
-        lyr.bindTooltip(name, {sticky:true, opacity:0.93, offset:[5,0]});
-        lyr.on('mouseover', function() { this.setStyle({color:'rgba(255,255,255,0.75)',weight:2}); });
-        lyr.on('mouseout',  function() { this.setStyle(styleCounty()); });
-      }
-    }).addTo(map);
+    // `let` (not `const`) — reassigned by upgradeTigerCounties() below when TIGERweb data arrives
+    let countiesLayer = makeCountiesLayer(coCountiesFC).addTo(map);
 
     map.fitBounds(coBounds, {padding:[16,16]});
     const minZ = Math.max(6, Math.floor(map.getBoundsZoom(CO_MAX_BOUNDS)));
@@ -1591,6 +1625,24 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       chkCounties.checked ? countiesLayer.addTo(map) : map.removeLayer(countiesLayer));
 
     setStatus(statusEl, 'Boundaries loaded ✓', 'ok');
+
+    // Asynchronously upgrade county boundaries from embedded rectangles to real TIGERweb
+    // polygon shapes. Uses STATEFP='08' — the correct TIGERweb field for Colorado counties.
+    // Falls back silently to embedded rectangles if TIGERweb is unreachable.
+    (async function upgradeTigerCounties() {
+      try {
+        const gj = await arcgisQuery(CO_COUNTIES_URL, "STATEFP='08'", 'NAME,GEOID,NAMELSAD,STATEFP');
+        if (!gj.features.length) return;
+        const upgraded = makeCountiesLayer(gj);
+        const wasVisible = map.hasLayer(countiesLayer);
+        if (wasVisible) map.removeLayer(countiesLayer);
+        countiesLayer = upgraded;
+        if (wasVisible) countiesLayer.addTo(map);
+        console.log(`✓ Counties: upgraded to TIGERweb real boundaries (${gj.features.length})`);
+      } catch(e) {
+        console.warn('TIGERweb county upgrade unavailable, using embedded fallback:', e.message);
+      }
+    })();
 
     /* ---------- Step 2: Places ---------- */
     let placesLayer = null;
@@ -1779,66 +1831,58 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
 
     async function ensureQCT() {
       if (qctLoaded) return; qctLoaded = true;
+      // Three-tier fallback: (a) cached file, (b) live HUD API, (c) embedded data
+      let gj = null;
+      // (a) Cached file first — fastest, zero API dependency
       try {
-        const gj = await tryLoadFromAPI(QCT_LAYER, "STATEFP='08'");
-        qctAll = gj; // store statewide copy
-        qctLayer = makeOverlayLayer(gj, styleQCT, 'QCT 2026');
-        console.log('✓ QCT: loaded from API');
-      } catch(_) {
-        console.warn('QCT API unavailable, trying local file');
-        let fallbackGj = null;
-        // Try local pre-fetched file
+        const localGj = await fetchJSON('data/qct-colorado.json');
+        if (localGj && localGj.features && localGj.features.length) {
+          gj = localGj;
+          console.log('✓ QCT: loaded from local cache');
+        }
+      } catch(_) {/* no local cache */}
+      // (b) Live HUD ArcGIS API — STATEFP='08' is the correct field for Colorado
+      if (!gj) {
         try {
-          const localGj = await fetchJSON('data/qct-colorado.json');
-          if (localGj && localGj.features && localGj.features.length) fallbackGj = localGj;
-        } catch(e) {
-          console.warn('Local QCT file unavailable, trying GitHub Pages backup:', e.message);
-        }
-        // Try GitHub Pages backup
-        if (!fallbackGj) {
-          try {
-            const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/qct-colorado.json');
-            if (backupGj && backupGj.features && backupGj.features.length) fallbackGj = backupGj;
-          } catch(e) {
-            console.warn('GitHub Pages QCT backup unavailable, using embedded data:', e.message);
+          const apiGj = await tryLoadFromAPI(QCT_LAYER, "STATEFP='08'");
+          if (apiGj && apiGj.features && apiGj.features.length) {
+            gj = apiGj;
+            console.log('✓ QCT: loaded from HUD API');
           }
-        }
-        const useGj = fallbackGj || FALLBACK_QCT;
-        qctAll = useGj; // store statewide copy
-        qctLayer = makeOverlayLayer(useGj, styleQCT, 'QCT 2026');
+        } catch(_) { console.warn('QCT API unavailable, using embedded fallback'); }
       }
+      // (c) Embedded fallback
+      const useGj = gj || FALLBACK_QCT;
+      qctAll = useGj; // store statewide copy
+      qctLayer = makeOverlayLayer(useGj, styleQCT, 'QCT 2026');
     }
 
     async function ensureDDA() {
       if (ddaLoaded) return; ddaLoaded = true;
+      // Three-tier fallback: (a) cached file, (b) live HUD API, (c) embedded data
+      let gj = null;
+      // (a) Cached file first
       try {
-        const gj = await tryLoadFromAPI(DDA_LAYER, "STATEFP='08'");
-        ddaAll = gj; // store statewide copy
-        ddaLayer = makeOverlayLayer(gj, styleDDA, 'DDA 2026');
-        console.log('✓ DDA: loaded from API');
-      } catch(_) {
-        console.warn('DDA API unavailable, trying local file');
-        let fallbackGj = null;
-        // Try local pre-fetched file
+        const localGj = await fetchJSON('data/dda-colorado.json');
+        if (localGj && localGj.features && localGj.features.length) {
+          gj = localGj;
+          console.log('✓ DDA: loaded from local cache');
+        }
+      } catch(_) {/* no local cache */}
+      // (b) Live HUD ArcGIS API — STATEFP='08' is the correct field for Colorado
+      if (!gj) {
         try {
-          const localGj = await fetchJSON('data/dda-colorado.json');
-          if (localGj && localGj.features && localGj.features.length) fallbackGj = localGj;
-        } catch(e) {
-          console.warn('Local DDA file unavailable, trying GitHub Pages backup:', e.message);
-        }
-        // Try GitHub Pages backup
-        if (!fallbackGj) {
-          try {
-            const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/dda-colorado.json');
-            if (backupGj && backupGj.features && backupGj.features.length) fallbackGj = backupGj;
-          } catch(e) {
-            console.warn('GitHub Pages DDA backup unavailable, using embedded data:', e.message);
+          const apiGj = await tryLoadFromAPI(DDA_LAYER, "STATEFP='08'");
+          if (apiGj && apiGj.features && apiGj.features.length) {
+            gj = apiGj;
+            console.log('✓ DDA: loaded from HUD API');
           }
-        }
-        const useGj = fallbackGj || FALLBACK_DDA;
-        ddaAll = useGj; // store statewide copy
-        ddaLayer = makeOverlayLayer(useGj, styleDDA, 'DDA 2026');
+        } catch(_) { console.warn('DDA API unavailable, using embedded fallback'); }
       }
+      // (c) Embedded fallback
+      const useGj = gj || FALLBACK_DDA;
+      ddaAll = useGj; // store statewide copy
+      ddaLayer = makeOverlayLayer(useGj, styleDDA, 'DDA 2026');
     }
 
     async function syncQCT() {
