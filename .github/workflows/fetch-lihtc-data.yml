@@ -1,0 +1,192 @@
+name: Fetch LIHTC, QCT, and DDA Data
+
+# Fetches and caches statewide Colorado QCT, DDA, and LIHTC GeoJSON files from
+# HUD ArcGIS FeatureServer so the map overlays always have a local copy to fall
+# back to when the live API is slow or unreachable.
+#
+# Fallback behaviour on API failure:
+#   - Creates placeholder empty FeatureCollection files so the site never gets 404s.
+#   - Generates data/manifest.json with fetch timestamps for debugging.
+#
+# Runs weekly on Sundays at 07:00 UTC and on-demand via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 7 * * 0'  # Sundays at 07:00 UTC
+  workflow_dispatch:       # Allow manual triggering from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-lihtc-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --omit=dev node-fetch@2
+
+      - name: Fetch HUD QCT data (Colorado — STATEFP='08')
+        id: fetch-qct
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const PLACEHOLDER = JSON.stringify({ type: 'FeatureCollection', features: [] });
+          const OUT = 'data/qct-colorado.json';
+          const QCT_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0/query';
+          const PAGE = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: "STATEFP='08'", outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              console.log(`QCT: fetching offset=${offset}...`);
+              const res = await fetch(`${QCT_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              console.log(`QCT: received ${feats.length} features (total: ${all.features.length})`);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 50000) break; // safety guard
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync(OUT, JSON.stringify(gj));
+              console.log(`QCT: wrote ${gj.features.length} features to ${OUT}`);
+            })
+            .catch(err => {
+              console.error('QCT fetch failed:', err.message);
+              console.log('QCT: writing placeholder empty FeatureCollection');
+              if (!fs.existsSync(OUT)) {
+                fs.writeFileSync(OUT, PLACEHOLDER);
+              }
+              // Exit 0 so the workflow continues to DDA and manifest steps
+            });
+          EOF
+
+      - name: Fetch HUD DDA data (Colorado — STATEFP='08')
+        id: fetch-dda
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const PLACEHOLDER = JSON.stringify({ type: 'FeatureCollection', features: [] });
+          const OUT = 'data/dda-colorado.json';
+          const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
+          const PAGE = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: "STATEFP='08'", outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              console.log(`DDA: fetching offset=${offset}...`);
+              const res = await fetch(`${DDA_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              console.log(`DDA: received ${feats.length} features (total: ${all.features.length})`);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 10000) break; // safety guard
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync(OUT, JSON.stringify(gj));
+              console.log(`DDA: wrote ${gj.features.length} features to ${OUT}`);
+            })
+            .catch(err => {
+              console.error('DDA fetch failed:', err.message);
+              console.log('DDA: writing placeholder empty FeatureCollection');
+              if (!fs.existsSync(OUT)) {
+                fs.writeFileSync(OUT, PLACEHOLDER);
+              }
+            });
+          EOF
+
+      - name: Validate output files with jq
+        run: |
+          echo "Validating QCT file..."
+          if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/qct-colorado.json > /dev/null; then
+            echo "✅ data/qct-colorado.json is valid GeoJSON"
+            echo "   Features: $(jq '.features | length' data/qct-colorado.json)"
+          else
+            echo "❌ data/qct-colorado.json is invalid — replacing with placeholder"
+            echo '{"type":"FeatureCollection","features":[]}' > data/qct-colorado.json
+          fi
+
+          echo "Validating DDA file..."
+          if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/dda-colorado.json > /dev/null; then
+            echo "✅ data/dda-colorado.json is valid GeoJSON"
+            echo "   Features: $(jq '.features | length' data/dda-colorado.json)"
+          else
+            echo "❌ data/dda-colorado.json is invalid — replacing with placeholder"
+            echo '{"type":"FeatureCollection","features":[]}' > data/dda-colorado.json
+          fi
+
+      - name: Generate data manifest
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const manifest = {
+            generated: new Date().toISOString(),
+            files: {}
+          };
+          ['data/qct-colorado.json', 'data/dda-colorado.json'].forEach(f => {
+            try {
+              const data = JSON.parse(fs.readFileSync(f, 'utf8'));
+              manifest.files[f] = {
+                featureCount: (data.features || []).length,
+                placeholder: (data.features || []).length === 0
+              };
+            } catch (e) {
+              manifest.files[f] = { error: e.message };
+            }
+          });
+          fs.writeFileSync('data/manifest.json', JSON.stringify(manifest, null, 2));
+          console.log('Manifest:', JSON.stringify(manifest, null, 2));
+          EOF
+
+      - name: Commit and push updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/qct-colorado.json data/dda-colorado.json data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes to data files"
+          else
+            git commit -m "chore: update HUD QCT/DDA overlay cache [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase origin main
+            git push
+          fi
