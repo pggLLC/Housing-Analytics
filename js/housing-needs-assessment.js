@@ -412,7 +412,7 @@
     // TIGERweb county layer (State_County MapServer/1)
     const base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
     const params = new URLSearchParams({
-      where: `STATE='${STATE_FIPS_CO}'`,
+      where: `STATEFP='${STATE_FIPS_CO}'`,
       outFields: 'NAME,GEOID',
       f: 'json',
       returnGeometry: 'false',
