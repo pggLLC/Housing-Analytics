@@ -75,9 +75,14 @@
       var tooltip = null;
       if (props.PROJECT) {
         tooltip = props.PROJECT;
-        if (props.PROJ_CTY) tooltip += ', ' + props.PROJ_CTY;
-        if (props.N_UNITS)  tooltip += ' (' + props.N_UNITS + ' units)';
-        if (props.YR_PIS)   tooltip += ' \u2014 ' + props.YR_PIS;
+        if (props.PROJ_CTY)  tooltip += ', ' + props.PROJ_CTY;
+        if (props.CNTY_NAME && props.CNTY_NAME !== props.PROJ_CTY)
+          tooltip += ' (' + props.CNTY_NAME + ' Co.)';
+        if (props.N_UNITS)   tooltip += ' — ' + props.N_UNITS + ' units';
+        if (props.LI_UNITS && Number(props.LI_UNITS) !== Number(props.N_UNITS))
+          tooltip += ' (' + props.LI_UNITS + ' low-income)';
+        if (props.CREDIT)    tooltip += ' \u2022 ' + props.CREDIT + ' credit';
+        if (props.YR_PIS)    tooltip += ' \u2014 ' + props.YR_PIS;
       }
       var marker = L.marker(coords).addTo(map);
       if (tooltip) marker.bindTooltip(tooltip);
@@ -94,8 +99,8 @@
     // Live ArcGIS endpoints — used only when the local file is absent/stale.
     var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
-    // CHFA dataset is Colorado-specific — no STATEFP filter needed.
-    var CHFA_PARAMS = 'where=1%3D1&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
+    // Filter to Colorado (PROJ_ST = 'CO') — the service holds national HUD data.
+    var CHFA_PARAMS = 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
     // HUD dataset is national — filter to Colorado (FIPS 08).
     var HUD_PARAMS  = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
 
