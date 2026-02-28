@@ -412,7 +412,7 @@
     // TIGERweb county layer (State_County MapServer/1)
     const base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
     const params = new URLSearchParams({
-      where: `STATE='${STATE_FIPS_CO}'`,
+      where: `STATEFP='${STATE_FIPS_CO}'`,
       outFields: 'NAME,GEOID',
       f: 'json',
       returnGeometry: 'false',
@@ -478,18 +478,94 @@
 
     map = L.map('hnaMap', { scrollWheelZoom: false });
 
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const darkTile  = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 });
-    const lightTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 });
-    let activeBase = (prefersDark ? darkTile : lightTile).addTo(map);
+    // --- Basemap tile providers ---
+    const HNA_BASE_SESSION_KEY = 'hna-basemap';
+    const BASEMAPS = {
+      light:       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 }),
+      dark:        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 }),
+      osm:         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',             { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19 }),
+      satellite:   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community', maxZoom: 18 }),
+      'esri-gray': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ', maxZoom: 16 }),
+    };
+    const BASEMAP_LABELS = {
+      light: 'Light (CARTO)', dark: 'Dark (CARTO)', osm: 'OpenStreetMap',
+      satellite: 'Satellite (Esri)', 'esri-gray': 'Gray Canvas (Esri)',
+    };
 
-    // Fall back to OpenStreetMap HOT if CartoDB tiles are blocked (only once)
-    activeBase.once('tileerror', function() {
+    // Determine initial basemap: session choice → auto (OS/site theme)
+    function autoKey() {
+      if (document.documentElement.classList.contains('dark-mode'))  return 'dark';
+      if (document.documentElement.classList.contains('light-mode')) return 'light';
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    const storedBase = (function(){ try { return sessionStorage.getItem(HNA_BASE_SESSION_KEY); } catch(_){ return null; } })();
+    let userOverride = !!(storedBase && BASEMAPS[storedBase]);
+    let activeKey = userOverride ? storedBase : autoKey();
+    let activeBase = BASEMAPS[activeKey].addTo(map);
+
+    function swapBase(key) {
+      if (!BASEMAPS[key] || key === activeKey) return;
       try { map.removeLayer(activeBase); } catch(e) {}
-      activeBase = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
-      }).addTo(map);
+      activeBase = BASEMAPS[key].addTo(map);
+      activeKey = key;
+      activeBase.bringToBack();
+    }
+
+    // Fall back to OSM Standard if the selected tile provider is unreachable
+    activeBase.once('tileerror', function() {
+      if (activeKey !== 'osm') swapBase('osm');
     });
+
+    // --- Basemap selector Leaflet control (top-right corner of map) ---
+    const BasemapControl = L.Control.extend({
+      onAdd: function() {
+        const div = L.DomUtil.create('div', 'leaflet-bar');
+        div.style.cssText = 'background:var(--card,#fff);padding:4px 7px;border-radius:8px;' +
+          'box-shadow:0 1px 5px rgba(0,0,0,.3);font-size:12px;line-height:1.4;';
+        const lbl = L.DomUtil.create('label', '', div);
+        lbl.style.cssText = 'display:flex;align-items:center;gap:4px;cursor:default;' +
+          'white-space:nowrap;color:var(--text,#222);';
+        lbl.innerHTML = '<span style="opacity:.65">Base:</span>';
+        const sel = L.DomUtil.create('select', '', lbl);
+        sel.style.cssText = 'font-size:11px;border:1px solid var(--border,#ccc);border-radius:5px;' +
+          'background:var(--card,#fff);color:var(--text,#222);padding:1px 4px;cursor:pointer;';
+        Object.keys(BASEMAPS).forEach(function(k) {
+          const opt = document.createElement('option');
+          opt.value = k; opt.textContent = BASEMAP_LABELS[k];
+          if (k === activeKey) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.disableScrollPropagation(div);
+        sel.addEventListener('change', function() {
+          swapBase(sel.value);
+          userOverride = true;
+          try { sessionStorage.setItem(HNA_BASE_SESSION_KEY, sel.value); } catch(_) {}
+        });
+        // Expose select for theme-sync updates
+        div._sel = sel;
+        return div;
+      }
+    });
+    const basemapCtrl = new BasemapControl({ position: 'topright' });
+    basemapCtrl.addTo(map);
+
+    // Auto-follow site dark/light theme when user hasn't manually chosen a basemap
+    function syncTheme() {
+      if (userOverride) return;
+      const k = autoKey();
+      if (k !== activeKey) {
+        swapBase(k);
+        if (basemapCtrl._container && basemapCtrl._container._sel) {
+          basemapCtrl._container._sel.value = k;
+        }
+      }
+    }
+    if (window.MutationObserver) {
+      new MutationObserver(syncTheme)
+        .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+    document.addEventListener('theme:changed', syncTheme);
 
     map.setView([39.0, -108.55], 9);
 
