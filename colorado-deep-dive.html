@@ -1253,6 +1253,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         gj = await fetchJSON(`${layerUrl}/query?${p}`, { signal: ctrl.signal });
         clearTimeout(timer);
       } catch (e) { console.warn('ArcGIS query failed:', layerUrl, e.message); break; }
+      if (gj && gj.error) { console.warn('ArcGIS error:', gj.error.code, gj.error.message); break; }
       const feats = gj && Array.isArray(gj.features) ? gj.features : [];
       if (feats.length === 0) break;
       all.features.push(...feats);
@@ -1580,7 +1581,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     async function loadPlaces() {
       try {
         setStatus(statusEl, 'Loading places…', 'info');
-        const gj = await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
+        const gj = await arcgisQuery(CO_PLACES_URL, "STATEFP='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
         if (!gj.features.length) throw new Error('empty');
         placesLayer = L.geoJSON(gj, {
           style: stylePlace,

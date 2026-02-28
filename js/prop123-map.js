@@ -127,11 +127,11 @@
     const { muni, county } = buildIndex(payload);
 
     // Fetch Colorado geometries
-    // For Places, TIGERweb uses STATE='08' field; for Counties, STATE='08' or STATEFP='08' depending on service.
+    // For Places, TIGERweb uses STATEFP='08' field; for Counties, STATE='08' or STATEFP='08' depending on service.
     // We query with a permissive OR to handle both.
     let placesGeo, countiesGeo;
     try {
-      placesGeo = await arcgisQueryGeoJSON(TIGER_PLACES, "STATE='08'");
+      placesGeo = await arcgisQueryGeoJSON(TIGER_PLACES, "STATEFP='08'");
     } catch (e) {
       console.warn('Places geometry fetch failed', e);
     }
