@@ -201,6 +201,8 @@
   let qctLayer = null;
   let ddaLayer = null;
   let charts = {};
+  let allLihtcFeatures = []; // full loaded set — used by moveend to filter to current bounds
+  let lihtcDataSource = 'HUD';
 
   const state = { current:null, lastProj:null, trendCache:{}, derived:null };
 
@@ -572,6 +574,9 @@
     // Ensure map renders correctly after container is visible
     setTimeout(function(){ map.invalidateSize(); }, 300);
     window.addEventListener('resize', function(){ map.invalidateSize(); });
+
+    // Update "LIHTC projects in area" panel whenever the map view changes
+    map.on('moveend', updateLihtcInfoPanel);
   }
 
   function renderBoundary(geojson){
@@ -775,6 +780,51 @@
     </div>`;
   }
 
+  // Build (or rebuild) the "LIHTC projects in area (top 10 by units)" info panel
+  // using features that fall within the current map viewport bounds.
+  function updateLihtcInfoPanel() {
+    if (!els.lihtcInfoPanel || !allLihtcFeatures.length) return;
+    const bounds = map && map.getBounds ? map.getBounds() : null;
+    let visible = allLihtcFeatures;
+    if (bounds) {
+      visible = allLihtcFeatures.filter(f => {
+        if (!f.geometry || f.geometry.type !== 'Point') return false;
+        const [lng, lat] = f.geometry.coordinates;
+        return bounds.contains([lat, lng]);
+      });
+    }
+    // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined
+    const safeCell = v => (v != null && v !== '') ? String(v) : '—';
+    const sorted = [...visible].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
+    const rows = sorted.slice(0, 10).map(f => {
+      const p = f.properties || {};
+      return `<tr>
+        <td style="padding:4px 6px">${safeCell(p.PROJECT || p.PROJ_NM)}</td>
+        <td style="padding:4px 6px">${safeCell(p.PROJ_CTY || p.STD_CITY)}</td>
+        <td style="padding:4px 6px;text-align:right">${safeCell(p.N_UNITS)}</td>
+        <td style="padding:4px 6px;text-align:right">${safeCell(p.LI_UNITS)}</td>
+        <td style="padding:4px 6px">${safeCell(p.YR_PIS)}</td>
+        <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
+      </tr>`;
+    }).join('');
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${lihtcDataSource}</span>`;
+    els.lihtcInfoPanel.innerHTML = rows ? `
+      <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:.83rem">
+          <thead><tr style="color:var(--muted)">
+            <th style="padding:4px 6px;text-align:left">Project</th>
+            <th style="padding:4px 6px;text-align:left">City</th>
+            <th style="padding:4px 6px;text-align:right">Total units</th>
+            <th style="padding:4px 6px;text-align:right">LI units</th>
+            <th style="padding:4px 6px">Year</th>
+            <th style="padding:4px 6px">Credit</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>` : '<p>No LIHTC projects visible in current map area.</p>';
+  }
+
   // Render LIHTC project markers on the map
   function renderLihtcLayer(geojson){
     ensureMap();
@@ -782,10 +832,13 @@
     if (!geojson || !geojson.features || !geojson.features.length) {
       if (els.statLihtcCount) els.statLihtcCount.textContent = '0';
       if (els.statLihtcUnits) els.statLihtcUnits.textContent = '0';
+      allLihtcFeatures = [];
       return;
     }
 
     const dataSource = geojson._source || 'HUD';
+    allLihtcFeatures = geojson.features;
+    lihtcDataSource = dataSource;
 
     const lihtcIcon = L.divIcon({
       html: '<div style="width:11px;height:11px;border-radius:50%;background:#e84545;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>',
@@ -812,39 +865,8 @@
     if (els.statLihtcCount) els.statLihtcCount.textContent = count.toLocaleString();
     if (els.statLihtcUnits) els.statLihtcUnits.textContent = units.toLocaleString();
 
-    // Build project list in info panel (top 10 by total units)
-    if (els.lihtcInfoPanel) {
-      // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined
-      const safeCell = v => (v != null && v !== '') ? String(v) : '—';
-      const sorted = [...geojson.features].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
-      const rows = sorted.slice(0, 10).map(f => {
-        const p = f.properties || {};
-        return `<tr>
-          <td style="padding:4px 6px">${safeCell(p.PROJECT || p.PROJ_NM)}</td>
-          <td style="padding:4px 6px">${safeCell(p.PROJ_CTY || p.STD_CITY)}</td>
-          <td style="padding:4px 6px;text-align:right">${safeCell(p.N_UNITS)}</td>
-          <td style="padding:4px 6px;text-align:right">${safeCell(p.LI_UNITS)}</td>
-          <td style="padding:4px 6px">${safeCell(p.YR_PIS)}</td>
-          <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
-        </tr>`;
-      }).join('');
-      const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(dataSource).color};color:#fff;margin-left:8px">Source: ${dataSource}</span>`;
-      els.lihtcInfoPanel.innerHTML = rows ? `
-        <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
-        <div style="overflow-x:auto">
-          <table style="width:100%;border-collapse:collapse;font-size:.83rem">
-            <thead><tr style="color:var(--muted)">
-              <th style="padding:4px 6px;text-align:left">Project</th>
-              <th style="padding:4px 6px;text-align:left">City</th>
-              <th style="padding:4px 6px;text-align:right">Total units</th>
-              <th style="padding:4px 6px;text-align:right">LI units</th>
-              <th style="padding:4px 6px">Year</th>
-              <th style="padding:4px 6px">Credit</th>
-            </tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>` : '<p>No LIHTC projects found in this geography.</p>';
-    }
+    // Build the info panel for the current viewport
+    updateLihtcInfoPanel();
   }
 
   // Render QCT tract overlay on the map

@@ -332,9 +332,18 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
-    assert(js.includes('Source: ${dataSource}'),     'source label is displayed in renderLihtcLayer');
+    assert(js.includes('Source: ${lihtcDataSource}'), 'source label is displayed in updateLihtcInfoPanel');
     assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
+
+test('JS: LIHTC info panel updates dynamically with map viewport (moveend)', () => {
+    assert(js.includes('function updateLihtcInfoPanel'),  'updateLihtcInfoPanel function is defined');
+    assert(js.includes('allLihtcFeatures'),               'all loaded features stored for viewport filtering');
+    assert(js.includes("map.on('moveend', updateLihtcInfoPanel)"), 'moveend listener registered to update panel on zoom/pan');
+    assert(js.includes('bounds.contains'),                'visible features filtered by map bounds');
+    assert(js.includes('No LIHTC projects visible in current map area'), 'empty-viewport message is shown when no projects in view');
+});
+
 
 test('JS: QCT layer is rendered as a GeoJSON overlay', () => {
     assert(js.includes('function renderQctLayer'), 'renderQctLayer function is defined');
