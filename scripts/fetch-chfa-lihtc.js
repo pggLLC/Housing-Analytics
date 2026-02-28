@@ -109,7 +109,7 @@ function httpsGet(host, pathAndQuery, retries = 3) {
  */
 async function fetchPage(offset) {
   const params = new URLSearchParams({
-    where: '1=1',
+    where: "PROJ_ST='CO'",
     outFields: OUT_FIELDS,
     f: 'json',
     outSR: '4326',
