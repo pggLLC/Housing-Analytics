@@ -540,9 +540,38 @@ test('census-stats.js: each SERIES entry has a table code for source links', () 
     assert(csjs.includes('table: "DP04"'), 'DP04 table code is in SERIES');
 });
 
+
 // ---------------------------------------------------------------------------
-// Summary
+// TIGERweb field-name consistency: STATEFP vs STATE
+// Both the JS county-list fetch and the Python build-script fetch_counties()
+// must use STATEFP='08' — the authoritative TIGERweb field for the state FIPS
+// code on the State_County/MapServer/1 layer.  Using the old alias STATE='08'
+// returns an empty result set on newer TIGERweb vintages.
 // ---------------------------------------------------------------------------
+test('JS: fetchCoCountiesList uses STATEFP (not STATE) for TIGERweb county query', () => {
+    assert(
+        js.includes("STATEFP='${STATE_FIPS_CO}'") || js.includes("STATEFP='08'"),
+        'fetchCoCountiesList queries TIGERweb with STATEFP field'
+    );
+    assert(
+        !js.includes("where: `STATE='${STATE_FIPS_CO}'`") && !js.includes("where: \"STATE='08'\""),
+        'fetchCoCountiesList does NOT use the deprecated STATE= alias'
+    );
+});
+
+test('Python build_hna_data.py: fetch_counties uses STATEFP (not STATE) for TIGERweb query', () => {
+    const py = fs.readFileSync(path.join(ROOT, 'scripts', 'hna', 'build_hna_data.py'), 'utf8');
+    assert(
+        py.includes("STATEFP='{STATE_FIPS_CO}'") || py.includes("STATEFP='08'"),
+        'fetch_counties queries TIGERweb with STATEFP field'
+    );
+    assert(
+        !py.includes("STATE='{STATE_FIPS_CO}'") && !py.includes("STATE='08'"),
+        'fetch_counties does NOT use the deprecated STATE= alias'
+    );
+});
+
+
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
 
