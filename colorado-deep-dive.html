@@ -352,6 +352,12 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
       <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
       <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: #0f172a;"></span></label>
+      <label for="countyGeoSelect" style="gap:.5rem;">
+        County:
+        <select id="countyGeoSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem; min-width:130px;" aria-label="Filter overlays by county">
+          <option value="">All Colorado</option>
+        </select>
+      </label>
       <label style="gap:.5rem;">
         Theme:
         <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
@@ -1266,6 +1272,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   }
 
   const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
+  const CHFA_LIHTC_LAYER = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0';
   const HUD_LIHTC_LAYER  = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30';
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
@@ -1285,12 +1292,15 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   function styleQCT()    { return { color: 'rgba(80,220,160,0.9)',  weight: 1.5, fillColor: 'rgba(80,220,160,0.18)', fillOpacity: 1 }; }
   function styleDDA()    { return { color: 'rgba(255,185,60,0.9)',  weight: 1.5, fillColor: 'rgba(255,185,60,0.15)', fillOpacity: 1 }; }
 
-  function buildPopup(p) {
+  function buildPopup(p, source) {
     const safe = v => (v == null || v === '') ? '—' : String(v);
     const yn   = v => (v===1||v==='1'||v==='Y'||v===true)
       ? '<span style="color:#34d399">Yes</span>'
       : '<span style="color:#94a3b8">No</span>';
     const addr = [p.STD_ADDR||p.PROJ_ADD, p.STD_CITY||p.PROJ_CTY, p.STD_ST||p.PROJ_ST, p.STD_ZIP5].filter(Boolean).join(', ');
+    const srcLabel = (source === 'CHFA')
+      ? 'CHFA (Colorado Housing and Finance Authority)'
+      : (source === 'fallback' ? 'HUD LIHTC Database (embedded)' : 'HUD LIHTC Database');
     return `<div style="min-width:240px;max-width:300px;font-size:13px;">
       <div style="font-weight:800;font-size:14px;margin-bottom:5px;line-height:1.3;">${safe(p.PROJECT||p.PROJ_NM)||'LIHTC Project'}</div>
       ${addr?`<div style="margin-bottom:8px;opacity:.8;">${addr}</div>`:''}
@@ -1304,7 +1314,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <tr><td style="padding:2px 0;opacity:.7;">County</td><td style="text-align:right;">${safe(p.CNTY_NAME||p.PROJ_CTY)}</td></tr>
         ${p.HUD_ID?`<tr><td style="padding:2px 0;opacity:.7;">HUD ID</td><td style="text-align:right;font-size:11px;">${safe(p.HUD_ID)}</td></tr>`:''}
       </table>
-      <div style="margin-top:8px;font-size:11px;opacity:.55;">Source: HUD LIHTC Database</div>
+      <div style="margin-top:8px;font-size:11px;opacity:.55;">Source: ${srcLabel}</div>
     </div>`;
   }
 
@@ -1314,7 +1324,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       const div = L.DomUtil.create('div', 'map-legend');
       div.innerHTML = `
         <div style="font-weight:800;margin-bottom:7px;font-size:13px;">Legend</div>
-        <div class="row"><span class="dot" style="background:#5ec8f8;"></span><span>LIHTC project (HUD)</span></div>
+        <div class="row"><span class="dot" style="background:#5ec8f8;"></span><span>LIHTC project (CHFA/HUD)</span></div>
         <div class="row"><span class="swatch" style="background:rgba(80,220,160,.25);border-color:rgba(80,220,160,.6)"></span><span>QCT 2026</span></div>
         <div class="row"><span class="swatch" style="background:rgba(255,185,60,.22);border-color:rgba(255,185,60,.6)"></span><span>DDA 2026</span></div>
         <div class="row"><span class="dot" style="background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.55);"></span><span>State/county boundary</span></div>
@@ -1446,16 +1456,18 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   ]};
 
   const FALLBACK_DDA = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDATYPE:'Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
-    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDATYPE:'Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
-    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDATYPE:'Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
-    {type:'Feature',properties:{NAME:'Eagle County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
-    {type:'Feature',properties:{NAME:'Summit County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
-    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
-    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
-    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
-    {type:'Feature',properties:{NAME:'Garfield County DDA',DDATYPE:'Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-108.10,39.30],[-107.06,39.30],[-107.06,39.75],[-108.10,39.75],[-108.10,39.30]]]}},
-    {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['001','005','014','019','031','035','039','047','059','093']},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
+    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['013','014']},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
+    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['069']},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['041','119']},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.60,38.69],[-104.60,39.08],[-105.19,39.08],[-105.19,38.69]]]}},
+    {type:'Feature',properties:{NAME:'Greeley DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['123']},geometry:{type:'Polygon',coordinates:[[[-104.90,40.28],[-104.55,40.28],[-104.55,40.55],[-104.90,40.55],[-104.90,40.28]]]}},
+    {type:'Feature',properties:{NAME:'Eagle County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['037']},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
+    {type:'Feature',properties:{NAME:'Summit County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['117']},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
+    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['097']},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
+    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['113']},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
+    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['107']},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
+    {type:'Feature',properties:{NAME:'Garfield County DDA',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['045']},geometry:{type:'Polygon',coordinates:[[[-108.10,39.30],[-107.06,39.30],[-107.06,39.75],[-108.10,39.75],[-108.10,39.30]]]}},
+    {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['067']},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
   ]};
 
   /* =====================================================================
@@ -1602,7 +1614,16 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
 
     /* ---------- Step 3: LIHTC Projects ---------- */
     let lihtcAll = null;
+    let lihtcSource = 'HUD'; // 'CHFA' | 'HUD' | 'fallback'
+    let currentCountyFilter = null; // null = statewide; '08031' = Denver county, etc.
     const lihtcGroup = L.layerGroup().addTo(map);
+
+    // Build county name → FIPS lookup from embedded data (used to filter fallback LIHTC records)
+    const countyNameToFips = {};
+    for (const f of coCountiesFC.features) {
+      const nm = (f.properties.name || '').toLowerCase();
+      if (nm && f.properties.fips) countyNameToFips[nm] = f.properties.fips;
+    }
 
     function renderLIHTC() {
       lihtcGroup.clearLayers();
@@ -1612,6 +1633,18 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       let shown = 0;
       for (const f of (lihtcAll.features || [])) {
         const p = f.properties || {};
+        // Apply county filter when set
+        if (currentCountyFilter) {
+          const fips  = p.CNTY_FIPS || '';
+          const cfp   = p.COUNTYFP  || '';
+          // Also resolve CNTY_NAME → FIPS for fallback data that lacks CNTY_FIPS
+          const cname = (p.CNTY_NAME || '').toLowerCase();
+          const cnameFips = countyNameToFips[cname] || '';
+          // CNTY_FIPS is 5-digit ('08031'), COUNTYFP is 3-digit ('031')
+          if (fips !== currentCountyFilter &&
+              ('08' + cfp) !== currentCountyFilter &&
+              cnameFips !== currentCountyFilter) continue;
+        }
         if (onlyQCT && !(p.QCT===1||p.QCT==='1'||p.QCT==='Y'||p.QCT===true)) continue;
         if (onlyDDA && !(p.DDA===1||p.DDA==='1'||p.DDA==='Y'||p.DDA===true)) continue;
         const coords = f.geometry?.type==='Point' ? f.geometry.coordinates : null;
@@ -1620,7 +1653,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
           pane:'pointsPane2', radius:5.5, weight:1.5,
           color:'rgba(94,200,248,1)', fillColor:'rgba(94,200,248,0.72)', fillOpacity:1
         });
-        marker.bindPopup(buildPopup(p), {maxWidth:340});
+        marker.bindPopup(buildPopup(p, lihtcSource), {maxWidth:340});
         const nm   = p.PROJECT || p.PROJ_NM || 'LIHTC Project';
         const city = p.PROJ_CTY || p.STD_CITY || '';
         const yr   = p.YR_PIS ? ` (${p.YR_PIS})` : '';
@@ -1638,13 +1671,28 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     async function loadLIHTC() {
       setStatus(statusEl, 'Loading LIHTC projects…', 'info');
       let gj = null;
+      // Try CHFA first (Colorado-specific, most current)
       try {
-        gj = await arcgisQuery(HUD_LIHTC_LAYER, "(PROJ_ST='CO') OR (STD_ST='CO')", '*');
-        if (!gj.features.length) throw new Error('Empty result from HUD');
-        console.log('✓ LIHTC: loaded from HUD API');
+        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "STATEFP='08'", '*');
+        if (gj.features.length) {
+          lihtcSource = 'CHFA';
+          console.log('✓ LIHTC: loaded from CHFA API');
+        } else { gj = null; }
       } catch(e) {
-        console.warn('HUD LIHTC API unavailable, using embedded data:', e.message);
-        gj = FALLBACK_LIHTC;
+        console.warn('CHFA LIHTC API unavailable, trying HUD:', e.message);
+      }
+      // Fall back to HUD
+      if (!gj) {
+        try {
+          gj = await arcgisQuery(HUD_LIHTC_LAYER, "(PROJ_ST='CO') OR (STD_ST='CO')", '*');
+          if (!gj.features.length) throw new Error('Empty result from HUD');
+          lihtcSource = 'HUD';
+          console.log('✓ LIHTC: loaded from HUD API');
+        } catch(e) {
+          console.warn('HUD LIHTC API unavailable, using embedded data:', e.message);
+          gj = FALLBACK_LIHTC;
+          lihtcSource = 'fallback';
+        }
       }
       lihtcAll = gj;
       renderLIHTC();
@@ -1653,6 +1701,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     /* ---------- Step 4: QCT / DDA ---------- */
     let qctLayer = null, ddaLayer = null;
     let qctLoaded = false, ddaLoaded = false;
+    let qctAll = null, ddaAll = null; // statewide cache for county filtering
 
     function makeOverlayLayer(gj, styleFn, label) {
       return L.geoJSON(gj, {
@@ -1700,10 +1749,12 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       if (qctLoaded) return; qctLoaded = true;
       try {
         const gj = await tryLoadFromAPI(QCT_LAYER, "STATEFP='08'");
+        qctAll = gj; // store statewide copy
         qctLayer = makeOverlayLayer(gj, styleQCT, 'QCT 2026');
         console.log('✓ QCT: loaded from API');
       } catch(_) {
         console.warn('QCT API unavailable, using embedded data');
+        qctAll = FALLBACK_QCT; // store statewide copy
         qctLayer = makeOverlayLayer(FALLBACK_QCT, styleQCT, 'QCT 2026');
       }
     }
@@ -1712,10 +1763,12 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       if (ddaLoaded) return; ddaLoaded = true;
       try {
         const gj = await tryLoadFromAPI(DDA_LAYER, "STATEFP='08'");
+        ddaAll = gj; // store statewide copy
         ddaLayer = makeOverlayLayer(gj, styleDDA, 'DDA 2026');
         console.log('✓ DDA: loaded from API');
       } catch(_) {
         console.warn('DDA API unavailable, using embedded data');
+        ddaAll = FALLBACK_DDA; // store statewide copy
         ddaLayer = makeOverlayLayer(FALLBACK_DDA, styleDDA, 'DDA 2026');
       }
     }
@@ -1729,6 +1782,47 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       const chk = $id('layerDDA'); if (!chk) return;
       if (chk.checked && !ddaLayer) await ensureDDA();
       if (ddaLayer) chk.checked ? ddaLayer.addTo(map) : map.removeLayer(ddaLayer);
+    }
+
+    // Filter all overlays to the selected county (or restore statewide when fips is falsy)
+    function applyGeoFilter(fips) {
+      currentCountyFilter = fips || null;
+
+      // Re-render LIHTC markers with county filter applied
+      renderLIHTC();
+
+      // Re-render QCT overlay
+      if (qctAll) {
+        if (qctLayer && map.hasLayer(qctLayer)) map.removeLayer(qctLayer);
+        qctLayer = null;
+        const filtered = fips
+          ? { ...qctAll, features: qctAll.features.filter(f => {
+              const g   = f.properties?.GEOID || '';
+              const cfp = f.properties?.COUNTYFP || '';
+              return g.startsWith(fips) || ('08' + cfp) === fips;
+            })}
+          : qctAll;
+        qctLayer = makeOverlayLayer(filtered, styleQCT, 'QCT 2026');
+        if ($id('layerQCT')?.checked) qctLayer.addTo(map);
+      }
+
+      // Re-render DDA overlay
+      if (ddaAll) {
+        if (ddaLayer && map.hasLayer(ddaLayer)) map.removeLayer(ddaLayer);
+        ddaLayer = null;
+        const countyFips3 = fips ? fips.slice(2) : null; // '031' from '08031'
+        const filtered = fips
+          ? { ...ddaAll, features: ddaAll.features.filter(f => {
+              const cfp      = f.properties?.COUNTYFP || '';
+              const counties = f.properties?.COUNTIES;  // fallback array
+              if (cfp)      return cfp === countyFips3;
+              if (counties) return Array.isArray(counties) && counties.includes(countyFips3);
+              return true; // keep if no county info available
+            })}
+          : ddaAll;
+        ddaLayer = makeOverlayLayer(filtered, styleDDA, 'DDA 2026');
+        if ($id('layerDDA')?.checked) ddaLayer.addTo(map);
+      }
     }
 
     /* ---------- Step 5: Transport ---------- */
@@ -1745,9 +1839,26 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     if (filterDDA) filterDDA.addEventListener('change', renderLIHTC);
 
     /* ---------- Kick off ---------- */
-    await Promise.allSettled([loadPlaces(), loadLIHTC()]);
-    if ($id('layerQCT')?.checked) syncQCT();
-    if ($id('layerDDA')?.checked) syncDDA();
+    // Populate county selector from embedded county data
+    const countySel = $id('countyGeoSelect');
+    if (countySel) {
+      const sorted = [...coCountiesFC.features]
+        .sort((a, b) => (a.properties.name || '').localeCompare(b.properties.name || ''));
+      for (const f of sorted) {
+        const opt = document.createElement('option');
+        opt.value = f.properties.fips;
+        opt.textContent = (f.properties.name || '') + ' County';
+        countySel.appendChild(opt);
+      }
+      countySel.addEventListener('change', () => applyGeoFilter(countySel.value || null));
+    }
+
+    // Always load all overlays statewide on initial load
+    await Promise.allSettled([loadPlaces(), loadLIHTC(), ensureQCT(), ensureDDA()]);
+
+    // Add QCT/DDA to map now that they are loaded (checkboxes default to checked)
+    if (qctLayer && $id('layerQCT')?.checked) qctLayer.addTo(map);
+    if (ddaLayer && $id('layerDDA')?.checked) ddaLayer.addTo(map);
 
     setTimeout(() => map.invalidateSize(), 300);
     window.addEventListener('resize', () => map.invalidateSize());
