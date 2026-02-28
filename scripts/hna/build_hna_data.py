@@ -336,7 +336,9 @@ def fetch_acs5_profile_year(year: int, geo_type: str, geoid: str, vars_: list[st
 def fetch_counties() -> list[dict]:
     base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query'
     params = urllib.parse.urlencode({
-        'where': f"STATE='{STATE_FIPS_CO}'",
+        # STATEFP is the correct TIGERweb field for the state FIPS code.
+        # STATE= was the old alias; use STATEFP= to match the JS fetch logic.
+        'where': f"STATEFP='{STATE_FIPS_CO}'",
         'outFields': 'NAME,GEOID',
         'returnGeometry': 'false',
         'orderByFields': 'NAME',

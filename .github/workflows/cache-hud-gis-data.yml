@@ -1,0 +1,135 @@
+name: Cache HUD GIS Overlay Data
+
+# Fetches and caches statewide Colorado QCT, DDA, and LIHTC GeoJSON files from
+# HUD ArcGIS FeatureServer so the map overlays always have a local copy to fall
+# back to when the live API is slow or unreachable.
+#
+# Three-tier fallback on the client side:
+#   (a) data/qct-colorado.json / data/dda-colorado.json  ← written by this workflow
+#   (b) Live HUD ArcGIS API
+#   (c) Embedded JS fallback data
+#
+# Run manually via the GitHub Actions UI ("Run workflow") if the cached files are
+# missing or stale (e.g. after the Clifton CDP or another place is added to the
+# featured geography list and its QCT tracts need to be pre-cached).
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'   # Every Monday at 04:00 UTC (offset from CHFA fetch at 05:00)
+  workflow_dispatch:        # Allow manual triggering from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  cache-hud-gis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --omit=dev node-fetch@2
+
+      - name: Fetch HUD QCT data (Colorado — STATEFP='08')
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const QCT_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0/query';
+          const PAGE    = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: "STATEFP='08'", outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              const res = await fetch(`${QCT_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 50000) break; // safety guard
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync('data/qct-colorado.json', JSON.stringify(gj));
+              console.log(`Wrote ${gj.features.length} QCT features to data/qct-colorado.json`);
+            })
+            .catch(err => {
+              console.error('QCT fetch failed:', err.message);
+              process.exit(1);
+            });
+          EOF
+
+      - name: Fetch HUD DDA data (Colorado — STATEFP='08')
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
+          const PAGE    = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: "STATEFP='08'", outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              const res = await fetch(`${DDA_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 10000) break; // safety guard
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
+              console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json`);
+            })
+            .catch(err => {
+              console.error('DDA fetch failed:', err.message);
+              process.exit(1);
+            });
+          EOF
+
+      - name: Commit and push cached overlay files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/qct-colorado.json data/dda-colorado.json
+          if git diff --cached --quiet; then
+            echo "No changes to overlay cache files"
+          else
+            git commit -m "chore: update HUD QCT/DDA overlay cache [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase origin main
+            git push
+          fi

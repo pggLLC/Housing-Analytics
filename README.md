@@ -145,6 +145,23 @@ Free API keys:
 
 Without API keys, dashboards fall back to cached data in `/data/*.json`.
 
+### HUD GIS Overlay Cache (`cache-hud-gis-data.yml`)
+
+The Colorado Deep Dive map loads QCT and DDA overlay data using a three-tier fallback:
+
+1. **Cached file** — `data/qct-colorado.json` and `data/dda-colorado.json` (fastest, offline-safe)
+2. **Live HUD ArcGIS API** — queries `STATEFP='08'` directly from HUD FeatureServer
+3. **Embedded JS fallback** — representative data bundled in `colorado-deep-dive.html`
+
+The cached files are updated every Monday at 04:00 UTC by
+`.github/workflows/cache-hud-gis-data.yml`. **Run this workflow manually** (GitHub Actions
+→ "Cache HUD GIS Overlay Data" → "Run workflow") whenever:
+- The cached files are missing after a fresh clone or branch reset
+- A new featured geography (e.g. Clifton CDP) needs its QCT/DDA tracts pre-cached
+- The HUD overlay vintage changes (e.g. 2026 → 2027 designations are released)
+
+No API secrets are required — HUD ArcGIS FeatureServer endpoints are public.
+
 ### Kalshi Prediction Market Data
 
 The Housing Prediction Market Dashboard (`economic-dashboard.html`) loads live probability
