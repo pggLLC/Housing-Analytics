@@ -75,9 +75,14 @@
       var tooltip = null;
       if (props.PROJECT) {
         tooltip = props.PROJECT;
-        if (props.PROJ_CTY) tooltip += ', ' + props.PROJ_CTY;
-        if (props.N_UNITS)  tooltip += ' (' + props.N_UNITS + ' units)';
-        if (props.YR_PIS)   tooltip += ' \u2014 ' + props.YR_PIS;
+        if (props.PROJ_CTY)  tooltip += ', ' + props.PROJ_CTY;
+        if (props.CNTY_NAME && props.CNTY_NAME !== props.PROJ_CTY)
+          tooltip += ' (' + props.CNTY_NAME + ' Co.)';
+        if (props.N_UNITS)   tooltip += ' — ' + props.N_UNITS + ' units';
+        if (props.LI_UNITS && Number(props.LI_UNITS) !== Number(props.N_UNITS))
+          tooltip += ' (' + props.LI_UNITS + ' low-income)';
+        if (props.CREDIT)    tooltip += ' \u2022 ' + props.CREDIT + ' credit';
+        if (props.YR_PIS)    tooltip += ' \u2014 ' + props.YR_PIS;
       }
       var marker = L.marker(coords).addTo(map);
       if (tooltip) marker.bindTooltip(tooltip);
