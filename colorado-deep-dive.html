@@ -183,6 +183,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   border-radius: 0;
 }
 
+.map-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
 .map-section-header {
   padding: 1rem 1.25rem 0.5rem;
 }
@@ -339,7 +347,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 </main>
 
-<!-- Map Section (above tabs, not in a card) -->
+<div class="page-container">
+
+<!-- Map Section (above tabs, full width within container) -->
 <section class="map-section" aria-label="Interactive Map">
     <div class="map-section-header">
       <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
@@ -395,8 +405,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       </div>
     </div>
   </section>
-
-<div class="page-container">
 
   <!-- Tab Navigation -->
   <div role="tablist" class="tab-nav" aria-label="Analysis sections">
