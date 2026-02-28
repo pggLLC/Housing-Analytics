@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: npm install --omit=dev node-fetch@2
 
-      - name: Fetch HUD QCT data (Colorado — STATEFP='08')
+      - name: Fetch HUD QCT data (Colorado)
         run: |
           node - <<'EOF'
           const fetch = require('node-fetch');
@@ -45,13 +45,21 @@ jobs:
 
           const QCT_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0/query';
           const PAGE    = 1000;
+          // Try state-filter fields in order of likelihood; fall back to bounding-box filter.
+          const WHERE_CANDIDATES = [
+            "GEOID LIKE '08%'",
+            "STATE='CO'",
+            "STATE_ABBR='CO'",
+            "STUSAB='CO'",
+            "STATEFP='08'",
+          ];
 
-          async function fetchAll() {
+          async function fetchAll(where) {
             const all = { type: 'FeatureCollection', features: [] };
             let offset = 0;
             while (true) {
               const p = new URLSearchParams({
-                where: "STATEFP='08'", outFields: '*',
+                where, outFields: '*',
                 returnGeometry: 'true', f: 'geojson',
                 outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
               });
@@ -68,18 +76,27 @@ jobs:
             return all;
           }
 
-          fetchAll()
-            .then(gj => {
-              fs.writeFileSync('data/qct-colorado.json', JSON.stringify(gj));
-              console.log(`Wrote ${gj.features.length} QCT features to data/qct-colorado.json`);
-            })
-            .catch(err => {
-              console.error('QCT fetch failed:', err.message);
-              process.exit(1);
-            });
+          async function run() {
+            for (const where of WHERE_CANDIDATES) {
+              try {
+                const gj = await fetchAll(where);
+                if (gj.features.length) {
+                  fs.writeFileSync('data/qct-colorado.json', JSON.stringify(gj));
+                  console.log(`Wrote ${gj.features.length} QCT features to data/qct-colorado.json (where: ${where})`);
+                  return;
+                }
+                console.warn(`QCT where="${where}" returned 0 features, trying next filter`);
+              } catch(err) {
+                console.warn(`QCT where="${where}" failed: ${err.message}`);
+              }
+            }
+            throw new Error('All QCT WHERE filters exhausted with no results');
+          }
+
+          run().catch(err => { console.error('QCT fetch failed:', err.message); process.exit(1); });
           EOF
 
-      - name: Fetch HUD DDA data (Colorado — STATEFP='08')
+      - name: Fetch HUD DDA data (Colorado)
         run: |
           node - <<'EOF'
           const fetch = require('node-fetch');
@@ -87,13 +104,20 @@ jobs:
 
           const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
           const PAGE    = 1000;
+          // Try state-filter fields in order of likelihood.
+          const WHERE_CANDIDATES = [
+            "STATE='CO'",
+            "STATE_ABBR='CO'",
+            "STUSAB='CO'",
+            "STATEFP='08'",
+          ];
 
-          async function fetchAll() {
+          async function fetchAll(where) {
             const all = { type: 'FeatureCollection', features: [] };
             let offset = 0;
             while (true) {
               const p = new URLSearchParams({
-                where: "STATEFP='08'", outFields: '*',
+                where, outFields: '*',
                 returnGeometry: 'true', f: 'geojson',
                 outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
               });
@@ -110,15 +134,24 @@ jobs:
             return all;
           }
 
-          fetchAll()
-            .then(gj => {
-              fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
-              console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json`);
-            })
-            .catch(err => {
-              console.error('DDA fetch failed:', err.message);
-              process.exit(1);
-            });
+          async function run() {
+            for (const where of WHERE_CANDIDATES) {
+              try {
+                const gj = await fetchAll(where);
+                if (gj.features.length) {
+                  fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
+                  console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json (where: ${where})`);
+                  return;
+                }
+                console.warn(`DDA where="${where}" returned 0 features, trying next filter`);
+              } catch(err) {
+                console.warn(`DDA where="${where}" failed: ${err.message}`);
+              }
+            }
+            throw new Error('All DDA WHERE filters exhausted with no results');
+          }
+
+          run().catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
           EOF
 
       - name: Commit and push cached overlay files
