@@ -214,7 +214,7 @@ main {
    6. NAVIGATION (injected by navigation.js)
    ================================================================ */
 header.site-header {
-  position: sticky !important; top: 0; z-index: 100;
+  position: sticky !important; top: 0; z-index: 9000;
   background: color-mix(in srgb, var(--card) 85%, transparent) !important;
   border-bottom: 1px solid var(--border);
   backdrop-filter: saturate(1.4) blur(18px);
@@ -241,7 +241,7 @@ nav.site-nav a.is-active { background: var(--accent-dim); color: var(--link) !im
 /* Mobile navigation — hamburger menu */
 @media (max-width: 768px) {
   nav.site-nav { display: none; }
-  nav.site-nav.nav-expanded { display: flex !important; flex-direction: column; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; background: var(--card) !important; z-index: 49; padding: 1.25rem; gap: 4px; overflow-y: auto; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+  nav.site-nav.nav-expanded { display: flex !important; flex-direction: column; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; background: var(--card) !important; z-index: 8999; padding: 1.25rem; gap: 4px; overflow-y: auto; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
   nav.site-nav.nav-expanded a { padding: 14px 16px !important; border-radius: 10px !important; font-size: 1rem !important; border: 1px solid transparent; }
   nav.site-nav.nav-expanded a:hover, nav.site-nav.nav-expanded a.is-active { background: var(--bg2) !important; border-color: var(--border) !important; }
 }
@@ -405,7 +405,15 @@ details[open] > summary::after { transform: rotate(90deg); }
 /* ================================================================
    18. LEAFLET
    ================================================================ */
-.leaflet-container { background: var(--bg2) !important; font-family: var(--font-sans) !important; }
+/* Keep map panes below navigation (z-index: 9000) */
+.leaflet-container { background: var(--bg2) !important; font-family: var(--font-sans) !important; position: relative; z-index: 10; }
+
+/* Prevent map from trapping touch scroll on mobile */
+@media (max-width: 768px) {
+  .leaflet-container { pointer-events: none; }
+  .leaflet-container.leaflet-grab,
+  .leaflet-container.leaflet-crosshair { pointer-events: auto; }
+}
 .leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text) !important; border-color: var(--border) !important; }
 .leaflet-tooltip { background: var(--surface) !important; color: var(--text) !important; border: 1px solid var(--border-strong) !important; box-shadow: var(--shadow) !important; border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 0.8rem; }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; box-shadow: var(--shadow-lg) !important; border: 1px solid var(--border) !important; }
@@ -450,7 +458,8 @@ body.no-shell main {
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--faint); }
 
-::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--text-strong); }
+::selection { background: var(--accent); color: #ffffff; }
+::-moz-selection { background: var(--accent); color: #ffffff; }
 
 @media print {
   html, body { background: #fff !important; color: #000 !important; }
