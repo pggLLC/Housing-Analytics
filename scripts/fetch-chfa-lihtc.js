@@ -29,6 +29,9 @@ const OUTPUT_FILE = path.join(DATA_DIR, 'chfa-lihtc.json');
 /** Maximum records to request per page (ArcGIS default cap is often 1000 or 2000). */
 const PAGE_SIZE = 1000;
 
+/** Only request the fields consumed by the front-end map to keep the output file small. */
+const OUT_FIELDS = 'PROJECT,PROJ_CTY,N_UNITS,YR_PIS';
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -90,7 +93,7 @@ function httpsGet(host, pathAndQuery, retries = 3) {
 async function fetchPage(offset) {
   const params = new URLSearchParams({
     where: '1=1',
-    outFields: '*',
+    outFields: OUT_FIELDS,
     f: 'json',
     outSR: '4326',
     resultRecordCount: String(PAGE_SIZE),
