@@ -1277,6 +1277,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
 
+  // GitHub Pages backup base URL — third-tier fallback for overlay data.
+  // Files are updated on each successful CI run of scripts/fetch-chfa-lihtc.js (and equivalents).
+  const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
+
   function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
   function styleCounty() {
     // Keep county outlines readable even if basemap tiles are blocked.
@@ -1689,10 +1693,38 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
           lihtcSource = 'HUD';
           console.log('✓ LIHTC: loaded from HUD API');
         } catch(e) {
-          console.warn('HUD LIHTC API unavailable, using embedded data:', e.message);
-          gj = FALLBACK_LIHTC;
-          lihtcSource = 'fallback';
+          console.warn('HUD LIHTC API unavailable, trying local file:', e.message);
         }
+      }
+      // Fall back to local pre-fetched file (written by scripts/fetch-chfa-lihtc.js via CI)
+      if (!gj) {
+        try {
+          const localGj = await fetchJSON('data/chfa-lihtc.json');
+          if (localGj && localGj.features && localGj.features.length) {
+            gj = localGj;
+            lihtcSource = 'local';
+            console.log('✓ LIHTC: loaded from local file');
+          }
+        } catch(e) {
+          console.warn('Local LIHTC file unavailable, trying GitHub Pages backup:', e.message);
+        }
+      }
+      // Fall back to GitHub Pages backup (persistent CI-updated copy)
+      if (!gj) {
+        try {
+          const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/chfa-lihtc.json');
+          if (backupGj && backupGj.features && backupGj.features.length) {
+            gj = backupGj;
+            lihtcSource = 'backup';
+            console.log('✓ LIHTC: loaded from GitHub Pages backup');
+          }
+        } catch(e) {
+          console.warn('GitHub Pages LIHTC backup unavailable, using embedded data:', e.message);
+        }
+      }
+      if (!gj) {
+        gj = FALLBACK_LIHTC;
+        lihtcSource = 'fallback';
       }
       lihtcAll = gj;
       renderLIHTC();
@@ -1753,9 +1785,27 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
         qctLayer = makeOverlayLayer(gj, styleQCT, 'QCT 2026');
         console.log('✓ QCT: loaded from API');
       } catch(_) {
-        console.warn('QCT API unavailable, using embedded data');
-        qctAll = FALLBACK_QCT; // store statewide copy
-        qctLayer = makeOverlayLayer(FALLBACK_QCT, styleQCT, 'QCT 2026');
+        console.warn('QCT API unavailable, trying local file');
+        let fallbackGj = null;
+        // Try local pre-fetched file
+        try {
+          const localGj = await fetchJSON('data/qct-colorado.json');
+          if (localGj && localGj.features && localGj.features.length) fallbackGj = localGj;
+        } catch(e) {
+          console.warn('Local QCT file unavailable, trying GitHub Pages backup:', e.message);
+        }
+        // Try GitHub Pages backup
+        if (!fallbackGj) {
+          try {
+            const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/qct-colorado.json');
+            if (backupGj && backupGj.features && backupGj.features.length) fallbackGj = backupGj;
+          } catch(e) {
+            console.warn('GitHub Pages QCT backup unavailable, using embedded data:', e.message);
+          }
+        }
+        const useGj = fallbackGj || FALLBACK_QCT;
+        qctAll = useGj; // store statewide copy
+        qctLayer = makeOverlayLayer(useGj, styleQCT, 'QCT 2026');
       }
     }
 
@@ -1767,9 +1817,27 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
         ddaLayer = makeOverlayLayer(gj, styleDDA, 'DDA 2026');
         console.log('✓ DDA: loaded from API');
       } catch(_) {
-        console.warn('DDA API unavailable, using embedded data');
-        ddaAll = FALLBACK_DDA; // store statewide copy
-        ddaLayer = makeOverlayLayer(FALLBACK_DDA, styleDDA, 'DDA 2026');
+        console.warn('DDA API unavailable, trying local file');
+        let fallbackGj = null;
+        // Try local pre-fetched file
+        try {
+          const localGj = await fetchJSON('data/dda-colorado.json');
+          if (localGj && localGj.features && localGj.features.length) fallbackGj = localGj;
+        } catch(e) {
+          console.warn('Local DDA file unavailable, trying GitHub Pages backup:', e.message);
+        }
+        // Try GitHub Pages backup
+        if (!fallbackGj) {
+          try {
+            const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/dda-colorado.json');
+            if (backupGj && backupGj.features && backupGj.features.length) fallbackGj = backupGj;
+          } catch(e) {
+            console.warn('GitHub Pages DDA backup unavailable, using embedded data:', e.message);
+          }
+        }
+        const useGj = fallbackGj || FALLBACK_DDA;
+        ddaAll = useGj; // store statewide copy
+        ddaLayer = makeOverlayLayer(useGj, styleDDA, 'DDA 2026');
       }
     }
 
