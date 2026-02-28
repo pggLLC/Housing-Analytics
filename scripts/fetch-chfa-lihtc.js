@@ -130,9 +130,20 @@ function toGeoJsonFeature(esriFeature) {
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: [geom.x, geom.y],
+      // Round to 6 decimal places (~0.1 m accuracy) to keep the file small.
+      coordinates: [
+        Math.round(geom.x * 1e6) / 1e6,
+        Math.round(geom.y * 1e6) / 1e6,
+      ],
     },
-    properties: attrs,
+    // Explicitly pick only the fields consumed by the front-end so that
+    // extra ArcGIS attributes don't inflate the output file.
+    properties: {
+      PROJECT:  attrs.PROJECT  ?? null,
+      PROJ_CTY: attrs.PROJ_CTY ?? null,
+      N_UNITS:  attrs.N_UNITS  ?? null,
+      YR_PIS:   attrs.YR_PIS   ?? null,
+    },
   };
 }
 
