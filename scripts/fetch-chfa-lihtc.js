@@ -49,6 +49,12 @@ const PAGE_SIZE = 1000;
 const OUT_FIELDS =
   'PROJECT,PROJ_ADD,PROJ_CTY,CNTY_NAME,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF';
 
+/**
+ * Field used to order results for stable offset-based pagination.
+ * ArcGIS FeatureServer requires a consistent sort when using resultOffset.
+ */
+const ORDER_BY_FIELD = 'OBJECTID';
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -109,10 +115,11 @@ function httpsGet(host, pathAndQuery, retries = 3) {
  */
 async function fetchPage(offset) {
   const params = new URLSearchParams({
-    where: "PROJ_ST='CO'",
+    where: '1=1',
     outFields: OUT_FIELDS,
     f: 'json',
     outSR: '4326',
+    orderByFields: ORDER_BY_FIELD,
     resultRecordCount: String(PAGE_SIZE),
     resultOffset: String(offset),
   });
