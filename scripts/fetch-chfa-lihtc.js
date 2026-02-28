@@ -8,6 +8,43 @@
  * No API key required — the CHFA service is publicly accessible.
  *
  * Run:  node scripts/fetch-chfa-lihtc.js
+ *
+ * PERSISTENT BACKUP STRATEGY
+ * ---------------------------
+ * This script is the "write" side of the multi-tier data fallback used by all
+ * Colorado map pages (colorado-deep-dive.html, housing-needs-assessment.html,
+ * LIHTC-dashboard.html).  The fallback order for each overlay is:
+ *
+ *   1. Live API  (CHFA ArcGIS / HUD ArcGIS / HUD FeatureServer)
+ *   2. Local file  data/chfa-lihtc.json  (written here by CI)
+ *   3. GitHub Pages backup  https://pggllc.github.io/Housing-Analytics/data/chfa-lihtc.json
+ *      (automatically updated each time the deploy.yml workflow runs and this
+ *       script succeeds — the committed data/ files are served as static assets)
+ *   4. Minimal embedded JSON  (hard-coded representative projects)
+ *
+ * Running this script in CI (e.g., via .github/workflows/deploy.yml) keeps
+ * tiers 2 and 3 current.  If the live API is ever unavailable, the site still
+ * loads data from the most recent successful CI fetch.
+ *
+ * CRITICAL DATA FILES
+ * -------------------
+ * The following files in /data/ are referenced by the UI and must be present
+ * for all site panels to display fully.  They are NOT included as blank files
+ * because they require live data to be useful:
+ *
+ *   data/car-market.json
+ *     Referenced by colorado-deep-dive.html (CAR market KPI panel).
+ *     Supply via a scheduled GitHub Actions workflow (scripts/fetch-car-data.js)
+ *     or by manually running that script and committing the output.
+ *
+ *   data/prop123_jurisdictions.json
+ *     Referenced by colorado-deep-dive.html (Prop 123 commitment table via
+ *     js/prop123-map.js and js/colorado-deep-dive.js).
+ *     Supply by running scripts/fetch-prop123.js or by populating it with
+ *     jurisdiction data from the CDOLA commitment-filings portal.
+ *
+ * Without these files the affected panels show a placeholder / warning message
+ * rather than crashing, but real data is needed for a fully functional site.
  */
 
 'use strict';

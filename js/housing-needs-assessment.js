@@ -75,6 +75,11 @@
     hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2025/FeatureServer/0',
   };
 
+  // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
+  // local /data/ files are unavailable. Files are updated by the CI workflow on each
+  // successful run of scripts/fetch-chfa-lihtc.js (and equivalent scripts).
+  const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
+
   // Colorado LIHTC fallback data (representative projects; source: HUD LIHTC database)
   // Used only when the HUD ArcGIS API is unreachable. Includes the same fields returned by
   // the live API so popups render consistently in both paths.
@@ -569,13 +574,23 @@
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
       } catch(e) {
-        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
+        console.warn('[HNA] LIHTC ArcGIS API unavailable; trying local file.', e.message);
       }
     }
-    // Try local cached file
+    // Try local cached file (written by scripts/fetch-chfa-lihtc.js via CI)
     try {
       return await loadJson(PATHS.lihtc(countyFips5));
-    } catch(_) {/* no cache */}
+    } catch(_) {/* no local cache */}
+    // Try GitHub Pages backup (persistent copy of the last successful CI fetch)
+    try {
+      // Normalise path: PATHS.lihtc() returns 'data/...' (no leading slash); strip any
+      // accidental leading slash before joining to avoid double-slash in the URL.
+      const backupPath = PATHS.lihtc(countyFips5).replace(/^\/+/, '');
+      const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/${backupPath}`);
+      if (backupGj && Array.isArray(backupGj.features) && backupGj.features.length > 0) {
+        return { ...backupGj, _source: 'backup' };
+      }
+    } catch(_) {/* no GitHub Pages backup */}
     // Return embedded fallback filtered to county
     return { ...lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
   }
@@ -599,8 +614,19 @@
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) return gj;
     } catch(e) {
-      console.warn('[HNA] QCT ArcGIS API unavailable.', e.message);
+      console.warn('[HNA] QCT ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
+    // Try GitHub Pages backup (statewide QCT file, filtered to county)
+    try {
+      const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/data/qct-colorado.json`);
+      if (backupGj && Array.isArray(backupGj.features)) {
+        const features = backupGj.features.filter(f =>
+          (f.properties?.COUNTYFP === countyFips) ||
+          (f.properties?.GEOID || '').startsWith(countyFips5)
+        );
+        if (features.length > 0) return { ...backupGj, features };
+      }
+    } catch(_) {/* no GitHub Pages QCT backup */}
     return null;
   }
 
@@ -623,8 +649,19 @@
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) return gj;
     } catch(e) {
-      console.warn('[HNA] DDA ArcGIS API unavailable; using static lookup.', e.message);
+      console.warn('[HNA] DDA ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
+    // Try GitHub Pages backup (statewide DDA file, filtered to county)
+    try {
+      const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/data/dda-colorado.json`);
+      if (backupGj && Array.isArray(backupGj.features)) {
+        const features = backupGj.features.filter(f =>
+          (f.properties?.COUNTYFP === countyFips) ||
+          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
+        );
+        return { ...backupGj, features };
+      }
+    } catch(_) {/* no GitHub Pages DDA backup */}
     return null;
   }
 
