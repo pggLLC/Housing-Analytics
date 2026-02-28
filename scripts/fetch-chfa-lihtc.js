@@ -29,8 +29,25 @@ const OUTPUT_FILE = path.join(DATA_DIR, 'chfa-lihtc.json');
 /** Maximum records to request per page (ArcGIS default cap is often 1000 or 2000). */
 const PAGE_SIZE = 1000;
 
-/** Only request the fields consumed by the front-end map to keep the output file small. */
-const OUT_FIELDS = 'PROJECT,PROJ_CTY,N_UNITS,YR_PIS';
+/**
+ * Fields to request from the ArcGIS service.
+ * Keeping this explicit list (rather than outFields=*) avoids pulling dozens
+ * of internal geocoding/administrative columns and keeps the output file small.
+ *
+ * Field reference (HUD / CHFA standard LIHTC schema):
+ *   PROJECT   – Project name
+ *   PROJ_ADD  – Street address
+ *   PROJ_CTY  – City
+ *   CNTY_NAME – County name
+ *   N_UNITS   – Total housing units
+ *   LI_UNITS  – Low-income restricted units
+ *   YR_PIS    – Year placed in service
+ *   YR_ALLOC  – Year of tax-credit allocation
+ *   CREDIT    – Credit type ("9%" or "4%")
+ *   NON_PROF  – Nonprofit sponsor flag (0/1)
+ */
+const OUT_FIELDS =
+  'PROJECT,PROJ_ADD,PROJ_CTY,CNTY_NAME,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -139,10 +156,16 @@ function toGeoJsonFeature(esriFeature) {
     // Explicitly pick only the fields consumed by the front-end so that
     // extra ArcGIS attributes don't inflate the output file.
     properties: {
-      PROJECT:  attrs.PROJECT  ?? null,
-      PROJ_CTY: attrs.PROJ_CTY ?? null,
-      N_UNITS:  attrs.N_UNITS  ?? null,
-      YR_PIS:   attrs.YR_PIS   ?? null,
+      PROJECT:   attrs.PROJECT   ?? null,
+      PROJ_ADD:  attrs.PROJ_ADD  ?? null,
+      PROJ_CTY:  attrs.PROJ_CTY  ?? null,
+      CNTY_NAME: attrs.CNTY_NAME ?? null,
+      N_UNITS:   attrs.N_UNITS   ?? null,
+      LI_UNITS:  attrs.LI_UNITS  ?? null,
+      YR_PIS:    attrs.YR_PIS    ?? null,
+      YR_ALLOC:  attrs.YR_ALLOC  ?? null,
+      CREDIT:    attrs.CREDIT    ?? null,
+      NON_PROF:  attrs.NON_PROF  ?? null,
     },
   };
 }
