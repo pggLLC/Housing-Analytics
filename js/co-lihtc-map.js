@@ -24,6 +24,10 @@
     {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata'}},
   ]};
 
+  // GitHub Pages backup URL — used when both the local file and live ArcGIS APIs are unavailable.
+  // This file is updated automatically on each CI run of scripts/fetch-chfa-lihtc.js.
+  const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
+
   // ── Status helper ────────────────────────────────────────────────────────────
   function updateStatus(message) {
     var el = document.getElementById('map-status') || document.getElementById('status');
@@ -111,6 +115,29 @@
       updateStatus('Source: embedded fallback');
     }
 
+    function useGithubPages() {
+      // Third-tier fallback: the GitHub Pages copy of data/chfa-lihtc.json, kept current
+      // by scripts/fetch-chfa-lihtc.js running in CI on each successful deployment.
+      return fetchWithTimeout(GITHUB_PAGES_BASE + '/data/chfa-lihtc.json', {}, 8000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('GitHub Pages HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (validateData(data)) {
+            renderData(map, data);
+            updateStatus('Source: GitHub Pages backup');
+          } else {
+            console.warn('[co-lihtc-map] GitHub Pages backup returned no features; using embedded fallback.');
+            useEmbedded();
+          }
+        })
+        .catch(function (err) {
+          console.warn('[co-lihtc-map] GitHub Pages backup also failed; using embedded fallback.', err.message);
+          useEmbedded();
+        });
+    }
+
     function useHUD() {
       return fetchWithTimeout(HUD_URL + '?' + HUD_PARAMS, {}, 8000)
         .then(function (res) {
@@ -122,13 +149,13 @@
             renderData(map, hudData);
             updateStatus('Source: HUD ArcGIS');
           } else {
-            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
-            useEmbedded();
+            console.warn('[co-lihtc-map] HUD returned no features; trying GitHub Pages backup.');
+            return useGithubPages();
           }
         })
         .catch(function (hudErr) {
-          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
-          useEmbedded();
+          console.warn('[co-lihtc-map] HUD fetch also failed; trying GitHub Pages backup.', hudErr.message);
+          return useGithubPages();
         });
     }
 

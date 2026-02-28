@@ -641,15 +641,20 @@
     let rerender = () => {};
 
     async function init(){
-      // Load topo once — local copy first (no CDN required), CDN as fallback
+      // Load topo once — local copy first (no CDN required), GitHub Pages backup, then CDN as final fallback
       try {
         usTopo = await d3.json('data/states-10m.json');
       } catch(e) {
-        console.warn('Local topology not found, trying CDN:', e.message);
+        console.warn('Local topology not found, trying GitHub Pages backup:', e.message);
         try {
-          usTopo = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+          usTopo = await d3.json('https://pggllc.github.io/Housing-Analytics/data/states-10m.json');
         } catch(e2) {
-          console.error('Failed to load US topojson', e2);
+          console.warn('GitHub Pages topology backup unavailable, trying CDN:', e2.message);
+          try {
+            usTopo = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+          } catch(e3) {
+            console.error('Failed to load US topojson', e3);
+          }
         }
       }
       ensureMap();
