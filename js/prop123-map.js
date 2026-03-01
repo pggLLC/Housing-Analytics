@@ -24,10 +24,32 @@
 
   function getConfig() { return (window.APP_CONFIG || {}); }
 
-  async function fetchJSON(url) {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-    return res.json();
+  var FETCH_TIMEOUT_MS = 10000;
+  var RETRY_DELAY_BASE_MS = 500;
+
+  async function fetchJSON(url, retries) {
+    retries = (typeof retries === 'number') ? retries : 1;
+    var lastErr = new Error('No fetch attempts completed');
+    for (var attempt = 0; attempt <= retries; attempt++) {
+      try {
+        var ctrl = new AbortController();
+        var timer = setTimeout(function () { ctrl.abort(); }, FETCH_TIMEOUT_MS);
+        var res;
+        try {
+          res = await fetch(url, { cache: 'no-store', signal: ctrl.signal });
+        } finally {
+          clearTimeout(timer);
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+        return res.json();
+      } catch (e) {
+        lastErr = e;
+        if (attempt < retries) {
+          await new Promise(function (r) { setTimeout(r, RETRY_DELAY_BASE_MS * Math.pow(2, attempt)); });
+        }
+      }
+    }
+    throw lastErr;
   }
 
   async function arcgisQueryGeoJSON(layerUrl, where) {
