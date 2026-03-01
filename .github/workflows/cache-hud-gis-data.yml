@@ -97,7 +97,7 @@ jobs:
           run().catch(err => { console.error('QCT fetch failed:', err.message); process.exit(1); });
           EOF
 
-      - name: Fetch HUD DDA data (Colorado)
+      - name: Fetch HUD DDA data (all DDAs — no state filter in dataset)
         run: |
           node - <<'EOF'
           const fetch = require('node-fetch');
@@ -105,21 +105,13 @@ jobs:
 
           const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
           const PAGE    = 1000;
-          // Try state-filter fields in order of likelihood.
-          const WHERE_CANDIDATES = [
-            "STATE='CO'",
-            "STATE_ABBR='CO'",
-            "STUSAB='CO'",
-            "STATEFP='08'",
-            "STATE='08'",
-          ];
 
-          async function fetchAll(where) {
+          async function fetchAll() {
             const all = { type: 'FeatureCollection', features: [] };
             let offset = 0;
             while (true) {
               const p = new URLSearchParams({
-                where, outFields: '*',
+                where: '1=1', outFields: '*',
                 returnGeometry: 'true', f: 'geojson',
                 outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
               });
@@ -136,24 +128,12 @@ jobs:
             return all;
           }
 
-          async function run() {
-            for (const where of WHERE_CANDIDATES) {
-              try {
-                const gj = await fetchAll(where);
-                if (gj.features.length) {
-                  fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
-                  console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json (where: ${where})`);
-                  return;
-                }
-                console.warn(`DDA where="${where}" returned 0 features, trying next filter`);
-              } catch(err) {
-                console.warn(`DDA where="${where}" failed: ${err.message}`);
-              }
-            }
-            throw new Error('All DDA WHERE filters exhausted with no results');
-          }
-
-          run().catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
+              console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json`);
+            })
+            .catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
           EOF
 
       - name: Commit and push cached overlay files
