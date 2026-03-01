@@ -91,8 +91,8 @@ html.dark-mode {
   --surface:       #112438;
   --text:          rgba(215,232,248,.93);
   --text-strong:   #e4f0fc;
-  --muted:         rgba(155,185,215,.72);
-  --faint:         rgba(120,155,190,.48);
+  --muted:         rgba(170,200,235,.85);
+  --faint:         rgba(155,185,215,.72);
   --border:        rgba(90,150,210,.11);
   --border-strong: rgba(90,150,210,.22);
   --link:          #5ecbcc;
