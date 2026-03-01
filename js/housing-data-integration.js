@@ -157,10 +157,17 @@
 
     for (const url of candidates) {
       try {
-        const data = await _fetchJson(url);
+        const res = await fetch(url, { cache: "default" });
+        if (res.status === 404) {
+          console.debug('[HousingData] CAR file not found (expected):', url);
+          continue;
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+        const data = await res.json();
         _set("car", data);
         return data;
-      } catch (_) {
+      } catch (err) {
+        console.warn('[HousingData] CAR load error:', err.message);
         // try next month
       }
     }
