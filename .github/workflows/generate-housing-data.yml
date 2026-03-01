@@ -1,0 +1,243 @@
+name: Generate Housing Data
+
+# Fetches per-county LIHTC GeoJSON files for all 64 Colorado counties from
+# HUD ArcGIS FeatureServer and stores them as data/hna/lihtc/<fips>.json.
+# Also refreshes the statewide QCT and DDA overlay files.
+#
+# Three-tier fallback on the client side:
+#   (a) data/hna/lihtc/<fips>.json  ← written by this workflow
+#   (b) Live HUD/CHFA ArcGIS APIs
+#   (c) Embedded JS fallback data (QCT_FALLBACK_CO / DDA_FALLBACK_CO / LIHTC_FALLBACK_CO)
+#
+# Runs weekly on Sunday 07:00 UTC and on-demand via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 7 * * 0'  # Sundays at 07:00 UTC
+  workflow_dispatch:       # Allow manual triggering from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  generate-housing-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --omit=dev node-fetch@2
+
+      - name: Fetch per-county LIHTC data (all 64 Colorado counties)
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+          const path  = require('path');
+
+          const PLACEHOLDER = JSON.stringify({ type: 'FeatureCollection', features: [] });
+          const OUT_DIR = 'data/hna/lihtc';
+          const HUD_LIHTC_URL = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30/query';
+
+          // All 64 Colorado county FIPS codes
+          const CO_COUNTIES = [
+            '08001','08003','08005','08007','08009','08011','08013','08014','08015','08017',
+            '08019','08021','08023','08025','08027','08029','08031','08033','08035','08037',
+            '08039','08041','08043','08045','08047','08049','08051','08053','08055','08057',
+            '08059','08061','08063','08065','08067','08069','08071','08073','08075','08077',
+            '08079','08081','08083','08085','08087','08089','08091','08093','08095','08097',
+            '08099','08101','08103','08105','08107','08109','08111','08113','08115','08117',
+            '08119','08121','08123','08125',
+          ];
+
+          if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
+
+          async function fetchCounty(fips5) {
+            const stateFips  = fips5.slice(0, 2);
+            const countyFips = fips5.slice(2);
+            const p = new URLSearchParams({
+              where: `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+              outFields: '*',
+              returnGeometry: 'true',
+              f: 'geojson',
+              outSR: '4326',
+              resultRecordCount: '1000',
+            });
+            const res = await fetch(`${HUD_LIHTC_URL}?${p}`, { timeout: 15000 });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const gj = await res.json();
+            if (gj.error) throw new Error(JSON.stringify(gj.error));
+            return gj;
+          }
+
+          async function run() {
+            let ok = 0, placeholder = 0;
+            for (const fips of CO_COUNTIES) {
+              const outFile = path.join(OUT_DIR, `${fips}.json`);
+              try {
+                const gj = await fetchCounty(fips);
+                fs.writeFileSync(outFile, JSON.stringify(gj));
+                console.log(`LIHTC ${fips}: ${(gj.features || []).length} features`);
+                ok++;
+              } catch (err) {
+                console.warn(`LIHTC ${fips}: fetch failed (${err.message}), writing placeholder`);
+                if (!fs.existsSync(outFile)) {
+                  fs.writeFileSync(outFile, PLACEHOLDER);
+                }
+                placeholder++;
+              }
+              // Small delay to be a good API citizen
+              await new Promise(r => setTimeout(r, 200));
+            }
+            console.log(`Done: ${ok} fetched, ${placeholder} placeholders`);
+          }
+
+          run().catch(err => { console.error('Fatal:', err.message); process.exit(1); });
+          EOF
+
+      - name: Fetch HUD QCT data (Colorado — STATEFP='08')
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const PLACEHOLDER = JSON.stringify({ type: 'FeatureCollection', features: [] });
+          const OUT = 'data/qct-colorado.json';
+          const QCT_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0/query';
+          const PAGE = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: "STATEFP='08'", outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              console.log(`QCT: fetching offset=${offset}...`);
+              const res = await fetch(`${QCT_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              console.log(`QCT: received ${feats.length} features (total: ${all.features.length})`);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 50000) break;
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync(OUT, JSON.stringify(gj));
+              console.log(`QCT: wrote ${gj.features.length} features to ${OUT}`);
+            })
+            .catch(err => {
+              console.error('QCT fetch failed:', err.message);
+              if (!fs.existsSync(OUT)) {
+                fs.writeFileSync(OUT, PLACEHOLDER);
+                console.log('QCT: wrote placeholder');
+              }
+            });
+          EOF
+
+      - name: Fetch HUD DDA data (all DDAs)
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          const PLACEHOLDER = JSON.stringify({ type: 'FeatureCollection', features: [] });
+          const OUT = 'data/dda-colorado.json';
+          const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
+          const PAGE = 1000;
+
+          async function fetchAll() {
+            const all = { type: 'FeatureCollection', features: [] };
+            let offset = 0;
+            while (true) {
+              const p = new URLSearchParams({
+                where: '1=1', outFields: '*',
+                returnGeometry: 'true', f: 'geojson',
+                outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
+              });
+              console.log(`DDA: fetching offset=${offset}...`);
+              const res = await fetch(`${DDA_URL}?${p}`);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const gj = await res.json();
+              if (gj.error) throw new Error(JSON.stringify(gj.error));
+              const feats = gj.features || [];
+              all.features.push(...feats);
+              console.log(`DDA: received ${feats.length} features (total: ${all.features.length})`);
+              if (feats.length < PAGE) break;
+              offset += PAGE;
+              if (offset > 10000) break;
+            }
+            return all;
+          }
+
+          fetchAll()
+            .then(gj => {
+              fs.writeFileSync(OUT, JSON.stringify(gj));
+              console.log(`DDA: wrote ${gj.features.length} features to ${OUT}`);
+            })
+            .catch(err => {
+              console.error('DDA fetch failed:', err.message);
+              if (!fs.existsSync(OUT)) {
+                fs.writeFileSync(OUT, PLACEHOLDER);
+                console.log('DDA: wrote placeholder');
+              }
+            });
+          EOF
+
+      - name: Validate output files with jq
+        run: |
+          echo "Validating per-county LIHTC files..."
+          INVALID=0
+          for f in data/hna/lihtc/*.json; do
+            if ! jq -e '.type == "FeatureCollection" and (.features | type) == "array"' "$f" > /dev/null 2>&1; then
+              echo "❌ $f is invalid — replacing with placeholder"
+              echo '{"type":"FeatureCollection","features":[]}' > "$f"
+              INVALID=$((INVALID + 1))
+            fi
+          done
+          echo "✅ LIHTC validation complete (${INVALID} files replaced with placeholders)"
+
+          echo "Validating QCT file..."
+          if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/qct-colorado.json > /dev/null; then
+            echo "✅ data/qct-colorado.json valid ($(jq '.features | length' data/qct-colorado.json) features)"
+          else
+            echo "❌ data/qct-colorado.json invalid — replacing with placeholder"
+            echo '{"type":"FeatureCollection","features":[]}' > data/qct-colorado.json
+          fi
+
+          echo "Validating DDA file..."
+          if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/dda-colorado.json > /dev/null; then
+            echo "✅ data/dda-colorado.json valid ($(jq '.features | length' data/dda-colorado.json) features)"
+          else
+            echo "❌ data/dda-colorado.json invalid — replacing with placeholder"
+            echo '{"type":"FeatureCollection","features":[]}' > data/dda-colorado.json
+          fi
+
+      - name: Commit and push updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/hna/lihtc/ data/qct-colorado.json data/dda-colorado.json
+          if git diff --cached --quiet; then
+            echo "No changes to data files"
+          else
+            git commit -m "chore: update housing GIS data cache [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash origin main
+            git push
+          fi
