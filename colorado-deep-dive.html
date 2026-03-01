@@ -1729,7 +1729,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       let gj = null;
       // Try CHFA first (Colorado-specific, most current)
       try {
-        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "STATEFP='08'", '*');
+        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "PROJ_ST='CO'", '*');
         if (gj.features.length) {
           lihtcSource = 'CHFA';
           console.log('✓ LIHTC: loaded from CHFA API');
