@@ -97,7 +97,7 @@ jobs:
           run().catch(err => { console.error('QCT fetch failed:', err.message); process.exit(1); });
           EOF
 
-      - name: Fetch HUD DDA data (all DDAs — no state filter in dataset)
+      - name: Fetch HUD DDA data (Colorado only — pre-filtered to FIPS 08)
         run: |
           node - <<'EOF'
           const fetch = require('node-fetch');
@@ -105,13 +105,23 @@ jobs:
 
           const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
           const PAGE    = 1000;
+          // Try a server-side Colorado filter first; fall back to fetching all and filtering client-side.
+          const WHERE_CANDIDATES = [
+            "DDA_CODE LIKE 'NCNTY08%'",
+            '1=1',  // full dataset — will be filtered client-side below
+          ];
 
-          async function fetchAll() {
+          function isColorado(feature) {
+            const code = (feature.properties && feature.properties.DDA_CODE) || '';
+            return code.startsWith('NCNTY08');
+          }
+
+          async function fetchAll(where) {
             const all = { type: 'FeatureCollection', features: [] };
             let offset = 0;
             while (true) {
               const p = new URLSearchParams({
-                where: '1=1', outFields: '*',
+                where, outFields: '*',
                 returnGeometry: 'true', f: 'geojson',
                 outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
               });
@@ -128,15 +138,30 @@ jobs:
             return all;
           }
 
-          fetchAll()
-            .then(gj => {
-              fs.writeFileSync('data/dda-colorado.json', JSON.stringify(gj));
-              console.log(`Wrote ${gj.features.length} DDA features to data/dda-colorado.json`);
-            })
-            .catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
+          async function run() {
+            for (const where of WHERE_CANDIDATES) {
+              try {
+                const gj = await fetchAll(where);
+                // Always apply client-side filter to guarantee only Colorado features are written.
+                const coFeats = gj.features.filter(isColorado);
+                if (coFeats.length) {
+                  const out = { ...gj, features: coFeats };
+                  fs.writeFileSync('data/dda-colorado.json', JSON.stringify(out));
+                  console.log(`Wrote ${coFeats.length} Colorado DDA features to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
+                  return;
+                }
+                console.warn(`DDA where="${where}" returned 0 Colorado features, trying next filter`);
+              } catch(err) {
+                console.warn(`DDA where="${where}" failed: ${err.message}`);
+              }
+            }
+            throw new Error('All DDA WHERE filters exhausted with no Colorado results');
+          }
+
+          run().catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
           EOF
 
-      - name: Normalize DDA data (filter to Colorado, map HUD field names)
+      - name: Normalize DDA data (map HUD field names to front-end schema)
         run: node scripts/normalize-dda.js
 
       - name: Commit and push cached overlay files
