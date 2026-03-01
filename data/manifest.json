@@ -1,13 +1,13 @@
 {
-  "generated": "2026-02-28T20:54:14.557Z",
+  "generated": "2026-03-01T04:34:39.272Z",
   "files": {
     "data/qct-colorado.json": {
-      "featureCount": 0,
-      "placeholder": true
+      "featureCount": 224,
+      "placeholder": false
     },
     "data/dda-colorado.json": {
-      "featureCount": 0,
-      "placeholder": true
+      "featureCount": 2902,
+      "placeholder": false
     }
   }
 }
