@@ -47,6 +47,10 @@ jobs:
       - name: Run deploy preflight checks
         run: node scripts/deploy-preflight.js
 
+      - name: Refresh CHFA LIHTC data
+        run: node scripts/fetch-chfa-lihtc.js
+        continue-on-error: true
+
       - name: Run pages availability checks
         run: node test/pages-availability-check.js
 
