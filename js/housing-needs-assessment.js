@@ -799,7 +799,7 @@
 
       // All states (and Colorado final fallback): HUD ArcGIS FeatureServer.
       const params = new URLSearchParams({
-        where:   `CNTY_FIPS=${countyFips5}`,
+        where:   `CNTY_FIPS='${countyFips5}'`,
         outFields: '*',
         f: 'geojson',
         outSR: '4326',
