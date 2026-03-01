@@ -532,10 +532,19 @@
   }
 
   async function loadJson(url){
-    const r = await fetch(url,{cache:'no-cache'});
-    if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
+    // Resolve local paths through APP_BASE_PATH so they work on GitHub Pages sub-paths
+    // (e.g. /Housing-Analytics/data/...) and on custom domains (/).
+    const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl(url)
+      : url;
+    const r = await fetch(resolvedUrl,{cache:'no-cache'});
+    if (!r.ok) {
+      const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
+      err.httpStatus = r.status;
+      throw err;
+    }
     const text = await r.text();
-    if (!text.trim()) throw new Error(`Empty response: ${url}`);
+    if (!text.trim()) throw new Error(`Empty response: ${resolvedUrl}`);
     return JSON.parse(text);
   }
 
@@ -705,17 +714,52 @@
     return { type: 'FeatureCollection', features };
   }
 
-  // Fetch LIHTC projects for a county. For Colorado (FIPS 08), CHFA ArcGIS FeatureServer is
-  // the primary source; HUD ArcGIS is the fallback. For all other states, HUD is the sole
-  // live source. The returned GeoJSON includes a _source field ('CHFA' | 'HUD' | 'fallback')
-  // indicating which data source was used.
+  // Fetch LIHTC projects for a county.
+  // For Colorado (FIPS 08), data/chfa-lihtc.json (the canonical local file, kept current by CI)
+  // is always tried first. Remote ArcGIS APIs (CHFA, then HUD) are only attempted when the
+  // local file is absent (HTTP 404). For all other states, HUD ArcGIS is the live source.
+  // The returned GeoJSON includes a _source field ('local' | 'CHFA' | 'HUD' | 'fallback').
   async function fetchLihtcProjects(countyFips5){
     if (countyFips5 && countyFips5.length === 5) {
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
 
-      // Colorado: try CHFA ArcGIS FeatureServer first (most current CO-specific data)
+      // Colorado: always try the canonical local statewide file first.
       if (stateFips === '08') {
+        try {
+          const stateGj = await loadJson('data/chfa-lihtc.json');
+          if (stateGj && Array.isArray(stateGj.features)) {
+            // Filter to the requested county using the CNTY_FIPS field added by CI.
+            const features = stateGj.features.filter(f =>
+              (f.properties && f.properties.CNTY_FIPS === countyFips5) ||
+              // Fallback: match by 3-digit county FIPS portion if full 5-digit is unavailable.
+              (f.properties && (f.properties.COUNTYFP || '') === countyFips)
+            );
+            if (features.length > 0) {
+              return { type: 'FeatureCollection', features, _source: 'local' };
+            }
+            // File loaded but no features for this county — not a deployment error; fall through
+            // to remote APIs in case the county has newer projects not yet in the local file.
+            console.info('[HNA] data/chfa-lihtc.json has no features for county', countyFips5, '— trying CHFA ArcGIS.');
+          }
+        } catch(e) {
+          if (e.httpStatus === 404) {
+            // Local file not deployed — fall through to remote ArcGIS APIs.
+            console.warn('[HNA] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
+          } else {
+            // File exists but is unreadable (empty, corrupt, etc.) — show clear message,
+            // use embedded fallback without hitting remote APIs.
+            console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message, '— using embedded fallback.');
+            if (els.lihtcMapStatus) {
+              els.lihtcMapStatus.textContent =
+                'LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).';
+            }
+            return { ...lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
+          }
+        }
+
+        // Remote fallback (only reached when local file is absent or has no county features):
+        // try CHFA ArcGIS FeatureServer first (most current CO-specific data).
         const chfaParams = new URLSearchParams({
           where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
           outFields: '*',
@@ -737,10 +781,7 @@
         }
       }
 
-      // All states (and Colorado fallback): HUD ArcGIS FeatureServer
-      // Request all fields ('*') so that LI_UNITS, QCT, DDA, address info, HUD_ID, etc. are
-      // all returned.  A limited outFields list was the previous cause of incomplete properties.
-      // Use CNTY_FIPS (5-digit county FIPS) which is the standard field in the HUD LIHTC database.
+      // All states (and Colorado final fallback): HUD ArcGIS FeatureServer.
       const params = new URLSearchParams({
         where:   `CNTY_FIPS=${countyFips5}`,
         outFields: '*',
@@ -755,23 +796,9 @@
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
       } catch(e) {
-        console.warn('[HNA] LIHTC ArcGIS API unavailable; trying local file.', e.message);
+        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
       }
     }
-    // Try local cached file (written by scripts/fetch-chfa-lihtc.js via CI)
-    try {
-      return await loadJson(PATHS.lihtc(countyFips5));
-    } catch(_) {/* no local cache */}
-    // Try GitHub Pages backup (persistent copy of the last successful CI fetch)
-    try {
-      // Normalise path: PATHS.lihtc() returns 'data/...' (no leading slash); strip any
-      // accidental leading slash before joining to avoid double-slash in the URL.
-      const backupPath = PATHS.lihtc(countyFips5).replace(/^\/+/, '');
-      const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/${backupPath}`);
-      if (backupGj && Array.isArray(backupGj.features) && backupGj.features.length > 0) {
-        return { ...backupGj, _source: 'backup' };
-      }
-    } catch(_) {/* no GitHub Pages backup */}
     // Return embedded fallback filtered to county
     return { ...lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
   }
@@ -2097,11 +2124,13 @@
 
     items.push({
       title: 'LIHTC (Low-Income Housing Tax Credit)',
-      html: `For Colorado, LIHTC project data is sourced primarily from the <strong>CHFA ArcGIS FeatureServer</strong> ` +
-            `(Colorado Housing and Finance Authority), which provides the most current Colorado-specific project data. ` +
-            `If CHFA's endpoint is unreachable or returns no data, the system automatically falls back to the ` +
-            `HUD LIHTC database via ArcGIS REST service. For all other states, HUD is the live source. ` +
-            `An embedded Colorado fallback dataset is used when both live APIs are unavailable. ` +
+      html: `For Colorado, LIHTC project data is loaded from the canonical local file ` +
+            `<strong>data/chfa-lihtc.json</strong> (kept current by the CI workflow). ` +
+            `If that file is absent (HTTP 404), the system falls back to the ` +
+            `<strong>CHFA ArcGIS FeatureServer</strong> (Colorado Housing and Finance Authority), ` +
+            `then to the HUD LIHTC database via ArcGIS REST service. ` +
+            `For all other states, HUD ArcGIS is the live source. ` +
+            `An embedded Colorado fallback dataset is used when all other sources are unavailable. ` +
             `The active data source is displayed as a badge on the LIHTC project list and in each project popup. ` +
             `Red circle markers on the map indicate LIHTC-funded properties. ` +
             `<a href="${SOURCES.lihtcDb}" target="_blank" rel="noopener">HUD LIHTC database</a>.`
