@@ -87,8 +87,8 @@
     hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
     chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
-    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2025/FeatureServer/0',
-    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2025/FeatureServer/0',
+    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2026/FeatureServer/0', // Update year annually (e.g. QCT_2027 when HUD publishes next cycle)
+    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2026/FeatureServer/0', // Update year annually (e.g. DDA_2027 when HUD publishes next cycle)
   };
 
   // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
