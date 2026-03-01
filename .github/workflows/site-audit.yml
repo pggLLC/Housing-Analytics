@@ -1,0 +1,55 @@
+name: Site Audit
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  site-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npm run audit:install
+
+      - name: Start static server
+        run: node scripts/audit/serve-static.mjs &
+        env:
+          PORT: 8080
+          HOST: 127.0.0.1
+
+      - name: Wait for server to be ready
+        run: |
+          for i in $(seq 1 15); do
+            curl -sf http://127.0.0.1:8080/ > /dev/null && echo "Server ready" && break
+            echo "Waiting for server... ($i/15)"
+            sleep 1
+          done
+
+      - name: Run site audit
+        run: npm run audit:site
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:8080
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report/
+          retention-days: 30
