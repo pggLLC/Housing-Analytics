@@ -28,7 +28,7 @@ Affordable Housing Intelligence is a static web application providing comprehens
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps) |
 | `colorado-market.html` | Colorado market overview and forecast |
-| `construction-commodities.html` | Construction cost commodity tracking |
+| `_dev/construction-commodities.html` | Construction cost commodity tracking (archived to `_dev/`) |
 | `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
@@ -36,7 +36,7 @@ Affordable Housing Intelligence is a static web application providing comprehens
 | `article-pricing.html` | Housing pricing analysis article |
 | `lihtc-guide-for-stakeholders.html` | LIHTC program guide |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `census-dashboard.html` | U.S. Census data integration |
+| `_dev/census-dashboard.html` | U.S. Census data integration (archived to `_dev/`) |
 | `dashboard.html` | Analytics dashboard |
 | `about.html` | About the project and methodology |
 
