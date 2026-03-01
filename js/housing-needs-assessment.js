@@ -7,6 +7,22 @@
 (function(){
   const STATE_FIPS_CO = '08';
 
+  // Cross-browser fetch with timeout (uses AbortController; avoids AbortSignal.timeout
+  // which is not available in all browser versions).
+  function fetchWithTimeout(url, options, timeoutMs) {
+    timeoutMs = timeoutMs || 10000;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, timeoutMs);
+    var merged = Object.assign({}, options || {}, { signal: ctrl.signal });
+    return fetch(url, merged).then(function (res) {
+      clearTimeout(timer);
+      return res;
+    }, function (err) {
+      clearTimeout(timer);
+      throw err;
+    });
+  }
+
   // Probe vintages newest-first to always surface the most recent data available.
   const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
   // Keep named constants so existing checks and references still work.
@@ -537,7 +553,7 @@
     const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl(url)
       : url;
-    const r = await fetch(resolvedUrl,{cache:'no-cache'});
+    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 10000);
     if (!r.ok) {
       const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
       err.httpStatus = r.status;
@@ -769,7 +785,7 @@
         });
         const chfaUrl = `${SOURCES.chfaLihtcQuery}/query?${chfaParams}`;
         try {
-          const r = await fetch(chfaUrl, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
+          const r = await fetchWithTimeout(chfaUrl, {}, 8000);
           if (!r.ok) throw new Error(`CHFA LIHTC HTTP ${r.status}`);
           const gj = await r.json();
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
@@ -791,7 +807,7 @@
       });
       const url = `${SOURCES.hudLihtcQuery}/query?${params}`;
       try {
-        const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
+        const r = await fetchWithTimeout(url, {}, 8000);
         if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
@@ -831,7 +847,7 @@
     });
     const url = `${SOURCES.hudQctQuery}/query?${params}`;
     try {
-      const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+      const r = await fetchWithTimeout(url, {}, 5000);
       if (!r.ok) throw new Error(`QCT HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
@@ -884,7 +900,7 @@
     });
     const url = `${SOURCES.hudDdaQuery}/query?${params}`;
     try {
-      const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
+      const r = await fetchWithTimeout(url, {}, 5000);
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) {
