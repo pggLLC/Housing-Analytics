@@ -102,7 +102,7 @@ After GitHub Pages finishes publishing (typically 1–3 minutes):
    | `/` | LIHTC Analytics Hub home |
    | `/dashboard.html` | Main analytics dashboard |
    | `/regional.html` | Regional housing data |
-   | `/census-dashboard.html` | Census data dashboard |
+   | `/census-dashboard.html` | Census data dashboard (archived to `_dev/`) |
    | `/state-allocation-map.html` | Federal LIHTC map |
 
 4. **Verify static assets load**
