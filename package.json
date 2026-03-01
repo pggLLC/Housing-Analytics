@@ -15,7 +15,8 @@
     "lint:css": "npx stylelint 'css/*.css'",
     "audit:contrast": "node scripts/contrast-audit.js",
     "audit:site": "node scripts/audit/site-audit.mjs",
-    "audit:install": "npx playwright install chromium --with-deps"
+    "audit:install": "npx playwright install chromium --with-deps",
+    "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs"
   },
   "dependencies": {
     "color": "^4.2.3",
