@@ -82,9 +82,85 @@ const PAGE_SIZE = 1000;
  *   YR_ALLOC  – Year of tax-credit allocation
  *   CREDIT    – Credit type ("9%" or "4%")
  *   NON_PROF  – Nonprofit sponsor flag (0/1)
+ *
+ * Note: CNTY_FIPS (5-digit) and COUNTYFP (3-digit) are derived locally from
+ * CNTY_NAME using CO_COUNTY_FIPS below rather than fetched from the service,
+ * because the ArcGIS layer does not expose them as queryable outFields.
  */
 const OUT_FIELDS =
   'PROJECT,PROJ_ADD,PROJ_CTY,CNTY_NAME,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF';
+
+/**
+ * Lookup table: Colorado county name → 5-digit FIPS code.
+ * Keys are lowercase for case-insensitive matching.
+ * Covers all 64 Colorado counties (Census FIPS 08001–08125).
+ */
+const CO_COUNTY_FIPS = {
+  'adams':       '08001',
+  'alamosa':     '08003',
+  'arapahoe':    '08005',
+  'archuleta':   '08007',
+  'baca':        '08009',
+  'bent':        '08011',
+  'boulder':     '08013',
+  'broomfield':  '08014',
+  'chaffee':     '08015',
+  'cheyenne':    '08017',
+  'clear creek': '08019',
+  'conejos':     '08021',
+  'costilla':    '08023',
+  'crowley':     '08025',
+  'custer':      '08027',
+  'delta':       '08029',
+  'denver':      '08031',
+  'dolores':     '08033',
+  'douglas':     '08035',
+  'eagle':       '08037',
+  'elbert':      '08039',
+  'el paso':     '08041',
+  'fremont':     '08043',
+  'garfield':    '08045',
+  'gilpin':      '08047',
+  'grand':       '08049',
+  'gunnison':    '08051',
+  'hinsdale':    '08053',
+  'huerfano':    '08055',
+  'jackson':     '08057',
+  'jefferson':   '08059',
+  'kiowa':       '08061',
+  'kit carson':  '08063',
+  'lake':        '08065',
+  'la plata':    '08067',
+  'larimer':     '08069',
+  'las animas':  '08071',
+  'lincoln':     '08073',
+  'logan':       '08075',
+  'mesa':        '08077',
+  'mineral':     '08079',
+  'moffat':      '08081',
+  'montezuma':   '08083',
+  'montrose':    '08085',
+  'morgan':      '08087',
+  'otero':       '08089',
+  'ouray':       '08091',
+  'park':        '08093',
+  'phillips':    '08095',
+  'pitkin':      '08097',
+  'prowers':     '08099',
+  'pueblo':      '08101',
+  'rio blanco':  '08103',
+  'rio grande':  '08105',
+  'routt':       '08107',
+  'saguache':    '08109',
+  'san juan':    '08111',
+  'san miguel':  '08113',
+  'sedgwick':    '08115',
+  'summit':      '08117',
+  'teller':      '08119',
+  'washington':  '08121',
+  'weld':        '08123',
+  'yuma':        '08125',
+};
 
 /**
  * Name of the unique row-identifier field on this service.
@@ -191,6 +267,21 @@ async function fetchByIds(ids) {
 }
 
 /**
+ * Resolve a county name to its 5-digit Colorado FIPS code.
+ * Normalises the input to lowercase and trims whitespace before lookup so
+ * that alternate capitalisations and leading/trailing spaces don't silently
+ * fail to match.
+ *
+ * @param {string|null} cntyName  County name (e.g. "Denver", "La Plata").
+ * @returns {string}  5-digit FIPS string (e.g. "08031") or empty string if unresolved.
+ */
+function resolveCntyFips(cntyName) {
+  if (!cntyName) return '';
+  const key = String(cntyName).trim().toLowerCase();
+  return CO_COUNTY_FIPS[key] || '';
+}
+
+/**
  * Convert an ArcGIS JSON feature to a GeoJSON Feature.
  * Handles Point geometry (x/y) only; skips features without valid geometry.
  *
@@ -204,6 +295,10 @@ function toGeoJsonFeature(esriFeature) {
   if (!geom || geom.x == null || geom.y == null) {
     return null;
   }
+
+  const cntyFips = resolveCntyFips(attrs.CNTY_NAME ?? null);
+  // COUNTYFP is the 3-digit suffix of the 5-digit CNTY_FIPS (e.g. "031").
+  const countyFp = cntyFips ? cntyFips.slice(2) : '';
 
   return {
     type: 'Feature',
@@ -222,6 +317,8 @@ function toGeoJsonFeature(esriFeature) {
       PROJ_ADD:  attrs.PROJ_ADD  ?? null,
       PROJ_CTY:  attrs.PROJ_CTY  ?? null,
       CNTY_NAME: attrs.CNTY_NAME ?? null,
+      CNTY_FIPS: cntyFips || null,
+      COUNTYFP:  countyFp || null,
       N_UNITS:   attrs.N_UNITS   ?? null,
       LI_UNITS:  attrs.LI_UNITS  ?? null,
       YR_PIS:    attrs.YR_PIS    ?? null,
