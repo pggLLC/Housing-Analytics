@@ -307,6 +307,12 @@ test('JS: LIHTC fetch function is implemented with fallback', () => {
     assert(js.includes('hudLihtcQuery'),                     'HUD LIHTC ArcGIS service URL is referenced');
 });
 
+test('JS: HUD LIHTC WHERE clause uses quoted CNTY_FIPS to avoid HTTP 400', () => {
+    // ArcGIS SQL requires string fields to be quoted; an unquoted value causes a 400 error.
+    assert(js.includes("CNTY_FIPS='${countyFips5}'"),     "HUD LIHTC WHERE clause quotes CNTY_FIPS value");
+    assert(!js.includes("CNTY_FIPS=${countyFips5}"),       "HUD LIHTC WHERE clause does NOT have unquoted CNTY_FIPS");
+});
+
 test('JS: CHFA ArcGIS FeatureServer is the primary source for Colorado LIHTC', () => {
     assert(js.includes('chfaLihtcQuery'),            'chfaLihtcQuery is defined in SOURCES');
     assert(js.includes("stateFips === '08'"),         'Colorado state FIPS check is present');
