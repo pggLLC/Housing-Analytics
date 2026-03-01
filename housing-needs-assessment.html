@@ -226,10 +226,11 @@
                 </div>
                 <div class="span-4">
                   <div style="color:var(--muted);font-size:.85rem;margin-bottom:4px">Headship</div>
-                  <div style="display:flex;gap:10px;flex-wrap:wrap">
-                    <label style="display:flex;gap:6px;align-items:center"><input type="radio" name="assumpHeadship" value="hold" checked> Hold</label>
-                    <label style="display:flex;gap:6px;align-items:center"><input type="radio" name="assumpHeadship" value="trend"> Trend</label>
+                  <div class="headship-buttons" role="group" aria-label="Headship assumption">
+                    <button type="button" class="headship-btn active" data-headship="hold" aria-pressed="true">Hold</button>
+                    <button type="button" class="headship-btn" data-headship="trend" aria-pressed="false">Trend</button>
                   </div>
+                  <input type="hidden" name="assumpHeadship" id="assumpHeadship" value="hold">
                 </div>
               </div>
               <p style="margin:10px 0 0;color:var(--muted);font-size:.9rem">
