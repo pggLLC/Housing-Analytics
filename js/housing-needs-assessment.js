@@ -742,7 +742,7 @@
       // all returned.  A limited outFields list was the previous cause of incomplete properties.
       // Use CNTY_FIPS (5-digit county FIPS) which is the standard field in the HUD LIHTC database.
       const params = new URLSearchParams({
-        where:   `CNTY_FIPS='${countyFips5}'`,
+        where:   `CNTY_FIPS=${countyFips5}`,
         outFields: '*',
         f: 'geojson',
         outSR: '4326',
@@ -1807,7 +1807,7 @@
     const horizon = Number(els.assumpHorizon?.value || 20);
     const vacPct = Number(els.assumpVacancy?.value || 5);
     const targetVac = vacPct/100.0;
-    const headshipMode = (document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
+    const headshipMode = (document.getElementById('assumpHeadship')?.value || document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
     return { horizon, targetVac, headshipMode };
   }
 
@@ -2339,6 +2339,17 @@
     els.assumpHorizon?.addEventListener('change', onAssumpChange);
     els.assumpVacancy?.addEventListener('input', ()=>{ els.assumpVacancyVal.textContent = `${Number(els.assumpVacancy.value).toFixed(1)}%`; onAssumpChange(); });
     document.querySelectorAll('input[name="assumpHeadship"]').forEach(r=>r.addEventListener('change', onAssumpChange));
+    document.querySelectorAll('.headship-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const val = btn.dataset.headship;
+        document.querySelectorAll('.headship-btn').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed','true');
+        const hidden = document.getElementById('assumpHeadship');
+        if (hidden) hidden.value = val;
+        onAssumpChange();
+      });
+    });
 
     // Re-render charts on theme toggle
     document.addEventListener('theme:changed', ()=>{ update(); });
