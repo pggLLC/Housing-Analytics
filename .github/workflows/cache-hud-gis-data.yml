@@ -136,6 +136,9 @@ jobs:
             .catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
           EOF
 
+      - name: Normalize DDA data (filter to Colorado, map HUD field names)
+        run: node scripts/normalize-dda.js
+
       - name: Commit and push cached overlay files
         run: |
           git config user.name "github-actions[bot]"
