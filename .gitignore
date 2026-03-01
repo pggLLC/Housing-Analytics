@@ -7,3 +7,6 @@ __pycache__/
 
 # Node.js dependencies
 node_modules/
+
+# Audit reports (generated locally; uploaded as CI artifacts)
+audit-report/

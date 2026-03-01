@@ -13,7 +13,9 @@
     "test:contrast": "node scripts/contrast-audit/run.js",
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
-    "audit:contrast": "node scripts/contrast-audit.js"
+    "audit:contrast": "node scripts/contrast-audit.js",
+    "audit:site": "node scripts/audit/site-audit.mjs",
+    "audit:install": "npx playwright install chromium --with-deps"
   },
   "dependencies": {
     "color": "^4.2.3",
@@ -23,6 +25,9 @@
     "nodemailer": "^8.0.1",
     "playwright": "^1.58.2",
     "wcag-contrast": "^3.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
   },
   "engines": {
     "node": ">=16"

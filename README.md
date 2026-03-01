@@ -269,6 +269,37 @@ Without these files the affected panels display placeholder dashes or an explana
 - Requires CSS Custom Properties, Grid, and `color-mix()` (for hover effects)
 - `color-mix()` gracefully degrades on older browsers — hover states just use the base color
 
+## Automated Site Audit
+
+The repository includes a Playwright-based audit workflow that loads key pages, records console errors and failed network requests, verifies that map/data requests fire, and produces JSON + HTML reports as GitHub Actions artifacts.
+
+### Running locally
+
+1. Start the static server (serves the repo root like GitHub Pages):
+   ```bash
+   node scripts/audit/serve-static.mjs
+   ```
+2. In a separate terminal, run the audit:
+   ```bash
+   AUDIT_BASE_URL=http://127.0.0.1:8080 npm run audit:site
+   ```
+3. Open `audit-report/<timestamp>/report.html` in your browser to view results.
+
+### CI workflow
+
+The `site-audit.yml` GitHub Actions workflow runs automatically on pull requests and can be triggered manually via `workflow_dispatch`. After a run, download the **audit-report** artifact from the Actions summary page and open `report.html` to inspect results.
+
+The audit only fails CI on **hard failures**:
+- JavaScript runtime errors
+- Missing local data files (4xx on local requests)
+- ArcGIS/Tigerweb service failures (5xx or network error)
+
+### Audit diagnostics panel (`?audit=1`)
+
+Four dashboards include `js/audit-hook.js`, which activates an overlay panel when the `?audit=1` query parameter is present. The panel shows the last 20 fetch/XHR URLs and any failures. It does nothing when the parameter is absent, so it has no effect on normal production use.
+
+Example: `https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?audit=1`
+
 ## License
 
 MIT © Affordable Housing Intelligence
