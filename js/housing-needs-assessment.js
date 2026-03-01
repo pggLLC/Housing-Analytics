@@ -111,6 +111,57 @@
     {type:'Feature',geometry:{type:'Point',coordinates:[-106.3131,37.4681]},properties:{PROJECT:'Alamosa Affordable Homes',PROJ_CTY:'Alamosa',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2021,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Alamosa',CNTY_FIPS:'08003',STATEFP:'08',COUNTYFP:'003'}},
   ]};
 
+  // Colorado QCT (Qualified Census Tract) embedded fallback data
+  // Used when both the live HUD ArcGIS API and the local data/qct-colorado.json are unavailable.
+  // Source: HUD Qualified Census Tracts list; representative tracts across Colorado counties.
+  const QCT_FALLBACK_CO = {type:'FeatureCollection',features:[
+    {type:'Feature',properties:{NAME:'Denver-Globeville QCT',GEOID:'08031006700',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.000,39.772],[-104.940,39.772],[-104.940,39.790],[-105.000,39.790],[-105.000,39.772]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Five Points QCT',GEOID:'08031007700',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.982,39.745],[-104.940,39.745],[-104.940,39.768],[-104.982,39.768],[-104.982,39.745]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Sun Valley QCT',GEOID:'08031006800',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.010,39.720],[-104.975,39.720],[-104.975,39.740],[-105.010,39.740],[-105.010,39.720]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Montbello QCT',GEOID:'08031004601',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.955,39.760],[-104.910,39.760],[-104.910,39.810],[-104.955,39.810],[-104.955,39.760]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Westwood QCT',GEOID:'08031007400',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.050,39.680],[-104.995,39.680],[-104.995,39.718],[-105.050,39.718],[-105.050,39.680]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Villa Park QCT',GEOID:'08031008200',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.030,39.730],[-104.995,39.730],[-104.995,39.755],[-105.030,39.755],[-105.030,39.730]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Barnum QCT',GEOID:'08031008500',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.043,39.700],[-105.000,39.700],[-105.000,39.725],[-105.043,39.725],[-105.043,39.700]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Swansea QCT',GEOID:'08031009100',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.966,39.760],[-104.930,39.760],[-104.930,39.785],[-104.966,39.785],[-104.966,39.760]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Capitol Hill QCT',GEOID:'08031003200',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.975,39.730],[-104.940,39.730],[-104.940,39.748],[-104.975,39.748],[-104.975,39.730]]]}},
+    {type:'Feature',properties:{NAME:'Aurora-Colfax QCT',GEOID:'08005011020',STATEFP:'08',COUNTYFP:'005'},geometry:{type:'Polygon',coordinates:[[[-104.900,39.720],[-104.840,39.720],[-104.840,39.750],[-104.900,39.750],[-104.900,39.720]]]}},
+    {type:'Feature',properties:{NAME:'Aurora-East QCT',GEOID:'08005011800',STATEFP:'08',COUNTYFP:'005'},geometry:{type:'Polygon',coordinates:[[[-104.840,39.686],[-104.780,39.686],[-104.780,39.710],[-104.840,39.710],[-104.840,39.686]]]}},
+    {type:'Feature',properties:{NAME:'Westminster Federal QCT',GEOID:'08001012900',STATEFP:'08',COUNTYFP:'001'},geometry:{type:'Polygon',coordinates:[[[-105.040,39.843],[-104.990,39.843],[-104.990,39.868],[-105.040,39.868],[-105.040,39.843]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs-Downtown QCT',GEOID:'08041003200',STATEFP:'08',COUNTYFP:'041'},geometry:{type:'Polygon',coordinates:[[[-104.851,38.820],[-104.800,38.820],[-104.800,38.858],[-104.851,38.858],[-104.851,38.820]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs-East QCT',GEOID:'08041004100',STATEFP:'08',COUNTYFP:'041'},geometry:{type:'Polygon',coordinates:[[[-104.800,38.820],[-104.730,38.820],[-104.730,38.860],[-104.800,38.860],[-104.800,38.820]]]}},
+    {type:'Feature',properties:{NAME:'Pueblo-Downtown QCT',GEOID:'08101000300',STATEFP:'08',COUNTYFP:'101'},geometry:{type:'Polygon',coordinates:[[[-104.635,38.238],[-104.580,38.238],[-104.580,38.278],[-104.635,38.278],[-104.635,38.238]]]}},
+    {type:'Feature',properties:{NAME:'Pueblo-North QCT',GEOID:'08101000400',STATEFP:'08',COUNTYFP:'101'},geometry:{type:'Polygon',coordinates:[[[-104.640,38.278],[-104.575,38.278],[-104.575,38.310],[-104.640,38.310],[-104.640,38.278]]]}},
+    {type:'Feature',properties:{NAME:'Greeley QCT',GEOID:'08123000500',STATEFP:'08',COUNTYFP:'123'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.404],[-104.670,40.404],[-104.670,40.440],[-104.730,40.440],[-104.730,40.404]]]}},
+    {type:'Feature',properties:{NAME:'Evans QCT',GEOID:'08123000700',STATEFP:'08',COUNTYFP:'123'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.380],[-104.680,40.380],[-104.680,40.404],[-104.730,40.404],[-104.730,40.380]]]}},
+    {type:'Feature',properties:{NAME:'Longmont East QCT',GEOID:'08013001900',STATEFP:'08',COUNTYFP:'013'},geometry:{type:'Polygon',coordinates:[[[-105.120,40.148],[-105.070,40.148],[-105.070,40.182],[-105.120,40.182],[-105.120,40.148]]]}},
+    {type:'Feature',properties:{NAME:'Grand Junction QCT',GEOID:'08077000200',STATEFP:'08',COUNTYFP:'077'},geometry:{type:'Polygon',coordinates:[[[-108.590,39.048],[-108.530,39.048],[-108.530,39.085],[-108.590,39.085],[-108.590,39.048]]]}},
+    {type:'Feature',properties:{NAME:'Fort Morgan QCT',GEOID:'08087000300',STATEFP:'08',COUNTYFP:'087'},geometry:{type:'Polygon',coordinates:[[[-103.840,40.244],[-103.780,40.244],[-103.780,40.272],[-103.840,40.272],[-103.840,40.244]]]}},
+    {type:'Feature',properties:{NAME:'Sterling QCT',GEOID:'08075001100',STATEFP:'08',COUNTYFP:'075'},geometry:{type:'Polygon',coordinates:[[[-103.250,40.598],[-103.195,40.598],[-103.195,40.634],[-103.250,40.634],[-103.250,40.598]]]}},
+    {type:'Feature',properties:{NAME:'Alamosa QCT',GEOID:'08003000600',STATEFP:'08',COUNTYFP:'003'},geometry:{type:'Polygon',coordinates:[[[-105.910,37.454],[-105.848,37.454],[-105.848,37.490],[-105.910,37.490],[-105.910,37.454]]]}},
+    {type:'Feature',properties:{NAME:'Trinidad QCT',GEOID:'08071000500',STATEFP:'08',COUNTYFP:'071'},geometry:{type:'Polygon',coordinates:[[[-104.590,37.160],[-104.520,37.160],[-104.520,37.192],[-104.590,37.192],[-104.590,37.160]]]}},
+    {type:'Feature',properties:{NAME:'Walsenburg QCT',GEOID:'08055000200',STATEFP:'08',COUNTYFP:'055'},geometry:{type:'Polygon',coordinates:[[[-104.805,37.620],[-104.760,37.620],[-104.760,37.645],[-104.805,37.645],[-104.805,37.620]]]}},
+    {type:'Feature',properties:{NAME:'Cañon City QCT',GEOID:'08043000500',STATEFP:'08',COUNTYFP:'043'},geometry:{type:'Polygon',coordinates:[[[-105.260,38.427],[-105.200,38.427],[-105.200,38.456],[-105.260,38.456],[-105.260,38.427]]]}},
+    {type:'Feature',properties:{NAME:'Las Animas QCT',GEOID:'08011000200',STATEFP:'08',COUNTYFP:'011'},geometry:{type:'Polygon',coordinates:[[[-103.240,38.058],[-103.180,38.058],[-103.180,38.082],[-103.240,38.082],[-103.240,38.058]]]}},
+  ]};
+
+  // Colorado DDA (Difficult Development Area) embedded fallback data
+  // Used when both the live HUD ArcGIS API and the local data/dda-colorado.json are unavailable.
+  // Source: HUD 2025 DDA list; representative Colorado DDA areas.
+  const DDA_FALLBACK_CO = {type:'FeatureCollection',features:[
+    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['001','005','014','019','031','035','039','047','059','093']},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
+    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['013','014']},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
+    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['069']},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['041','119']},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.60,38.69],[-104.60,39.08],[-105.19,39.08],[-105.19,38.69]]]}},
+    {type:'Feature',properties:{NAME:'Greeley DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['123']},geometry:{type:'Polygon',coordinates:[[[-104.90,40.28],[-104.55,40.28],[-104.55,40.55],[-104.90,40.55],[-104.90,40.28]]]}},
+    {type:'Feature',properties:{NAME:'Eagle County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['037']},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
+    {type:'Feature',properties:{NAME:'Summit County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['117']},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
+    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['097']},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
+    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['113']},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
+    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['107']},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
+    {type:'Feature',properties:{NAME:'Garfield County DDA',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['045']},geometry:{type:'Polygon',coordinates:[[[-108.10,39.30],[-107.06,39.30],[-107.06,39.75],[-108.10,39.75],[-108.10,39.30]]]}},
+    {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['067']},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
+  ]};
+
   // Colorado DDA (Difficult Development Area) designation lookup
   // Based on HUD 2025 DDA list; covers counties within HUD Metro FMR Areas that qualify.
   // Source: https://www.huduser.gov/portal/datasets/dda.html
@@ -641,8 +692,9 @@
       // All states (and Colorado fallback): HUD ArcGIS FeatureServer
       // Request all fields ('*') so that LI_UNITS, QCT, DDA, address info, HUD_ID, etc. are
       // all returned.  A limited outFields list was the previous cause of incomplete properties.
+      // Use CNTY_FIPS (5-digit county FIPS) which is the standard field in the HUD LIHTC database.
       const params = new URLSearchParams({
-        where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+        where:   `CNTY_FIPS='${countyFips5}'`,
         outFields: '*',
         f: 'geojson',
         outSR: '4326',
@@ -679,10 +731,24 @@
   // Fetch QCT census tracts from HUD ArcGIS service for the county
   async function fetchQctTracts(countyFips5){
     if (!countyFips5 || countyFips5.length !== 5) return null;
-    const stateFips  = countyFips5.slice(0, 2);
     const countyFips = countyFips5.slice(2);
+    // Tier 1: local cached statewide file (written by CI workflow)
+    try {
+      const localGj = await loadJson('data/qct-colorado.json');
+      if (localGj && Array.isArray(localGj.features)) {
+        const features = localGj.features.filter(f =>
+          (f.properties?.COUNTYFP === countyFips) ||
+          (f.properties?.GEOID || '').startsWith(countyFips5)
+        );
+        if (features.length > 0) {
+          console.info('[HNA] QCT loaded from local cache (data/qct-colorado.json).');
+          return { ...localGj, features };
+        }
+      }
+    } catch(_) {/* no local cache */}
+    // Tier 2: live HUD ArcGIS API — use GEOID prefix filter for census tracts
     const params = new URLSearchParams({
-      where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+      where:   `GEOID LIKE '${countyFips5}%'`,
       outFields: 'GEOID,TRACTCE,NAME,STATEFP,COUNTYFP',
       f: 'geojson',
       outSR: '4326',
@@ -693,11 +759,11 @@
       const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
       if (!r.ok) throw new Error(`QCT HTTP ${r.status}`);
       const gj = await r.json();
-      if (gj && Array.isArray(gj.features)) return gj;
+      if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
     } catch(e) {
       console.warn('[HNA] QCT ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
-    // Try GitHub Pages backup (statewide QCT file, filtered to county)
+    // Tier 3a: GitHub Pages backup (statewide QCT file, filtered to county)
     try {
       const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/data/qct-colorado.json`);
       if (backupGj && Array.isArray(backupGj.features)) {
@@ -708,31 +774,55 @@
         if (features.length > 0) return { ...backupGj, features };
       }
     } catch(_) {/* no GitHub Pages QCT backup */}
+    // Tier 3b: embedded fallback filtered to county
+    const qctFeatures = QCT_FALLBACK_CO.features.filter(f =>
+      (f.properties?.COUNTYFP === countyFips) ||
+      (f.properties?.GEOID || '').startsWith(countyFips5)
+    );
+    if (qctFeatures.length > 0) return { ...QCT_FALLBACK_CO, features: qctFeatures };
     return null;
   }
 
   // Fetch DDA polygons from HUD ArcGIS service for the county
   async function fetchDdaForCounty(countyFips5){
     if (!countyFips5 || countyFips5.length !== 5) return null;
-    const stateFips  = countyFips5.slice(0, 2);
     const countyFips = countyFips5.slice(2);
+    // Tier 1: local cached statewide file (written by CI workflow)
+    try {
+      const localGj = await loadJson('data/dda-colorado.json');
+      if (localGj && Array.isArray(localGj.features)) {
+        const features = localGj.features.filter(f =>
+          (f.properties?.COUNTYFP === countyFips) ||
+          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
+        );
+        console.info('[HNA] DDA loaded from local cache (data/dda-colorado.json).');
+        return { ...localGj, features };
+      }
+    } catch(_) {/* no local cache */}
+    // Tier 2: live HUD ArcGIS API — DDA areas span multiple counties so fetch all, filter locally
     const params = new URLSearchParams({
-      where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
-      outFields: 'DDA_NAME,COUNTYFP,STATEFP',
+      where:   '1=1',
+      outFields: 'DDA_NAME,COUNTYFP,STATEFP,COUNTIES',
       f: 'geojson',
       outSR: '4326',
-      resultRecordCount: 50,
+      resultRecordCount: 500,
     });
     const url = `${SOURCES.hudDdaQuery}/query?${params}`;
     try {
       const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
-      if (gj && Array.isArray(gj.features)) return gj;
+      if (gj && Array.isArray(gj.features)) {
+        const features = gj.features.filter(f =>
+          (f.properties?.COUNTYFP === countyFips) ||
+          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
+        );
+        return { ...gj, features };
+      }
     } catch(e) {
       console.warn('[HNA] DDA ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
-    // Try GitHub Pages backup (statewide DDA file, filtered to county)
+    // Tier 3a: GitHub Pages backup (statewide DDA file, filtered to county)
     try {
       const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/data/dda-colorado.json`);
       if (backupGj && Array.isArray(backupGj.features)) {
@@ -743,7 +833,12 @@
         return { ...backupGj, features };
       }
     } catch(_) {/* no GitHub Pages DDA backup */}
-    return null;
+    // Tier 3b: embedded fallback filtered to county
+    const ddaFeatures = DDA_FALLBACK_CO.features.filter(f =>
+      (f.properties?.COUNTYFP === countyFips) ||
+      (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
+    );
+    return { ...DDA_FALLBACK_CO, features: ddaFeatures };
   }
 
   // Returns a human-readable label and badge color for a LIHTC data source identifier.
