@@ -1242,77 +1242,31 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     return res.json();
   }
 
-  // Convert an Esri geometry object to a GeoJSON geometry object
-  function esriGeomToGeoJSON(esriGeom) {
-    if (!esriGeom) return null;
-    if (esriGeom.x !== undefined && esriGeom.y !== undefined) {
-      return { type: 'Point', coordinates: [esriGeom.x, esriGeom.y] };
-    }
-    if (esriGeom.rings) {
-      return { type: 'Polygon', coordinates: esriGeom.rings };
-    }
-    if (esriGeom.paths) {
-      if (esriGeom.paths.length === 1) {
-        return { type: 'LineString', coordinates: esriGeom.paths[0] };
-      }
-      return { type: 'MultiLineString', coordinates: esriGeom.paths };
-    }
-    return null;
-  }
-
-  // Convert an Esri JSON FeatureSet to a GeoJSON FeatureCollection
-  function esriToGeoJSON(esriJson) {
-    const features = (esriJson.features || []).map(f => ({
-      type: 'Feature',
-      geometry: esriGeomToGeoJSON(f.geometry),
-      properties: f.attributes || {}
-    }));
-    return { type: 'FeatureCollection', features };
-  }
-
-  // Determine per-host timeout in ms for ArcGIS requests
-  function arcgisTimeoutMs(layerUrl) {
-    try {
-      const host = new URL(layerUrl).hostname;
-      if (host === 'tigerweb.geo.census.gov' || host.endsWith('.geo.census.gov')) return 20000;
-      if (host === 'egis.hud.gov' || host.endsWith('.hud.gov')) return 30000;
-    } catch (_) {}
-    return 15000;
-  }
-
   async function arcgisQuery(layerUrl, where, outFields, extraParams) {
     const PAGE = 1000;
     let offset = 0;
     const all = { type: 'FeatureCollection', features: [] };
     let pages = 0;
-    const timeoutMs = arcgisTimeoutMs(layerUrl);
     while (true) {
       const p = new URLSearchParams({
         where: where || '1=1', outFields: outFields || '*',
-        returnGeometry: 'true', f: 'pjson',
+        returnGeometry: 'true', f: 'geojson',
         resultRecordCount: String(PAGE), resultOffset: String(offset),
         outSR: '4326', returnExceededLimitFeatures: 'true',
         ...(extraParams || {})
       });
-      let raw;
+      let gj;
       try {
         const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-        raw = await fetchJSON(`${layerUrl}/query?${p}`, { signal: ctrl.signal });
+        const timer = setTimeout(() => ctrl.abort(), 6000);
+        gj = await fetchJSON(`${layerUrl}/query?${p}`, { signal: ctrl.signal });
         clearTimeout(timer);
       } catch (e) { console.warn('ArcGIS query failed:', layerUrl, e.message); break; }
-      if (raw && raw.error) { console.warn('ArcGIS error:', raw.error.code, raw.error.message); break; }
-      // Support both native GeoJSON responses and Esri JSON (pjson) responses
-      let feats;
-      if (raw && raw.type === 'FeatureCollection') {
-        feats = Array.isArray(raw.features) ? raw.features : [];
-      } else {
-        const gj = esriToGeoJSON(raw || {});
-        feats = gj.features;
-      }
+      if (gj && gj.error) { console.warn('ArcGIS error:', gj.error.code, gj.error.message); break; }
+      const feats = gj && Array.isArray(gj.features) ? gj.features : [];
       if (feats.length === 0) break;
       all.features.push(...feats);
-      const exceeded = !!(raw.exceededTransferLimit);
+      const exceeded = !!(gj.exceededTransferLimit || (gj.properties && gj.properties.exceededTransferLimit));
       if (!exceeded && feats.length < PAGE) break;
       offset += PAGE; pages++;
       if (pages > 150) break;
@@ -1695,7 +1649,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
     async function loadPlaces() {
       try {
         setStatus(statusEl, 'Loading places…', 'info');
-        const gj = await arcgisQuery(CO_PLACES_URL, "STATE='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
+        const gj = await arcgisQuery(CO_PLACES_URL, "STATEFP='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
         if (!gj.features.length) throw new Error('empty');
         placesLayer = L.geoJSON(gj, {
           style: stylePlace,
@@ -1775,7 +1729,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       let gj = null;
       // Try CHFA first (Colorado-specific, most current)
       try {
-        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "(PROJ_ST='CO') OR (STD_ST='CO')", '*');
+        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "STATEFP='08'", '*');
         if (gj.features.length) {
           lihtcSource = 'CHFA';
           console.log('✓ LIHTC: loaded from CHFA API');

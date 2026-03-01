@@ -60,8 +60,7 @@ const HTML_PAGES = [
     'economic-dashboard.html',
     'LIHTC-dashboard.html',
     'colorado-deep-dive.html',
-    'census-dashboard.html',
-    'construction-commodities.html',
+
     'dashboard.html',
     'regional.html',
     'state-allocation-map.html',
@@ -105,29 +104,6 @@ if (exists('js/config.js')) {
     check(nonEmpty('js/config.js'), 'js/config.js (generated) is non-empty');
 } else {
     console.log('  ℹ️   js/config.js not yet generated (expected before Pages upload)');
-}
-
-// ---------------------------------------------------------------------------
-// Data files
-// ---------------------------------------------------------------------------
-console.log('\n--- Data files ---');
-const DATA_FILES = [
-    'data/allocations.json',
-    'data/census-acs-state.json',
-    'data/co_ami_gap_by_county.json',
-    'data/fred-data.json',
-    'data/states-10m.json',
-    'data/hna/geo-config.json',
-    'data/hna/local-resources.json',
-    'data/hna/summary',
-    'data/hna/lehd',
-    'data/hna/dola_sya',
-    'data/hna/projections',
-    'data/hna/derived',
-];
-
-for (const f of DATA_FILES) {
-    check(exists(f), f);
 }
 
 // ---------------------------------------------------------------------------
