@@ -388,7 +388,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <strong>Data sources:</strong>
         <a href="https://www.policymap.com/data/sources/hud-lihtc" target="_blank" rel="noopener">PolicyMap: HUD LIHTC</a> •
         <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> •
-        <a href="https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30" target="_blank" rel="noopener">HUD eGIS LIHTC map service</a> •
+        <a href="https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0" target="_blank" rel="noopener">HUD LIHTC ArcGIS service</a> •
         <a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA</a>
       </div>
     </div>
@@ -1273,7 +1273,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
   const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
   const CHFA_LIHTC_LAYER = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0';
-  const HUD_LIHTC_LAYER  = 'https://egis.hud.gov/arcgis/rest/services/affht/AffhtMapService/MapServer/30';
+  const HUD_LIHTC_LAYER  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0';
   const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
   const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
 
@@ -1684,7 +1684,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
       // Fall back to HUD
       if (!gj) {
         try {
-          gj = await arcgisQuery(HUD_LIHTC_LAYER, "(PROJ_ST='CO') OR (STD_ST='CO')", '*');
+          gj = await arcgisQuery(HUD_LIHTC_LAYER, "STATEFP='08'", '*');
           if (!gj.features.length) throw new Error('Empty result from HUD');
           lihtcSource = 'HUD';
           console.log('✓ LIHTC: loaded from HUD API');
