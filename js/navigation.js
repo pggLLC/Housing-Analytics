@@ -38,7 +38,7 @@
     const s = document.createElement('style');
     s.id = 'nav-injected-styles';
     s.textContent = `
-      header.site-header{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(10px)}
+      header.site-header{position:sticky;top:0;z-index:1000;background:var(--card);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(10px)}
       .nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:14px}
       .brand{display:flex;flex-direction:column;gap:2px}
       .brand a{font-weight:800;letter-spacing:.2px;color:var(--text);text-decoration:none}

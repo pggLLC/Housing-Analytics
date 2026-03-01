@@ -1,1 +1,1684 @@
-{"type":"FeatureCollection","fetchedAt":"1970-01-01T00:00:00.000Z","source":"https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query","features":[]}
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9903,
+          39.7392
+        ]
+      },
+      "properties": {
+        "PROJECT": "Lincoln Park Apartments",
+        "PROJ_ADD": "1500 W 13th Ave",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 120,
+        "LI_UNITS": 120,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9748,
+          39.7519
+        ]
+      },
+      "properties": {
+        "PROJECT": "Curtis Park Lofts",
+        "PROJ_ADD": "3100 Downing St",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 72,
+        "LI_UNITS": 72,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9875,
+          39.7281
+        ]
+      },
+      "properties": {
+        "PROJECT": "Baker Senior Residences",
+        "PROJ_ADD": "250 W Alameda Ave",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 55,
+        "LI_UNITS": 55,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.962,
+          39.7617
+        ]
+      },
+      "properties": {
+        "PROJECT": "Five Points Commons",
+        "PROJ_ADD": "2800 Welton St",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 96,
+        "LI_UNITS": 96,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.954,
+          39.6934
+        ]
+      },
+      "properties": {
+        "PROJECT": "Sun Valley Senior Housing",
+        "PROJ_ADD": "4500 Morrison Rd",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 60,
+        "LI_UNITS": 60,
+        "YR_PIS": 2021,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.998,
+          39.7545
+        ]
+      },
+      "properties": {
+        "PROJECT": "Highland Gardens",
+        "PROJ_ADD": "3301 Navajo St",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 84,
+        "LI_UNITS": 84,
+        "YR_PIS": 2017,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9722,
+          39.7755
+        ]
+      },
+      "properties": {
+        "PROJECT": "Globeville Flats",
+        "PROJ_ADD": "4400 York St",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 110,
+        "LI_UNITS": 110,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": true,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9461,
+          39.7394
+        ]
+      },
+      "properties": {
+        "PROJECT": "Elyria-Swansea Homes",
+        "PROJ_ADD": "5501 Washington St",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 78,
+        "LI_UNITS": 78,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.931,
+          39.689
+        ]
+      },
+      "properties": {
+        "PROJECT": "Montbello Seniors",
+        "PROJ_ADD": "12000 E MLK Jr Blvd",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 65,
+        "LI_UNITS": 65,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8851,
+          39.6784
+        ]
+      },
+      "properties": {
+        "PROJECT": "Aurora Family Commons",
+        "PROJ_ADD": "1700 S Havana St",
+        "PROJ_CTY": "Aurora",
+        "PROJ_ST": "CO",
+        "N_UNITS": 150,
+        "LI_UNITS": 150,
+        "YR_PIS": 2021,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Arapahoe"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8325,
+          39.695
+        ]
+      },
+      "properties": {
+        "PROJECT": "Aurora Senior Village",
+        "PROJ_ADD": "16000 E Colfax Ave",
+        "PROJ_CTY": "Aurora",
+        "PROJ_ST": "CO",
+        "N_UNITS": 90,
+        "LI_UNITS": 90,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Arapahoe"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8629,
+          39.7145
+        ]
+      },
+      "properties": {
+        "PROJECT": "Peoria Crossing",
+        "PROJ_ADD": "11400 E 26th Ave",
+        "PROJ_CTY": "Aurora",
+        "PROJ_ST": "CO",
+        "N_UNITS": 108,
+        "LI_UNITS": 108,
+        "YR_PIS": 2020,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9921,
+          39.837
+        ]
+      },
+      "properties": {
+        "PROJECT": "Thornton Gardens",
+        "PROJ_ADD": "9500 Colorado Blvd",
+        "PROJ_CTY": "Thornton",
+        "PROJ_ST": "CO",
+        "N_UNITS": 120,
+        "LI_UNITS": 120,
+        "YR_PIS": 2022,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0022,
+          39.8562
+        ]
+      },
+      "properties": {
+        "PROJECT": "Westminster Commons",
+        "PROJ_ADD": "7600 Federal Blvd",
+        "PROJ_CTY": "Westminster",
+        "PROJ_ST": "CO",
+        "N_UNITS": 80,
+        "LI_UNITS": 80,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.953,
+          39.8895
+        ]
+      },
+      "properties": {
+        "PROJECT": "Brighton Family Flats",
+        "PROJ_ADD": "450 N Main St",
+        "PROJ_CTY": "Brighton",
+        "PROJ_ST": "CO",
+        "N_UNITS": 66,
+        "LI_UNITS": 66,
+        "YR_PIS": 2023,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0866,
+          39.643
+        ]
+      },
+      "properties": {
+        "PROJECT": "Lakewood Pointe",
+        "PROJ_ADD": "1200 Garrison St",
+        "PROJ_CTY": "Lakewood",
+        "PROJ_ST": "CO",
+        "N_UNITS": 92,
+        "LI_UNITS": 92,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Jefferson"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1022,
+          39.7531
+        ]
+      },
+      "properties": {
+        "PROJECT": "Arvada Senior Housing",
+        "PROJ_ADD": "7700 Grandview Ave",
+        "PROJ_CTY": "Arvada",
+        "PROJ_ST": "CO",
+        "N_UNITS": 70,
+        "LI_UNITS": 70,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Jefferson"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0749,
+          39.9028
+        ]
+      },
+      "properties": {
+        "PROJECT": "Broomfield Crossings",
+        "PROJ_ADD": "1 W 1st Ave",
+        "PROJ_CTY": "Broomfield",
+        "PROJ_ST": "CO",
+        "N_UNITS": 88,
+        "LI_UNITS": 88,
+        "YR_PIS": 2020,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Broomfield"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2705,
+          40.015
+        ]
+      },
+      "properties": {
+        "PROJECT": "Boulder Commons",
+        "PROJ_ADD": "1850 Folsom St",
+        "PROJ_CTY": "Boulder",
+        "PROJ_ST": "CO",
+        "N_UNITS": 100,
+        "LI_UNITS": 100,
+        "YR_PIS": 2021,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Boulder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1019,
+          40.0659
+        ]
+      },
+      "properties": {
+        "PROJECT": "Longmont Family Apts",
+        "PROJ_ADD": "1200 Coffman St",
+        "PROJ_CTY": "Longmont",
+        "PROJ_ST": "CO",
+        "N_UNITS": 76,
+        "LI_UNITS": 76,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Boulder"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8214,
+          38.8339
+        ]
+      },
+      "properties": {
+        "PROJECT": "Springs Family Village",
+        "PROJ_ADD": "2500 E Platte Ave",
+        "PROJ_CTY": "Colorado Springs",
+        "PROJ_ST": "CO",
+        "N_UNITS": 130,
+        "LI_UNITS": 130,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "El Paso"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8614,
+          38.8658
+        ]
+      },
+      "properties": {
+        "PROJECT": "Pikes Peak Seniors",
+        "PROJ_ADD": "305 W Cimarron St",
+        "PROJ_CTY": "Colorado Springs",
+        "PROJ_ST": "CO",
+        "N_UNITS": 75,
+        "LI_UNITS": 75,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "El Paso"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7981,
+          38.7826
+        ]
+      },
+      "properties": {
+        "PROJECT": "Fountain Meadows",
+        "PROJ_ADD": "200 Iowa Ave",
+        "PROJ_CTY": "Fountain",
+        "PROJ_ST": "CO",
+        "N_UNITS": 60,
+        "LI_UNITS": 60,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "El Paso"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9044,
+          38.9271
+        ]
+      },
+      "properties": {
+        "PROJECT": "Northgate Apts",
+        "PROJ_ADD": "5820 Tutt Blvd",
+        "PROJ_CTY": "Colorado Springs",
+        "PROJ_ST": "CO",
+        "N_UNITS": 95,
+        "LI_UNITS": 95,
+        "YR_PIS": 2022,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "El Paso"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0844,
+          40.5853
+        ]
+      },
+      "properties": {
+        "PROJECT": "Fort Collins Commons",
+        "PROJ_ADD": "424 Pine St",
+        "PROJ_CTY": "Fort Collins",
+        "PROJ_ST": "CO",
+        "N_UNITS": 104,
+        "LI_UNITS": 104,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Larimer"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.14,
+          40.3772
+        ]
+      },
+      "properties": {
+        "PROJECT": "Loveland Senior Village",
+        "PROJ_ADD": "1600 N Lincoln Ave",
+        "PROJ_CTY": "Loveland",
+        "PROJ_ST": "CO",
+        "N_UNITS": 68,
+        "LI_UNITS": 68,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Larimer"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6914,
+          40.4233
+        ]
+      },
+      "properties": {
+        "PROJECT": "Greeley Flats",
+        "PROJ_ADD": "900 10th St",
+        "PROJ_CTY": "Greeley",
+        "PROJ_ST": "CO",
+        "N_UNITS": 90,
+        "LI_UNITS": 90,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Weld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7099,
+          40.3945
+        ]
+      },
+      "properties": {
+        "PROJECT": "Evans Gardens",
+        "PROJ_ADD": "1400 37th St",
+        "PROJ_CTY": "Evans",
+        "PROJ_ST": "CO",
+        "N_UNITS": 72,
+        "LI_UNITS": 72,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Weld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6091,
+          38.2544
+        ]
+      },
+      "properties": {
+        "PROJECT": "Pueblo Senior Manor",
+        "PROJ_ADD": "215 N Santa Fe Ave",
+        "PROJ_CTY": "Pueblo",
+        "PROJ_ST": "CO",
+        "N_UNITS": 80,
+        "LI_UNITS": 80,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Pueblo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.592,
+          38.274
+        ]
+      },
+      "properties": {
+        "PROJECT": "Belmont Apts",
+        "PROJ_ADD": "2100 Jerry Murphy Rd",
+        "PROJ_CTY": "Pueblo",
+        "PROJ_ST": "CO",
+        "N_UNITS": 66,
+        "LI_UNITS": 66,
+        "YR_PIS": 2015,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Pueblo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5506,
+          39.0639
+        ]
+      },
+      "properties": {
+        "PROJECT": "Grand Junction Crossroads",
+        "PROJ_ADD": "700 North Ave",
+        "PROJ_CTY": "Grand Junction",
+        "PROJ_ST": "CO",
+        "N_UNITS": 85,
+        "LI_UNITS": 85,
+        "YR_PIS": 2021,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Mesa"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.4748,
+          39.0877
+        ]
+      },
+      "properties": {
+        "PROJECT": "Mesa Senior Commons",
+        "PROJ_ADD": "2900 Patterson Rd",
+        "PROJ_CTY": "Grand Junction",
+        "PROJ_ST": "CO",
+        "N_UNITS": 60,
+        "LI_UNITS": 60,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Mesa"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8317,
+          39.6433
+        ]
+      },
+      "properties": {
+        "PROJECT": "Eagle Valley Workforce Housing",
+        "PROJ_ADD": "1000 Chambers Ave",
+        "PROJ_CTY": "Eagle",
+        "PROJ_ST": "CO",
+        "N_UNITS": 50,
+        "LI_UNITS": 50,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Eagle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3742,
+          39.5505
+        ]
+      },
+      "properties": {
+        "PROJECT": "Summit County Workforce Apts",
+        "PROJ_ADD": "560 Straight Creek Dr",
+        "PROJ_CTY": "Dillon",
+        "PROJ_ST": "CO",
+        "N_UNITS": 44,
+        "LI_UNITS": 44,
+        "YR_PIS": 2021,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Summit"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3317,
+          39.543
+        ]
+      },
+      "properties": {
+        "PROJECT": "Rifle Family Residences",
+        "PROJ_ADD": "202 Railroad Ave",
+        "PROJ_CTY": "Rifle",
+        "PROJ_ST": "CO",
+        "N_UNITS": 48,
+        "LI_UNITS": 48,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Garfield"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.6723,
+          39.548
+        ]
+      },
+      "properties": {
+        "PROJECT": "Glenwood Commons",
+        "PROJ_ADD": "1625 Grand Ave",
+        "PROJ_CTY": "Glenwood Springs",
+        "PROJ_ST": "CO",
+        "N_UNITS": 56,
+        "LI_UNITS": 56,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Garfield"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8317,
+          40.485
+        ]
+      },
+      "properties": {
+        "PROJECT": "Steamboat Affordable Homes",
+        "PROJ_ADD": "1775 Hilltop Pkwy",
+        "PROJ_CTY": "Steamboat Springs",
+        "PROJ_ST": "CO",
+        "N_UNITS": 36,
+        "LI_UNITS": 36,
+        "YR_PIS": 2023,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Routt"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8659,
+          40.6133
+        ]
+      },
+      "properties": {
+        "PROJECT": "Craig Senior Apts",
+        "PROJ_ADD": "440 Yampa Ave",
+        "PROJ_CTY": "Craig",
+        "PROJ_ST": "CO",
+        "N_UNITS": 28,
+        "LI_UNITS": 28,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Moffat"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8762,
+          38.4783
+        ]
+      },
+      "properties": {
+        "PROJECT": "Montrose Family Flats",
+        "PROJ_ADD": "1500 E Main St",
+        "PROJ_CTY": "Montrose",
+        "PROJ_ST": "CO",
+        "N_UNITS": 56,
+        "LI_UNITS": 56,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Montrose"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8625,
+          38.7415
+        ]
+      },
+      "properties": {
+        "PROJECT": "Delta Commons",
+        "PROJ_ADD": "261 Meeker St",
+        "PROJ_CTY": "Delta",
+        "PROJ_ST": "CO",
+        "N_UNITS": 40,
+        "LI_UNITS": 40,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Delta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9245,
+          38.5458
+        ]
+      },
+      "properties": {
+        "PROJECT": "Gunnison Workforce Housing",
+        "PROJ_ADD": "200 N Boulevard St",
+        "PROJ_CTY": "Gunnison",
+        "PROJ_ST": "CO",
+        "N_UNITS": 32,
+        "LI_UNITS": 32,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Gunnison"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2422,
+          38.4408
+        ]
+      },
+      "properties": {
+        "PROJECT": "Canon City Senior Village",
+        "PROJ_ADD": "712 Main St",
+        "PROJ_CTY": "Cañon City",
+        "PROJ_ST": "CO",
+        "N_UNITS": 48,
+        "LI_UNITS": 48,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Fremont"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8697,
+          37.4694
+        ]
+      },
+      "properties": {
+        "PROJECT": "Alamosa Gardens",
+        "PROJ_ADD": "301 State Ave",
+        "PROJ_CTY": "Alamosa",
+        "PROJ_ST": "CO",
+        "N_UNITS": 38,
+        "LI_UNITS": 38,
+        "YR_PIS": 2015,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Alamosa"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8801,
+          37.2753
+        ]
+      },
+      "properties": {
+        "PROJECT": "Durango Commons",
+        "PROJ_ADD": "1200 Camino Del Rio",
+        "PROJ_CTY": "Durango",
+        "PROJ_ST": "CO",
+        "N_UNITS": 62,
+        "LI_UNITS": 62,
+        "YR_PIS": 2021,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "La Plata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5847,
+          37.3489
+        ]
+      },
+      "properties": {
+        "PROJECT": "Cortez Affordable Housing",
+        "PROJ_ADD": "300 N Chestnut St",
+        "PROJ_CTY": "Cortez",
+        "PROJ_ST": "CO",
+        "N_UNITS": 42,
+        "LI_UNITS": 42,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Montezuma"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0178,
+          39.6462
+        ]
+      },
+      "properties": {
+        "PROJECT": "Englewood Seniors",
+        "PROJ_ADD": "3611 S Broadway",
+        "PROJ_CTY": "Englewood",
+        "PROJ_ST": "CO",
+        "N_UNITS": 58,
+        "LI_UNITS": 58,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Arapahoe"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9671,
+          39.6298
+        ]
+      },
+      "properties": {
+        "PROJECT": "Centennial Crossings",
+        "PROJ_ADD": "6900 S York St",
+        "PROJ_CTY": "Centennial",
+        "PROJ_ST": "CO",
+        "N_UNITS": 80,
+        "LI_UNITS": 80,
+        "YR_PIS": 2020,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Arapahoe"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99,
+          39.5911
+        ]
+      },
+      "properties": {
+        "PROJECT": "Littleton Family Homes",
+        "PROJ_ADD": "2500 W Main St",
+        "PROJ_CTY": "Littleton",
+        "PROJ_ST": "CO",
+        "N_UNITS": 66,
+        "LI_UNITS": 66,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Arapahoe"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9611,
+          39.905
+        ]
+      },
+      "properties": {
+        "PROJECT": "Northglenn Apartments",
+        "PROJ_ADD": "10500 Huron St",
+        "PROJ_CTY": "Northglenn",
+        "PROJ_ST": "CO",
+        "N_UNITS": 96,
+        "LI_UNITS": 96,
+        "YR_PIS": 2021,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0198,
+          39.81
+        ]
+      },
+      "properties": {
+        "PROJECT": "Federal Heights Housing",
+        "PROJ_ADD": "2399 W 84th Ave",
+        "PROJ_CTY": "Federal Heights",
+        "PROJ_ST": "CO",
+        "N_UNITS": 72,
+        "LI_UNITS": 72,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.8022,
+          40.1844
+        ]
+      },
+      "properties": {
+        "PROJECT": "Morgan County Homes",
+        "PROJ_ADD": "300 W Main St",
+        "PROJ_CTY": "Fort Morgan",
+        "PROJ_ST": "CO",
+        "N_UNITS": 36,
+        "LI_UNITS": 36,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Morgan"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6185,
+          40.1675
+        ]
+      },
+      "properties": {
+        "PROJECT": "Sterling Housing",
+        "PROJ_ADD": "330 N 3rd St",
+        "PROJ_CTY": "Sterling",
+        "PROJ_ST": "CO",
+        "N_UNITS": 30,
+        "LI_UNITS": 30,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Logan"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.5536,
+          37.3536
+        ]
+      },
+      "properties": {
+        "PROJECT": "Trinidad Senior Homes",
+        "PROJ_ADD": "301 E Main St",
+        "PROJ_CTY": "Trinidad",
+        "PROJ_ST": "CO",
+        "N_UNITS": 30,
+        "LI_UNITS": 30,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Las Animas"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5017,
+          37.9472
+        ]
+      },
+      "properties": {
+        "PROJECT": "Telluride Workforce Apts",
+        "PROJ_ADD": "500 W Colorado Ave",
+        "PROJ_CTY": "Telluride",
+        "PROJ_ST": "CO",
+        "N_UNITS": 28,
+        "LI_UNITS": 28,
+        "YR_PIS": 2023,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "San Miguel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8233,
+          39.1839
+        ]
+      },
+      "properties": {
+        "PROJECT": "Basalt Workforce Village",
+        "PROJ_ADD": "100 Midland Ave",
+        "PROJ_CTY": "Basalt",
+        "PROJ_ST": "CO",
+        "N_UNITS": 40,
+        "LI_UNITS": 40,
+        "YR_PIS": 2023,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Eagle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3203,
+          39.513
+        ]
+      },
+      "properties": {
+        "PROJECT": "Silverthorne Commons",
+        "PROJ_ADD": "400 Blue River Pkwy",
+        "PROJ_CTY": "Silverthorne",
+        "PROJ_ST": "CO",
+        "N_UNITS": 35,
+        "LI_UNITS": 35,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Summit"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.6867,
+          40.3958
+        ]
+      },
+      "properties": {
+        "PROJECT": "Estes Park Workforce",
+        "PROJ_ADD": "175 Stanley Ave",
+        "PROJ_CTY": "Estes Park",
+        "PROJ_ST": "CO",
+        "N_UNITS": 30,
+        "LI_UNITS": 30,
+        "YR_PIS": 2023,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Larimer"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8914,
+          40.5256
+        ]
+      },
+      "properties": {
+        "PROJECT": "Windsor Senior Villas",
+        "PROJ_ADD": "1600 Main St",
+        "PROJ_CTY": "Windsor",
+        "PROJ_ST": "CO",
+        "N_UNITS": 48,
+        "LI_UNITS": 48,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Weld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6897,
+          40.3736
+        ]
+      },
+      "properties": {
+        "PROJECT": "Greeley North Commons",
+        "PROJ_ADD": "2200 35th Ave",
+        "PROJ_CTY": "Greeley",
+        "PROJ_ST": "CO",
+        "N_UNITS": 72,
+        "LI_UNITS": 72,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Weld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8697,
+          37.4694
+        ]
+      },
+      "properties": {
+        "PROJECT": "Monte Vista Senior Homes",
+        "PROJ_ADD": "500 Adams St",
+        "PROJ_CTY": "Monte Vista",
+        "PROJ_ST": "CO",
+        "N_UNITS": 30,
+        "LI_UNITS": 30,
+        "YR_PIS": 2019,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Rio Grande"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.0736,
+          37.1523
+        ]
+      },
+      "properties": {
+        "PROJECT": "Towaoc Tribal Housing",
+        "PROJ_ADD": "Ute Mountain Ute Area",
+        "PROJ_CTY": "Towaoc",
+        "PROJ_ST": "CO",
+        "N_UNITS": 34,
+        "LI_UNITS": 34,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Montezuma"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.1614,
+          37.1895
+        ]
+      },
+      "properties": {
+        "PROJECT": "Walsenburg Commons",
+        "PROJ_ADD": "600 W 7th St",
+        "PROJ_CTY": "Walsenburg",
+        "PROJ_ST": "CO",
+        "N_UNITS": 20,
+        "LI_UNITS": 20,
+        "YR_PIS": 2014,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Huerfano"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.3322,
+          37.4781
+        ]
+      },
+      "properties": {
+        "PROJECT": "Conejos County Housing",
+        "PROJ_ADD": "101 Main Ave",
+        "PROJ_CTY": "La Jara",
+        "PROJ_ST": "CO",
+        "N_UNITS": 10,
+        "LI_UNITS": 10,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Conejos"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7629,
+          38.6785
+        ]
+      },
+      "properties": {
+        "PROJECT": "Peyton Rural Homes",
+        "PROJ_ADD": "County Rd 21",
+        "PROJ_CTY": "Peyton",
+        "PROJ_ST": "CO",
+        "N_UNITS": 24,
+        "LI_UNITS": 24,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "El Paso"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4836,
+          37.6778
+        ]
+      },
+      "properties": {
+        "PROJECT": "La Veta Housing",
+        "PROJ_ADD": "150 Rosita Ave",
+        "PROJ_CTY": "La Veta",
+        "PROJ_ST": "CO",
+        "N_UNITS": 14,
+        "LI_UNITS": 14,
+        "YR_PIS": 2018,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Huerfano"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.2158,
+          39.558
+        ]
+      },
+      "properties": {
+        "PROJECT": "Limon Gateway Apts",
+        "PROJ_ADD": "170 E 1st St",
+        "PROJ_CTY": "Limon",
+        "PROJ_ST": "CO",
+        "N_UNITS": 22,
+        "LI_UNITS": 22,
+        "YR_PIS": 2016,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Lincoln"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.1231,
+          40.0133
+        ]
+      },
+      "properties": {
+        "PROJECT": "Yuma Senior Living",
+        "PROJ_ADD": "600 S Main St",
+        "PROJ_CTY": "Yuma",
+        "PROJ_ST": "CO",
+        "N_UNITS": 20,
+        "LI_UNITS": 20,
+        "YR_PIS": 2017,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Yuma"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6024,
+          38.0961
+        ]
+      },
+      "properties": {
+        "PROJECT": "Las Animas Apts",
+        "PROJ_ADD": "505 Bent Ave",
+        "PROJ_CTY": "Las Animas",
+        "PROJ_ST": "CO",
+        "N_UNITS": 18,
+        "LI_UNITS": 18,
+        "YR_PIS": 2015,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Bent"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5916,
+          38.4036
+        ]
+      },
+      "properties": {
+        "PROJECT": "Pueblo West Seniors",
+        "PROJ_ADD": "900 Doyle Blvd",
+        "PROJ_CTY": "Pueblo West",
+        "PROJ_ST": "CO",
+        "N_UNITS": 44,
+        "LI_UNITS": 44,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Pueblo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9764,
+          39.234
+        ]
+      },
+      "properties": {
+        "PROJECT": "South Park Housing",
+        "PROJ_ADD": "200 Main St",
+        "PROJ_CTY": "Fairplay",
+        "PROJ_ST": "CO",
+        "N_UNITS": 16,
+        "LI_UNITS": 16,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Park"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9703,
+          40.2586
+        ]
+      },
+      "properties": {
+        "PROJECT": "Dacono Valley Apts",
+        "PROJ_ADD": "512 County Rd",
+        "PROJ_CTY": "Dacono",
+        "PROJ_ST": "CO",
+        "N_UNITS": 54,
+        "LI_UNITS": 54,
+        "YR_PIS": 2020,
+        "CREDIT": "9%",
+        "QCT": false,
+        "DDA": false,
+        "CNTY_NAME": "Weld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0019,
+          39.987
+        ]
+      },
+      "properties": {
+        "PROJECT": "Thornton East Village",
+        "PROJ_ADD": "12200 Colorado Blvd",
+        "PROJ_CTY": "Thornton",
+        "PROJ_ST": "CO",
+        "N_UNITS": 82,
+        "LI_UNITS": 82,
+        "YR_PIS": 2021,
+        "CREDIT": "4%",
+        "QCT": false,
+        "DDA": true,
+        "CNTY_NAME": "Adams"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9501,
+          39.72
+        ]
+      },
+      "properties": {
+        "PROJECT": "Capitol Hill Commons",
+        "PROJ_ADD": "1400 E Colfax Ave",
+        "PROJ_CTY": "Denver",
+        "PROJ_ST": "CO",
+        "N_UNITS": 66,
+        "LI_UNITS": 66,
+        "YR_PIS": 2022,
+        "CREDIT": "9%",
+        "QCT": true,
+        "DDA": false,
+        "CNTY_NAME": "Denver"
+      }
+    }
+  ]
+}
