@@ -34,7 +34,7 @@ Affordable Housing Intelligence is a static web application providing comprehens
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
 | `insights.html` | Market insights and research articles |
 | `article-pricing.html` | Housing pricing analysis article |
-| `lihtc-guide-for-stakeholders.html` | LIHTC program guide |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide for developers, housing authorities, and investors |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
 | `_dev/census-dashboard.html` | U.S. Census data integration (archived to `_dev/`) |
 | `dashboard.html` | Analytics dashboard |
