@@ -85,7 +85,7 @@ jobs:
             });
           EOF
 
-      - name: Fetch HUD DDA data (Colorado — STATEFP='08')
+      - name: Fetch HUD DDA data (all DDAs — no state filter in dataset)
         id: fetch-dda
         run: |
           node - <<'EOF'
@@ -102,7 +102,7 @@ jobs:
             let offset = 0;
             while (true) {
               const p = new URLSearchParams({
-                where: "STATEFP='08'", outFields: '*',
+                where: '1=1', outFields: '*',
                 returnGeometry: 'true', f: 'geojson',
                 outSR: '4326', resultRecordCount: String(PAGE), resultOffset: String(offset),
               });
