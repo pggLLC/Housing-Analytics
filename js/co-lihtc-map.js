@@ -24,10 +24,6 @@
     {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata'}},
   ]};
 
-  // GitHub Pages backup URL — used when both the local file and live ArcGIS APIs are unavailable.
-  // This file is updated automatically on each CI run of scripts/fetch-chfa-lihtc.js.
-  const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
-
   // ── Status helper ────────────────────────────────────────────────────────────
   function updateStatus(message) {
     var el = document.getElementById('map-status') || document.getElementById('status');
@@ -93,19 +89,19 @@
     });
   }
 
-  // ── Fetch data: local JSON → CHFA ArcGIS → HUD ArcGIS → embedded fallback ──
+  // ── Fetch data: local JSON (primary) → remote ArcGIS (only if local is missing/404) → embedded fallback ──
   function fetchData(map) {
-    // Local pre-fetched file (written by scripts/fetch-chfa-lihtc.js via CI).
+    // Canonical local file — always tried first. Written by scripts/fetch-chfa-lihtc.js via CI.
+    // resolveAssetUrl prepends the detected base path so the URL works on GitHub Pages sub-paths
+    // (e.g. /Housing-Analytics/data/chfa-lihtc.json) as well as custom domains (/).
     var LOCAL_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/chfa-lihtc.json')
       : 'data/chfa-lihtc.json';
 
-    // Live ArcGIS endpoints — used only when the local file is absent/stale.
+    // Remote ArcGIS endpoints — only attempted when the local file is absent (404).
     var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
-    // Filter to Colorado (PROJ_ST = 'CO') — the service holds national HUD data.
     var CHFA_PARAMS = 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
-    // HUD dataset is national — filter to Colorado (FIPS 08).
     var HUD_PARAMS  = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
 
     updateStatus('Loading LIHTC data…');
@@ -113,29 +109,6 @@
     function useEmbedded() {
       renderData(map, FALLBACK_LIHTC);
       updateStatus('Source: embedded fallback');
-    }
-
-    function useGithubPages() {
-      // Third-tier fallback: the GitHub Pages copy of data/chfa-lihtc.json, kept current
-      // by scripts/fetch-chfa-lihtc.js running in CI on each successful deployment.
-      return fetchWithTimeout(GITHUB_PAGES_BASE + '/data/chfa-lihtc.json', {}, 8000)
-        .then(function (res) {
-          if (!res.ok) throw new Error('GitHub Pages HTTP ' + res.status);
-          return res.json();
-        })
-        .then(function (data) {
-          if (validateData(data)) {
-            renderData(map, data);
-            updateStatus('Source: GitHub Pages backup');
-          } else {
-            console.warn('[co-lihtc-map] GitHub Pages backup returned no features; using embedded fallback.');
-            useEmbedded();
-          }
-        })
-        .catch(function (err) {
-          console.warn('[co-lihtc-map] GitHub Pages backup also failed; using embedded fallback.', err.message);
-          useEmbedded();
-        });
     }
 
     function useHUD() {
@@ -149,13 +122,13 @@
             renderData(map, hudData);
             updateStatus('Source: HUD ArcGIS');
           } else {
-            console.warn('[co-lihtc-map] HUD returned no features; trying GitHub Pages backup.');
-            return useGithubPages();
+            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
+            useEmbedded();
           }
         })
         .catch(function (hudErr) {
-          console.warn('[co-lihtc-map] HUD fetch also failed; trying GitHub Pages backup.', hudErr.message);
-          return useGithubPages();
+          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
+          useEmbedded();
         });
     }
 
@@ -180,10 +153,15 @@
         });
     }
 
-    // 1. Try local pre-fetched JSON first (avoids CORS / availability issues).
+    // 1. Always try local data/chfa-lihtc.json first.
     fetchWithTimeout(LOCAL_URL, {}, 5000)
       .then(function (res) {
-        if (!res.ok) throw new Error('Local HTTP ' + res.status);
+        // Attach HTTP status so the catch handler can distinguish 404 from other errors.
+        if (!res.ok) {
+          var err = new Error('Local HTTP ' + res.status);
+          err.httpStatus = res.status;
+          throw err;
+        }
         return res.json();
       })
       .then(function (localData) {
@@ -191,13 +169,24 @@
           renderData(map, localData);
           updateStatus('Source: local CHFA data');
         } else {
-          console.warn('[co-lihtc-map] Local file empty; trying CHFA ArcGIS.');
-          return useCHFA();
+          // File exists but contains no features — likely an empty/incomplete CI run.
+          // Do NOT fall back to remote; surface a clear message instead.
+          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features. Check CI/deployment output.');
+          updateStatus('LIHTC data file is empty. Check deployment — verify data/chfa-lihtc.json is populated.');
+          useEmbedded();
         }
       })
       .catch(function (localErr) {
-        console.warn('[co-lihtc-map] Local file unavailable; trying CHFA ArcGIS.', localErr.message);
-        return useCHFA();
+        if (localErr.httpStatus === 404) {
+          // File not deployed yet — try remote ArcGIS APIs as fallback.
+          console.warn('[co-lihtc-map] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
+          return useCHFA();
+        }
+        // Any other error (network, parse, etc.) — the file may exist but be unreachable.
+        // Surface a clear actionable message; do not attempt remote APIs.
+        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message);
+        updateStatus('LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).');
+        useEmbedded();
       });
   }
 

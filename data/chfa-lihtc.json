@@ -21,7 +21,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -44,7 +45,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -67,7 +69,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -90,7 +93,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -113,7 +117,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -136,7 +141,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -159,7 +165,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": true,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -182,7 +189,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -205,7 +213,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     },
     {
@@ -228,7 +237,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Arapahoe"
+        "CNTY_NAME": "Arapahoe",
+        "CNTY_FIPS": "08005"
       }
     },
     {
@@ -251,7 +261,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Arapahoe"
+        "CNTY_NAME": "Arapahoe",
+        "CNTY_FIPS": "08005"
       }
     },
     {
@@ -274,7 +285,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -297,7 +309,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -320,7 +333,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -343,7 +357,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -366,7 +381,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Jefferson"
+        "CNTY_NAME": "Jefferson",
+        "CNTY_FIPS": "08059"
       }
     },
     {
@@ -389,7 +405,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Jefferson"
+        "CNTY_NAME": "Jefferson",
+        "CNTY_FIPS": "08059"
       }
     },
     {
@@ -412,7 +429,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Broomfield"
+        "CNTY_NAME": "Broomfield",
+        "CNTY_FIPS": "08014"
       }
     },
     {
@@ -435,7 +453,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Boulder"
+        "CNTY_NAME": "Boulder",
+        "CNTY_FIPS": "08013"
       }
     },
     {
@@ -458,7 +477,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Boulder"
+        "CNTY_NAME": "Boulder",
+        "CNTY_FIPS": "08013"
       }
     },
     {
@@ -481,7 +501,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "El Paso"
+        "CNTY_NAME": "El Paso",
+        "CNTY_FIPS": "08041"
       }
     },
     {
@@ -504,7 +525,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "El Paso"
+        "CNTY_NAME": "El Paso",
+        "CNTY_FIPS": "08041"
       }
     },
     {
@@ -527,7 +549,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "El Paso"
+        "CNTY_NAME": "El Paso",
+        "CNTY_FIPS": "08041"
       }
     },
     {
@@ -550,7 +573,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "El Paso"
+        "CNTY_NAME": "El Paso",
+        "CNTY_FIPS": "08041"
       }
     },
     {
@@ -573,7 +597,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Larimer"
+        "CNTY_NAME": "Larimer",
+        "CNTY_FIPS": "08069"
       }
     },
     {
@@ -596,7 +621,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Larimer"
+        "CNTY_NAME": "Larimer",
+        "CNTY_FIPS": "08069"
       }
     },
     {
@@ -619,7 +645,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Weld"
+        "CNTY_NAME": "Weld",
+        "CNTY_FIPS": "08123"
       }
     },
     {
@@ -642,7 +669,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Weld"
+        "CNTY_NAME": "Weld",
+        "CNTY_FIPS": "08123"
       }
     },
     {
@@ -665,7 +693,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Pueblo"
+        "CNTY_NAME": "Pueblo",
+        "CNTY_FIPS": "08101"
       }
     },
     {
@@ -688,7 +717,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Pueblo"
+        "CNTY_NAME": "Pueblo",
+        "CNTY_FIPS": "08101"
       }
     },
     {
@@ -711,7 +741,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Mesa"
+        "CNTY_NAME": "Mesa",
+        "CNTY_FIPS": "08077"
       }
     },
     {
@@ -734,7 +765,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Mesa"
+        "CNTY_NAME": "Mesa",
+        "CNTY_FIPS": "08077"
       }
     },
     {
@@ -757,7 +789,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Eagle"
+        "CNTY_NAME": "Eagle",
+        "CNTY_FIPS": "08037"
       }
     },
     {
@@ -780,7 +813,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Summit"
+        "CNTY_NAME": "Summit",
+        "CNTY_FIPS": "08117"
       }
     },
     {
@@ -803,7 +837,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Garfield"
+        "CNTY_NAME": "Garfield",
+        "CNTY_FIPS": "08045"
       }
     },
     {
@@ -826,7 +861,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Garfield"
+        "CNTY_NAME": "Garfield",
+        "CNTY_FIPS": "08045"
       }
     },
     {
@@ -849,7 +885,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Routt"
+        "CNTY_NAME": "Routt",
+        "CNTY_FIPS": "08107"
       }
     },
     {
@@ -872,7 +909,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Moffat"
+        "CNTY_NAME": "Moffat",
+        "CNTY_FIPS": "08081"
       }
     },
     {
@@ -895,7 +933,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Montrose"
+        "CNTY_NAME": "Montrose",
+        "CNTY_FIPS": "08085"
       }
     },
     {
@@ -918,7 +957,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Delta"
+        "CNTY_NAME": "Delta",
+        "CNTY_FIPS": "08029"
       }
     },
     {
@@ -941,7 +981,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Gunnison"
+        "CNTY_NAME": "Gunnison",
+        "CNTY_FIPS": "08051"
       }
     },
     {
@@ -956,7 +997,7 @@
       "properties": {
         "PROJECT": "Canon City Senior Village",
         "PROJ_ADD": "712 Main St",
-        "PROJ_CTY": "Cañon City",
+        "PROJ_CTY": "Ca\u00f1on City",
         "PROJ_ST": "CO",
         "N_UNITS": 48,
         "LI_UNITS": 48,
@@ -964,7 +1005,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Fremont"
+        "CNTY_NAME": "Fremont",
+        "CNTY_FIPS": "08043"
       }
     },
     {
@@ -987,7 +1029,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Alamosa"
+        "CNTY_NAME": "Alamosa",
+        "CNTY_FIPS": "08003"
       }
     },
     {
@@ -1010,7 +1053,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "La Plata"
+        "CNTY_NAME": "La Plata",
+        "CNTY_FIPS": "08067"
       }
     },
     {
@@ -1033,7 +1077,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Montezuma"
+        "CNTY_NAME": "Montezuma",
+        "CNTY_FIPS": "08083"
       }
     },
     {
@@ -1056,7 +1101,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Arapahoe"
+        "CNTY_NAME": "Arapahoe",
+        "CNTY_FIPS": "08005"
       }
     },
     {
@@ -1079,7 +1125,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Arapahoe"
+        "CNTY_NAME": "Arapahoe",
+        "CNTY_FIPS": "08005"
       }
     },
     {
@@ -1102,7 +1149,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Arapahoe"
+        "CNTY_NAME": "Arapahoe",
+        "CNTY_FIPS": "08005"
       }
     },
     {
@@ -1125,7 +1173,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -1148,7 +1197,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -1171,7 +1221,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Morgan"
+        "CNTY_NAME": "Morgan",
+        "CNTY_FIPS": "08087"
       }
     },
     {
@@ -1194,7 +1245,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Logan"
+        "CNTY_NAME": "Logan",
+        "CNTY_FIPS": "08075"
       }
     },
     {
@@ -1217,7 +1269,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Las Animas"
+        "CNTY_NAME": "Las Animas",
+        "CNTY_FIPS": "08071"
       }
     },
     {
@@ -1240,7 +1293,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "San Miguel"
+        "CNTY_NAME": "San Miguel",
+        "CNTY_FIPS": "08113"
       }
     },
     {
@@ -1263,7 +1317,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Eagle"
+        "CNTY_NAME": "Eagle",
+        "CNTY_FIPS": "08037"
       }
     },
     {
@@ -1286,7 +1341,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Summit"
+        "CNTY_NAME": "Summit",
+        "CNTY_FIPS": "08117"
       }
     },
     {
@@ -1309,7 +1365,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Larimer"
+        "CNTY_NAME": "Larimer",
+        "CNTY_FIPS": "08069"
       }
     },
     {
@@ -1332,7 +1389,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Weld"
+        "CNTY_NAME": "Weld",
+        "CNTY_FIPS": "08123"
       }
     },
     {
@@ -1355,7 +1413,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Weld"
+        "CNTY_NAME": "Weld",
+        "CNTY_FIPS": "08123"
       }
     },
     {
@@ -1378,7 +1437,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Rio Grande"
+        "CNTY_NAME": "Rio Grande",
+        "CNTY_FIPS": "08105"
       }
     },
     {
@@ -1401,7 +1461,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Montezuma"
+        "CNTY_NAME": "Montezuma",
+        "CNTY_FIPS": "08083"
       }
     },
     {
@@ -1424,7 +1485,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Huerfano"
+        "CNTY_NAME": "Huerfano",
+        "CNTY_FIPS": "08055"
       }
     },
     {
@@ -1447,7 +1509,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Conejos"
+        "CNTY_NAME": "Conejos",
+        "CNTY_FIPS": "08021"
       }
     },
     {
@@ -1470,7 +1533,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "El Paso"
+        "CNTY_NAME": "El Paso",
+        "CNTY_FIPS": "08041"
       }
     },
     {
@@ -1493,7 +1557,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Huerfano"
+        "CNTY_NAME": "Huerfano",
+        "CNTY_FIPS": "08055"
       }
     },
     {
@@ -1516,7 +1581,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Lincoln"
+        "CNTY_NAME": "Lincoln",
+        "CNTY_FIPS": "08073"
       }
     },
     {
@@ -1539,7 +1605,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Yuma"
+        "CNTY_NAME": "Yuma",
+        "CNTY_FIPS": "08125"
       }
     },
     {
@@ -1562,7 +1629,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Bent"
+        "CNTY_NAME": "Bent",
+        "CNTY_FIPS": "08011"
       }
     },
     {
@@ -1585,7 +1653,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Pueblo"
+        "CNTY_NAME": "Pueblo",
+        "CNTY_FIPS": "08101"
       }
     },
     {
@@ -1608,7 +1677,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Park"
+        "CNTY_NAME": "Park",
+        "CNTY_FIPS": "08093"
       }
     },
     {
@@ -1631,7 +1701,8 @@
         "CREDIT": "9%",
         "QCT": false,
         "DDA": false,
-        "CNTY_NAME": "Weld"
+        "CNTY_NAME": "Weld",
+        "CNTY_FIPS": "08123"
       }
     },
     {
@@ -1654,7 +1725,8 @@
         "CREDIT": "4%",
         "QCT": false,
         "DDA": true,
-        "CNTY_NAME": "Adams"
+        "CNTY_NAME": "Adams",
+        "CNTY_FIPS": "08001"
       }
     },
     {
@@ -1677,7 +1749,8 @@
         "CREDIT": "9%",
         "QCT": true,
         "DDA": false,
-        "CNTY_NAME": "Denver"
+        "CNTY_NAME": "Denver",
+        "CNTY_FIPS": "08031"
       }
     }
   ]
