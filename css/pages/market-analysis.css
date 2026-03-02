@@ -1,0 +1,398 @@
+/* ================================================================
+   css/pages/market-analysis.css
+   Market Analysis (PMA) page — responsive two-column layout.
+   Depends on: css/site-theme.css
+   ================================================================ */
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.pma-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--sp4) var(--sp4) var(--sp6);
+}
+
+.pma-hero {
+  margin-bottom: var(--sp5);
+}
+
+.pma-hero .kicker {
+  display: inline-block;
+  font-size: var(--tiny);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp2);
+}
+
+.pma-hero h1 {
+  font-size: var(--h1);
+  font-weight: 800;
+  color: var(--text-strong);
+  margin: 0 0 var(--sp2);
+}
+
+.pma-hero .page-sub {
+  color: var(--muted);
+  max-width: 720px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Two-column layout ────────────────────────────────────────── */
+.pma-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: var(--sp4);
+  align-items: start;
+}
+
+/* Map column */
+.pma-map-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp3);
+}
+
+.pma-map-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp3);
+  flex-wrap: wrap;
+  padding: var(--sp3) var(--sp4);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.pma-control-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp2);
+  font-size: var(--small);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pma-control-label select {
+  padding: .35rem .65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: var(--small);
+  cursor: pointer;
+}
+
+.pma-map {
+  width: 100%;
+  height: 520px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.pma-map-hint {
+  font-size: var(--tiny);
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Panel column ─────────────────────────────────────────────── */
+.pma-panel-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp3);
+}
+
+/* Shared card style */
+.pma-score-card,
+.pma-chart-card,
+.pma-drivers-card,
+.pma-supply-card,
+.pma-simulator-card,
+.pma-export-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-sm);
+}
+
+.pma-section-title {
+  font-size: var(--small);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin: 0 0 var(--sp3);
+}
+
+/* ── Score card ───────────────────────────────────────────────── */
+.pma-score-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: var(--sp5) 0;
+  font-size: var(--small);
+}
+
+.pma-score-number {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: var(--sp2);
+}
+
+.pma-score-number.score-high   { color: var(--good); }
+.pma-score-number.score-medium { color: var(--warn); }
+.pma-score-number.score-low    { color: var(--bad); }
+
+.pma-score-label {
+  font-size: var(--body);
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: var(--sp1);
+}
+
+.pma-score-sub {
+  font-size: var(--small);
+  color: var(--muted);
+}
+
+.pma-score-location {
+  font-size: var(--tiny);
+  color: var(--faint);
+  margin-top: var(--sp2);
+  font-family: var(--font-mono);
+}
+
+/* ── Radar chart ──────────────────────────────────────────────── */
+.pma-radar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto var(--sp3);
+  max-width: 280px;
+}
+
+.pma-chart-note {
+  font-size: var(--tiny);
+  color: var(--faint);
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Drivers & flags ──────────────────────────────────────────── */
+.pma-drivers-list,
+.pma-flags-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--sp2);
+}
+
+.pma-drivers-list li,
+.pma-flags-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp2);
+  padding: var(--sp2) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--small);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.pma-drivers-list li:last-child,
+.pma-flags-list li:last-child {
+  border-bottom: none;
+}
+
+.pma-driver-icon { font-size: 1rem; flex-shrink: 0; }
+.pma-flag-icon   { font-size: 1rem; flex-shrink: 0; color: var(--warn); }
+
+/* ── Supply card ──────────────────────────────────────────────── */
+.pma-supply-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0 0 var(--sp2);
+}
+
+.pma-supply-units {
+  font-size: var(--small);
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── Capture rate simulator ───────────────────────────────────── */
+.pma-sim-desc {
+  font-size: var(--small);
+  color: var(--muted);
+  margin: 0 0 var(--sp3);
+  line-height: 1.5;
+}
+
+.pma-sim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp2) var(--sp3);
+  margin-bottom: var(--sp3);
+}
+
+.pma-sim-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp1);
+}
+
+.pma-sim-field label {
+  font-size: var(--tiny);
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.pma-sim-field input[type="number"] {
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text);
+  font-size: var(--small);
+  width: 100%;
+}
+
+.pma-sim-field input[type="number"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+.pma-sim-result {
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp2);
+}
+
+.pma-capture-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--small);
+}
+
+.pma-capture-label {
+  color: var(--muted);
+}
+
+.pma-capture-value {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+/* ── Export ───────────────────────────────────────────────────── */
+.pma-export-btns {
+  display: flex;
+  gap: var(--sp2);
+  flex-wrap: wrap;
+}
+
+/* ── Data sources ─────────────────────────────────────────────── */
+.pma-sources {
+  margin-top: var(--sp5);
+  padding: var(--sp4);
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.pma-sources ul {
+  margin: 0 0 var(--sp3) var(--sp4);
+  padding: 0;
+  font-size: var(--small);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.pma-sources-note {
+  font-size: var(--tiny);
+  color: var(--faint);
+  margin: 0;
+}
+
+/* ── Loading overlay for the panel ───────────────────────────── */
+.pma-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp4) 0;
+  color: var(--muted);
+  font-size: var(--small);
+  gap: var(--sp2);
+}
+
+/* ── Button variants ──────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--small);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--accent) 85%, #000 15%);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  background: var(--bg2);
+}
+
+/* ── Responsive — tablet / mobile ─────────────────────────────── */
+@media (max-width: 900px) {
+  .pma-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pma-map {
+    height: 380px;
+  }
+}
+
+@media (max-width: 600px) {
+  .pma-main {
+    padding: var(--sp3);
+  }
+
+  .pma-map {
+    height: 300px;
+  }
+
+  .pma-sim-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -118,28 +118,31 @@
     clearLoadingState(panelId);
   }
 
-  
+  var prop123Initialized = false;
+
   function initProp123Section() {
     var tbody = document.getElementById('prop123TableBody');
     var summary = document.getElementById('prop123Summary');
     var status = document.getElementById('prop123Status');
     if (!tbody) return;
+    // Guard against double initialization
+    if (prop123Initialized) return;
+    prop123Initialized = true;
 
     function setStatus(msg) {
       if (status) status.textContent = msg || '';
     }
 
     var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : 'api/prop123';
-    var fallbackUrl = 'data/prop123_jurisdictions.json';
 
-    // Try serverless first (if you later host it), then local fallback for GitHub Pages
-    function loadWithFallback(primary, fallback) {
+    // Try serverless first, then always resolve via DataService.baseData fallback
+    function loadWithFallback(primary) {
       return DataService.getJSON(primary).catch(function () {
-        console.warn('[colorado-deep-dive] Primary failed, using fallback:', fallback);
-        return DataService.getJSON(DataService.baseData(fallback.replace(/^data\//, '')));
+        console.warn('[colorado-deep-dive] Primary failed, using fallback: prop123_jurisdictions.json');
+        return DataService.getJSON(DataService.baseData('prop123_jurisdictions.json'));
       });
     }
-    loadWithFallback(primaryUrl, fallbackUrl).then(function (data) {
+    loadWithFallback(primaryUrl).then(function (data) {
       var jurisdictions = data.jurisdictions || data.items || data || [];
       // Allow the fallback file schema: { updated, jurisdictions: [...] }
       if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
@@ -170,10 +173,13 @@
         tbody.appendChild(tr);
       });
     }).catch(function (e) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable (missing API and fallback file).</td></tr>';
-      if (summary) summary.textContent = '';
+      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable. Please refresh or check your connection.</td></tr>';
+      if (summary) {
+        summary.textContent = 'Unable to load Prop 123 data.';
+        summary.style.color = 'var(--bad)';
+      }
       setStatus('unavailable');
-      console.warn(e);
+      console.warn('[colorado-deep-dive] Prop 123 load failed:', e);
     });
   }
 
@@ -397,6 +403,10 @@ function initPolicyPanel(panelId) {
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
+    // Initialize Prop 123 section immediately if present outside a tab context
+    if (document.getElementById('prop123TableBody')) {
+      initProp123Section();
+    }
   });
 
   window.addEventListener('load', function () {

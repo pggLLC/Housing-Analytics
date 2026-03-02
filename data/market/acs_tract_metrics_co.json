@@ -1,0 +1,202 @@
+[
+  {
+    "geoid": "08031000100",
+    "total_households": 1842,
+    "renter_households": 1320,
+    "cost_burdened": 580,
+    "vacant_units": 145,
+    "overcrowded_units": 62,
+    "median_gross_rent": 1250,
+    "labor_force_participation": 0.64
+  },
+  {
+    "geoid": "08031000200",
+    "total_households": 2105,
+    "renter_households": 1490,
+    "cost_burdened": 720,
+    "vacant_units": 210,
+    "overcrowded_units": 88,
+    "median_gross_rent": 1380,
+    "labor_force_participation": 0.67
+  },
+  {
+    "geoid": "08031000300",
+    "total_households": 1640,
+    "renter_households": 1050,
+    "cost_burdened": 460,
+    "vacant_units": 130,
+    "overcrowded_units": 55,
+    "median_gross_rent": 1420,
+    "labor_force_participation": 0.70
+  },
+  {
+    "geoid": "08031000400",
+    "total_households": 2310,
+    "renter_households": 1780,
+    "cost_burdened": 890,
+    "vacant_units": 178,
+    "overcrowded_units": 120,
+    "median_gross_rent": 1180,
+    "labor_force_participation": 0.61
+  },
+  {
+    "geoid": "08031000500",
+    "total_households": 1755,
+    "renter_households": 1200,
+    "cost_burdened": 510,
+    "vacant_units": 165,
+    "overcrowded_units": 78,
+    "median_gross_rent": 1340,
+    "labor_force_participation": 0.66
+  },
+  {
+    "geoid": "08005011020",
+    "total_households": 3200,
+    "renter_households": 1900,
+    "cost_burdened": 760,
+    "vacant_units": 240,
+    "overcrowded_units": 95,
+    "median_gross_rent": 1290,
+    "labor_force_participation": 0.68
+  },
+  {
+    "geoid": "08005011800",
+    "total_households": 2750,
+    "renter_households": 1550,
+    "cost_burdened": 620,
+    "vacant_units": 190,
+    "overcrowded_units": 72,
+    "median_gross_rent": 1460,
+    "labor_force_participation": 0.71
+  },
+  {
+    "geoid": "08041003200",
+    "total_households": 2900,
+    "renter_households": 1700,
+    "cost_burdened": 650,
+    "vacant_units": 230,
+    "overcrowded_units": 80,
+    "median_gross_rent": 1150,
+    "labor_force_participation": 0.65
+  },
+  {
+    "geoid": "08101000300",
+    "total_households": 1950,
+    "renter_households": 1100,
+    "cost_burdened": 480,
+    "vacant_units": 260,
+    "overcrowded_units": 55,
+    "median_gross_rent": 920,
+    "labor_force_participation": 0.59
+  },
+  {
+    "geoid": "08123000500",
+    "total_households": 2400,
+    "renter_households": 1350,
+    "cost_burdened": 540,
+    "vacant_units": 185,
+    "overcrowded_units": 65,
+    "median_gross_rent": 1310,
+    "labor_force_participation": 0.70
+  },
+  {
+    "geoid": "08077000200",
+    "total_households": 2100,
+    "renter_households": 1180,
+    "cost_burdened": 410,
+    "vacant_units": 170,
+    "overcrowded_units": 48,
+    "median_gross_rent": 1050,
+    "labor_force_participation": 0.62
+  },
+  {
+    "geoid": "08003000600",
+    "total_households": 1600,
+    "renter_households": 820,
+    "cost_burdened": 310,
+    "vacant_units": 320,
+    "overcrowded_units": 42,
+    "median_gross_rent": 830,
+    "labor_force_participation": 0.55
+  },
+  {
+    "geoid": "08071000500",
+    "total_households": 1400,
+    "renter_households": 720,
+    "cost_burdened": 280,
+    "vacant_units": 290,
+    "overcrowded_units": 38,
+    "median_gross_rent": 780,
+    "labor_force_participation": 0.57
+  },
+  {
+    "geoid": "08013000100",
+    "total_households": 4100,
+    "renter_households": 2200,
+    "cost_burdened": 990,
+    "vacant_units": 295,
+    "overcrowded_units": 110,
+    "median_gross_rent": 1820,
+    "labor_force_participation": 0.75
+  },
+  {
+    "geoid": "08013000200",
+    "total_households": 3850,
+    "renter_households": 2050,
+    "cost_burdened": 960,
+    "vacant_units": 270,
+    "overcrowded_units": 102,
+    "median_gross_rent": 1750,
+    "labor_force_participation": 0.74
+  },
+  {
+    "geoid": "08059000100",
+    "total_households": 1200,
+    "renter_households": 650,
+    "cost_burdened": 240,
+    "vacant_units": 310,
+    "overcrowded_units": 28,
+    "median_gross_rent": 1650,
+    "labor_force_participation": 0.60
+  },
+  {
+    "geoid": "08069000100",
+    "total_households": 3500,
+    "renter_households": 1800,
+    "cost_burdened": 720,
+    "vacant_units": 245,
+    "overcrowded_units": 90,
+    "median_gross_rent": 1480,
+    "labor_force_participation": 0.72
+  },
+  {
+    "geoid": "08035000100",
+    "total_households": 1100,
+    "renter_households": 580,
+    "cost_burdened": 200,
+    "vacant_units": 350,
+    "overcrowded_units": 22,
+    "median_gross_rent": 1100,
+    "labor_force_participation": 0.58
+  },
+  {
+    "geoid": "08043000500",
+    "total_households": 1750,
+    "renter_households": 940,
+    "cost_burdened": 360,
+    "vacant_units": 200,
+    "overcrowded_units": 48,
+    "median_gross_rent": 980,
+    "labor_force_participation": 0.61
+  },
+  {
+    "geoid": "08119000100",
+    "total_households": 1320,
+    "renter_households": 610,
+    "cost_burdened": 230,
+    "vacant_units": 280,
+    "overcrowded_units": 30,
+    "median_gross_rent": 870,
+    "labor_force_participation": 0.56
+  }
+]

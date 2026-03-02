@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Analysis | Affordable Housing Intelligence</title>
+  <meta name="description" content="Public Market Analysis (PMA) tool for affordable housing site scoring using Census ACS, HUD LIHTC, and TIGERweb data.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/pages/market-analysis.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content" class="pma-main">
+
+    <div class="pma-hero">
+      <span class="kicker">Site Intelligence</span>
+      <h1>Market Analysis</h1>
+      <p class="page-sub">Click the map to set a site location, choose a PMA buffer radius, and receive an evidence-based site score powered by public data (Census ACS, HUD LIHTC, TIGERweb).</p>
+    </div>
+
+    <div class="pma-layout">
+
+      <!-- ── Left: Map ─────────────────────────────────────────────── -->
+      <div class="pma-map-col">
+        <div class="pma-map-controls">
+          <label class="pma-control-label">
+            PMA Buffer Radius:
+            <select id="pmaRadius" aria-label="PMA buffer radius in miles">
+              <option value="3">3 miles</option>
+              <option value="5" selected>5 miles</option>
+              <option value="10">10 miles</option>
+              <option value="15">15 miles</option>
+            </select>
+          </label>
+          <button id="pmaRunBtn" class="btn btn-primary" type="button">Run Analysis</button>
+          <button id="pmaClearBtn" class="btn btn-outline" type="button">Clear</button>
+        </div>
+        <div id="pmaMap" class="pma-map" role="application" aria-label="Interactive map — click to set site location"></div>
+        <p class="pma-map-hint" id="pmaMapHint">Click anywhere on the map to drop a site marker.</p>
+      </div>
+
+      <!-- ── Right: Analysis Panel ─────────────────────────────────── -->
+      <div class="pma-panel-col" id="pmaPanel">
+
+        <!-- Score card -->
+        <div class="pma-score-card" id="pmaScoreCard" aria-live="polite">
+          <div class="pma-score-empty">
+            <p>Set a site location on the map and click <strong>Run Analysis</strong> to see results.</p>
+          </div>
+        </div>
+
+        <!-- Radar chart -->
+        <div class="pma-chart-card" id="pmaChartCard" hidden>
+          <h2 class="pma-section-title">Dimension Scores</h2>
+          <div class="pma-radar-wrap">
+            <canvas id="pmaRadarChart" width="300" height="300" aria-label="Radar chart showing PMA dimension scores"></canvas>
+          </div>
+          <p class="pma-chart-note">Scores are 0–100 per dimension. Higher = stronger market demand / lower risk.</p>
+        </div>
+
+        <!-- Drivers & Risk Flags -->
+        <div class="pma-drivers-card" id="pmaDriversCard" hidden>
+          <h2 class="pma-section-title">Top Drivers &amp; Risk Flags</h2>
+          <ul class="pma-drivers-list" id="pmaDriversList" aria-label="Top score drivers"></ul>
+          <ul class="pma-flags-list" id="pmaFlagsList" aria-label="Risk flags"></ul>
+        </div>
+
+        <!-- LIHTC supply count -->
+        <div class="pma-supply-card" id="pmaSupplyCard" hidden>
+          <h2 class="pma-section-title">Comparable Affordable Supply (HUD LIHTC)</h2>
+          <p class="pma-supply-count"><span id="pmaLihtcCount">—</span> existing LIHTC projects within PMA</p>
+          <p class="pma-supply-units">Total existing LIHTC units: <strong id="pmaLihtcUnits">—</strong></p>
+        </div>
+
+        <!-- CHFA-style Capture Rate Simulator -->
+        <div class="pma-simulator-card" id="pmaSimCard" hidden>
+          <h2 class="pma-section-title">Capture Rate Simulator</h2>
+          <p class="pma-sim-desc">Estimate the fraction of income-qualified renter households captured by this project. Adjust the AMI mix and unit count below.</p>
+          <div class="pma-sim-grid">
+            <div class="pma-sim-field">
+              <label for="simUnits">Total Units</label>
+              <input type="number" id="simUnits" value="80" min="1" max="999" aria-label="Total units in project">
+            </div>
+            <div class="pma-sim-field">
+              <label for="sim30pct">Units @ 30% AMI</label>
+              <input type="number" id="sim30pct" value="0" min="0" max="999" aria-label="Units at 30 percent AMI">
+            </div>
+            <div class="pma-sim-field">
+              <label for="sim50pct">Units @ 50% AMI</label>
+              <input type="number" id="sim50pct" value="40" min="0" max="999" aria-label="Units at 50 percent AMI">
+            </div>
+            <div class="pma-sim-field">
+              <label for="sim60pct">Units @ 60% AMI</label>
+              <input type="number" id="sim60pct" value="40" min="0" max="999" aria-label="Units at 60 percent AMI">
+            </div>
+            <div class="pma-sim-field">
+              <label for="sim80pct">Units @ 80% AMI</label>
+              <input type="number" id="sim80pct" value="0" min="0" max="999" aria-label="Units at 80 percent AMI">
+            </div>
+          </div>
+          <div class="pma-sim-result" id="pmaSimResult" aria-live="polite">
+            <div class="pma-capture-row">
+              <span class="pma-capture-label">Estimated Capture Rate</span>
+              <span class="pma-capture-value" id="pmaCaptureRate">—</span>
+            </div>
+            <div class="pma-capture-row">
+              <span class="pma-capture-label">Income-Qualified Renter HH in PMA</span>
+              <span class="pma-capture-value" id="pmaQualifiedHH">—</span>
+            </div>
+            <div class="pma-capture-row">
+              <span class="pma-capture-label">CHFA Guideline (≤ 25%)</span>
+              <span class="pma-capture-value" id="pmaChfaFlag">—</span>
+            </div>
+          </div>
+          <button id="simRunBtn" class="btn btn-outline" type="button" style="margin-top:.75rem">Recalculate</button>
+        </div>
+
+        <!-- Export -->
+        <div class="pma-export-card" id="pmaExportCard" hidden>
+          <h2 class="pma-section-title">Export Results</h2>
+          <div class="pma-export-btns">
+            <button id="pmaExportJson" class="btn btn-outline" type="button">Export JSON</button>
+            <button id="pmaExportCsv" class="btn btn-outline" type="button">Export CSV</button>
+          </div>
+        </div>
+
+      </div><!-- /pma-panel-col -->
+    </div><!-- /pma-layout -->
+
+    <!-- Data sources footnote -->
+    <section class="pma-sources" aria-label="Data sources">
+      <h2 class="pma-section-title">Data Sources</h2>
+      <ul>
+        <li><strong>ACS Tract Metrics</strong> — U.S. Census Bureau American Community Survey 5-Year Estimates (B25070 cost burden, B25004 vacancy, B25014 overcrowding, B25003 tenure)</li>
+        <li><strong>Tract Centroids</strong> — Census TIGERweb ArcGIS REST API (CENTLAT / CENTLON)</li>
+        <li><strong>HUD LIHTC</strong> — HUD Low Income Housing Tax Credit database (public dataset via services.arcgis.com)</li>
+      </ul>
+      <p class="pma-sources-note">All data is freely available from public sources. No proprietary APIs are used.</p>
+    </section>
+
+  </main>
+
+  <script src="js/market-analysis.js"></script>
+</body>
+</html>

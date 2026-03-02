@@ -1,0 +1,74 @@
+name: Build Market Data
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'  # Mondays 05:00 UTC (weekly)
+  workflow_dispatch:      # manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  build-market-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build market data artifacts
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python3 scripts/market/build_public_market_data.py
+
+      - name: Smoke test — verify artifacts exist and are non-empty
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const dir = 'data/market';
+          const files = [
+            'tract_centroids_co.json',
+            'acs_tract_metrics_co.json',
+            'hud_lihtc_co.geojson',
+          ];
+          let failed = 0;
+          for (const f of files) {
+            const fp = path.join(dir, f);
+            if (!fs.existsSync(fp)) {
+              console.error('MISSING:', fp);
+              failed++;
+              continue;
+            }
+            const stat = fs.statSync(fp);
+            if (stat.size < 10) {
+              console.error('EMPTY:', fp);
+              failed++;
+              continue;
+            }
+            try {
+              JSON.parse(fs.readFileSync(fp, 'utf8'));
+              console.log('OK:', fp, '(' + stat.size + ' bytes)');
+            } catch (e) {
+              console.error('INVALID JSON:', fp, e.message);
+              failed++;
+            }
+          }
+          if (failed) { console.error(failed + ' check(s) failed.'); process.exit(1); }
+          console.log('All artifact checks passed ✅');
+          EOF
+
+      - name: Commit and push artifacts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market
+          git diff --cached --quiet || git commit -m "chore: refresh market data artifacts $(date -u +'%Y-%m-%d')"
+          git pull --rebase --autostash origin main
+          git push

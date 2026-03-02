@@ -69,6 +69,12 @@
 
   --focus-ring: 0 0 0 3px rgba(14,165,160,.30);
 
+  /* Map boundary tokens */
+  --map-boundary-stroke-light: rgba(13,31,53,.45);
+  --map-boundary-stroke-dark:  rgba(130,180,240,.55);
+  --map-boundary-stroke:       var(--map-boundary-stroke-light);
+  --map-boundary-weight:       1.5;
+
   /* Legacy aliases */
   --color-background:     var(--bg);
   --color-background-alt: var(--bg2);
@@ -139,6 +145,8 @@
     --text-secondary:       var(--muted);
     --accent-gold:          var(--accent2);
     --border-color:         var(--border);
+    /* Map boundary dark-mode override */
+    --map-boundary-stroke:  var(--map-boundary-stroke-dark);
   }
 }
 

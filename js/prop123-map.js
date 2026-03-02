@@ -173,10 +173,25 @@
       return p.NAME || p.NAMELSAD || p.name || '';
     }
 
+    function getBoundaryStroke() {
+      // Read CSS variable if available, else fall back to a safe default per theme.
+      var style = getComputedStyle(document.documentElement);
+      var stroke = style.getPropertyValue('--map-boundary-stroke').trim();
+      if (!stroke) {
+        var isDark = document.documentElement.classList.contains('dark') ||
+                     document.body.classList.contains('dark-mode');
+        stroke = isDark ? 'rgba(130,180,240,.55)' : 'rgba(13,31,53,.45)';
+      }
+      var weight = parseFloat(style.getPropertyValue('--map-boundary-weight').trim()) || 1.5;
+      return { stroke: stroke, weight: weight };
+    }
+
     function styleFor(kind) {
       // Use different strokes so counties are visually distinct from municipalities.
+      var b = getBoundaryStroke();
       return (feature) => ({
-        weight: kind === 'county' ? 2 : 1,
+        color: b.stroke,
+        weight: kind === 'county' ? Math.max(b.weight, 2) : b.weight,
         opacity: 0.9,
         fillOpacity: kind === 'county' ? 0.08 : 0.18
       });
@@ -223,6 +238,12 @@
 
     const count = (countyLayer ? Object.keys(countyLayer._layers).length : 0) + (muniLayer ? Object.keys(muniLayer._layers).length : 0);
     if (statusEl) statusEl.textContent = `Loaded ${count} Prop 123 jurisdictions (counties + municipalities)`;
+
+    // Re-apply theme-aware styles when the site theme changes
+    document.addEventListener('theme:changed', () => {
+      if (countyLayer) countyLayer.setStyle(styleFor('county'));
+      if (muniLayer)   muniLayer.setStyle(styleFor('municipality'));
+    });
 
     return { group, muniLayer, countyLayer };
   }
