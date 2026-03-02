@@ -135,6 +135,10 @@ jobs:
             });
           EOF
 
+      - name: Normalize DDA field names for front-end compatibility
+        run: node scripts/normalize-dda.js
+        continue-on-error: true
+
       - name: Validate output files with jq
         run: |
           echo "Validating QCT file..."
