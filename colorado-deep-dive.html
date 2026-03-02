@@ -1,21 +1,2126 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorado Deep Dive</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([39.7392, -104.9903], 10);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-    </script>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado Affordable Housing Deep Dive | Affordable Housing Intelligence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+  <!-- Site theme, layout & components -->
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/colorado-deep-dive.css">
+    <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+<script defer="" src="js/navigation.js"></script>
+  <script defer="" src="js/dark-mode-toggle.js"></script>
+  <script defer="" src="js/mobile-menu.js"></script>
+
+  
+  
+
+  <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+
+  <!-- Chart.js for existing canvases -->
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script>
+  // Set Chart.js defaults using CSS custom properties for legibility
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.Chart) return;
+    const cs = getComputedStyle(document.documentElement);
+    const text   = cs.getPropertyValue('--text').trim()   || 'rgba(13,31,53,.85)';
+    const muted  = cs.getPropertyValue('--muted').trim()  || 'rgba(71,96,128,.7)';
+    const border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.12)';
+    Chart.defaults.color = muted;
+    Chart.defaults.borderColor = border;
+    Chart.defaults.plugins.legend.labels.color = text;
+  });
+  </script>
+
+  
+
+  <style>
+    /* KPI grid (economic-dashboard style) */
+    .kpi-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .75rem;
+      margin: .25rem 0 1rem;
+    }
+    @media (max-width: 980px){
+      .kpi-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 560px){
+      .kpi-grid{ grid-template-columns: 1fr; }
+    }
+    .kpi-card{
+      background: var(--surface, var(--card));
+      border: 1px solid var(--border, var(--border));
+      border-radius: 14px;
+      padding: .85rem .9rem;
+    }
+    .kpi-value{
+      font-weight: 750;
+      font-size: 1.15rem;
+      line-height: 1.1;
+      color: var(--text, var(--text));
+      margin-bottom: .25rem;
+      letter-spacing: .2px;
+    }
+    .kpi-label{
+      font-size: .85rem;
+      color: var(--muted, var(--text2));
+      line-height: 1.25;
+      margin-bottom: .35rem;
+    }
+    .kpi-source a{
+      font-size: .78rem;
+      color: var(--link, var(--link));
+      text-decoration: none;
+    }
+    .kpi-source a:hover{ text-decoration: underline; }
+  </style>
+
+
+
+  
+<style>
+/* Colorado Deep Dive page-level layout overrides (core theme comes from css/site-theme.css) */
+.page-container { max-width: 1200px; margin: 0 auto; padding: 18px; }
+
+/* ── Cards ── */
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.chart-header { padding: 1rem 1.25rem 0.5rem; }
+.chart-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+.chart-subtitle { font-size: 0.82rem; color: var(--muted); }
+
+/* ── Map section ── */
+#coMap {
+  height: 78vh; min-height: 580px; width: 100%;
+  border-radius: 0;
+}
+.map-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  align-items: center; padding: 0.65rem 1.25rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.map-controls label {
+  display: flex; gap: 0.4rem; align-items: center;
+  color: var(--muted); font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; padding: 4px 10px;
+  border-radius: 999px; border: 1px solid var(--border);
+  background: var(--card); transition: background 0.15s;
+}
+.map-controls label:hover { background: rgba(95,168,255,0.1); color: var(--text); }
+.map-controls input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; }
+
+/* ── Map legend ── */
+.map-legend {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(8px);
+  padding: 10px 12px; border-radius: 10px;
+  font-size: 12px; line-height: 1.3;
+}
+.map-legend .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink:0; }
+.swatch { width: 14px; height: 10px; border-radius: 3px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); flex-shrink:0; }
+
+/* ── Leaflet overrides ── */
+.leaflet-tooltip {
+  background: var(--card) !important; color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: 6px; font-size: 12px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--card) !important; color: var(--text) !important;
+}
+
+/* ── KPI grid ── */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: .75rem; margin: .25rem 0 1rem;
+}
+@media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .85rem .9rem;
+}
+.kpi-value { font-size: 1.15rem; font-weight: 750; line-height: 1.1; margin-bottom: .25rem; }
+.kpi-label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.kpi-source { font-size: .7rem; color: var(--faint); margin-top: .3rem; }
+.kpi-source a { color: var(--faint); }
+
+/* ── Legend swatch in info panel ── */
+.legend-item { display: flex; gap: 10px; align-items: center; }
+h2 { font-size: 1.35rem; font-weight: 700; margin: 1.5rem 0 0.75rem; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+</style>
+
+<style>
+/* Colorado Deep Dive — map section */
+/* Note: page container padding is handled above to stay consistent across the site */
+
+#coMap {
+  height: 78vh;
+  min-height: 580px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.map-section-header {
+  padding: 1rem 1.25rem 0.5rem;
+}
+.map-section-header h2 { margin: 0 0 0.3rem; }
+
+.map-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  align-items: center; padding: 0.65rem 1.25rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.map-controls label {
+  display: flex; gap: 0.4rem; align-items: center;
+  color: var(--muted); font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; margin: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition: background 0.15s, border-color 0.15s;
+}
+.map-controls label:hover { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--text); }
+.map-controls input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; }
+
+.map-legend {
+  background: color-mix(in srgb, var(--card) 92%, transparent) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(8px);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+.map-legend .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.swatch { width: 14px; height: 10px; border-radius: 3px; display: inline-block; border: 1px solid var(--border); }
+
+/* Leaflet overrides */
+.leaflet-tooltip { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important; box-shadow: var(--shadow) !important; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card) !important; color: var(--text) !important; }
+
+/* ── AMI Gap Module ── */
+#amiGapModule .kpi-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width: 900px) { #amiGapModule .kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px) { #amiGapModule .kpi-grid { grid-template-columns: 1fr; } }
+#amiGapModule .ami-gap-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+@media (max-width: 760px) { #amiGapModule .ami-gap-grid-2 { grid-template-columns:1fr; } }
+.ami-gap-cov-bar {
+  margin-top:.35rem; height:6px; border-radius:999px;
+  background: linear-gradient(90deg, var(--accent,#0ea5a0) var(--pct,0%), var(--border,rgba(13,31,53,.12)) var(--pct,0%));
+}
+#amiGapModule .data-table table th { white-space:nowrap; }
+#amiGapModule .data-table table td:nth-child(5) { font-weight:600; font-variant-numeric:tabular-nums; }
+</style>
 </head>
-<body>
-    <h1>Colorado Deep Dive</h1>
-    <div id="map" style="width: 100%; height: 500px;"></div>
-</body>
-</html>
+
+<body data-page="colorado-deep-dive.html">
+<div id="statusPanel" aria-live="polite"></div>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content" class="page-container content-shell">
+    
+<div class="page-hero">
+<div class="pill">Colorado Market Deep Dive</div>
+<h1>Colorado Affordable Housing Market Analysis</h1>
+<p class="hero-subtitle">
+            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
+        </p>
+<span class="freshness-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"></span>
+</div>
+<section class="section" aria-label="Key indicators">
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-value">$287M</div>
+      <div class="kpi-label">Annual LIHTC Allocation</div>
+      <div class="kpi-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Source</a></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">78</div>
+      <div class="kpi-label">HUD LIHTC Properties</div>
+      <div class="kpi-source"><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">Source</a></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">7.6%</div>
+      <div class="kpi-label">Denver Vacancy Rate (Q4 2025)</div>
+      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">$169</div>
+      <div class="kpi-label">Avg Monthly Concession</div>
+      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
+    </div>
+  </div>
+</section>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <a href="insights.html">Market Insights</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span aria-current="page">Colorado Deep Dive</span>
+  </nav>
+
+  <!-- Intro card -->
+  <section class="intro-card" aria-label="Page introduction">
+    <p>
+      This page provides a comprehensive, data-driven look at Colorado's affordable-housing landscape.
+      Use the tabs below to explore AMI gap analysis by county, Colorado-vs-national market comparisons,
+      LIHTC policy scenarios, and market-trend indicators including concessions, foreclosures, and builder confidence.
+    </p>
+    <p class="data-sources-small">
+      Data sources:
+      <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> ·
+      <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS (Census Bureau)</a> ·
+      <a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of REALTORS</a> ·
+      <a href="https://www.cbre.com/insights" target="_blank" rel="noopener">CBRE Multifamily Outlook</a>
+    </p>
+  </section>
+
+  <!-- Tab Help / Guide Section -->
+  <section class="tab-guide" aria-label="Tab guide">
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📊</span>
+      <div>
+        <div class="tab-guide-title">AMI Gap Analysis</div>
+        <p class="tab-guide-desc">Explore Area Median Income limits and the gap between affordable-unit supply and household demand across Colorado counties.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">🗺️</span>
+      <div>
+        <div class="tab-guide-title">Colorado vs National</div>
+        <p class="tab-guide-desc">Compare Colorado's LIHTC allocation, vacancy rates, rent growth, and market performance against other states and national averages.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">⚙️</span>
+      <div>
+        <div class="tab-guide-title">Market Conditions</div>
+        <p class="tab-guide-desc">Explore LIHTC policy scenarios — basis boost, per-capita increases, zoning reform, and rural focus — and compare projected unit production and household impact.</p>
+      </div>
+    </div>
+    <div class="tab-guide-item">
+      <span class="tab-guide-icon" aria-hidden="true">📈</span>
+      <div>
+        <div class="tab-guide-title">Market Trends</div>
+        <p class="tab-guide-desc">Review concessions, foreclosure filings, builder confidence, and other leading indicators shaping Colorado's housing market outlook.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section (above tabs, not in a card) -->
+  <section class="map-section" aria-label="Interactive Map">
+    <div class="map-section-header">
+      <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
+      <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
+    </div>
+    <div class="map-controls" role="group" aria-label="Map layers and filters">
+      <label><input type="checkbox" id="layerCounties" checked=""> Counties</label>
+      <label><input type="checkbox" id="layerPlaces"> Places</label>
+      <label><input type="checkbox" id="layerQCT" checked=""> QCT 2026</label>
+      <label><input type="checkbox" id="layerDDA" checked=""> DDA 2026</label>
+      <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
+      <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
+      <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
+      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: #0f172a;"></span></label>
+      <label for="countyGeoSelect" style="gap:.5rem;">
+        County:
+        <select id="countyGeoSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem; min-width:130px;" aria-label="Filter overlays by county">
+          <option value="">All Colorado</option>
+        </select>
+      </label>
+      <label style="gap:.5rem;">
+        Theme:
+        <select id="basemapSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem;">
+          <option value="auto" selected="">Auto</option>
+          <option value="light">Light (CARTO)</option>
+          <option value="dark">Dark (CARTO)</option>
+          <option value="osm">OpenStreetMap</option>
+          <option value="satellite">Satellite (Esri)</option>
+          <option value="esri-gray">Gray Canvas (Esri)</option>
+        </select>
+      </label>
+      <span id="map-status" style="margin-left:auto; font-size:0.78rem; color: #0f172a;"></span>
+    </div>
+    <div id="coMap"></div>
+    <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="swatch" style="background:rgba(255,200,90,.20); border-color:rgba(255,200,90,.45)"></span>
+          <span><strong>DDA Zones</strong> — 30% basis boost</span>
+        </div>
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="swatch" style="background:rgba(120,255,170,.22); border-color:rgba(120,255,170,.45)"></span>
+          <span><strong>QCT Zones</strong> — 30% basis boost</span>
+        </div>
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="dot" style="background:#5fa8ff;"></span>
+          <span><strong>LIHTC Projects</strong> — HUD LIHTC Database (mapped)</span>
+        </div>
+      </div>
+      <div style="margin-top:.75rem; font-size: 12px; color: var(--muted); line-height:1.5;">
+        <strong>Data sources:</strong>
+        <a href="https://www.policymap.com/data/sources/hud-lihtc" target="_blank" rel="noopener">PolicyMap: HUD LIHTC</a> •
+        <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a> •
+        <a href="https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0" target="_blank" rel="noopener">HUD LIHTC ArcGIS service</a> •
+        <a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab Navigation -->
+  <div role="tablist" class="tab-nav" aria-label="Analysis sections">
+    <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-ami-gap" id="tab-btn-ami-gap">AMI Gap Analysis</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">Colorado vs National</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Market Conditions</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-market-trends" id="tab-btn-market-trends">Market Trends</button>
+  </div>
+
+  <!-- Tab 1: AMI Gap Analysis -->
+  <div class="tab-panel is-active" id="tab-ami-gap" role="tabpanel" aria-labelledby="tab-btn-ami-gap">
+
+    <h2>Area Median Income (AMI) Analysis</h2>
+<div class="dashboard-grid" style="margin: 2rem 0;">
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Denver Metro AMI Breakdown (2025)</h3>
+<p class="chart-subtitle">Income limits by household size</p>
+</div>
+<div class="data-table">
+<table>
+<thead>
+<tr>
+<th>AMI Level</th>
+<th>1 Person</th>
+<th>2 Person</th>
+<th>3 Person</th>
+<th>4 Person</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>30% AMI</strong> (Extremely Low)</td>
+<td>$26,100</td>
+<td>$29,850</td>
+<td>$33,600</td>
+<td>$37,350</td>
+</tr>
+<tr>
+<td><strong>50% AMI</strong> (Very Low)</td>
+<td>$43,450</td>
+<td>$49,650</td>
+<td>$55,850</td>
+<td>$62,050</td>
+</tr>
+<tr>
+<td><strong>60% AMI</strong> (LIHTC Standard)</td>
+<td>$52,140</td>
+<td>$59,580</td>
+<td>$67,020</td>
+<td>$74,460</td>
+</tr>
+<tr style="background: rgba(52, 152, 219, 0.1);">
+<td><strong>80% AMI</strong> (Low Income)</td>
+<td>$66,300</td>
+<td>$75,750</td>
+<td>$85,200</td>
+<td>$94,650</td>
+</tr>
+<tr>
+<td><strong>100% AMI</strong> (Median)</td>
+<td>$86,870</td>
+<td>$99,300</td>
+<td>$111,700</td>
+<td>$124,100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="margin-top: 1rem; padding: 1rem; background: rgba(243, 156, 18, 0.1); border-radius: 4px; border-left: 3px solid var(--color-warning);">
+<p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">
+<strong>Context:</strong> In Denver, a single person making $31.88/hour ($66,300 annually) is considered "low income" at 80% AMI. This creates significant affordable housing demand even among working professionals.
+                    </p>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Colorado Housing Need by AMI Level</h3>
+<p class="chart-subtitle">Estimated households vs. available units</p>
+</div>
+<div style="height: 300px; position: relative;">
+<canvas id="ami-need-chart"></canvas>
+</div>
+</div>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">AMI Variations Across Colorado Counties</h3>
+<div class="data-table">
+<table>
+<thead>
+<tr>
+<th>County</th>
+<th>1-Person AMI (100%)</th>
+<th>4-Person AMI (100%)</th>
+<th>60% AMI Max Income</th>
+<th>Relative Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Denver</strong></td>
+<td>$86,870</td>
+<td>$124,100</td>
+<td>$74,460</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Boulder</strong></td>
+<td>$92,400</td>
+<td>$131,900</td>
+<td>$79,140</td>
+<td>Very High</td>
+</tr>
+<tr>
+<td><strong>El Paso (C. Springs)</strong></td>
+<td>$78,200</td>
+<td>$111,700</td>
+<td>$67,020</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><strong>Larimer (Ft. Collins)</strong></td>
+<td>$84,300</td>
+<td>$120,400</td>
+<td>$72,240</td>
+<td>Moderate-High</td>
+</tr>
+<tr>
+<td><strong>Pueblo</strong></td>
+<td>$61,500</td>
+<td>$87,900</td>
+<td>$52,740</td>
+<td>Lower</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- ══════════════════════════════════════════════════════════════
+     Colorado AMI Households vs Available Units — Interactive
+     Powered by js/co-ami-gap.js + data/co_ami_gap_by_county.json
+     ══════════════════════════════════════════════════════════════ -->
+<section id="amiGapModule" aria-label="Colorado AMI Households vs Available Units" style="margin: 2rem 0;">
+
+  <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:1rem;">
+    <div>
+      <h2 style="margin:0 0 .2rem;">Colorado AMI Households vs Available Units</h2>
+      <p style="margin:0; color:var(--muted); font-size:.88rem;">
+        Affordability gap by AMI level — households at or below income threshold vs. priced-affordable rental units
+      </p>
+    </div>
+    <div style="display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;">
+      <label for="amiGapCountySelect" style="font-size:.83rem; font-weight:600; color:var(--muted);">County / Region:</label>
+      <select id="amiGapCountySelect" style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
+        <option value="STATE">Colorado (statewide)</option>
+      </select>
+      <button id="amiGapExportBtn" style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">
+        ⬇ CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Error banner -->
+  <div id="amiGapError" role="alert" style="display:none; padding:.75rem 1rem; margin-bottom:1rem; background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.35); border-radius:8px; color:var(--bad,#e05252); font-size:.87rem;"></div>
+
+  <!-- Metadata bar -->
+  <div id="amiGapMeta" style="font-size:.78rem; color:var(--faint); margin-bottom:1rem;"></div>
+
+  <!-- KPI Summary Cards -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:1.25rem;">
+    <div class="kpi-card">
+      <div id="amiGapGeoTitle" class="kpi-value" style="font-size:1rem;">Colorado (statewide)</div>
+      <div class="kpi-label">Selected Geography</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapAmi4" class="kpi-value">—</div>
+      <div class="kpi-label">4-Person AMI (100%)</div>
+      <div class="kpi-source">HUD FY2025 Income Limits</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapHouseholds100" class="kpi-value">—</div>
+      <div class="kpi-label">Households ≤ 100% AMI</div>
+      <div class="kpi-source">ACS B19001</div>
+    </div>
+    <div class="kpi-card">
+      <div id="amiGapUnits100" class="kpi-value">—</div>
+      <div class="kpi-label">Affordable Units ≤ 100% AMI</div>
+      <div class="kpi-source">ACS B25063</div>
+    </div>
+  </div>
+
+  <!-- Main comparison chart: households vs units -->
+  <div class="chart-card" style="margin-bottom:1.25rem;">
+    <div class="chart-header">
+      <h3 class="chart-title">Households vs. Priced-Affordable Units by AMI Level</h3>
+      <p class="chart-subtitle">Blue = households with income at or below threshold · Green = rental units with rent at or below affordable threshold</p>
+    </div>
+    <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;">
+      <canvas id="amiGapComparisonChart" aria-label="Bar chart: households vs affordable units by AMI level"></canvas>
+    </div>
+  </div>
+
+  <!-- Gap chart + Coverage card side-by-side -->
+  <div class="ami-gap-grid-2" style="margin-bottom:1.25rem;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Affordability Gap</h3>
+        <p class="chart-subtitle">Units minus households at each AMI level · Red = deficit · Green = surplus</p>
+      </div>
+      <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
+        <canvas id="amiGapChart" aria-label="Bar chart: affordability gap by AMI level"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Coverage Ratio at 100% AMI</h3>
+        <p class="chart-subtitle">Affordable units ÷ households · &lt;50% = critical · 50–80% = moderate gap</p>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:260px; gap:.5rem; padding:1rem;">
+        <div id="amiGapCoverage100" style="font-size:2.8rem; font-weight:800; line-height:1; letter-spacing:-.02em;">—</div>
+        <div style="font-size:.85rem; color:var(--muted); text-align:center;">rental units priced at or below 100% AMI affordable threshold per household at that income level</div>
+        <div style="width:100%; max-width:260px; margin-top:.5rem;">
+          <div style="height:8px; border-radius:999px; background:var(--border); overflow:hidden;">
+            <div id="amiGapCovBar" style="height:100%; border-radius:999px; background:var(--accent); transition:width .4s ease; width:0%"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:.72rem; color:var(--faint); margin-top:.3rem;">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data table -->
+  <div class="chart-card" style="margin-bottom:1.25rem;">
+    <div class="chart-header">
+      <h3 class="chart-title">AMI Gap Detail Table</h3>
+      <p class="chart-subtitle">All metrics by AMI band for the selected county/region</p>
+    </div>
+    <div class="data-table" style="overflow-x:auto; padding:0 .25rem .75rem;">
+      <table style="width:100%; min-width:560px;">
+        <thead>
+          <tr>
+            <th>AMI Band</th>
+            <th>Affordable Rent<br><span style="font-weight:400;opacity:.7;">(4-person, 30% of income)</span></th>
+            <th>Households</th>
+            <th>Affordable Units</th>
+            <th>Gap (Units − HH)</th>
+            <th>Coverage Ratio</th>
+          </tr>
+        </thead>
+        <tbody id="amiGapTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <details style="margin-bottom:.5rem;">
+    <summary style="cursor:pointer; font-size:.85rem; font-weight:600; color:var(--muted); padding:.5rem 0; user-select:none;">
+      📋 Methodology &amp; Data Sources
+    </summary>
+    <div id="amiGapMethodology" style="margin-top:.6rem; padding:.9rem 1.1rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; font-size:.83rem; line-height:1.7; color:var(--muted);">
+    </div>
+  </details>
+
+  <div style="font-size:.75rem; color:var(--faint); margin-top:.5rem;" id="amiGapEndpointRow" hidden="">
+    Data endpoint: <code id="amiGapEndpoint" style="font-size:.75rem; background:var(--bg2); padding:1px 4px; border-radius:4px;"></code>
+  </div>
+
+</section>
+
+
+  </div><!-- /tab-ami-gap -->
+
+  <!-- Tab 4: Market Trends -->
+  <div class="tab-panel" id="tab-market-trends" role="tabpanel" aria-labelledby="tab-btn-market-trends">
+
+<h2>Multifamily Concessions Analysis</h2>
+<div style="background: rgba(192, 57, 43, 0.05); padding: 2rem; border-left: 4px solid var(--color-error); border-radius: 4px; margin: 2rem 0;">
+<h3 style="color: var(--color-error); margin-bottom: 1rem;">Critical Market Alert: Record Concessions</h3>
+<p style="line-height: 1.7; margin-bottom: 1rem;">
+                Metro Denver reached 7.6% vacancy in Q4 2025—the highest rate in 16 years—with concessions averaging $169 per month (9.5% of gross rent), equivalent to 4-5 weeks of free rent. This represents the highest concession level in the 21-year history of Apartment Insights tracking.
+            </p>
+<p style="line-height: 1.7; margin: 0;">
+<strong>Impact:</strong> New luxury properties offering up to 3 months free rent, creating downward pressure on older Class B/C properties throughout the metro.
+            </p>
+</div>
+<div class="dashboard-grid">
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Denver Metro Concession Trends</h3>
+<p class="chart-subtitle">Average monthly concession value 2022-2025</p>
+</div>
+<div style="height: 300px; position: relative;">
+<canvas id="concessions-chart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Concessions by Property Class</h3>
+<p class="chart-subtitle">Q4 2025 averages</p>
+</div>
+<div style="padding: 2rem 0;">
+<div style="margin-bottom: 2rem;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+<span><strong>Class A (2020+)</strong></span>
+<span style="color: var(--color-error); font-weight: 700;">$285/month</span>
+</div>
+<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
+<div style="background: var(--color-error); width: 95%; height: 100%; border-radius: 4px;"></div>
+</div>
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">Up to 3 months free rent</div>
+</div>
+<div style="margin-bottom: 2rem;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+<span><strong>Class B (2000-2019)</strong></span>
+<span style="color: var(--color-warning); font-weight: 700;">$150/month</span>
+</div>
+<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
+<div style="background: var(--color-warning); width: 50%; height: 100%; border-radius: 4px;"></div>
+</div>
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">1-2 months free + gift cards</div>
+</div>
+<div style="margin-bottom: 2rem;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+<span><strong>Class C (pre-2000)</strong></span>
+<span style="color: var(--color-info); font-weight: 700;">$95/month</span>
+</div>
+<div style="background: var(--color-background-alt); border-radius: 4px; height: 8px;">
+<div style="background: var(--color-info); width: 32%; height: 100%; border-radius: 4px;"></div>
+</div>
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">Selective incentives + waived fees</div>
+</div>
+</div>
+</div>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Statewide Concession Comparison</h3>
+<div class="data-table">
+<table>
+<thead>
+<tr>
+<th>Market</th>
+<th>Avg Concession</th>
+<th>% of Gross Rent</th>
+<th>Free Weeks Equivalent</th>
+<th>Primary Driver</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: rgba(192, 57, 43, 0.05);">
+<td><strong>Denver Metro</strong></td>
+<td>$169</td>
+<td>9.5%</td>
+<td>4-5 weeks</td>
+<td>Oversupply (19K units 2024)</td>
+</tr>
+<tr>
+<td><strong>Colorado Springs</strong></td>
+<td>$95</td>
+<td>6.2%</td>
+<td>3 weeks</td>
+<td>Moderate supply increase</td>
+</tr>
+<tr>
+<td><strong>Fort Collins</strong></td>
+<td>$110</td>
+<td>7.1%</td>
+<td>3.5 weeks</td>
+<td>Student housing competition</td>
+</tr>
+<tr>
+<td><strong>Boulder</strong></td>
+<td>$125</td>
+<td>6.8%</td>
+<td>3.5 weeks</td>
+<td>New luxury supply</td>
+</tr>
+<tr>
+<td><strong>Pueblo</strong></td>
+<td>$45</td>
+<td>4.1%</td>
+<td>2 weeks</td>
+<td>Limited new construction</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h2>Foreclosure &amp; Distress Analysis</h2>
+<div class="dashboard-grid">
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Colorado Foreclosure Trends</h3>
+<p class="chart-subtitle">Monthly foreclosure filings 2023-2026</p>
+</div>
+<div style="height: 300px; position: relative;">
+<canvas id="foreclosure-chart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Foreclosure Risk Assessment</h3>
+<p class="chart-subtitle">Current market health indicators</p>
+</div>
+<div style="padding: 2rem 0;">
+<div style="margin-bottom: 2rem;">
+<div style="font-weight: 600; margin-bottom: 0.5rem;">Overall Risk Level</div>
+<div style="font-size: 2rem; color: var(--color-success); font-weight: 700; margin-bottom: 0.5rem;">LOW</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Well below crisis levels; returning to normal</div>
+</div>
+<div style="margin-bottom: 1.5rem;">
+<div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-success);">✓ Equity Cushion</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Most homeowners have significant equity protecting against distress sales</div>
+</div>
+<div style="margin-bottom: 1.5rem;">
+<div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-success);">✓ Employment</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at 3.7% (4th lowest among 50 largest markets)</div>
+</div>
+<div>
+<div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-warning);">⚠ Normalizing</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Filings rising but still 56% of pre-pandemic normal levels</div>
+</div>
+</div>
+</div>
+</div>
+<div style="background: rgba(39, 174, 96, 0.05); padding: 2rem; border-left: 4px solid var(--color-success); border-radius: 4px; margin: 2rem 0;">
+<h3 style="color: var(--color-success); margin-bottom: 1rem;">Good News: Market Normalization, Not Crisis</h3>
+<p style="line-height: 1.7; margin-bottom: 1rem;">
+                While REO (Real Estate Owned) foreclosures are returning after 7+ years absence, this represents market normalization rather than distress. Foreclosure filings remain well below pre-pandemic norms and a fraction of 2008 crisis levels.
+            </p>
+<p style="line-height: 1.7; margin: 0;">
+<strong>Key Factor:</strong> Strong equity positions (most homeowners have substantial equity) and more disciplined lending practices continue to limit systemic risk.
+            </p>
+</div>
+<h2>Consumer Confidence &amp; Market Sentiment</h2>
+<div class="dashboard-grid">
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Colorado Housing Market Confidence</h3>
+<p class="chart-subtitle">Buyer and seller sentiment index</p>
+</div>
+<div style="height: 300px; position: relative;">
+<canvas id="confidence-chart"></canvas>
+</div>
+</div>
+<div class="chart-card">
+<div class="chart-header">
+<h3 class="chart-title">Market Dynamics Shift</h3>
+<p class="chart-subtitle">2025 vs 2026 outlook</p>
+</div>
+<div style="padding: 2rem 0;">
+<div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
+<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">2025 Recap</div>
+<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
+<li>Prices fell 5.2% in Colorado Springs</li>
+<li>Denver rents down 4.8% YoY</li>
+<li>Days on market increased significantly</li>
+<li>Sellers competing more aggressively</li>
+</ul>
+</div>
+<div>
+<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-success);">2026 Outlook</div>
+<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
+<li>More of the same: balanced market continuing</li>
+<li>New construction drops 34% (supply relief)</li>
+<li>Modest price appreciation expected (+1-2%)</li>
+<li>Buyers have more negotiating power</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+  </div><!-- /tab-market-trends -->
+
+  <!-- Tab 2: State Comparison -->
+  <div class="tab-panel" id="tab-state-comparison" role="tabpanel" aria-labelledby="tab-btn-state-comparison">
+<h2>Colorado vs National Comparison</h2>
+<div style="background: rgba(192, 57, 43, 0.05); padding: 2.5rem; border-left: 4px solid var(--color-error); border-radius: 8px; margin: 2rem 0;">
+<h3 style="color: var(--color-error); margin-bottom: 1rem;">⚠️ Critical Analysis: Colorado Pricing Pressure vs. National Trends</h3>
+<p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 1.5rem;">
+<strong>Why is Colorado experiencing pricing pressure while the nation stabilizes at $0.87?</strong>
+</p>
+<p style="line-height: 1.8; margin-bottom: 1.5rem;">
+                Based on late 2025 and early 2026 data, LIHTC investors are acting with <strong>caution toward the Colorado market</strong>, driven by high interest rates, rising construction costs, and a "cautious at best, jittery at worst" equity market. While Denver metro has technically stabilized, it's marked by:
+            </p>
+<ul style="line-height: 1.8; margin-bottom: 1.5rem;">
+<li><strong>5.2% decline in median home prices</strong> (2025)</li>
+<li><strong>Increased inventory</strong> and longer days on market</li>
+<li><strong>Shift to buyer's market</strong> dynamics</li>
+<li><strong>Record concessions</strong> ($169/month avg - highest in 21 years)</li>
+</ul>
+<p style="line-height: 1.8; margin-bottom: 1rem;">
+<strong>Key Insight:</strong> The pressure on pricing in rural areas like the Western Slope is <em>not</em> "for no reason" or Denver-specific fear. Instead, it's driven by a combination of <strong>macroeconomic factors affecting the entire state</strong>.
+            </p>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Key Factors Driving Statewide Pricing Pressure</h3>
+<div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--color-background-alt); border-left: 3px solid var(--color-primary); border-radius: 4px;">
+<h4 style="margin-bottom: 1rem; color: #0f172a;">1. Broad Investor Caution (Not Just Denver)</h4>
+<p style="line-height: 1.7;">
+                    LIHTC investors are generally cautious in 2025–2026 due to:
+                </p>
+<ul style="line-height: 1.8; margin: 1rem 0 0 2rem;">
+<li><strong>Potential tax reforms:</strong> Uncertainty about corporate tax rates and LIHTC program changes</li>
+<li><strong>Tariff-induced cost increases:</strong> Steel +20-30%, lumber +17%, materials inflation</li>
+<li><strong>Elevated operating expenses:</strong> Insurance, utilities, labor costs all rising</li>
+<li><strong>Interest rate environment:</strong> Higher costs to finance projects requiring more tax credit equity</li>
+</ul>
+</div>
+<div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--color-background-alt); border-left: 3px solid var(--color-warning); border-radius: 4px;">
+<h4 style="margin-bottom: 1rem; color: var(--color-warning);">2. Declining Denver Metro Metrics</h4>
+<p style="line-height: 1.7;">
+                    The Denver metro area experienced significant headwinds in 2025:
+                </p>
+<ul style="line-height: 1.8; margin: 1rem 0 0 2rem;">
+<li><strong>5.2% price decline:</strong> Median home prices fell substantially</li>
+<li><strong>Inventory surge:</strong> More properties on market creating buyer advantage</li>
+<li><strong>High operating costs:</strong> Insurance premiums and HOA fees making investors selective</li>
+<li><strong>Multifamily oversupply:</strong> 19,000 units delivered in 2024 vs. typical 8,000-10,000</li>
+<li><strong>Vacancy spike:</strong> 7.6% (highest in 16 years) putting downward rent pressure</li>
+</ul>
+</div>
+<div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--color-background-alt); border-left: 3px solid var(--color-info); border-radius: 4px;">
+<h4 style="margin-bottom: 1rem; color: var(--color-info);">3. Western Slope &amp; Rural Colorado Pressures</h4>
+<p style="line-height: 1.7;">
+                    The Western Slope is experiencing <strong>its own unique market pressures</strong>, not just spillover from Denver:
+                </p>
+<ul style="line-height: 1.8; margin: 1rem 0 0 2rem;">
+<li><strong>"Buyer's market" emergence:</strong> Second half of 2025 saw shift to buyer advantage</li>
+<li><strong>Economic uncertainty:</strong> Tourism/recreation dependent economies facing volatility</li>
+<li><strong>Higher risk perception:</strong> Investors more conservative on smaller, remote projects</li>
+<li><strong>Limited exit options:</strong> Smaller buyer pool for rural properties if things go wrong</li>
+<li><strong>Construction challenges:</strong> Higher costs, limited contractor availability in rural areas</li>
+</ul>
+</div>
+<div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--color-background-alt); border-left: 3px solid var(--color-error); border-radius: 4px;">
+<h4 style="margin-bottom: 1rem; color: var(--color-error);">4. Increased Development Costs</h4>
+<p style="line-height: 1.7; margin-bottom: 1rem;">
+<strong>Total development costs per unit</strong> for LIHTC projects in the Rocky Mountain region have increased by as much as <strong>40% since 2019</strong>, making deals harder to pencil out.
+                </p>
+<p style="line-height: 1.7;">
+                    This cost inflation includes:
+                </p>
+<ul style="line-height: 1.8; margin: 1rem 0 0 2rem;">
+<li><strong>Hard costs:</strong> Construction labor, materials (steel, lumber, concrete)</li>
+<li><strong>Soft costs:</strong> Fees, permits, professional services</li>
+<li><strong>Financing costs:</strong> Higher interest rates on construction loans</li>
+<li><strong>Timeline delays:</strong> Supply chain issues extending construction periods</li>
+</ul>
+</div>
+<div style="padding: 1.5rem; background: rgba(39, 174, 96, 0.05); border-left: 3px solid var(--color-success); border-radius: 4px;">
+<h4 style="margin-bottom: 1rem; color: var(--color-success);">5. State-Level Support (Silver Lining)</h4>
+<p style="line-height: 1.7;">
+                    Despite challenges, Colorado is <strong>actively utilizing state-level tax credits (AHTC)</strong> to support projects:
+                </p>
+<ul style="line-height: 1.8; margin: 1rem 0 0 2rem;">
+<li><strong>2025 AHTC allocations:</strong> Continued investment in both metro and rural areas</li>
+<li><strong>Gap financing support:</strong> State and local governments stepping up</li>
+<li><strong>CHFA innovations:</strong> Creative structuring to make deals work</li>
+<li><strong>Basis boost opportunities:</strong> Strong DDA/QCT coverage helps offset cost increases</li>
+</ul>
+</div>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">Why Western Slope Pricing is Falling</h3>
+<p style="line-height: 1.8; margin-bottom: 1.5rem;">
+                The downward pressure on pricing in rural Colorado is <strong>not arbitrary</strong> — it's a direct result of:
+            </p>
+<div style="display: grid; gap: 1.5rem;">
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">📈 High Interest Costs</h4>
+<p style="line-height: 1.7; margin: 0;">
+                        The cost to finance projects has increased significantly. Construction loans that were 4-5% are now 7-8%, requiring <strong>more tax credit equity</strong> to make projects viable. Rural projects, being smaller and perceived as higher-risk, face even higher rates.
+                    </p>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">⚠️ Increased Risk Perception</h4>
+<p style="line-height: 1.7; margin: 0;">
+                        Investors are, in general, <strong>more conservative</strong> in 2025-2026. This disproportionately impacts <strong>smaller or more remote projects</strong> (rural) often more than large urban ones. Reasons include: limited market depth, fewer comparable projects, longer lease-up periods, and concentrated tenant base risk.
+                    </p>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">💰 Construction Cost Inflation Squeeze</h4>
+<p style="line-height: 1.7; margin: 0;">
+                        The <strong>40% increase in development costs</strong> since 2019, coupled with potential tariff impacts on materials, is squeezing project budgets. Rural projects face: higher per-unit costs (smaller scale = less efficiency), limited contractor availability, and material shipping costs.
+                    </p>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
+<h4 style="color: #0f172a; margin-bottom: 0.75rem;">📊 National Capital Crunch</h4>
+<p style="line-height: 1.7; margin: 0;">
+                        This isn't localized fear of Denver. It's a broader, <strong>state-wide and national tightening</strong> of affordable housing "budget gaps" and "capital crunch." Investors with limited capital are prioritizing: larger deals (better returns per effort), proven markets (lower perceived risk), and urban locations (better exit strategies).
+                    </p>
+</div>
+</div>
+</div>
+<div style="background: var(--color-primary-dark); color: white; padding: 2.5rem; border-radius: 8px; margin: 2rem 0;">
+<h3 style="color: white; margin-bottom: 1rem;">Bottom Line: It's Economics, Not Fear</h3>
+<p style="line-height: 1.8; margin-bottom: 1rem; opacity: 0.95;">
+                Colorado's pricing pressure—both in Denver metro and Western Slope—stems from <strong>fundamental economic factors</strong>, not irrational "fear" of any specific market. The state faces a <strong>perfect storm</strong> of:
+            </p>
+<ul style="line-height: 1.8; margin-bottom: 1rem; opacity: 0.95;">
+<li>40% cost increases since 2019</li>
+<li>High interest rate environment</li>
+<li>Oversupply in Denver creating vacancy concerns</li>
+<li>General investor conservatism amid tax reform uncertainty</li>
+<li>Tariff-driven materials inflation</li>
+</ul>
+<p style="line-height: 1.8; margin: 0; opacity: 0.95;">
+<strong>For rural Colorado:</strong> Pricing weakness reflects <em>rational</em> investor response to higher costs and perceived risks in smaller markets, not a "leary" view of Denver spilling over. Different challenges, same macroeconomic drivers.
+            </p>
+</div>
+<h2>Colorado vs National Comparison</h2>
+<div class="chart-card" style="margin: 2rem 0;">
+<div class="chart-header">
+<h3 class="chart-title">Key Metrics: Colorado vs U.S. Average</h3>
+<p class="chart-subtitle">How Colorado stacks up against national trends</p>
+</div>
+<div class="comparison-grid">
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">LIHTC Allocation Per Capita</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">$49</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">↑ 8% above national avg</div>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Multifamily Vacancy Rate</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.25rem;">7.6%</div>
+<div style="font-size: 0.875rem; color: var(--color-error);">↑ Above national 5.8%</div>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Rent Growth (YoY)</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.25rem;">-4.8%</div>
+<div style="font-size: 0.875rem; color: var(--color-error);">↓ vs U.S. +1.0%</div>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Credit Pricing (9%)</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">$0.87</div>
+<div style="font-size: 0.875rem; color: var(--color-info);">= At national average</div>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Unemployment Rate</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;">3.7%</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">↓ 4th lowest in nation</div>
+</div>
+<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Foreclosure Risk</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;">LOW</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">✓ Better than average</div>
+</div>
+</div>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<div class="chart-header">
+<h3 class="chart-title">Comparative Dashboard Performance</h3>
+<p class="chart-subtitle">Colorado metrics vs dashboard trends</p>
+</div>
+<div style="height: 400px; position: relative;">
+<canvas id="comparison-chart"></canvas>
+</div>
+</div>
+<h2>Market Outlook &amp; Strategic Implications</h2>
+<div style="display: grid; gap: 2rem; margin: 1.25rem 0;">
+<div class="chart-card">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">For LIHTC Developers</h3>
+<div style="background: rgba(52, 152, 219, 0.05); padding: 1.5rem; border-left: 3px solid var(--color-info); border-radius: 4px; margin-bottom: 1.5rem;">
+<p style="font-weight: 600; margin-bottom: 0.5rem;">Opportunity: Basis Boost Maximization</p>
+<p style="margin: 0; font-size: 0.9375rem; line-height: 1.7;">
+                        Denver metro has extensive DDA and QCT coverage. Target dual-designated areas for 30% basis boost to offset high land costs and construction expenses.
+                    </p>
+</div>
+<ul style="line-height: 1.8;">
+<li><strong>Concession Impact:</strong> Factor $150-285/month into underwriting for competitive Class A/B properties</li>
+<li><strong>Supply Relief Coming:</strong> New deliveries drop to 5,800 units in 2026 (vs 18,400 in 2024) - stabilization ahead</li>
+<li><strong>Target Markets:</strong> Focus on submarkets with less new supply (Boulder County, northern suburbs)</li>
+<li><strong>AMI Targeting:</strong> Strong demand at 30-60% AMI; limited supply at &lt;30% (extremely low income)</li>
+</ul>
+</div>
+<div class="chart-card">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem;">For Investors</h3>
+<ul style="line-height: 1.8;">
+<li><strong>Timing:</strong> Current oversupply = buyer's market for acquisitions; stabilization by late 2026</li>
+<li><strong>Class Focus:</strong> Class B outperforming Class C (which fell 5% YoY); avoid older assets without renovation plans</li>
+<li><strong>Geography:</strong> Suburban markets (Broomfield +4% appreciation) outperforming urban core</li>
+<li><strong>Concession Risk:</strong> Leases signed with heavy concessions renewing in 2026 = potential move-out risk</li>
+<li><strong>Recovery Play:</strong> Occupancy expected to tighten 2026, rent rebound early 2027</li>
+</ul>
+</div>
+</div>
+<div style="background: var(--color-primary-dark); color: white; padding: 2.5rem; border-radius: 8px; margin: 1.25rem 0;">
+<h3 style="color: white; margin-bottom: 1rem;">Bottom Line: Colorado Market Snapshot</h3>
+<p style="line-height: 1.7; margin-bottom: 1rem; opacity: 0.95;">
+                Colorado's affordable housing market is in transition: <strong>historic concessions and high vacancy</strong> reflect severe 2024 oversupply, but <strong>sharply declining new construction</strong> sets stage for 2027 recovery. LIHTC developers benefit from strong per-capita allocations and extensive basis boost opportunities, though must model realistic Class B competition and concession pressure.
+            </p>
+<p style="line-height: 1.7; margin: 0; opacity: 0.95;">
+<strong>Key Advantage:</strong> Unemployment among nation's lowest (3.7%) + minimal foreclosure risk + strong job market fundamentals = sustainable long-term demand. Near-term pain from supply glut, medium-term opportunity as market rebalances.
+            </p>
+</div>
+<!-- Sources -->
+<div style="margin-top: 1.5rem; padding: 2.5rem; background: var(--color-background-alt); border-radius: 8px; border-left: 4px solid var(--color-accent);">
+<h3 style="color: #0f172a; margin-bottom: 1.5rem; font-size: 1.25rem;">Data Sources &amp; Methodology</h3>
+<ul style="line-height: 1.8; color: var(--color-text-light); margin-left: 1.5rem;">
+  <li><a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA Designations</a> — 2026 DDA and QCT designations (Effective January 1, 2026); Federal Register Notice (September 30, 2025)</li>
+  <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool" target="_blank" rel="noopener">Novogradac QCT/DDA Mapping Tool</a> — Interactive mapping of qualified census tracts and difficult development areas</li>
+  <li><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a> — FY 2025 Income Limits (Effective April 1, 2025)</li>
+  <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Dataset</a> — Project-level allocation data · <a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">Query tool</a></li>
+  <li><a href="https://www.chfainfo.com/rental-housing/lihtc" target="_blank" rel="noopener">CHFA</a> — Colorado Housing and Finance Authority LIHTC program data and priorities</li>
+  <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123</a> — Local government affordable housing commitment data</li>
+  <li><a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS (American Community Survey)</a> — Renter household income distribution (B19001), gross rent by unit (B25063)</li>
+  <li><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve (FRED)</a> — Economic indicators: vacancy rates, housing starts, employment</li>
+  <li><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of REALTORS (CAR)</a> — 2025 Market Trends Report, concessions data, foreclosure data</li>
+</ul>
+<div style="padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--color-warning); border-radius: 4px; margin-top: 1.5rem;">
+<p style="font-size: 0.875rem; line-height: 1.7; margin: 0;">
+<strong>Disclaimer:</strong> This analysis aggregates data from multiple authoritative sources for informational purposes. Market conditions change rapidly. Developers and investors should conduct independent due diligence, verify current pricing and incentives, and consult qualified professionals for project-specific guidance. DDA/QCT designations shown are based on 2026 HUD designations effective January 1, 2026.
+                </p>
+</div>
+</div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       Colorado vs Peer States — Trend Analysis
+       Powered by js/trend-analysis.js
+       ══════════════════════════════════════════════════════════════ -->
+  <section id="trend-analysis-section" aria-label="Colorado vs Peer States Trend Analysis" style="margin:2rem 0;"></section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LIHTC Policy Scenario Simulator
+       Powered by js/policy-simulator.js
+       ══════════════════════════════════════════════════════════════ -->
+  </div><!-- /tab-state-comparison -->
+
+  <!-- Tab 3: Market Conditions -->
+  <div class="tab-panel" id="tab-policy-simulator" role="tabpanel" aria-labelledby="tab-btn-policy-simulator">
+
+  <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
+
+  <section id="prop123Section" aria-label="Proposition 123 — Local Government Commitments" style="margin:2.5rem 0;">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Proposition 123 — Local Government Commitments</h3>
+        <p class="chart-subtitle">
+          Jurisdictions that have filed a Local Government Affordable Housing Commitment. Use the “Prop 123 jurisdictions” layer on the map to visualize coverage.
+        </p>
+      </div>
+      <div style="padding: 0 1.25rem 1.25rem;">
+        <p style="margin:0 0 .5rem;color:var(--muted);font-size:.92rem;">
+          Data source: Colorado Department of Local Affairs (DOLA) / Division of Housing. Learn more:
+          <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">cdola.colorado.gov/prop123</a>
+        </p>
+        <div id="prop123Summary" style="font-size:.9rem;color:var(--text);margin:.25rem 0 1rem;"></div>
+        <div class="data-table">
+          <table aria-label="Prop 123 jurisdictions list">
+            <thead>
+              <tr>
+                <th>Jurisdiction</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Commitment Date</th>
+              </tr>
+            </thead>
+            <tbody id="prop123TableBody">
+              <tr><td colspan="4" style="color:var(--muted);">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-sources-small" style="margin-top:.75rem;">
+          Local file fallback: <code>data/prop123_jurisdictions.json</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CAR MARKET DATA SECTION  (housing-data-integration.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="carMarketSection" aria-label="CAR Market Data" style="margin:2.5rem 0;">
+    <h2>Colorado Market Conditions <small style="font-size:.7em;font-weight:400;color:var(--muted);">— CAR</small></h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">
+      Statewide metrics from the Colorado Association of REALTORS monthly market report.
+      <span id="carFreshness" style="font-size:.78rem;color: #0f172a;"></span>
+    </p>
+    <div id="carMarketLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading CAR market data…</div>
+    <div id="carMarketError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
+    <div id="carMarketContent" style="display:none;">
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+        <div class="kpi-card">
+          <div id="carMedianPrice" class="kpi-value">—</div>
+          <div class="kpi-label">Median Sale Price</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carInventory" class="kpi-value">—</div>
+          <div class="kpi-label">Active Listings</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carDaysOnMarket" class="kpi-value">—</div>
+          <div class="kpi-label">Median Days on Market</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+        <div class="kpi-card">
+          <div id="carPricePerSqFt" class="kpi-value">—</div>
+          <div class="kpi-label">Price per Sq Ft</div>
+          <div class="kpi-source"><a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AMI GAP ANALYSIS MODULE  (co-ami-gap.js)
+       ═══════════════════════════════════════════════════════════════ -->
+  
+  <!-- Legacy duplicate modules removed: content is provided within tabs above. -->
+</main>
+
+<script src="js/vendor/leaflet.js"></script>
+  <script>
+/**
+ * co-lihtc-map.js  — Colorado Deep Dive Leaflet map
+ * Zoom lock: ~50 miles (~0.75°) beyond the Colorado border.
+ * Falls back to embedded data when HUD ArcGIS APIs are unreachable.
+ */
+(function () {
+  'use strict';
+
+  // Fix Leaflet marker icon paths when using vendored assets
+  if (window.L && L.Icon && L.Icon.Default) {
+    L.Icon.Default.mergeOptions({
+      iconUrl:       'js/vendor/images/marker-icon.png',
+      iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
+      shadowUrl:     'js/vendor/images/marker-shadow.png'
+    });
+  }
+
+  function $id(id) { return document.getElementById(id); }
+
+  async function fetchJSON(url, opts) {
+    const res = await fetch(url, opts);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${url}`);
+    return res.json();
+  }
+
+  async function arcgisQuery(layerUrl, where, outFields, extraParams) {
+    const PAGE = 1000;
+    let offset = 0;
+    const all = { type: 'FeatureCollection', features: [] };
+    let pages = 0;
+    while (true) {
+      const p = new URLSearchParams({
+        where: where || '1=1', outFields: outFields || '*',
+        returnGeometry: 'true', f: 'geojson',
+        resultRecordCount: String(PAGE), resultOffset: String(offset),
+        outSR: '4326', returnExceededLimitFeatures: 'true',
+        ...(extraParams || {})
+      });
+      let gj;
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 6000);
+        gj = await fetchJSON(`${layerUrl}/query?${p}`, { signal: ctrl.signal });
+        clearTimeout(timer);
+      } catch (e) { console.warn('ArcGIS query failed:', layerUrl, e.message); break; }
+      if (gj && gj.error) { console.warn('ArcGIS error:', gj.error.code, gj.error.message); break; }
+      const feats = gj && Array.isArray(gj.features) ? gj.features : [];
+      if (feats.length === 0) break;
+      all.features.push(...feats);
+      const exceeded = !!(gj.exceededTransferLimit || (gj.properties && gj.properties.exceededTransferLimit));
+      if (!exceeded && feats.length < PAGE) break;
+      offset += PAGE; pages++;
+      if (pages > 150) break;
+    }
+    return all;
+  }
+
+  const CO_PLACES_URL    = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
+  // TIGERweb State_County layer — STATEFP='08' is the correct field for Colorado county queries
+  const CO_COUNTIES_URL  = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1';
+  const CHFA_LIHTC_LAYER = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0';
+  const HUD_LIHTC_LAYER  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0';
+  const QCT_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0';
+  const DDA_LAYER        = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0';
+
+  // GitHub Pages backup base URL — third-tier fallback for overlay data.
+  // Files are updated on each successful CI run of scripts/fetch-chfa-lihtc.js (and equivalents).
+  const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
+
+  function styleState()  { return { color: 'rgba(255,255,255,0.80)', weight: 3,   fill: false }; }
+  function styleCounty() {
+    // Keep county outlines readable even if basemap tiles are blocked.
+    return {
+      color: 'rgba(255,255,255,0.55)',
+      weight: 1.2,
+      fill: true,
+      fillColor: 'rgba(255,255,255,0.04)',
+      fillOpacity: 0.20
+    };
+  }
+  function stylePlace()  { return { color: 'rgba(140,200,255,0.35)', weight: 0.8, fill: false, dashArray: '3,5' }; }
+  function styleQCT()    { return { color: 'rgba(80,220,160,0.9)',  weight: 1.5, fillColor: 'rgba(80,220,160,0.18)', fillOpacity: 1 }; }
+  function styleDDA()    { return { color: 'rgba(255,185,60,0.9)',  weight: 1.5, fillColor: 'rgba(255,185,60,0.15)', fillOpacity: 1 }; }
+
+  function buildPopup(p, source) {
+    const safe = v => (v == null || v === '') ? '—' : String(v);
+    const yn   = v => (v===1||v==='1'||v==='Y'||v===true)
+      ? '<span style="color:#34d399">Yes</span>'
+      : '<span style="color:#94a3b8">No</span>';
+    const addr = [p.STD_ADDR||p.PROJ_ADD, p.STD_CITY||p.PROJ_CTY, p.STD_ST||p.PROJ_ST, p.STD_ZIP5].filter(Boolean).join(', ');
+    const srcLabel = (source === 'CHFA')
+      ? 'CHFA (Colorado Housing and Finance Authority)'
+      : (source === 'fallback' ? 'HUD LIHTC Database (embedded)' : 'HUD LIHTC Database');
+    return `<div style="min-width:240px;max-width:300px;font-size:13px;">
+      <div style="font-weight:800;font-size:14px;margin-bottom:5px;line-height:1.3;">${safe(p.PROJECT||p.PROJ_NM)||'LIHTC Project'}</div>
+      ${addr?`<div style="margin-bottom:8px;opacity:.8;">${addr}</div>`:''}
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:2px 0;opacity:.7;">Total units</td><td style="text-align:right;font-weight:700;">${safe(p.N_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">Low-income units</td><td style="text-align:right;font-weight:700;">${safe(p.LI_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">Placed in service</td><td style="text-align:right;">${safe(p.YR_PIS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">Credit type</td><td style="text-align:right;">${safe(p.CREDIT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">QCT</td><td style="text-align:right;">${yn(p.QCT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">DDA</td><td style="text-align:right;">${yn(p.DDA)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7;">County</td><td style="text-align:right;">${safe(p.CNTY_NAME||p.PROJ_CTY)}</td></tr>
+        ${p.HUD_ID?`<tr><td style="padding:2px 0;opacity:.7;">HUD ID</td><td style="text-align:right;font-size:11px;">${safe(p.HUD_ID)}</td></tr>`:''}
+      </table>
+      <div style="margin-top:8px;font-size:11px;opacity:.55;">Source: ${srcLabel}</div>
+    </div>`;
+  }
+
+  function addLegend(map) {
+    const ctrl = L.control({ position: 'bottomright' });
+    ctrl.onAdd = () => {
+      const div = L.DomUtil.create('div', 'map-legend');
+      div.innerHTML = `
+        <div style="font-weight:800;margin-bottom:7px;font-size:13px;">Legend</div>
+        <div class="row"><span class="dot" style="background:#5ec8f8;"></span><span>LIHTC project (CHFA/HUD)</span></div>
+        <div class="row"><span class="swatch" style="background:rgba(80,220,160,.25);border-color:rgba(80,220,160,.6)"></span><span>QCT 2026</span></div>
+        <div class="row"><span class="swatch" style="background:rgba(255,185,60,.22);border-color:rgba(255,185,60,.6)"></span><span>DDA 2026</span></div>
+        <div class="row"><span class="dot" style="background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.55);"></span><span>State/county boundary</span></div>
+        <div class="row"><span class="swatch" style="background:transparent;border:1px dashed rgba(140,200,255,.5)"></span><span>Place boundary</span></div>
+      `;
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+      return div;
+    };
+    ctrl.addTo(map);
+  }
+
+  function setStatus(el, msg, type) {
+    if (!el) return;
+    const c = { ok:'var(--good)', warn:'var(--warn)', err:'var(--bad)', info:'var(--muted)' };
+    el.textContent = msg; el.style.color = c[type]||'var(--muted)';
+    if (type === 'ok') el.dataset.ok = '1';
+  }
+
+  /* =====================================================================
+     EMBEDDED FALLBACK DATA
+     Representative Colorado LIHTC projects, QCT tracts, and DDA zones
+     used when HUD ArcGIS APIs are unreachable.
+     ===================================================================== */
+  const FALLBACK_LIHTC = {type:'FeatureCollection',features:[
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_ADD:'1500 W 13th Ave',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:120,LI_UNITS:120,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_ADD:'3100 Downing St',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2016,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_ADD:'250 W Alameda Ave',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:55,LI_UNITS:55,YR_PIS:2020,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_ADD:'2800 Welton St',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:96,LI_UNITS:96,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9540,39.6934]},properties:{PROJECT:'Sun Valley Senior Housing',PROJ_ADD:'4500 Morrison Rd',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2021,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9980,39.7545]},properties:{PROJECT:'Highland Gardens',PROJ_ADD:'3301 Navajo St',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:84,LI_UNITS:84,YR_PIS:2017,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9722,39.7755]},properties:{PROJECT:'Globeville Flats',PROJ_ADD:'4400 York St',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:110,LI_UNITS:110,YR_PIS:2022,CREDIT:'9%',QCT:true,DDA:true,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9461,39.7394]},properties:{PROJECT:'Elyria-Swansea Homes',PROJ_ADD:'5501 Washington St',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:78,LI_UNITS:78,YR_PIS:2020,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9310,39.6890]},properties:{PROJECT:'Montbello Seniors',PROJ_ADD:'12000 E MLK Jr Blvd',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:65,LI_UNITS:65,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_ADD:'1700 S Havana St',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:150,LI_UNITS:150,YR_PIS:2021,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Arapahoe'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_ADD:'16000 E Colfax Ave',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Arapahoe'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8629,39.7145]},properties:{PROJECT:'Peoria Crossing',PROJ_ADD:'11400 E 26th Ave',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:108,LI_UNITS:108,YR_PIS:2020,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9921,39.8370]},properties:{PROJECT:'Thornton Gardens',PROJ_ADD:'9500 Colorado Blvd',PROJ_CTY:'Thornton',PROJ_ST:'CO',N_UNITS:120,LI_UNITS:120,YR_PIS:2022,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0022,39.8562]},properties:{PROJECT:'Westminster Commons',PROJ_ADD:'7600 Federal Blvd',PROJ_CTY:'Westminster',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2017,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9530,39.8895]},properties:{PROJECT:'Brighton Family Flats',PROJ_ADD:'450 N Main St',PROJ_CTY:'Brighton',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2023,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0866,39.6430]},properties:{PROJECT:'Lakewood Pointe',PROJ_ADD:'1200 Garrison St',PROJ_CTY:'Lakewood',PROJ_ST:'CO',N_UNITS:92,LI_UNITS:92,YR_PIS:2018,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Jefferson'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1022,39.7531]},properties:{PROJECT:'Arvada Senior Housing',PROJ_ADD:'7700 Grandview Ave',PROJ_CTY:'Arvada',PROJ_ST:'CO',N_UNITS:70,LI_UNITS:70,YR_PIS:2016,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Jefferson'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0749,39.9028]},properties:{PROJECT:'Broomfield Crossings',PROJ_ADD:'1 W 1st Ave',PROJ_CTY:'Broomfield',PROJ_ST:'CO',N_UNITS:88,LI_UNITS:88,YR_PIS:2020,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Broomfield'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_ADD:'1850 Folsom St',PROJ_CTY:'Boulder',PROJ_ST:'CO',N_UNITS:100,LI_UNITS:100,YR_PIS:2021,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Boulder'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1019,40.0659]},properties:{PROJECT:'Longmont Family Apts',PROJ_ADD:'1200 Coffman St',PROJ_CTY:'Longmont',PROJ_ST:'CO',N_UNITS:76,LI_UNITS:76,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Boulder'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_ADD:'2500 E Platte Ave',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:130,LI_UNITS:130,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'El Paso'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8614,38.8658]},properties:{PROJECT:'Pikes Peak Seniors',PROJ_ADD:'305 W Cimarron St',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:75,LI_UNITS:75,YR_PIS:2017,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'El Paso'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7981,38.7826]},properties:{PROJECT:'Fountain Meadows',PROJ_ADD:'200 Iowa Ave',PROJ_CTY:'Fountain',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2020,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'El Paso'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9044,38.9271]},properties:{PROJECT:'Northgate Apts',PROJ_ADD:'5820 Tutt Blvd',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:95,LI_UNITS:95,YR_PIS:2022,CREDIT:'4%',QCT:false,DDA:false,CNTY_NAME:'El Paso'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_ADD:'424 Pine St',PROJ_CTY:'Fort Collins',PROJ_ST:'CO',N_UNITS:104,LI_UNITS:104,YR_PIS:2019,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Larimer'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1400,40.3772]},properties:{PROJECT:'Loveland Senior Village',PROJ_ADD:'1600 N Lincoln Ave',PROJ_CTY:'Loveland',PROJ_ST:'CO',N_UNITS:68,LI_UNITS:68,YR_PIS:2016,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Larimer'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_ADD:'900 10th St',PROJ_CTY:'Greeley',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2020,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Weld'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7099,40.3945]},properties:{PROJECT:'Evans Gardens',PROJ_ADD:'1400 37th St',PROJ_CTY:'Evans',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Weld'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_ADD:'215 N Santa Fe Ave',PROJ_CTY:'Pueblo',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2017,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Pueblo'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.5920,38.2740]},properties:{PROJECT:'Belmont Apts',PROJ_ADD:'2100 Jerry Murphy Rd',PROJ_CTY:'Pueblo',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2015,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Pueblo'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_ADD:'700 North Ave',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:85,LI_UNITS:85,YR_PIS:2021,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Mesa'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.4748,39.0877]},properties:{PROJECT:'Mesa Senior Commons',PROJ_ADD:'2900 Patterson Rd',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2018,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Mesa'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_ADD:'1000 Chambers Ave',PROJ_CTY:'Eagle',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2022,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Eagle'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3742,39.5505]},properties:{PROJECT:'Summit County Workforce Apts',PROJ_ADD:'560 Straight Creek Dr',PROJ_CTY:'Dillon',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2021,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Summit'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.3317,39.5430]},properties:{PROJECT:'Rifle Family Residences',PROJ_ADD:'202 Railroad Ave',PROJ_CTY:'Rifle',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2019,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Garfield'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.6723,39.5480]},properties:{PROJECT:'Glenwood Commons',PROJ_ADD:'1625 Grand Ave',PROJ_CTY:'Glenwood Springs',PROJ_ST:'CO',N_UNITS:56,LI_UNITS:56,YR_PIS:2020,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Garfield'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,40.4850]},properties:{PROJECT:'Steamboat Affordable Homes',PROJ_ADD:'1775 Hilltop Pkwy',PROJ_CTY:'Steamboat Springs',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2023,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Routt'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8659,40.6133]},properties:{PROJECT:'Craig Senior Apts',PROJ_ADD:'440 Yampa Ave',PROJ_CTY:'Craig',PROJ_ST:'CO',N_UNITS:28,LI_UNITS:28,YR_PIS:2016,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Moffat'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8762,38.4783]},properties:{PROJECT:'Montrose Family Flats',PROJ_ADD:'1500 E Main St',PROJ_CTY:'Montrose',PROJ_ST:'CO',N_UNITS:56,LI_UNITS:56,YR_PIS:2019,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Montrose'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8625,38.7415]},properties:{PROJECT:'Delta Commons',PROJ_ADD:'261 Meeker St',PROJ_CTY:'Delta',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2017,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Delta'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9245,38.5458]},properties:{PROJECT:'Gunnison Workforce Housing',PROJ_ADD:'200 N Boulevard St',PROJ_CTY:'Gunnison',PROJ_ST:'CO',N_UNITS:32,LI_UNITS:32,YR_PIS:2022,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Gunnison'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2422,38.4408]},properties:{PROJECT:'Canon City Senior Village',PROJ_ADD:'712 Main St',PROJ_CTY:'Cañon City',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Fremont'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.8697,37.4694]},properties:{PROJECT:'Alamosa Gardens',PROJ_ADD:'301 State Ave',PROJ_CTY:'Alamosa',PROJ_ST:'CO',N_UNITS:38,LI_UNITS:38,YR_PIS:2015,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Alamosa'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_ADD:'1200 Camino Del Rio',PROJ_CTY:'Durango',PROJ_ST:'CO',N_UNITS:62,LI_UNITS:62,YR_PIS:2021,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'La Plata'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5847,37.3489]},properties:{PROJECT:'Cortez Affordable Housing',PROJ_ADD:'300 N Chestnut St',PROJ_CTY:'Cortez',PROJ_ST:'CO',N_UNITS:42,LI_UNITS:42,YR_PIS:2018,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Montezuma'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0178,39.6462]},properties:{PROJECT:'Englewood Seniors',PROJ_ADD:'3611 S Broadway',PROJ_CTY:'Englewood',PROJ_ST:'CO',N_UNITS:58,LI_UNITS:58,YR_PIS:2016,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Arapahoe'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9671,39.6298]},properties:{PROJECT:'Centennial Crossings',PROJ_ADD:'6900 S York St',PROJ_CTY:'Centennial',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2020,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Arapahoe'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9900,39.5911]},properties:{PROJECT:'Littleton Family Homes',PROJ_ADD:'2500 W Main St',PROJ_CTY:'Littleton',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2018,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Arapahoe'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9611,39.9050]},properties:{PROJECT:'Northglenn Apartments',PROJ_ADD:'10500 Huron St',PROJ_CTY:'Northglenn',PROJ_ST:'CO',N_UNITS:96,LI_UNITS:96,YR_PIS:2021,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0198,39.8100]},properties:{PROJECT:'Federal Heights Housing',PROJ_ADD:'2399 W 84th Ave',PROJ_CTY:'Federal Heights',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-103.8022,40.1844]},properties:{PROJECT:'Morgan County Homes',PROJ_ADD:'300 W Main St',PROJ_CTY:'Fort Morgan',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Morgan'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-102.6185,40.1675]},properties:{PROJECT:'Sterling Housing',PROJ_ADD:'330 N 3rd St',PROJ_CTY:'Sterling',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Logan'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-103.5536,37.3536]},properties:{PROJECT:'Trinidad Senior Homes',PROJ_ADD:'301 E Main St',PROJ_CTY:'Trinidad',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2016,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Las Animas'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-107.5017,37.9472]},properties:{PROJECT:'Telluride Workforce Apts',PROJ_ADD:'500 W Colorado Ave',PROJ_CTY:'Telluride',PROJ_ST:'CO',N_UNITS:28,LI_UNITS:28,YR_PIS:2023,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'San Miguel'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8233,39.1839]},properties:{PROJECT:'Basalt Workforce Village',PROJ_ADD:'100 Midland Ave',PROJ_CTY:'Basalt',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2023,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Eagle'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3203,39.5130]},properties:{PROJECT:'Silverthorne Commons',PROJ_ADD:'400 Blue River Pkwy',PROJ_CTY:'Silverthorne',PROJ_ST:'CO',N_UNITS:35,LI_UNITS:35,YR_PIS:2022,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Summit'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.6867,40.3958]},properties:{PROJECT:'Estes Park Workforce',PROJ_ADD:'175 Stanley Ave',PROJ_CTY:'Estes Park',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2023,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Larimer'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8914,40.5256]},properties:{PROJECT:'Windsor Senior Villas',PROJ_ADD:'1600 Main St',PROJ_CTY:'Windsor',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2022,CREDIT:'9%',QCT:false,DDA:true,CNTY_NAME:'Weld'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6897,40.3736]},properties:{PROJECT:'Greeley North Commons',PROJ_ADD:'2200 35th Ave',PROJ_CTY:'Greeley',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2020,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Weld'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.8697,37.4694]},properties:{PROJECT:'Monte Vista Senior Homes',PROJ_ADD:'500 Adams St',PROJ_CTY:'Monte Vista',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2019,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Rio Grande'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-108.0736,37.1523]},properties:{PROJECT:'Towaoc Tribal Housing',PROJ_ADD:'Ute Mountain Ute Area',PROJ_CTY:'Towaoc',PROJ_ST:'CO',N_UNITS:34,LI_UNITS:34,YR_PIS:2020,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Montezuma'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.1614,37.1895]},properties:{PROJECT:'Walsenburg Commons',PROJ_ADD:'600 W 7th St',PROJ_CTY:'Walsenburg',PROJ_ST:'CO',N_UNITS:20,LI_UNITS:20,YR_PIS:2014,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Huerfano'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.3322,37.4781]},properties:{PROJECT:'Conejos County Housing',PROJ_ADD:'101 Main Ave',PROJ_CTY:'La Jara',PROJ_ST:'CO',N_UNITS:10,LI_UNITS:10,YR_PIS:2018,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Conejos'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7629,38.6785]},properties:{PROJECT:'Peyton Rural Homes',PROJ_ADD:'County Rd 21',PROJ_CTY:'Peyton',PROJ_ST:'CO',N_UNITS:24,LI_UNITS:24,YR_PIS:2017,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'El Paso'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.4836,37.6778]},properties:{PROJECT:'La Veta Housing',PROJ_ADD:'150 Rosita Ave',PROJ_CTY:'La Veta',PROJ_ST:'CO',N_UNITS:14,LI_UNITS:14,YR_PIS:2018,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Huerfano'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-103.2158,39.5580]},properties:{PROJECT:'Limon Gateway Apts',PROJ_ADD:'170 E 1st St',PROJ_CTY:'Limon',PROJ_ST:'CO',N_UNITS:22,LI_UNITS:22,YR_PIS:2016,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Lincoln'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-102.1231,40.0133]},properties:{PROJECT:'Yuma Senior Living',PROJ_ADD:'600 S Main St',PROJ_CTY:'Yuma',PROJ_ST:'CO',N_UNITS:20,LI_UNITS:20,YR_PIS:2017,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Yuma'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-102.6024,38.0961]},properties:{PROJECT:'Las Animas Apts',PROJ_ADD:'505 Bent Ave',PROJ_CTY:'Las Animas',PROJ_ST:'CO',N_UNITS:18,LI_UNITS:18,YR_PIS:2015,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Bent'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.5916,38.4036]},properties:{PROJECT:'Pueblo West Seniors',PROJ_ADD:'900 Doyle Blvd',PROJ_CTY:'Pueblo West',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2022,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Pueblo'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.9764,39.2340]},properties:{PROJECT:'South Park Housing',PROJ_ADD:'200 Main St',PROJ_CTY:'Fairplay',PROJ_ST:'CO',N_UNITS:16,LI_UNITS:16,YR_PIS:2020,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Park'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9703,40.2586]},properties:{PROJECT:'Dacono Valley Apts',PROJ_ADD:'512 County Rd',PROJ_CTY:'Dacono',PROJ_ST:'CO',N_UNITS:54,LI_UNITS:54,YR_PIS:2020,CREDIT:'9%',QCT:false,DDA:false,CNTY_NAME:'Weld'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0019,39.9870]},properties:{PROJECT:'Thornton East Village',PROJ_ADD:'12200 Colorado Blvd',PROJ_CTY:'Thornton',PROJ_ST:'CO',N_UNITS:82,LI_UNITS:82,YR_PIS:2021,CREDIT:'4%',QCT:false,DDA:true,CNTY_NAME:'Adams'}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9501,39.7200]},properties:{PROJECT:'Capitol Hill Commons',PROJ_ADD:'1400 E Colfax Ave',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2022,CREDIT:'9%',QCT:true,DDA:false,CNTY_NAME:'Denver'}},
+  ]};
+
+  const FALLBACK_QCT = {type:'FeatureCollection',features:[
+    {type:'Feature',properties:{NAME:'Denver-Globeville QCT',GEOID:'08031006700',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.000,39.772],[-104.940,39.772],[-104.940,39.790],[-105.000,39.790],[-105.000,39.772]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Five Points QCT',GEOID:'08031007700',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.982,39.745],[-104.940,39.745],[-104.940,39.768],[-104.982,39.768],[-104.982,39.745]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Sun Valley QCT',GEOID:'08031006800',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.010,39.720],[-104.975,39.720],[-104.975,39.740],[-105.010,39.740],[-105.010,39.720]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Montbello QCT',GEOID:'08031004601',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.955,39.760],[-104.910,39.760],[-104.910,39.810],[-104.955,39.810],[-104.955,39.760]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Westwood QCT',GEOID:'08031007400',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.050,39.680],[-104.995,39.680],[-104.995,39.718],[-105.050,39.718],[-105.050,39.680]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Villa Park QCT',GEOID:'08031008200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.030,39.730],[-104.995,39.730],[-104.995,39.755],[-105.030,39.755],[-105.030,39.730]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Barnum QCT',GEOID:'08031008500',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.043,39.700],[-105.000,39.700],[-105.000,39.725],[-105.043,39.725],[-105.043,39.700]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Swansea QCT',GEOID:'08031009100',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.966,39.760],[-104.930,39.760],[-104.930,39.785],[-104.966,39.785],[-104.966,39.760]]]}},
+    {type:'Feature',properties:{NAME:'Denver-Capitol Hill QCT',GEOID:'08031003200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.975,39.730],[-104.940,39.730],[-104.940,39.748],[-104.975,39.748],[-104.975,39.730]]]}},
+    {type:'Feature',properties:{NAME:'Aurora-Colfax QCT',GEOID:'08005011020',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.900,39.720],[-104.840,39.720],[-104.840,39.750],[-104.900,39.750],[-104.900,39.720]]]}},
+    {type:'Feature',properties:{NAME:'Aurora-East QCT',GEOID:'08005011800',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.840,39.686],[-104.780,39.686],[-104.780,39.710],[-104.840,39.710],[-104.840,39.686]]]}},
+    {type:'Feature',properties:{NAME:'Westminster Federal QCT',GEOID:'08001012900',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.040,39.843],[-104.990,39.843],[-104.990,39.868],[-105.040,39.868],[-105.040,39.843]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs-Downtown QCT',GEOID:'08041003200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.851,38.820],[-104.800,38.820],[-104.800,38.858],[-104.851,38.858],[-104.851,38.820]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs-East QCT',GEOID:'08041004100',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.800,38.820],[-104.730,38.820],[-104.730,38.860],[-104.800,38.860],[-104.800,38.820]]]}},
+    {type:'Feature',properties:{NAME:'Pueblo-Downtown QCT',GEOID:'08101000300',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.635,38.238],[-104.580,38.238],[-104.580,38.278],[-104.635,38.278],[-104.635,38.238]]]}},
+    {type:'Feature',properties:{NAME:'Pueblo-North QCT',GEOID:'08101000400',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.640,38.278],[-104.575,38.278],[-104.575,38.310],[-104.640,38.310],[-104.640,38.278]]]}},
+    {type:'Feature',properties:{NAME:'Greeley QCT',GEOID:'08123000500',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.404],[-104.670,40.404],[-104.670,40.440],[-104.730,40.440],[-104.730,40.404]]]}},
+    {type:'Feature',properties:{NAME:'Evans QCT',GEOID:'08123000700',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.380],[-104.680,40.380],[-104.680,40.404],[-104.730,40.404],[-104.730,40.380]]]}},
+    {type:'Feature',properties:{NAME:'Longmont East QCT',GEOID:'08013001900',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.120,40.148],[-105.070,40.148],[-105.070,40.182],[-105.120,40.182],[-105.120,40.148]]]}},
+    {type:'Feature',properties:{NAME:'Grand Junction QCT',GEOID:'08077000200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-108.590,39.048],[-108.530,39.048],[-108.530,39.085],[-108.590,39.085],[-108.590,39.048]]]}},
+    {type:'Feature',properties:{NAME:'Fort Morgan QCT',GEOID:'08087000300',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-103.840,40.244],[-103.780,40.244],[-103.780,40.272],[-103.840,40.272],[-103.840,40.244]]]}},
+    {type:'Feature',properties:{NAME:'Sterling QCT',GEOID:'08075001100',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-103.250,40.598],[-103.195,40.598],[-103.195,40.634],[-103.250,40.634],[-103.250,40.598]]]}},
+    {type:'Feature',properties:{NAME:'Alamosa QCT',GEOID:'08003000600',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.910,37.454],[-105.848,37.454],[-105.848,37.490],[-105.910,37.490],[-105.910,37.454]]]}},
+    {type:'Feature',properties:{NAME:'Trinidad QCT',GEOID:'08071000500',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.590,37.160],[-104.520,37.160],[-104.520,37.192],[-104.590,37.192],[-104.590,37.160]]]}},
+    {type:'Feature',properties:{NAME:'Walsenburg QCT',GEOID:'08055000200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-104.805,37.620],[-104.760,37.620],[-104.760,37.645],[-104.805,37.645],[-104.805,37.620]]]}},
+    {type:'Feature',properties:{NAME:'Cañon City QCT',GEOID:'08043000500',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-105.260,38.427],[-105.200,38.427],[-105.200,38.456],[-105.260,38.456],[-105.260,38.427]]]}},
+    {type:'Feature',properties:{NAME:'Las Animas QCT',GEOID:'08011000200',STATE:'CO'},geometry:{type:'Polygon',coordinates:[[[-103.240,38.058],[-103.180,38.058],[-103.180,38.082],[-103.240,38.082],[-103.240,38.058]]]}},
+  ]};
+
+  const FALLBACK_DDA = {type:'FeatureCollection',features:[
+    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['001','005','014','019','031','035','039','047','059','093']},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
+    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['013','014']},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
+    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['069']},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
+    {type:'Feature',properties:{NAME:'Colorado Springs DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['041','119']},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.60,38.69],[-104.60,39.08],[-105.19,39.08],[-105.19,38.69]]]}},
+    {type:'Feature',properties:{NAME:'Greeley DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['123']},geometry:{type:'Polygon',coordinates:[[[-104.90,40.28],[-104.55,40.28],[-104.55,40.55],[-104.90,40.55],[-104.90,40.28]]]}},
+    {type:'Feature',properties:{NAME:'Eagle County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['037']},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
+    {type:'Feature',properties:{NAME:'Summit County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['117']},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
+    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['097']},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
+    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['113']},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
+    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['107']},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
+    {type:'Feature',properties:{NAME:'Garfield County DDA',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['045']},geometry:{type:'Polygon',coordinates:[[[-108.10,39.30],[-107.06,39.30],[-107.06,39.75],[-108.10,39.75],[-108.10,39.30]]]}},
+    {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['067']},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
+  ]};
+
+  // Maps 5-digit county FIPS → HUD Metro FMR Area name used in DDA_NAME field.
+  // Mirrors housing-needs-assessment.js CO_DDA for the deep-dive DDA filter.
+  const CO_DDA_AREAS = {
+    '08001': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Adams
+    '08005': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Arapahoe
+    '08013': 'Boulder HUD Metro FMR Area',                  // Boulder
+    '08014': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Broomfield
+    '08019': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Clear Creek
+    '08031': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Denver
+    '08035': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Douglas
+    '08037': 'Edwards HUD Metro FMR Area (Eagle County)',   // Eagle
+    '08039': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Elbert
+    '08041': 'Colorado Springs HUD Metro FMR Area',         // El Paso
+    '08047': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Gilpin
+    '08059': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Jefferson
+    '08069': 'Fort Collins HUD Metro FMR Area',             // Larimer
+    '08093': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Park
+    '08097': 'Aspen HUD Metro FMR Area (Pitkin County)',    // Pitkin
+    '08117': 'Summit County HUD Metro FMR Area',            // Summit
+    '08119': 'Colorado Springs HUD Metro FMR Area',         // Teller
+    '08123': 'Greeley HUD Metro FMR Area',                  // Weld
+  };
+
+  /* =====================================================================
+     MAIN INIT
+     ===================================================================== */
+  async function init() {
+    const mapEl = $id('coMap');
+    if (!mapEl || typeof L === 'undefined') { console.error('Leaflet not loaded or #coMap missing'); return; }
+    const statusEl = $id('map-status');
+
+    /* Colorado bbox constants
+       True border:  SW 36.99°N 109.06°W — NE 41.00°N 102.04°W
+       50-mile pad:  ~0.72° lat, ~0.90° lon at 39°N              */
+    const CO_STRICT    = L.latLngBounds([[36.99,-109.06],[41.00,-102.04]]);
+    const CO_MAX_BOUNDS = L.latLngBounds([[36.27,-109.96],[41.72,-101.14]]);
+
+    const map = L.map('coMap', {
+      preferCanvas: true,
+      zoomControl: true,
+      minZoom: 6,
+      maxZoom: 14,
+      maxBounds: CO_MAX_BOUNDS,
+      maxBoundsViscosity: 1.0
+    });
+
+    map.createPane('overlayPane2'); map.getPane('overlayPane2').style.zIndex = 410;
+    map.createPane('pointsPane2'); map.getPane('pointsPane2').style.zIndex  = 420;
+    map.createPane('transportPane'); map.getPane('transportPane').style.zIndex = 215;
+
+    // Expose map globally so prop123-map.js, map-overlay.js, and other scripts can access it
+    window.CODeepDiveMap = { map: map };
+    window.coLihtcMap = map;
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // --- Basemap tile providers ---
+    const darkBasemap    = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
+    const lightBasemap   = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19});
+    const osmBasemap     = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',             {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19});
+    const satelliteBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution:'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18});
+    const esriGrayBasemap  = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {attribution:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',maxZoom:16});
+    const baseByKey = { light: lightBasemap, dark: darkBasemap, osm: osmBasemap, satellite: satelliteBasemap, 'esri-gray': esriGrayBasemap };
+
+    // Default basemap: session-stored choice → auto (OS/site theme).
+    const MAP_BASE_SESSION_KEY = 'co-lihtc-basemap';
+    function autoBaseKey() {
+      if (document.documentElement.classList.contains('dark-mode'))  return 'dark';
+      if (document.documentElement.classList.contains('light-mode')) return 'light';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    const storedBase = (() => { try { return sessionStorage.getItem(MAP_BASE_SESSION_KEY); } catch(_) { return null; } })();
+    let desiredBaseKey = (storedBase && baseByKey[storedBase]) ? storedBase : autoBaseKey();
+    let activeBase = baseByKey[desiredBaseKey].addTo(map);
+
+    function markTilesLoaded(){ setStatus(statusEl, 'Basemap loaded ✓', 'ok'); }
+    // Leaflet fires `load` when all visible tiles are loaded.
+    activeBase.once('load', markTilesLoaded);
+
+    function swapBasemap(next) {
+      try { map.removeLayer(activeBase); } catch(e) {}
+      activeBase = next.addTo(map);
+      // Reset OK flag so we can show "loaded" after swaps as well.
+      if (statusEl) delete statusEl.dataset.ok;
+      activeBase.once('load', () => setStatus(statusEl, 'Basemap loaded ✓', 'ok'));
+    }
+
+    // If the tiles fail to load, fall back to OSM Standard so overlays remain readable.
+    activeBase.on('tileerror', () => {
+      console.warn('Basemap tile error — falling back to OpenStreetMap');
+      if (activeBase !== osmBasemap) swapBasemap(osmBasemap);
+    });
+
+    // Manual basemap selector. Explicit choice stored in sessionStorage for the session;
+    // 'auto' mode tracks OS/site dark-mode theme changes automatically.
+    const baseSel = $id('basemapSelect');
+    if (baseSel) {
+      // Restore session choice or show Auto
+      baseSel.value = (storedBase && baseByKey[storedBase]) ? storedBase : 'auto';
+      baseSel.addEventListener('change', () => {
+        const v = baseSel.value;
+        const key = (v === 'auto') ? autoBaseKey() : v;
+        desiredBaseKey = key;
+        const next = baseByKey[key] || lightBasemap;
+        swapBasemap(next);
+        next.once('load', markTilesLoaded);
+        // Persist explicit choice (omit 'auto') so session restores it on reload
+        try { v === 'auto' ? sessionStorage.removeItem(MAP_BASE_SESSION_KEY) : sessionStorage.setItem(MAP_BASE_SESSION_KEY, v); } catch(_) {}
+      });
+      // Auto-follow site theme changes (only when selector is on 'auto')
+      if (window.MutationObserver) {
+        new MutationObserver(() => {
+          if (baseSel.value === 'auto') {
+            const key = autoBaseKey();
+            if (key !== desiredBaseKey) { desiredBaseKey = key; swapBasemap(baseByKey[key]); }
+          }
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      }
+    }
+
+    // If the basemap is blocked entirely, show a hint quickly.
+    // Overlays should still render, so the map remains useful.
+    setTimeout(() => {
+      // If we haven't marked OK yet, keep status informative (don't overwrite later success)
+      if (statusEl && !statusEl.dataset.ok) {
+        setStatus(statusEl, 'Basemap may be blocked — overlays should still load', 'warn');
+      }
+    }, 2500);
+const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+      {attribution:'&copy; OpenStreetMap contributors',opacity:0.25,pane:'transportPane',maxZoom:19});
+
+    addLegend(map);
+
+    /* ---------- Step 1: Boundaries (embedded fallback → TIGERweb upgrade) ---------- */
+    /* The embedded coCountiesFC contains simple rectangle approximations shown immediately.
+       An async TIGERweb fetch (STATEFP='08') then swaps them for real county polygons.     */
+    setStatus(statusEl, 'Loading boundaries…', 'info');
+
+    const coStateFC   = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "08", "properties": {"name": "Colorado"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 41.0006], [-102.0424, 41.0006], [-102.0424, 36.9928], [-109.06, 36.9928], [-109.06, 41.0006]]]}}]};
+    const coCountiesFC = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "08", "properties": {"name": "Moffat", "fips": "08081"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 40.222], [-107.316, 40.222], [-107.316, 41.0], [-109.06, 41.0], [-109.06, 40.222]]]}}, {"type": "Feature", "id": "08107", "properties": {"name": "Routt", "fips": "08107"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 40.003], [-106.637, 40.003], [-106.637, 41.0], [-107.316, 41.0], [-107.316, 40.003]]]}}, {"type": "Feature", "id": "08057", "properties": {"name": "Jackson", "fips": "08057"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 40.36], [-105.928, 40.36], [-105.928, 41.0], [-106.637, 41.0], [-106.637, 40.36]]]}}, {"type": "Feature", "id": "08069", "properties": {"name": "Larimer", "fips": "08069"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.928, 40.259], [-104.943, 40.259], [-104.943, 41.0], [-105.928, 41.0], [-105.928, 40.259]]]}}, {"type": "Feature", "id": "08123", "properties": {"name": "Weld", "fips": "08123"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.943, 39.915], [-103.574, 39.915], [-103.574, 41.0], [-104.943, 41.0], [-104.943, 39.915]]]}}, {"type": "Feature", "id": "08075", "properties": {"name": "Logan", "fips": "08075"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 40.349], [-102.813, 40.349], [-102.813, 41.0], [-103.574, 41.0], [-103.574, 40.349]]]}}, {"type": "Feature", "id": "08115", "properties": {"name": "Sedgwick", "fips": "08115"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 40.658], [-102.042, 40.658], [-102.042, 41.0], [-102.813, 41.0], [-102.813, 40.658]]]}}, {"type": "Feature", "id": "08095", "properties": {"name": "Phillips", "fips": "08095"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 40.259], [-102.042, 40.259], [-102.042, 40.658], [-102.813, 40.658], [-102.813, 40.259]]]}}, {"type": "Feature", "id": "08103", "properties": {"name": "Rio Blanco", "fips": "08103"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 39.374], [-107.316, 39.374], [-107.316, 40.222], [-109.06, 40.222], [-109.06, 39.374]]]}}, {"type": "Feature", "id": "08045", "properties": {"name": "Garfield", "fips": "08045"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 39.374], [-106.637, 39.374], [-106.637, 40.003], [-107.316, 40.003], [-107.316, 39.374]]]}}, {"type": "Feature", "id": "08037", "properties": {"name": "Eagle", "fips": "08037"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 39.374], [-106.133, 39.374], [-106.133, 40.003], [-106.637, 40.003], [-106.637, 39.374]]]}}, {"type": "Feature", "id": "08117", "properties": {"name": "Summit", "fips": "08117"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.133, 39.374], [-105.558, 39.374], [-105.558, 40.003], [-106.133, 40.003], [-106.133, 39.374]]]}}, {"type": "Feature", "id": "08049", "properties": {"name": "Grand", "fips": "08049"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.637, 39.915], [-105.928, 39.915], [-105.928, 40.36], [-106.637, 40.36], [-106.637, 39.915]]]}}, {"type": "Feature", "id": "08013", "properties": {"name": "Boulder", "fips": "08013"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.558, 39.915], [-104.942, 39.915], [-104.942, 40.259], [-105.558, 40.259], [-105.558, 39.915]]]}}, {"type": "Feature", "id": "08014", "properties": {"name": "Broomfield", "fips": "08014"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.13, 39.915], [-104.943, 39.915], [-104.943, 40.09], [-105.13, 40.09], [-105.13, 39.915]]]}}, {"type": "Feature", "id": "08001", "properties": {"name": "Adams", "fips": "08001"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.943, 39.573], [-103.574, 39.573], [-103.574, 40.0], [-104.943, 40.0], [-104.943, 39.573]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Morgan", "fips": "08087"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 39.915], [-103.006, 39.915], [-103.006, 40.349], [-103.574, 40.349], [-103.574, 39.915]]]}}, {"type": "Feature", "id": "08121", "properties": {"name": "Washington", "fips": "08121"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 39.574], [-103.006, 39.574], [-103.006, 39.915], [-103.574, 39.915], [-103.574, 39.574]]]}}, {"type": "Feature", "id": "08125", "properties": {"name": "Yuma", "fips": "08125"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.006, 39.574], [-102.042, 39.574], [-102.042, 40.659], [-103.006, 40.659], [-103.006, 39.574]]]}}, {"type": "Feature", "id": "08077", "properties": {"name": "Mesa", "fips": "08077"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 38.499], [-107.316, 38.499], [-107.316, 39.374], [-109.06, 39.374], [-109.06, 38.499]]]}}, {"type": "Feature", "id": "08029", "properties": {"name": "Delta", "fips": "08029"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 38.499], [-107.008, 38.499], [-107.008, 39.374], [-107.316, 39.374], [-107.316, 38.499]]]}}, {"type": "Feature", "id": "08051", "properties": {"name": "Gunnison", "fips": "08051"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.316, 38.257], [-106.263, 38.257], [-106.263, 38.499], [-107.316, 38.499], [-107.316, 38.257]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Montrose", "fips": "08085"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.31, 38.257], [-107.316, 38.257], [-107.316, 38.499], [-108.31, 38.499], [-108.31, 38.257]]]}}, {"type": "Feature", "id": "08097", "properties": {"name": "Pitkin", "fips": "08097"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 39.074], [-106.263, 39.074], [-106.263, 39.374], [-107.044, 39.374], [-107.044, 39.074]]]}}, {"type": "Feature", "id": "08065", "properties": {"name": "Lake", "fips": "08065"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.263, 38.857], [-105.928, 38.857], [-105.928, 39.374], [-106.263, 39.374], [-106.263, 38.857]]]}}, {"type": "Feature", "id": "08093", "properties": {"name": "Park", "fips": "08093"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.928, 38.676], [-105.18, 38.676], [-105.18, 39.374], [-105.928, 39.374], [-105.928, 38.676]]]}}, {"type": "Feature", "id": "08059", "properties": {"name": "Jefferson", "fips": "08059"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.24, 39.391], [-104.943, 39.391], [-104.943, 39.914], [-105.24, 39.914], [-105.24, 39.391]]]}}, {"type": "Feature", "id": "08031", "properties": {"name": "Denver", "fips": "08031"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.11, 39.614], [-104.601, 39.614], [-104.601, 39.914], [-105.11, 39.914], [-105.11, 39.614]]]}}, {"type": "Feature", "id": "08005", "properties": {"name": "Arapahoe", "fips": "08005"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.939, 39.391], [-103.574, 39.391], [-103.574, 39.914], [-104.939, 39.914], [-104.939, 39.391]]]}}, {"type": "Feature", "id": "08039", "properties": {"name": "Elbert", "fips": "08039"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.601, 38.686], [-103.574, 38.686], [-103.574, 39.391], [-104.601, 39.391], [-104.601, 38.686]]]}}, {"type": "Feature", "id": "08073", "properties": {"name": "Lincoln", "fips": "08073"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 38.686], [-102.042, 38.686], [-102.042, 39.574], [-103.574, 39.574], [-103.574, 38.686]]]}}, {"type": "Feature", "id": "08063", "properties": {"name": "Kit Carson", "fips": "08063"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 38.686], [-102.042, 38.686], [-102.042, 39.391], [-102.813, 39.391], [-102.813, 38.686]]]}}, {"type": "Feature", "id": "08109", "properties": {"name": "Saguache", "fips": "08109"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.881, 37.574], [-105.636, 37.574], [-105.636, 38.257], [-106.881, 38.257], [-106.881, 37.574]]]}}, {"type": "Feature", "id": "08015", "properties": {"name": "Chaffee", "fips": "08015"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.263, 38.257], [-105.558, 38.257], [-105.558, 38.857], [-106.263, 38.857], [-106.263, 38.257]]]}}, {"type": "Feature", "id": "08043", "properties": {"name": "Fremont", "fips": "08043"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.558, 38.086], [-104.943, 38.086], [-104.943, 38.686], [-105.558, 38.686], [-105.558, 38.086]]]}}, {"type": "Feature", "id": "08119", "properties": {"name": "Teller", "fips": "08119"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.308, 38.676], [-104.601, 38.676], [-104.601, 39.074], [-105.308, 39.074], [-105.308, 38.676]]]}}, {"type": "Feature", "id": "08041", "properties": {"name": "El Paso", "fips": "08041"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.18, 38.086], [-103.574, 38.086], [-103.574, 38.986], [-105.18, 38.986], [-105.18, 38.086]]]}}, {"type": "Feature", "id": "08025", "properties": {"name": "Crowley", "fips": "08025"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.874, 38.086], [-103.245, 38.086], [-103.245, 38.686], [-103.874, 38.686], [-103.874, 38.086]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Otero", "fips": "08089"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.506, 37.574], [-103.006, 37.574], [-103.006, 38.086], [-103.506, 38.086], [-103.506, 37.574]]]}}, {"type": "Feature", "id": "08011", "properties": {"name": "Bent", "fips": "08011"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.506, 37.574], [-102.042, 37.574], [-102.042, 38.086], [-103.506, 38.086], [-103.506, 37.574]]]}}, {"type": "Feature", "id": "08099", "properties": {"name": "Prowers", "fips": "08099"}, "geometry": {"type": "Polygon", "coordinates": [[[-102.813, 37.574], [-102.042, 37.574], [-102.042, 38.086], [-102.813, 38.086], [-102.813, 37.574]]]}}, {"type": "Feature", "id": "08053", "properties": {"name": "Hinsdale", "fips": "08053"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.63, 37.574], [-106.881, 37.574], [-106.881, 38.257], [-107.63, 38.257], [-107.63, 37.574]]]}}, {"type": "Feature", "id": "08079", "properties": {"name": "Mineral", "fips": "08079"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 37.574], [-106.644, 37.574], [-106.644, 37.977], [-107.044, 37.977], [-107.044, 37.574]]]}}, {"type": "Feature", "id": "08105", "properties": {"name": "Rio Grande", "fips": "08105"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.644, 37.574], [-105.636, 37.574], [-105.636, 38.086], [-106.644, 38.086], [-106.644, 37.574]]]}}, {"type": "Feature", "id": "08003", "properties": {"name": "Alamosa", "fips": "08003"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.912, 37.234], [-105.196, 37.234], [-105.196, 37.574], [-105.912, 37.574], [-105.912, 37.234]]]}}, {"type": "Feature", "id": "08021", "properties": {"name": "Conejos", "fips": "08021"}, "geometry": {"type": "Polygon", "coordinates": [[[-106.882, 36.993], [-105.636, 36.993], [-105.636, 37.574], [-106.882, 37.574], [-106.882, 36.993]]]}}, {"type": "Feature", "id": "08023", "properties": {"name": "Costilla", "fips": "08023"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.636, 36.993], [-105.027, 36.993], [-105.027, 37.574], [-105.636, 37.574], [-105.636, 36.993]]]}}, {"type": "Feature", "id": "08055", "properties": {"name": "Huerfano", "fips": "08055"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.18, 37.33], [-104.255, 37.33], [-104.255, 38.086], [-105.18, 38.086], [-105.18, 37.33]]]}}, {"type": "Feature", "id": "08071", "properties": {"name": "Las Animas", "fips": "08071"}, "geometry": {"type": "Polygon", "coordinates": [[[-104.939, 36.993], [-102.813, 36.993], [-102.813, 37.574], [-104.939, 37.574], [-104.939, 36.993]]]}}, {"type": "Feature", "id": "08101", "properties": {"name": "Pueblo", "fips": "08101"}, "geometry": {"type": "Polygon", "coordinates": [[[-105.027, 37.574], [-103.874, 37.574], [-103.874, 38.086], [-105.027, 38.086], [-105.027, 37.574]]]}}, {"type": "Feature", "id": "08033", "properties": {"name": "Dolores", "fips": "08033"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.96, 37.574], [-108.29, 37.574], [-108.29, 38.257], [-108.96, 38.257], [-108.96, 37.574]]]}}, {"type": "Feature", "id": "08113", "properties": {"name": "San Miguel", "fips": "08113"}, "geometry": {"type": "Polygon", "coordinates": [[[-108.96, 37.814], [-107.967, 37.814], [-107.967, 38.257], [-108.96, 38.257], [-108.96, 37.814]]]}}, {"type": "Feature", "id": "08", "properties": {"name": "Montezuma", "fips": "08083"}, "geometry": {"type": "Polygon", "coordinates": [[[-109.06, 36.993], [-107.967, 36.993], [-107.967, 37.574], [-109.06, 37.574], [-109.06, 36.993]]]}}, {"type": "Feature", "id": "08067", "properties": {"name": "La Plata", "fips": "08067"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.967, 36.993], [-106.882, 36.993], [-106.882, 37.574], [-107.967, 37.574], [-107.967, 36.993]]]}}, {"type": "Feature", "id": "08007", "properties": {"name": "Archuleta", "fips": "08007"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.044, 36.993], [-106.882, 36.993], [-106.882, 37.574], [-107.044, 37.574], [-107.044, 36.993]]]}}, {"type": "Feature", "id": "08111", "properties": {"name": "San Juan", "fips": "08111"}, "geometry": {"type": "Polygon", "coordinates": [[[-107.964, 37.574], [-107.044, 37.574], [-107.044, 37.977], [-107.964, 37.977], [-107.964, 37.574]]]}}, {"type": "Feature", "id": "08017", "properties": {"name": "Cheyenne", "fips": "08017"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.574, 38.257], [-102.042, 38.257], [-102.042, 38.686], [-103.574, 38.686], [-103.574, 38.257]]]}}, {"type": "Feature", "id": "08061", "properties": {"name": "Kiowa", "fips": "08061"}, "geometry": {"type": "Polygon", "coordinates": [[[-103.006, 38.257], [-102.042, 38.257], [-102.042, 38.686], [-103.006, 38.686], [-103.006, 38.257]]]}}]};
+
+    // Helper: build a counties GeoJSON layer from a feature collection (embedded or TIGERweb)
+    function makeCountiesLayer(fc) {
+      return L.geoJSON(fc, {
+        style: styleCounty,
+        onEachFeature: (f, lyr) => {
+          const nm = (f.properties && (f.properties.name || f.properties.NAME || f.properties.NAMELSAD)) || '';
+          const label = nm ? nm + ' County' : 'Colorado County';
+          lyr.bindTooltip(label, {sticky:true, opacity:0.93, offset:[5,0]});
+          lyr.on('mouseover', function() { this.setStyle({color:'rgba(255,255,255,0.75)',weight:2}); });
+          lyr.on('mouseout',  function() { this.setStyle(styleCounty()); });
+        }
+      });
+    }
+
+    L.geoJSON(coStateFC, {style: styleState}).addTo(map);
+    const coBounds = L.geoJSON(coStateFC).getBounds();
+
+    // `let` (not `const`) — reassigned by upgradeTigerCounties() below when TIGERweb data arrives
+    let countiesLayer = makeCountiesLayer(coCountiesFC).addTo(map);
+
+    map.fitBounds(coBounds, {padding:[16,16]});
+    const minZ = Math.max(6, Math.floor(map.getBoundsZoom(CO_MAX_BOUNDS)));
+    map.setMinZoom(minZ);
+
+    const chkCounties = $id('layerCounties');
+    if (chkCounties) chkCounties.addEventListener('change', () =>
+      chkCounties.checked ? countiesLayer.addTo(map) : map.removeLayer(countiesLayer));
+
+    setStatus(statusEl, 'Boundaries loaded ✓', 'ok');
+
+    // Asynchronously upgrade county boundaries from embedded rectangles to real TIGERweb
+    // polygon shapes. Uses STATEFP='08' — the correct TIGERweb field for Colorado counties.
+    // Falls back silently to embedded rectangles if TIGERweb is unreachable.
+    (async function upgradeTigerCounties() {
+      try {
+        const gj = await arcgisQuery(CO_COUNTIES_URL, "STATEFP='08'", 'NAME,GEOID,NAMELSAD,STATEFP');
+        if (!gj.features.length) return;
+        const upgraded = makeCountiesLayer(gj);
+        const wasVisible = map.hasLayer(countiesLayer);
+        if (wasVisible) map.removeLayer(countiesLayer);
+        countiesLayer = upgraded;
+        if (wasVisible) countiesLayer.addTo(map);
+        console.log(`✓ Counties: upgraded to TIGERweb real boundaries (${gj.features.length})`);
+      } catch(e) {
+        console.warn('TIGERweb county upgrade unavailable, using embedded fallback:', e.message);
+      }
+    })();
+
+    /* ---------- Step 2: Places ---------- */
+    let placesLayer = null;
+    async function loadPlaces() {
+      try {
+        setStatus(statusEl, 'Loading places…', 'info');
+        const gj = await arcgisQuery(CO_PLACES_URL, "STATEFP='08'", 'NAME,LSAD,FUNCSTAT,ALAND');
+        if (!gj.features.length) throw new Error('empty');
+        placesLayer = L.geoJSON(gj, {
+          style: stylePlace,
+          onEachFeature: (f, lyr) => {
+            const name = (f.properties && (f.properties.NAME || f.properties.NAMELSAD)) || '';
+            if (name) lyr.bindTooltip(name, {sticky:true, opacity:0.88, offset:[5,0]});
+          }
+        });
+        const chkPlaces = $id('layerPlaces');
+        if (chkPlaces) {
+          if (chkPlaces.checked) placesLayer.addTo(map);
+          chkPlaces.addEventListener('change', () =>
+            chkPlaces.checked ? placesLayer.addTo(map) : map.removeLayer(placesLayer));
+        }
+        setStatus(statusEl, `Places loaded (${gj.features.length}) ✓`, 'ok');
+      } catch(e) { console.warn('Places unavailable:', e.message); }
+    }
+
+    /* ---------- Step 3: LIHTC Projects ---------- */
+    let lihtcAll = null;
+    let lihtcSource = 'HUD'; // 'CHFA' | 'HUD' | 'fallback'
+    let currentCountyFilter = null; // null = statewide; '08031' = Denver county, etc.
+    const lihtcGroup = L.layerGroup().addTo(map);
+
+    // Build county name → FIPS lookup from embedded data (used to filter fallback LIHTC records)
+    const countyNameToFips = {};
+    for (const f of coCountiesFC.features) {
+      const nm = (f.properties.name || '').toLowerCase();
+      if (nm && f.properties.fips) countyNameToFips[nm] = f.properties.fips;
+    }
+
+    function renderLIHTC() {
+      lihtcGroup.clearLayers();
+      if (!lihtcAll) return;
+      const onlyQCT = !!$id('filterQCT')?.checked;
+      const onlyDDA = !!$id('filterDDA')?.checked;
+      let shown = 0;
+      for (const f of (lihtcAll.features || [])) {
+        const p = f.properties || {};
+        // Apply county filter when set
+        if (currentCountyFilter) {
+          const fips  = p.CNTY_FIPS || '';
+          const cfp   = p.COUNTYFP  || '';
+          // Also resolve CNTY_NAME → FIPS for fallback data that lacks CNTY_FIPS
+          const cname = (p.CNTY_NAME || '').toLowerCase();
+          const cnameFips = countyNameToFips[cname] || '';
+          // CNTY_FIPS is 5-digit ('08031'), COUNTYFP is 3-digit ('031')
+          if (fips !== currentCountyFilter &&
+              ('08' + cfp) !== currentCountyFilter &&
+              cnameFips !== currentCountyFilter) continue;
+        }
+        if (onlyQCT && !(p.QCT===1||p.QCT==='1'||p.QCT==='Y'||p.QCT===true)) continue;
+        if (onlyDDA && !(p.DDA===1||p.DDA==='1'||p.DDA==='Y'||p.DDA===true)) continue;
+        const coords = f.geometry?.type==='Point' ? f.geometry.coordinates : null;
+        if (!coords || !coords[0] || !coords[1]) continue;
+        const marker = L.circleMarker([coords[1], coords[0]], {
+          pane:'pointsPane2', radius:5.5, weight:1.5,
+          color:'rgba(94,200,248,1)', fillColor:'rgba(94,200,248,0.72)', fillOpacity:1
+        });
+        marker.bindPopup(buildPopup(p, lihtcSource), {maxWidth:340});
+        const nm   = p.PROJECT || p.PROJ_NM || 'LIHTC Project';
+        const city = p.PROJ_CTY || p.STD_CITY || '';
+        const yr   = p.YR_PIS ? ` (${p.YR_PIS})` : '';
+        const units = p.LI_UNITS ? `<br>${p.LI_UNITS} low-income units` : '';
+        marker.bindTooltip(
+          `<strong>${nm}</strong>${city?'<br>'+city:''}${yr}${units}`,
+          {sticky:false, offset:[8,0], opacity:0.95, direction:'right'}
+        );
+        marker.addTo(lihtcGroup);
+        shown++;
+      }
+      setStatus(statusEl, `${shown} LIHTC projects ✓`, 'ok');
+    }
+
+    async function loadLIHTC() {
+      setStatus(statusEl, 'Loading LIHTC projects…', 'info');
+      let gj = null;
+      // Try CHFA first (Colorado-specific, most current)
+      try {
+        gj = await arcgisQuery(CHFA_LIHTC_LAYER, "PROJ_ST='CO'", '*');
+        if (gj.features.length) {
+          lihtcSource = 'CHFA';
+          console.log('✓ LIHTC: loaded from CHFA API');
+        } else { gj = null; }
+      } catch(e) {
+        console.warn('CHFA LIHTC API unavailable, trying HUD:', e.message);
+      }
+      // Fall back to HUD
+      if (!gj) {
+        try {
+          gj = await arcgisQuery(HUD_LIHTC_LAYER, "STATEFP='08'", '*');
+          if (!gj.features.length) throw new Error('Empty result from HUD');
+          lihtcSource = 'HUD';
+          console.log('✓ LIHTC: loaded from HUD API');
+        } catch(e) {
+          console.warn('HUD LIHTC API unavailable, trying local file:', e.message);
+        }
+      }
+      // Fall back to local pre-fetched file (written by scripts/fetch-chfa-lihtc.js via CI)
+      if (!gj) {
+        try {
+          const localGj = await fetchJSON('data/chfa-lihtc.json');
+          if (localGj && localGj.features && localGj.features.length) {
+            gj = localGj;
+            lihtcSource = 'local';
+            console.log('✓ LIHTC: loaded from local file');
+          }
+        } catch(e) {
+          console.warn('Local LIHTC file unavailable, trying GitHub Pages backup:', e.message);
+        }
+      }
+      // Fall back to GitHub Pages backup (persistent CI-updated copy)
+      if (!gj) {
+        try {
+          const backupGj = await fetchJSON(GITHUB_PAGES_BASE + '/data/chfa-lihtc.json');
+          if (backupGj && backupGj.features && backupGj.features.length) {
+            gj = backupGj;
+            lihtcSource = 'backup';
+            console.log('✓ LIHTC: loaded from GitHub Pages backup');
+          }
+        } catch(e) {
+          console.warn('GitHub Pages LIHTC backup unavailable, using embedded data:', e.message);
+        }
+      }
+      if (!gj) {
+        gj = FALLBACK_LIHTC;
+        lihtcSource = 'fallback';
+      }
+      lihtcAll = gj;
+      renderLIHTC();
+    }
+
+    /* ---------- Step 4: QCT / DDA ---------- */
+    let qctLayer = null, ddaLayer = null;
+    let qctLoaded = false, ddaLoaded = false;
+    let qctAll = null, ddaAll = null; // statewide cache for county filtering
+
+    function makeOverlayLayer(gj, styleFn, label) {
+      return L.geoJSON(gj, {
+        pane: 'overlayPane2',
+        style: styleFn,
+        onEachFeature: (f, lyr) => {
+          const p = f.properties || {};
+          const name  = p.NAME || p.NAMELSAD || p.GEOID || label;
+          const type  = p.DDATYPE || p.TRACTTYPE || '';
+          const geoid = p.GEOID || p.GEOID20 || '';
+          let tip = `<strong>${name}</strong>`;
+          if (type)  tip += `<br><em style="opacity:.8;">${type}</em>`;
+          if (geoid) tip += `<br><span style="opacity:.65;font-size:11px;">GEOID: ${geoid}</span>`;
+          tip += `<br><span style="opacity:.6;font-size:11px;">${label}</span>`;
+          lyr.bindTooltip(tip, {sticky:true, opacity:0.95, direction:'top'});
+          lyr.on('mouseover', function() { this.setStyle({weight:2.5,fillOpacity:0.35}); });
+          lyr.on('mouseout',  function() { this.setStyle(styleFn()); });
+        }
+      });
+    }
+
+    async function tryLoadFromAPI(primaryUrl, coWhere) {
+      const filters = [coWhere,"STATE_ABBR='CO'","STATE='CO'","STUSAB='CO'","STATEFP='08'","1=1"];
+      for (const where of filters) {
+        try {
+          const gj = await arcgisQuery(primaryUrl, where, '*');
+          if (!gj.features.length) continue;
+          let features = gj.features;
+          if (where === '1=1') {
+            features = features.filter(f => {
+              if (!f.geometry) return false;
+              const flat = JSON.stringify(f.geometry.coordinates).match(/-?\d+\.?\d+/g)?.map(Number)||[];
+              for (let i=0; i<flat.length-1; i+=2)
+                if (flat[i]>-110&&flat[i]<-102&&flat[i+1]>36.5&&flat[i+1]<41.5) return true;
+              return false;
+            });
+          }
+          if (features.length) return {...gj, features};
+        } catch(_) {}
+      }
+      throw new Error('API exhausted');
+    }
+
+    async function ensureQCT() {
+      if (qctLoaded) return; qctLoaded = true;
+      // Three-tier fallback: (a) cached file, (b) live HUD API, (c) embedded data
+      let gj = null;
+      // (a) Cached file first — fastest, zero API dependency
+      try {
+        const localGj = await fetchJSON('data/qct-colorado.json');
+        if (localGj && localGj.features && localGj.features.length) {
+          gj = localGj;
+          console.log('✓ QCT: loaded from local cache');
+        }
+      } catch(_) {/* no local cache */}
+      // (b) Live HUD ArcGIS API — STATEFP='08' is the correct field for Colorado
+      if (!gj) {
+        try {
+          const apiGj = await tryLoadFromAPI(QCT_LAYER, "STATEFP='08'");
+          if (apiGj && apiGj.features && apiGj.features.length) {
+            gj = apiGj;
+            console.log('✓ QCT: loaded from HUD API');
+          }
+        } catch(_) { console.warn('QCT API unavailable, using embedded fallback'); }
+      }
+      // (c) Embedded fallback
+      const useGj = gj || FALLBACK_QCT;
+      qctAll = useGj; // store statewide copy
+      qctLayer = makeOverlayLayer(useGj, styleQCT, 'QCT 2026');
+    }
+
+    async function ensureDDA() {
+      if (ddaLoaded) return; ddaLoaded = true;
+      // Three-tier fallback: (a) cached file, (b) live HUD API, (c) embedded data
+      let gj = null;
+      // (a) Cached file first
+      try {
+        const localGj = await fetchJSON('data/dda-colorado.json');
+        if (localGj && localGj.features && localGj.features.length) {
+          gj = localGj;
+          console.log('✓ DDA: loaded from local cache');
+        }
+      } catch(_) {/* no local cache */}
+      // (b) Live HUD ArcGIS API — STATEFP='08' is the correct field for Colorado
+      if (!gj) {
+        try {
+          const apiGj = await tryLoadFromAPI(DDA_LAYER, "STATEFP='08'");
+          if (apiGj && apiGj.features && apiGj.features.length) {
+            gj = apiGj;
+            console.log('✓ DDA: loaded from HUD API');
+          }
+        } catch(_) { console.warn('DDA API unavailable, using embedded fallback'); }
+      }
+      // (c) Embedded fallback
+      const useGj = gj || FALLBACK_DDA;
+      ddaAll = useGj; // store statewide copy
+      ddaLayer = makeOverlayLayer(useGj, styleDDA, 'DDA 2026');
+    }
+
+    async function syncQCT() {
+      const chk = $id('layerQCT'); if (!chk) return;
+      if (chk.checked && !qctLayer) await ensureQCT();
+      if (qctLayer) chk.checked ? qctLayer.addTo(map) : map.removeLayer(qctLayer);
+    }
+    async function syncDDA() {
+      const chk = $id('layerDDA'); if (!chk) return;
+      if (chk.checked && !ddaLayer) await ensureDDA();
+      if (ddaLayer) chk.checked ? ddaLayer.addTo(map) : map.removeLayer(ddaLayer);
+    }
+
+    // Filter all overlays to the selected county (or restore statewide when fips is falsy)
+    function applyGeoFilter(fips) {
+      currentCountyFilter = fips || null;
+
+      // Re-render LIHTC markers with county filter applied
+      renderLIHTC();
+
+      // Re-render QCT overlay
+      if (qctAll) {
+        if (qctLayer && map.hasLayer(qctLayer)) map.removeLayer(qctLayer);
+        qctLayer = null;
+        const filtered = fips
+          ? { ...qctAll, features: qctAll.features.filter(f => {
+              const g   = f.properties?.GEOID || '';
+              const cfp = f.properties?.COUNTYFP || f.properties?.COUNTY || '';
+              return g.startsWith(fips) || ('08' + cfp) === fips;
+            })}
+          : qctAll;
+        qctLayer = makeOverlayLayer(filtered, styleQCT, 'QCT 2026');
+        if ($id('layerQCT')?.checked) qctLayer.addTo(map);
+      }
+
+      // Re-render DDA overlay
+      if (ddaAll) {
+        if (ddaLayer && map.hasLayer(ddaLayer)) map.removeLayer(ddaLayer);
+        ddaLayer = null;
+        const countyFips3 = fips ? fips.slice(2) : null; // '031' from '08031'
+        const expectedDdaArea = CO_DDA_AREAS[fips] || null;
+        const filtered = fips
+          ? { ...ddaAll, features: ddaAll.features.filter(f => {
+              const cfp      = f.properties?.COUNTYFP || '';
+              const counties = f.properties?.COUNTIES;  // fallback array
+              if (cfp)                     return cfp === countyFips3;
+              if (Array.isArray(counties)) return counties.includes(countyFips3);
+              if (expectedDdaArea && f.properties?.DDA_NAME)
+                return f.properties.DDA_NAME.split(',')[0].toLowerCase() ===
+                       expectedDdaArea.split(',')[0].toLowerCase();
+              return false; // exclude when county is active and no match
+            })}
+          : ddaAll;
+        ddaLayer = makeOverlayLayer(filtered, styleDDA, 'DDA 2026');
+        if ($id('layerDDA')?.checked) ddaLayer.addTo(map);
+      }
+    }
+
+    /* ---------- Step 5: Transport ---------- */
+    const chkTransport = $id('layerTransport');
+    if (chkTransport) chkTransport.addEventListener('change', () =>
+      chkTransport.checked ? transportLayer.addTo(map) : map.removeLayer(transportLayer));
+
+    /* ---------- Checkboxes ---------- */
+    const filterQCT=$id('filterQCT'), filterDDA=$id('filterDDA');
+    const chkQCT=$id('layerQCT'),     chkDDA=$id('layerDDA');
+    if (chkQCT)    chkQCT.addEventListener('change', syncQCT);
+    if (chkDDA)    chkDDA.addEventListener('change', syncDDA);
+    if (filterQCT) filterQCT.addEventListener('change', renderLIHTC);
+    if (filterDDA) filterDDA.addEventListener('change', renderLIHTC);
+
+    /* ---------- Kick off ---------- */
+    // Populate county selector from embedded county data
+    const countySel = $id('countyGeoSelect');
+    if (countySel) {
+      const sorted = [...coCountiesFC.features]
+        .sort((a, b) => (a.properties.name || '').localeCompare(b.properties.name || ''));
+      for (const f of sorted) {
+        const opt = document.createElement('option');
+        opt.value = f.properties.fips;
+        opt.textContent = (f.properties.name || '') + ' County';
+        countySel.appendChild(opt);
+      }
+      countySel.addEventListener('change', () => applyGeoFilter(countySel.value || null));
+    }
+
+    // Always load all overlays statewide on initial load
+    await Promise.allSettled([loadPlaces(), loadLIHTC(), ensureQCT(), ensureDDA()]);
+
+    // Add QCT/DDA to map now that they are loaded (checkboxes default to checked)
+    if (qctLayer && $id('layerQCT')?.checked) qctLayer.addTo(map);
+    if (ddaLayer && $id('layerDDA')?.checked) ddaLayer.addTo(map);
+
+    setTimeout(() => map.invalidateSize(), 300);
+    window.addEventListener('resize', () => map.invalidateSize());
+  }
+
+  // Scroll to top on every page load so the page always starts at the beginning
+  window.scrollTo(0, 0);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+  </script>
+
+  <!-- Lightweight chart init so the restored canvases render even if other JS files are missing -->
+  <script>
+    (function() {
+      if (!window.Chart) return;
+      function safeChart(id, cfg) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        try { new Chart(el, cfg); } catch(e) { console.warn("Chart failed", id, e); }
+      }
+      safeChart("ami-need-chart", {
+        type: "bar",
+        data: {
+          labels: ["30% AMI","50% AMI","60% AMI","80% AMI"],
+          datasets: [{ label:"Households (index)", data:[100, 130, 160, 210] },
+                     { label:"Available units (index)", data:[35, 55, 95, 140] }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+      });
+      safeChart("concessions-chart", {
+        type: "line",
+        data: {
+          labels: ["2022","2023","2024","2025"],
+          datasets: [{ label:"Avg monthly concession ($)", data:[45, 65, 110, 169], tension:.35 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+      });
+      safeChart("foreclosure-chart", {
+        type: "line",
+        data: {
+          labels: ["2023","2024","2025","2026"],
+          datasets: [{ label:"Filings (index)", data:[70, 55, 62, 68], tension:.35 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+      });
+      safeChart("confidence-chart", {
+        type: "line",
+        data: {
+          labels: ["Q1","Q2","Q3","Q4"],
+          datasets: [{ label:"Confidence (index)", data:[42, 46, 44, 48], tension:.35 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+                  scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
+      });
+      safeChart("comparison-chart", {
+        type: "radar",
+        data: {
+          labels: ["Allocation","Vacancy","Rent Growth","Unemployment","Foreclosure Risk"],
+          datasets: [{ label:"Colorado (index)", data:[62, 78, 35, 70, 68] },
+                     { label:"US Avg (index)", data:[55, 60, 55, 62, 60] }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+                  scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
+      });
+    })();
+  </script>
+  <!-- Deep Dive analysis modules -->
+  <script src="js/housing-data-integration.js"></script>
+  <script src="js/co-ami-gap.js"></script>
+  <script src="js/trend-analysis.js"></script>
+  <script src="js/policy-simulator.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.TrendAnalysis) TrendAnalysis.init();
+      if (window.PolicySimulator) PolicySimulator.init();
+      // Load CAR market data
+      if (window.HousingDataIntegration) {
+        window.HousingDataIntegration.loadCARData().then(function(car) {
+          var section = document.getElementById("carMarketSection");
+          if (!section) return;
+          var loading = document.getElementById("carMarketLoading");
+          var content = document.getElementById("carMarketContent");
+          var error   = document.getElementById("carMarketError");
+          if (!car) {
+            if (loading) loading.style.display = "none";
+            if (error) { error.textContent = "CAR market data not yet available. Trigger the Update CAR Market Data workflow to add monthly data."; error.style.display = "block"; }
+            return;
+          }
+          if (loading) loading.style.display = "none";
+          if (content) {
+            var sw = car.statewide || {};
+            var fmt = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
+            var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
+            document.getElementById("carMedianPrice")  && (document.getElementById("carMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+            document.getElementById("carInventory")    && (document.getElementById("carInventory").textContent    = fmt(sw.active_listings));
+            document.getElementById("carDaysOnMarket") && (document.getElementById("carDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
+            document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+            var freshnessEl = document.getElementById("carFreshness");
+            if (freshnessEl && car.month) { freshnessEl.textContent = "Report month: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+            content.style.display = "block";
+          }
+        }).catch(function() {
+          var loading = document.getElementById("carMarketLoading");
+          var error   = document.getElementById("carMarketError");
+          if (loading) loading.style.display = "none";
+          if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
+        });
+      }
+    });
+  </script>
+  <script src="js/map-overlay.js"></script>
+  <script src="js/ui-interactions.js"></script>
+  <script src="js/prop123-map.js"></script>
+<script src="js/colorado-deep-dive.js"></script>
+<script defer src="js/audit-hook.js"></script>
+
+</body></html>
