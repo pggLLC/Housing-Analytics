@@ -3,7 +3,7 @@
   "host": "services.arcgis.com",
   "basePath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer",
   "layersPath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/layers",
-  "where": "Proj_St='CO'",
+  "where": "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'",
   "outFields": "*",
   "outSR": "4326",
   "pageSize": 1000,
