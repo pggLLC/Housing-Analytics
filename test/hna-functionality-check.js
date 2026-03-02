@@ -321,6 +321,13 @@ test('JS: CHFA ArcGIS FeatureServer is the primary source for Colorado LIHTC', (
     assert(js.includes('CHFA LIHTC ArcGIS API unavailable'), 'CHFA fallback warning message is present');
 });
 
+test('JS: county-specific LIHTC file is tried first with features-length guard (Bug 2 fix)', () => {
+    // PATHS.lihtc must be used inside fetchLihtcProjects to load the county-specific file.
+    assert(js.includes('PATHS.lihtc(countyFips5)'), 'PATHS.lihtc(countyFips5) is referenced in fetchLihtcProjects');
+    // The return must be guarded by a features.length check — not a bare "return await loadJson(...)".
+    assert(js.includes('localCounty?.features?.length > 0'), 'county-specific file return is guarded by features.length check');
+});
+
 test('JS: QCT fetch function is implemented', () => {
     assert(js.includes('async function fetchQctTracts'), 'fetchQctTracts is an async function');
     assert(js.includes('hudQctQuery'),                   'HUD QCT ArcGIS service URL is referenced');
