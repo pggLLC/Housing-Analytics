@@ -123,8 +123,9 @@ def safe_int(val, default=0):
 
 def safe_float(val, default=0.0):
     try:
+        import math
         v = float(val)
-        return default if (v < 0 or v != v) else v  # filter negative & NaN
+        return default if (v < 0 or math.isnan(v)) else v
     except (TypeError, ValueError):
         return default
 

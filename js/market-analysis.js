@@ -233,8 +233,9 @@
     var totalUnits = units30 + units50 + units60 + units80 ||
                      parseInt(el('simUnits').value, 10) || 80;
 
-    // Qualified households: renters earning ≤ 80% AMI (approximated from ACS cost-burden data)
-    // We use renter households × cost-burdened pct as a conservative lower bound.
+    // Qualified households: renters earning ≤ 80% AMI (approximated from ACS cost-burden data).
+    // The +0.10 adds a conservative margin for households not yet cost-burdened but still
+    // income-eligible at the proposed AMI levels (e.g. 50–60% AMI).
     var qualifiedHH = Math.round(agg.renterHouseholds * (agg.costBurdenedPct + 0.10));
     qualifiedHH = Math.max(qualifiedHH, 50); // floor to avoid division issues
 
