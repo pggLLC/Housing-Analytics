@@ -75,20 +75,26 @@ const PAGE_SIZE = 1000;
  *   PROJECT   – Project name
  *   PROJ_ADD  – Street address
  *   PROJ_CTY  – City
+ *   PROJ_ST   – State abbreviation
  *   CNTY_NAME – County name
+ *   CNTY_FIPS – 5-digit county FIPS code
+ *   STATEFP   – 2-digit state FIPS code
+ *   COUNTYFP  – 3-digit county FIPS suffix
  *   N_UNITS   – Total housing units
  *   LI_UNITS  – Low-income restricted units
  *   YR_PIS    – Year placed in service
  *   YR_ALLOC  – Year of tax-credit allocation
  *   CREDIT    – Credit type ("9%" or "4%")
  *   NON_PROF  – Nonprofit sponsor flag (0/1)
+ *   QCT       – Qualified Census Tract flag
+ *   DDA       – Difficult Development Area flag
  *
- * Note: CNTY_FIPS (5-digit) and COUNTYFP (3-digit) are derived locally from
- * CNTY_NAME using CO_COUNTY_FIPS below rather than fetched from the service,
- * because the ArcGIS layer does not expose them as queryable outFields.
+ * Note: CNTY_FIPS and COUNTYFP are requested from the service; when the
+ * service does not return them they are derived locally from CNTY_NAME using
+ * CO_COUNTY_FIPS below as a fallback.
  */
 const OUT_FIELDS =
-  'PROJECT,PROJ_ADD,PROJ_CTY,CNTY_NAME,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF';
+  'PROJECT,PROJ_ADD,PROJ_CTY,PROJ_ST,CNTY_NAME,CNTY_FIPS,STATEFP,COUNTYFP,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF,QCT,DDA';
 
 /**
  * Lookup table: Colorado county name → 5-digit FIPS code.
@@ -330,15 +336,19 @@ function toGeoJsonFeature(esriFeature) {
       PROJECT:   attrs.PROJECT   ?? null,
       PROJ_ADD:  attrs.PROJ_ADD  ?? null,
       PROJ_CTY:  attrs.PROJ_CTY  ?? null,
+      PROJ_ST:   attrs.PROJ_ST   ?? null,
       CNTY_NAME: attrs.CNTY_NAME ?? null,
-      CNTY_FIPS: cntyFips || null,
-      COUNTYFP:  countyFp || null,
+      CNTY_FIPS: (attrs.CNTY_FIPS ?? cntyFips) || null,
+      STATEFP:   attrs.STATEFP   ?? null,
+      COUNTYFP:  (attrs.COUNTYFP ?? countyFp) || null,
       N_UNITS:   attrs.N_UNITS   ?? null,
       LI_UNITS:  attrs.LI_UNITS  ?? null,
       YR_PIS:    attrs.YR_PIS    ?? null,
       YR_ALLOC:  attrs.YR_ALLOC  ?? null,
       CREDIT:    attrs.CREDIT    ?? null,
       NON_PROF:  attrs.NON_PROF  ?? null,
+      QCT:       attrs.QCT       ?? null,
+      DDA:       attrs.DDA       ?? null,
     },
   };
 }
