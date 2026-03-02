@@ -58,8 +58,9 @@ const path = require('path');
 // ---------------------------------------------------------------------------
 
 const CHFA_HOST = 'services.arcgis.com';
-const CHFA_PATH =
-  '/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
+const CHFA_BASE =
+  '/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer';
+const CHFA_LAYERS_PATH = CHFA_BASE + '/layers?f=json';
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
 const OUTPUT_FILE = path.join(DATA_DIR, 'chfa-lihtc.json');
 
@@ -234,21 +235,50 @@ function httpsGet(host, pathAndQuery, retries = 3) {
 }
 
 /**
- * Fetch all Colorado LIHTC records using a WHERE clause and resultOffset
- * pagination.  Queries with STATEFP='08' to target Colorado records directly,
- * avoiding the unreliable objectIds parameter approach that causes HTTP 400
- * errors when passing large ID arrays to the ArcGIS FeatureServer.
+ * Discover all layer IDs published by the LIHTC FeatureServer.
+ * Uses the /layers endpoint so that every layer (point, polygon, etc.)
+ * is included rather than hard-coding layer 0.
  *
+ * @returns {Promise<number[]>}  Array of integer layer IDs.
+ */
+async function fetchLayerIds() {
+  console.log(`Fetching layer list from ${CHFA_LAYERS_PATH}…`);
+  const body = await httpsGet(CHFA_HOST, CHFA_LAYERS_PATH);
+  const parsed = JSON.parse(body);
+  if (parsed.error) {
+    throw new Error(`ArcGIS layers error ${parsed.error.code}: ${parsed.error.message}`);
+  }
+  const layers = (Array.isArray(parsed.layers) ? parsed.layers : []).concat(
+    Array.isArray(parsed.tables) ? parsed.tables : []
+  );
+  if (!layers.length) {
+    // Fall back to layer 0 if the service doesn't advertise layers
+    console.warn('  No layers returned — defaulting to layer 0.');
+    return [0];
+  }
+  const ids = layers.map((l) => l.id);
+  console.log(`  Found layer(s): ${ids.join(', ')}`);
+  return ids;
+}
+
+/**
+ * Fetch all Colorado LIHTC records from a single layer using WHERE clause and
+ * resultOffset pagination.  Queries with STATEFP='08' to target Colorado records
+ * directly, avoiding the unreliable objectIds parameter approach that causes
+ * HTTP 400 errors when passing large ID arrays to the ArcGIS FeatureServer.
+ *
+ * @param {number} layerId  ArcGIS FeatureServer layer ID.
  * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
  */
-async function fetchAllRecords() {
+async function fetchRecordsFromLayer(layerId) {
+  const queryPath = `${CHFA_BASE}/${layerId}/query`;
   const allFeatures = [];
   let offset = 0;
   let page = 0;
 
   for (;;) {
     page++;
-    process.stdout.write(`  Page ${page} (offset ${offset})… `);
+    process.stdout.write(`  Layer ${layerId} — page ${page} (offset ${offset})… `);
     const params = new URLSearchParams({
       where: "STATEFP='08'",
       outFields: OUT_FIELDS,
@@ -257,7 +287,7 @@ async function fetchAllRecords() {
       resultOffset: String(offset),
       resultRecordCount: String(PAGE_SIZE),
     });
-    const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
+    const pathAndQuery = `${queryPath}?${params.toString()}`;
     const body = await httpsGet(CHFA_HOST, pathAndQuery);
     const parsed = JSON.parse(body);
     if (parsed.error) {
@@ -273,6 +303,21 @@ async function fetchAllRecords() {
     offset += features.length;
   }
 
+  return allFeatures;
+}
+
+/**
+ * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
+ *
+ * @returns {Promise<object[]>}  Combined array of raw ArcGIS feature objects.
+ */
+async function fetchAllRecords() {
+  const layerIds = await fetchLayerIds();
+  const allFeatures = [];
+  for (const id of layerIds) {
+    const features = await fetchRecordsFromLayer(id);
+    allFeatures.push(...features);
+  }
   return allFeatures;
 }
 
@@ -361,7 +406,7 @@ function toGeoJsonFeature(esriFeature) {
   const geojson = {
     type: 'FeatureCollection',
     fetchedAt: new Date().toISOString(),
-    source: `https://${CHFA_HOST}${CHFA_PATH}`,
+    source: `https://${CHFA_HOST}${CHFA_BASE}/layers`,
     features: allFeatures,
   };
 

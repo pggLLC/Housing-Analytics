@@ -446,9 +446,12 @@
       ? window.resolveAssetUrl('data/chfa-lihtc.json')
       : 'data/chfa-lihtc.json';
 
-    // Remote ArcGIS endpoints — attempted when the local file is absent (404) or empty (0 features).
-    // Increased to 15 s to handle slow GIS service cold-starts.
-    var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
+    // Primary ArcGIS LIHTC FeatureServer — all layers, Colorado only (STATEFP='08').
+    // The /layers endpoint is used first to discover every available layer so that
+    // no data layer is inadvertently skipped.
+    var LIHTC_BASE   = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer';
+    var LIHTC_LAYERS = LIHTC_BASE + '/layers?f=json';
+    // Fallback: secondary HUD properties service (also Colorado-only via STATEFP='08').
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
 
     updateStatus('Loading LIHTC data…');
@@ -477,20 +480,60 @@
         });
     }
 
+    /**
+     * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
+     * First discovers available layers via the /layers endpoint, then queries
+     * each layer with STATEFP='08' (Colorado FIPS) to filter to Colorado only.
+     */
     function useCHFA() {
-      updateStatus('Trying CHFA ArcGIS…');
-      return fetchAllPages(CHFA_URL, 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326', 15000)
+      updateStatus('Fetching LIHTC layers…');
+      return fetchWithTimeout(LIHTC_LAYERS, {}, 15000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('Layers HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (layersMeta) {
+          var layers = (Array.isArray(layersMeta.layers) ? layersMeta.layers : []).concat(
+            Array.isArray(layersMeta.tables) ? layersMeta.tables : []
+          );
+          if (!layers.length) {
+            // Service didn't advertise layers — fall back to layer 0
+            console.warn('[co-lihtc-map] /layers returned no layers; defaulting to layer 0.');
+            layers = [{ id: 0 }];
+          }
+          var layerIds = layers.map(function (l) { return l.id; });
+          console.info('[co-lihtc-map] LIHTC FeatureServer layers: ' + layerIds.join(', '));
+          updateStatus('Loading ' + layerIds.length + ' LIHTC layer(s)…');
+
+          // Fetch all layers in parallel, Colorado-only
+          var promises = layerIds.map(function (id) {
+            var url = LIHTC_BASE + '/' + id + '/query';
+            return fetchAllPages(url, 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326', 15000)
+              .catch(function (err) {
+                console.warn('[co-lihtc-map] Layer ' + id + ' fetch failed:', err.message);
+                return { type: 'FeatureCollection', features: [] };
+              });
+          });
+
+          return Promise.all(promises).then(function (results) {
+            var combined = [];
+            results.forEach(function (fc) {
+              if (fc && Array.isArray(fc.features)) combined = combined.concat(fc.features);
+            });
+            return { type: 'FeatureCollection', features: combined };
+          });
+        })
         .then(function (data) {
           if (validateData(data)) {
             renderData(map, data);
-            updateStatus('Source: CHFA ArcGIS (' + data.features.length + ' projects)');
+            updateStatus('Source: LIHTC ArcGIS (' + data.features.length + ' projects, Colorado)');
           } else {
-            console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
+            console.warn('[co-lihtc-map] LIHTC FeatureServer returned no Colorado features; trying HUD.');
             return useHUD();
           }
         })
         .catch(function (err) {
-          console.warn('[co-lihtc-map] CHFA fetch failed; trying HUD.', err.message);
+          console.warn('[co-lihtc-map] LIHTC FeatureServer fetch failed; trying HUD.', err.message);
           return useHUD();
         });
     }
@@ -509,24 +552,24 @@
       .then(function (localData) {
         if (validateData(localData)) {
           renderData(map, localData);
-          updateStatus('Source: local CHFA data (' + localData.features.length + ' projects)');
+          updateStatus('Source: local LIHTC data (' + localData.features.length + ' projects)');
         } else {
           // File exists but contains no features — CI fetch failed or hasn't run yet.
           // Fall back to remote APIs so the map still shows real data.
-          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features; trying CHFA ArcGIS.');
-          updateStatus('Local LIHTC file empty — fetching from CHFA ArcGIS…');
+          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features; trying LIHTC ArcGIS.');
+          updateStatus('Local LIHTC file empty — fetching from ArcGIS…');
           return useCHFA();
         }
       })
       .catch(function (localErr) {
         if (localErr.httpStatus === 404) {
           // File not deployed yet — try remote ArcGIS APIs as fallback.
-          console.warn('[co-lihtc-map] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
+          console.warn('[co-lihtc-map] data/chfa-lihtc.json not found (404); trying LIHTC ArcGIS.');
           return useCHFA();
         }
         // Any other error (network, parse, etc.) — try remote APIs before giving up.
-        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message, '— trying CHFA ArcGIS.');
-        updateStatus('Local LIHTC unavailable — fetching from CHFA ArcGIS…');
+        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message, '— trying LIHTC ArcGIS.');
+        updateStatus('Local LIHTC unavailable — fetching from ArcGIS…');
         return useCHFA();
       });
   }
