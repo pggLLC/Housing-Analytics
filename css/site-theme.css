@@ -69,6 +69,10 @@
 
   --focus-ring: 0 0 0 3px rgba(14,165,160,.30);
 
+  /* Map boundary styling — light mode */
+  --map-boundary-stroke: rgba(15, 23, 42, 0.55);
+  --map-boundary-weight: 2.25;
+
   /* Legacy aliases */
   --color-background:     var(--bg);
   --color-background-alt: var(--bg2);
@@ -139,6 +143,10 @@
     --text-secondary:       var(--muted);
     --accent-gold:          var(--accent2);
     --border-color:         var(--border);
+
+    /* Map boundary styling — dark mode */
+    --map-boundary-stroke: rgba(248, 250, 252, 0.50);
+    --map-boundary-weight: 2.25;
   }
 }
 
@@ -591,6 +599,8 @@ html.light-mode {
   --text-secondary:       var(--muted);
   --accent-gold:          var(--accent2);
   --border-color:         var(--border);
+  --map-boundary-stroke:  rgba(15, 23, 42, 0.55);
+  --map-boundary-weight:  2.25;
 }
 
 html.light-mode body,
@@ -646,6 +656,8 @@ html.dark-mode {
   --text-secondary:       var(--muted);
   --accent-gold:          var(--accent2);
   --border-color:         var(--border);
+  --map-boundary-stroke:  rgba(248, 250, 252, 0.50);
+  --map-boundary-weight:  2.25;
 }
 
 html.dark-mode body,

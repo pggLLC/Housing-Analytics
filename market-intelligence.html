@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Intelligence | Colorado Housing Analytics</title>
+  <meta name="description" content="Colorado affordable housing market intelligence: demand signals, supply trends, LIHTC inventory, risk dashboard, and Proposition 123 policy landscape. Public data only.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .mi-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .mi-section h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-strong);
+    }
+    .mi-section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .mi-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .mi-kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .mi-kpi-value {
+      font-size: 1.2rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+      color: var(--text-strong);
+    }
+    .mi-kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mi-chart-container {
+      position: relative;
+      height: 220px;
+      margin-top: 1rem;
+    }
+    .mi-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .mi-toolbar label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .mi-toolbar select {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .mi-status {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 0.5rem 0;
+    }
+    .mi-status.error { color: var(--bad); }
+    .btn-export {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-export:hover { background: var(--accent); color: #fff; }
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    .risk-card {
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card2);
+    }
+    .risk-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .risk-value { font-size: 1rem; font-weight: 700; }
+    .risk-low { color: var(--good); }
+    .risk-med { color: var(--warn); }
+    .risk-high { color: var(--bad); }
+    .data-note {
+      font-size: 0.78rem;
+      color: var(--faint);
+      margin-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+    }
+    .site-entry-cta {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      color: var(--text);
+      margin-top: 1rem;
+    }
+    .site-entry-cta:hover { background: var(--accent); color: #fff; }
+    .site-entry-cta strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+    @media (max-width: 640px) {
+      .mi-chart-container { height: 180px; }
+      .mi-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="market-intelligence.html">
+<div id="statusPanel" aria-live="polite"></div>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<main id="main-content" class="container">
+
+  <!-- Hero -->
+  <section class="hero" style="padding-bottom:0;">
+    <div class="kicker">Public Data Only · Census · HUD · OpenStreetMap</div>
+    <h1>Colorado Market Intelligence</h1>
+    <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;">
+      Demand signals, supply trends, affordable inventory, risk indicators, and policy landscape for
+      Colorado affordable housing — built entirely on public datasets with no proprietary API keys required.
+    </p>
+  </section>
+
+  <!-- Toolbar: county selector + export -->
+  <div class="mi-toolbar" role="region" aria-label="Market filters">
+    <label for="countySelect">County / Statewide:</label>
+    <select id="countySelect" aria-label="Select county or statewide view">
+      <option value="">Statewide (Colorado)</option>
+    </select>
+    <div id="miLoadingStatus" class="mi-status" aria-live="polite">Loading data…</div>
+    <div style="flex:1;"></div>
+    <button class="btn-export" id="exportJson" type="button" aria-label="Export current view as JSON">Export JSON</button>
+    <button class="btn-export" id="exportCsv" type="button" aria-label="Export current view as CSV">Export CSV</button>
+  </div>
+
+  <!-- 1. Demand Signals -->
+  <section class="mi-section" aria-labelledby="demand-heading">
+    <h2 id="demand-heading">📈 Demand Signals</h2>
+    <h3>Source: ACS 5-Year Estimates (Census Bureau, public API)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiCostBurden">—</div>
+        <div class="mi-kpi-label">Cost-Burdened Renters (≥30% income)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiSevereBurden">—</div>
+        <div class="mi-kpi-label">Severely Cost-Burdened (≥50% income)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiHHGrowth">—</div>
+        <div class="mi-kpi-label">Household Growth (5-yr)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiOvercrowding">—</div>
+        <div class="mi-kpi-label">Overcrowded Units (&gt;1 person/room)</div>
+      </div>
+    </div>
+    <div class="mi-chart-container">
+      <canvas id="demandChart" aria-label="Cost burden trend chart"></canvas>
+    </div>
+    <p class="data-note">ACS B25070 (rent-to-income ratio), B25014 (occupants per room), B11001 (household count). Vintage: most recent 5-year release.</p>
+  </section>
+
+  <!-- 2. Supply Signals -->
+  <section class="mi-section" aria-labelledby="supply-heading">
+    <h2 id="supply-heading">🏗️ Supply Signals</h2>
+    <h3>Source: Census Building Permits Survey (public)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiPermits">—</div>
+        <div class="mi-kpi-label">Multifamily Permits (12 mo)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiCompletions">—</div>
+        <div class="mi-kpi-label">Multifamily Completions (12 mo)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiUnderConst">—</div>
+        <div class="mi-kpi-label">Units Under Construction</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiYoyPermits">—</div>
+        <div class="mi-kpi-label">Permits YoY Change</div>
+      </div>
+    </div>
+    <div class="mi-chart-container">
+      <canvas id="supplyChart" aria-label="Multifamily permits trend chart"></canvas>
+    </div>
+    <p class="data-note">Census Building Permits Survey (bps.census.gov, public). State-level data via FRED series COBPPRIV and COBPPRIV5F.</p>
+  </section>
+
+  <!-- 3. Affordable Inventory -->
+  <section class="mi-section" aria-labelledby="inventory-heading">
+    <h2 id="inventory-heading">🏠 Affordable Inventory</h2>
+    <h3>Source: HUD LIHTC Database (public ArcGIS endpoint)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcProjects">—</div>
+        <div class="mi-kpi-label">LIHTC Projects</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcUnits">—</div>
+        <div class="mi-kpi-label">LIHTC Total Units</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcLowIncome">—</div>
+        <div class="mi-kpi-label">Low-Income Units</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcPer1k">—</div>
+        <div class="mi-kpi-label">LIHTC Units per 1,000 HH</div>
+      </div>
+    </div>
+    <div id="inventoryStatus" class="mi-status" aria-live="polite"></div>
+    <p class="data-note">HUD LIHTC database via CHFA ArcGIS Feature Service and HUD ArcGIS (public endpoints). Data may lag current year by 12–18 months.</p>
+  </section>
+
+  <!-- 4. Risk Dashboard -->
+  <section class="mi-section" aria-labelledby="risk-heading">
+    <h2 id="risk-heading">⚠️ Risk Dashboard</h2>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-label">Vacancy Proxy</div>
+        <div class="risk-value" id="riskVacancy">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">ACS B25004 vacancy rate</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Rent Trend (Proxy)</div>
+        <div class="risk-value" id="riskRentTrend">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">Median gross rent YoY (ACS)</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Pipeline Pressure</div>
+        <div class="risk-value" id="riskPipeline">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">Permits issued / existing units</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Affordability Gap</div>
+        <div class="risk-value" id="riskAffordGap">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">60% AMI rent vs market rent</div>
+      </div>
+    </div>
+    <p class="data-note">Risk indicators are proxies derived from public Census and FRED data. Not a substitute for a full market study.</p>
+  </section>
+
+  <!-- 5. Policy Landscape -->
+  <section class="mi-section" aria-labelledby="policy-heading">
+    <h2 id="policy-heading">📋 Policy Landscape</h2>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Count">—</div>
+        <div class="mi-kpi-label">Prop 123 Committed Jurisdictions</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Counties">—</div>
+        <div class="mi-kpi-label">Prop 123 Counties</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Munis">—</div>
+        <div class="mi-kpi-label">Prop 123 Municipalities</div>
+      </div>
+    </div>
+    <h3 style="margin-top:1rem;">Key Policy Resources</h3>
+    <ul style="font-size:.9rem;line-height:2;padding-left:1.25rem;color:var(--text);">
+      <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 — Commitment Filings</a></li>
+      <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a></li>
+      <li><a href="https://www.chfainfo.com" target="_blank" rel="noopener">CHFA — Colorado Housing &amp; Finance Authority</a></li>
+      <li><a href="https://leg.colorado.gov/bills/sb23-213" target="_blank" rel="noopener">SB23-213 — Land Use &amp; TOD Rezoning</a></li>
+      <li><a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census ACS — American Community Survey</a></li>
+    </ul>
+    <p class="data-note">Prop 123 data from <code>data/prop123_jurisdictions.json</code> (local file; updated via PR).</p>
+  </section>
+
+  <!-- 6. Site Selection Tool Entry Point -->
+  <section class="mi-section" aria-labelledby="sitesel-heading">
+    <h2 id="sitesel-heading">📍 Site Selection Tool</h2>
+    <p style="font-size:.9rem;color:var(--text);line-height:1.7;">
+      Ready to evaluate a specific site? Use the Colorado Deep Dive map + scoring tool to compute a
+      PMA Score and Site Selection Score using the methodology described in
+      <a href="docs/PMA_SITE_SELECTION.md" target="_blank" rel="noopener">docs/PMA_SITE_SELECTION.md</a>.
+    </p>
+    <a href="colorado-deep-dive.html" class="site-entry-cta" aria-label="Go to Colorado Deep Dive site selection tool">
+      <strong>→ Colorado Deep Dive &amp; Site Scoring</strong>
+      <span style="font-size:.85rem;opacity:.8;">LIHTC map · PMA scoring · Prop 123 overlay · DDA / QCT layers</span>
+    </a>
+  </section>
+
+</main>
+
+<script src="js/market-intelligence.js"></script>
+</body>
+</html>
