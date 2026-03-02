@@ -253,7 +253,7 @@
       : function(p) { return p; };
 
     // QCT — try local cache first
-    fetchWithTimeout(resolveUrl('data/qct-colorado.json'), {}, 8000)
+    fetchWithTimeout(resolveUrl('data/qct-colorado.json'), {}, 15000)
       .then(function(res) {
         if (!res.ok) throw new Error('QCT HTTP ' + res.status);
         return res.json();
@@ -273,7 +273,7 @@
       });
 
     // DDA — try local cache first
-    fetchWithTimeout(resolveUrl('data/dda-colorado.json'), {}, 8000)
+    fetchWithTimeout(resolveUrl('data/dda-colorado.json'), {}, 15000)
       .then(function(res) {
         if (!res.ok) throw new Error('DDA HTTP ' + res.status);
         return res.json();
@@ -361,7 +361,7 @@
     }
 
     // 1. Always try local data/chfa-lihtc.json first.
-    fetchWithTimeout(LOCAL_URL, {}, 8000)
+    fetchWithTimeout(LOCAL_URL, {}, 15000)
       .then(function (res) {
         // Attach HTTP status so the catch handler can distinguish 404 from other errors.
         if (!res.ok) {

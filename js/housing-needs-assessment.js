@@ -87,8 +87,8 @@
     hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
     chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
-    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2026/FeatureServer/0', // Update year annually (e.g. QCT_2027 when HUD publishes next cycle)
-    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2026/FeatureServer/0', // Update year annually (e.g. DDA_2027 when HUD publishes next cycle)
+    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // Update year annually (e.g. Qualified_Census_Tracts_2027 when HUD publishes next cycle)
+    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0', // Update year annually (e.g. Difficult_Development_Areas_2027 when HUD publishes next cycle)
   };
 
   // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
@@ -553,7 +553,7 @@
     const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl(url)
       : url;
-    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 10000);
+    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 20000);
     if (!r.ok) {
       const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
       err.httpStatus = r.status;
