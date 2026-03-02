@@ -404,14 +404,39 @@ test('HTML: LIHTC/QCT/DDA stat elements are present', () => {
     assert(html.includes('id="lihtcMapStatus"'),  'id="lihtcMapStatus" is in HTML');
 });
 
-test('HTML: map layer toggle checkboxes are present', () => {
-    assert(html.includes('id="layerLihtc"'), 'LIHTC layer toggle checkbox is in HTML');
-    assert(html.includes('id="layerQct"'),   'QCT layer toggle checkbox is in HTML');
-    assert(html.includes('id="layerDda"'),   'DDA layer toggle checkbox is in HTML');
+test('HTML: map layer toggle controls are present', () => {
+    assert(html.includes('id="layerLihtc"'), 'LIHTC layer toggle is in HTML');
+    assert(html.includes('id="layerQct"'),   'QCT layer toggle is in HTML');
+    assert(html.includes('id="layerDda"'),   'DDA layer toggle is in HTML');
+    assert(html.includes('layer-toggle-pill'), 'styled pill toggle controls are present');
 });
 
 test('HTML: LIHTC/QCT/DDA info card is present', () => {
     assert(html.includes('LIHTC, QCT'), 'LIHTC/QCT/DDA card heading is in HTML');
+});
+
+// ---------------------------------------------------------------------------
+// JS: geography helper fixes — label lookup and countyFromGeoid
+// ---------------------------------------------------------------------------
+test('JS: countyFromGeoid searches all config arrays (featured, places, cdps)', () => {
+    assert(js.includes('conf?.places'), 'countyFromGeoid checks cfg.places for containingCounty');
+    assert(js.includes('conf?.cdps'),   'countyFromGeoid checks cfg.cdps for containingCounty');
+    assert(js.includes('allEntries'),   'countyFromGeoid uses combined allEntries search');
+});
+
+test('JS: update() label lookup searches places and cdps arrays', () => {
+    // The label lookup in update() should search cfg.places and cfg.cdps
+    // in addition to cfg.featured for non-county geographies.
+    assert(js.includes("conf?.places   || []"), 'label lookup searches cfg.places');
+    assert(js.includes("conf?.cdps     || []"), 'label lookup searches cfg.cdps');
+});
+
+test('Python: build_hna_data.py fetch_places populates containingCounty', () => {
+    const pyPath = path.join(ROOT, 'scripts', 'hna', 'build_hna_data.py');
+    const py = fs.readFileSync(pyPath, 'utf8');
+    assert(py.includes('fetch_place_county_map'), 'fetch_place_county_map function is defined');
+    assert(py.includes("entry['containingCounty']"), 'containingCounty is set on each place entry');
+    assert(py.includes('place_county=place_county'), 'place_county map is shared between places/cdps');
 });
 
 // ---------------------------------------------------------------------------
