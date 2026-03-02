@@ -1,0 +1,11 @@
+{
+  "_comment": "ArcGIS FeatureServer query parameters for Colorado LIHTC points data. Used by scripts/fetch-chfa-lihtc.js.",
+  "host": "services.arcgis.com",
+  "basePath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer",
+  "layersPath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/layers",
+  "where": "Proj_St='CO'",
+  "outFields": "PROJECT,PROJ_ADD,PROJ_CTY,PROJ_ST,CNTY_NAME,CNTY_FIPS,STATEFP,COUNTYFP,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF,QCT,DDA",
+  "outSR": "4326",
+  "pageSize": 1000,
+  "outputFile": "data/chfa-lihtc.json"
+}

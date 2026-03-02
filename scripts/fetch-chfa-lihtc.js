@@ -54,21 +54,29 @@ const fs = require('fs');
 const path = require('path');
 
 // ---------------------------------------------------------------------------
-// Configuration
+// Configuration — loaded from lihtc-co-query.json
 // ---------------------------------------------------------------------------
 
-const CHFA_HOST = 'services.arcgis.com';
-const CHFA_BASE =
-  '/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer';
-const CHFA_LAYERS_PATH = CHFA_BASE + '/layers?f=json';
+const QUERY_CONFIG = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'lihtc-co-query.json'), 'utf8')
+);
+
+const CHFA_HOST = QUERY_CONFIG.host;
+const CHFA_BASE = QUERY_CONFIG.basePath;
+const CHFA_LAYERS_PATH = QUERY_CONFIG.layersPath + '?f=json';
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
-const OUTPUT_FILE = path.join(DATA_DIR, 'chfa-lihtc.json');
+const OUTPUT_FILE = path.join(__dirname, '..', QUERY_CONFIG.outputFile);
 
 /**
- * Maximum OBJECTIDs to include per batch query.
- * Kept well below URL-length limits; POST is used so 1000 is safe.
+ * Maximum records to include per page query.
  */
-const PAGE_SIZE = 1000;
+const PAGE_SIZE = QUERY_CONFIG.pageSize;
+
+/**
+ * WHERE clause filter — uses Proj_St='CO' to match Colorado records.
+ * Defined in scripts/lihtc-co-query.json.
+ */
+const WHERE_CLAUSE = QUERY_CONFIG.where;
 
 /**
  * Fields to request from the ArcGIS service.
@@ -97,8 +105,7 @@ const PAGE_SIZE = 1000;
  * service does not return them they are derived locally from CNTY_NAME using
  * CO_COUNTY_FIPS below as a fallback.
  */
-const OUT_FIELDS =
-  'PROJECT,PROJ_ADD,PROJ_CTY,PROJ_ST,CNTY_NAME,CNTY_FIPS,STATEFP,COUNTYFP,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF,QCT,DDA';
+const OUT_FIELDS = QUERY_CONFIG.outFields;
 
 /**
  * Lookup table: Colorado county name → 5-digit FIPS code.
@@ -283,7 +290,7 @@ async function fetchRecordsFromLayer(layerId) {
     page++;
     process.stdout.write(`  Layer ${layerId} — page ${page} (offset ${offset})… `);
     const params = new URLSearchParams({
-      where: "STATEFP='08'",
+      where: WHERE_CLAUSE,
       outFields: OUT_FIELDS,
       f: 'json',
       outSR: '4326',
