@@ -248,7 +248,7 @@ function httpsGet(host, pathAndQuery, retries = 3) {
  */
 async function fetchAllIds() {
   const params = new URLSearchParams({
-    where: '1=1',
+    where: "PROJ_ST = 'CO'",
     returnIdsOnly: 'true',
     f: 'json',
   });
@@ -273,6 +273,7 @@ async function fetchAllIds() {
  */
 async function fetchByIds(ids) {
   const params = new URLSearchParams({
+    where: '1=1',
     objectIds: ids.join(','),
     outFields: OUT_FIELDS,
     f: 'json',
