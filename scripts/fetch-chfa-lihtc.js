@@ -58,8 +58,9 @@ const path = require('path');
 // ---------------------------------------------------------------------------
 
 const CHFA_HOST = 'services.arcgis.com';
-const CHFA_PATH =
-  '/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
+const CHFA_BASE =
+  '/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer';
+const CHFA_LAYERS_PATH = CHFA_BASE + '/layers?f=json';
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
 const OUTPUT_FILE = path.join(DATA_DIR, 'chfa-lihtc.json');
 
@@ -237,75 +238,89 @@ function httpsGet(host, pathAndQuery, retries = 3) {
 }
 
 /**
- * Fetch all OBJECTIDs from the service via a GET request.
+ * Discover all layer IDs published by the LIHTC FeatureServer.
+ * Uses the /layers endpoint so that every layer (point, polygon, etc.)
+ * is included rather than hard-coding layer 0.
  *
- * @returns {Promise<number[]>}  Array of OBJECTID integers.
+ * @returns {Promise<number[]>}  Array of integer layer IDs.
  */
-async function fetchAllObjectIds() {
-  const params = new URLSearchParams({
-    where: '1=1',
-    returnIdsOnly: 'true',
-    f: 'json',
-  });
-  const body = await httpsGet(CHFA_HOST, `${CHFA_PATH}?${params.toString()}`);
+async function fetchLayerIds() {
+  console.log(`Fetching layer list from ${CHFA_LAYERS_PATH}…`);
+  const body = await httpsGet(CHFA_HOST, CHFA_LAYERS_PATH);
   const parsed = JSON.parse(body);
   if (parsed.error) {
-    throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
+    throw new Error(`ArcGIS layers error ${parsed.error.code}: ${parsed.error.message}`);
   }
-  return parsed.objectIds || [];
+  const layers = (Array.isArray(parsed.layers) ? parsed.layers : []).concat(
+    Array.isArray(parsed.tables) ? parsed.tables : []
+  );
+  if (!layers.length) {
+    // Fall back to layer 0 if the service doesn't advertise layers
+    console.warn('  No layers returned — defaulting to layer 0.');
+    return [0];
+  }
+  const ids = layers.map((l) => l.id);
+  console.log(`  Found layer(s): ${ids.join(', ')}`);
+  return ids;
 }
 
 /**
- * Fetch a batch of features by OBJECTID using a POST request to avoid
- * URL-length limits when passing large ID arrays.
+ * Fetch all Colorado LIHTC records from a single layer using WHERE clause and
+ * resultOffset pagination.  Queries with STATEFP='08' to target Colorado records
+ * directly, avoiding the unreliable objectIds parameter approach that causes
+ * HTTP 400 errors when passing large ID arrays to the ArcGIS FeatureServer.
  *
- * @param {number[]} ids  Array of OBJECTIDs to retrieve in this batch.
+ * @param {number} layerId  ArcGIS FeatureServer layer ID.
  * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
  */
-async function fetchBatchByIds(ids) {
-  const formBody = new URLSearchParams({
-    objectIds: ids.join(','),
-    outFields: OUT_FIELDS,
-    f: 'json',
-    outSR: '4326',
-  }).toString();
-  const body = await httpsRequest(CHFA_HOST, CHFA_PATH, 3, { body: formBody });
-  const parsed = JSON.parse(body);
-  if (parsed.error) {
-    throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
-  }
-  return parsed.features || [];
-}
-
-/**
- * Fetch all Colorado LIHTC records using OBJECTID-based batch pagination.
- *
- * Fetching OBJECTIDs first and then querying in small batches via POST avoids
- * two known failure modes:
- *   (a) resultOffset/resultRecordCount pagination — not supported by this
- *       service (returns HTTP 400 "Invalid query parameters").
- *   (b) Passing all IDs in a single GET URL — causes HTTP 400 when the URL
- *       exceeds server limits with large datasets.
- *
- * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
- */
-async function fetchAllRecords() {
-  process.stdout.write('  Fetching all OBJECTIDs… ');
-  const ids = await fetchAllObjectIds();
-  console.log(`${ids.length} record(s) found`);
-
+async function fetchRecordsFromLayer(layerId) {
+  const queryPath = `${CHFA_BASE}/${layerId}/query`;
   const allFeatures = [];
+  let offset = 0;
   let page = 0;
 
-  for (let i = 0; i < ids.length; i += PAGE_SIZE) {
+  for (;;) {
     page++;
-    const batch = ids.slice(i, i + PAGE_SIZE);
-    process.stdout.write(`  Page ${page} (${batch.length} record(s))… `);
-    const features = await fetchBatchByIds(batch);
+    process.stdout.write(`  Layer ${layerId} — page ${page} (offset ${offset})… `);
+    const params = new URLSearchParams({
+      where: "STATEFP='08'",
+      outFields: OUT_FIELDS,
+      f: 'json',
+      outSR: '4326',
+      resultOffset: String(offset),
+      resultRecordCount: String(PAGE_SIZE),
+    });
+    const pathAndQuery = `${queryPath}?${params.toString()}`;
+    const body = await httpsGet(CHFA_HOST, pathAndQuery);
+    const parsed = JSON.parse(body);
+    if (parsed.error) {
+      throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
+    }
+    const features = parsed.features || [];
     allFeatures.push(...features);
-    console.log(`${features.length} fetched (${allFeatures.length} total)`);
+    console.log(`${features.length} record(s) (${allFeatures.length} total)`);
+
+    if (!parsed.exceededTransferLimit) {
+      break;
+    }
+    offset += features.length;
   }
 
+  return allFeatures;
+}
+
+/**
+ * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
+ *
+ * @returns {Promise<object[]>}  Combined array of raw ArcGIS feature objects.
+ */
+async function fetchAllRecords() {
+  const layerIds = await fetchLayerIds();
+  const allFeatures = [];
+  for (const id of layerIds) {
+    const features = await fetchRecordsFromLayer(id);
+    allFeatures.push(...features);
+  }
   return allFeatures;
 }
 
@@ -394,7 +409,7 @@ function toGeoJsonFeature(esriFeature) {
   const geojson = {
     type: 'FeatureCollection',
     fetchedAt: new Date().toISOString(),
-    source: `https://${CHFA_HOST}${CHFA_PATH}`,
+    source: `https://${CHFA_HOST}${CHFA_BASE}/layers`,
     features: allFeatures,
   };
 
