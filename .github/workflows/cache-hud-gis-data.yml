@@ -173,6 +173,7 @@ jobs:
             echo "No changes to overlay cache files"
           else
             git commit -m "chore: update HUD QCT/DDA overlay cache [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash origin main
+            git restore .
+            git pull --rebase origin main
             git push
           fi

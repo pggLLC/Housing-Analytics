@@ -40,7 +40,8 @@ jobs:
               echo "No changes to commit"
             else
               git commit -m "chore: update Zillow data [$(date -u '+%Y-%m-%d')]"
-              git pull --rebase --autostash origin main
+              git restore .
+              git pull --rebase origin main
               git push
             fi
           else
