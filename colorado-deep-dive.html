@@ -1479,6 +1479,29 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['067']},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
   ]};
 
+  // Maps 5-digit county FIPS → HUD Metro FMR Area name used in DDA_NAME field.
+  // Mirrors housing-needs-assessment.js CO_DDA for the deep-dive DDA filter.
+  const CO_DDA_AREAS = {
+    '08001': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Adams
+    '08005': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Arapahoe
+    '08013': 'Boulder HUD Metro FMR Area',                  // Boulder
+    '08014': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Broomfield
+    '08019': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Clear Creek
+    '08031': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Denver
+    '08035': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Douglas
+    '08037': 'Edwards HUD Metro FMR Area (Eagle County)',   // Eagle
+    '08039': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Elbert
+    '08041': 'Colorado Springs HUD Metro FMR Area',         // El Paso
+    '08047': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Gilpin
+    '08059': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Jefferson
+    '08069': 'Fort Collins HUD Metro FMR Area',             // Larimer
+    '08093': 'Denver-Aurora-Lakewood HUD Metro FMR Area',   // Park
+    '08097': 'Aspen HUD Metro FMR Area (Pitkin County)',    // Pitkin
+    '08117': 'Summit County HUD Metro FMR Area',            // Summit
+    '08119': 'Colorado Springs HUD Metro FMR Area',         // Teller
+    '08123': 'Greeley HUD Metro FMR Area',                  // Weld
+  };
+
   /* =====================================================================
      MAIN INIT
      ===================================================================== */
@@ -1923,13 +1946,17 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
         if (ddaLayer && map.hasLayer(ddaLayer)) map.removeLayer(ddaLayer);
         ddaLayer = null;
         const countyFips3 = fips ? fips.slice(2) : null; // '031' from '08031'
+        const expectedDdaArea = CO_DDA_AREAS[fips] || null;
         const filtered = fips
           ? { ...ddaAll, features: ddaAll.features.filter(f => {
               const cfp      = f.properties?.COUNTYFP || '';
               const counties = f.properties?.COUNTIES;  // fallback array
-              if (cfp)      return cfp === countyFips3;
-              if (counties) return Array.isArray(counties) && counties.includes(countyFips3);
-              return true; // keep if no county info available
+              if (cfp)                     return cfp === countyFips3;
+              if (Array.isArray(counties)) return counties.includes(countyFips3);
+              if (expectedDdaArea && f.properties?.DDA_NAME)
+                return f.properties.DDA_NAME.split(',')[0].toLowerCase() ===
+                       expectedDdaArea.split(',')[0].toLowerCase();
+              return false; // exclude when county is active and no match
             })}
           : ddaAll;
         ddaLayer = makeOverlayLayer(filtered, styleDDA, 'DDA 2026');
