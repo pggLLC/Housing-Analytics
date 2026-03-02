@@ -82,20 +82,27 @@
         <p>Boundary is fetched from Census TIGERweb and used as the base layer for additional overlays.</p>
         <div id="hnaMap" aria-label="Boundary map"></div>
         <div class="hna-map-overlay-controls" aria-label="Map layer toggles">
-          <label>
+          <span class="hna-overlay-label">Layers:</span>
+          <label class="layer-toggle">
             <input type="checkbox" id="layerLihtc" checked>
-            <span class="legend-dot" style="background:#e84545"></span>
-            LIHTC projects
+            <span class="layer-toggle-pill">
+              <span class="legend-dot" style="background:#e84545"></span>
+              LIHTC
+            </span>
           </label>
-          <label>
+          <label class="layer-toggle">
             <input type="checkbox" id="layerQct" checked>
-            <span class="legend-swatch" style="background:rgba(251,191,36,.35);border-color:#d97706"></span>
-            QCT tracts
+            <span class="layer-toggle-pill">
+              <span class="legend-swatch" style="background:rgba(251,191,36,.35);border-color:#d97706"></span>
+              QCT tracts
+            </span>
           </label>
-          <label>
+          <label class="layer-toggle">
             <input type="checkbox" id="layerDda" checked>
-            <span class="legend-swatch" style="background:rgba(139,92,246,.2);border-color:#7c3aed"></span>
-            DDA boundary
+            <span class="layer-toggle-pill">
+              <span class="legend-swatch" style="background:rgba(139,92,246,.2);border-color:#7c3aed"></span>
+              DDA
+            </span>
           </label>
           <span id="lihtcMapStatus" class="hna-layer-status"></span>
         </div>

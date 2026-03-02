@@ -361,11 +361,61 @@ def fetch_counties() -> list[dict]:
     return out
 
 
-def fetch_places() -> list[dict]:
+def build_place_geoid(place_code: str) -> str:
+    """Build a 7-digit Colorado place GEOID from a 5-digit Census place code."""
+    return STATE_FIPS_CO + place_code.zfill(5)
+
+
+def fetch_place_county_map(counties: list[dict]) -> dict[str, str]:
+    """Build a map from place GEOID to primary containing county FIPS-5.
+
+    Queries each Colorado county for its places using the Census ACS 5-year API.
+    Counties are iterated in ascending GEOID order (i.e. ascending 5-digit FIPS,
+    which includes the 2-digit state prefix).  For places that span multiple
+    counties the county with the lowest full GEOID is recorded as primary.
+    """
+    key = census_key()
+    acs5_year = acs_start_year()
+    place_county: dict[str, str] = {}
+    # Sort counties by GEOID so multi-county places get a deterministic primary county
+    sorted_counties = sorted(counties, key=lambda c: c['geoid'])
+    for c in sorted_counties:
+        county_code = c['geoid'][2:]  # strip state prefix, get 3-digit county FIPS
+        # Census API requires literal comma in geography hierarchy — build manually
+        qs = f"get=NAME&for=place:*&in=state:{STATE_FIPS_CO},county:{county_code}"
+        if key:
+            qs += f"&key={urllib.parse.quote(key, safe='')}"
+        url = f"https://api.census.gov/data/{acs5_year}/acs/acs5?{qs}"
+        try:
+            status, raw = http_get_text(url, timeout=15, retries=2)
+            if status != 200:
+                continue
+            arr = json.loads(raw)
+        except Exception:
+            continue
+        if len(arr) < 2:
+            continue
+        header = arr[0]
+        place_idx = header.index('place') if 'place' in header else -1
+        if place_idx < 0:
+            continue
+        for row in arr[1:]:
+            place_code = row[place_idx] if place_idx < len(row) else ''
+            if not place_code:
+                continue
+            geoid = build_place_geoid(place_code)
+            if geoid not in place_county:
+                place_county[geoid] = c['geoid']
+    return place_county
+
+
+def fetch_places(counties: list[dict] | None = None,
+                 place_county: dict[str, str] | None = None) -> list[dict]:
     """Fetch all incorporated places (municipalities) in Colorado from Census API.
 
     Uses the ACS 5-year name lookup to get GEOIDs and names for all
-    incorporated places (cities, towns) in Colorado.
+    incorporated places (cities, towns) in Colorado, with containingCounty
+    populated for each place via county-level queries.
     """
     key = census_key()
     acs5_year = acs_start_year()
@@ -388,6 +438,11 @@ def fetch_places() -> list[dict]:
     place_idx = header.index('place') if 'place' in header else -1
     if name_idx < 0 or place_idx < 0:
         return []
+    # Build place→county map so every entry gets a containingCounty
+    if place_county is None:
+        if counties is None:
+            counties = fetch_counties()
+        place_county = fetch_place_county_map(counties) if counties else {}
     out = []
     cdp_suffixes = (' cdp', ' (cdp)')
     for row in arr[1:]:
@@ -401,14 +456,20 @@ def fetch_places() -> list[dict]:
         label_lower = label.lower()
         if any(label_lower.endswith(s) for s in cdp_suffixes) or 'cdp' in label_lower.split():
             continue
-        geoid = STATE_FIPS_CO + place_code.zfill(5)
-        out.append({'geoid': geoid, 'label': label})
+        geoid = build_place_geoid(place_code)
+        entry: dict = {'geoid': geoid, 'label': label}
+        county_fips = place_county.get(geoid)
+        if county_fips:
+            entry['containingCounty'] = county_fips
+        out.append(entry)
     out.sort(key=lambda x: x['label'])
     return out
 
 
-def fetch_cdps() -> list[dict]:
-    """Fetch all Census-Designated Places (CDPs) in Colorado from Census API."""
+def fetch_cdps(counties: list[dict] | None = None,
+               place_county: dict[str, str] | None = None) -> list[dict]:
+    """Fetch all Census-Designated Places (CDPs) in Colorado from Census API,
+    with containingCounty populated for each CDP via county-level queries."""
     key = census_key()
     acs5_year = acs_start_year()
     # Build query string manually to preserve literal colons in Census API
@@ -430,6 +491,11 @@ def fetch_cdps() -> list[dict]:
     place_idx = header.index('place') if 'place' in header else -1
     if name_idx < 0 or place_idx < 0:
         return []
+    # Reuse place→county map (CDPs appear in the same Census place query)
+    if place_county is None:
+        if counties is None:
+            counties = fetch_counties()
+        place_county = fetch_place_county_map(counties) if counties else {}
     out = []
     for row in arr[1:]:
         name = row[name_idx] if name_idx < len(row) else ''
@@ -447,8 +513,12 @@ def fetch_cdps() -> list[dict]:
             if label.endswith(suffix):
                 label = label[:-len(suffix)].strip() + ' (CDP)'
                 break
-        geoid = STATE_FIPS_CO + place_code.zfill(5)
-        out.append({'geoid': geoid, 'label': label})
+        geoid = build_place_geoid(place_code)
+        entry: dict = {'geoid': geoid, 'label': label}
+        county_fips = place_county.get(geoid)
+        if county_fips:
+            entry['containingCounty'] = county_fips
+        out.append(entry)
     out.sort(key=lambda x: x['label'])
     return out
 
@@ -1315,8 +1385,11 @@ def write_geo_config():
         if os.path.exists(OUT['geo_config']):
             print("ℹ geo-config: network unavailable; keeping existing cached file", file=sys.stderr)
             return
-    places = fetch_places()
-    cdps = fetch_cdps()
+    # Build place→county map once and share across places and CDPs to avoid
+    # redundant API calls (fetch_place_county_map makes one request per county).
+    place_county = fetch_place_county_map(counties) if counties else {}
+    places = fetch_places(counties=counties, place_county=place_county)
+    cdps = fetch_cdps(counties=counties, place_county=place_county)
     payload = {
         'updated': utc_now_z(),
         'featured': FEATURED,
