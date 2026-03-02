@@ -1072,9 +1072,9 @@
     }
     qctLayer = L.geoJSON(geojson, {
       style: {
-        weight: 1.5,
-        color: '#d97706',
-        fillColor: '#fbbf24',
+        weight: 2,
+        color: '#388e3c',
+        fillColor: '#4caf50',
         fillOpacity: 0.18,
       },
       onEachFeature: (f, layer) => {
@@ -1098,9 +1098,9 @@
       ddaLayer = L.geoJSON(ddaGeojson, {
         style: {
           weight: 2,
-          color: '#7c3aed',
-          fillColor: '#8b5cf6',
-          fillOpacity: 0.12,
+          color: '#ff6f00',
+          fillColor: '#ff9800',
+          fillOpacity: 0.17,
           dashArray: '6 4',
         },
         onEachFeature: (f, layer) => {
