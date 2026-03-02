@@ -243,7 +243,57 @@
     if (cbFilterDda) cbFilterDda.addEventListener('change', applyProjectFilter);
   }
 
-  // ── Fetch data: local JSON (primary) → remote ArcGIS (only if local is missing/404) → embedded fallback ──
+  // ── Fetch overlay data: local JSON → remote ArcGIS → embedded fallback ────────
+  // Tries to load the local QCT and DDA cached files (written by the
+  // cache-hud-gis-data.yml CI workflow) and render them.  Falls back to the
+  // embedded FALLBACK_* constants only when the local files are absent or empty.
+  function loadLocalOverlays(map) {
+    var resolveUrl = typeof window.resolveAssetUrl === 'function'
+      ? window.resolveAssetUrl
+      : function(p) { return p; };
+
+    // QCT — try local cache first
+    fetchWithTimeout(resolveUrl('data/qct-colorado.json'), {}, 8000)
+      .then(function(res) {
+        if (!res.ok) throw new Error('QCT HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(gj) {
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
+          renderQctLayer(map, gj);
+          console.info('[co-lihtc-map] QCT loaded from local cache (' + gj.features.length + ' features).');
+        } else {
+          renderQctLayer(map, FALLBACK_QCT);
+          console.warn('[co-lihtc-map] Local qct-colorado.json empty; using embedded fallback.');
+        }
+      })
+      .catch(function(err) {
+        console.warn('[co-lihtc-map] Local QCT cache unavailable; using embedded fallback.', err.message);
+        renderQctLayer(map, FALLBACK_QCT);
+      });
+
+    // DDA — try local cache first
+    fetchWithTimeout(resolveUrl('data/dda-colorado.json'), {}, 8000)
+      .then(function(res) {
+        if (!res.ok) throw new Error('DDA HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(gj) {
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
+          renderDdaLayer(map, gj);
+          console.info('[co-lihtc-map] DDA loaded from local cache (' + gj.features.length + ' features).');
+        } else {
+          renderDdaLayer(map, FALLBACK_DDA);
+          console.warn('[co-lihtc-map] Local dda-colorado.json empty; using embedded fallback.');
+        }
+      })
+      .catch(function(err) {
+        console.warn('[co-lihtc-map] Local DDA cache unavailable; using embedded fallback.', err.message);
+        renderDdaLayer(map, FALLBACK_DDA);
+      });
+  }
+
+  // ── Fetch LIHTC data: local JSON → remote ArcGIS (404 or 0-features) → embedded fallback ──
   function fetchData(map) {
     // Canonical local file — always tried first. Written by scripts/fetch-chfa-lihtc.js via CI.
     // resolveAssetUrl prepends the detected base path so the URL works on GitHub Pages sub-paths
@@ -252,7 +302,8 @@
       ? window.resolveAssetUrl('data/chfa-lihtc.json')
       : 'data/chfa-lihtc.json';
 
-    // Remote ArcGIS endpoints — only attempted when the local file is absent (404).
+    // Remote ArcGIS endpoints — attempted when the local file is absent (404) or empty (0 features).
+    // Increased to 15 s to handle slow GIS service cold-starts.
     var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
     var CHFA_PARAMS = 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
@@ -262,11 +313,12 @@
 
     function useEmbedded() {
       renderData(map, FALLBACK_LIHTC);
-      updateStatus('Source: embedded fallback');
+      updateStatus('Source: embedded fallback (14 projects)');
     }
 
     function useHUD() {
-      return fetchWithTimeout(HUD_URL + '?' + HUD_PARAMS, {}, 8000)
+      updateStatus('Trying HUD ArcGIS…');
+      return fetchWithTimeout(HUD_URL + '?' + HUD_PARAMS, {}, 15000)
         .then(function (res) {
           if (!res.ok) throw new Error('HUD HTTP ' + res.status);
           return res.json();
@@ -287,7 +339,8 @@
     }
 
     function useCHFA() {
-      return fetchWithTimeout(CHFA_URL + '?' + CHFA_PARAMS, {}, 8000)
+      updateStatus('Trying CHFA ArcGIS…');
+      return fetchWithTimeout(CHFA_URL + '?' + CHFA_PARAMS, {}, 15000)
         .then(function (res) {
           if (!res.ok) throw new Error('CHFA HTTP ' + res.status);
           return res.json();
@@ -308,7 +361,7 @@
     }
 
     // 1. Always try local data/chfa-lihtc.json first.
-    fetchWithTimeout(LOCAL_URL, {}, 5000)
+    fetchWithTimeout(LOCAL_URL, {}, 8000)
       .then(function (res) {
         // Attach HTTP status so the catch handler can distinguish 404 from other errors.
         if (!res.ok) {
@@ -321,13 +374,13 @@
       .then(function (localData) {
         if (validateData(localData)) {
           renderData(map, localData);
-          updateStatus('Source: local CHFA data');
+          updateStatus('Source: local CHFA data (' + localData.features.length + ' projects)');
         } else {
-          // File exists but contains no features — likely an empty/incomplete CI run.
-          // Do NOT fall back to remote; surface a clear message instead.
-          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features. Check CI/deployment output.');
-          updateStatus('LIHTC data file is empty. Check deployment — verify data/chfa-lihtc.json is populated.');
-          useEmbedded();
+          // File exists but contains no features — CI fetch failed or hasn't run yet.
+          // Fall back to remote APIs so the map still shows real data.
+          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features; trying CHFA ArcGIS.');
+          updateStatus('Local LIHTC file empty — fetching from CHFA ArcGIS…');
+          return useCHFA();
         }
       })
       .catch(function (localErr) {
@@ -336,11 +389,10 @@
           console.warn('[co-lihtc-map] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
           return useCHFA();
         }
-        // Any other error (network, parse, etc.) — the file may exist but be unreachable.
-        // Surface a clear actionable message; do not attempt remote APIs.
-        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message);
-        updateStatus('LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).');
-        useEmbedded();
+        // Any other error (network, parse, etc.) — try remote APIs before giving up.
+        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message, '— trying CHFA ArcGIS.');
+        updateStatus('Local LIHTC unavailable — fetching from CHFA ArcGIS…');
+        return useCHFA();
       });
   }
 
@@ -387,8 +439,7 @@
       window.coLihtcMap = map;
 
       fetchData(map);
-      renderDdaLayer(map, FALLBACK_DDA);
-      renderQctLayer(map, FALLBACK_QCT);
+      loadLocalOverlays(map);
       wireToggles(map);
       return map;
     } catch (err) {
