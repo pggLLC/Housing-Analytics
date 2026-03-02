@@ -204,12 +204,13 @@
       return null;
     }
 
-    // Fix vendored marker icon paths
+    // Fix vendored marker icon paths (use resolveAssetUrl for GitHub Pages sub-path support)
     if (L.Icon && L.Icon.Default) {
+      var _resolve = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
       L.Icon.Default.mergeOptions({
-        iconUrl:       'js/vendor/images/marker-icon.png',
-        iconRetinaUrl: 'js/vendor/images/marker-icon-2x.png',
-        shadowUrl:     'js/vendor/images/marker-shadow.png'
+        iconUrl:       _resolve('js/vendor/images/marker-icon.png'),
+        iconRetinaUrl: _resolve('js/vendor/images/marker-icon-2x.png'),
+        shadowUrl:     _resolve('js/vendor/images/marker-shadow.png')
       });
     }
 
