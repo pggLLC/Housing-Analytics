@@ -231,23 +231,47 @@
     const toggle = document.getElementById('layerProp123');
     if (!toggle) return;
 
-    const map = window.coLihtcMap;
+    // Retry up to 10 times over ~2 seconds waiting for co-lihtc-map.js to expose coLihtcMap
+    const MAX_RETRIES = 10;
+    const RETRY_INTERVAL_MS = 200;
+    let map = window.coLihtcMap;
     if (!map) {
-      console.warn('coLihtcMap not found; Prop123 overlay not initialized');
-      return;
+      await new Promise(function (resolve) {
+        let attempts = 0;
+        const interval = setInterval(function () {
+          attempts++;
+          if (window.coLihtcMap) {
+            clearInterval(interval);
+            map = window.coLihtcMap;
+            resolve();
+          } else if (attempts >= MAX_RETRIES) {
+            clearInterval(interval);
+            console.warn('[prop123-map] coLihtcMap not available after ' + (MAX_RETRIES * RETRY_INTERVAL_MS) + 'ms; Prop 123 overlay skipped.');
+            resolve();
+          }
+        }, RETRY_INTERVAL_MS);
+      });
     }
+
+    if (!map) return;
+
+    const statusEl = document.getElementById('prop123Status');
 
     let overlay = null;
 
     async function ensureLayer() {
       if (overlay) return overlay;
+      if (statusEl) statusEl.textContent = 'Loading Prop 123 data…';
       overlay = await buildOverlay(map);
       return overlay;
     }
 
     async function sync() {
       const o = await ensureLayer();
-      if (!o) return;
+      if (!o) {
+        if (statusEl) statusEl.textContent = 'Prop 123 data unavailable';
+        return;
+      }
       if (toggle.checked) {
         o.group.addTo(map);
       } else {
