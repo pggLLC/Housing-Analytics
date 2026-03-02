@@ -87,8 +87,8 @@
     hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
     chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
-    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/QCT_2026/FeatureServer/0', // Update year annually (e.g. QCT_2027 when HUD publishes next cycle)
-    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/DDA_2026/FeatureServer/0', // Update year annually (e.g. DDA_2027 when HUD publishes next cycle)
+    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // Update year annually (e.g. Qualified_Census_Tracts_2027 when HUD publishes next cycle)
+    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0', // Update year annually (e.g. Difficult_Development_Areas_2027 when HUD publishes next cycle)
   };
 
   // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
@@ -553,7 +553,7 @@
     const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl(url)
       : url;
-    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 10000);
+    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 20000);
     if (!r.ok) {
       const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
       err.httpStatus = r.status;
@@ -790,7 +790,7 @@
         });
         const chfaUrl = `${SOURCES.chfaLihtcQuery}/query?${chfaParams}`;
         try {
-          const r = await fetchWithTimeout(chfaUrl, {}, 8000);
+          const r = await fetchWithTimeout(chfaUrl, {}, 15000);
           if (!r.ok) throw new Error(`CHFA LIHTC HTTP ${r.status}`);
           const gj = await r.json();
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
@@ -812,7 +812,7 @@
       });
       const url = `${SOURCES.hudLihtcQuery}/query?${params}`;
       try {
-        const r = await fetchWithTimeout(url, {}, 8000);
+        const r = await fetchWithTimeout(url, {}, 15000);
         if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
@@ -853,7 +853,7 @@
     });
     const url = `${SOURCES.hudQctQuery}/query?${params}`;
     try {
-      const r = await fetchWithTimeout(url, {}, 5000);
+      const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`QCT HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
@@ -916,7 +916,7 @@
     });
     const url = `${SOURCES.hudDdaQuery}/query?${params}`;
     try {
-      const r = await fetchWithTimeout(url, {}, 5000);
+      const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) {
@@ -1072,9 +1072,9 @@
     }
     qctLayer = L.geoJSON(geojson, {
       style: {
-        weight: 1.5,
-        color: '#d97706',
-        fillColor: '#fbbf24',
+        weight: 2,
+        color: '#388e3c',
+        fillColor: '#4caf50',
         fillOpacity: 0.18,
       },
       onEachFeature: (f, layer) => {
@@ -1098,9 +1098,9 @@
       ddaLayer = L.geoJSON(ddaGeojson, {
         style: {
           weight: 2,
-          color: '#7c3aed',
-          fillColor: '#8b5cf6',
-          fillOpacity: 0.12,
+          color: '#ff6f00',
+          fillColor: '#ff9800',
+          fillOpacity: 0.17,
           dashArray: '6 4',
         },
         onEachFeature: (f, layer) => {
