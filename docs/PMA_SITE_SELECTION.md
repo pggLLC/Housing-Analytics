@@ -120,6 +120,7 @@ function percentileRank(value, allValues) {
   const sorted = [...allValues].sort((a, b) => a - b);
   const below = sorted.filter(v => v < value).length;
   const equal = sorted.filter(v => v === value).length;
+  // Use midpoint of tied ranks to avoid bias toward either end of ties
   return ((below + 0.5 * equal) / sorted.length) * 100;
 }
 ```

@@ -234,6 +234,7 @@
     // Retry up to 10 times over ~2 seconds waiting for co-lihtc-map.js to expose coLihtcMap
     const MAX_RETRIES = 10;
     const RETRY_INTERVAL_MS = 200;
+    const MAX_WAIT_MS = MAX_RETRIES * RETRY_INTERVAL_MS;
     let map = window.coLihtcMap;
     if (!map) {
       await new Promise(function (resolve) {
@@ -246,7 +247,7 @@
             resolve();
           } else if (attempts >= MAX_RETRIES) {
             clearInterval(interval);
-            console.warn('[prop123-map] coLihtcMap not available after ' + (MAX_RETRIES * RETRY_INTERVAL_MS) + 'ms; Prop 123 overlay skipped.');
+            console.warn('[prop123-map] coLihtcMap not available after ' + MAX_WAIT_MS + 'ms; Prop 123 overlay skipped.');
             resolve();
           }
         }, RETRY_INTERVAL_MS);
