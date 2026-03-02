@@ -1933,7 +1933,7 @@ const transportLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x
         const filtered = fips
           ? { ...qctAll, features: qctAll.features.filter(f => {
               const g   = f.properties?.GEOID || '';
-              const cfp = f.properties?.COUNTYFP || '';
+              const cfp = f.properties?.COUNTYFP || f.properties?.COUNTY || '';
               return g.startsWith(fips) || ('08' + cfp) === fips;
             })}
           : qctAll;
