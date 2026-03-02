@@ -37,6 +37,6 @@ jobs:
             echo "No changes to commit — data is up to date."
           else
             git commit -m "chore: update Kalshi prediction market data [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push
           fi
