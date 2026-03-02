@@ -740,8 +740,13 @@
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
 
-      // Colorado: always try the canonical local statewide file first.
+      // Colorado: try county-specific cached file first, then canonical statewide file.
       if (stateFips === '08') {
+        try {
+          const localCounty = await loadJson(PATHS.lihtc(countyFips5));
+          if (localCounty?.features?.length > 0) return { ...localCounty, _source: 'local' };
+        } catch(_) { /* no county-specific cache */ }
+
         try {
           const stateGj = await loadJson('data/chfa-lihtc.json');
           if (stateGj && Array.isArray(stateGj.features)) {
