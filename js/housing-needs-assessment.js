@@ -790,7 +790,7 @@
         });
         const chfaUrl = `${SOURCES.chfaLihtcQuery}/query?${chfaParams}`;
         try {
-          const r = await fetchWithTimeout(chfaUrl, {}, 8000);
+          const r = await fetchWithTimeout(chfaUrl, {}, 15000);
           if (!r.ok) throw new Error(`CHFA LIHTC HTTP ${r.status}`);
           const gj = await r.json();
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
@@ -812,7 +812,7 @@
       });
       const url = `${SOURCES.hudLihtcQuery}/query?${params}`;
       try {
-        const r = await fetchWithTimeout(url, {}, 8000);
+        const r = await fetchWithTimeout(url, {}, 15000);
         if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
@@ -853,7 +853,7 @@
     });
     const url = `${SOURCES.hudQctQuery}/query?${params}`;
     try {
-      const r = await fetchWithTimeout(url, {}, 5000);
+      const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`QCT HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features) && gj.features.length > 0) return gj;
@@ -916,7 +916,7 @@
     });
     const url = `${SOURCES.hudDdaQuery}/query?${params}`;
     try {
-      const r = await fetchWithTimeout(url, {}, 5000);
+      const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) {
