@@ -390,6 +390,18 @@ function toGeoJsonFeature(esriFeature) {
     features: allFeatures,
   };
 
+  // Guard: never overwrite an existing populated file with an empty result.
+  // An empty fetch most likely means the ArcGIS service was temporarily
+  // unavailable.  Preserving the previous file keeps the map functional.
+  if (allFeatures.length === 0 && fs.existsSync(OUTPUT_FILE)) {
+    const existing = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf8'));
+    const existingCount = (existing.features || []).length;
+    if (existingCount > 0) {
+      console.warn(`\nFetch returned 0 features but ${OUTPUT_FILE} already has ${existingCount} features — preserving existing file.`);
+      process.exit(0);
+    }
+  }
+
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(geojson), 'utf8');
   console.log(`\nWrote ${OUTPUT_FILE} (${allFeatures.length} feature(s)).`);
 })().catch((err) => {

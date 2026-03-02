@@ -24,7 +24,7 @@
 
   function getConfig() { return (window.APP_CONFIG || {}); }
 
-  var FETCH_TIMEOUT_MS = 10000;
+  var FETCH_TIMEOUT_MS = 20000;
   var RETRY_DELAY_BASE_MS = 500;
 
   async function fetchJSON(url, retries) {
