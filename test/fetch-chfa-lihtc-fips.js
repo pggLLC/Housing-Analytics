@@ -82,15 +82,19 @@ function toGeoJsonFeature(esriFeature) {
       PROJECT:   attrs.PROJECT   ?? null,
       PROJ_ADD:  attrs.PROJ_ADD  ?? null,
       PROJ_CTY:  attrs.PROJ_CTY  ?? null,
+      PROJ_ST:   attrs.PROJ_ST   ?? null,
       CNTY_NAME: attrs.CNTY_NAME ?? null,
-      CNTY_FIPS: cntyFips || null,
-      COUNTYFP:  countyFp || null,
+      CNTY_FIPS: (attrs.CNTY_FIPS ?? cntyFips) || null,
+      STATEFP:   attrs.STATEFP   ?? null,
+      COUNTYFP:  (attrs.COUNTYFP ?? countyFp) || null,
       N_UNITS:   attrs.N_UNITS   ?? null,
       LI_UNITS:  attrs.LI_UNITS  ?? null,
       YR_PIS:    attrs.YR_PIS    ?? null,
       YR_ALLOC:  attrs.YR_ALLOC  ?? null,
       CREDIT:    attrs.CREDIT    ?? null,
       NON_PROF:  attrs.NON_PROF  ?? null,
+      QCT:       attrs.QCT       ?? null,
+      DDA:       attrs.DDA       ?? null,
     },
   };
 }
@@ -215,6 +219,50 @@ test('toGeoJsonFeature — returns null for missing geometry', () => {
     geometry: null,
   });
   assert(feature === null, 'feature is null when geometry is null');
+});
+
+test('toGeoJsonFeature — PROJ_ST, STATEFP, QCT, DDA are populated from attrs', () => {
+  const feature = toGeoJsonFeature({
+    attributes: {
+      CNTY_NAME: 'Denver',
+      PROJ_ST:   'CO',
+      STATEFP:   '08',
+      QCT:       1,
+      DDA:       0,
+    },
+    geometry: { x: -104.99, y: 39.74 },
+  });
+  assert(feature !== null, 'feature is not null');
+  assert(feature.properties.PROJ_ST  === 'CO', 'PROJ_ST = "CO"');
+  assert(feature.properties.STATEFP  === '08', 'STATEFP = "08"');
+  assert(feature.properties.QCT      === 1,    'QCT = 1');
+  assert(feature.properties.DDA      === 0,    'DDA = 0');
+});
+
+test('toGeoJsonFeature — PROJ_ST, STATEFP, QCT, DDA are null when absent', () => {
+  const feature = toGeoJsonFeature({
+    attributes: { CNTY_NAME: 'Denver' },
+    geometry: { x: -104.99, y: 39.74 },
+  });
+  assert(feature !== null, 'feature is not null');
+  assert(feature.properties.PROJ_ST  === null, 'PROJ_ST is null when absent');
+  assert(feature.properties.STATEFP  === null, 'STATEFP is null when absent');
+  assert(feature.properties.QCT      === null, 'QCT is null when absent');
+  assert(feature.properties.DDA      === null, 'DDA is null when absent');
+});
+
+test('toGeoJsonFeature — service-provided CNTY_FIPS/COUNTYFP take precedence over local derivation', () => {
+  const feature = toGeoJsonFeature({
+    attributes: {
+      CNTY_NAME: 'Denver',
+      CNTY_FIPS: '08031',
+      COUNTYFP:  '031',
+    },
+    geometry: { x: -104.99, y: 39.74 },
+  });
+  assert(feature !== null, 'feature is not null');
+  assert(feature.properties.CNTY_FIPS === '08031', 'CNTY_FIPS from service = "08031"');
+  assert(feature.properties.COUNTYFP  === '031',   'COUNTYFP from service = "031"');
 });
 
 // ---------------------------------------------------------------------------
