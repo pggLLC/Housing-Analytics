@@ -457,16 +457,15 @@
   // --- Geography helpers ---
   function countyFromGeoid(geoType, geoid){
     if (geoType === 'county') return geoid;
-    // The ETL can set containingCounty for any featured place/cdp.
-    // For places without a containingCounty, derive from the place GEOID:
-    // Colorado place GEOIDs are 7 digits: 08XXXXX. The containing county
-    // cannot be derived from the place code alone, so we fall back to the
-    // county whose GEOID is closest or use Mesa County as default when
-    // no containingCounty is supplied.
+    // Check all config arrays (featured, places, cdps) for a containingCounty mapping.
     const conf = window.__HNA_GEO_CONFIG;
-    // Check featured first (they may have containingCounty set)
-    const featured = conf?.featured?.find(x => x.geoid === geoid);
-    if (featured?.containingCounty) return featured.containingCounty;
+    const allEntries = [
+      ...(conf?.featured || []),
+      ...(conf?.places   || []),
+      ...(conf?.cdps     || []),
+    ];
+    const match = allEntries.find(x => x.geoid === geoid);
+    if (match?.containingCounty) return match.containingCounty;
     // For non-featured places/CDPs default to the first county
     // (caller will get data from the Census API for the specific place)
     return '08077';
@@ -2210,7 +2209,13 @@
         const m = conf.counties.find(c=>c.geoid===geoid);
         return m?.label || geoid;
       }
-      const m = (conf?.featured || FEATURED).find(x=>x.geoid===geoid);
+      // Search all config arrays for the geography label
+      const allEntries = [
+        ...(conf?.featured || FEATURED),
+        ...(conf?.places   || []),
+        ...(conf?.cdps     || []),
+      ];
+      const m = allEntries.find(x=>x.geoid===geoid);
       return m?.label || geoid;
     })();
 
