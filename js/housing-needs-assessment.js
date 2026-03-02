@@ -2391,17 +2391,6 @@
     els.assumpHorizon?.addEventListener('change', onAssumpChange);
     els.assumpVacancy?.addEventListener('input', ()=>{ els.assumpVacancyVal.textContent = `${Number(els.assumpVacancy.value).toFixed(1)}%`; onAssumpChange(); });
     document.querySelectorAll('input[name="assumpHeadship"]').forEach(r=>r.addEventListener('change', onAssumpChange));
-    document.querySelectorAll('.headship-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const val = btn.dataset.headship;
-        document.querySelectorAll('.headship-btn').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed','true');
-        const hidden = document.getElementById('assumpHeadship');
-        if (hidden) hidden.value = val;
-        onAssumpChange();
-      });
-    });
 
     // Re-render charts on theme toggle
     document.addEventListener('theme:changed', ()=>{ update(); });
