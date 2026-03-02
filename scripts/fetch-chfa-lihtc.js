@@ -73,8 +73,9 @@ const OUTPUT_FILE = path.join(__dirname, '..', QUERY_CONFIG.outputFile);
 const PAGE_SIZE = QUERY_CONFIG.pageSize;
 
 /**
- * WHERE clause filter — uses Proj_St='CO' to match Colorado records.
- * Defined in scripts/lihtc-co-query.json.
+ * WHERE clause filter — matches Colorado records regardless of how the state
+ * field is stored: 'CO' (abbreviation), '08' (state FIPS), or 'Colorado'
+ * (full name).  Defined in scripts/lihtc-co-query.json.
  */
 const WHERE_CLAUSE = QUERY_CONFIG.where;
 
@@ -273,9 +274,11 @@ async function fetchLayerIds() {
 
 /**
  * Fetch all Colorado LIHTC records from a single layer using WHERE clause and
- * resultOffset pagination.  Queries with STATEFP='08' to target Colorado records
- * directly, avoiding the unreliable objectIds parameter approach that causes
- * HTTP 400 errors when passing large ID arrays to the ArcGIS FeatureServer.
+ * resultOffset pagination.  Uses a WHERE clause with OR conditions covering
+ * Proj_St='CO', Proj_St='08', and Proj_St='Colorado' to match records
+ * regardless of how the state field is stored, avoiding the unreliable
+ * objectIds parameter approach that causes HTTP 400 errors when passing large
+ * ID arrays to the ArcGIS FeatureServer.
  *
  * @param {number} layerId  ArcGIS FeatureServer layer ID.
  * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
