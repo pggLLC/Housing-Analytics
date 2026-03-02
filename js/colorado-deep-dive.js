@@ -129,16 +129,23 @@
       if (status) status.textContent = msg || '';
     }
 
-    var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : 'api/prop123';
+    var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : null;
     var fallbackUrl = 'data/prop123_jurisdictions.json';
 
-    // Try serverless first (if you later host it), then local fallback for GitHub Pages
+    // Try serverless first (if configured), then always fall back to local JSON for GitHub Pages
     function loadWithFallback(primary, fallback) {
+      var localFallback = DataService.baseData
+        ? DataService.baseData(fallback.replace(/^data\//, ''))
+        : fallback;
+      if (!primary) {
+        return DataService.getJSON(localFallback);
+      }
       return DataService.getJSON(primary).catch(function () {
-        console.warn('[colorado-deep-dive] Primary failed, using fallback:', fallback);
-        return DataService.getJSON(DataService.baseData(fallback.replace(/^data\//, '')));
+        console.warn('[colorado-deep-dive] Primary Prop 123 API failed, using local fallback:', localFallback);
+        return DataService.getJSON(localFallback);
       });
     }
+    setStatus('Loading…');
     loadWithFallback(primaryUrl, fallbackUrl).then(function (data) {
       var jurisdictions = data.jurisdictions || data.items || data || [];
       // Allow the fallback file schema: { updated, jurisdictions: [...] }
@@ -146,7 +153,7 @@
       if (!Array.isArray(jurisdictions)) jurisdictions = [];
       var count = jurisdictions.length;
       if (summary) summary.textContent = count ? (count + ' jurisdictions currently listed in the Prop 123 commitment dataset.') : 'No jurisdictions found in the dataset.';
-      setStatus(count ? ('(' + count + ')') : '(0)');
+      setStatus(count ? ('Loaded ' + count + ' features') : '(0)');
 
       // Render table rows
       tbody.innerHTML = '';
@@ -170,10 +177,10 @@
         tbody.appendChild(tr);
       });
     }).catch(function (e) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable (missing API and fallback file).</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable — check data/prop123_jurisdictions.json.</td></tr>';
       if (summary) summary.textContent = '';
-      setStatus('unavailable');
-      console.warn(e);
+      setStatus('Error loading data');
+      console.warn('[colorado-deep-dive] Prop 123 load error:', e);
     });
   }
 
@@ -397,6 +404,15 @@ function initPolicyPanel(panelId) {
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
+    /* Bootstrap Prop 123 section immediately if the table is present on this page
+       and the policy tab is already visible (e.g. via deep link). */
+    if (document.getElementById('prop123TableBody')) {
+      var policyPanel = document.getElementById('tab-policy-simulator');
+      var isVisible = policyPanel && !policyPanel.hasAttribute('hidden');
+      if (isVisible) {
+        try { initProp123Section(); } catch (e) { /* ignore */ }
+      }
+    }
   });
 
   window.addEventListener('load', function () {
