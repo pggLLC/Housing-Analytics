@@ -173,24 +173,31 @@ const OBJECT_ID_FIELD = 'OBJECTID';
 // ---------------------------------------------------------------------------
 
 /**
- * Make an HTTPS GET request and return the raw response body as a string.
+ * Make an HTTPS request and return the raw response body as a string.
  * Retries on 429 / 5xx with exponential backoff.
  *
  * @param {string} host
  * @param {string} pathAndQuery
  * @param {number} [retries=3]
+ * @param {object} [postOptions]  If provided, sends a POST with form-encoded body.
+ * @param {string} postOptions.body  URL-encoded form body string.
  * @returns {Promise<string>}
  */
-function httpsGet(host, pathAndQuery, retries = 3) {
+function httpsRequest(host, pathAndQuery, retries = 3, postOptions) {
   function attempt(remaining) {
     return new Promise((resolve, reject) => {
+      const isPost = Boolean(postOptions);
       const options = {
         hostname: host,
         path: pathAndQuery,
-        method: 'GET',
+        method: isPost ? 'POST' : 'GET',
         headers: {
           'Accept': 'application/json',
           'User-Agent': 'HousingAnalytics-DataSync/1.0',
+          ...(isPost && {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postOptions.body),
+          }),
         },
       };
 
@@ -214,10 +221,16 @@ function httpsGet(host, pathAndQuery, retries = 3) {
         res.on('error', reject);
       });
       req.on('error', reject);
+      if (isPost) req.write(postOptions.body);
       req.end();
     });
   }
   return attempt(retries);
+}
+
+/** Convenience wrapper for GET requests. */
+function httpsGet(host, pathAndQuery, retries = 3) {
+  return httpsRequest(host, pathAndQuery, retries);
 }
 
 /**
@@ -246,6 +259,8 @@ async function fetchAllIds() {
 
 /**
  * Fetch a batch of ArcGIS features by their OBJECTID values.
+ * Uses HTTP POST to avoid URL-length limits that cause HTTP 404 errors
+ * when passing large numbers of IDs as query-string parameters.
  *
  * @param {number[]} ids  OBJECTID values to retrieve.
  * @returns {Promise<object[]>}
@@ -257,8 +272,7 @@ async function fetchByIds(ids) {
     f: 'json',
     outSR: '4326',
   });
-  const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
-  const body = await httpsGet(CHFA_HOST, pathAndQuery);
+  const body = await httpsRequest(CHFA_HOST, CHFA_PATH, 3, { body: params.toString() });
   const parsed = JSON.parse(body);
   if (parsed.error) {
     throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
