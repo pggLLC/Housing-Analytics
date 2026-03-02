@@ -3,8 +3,8 @@
   "host": "services.arcgis.com",
   "basePath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer",
   "layersPath": "/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/layers",
-  "where": "Proj_St='CO'",
-  "outFields": "PROJECT,PROJ_ADD,PROJ_CTY,PROJ_ST,CNTY_NAME,CNTY_FIPS,STATEFP,COUNTYFP,N_UNITS,LI_UNITS,YR_PIS,YR_ALLOC,CREDIT,NON_PROF,QCT,DDA",
+  "where": "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'",
+  "outFields": "*",
   "outSR": "4326",
   "pageSize": 1000,
   "outputFile": "data/chfa-lihtc.json"
