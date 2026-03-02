@@ -834,6 +834,7 @@
       if (localGj && Array.isArray(localGj.features)) {
         const features = localGj.features.filter(f =>
           (f.properties?.COUNTYFP === countyFips) ||
+          (f.properties?.COUNTY   === countyFips) ||
           (f.properties?.GEOID || '').startsWith(countyFips5)
         );
         if (features.length > 0) {
@@ -865,6 +866,7 @@
       if (backupGj && Array.isArray(backupGj.features)) {
         const features = backupGj.features.filter(f =>
           (f.properties?.COUNTYFP === countyFips) ||
+          (f.properties?.COUNTY   === countyFips) ||
           (f.properties?.GEOID || '').startsWith(countyFips5)
         );
         if (features.length > 0) return { ...backupGj, features };
@@ -873,6 +875,7 @@
     // Tier 3b: embedded fallback filtered to county
     const qctFeatures = QCT_FALLBACK_CO.features.filter(f =>
       (f.properties?.COUNTYFP === countyFips) ||
+      (f.properties?.COUNTY   === countyFips) ||
       (f.properties?.GEOID || '').startsWith(countyFips5)
     );
     if (qctFeatures.length > 0) return { ...QCT_FALLBACK_CO, features: qctFeatures };
