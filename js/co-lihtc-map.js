@@ -11,6 +11,31 @@
   var ddaLayerGroup   = null;
   var qctLayerGroup   = null;
 
+  // ── Basemap tile layer reference ─────────────────────────────────────────────
+  var currentTileLayer = null;
+
+  // ── Basemap tile definitions ─────────────────────────────────────────────────
+  var TILE_DEFS = {
+    light:      { url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',   attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>' },
+    dark:       { url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',    attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>' },
+    osm:        { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',               attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
+    satellite:  { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, Maxar, Earthstar Geographics' },
+    'esri-gray':{ url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, HERE, DeLorme' },
+  };
+
+  // ── All 64 Colorado counties ──────────────────────────────────────────────────
+  var CO_COUNTIES = [
+    'Adams','Alamosa','Arapahoe','Archuleta','Baca','Bent','Boulder','Broomfield',
+    'Chaffee','Cheyenne','Clear Creek','Conejos','Costilla','Crowley','Custer',
+    'Delta','Denver','Dolores','Douglas','Eagle','El Paso','Elbert','Fremont',
+    'Garfield','Gilpin','Grand','Gunnison','Hinsdale','Huerfano','Jackson',
+    'Jefferson','Kiowa','Kit Carson','La Plata','Lake','Larimer','Las Animas',
+    'Lincoln','Logan','Mesa','Mineral','Moffat','Montezuma','Montrose','Morgan',
+    'Otero','Ouray','Park','Phillips','Pitkin','Prowers','Pueblo','Rio Blanco',
+    'Rio Grande','Routt','Saguache','San Juan','San Miguel','Sedgwick','Summit',
+    'Teller','Washington','Weld','Yuma',
+  ];
+
   // ── Fallback DDA polygon data ────────────────────────────────────────────────
   var FALLBACK_DDA = {type:'FeatureCollection',features:[
     {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDA_NAME:'Denver-Aurora-Lakewood HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
@@ -202,6 +227,98 @@
     if (show) qctLayerGroup.addTo(map);
   }
 
+  // ── Basemap switch ───────────────────────────────────────────────────────────
+  function applyBasemap(map, name) {
+    var def = TILE_DEFS[name] || TILE_DEFS.osm;
+    if (currentTileLayer) {
+      try { map.removeLayer(currentTileLayer); } catch(e) { /* ignore */ }
+    }
+    currentTileLayer = L.tileLayer(def.url, { maxZoom: 19, attribution: def.attr });
+    currentTileLayer.addTo(map);
+    try { sessionStorage.setItem('co-map-basemap', name); } catch(e) { /* ignore */ }
+  }
+
+  function wireBasemap(map) {
+    var sel = document.getElementById('basemapSelect');
+    if (!sel) return;
+
+    // Resolve the initial basemap: saved > auto (light/dark by theme) > osm
+    var saved = null;
+    try { saved = sessionStorage.getItem('co-map-basemap'); } catch(e) { /* ignore */ }
+    var isDark = document.documentElement.classList.contains('dark') ||
+                 document.body.classList.contains('dark-mode');
+    var initial = saved || (isDark ? 'dark' : 'light');
+
+    // Set the <select> to match; fall back to "auto"
+    if (sel.querySelector('option[value="' + initial + '"]')) {
+      sel.value = initial;
+    } else {
+      sel.value = 'auto';
+    }
+    applyBasemap(map, initial);
+
+    sel.addEventListener('change', function () {
+      var val = sel.value;
+      if (val === 'auto') {
+        val = (document.documentElement.classList.contains('dark') || document.body.classList.contains('dark-mode')) ? 'dark' : 'light';
+      }
+      applyBasemap(map, val);
+    });
+
+    // Keep in sync when the site-wide dark/light toggle fires
+    document.addEventListener('theme:changed', function () {
+      if (sel.value === 'auto') {
+        var dark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark-mode');
+        applyBasemap(map, dark ? 'dark' : 'light');
+      }
+    });
+  }
+
+  // ── County dropdown — populate & zoom handler ─────────────────────────────────
+  function wireCountyDropdown(map) {
+    var el = document.getElementById('countyGeoSelect');
+    if (!el) return;
+
+    // Populate with all 64 Colorado counties if the dropdown is empty (only "All Colorado")
+    if (el.options.length <= 1) {
+      CO_COUNTIES.forEach(function (name) {
+        var opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name + ' County';
+        el.appendChild(opt);
+      });
+    }
+
+    el.addEventListener('change', function () {
+      var county = el.value;
+      if (!county) {
+        map.setView([39.5501, -105.7821], 7);
+        return;
+      }
+      // Use Nominatim to get county bounding box and zoom
+      var url = 'https://nominatim.openstreetmap.org/search?q=' +
+        encodeURIComponent(county + ' County, Colorado, USA') +
+        '&format=json&limit=1&countrycodes=us';
+      fetch(url, { headers: { 'Accept-Language': 'en', 'User-Agent': 'HousingAnalyticsCO/1.0' } })
+        .then(function (r) { return r.json(); })
+        .then(function (results) {
+          if (!results || !results.length) return;
+          var bb = results[0].boundingbox;
+          if (bb) {
+            map.fitBounds([
+              [parseFloat(bb[0]), parseFloat(bb[2])],
+              [parseFloat(bb[1]), parseFloat(bb[3])],
+            ]);
+          } else {
+            map.setView([parseFloat(results[0].lat), parseFloat(results[0].lon)], 10);
+          }
+        })
+        .catch(function (e) {
+          console.warn('[co-lihtc-map] County zoom failed:', e.message);
+        });
+    });
+  }
+
   // ── Wire layer toggle checkboxes ─────────────────────────────────────────────
   function wireToggles(map) {
     function bind(id, getLayer) {
@@ -293,6 +410,33 @@
       });
   }
 
+  // ── Fetch all pages from an ArcGIS FeatureServer endpoint ───────────────────
+  function fetchAllPages(baseUrl, baseParams, timeout) {
+    var allFeatures = [];
+    var pageSize = 1000;
+
+    function fetchPage(offset) {
+      var url = baseUrl + '?' + baseParams +
+        '&resultOffset=' + offset + '&resultRecordCount=' + pageSize;
+      return fetchWithTimeout(url, {}, timeout || 15000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var features = (data && Array.isArray(data.features)) ? data.features : [];
+          allFeatures = allFeatures.concat(features);
+          // Fetch next page if server signalled more records exist
+          if (features.length === pageSize && data.exceededTransferLimit) {
+            return fetchPage(offset + pageSize);
+          }
+          return { type: 'FeatureCollection', features: allFeatures };
+        });
+    }
+
+    return fetchPage(0);
+  }
+
   // ── Fetch LIHTC data: local JSON → remote ArcGIS (404 or 0-features) → embedded fallback ──
   function fetchData(map) {
     // Canonical local file — always tried first. Written by scripts/fetch-chfa-lihtc.js via CI.
@@ -306,8 +450,6 @@
     // Increased to 15 s to handle slow GIS service cold-starts.
     var CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
-    var CHFA_PARAMS = 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
-    var HUD_PARAMS  = 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326&resultRecordCount=2000';
 
     updateStatus('Loading LIHTC data…');
 
@@ -318,15 +460,12 @@
 
     function useHUD() {
       updateStatus('Trying HUD ArcGIS…');
-      return fetchWithTimeout(HUD_URL + '?' + HUD_PARAMS, {}, 15000)
-        .then(function (res) {
-          if (!res.ok) throw new Error('HUD HTTP ' + res.status);
-          return res.json();
-        })
+      return fetchAllPages(HUD_URL, 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326', 15000)
         .then(function (hudData) {
           if (validateData(hudData)) {
+            var n = hudData.features.length;
             renderData(map, hudData);
-            updateStatus('Source: HUD ArcGIS');
+            updateStatus('Source: HUD ArcGIS (' + n + ' projects)');
           } else {
             console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
             useEmbedded();
@@ -340,15 +479,11 @@
 
     function useCHFA() {
       updateStatus('Trying CHFA ArcGIS…');
-      return fetchWithTimeout(CHFA_URL + '?' + CHFA_PARAMS, {}, 15000)
-        .then(function (res) {
-          if (!res.ok) throw new Error('CHFA HTTP ' + res.status);
-          return res.json();
-        })
+      return fetchAllPages(CHFA_URL, 'where=PROJ_ST%3D%27CO%27&outFields=*&f=geojson&outSR=4326', 15000)
         .then(function (data) {
           if (validateData(data)) {
             renderData(map, data);
-            updateStatus('Source: CHFA ArcGIS');
+            updateStatus('Source: CHFA ArcGIS (' + data.features.length + ' projects)');
           } else {
             console.warn('[co-lihtc-map] CHFA returned no features; trying HUD.');
             return useHUD();
@@ -428,10 +563,15 @@
       ddaLayerGroup   = L.layerGroup();
       qctLayerGroup   = L.layerGroup();
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
+      // Restrict pan/zoom to Colorado ± ~50 miles
+      var coloradoBounds = L.latLngBounds(
+        L.latLng(36.8, -109.5),
+        L.latLng(41.5, -102.0)
+      );
+      map.setMaxBounds(coloradoBounds.pad(0.3));
+
+      // Apply tile layer from basemap selector (replaces hardcoded OSM)
+      wireBasemap(map);
 
       updateStatus('Map ready.');
       console.info('[co-lihtc-map] Map initialized on', mapEl.id || mapEl.tagName);
@@ -442,6 +582,7 @@
       fetchData(map);
       loadLocalOverlays(map);
       wireToggles(map);
+      wireCountyDropdown(map);
       return map;
     } catch (err) {
       console.error('[co-lihtc-map] Map initialization error:', err);
