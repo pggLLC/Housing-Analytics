@@ -1,0 +1,20 @@
+{
+  "updated": "2026-01-01",
+  "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates (2019-2023)",
+  "source_url": "https://data.census.gov/",
+  "state": "Colorado",
+  "fips": "08",
+  "population": 5877610,
+  "median_household_income": 87598,
+  "median_gross_rent": 1479,
+  "median_home_value": 496900,
+  "owner_occupied_rate": 0.649,
+  "renter_occupied_rate": 0.351,
+  "housing_units": 2408743,
+  "vacancy_rate": 0.068,
+  "cost_burdened_renters_pct": 0.452,
+  "cost_burdened_owners_pct": 0.214,
+  "population_growth_rate_5yr": 0.086,
+  "household_size_avg": 2.52,
+  "ami_estimate": 97800
+}

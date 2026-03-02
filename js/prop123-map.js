@@ -231,9 +231,9 @@
     const toggle = document.getElementById('layerProp123');
     if (!toggle) return;
 
-    const map = window.CODeepDiveMap?.map;
+    const map = window.coLihtcMap;
     if (!map) {
-      console.warn('CODeepDiveMap.map not found; Prop123 overlay not initialized');
+      console.warn('coLihtcMap not found; Prop123 overlay not initialized');
       return;
     }
 
