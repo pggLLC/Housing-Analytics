@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/vendor/leaflet.js"></script>
   <script src="js/co-lihtc-map.js"></script>
+  <script src="js/geo-search.js"></script>
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
@@ -371,7 +372,16 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           <option value="esri-gray">Gray Canvas (Esri)</option>
         </select>
       </label>
-      <span id="map-status" style="margin-left:auto; font-size:0.78rem; color: #0f172a;"></span>
+      <span id="map-status" style="font-size:0.78rem; color: var(--muted);"></span>
+      <form id="geoSearchForm" role="search" style="display:flex;gap:4px;align-items:center;margin-left:auto;" aria-label="Geocoding search">
+        <label for="geoSearchInput" style="color:var(--muted);font-size:.83rem;font-weight:600;white-space:nowrap;">Search:</label>
+        <input type="search" id="geoSearchInput" placeholder="Address, city, or county…"
+          style="padding:.2rem .55rem;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem;min-width:180px;"
+          aria-label="Search for address, city, or county in Colorado">
+        <button type="submit"
+          style="padding:.2rem .6rem;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem;cursor:pointer;font-weight:700;"
+          title="Search (Enter)">Go</button>
+      </form>
     </div>
     <div id="coMap"></div>
     <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
