@@ -883,16 +883,24 @@
   async function fetchDdaForCounty(countyFips5){
     if (!countyFips5 || countyFips5.length !== 5) return null;
     const countyFips = countyFips5.slice(2);
+    // Use CO_DDA lookup to get the expected HUD Metro FMR Area name for DDA_NAME matching.
+    // The national HUD dataset (data/dda-colorado.json) uses ZCTA5-based features with a
+    // DDA_NAME field and lacks COUNTYFP/COUNTIES. The COUNTYFP/COUNTIES checks are retained
+    // for forward compatibility in case a future source (e.g. the live HUD API) returns those fields.
+    const expectedArea = CO_DDA[countyFips5]?.area;
+    const ddaFilter = f =>
+      (expectedArea && f.properties?.DDA_NAME === expectedArea) ||
+      (f.properties?.COUNTYFP === countyFips) ||
+      (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips));
     // Tier 1: local cached statewide file (written by CI workflow)
     try {
       const localGj = await loadJson('data/dda-colorado.json');
       if (localGj && Array.isArray(localGj.features)) {
-        const features = localGj.features.filter(f =>
-          (f.properties?.COUNTYFP === countyFips) ||
-          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
-        );
-        console.info('[HNA] DDA loaded from local cache (data/dda-colorado.json).');
-        return { ...localGj, features };
+        const features = localGj.features.filter(ddaFilter);
+        if (features.length > 0) {
+          console.info('[HNA] DDA loaded from local cache (data/dda-colorado.json).');
+          return { ...localGj, features };
+        }
       }
     } catch(_) {/* no local cache */}
     // Tier 2: live HUD ArcGIS API — DDA areas span multiple counties so fetch all, filter locally
@@ -909,10 +917,7 @@
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
       if (gj && Array.isArray(gj.features)) {
-        const features = gj.features.filter(f =>
-          (f.properties?.COUNTYFP === countyFips) ||
-          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
-        );
+        const features = gj.features.filter(ddaFilter);
         return { ...gj, features };
       }
     } catch(e) {
@@ -922,18 +927,12 @@
     try {
       const backupGj = await loadJson(`${GITHUB_PAGES_BASE}/data/dda-colorado.json`);
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(f =>
-          (f.properties?.COUNTYFP === countyFips) ||
-          (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
-        );
+        const features = backupGj.features.filter(ddaFilter);
         return { ...backupGj, features };
       }
     } catch(_) {/* no GitHub Pages DDA backup */}
     // Tier 3b: embedded fallback filtered to county
-    const ddaFeatures = DDA_FALLBACK_CO.features.filter(f =>
-      (f.properties?.COUNTYFP === countyFips) ||
-      (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips))
-    );
+    const ddaFeatures = DDA_FALLBACK_CO.features.filter(ddaFilter);
     return { ...DDA_FALLBACK_CO, features: ddaFeatures };
   }
 
