@@ -168,12 +168,6 @@ const CO_COUNTY_FIPS = {
   'yuma':        '08125',
 };
 
-/**
- * Name of the unique row-identifier field on this service.
- * Used when retrieving all IDs for OBJECTID-based pagination.
- */
-const OBJECT_ID_FIELD = 'OBJECTID';
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -240,51 +234,46 @@ function httpsGet(host, pathAndQuery, retries = 3) {
 }
 
 /**
- * Fetch all OBJECTID values from the service in a single request.
- * This avoids offset-based pagination which many FeatureServer endpoints
- * do not support (returns error 400 with invalid query parameters).
+ * Fetch all Colorado LIHTC records using a WHERE clause and resultOffset
+ * pagination.  Queries with STATEFP='08' to target Colorado records directly,
+ * avoiding the unreliable objectIds parameter approach that causes HTTP 400
+ * errors when passing large ID arrays to the ArcGIS FeatureServer.
  *
- * @returns {Promise<number[]>} Sorted array of all OBJECTIDs.
+ * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
  */
-async function fetchAllIds() {
-  const params = new URLSearchParams({
-    where: "PROJ_ST = 'CO'",
-    returnIdsOnly: 'true',
-    f: 'json',
-  });
-  const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
-  const body = await httpsGet(CHFA_HOST, pathAndQuery);
-  const parsed = JSON.parse(body);
-  if (parsed.error) {
-    throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
-  }
-  const ids = parsed.objectIds || [];
-  ids.sort((a, b) => a - b);
-  return ids;
-}
+async function fetchAllRecords() {
+  const allFeatures = [];
+  let offset = 0;
+  let page = 0;
 
-/**
- * Fetch a batch of ArcGIS features by their OBJECTID values.
- * Uses HTTP POST to avoid URL-length limits that cause HTTP 404 errors
- * when passing large numbers of IDs as query-string parameters.
- *
- * @param {number[]} ids  OBJECTID values to retrieve.
- * @returns {Promise<object[]>}
- */
-async function fetchByIds(ids) {
-  const params = new URLSearchParams({
-    where: '1=1',
-    objectIds: ids.join(','),
-    outFields: OUT_FIELDS,
-    f: 'json',
-    outSR: '4326',
-  });
-  const body = await httpsRequest(CHFA_HOST, CHFA_PATH, 3, { body: params.toString() });
-  const parsed = JSON.parse(body);
-  if (parsed.error) {
-    throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
+  for (;;) {
+    page++;
+    process.stdout.write(`  Page ${page} (offset ${offset})… `);
+    const params = new URLSearchParams({
+      where: "STATEFP='08'",
+      outFields: OUT_FIELDS,
+      f: 'json',
+      outSR: '4326',
+      resultOffset: String(offset),
+      resultRecordCount: String(PAGE_SIZE),
+    });
+    const pathAndQuery = `${CHFA_PATH}?${params.toString()}`;
+    const body = await httpsGet(CHFA_HOST, pathAndQuery);
+    const parsed = JSON.parse(body);
+    if (parsed.error) {
+      throw new Error(`ArcGIS error ${parsed.error.code}: ${parsed.error.message}`);
+    }
+    const features = parsed.features || [];
+    allFeatures.push(...features);
+    console.log(`${features.length} record(s) (${allFeatures.length} total)`);
+
+    if (!parsed.exceededTransferLimit) {
+      break;
+    }
+    offset += features.length;
   }
-  return parsed.features || [];
+
+  return allFeatures;
 }
 
 /**
@@ -365,24 +354,9 @@ function toGeoJsonFeature(esriFeature) {
 
   console.log('Fetching CHFA LIHTC data from ArcGIS FeatureServer…');
 
-  process.stdout.write('  Fetching all OBJECTIDs… ');
-  const allIds = await fetchAllIds();
-  console.log(`${allIds.length} record(s) found`);
-
-  const allFeatures = [];
-  let page = 0;
-
-  // Iterate over OBJECTID chunks to avoid offset-based pagination,
-  // which is not supported by all ArcGIS FeatureServer endpoints.
-  for (let i = 0; i < allIds.length; i += PAGE_SIZE) {
-    page++;
-    const chunk = allIds.slice(i, i + PAGE_SIZE);
-    process.stdout.write(`  Page ${page} (${chunk.length} record(s))… `);
-    const rawFeatures = await fetchByIds(chunk);
-    const converted = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
-    allFeatures.push(...converted);
-    console.log(`${converted.length} features (${allFeatures.length} total)`);
-  }
+  const rawFeatures = await fetchAllRecords();
+  const allFeatures = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
+  console.log(`\n${allFeatures.length} feature(s) converted from ${rawFeatures.length} record(s).`);
 
   const geojson = {
     type: 'FeatureCollection',
