@@ -1,0 +1,83 @@
+name: Build Market Data
+
+on:
+  schedule:
+    # Run weekly on Mondays at 03:15 UTC
+    - cron: '15 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Force refresh even if cache is fresh'
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run market data builder
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python scripts/market/build_public_market_data.py
+        timeout-minutes: 15
+
+      - name: Validate artifacts
+        run: |
+          python - <<'EOF'
+          import json, sys
+          from pathlib import Path
+
+          ROOT = Path(".")
+          artifacts = [
+            "data/market/tract_centroids_co.json",
+            "data/market/acs_tract_metrics_co.json",
+            "data/market/hud_lihtc_co.geojson",
+          ]
+          errors = []
+          for a in artifacts:
+            p = ROOT / a
+            if not p.exists():
+              errors.append(f"Missing: {a}")
+              continue
+            try:
+              obj = json.loads(p.read_text())
+            except json.JSONDecodeError as e:
+              errors.append(f"Invalid JSON in {a}: {e}")
+              continue
+            if a.endswith(".geojson") and not isinstance(obj.get("features"), list):
+              errors.append(f"{a}: no 'features' array")
+            elif not a.endswith(".geojson") and not isinstance(obj.get("tracts"), list):
+              errors.append(f"{a}: no 'tracts' array (may be OK for empty states)")
+
+          if errors:
+            for e in errors:
+              print(f"::error::{e}")
+            sys.exit(1)
+          print("All artifacts valid.")
+          EOF
+
+      - name: Commit updated artifacts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(data): rebuild market data artifacts [skip ci]"
+            git push
+          fi
