@@ -13,10 +13,10 @@ async function fetchCarData() {
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         console.log('If you are unable to fetch data, please enter car details manually:');
-        console.log('1. Make: 
-2. Model: 
-3. Year: 
-4. Price: ');
+        console.log('1. Make:');
+        console.log('2. Model:');
+        console.log('3. Year:');
+        console.log('4. Price:');
     }
 }
 

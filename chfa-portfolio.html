@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHFA Multifamily Portfolio | Colorado Housing Analytics</title>
+  <meta name="description" content="Browse Colorado's CHFA multifamily affordable housing portfolio. Filter by county, year, and credit type using HUD LIHTC and CHFA data.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .portfolio-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .portfolio-toolbar label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .portfolio-toolbar select,
+    .portfolio-toolbar input {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.88rem;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .kpi-value {
+      font-size: 1.3rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+      color: var(--text-strong);
+    }
+    .kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .portfolio-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .portfolio-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .portfolio-table th {
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .portfolio-table th:hover { color: var(--text-strong); }
+    .portfolio-table th.sort-asc::after  { content: " ↑"; }
+    .portfolio-table th.sort-desc::after { content: " ↓"; }
+    .portfolio-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .portfolio-table tr:last-child td { border-bottom: none; }
+    .portfolio-table tr:hover td { background: var(--bg2); }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .badge-green { background: var(--good-dim, #d1fae5); color: var(--good, #059669); }
+    .status-bar {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .status-bar.error { color: var(--bad); }
+    .data-note {
+      font-size: 0.78rem;
+      color: var(--faint);
+      margin-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+    }
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .pagination button {
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.83rem;
+      cursor: pointer;
+    }
+    .pagination button:hover { background: var(--bg2); }
+    .pagination button:disabled { opacity: 0.4; cursor: default; }
+    .pagination .page-info {
+      font-size: 0.83rem;
+      color: var(--muted);
+      padding: 0 0.25rem;
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="chfa-portfolio.html">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="navigation-container"></div>
+
+<main id="main-content" class="container">
+
+  <!-- Hero -->
+  <section class="hero" style="padding-bottom:0;">
+    <div class="kicker">Colorado · HUD LIHTC Database · CHFA Multifamily Portfolio</div>
+    <h1>CHFA Multifamily Portfolio</h1>
+    <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;">
+      Browse Colorado's affordable multifamily housing portfolio — LIHTC-funded properties sourced from
+      the CHFA ArcGIS Feature Service and the HUD LIHTC Database. Filter by county, credit type, or year
+      placed in service.
+    </p>
+  </section>
+
+  <!-- KPI Summary -->
+  <div class="kpi-grid" id="kpiGrid" style="margin-top:1.5rem;">
+    <div class="kpi-card"><div class="kpi-value" id="kpiTotal">—</div><div class="kpi-label">Total Properties</div></div>
+    <div class="kpi-card"><div class="kpi-value" id="kpiUnits">—</div><div class="kpi-label">Total Units</div></div>
+    <div class="kpi-card"><div class="kpi-value" id="kpiLiUnits">—</div><div class="kpi-label">Low-Income Units</div></div>
+    <div class="kpi-card"><div class="kpi-value" id="kpiCounties">—</div><div class="kpi-label">Counties Served</div></div>
+    <div class="kpi-card"><div class="kpi-value" id="kpiYearRange">—</div><div class="kpi-label">Year Range (PIS)</div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="portfolio-toolbar" role="region" aria-label="Portfolio filters">
+    <label>
+      County
+      <select id="filterCounty" aria-label="Filter by county">
+        <option value="">All Counties</option>
+      </select>
+    </label>
+    <label>
+      Credit Type
+      <select id="filterCredit" aria-label="Filter by credit type">
+        <option value="">All Types</option>
+        <option value="1">9% Credit</option>
+        <option value="2">4% Credit</option>
+        <option value="3">Both</option>
+      </select>
+    </label>
+    <label>
+      Year (PIS) from
+      <input type="number" id="filterYearFrom" min="1987" max="2030" placeholder="e.g. 2010" aria-label="Filter from year placed in service">
+    </label>
+    <label>
+      to
+      <input type="number" id="filterYearTo" min="1987" max="2030" placeholder="e.g. 2026" aria-label="Filter to year placed in service">
+    </label>
+    <label>
+      Search
+      <input type="text" id="filterSearch" placeholder="Project name or city…" aria-label="Search by project name or city" style="min-width:180px;">
+    </label>
+  </div>
+
+  <div class="status-bar" id="statusBar">Loading portfolio data…</div>
+
+  <!-- Table -->
+  <div class="portfolio-table-wrap">
+    <table class="portfolio-table" id="portfolioTable" aria-label="CHFA Multifamily Portfolio">
+      <thead>
+        <tr>
+          <th data-col="PROJECT">Project</th>
+          <th data-col="PROJ_CTY">City</th>
+          <th data-col="_county">County</th>
+          <th data-col="N_UNITS">Total Units</th>
+          <th data-col="LI_UNITS">LI Units</th>
+          <th data-col="YR_PIS">Year PIS</th>
+          <th data-col="YR_ALLOC">Yr Alloc</th>
+          <th data-col="CREDIT">Credit Type</th>
+          <th>DDA/QCT</th>
+        </tr>
+      </thead>
+      <tbody id="portfolioBody">
+        <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" id="pagination" aria-label="Table pagination"></div>
+
+  <p class="data-note">
+    Data Sources: <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a>
+    &amp; <a href="https://www.chfainfo.com/rental-housing/lihtc" target="_blank" rel="noopener">CHFA Multifamily Portfolio</a>.
+    Sourced from the CHFA ArcGIS Feature Service with HUD LIHTC as fallback.
+    Data may lag the current allocation year by 12–18 months. PIS = Placed in Service.
+  </p>
+
+</main>
+
+<footer id="site-footer"></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const PAGE_SIZE = 50;
+  let allRows = [];
+  let filtered = [];
+  let sortCol = 'YR_PIS';
+  let sortDir = -1; // -1 = desc, 1 = asc
+  let page = 0;
+
+  // Credit type labels
+  function creditLabel(val) {
+    if (val === '1' || val === 1) return '9%';
+    if (val === '2' || val === 2) return '4%';
+    if (val === '3' || val === 3) return '9% + 4%';
+    return val || '—';
+  }
+
+  function fmt(n) {
+    if (n == null || n === '') return '—';
+    return Number(n).toLocaleString();
+  }
+
+  function setStatus(msg, isError) {
+    const el = document.getElementById('statusBar');
+    el.textContent = msg;
+    el.className = 'status-bar' + (isError ? ' error' : '');
+  }
+
+  function updateKPIs(rows) {
+    const total = rows.length;
+    const units = rows.reduce((s, r) => s + (parseInt(r.N_UNITS, 10) || 0), 0);
+    const liUnits = rows.reduce((s, r) => s + (parseInt(r.LI_UNITS, 10) || 0), 0);
+    const counties = new Set(rows.map(r => r.PROJ_CTY || r.CNTY_NAME).filter(Boolean)).size;
+    const years = rows.map(r => parseInt(r.YR_PIS, 10)).filter(y => y > 0);
+    const yearRange = years.length ? Math.min(...years) + '–' + Math.max(...years) : '—';
+
+    document.getElementById('kpiTotal').textContent   = total.toLocaleString();
+    document.getElementById('kpiUnits').textContent   = units.toLocaleString();
+    document.getElementById('kpiLiUnits').textContent = liUnits.toLocaleString();
+    document.getElementById('kpiCounties').textContent = counties.toLocaleString();
+    document.getElementById('kpiYearRange').textContent = yearRange;
+  }
+
+  function applyFilters() {
+    const county  = document.getElementById('filterCounty').value;
+    const credit  = document.getElementById('filterCredit').value;
+    const fromYr  = parseInt(document.getElementById('filterYearFrom').value, 10) || 0;
+    const toYr    = parseInt(document.getElementById('filterYearTo').value, 10) || 9999;
+    const search  = document.getElementById('filterSearch').value.toLowerCase().trim();
+
+    filtered = allRows.filter(r => {
+      if (county && r._county !== county) return false;
+      if (credit && String(r.CREDIT) !== credit) return false;
+      const yr = parseInt(r.YR_PIS, 10) || 0;
+      if (fromYr && yr < fromYr) return false;
+      if (toYr < 9999 && yr > toYr) return false;
+      if (search) {
+        const haystack = ((r.PROJECT || '') + ' ' + (r.PROJ_CTY || '')).toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
+
+    // sort
+    filtered.sort((a, b) => {
+      const va = a[sortCol] || '';
+      const vb = b[sortCol] || '';
+      const na = parseFloat(va), nb = parseFloat(vb);
+      if (!isNaN(na) && !isNaN(nb)) return sortDir * (na - nb);
+      return sortDir * String(va).localeCompare(String(vb));
+    });
+
+    page = 0;
+    updateKPIs(filtered);
+    renderTable();
+    renderPagination();
+    setStatus(filtered.length + ' of ' + allRows.length + ' properties shown');
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('portfolioBody');
+    const start = page * PAGE_SIZE;
+    const slice = filtered.slice(start, start + PAGE_SIZE);
+
+    if (!slice.length) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">No properties match the current filters.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = slice.map(r => {
+      const dda = r.DDA === '1' || r.DDA === 1 ? '<span class="badge">DDA</span> ' : '';
+      const qct = r.QCT === '1' || r.QCT === 1 ? '<span class="badge badge-green">QCT</span>' : '';
+      return `<tr>
+        <td style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
+        <td>${r.PROJ_CTY || '—'}</td>
+        <td>${r._county || '—'}</td>
+        <td style="text-align:right;">${fmt(r.N_UNITS)}</td>
+        <td style="text-align:right;">${fmt(r.LI_UNITS)}</td>
+        <td>${r.YR_PIS || '—'}</td>
+        <td>${r.YR_ALLOC || '—'}</td>
+        <td>${creditLabel(r.CREDIT)}</td>
+        <td>${dda}${qct}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderPagination() {
+    const total = filtered.length;
+    const pages = Math.ceil(total / PAGE_SIZE);
+    const el = document.getElementById('pagination');
+
+    if (pages <= 1) { el.innerHTML = ''; return; }
+
+    const prev = `<button id="pgPrev" ${page === 0 ? 'disabled' : ''} aria-label="Previous page">← Prev</button>`;
+    const next = `<button id="pgNext" ${page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">Next →</button>`;
+    const info = `<span class="page-info">Page ${page + 1} of ${pages}</span>`;
+    el.innerHTML = prev + info + next;
+
+    document.getElementById('pgPrev').addEventListener('click', () => { page--; renderTable(); renderPagination(); });
+    document.getElementById('pgNext').addEventListener('click', () => { page++; renderTable(); renderPagination(); });
+  }
+
+  function populateCountyFilter(rows) {
+    const counties = [...new Set(rows.map(r => r._county).filter(Boolean))].sort();
+    const sel = document.getElementById('filterCounty');
+    counties.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  }
+
+  function deriveCounty(props) {
+    // CNTY_NAME is often null in CHFA data; derive from city or CNTY_FIPS if needed
+    if (props.CNTY_NAME) return props.CNTY_NAME;
+    return null; // will be shown as unknown
+  }
+
+  function initSortHeaders() {
+    document.querySelectorAll('#portfolioTable thead th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        if (sortCol === col) { sortDir *= -1; }
+        else { sortCol = col; sortDir = -1; }
+        document.querySelectorAll('#portfolioTable thead th').forEach(h => {
+          h.classList.remove('sort-asc', 'sort-desc');
+        });
+        th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+        page = 0;
+        filtered.sort((a, b) => {
+          const va = a[sortCol] || '';
+          const vb = b[sortCol] || '';
+          const na = parseFloat(va), nb = parseFloat(vb);
+          if (!isNaN(na) && !isNaN(nb)) return sortDir * (na - nb);
+          return sortDir * String(va).localeCompare(String(vb));
+        });
+        renderTable();
+        renderPagination();
+      });
+    });
+  }
+
+  function loadData() {
+    const url = (typeof resolveAssetUrl === 'function')
+      ? resolveAssetUrl('data/chfa-lihtc.json')
+      : 'data/chfa-lihtc.json';
+
+    (typeof safeFetchJSON === 'function' ? safeFetchJSON(url) : fetch(url).then(r => r.json()))
+      .then(function (geojson) {
+        const features = Array.isArray(geojson) ? geojson
+          : (geojson.features || []);
+
+        allRows = features.map(f => {
+          const p = f.properties || f;
+          return Object.assign({}, p, { _county: deriveCounty(p) });
+        });
+
+        populateCountyFilter(allRows);
+        applyFilters();
+        // default sort header indicator
+        const pisHeader = document.querySelector('#portfolioTable thead th[data-col="YR_PIS"]');
+        if (pisHeader) pisHeader.classList.add('sort-desc');
+      })
+      .catch(function (err) {
+        setStatus('Unable to load portfolio data. ' + err.message, true);
+        document.getElementById('portfolioBody').innerHTML =
+          '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--bad);">Failed to load data. Please try again later.</td></tr>';
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initSortHeaders();
+    loadData();
+
+    ['filterCounty', 'filterCredit'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyFilters));
+    ['filterYearFrom', 'filterYearTo', 'filterSearch'].forEach(id =>
+      document.getElementById(id).addEventListener('input', applyFilters));
+  });
+}());
+</script>
+</body>
+</html>
