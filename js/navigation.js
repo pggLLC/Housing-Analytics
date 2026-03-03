@@ -12,8 +12,6 @@
     { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
     { label: "LIHTC Basics", href: "lihtc-guide-for-stakeholders.html" },
     { label: "Market Analysis", href: "market-analysis.html" },
-    { label: "Census Data", href: "census-dashboard.html" },
-    { label: "Construction Costs", href: "construction-commodities.html" },
     { label: "About", href: "about.html" },
   ];
 
