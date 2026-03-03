@@ -1,0 +1,7 @@
+{
+  "_updated": "2026-01-01",
+  "_source": "HUD LIHTC Database (auto-generated seed; run scripts/market/build_public_market_data.py to refresh)",
+  "_note": "HUD LIHTC projects in Colorado. Generated from HUD LIHTC public dataset.",
+  "type": "FeatureCollection",
+  "features": []
+}

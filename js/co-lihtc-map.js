@@ -622,6 +622,45 @@
       // Expose map globally so map-overlay.js and other scripts can use it
       window.coLihtcMap = map;
 
+      // ── County boundary layer (theme-aware) ─────────────────────────────────────
+      var countyBoundaryLayer = null;
+
+      function getBoundaryStyle() {
+        var cs = getComputedStyle(document.documentElement);
+        var stroke = cs.getPropertyValue('--map-boundary-stroke').trim() || 'rgba(15,23,42,0.60)';
+        var weight = parseFloat(cs.getPropertyValue('--map-boundary-weight')) || 2.25;
+        return { color: stroke, weight: weight, fillOpacity: 0, opacity: 1 };
+      }
+
+      function restyle() {
+        if (!countyBoundaryLayer) return;
+        var s = getBoundaryStyle();
+        countyBoundaryLayer.setStyle(s);
+      }
+
+      function loadCountyBoundaries() {
+        var url = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query' +
+          '?where=STATEFP%3D%2708%27&outFields=NAME&returnGeometry=true&f=geojson&outSR=4326&resultRecordCount=70';
+        fetchWithTimeout(url, {}, 20000).then(function (geo) {
+          if (!geo || !geo.features || !geo.features.length) return;
+          countyBoundaryLayer = L.geoJSON(geo, { style: getBoundaryStyle() });
+          countyBoundaryLayer.addTo(map);
+          countyBoundaryLayer.bringToBack();
+        }).catch(function (e) {
+          console.warn('[co-lihtc-map] County boundary fetch failed:', e);
+        });
+      }
+
+      // Re-style county boundaries when theme changes
+      if (typeof MutationObserver !== 'undefined') {
+        var boundaryObs = new MutationObserver(function () {
+          requestAnimationFrame(restyle);
+        });
+        boundaryObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-theme'] });
+      }
+
+      loadCountyBoundaries();
+
       fetchData(map);
       loadLocalOverlays(map);
       wireToggles(map);

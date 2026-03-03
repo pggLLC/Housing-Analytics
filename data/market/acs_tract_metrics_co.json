@@ -1,0 +1,6 @@
+{
+  "_updated": "2026-01-01",
+  "_source": "US Census ACS 5-year estimates (auto-generated seed; run scripts/market/build_public_market_data.py to refresh)",
+  "_note": "ACS tract-level metrics for Colorado. Key fields: tract_geoid, cost_burden_rate, renter_households, median_gross_rent, median_household_income, vacancy_rate.",
+  "tracts": []
+}

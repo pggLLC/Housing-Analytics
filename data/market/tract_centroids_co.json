@@ -1,0 +1,7 @@
+{
+  "_updated": "2026-01-01",
+  "_source": "US Census TIGERweb (auto-generated seed; run scripts/market/build_public_market_data.py to refresh)",
+  "_note": "Tract centroids for Colorado census tracts. Generated from TIGER/Line shapefiles.",
+  "type": "FeatureCollection",
+  "features": []
+}

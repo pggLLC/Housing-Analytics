@@ -130,13 +130,10 @@
     }
 
     var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : null;
-    var fallbackUrl = 'data/prop123_jurisdictions.json';
 
     // Try serverless first (if configured), then always fall back to local JSON for GitHub Pages
-    function loadWithFallback(primary, fallback) {
-      var localFallback = DataService.baseData
-        ? DataService.baseData(fallback.replace(/^data\//, ''))
-        : fallback;
+    function loadWithFallback(primary) {
+      var localFallback = DataService.baseData('prop123_jurisdictions.json');
       if (!primary) {
         return DataService.getJSON(localFallback);
       }
@@ -146,7 +143,7 @@
       });
     }
     setStatus('Loading…');
-    loadWithFallback(primaryUrl, fallbackUrl).then(function (data) {
+    loadWithFallback(primaryUrl).then(function (data) {
       var jurisdictions = data.jurisdictions || data.items || data || [];
       // Allow the fallback file schema: { updated, jurisdictions: [...] }
       if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
@@ -407,11 +404,7 @@ function initPolicyPanel(panelId) {
     /* Bootstrap Prop 123 section immediately if the table is present on this page
        and the policy tab is already visible (e.g. via deep link). */
     if (document.getElementById('prop123TableBody')) {
-      var policyPanel = document.getElementById('tab-policy-simulator');
-      var isVisible = policyPanel && !policyPanel.hasAttribute('hidden');
-      if (isVisible) {
-        try { initProp123Section(); } catch (e) { /* ignore */ }
-      }
+      try { initProp123Section(); } catch (e) { /* ignore */ }
     }
   });
 

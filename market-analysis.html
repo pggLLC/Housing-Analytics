@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Analysis | Colorado Housing Analytics</title>
+  <meta name="description" content="Colorado affordable housing site selection and PMA scoring engine. Click the map to analyze demand, capture risk, rent pressure, and LIHTC inventory within a configurable radius.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    #ma-map { height: 420px; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .ma-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin: 1rem 0; }
+    .ma-controls label { font-size: .85rem; color: var(--muted); display: flex; flex-direction: column; gap: .25rem; }
+    .ma-controls select, .ma-controls input { padding: .35rem .6rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); color: var(--text); font-size: .9rem; }
+    .ma-score-box { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); margin: 1.5rem 0; }
+    .ma-score-number { font-size: 3rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .ma-score-label { font-size: .85rem; color: var(--muted); }
+    .ma-score-title { font-size: 1.1rem; font-weight: 700; }
+    .ma-section { margin: 1.5rem 0; padding: 1.25rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .ma-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; color: var(--text-strong); }
+    .ma-subscore-list { list-style: none; padding: 0; margin: 0; }
+    .ma-subscore-list li { display: flex; align-items: center; gap: .75rem; padding: .4rem 0; border-bottom: 1px solid var(--border); }
+    .ma-subscore-list li:last-child { border-bottom: none; }
+    .ma-subscore-bar { flex: 1; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
+    .ma-subscore-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .4s ease; }
+    .ma-subscore-name { width: 130px; font-size: .85rem; }
+    .ma-subscore-val { width: 40px; text-align: right; font-size: .85rem; font-weight: 600; }
+    .ma-flag { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .75rem; border-radius: 999px; font-size: .8rem; font-weight: 600; margin: .25rem .25rem .25rem 0; }
+    .ma-flag-high { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+    .ma-flag-med { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
+    [data-theme="dark"] .ma-flag-high { background: #450a0a; color: #fca5a5; }
+    [data-theme="dark"] .ma-flag-med { background: #2d1900; color: #fcd34d; }
+    .ma-radar-wrap { max-width: 340px; margin: 0 auto; }
+    .ma-sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .75rem; }
+    .ma-sim-kpi { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: .75rem 1rem; }
+    .ma-sim-kpi .val { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+    .ma-sim-kpi .lbl { font-size: .78rem; color: var(--muted); margin-top: .15rem; }
+    .ma-export-bar { display: flex; gap: .75rem; margin-top: 1rem; }
+    .ma-export-bar button { padding: .45rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); color: var(--text); font-size: .85rem; cursor: pointer; transition: background .15s; }
+    .ma-export-bar button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    #maStatus { font-size: .85rem; color: var(--muted); margin: .5rem 0; min-height: 1.2em; }
+    #maStatus.error { color: #c0392b; }
+    .ma-placeholder { padding: 2rem; text-align: center; color: var(--muted); font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <!-- Navigation injected by navigation.js -->
+  <nav id="main-nav" aria-label="Main navigation"></nav>
+
+  <main class="container" style="padding-top:2rem;padding-bottom:3rem">
+    <header style="margin-bottom:1.5rem">
+      <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:.35rem">Market Analysis &amp; Site Selection</h1>
+      <p style="color:var(--muted);font-size:.95rem">Click anywhere on the Colorado map to score a site's Primary Market Area. Uses public ACS, TIGER, and LIHTC data.</p>
+    </header>
+
+    <div class="ma-controls">
+      <label>
+        PMA Radius
+        <select id="maRadius">
+          <option value="3">3 miles</option>
+          <option value="5" selected>5 miles</option>
+          <option value="10">10 miles</option>
+          <option value="15">15 miles</option>
+        </select>
+      </label>
+      <label>
+        Proposed Units
+        <input type="number" id="maProposedUnits" value="80" min="0" max="9999" step="10" style="width:90px">
+      </label>
+      <label>
+        AMI Band
+        <select id="maAmiBand">
+          <option value="30">30% AMI</option>
+          <option value="50">50% AMI</option>
+          <option value="60" selected>60% AMI</option>
+          <option value="80">80% AMI</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="ma-map"></div>
+    <p id="maStatus">Click the map to analyze a site.</p>
+
+    <div id="maResults" style="display:none">
+      <div class="ma-score-box">
+        <div>
+          <div class="ma-score-number" id="maTotalScore">—</div>
+          <div class="ma-score-label">Site Score (0–100)</div>
+        </div>
+        <div>
+          <div class="ma-score-title">PMA Site Score</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:.25rem" id="maScoreContext"></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex-wrap:wrap" class="ma-two-col">
+        <div class="ma-section">
+          <h2>Sub-score Breakdown</h2>
+          <ul class="ma-subscore-list" id="maSubscoreList"></ul>
+        </div>
+        <div class="ma-section">
+          <h2>Radar Chart</h2>
+          <div class="ma-radar-wrap">
+            <canvas id="maRadarChart" width="320" height="320"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="ma-section">
+        <h2>Risk Flags</h2>
+        <div id="maRiskFlags"><span style="color:var(--muted);font-size:.9rem">No risk flags.</span></div>
+      </div>
+
+      <div class="ma-section">
+        <h2>LIHTC Comps in PMA</h2>
+        <p id="maComps" style="color:var(--muted);font-size:.9rem"></p>
+      </div>
+
+      <div class="ma-section">
+        <h2>Capture-Rate Simulator</h2>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem">Estimated impact of proposed project on PMA affordability balance.</p>
+        <div class="ma-sim-grid" id="maSimGrid"></div>
+      </div>
+
+      <div class="ma-export-bar">
+        <button id="maExportJson">Export JSON</button>
+        <button id="maExportCsv">Export CSV</button>
+      </div>
+    </div>
+
+    <div id="maNoData" class="ma-placeholder" style="display:none">
+      ⚠ Market data files not yet built. Run <code>python scripts/market/build_public_market_data.py</code> to generate tract data, or wait for the weekly CI run. Scores shown are illustrative placeholders.
+    </div>
+  </main>
+
+  <footer id="main-footer"></footer>
+
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/pma-site-selection.js"></script>
+  <script src="js/market-analysis.js"></script>
+</body>
+</html>

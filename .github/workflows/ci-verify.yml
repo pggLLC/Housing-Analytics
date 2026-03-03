@@ -1,0 +1,62 @@
+name: CI Verify
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify critical HTML pages exist
+        run: |
+          for f in market-analysis.html market-intelligence.html; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Verify critical JS files exist
+        run: |
+          for f in js/market-analysis.js js/market-intelligence.js js/pma-site-selection.js; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Verify data artifacts exist
+        run: |
+          for f in \
+            data/prop123_jurisdictions.json \
+            data/market/tract_centroids_co.json \
+            data/market/acs_tract_metrics_co.json \
+            data/market/hud_lihtc_co.geojson; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Verify HTML script includes
+        run: |
+          for page in market-analysis.html market-intelligence.html; do
+            echo "Checking $page..."
+            if ! grep -q 'js/market-analysis.js\|js/market-intelligence.js' "$page"; then
+              echo "  WARNING: $page may be missing its script tag"
+            fi
+          done
+          echo "Script tag check complete."
