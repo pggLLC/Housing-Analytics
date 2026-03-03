@@ -27,7 +27,7 @@ jobs:
         env:
           ZILLOW_EMAIL: ${{ secrets.ZILLOW_EMAIL }}
           ZILLOW_PASSWORD: ${{ secrets.ZILLOW_PASSWORD }}
-        run: node scripts/fetch-zillow.js
+        run: node _dev/scripts/fetch-zillow.js
         continue-on-error: true
 
       - name: Commit and push data files

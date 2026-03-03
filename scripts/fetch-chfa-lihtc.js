@@ -34,7 +34,7 @@
  *
  *   data/car-market.json
  *     Referenced by colorado-deep-dive.html (CAR market KPI panel).
- *     Supply via a scheduled GitHub Actions workflow (scripts/fetch-car-data.js)
+ *     Supply via a scheduled GitHub Actions workflow (_dev/scripts/fetch-car-data.js)
  *     or by manually running that script and committing the output.
  *
  *   data/prop123_jurisdictions.json
