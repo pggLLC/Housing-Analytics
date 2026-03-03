@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Analysis | Colorado Housing Analytics</title>
+  <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <!-- Leaflet (vendored locally) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <!-- Chart.js for radar chart -->
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/pages/market-analysis.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content">
+    <div style="padding:1rem 0 0.5rem">
+      <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
+      <p style="max-width:640px">Public Market Analysis (PMA) scoring engine. Click the map to place a site, choose a buffer radius, and receive a scored assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required.</p>
+      <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
+    </div>
+
+    <div class="pma-layout">
+      <!-- ── Left: Map ── -->
+      <div class="pma-map-wrap">
+        <div class="pma-controls">
+          <label for="pmaBufferSelect">Buffer radius:</label>
+          <select id="pmaBufferSelect" aria-label="Buffer radius in miles">
+            <option value="3">3 miles</option>
+            <option value="5" selected>5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="15">15 miles</option>
+          </select>
+          <span id="pmaSiteCoords" style="font-size:var(--tiny);color:var(--faint);margin-left:auto">No site selected</span>
+        </div>
+        <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
+        <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
+      </div>
+
+      <!-- ── Right: Analysis Panel ── -->
+      <div class="pma-panel">
+
+        <!-- Site Score -->
+        <div class="pma-card">
+          <h2>Site Score</h2>
+          <div id="pmaScoreWrap" class="pma-score-wrap">
+            <div class="pma-score-circle" id="pmaScoreCircle" aria-label="Overall PMA score">—</div>
+            <div class="pma-score-meta">
+              <div class="pma-score-label">Overall PMA Score (0–100)</div>
+              <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
+              <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem">
+            <button class="pma-btn pma-btn-primary" id="pmaRunBtn" type="button">Run Analysis</button>
+          </div>
+        </div>
+
+        <!-- Radar Chart + Dimensions -->
+        <div class="pma-card">
+          <h2>Dimension Scores</h2>
+          <div class="pma-radar-wrap">
+            <canvas id="pmaRadarChart" aria-label="PMA dimension radar chart"></canvas>
+          </div>
+          <ul class="pma-dim-list" id="pmaDimList">
+            <li class="pma-empty">Place a site marker to see dimension scores.</li>
+          </ul>
+        </div>
+
+        <!-- Risk Flags -->
+        <div class="pma-card">
+          <h2>Risk Flags</h2>
+          <div id="pmaFlags">
+            <div class="pma-empty">No flags computed yet.</div>
+          </div>
+        </div>
+
+        <!-- LIHTC Supply -->
+        <div class="pma-card">
+          <h2>LIHTC Supply in Buffer</h2>
+          <div class="pma-stat-grid">
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcCount">—</div>
+              <div class="pma-stat-label">LIHTC projects</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
+              <div class="pma-stat-label">Existing LIHTC units</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaCaptureRate">—</div>
+              <div class="pma-stat-label">Capture rate (existing)</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaRenterHh">—</div>
+              <div class="pma-stat-label">Renter households</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capture-rate Simulator -->
+        <div class="pma-card">
+          <h2>Capture-rate Simulator</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate capture rate (CHFA-style).</p>
+          <div class="pma-ami-grid">
+            <div class="pma-ami-field">
+              <label for="pmaProposedUnits">Total proposed units</label>
+              <input type="number" id="pmaProposedUnits" min="1" max="500" value="100" aria-label="Total proposed units">
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi30">Units @ 30% AMI</label>
+              <input type="number" id="pmaAmi30" min="0" max="500" value="0" aria-label="Units at 30 percent AMI">
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi40">Units @ 40% AMI</label>
+              <input type="number" id="pmaAmi40" min="0" max="500" value="0" aria-label="Units at 40 percent AMI">
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi50">Units @ 50% AMI</label>
+              <input type="number" id="pmaAmi50" min="0" max="500" value="0" aria-label="Units at 50 percent AMI">
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi60">Units @ 60% AMI</label>
+              <input type="number" id="pmaAmi60" min="0" max="500" value="100" aria-label="Units at 60 percent AMI">
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi80">Units @ 80% AMI</label>
+              <input type="number" id="pmaAmi80" min="0" max="500" value="0" aria-label="Units at 80 percent AMI">
+            </div>
+          </div>
+          <div id="pmaSimResult" style="margin-top:0.75rem">
+            <div class="pma-empty">Place a site to run simulator.</div>
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div class="pma-card">
+          <h2>Export</h2>
+          <div class="pma-export-bar">
+            <button class="pma-btn" id="pmaExportJson" type="button">Export JSON</button>
+            <button class="pma-btn" id="pmaExportCsv" type="button">Export CSV</button>
+          </div>
+        </div>
+
+      </div><!-- /.pma-panel -->
+    </div><!-- /.pma-layout -->
+
+    <!-- Methodology note -->
+    <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
+      <h2 style="font-size:var(--small);font-weight:700;margin-bottom:0.4rem">Methodology &amp; Data Sources</h2>
+      <p style="font-size:var(--tiny)">
+        <strong>ACS data:</strong> US Census Bureau American Community Survey 5-Year Estimates (B01003, B25003, B25004, B25070, B25064).
+        <strong>LIHTC:</strong> HUD LIHTC Database (public).
+        <strong>Geographies:</strong> Census TIGERweb tract centroids.
+        All data is pre-computed and bundled; no API key required.
+        See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a> and
+        <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a> for full methodology.
+      </p>
+    </section>
+  </main>
+
+  <script defer src="js/market-analysis.js"></script>
+</body>
+</html>

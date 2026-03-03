@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "source": "US Census TIGERweb ArcGIS REST (public)",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2025-01-01",
+    "note": "Rebuild via scripts/market/build_public_market_data.py"
+  },
+  "tracts": [
+    {"geoid": "08001000100", "lat": 38.5099, "lon": -102.4267, "county_fips": "08001", "county_name": "Adams"},
+    {"geoid": "08001000200", "lat": 38.7011, "lon": -102.6132, "county_fips": "08001", "county_name": "Adams"},
+    {"geoid": "08005000101", "lat": 38.6895, "lon": -105.9921, "county_fips": "08005", "county_name": "Arapahoe"},
+    {"geoid": "08013000100", "lat": 39.6403, "lon": -104.9849, "county_fips": "08013", "county_name": "Boulder"},
+    {"geoid": "08013000200", "lat": 40.0150, "lon": -105.2705, "county_fips": "08013", "county_name": "Boulder"},
+    {"geoid": "08031000100", "lat": 39.7392, "lon": -104.9903, "county_fips": "08031", "county_name": "Denver"},
+    {"geoid": "08031000200", "lat": 39.7550, "lon": -104.9600, "county_fips": "08031", "county_name": "Denver"},
+    {"geoid": "08031000300", "lat": 39.7200, "lon": -105.0100, "county_fips": "08031", "county_name": "Denver"},
+    {"geoid": "08031000400", "lat": 39.7650, "lon": -105.0200, "county_fips": "08031", "county_name": "Denver"},
+    {"geoid": "08031000500", "lat": 39.7100, "lon": -104.9700, "county_fips": "08031", "county_name": "Denver"},
+    {"geoid": "08035000100", "lat": 38.8339, "lon": -104.8214, "county_fips": "08035", "county_name": "Douglas"},
+    {"geoid": "08041000100", "lat": 38.9731, "lon": -104.6220, "county_fips": "08041", "county_name": "El Paso"},
+    {"geoid": "08041000200", "lat": 38.8686, "lon": -104.7631, "county_fips": "08041", "county_name": "El Paso"},
+    {"geoid": "08059000100", "lat": 40.3769, "lon": -105.5217, "county_fips": "08059", "county_name": "Jefferson"},
+    {"geoid": "08059000200", "lat": 39.6480, "lon": -105.1200, "county_fips": "08059", "county_name": "Jefferson"},
+    {"geoid": "08069000100", "lat": 40.1800, "lon": -105.1000, "county_fips": "08069", "county_name": "Larimer"},
+    {"geoid": "08069000200", "lat": 40.5852, "lon": -105.0844, "county_fips": "08069", "county_name": "Larimer"},
+    {"geoid": "08123000100", "lat": 37.2753, "lon": -107.8801, "county_fips": "08123", "county_name": "Weld"},
+    {"geoid": "08123000200", "lat": 40.4233, "lon": -104.6919, "county_fips": "08123", "county_name": "Weld"},
+    {"geoid": "08101000100", "lat": 38.4680, "lon": -107.8762, "county_fips": "08101", "county_name": "Pueblo"}
+  ]
+}

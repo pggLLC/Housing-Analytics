@@ -11,6 +11,7 @@
     { label: "Market Insights", href: "insights.html" },
     { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
     { label: "LIHTC Basics", href: "lihtc-guide-for-stakeholders.html" },
+    { label: "Market Analysis", href: "market-analysis.html" },
     { label: "About", href: "about.html" },
   ];
 
