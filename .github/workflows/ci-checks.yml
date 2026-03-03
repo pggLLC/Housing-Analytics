@@ -1,0 +1,141 @@
+name: CI Checks — Critical Artifacts & Pages
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify critical artifacts exist
+        shell: bash
+        run: |
+          set -e
+          errors=0
+
+          check_file() {
+            if [ -f "$1" ]; then
+              echo "✅  $1"
+            else
+              echo "::error::Missing required file: $1"
+              errors=$((errors + 1))
+            fi
+          }
+
+          echo "=== Checking required pages ==="
+          check_file "market-analysis.html"
+          check_file "market-intelligence.html"
+
+          echo ""
+          echo "=== Checking required JS files ==="
+          check_file "js/market-analysis.js"
+          check_file "js/market-intelligence.js"
+          check_file "js/data-service-portable.js"
+
+          echo ""
+          echo "=== Checking required data artifacts ==="
+          check_file "data/policy/prop123_jurisdictions.json"
+          check_file "data/market/tract_centroids_co.json"
+          check_file "data/market/acs_tract_metrics_co.json"
+          check_file "data/market/hud_lihtc_co.geojson"
+
+          if [ $errors -gt 0 ]; then
+            echo ""
+            echo "::error::$errors required file(s) are missing."
+            exit 1
+          fi
+          echo ""
+          echo "All required files present."
+
+      - name: Verify HTML pages include their JS scripts
+        shell: bash
+        run: |
+          set -e
+          errors=0
+
+          check_script_ref() {
+            local html_file="$1"
+            local js_file="$2"
+            if grep -q "$js_file" "$html_file"; then
+              echo "✅  $html_file includes $js_file"
+            else
+              echo "::error::$html_file does not reference $js_file"
+              errors=$((errors + 1))
+            fi
+          }
+
+          echo "=== Checking script tag references ==="
+          check_script_ref "market-analysis.html"      "js/market-analysis.js"
+          check_script_ref "market-intelligence.html"  "js/market-intelligence.js"
+
+          if [ $errors -gt 0 ]; then
+            echo ""
+            echo "::error::$errors script reference(s) missing from HTML pages."
+            exit 1
+          fi
+          echo ""
+          echo "All script references verified."
+
+      - name: Validate JSON data artifacts
+        shell: bash
+        run: |
+          set -e
+          errors=0
+
+          validate_json() {
+            local file="$1"
+            if python3 -c "import json, sys; json.load(open('$file'))" 2>/dev/null; then
+              echo "✅  $file is valid JSON"
+            else
+              echo "::error::$file is not valid JSON"
+              errors=$((errors + 1))
+            fi
+          }
+
+          echo "=== Validating JSON files ==="
+          validate_json "data/policy/prop123_jurisdictions.json"
+          validate_json "data/market/tract_centroids_co.json"
+          validate_json "data/market/acs_tract_metrics_co.json"
+          validate_json "data/market/hud_lihtc_co.geojson"
+
+          if [ $errors -gt 0 ]; then
+            echo ""
+            echo "::error::$errors JSON file(s) failed validation."
+            exit 1
+          fi
+          echo ""
+          echo "All JSON artifacts are valid."
+
+      - name: Portability checks (no raw fetch paths)
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking for fragile fetch paths..."
+          if grep -R --line-number \
+               --exclude-dir=.git \
+               --exclude-dir=node_modules \
+               --exclude-dir=.github \
+               'fetch("data/' .; then
+            echo "::error::Found fetch(\"data/\") usage. Use DataService.getJSON(DataService.baseData(...)) instead."
+            exit 1
+          fi
+
+          if grep -R --line-number \
+               --exclude-dir=.git \
+               --exclude-dir=node_modules \
+               --exclude-dir=.github \
+               'fetch("maps/' .; then
+            echo "::error::Found fetch(\"maps/\") usage. Use DataService.getGeoJSON(DataService.baseMaps(...)) instead."
+            exit 1
+          fi
+
+          echo "✅  No fragile fetch paths found."

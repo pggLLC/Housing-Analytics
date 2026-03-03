@@ -110,7 +110,11 @@
   async function loadProp123List() {
     const cfg = getConfig();
     if (cfg.PROP123_API_URL) return fetchJSON(cfg.PROP123_API_URL);
-    return fetchJSON('data/prop123_jurisdictions.json');
+    // Use DataService for portable path resolution; fall back to legacy root path
+    if (window.DataService && typeof window.DataService.baseData === 'function') {
+      return fetchJSON(window.DataService.baseData('policy/prop123_jurisdictions.json'));
+    }
+    return fetchJSON('data/policy/prop123_jurisdictions.json');
   }
 
   function buildIndex(payload) {
