@@ -4,7 +4,7 @@
 // Checks:
 //  1. JSON file existence: required data files are present
 //  2. Link validation: no obviously broken (empty/javascript:void) hrefs in HTML pages
-//  3. Hardcoded fetch check: flags any fetch("data/...") patterns that bypass DataService
+//  3. Hardcoded fetch check: flags any raw data-path fetches that bypass DataService
 //  4. Map layer smoke test: colorado-deep-dive.html references expected layer elements
 //  5. Basic accessibility: heading hierarchy and alt text presence
 //
@@ -87,18 +87,18 @@ if (emptyHrefs === 0 && jsVoidHrefs === 0) {
 }
 
 // ─── 3. Hardcoded fetch pattern check ────────────────────────────────────────
-console.log('\n── 3. Hardcoded fetch("data/...") check ──');
+console.log('\n── 3. Hardcoded data-path fetch check ──');
 var jsFiles = glob.sync('js/*.js', { cwd: ROOT, ignore: ['js/vendor/**'] });
 var hardcodedFetches = [];
 
 jsFiles.forEach(function (jsFile) {
   var content = readFile(jsFile);
-  // Look for fetch("data/ or fetch('data/ that isn't inside DataService or fetchWithTimeout
+  // Look for fetch(<literal data path>) calls that bypass DataService or fetchWithTimeout
   var lines = content.split('\n');
   lines.forEach(function (line, i) {
     // Skip comment lines
     if (/^\s*\/\//.test(line)) return;
-    // Flag raw fetch("data/ that is not using a helper
+    // Flag raw data-path fetch calls that are not using a helper
     if (/\bfetch\s*\(\s*['"`]data\//.test(line)) {
       // Only flag if not a helper call like fetchWithTimeout or DataService
       if (!/fetchWithTimeout|DataService|resolveData|baseData/.test(line)) {
@@ -109,7 +109,7 @@ jsFiles.forEach(function (jsFile) {
 });
 
 if (hardcodedFetches.length === 0) {
-  pass('No unguarded hardcoded fetch("data/...") patterns found');
+  pass('No unguarded hardcoded data-path fetch patterns found');
 } else {
   hardcodedFetches.forEach(function (loc) { warn('Hardcoded fetch: ' + loc); });
   warn(hardcodedFetches.length + ' hardcoded fetch pattern(s) found — consider using DataService.baseData()');
