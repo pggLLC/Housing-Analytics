@@ -420,11 +420,12 @@
   }
 
   function loadData() {
-    const url = (typeof resolveAssetUrl === 'function')
-      ? resolveAssetUrl('data/chfa-lihtc.json')
-      : 'data/chfa-lihtc.json';
+    const path = 'data/chfa-lihtc.json';
+    const fallbackUrl = (typeof resolveAssetUrl === 'function')
+      ? resolveAssetUrl(path)
+      : path;
 
-    (typeof safeFetchJSON === 'function' ? safeFetchJSON(url) : fetch(url).then(r => r.json()))
+    (typeof safeFetchJSON === 'function' ? safeFetchJSON(path) : fetch(fallbackUrl).then(r => r.json()))
       .then(function (geojson) {
         const features = Array.isArray(geojson) ? geojson
           : (geojson.features || []);
