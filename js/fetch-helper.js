@@ -22,14 +22,21 @@
 
   /**
    * Resolve a relative asset path against the detected base path.
-   * Strips any leading "./" or "/" from relativePath first.
+   * - Absolute URLs (http/https/data) are returned unchanged.
+   * - Root-relative paths (starting with "/") are returned unchanged.
+   * - Relative paths (optionally prefixed with "./") have BASE prepended.
    */
   function resolveAssetUrl(relativePath) {
-    var clean = (relativePath || '').replace(/^\.?\/+/, '');
     // Absolute URLs (http/https/data) are returned unchanged.
     if (/^https?:\/\//i.test(relativePath) || /^data:/i.test(relativePath)) {
       return relativePath;
     }
+    // Root-relative paths are already absolute — return as-is to prevent
+    // double-prefix (e.g. /Housing-Analytics/ + Housing-Analytics/data/...).
+    if (relativePath && relativePath.charAt(0) === '/') {
+      return relativePath;
+    }
+    var clean = (relativePath || '').replace(/^\.\//, '');
     return BASE + clean;
   }
 
