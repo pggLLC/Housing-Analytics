@@ -70,7 +70,7 @@ const HTML_PAGES = [
     'economic-dashboard.html',
     'LIHTC-dashboard.html',
     'colorado-deep-dive.html',
-    '_dev/lihtc-guide-for-stakeholders.html',
+    'lihtc-guide-for-stakeholders.html',
     'dashboard.html',
     'regional.html',
     'state-allocation-map.html',

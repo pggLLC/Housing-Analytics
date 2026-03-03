@@ -39,11 +39,11 @@ jobs:
         continue-on-error: true
 
       - name: Verify script loads
-        run: node _dev/test/verify-script-loads.js
+        run: node test/verify-script-loads.js
         continue-on-error: true
 
       - name: Test fallback mechanisms
-        run: node _dev/test/test-fallback-mechanisms.js
+        run: node test/test-fallback-mechanisms.js
         continue-on-error: true
 
       - name: Test vendor console errors
