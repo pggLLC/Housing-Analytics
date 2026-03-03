@@ -136,7 +136,7 @@
 
     // Always resolve via DataService.baseData for GitHub Pages compatibility
     function loadWithFallback() {
-      var localFallback = DataService.baseData('prop123_jurisdictions.json');
+      var localFallback = DataService.baseData('policy/prop123_jurisdictions.json');
       var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) || null;
       if (!primaryUrl) {
         return DataService.getJSON(localFallback);
@@ -178,7 +178,7 @@
         tbody.appendChild(tr);
       });
     }).catch(function (e) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable — check data/prop123_jurisdictions.json.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Prop 123 data unavailable — check data/policy/prop123_jurisdictions.json.</td></tr>';
       if (summary) summary.textContent = '';
       setStatus('Error loading data');
       console.warn('[colorado-deep-dive] Prop 123 load error:', e);
