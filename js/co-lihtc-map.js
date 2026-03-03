@@ -611,7 +611,7 @@
         L.latLng(36.8, -109.5),
         L.latLng(41.5, -102.0)
       );
-      map.setMaxBounds(coloradoBounds.pad(0.3));
+      map.setMaxBounds(coloradoBounds.pad(0.45));
 
       // Apply tile layer from basemap selector (replaces hardcoded OSM)
       wireBasemap(map);
