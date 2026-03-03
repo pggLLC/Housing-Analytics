@@ -1,0 +1,10 @@
+{
+  "type": "FeatureCollection",
+  "features": [],
+  "meta": {
+    "source": "US Census TIGERweb (public)",
+    "state": "Colorado",
+    "generated": "2026-01-01T00:00:00Z",
+    "note": "Seed placeholder — run scripts/boundaries/build_counties_co.py to populate."
+  }
+}
