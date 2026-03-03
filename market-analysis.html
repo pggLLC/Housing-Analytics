@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Analysis | Affordable Housing Intelligence</title>
+  <meta name="description" content="PMA-style market analysis using CHFA-leaning weights. Compute capture rates, rent pressure, and penetration proxy from public ACS, TIGERweb, and HUD LIHTC data." />
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <!-- Leaflet (vendored locally) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css" />
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/api-config-wrapper.js"></script>
+  <script src="js/vendor/leaflet.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/market-analysis.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <section class="hero" style="padding-bottom:0;">
+      <div style="padding:0 var(--sp4) var(--sp4);">
+        <div class="kicker">Colorado · Public Data · CHFA-Leaning</div>
+        <h1>Market Analysis</h1>
+        <p class="sub" style="max-width:none;margin-bottom:var(--sp3);">
+          PMA-style scoring using CHFA-leaning weights. Select a county to compute
+          demand depth, capture risk, rent pressure, land supply, and workforce gap.
+          Powered entirely by ACS 5-year, TIGERweb, and HUD LIHTC public data.
+        </p>
+      </div>
+    </section>
+
+    <section id="market-analysis-section" style="padding:0 var(--sp4) var(--sp4);">
+
+      <!-- Controls row -->
+      <div class="ma-controls">
+        <div class="ma-control-group">
+          <label for="ma-county-select">County</label>
+          <select id="ma-county-select" aria-label="Select Colorado county">
+            <!-- Populated by market-analysis.js -->
+          </select>
+        </div>
+
+        <div class="ma-control-group">
+          <label for="ma-ami-band">AMI Band</label>
+          <select id="ma-ami-band" aria-label="Select AMI band">
+            <option value="30">≤30% AMI</option>
+            <option value="50">31–50% AMI</option>
+            <option value="60" selected>51–60% AMI (typical LIHTC)</option>
+            <option value="80">61–80% AMI</option>
+          </select>
+        </div>
+
+        <div class="ma-control-group">
+          <label for="ma-proposed-units">Proposed Units</label>
+          <input type="number" id="ma-proposed-units" value="50" min="0" max="9999"
+                 aria-label="Number of proposed affordable units" />
+        </div>
+
+        <div class="ma-control-group" style="justify-content:flex-end;">
+          <button id="ma-run-btn" class="ma-btn" type="button"
+                  aria-label="Re-run market analysis with current settings">
+            ▶ Analyze
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected county heading -->
+      <h2 id="ma-county-name" style="font-size:1.15rem;font-weight:700;margin:.5rem 0 .75rem;color:var(--text);">
+        Mesa County
+      </h2>
+
+      <!-- Two-column layout: map + score -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;">
+        <!-- Map -->
+        <div>
+          <div id="ma-map" aria-label="Colorado county map — click a county to select it" role="region"></div>
+          <p style="font-size:.75rem;color:var(--muted,#666);margin-top:.4rem;">
+            Click a county on the map or use the dropdown above.
+            County boundaries from <a href="https://www.census.gov/data/developers/data-sets/TIGERweb.html"
+            target="_blank" rel="noopener">TIGERweb</a>.
+          </p>
+        </div>
+
+        <!-- Score result -->
+        <div>
+          <div id="ma-result" aria-live="polite" aria-label="Market analysis score results">
+            <p class="ma-loading">⏳ Loading market data…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulator card -->
+      <div class="ma-sim-card">
+        <div class="ma-sim-title">
+          📊 Capture / Penetration Simulator
+        </div>
+        <p style="font-size:.85rem;color:var(--muted,#666);margin:0 0 .5rem;">
+          Band capture = (existing + proposed) ÷ qualified renter HH for selected AMI band.<br>
+          Overall penetration proxy = (existing + proposed) ÷ (0.70 × renter households).
+        </p>
+        <div id="ma-sim-output" aria-live="polite" aria-label="Simulator output"></div>
+      </div>
+
+      <!-- Methodology note -->
+      <div class="ma-methodology">
+        <strong>📋 Methodology (public data only):</strong>
+        Scoring uses CHFA-leaning weights (demand 35%, capture 35%, rent pressure 20%,
+        land supply 7%, workforce 3%). Demand and cost-burden metrics from
+        <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">ACS 5-year</a>
+        cached profiles. County boundaries from
+        <a href="https://www.census.gov/data/developers/data-sets/TIGERweb.html" target="_blank" rel="noopener">TIGERweb</a>.
+        Affordable unit counts from
+        <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a>
+        (estimated at 3% of renter HH when LIHTC data unavailable).
+        Qualified renter HH per AMI band estimated using national income-distribution fractions.
+        All figures are approximations for comparative analysis.
+        See <a href="docs/MARKET_ANALYSIS_METHOD.md" target="_blank" rel="noopener">MARKET_ANALYSIS_METHOD.md</a>
+        and <a href="docs/PMA_SCORING.md" target="_blank" rel="noopener">PMA_SCORING.md</a>.
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Responsive two-column → single on mobile -->
+  <style>
+    @media (max-width: 768px) {
+      [style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+</body>
+</html>
