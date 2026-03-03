@@ -118,8 +118,13 @@
     clearLoadingState(panelId);
   }
 
-  
+
+  var prop123Initialized = false;
+
   function initProp123Section() {
+    if (prop123Initialized) return;
+    prop123Initialized = true;
+
     var tbody = document.getElementById('prop123TableBody');
     var summary = document.getElementById('prop123Summary');
     var status = document.getElementById('prop123Status');
@@ -129,24 +134,20 @@
       if (status) status.textContent = msg || '';
     }
 
-    var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) ? window.APP_CONFIG.PROP123_API_URL : null;
-    var fallbackUrl = 'data/prop123_jurisdictions.json';
-
-    // Try serverless first (if configured), then always fall back to local JSON for GitHub Pages
-    function loadWithFallback(primary, fallback) {
-      var localFallback = DataService.baseData
-        ? DataService.baseData(fallback.replace(/^data\//, ''))
-        : fallback;
-      if (!primary) {
+    // Always resolve via DataService.baseData for GitHub Pages compatibility
+    function loadWithFallback() {
+      var localFallback = DataService.baseData('prop123_jurisdictions.json');
+      var primaryUrl = (window.APP_CONFIG && window.APP_CONFIG.PROP123_API_URL) || null;
+      if (!primaryUrl) {
         return DataService.getJSON(localFallback);
       }
-      return DataService.getJSON(primary).catch(function () {
+      return DataService.getJSON(primaryUrl).catch(function () {
         console.warn('[colorado-deep-dive] Primary Prop 123 API failed, using local fallback:', localFallback);
         return DataService.getJSON(localFallback);
       });
     }
     setStatus('Loading…');
-    loadWithFallback(primaryUrl, fallbackUrl).then(function (data) {
+    loadWithFallback().then(function (data) {
       var jurisdictions = data.jurisdictions || data.items || data || [];
       // Allow the fallback file schema: { updated, jurisdictions: [...] }
       if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
@@ -404,14 +405,9 @@ function initPolicyPanel(panelId) {
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
-    /* Bootstrap Prop 123 section immediately if the table is present on this page
-       and the policy tab is already visible (e.g. via deep link). */
+    /* Bootstrap Prop 123 section on DOMContentLoaded whenever the table is present. */
     if (document.getElementById('prop123TableBody')) {
-      var policyPanel = document.getElementById('tab-policy-simulator');
-      var isVisible = policyPanel && !policyPanel.hasAttribute('hidden');
-      if (isVisible) {
-        try { initProp123Section(); } catch (e) { /* ignore */ }
-      }
+      try { initProp123Section(); } catch (e) { /* ignore */ }
     }
   });
 

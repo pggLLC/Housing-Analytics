@@ -1,0 +1,576 @@
+/**
+ * js/market-analysis.js
+ * Public Market Analysis (PMA) scoring engine.
+ *
+ * Responsibilities:
+ *  - Leaflet map initialization & site marker placement
+ *  - PMA circular buffer calculation via Haversine distance
+ *  - ACS tract metric aggregation within buffer
+ *  - HUD LIHTC project filtering & counting
+ *  - 5-dimension weighted PMA scoring:
+ *      Demand (30%), Capture Risk (25%), Rent Pressure (15%),
+ *      Land/Supply (15%), Workforce (15%)
+ *  - CHFA-style capture-rate simulator
+ *  - JSON + CSV export utilities
+ *
+ * Data loaded via DataService.getJSON() — no hardcoded fetch() calls.
+ */
+(function () {
+  'use strict';
+
+  /* ── Constants ─────────────────────────────────────────────────── */
+  var BUFFER_OPTIONS   = [3, 5, 10, 15]; // miles
+  var AMI_60_PCT       = 0.60;           // default AMI threshold for affordable rent calc
+  var AREA_MEDIAN_INCOME_CO = 95000;     // approximate CO statewide AMI ($/yr)
+  var MAX_AFFORDABLE_RENT_PCT = 0.30;    // 30% of gross income rule
+
+  // PMA dimension weights (must sum to 1.0)
+  var WEIGHTS = {
+    demand:       0.30,
+    captureRisk:  0.25,
+    rentPressure: 0.15,
+    landSupply:   0.15,
+    workforce:    0.15
+  };
+
+  // Risk thresholds (per PMA_SCORING.md)
+  var RISK = {
+    captureHigh:       0.25,  // >= 25% = high capture risk
+    costBurdenHigh:    0.45,  // >= 45% cost-burden rate = high demand pressure
+    rentPressureElev:  1.10   // ratio >= 1.10 = elevated
+  };
+
+  /* ── State ─────────────────────────────────────────────────────── */
+  var map          = null;
+  var siteMarker   = null;
+  var bufferCircle = null;
+  var siteLatLng   = null;
+  var bufferMiles  = 5;
+  var lastResult   = null;
+
+  var tractCentroids = null;
+  var acsMetrics     = null;
+  var lihtcFeatures  = null;
+
+  /* ── Haversine distance (miles) ─────────────────────────────────── */
+  function haversine(lat1, lon1, lat2, lon2) {
+    var R  = 3958.8; // Earth radius in miles
+    var dL = (lat2 - lat1) * Math.PI / 180;
+    var dO = (lon2 - lon1) * Math.PI / 180;
+    var a  = Math.sin(dL / 2) * Math.sin(dL / 2) +
+             Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+             Math.sin(dO / 2) * Math.sin(dO / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /* ── Get tracts within buffer ───────────────────────────────────── */
+  function tractsInBuffer(lat, lon, miles) {
+    if (!tractCentroids) return [];
+    return tractCentroids.filter(function (t) {
+      return haversine(lat, lon, t.lat, t.lon) <= miles;
+    });
+  }
+
+  /* ── Build ACS index by geoid ───────────────────────────────────── */
+  function buildAcsIndex(metrics) {
+    var idx = {};
+    (metrics || []).forEach(function (m) { idx[m.geoid] = m; });
+    return idx;
+  }
+
+  /* ── Aggregate ACS metrics for buffer tracts ────────────────────── */
+  function aggregateAcs(tracts, acsIdx) {
+    var totals = {
+      pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
+      vacant: 0, rent_sum: 0, income_sum: 0,
+      cost_burden_sum: 0, vacancy_rate_sum: 0, n: 0
+    };
+    tracts.forEach(function (t) {
+      var m = acsIdx[t.geoid];
+      if (!m) return;
+      totals.pop          += m.pop          || 0;
+      totals.renter_hh    += m.renter_hh    || 0;
+      totals.owner_hh     += m.owner_hh     || 0;
+      totals.total_hh     += m.total_hh     || 0;
+      totals.vacant       += m.vacant       || 0;
+      totals.rent_sum     += m.median_gross_rent  || 0;
+      totals.income_sum   += m.median_hh_income   || 0;
+      totals.cost_burden_sum  += m.cost_burden_rate || 0;
+      totals.vacancy_rate_sum += m.vacancy_rate    || 0;
+      totals.n++;
+    });
+    if (!totals.n) return null;
+    return {
+      pop:              totals.pop,
+      renter_hh:        totals.renter_hh,
+      total_hh:         totals.total_hh,
+      vacant:           totals.vacant,
+      median_gross_rent:   totals.n ? totals.rent_sum    / totals.n : 0,
+      median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
+      cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
+      vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
+      tract_count:      totals.n
+    };
+  }
+
+  /* ── LIHTC projects within buffer ───────────────────────────────── */
+  function lihtcInBuffer(lat, lon, miles) {
+    if (!lihtcFeatures) return [];
+    return lihtcFeatures.filter(function (f) {
+      var c = f.geometry && f.geometry.coordinates;
+      if (!c) return false;
+      return haversine(lat, lon, c[1], c[0]) <= miles;
+    });
+  }
+
+  /* ── PMA Scoring Engine ─────────────────────────────────────────── */
+  function scoreDemand(acs) {
+    // Affordability pressure (cost burden), renter share
+    var cb   = acs.cost_burden_rate || 0;
+    var renterShare = acs.total_hh ? acs.renter_hh / acs.total_hh : 0;
+    // High cost burden → high demand → good site; normalise to 0-100
+    var cbScore     = Math.min(100, (cb / 0.55) * 100);
+    var renterScore = Math.min(100, (renterShare / 0.60) * 100);
+    return Math.round((cbScore * 0.6 + renterScore * 0.4));
+  }
+
+  function scoreCaptureRisk(acs, existingUnits, proposedUnits) {
+    var qualRenters = acs.renter_hh || 1;
+    var capture = (existingUnits + proposedUnits) / qualRenters;
+    // Lower capture → better (more head-room); invert
+    var score = Math.max(0, Math.min(100, (1 - capture / 0.50) * 100));
+    return { score: Math.round(score), capture: capture };
+  }
+
+  function scoreRentPressure(acs) {
+    var ami60Rent = (AREA_MEDIAN_INCOME_CO * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
+    var ratio     = acs.median_gross_rent ? acs.median_gross_rent / ami60Rent : 0;
+    // If market rent > affordable threshold, it signals unmet demand — higher score
+    var score = Math.min(100, Math.max(0, (ratio - 0.70) / (1.50 - 0.70) * 100));
+    return { score: Math.round(score), ratio: ratio };
+  }
+
+  function scoreLandSupply(acs) {
+    var vac = acs.vacancy_rate || 0;
+    // Very low vacancy → high demand, strong site signal
+    var score = Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
+    return Math.round(score);
+  }
+
+  function scoreWorkforce(/* acs */) {
+    // Placeholder — future: LODES workforce data integration
+    return 60;
+  }
+
+  function computePma(acs, existingLihtcUnits, proposedUnits) {
+    proposedUnits = proposedUnits || 0;
+
+    var demandScore        = scoreDemand(acs);
+    var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
+    var rentPressureObj    = scoreRentPressure(acs);
+    var landSupplyScore    = scoreLandSupply(acs);
+    var workforceScore     = scoreWorkforce(acs);
+
+    var overall = Math.round(
+      demandScore          * WEIGHTS.demand +
+      captureObj.score     * WEIGHTS.captureRisk +
+      rentPressureObj.score * WEIGHTS.rentPressure +
+      landSupplyScore      * WEIGHTS.landSupply +
+      workforceScore       * WEIGHTS.workforce
+    );
+
+    var flags = [];
+    if ((acs.cost_burden_rate || 0) >= RISK.costBurdenHigh) {
+      flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
+    }
+    if (captureObj.capture >= RISK.captureHigh) {
+      flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
+    }
+    if (rentPressureObj.ratio >= RISK.rentPressureElev) {
+      flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
+    }
+    if (!flags.length) {
+      flags.push({ level: 'ok', text: 'No critical risk flags detected' });
+    }
+
+    return {
+      overall:       Math.min(100, Math.max(0, overall)),
+      dimensions: {
+        demand:        demandScore,
+        captureRisk:   captureObj.score,
+        rentPressure:  rentPressureObj.score,
+        landSupply:    landSupplyScore,
+        workforce:     workforceScore
+      },
+      capture:         captureObj.capture,
+      rentRatio:       rentPressureObj.ratio,
+      flags:           flags
+    };
+  }
+
+  /* ── Capture-rate simulator ─────────────────────────────────────── */
+  function simulateCapture(qualRenters, proposedUnits, amiMix) {
+    // amiMix: { ami30: n, ami40: n, ami50: n, ami60: n, ami80: n }
+    var totalProposed = Object.values(amiMix).reduce(function (s, v) { return s + (v || 0); }, 0);
+    if (totalProposed > 0) proposedUnits = totalProposed;
+    var capture = qualRenters > 0 ? proposedUnits / qualRenters : 0;
+    var captureRate = Math.round(capture * 1000) / 10; // pct, 1 decimal
+    var risk = capture >= RISK.captureHigh ? 'High' : (capture >= 0.15 ? 'Moderate' : 'Low');
+    return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
+  }
+
+  /* ── Tier label ─────────────────────────────────────────────────── */
+  function scoreTier(s) {
+    if (s >= 80) return { label: 'Strong',   color: 'var(--good)' };
+    if (s >= 60) return { label: 'Moderate', color: 'var(--accent)' };
+    if (s >= 40) return { label: 'Marginal', color: 'var(--warn)' };
+    return           { label: 'Weak',     color: 'var(--bad)' };
+  }
+
+  /* ── UI helpers ─────────────────────────────────────────────────── */
+  function el(id) { return document.getElementById(id); }
+
+  function setHtml(id, html) {
+    var e = el(id);
+    if (e) e.innerHTML = html;
+  }
+
+  function setText(id, txt) {
+    var e = el(id);
+    if (e) e.textContent = txt;
+  }
+
+  function showEmpty(id, msg) {
+    setHtml(id, '<div class="pma-empty">' + (msg || 'Click the map to set a site location.') + '</div>');
+  }
+
+  /* ── Render results ─────────────────────────────────────────────── */
+  function renderScore(result) {
+    var tier = scoreTier(result.overall);
+    var scoreEl = el('pmaScoreCircle');
+    if (scoreEl) {
+      scoreEl.textContent = result.overall;
+      scoreEl.style.borderColor = tier.color;
+      // Use a CSS-variable-aware dim background defined per tier
+      var tierDimVar = { Strong: '--good-dim', Moderate: '--accent-dim', Marginal: '--warn-dim', Weak: '--bad-dim' };
+      var dimVar = tierDimVar[tier.label] || '--accent-dim';
+      scoreEl.style.background = 'var(' + dimVar + ')';
+    }
+    setText('pmaScoreTier', tier.label + ' Site');
+    setText('pmaTractCount', result.tractCount || '—');
+
+    var dims = result.dimensions;
+    var dimNames = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
+    var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
+    var listEl = el('pmaDimList');
+    if (listEl) {
+      listEl.innerHTML = dimNames.map(function (k, i) {
+        var s = dims[k] || 0;
+        return '<li class="pma-dim-item">' +
+          '<span class="pma-dim-name">' + dimLabels[i] + '</span>' +
+          '<div class="pma-dim-bar-wrap" style="flex:1">' +
+            '<div class="pma-dim-bar" style="width:' + s + '%"></div>' +
+          '</div>' +
+          '<span class="pma-dim-score">' + s + '</span>' +
+        '</li>';
+      }).join('');
+    }
+
+    var flagsEl = el('pmaFlags');
+    if (flagsEl) {
+      flagsEl.innerHTML = result.flags.map(function (f) {
+        return '<div class="pma-flag pma-flag-' + f.level + '">' +
+          (f.level === 'ok' ? '✓ ' : f.level === 'warn' ? '⚠ ' : '✕ ') +
+          f.text + '</div>';
+      }).join('');
+    }
+
+    setText('pmaLihtcCount', result.lihtcCount);
+    setText('pmaLihtcUnits', result.lihtcUnits);
+    setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
+    setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
+
+    updateRadarChart(result.dimensions);
+    updateSimulator(result);
+  }
+
+  /* ── Radar chart ─────────────────────────────────────────────────── */
+  var radarChart = null;
+
+  function updateRadarChart(dims) {
+    var canvas = el('pmaRadarChart');
+    if (!canvas || !window.Chart) return;
+
+    var data = [
+      dims.demand,
+      dims.captureRisk,
+      dims.rentPressure,
+      dims.landSupply,
+      dims.workforce
+    ];
+    var cs = getComputedStyle(document.documentElement);
+    var accent = cs.getPropertyValue('--accent').trim() || '#0ea5a0';
+    var muted  = cs.getPropertyValue('--muted').trim()  || '#476080';
+    var border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.11)';
+
+    if (radarChart) {
+      radarChart.data.datasets[0].data = data;
+      radarChart.update();
+      return;
+    }
+    radarChart = new window.Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels: ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'],
+        datasets: [{
+          label: 'PMA Score',
+          data: data,
+          borderColor: accent,
+          backgroundColor: 'rgba(14,165,160,.15)',
+          pointBackgroundColor: accent,
+          borderWidth: 2,
+          pointRadius: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            min: 0, max: 100,
+            ticks: { stepSize: 25, color: muted, font: { size: 10 } },
+            grid: { color: border },
+            pointLabels: { color: muted, font: { size: 11 } }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  }
+
+  /* ── Capture-rate simulator UI ───────────────────────────────────── */
+  function updateSimulator(result) {
+    var simEl = el('pmaSimResult');
+    if (!simEl) return;
+
+    var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
+    var amiMix = {
+      ami30: parseInt(el('pmaAmi30') && el('pmaAmi30').value, 10) || 0,
+      ami40: parseInt(el('pmaAmi40') && el('pmaAmi40').value, 10) || 0,
+      ami50: parseInt(el('pmaAmi50') && el('pmaAmi50').value, 10) || 0,
+      ami60: parseInt(el('pmaAmi60') && el('pmaAmi60').value, 10) || proposed,
+      ami80: parseInt(el('pmaAmi80') && el('pmaAmi80').value, 10) || 0
+    };
+
+    var sim = simulateCapture(result.acs.renter_hh || 1, proposed, amiMix);
+    simEl.innerHTML =
+      '<div class="pma-stat-grid">' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">Capture rate</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
+          (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
+          sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (result.acs.renter_hh || 0).toLocaleString() + '</div><div class="pma-stat-label">Renter HH (buffer)</div></div>' +
+      '</div>';
+  }
+
+  /* ── Run analysis ───────────────────────────────────────────────── */
+  function runAnalysis(lat, lon) {
+    var acsIdx = buildAcsIndex(acsMetrics && acsMetrics.tracts);
+    var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
+    var acs = aggregateAcs(bufTracts, acsIdx);
+
+    if (!acs) {
+      showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
+      return;
+    }
+
+    var nearbyLihtc  = lihtcInBuffer(lat, lon, bufferMiles);
+    var lihtcCount   = nearbyLihtc.length;
+    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
+    var pma          = computePma(acs, lihtcUnits, 0);
+
+    lastResult = Object.assign({}, pma, {
+      lat: lat, lon: lon, bufferMiles: bufferMiles,
+      tractCount: bufTracts.length, acs: acs,
+      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits
+    });
+
+    renderScore(lastResult);
+    setText('pmaRunBtn', 'Re-run Analysis');
+  }
+
+  /* ── Map setup ───────────────────────────────────────────────────── */
+  function initMap() {
+    var L = window.L;
+    if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
+
+    map = L.map('pmaMap', { zoomControl: true }).setView([39.5501, -105.7821], 7);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap contributors © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    map.on('click', function (e) {
+      placeSiteMarker(e.latlng.lat, e.latlng.lng);
+      runAnalysis(e.latlng.lat, e.latlng.lng);
+    });
+  }
+
+  function placeSiteMarker(lat, lon) {
+    siteLatLng = { lat: lat, lon: lon };
+    var L = window.L;
+    if (!L) return;
+
+    if (siteMarker) map.removeLayer(siteMarker);
+    if (bufferCircle) map.removeLayer(bufferCircle);
+
+    siteMarker = L.circleMarker([lat, lon], {
+      radius: 8, color: 'var(--accent)', fillColor: 'var(--accent)',
+      fillOpacity: 0.9, weight: 2
+    }).addTo(map);
+
+    var radiusMeters = bufferMiles * 1609.34;
+    bufferCircle = L.circle([lat, lon], {
+      radius: radiusMeters,
+      color: 'var(--accent)', fillColor: 'var(--accent)',
+      fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
+    }).addTo(map);
+
+    setText('pmaSiteCoords', lat.toFixed(5) + ', ' + lon.toFixed(5));
+  }
+
+  /* ── Buffer selector ─────────────────────────────────────────────── */
+  function bindBufferSelect() {
+    var sel = el('pmaBufferSelect');
+    if (!sel) return;
+    sel.addEventListener('change', function () {
+      bufferMiles = parseInt(sel.value, 10) || 5;
+      if (siteLatLng) {
+        placeSiteMarker(siteLatLng.lat, siteLatLng.lon);
+        runAnalysis(siteLatLng.lat, siteLatLng.lon);
+      }
+    });
+  }
+
+  /* ── Re-run button ───────────────────────────────────────────────── */
+  function bindRunBtn() {
+    var btn = el('pmaRunBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (siteLatLng) runAnalysis(siteLatLng.lat, siteLatLng.lon);
+    });
+  }
+
+  /* ── AMI mix inputs ─────────────────────────────────────────────── */
+  function bindAmiInputs() {
+    ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'].forEach(function (id) {
+      var inp = el(id);
+      if (!inp) return;
+      inp.addEventListener('input', function () {
+        if (lastResult) updateSimulator(lastResult);
+      });
+    });
+  }
+
+  /* ── Export ─────────────────────────────────────────────────────── */
+  function exportJson() {
+    if (!lastResult) return;
+    var blob = new Blob([JSON.stringify(lastResult, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pma-result.json';
+    a.click();
+  }
+
+  function exportCsv() {
+    if (!lastResult) return;
+    var r = lastResult;
+    var d = r.dimensions;
+    var rows = [
+      ['field', 'value'],
+      ['overall_score', r.overall],
+      ['tier', scoreTier(r.overall).label],
+      ['lat', r.lat],
+      ['lon', r.lon],
+      ['buffer_miles', r.bufferMiles],
+      ['tract_count', r.tractCount],
+      ['renter_hh', r.acs.renter_hh],
+      ['cost_burden_rate', r.acs.cost_burden_rate],
+      ['median_gross_rent', r.acs.median_gross_rent],
+      ['median_hh_income', r.acs.median_hh_income],
+      ['vacancy_rate', r.acs.vacancy_rate],
+      ['lihtc_count', r.lihtcCount],
+      ['lihtc_units', r.lihtcUnits],
+      ['capture_rate', r.capture],
+      ['dim_demand', d.demand],
+      ['dim_capture_risk', d.captureRisk],
+      ['dim_rent_pressure', d.rentPressure],
+      ['dim_land_supply', d.landSupply],
+      ['dim_workforce', d.workforce]
+    ];
+    var csv = rows.map(function (r) { return r.join(','); }).join('\n');
+    var blob = new Blob([csv], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pma-result.csv';
+    a.click();
+  }
+
+  function bindExport() {
+    var jsonBtn = el('pmaExportJson');
+    var csvBtn  = el('pmaExportCsv');
+    if (jsonBtn) jsonBtn.addEventListener('click', exportJson);
+    if (csvBtn)  csvBtn.addEventListener('click', exportCsv);
+  }
+
+  /* ── Data loading ───────────────────────────────────────────────── */
+  function loadData() {
+    var DS = window.DataService;
+    if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
+
+    return Promise.all([
+      DS.getJSON(DS.baseData('market/tract_centroids_co.json')),
+      DS.getJSON(DS.baseData('market/acs_tract_metrics_co.json')),
+      DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
+    ]).then(function (results) {
+      tractCentroids = (results[0] && results[0].tracts) || [];
+      acsMetrics     = results[1] || { tracts: [] };
+      lihtcFeatures  = (results[2] && results[2].features) || [];
+    }).catch(function (e) {
+      console.warn('[market-analysis] Data load failed:', e);
+    });
+  }
+
+  /* ── Init ───────────────────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    initMap();
+    bindBufferSelect();
+    bindRunBtn();
+    bindAmiInputs();
+    bindExport();
+    loadData().then(function () {
+      // Show ready state
+      var hint = el('pmaDataStatus');
+      if (hint) hint.textContent = 'Data loaded — click map to begin analysis.';
+    }).catch(function () {
+      var hint = el('pmaDataStatus');
+      if (hint) hint.textContent = 'Warning: some data files could not be loaded.';
+    });
+  });
+
+  // Expose for testing
+  window.PMAEngine = {
+    haversine:        haversine,
+    computePma:       computePma,
+    simulateCapture:  simulateCapture,
+    scoreTier:        scoreTier,
+    aggregateAcs:     aggregateAcs,
+    WEIGHTS:          WEIGHTS,
+    RISK:             RISK
+  };
+
+}());

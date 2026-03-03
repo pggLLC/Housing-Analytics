@@ -174,9 +174,14 @@
     }
 
     function styleFor(kind) {
-      // Use different strokes so counties are visually distinct from municipalities.
-      return (feature) => ({
-        weight: kind === 'county' ? 2 : 1,
+      // Read theme-aware tokens via getComputedStyle for light/dark compatibility.
+      const cs = getComputedStyle(document.documentElement);
+      const stroke = cs.getPropertyValue('--map-boundary-stroke').trim() ||
+        (kind === 'county' ? 'rgba(13,31,53,.45)' : 'rgba(13,31,53,.45)');
+      const weight = parseFloat(cs.getPropertyValue('--map-boundary-weight').trim()) || 1.5;
+      return () => ({
+        color: stroke,
+        weight: kind === 'county' ? weight * 1.33 : weight,
         opacity: 0.9,
         fillOpacity: kind === 'county' ? 0.08 : 0.18
       });
@@ -223,6 +228,15 @@
 
     const count = (countyLayer ? Object.keys(countyLayer._layers).length : 0) + (muniLayer ? Object.keys(muniLayer._layers).length : 0);
     if (statusEl) statusEl.textContent = `Loaded ${count} Prop 123 jurisdictions (counties + municipalities)`;
+
+    // Watch for theme changes (dark-mode-toggle sets data-theme on <html>) and restyle layers.
+    if (typeof MutationObserver !== 'undefined') {
+      const themeObserver = new MutationObserver(function () {
+        if (muniLayer) muniLayer.setStyle(styleFor('municipality')());
+        if (countyLayer) countyLayer.setStyle(styleFor('county')());
+      });
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+    }
 
     return { group, muniLayer, countyLayer };
   }
