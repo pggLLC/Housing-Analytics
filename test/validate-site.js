@@ -41,6 +41,7 @@ function readFile(rel) {
 console.log('\n── 1. Required JSON data files ──');
 const REQUIRED_JSON = [
   'data/prop123_jurisdictions.json',
+  'data/policy/prop123_jurisdictions.json',
   'data/chfa-lihtc.json',
   'data/fred-data.json',
   'data/allocations.json',

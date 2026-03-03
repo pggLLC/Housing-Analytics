@@ -1,0 +1,10 @@
+{
+  "type": "FeatureCollection",
+  "features": [],
+  "meta": {
+    "source": "OpenStreetMap Overpass API (public)",
+    "state": "Colorado",
+    "generated": "2026-01-01T00:00:00Z",
+    "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
+  }
+}
