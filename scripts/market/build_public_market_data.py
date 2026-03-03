@@ -134,6 +134,7 @@ def build_acs_metrics(out_dir, api_key=None):
                     i = headers.index(name)
                     v = row[i]
                     return int(v) if v not in (None, "-666666666", "") else None
+                    # Census Bureau uses -666666666 as a sentinel for missing/suppressed values
                 except (ValueError, IndexError):
                     return None
 

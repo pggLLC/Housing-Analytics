@@ -122,7 +122,8 @@
       return s + (Number((f.properties || f).N_UNITS || (f.properties || f).total_units || 0) || 0);
     }, 0);
     var proposed = proposedUnits || 0;
-    // AMI band factor: approximate share of renter HH that qualify at given AMI
+    // AMI band factor: estimated share of renter HH qualifying at each AMI level,
+    // derived from HUD income limit distributions (v1.0 approximation; refine with CHAS data in v1.1)
     var amiFactor = amiBand <= 30 ? 0.15 : amiBand <= 50 ? 0.30 : amiBand <= 60 ? 0.40 : amiBand <= 80 ? 0.60 : 1.0;
     var bandRenters = Math.round(qualRenters * amiFactor);
     var bandCapture = bandRenters > 0 ? proposed / bandRenters : 0;

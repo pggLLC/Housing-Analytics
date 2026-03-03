@@ -11,6 +11,8 @@
     { label: "Market Insights", href: "insights.html" },
     { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
     { label: "LIHTC Basics", href: "lihtc-guide-for-stakeholders.html" },
+    { label: "Market Analysis", href: "market-analysis.html" },
+    { label: "Market Intelligence", href: "market-intelligence.html" },
     { label: "About", href: "about.html" },
   ];
 
@@ -135,6 +137,8 @@
           <a href="${normalizeHref('about.html')}">Methodology</a>
           <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
           <a href="${normalizeHref('LIHTC-dashboard.html')}">Allocations</a>
+          <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
+          <a href="${normalizeHref('market-intelligence.html')}">Market Intelligence</a>
         </div>
       </div>
     `;
