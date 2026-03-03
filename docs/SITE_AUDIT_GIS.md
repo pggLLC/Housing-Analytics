@@ -36,7 +36,7 @@
 ### 3.1 Base Path Handling
 - [x] `path-resolver.js` exposes `resolveAssetUrl()` / `DataService.baseData()` for GitHub Pages sub-path support
 - [x] `co-lihtc-map.js` uses `resolveAssetUrl()` for vendor icon paths
-- [ ] All `fetch("data/…")` calls should use `DataService.baseData()` — verify no raw fetch paths remain
+- [x] All local data files now loaded via `DataService.baseData()` — no raw fetch paths remain
 
 ### 3.2 Fetch Helpers & Timeouts
 - [x] `fetch-helper.js` provides `fetchWithTimeout()` utility
@@ -89,7 +89,7 @@
 
 1. **CRITICAL — Prop 123 overlay toggle**: Verify `#layerProp123` checkbox wires correctly in dark mode and hash-linked navigation
 2. **HIGH — Remove hardcoded colors**: All `style="color: #0f172a"` instances replaced with `color: var(--text)` in `colorado-deep-dive.html`
-3. **HIGH — DataService path usage**: Audit remaining raw `fetch("data/…")` calls in `co-lihtc-map.js` and consolidate via `DataService.baseData()`
+3. ~~**HIGH — DataService path usage**: Audit raw data-path fetch calls in `co-lihtc-map.js`~~ ✅ Fixed — all local data files now load via `DataService.baseData()`
 4. **MEDIUM — TIGERweb cache**: Add a 24-hour TTL cache for TIGERweb GeoJSON responses to reduce network round-trips
 5. **MEDIUM — Map boundary observer**: Wire a `MutationObserver` on `<html>` class changes to restyle county boundary layers when theme toggles
 6. **LOW — Link validation**: Run the automated link checker (test/validate-links.js) in CI to catch broken hrefs before deploy
