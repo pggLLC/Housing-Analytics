@@ -30,6 +30,46 @@
     'Summit','Teller','Washington','Weld','Yuma'
   ];
 
+  /* ── Colorado city → county lookup (for LIHTC PROJ_CTY field) ──── */
+  var CO_CITY_TO_COUNTY = {
+    'ALAMOSA': 'Alamosa', 'ALMA': 'Park', 'ANTONITO': 'Conejos',
+    'ARVADA': 'Jefferson', 'ASPEN': 'Pitkin', 'AURORA': 'Arapahoe',
+    'AVON': 'Eagle', 'BASALT': 'Eagle', 'BAYFIELD': 'La Plata',
+    'BOULDER': 'Boulder', 'BRECKENRIDGE': 'Summit', 'BRIGHTON': 'Adams',
+    'BROOMFIELD': 'Broomfield', 'BRUSH': 'Morgan', 'BUENA VISTA': 'Chaffee',
+    'BURLINGTON': 'Kit Carson', 'CANON CITY': 'Fremont',
+    'CARBONDALE': 'Garfield', 'CASTLE ROCK': 'Douglas', 'CENTER': 'Saguache',
+    'CENTRAL CITY': 'Gilpin', 'CLIFTON': 'Mesa',
+    'COLORADO SPRINGS': 'El Paso', 'COMMERCE CITY': 'Adams',
+    'CORTEZ': 'Montezuma', 'CRESTED BUTTE': 'Gunnison', 'DACONO': 'Weld',
+    'DEL NORTE': 'Rio Grande', 'DELTA': 'Delta', 'DENVER': 'Denver',
+    'DIVIDE': 'Teller', 'DURANGO': 'La Plata', 'EAGLE': 'Eagle',
+    'ENGLEWOOD': 'Arapahoe', 'ESTES PARK': 'Larimer', 'EVANS': 'Weld',
+    'EVERGREEN': 'Jefferson', 'FLORENCE': 'Fremont',
+    'FORT COLLINS': 'Larimer', 'FORT LUPTON': 'Weld',
+    'FORT MORGAN': 'Morgan', 'FOUNTAIN': 'El Paso', 'FRASER': 'Grand',
+    'FRUITA': 'Mesa', 'GLENDALE': 'Arapahoe',
+    'GLENWOOD SPRINGS': 'Garfield', 'GOLDEN': 'Jefferson',
+    'GRAND JUNCTION': 'Mesa', 'GREELEY': 'Weld',
+    'GREENWOOD VILLAGE': 'Arapahoe', 'GYPSUM': 'Eagle',
+    'HIGHLANDS RANCH': 'Douglas', 'IDAHO SPRINGS': 'Clear Creek',
+    'KEYSTONE': 'Summit', 'LA JUNTA': 'Otero', 'LAFAYETTE': 'Boulder',
+    'LAKEWOOD': 'Jefferson', 'LAMAR': 'Prowers', 'LAS ANIMAS': 'Bent',
+    'LEADVILLE': 'Lake', 'LITTLETON': 'Arapahoe', 'LONGMONT': 'Boulder',
+    'LOUISVILLE': 'Boulder', 'LOVELAND': 'Larimer', 'MANCOS': 'Montezuma',
+    'MILLIKEN': 'Weld', 'MONTE VISTA': 'Rio Grande', 'MONTROSE': 'Montrose',
+    'NEDERLAND': 'Boulder', 'NEW CASTLE': 'Garfield',
+    'NORTHGLENN': 'Adams', 'NORWOOD': 'San Miguel', 'NUCLA': 'Montrose',
+    'PAONIA': 'Delta', 'PARKER': 'Douglas', 'PONCHA SPRINGS': 'Chaffee',
+    'PUEBLO': 'Pueblo', 'PUEBLO WEST': 'Pueblo', 'RIFLE': 'Garfield',
+    'SALIDA': 'Chaffee', 'SHERIDAN': 'Arapahoe', 'SILVER CLIFF': 'Custer',
+    'SILVERTHORNE': 'Summit', 'SOUTH FORK': 'Rio Grande',
+    'STEAMBOAT SPRINGS': 'Routt', 'STERLING': 'Logan',
+    'TELLURIDE': 'San Miguel', 'THORNTON': 'Adams', 'VAIL': 'Eagle',
+    'WALSENBURG': 'Huerfano', 'WESTMINSTER': 'Adams',
+    'WHEAT RIDGE': 'Jefferson', 'WINDSOR': 'Weld', 'YUMA': 'Yuma'
+  };
+
   /* ── Helpers ───────────────────────────────────────────────────── */
   function fmt(n, decimals) {
     if (n == null || n === '' || isNaN(n)) return '—';
@@ -169,6 +209,13 @@
       if (Array.isArray(raw)) features = raw;
       else if (raw && Array.isArray(raw.features)) features = raw.features.map(function (f) { return f.properties || f; });
       else if (raw && Array.isArray(raw.items)) features = raw.items;
+      // Enrich county field from city lookup when CNTY_NAME is absent
+      features.forEach(function (f) {
+        if (!f.CNTY_NAME && f.PROJ_CTY) {
+          var countyName = CO_CITY_TO_COUNTY[(f.PROJ_CTY || '').toUpperCase().trim()];
+          if (countyName) f.CNTY_NAME = countyName;
+        }
+      });
       currentData.lihtc = features;
       renderInventoryKpis(features, selectedCounty);
     });
@@ -176,7 +223,10 @@
 
   function renderInventoryKpis(features, county) {
     var filtered = county
-      ? features.filter(function (f) { return (f.CNTY_NAME || f.county || '').toString().toLowerCase().includes(county.toLowerCase()); })
+      ? features.filter(function (f) {
+          var cnty = (f.CNTY_NAME || f.county || '').toString().toLowerCase();
+          return cnty.includes(county.toLowerCase());
+        })
       : features;
 
     var projects = filtered.length;
@@ -201,6 +251,27 @@
         ? ('Showing ' + projects + ' LIHTC project(s) with ' + fmt(liUnits) + ' affordable units' + (county ? ' in ' + county + ' County' : ' statewide') + '.')
         : 'No LIHTC records found for the selected area.';
     }
+
+    // Count LIHTC projects in Prop 123 jurisdictions (update if prop123 data is loaded)
+    renderProp123LihtcCount(filtered);
+  }
+
+  /* ── Prop 123 LIHTC count ──────────────────────────────────────── */
+  function isProp123Jurisdiction(cityName) {
+    if (!currentData.prop123 || !cityName) return false;
+    var city = cityName.toString().toLowerCase().trim();
+    return currentData.prop123.some(function (j) {
+      // Match city name within jurisdiction name (e.g. "Denver" in "City and County of Denver")
+      return (j.name || '').toLowerCase().includes(city);
+    });
+  }
+
+  function renderProp123LihtcCount(filteredFeatures) {
+    if (!currentData.prop123) return;
+    var count = filteredFeatures.filter(function (f) {
+      return isProp123Jurisdiction(f.PROJ_CTY || f.city || '');
+    }).length;
+    setText('kpiLihtcProp123', fmt(count));
   }
 
   /* ── Load Prop 123 ─────────────────────────────────────────────── */
@@ -209,6 +280,17 @@
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
       currentData.prop123 = list;
       renderPolicyKpis(list, selectedCounty);
+      // Re-render LIHTC count now that prop123 is available
+      if (currentData.lihtc) {
+        var county = selectedCounty;
+        var filtered = county
+          ? currentData.lihtc.filter(function (f) {
+              var cnty = (f.CNTY_NAME || f.county || '').toString().toLowerCase();
+              return cnty.includes(county.toLowerCase());
+            })
+          : currentData.lihtc;
+        renderProp123LihtcCount(filtered);
+      }
     });
   }
 
@@ -378,7 +460,7 @@
     if (supplyChartInst) { supplyChartInst.destroy(); }
 
     var fred = currentData.fred;
-    var obs = fred && (fred.COBPPRIV5F || fred.COBPPRIV);
+    var obs = fred && (fred.PERMIT5 || fred.PERMIT || fred.COBPPRIV5F || fred.COBPPRIV);
     var observations = obs && Array.isArray(obs.observations) ? obs.observations.slice(-24) : [];
     var labels = observations.map(function (o) { return o.date ? o.date.slice(0, 7) : ''; });
     var values = observations.map(function (o) { return Number(o.value) || 0; });
