@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "US Census TIGERweb ArcGIS REST (public)",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2025-01-01",
+    "note": "Populated by .github/workflows/generate-market-analysis-data.yml"
+  },
+  "features": []
+}

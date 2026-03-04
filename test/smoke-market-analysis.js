@@ -261,6 +261,94 @@ if (fileExists('css/site-theme.css')) {
   }
 }
 
+// ─── 11. generate-market-analysis-data workflow ───────────────────────────────
+console.log('\n── 11. generate-market-analysis-data workflow ──');
+
+if (fileExists('.github/workflows/generate-market-analysis-data.yml')) {
+  const yml = readFile('.github/workflows/generate-market-analysis-data.yml');
+  const ymlChecks = [
+    { pattern: /workflow_dispatch/,             label: 'Has workflow_dispatch trigger' },
+    { pattern: /schedule/,                      label: 'Has schedule trigger' },
+    { pattern: /build_public_market_data\.py/,  label: 'Runs build_public_market_data.py' },
+    { pattern: /co-county-boundaries\.json/,    label: 'Generates co-county-boundaries.json' },
+    { pattern: /git commit/,                    label: 'Commits artifacts back to repo' },
+  ];
+  pass('.github/workflows/generate-market-analysis-data.yml exists');
+  ymlChecks.forEach(function (c) {
+    if (c.pattern.test(yml)) pass(c.label);
+    else fail(c.label + ' — not found in generate-market-analysis-data.yml');
+  });
+} else {
+  fail('.github/workflows/generate-market-analysis-data.yml not found');
+}
+
+// ─── 12. Overlay data files ───────────────────────────────────────────────────
+console.log('\n── 12. Overlay data files ──');
+
+const OVERLAY_FILES = [
+  { path: 'data/co-county-boundaries.json', key: 'features', label: 'co-county-boundaries.json', warnIfEmpty: true },
+  { path: 'data/qct-colorado.json',         key: 'features', label: 'qct-colorado.json',         warnIfEmpty: false },
+  { path: 'data/dda-colorado.json',         key: 'features', label: 'dda-colorado.json',         warnIfEmpty: false },
+];
+OVERLAY_FILES.forEach(function (a) {
+  if (!fileExists(a.path)) {
+    fail(a.label + ' not found at ' + a.path);
+    return;
+  }
+  try {
+    const obj = parseJSON(a.path);
+    if (obj.type !== 'FeatureCollection') {
+      fail(a.label + ': not a GeoJSON FeatureCollection');
+    } else if (!Array.isArray(obj.features)) {
+      fail(a.label + ': "features" is not an array');
+    } else if (obj.features.length === 0 && a.warnIfEmpty) {
+      warn(a.label + ': features array is empty (will be populated by workflow)');
+    } else {
+      pass(a.label + ' exists, valid GeoJSON' + (obj.features.length > 0 ? ', ' + obj.features.length + ' features' : ' (empty stub)'));
+    }
+  } catch (e) {
+    fail(a.label + ': invalid JSON — ' + e.message);
+  }
+});
+
+// ─── 13. Map overlay JS functions ────────────────────────────────────────────
+console.log('\n── 13. Map overlay JS functions ──');
+
+if (fileExists('js/market-analysis.js')) {
+  const src = readFile('js/market-analysis.js');
+  const overlayChecks = [
+    { pattern: /initOverlayLayers/,     label: 'initOverlayLayers function present' },
+    { pattern: /loadOverlays/,           label: 'loadOverlays function present' },
+    { pattern: /OVERLAY_STYLES/,         label: 'OVERLAY_STYLES constants defined' },
+    { pattern: /L\.control\.layers/,     label: 'Leaflet layer control used' },
+    { pattern: /pma-legend/,             label: 'Map legend class defined' },
+    { pattern: /qct-colorado/,           label: 'Loads QCT overlay data' },
+    { pattern: /dda-colorado/,           label: 'Loads DDA overlay data' },
+    { pattern: /co-county-boundaries/,   label: 'Loads county boundary data' },
+  ];
+  overlayChecks.forEach(function (c) {
+    if (c.pattern.test(src)) pass(c.label);
+    else fail(c.label + ' — not found in js/market-analysis.js');
+  });
+}
+
+// ─── 14. Legend CSS ───────────────────────────────────────────────────────────
+console.log('\n── 14. Legend CSS ──');
+
+if (fileExists('css/pages/market-analysis.css')) {
+  const css = readFile('css/pages/market-analysis.css');
+  if (/pma-legend/.test(css)) {
+    pass('css/pages/market-analysis.css has .pma-legend styles');
+  } else {
+    fail('css/pages/market-analysis.css missing .pma-legend styles');
+  }
+  if (/pma-legend-swatch/.test(css)) {
+    pass('css/pages/market-analysis.css has .pma-legend-swatch styles');
+  } else {
+    fail('css/pages/market-analysis.css missing .pma-legend-swatch styles');
+  }
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 console.log('\n── Summary ──');
 console.log('Passed:   ' + passed);
