@@ -118,7 +118,7 @@
 </div>
 <div class="census-grid" id="census-construction"></div>
 </section>
-<!-- Collapsible sections (Nixvir-like: metric cards with inline charts) -->
+<!-- Collapsible sections (metric cards with inline charts) -->
 <details class="card" open="">
 <summary>
         Construction Costs
@@ -196,7 +196,7 @@
 (() => {
   const CONFIG_KEY = (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) ? window.APP_CONFIG.FRED_API_KEY : "";
 
-  // Keep your "desired indicators" (24) but render them nixvir-style.
+  // Keep your "desired indicators" (24) but render them as metric cards with inline charts.
   const INDICATORS = [
     // Construction (6)
     {section:"construction", id:"WPUFD49207", title:"PPI: Inputs to construction", units:"index", fmt:"index"},
