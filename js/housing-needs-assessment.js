@@ -940,9 +940,10 @@
 
   // Returns a human-readable label and badge color for a LIHTC data source identifier.
   function lihtcSourceInfo(source) {
-    if (source === 'CHFA') return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
-    if (source === 'HUD')  return { label: 'HUD LIHTC Database', color: '#6366f1' };
-    return { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
+    if (source === 'CHFA')  return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
+    if (source === 'local') return { label: 'Local CHFA data (chfa-lihtc.json)', color: '#16a34a' };
+    if (source === 'HUD')   return { label: 'HUD LIHTC Database', color: '#6366f1' };
+    return                         { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
   }
 
   // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)

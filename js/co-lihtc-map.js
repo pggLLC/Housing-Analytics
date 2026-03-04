@@ -437,9 +437,9 @@
     return fetchPage(0);
   }
 
-  // ── Fetch LIHTC data: local JSON → remote ArcGIS (404 or 0-features) → embedded fallback ──
+  // ── Fetch LIHTC data: CHFA ArcGIS → HUD ArcGIS → local JSON → embedded fallback ──
   function fetchData(map) {
-    // Canonical local file — always tried first. Written by scripts/fetch-chfa-lihtc.js via CI.
+    // Canonical local file — used as tier-3 fallback when both remote ArcGIS services fail.
     // resolveAssetUrl prepends the detected base path so the URL works on GitHub Pages sub-paths
     // (e.g. /Housing-Analytics/data/chfa-lihtc.json) as well as custom domains (/).
     var LOCAL_URL = (typeof window.resolveAssetUrl === 'function')
@@ -458,7 +458,36 @@
 
     function useEmbedded() {
       renderData(map, FALLBACK_LIHTC);
-      updateStatus('Source: embedded fallback (14 projects)');
+      updateStatus('Source: embedded fallback (' + FALLBACK_LIHTC.features.length + ' projects)');
+    }
+
+    // Tier-3 fallback: load the committed local JSON snapshot (data/chfa-lihtc.json).
+    // Called only when both CHFA and HUD ArcGIS services are unreachable.
+    function fetchLocalLihtc() {
+      updateStatus('Trying local LIHTC data…');
+      return fetchWithTimeout(LOCAL_URL, {}, 15000)
+        .then(function (res) {
+          if (!res.ok) {
+            var err = new Error('Local HTTP ' + res.status);
+            err.httpStatus = res.status;
+            throw err;
+          }
+          return res.json();
+        })
+        .then(function (localData) {
+          if (validateData(localData)) {
+            var n = localData.features.length;
+            renderData(map, localData);
+            updateStatus('Source: local backup (' + n + ' projects)');
+          } else {
+            console.warn('[co-lihtc-map] Local LIHTC file has no features; using embedded fallback.');
+            useEmbedded();
+          }
+        })
+        .catch(function (localErr) {
+          console.warn('[co-lihtc-map] Local LIHTC file unavailable; using embedded fallback.', localErr.message);
+          useEmbedded();
+        });
     }
 
     function useHUD() {
@@ -470,13 +499,13 @@
             renderData(map, hudData);
             updateStatus('Source: HUD ArcGIS (' + n + ' projects)');
           } else {
-            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
-            useEmbedded();
+            console.warn('[co-lihtc-map] HUD returned no features; trying local LIHTC file.');
+            return fetchLocalLihtc();
           }
         })
         .catch(function (hudErr) {
-          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
-          useEmbedded();
+          console.warn('[co-lihtc-map] HUD fetch also failed; trying local LIHTC file.', hudErr.message);
+          return fetchLocalLihtc();
         });
     }
 
@@ -538,40 +567,8 @@
         });
     }
 
-    // 1. Always try local data/chfa-lihtc.json first.
-    fetchWithTimeout(LOCAL_URL, {}, 15000)
-      .then(function (res) {
-        // Attach HTTP status so the catch handler can distinguish 404 from other errors.
-        if (!res.ok) {
-          var err = new Error('Local HTTP ' + res.status);
-          err.httpStatus = res.status;
-          throw err;
-        }
-        return res.json();
-      })
-      .then(function (localData) {
-        if (validateData(localData)) {
-          renderData(map, localData);
-          updateStatus('Source: local CHFA data (' + localData.features.length + ' projects)');
-        } else {
-          // File exists but contains no features — CI fetch failed or hasn't run yet.
-          // Fall back to remote APIs so the map still shows real data.
-          console.warn('[co-lihtc-map] data/chfa-lihtc.json has no features; trying CHFA ArcGIS.');
-          updateStatus('Local LIHTC file empty — fetching from CHFA ArcGIS…');
-          return useCHFA();
-        }
-      })
-      .catch(function (localErr) {
-        if (localErr.httpStatus === 404) {
-          // File not deployed yet — try remote ArcGIS APIs as fallback.
-          console.warn('[co-lihtc-map] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
-          return useCHFA();
-        }
-        // Any other error (network, parse, etc.) — try remote APIs before giving up.
-        console.warn('[co-lihtc-map] Could not load data/chfa-lihtc.json:', localErr.message, '— trying CHFA ArcGIS.');
-        updateStatus('Local LIHTC unavailable — fetching from CHFA ArcGIS…');
-        return useCHFA();
-      });
+    // 1. Try CHFA ArcGIS first (most current data), then HUD, then local file, then embedded.
+    return useCHFA();
   }
 
   // ── Map initialization ───────────────────────────────────────────────────────
