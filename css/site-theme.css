@@ -20,7 +20,7 @@
   --text:         #0d1f35;
   --text-strong:  #060f1d;
   --muted:        #476080;
-  --faint:        #7a96b0;
+  --faint:        #53708c;
   --border:       rgba(13,31,53,.11);
   --border-strong:rgba(13,31,53,.20);
   --link:         #005a9c;
@@ -569,7 +569,7 @@ html.light-mode {
   --text:          #0d1f35;
   --text-strong:   #060f1d;
   --muted:         #476080;
-  --faint:         #7a96b0;
+  --faint:         #53708c;
   --border:        rgba(13,31,53,.11);
   --border-strong: rgba(13,31,53,.20);
   --link:          #005a9c;
