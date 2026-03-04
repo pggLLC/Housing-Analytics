@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Disallow: /data/
+Disallow: /scripts/
+Disallow: /serverless/
+Disallow: /cloudflare-worker/
+Disallow: /test/
+Disallow: /tools/
+
+Sitemap: https://housinganalytics.pgg.llc/sitemap.xml
