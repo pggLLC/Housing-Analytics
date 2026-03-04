@@ -1,0 +1,137 @@
+name: Site-Wide WCAG Contrast Audit
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'   # Every Sunday at 2 AM UTC
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  contrast-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Discover HTML pages
+        id: discover
+        run: |
+          pages=$(find . -maxdepth 1 -name "*.html" -not -path "./.git/*" | sort | sed 's|^\./||')
+          echo "Found HTML pages:"
+          echo "$pages"
+          # Store as newline-delimited list in an env file
+          echo "PAGES<<EOF" >> "$GITHUB_ENV"
+          echo "$pages" >> "$GITHUB_ENV"
+          echo "EOF" >> "$GITHUB_ENV"
+          count=$(echo "$pages" | grep -c '\.html' || true)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
+      - name: Start local HTTP server
+        run: npx http-server . -p 8080 --silent &
+        env:
+          CONTRAST_BASE_URL: http://localhost:8080
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:8080 --timeout 15000
+
+      - name: Run contrast audit on each page
+        id: audit
+        run: |
+          mkdir -p contrast-reports
+          summary_file="contrast-reports/summary.md"
+          total=0
+          passed=0
+          failed=0
+
+          echo "# WCAG Contrast Audit Report" > "$summary_file"
+          echo "" >> "$summary_file"
+          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "| Page | Status | Issues |" >> "$summary_file"
+          echo "|------|--------|--------|" >> "$summary_file"
+
+          while IFS= read -r page; do
+            [ -z "$page" ] && continue
+            total=$((total + 1))
+            page_name="${page%.html}"
+            report_file="contrast-reports/${page_name//\//-}.json"
+
+            echo "Auditing: $page"
+            url="http://localhost:8080/$page"
+
+            # Run the contrast audit for this page, capture exit code
+            if CONTRAST_BASE_URL="http://localhost:8080" CONTRAST_PAGE="$page" \
+               node scripts/contrast-audit.js "$url" > "$report_file" 2>&1; then
+              status="✅ Pass"
+              passed=$((passed + 1))
+              issues=0
+            else
+              status="❌ Fail"
+              failed=$((failed + 1))
+              issues=$(jq '[.. | objects | select(has("violations")) | .violations | length] | add // 0' "$report_file" 2>/dev/null || grep -c '"contrast"' "$report_file" 2>/dev/null || echo "?")
+            fi
+
+            echo "| \`$page\` | $status | $issues |" >> "$summary_file"
+          done <<< "$PAGES"
+
+          echo "" >> "$summary_file"
+          echo "## Summary" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "- **Total pages audited:** $total" >> "$summary_file"
+          echo "- **Passed:** $passed" >> "$summary_file"
+          echo "- **Failed:** $failed" >> "$summary_file"
+
+          cat "$summary_file"
+
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "passed=$passed" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+
+      - name: Upload contrast audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contrast-audit-reports
+          path: contrast-reports/
+          retention-days: 30
+
+      - name: Comment on pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summaryPath = 'contrast-reports/summary.md';
+            let body = '## 🎨 WCAG Contrast Audit Results\n\n';
+            if (fs.existsSync(summaryPath)) {
+              body += fs.readFileSync(summaryPath, 'utf8');
+            } else {
+              body += '_No summary report generated._';
+            }
+            body += '\n\n_Audit run on commit ' + context.sha.slice(0, 7) + '_';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
