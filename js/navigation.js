@@ -137,6 +137,7 @@
           <a href="${normalizeHref('about.html')}">Methodology</a>
           <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
           <a href="${normalizeHref('LIHTC-dashboard.html')}">Allocations</a>
+          <a href="${normalizeHref('privacy-policy.html')}">Privacy Policy</a>
         </div>
       </div>
     `;
