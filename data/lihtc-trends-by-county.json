@@ -1,0 +1,1985 @@
+{
+  "metadata": {
+    "source": "HUD LIHTC Database via CHFA ArcGIS FeatureServer",
+    "lastUpdated": "2026-03-04",
+    "yearRange": [
+      2015,
+      2025
+    ],
+    "notes": "County derived from city lookup where CNTY_NAME is absent."
+  },
+  "trends": {
+    "Adams": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 2,
+        "totalUnits": 227,
+        "liUnits": 227
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 72,
+        "liUnits": 72
+      },
+      {
+        "year": 2018,
+        "projects": 6,
+        "totalUnits": 669,
+        "liUnits": 669
+      },
+      {
+        "year": 2019,
+        "projects": 3,
+        "totalUnits": 302,
+        "liUnits": 302
+      },
+      {
+        "year": 2020,
+        "projects": 3,
+        "totalUnits": 640,
+        "liUnits": 640
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Alamosa": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Arapahoe": [
+      {
+        "year": 2015,
+        "projects": 1,
+        "totalUnits": 65,
+        "liUnits": 65
+      },
+      {
+        "year": 2016,
+        "projects": 2,
+        "totalUnits": 384,
+        "liUnits": 382
+      },
+      {
+        "year": 2017,
+        "projects": 3,
+        "totalUnits": 358,
+        "liUnits": 358
+      },
+      {
+        "year": 2018,
+        "projects": 1,
+        "totalUnits": 74,
+        "liUnits": 74
+      },
+      {
+        "year": 2019,
+        "projects": 6,
+        "totalUnits": 402,
+        "liUnits": 388
+      },
+      {
+        "year": 2020,
+        "projects": 5,
+        "totalUnits": 383,
+        "liUnits": 381
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Boulder": [
+      {
+        "year": 2015,
+        "projects": 1,
+        "totalUnits": 69,
+        "liUnits": 69
+      },
+      {
+        "year": 2016,
+        "projects": 3,
+        "totalUnits": 387,
+        "liUnits": 387
+      },
+      {
+        "year": 2017,
+        "projects": 4,
+        "totalUnits": 662,
+        "liUnits": 662
+      },
+      {
+        "year": 2018,
+        "projects": 4,
+        "totalUnits": 454,
+        "liUnits": 454
+      },
+      {
+        "year": 2019,
+        "projects": 2,
+        "totalUnits": 100,
+        "liUnits": 100
+      },
+      {
+        "year": 2020,
+        "projects": 7,
+        "totalUnits": 379,
+        "liUnits": 379
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Broomfield": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Chaffee": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 1,
+        "totalUnits": 48,
+        "liUnits": 48
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 36,
+        "liUnits": 35
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Clear Creek": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 47,
+        "liUnits": 47
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Conejos": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 2,
+        "totalUnits": 40,
+        "liUnits": 40
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Denver": [
+      {
+        "year": 2015,
+        "projects": 2,
+        "totalUnits": 171,
+        "liUnits": 36
+      },
+      {
+        "year": 2016,
+        "projects": 7,
+        "totalUnits": 681,
+        "liUnits": 651
+      },
+      {
+        "year": 2017,
+        "projects": 14,
+        "totalUnits": 1033,
+        "liUnits": 1005
+      },
+      {
+        "year": 2018,
+        "projects": 9,
+        "totalUnits": 854,
+        "liUnits": 851
+      },
+      {
+        "year": 2019,
+        "projects": 9,
+        "totalUnits": 1139,
+        "liUnits": 1137
+      },
+      {
+        "year": 2020,
+        "projects": 6,
+        "totalUnits": 395,
+        "liUnits": 393
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Douglas": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 264,
+        "liUnits": 264
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Eagle": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 1,
+        "totalUnits": 56,
+        "liUnits": 44
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 150,
+        "liUnits": 150
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "El Paso": [
+      {
+        "year": 2015,
+        "projects": 2,
+        "totalUnits": 260,
+        "liUnits": 236
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 77,
+        "liUnits": 76
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 200,
+        "liUnits": 200
+      },
+      {
+        "year": 2018,
+        "projects": 2,
+        "totalUnits": 420,
+        "liUnits": 415
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 65,
+        "liUnits": 65
+      },
+      {
+        "year": 2020,
+        "projects": 2,
+        "totalUnits": 110,
+        "liUnits": 110
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Fremont": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 1,
+        "totalUnits": 30,
+        "liUnits": 30
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Garfield": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 76,
+        "liUnits": 76
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 49
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Gunnison": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 30,
+        "liUnits": 30
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Jefferson": [
+      {
+        "year": 2015,
+        "projects": 3,
+        "totalUnits": 462,
+        "liUnits": 424
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 60,
+        "liUnits": 60
+      },
+      {
+        "year": 2018,
+        "projects": 3,
+        "totalUnits": 348,
+        "liUnits": 346
+      },
+      {
+        "year": 2019,
+        "projects": 2,
+        "totalUnits": 193,
+        "liUnits": 191
+      },
+      {
+        "year": 2020,
+        "projects": 3,
+        "totalUnits": 213,
+        "liUnits": 211
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "La Plata": [
+      {
+        "year": 2015,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 36,
+        "liUnits": 36
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 53,
+        "liUnits": 53
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Larimer": [
+      {
+        "year": 2015,
+        "projects": 3,
+        "totalUnits": 185,
+        "liUnits": 188
+      },
+      {
+        "year": 2016,
+        "projects": 3,
+        "totalUnits": 342,
+        "liUnits": 340
+      },
+      {
+        "year": 2017,
+        "projects": 2,
+        "totalUnits": 202,
+        "liUnits": 199
+      },
+      {
+        "year": 2018,
+        "projects": 3,
+        "totalUnits": 253,
+        "liUnits": 252
+      },
+      {
+        "year": 2019,
+        "projects": 2,
+        "totalUnits": 184,
+        "liUnits": 183
+      },
+      {
+        "year": 2020,
+        "projects": 2,
+        "totalUnits": 240,
+        "liUnits": 240
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Mesa": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 40,
+        "liUnits": 40
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 64,
+        "liUnits": 64
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 72,
+        "liUnits": 72
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 34,
+        "liUnits": 34
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Montezuma": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Montrose": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Morgan": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 50,
+        "liUnits": 50
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Pitkin": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 40,
+        "liUnits": 40
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Pueblo": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 62,
+        "liUnits": 62
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 2,
+        "totalUnits": 99,
+        "liUnits": 99
+      },
+      {
+        "year": 2019,
+        "projects": 1,
+        "totalUnits": 72,
+        "liUnits": 72
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 154,
+        "liUnits": 153
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Rio Grande": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 48,
+        "liUnits": 34
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Routt": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 1,
+        "totalUnits": 48,
+        "liUnits": 48
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 72,
+        "liUnits": 48
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Saguache": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 3,
+        "totalUnits": 60,
+        "liUnits": 60
+      },
+      {
+        "year": 2020,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Summit": [
+      {
+        "year": 2015,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2016,
+        "projects": 1,
+        "totalUnits": 45,
+        "liUnits": 45
+      },
+      {
+        "year": 2017,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2018,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 40,
+        "liUnits": 40
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ],
+    "Weld": [
+      {
+        "year": 2015,
+        "projects": 1,
+        "totalUnits": 60,
+        "liUnits": 59
+      },
+      {
+        "year": 2016,
+        "projects": 2,
+        "totalUnits": 86,
+        "liUnits": 86
+      },
+      {
+        "year": 2017,
+        "projects": 2,
+        "totalUnits": 147,
+        "liUnits": 147
+      },
+      {
+        "year": 2018,
+        "projects": 1,
+        "totalUnits": 96,
+        "liUnits": 95
+      },
+      {
+        "year": 2019,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2020,
+        "projects": 1,
+        "totalUnits": 68,
+        "liUnits": 68
+      },
+      {
+        "year": 2021,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2022,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2023,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2024,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      },
+      {
+        "year": 2025,
+        "projects": 0,
+        "totalUnits": 0,
+        "liUnits": 0
+      }
+    ]
+  }
+}

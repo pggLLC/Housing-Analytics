@@ -1,0 +1,137 @@
+name: Fetch County Data
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # weekly Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-county-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Fetch Census ACS county demographics
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: node scripts/fetch-county-demographics.js
+
+      - name: Rebuild LIHTC trends by county
+        run: |
+          python3 - <<'PY'
+          import json, datetime
+          from collections import defaultdict
+
+          CO_CITY_TO_COUNTY = {
+            'ALAMOSA': 'Alamosa', 'ALMA': 'Park', 'ANTONITO': 'Conejos',
+            'ARVADA': 'Jefferson', 'ASPEN': 'Pitkin', 'AURORA': 'Arapahoe',
+            'AVON': 'Eagle', 'BASALT': 'Eagle', 'BAYFIELD': 'La Plata',
+            'BOULDER': 'Boulder', 'BRECKENRIDGE': 'Summit', 'BRIGHTON': 'Adams',
+            'BROOMFIELD': 'Broomfield', 'BRUSH': 'Morgan', 'BUENA VISTA': 'Chaffee',
+            'BURLINGTON': 'Kit Carson', 'CANON CITY': 'Fremont',
+            'CARBONDALE': 'Garfield', 'CASTLE ROCK': 'Douglas', 'CENTER': 'Saguache',
+            'CENTRAL CITY': 'Gilpin', 'CLIFTON': 'Mesa',
+            'COLORADO SPRINGS': 'El Paso', 'COMMERCE CITY': 'Adams',
+            'CORTEZ': 'Montezuma', 'CRESTED BUTTE': 'Gunnison', 'DACONO': 'Weld',
+            'DEL NORTE': 'Rio Grande', 'DELTA': 'Delta', 'DENVER': 'Denver',
+            'DIVIDE': 'Teller', 'DURANGO': 'La Plata', 'EAGLE': 'Eagle',
+            'ENGLEWOOD': 'Arapahoe', 'ESTES PARK': 'Larimer', 'EVANS': 'Weld',
+            'EVERGREEN': 'Jefferson', 'FLORENCE': 'Fremont',
+            'FORT COLLINS': 'Larimer', 'FORT LUPTON': 'Weld',
+            'FORT MORGAN': 'Morgan', 'FOUNTAIN': 'El Paso', 'FRASER': 'Grand',
+            'FRUITA': 'Mesa', 'GLENDALE': 'Arapahoe',
+            'GLENWOOD SPRINGS': 'Garfield', 'GOLDEN': 'Jefferson',
+            'GRAND JUNCTION': 'Mesa', 'GREELEY': 'Weld',
+            'GREENWOOD VILLAGE': 'Arapahoe', 'GYPSUM': 'Eagle',
+            'HIGHLANDS RANCH': 'Douglas', 'IDAHO SPRINGS': 'Clear Creek',
+            'KEYSTONE': 'Summit', 'LA JUNTA': 'Otero', 'LAFAYETTE': 'Boulder',
+            'LAKEWOOD': 'Jefferson', 'LAMAR': 'Prowers', 'LAS ANIMAS': 'Bent',
+            'LEADVILLE': 'Lake', 'LITTLETON': 'Arapahoe', 'LONGMONT': 'Boulder',
+            'LOUISVILLE': 'Boulder', 'LOVELAND': 'Larimer', 'MANCOS': 'Montezuma',
+            'MILLIKEN': 'Weld', 'MONTE VISTA': 'Rio Grande', 'MONTROSE': 'Montrose',
+            'NEDERLAND': 'Boulder', 'NEW CASTLE': 'Garfield',
+            'NORTHGLENN': 'Adams', 'NORWOOD': 'San Miguel', 'NUCLA': 'Montrose',
+            'PAONIA': 'Delta', 'PARKER': 'Douglas', 'PONCHA SPRINGS': 'Chaffee',
+            'PUEBLO': 'Pueblo', 'PUEBLO WEST': 'Pueblo', 'RIFLE': 'Garfield',
+            'SALIDA': 'Chaffee', 'SHERIDAN': 'Arapahoe', 'SILVER CLIFF': 'Custer',
+            'SILVERTHORNE': 'Summit', 'SOUTH FORK': 'Rio Grande',
+            'STEAMBOAT SPRINGS': 'Routt', 'STERLING': 'Logan',
+            'TELLURIDE': 'San Miguel', 'THORNTON': 'Adams', 'VAIL': 'Eagle',
+            'WALSENBURG': 'Huerfano', 'WESTMINSTER': 'Adams',
+            'WHEAT RIDGE': 'Jefferson', 'WINDSOR': 'Weld', 'YUMA': 'Yuma',
+          }
+
+          YEARS = list(range(2015, 2026))
+
+          with open('data/chfa-lihtc.json') as f:
+            d = json.load(f)
+          features = d.get('features', [])
+
+          trends = defaultdict(lambda: defaultdict(lambda: {'projects': 0, 'totalUnits': 0, 'liUnits': 0}))
+          for f in features:
+            p = f.get('properties', {})
+            county = p.get('CNTY_NAME')
+            if not county:
+              city = (p.get('PROJ_CTY') or '').upper().strip()
+              county = CO_CITY_TO_COUNTY.get(city)
+            if not county:
+              continue
+            yr_pis = p.get('YR_PIS')
+            try:
+              yr = int(yr_pis)
+            except (TypeError, ValueError):
+              continue
+            if yr not in YEARS:
+              continue
+            trends[county][yr]['projects'] += 1
+            trends[county][yr]['totalUnits'] += int(p.get('N_UNITS') or 0)
+            trends[county][yr]['liUnits'] += int(p.get('LI_UNITS') or 0)
+
+          output_trends = {}
+          for county, year_map in sorted(trends.items()):
+            series = []
+            for yr in YEARS:
+              data = year_map.get(yr, {'projects': 0, 'totalUnits': 0, 'liUnits': 0})
+              series.append({'year': yr, 'projects': data['projects'], 'totalUnits': data['totalUnits'], 'liUnits': data['liUnits']})
+            output_trends[county] = series
+
+          result = {
+            'metadata': {
+              'source': 'HUD LIHTC Database via CHFA ArcGIS FeatureServer',
+              'lastUpdated': datetime.date.today().isoformat(),
+              'yearRange': [2015, 2025],
+              'notes': 'County derived from city lookup where CNTY_NAME is absent.',
+            },
+            'trends': output_trends,
+          }
+
+          with open('data/lihtc-trends-by-county.json', 'w') as f:
+            json.dump(result, f, indent=2)
+
+          print(f'Wrote data/lihtc-trends-by-county.json with {len(output_trends)} counties')
+          PY
+
+      - name: Commit and push updated county data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/co-county-demographics.json data/lihtc-trends-by-county.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update county data ($(date -u +%Y-%m-%d))"
+            git pull --rebase --autostash origin main
+            git push
+          fi

@@ -1,0 +1,649 @@
+{
+  "metadata": {
+    "source": "FRED, BLS, Census Bureau, Zillow",
+    "lastUpdated": "2026-03-04",
+    "notes": "Fallback data for offline mode. Refresh via scripts/fetch-county-demographics.js or the fetch-county-data CI workflow. Unemployment from BLS LAUS; job growth from BLS QCEW; wage growth from BLS OES; migration and population from Census Bureau population estimates; affordability index derived from Zillow ZHVI + Census median income."
+  },
+  "counties": {
+    "Adams": {
+      "unemployment_rate": 4.1,
+      "job_growth_5yr_pct": 10.2,
+      "wage_growth_5yr_pct": 16.8,
+      "net_migration_yr": 3200,
+      "population_growth_5yr_pct": 3.1,
+      "affordability_index": 5.1,
+      "median_home_price": 430000,
+      "median_household_income": 84000
+    },
+    "Alamosa": {
+      "unemployment_rate": 5.8,
+      "job_growth_5yr_pct": 2.1,
+      "wage_growth_5yr_pct": 10.4,
+      "net_migration_yr": -120,
+      "population_growth_5yr_pct": 0.4,
+      "affordability_index": 3.8,
+      "median_home_price": 228000,
+      "median_household_income": 60000
+    },
+    "Arapahoe": {
+      "unemployment_rate": 3.6,
+      "job_growth_5yr_pct": 8.5,
+      "wage_growth_5yr_pct": 15.2,
+      "net_migration_yr": 1800,
+      "population_growth_5yr_pct": 1.9,
+      "affordability_index": 5.6,
+      "median_home_price": 495000,
+      "median_household_income": 88000
+    },
+    "Archuleta": {
+      "unemployment_rate": 5.2,
+      "job_growth_5yr_pct": 4.3,
+      "wage_growth_5yr_pct": 12.1,
+      "net_migration_yr": 280,
+      "population_growth_5yr_pct": 1.8,
+      "affordability_index": 6.2,
+      "median_home_price": 372000,
+      "median_household_income": 60000
+    },
+    "Baca": {
+      "unemployment_rate": 6.1,
+      "job_growth_5yr_pct": -1.5,
+      "wage_growth_5yr_pct": 7.2,
+      "net_migration_yr": -80,
+      "population_growth_5yr_pct": -0.8,
+      "affordability_index": 2.3,
+      "median_home_price": 115000,
+      "median_household_income": 50000
+    },
+    "Bent": {
+      "unemployment_rate": 5.9,
+      "job_growth_5yr_pct": -0.8,
+      "wage_growth_5yr_pct": 8.5,
+      "net_migration_yr": -90,
+      "population_growth_5yr_pct": -0.6,
+      "affordability_index": 2.1,
+      "median_home_price": 105000,
+      "median_household_income": 50000
+    },
+    "Boulder": {
+      "unemployment_rate": 2.9,
+      "job_growth_5yr_pct": 9.7,
+      "wage_growth_5yr_pct": 20.1,
+      "net_migration_yr": 1400,
+      "population_growth_5yr_pct": 1.3,
+      "affordability_index": 8.1,
+      "median_home_price": 812000,
+      "median_household_income": 100000
+    },
+    "Broomfield": {
+      "unemployment_rate": 3.1,
+      "job_growth_5yr_pct": 11.3,
+      "wage_growth_5yr_pct": 18.6,
+      "net_migration_yr": 620,
+      "population_growth_5yr_pct": 2.4,
+      "affordability_index": 6.0,
+      "median_home_price": 570000,
+      "median_household_income": 95000
+    },
+    "Chaffee": {
+      "unemployment_rate": 4.0,
+      "job_growth_5yr_pct": 6.8,
+      "wage_growth_5yr_pct": 14.0,
+      "net_migration_yr": 480,
+      "population_growth_5yr_pct": 2.1,
+      "affordability_index": 6.9,
+      "median_home_price": 414000,
+      "median_household_income": 60000
+    },
+    "Cheyenne": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 0.5,
+      "wage_growth_5yr_pct": 9.1,
+      "net_migration_yr": -30,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.0,
+      "median_home_price": 100000,
+      "median_household_income": 50000
+    },
+    "Clear Creek": {
+      "unemployment_rate": 3.7,
+      "job_growth_5yr_pct": 5.2,
+      "wage_growth_5yr_pct": 13.5,
+      "net_migration_yr": 120,
+      "population_growth_5yr_pct": 1.0,
+      "affordability_index": 7.1,
+      "median_home_price": 497000,
+      "median_household_income": 70000
+    },
+    "Conejos": {
+      "unemployment_rate": 7.2,
+      "job_growth_5yr_pct": -0.5,
+      "wage_growth_5yr_pct": 8.0,
+      "net_migration_yr": -100,
+      "population_growth_5yr_pct": -0.5,
+      "affordability_index": 2.8,
+      "median_home_price": 140000,
+      "median_household_income": 50000
+    },
+    "Costilla": {
+      "unemployment_rate": 7.8,
+      "job_growth_5yr_pct": -1.2,
+      "wage_growth_5yr_pct": 7.5,
+      "net_migration_yr": -60,
+      "population_growth_5yr_pct": -0.4,
+      "affordability_index": 2.5,
+      "median_home_price": 125000,
+      "median_household_income": 50000
+    },
+    "Crowley": {
+      "unemployment_rate": 6.5,
+      "job_growth_5yr_pct": -0.3,
+      "wage_growth_5yr_pct": 7.8,
+      "net_migration_yr": -50,
+      "population_growth_5yr_pct": -0.3,
+      "affordability_index": 2.0,
+      "median_home_price": 100000,
+      "median_household_income": 50000
+    },
+    "Custer": {
+      "unemployment_rate": 4.5,
+      "job_growth_5yr_pct": 3.1,
+      "wage_growth_5yr_pct": 10.8,
+      "net_migration_yr": 90,
+      "population_growth_5yr_pct": 1.2,
+      "affordability_index": 4.5,
+      "median_home_price": 270000,
+      "median_household_income": 60000
+    },
+    "Delta": {
+      "unemployment_rate": 5.1,
+      "job_growth_5yr_pct": 2.8,
+      "wage_growth_5yr_pct": 11.2,
+      "net_migration_yr": 350,
+      "population_growth_5yr_pct": 1.4,
+      "affordability_index": 4.2,
+      "median_home_price": 252000,
+      "median_household_income": 60000
+    },
+    "Denver": {
+      "unemployment_rate": 3.2,
+      "job_growth_5yr_pct": 12.5,
+      "wage_growth_5yr_pct": 18.3,
+      "net_migration_yr": 8500,
+      "population_growth_5yr_pct": 4.2,
+      "affordability_index": 5.8,
+      "median_home_price": 575000,
+      "median_household_income": 98000
+    },
+    "Dolores": {
+      "unemployment_rate": 5.6,
+      "job_growth_5yr_pct": 0.8,
+      "wage_growth_5yr_pct": 9.5,
+      "net_migration_yr": 20,
+      "population_growth_5yr_pct": 0.3,
+      "affordability_index": 3.5,
+      "median_home_price": 210000,
+      "median_household_income": 60000
+    },
+    "Douglas": {
+      "unemployment_rate": 2.8,
+      "job_growth_5yr_pct": 14.2,
+      "wage_growth_5yr_pct": 19.5,
+      "net_migration_yr": 4500,
+      "population_growth_5yr_pct": 5.1,
+      "affordability_index": 6.5,
+      "median_home_price": 650000,
+      "median_household_income": 100000
+    },
+    "Eagle": {
+      "unemployment_rate": 2.6,
+      "job_growth_5yr_pct": 8.9,
+      "wage_growth_5yr_pct": 17.4,
+      "net_migration_yr": 600,
+      "population_growth_5yr_pct": 2.0,
+      "affordability_index": 10.8,
+      "median_home_price": 1080000,
+      "median_household_income": 100000
+    },
+    "El Paso": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 9.8,
+      "wage_growth_5yr_pct": 15.6,
+      "net_migration_yr": 5200,
+      "population_growth_5yr_pct": 3.0,
+      "affordability_index": 4.8,
+      "median_home_price": 430000,
+      "median_household_income": 90000
+    },
+    "Elbert": {
+      "unemployment_rate": 3.0,
+      "job_growth_5yr_pct": 6.5,
+      "wage_growth_5yr_pct": 14.2,
+      "net_migration_yr": 900,
+      "population_growth_5yr_pct": 3.5,
+      "affordability_index": 5.5,
+      "median_home_price": 495000,
+      "median_household_income": 90000
+    },
+    "Fremont": {
+      "unemployment_rate": 5.5,
+      "job_growth_5yr_pct": 3.2,
+      "wage_growth_5yr_pct": 11.0,
+      "net_migration_yr": 150,
+      "population_growth_5yr_pct": 0.6,
+      "affordability_index": 3.5,
+      "median_home_price": 245000,
+      "median_household_income": 70000
+    },
+    "Garfield": {
+      "unemployment_rate": 3.9,
+      "job_growth_5yr_pct": 5.8,
+      "wage_growth_5yr_pct": 14.5,
+      "net_migration_yr": 600,
+      "population_growth_5yr_pct": 2.2,
+      "affordability_index": 7.4,
+      "median_home_price": 519000,
+      "median_household_income": 70000
+    },
+    "Gilpin": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 4.1,
+      "wage_growth_5yr_pct": 12.8,
+      "net_migration_yr": 80,
+      "population_growth_5yr_pct": 1.1,
+      "affordability_index": 5.9,
+      "median_home_price": 413000,
+      "median_household_income": 70000
+    },
+    "Grand": {
+      "unemployment_rate": 3.5,
+      "job_growth_5yr_pct": 5.5,
+      "wage_growth_5yr_pct": 13.8,
+      "net_migration_yr": 320,
+      "population_growth_5yr_pct": 2.0,
+      "affordability_index": 8.2,
+      "median_home_price": 574000,
+      "median_household_income": 70000
+    },
+    "Gunnison": {
+      "unemployment_rate": 3.4,
+      "job_growth_5yr_pct": 5.0,
+      "wage_growth_5yr_pct": 13.2,
+      "net_migration_yr": 200,
+      "population_growth_5yr_pct": 1.6,
+      "affordability_index": 9.0,
+      "median_home_price": 630000,
+      "median_household_income": 70000
+    },
+    "Hinsdale": {
+      "unemployment_rate": 4.2,
+      "job_growth_5yr_pct": 1.5,
+      "wage_growth_5yr_pct": 10.0,
+      "net_migration_yr": 10,
+      "population_growth_5yr_pct": 0.5,
+      "affordability_index": 8.5,
+      "median_home_price": 510000,
+      "median_household_income": 60000
+    },
+    "Huerfano": {
+      "unemployment_rate": 6.8,
+      "job_growth_5yr_pct": 0.2,
+      "wage_growth_5yr_pct": 9.0,
+      "net_migration_yr": -50,
+      "population_growth_5yr_pct": 0.1,
+      "affordability_index": 3.2,
+      "median_home_price": 192000,
+      "median_household_income": 60000
+    },
+    "Jackson": {
+      "unemployment_rate": 5.0,
+      "job_growth_5yr_pct": 1.0,
+      "wage_growth_5yr_pct": 9.8,
+      "net_migration_yr": 10,
+      "population_growth_5yr_pct": 0.2,
+      "affordability_index": 4.5,
+      "median_home_price": 270000,
+      "median_household_income": 60000
+    },
+    "Jefferson": {
+      "unemployment_rate": 3.3,
+      "job_growth_5yr_pct": 9.1,
+      "wage_growth_5yr_pct": 16.9,
+      "net_migration_yr": 2100,
+      "population_growth_5yr_pct": 1.8,
+      "affordability_index": 6.4,
+      "median_home_price": 576000,
+      "median_household_income": 90000
+    },
+    "Kiowa": {
+      "unemployment_rate": 4.0,
+      "job_growth_5yr_pct": -0.5,
+      "wage_growth_5yr_pct": 8.0,
+      "net_migration_yr": -20,
+      "population_growth_5yr_pct": -0.4,
+      "affordability_index": 1.9,
+      "median_home_price": 95000,
+      "median_household_income": 50000
+    },
+    "Kit Carson": {
+      "unemployment_rate": 3.9,
+      "job_growth_5yr_pct": 0.8,
+      "wage_growth_5yr_pct": 9.5,
+      "net_migration_yr": -40,
+      "population_growth_5yr_pct": -0.3,
+      "affordability_index": 2.2,
+      "median_home_price": 132000,
+      "median_household_income": 60000
+    },
+    "La Plata": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 6.2,
+      "wage_growth_5yr_pct": 14.8,
+      "net_migration_yr": 750,
+      "population_growth_5yr_pct": 2.5,
+      "affordability_index": 7.1,
+      "median_home_price": 497000,
+      "median_household_income": 70000
+    },
+    "Lake": {
+      "unemployment_rate": 4.8,
+      "job_growth_5yr_pct": 3.5,
+      "wage_growth_5yr_pct": 11.5,
+      "net_migration_yr": 80,
+      "population_growth_5yr_pct": 0.9,
+      "affordability_index": 5.8,
+      "median_home_price": 348000,
+      "median_household_income": 60000
+    },
+    "Larimer": {
+      "unemployment_rate": 3.1,
+      "job_growth_5yr_pct": 10.8,
+      "wage_growth_5yr_pct": 17.2,
+      "net_migration_yr": 3800,
+      "population_growth_5yr_pct": 3.2,
+      "affordability_index": 6.2,
+      "median_home_price": 558000,
+      "median_household_income": 90000
+    },
+    "Las Animas": {
+      "unemployment_rate": 6.4,
+      "job_growth_5yr_pct": 0.5,
+      "wage_growth_5yr_pct": 9.0,
+      "net_migration_yr": -100,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.8,
+      "median_home_price": 168000,
+      "median_household_income": 60000
+    },
+    "Lincoln": {
+      "unemployment_rate": 4.5,
+      "job_growth_5yr_pct": 0.3,
+      "wage_growth_5yr_pct": 9.2,
+      "net_migration_yr": -30,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.5,
+      "median_home_price": 150000,
+      "median_household_income": 60000
+    },
+    "Logan": {
+      "unemployment_rate": 4.2,
+      "job_growth_5yr_pct": 1.5,
+      "wage_growth_5yr_pct": 10.5,
+      "net_migration_yr": -80,
+      "population_growth_5yr_pct": -0.1,
+      "affordability_index": 2.6,
+      "median_home_price": 182000,
+      "median_household_income": 70000
+    },
+    "Mesa": {
+      "unemployment_rate": 4.5,
+      "job_growth_5yr_pct": 4.8,
+      "wage_growth_5yr_pct": 12.3,
+      "net_migration_yr": 1200,
+      "population_growth_5yr_pct": 1.9,
+      "affordability_index": 4.0,
+      "median_home_price": 320000,
+      "median_household_income": 80000
+    },
+    "Mineral": {
+      "unemployment_rate": 5.2,
+      "job_growth_5yr_pct": 1.0,
+      "wage_growth_5yr_pct": 9.5,
+      "net_migration_yr": 10,
+      "population_growth_5yr_pct": 0.3,
+      "affordability_index": 5.5,
+      "median_home_price": 330000,
+      "median_household_income": 60000
+    },
+    "Moffat": {
+      "unemployment_rate": 5.5,
+      "job_growth_5yr_pct": -1.5,
+      "wage_growth_5yr_pct": 9.8,
+      "net_migration_yr": -100,
+      "population_growth_5yr_pct": -0.8,
+      "affordability_index": 2.9,
+      "median_home_price": 203000,
+      "median_household_income": 70000
+    },
+    "Montezuma": {
+      "unemployment_rate": 5.8,
+      "job_growth_5yr_pct": 3.2,
+      "wage_growth_5yr_pct": 11.8,
+      "net_migration_yr": 200,
+      "population_growth_5yr_pct": 1.0,
+      "affordability_index": 4.6,
+      "median_home_price": 322000,
+      "median_household_income": 70000
+    },
+    "Montrose": {
+      "unemployment_rate": 4.8,
+      "job_growth_5yr_pct": 4.5,
+      "wage_growth_5yr_pct": 12.5,
+      "net_migration_yr": 550,
+      "population_growth_5yr_pct": 2.0,
+      "affordability_index": 4.3,
+      "median_home_price": 344000,
+      "median_household_income": 80000
+    },
+    "Morgan": {
+      "unemployment_rate": 4.6,
+      "job_growth_5yr_pct": 2.8,
+      "wage_growth_5yr_pct": 11.0,
+      "net_migration_yr": 100,
+      "population_growth_5yr_pct": 0.6,
+      "affordability_index": 3.2,
+      "median_home_price": 224000,
+      "median_household_income": 70000
+    },
+    "Otero": {
+      "unemployment_rate": 6.2,
+      "job_growth_5yr_pct": 0.5,
+      "wage_growth_5yr_pct": 9.5,
+      "net_migration_yr": -120,
+      "population_growth_5yr_pct": -0.5,
+      "affordability_index": 2.5,
+      "median_home_price": 125000,
+      "median_household_income": 50000
+    },
+    "Ouray": {
+      "unemployment_rate": 3.6,
+      "job_growth_5yr_pct": 4.8,
+      "wage_growth_5yr_pct": 13.5,
+      "net_migration_yr": 120,
+      "population_growth_5yr_pct": 1.5,
+      "affordability_index": 8.5,
+      "median_home_price": 595000,
+      "median_household_income": 70000
+    },
+    "Park": {
+      "unemployment_rate": 3.5,
+      "job_growth_5yr_pct": 5.5,
+      "wage_growth_5yr_pct": 13.8,
+      "net_migration_yr": 400,
+      "population_growth_5yr_pct": 2.2,
+      "affordability_index": 5.8,
+      "median_home_price": 464000,
+      "median_household_income": 80000
+    },
+    "Phillips": {
+      "unemployment_rate": 3.5,
+      "job_growth_5yr_pct": 0.8,
+      "wage_growth_5yr_pct": 9.2,
+      "net_migration_yr": -20,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 1.8,
+      "median_home_price": 90000,
+      "median_household_income": 50000
+    },
+    "Pitkin": {
+      "unemployment_rate": 2.5,
+      "job_growth_5yr_pct": 7.8,
+      "wage_growth_5yr_pct": 16.5,
+      "net_migration_yr": 200,
+      "population_growth_5yr_pct": 1.0,
+      "affordability_index": 13.5,
+      "median_home_price": 2160000,
+      "median_household_income": 160000
+    },
+    "Prowers": {
+      "unemployment_rate": 5.5,
+      "job_growth_5yr_pct": 0.3,
+      "wage_growth_5yr_pct": 9.2,
+      "net_migration_yr": -80,
+      "population_growth_5yr_pct": -0.4,
+      "affordability_index": 2.3,
+      "median_home_price": 115000,
+      "median_household_income": 50000
+    },
+    "Pueblo": {
+      "unemployment_rate": 5.5,
+      "job_growth_5yr_pct": 4.5,
+      "wage_growth_5yr_pct": 12.8,
+      "net_migration_yr": 800,
+      "population_growth_5yr_pct": 1.2,
+      "affordability_index": 3.2,
+      "median_home_price": 256000,
+      "median_household_income": 80000
+    },
+    "Rio Blanco": {
+      "unemployment_rate": 5.8,
+      "job_growth_5yr_pct": -0.8,
+      "wage_growth_5yr_pct": 10.2,
+      "net_migration_yr": -80,
+      "population_growth_5yr_pct": -0.5,
+      "affordability_index": 2.8,
+      "median_home_price": 196000,
+      "median_household_income": 70000
+    },
+    "Rio Grande": {
+      "unemployment_rate": 6.5,
+      "job_growth_5yr_pct": 0.8,
+      "wage_growth_5yr_pct": 9.8,
+      "net_migration_yr": -80,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.9,
+      "median_home_price": 174000,
+      "median_household_income": 60000
+    },
+    "Routt": {
+      "unemployment_rate": 3.2,
+      "job_growth_5yr_pct": 6.5,
+      "wage_growth_5yr_pct": 15.2,
+      "net_migration_yr": 350,
+      "population_growth_5yr_pct": 1.8,
+      "affordability_index": 9.2,
+      "median_home_price": 736000,
+      "median_household_income": 80000
+    },
+    "Saguache": {
+      "unemployment_rate": 7.5,
+      "job_growth_5yr_pct": 1.0,
+      "wage_growth_5yr_pct": 9.0,
+      "net_migration_yr": 40,
+      "population_growth_5yr_pct": 0.5,
+      "affordability_index": 3.2,
+      "median_home_price": 192000,
+      "median_household_income": 60000
+    },
+    "San Juan": {
+      "unemployment_rate": 4.5,
+      "job_growth_5yr_pct": 2.0,
+      "wage_growth_5yr_pct": 10.5,
+      "net_migration_yr": 5,
+      "population_growth_5yr_pct": 0.5,
+      "affordability_index": 7.0,
+      "median_home_price": 420000,
+      "median_household_income": 60000
+    },
+    "San Miguel": {
+      "unemployment_rate": 2.8,
+      "job_growth_5yr_pct": 5.8,
+      "wage_growth_5yr_pct": 15.5,
+      "net_migration_yr": 120,
+      "population_growth_5yr_pct": 1.2,
+      "affordability_index": 12.0,
+      "median_home_price": 1200000,
+      "median_household_income": 100000
+    },
+    "Sedgwick": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": -0.5,
+      "wage_growth_5yr_pct": 8.8,
+      "net_migration_yr": -20,
+      "population_growth_5yr_pct": -0.5,
+      "affordability_index": 1.8,
+      "median_home_price": 90000,
+      "median_household_income": 50000
+    },
+    "Summit": {
+      "unemployment_rate": 2.8,
+      "job_growth_5yr_pct": 7.5,
+      "wage_growth_5yr_pct": 16.8,
+      "net_migration_yr": 350,
+      "population_growth_5yr_pct": 2.0,
+      "affordability_index": 11.5,
+      "median_home_price": 920000,
+      "median_household_income": 80000
+    },
+    "Teller": {
+      "unemployment_rate": 3.6,
+      "job_growth_5yr_pct": 5.5,
+      "wage_growth_5yr_pct": 13.8,
+      "net_migration_yr": 450,
+      "population_growth_5yr_pct": 2.5,
+      "affordability_index": 5.5,
+      "median_home_price": 440000,
+      "median_household_income": 80000
+    },
+    "Washington": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 0.5,
+      "wage_growth_5yr_pct": 9.0,
+      "net_migration_yr": -20,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.0,
+      "median_home_price": 120000,
+      "median_household_income": 60000
+    },
+    "Weld": {
+      "unemployment_rate": 3.8,
+      "job_growth_5yr_pct": 11.5,
+      "wage_growth_5yr_pct": 17.8,
+      "net_migration_yr": 5500,
+      "population_growth_5yr_pct": 4.8,
+      "affordability_index": 4.5,
+      "median_home_price": 405000,
+      "median_household_income": 90000
+    },
+    "Yuma": {
+      "unemployment_rate": 3.9,
+      "job_growth_5yr_pct": 0.8,
+      "wage_growth_5yr_pct": 9.5,
+      "net_migration_yr": -30,
+      "population_growth_5yr_pct": -0.2,
+      "affordability_index": 2.0,
+      "median_home_price": 120000,
+      "median_household_income": 60000
+    }
+  }
+}

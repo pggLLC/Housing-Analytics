@@ -134,6 +134,53 @@
       border-top: 1px solid var(--border);
       padding-top: 0.5rem;
     }
+    .econ-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .econ-kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .econ-kpi-value {
+      font-size: 1.15rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+    .econ-kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .econ-kpi-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 99px;
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .badge-good { background: rgba(22,163,74,0.15); color: var(--good); }
+    .badge-warn { background: rgba(217,119,6,0.15); color: var(--warn); }
+    .badge-bad  { background: rgba(220,38,38,0.15);  color: var(--bad); }
+    .lihtc-trend-container {
+      position: relative;
+      height: 220px;
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      .econ-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .lihtc-trend-container { height: 180px; }
+    }
     .site-entry-cta {
       display: block;
       padding: 1.25rem 1.5rem;
@@ -233,7 +280,13 @@
     <div class="mi-chart-container">
       <canvas id="supplyChart" aria-label="Multifamily permits trend chart"></canvas>
     </div>
-    <p class="data-note">Census Building Permits Survey (bps.census.gov, public). State-level data via FRED series COBPPRIV and COBPPRIV5F.</p>
+    <div class="lihtc-trend-container" style="margin-top:1.5rem;">
+      <h3 style="margin-bottom:0.4rem;">LIHTC Projects Placed in Service (2015–2025)</h3>
+      <div style="position:relative;height:200px;">
+        <canvas id="lihtcTrendChart" aria-label="LIHTC projects placed in service by year"></canvas>
+      </div>
+    </div>
+    <p class="data-note">Census Building Permits Survey (bps.census.gov, public). State-level data via FRED series COBPPRIV and COBPPRIV5F. LIHTC trend from <code>data/lihtc-trends-by-county.json</code> (derived from CHFA ArcGIS FeatureServer).</p>
   </section>
 
   <!-- 3. Affordable Inventory -->
@@ -266,7 +319,47 @@
     <p class="data-note">HUD LIHTC database via CHFA ArcGIS Feature Service and HUD ArcGIS (public endpoints). Data may lag current year by 12–18 months.</p>
   </section>
 
-  <!-- 4. Risk Dashboard -->
+  <!-- 4. Economic Health -->
+  <section class="mi-section" aria-labelledby="econ-heading">
+    <h2 id="econ-heading">💼 Economic Health</h2>
+    <h3>Source: BLS LAUS, FRED, Census Bureau (public APIs)</h3>
+    <div class="econ-kpi-grid">
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econUnemployment">—</div>
+        <div class="econ-kpi-label">Unemployment Rate</div>
+        <span class="econ-kpi-badge" id="econUnemploymentBadge"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econJobGrowth">—</div>
+        <div class="econ-kpi-label">Job Growth (5-yr %)</div>
+        <span class="econ-kpi-badge" id="econJobGrowthBadge"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econAffordability">—</div>
+        <div class="econ-kpi-label">Affordability Index</div>
+        <span class="econ-kpi-badge" id="econAffordabilityBadge"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econPopGrowth">—</div>
+        <div class="econ-kpi-label">Population Growth (5-yr %)</div>
+        <span class="econ-kpi-badge" id="econPopGrowthBadge"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econMedianPrice">—</div>
+        <div class="econ-kpi-label">Median Home Price</div>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-value" id="econMedianIncome">—</div>
+        <div class="econ-kpi-label">Median Household Income</div>
+      </div>
+    </div>
+    <p class="data-note">
+      Unemployment: BLS LAUS (CO state avg ~3.8%). Affordability Index = median home price / (median HH income × 3) — values &lt;1.0 affordable, &gt;3.0 severely unaffordable.
+      Data from <code>data/co-county-economic-indicators.json</code>.
+    </p>
+  </section>
+
+  <!-- 5. Risk Dashboard -->
   <section class="mi-section" aria-labelledby="risk-heading">
     <h2 id="risk-heading">⚠️ Risk Dashboard</h2>
     <div class="risk-grid">
@@ -294,7 +387,7 @@
     <p class="data-note">Risk indicators are proxies derived from public Census and FRED data. Not a substitute for a full market study.</p>
   </section>
 
-  <!-- 5. Policy Landscape -->
+  <!-- 6. Policy Landscape -->
   <section class="mi-section" aria-labelledby="policy-heading">
     <h2 id="policy-heading">📋 Policy Landscape</h2>
     <div class="mi-kpi-grid">
@@ -322,7 +415,7 @@
     <p class="data-note">Prop 123 data from <code>data/prop123_jurisdictions.json</code> (local file; updated via PR).</p>
   </section>
 
-  <!-- 6. Site Selection Tool Entry Point -->
+  <!-- 7. Site Selection Tool Entry Point -->
   <section class="mi-section" aria-labelledby="sitesel-heading">
     <h2 id="sitesel-heading">📍 Site Selection Tool</h2>
     <p style="font-size:.9rem;color:var(--text);line-height:1.7;">
