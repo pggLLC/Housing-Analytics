@@ -15,6 +15,7 @@
   /* ── State ─────────────────────────────────────────────────────── */
   var selectedCounty = '';
   var currentData = {};
+  var countyAcsCache = null; // null = not yet fetched; object = keyed by county name
 
   /* ── Colorado counties list ────────────────────────────────────── */
   var CO_COUNTIES = [
@@ -105,6 +106,52 @@
     return fetch(url).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
       return r.json();
+    });
+  }
+
+  /* ── Fetch all Colorado county Census ACS data ─────────────────── */
+  function fetchAllCountyCensus() {
+    if (countyAcsCache !== null) return Promise.resolve(countyAcsCache);
+    var url = 'https://api.census.gov/data/2022/acs/acs5' +
+      '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
+      ',B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E,B25064_001E,B19013_001E' +
+      '&for=county:*&in=state:08';
+    return fetchJSON(url).then(function (rows) {
+      countyAcsCache = {};
+      if (!Array.isArray(rows) || rows.length < 2) return countyAcsCache;
+      var headers = rows[0];
+      function getVal(row, name) {
+        var i = headers.indexOf(name);
+        return i >= 0 ? Number(row[i]) : null;
+      }
+      rows.slice(1).forEach(function (row) {
+        var fullName = row[headers.indexOf('NAME')] || '';
+        var m = fullName.match(/^(.+?)\s+County/i);
+        if (!m) return;
+        var cName = m[1].trim();
+        var totalRenter = getVal(row, 'B25070_001E');
+        var burdened30Plus = ['B25070_007E', 'B25070_008E', 'B25070_009E', 'B25070_010E']
+          .reduce(function (s, k) { return s + (getVal(row, k) || 0); }, 0);
+        var severe = getVal(row, 'B25070_010E');
+        var hh = getVal(row, 'B11001_001E');
+        var overcrowded = getVal(row, 'B25014_008E');
+        var totalUnits = getVal(row, 'B25014_001E');
+        var totalHU = getVal(row, 'B25002_001E');
+        var vacantHU = getVal(row, 'B25002_003E');
+        var medRent = getVal(row, 'B25064_001E');
+        var medIncome = getVal(row, 'B19013_001E');
+        countyAcsCache[cName] = {
+          cost_burden_share: totalRenter > 0 ? burdened30Plus / totalRenter : null,
+          severe_burden_share: totalRenter > 0 ? severe / totalRenter : null,
+          household_count: hh,
+          overcrowding_rate: totalUnits > 0 ? overcrowded / totalUnits : null,
+          vacancy_rate: totalHU > 0 ? vacantHU / totalHU : null,
+          median_gross_rent_current: medRent && medRent > 0 ? medRent : null,
+          median_gross_rent_prior: null,
+          ami_estimate: medIncome && medIncome > 0 ? medIncome : null
+        };
+      });
+      return countyAcsCache;
     });
   }
 
@@ -237,8 +284,9 @@
     setText('kpiLihtcUnits', fmt(totalUnits));
     setText('kpiLihtcLowIncome', fmt(liUnits));
 
-    // Per-1k-HH ratio (using demographics if available)
-    var hh = currentData.demographics && currentData.demographics.household_count;
+    // Per-1k-HH ratio (using county demographics if available, otherwise statewide)
+    var demoForHH = currentData.countyDemographics || currentData.demographics;
+    var hh = demoForHH && demoForHH.household_count;
     if (hh && hh > 0) {
       setText('kpiLihtcPer1k', (liUnits / (hh / 1000)).toFixed(1));
     } else {
@@ -350,7 +398,16 @@
 
   function renderRiskKpis(data) {
     if (!data) return;
-    var demo = currentData.demographics;
+    var demo = currentData.countyDemographics || currentData.demographics;
+
+    // Pipeline pressure: filter LIHTC by county when applicable
+    var lihtc = currentData.lihtc;
+    if (selectedCounty && lihtc) {
+      lihtc = lihtc.filter(function (f) {
+        var cnty = (f.CNTY_NAME || f.county || '').toString().toLowerCase();
+        return cnty.includes(selectedCounty.toLowerCase());
+      });
+    }
 
     // Vacancy proxy from ACS B25002 vacancy rate
     var vacEl = document.getElementById('riskVacancy');
@@ -373,7 +430,6 @@
     }
 
     // Pipeline pressure: LIHTC projects per 1,000 households
-    var lihtc = currentData.lihtc;
     var hh = demo && demo.household_count;
     var ppEl = document.getElementById('riskPipeline');
     if (ppEl) {
@@ -405,9 +461,48 @@
 
   /* ── Apply county filter ───────────────────────────────────────── */
   function applyCountyFilter() {
-    if (currentData.demographics) renderDemandKpis(currentData.demographics, selectedCounty);
     if (currentData.lihtc) renderInventoryKpis(currentData.lihtc, selectedCounty);
     if (currentData.prop123) renderPolicyKpis(currentData.prop123, selectedCounty);
+
+    if (!selectedCounty) {
+      // Statewide view — restore statewide demographics and rebuild charts
+      currentData.countyDemographics = null;
+      if (currentData.demographics) renderDemandKpis(currentData.demographics, '');
+      if (currentData.fred) renderRiskKpis(currentData.fred);
+      buildCharts();
+      setStatus('Statewide (Colorado) · Census ACS 2022 5-Year Estimates.');
+      return;
+    }
+
+    setStatus('Loading ' + selectedCounty + ' County data…');
+    fetchAllCountyCensus().then(function (cache) {
+      var cData = cache[selectedCounty] || null;
+      currentData.countyDemographics = cData;
+      if (cData) {
+        renderDemandKpis(cData, '');
+        if (currentData.fred) renderRiskKpis(currentData.fred);
+        setStatus(selectedCounty + ' County · Census ACS 2022 5-Year Estimates. Supply data shows statewide FRED series.');
+      } else {
+        setText('kpiCostBurden', '--');
+        setText('kpiSevereBurden', '--');
+        setText('kpiHHGrowth', '--');
+        setText('kpiOvercrowding', '--');
+        if (currentData.fred) renderRiskKpis(currentData.fred);
+        setStatus(selectedCounty + ' County Census data unavailable.', true);
+      }
+      buildDemandChart();
+      buildSupplyChart();
+    }).catch(function () {
+      currentData.countyDemographics = null;
+      setText('kpiCostBurden', '--');
+      setText('kpiSevereBurden', '--');
+      setText('kpiHHGrowth', '--');
+      setText('kpiOvercrowding', '--');
+      if (currentData.fred) renderRiskKpis(currentData.fred);
+      buildDemandChart();
+      buildSupplyChart();
+      setStatus('Census API unavailable for ' + selectedCounty + ' County.', true);
+    });
   }
 
   /* ── Charts ────────────────────────────────────────────────────── */
@@ -424,7 +519,7 @@
     if (!ctx || typeof Chart === 'undefined') return;
     if (demandChartInst) { demandChartInst.destroy(); }
 
-    var demo = currentData.demographics;
+    var demo = selectedCounty ? currentData.countyDemographics : currentData.demographics;
     var labels = ['Cost-Burdened (≥30%)', 'Severely Burdened (≥50%)', 'Overcrowded'];
     var values = [
       demo ? (Number(demo.cost_burden_share || 0) * 100) : 0,
@@ -457,7 +552,26 @@
   function buildSupplyChart() {
     var ctx = document.getElementById('supplyChart');
     if (!ctx || typeof Chart === 'undefined') return;
-    if (supplyChartInst) { supplyChartInst.destroy(); }
+    if (supplyChartInst) { supplyChartInst.destroy(); supplyChartInst = null; }
+
+    // For county view, FRED doesn't have county-level permit data
+    var msgEl = document.getElementById('supplyCountyMsg');
+    if (selectedCounty) {
+      ctx.style.display = 'none';
+      if (!msgEl) {
+        msgEl = document.createElement('p');
+        msgEl.id = 'supplyCountyMsg';
+        msgEl.className = 'mi-status';
+        msgEl.style.cssText = 'text-align:center;padding:3rem 1rem;';
+        ctx.parentNode.appendChild(msgEl);
+      }
+      msgEl.textContent = 'County-level permit data not available via FRED. Supply KPIs above reflect statewide series.';
+      return;
+    }
+
+    // Statewide: restore canvas and remove county message
+    ctx.style.display = '';
+    if (msgEl) msgEl.remove();
 
     var fred = currentData.fred;
     var obs = fred && (fred.PERMIT5 || fred.PERMIT || fred.COBPPRIV5F || fred.COBPPRIV);
@@ -498,7 +612,7 @@
     var payload = {
       exported_at: new Date().toISOString(),
       county: selectedCounty || 'Statewide',
-      demographics: currentData.demographics || null,
+      demographics: currentData.countyDemographics || currentData.demographics || null,
       lihtc_summary: currentData.lihtc ? {
         count: currentData.lihtc.length,
         total_units: currentData.lihtc.reduce(function (a, f) { return a + (Number(f.N_UNITS || f.total_units || 0) || 0); }, 0)
