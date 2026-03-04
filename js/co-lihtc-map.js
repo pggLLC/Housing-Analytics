@@ -87,6 +87,26 @@
     {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata'}},
   ]};
 
+  // ── Fallback county boundary data (approximate bounding-box polygons) ────────
+  // Used only when all dynamic sources (local cache, TIGERweb, Natural Earth) fail.
+  var FALLBACK_COUNTY = {type:'FeatureCollection',features:[
+    {type:'Feature',properties:{NAME:'Adams'},geometry:{type:'Polygon',coordinates:[[[-105.05,39.74],[-104.66,39.74],[-104.66,40.00],[-105.05,40.00],[-105.05,39.74]]]}},
+    {type:'Feature',properties:{NAME:'Arapahoe'},geometry:{type:'Polygon',coordinates:[[[-104.97,39.56],[-104.67,39.56],[-104.67,39.91],[-104.97,39.91],[-104.97,39.56]]]}},
+    {type:'Feature',properties:{NAME:'Boulder'},geometry:{type:'Polygon',coordinates:[[[-105.69,39.94],[-105.06,39.94],[-105.06,40.26],[-105.69,40.26],[-105.69,39.94]]]}},
+    {type:'Feature',properties:{NAME:'Denver'},geometry:{type:'Polygon',coordinates:[[[-105.11,39.61],[-104.60,39.61],[-104.60,39.91],[-105.11,39.91],[-105.11,39.61]]]}},
+    {type:'Feature',properties:{NAME:'Douglas'},geometry:{type:'Polygon',coordinates:[[[-105.33,39.13],[-104.67,39.13],[-104.67,39.64],[-105.33,39.64],[-105.33,39.13]]]}},
+    {type:'Feature',properties:{NAME:'El Paso'},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.06,38.69],[-104.06,39.13],[-105.19,39.13],[-105.19,38.69]]]}},
+    {type:'Feature',properties:{NAME:'Jefferson'},geometry:{type:'Polygon',coordinates:[[[-105.65,39.56],[-105.05,39.56],[-105.05,39.98],[-105.65,39.98],[-105.65,39.56]]]}},
+    {type:'Feature',properties:{NAME:'Larimer'},geometry:{type:'Polygon',coordinates:[[[-106.19,40.26],[-105.06,40.26],[-105.06,41.00],[-106.19,41.00],[-106.19,40.26]]]}},
+    {type:'Feature',properties:{NAME:'Mesa'},geometry:{type:'Polygon',coordinates:[[[-109.05,38.83],[-107.43,38.83],[-107.43,39.64],[-109.05,39.64],[-109.05,38.83]]]}},
+    {type:'Feature',properties:{NAME:'Pueblo'},geometry:{type:'Polygon',coordinates:[[[-105.05,37.64],[-104.06,37.64],[-104.06,38.52],[-105.05,38.52],[-105.05,37.64]]]}},
+    {type:'Feature',properties:{NAME:'Weld'},geometry:{type:'Polygon',coordinates:[[[-105.06,39.91],[-104.06,39.91],[-104.06,41.00],[-105.06,41.00],[-105.06,39.91]]]}},
+    {type:'Feature',properties:{NAME:'Broomfield'},geometry:{type:'Polygon',coordinates:[[[-105.17,39.90],[-105.02,39.90],[-105.02,40.03],[-105.17,40.03],[-105.17,39.90]]]}},
+    {type:'Feature',properties:{NAME:'Eagle'},geometry:{type:'Polygon',coordinates:[[[-107.18,39.34],[-106.18,39.34],[-106.18,39.76],[-107.18,39.76],[-107.18,39.34]]]}},
+    {type:'Feature',properties:{NAME:'La Plata'},geometry:{type:'Polygon',coordinates:[[[-108.21,37.00],[-107.00,37.00],[-107.00,37.68],[-108.21,37.68],[-108.21,37.00]]]}},
+    {type:'Feature',properties:{NAME:'Summit'},geometry:{type:'Polygon',coordinates:[[[-106.44,39.34],[-105.72,39.34],[-105.72,39.76],[-106.44,39.76],[-106.44,39.34]]]}},
+  ]};
+
   // ── Status helper ────────────────────────────────────────────────────────────
   function updateStatus(message) {
     var el = document.getElementById('map-status') || document.getElementById('status');
@@ -386,6 +406,118 @@
     if (cbFilterDda) cbFilterDda.addEventListener('change', applyProjectFilter);
   }
 
+  // ── Dynamic county boundary source selection ──────────────────────────────────
+  // Evaluates three sources in parallel and selects the fastest one that returns
+  // exactly 64 Colorado county features.  Falls back to FALLBACK_COUNTY if all
+  // sources fail or exceed the 5 000 ms timeout.
+  function loadCountyBoundariesDynamic(map, resolveUrl) {
+    var EXPECTED_FEATURES = 64;
+    var SOURCE_TIMEOUT    = 5000; // ms
+
+    var evalStart = Date.now();
+
+    // Build one promise per source; each resolves to {name, geojson, elapsed} or rejects.
+    function makeSourcePromise(name, fetcher) {
+      var t0 = Date.now();
+      return fetcher().then(function(gj) {
+        var elapsed = Date.now() - t0;
+        if (!gj || !Array.isArray(gj.features) || gj.features.length !== EXPECTED_FEATURES) {
+          throw new Error(name + ': got ' + (gj && gj.features ? gj.features.length : 0) + ' features (need ' + EXPECTED_FEATURES + ')');
+        }
+        return { name: name, geojson: gj, elapsed: elapsed };
+      });
+    }
+
+    // Source 1 — local cache
+    function fetchLocal() {
+      return fetchWithTimeout(resolveUrl('data/co-county-boundaries.json'), {}, SOURCE_TIMEOUT)
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        });
+    }
+
+    // Source 2 — Census TIGERweb ArcGIS REST (State_County layer 1, Colorado STATEFP=08)
+    var TIGERWEB_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
+    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP&f=geojson&outSR=4326';
+    function fetchTIGERweb() {
+      return fetchWithTimeout(TIGERWEB_URL + '?' + TIGERWEB_PARAMS, {}, SOURCE_TIMEOUT)
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        });
+    }
+
+    // Source 3 — Natural Earth 10m admin-2 boundaries filtered to Colorado (ADM1_CODE contains US-CO)
+    var NATURAL_EARTH_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_2_counties.geojson';
+    function fetchNaturalEarth() {
+      return fetchWithTimeout(NATURAL_EARTH_URL, {}, SOURCE_TIMEOUT)
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function(gj) {
+          // Filter to Colorado counties only
+          var coFeatures = (gj && gj.features ? gj.features : []).filter(function(f) {
+            var p = f.properties || {};
+            return p.iso_3166_2 === 'US-CO' ||
+                   p.code_hasc === 'US.CO' ||
+                   String(p.fips).slice(0,2) === '08' ||
+                   String(p.STATEFP || p.statefp || '').slice(0,2) === '08';
+          });
+          return { type: 'FeatureCollection', features: coFeatures };
+        });
+    }
+
+    var sources = [
+      makeSourcePromise('local-cache', fetchLocal),
+      makeSourcePromise('TIGERweb',   fetchTIGERweb),
+      makeSourcePromise('NaturalEarth', fetchNaturalEarth),
+    ];
+
+    // Race: use the first source that resolves with valid data.
+    // Track all results so we can log metrics even after the winner is found.
+    var results = [];
+    var settled = 0;
+    var rendered = false;
+
+    function onResult(result) {
+      results.push({ name: result.name, elapsed: result.elapsed, features: result.geojson.features.length, ok: true });
+      if (!rendered) {
+        rendered = true;
+        var totalElapsed = ((Date.now() - evalStart) / 1000).toFixed(1);
+        console.info('[co-lihtc-map] County boundaries: evaluated ' + sources.length + ' source(s) in ' + totalElapsed + 's; selected ' + result.name + ' (' + (result.elapsed / 1000).toFixed(1) + 's, ' + result.geojson.features.length + ' features)');
+        renderCountyLayer(map, result.geojson);
+      }
+    }
+
+    function onSourceFail(name, err) {
+      results.push({ name: name, elapsed: null, features: 0, ok: false, error: err.message });
+      console.warn('[co-lihtc-map] County source "' + name + '" failed:', err.message);
+    }
+
+    function checkAllSettled() {
+      settled++;
+      if (settled === sources.length && !rendered) {
+        // All sources failed — use embedded fallback
+        var totalElapsed = ((Date.now() - evalStart) / 1000).toFixed(1);
+        console.warn('[co-lihtc-map] County boundaries: all ' + sources.length + ' sources failed in ' + totalElapsed + 's; using embedded FALLBACK_COUNTY (' + FALLBACK_COUNTY.features.length + ' of 64 counties — partial coverage)');
+        renderCountyLayer(map, FALLBACK_COUNTY);
+      }
+    }
+
+    sources.forEach(function(promise, i) {
+      var sourceName = ['local-cache', 'TIGERweb', 'NaturalEarth'][i];
+      promise.then(function(result) {
+        onResult(result);
+        checkAllSettled();
+      }).catch(function(err) {
+        onSourceFail(sourceName, err);
+        checkAllSettled();
+      });
+    });
+  }
+
   // ── Fetch overlay data: local JSON → remote ArcGIS → embedded fallback ────────
   // Tries to load the local QCT and DDA cached files (written by the
   // cache-hud-gis-data.yml CI workflow) and render them.  Falls back to the
@@ -395,23 +527,8 @@
       ? window.resolveAssetUrl
       : function(p) { return p; };
 
-    // County boundaries — outline only, no fill
-    fetchWithTimeout(resolveUrl('data/co-county-boundaries.json'), {}, 15000)
-      .then(function(res) {
-        if (!res.ok) throw new Error('County HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function(gj) {
-        if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
-          renderCountyLayer(map, gj);
-          console.info('[co-lihtc-map] County boundaries loaded (' + gj.features.length + ' features).');
-        } else {
-          console.warn('[co-lihtc-map] co-county-boundaries.json empty; county layer skipped.');
-        }
-      })
-      .catch(function(err) {
-        console.warn('[co-lihtc-map] County boundaries unavailable; layer skipped.', err.message);
-      });
+    // County boundaries — dynamic multi-source selection
+    loadCountyBoundariesDynamic(map, resolveUrl);
 
     // QCT — try local cache first
     fetchWithTimeout(resolveUrl('data/qct-colorado.json'), {}, 15000)

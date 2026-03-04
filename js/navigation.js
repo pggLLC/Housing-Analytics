@@ -93,7 +93,7 @@
       <div class="nav-wrap">
         <div class="brand">
           <a href="${normalizeHref('index.html')}">Affordable Housing Intelligence</a>
-          <small>Affordable Housing Market Intelligence</small>
+          <small>Market Intelligence</small>
         </div>
         <nav class="site-nav" aria-label="Primary">
           ${LINKS.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
