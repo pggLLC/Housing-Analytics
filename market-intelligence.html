@@ -146,9 +146,55 @@
     }
     .site-entry-cta:hover { background: var(--accent); color: #fff; }
     .site-entry-cta strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+    .econ-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .econ-kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .econ-kpi-value {
+      font-size: 1.2rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+      color: var(--text-strong);
+    }
+    .econ-kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .econ-kpi-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-good { background: rgba(22,163,74,0.15); color: var(--good, #16a34a); }
+    .badge-warn { background: rgba(217,119,6,0.15); color: var(--warn, #d97706); }
+    .badge-bad  { background: rgba(220,38,38,0.15); color: var(--bad,  #dc2626); }
+    .lihtc-trend-container {
+      position: relative;
+      height: 240px;
+      margin-top: 1rem;
+    }
     @media (max-width: 640px) {
       .mi-chart-container { height: 180px; }
       .mi-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .econ-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .lihtc-trend-container { height: 200px; }
     }
   </style>
 </head>
@@ -322,7 +368,54 @@
     <p class="data-note">Prop 123 data from <code>data/prop123_jurisdictions.json</code> (local file; updated via PR).</p>
   </section>
 
-  <!-- 6. Site Selection Tool Entry Point -->
+  <!-- 6. Economic Health -->
+  <section class="mi-section" aria-labelledby="econ-heading">
+    <h2 id="econ-heading">💼 Economic Health</h2>
+    <h3>Source: BLS LAUS (unemployment), BLS QCEW (job growth), ACS 2019–2023 (affordability, population)</h3>
+    <div class="econ-kpi-grid">
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Unemployment Rate</div>
+        <div class="econ-kpi-value" id="kpiUnemployment">—</div>
+        <span class="econ-kpi-badge" id="badgeUnemployment"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Job Growth 5-Year %</div>
+        <div class="econ-kpi-value" id="kpiJobGrowth">—</div>
+        <span class="econ-kpi-badge" id="badgeJobGrowth"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Affordability Index</div>
+        <div class="econ-kpi-value" id="kpiAffordIndex">—</div>
+        <span class="econ-kpi-badge" id="badgeAffordIndex"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Population Growth 5-Year %</div>
+        <div class="econ-kpi-value" id="kpiPopGrowth">—</div>
+        <span class="econ-kpi-badge" id="badgePopGrowth"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Median Home Price</div>
+        <div class="econ-kpi-value" id="kpiMedianPrice">—</div>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Median Household Income</div>
+        <div class="econ-kpi-value" id="kpiMedianIncome">—</div>
+      </div>
+    </div>
+    <p class="data-note">Unemployment: BLS LAUS annual average. Job growth: BLS QCEW / CO OLSS 5-year change. Affordability index = median home price ÷ median household income. Population growth: ACS 5-year estimates.</p>
+  </section>
+
+  <!-- 7. LIHTC Historical Trend -->
+  <section class="mi-section" aria-labelledby="lihtc-trend-heading">
+    <h2 id="lihtc-trend-heading">📊 LIHTC Historical Trend (2015–2025)</h2>
+    <h3>Source: HUD LIHTC Database via CHFA ArcGIS FeatureServer (public)</h3>
+    <div class="lihtc-trend-container">
+      <canvas id="lihtcTrendChart" aria-label="LIHTC projects per year trend chart"></canvas>
+    </div>
+    <p class="data-note">Projects placed in service (YR_PIS) per year. Statewide view shows top 6 counties by total project count. Data for recent years may be incomplete as HUD LIHTC database typically lags 12–24 months.</p>
+  </section>
+
+  <!-- 8. Site Selection Tool Entry Point -->
   <section class="mi-section" aria-labelledby="sitesel-heading">
     <h2 id="sitesel-heading">📍 Site Selection Tool</h2>
     <p style="font-size:.9rem;color:var(--text);line-height:1.7;">

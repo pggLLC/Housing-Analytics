@@ -179,7 +179,9 @@
       loadDemographics(),
       loadLihtcInventory(),
       loadProp123(),
-      loadFredData()
+      loadFredData(),
+      loadEconomicIndicators(),
+      loadLihtcTrends()
     ];
 
     Promise.allSettled(tasks).then(function (results) {
@@ -192,6 +194,7 @@
         setStatus('All data loaded.');
       }
       buildCharts();
+      buildLihtcTrendChart();
     });
   }
 
@@ -463,6 +466,7 @@
   function applyCountyFilter() {
     if (currentData.lihtc) renderInventoryKpis(currentData.lihtc, selectedCounty);
     if (currentData.prop123) renderPolicyKpis(currentData.prop123, selectedCounty);
+    if (currentData.econIndicators) renderEconomicKpis(currentData.econIndicators, selectedCounty);
 
     if (!selectedCounty) {
       // Statewide view — restore statewide demographics and rebuild charts
@@ -470,6 +474,7 @@
       if (currentData.demographics) renderDemandKpis(currentData.demographics, '');
       if (currentData.fred) renderRiskKpis(currentData.fred);
       buildCharts();
+      buildLihtcTrendChart();
       setStatus('Statewide (Colorado) · Census ACS 2022 5-Year Estimates.');
       return;
     }
@@ -492,6 +497,7 @@
       }
       buildDemandChart();
       buildSupplyChart();
+      buildLihtcTrendChart();
     }).catch(function () {
       currentData.countyDemographics = null;
       setText('kpiCostBurden', '--');
@@ -501,13 +507,92 @@
       if (currentData.fred) renderRiskKpis(currentData.fred);
       buildDemandChart();
       buildSupplyChart();
+      buildLihtcTrendChart();
       setStatus('Census API unavailable for ' + selectedCounty + ' County.', true);
+    });
+  }
+
+  /* ── Load Economic Indicators ──────────────────────────────────── */
+  function loadEconomicIndicators() {
+    return fetchJSON(resolveData('co-county-economic-indicators.json')).then(function (data) {
+      currentData.econIndicators = data;
+      renderEconomicKpis(data, selectedCounty);
+    });
+  }
+
+  function renderEconomicKpis(data, county) {
+    if (!data || !data.counties) return;
+    var d = county ? (data.counties[county] || null) : null;
+
+    // Statewide: compute averages from all counties
+    if (!d && !county) {
+      var all = Object.values(data.counties);
+      var avg = function (field) {
+        var vals = all.map(function (c) { return c[field]; }).filter(function (v) { return v != null; });
+        return vals.length ? vals.reduce(function (s, v) { return s + v; }, 0) / vals.length : null;
+      };
+      d = {
+        unemployment_rate: avg('unemployment_rate'),
+        job_growth_5yr_pct: avg('job_growth_5yr_pct'),
+        affordability_index: avg('affordability_index'),
+        population_growth_5yr_pct: avg('population_growth_5yr_pct'),
+        median_home_price: avg('median_home_price'),
+        median_hh_income: avg('median_hh_income')
+      };
+    }
+
+    if (!d) return;
+
+    var unemp = d.unemployment_rate;
+    var jobGrowth = d.job_growth_5yr_pct;
+    var affordIdx = d.affordability_index;
+    var popGrowth = d.population_growth_5yr_pct;
+    var medPrice = d.median_home_price;
+    var medIncome = d.median_hh_income;
+
+    setText('kpiUnemployment', unemp != null ? unemp.toFixed(1) + '%' : '—');
+    setText('kpiJobGrowth', jobGrowth != null ? (jobGrowth > 0 ? '+' : '') + jobGrowth.toFixed(1) + '%' : '—');
+    setText('kpiAffordIndex', affordIdx != null ? affordIdx.toFixed(1) + 'x' : '—');
+    setText('kpiPopGrowth', popGrowth != null ? (popGrowth > 0 ? '+' : '') + popGrowth.toFixed(1) + '%' : '—');
+    setText('kpiMedianPrice', medPrice != null ? '$' + fmt(Math.round(medPrice)) : '—');
+    setText('kpiMedianIncome', medIncome != null ? '$' + fmt(Math.round(medIncome)) : '—');
+
+    // Status badges
+    setBadge('badgeUnemployment', unemp,
+      function (v) { return v < 3.8 ? 'good' : v <= 5.5 ? 'warn' : 'bad'; },
+      function (v) { return v < 3.8 ? 'Low' : v <= 5.5 ? 'Moderate' : 'High'; });
+    setBadge('badgeJobGrowth', jobGrowth,
+      function (v) { return v >= 8 ? 'good' : v >= 2 ? 'warn' : 'bad'; },
+      function (v) { return v >= 8 ? 'Strong' : v >= 2 ? 'Moderate' : 'Weak'; });
+    setBadge('badgeAffordIndex', affordIdx,
+      function (v) { return v <= 3 ? 'good' : v <= 6 ? 'warn' : 'bad'; },
+      function (v) { return v <= 3 ? 'Affordable' : v <= 6 ? 'Stretched' : 'Unaffordable'; });
+    setBadge('badgePopGrowth', popGrowth,
+      function (v) { return v >= 3 ? 'good' : v >= 0 ? 'warn' : 'bad'; },
+      function (v) { return v >= 3 ? 'Growing' : v >= 0 ? 'Stable' : 'Declining'; });
+  }
+
+  function setBadge(id, value, colorFn, labelFn) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (value == null) { el.textContent = ''; el.className = 'econ-kpi-badge'; return; }
+    var tier = colorFn(value);
+    el.textContent = labelFn(value);
+    el.className = 'econ-kpi-badge badge-' + tier;
+  }
+
+  /* ── Load LIHTC Trends ─────────────────────────────────────────── */
+  function loadLihtcTrends() {
+    return fetchJSON(resolveData('lihtc-trends-by-county.json')).then(function (data) {
+      currentData.lihtcTrends = data;
+      buildLihtcTrendChart();
     });
   }
 
   /* ── Charts ────────────────────────────────────────────────────── */
   var demandChartInst = null;
   var supplyChartInst = null;
+  var lihtcTrendChartInst = null;
 
   function buildCharts() {
     buildDemandChart();
@@ -605,6 +690,78 @@
         scales: { y: { beginAtZero: true } }
       }
     });
+  }
+
+  function buildLihtcTrendChart() {
+    var ctx = document.getElementById('lihtcTrendChart');
+    if (!ctx || typeof Chart === 'undefined') return;
+    if (lihtcTrendChartInst) { lihtcTrendChartInst.destroy(); lihtcTrendChartInst = null; }
+
+    var trends = currentData.lihtcTrends;
+    if (!trends || !trends.counties || !trends.years) return;
+
+    var years = trends.years;
+    var COLORS = [
+      'rgba(14,165,160,1)', 'rgba(99,102,241,1)', 'rgba(245,158,11,1)',
+      'rgba(239,68,68,1)', 'rgba(34,197,94,1)', 'rgba(168,85,247,1)'
+    ];
+
+    if (selectedCounty && trends.counties[selectedCounty]) {
+      // Single county: bar chart
+      var countyData = trends.counties[selectedCounty];
+      var values = years.map(function (yr) { return countyData[yr] || 0; });
+      lihtcTrendChartInst = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: years.map(String),
+          datasets: [{
+            label: selectedCounty + ' County — LIHTC Projects',
+            data: values,
+            backgroundColor: 'rgba(14,165,160,0.65)',
+            borderRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+      });
+    } else {
+      // Statewide: multi-line chart of top 6 counties by total projects
+      var countyTotals = Object.entries(trends.counties).map(function (entry) {
+        var name = entry[0];
+        var yearMap = entry[1];
+        var total = years.reduce(function (s, yr) { return s + (yearMap[yr] || 0); }, 0);
+        return { name: name, total: total };
+      });
+      countyTotals.sort(function (a, b) { return b.total - a.total; });
+      var top6 = countyTotals.slice(0, 6);
+
+      var datasets = top6.map(function (c, i) {
+        var countyData = trends.counties[c.name];
+        return {
+          label: c.name,
+          data: years.map(function (yr) { return countyData[yr] || 0; }),
+          borderColor: COLORS[i],
+          backgroundColor: 'transparent',
+          tension: 0.3,
+          pointRadius: 3
+        };
+      });
+
+      lihtcTrendChartInst = new Chart(ctx, {
+        type: 'line',
+        data: { labels: years.map(String), datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+      });
+    }
   }
 
   /* ── Export ────────────────────────────────────────────────────── */
