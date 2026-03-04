@@ -1,0 +1,60 @@
+name: Fetch County Demographics and Economic Data
+
+# Refreshes county-level ACS demographic fallback data weekly so the
+# market-intelligence page always has a local JSON file to fall back to
+# when the Census API is slow or unavailable.
+#
+# Schedule: every Monday at 06:00 UTC
+# Manual: workflow_dispatch
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # Mondays at 06:00 UTC
+  workflow_dispatch:        # Allow manual triggering from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-county-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --omit=dev node-fetch@2
+
+      - name: Fetch ACS county demographics
+        run: node scripts/fetch-county-demographics.js
+        continue-on-error: true   # Non-fatal: retain existing file if Census API is down
+
+      - name: Validate output
+        run: |
+          if jq -e '.counties | type == "object"' data/co-county-demographics.json > /dev/null; then
+            echo "✅ co-county-demographics.json is valid"
+            echo "   Counties: $(jq '.counties | keys | length' data/co-county-demographics.json)"
+          else
+            echo "❌ co-county-demographics.json invalid — skipping commit"
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Commit and push updated data file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/co-county-demographics.json
+          if git diff --cached --quiet; then
+            echo "No changes to county demographics data"
+          else
+            git commit -m "chore: refresh county ACS demographics [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase origin main
+            git push
+          fi
