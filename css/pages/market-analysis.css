@@ -323,3 +323,44 @@
   font-size: var(--small);
   padding: 0.5rem 0;
 }
+
+/* ── Map legend (Leaflet bottom-left control) ── */
+.pma-legend {
+  background: var(--card, #fff);
+  border: 1px solid var(--border, rgba(0,0,0,.12));
+  border-radius: var(--radius-sm, 4px);
+  padding: 0.4rem 0.6rem;
+  font-size: 11px;
+  color: var(--text, #1a1a2e);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 180px;
+  line-height: 1.4;
+}
+
+.pma-legend-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.pma-legend-circle {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
+
+/* ── Tooltip for map overlays ── */
+.pma-tooltip {
+  background: var(--card, #fff);
+  border: 1px solid var(--border, rgba(0,0,0,.12));
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 11px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  color: var(--text, #1a1a2e);
+}
