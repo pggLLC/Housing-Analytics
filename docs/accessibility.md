@@ -67,6 +67,7 @@ All contrast ratios verified against WCAG 2.1 AA requirements (4.5:1 normal text
 |---------|-----------|------------|-------|------|
 | Body text (`--text`) | `#0d1f35` | `#eef2f7` (`--bg`) | 12.1:1 | ✅ AA |
 | Muted text (`--muted`) | `#476080` | `#eef2f7` | 4.7:1 | ✅ AA |
+| Faint text (`--faint`) | `#53708c` | `#eef2f7` | 4.6:1 | ✅ AA |
 | Accent (`--accent`) | `#0ea5a0` | `#eef2f7` | 3.4:1 | ✅ AA large |
 | Link (`--link`) | `#0b7285` | `#eef2f7` | 5.2:1 | ✅ AA |
 | Nav links (`--muted`) | `#476080` | card bg | 4.7:1 | ✅ AA |
