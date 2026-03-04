@@ -1,52 +1,1574 @@
 {
   "county:08077": {
-    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
     "housingAuthority": [
-      {"name": "Grand Junction Housing Authority", "url": "https://www.gjha.org/"},
-      {"name": "Fruita Housing Authority", "url": "https://www.fruita.org/694/Fruita-Housing-Authority"}
+      {
+        "name": "Grand Junction Housing Authority",
+        "url": "https://www.gjha.org/"
+      },
+      {
+        "name": "Fruita Housing Authority",
+        "url": "https://www.fruita.org/694/Fruita-Housing-Authority"
+      }
     ],
     "advocacy": [
-      {"name": "Grand Valley Catholic Outreach", "url": "https://gvch.org/"},
-      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"},
-      {"name": "Mesa County Community Services (Homeless Resources)", "url": "https://www.mesacounty.us/departments-and-services/human-services/homeless-resources"},
-      {"name": "Marillac Clinic / Catholic Outreach (MCCUH)", "url": "https://www.mccuh.org/"}
+      {
+        "name": "Grand Valley Catholic Outreach",
+        "url": "https://gvch.org/"
+      },
+      {
+        "name": "HomewardBound of the Grand Valley",
+        "url": "https://homewardboundgv.org/"
+      },
+      {
+        "name": "Mesa County Community Services (Homeless Resources)",
+        "url": "https://www.mesacounty.us/departments-and-services/human-services/homeless-resources"
+      },
+      {
+        "name": "Marillac Clinic / Catholic Outreach (MCCUH)",
+        "url": "https://www.mccuh.org/"
+      }
     ],
-    "housingLead": {"name": "City of Grand Junction Housing (program page)", "url": "https://www.gjcity.org/353/Housing"}
+    "housingLead": {
+      "name": "City of Grand Junction Housing (program page)",
+      "url": "https://www.gjcity.org/353/Housing"
+    }
   },
-
   "place:0828745": {
-    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
     "housingAuthority": [
-      {"name": "Fruita Housing Authority", "url": "https://www.fruita.org/694/Fruita-Housing-Authority"}
+      {
+        "name": "Fruita Housing Authority",
+        "url": "https://www.fruita.org/694/Fruita-Housing-Authority"
+      }
     ],
     "advocacy": [
-      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+      {
+        "name": "HomewardBound of the Grand Valley",
+        "url": "https://homewardboundgv.org/"
+      }
     ]
   },
-
   "place:0831660": {
-    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
     "housingAuthority": [
-      {"name": "Grand Junction Housing Authority", "url": "https://www.gjha.org/"}
+      {
+        "name": "Grand Junction Housing Authority",
+        "url": "https://www.gjha.org/"
+      }
     ],
     "advocacy": [
-      {"name": "Grand Valley Catholic Outreach", "url": "https://gvch.org/"},
-      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+      {
+        "name": "Grand Valley Catholic Outreach",
+        "url": "https://gvch.org/"
+      },
+      {
+        "name": "HomewardBound of the Grand Valley",
+        "url": "https://homewardboundgv.org/"
+      }
     ],
-    "housingLead": {"name": "Housing Manager (directory listing)", "url": "https://www.gjcity.org/directory.aspx?EID=146"}
+    "housingLead": {
+      "name": "Housing Manager (directory listing)",
+      "url": "https://www.gjcity.org/directory.aspx?EID=146"
+    }
   },
-
   "place:0856970": {
-    "prop123": {"status": "Committed", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
     "advocacy": [
-      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+      {
+        "name": "HomewardBound of the Grand Valley",
+        "url": "https://homewardboundgv.org/"
+      }
     ]
   },
-
   "cdp:0815165": {
-    "prop123": {"status": "Mesa County context", "link": "https://cdola.colorado.gov/commitment-filings"},
+    "prop123": {
+      "status": "Mesa County context",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
     "advocacy": [
-      {"name": "HomewardBound of the Grand Valley", "url": "https://homewardboundgv.org/"}
+      {
+        "name": "HomewardBound of the Grand Valley",
+        "url": "https://homewardboundgv.org/"
+      }
+    ]
+  },
+  "county:08001": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Adams County Housing Authority",
+        "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
+      },
+      {
+        "name": "Aurora Housing Authority",
+        "url": "https://www.aurora-housing.com/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Brothers Redevelopment (Denver Metro)",
+        "url": "https://brothersredevelopment.org/"
+      },
+      {
+        "name": "Habitat for Humanity of Metro Denver",
+        "url": "https://habitatmetrodenver.org/"
+      },
+      {
+        "name": "Catholic Charities of Denver",
+        "url": "https://ccdenver.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Adams County Community & Support Services \u2014 Housing",
+      "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
+    }
+  },
+  "county:08003": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the San Luis Valley",
+        "url": "https://www.habitatslv.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Alamosa Community Development",
+      "url": "https://alamosa.org/departments/community-development/"
+    }
+  },
+  "county:08005": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Arapahoe County Housing Authority",
+        "url": "https://www.arapahoegov.com/1296/Housing-Authority"
+      },
+      {
+        "name": "Aurora Housing Authority",
+        "url": "https://www.aurora-housing.com/"
+      },
+      {
+        "name": "Englewood Housing Authority",
+        "url": "https://www.englewoodco.gov/community/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Arapahoe/Douglas Works!",
+        "url": "https://www.adworks.org/"
+      },
+      {
+        "name": "Catholic Charities of Denver",
+        "url": "https://ccdenver.org/"
+      },
+      {
+        "name": "Habitat for Humanity of Metro Denver",
+        "url": "https://habitatmetrodenver.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Arapahoe County Housing & Community Development",
+      "url": "https://www.arapahoegov.com/1296/Housing-Authority"
+    }
+  },
+  "county:08007": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Archuleta County Housing Authority",
+        "url": "https://www.archuletacounty.org/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Community Connections (Southwest Colorado)",
+        "url": "https://www.communityconnections.us/"
+      }
+    ],
+    "housingLead": {
+      "name": "Archuleta County Community Development",
+      "url": "https://www.archuletacounty.org/community-development"
+    }
+  },
+  "county:08009": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08011": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08013": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Boulder Housing Partners",
+        "url": "https://boulderhousing.org/"
+      },
+      {
+        "name": "Longmont Housing Authority",
+        "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Habitat for Humanity of the St. Vrain Valley",
+        "url": "https://svvhabitat.org/"
+      },
+      {
+        "name": "Mental Health Partners",
+        "url": "https://www.mhpcolorado.org/"
+      },
+      {
+        "name": "Boulder Shelter for the Homeless",
+        "url": "https://bouldershelter.org/"
+      },
+      {
+        "name": "EFAA (Emergency Family Assistance Association)",
+        "url": "https://efaa.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Boulder Housing & Human Services",
+      "url": "https://bouldercolorado.gov/housing"
+    }
+  },
+  "county:08014": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Broomfield Housing Services",
+        "url": "https://www.broomfield.org/1344/Housing-Services"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Mental Health Partners",
+        "url": "https://www.mhpcolorado.org/"
+      },
+      {
+        "name": "Habitat for Humanity of the St. Vrain Valley",
+        "url": "https://svvhabitat.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City & County of Broomfield \u2014 Housing Services",
+      "url": "https://www.broomfield.org/1344/Housing-Services"
+    }
+  },
+  "county:08015": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Chaffee Housing Trust",
+        "url": "https://www.chaffeehousing.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Chaffee Housing Trust",
+        "url": "https://www.chaffeehousing.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Chaffee County Community Development",
+      "url": "https://www.chaffeecounty.org/departments/community-development/"
+    }
+  },
+  "county:08017": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08019": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Jefferson County Housing Authority",
+        "url": "https://www.jeffco.us/1249/Housing-Authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Foothills United Way",
+        "url": "https://www.foothillsunitedway.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Clear Creek County Community Development",
+      "url": "https://www.co.clear-creek.co.us/departments/community-development"
+    }
+  },
+  "county:08021": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ]
+  },
+  "county:08023": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ]
+  },
+  "county:08025": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08027": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08029": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Delta County Housing Authority",
+        "url": "https://www.deltacounty.com/departments/housing/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Housing Resources of Western Colorado",
+        "url": "https://hrwc.net/"
+      },
+      {
+        "name": "Delta County Human Services",
+        "url": "https://www.deltacounty.com/departments/human-services/"
+      }
+    ],
+    "housingLead": {
+      "name": "Delta County Housing",
+      "url": "https://www.deltacounty.com/departments/housing/"
+    }
+  },
+  "county:08031": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Denver Housing Authority",
+        "url": "https://www.denverhousing.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Colorado Coalition for the Homeless",
+        "url": "https://www.coloradocoalition.org/"
+      },
+      {
+        "name": "Volunteers of America Colorado",
+        "url": "https://www.voacolorado.org/"
+      },
+      {
+        "name": "Mile High United Way",
+        "url": "https://www.unitedwaydenver.org/"
+      },
+      {
+        "name": "Catholic Charities of Denver",
+        "url": "https://ccdenver.org/"
+      },
+      {
+        "name": "Habitat for Humanity of Metro Denver",
+        "url": "https://habitatmetrodenver.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City & County of Denver \u2014 Housing Stability",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
+    }
+  },
+  "county:08033": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southwest Colorado Housing (Montezuma/Dolores region)",
+        "url": "https://www.swcohousing.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08035": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Douglas County Housing Authority",
+        "url": "https://www.douglas.co.us/departments/community-development/housing-services/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Arapahoe/Douglas Works!",
+        "url": "https://www.adworks.org/"
+      },
+      {
+        "name": "Volunteers of America Colorado",
+        "url": "https://www.voacolorado.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Douglas County Housing Services",
+      "url": "https://www.douglas.co.us/departments/community-development/housing-services/"
+    }
+  },
+  "county:08037": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Eagle County Housing & Development Authority",
+        "url": "https://www.eaglecounty.us/housing/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Eagle Valley Behavioral Health",
+        "url": "https://www.evbh.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Eagle County Housing Department",
+      "url": "https://www.eaglecounty.us/housing/"
+    }
+  },
+  "county:08039": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Elbert County (limited authority)",
+        "url": "https://www.elbertcounty-co.gov/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Arapahoe/Douglas Works!",
+        "url": "https://www.adworks.org/"
+      }
+    ]
+  },
+  "county:08041": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Colorado Springs Housing Authority",
+        "url": "https://coloradospringshousing.com/"
+      },
+      {
+        "name": "El Paso County Housing Authority",
+        "url": "https://www.elpasoco.com/housing-authority/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Pikes Peak United Way",
+        "url": "https://ppunitedway.org/"
+      },
+      {
+        "name": "Springs Rescue Mission",
+        "url": "https://www.springsrescuemission.org/"
+      },
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      },
+      {
+        "name": "Habitat for Humanity of Colorado Springs",
+        "url": "https://www.habitatcs.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Colorado Springs \u2014 Neighborhood Services",
+      "url": "https://coloradosprings.gov/neighborhoods"
+    }
+  },
+  "county:08043": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Fremont County Housing Authority",
+        "url": "https://www.fremontco.com/community-services/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Arkansas Valley Resource Center",
+        "url": "https://avrc.us/"
+      },
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Fremont County Housing Authority",
+      "url": "https://www.fremontco.com/community-services/housing-authority"
+    }
+  },
+  "county:08045": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Garfield County Housing Authority",
+        "url": "https://garfieldcountyco.gov/750/Housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Mountain Family Center",
+        "url": "https://mountainfamilycenter.org/"
+      },
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Garfield County Housing",
+      "url": "https://garfieldcountyco.gov/750/Housing"
+    }
+  },
+  "county:08047": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Jefferson County Housing Authority",
+        "url": "https://www.jeffco.us/1249/Housing-Authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Foothills United Way",
+        "url": "https://www.foothillsunitedway.org/"
+      }
+    ]
+  },
+  "county:08049": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Grand County Housing Authority",
+        "url": "https://www.co.grand.co.us/388/Housing-Authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Grand County Housing Authority",
+      "url": "https://www.co.grand.co.us/388/Housing-Authority"
+    }
+  },
+  "county:08051": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Gunnison County Housing Authority",
+        "url": "https://www.gunnisoncounty.org/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Inc. (Gunnison Valley)",
+        "url": "https://mannacolorado.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Gunnison County Housing Department",
+      "url": "https://www.gunnisoncounty.org/housing"
+    }
+  },
+  "county:08053": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Hinsdale County (limited \u2014 administered through Gunnison County)",
+        "url": "https://www.hinsdalecounty.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Inc. (Gunnison Valley region)",
+        "url": "https://mannacolorado.org/"
+      }
+    ]
+  },
+  "county:08055": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08057": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Northwest Colorado Council of Governments (housing programs)",
+        "url": "https://www.nwccog.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ]
+  },
+  "county:08059": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Jefferson County Housing Authority",
+        "url": "https://www.jeffco.us/1249/Housing-Authority"
+      },
+      {
+        "name": "Lakewood Housing Authority",
+        "url": "https://www.lakewood.org/Government/Departments/Community-Resources/Housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Action Center (Jefferson County)",
+        "url": "https://www.actioncenter.org/"
+      },
+      {
+        "name": "Foothills United Way",
+        "url": "https://www.foothillsunitedway.org/"
+      },
+      {
+        "name": "Catholic Charities of Denver",
+        "url": "https://ccdenver.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Jefferson County Housing Authority",
+      "url": "https://www.jeffco.us/1249/Housing-Authority"
+    }
+  },
+  "county:08061": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08063": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08065": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Durango / La Plata County Housing Authority",
+        "url": "https://www.durangogov.org/573/Housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Inc. (La Plata region)",
+        "url": "https://mannacolorado.org/"
+      },
+      {
+        "name": "La Plata County Human Services",
+        "url": "https://www.co.laplata.co.us/departments-offices/human-services"
+      },
+      {
+        "name": "Habitat for Humanity of La Plata County",
+        "url": "https://www.habitatlaplata.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Durango Housing",
+      "url": "https://www.durangogov.org/573/Housing"
+    }
+  },
+  "county:08067": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Lake County Housing Authority",
+        "url": "https://www.lakecountyco.com/housing-authority/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lake County Build a Generation",
+        "url": "https://www.buildageneration.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Lake County Housing Authority",
+      "url": "https://www.lakecountyco.com/housing-authority/"
+    }
+  },
+  "county:08069": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Housing Catalyst (Fort Collins)",
+        "url": "https://housingcatalyst.com/"
+      },
+      {
+        "name": "Loveland Housing Authority",
+        "url": "https://www.lovgov.org/services/planning-building-development/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Homeward Alliance (Fort Collins)",
+        "url": "https://homewardalliance.org/"
+      },
+      {
+        "name": "Neighbor to Neighbor (Larimer/Boulder)",
+        "url": "https://www.n2ncolorado.org/"
+      },
+      {
+        "name": "Larimer County Housing Authority",
+        "url": "https://www.larimer.org/housing"
+      }
+    ],
+    "housingLead": {
+      "name": "Fort Collins Community Development \u2014 Housing",
+      "url": "https://www.fcgov.com/commdev/housing.php"
+    }
+  },
+  "county:08071": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Las Animas/Trinidad Housing Authority",
+        "url": "https://www.trinidadco.com/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      },
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Trinidad Community Development",
+      "url": "https://www.trinidadco.com/community-development"
+    }
+  },
+  "county:08073": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08075": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Logan County / Sterling Housing Authority",
+        "url": "https://www.sterlingcolo.com/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health (housing-adjacent services)",
+        "url": "https://www.necho.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Sterling Community Development",
+      "url": "https://www.sterlingcolo.com/community-development"
+    }
+  },
+  "county:08079": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ]
+  },
+  "county:08081": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Moffat County Housing Authority",
+        "url": "https://www.moffatcounty.net/departments/housing/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Moffat County Housing",
+      "url": "https://www.moffatcounty.net/departments/housing/"
+    }
+  },
+  "county:08083": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Cortez / Montezuma County Housing Authority",
+        "url": "https://www.cortezco.gov/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Montezuma County Community Development",
+      "url": "https://www.montezumacounty.org/"
+    }
+  },
+  "county:08085": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Montrose County Housing Authority",
+        "url": "https://www.montrosecounty.net/296/Housing-Authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Housing Resources of Western Colorado",
+        "url": "https://hrwc.net/"
+      },
+      {
+        "name": "Montrose County Human Services",
+        "url": "https://www.montrosecounty.net/211/Human-Services"
+      }
+    ],
+    "housingLead": {
+      "name": "Montrose County Housing Authority",
+      "url": "https://www.montrosecounty.net/296/Housing-Authority"
+    }
+  },
+  "county:08087": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Morgan County Housing Authority",
+        "url": "https://www.morgancounty.com/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health (housing services)",
+        "url": "https://www.necho.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Morgan County Housing Authority",
+      "url": "https://www.morgancounty.com/housing-authority"
+    }
+  },
+  "county:08089": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      },
+      {
+        "name": "Arkansas Valley Resource Center",
+        "url": "https://avrc.us/"
+      }
+    ]
+  },
+  "county:08091": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Ouray County Housing (limited)",
+        "url": "https://www.ouraycountyco.gov/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Housing Resources of Western Colorado",
+        "url": "https://hrwc.net/"
+      }
+    ]
+  },
+  "county:08093": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Park County Housing Authority",
+        "url": "https://www.parkco.us/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Foothills United Way",
+        "url": "https://www.foothillsunitedway.org/"
+      }
+    ]
+  },
+  "county:08095": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
+        "url": "https://www.necoha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health",
+        "url": "https://www.necho.org/"
+      }
+    ]
+  },
+  "county:08097": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Aspen/Pitkin County Housing Authority (APCHA)",
+        "url": "https://www.apcha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Aspen Hope Center",
+        "url": "https://aspenhopecenter.org/"
+      },
+      {
+        "name": "Lift-Up (Roaring Fork Valley)",
+        "url": "https://www.lift-up.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Aspen/Pitkin County Housing Authority",
+      "url": "https://www.apcha.org/"
+    }
+  },
+  "county:08099": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Housing (SECHA)",
+        "url": "https://www.secha.net/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      }
+    ]
+  },
+  "county:08101": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Pueblo Housing Authority",
+        "url": "https://www.pueblohousingauthority.org/"
+      },
+      {
+        "name": "Pueblo County Housing",
+        "url": "https://www.pueblocounty.us/departments/pcd/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      },
+      {
+        "name": "Pueblo Rescue Mission",
+        "url": "https://www.pueblorescuemission.org/"
+      },
+      {
+        "name": "Habitat for Humanity Pueblo",
+        "url": "https://www.habitatpueblo.org/"
+      },
+      {
+        "name": "Arkansas Valley Resource Center (AVRC)",
+        "url": "https://avrc.us/"
+      }
+    ],
+    "housingLead": {
+      "name": "City of Pueblo \u2014 Development Services",
+      "url": "https://www.pueblo.us/development"
+    }
+  },
+  "county:08103": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Rio Blanco County Housing (limited)",
+        "url": "https://www.rioblancoco.us/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      }
+    ]
+  },
+  "county:08105": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Rio Grande County Housing Authority",
+        "url": "https://www.riograndecounty.org/departments/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Rio Grande County Housing Authority",
+      "url": "https://www.riograndecounty.org/departments/housing-authority"
+    }
+  },
+  "county:08107": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Routt County Housing Authority",
+        "url": "https://www.co.routt.co.us/780/Housing"
+      },
+      {
+        "name": "Steamboat Springs Housing Division",
+        "url": "https://steamboatsprings.net/421/Housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Lift-Up of Northwest Colorado",
+        "url": "https://www.lift-up.org/"
+      },
+      {
+        "name": "Yampa Valley Housing Authority",
+        "url": "https://www.yampavalleyhousing.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Routt County Housing Authority",
+      "url": "https://www.co.routt.co.us/780/Housing"
+    }
+  },
+  "county:08109": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "San Luis Valley Housing Coalition",
+        "url": "https://www.slvhc.org/"
+      }
+    ]
+  },
+  "county:08111": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "San Juan County Housing (Silverton \u2014 limited)",
+        "url": "https://www.sanjuancountycolorado.us/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Inc. (SW Colorado region)",
+        "url": "https://mannacolorado.org/"
+      }
+    ]
+  },
+  "county:08113": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Telluride Housing Authority / San Miguel County",
+        "url": "https://www.telluride-co.gov/182/Housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Manna Inc. (SW Colorado)",
+        "url": "https://mannacolorado.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Telluride Housing Authority",
+      "url": "https://www.telluride-co.gov/182/Housing"
+    }
+  },
+  "county:08115": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
+        "url": "https://www.necoha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health",
+        "url": "https://www.necho.org/"
+      }
+    ]
+  },
+  "county:08117": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Summit County Housing Authority",
+        "url": "https://www.summitcountyco.gov/1082/Housing"
+      },
+      {
+        "name": "Breckenridge Housing Authority",
+        "url": "https://www.townofbreckenridge.com/services/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Summit County Human Services",
+        "url": "https://www.summitcountyco.gov/299/Human-Services"
+      }
+    ],
+    "housingLead": {
+      "name": "Summit County Housing Authority",
+      "url": "https://www.summitcountyco.gov/1082/Housing"
+    }
+  },
+  "county:08119": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Teller County Housing Authority",
+        "url": "https://www.co.teller.co.us/housing-authority"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Catholic Charities of Southern Colorado",
+        "url": "https://ccsoco.org/"
+      },
+      {
+        "name": "Pikes Peak United Way",
+        "url": "https://ppunitedway.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Teller County Housing Authority",
+      "url": "https://www.co.teller.co.us/housing-authority"
+    }
+  },
+  "county:08121": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "NE Colorado Housing Authority (rural eastern Colorado)",
+        "url": "https://www.necoha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health",
+        "url": "https://www.necho.org/"
+      }
+    ]
+  },
+  "county:08123": {
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "Weld County Housing Authority",
+        "url": "https://www.weld.gov/Government/Departments/Housing-Services"
+      },
+      {
+        "name": "Greeley Housing Authority",
+        "url": "https://www.greeleygov.com/government/community-development/housing"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "Neighbor to Neighbor (Larimer/Weld)",
+        "url": "https://www.n2ncolorado.org/"
+      },
+      {
+        "name": "Weld Food Bank (housing stability programs)",
+        "url": "https://www.weldfoodbank.org/"
+      },
+      {
+        "name": "Catholic Charities of Northern Colorado",
+        "url": "https://ccdenver.org/"
+      }
+    ],
+    "housingLead": {
+      "name": "Weld County Housing Services",
+      "url": "https://www.weld.gov/Government/Departments/Housing-Services"
+    }
+  },
+  "county:08125": {
+    "prop123": {
+      "status": "Not committed",
+      "link": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "housingAuthority": [
+      {
+        "name": "NE Colorado Housing Authority (rural eastern Colorado)",
+        "url": "https://www.necoha.org/"
+      }
+    ],
+    "advocacy": [
+      {
+        "name": "NE Colorado Health",
+        "url": "https://www.necho.org/"
+      }
     ]
   }
 }
