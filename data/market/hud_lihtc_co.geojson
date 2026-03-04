@@ -10,53 +10,223 @@
   "features": [
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.9903, 39.7392]},
-      "properties": {"HUD_ID": "COA1990A001", "PROJECT_NAME": "Denver Affordable Apts I", "CITY": "Denver", "COUNTY": "Denver", "STATE": "CO", "ZIP": "80203", "TOTAL_UNITS": 120, "LI_UNITS": 108, "YEAR_ALLOC": 1990, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9903,
+          39.7392
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA1990A001",
+        "PROJECT_NAME": "Denver Affordable Apts I",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80203",
+        "TOTAL_UNITS": 120,
+        "LI_UNITS": 108,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.9600, 39.7550]},
-      "properties": {"HUD_ID": "COA1995A002", "PROJECT_NAME": "Five Points Family Housing", "CITY": "Denver", "COUNTY": "Denver", "STATE": "CO", "ZIP": "80205", "TOTAL_UNITS": 80, "LI_UNITS": 80, "YEAR_ALLOC": 1995, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96,
+          39.755
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA1995A002",
+        "PROJECT_NAME": "Five Points Family Housing",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80205",
+        "TOTAL_UNITS": 80,
+        "LI_UNITS": 80,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-105.0100, 39.7200]},
-      "properties": {"HUD_ID": "COA2000A003", "PROJECT_NAME": "Southwest Denver Senior Villas", "CITY": "Denver", "COUNTY": "Denver", "STATE": "CO", "ZIP": "80219", "TOTAL_UNITS": 100, "LI_UNITS": 100, "YEAR_ALLOC": 2000, "CREDIT_PCT": "4%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.01,
+          39.72
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2000A003",
+        "PROJECT_NAME": "Southwest Denver Senior Villas",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80219",
+        "TOTAL_UNITS": 100,
+        "LI_UNITS": 100,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-105.0844, 40.5852]},
-      "properties": {"HUD_ID": "COA2005A004", "PROJECT_NAME": "Fort Collins Workforce Housing", "CITY": "Fort Collins", "COUNTY": "Larimer", "STATE": "CO", "ZIP": "80524", "TOTAL_UNITS": 64, "LI_UNITS": 64, "YEAR_ALLOC": 2005, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0844,
+          40.5852
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2005A004",
+        "PROJECT_NAME": "Fort Collins Workforce Housing",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80524",
+        "TOTAL_UNITS": 64,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-105.2705, 40.0150]},
-      "properties": {"HUD_ID": "COA2008A005", "PROJECT_NAME": "Boulder Creek Commons", "CITY": "Boulder", "COUNTY": "Boulder", "STATE": "CO", "ZIP": "80301", "TOTAL_UNITS": 72, "LI_UNITS": 72, "YEAR_ALLOC": 2008, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2705,
+          40.015
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2008A005",
+        "PROJECT_NAME": "Boulder Creek Commons",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80301",
+        "TOTAL_UNITS": 72,
+        "LI_UNITS": 72,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.8214, 38.8339]},
-      "properties": {"HUD_ID": "COA2010A006", "PROJECT_NAME": "Castle Rock Affordable Homes", "CITY": "Castle Rock", "COUNTY": "Douglas", "STATE": "CO", "ZIP": "80104", "TOTAL_UNITS": 56, "LI_UNITS": 56, "YEAR_ALLOC": 2010, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8214,
+          38.8339
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2010A006",
+        "PROJECT_NAME": "Castle Rock Affordable Homes",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80104",
+        "TOTAL_UNITS": 56,
+        "LI_UNITS": 56,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.7631, 38.8686]},
-      "properties": {"HUD_ID": "COA2012A007", "PROJECT_NAME": "Colorado Springs Metro Lofts", "CITY": "Colorado Springs", "COUNTY": "El Paso", "STATE": "CO", "ZIP": "80903", "TOTAL_UNITS": 144, "LI_UNITS": 130, "YEAR_ALLOC": 2012, "CREDIT_PCT": "4%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7631,
+          38.8686
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2012A007",
+        "PROJECT_NAME": "Colorado Springs Metro Lofts",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80903",
+        "TOTAL_UNITS": 144,
+        "LI_UNITS": 130,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-105.1200, 39.6480]},
-      "properties": {"HUD_ID": "COA2015A008", "PROJECT_NAME": "Lakewood Transit Village", "CITY": "Lakewood", "COUNTY": "Jefferson", "STATE": "CO", "ZIP": "80215", "TOTAL_UNITS": 96, "LI_UNITS": 96, "YEAR_ALLOC": 2015, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.12,
+          39.648
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2015A008",
+        "PROJECT_NAME": "Lakewood Transit Village",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80215",
+        "TOTAL_UNITS": 96,
+        "LI_UNITS": 96,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.9700, 39.7100]},
-      "properties": {"HUD_ID": "COA2018A009", "PROJECT_NAME": "Sun Valley Redevelopment Phase I", "CITY": "Denver", "COUNTY": "Denver", "STATE": "CO", "ZIP": "80204", "TOTAL_UNITS": 150, "LI_UNITS": 150, "YEAR_ALLOC": 2018, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.97,
+          39.71
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2018A009",
+        "PROJECT_NAME": "Sun Valley Redevelopment Phase I",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80204",
+        "TOTAL_UNITS": 150,
+        "LI_UNITS": 150,
+        "YEAR_ALLOC": 2018,
+        "CREDIT_PCT": "9%"
+      }
     },
     {
       "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [-104.6919, 40.4233]},
-      "properties": {"HUD_ID": "COA2020A010", "PROJECT_NAME": "Greeley Family Village", "CITY": "Greeley", "COUNTY": "Weld", "STATE": "CO", "ZIP": "80631", "TOTAL_UNITS": 88, "LI_UNITS": 88, "YEAR_ALLOC": 2020, "CREDIT_PCT": "9%"}
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6919,
+          40.4233
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2020A010",
+        "PROJECT_NAME": "Greeley Family Village",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80631",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 88,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
     }
   ]
 }
