@@ -318,6 +318,7 @@
   let charts = {};
   let allLihtcFeatures = []; // full loaded set — used by moveend to filter to current bounds
   let lihtcDataSource = 'HUD';
+  let _lihtcRequestSeq = 0;  // incremented on each county change to cancel stale async results
 
   const state = { current:null, lastProj:null, trendCache:{}, derived:null };
 
@@ -584,7 +585,7 @@
       outSR: '4326',
     });
     const url = `${base}/query?${params.toString()}`;
-    const r = await fetch(url);
+    const r = await fetchWithTimeout(url, {}, 15000);
     if (!r.ok) throw new Error(`Boundary fetch failed (${r.status})`);
     return await r.json();
   }
@@ -1145,17 +1146,28 @@
 
   // Load and render all LIHTC/QCT/DDA overlays for the selected geography
   async function updateLihtcOverlays(countyFips5){
+    // Increment the sequence counter. Any in-flight request for an older county
+    // will see that its requestSeq no longer matches and will discard its result.
+    const requestSeq = ++_lihtcRequestSeq;
+
+    // Clear the previous county's LIHTC layer immediately so stale data is not shown
+    // while the new county's data loads.
+    if (lihtcLayer) { lihtcLayer.remove(); lihtcLayer = null; }
+    allLihtcFeatures = [];
+
     if (els.lihtcMapStatus) els.lihtcMapStatus.textContent = 'Loading LIHTC data…';
 
     // LIHTC
     try {
       const lihtcData = await fetchLihtcProjects(countyFips5);
+      if (requestSeq !== _lihtcRequestSeq) return; // county changed while fetching — discard
       renderLihtcLayer(lihtcData);
       if (els.lihtcMapStatus) {
         const src = lihtcData && lihtcData._source;
         els.lihtcMapStatus.textContent = src ? `Source: ${src}` : '';
       }
     } catch(e) {
+      if (requestSeq !== _lihtcRequestSeq) return;
       console.warn('[HNA] LIHTC render failed', e);
       if (els.statLihtcCount) els.statLihtcCount.textContent = '—';
       if (els.statLihtcUnits) els.statLihtcUnits.textContent = '—';
@@ -1165,12 +1177,14 @@
     // QCT
     try {
       const qctData = await fetchQctTracts(countyFips5);
+      if (requestSeq !== _lihtcRequestSeq) return;
       if (qctData) {
         renderQctLayer(qctData);
       } else {
         if (els.statQctCount) els.statQctCount.textContent = '—';
       }
     } catch(e) {
+      if (requestSeq !== _lihtcRequestSeq) return;
       console.warn('[HNA] QCT render failed', e);
       if (els.statQctCount) els.statQctCount.textContent = '—';
     }
@@ -1178,8 +1192,10 @@
     // DDA
     try {
       const ddaData = await fetchDdaForCounty(countyFips5);
+      if (requestSeq !== _lihtcRequestSeq) return;
       renderDdaLayer(countyFips5, ddaData);
     } catch(e) {
+      if (requestSeq !== _lihtcRequestSeq) return;
       console.warn('[HNA] DDA render failed', e);
       renderDdaLayer(countyFips5, null);
     }
