@@ -9,7 +9,7 @@
  *  2. If Census API is unavailable, retain the existing file unchanged
  *
  * Data source:
- *  U.S. Census Bureau — ACS 5-Year Estimates (2019-2023)
+ *  U.S. Census Bureau — ACS 5-Year Estimates (2018-2022)
  *  https://api.census.gov/data/2022/acs/acs5
  *
  * Run via:
