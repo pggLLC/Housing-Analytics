@@ -1,0 +1,81 @@
+name: Run All Workflows
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # Every Sunday at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  discover-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discover workflows
+        id: discover
+        run: |
+          self="run-all-workflows.yml"
+          workflows=()
+          while IFS= read -r -d '' f; do
+            name=$(basename "$f")
+            if [ "$name" != "$self" ]; then
+              workflows+=("$name")
+            fi
+          done < <(find .github/workflows -maxdepth 1 -name "*.yml" -print0 | sort -z)
+
+          echo "Discovered workflows (excluding self):"
+          for wf in "${workflows[@]}"; do
+            echo "  - $wf"
+          done
+
+          # Encode as newline-delimited string for next step
+          printf '%s\n' "${workflows[@]}" > /tmp/workflows.txt
+          echo "count=${#workflows[@]}" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger each workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+        run: |
+          success=0
+          failure=0
+          skipped=0
+
+          while IFS= read -r workflow; do
+            [ -z "$workflow" ] && continue
+            echo ""
+            echo "▶ Triggering: $workflow"
+
+            # Check if the workflow supports workflow_dispatch before triggering
+            if grep -qE '^\s+workflow_dispatch' ".github/workflows/$workflow" 2>/dev/null; then
+              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+                echo "  ✅ Triggered successfully"
+                success=$((success + 1))
+              else
+                echo "  ❌ Failed to trigger"
+                failure=$((failure + 1))
+              fi
+            else
+              echo "  ⚠️  Workflow not found or inaccessible — skipping"
+              skipped=$((skipped + 1))
+            fi
+
+            # Delay between triggers to avoid rate limiting
+            sleep 3
+          done < /tmp/workflows.txt
+
+          echo ""
+          echo "=== Trigger Summary ==="
+          echo "  Triggered successfully : $success"
+          echo "  Failed to trigger      : $failure"
+          echo "  Skipped                : $skipped"
+
+          if [ "$failure" -gt 0 ]; then
+            echo "::warning::$failure workflow(s) failed to trigger."
+          fi
