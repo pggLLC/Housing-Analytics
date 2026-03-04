@@ -119,7 +119,7 @@ jobs:
           ROOT = Path(".")
           checks = [
               ("data/market/tract_centroids_co.json",  "tracts",   True),
-              ("data/market/acs_tract_metrics_co.json", "tracts",  False),
+              ("data/market/acs_tract_metrics_co.json", "tracts",  True),
               ("data/market/hud_lihtc_co.geojson",     "features", True),
               ("data/co-county-boundaries.json",        "features", False),
           ]

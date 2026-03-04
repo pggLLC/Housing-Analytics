@@ -47,6 +47,7 @@
   var siteLatLng   = null;
   var bufferMiles  = 5;
   var lastResult   = null;
+  var dataLoaded   = false;  // true once loadData() has settled
 
   var tractCentroids      = null;
   var acsMetrics          = null;
@@ -398,6 +399,20 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
+    // Guard: data files missing or empty — give a specific actionable message
+    if (!tractCentroids || tractCentroids.length === 0) {
+      showEmpty('pmaScoreWrap',
+        'ACS data isn\'t available: tract centroid file is missing or empty. ' +
+        'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
+      return;
+    }
+    if (!acsMetrics || !(acsMetrics.tracts || []).length) {
+      showEmpty('pmaScoreWrap',
+        'ACS data isn\'t available: ACS tract metrics file is missing or empty. ' +
+        'Run the "Generate Market Analysis Data" GitHub Actions workflow (requires CENSUS_API_KEY secret).');
+      return;
+    }
+
     var acsIdx = buildAcsIndex(acsMetrics && acsMetrics.tracts);
     var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
@@ -438,6 +453,10 @@
     }).addTo(map);
 
     map.on('click', function (e) {
+      if (!dataLoaded) {
+        showEmpty('pmaScoreWrap', 'Data is still loading — please wait a moment then try again.');
+        return;
+      }
       placeSiteMarker(e.latlng.lat, e.latlng.lng);
       runAnalysis(e.latlng.lat, e.latlng.lng);
     });
@@ -697,16 +716,61 @@
       prop123Jurisdictions = list;
     }).catch(function () { /* optional data — ignore errors */ });
 
+    // Load each file individually so we can report specific failures
+    var WORKFLOW_HINT = 'Run the "Generate Market Analysis Data" GitHub Actions workflow.';
+    var KEY_HINT = '(requires CENSUS_API_KEY secret)';
+
+    function fetchFile(path) {
+      return DS.getJSON(DS.baseData(path)).catch(function (e) {
+        return { _loadError: true, _missing: true, _msg: e && e.message };
+      });
+    }
+
     return Promise.all([
-      DS.getJSON(DS.baseData('market/tract_centroids_co.json')),
-      DS.getJSON(DS.baseData('market/acs_tract_metrics_co.json')),
-      DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
+      fetchFile('market/tract_centroids_co.json'),
+      fetchFile('market/acs_tract_metrics_co.json'),
+      fetchFile('market/hud_lihtc_co.geojson')
     ]).then(function (results) {
-      tractCentroids = (results[0] && results[0].tracts) || [];
-      acsMetrics     = results[1] || { tracts: [] };
-      lihtcFeatures  = (results[2] && results[2].features) || [];
-    }).catch(function (e) {
-      console.warn('[market-analysis] Data load failed:', e);
+      var statusParts = [];
+
+      var tractData = results[0];
+      if (tractData && tractData._loadError) {
+        statusParts.push('Tract centroid data missing — ' + WORKFLOW_HINT);
+        tractCentroids = [];
+      } else {
+        tractCentroids = (tractData && tractData.tracts) || [];
+        if (tractCentroids.length === 0) {
+          statusParts.push('Tract centroid data is empty — ' + WORKFLOW_HINT);
+        }
+      }
+
+      var acsData = results[1];
+      if (acsData && acsData._loadError) {
+        statusParts.push('ACS tract metrics missing — ' + WORKFLOW_HINT + ' ' + KEY_HINT);
+        acsMetrics = { tracts: [] };
+      } else {
+        acsMetrics = acsData || { tracts: [] };
+        if (!(acsMetrics.tracts || []).length) {
+          statusParts.push('ACS tract metrics empty — ' + WORKFLOW_HINT + ' ' + KEY_HINT);
+        }
+      }
+
+      var lihtcData = results[2];
+      if (lihtcData && lihtcData._loadError) {
+        console.warn('[market-analysis] LIHTC data missing:', lihtcData._msg);
+        lihtcFeatures = [];
+      } else {
+        lihtcFeatures = (lihtcData && lihtcData.features) || [];
+      }
+
+      dataLoaded = true;
+
+      var hint = el('pmaDataStatus');
+      if (statusParts.length > 0) {
+        if (hint) hint.textContent = 'Data warning: ' + statusParts.join(' ');
+      } else {
+        if (hint) hint.textContent = 'Data loaded — click map to begin analysis.';
+      }
     });
   }
 
@@ -718,14 +782,12 @@
     bindAmiInputs();
     bindExport();
     loadData().then(function () {
-      // Show ready state
-      var hint = el('pmaDataStatus');
-      if (hint) hint.textContent = 'Data loaded — click map to begin analysis.';
       // Load overlay layers after main data is ready (lihtcFeatures now set)
       loadOverlays();
     }).catch(function () {
+      dataLoaded = true;
       var hint = el('pmaDataStatus');
-      if (hint) hint.textContent = 'Warning: some data files could not be loaded.';
+      if (hint) hint.textContent = 'Warning: data service unavailable.';
       loadOverlays();
     });
   });
