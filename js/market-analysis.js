@@ -48,9 +48,10 @@
   var bufferMiles  = 5;
   var lastResult   = null;
 
-  var tractCentroids = null;
-  var acsMetrics     = null;
-  var lihtcFeatures  = null;
+  var tractCentroids      = null;
+  var acsMetrics          = null;
+  var lihtcFeatures       = null;
+  var prop123Jurisdictions = null;
 
   // Overlay layer references
   var countyLayer  = null;
@@ -127,6 +128,18 @@
       var c = f.geometry && f.geometry.coordinates;
       if (!c) return false;
       return haversine(lat, lon, c[1], c[0]) <= miles;
+    });
+  }
+
+  /* ── Prop 123 jurisdiction check ────────────────────────────────── */
+  function isInProp123Jurisdiction(feature) {
+    if (!prop123Jurisdictions || !prop123Jurisdictions.length) return false;
+    var p = feature.properties || {};
+    // hud_lihtc_co.geojson uses CITY; chfa-lihtc.json uses PROJ_CTY
+    var city = (p.CITY || p.PROJ_CTY || p.city || '').toString().toLowerCase().trim();
+    if (!city) return false;
+    return prop123Jurisdictions.some(function (j) {
+      return (j.name || '').toLowerCase().includes(city);
     });
   }
 
@@ -296,6 +309,7 @@
     setText('pmaLihtcUnits', result.lihtcUnits);
     setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
+    setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
     updateRadarChart(result.dimensions);
     updateSimulator(result);
@@ -396,12 +410,14 @@
     var nearbyLihtc  = lihtcInBuffer(lat, lon, bufferMiles);
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
+    var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
     var pma          = computePma(acs, lihtcUnits, 0);
 
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: bufferMiles,
       tractCount: bufTracts.length, acs: acs,
-      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits
+      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      prop123Count: prop123Count
     });
 
     renderScore(lastResult);
@@ -441,7 +457,7 @@
 
     var overlayMaps = {};
 
-    // County boundaries
+    // County boundaries — added to map by default (visible on load)
     if (countyGj && Array.isArray(countyGj.features) && countyGj.features.length > 0) {
       countyLayer = L.geoJSON(countyGj, {
         style: OVERLAY_STYLES.county,
@@ -450,6 +466,7 @@
           layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
         }
       });
+      countyLayer.addTo(map);
       overlayMaps['County Boundaries'] = countyLayer;
     }
 
@@ -483,8 +500,11 @@
       var lihtcGj = { type: 'FeatureCollection', features: lihtcFeatures };
       lihtcLayer = L.geoJSON(lihtcGj, {
         pointToLayer: function (f, latlng) {
+          var inProp123 = isInProp123Jurisdiction(f);
           return window.L.circleMarker(latlng, {
-            radius: 5, color: '#0ea5a0', fillColor: '#0ea5a0',
+            radius: 5,
+            color: inProp123 ? '#7c3aed' : '#0ea5a0',
+            fillColor: inProp123 ? '#7c3aed' : '#0ea5a0',
             fillOpacity: 0.7, weight: 1.5
           });
         },
@@ -493,8 +513,9 @@
           var name = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
           var units = p.TOTAL_UNITS || p.total_units || '?';
           var year  = p.YEAR_ALLOC  || p.year_alloc  || '';
+          var prop123Badge = isInProp123Jurisdiction(f) ? '<br><span style="color:#7c3aed;font-weight:600">✓ Prop 123 Jurisdiction</span>' : '';
           layer.bindTooltip(
-            name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : ''),
+            name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : '') + prop123Badge,
             { sticky: true, className: 'pma-tooltip' }
           );
         }
@@ -670,6 +691,12 @@
     var DS = window.DataService;
     if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
 
+    // Load Prop 123 jurisdictions in parallel (non-fatal if unavailable)
+    DS.getJSON(DS.baseData('prop123_jurisdictions.json')).then(function (data) {
+      var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
+      prop123Jurisdictions = list;
+    }).catch(function () { /* optional data — ignore errors */ });
+
     return Promise.all([
       DS.getJSON(DS.baseData('market/tract_centroids_co.json')),
       DS.getJSON(DS.baseData('market/acs_tract_metrics_co.json')),
@@ -705,14 +732,15 @@
 
   // Expose for testing
   window.PMAEngine = {
-    haversine:        haversine,
-    computePma:       computePma,
-    simulateCapture:  simulateCapture,
-    scoreTier:        scoreTier,
-    aggregateAcs:     aggregateAcs,
-    WEIGHTS:          WEIGHTS,
-    RISK:             RISK,
-    OVERLAY_STYLES:   OVERLAY_STYLES
+    haversine:               haversine,
+    computePma:              computePma,
+    simulateCapture:         simulateCapture,
+    scoreTier:               scoreTier,
+    aggregateAcs:            aggregateAcs,
+    isInProp123Jurisdiction: isInProp123Jurisdiction,
+    WEIGHTS:                 WEIGHTS,
+    RISK:                    RISK,
+    OVERLAY_STYLES:          OVERLAY_STYLES
   };
 
 }());
