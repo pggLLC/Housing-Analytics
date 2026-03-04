@@ -324,7 +324,13 @@ def build_hud_lihtc() -> dict:
 def _empty_lihtc_geojson() -> dict:
     return {
         "type": "FeatureCollection",
-        "meta": _acs_meta(),
+        "meta": {
+            "source": "HUD LIHTC Database (public)",
+            "state": "Colorado",
+            "state_fips": STATE_FIPS,
+            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "note": "Rebuild via scripts/market/build_public_market_data.py",
+        },
         "features": [],
     }
 
@@ -365,37 +371,45 @@ def main():
         centroids = build_tract_centroids()
     except Exception as e:
         print(f"[ERROR] Tract centroids failed: {e}")
-        # Fall back to existing file if present
+        centroids = {"meta": {}, "tracts": []}
+    # Fall back to existing file if fetch returned no tracts
+    if not centroids.get("tracts"):
         existing = OUT_DIR / "tract_centroids_co.json"
         if existing.exists():
-            centroids = json.loads(existing.read_text())
-            print("  [fallback] Using existing tract_centroids_co.json")
-        else:
-            centroids = {"meta": {}, "tracts": []}
+            saved = json.loads(existing.read_text())
+            if saved.get("tracts"):
+                centroids = saved
+                print("  [fallback] Using existing tract_centroids_co.json")
 
     # 2. ACS metrics
     try:
         acs = build_acs_metrics(centroids)
     except Exception as e:
         print(f"[ERROR] ACS metrics failed: {e}")
+        acs = {"meta": {}, "tracts": []}
+    # Fall back to existing file if fetch returned no tracts
+    if not acs.get("tracts"):
         existing = OUT_DIR / "acs_tract_metrics_co.json"
         if existing.exists():
-            acs = json.loads(existing.read_text())
-            print("  [fallback] Using existing acs_tract_metrics_co.json")
-        else:
-            acs = {"meta": {}, "tracts": []}
+            saved = json.loads(existing.read_text())
+            if saved.get("tracts"):
+                acs = saved
+                print("  [fallback] Using existing acs_tract_metrics_co.json")
 
     # 3. HUD LIHTC
     try:
         lihtc = build_hud_lihtc()
     except Exception as e:
         print(f"[ERROR] HUD LIHTC failed: {e}")
+        lihtc = _empty_lihtc_geojson()
+    # Fall back to existing file if fetch returned no features
+    if not lihtc.get("features"):
         existing = OUT_DIR / "hud_lihtc_co.geojson"
         if existing.exists():
-            lihtc = json.loads(existing.read_text())
-            print("  [fallback] Using existing hud_lihtc_co.geojson")
-        else:
-            lihtc = _empty_lihtc_geojson()
+            saved = json.loads(existing.read_text())
+            if saved.get("features"):
+                lihtc = saved
+                print("  [fallback] Using existing hud_lihtc_co.geojson")
 
     # Write artifacts
     print("\n[Write] Saving artifacts…")
