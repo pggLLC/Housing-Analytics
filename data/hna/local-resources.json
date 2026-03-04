@@ -35,7 +35,35 @@
     "housingLead": {
       "name": "City of Grand Junction Housing (program page)",
       "url": "https://www.gjcity.org/353/Housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Mesa County Master Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2021,
+        "url": "https://www.mesacounty.us/planning/master-plan/"
+      },
+      {
+        "name": "City of Grand Junction Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2020,
+        "url": "https://www.gjcity.org/353/Housing"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Mesa County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Mesa County",
+        "url": "https://www.mesacounty.us/planning/"
+      },
+      {
+        "name": "City of Grand Junction Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "City of Grand Junction",
+        "url": "https://www.gjcity.org/180/Community-Development"
+      }
+    ]
   },
   "place:0828745": {
     "prop123": {
@@ -137,7 +165,29 @@
     "housingLead": {
       "name": "Adams County Community & Support Services \u2014 Housing",
       "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Adams County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.adcogov.org/housing-needs-assessment"
+      },
+      {
+        "name": "Adams County Comprehensive Plan (Housing Element)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.adcogov.org/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Community & Economic Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Adams County",
+        "url": "https://www.adcogov.org/community-economic-development"
+      }
+    ]
   },
   "county:08003": {
     "prop123": {
@@ -201,7 +251,29 @@
     "housingLead": {
       "name": "Arapahoe County Housing & Community Development",
       "url": "https://www.arapahoegov.com/1296/Housing-Authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Arapahoe County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.arapahoegov.com/1847/Housing-Needs-Assessment"
+      },
+      {
+        "name": "Arapahoe County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.arapahoegov.com/339/Comprehensive-Plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Arapahoe County",
+        "url": "https://www.arapahoegov.com/1022/Community-Development"
+      }
+    ]
   },
   "county:08007": {
     "prop123": {
@@ -297,7 +369,35 @@
     "housingLead": {
       "name": "City of Boulder Housing & Human Services",
       "url": "https://bouldercolorado.gov/housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Boulder County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://assets.bouldercounty.gov/wp-content/uploads/2022/08/boulder-county-hna-2022.pdf"
+      },
+      {
+        "name": "Boulder County Comprehensive Plan (Housing Element)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.bouldercounty.gov/land-use/planning/comprehensive-plan/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Community Planning & Permitting Director",
+        "title": "Planning Director",
+        "jurisdiction": "Boulder County",
+        "url": "https://www.bouldercounty.gov/land-use/planning/"
+      },
+      {
+        "name": "Housing and Human Services Director",
+        "title": "Housing Director",
+        "jurisdiction": "Boulder County",
+        "url": "https://www.bouldercounty.gov/family-and-children/affordable-housing/"
+      }
+    ]
   },
   "county:08014": {
     "prop123": {
@@ -323,7 +423,29 @@
     "housingLead": {
       "name": "City & County of Broomfield \u2014 Housing Services",
       "url": "https://www.broomfield.org/1344/Housing-Services"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Broomfield Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2021,
+        "url": "https://www.broomfield.org/1477/Comprehensive-Plan"
+      },
+      {
+        "name": "Broomfield Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.broomfield.org/2047/Housing-Needs-Assessment"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Broomfield Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "City & County of Broomfield",
+        "url": "https://www.broomfield.org/209/Community-Development"
+      }
+    ]
   },
   "county:08015": {
     "prop123": {
@@ -345,7 +467,29 @@
     "housingLead": {
       "name": "Chaffee County Community Development",
       "url": "https://www.chaffeecounty.org/departments/community-development/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Chaffee County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.chaffeecounty.org/1024/Housing-Needs-Assessment"
+      },
+      {
+        "name": "Chaffee County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.chaffeecounty.org/147/Planning-and-Zoning"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Chaffee County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Chaffee County",
+        "url": "https://www.chaffeecounty.org/147/Planning-and-Zoning"
+      }
+    ]
   },
   "county:08017": {
     "prop123": {
@@ -385,7 +529,23 @@
     "housingLead": {
       "name": "Clear Creek County Community Development",
       "url": "https://www.co.clear-creek.co.us/departments/community-development"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Clear Creek County Master Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://clearcreekcounty.org/community-development/master-plan/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Clear Creek County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Clear Creek County",
+        "url": "https://clearcreekcounty.org/community-development/"
+      }
+    ]
   },
   "county:08021": {
     "prop123": {
@@ -483,7 +643,23 @@
     "housingLead": {
       "name": "Delta County Housing",
       "url": "https://www.deltacounty.com/departments/housing/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Delta County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.deltacounty.com/212/Planning-Zoning"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Delta County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Delta County",
+        "url": "https://www.deltacounty.com/212/Planning-Zoning"
+      }
+    ]
   },
   "county:08031": {
     "prop123": {
@@ -521,7 +697,35 @@
     "housingLead": {
       "name": "City & County of Denver \u2014 Housing Stability",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Housing an Inclusive Denver \u2014 5-Year Action Plan",
+        "type": "Housing Action Plan",
+        "year": 2021,
+        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Housing-Plans"
+      },
+      {
+        "name": "Denver Comprehensive Plan 2040 (Housing Element)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Community-Planning-and-Development/Long-Range-Planning/Denver-Comprehensive-Plan-2040"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Director of Housing Stability",
+        "title": "Housing Director",
+        "jurisdiction": "City & County of Denver",
+        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability"
+      },
+      {
+        "name": "Director of Community Planning and Development",
+        "title": "Planning Director",
+        "jurisdiction": "City & County of Denver",
+        "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Community-Planning-and-Development"
+      }
+    ]
   },
   "county:08033": {
     "prop123": {
@@ -565,7 +769,35 @@
     "housingLead": {
       "name": "Douglas County Housing Services",
       "url": "https://www.douglas.co.us/departments/community-development/housing-services/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Douglas County Comprehensive Master Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.douglas.co.us/planning/comprehensive-master-plan/"
+      },
+      {
+        "name": "Douglas County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.douglas.co.us/community-development/housing/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Douglas County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Douglas County",
+        "url": "https://www.douglas.co.us/planning/"
+      },
+      {
+        "name": "Douglas County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Douglas County",
+        "url": "https://www.douglas.co.us/community-development/"
+      }
+    ]
   },
   "county:08037": {
     "prop123": {
@@ -587,7 +819,35 @@
     "housingLead": {
       "name": "Eagle County Housing Department",
       "url": "https://www.eaglecounty.us/housing/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Eagle County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.eaglecounty.us/Housing/Housing_Needs_Assessment/"
+      },
+      {
+        "name": "Eagle County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.eaglecounty.us/planning/comprehensive-plan/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Eagle County Housing Director",
+        "title": "Housing Director",
+        "jurisdiction": "Eagle County",
+        "url": "https://www.eaglecounty.us/Housing/"
+      },
+      {
+        "name": "Eagle County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Eagle County",
+        "url": "https://www.eaglecounty.us/planning/"
+      }
+    ]
   },
   "county:08039": {
     "prop123": {
@@ -643,7 +903,35 @@
     "housingLead": {
       "name": "City of Colorado Springs \u2014 Neighborhood Services",
       "url": "https://coloradosprings.gov/neighborhoods"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Colorado Springs Housing Master Plan",
+        "type": "Housing Action Plan",
+        "year": 2021,
+        "url": "https://coloradosprings.gov/housing/housing-master-plan"
+      },
+      {
+        "name": "El Paso County Master Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2022,
+        "url": "https://www.elpasoco.com/community-services/planning-community-development/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Planning & Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "El Paso County",
+        "url": "https://www.elpasoco.com/community-services/planning-community-development/"
+      },
+      {
+        "name": "Colorado Springs Housing & Community Vitality",
+        "title": "Housing Director",
+        "jurisdiction": "City of Colorado Springs",
+        "url": "https://coloradosprings.gov/housing"
+      }
+    ]
   },
   "county:08043": {
     "prop123": {
@@ -669,7 +957,23 @@
     "housingLead": {
       "name": "Fremont County Housing Authority",
       "url": "https://www.fremontco.com/community-services/housing-authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Fremont County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.fremontco.com/planning-zoning/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Fremont County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Fremont County",
+        "url": "https://www.fremontco.com/planning-zoning"
+      }
+    ]
   },
   "county:08045": {
     "prop123": {
@@ -695,7 +999,29 @@
     "housingLead": {
       "name": "Garfield County Housing",
       "url": "https://garfieldcountyco.gov/750/Housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Garfield County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.garfield-county.com/community-development/housing-needs-assessment/"
+      },
+      {
+        "name": "Garfield County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.garfield-county.com/community-development/comprehensive-plan/"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Garfield County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Garfield County",
+        "url": "https://www.garfield-county.com/community-development/"
+      }
+    ]
   },
   "county:08047": {
     "prop123": {
@@ -712,6 +1038,22 @@
       {
         "name": "Foothills United Way",
         "url": "https://www.foothillsunitedway.org/"
+      }
+    ],
+    "housingPlans": [
+      {
+        "name": "Gilpin County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.gilpincounty.org/planning-zoning/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Gilpin County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Gilpin County",
+        "url": "https://www.gilpincounty.org/planning-zoning"
       }
     ]
   },
@@ -735,7 +1077,23 @@
     "housingLead": {
       "name": "Grand County Housing Authority",
       "url": "https://www.co.grand.co.us/388/Housing-Authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Grand County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.co.grand.co.us/1024/Housing-Needs-Assessment"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Grand County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Grand County",
+        "url": "https://www.co.grand.co.us/125/Community-Development"
+      }
+    ]
   },
   "county:08051": {
     "prop123": {
@@ -757,7 +1115,23 @@
     "housingLead": {
       "name": "Gunnison County Housing Department",
       "url": "https://www.gunnisoncounty.org/housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Gunnison Valley Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.gunnisoncounty.org/1025/Housing-Needs-Assessment"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Gunnison County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Gunnison County",
+        "url": "https://www.gunnisoncounty.org/130/Planning"
+      }
+    ]
   },
   "county:08053": {
     "prop123": {
@@ -845,7 +1219,35 @@
     "housingLead": {
       "name": "Jefferson County Housing Authority",
       "url": "https://www.jeffco.us/1249/Housing-Authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Jefferson County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.jeffco.us/3048/Housing-Needs-Assessment"
+      },
+      {
+        "name": "Jeffco Comprehensive Master Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.jeffco.us/2419/Comprehensive-Master-Plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Planning & Zoning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Jefferson County",
+        "url": "https://www.jeffco.us/741/Planning-Zoning"
+      },
+      {
+        "name": "Community Assistance Division Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Jefferson County",
+        "url": "https://www.jeffco.us/1137/Community-Assistance"
+      }
+    ]
   },
   "county:08061": {
     "prop123": {
@@ -933,7 +1335,35 @@
     "housingLead": {
       "name": "Lake County Housing Authority",
       "url": "https://www.lakecountyco.com/housing-authority/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "La Plata County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.laplata.co.us/community_development/housing"
+      },
+      {
+        "name": "La Plata County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.laplata.co.us/community_development/comprehensive_plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "La Plata County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "La Plata County",
+        "url": "https://www.laplata.co.us/community_development"
+      },
+      {
+        "name": "City of Durango Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "City of Durango",
+        "url": "https://www.durangogov.org/1025/Community-Development"
+      }
+    ]
   },
   "county:08069": {
     "prop123": {
@@ -967,7 +1397,41 @@
     "housingLead": {
       "name": "Fort Collins Community Development \u2014 Housing",
       "url": "https://www.fcgov.com/commdev/housing.php"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "City of Fort Collins Housing Strategic Plan",
+        "type": "Housing Action Plan",
+        "year": 2021,
+        "url": "https://www.fcgov.com/socialsustainability/housing-strategic-plan"
+      },
+      {
+        "name": "Larimer County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2020,
+        "url": "https://www.larimer.org/planning/community-development/housing"
+      },
+      {
+        "name": "City of Loveland Comprehensive Plan (Housing Element)",
+        "type": "Comprehensive Plan",
+        "year": 2022,
+        "url": "https://www.lovgov.org/services/planning-building/long-range-planning/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Social Sustainability Director",
+        "title": "Housing Director",
+        "jurisdiction": "City of Fort Collins",
+        "url": "https://www.fcgov.com/socialsustainability/"
+      },
+      {
+        "name": "Larimer County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Larimer County",
+        "url": "https://www.larimer.org/planning"
+      }
+    ]
   },
   "county:08071": {
     "prop123": {
@@ -1121,7 +1585,23 @@
     "housingLead": {
       "name": "Montrose County Housing Authority",
       "url": "https://www.montrosecounty.net/296/Housing-Authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Montrose County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.montrosecounty.net/374/Planning-and-Development"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Montrose County Planning & Development Director",
+        "title": "Planning Director",
+        "jurisdiction": "Montrose County",
+        "url": "https://www.montrosecounty.net/374/Planning-and-Development"
+      }
+    ]
   },
   "county:08087": {
     "prop123": {
@@ -1201,6 +1681,22 @@
         "name": "Foothills United Way",
         "url": "https://www.foothillsunitedway.org/"
       }
+    ],
+    "housingPlans": [
+      {
+        "name": "Park County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.parkco.us/planning/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Park County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Park County",
+        "url": "https://www.parkco.us/planning"
+      }
     ]
   },
   "county:08095": {
@@ -1245,7 +1741,35 @@
     "housingLead": {
       "name": "Aspen/Pitkin County Housing Authority",
       "url": "https://www.apcha.org/"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Aspen/Pitkin County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.apcha.org/planning-documents/"
+      },
+      {
+        "name": "Pitkin County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.pitkincounty.com/468/Comprehensive-Plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Aspen/Pitkin County Housing Authority Director",
+        "title": "Housing Director",
+        "jurisdiction": "Aspen/Pitkin County",
+        "url": "https://www.apcha.org/"
+      },
+      {
+        "name": "Pitkin County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Pitkin County",
+        "url": "https://www.pitkincounty.com/120/Community-Development"
+      }
+    ]
   },
   "county:08099": {
     "prop123": {
@@ -1301,7 +1825,35 @@
     "housingLead": {
       "name": "City of Pueblo \u2014 Development Services",
       "url": "https://www.pueblo.us/development"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Pueblo County Comprehensive Development Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2021,
+        "url": "https://www.pueblocounty.us/departments/planning-and-zoning/comprehensive-development-plan"
+      },
+      {
+        "name": "City of Pueblo Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2022,
+        "url": "https://www.pueblo.us/1025/Housing-Needs-Assessment"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Pueblo County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Pueblo County",
+        "url": "https://www.pueblocounty.us/departments/planning-and-zoning"
+      },
+      {
+        "name": "City of Pueblo Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "City of Pueblo",
+        "url": "https://www.pueblo.us/185/Community-Development"
+      }
+    ]
   },
   "county:08103": {
     "prop123": {
@@ -1371,7 +1923,35 @@
     "housingLead": {
       "name": "Routt County Housing Authority",
       "url": "https://www.co.routt.co.us/780/Housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Routt County Regional Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.co.routt.co.us/413/Housing"
+      },
+      {
+        "name": "Steamboat Springs Housing Action Plan",
+        "type": "Housing Action Plan",
+        "year": 2022,
+        "url": "https://steamboatsprings.net/1054/Housing"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Routt County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "Routt County",
+        "url": "https://www.co.routt.co.us/167/Community-Development"
+      },
+      {
+        "name": "Steamboat Springs Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "City of Steamboat Springs",
+        "url": "https://steamboatsprings.net/167/Planning"
+      }
+    ]
   },
   "county:08109": {
     "prop123": {
@@ -1429,7 +2009,23 @@
     "housingLead": {
       "name": "Telluride Housing Authority",
       "url": "https://www.telluride-co.gov/182/Housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "San Miguel County/Telluride Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2021,
+        "url": "https://www.sanmiguelcountyco.gov/196/Housing"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "San Miguel County Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "San Miguel County",
+        "url": "https://www.sanmiguelcountyco.gov/116/Community-Development"
+      }
+    ]
   },
   "county:08115": {
     "prop123": {
@@ -1473,7 +2069,35 @@
     "housingLead": {
       "name": "Summit County Housing Authority",
       "url": "https://www.summitcountyco.gov/1082/Housing"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Summit County Housing Needs Assessment",
+        "type": "HNA",
+        "year": 2023,
+        "url": "https://www.summitcountyco.gov/1148/Housing-Needs-Assessment"
+      },
+      {
+        "name": "Summit County Master Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2021,
+        "url": "https://www.summitcountyco.gov/540/Master-Plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Summit County Housing Director",
+        "title": "Housing Director",
+        "jurisdiction": "Summit County",
+        "url": "https://www.summitcountyco.gov/1146/Housing"
+      },
+      {
+        "name": "Summit County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Summit County",
+        "url": "https://www.summitcountyco.gov/127/Planning"
+      }
+    ]
   },
   "county:08119": {
     "prop123": {
@@ -1499,7 +2123,23 @@
     "housingLead": {
       "name": "Teller County Housing Authority",
       "url": "https://www.co.teller.co.us/housing-authority"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Teller County Comprehensive Plan (Housing Chapter)",
+        "type": "Comprehensive Plan",
+        "year": 2019,
+        "url": "https://www.co.teller.co.us/planning/comprehensive-plan"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Teller County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Teller County",
+        "url": "https://www.co.teller.co.us/planning"
+      }
+    ]
   },
   "county:08121": {
     "prop123": {
@@ -1551,7 +2191,35 @@
     "housingLead": {
       "name": "Weld County Housing Services",
       "url": "https://www.weld.gov/Government/Departments/Housing-Services"
-    }
+    },
+    "housingPlans": [
+      {
+        "name": "Weld County Comprehensive Plan (Housing)",
+        "type": "Comprehensive Plan",
+        "year": 2020,
+        "url": "https://www.weldgov.com/departments/planning_and_zoning/comprehensive_plan"
+      },
+      {
+        "name": "City of Greeley Housing Action Plan",
+        "type": "Housing Action Plan",
+        "year": 2022,
+        "url": "https://greeleygov.com/government/cd/affordable-housing"
+      }
+    ],
+    "contacts": [
+      {
+        "name": "Weld County Planning Director",
+        "title": "Planning Director",
+        "jurisdiction": "Weld County",
+        "url": "https://www.weldgov.com/departments/planning_and_zoning"
+      },
+      {
+        "name": "Greeley Community Development Director",
+        "title": "Community Development Director",
+        "jurisdiction": "City of Greeley",
+        "url": "https://greeleygov.com/government/cd"
+      }
+    ]
   },
   "county:08125": {
     "prop123": {

@@ -489,6 +489,76 @@ test('data/hna/geo-config.json: valid JSON with required fields', () => {
 });
 
 // ---------------------------------------------------------------------------
+// data/hna/local-resources.json: housing plans & contacts
+// ---------------------------------------------------------------------------
+test('data/hna/local-resources.json: file exists and is valid JSON', () => {
+    const lrPath = path.join(ROOT, 'data', 'hna', 'local-resources.json');
+    assert(fs.existsSync(lrPath), 'data/hna/local-resources.json exists');
+    const raw = fs.readFileSync(lrPath, 'utf8');
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { assert(false, `valid JSON: ${e.message}`); return; }
+    assert(typeof data === 'object' && data !== null, 'parses to an object');
+    assert(Object.keys(data).length > 0, 'has at least one geography entry');
+});
+
+test('data/hna/local-resources.json: housingPlans entries are well-formed', () => {
+    const lrPath = path.join(ROOT, 'data', 'hna', 'local-resources.json');
+    const data = JSON.parse(fs.readFileSync(lrPath, 'utf8'));
+    let planCount = 0;
+    for (const [key, entry] of Object.entries(data)) {
+        if (!entry.housingPlans) continue;
+        assert(Array.isArray(entry.housingPlans), `${key}: housingPlans is an array`);
+        for (const plan of entry.housingPlans) {
+            assert(typeof plan.name === 'string' && plan.name.length > 0,
+                `${key}: housingPlan entry has a non-empty "name"`);
+            assert(typeof plan.type === 'string' && plan.type.length > 0,
+                `${key}: housingPlan entry has a non-empty "type"`);
+            if (plan.url !== undefined) {
+                assert(typeof plan.url === 'string' && plan.url.startsWith('http'),
+                    `${key}: housingPlan url starts with http`);
+            }
+            planCount++;
+        }
+    }
+    assert(planCount > 0, 'at least one housingPlan entry exists across all geographies');
+});
+
+test('data/hna/local-resources.json: contacts entries are well-formed', () => {
+    const lrPath = path.join(ROOT, 'data', 'hna', 'local-resources.json');
+    const data = JSON.parse(fs.readFileSync(lrPath, 'utf8'));
+    let contactCount = 0;
+    for (const [key, entry] of Object.entries(data)) {
+        if (!entry.contacts) continue;
+        assert(Array.isArray(entry.contacts), `${key}: contacts is an array`);
+        for (const c of entry.contacts) {
+            assert(typeof c.name === 'string' && c.name.length > 0,
+                `${key}: contact entry has a non-empty "name"`);
+            assert(typeof c.title === 'string' && c.title.length > 0,
+                `${key}: contact entry has a non-empty "title"`);
+            if (c.url !== undefined) {
+                assert(typeof c.url === 'string' && c.url.startsWith('http'),
+                    `${key}: contact url starts with http`);
+            }
+            contactCount++;
+        }
+    }
+    assert(contactCount > 0, 'at least one contact entry exists across all geographies');
+});
+
+test('JS: renderLocalResources renders housingPlans section', () => {
+    assert(js.includes('housingPlans'),         'renderLocalResources references housingPlans');
+    assert(js.includes('Housing plans'),        'renderLocalResources has "Housing plans" heading text');
+    assert(js.includes('assessments'),          'renderLocalResources heading mentions assessments');
+});
+
+test('JS: renderLocalResources renders contacts section', () => {
+    assert(js.includes('r.contacts'),           'renderLocalResources checks r.contacts');
+    assert(js.includes('Key contacts'),         'renderLocalResources has "Key contacts" heading text');
+    assert(js.includes('x.title'),              'renderLocalResources uses x.title for contact title');
+    assert(js.includes('x.jurisdiction'),       'renderLocalResources uses x.jurisdiction');
+});
+
+// ---------------------------------------------------------------------------
 // JS: dynamic ACS year detection and source links
 // ---------------------------------------------------------------------------
 test('JS: ACS_VINTAGES array is defined and starts with a year >= 2024', () => {
