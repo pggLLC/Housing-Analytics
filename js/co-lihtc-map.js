@@ -7,9 +7,10 @@
   'use strict';
 
   // ── Layer references (for checkbox toggles) ──────────────────────────────────
-  var lihtcLayerGroup = null;
-  var ddaLayerGroup   = null;
-  var qctLayerGroup   = null;
+  var lihtcLayerGroup  = null;
+  var ddaLayerGroup    = null;
+  var qctLayerGroup    = null;
+  var countyLayerGroup = null;
 
   // ── Basemap tile layer reference ─────────────────────────────────────────────
   var currentTileLayer = null;
@@ -227,6 +228,29 @@
     if (show) qctLayerGroup.addTo(map);
   }
 
+  // ── Render County Boundaries overlay ────────────────────────────────────────
+  function renderCountyLayer(map, geojson) {
+    if (countyLayerGroup) { countyLayerGroup.clearLayers(); }
+    else { countyLayerGroup = L.layerGroup(); }
+
+    L.geoJSON(geojson, {
+      style: {
+        color: '#334155',
+        weight: 1.5,
+        opacity: 0.9,
+        fillOpacity: 0,
+      },
+      onEachFeature: function(f, layer) {
+        var name = (f.properties && (f.properties.NAME || f.properties.NAMELSAD)) || 'County';
+        layer.bindTooltip(name, { sticky: true });
+      },
+    }).addTo(countyLayerGroup);
+
+    var cbCounty = document.getElementById('layerCounty');
+    var show = !cbCounty || cbCounty.checked !== false;
+    if (show) countyLayerGroup.addTo(map);
+  }
+
   // ── Basemap switch ───────────────────────────────────────────────────────────
   function applyBasemap(map, name) {
     var def = TILE_DEFS[name] || TILE_DEFS.osm;
@@ -333,9 +357,10 @@
         } catch(e) { console.warn('[co-lihtc-map] Toggle failed:', e.message); }
       });
     }
-    bind('layerLIHTC', function() { return lihtcLayerGroup; });
-    bind('layerDDA',   function() { return ddaLayerGroup; });
-    bind('layerQCT',   function() { return qctLayerGroup; });
+    bind('layerLIHTC',  function() { return lihtcLayerGroup; });
+    bind('layerDDA',    function() { return ddaLayerGroup; });
+    bind('layerQCT',    function() { return qctLayerGroup; });
+    bind('layerCounty', function() { return countyLayerGroup; });
     // filterQCT / filterDDA checkboxes — show only projects in QCT/DDA zones
     var cbFilterQct = document.getElementById('filterQCT');
     var cbFilterDda = document.getElementById('filterDDA');
@@ -407,6 +432,24 @@
       .catch(function(err) {
         console.warn('[co-lihtc-map] Local DDA cache unavailable; using embedded fallback.', err.message);
         renderDdaLayer(map, FALLBACK_DDA);
+      });
+
+    // County boundaries — try local cache first
+    fetchWithTimeout(resolveUrl('data/co-county-boundaries.json'), {}, 15000)
+      .then(function(res) {
+        if (!res.ok) throw new Error('County HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(gj) {
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
+          renderCountyLayer(map, gj);
+          console.info('[co-lihtc-map] County boundaries loaded (' + gj.features.length + ' features).');
+        } else {
+          console.warn('[co-lihtc-map] Local co-county-boundaries.json empty; skipping county layer.');
+        }
+      })
+      .catch(function(err) {
+        console.warn('[co-lihtc-map] County boundaries unavailable:', err.message);
       });
   }
 
