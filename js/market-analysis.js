@@ -52,6 +52,13 @@
   var acsMetrics     = null;
   var lihtcFeatures  = null;
 
+  // Overlay layer references
+  var countyLayer  = null;
+  var qctLayer     = null;
+  var ddaLayer     = null;
+  var lihtcLayer   = null;
+  var layerControl = null;
+
   /* ── Haversine distance (miles) ─────────────────────────────────── */
   function haversine(lat1, lon1, lat2, lon2) {
     var R  = 3958.8; // Earth radius in miles
@@ -420,6 +427,137 @@
     });
   }
 
+  /* ── Overlay layer styles ────────────────────────────────────────── */
+  var OVERLAY_STYLES = {
+    county: { color: '#334155', weight: 1.5, fillOpacity: 0, dashArray: null },
+    qct:    { color: '#7c3aed', weight: 1,   fillColor: '#7c3aed', fillOpacity: 0.10 },
+    dda:    { color: '#b45309', weight: 1,   fillColor: '#b45309', fillOpacity: 0.12 }
+  };
+
+  /* ── Build overlay layers and Leaflet layer control ─────────────── */
+  function initOverlayLayers(countyGj, qctGj, ddaGj) {
+    var L = window.L;
+    if (!L || !map) return;
+
+    var overlayMaps = {};
+
+    // County boundaries
+    if (countyGj && Array.isArray(countyGj.features) && countyGj.features.length > 0) {
+      countyLayer = L.geoJSON(countyGj, {
+        style: OVERLAY_STYLES.county,
+        onEachFeature: function (f, layer) {
+          var name = (f.properties && (f.properties.NAME || f.properties.NAMELSAD)) || 'County';
+          layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
+        }
+      });
+      overlayMaps['County Boundaries'] = countyLayer;
+    }
+
+    // QCTs
+    if (qctGj && Array.isArray(qctGj.features) && qctGj.features.length > 0) {
+      qctLayer = L.geoJSON(qctGj, {
+        style: OVERLAY_STYLES.qct,
+        onEachFeature: function (f, layer) {
+          var id = (f.properties && (f.properties.GEOID || f.properties.geoid)) || '';
+          layer.bindTooltip('QCT ' + id, { sticky: true, className: 'pma-tooltip' });
+        }
+      });
+      overlayMaps['Qualified Census Tracts'] = qctLayer;
+    }
+
+    // DDAs
+    if (ddaGj && Array.isArray(ddaGj.features) && ddaGj.features.length > 0) {
+      ddaLayer = L.geoJSON(ddaGj, {
+        style: OVERLAY_STYLES.dda,
+        onEachFeature: function (f, layer) {
+          var p = f.properties || {};
+          var label = p.DDA_NAME || p.NAME || p.ZCTA5 || p.ZIP || 'DDA';
+          layer.bindTooltip('DDA: ' + label, { sticky: true, className: 'pma-tooltip' });
+        }
+      });
+      overlayMaps['Difficult Dev Areas'] = ddaLayer;
+    }
+
+    // LIHTC project markers (circle markers)
+    if (lihtcFeatures && lihtcFeatures.length > 0) {
+      var lihtcGj = { type: 'FeatureCollection', features: lihtcFeatures };
+      lihtcLayer = L.geoJSON(lihtcGj, {
+        pointToLayer: function (f, latlng) {
+          return window.L.circleMarker(latlng, {
+            radius: 5, color: '#0ea5a0', fillColor: '#0ea5a0',
+            fillOpacity: 0.7, weight: 1.5
+          });
+        },
+        onEachFeature: function (f, layer) {
+          var p = f.properties || {};
+          var name = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
+          var units = p.TOTAL_UNITS || p.total_units || '?';
+          var year  = p.YEAR_ALLOC  || p.year_alloc  || '';
+          layer.bindTooltip(
+            name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : ''),
+            { sticky: true, className: 'pma-tooltip' }
+          );
+        }
+      });
+      lihtcLayer.addTo(map);
+      overlayMaps['LIHTC Projects'] = lihtcLayer;
+    }
+
+    // Add Leaflet layer control (top-right, after zoom control)
+    if (Object.keys(overlayMaps).length > 0) {
+      if (layerControl) map.removeControl(layerControl);
+      layerControl = L.control.layers(null, overlayMaps, {
+        collapsed: true,
+        position: 'topright'
+      }).addTo(map);
+    }
+
+    // Add compact map legend
+    addMapLegend(overlayMaps);
+  }
+
+  /* ── Map legend ─────────────────────────────────────────────────── */
+  function addMapLegend(overlayMaps) {
+    var L = window.L;
+    if (!L || !map || !Object.keys(overlayMaps).length) return;
+
+    var legend = L.control({ position: 'bottomleft' });
+    legend.onAdd = function () {
+      var div = L.DomUtil.create('div', 'pma-legend');
+      var items = [];
+      if (overlayMaps['County Boundaries']) {
+        items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
+      }
+      if (overlayMaps['Qualified Census Tracts']) {
+        items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
+      }
+      if (overlayMaps['Difficult Dev Areas']) {
+        items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
+      }
+      if (overlayMaps['LIHTC Projects']) {
+        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0ea5a0"></span> LIHTC');
+      }
+      div.innerHTML = items.map(function (i) { return '<div>' + i + '</div>'; }).join('');
+      return div;
+    };
+    legend.addTo(map);
+  }
+
+  /* ── Load overlay GeoJSON files ──────────────────────────────────── */
+  function loadOverlays() {
+    var DS = window.DataService;
+    if (!DS) return Promise.resolve();
+    return Promise.all([
+      DS.getJSON(DS.baseData('co-county-boundaries.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('qct-colorado.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('dda-colorado.json')).catch(function () { return null; })
+    ]).then(function (results) {
+      initOverlayLayers(results[0], results[1], results[2]);
+    }).catch(function (e) {
+      console.warn('[market-analysis] Overlay load failed:', e);
+    });
+  }
+
   function placeSiteMarker(lat, lon) {
     siteLatLng = { lat: lat, lon: lon };
     var L = window.L;
@@ -556,9 +694,12 @@
       // Show ready state
       var hint = el('pmaDataStatus');
       if (hint) hint.textContent = 'Data loaded — click map to begin analysis.';
+      // Load overlay layers after main data is ready (lihtcFeatures now set)
+      loadOverlays();
     }).catch(function () {
       var hint = el('pmaDataStatus');
       if (hint) hint.textContent = 'Warning: some data files could not be loaded.';
+      loadOverlays();
     });
   });
 
@@ -570,7 +711,8 @@
     scoreTier:        scoreTier,
     aggregateAcs:     aggregateAcs,
     WEIGHTS:          WEIGHTS,
-    RISK:             RISK
+    RISK:             RISK,
+    OVERLAY_STYLES:   OVERLAY_STYLES
   };
 
 }());
