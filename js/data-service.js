@@ -277,14 +277,37 @@ class LIHTCDataService {
             if (!r.ok) throw new Error(`HUD HTTP ${r.status}`);
             const json = await r.json();
             const features = json.features || [];
-            const result = { source: 'HUD', features };
-            this.setCache(cacheKey, result);
-            this.notify('chfa_lihtc', result);
-            return result;
+            if (features.length > 0) {
+                const result = { source: 'HUD', features };
+                this.setCache(cacheKey, result);
+                this.notify('chfa_lihtc', result);
+                return result;
+            }
+            console.warn('[LIHTCDataService] HUD returned no features; trying local LIHTC file.');
         } catch (e) {
-            console.error('[LIHTCDataService] HUD LIHTC fallback also failed.', e.message);
-            return { source: 'HUD', features: [] };
+            console.warn('[LIHTCDataService] HUD LIHTC fallback also failed; trying local LIHTC file.', e.message);
         }
+
+        // Local file fallback (data/chfa-lihtc.json committed to repo)
+        try {
+            const localUrl = (typeof window !== 'undefined' && typeof window.resolveAssetUrl === 'function')
+                ? window.resolveAssetUrl('data/chfa-lihtc.json')
+                : 'data/chfa-lihtc.json';
+            const r = await fetch(localUrl);
+            if (!r.ok) throw new Error(`Local HTTP ${r.status}`);
+            const localData = await r.json();
+            const features = (localData && Array.isArray(localData.features)) ? localData.features : [];
+            if (features.length > 0) {
+                const result = { source: 'local', features };
+                this.setCache(cacheKey, result);
+                this.notify('chfa_lihtc', result);
+                return result;
+            }
+        } catch (e) {
+            console.error('[LIHTCDataService] Local LIHTC file unavailable.', e.message);
+        }
+
+        return { source: 'fallback', features: [] };
     }
 
     // State HFA Data (Colorado specific)
