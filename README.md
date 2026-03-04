@@ -22,11 +22,11 @@ Affordable Housing Intelligence is a static web application providing comprehens
 | Page | Description |
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
-| `economic-dashboard.html` | FRED-powered economic indicators dashboard |
+| `economic-dashboard.html` | FRED-powered economic indicators dashboard (housing predictions moved to Colorado Deep Dive) |
 | `LIHTC-dashboard.html` | State LIHTC allocation maps and data |
 | `state-allocation-map.html` | D3 choropleth map of federal allocations |
 | `regional.html` | Regional housing market analysis |
-| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps) |
+| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps, regional housing predictions for 5 CO regions) |
 | `colorado-market.html` | Colorado market overview and forecast |
 | `_dev/construction-commodities.html` | Construction cost commodity tracking (archived to `_dev/`) |
 | `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
@@ -51,7 +51,8 @@ Housing-Analytics/
 │   ├── site-theme.css           # Design tokens, dark/light mode, typography
 │   ├── layout.css               # Containers, grids, print styles
 │   ├── pages.css                # Shared components (buttons, cards, hero, etc.)
-│   ├── predictions-dashboard.css # Economic dashboard layout
+│   ├── predictions-dashboard.css # Economic dashboard prediction layout
+│   ├── colorado-regional-predictions.css # Colorado regional predictions grid
 │   └── colorado-deep-dive.css   # Colorado deep dive specific styles
 │
 ├── js/
@@ -66,7 +67,8 @@ Housing-Analytics/
 │   ├── fred-cards.js            # Federal Reserve FRED KPI cards
 │   ├── fred-commodities.js      # Commodity price charts
 │   ├── housing-data-integration.js # Housing market data integration
-│   ├── housing-predictions.js   # Forecasting models
+│   ├── housing-predictions.js   # National forecasting models (economic dashboard)
+│   ├── colorado-regional-predictions.js # Colorado regional predictions (5 regions, 2025)
 │   ├── census-geo.js            # Census geographic data
 │   ├── co-ami-gap.js            # Colorado AMI gap analysis
 │   ├── state-allocations-2024.js # 2024 IRS allocation data
@@ -167,6 +169,14 @@ No API secrets are required — HUD ArcGIS FeatureServer endpoints are public.
 The Housing Prediction Market Dashboard (`economic-dashboard.html`) loads live probability
 data from `data/kalshi/prediction-market.json`, fetched weekly by
 `.github/workflows/fetch-kalshi.yml`.
+
+> **Note:** Colorado regional housing predictions (2025 point estimates, forecast ranges, and
+> year-over-year changes across Denver Metro, Western Slope, Colorado Springs/Pueblo,
+> Boulder/Northern Front Range, and Mountains) are displayed in the **Market Trends** tab of
+> `colorado-deep-dive.html` and are rendered by `js/colorado-regional-predictions.js`.
+> Forecasts incorporate CHFA reports, Colorado Division of Housing data, DMAR statistics,
+> CBRE Mountain West outlook, Boulder County Assessor records, Colorado Springs Board of
+> Realtors, and Colorado Ski Country USA resort-market data.
 
 **Required GitHub Actions secrets** (Settings → Secrets and variables → Actions):
 
