@@ -113,10 +113,14 @@
     return fetchJSON(resolveData('co-demographics.json')).then(function (data) {
       currentData.demographics = data;
       renderDemandKpis(data, selectedCounty);
+      // Re-render risk KPIs now that demographics are available
+      if (currentData.fred) renderRiskKpis(currentData.fred);
     }).catch(function () {
       // Attempt Census ACS API directly (public, no key required for some series)
+      // B25070: rent burden, B11001: households, B25014: overcrowding,
+      // B25002: occupancy status (for vacancy rate), B25064: median gross rent
       return fetchJSON(
-        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B11001_001E,B25014_008E,B25014_001E&for=state:08'
+        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
       ).then(function (rows) {
         if (!Array.isArray(rows) || rows.length < 2) return;
         var headers = rows[0];
@@ -129,14 +133,22 @@
         var hh = get('B11001_001E');
         var overcrowded = get('B25014_008E');
         var totalUnits = get('B25014_001E');
+        var totalHousingUnits = get('B25002_001E');
+        var vacantUnits = get('B25002_003E');
+        var medRent = get('B25064_001E');
         var derived = {
           cost_burden_share: totalRenter > 0 ? burdened30 / totalRenter : null,
           severe_burden_share: totalRenter > 0 ? severe50 / totalRenter : null,
           household_count: hh,
-          overcrowding_rate: totalUnits > 0 ? overcrowded / totalUnits : null
+          overcrowding_rate: totalUnits > 0 ? overcrowded / totalUnits : null,
+          vacancy_rate: totalHousingUnits > 0 ? vacantUnits / totalHousingUnits : null,
+          median_gross_rent_current: medRent || null,
+          median_gross_rent_prior: null  // single-year fallback; YoY not available
         };
         currentData.demographics = derived;
         renderDemandKpis(derived, selectedCounty);
+        // Re-render risk KPIs with newly fetched demographics
+        if (currentData.fred) renderRiskKpis(currentData.fred);
       });
     });
   }
@@ -214,24 +226,37 @@
   /* ── Load FRED data ────────────────────────────────────────────── */
   function loadFredData() {
     return fetchJSON(resolveData('fred-data.json')).then(function (data) {
-      currentData.fred = data;
-      renderSupplyKpis(data);
-      renderRiskKpis(data);
+      // fred-data.json may wrap series under a 'series' key; normalise to flat map
+      var normalized = (data && data.series) ? data.series : data;
+      currentData.fred = normalized;
+      renderSupplyKpis(normalized);
+      renderRiskKpis(normalized);
     });
   }
 
   function renderSupplyKpis(data) {
     if (!data) return;
-    // FRED series: COBPPRIV = Colorado total building permits, COBPPRIV5F = 5+ units
-    var permits = data.COBPPRIV5F || data.COBPPRIV || null;
+    // FRED series: PERMIT5 = 5+ unit permits, PERMIT = total permits
+    // Also accept legacy Colorado-specific series names for backward compatibility
+    var permits = data.PERMIT5 || data.PERMIT || data.COBPPRIV5F || data.COBPPRIV || null;
     var latestPermit = permits && Array.isArray(permits.observations)
       ? permits.observations[permits.observations.length - 1] : null;
-    var prevPermit = permits && Array.isArray(permits.observations) && permits.observations.length > 1
-      ? permits.observations[permits.observations.length - 13] : null; // 12 months prior
+    var prevPermit = permits && Array.isArray(permits.observations) && permits.observations.length > 12
+      ? permits.observations[permits.observations.length - 13] : null; // ~12 months prior
 
     setText('kpiPermits', latestPermit ? fmt(latestPermit.value) : '—');
-    setText('kpiCompletions', '—'); // Completions not in FRED — placeholder
-    setText('kpiUnderConst', '—'); // Under construction — placeholder
+
+    // Completions from FRED COMPUTSA series
+    var completions = data.COMPUTSA || null;
+    var latestCompletion = completions && Array.isArray(completions.observations)
+      ? completions.observations[completions.observations.length - 1] : null;
+    setText('kpiCompletions', latestCompletion ? fmt(latestCompletion.value) : '—');
+
+    // Units under construction from FRED UNDCONTSA series
+    var underConst = data.UNDCONTSA || null;
+    var latestUnderConst = underConst && Array.isArray(underConst.observations)
+      ? underConst.observations[underConst.observations.length - 1] : null;
+    setText('kpiUnderConst', latestUnderConst ? fmt(latestUnderConst.value) : '—');
 
     if (latestPermit && prevPermit && prevPermit.value) {
       var yoy = ((latestPermit.value - prevPermit.value) / prevPermit.value * 100).toFixed(1);
@@ -243,38 +268,57 @@
 
   function renderRiskKpis(data) {
     if (!data) return;
-    // Vacancy: FRED CORVAC or use ACS estimate
     var demo = currentData.demographics;
-    if (demo) {
-      var vac = demo.vacancy_rate;
-      var el = document.getElementById('riskVacancy');
-      if (el) {
-        el.textContent = vac != null ? fmtPct(vac) : '—';
-        el.className = 'risk-value ' + (vac > 0.07 ? 'risk-low' : vac > 0.04 ? 'risk-med' : 'risk-high');
-      }
+
+    // Vacancy proxy from ACS B25002 vacancy rate
+    var vacEl = document.getElementById('riskVacancy');
+    if (vacEl) {
+      var vac = demo ? demo.vacancy_rate : null;
+      vacEl.textContent = vac != null ? fmtPct(vac) : '—';
+      vacEl.className = 'risk-value ' + (vac != null ? (vac > 0.07 ? 'risk-low' : vac > 0.04 ? 'risk-med' : 'risk-high') : '');
     }
-    // Rent trend proxy from median gross rent
-    if (demo && demo.median_gross_rent_current && demo.median_gross_rent_prior) {
-      var rentYoy = ((demo.median_gross_rent_current - demo.median_gross_rent_prior) / demo.median_gross_rent_prior * 100).toFixed(1);
-      var rentEl = document.getElementById('riskRentTrend');
-      if (rentEl) {
+
+    // Rent trend proxy from median gross rent YoY change
+    var rentEl = document.getElementById('riskRentTrend');
+    if (rentEl) {
+      if (demo && demo.median_gross_rent_current && demo.median_gross_rent_prior) {
+        var rentYoy = ((demo.median_gross_rent_current - demo.median_gross_rent_prior) / demo.median_gross_rent_prior * 100).toFixed(1);
         rentEl.textContent = rentYoy + '%/yr';
         rentEl.className = 'risk-value ' + (Number(rentYoy) > 5 ? 'risk-high' : Number(rentYoy) > 2 ? 'risk-med' : 'risk-low');
+      } else {
+        rentEl.textContent = '—';
       }
     }
-    // Pipeline pressure
+
+    // Pipeline pressure: LIHTC projects per 1,000 households
     var lihtc = currentData.lihtc;
     var hh = demo && demo.household_count;
-    if (lihtc && hh) {
-      var pipelineRate = (lihtc.length / (hh / 1000)).toFixed(2);
-      var ppEl = document.getElementById('riskPipeline');
-      if (ppEl) {
+    var ppEl = document.getElementById('riskPipeline');
+    if (ppEl) {
+      if (lihtc && hh) {
+        var pipelineRate = (lihtc.length / (hh / 1000)).toFixed(2);
         ppEl.textContent = pipelineRate + ' projects/1k HH';
         ppEl.className = 'risk-value risk-med';
+      } else {
+        ppEl.textContent = '—';
       }
     }
-    // Affordability gap placeholder
-    setText('riskAffordGap', '—');
+
+    // Affordability gap: (60% AMI monthly housing budget) − median market rent
+    var affordEl = document.getElementById('riskAffordGap');
+    if (affordEl) {
+      var ami = demo && demo.ami_estimate;
+      var medRent = demo && (demo.median_gross_rent_current || demo.median_gross_rent);
+      if (ami && medRent) {
+        // 60% AMI annual ÷ 12 months × 30% affordability threshold
+        var maxAffordRent = Math.round((ami * 0.6 / 12) * 0.30);
+        var gap = maxAffordRent - Math.round(medRent);
+        affordEl.textContent = (gap >= 0 ? '+' : '') + fmt(gap) + '/mo';
+        affordEl.className = 'risk-value ' + (gap >= 0 ? 'risk-low' : gap > -200 ? 'risk-med' : 'risk-high');
+      } else {
+        affordEl.textContent = '—';
+      }
+    }
   }
 
   /* ── Apply county filter ───────────────────────────────────────── */
