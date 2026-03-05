@@ -92,10 +92,12 @@ test('housing-needs-assessment.js uses global fetchWithTimeout', () => {
 });
 
 test('housing-needs-assessment.js does NOT define its own standalone fetchWithTimeout function', () => {
-  // The old standalone function definition should be replaced by the global alias
-  const standalonePattern = /function fetchWithTimeout\s*\(url, options, timeoutMs\)\s*\{[\s\n]*timeoutMs = timeoutMs \|\| 10000/;
+  // The old standalone function definition should be replaced by the global alias.
+  // Detect a standalone (non-alias) definition by checking for the function keyword
+  // followed by the function name without a reference to window.fetchWithTimeout on the same line.
+  const standalonePattern = /^\s*function fetchWithTimeout\s*\(/m;
   assert(!standalonePattern.test(hnaSrc),
-    'HNA no longer contains the old standalone fetchWithTimeout definition');
+    'HNA no longer contains a standalone fetchWithTimeout function declaration');
 });
 
 test('TIGERweb boundary fetch uses 15s timeout', () => {

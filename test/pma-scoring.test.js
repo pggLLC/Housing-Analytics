@@ -185,10 +185,11 @@ test('guard clause: market-analysis.js blocks scoring when lihtcLoadError is set
   // Verify the guard clause is present and positioned before computePma call (not definition)
   const src      = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
   const guardIdx  = src.indexOf('lihtcLoadError');
-  const callIdx   = src.indexOf('var pma          = computePma(');  // the call site
-  assert(guardIdx !== -1, 'lihtcLoadError guard exists in source');
-  assert(callIdx  !== -1, 'computePma call site exists in source');
-  assert(guardIdx < callIdx,
+  // Match the variable assignment call site, tolerating whitespace variations
+  const callMatch = /var\s+pma\s*=\s*computePma\s*\(/.exec(src);
+  assert(guardIdx !== -1,          'lihtcLoadError guard exists in source');
+  assert(callMatch !== null,       'computePma() call site (var pma = ...) exists');
+  assert(guardIdx < callMatch.index,
     'lihtcLoadError check appears before computePma call (prevents false scores)');
 });
 

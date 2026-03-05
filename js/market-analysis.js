@@ -782,7 +782,7 @@
       }
 
       var tsEl = el('pmaDataTimestamp');
-      if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toISOString();
+      if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
     });
   }
 
