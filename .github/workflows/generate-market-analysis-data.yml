@@ -52,13 +52,14 @@ jobs:
       - name: Fetch Colorado county boundaries
         run: |
           python - <<'EOF'
-          import json, urllib.request, urllib.parse, time
+          import json, sys, urllib.request, urllib.parse, time
           from pathlib import Path
           from datetime import datetime, timezone
 
           ROOT = Path(".")
           OUT  = ROOT / "data" / "co-county-boundaries.json"
           STATE_FIPS = "08"
+          EXPECTED_COUNTIES = 64
 
           TIGERWEB_COUNTIES = (
               "https://tigerweb.geo.census.gov/arcgis/rest/services/"
@@ -66,8 +67,13 @@ jobs:
           )
 
           def arcgis_query(layer_url, where="1=1", offset=0, limit=100):
+              # outFields must match the actual fields in the TIGERweb State_County
+              # layer.  GEOID is not present in this layer; requesting it causes
+              # ArcGIS to return an error JSON ({"error":...}) with no "features"
+              # key, which silently yields 0 results.
               params = urllib.parse.urlencode({
-                  "where": where, "outFields": "GEOID,NAME,NAMELSAD,STATEFP",
+                  "where": where,
+                  "outFields": "STATEFP,COUNTYFP,NAME,NAMELSAD",
                   "returnGeometry": "true", "f": "geojson", "outSR": "4326",
                   "resultRecordCount": str(limit), "resultOffset": str(offset),
               })
@@ -75,22 +81,39 @@ jobs:
               print(f"  [fetch] {url[:100]}")
               req = urllib.request.Request(url, headers={"User-Agent": "pma-build/1.0"})
               with urllib.request.urlopen(req, timeout=60) as r:
-                  return json.loads(r.read())
+                  data = json.loads(r.read())
+              if "error" in data:
+                  raise RuntimeError(
+                      f"ArcGIS error: {data['error'].get('message', data['error'])}"
+                  )
+              return data
 
           print("[county] Fetching Colorado county boundaries from TIGERweb…")
           features = []
           offset = 0
-          for _ in range(5):  # safety cap: 5 pages × 100 = 500 (CO has 64)
+          for page_num in range(5):  # safety cap: 5 pages × 100 = 500 (CO has 64)
               page = arcgis_query(TIGERWEB_COUNTIES,
                                   where=f"STATEFP='{STATE_FIPS}'",
                                   offset=offset, limit=100)
               batch = page.get("features", [])
               features.extend(batch)
-              print(f"  got {len(batch)} features (total {len(features)})")
+              print(f"  page {page_num + 1}: got {len(batch)} features "
+                    f"(total {len(features)})")
               if len(batch) < 100:
                   break
               offset += len(batch)
               time.sleep(0.5)
+
+          if len(features) == 0:
+              print("[county] ERROR: TIGERweb returned 0 features for "
+                    f"STATEFP='{STATE_FIPS}'. Check that the STATE_FIPS value "
+                    "is correct and that the TIGERweb service is reachable.",
+                    file=sys.stderr)
+              sys.exit(1)
+
+          if len(features) != EXPECTED_COUNTIES:
+              print(f"[county] WARNING: expected {EXPECTED_COUNTIES} counties, "
+                    f"got {len(features)}", file=sys.stderr)
 
           gj = {
               "type": "FeatureCollection",
@@ -121,7 +144,7 @@ jobs:
               ("data/market/tract_centroids_co.json",  "tracts",   True),
               ("data/market/acs_tract_metrics_co.json", "tracts",  True),
               ("data/market/hud_lihtc_co.geojson",     "features", True),
-              ("data/co-county-boundaries.json",        "features", False),
+              ("data/co-county-boundaries.json",        "features", True),
           ]
           errors = []
           for path, key, required in checks:
