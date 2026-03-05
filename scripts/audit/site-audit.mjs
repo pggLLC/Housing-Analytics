@@ -9,7 +9,10 @@
  * Exits non-zero only for hard failures:
  *   - JS runtime errors
  *   - Missing local data files (4xx on local requests)
- *   - ArcGIS/Tigerweb failures (5xx or network error on map service URLs)
+ *   - ArcGIS failures (5xx or network error on map service URLs)
+ *
+ * TIGERweb (tigerweb.geo.census.gov) requests are intercepted and mocked
+ * to prevent CI failures caused by external service unavailability.
  */
 
 import { chromium } from 'playwright';
@@ -32,10 +35,12 @@ const PAGES_TO_AUDIT = [
 // Patterns that indicate hard failures when a request fails
 const HARD_FAIL_URL_PATTERNS = [
   /arcgis\.com/i,
-  /tigerweb/i,
   /services\.arcgisonline\.com/i,
   /gis\.ffiec\.gov/i,
 ];
+
+// TIGERweb requests are intercepted and mocked to avoid CI network failures
+const TIGERWEB_URL_PATTERN = /tigerweb\.geo\.census\.gov/i;
 
 // Console message types treated as hard failures
 const HARD_FAIL_CONSOLE_LEVELS = ['error'];
@@ -59,6 +64,52 @@ function isHardFailUrl(url) {
   return HARD_FAIL_URL_PATTERNS.some(p => p.test(url));
 }
 
+/**
+ * Returns a minimal mock response body for a TIGERweb ArcGIS REST request.
+ * Handles both GeoJSON (f=geojson) and ArcGIS JSON (f=json) formats, as well
+ * as service-info requests (no /query path segment).
+ */
+function mockTigerwebResponse(url) {
+  // Approximate bounding box for a Colorado county (used as a stand-in polygon)
+  const MOCK_POLYGON_COORDS = [
+    [-105.5, 37.0], [-104.5, 37.0], [-104.5, 38.0], [-105.5, 38.0], [-105.5, 37.0],
+  ];
+  const mockGeometry = { type: 'Polygon', coordinates: [MOCK_POLYGON_COORDS] };
+  const mockAttributes = {
+    NAME: 'Mock County',
+    NAMELSAD: 'Mock County',
+    STATEFP: '08',
+    GEOID: '08001',
+    COUNTYFP: '001',
+  };
+
+  // ArcGIS JSON format (f=json)
+  if (/[?&]f=json(&|$)/i.test(url)) {
+    return {
+      geometryType: 'esriGeometryPolygon',
+      features: [{
+        attributes: { ...mockAttributes, OBJECTID: 1 },
+        geometry: null,
+      }],
+    };
+  }
+
+  // Service info endpoint (no /query segment)
+  if (!/\/query(\?|$)/i.test(url)) {
+    return {
+      currentVersion: 10.81,
+      serviceDescription: 'TIGERweb (mocked for CI)',
+      layers: [{ id: 1, name: 'Counties', type: 'Feature Layer' }],
+    };
+  }
+
+  // Default: GeoJSON FeatureCollection
+  return {
+    type: 'FeatureCollection',
+    features: [{ type: 'Feature', geometry: mockGeometry, properties: mockAttributes }],
+  };
+}
+
 async function auditPage(browser, pageConfig) {
   const url = BASE_URL + pageConfig.path;
   const result = {
@@ -79,6 +130,17 @@ async function auditPage(browser, pageConfig) {
   });
 
   const page = await context.newPage();
+
+  // Intercept TIGERweb requests and return mock GeoJSON to avoid CI network failures
+  await page.route(TIGERWEB_URL_PATTERN, async (route) => {
+    const reqUrl = route.request().url();
+    console.log(`    [mock] TIGERweb intercepted: ${reqUrl}`);
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(mockTigerwebResponse(reqUrl)),
+    });
+  });
 
   // Inject fetch/XHR hooks to track all network requests from page JS
   await page.addInitScript(() => {
