@@ -1519,8 +1519,11 @@
       : (within + inflow > 0 ? within + inflow : null);
 
     const pop = Number(profile?.DP05_0001E) || null;
-    // Workers ≈ labour-force participants; use pop as proxy when no better source
-    const workers = pop ? Math.round(pop * 0.47) : null;  // ~47% employment ratio
+    // Workers ≈ labour-force participants; ~47% is a conservative approximation of the
+    // civilian employment-population ratio (BLS FRED series EMRATIO hovers ~59–61% for all
+    // ages, but including non-working-age population gives roughly 46–48% for total pop).
+    // This is used only as a J:W ratio denominator when no local labour-force count is cached.
+    const workers = pop ? Math.round(pop * 0.47) : null;
     const jwRatio = (jobs && workers && workers > 0) ? (jobs / workers) : null;
 
     return { jobs, within, inflow, outflow, jwRatio };
@@ -1624,12 +1627,18 @@
       const notBurdenedPct = (Number.isFinite(grapi_lt15) ? grapi_lt15 : 0) +
                              (Number.isFinite(grapi_15_20) ? grapi_15_20 : 0) +
                              (Number.isFinite(grapi_20_25) ? grapi_20_25 : 0);
-      // 60% AMI affordability threshold: approx. 65–70% of not-burdened rentals
-      // (units paying <25% of income are most likely affordable at ≤60% AMI)
+      // 60% AMI affordability threshold proxy: among not-burdened renters (paying <25% of income),
+      // approximately 65–70% are estimated to be at or below 60% AMI.  This is consistent with
+      // HUD income/rent relationship analysis for moderate-income renter households nationally.
+      // NOTE: This is a rough proxy only.  For a certified Prop 123 baseline, jurisdictions must
+      // conduct a formal housing needs assessment using ACS B25106 cross-tabulations or local data.
       baseline60Ami = Math.round(totalRentals * (notBurdenedPct / 100) * 0.70);
       method = 'acs-grapi-proxy';
     } else {
-      // Fallback: assume ~40% of rentals are affordable at 60% AMI (national avg proxy)
+      // Fallback national average: roughly 40% of renter-occupied units are estimated to be
+      // affordable at ≤60% AMI based on national ACS income/rent cross-tabulations (HUD
+      // Worst Case Housing Needs reports consistently find ~38–42% of rentals affordable at
+      // this level nationally). This fallback is used only when GRAPI data is unavailable.
       baseline60Ami = Math.round(totalRentals * 0.40);
       method = 'national-avg-proxy';
     }
