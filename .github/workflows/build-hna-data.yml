@@ -15,12 +15,28 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Check API connectivity
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python3 scripts/hna/test-connectivity.py || true
+
       - name: Build cached HNA datasets (ACS + LEHD + DOLA)
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
         run: |
           python3 scripts/hna/build_hna_data.py
+
+      - name: Report output file counts
+        run: |
+          echo "── HNA output file counts ──"
+          echo "  summary/   : $(ls data/hna/summary/   2>/dev/null | wc -l) files"
+          echo "  lehd/      : $(ls data/hna/lehd/       2>/dev/null | wc -l) files"
+          echo "  dola_sya/  : $(ls data/hna/dola_sya/  2>/dev/null | wc -l) files"
+          echo "  projections/: $(ls data/hna/projections/ 2>/dev/null | wc -l) files"
+          echo "  lihtc/     : $(ls data/hna/lihtc/      2>/dev/null | wc -l) files"
+          echo "  derived/   : $(ls data/hna/derived/    2>/dev/null | wc -l) files"
 
       - name: Commit and push
         run: |
