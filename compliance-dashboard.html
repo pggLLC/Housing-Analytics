@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compliance Dashboard | Colorado Housing Analytics</title>
+  <meta name="description" content="Colorado Prop 123 / HB 22-1093 compliance dashboard: jurisdiction-level status, multi-year tracking, and CSV export for eligible municipalities and counties.">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/pages/compliance-dashboard.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/prop123-historical-tracker.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content" class="compliance-dashboard-main">
+    <div class="cd-header">
+      <h1>Prop 123 Compliance Dashboard</h1>
+      <p class="cd-subtitle">
+        Colorado HB 22-1093 / Proposition 123 — Jurisdiction-level affordable housing compliance status.
+        <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 page</a> ·
+        <a href="housing-needs-assessment.html">Housing Needs Assessment →</a>
+      </p>
+    </div>
+
+    <!-- Summary KPI strip -->
+    <div class="cd-kpi-strip" id="cdKpiStrip" aria-label="Summary statistics">
+      <div class="cd-kpi-card">
+        <span class="cd-kpi-value" id="kpiTotal">—</span>
+        <span class="cd-kpi-label">Eligible Jurisdictions</span>
+      </div>
+      <div class="cd-kpi-card cd-kpi-green">
+        <span class="cd-kpi-value" id="kpiOnTrack">—</span>
+        <span class="cd-kpi-label">🟢 On Track</span>
+      </div>
+      <div class="cd-kpi-card cd-kpi-yellow">
+        <span class="cd-kpi-value" id="kpiAtRisk">—</span>
+        <span class="cd-kpi-label">🟡 At Risk</span>
+      </div>
+      <div class="cd-kpi-card cd-kpi-red">
+        <span class="cd-kpi-value" id="kpiOffTrack">—</span>
+        <span class="cd-kpi-label">🔴 Off Track</span>
+      </div>
+      <div class="cd-kpi-card">
+        <span class="cd-kpi-value" id="kpiNoData">—</span>
+        <span class="cd-kpi-label">⚪ No Data</span>
+      </div>
+    </div>
+
+    <!-- Filter + export controls -->
+    <div class="cd-controls" role="search" aria-label="Filter and export controls">
+      <label class="cd-filter-label">
+        Filter by status:
+        <select id="cdFilterStatus" class="cd-select">
+          <option value="">All</option>
+          <option value="on-track">On Track</option>
+          <option value="at-risk">At Risk</option>
+          <option value="off-track">Off Track</option>
+          <option value="no-data">No Data</option>
+        </select>
+      </label>
+      <label class="cd-filter-label">
+        Filter by type:
+        <select id="cdFilterType" class="cd-select">
+          <option value="">All types</option>
+          <option value="county">County</option>
+          <option value="place">Municipality</option>
+        </select>
+      </label>
+      <input id="cdSearch" class="cd-search" type="search" placeholder="Search jurisdiction…" aria-label="Search jurisdiction name">
+      <button id="cdExportBtn" class="cd-export-btn" aria-label="Download CSV report">
+        ⬇ Download CSV
+      </button>
+    </div>
+
+    <!-- Main compliance table -->
+    <div class="cd-table-wrapper" role="region" aria-label="Compliance table">
+      <table class="cd-table" id="cdTable" aria-label="Prop 123 jurisdiction compliance">
+        <thead>
+          <tr>
+            <th class="cd-th sortable" data-col="name" tabindex="0" role="columnheader" aria-sort="none">
+              Jurisdiction <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="type" tabindex="0" role="columnheader" aria-sort="none">
+              Type <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="baseline" tabindex="0" role="columnheader" aria-sort="none">
+              Baseline <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="target" tabindex="0" role="columnheader" aria-sort="none">
+              Current Target <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="current" tabindex="0" role="columnheader" aria-sort="none">
+              Reported Units <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="pctComplete" tabindex="0" role="columnheader" aria-sort="none">
+              % Complete <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th sortable" data-col="status" tabindex="0" role="columnheader" aria-sort="none">
+              Status <span class="sort-icon">↕</span>
+            </th>
+            <th class="cd-th">Filing</th>
+          </tr>
+        </thead>
+        <tbody id="cdTableBody">
+          <tr><td colspan="8" class="cd-loading">Loading jurisdiction data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="cd-footnote">
+      Data sourced from ACS 5-year estimates and DOLA commitment filings.
+      Baseline year: 2023. Annual growth requirement: 3% (compounding).
+      <a href="housing-needs-assessment.html">Run individual HNA →</a>
+    </p>
+  </main>
+
+  <script>
+  // compliance-dashboard.js — inline for single-file deployment
+  (function () {
+    'use strict';
+
+    const PROP123_GROWTH_RATE    = 0.03;
+    const PROP123_EFFECTIVE_YEAR = 2023;
+
+    // Colorado jurisdictions with known Prop 123 commitments (sample set).
+    // In production this is loaded from data/policy/prop123_jurisdictions.json.
+    const SAMPLE_JURISDICTIONS = [
+      { geoid:'08077', name:'Mesa County',         type:'county',  population:155000, baseline:8200 },
+      { geoid:'08031', name:'Denver County',        type:'county',  population:715000, baseline:52000 },
+      { geoid:'08013', name:'Boulder County',       type:'county',  population:330000, baseline:19500 },
+      { geoid:'08041', name:'El Paso County',       type:'county',  population:730000, baseline:42000 },
+      { geoid:'08059', name:'Jefferson County',     type:'county',  population:580000, baseline:36000 },
+      { geoid:'08001', name:'Adams County',         type:'county',  population:520000, baseline:34000 },
+      { geoid:'08005', name:'Arapahoe County',      type:'county',  population:670000, baseline:44000 },
+      { geoid:'08014', name:'Broomfield County',    type:'county',  population:75000,  baseline:4800 },
+      { geoid:'08035', name:'Douglas County',       type:'county',  population:360000, baseline:21000 },
+      { geoid:'08123', name:'Weld County',          type:'county',  population:330000, baseline:20000 },
+      { geoid:'0831660', name:'Grand Junction',     type:'place',   population:64000,  baseline:3900 },
+      { geoid:'0820000', name:'Colorado Springs',   type:'place',   population:478000, baseline:28000 },
+      { geoid:'0824785', name:'Fort Collins',       type:'place',   population:165000, baseline:11000 },
+      { geoid:'0813000', name:'Aurora',             type:'place',   population:380000, baseline:26000 },
+      { geoid:'0804000', name:'Boulder (city)',     type:'place',   population:105000, baseline:7500 },
+      { geoid:'0816000', name:'Pueblo',             type:'place',   population:112000, baseline:7200 },
+      { geoid:'0843000', name:'Lakewood',           type:'place',   population:165000, baseline:10500 },
+      { geoid:'0845970', name:'Longmont',           type:'place',   population:96000,  baseline:6200 },
+      { geoid:'0856000', name:'Greeley',            type:'place',   population:108000, baseline:7100 },
+      { geoid:'0839330', name:'Loveland',           type:'place',   population:78000,  baseline:4900 },
+      { geoid:'0832155', name:'Highlands Ranch',    type:'place',   population:103000, baseline:6300 },
+      { geoid:'0806000', name:'Centennial',         type:'place',   population:108000, baseline:6800 },
+      { geoid:'0819825', name:'Westminster',        type:'place',   population:114000, baseline:7800 },
+      { geoid:'0814000', name:'Arvada',             type:'place',   population:118000, baseline:8100 },
+      { geoid:'0817000', name:'Thornton',           type:'place',   population:136000, baseline:9200 },
+    ];
+
+    let allRows = [];
+    let sortState = { col: 'name', dir: 'asc' };
+
+    function computeRow(j) {
+      const yearsIn  = new Date().getFullYear() - PROP123_EFFECTIVE_YEAR;
+      const target   = Math.round(j.baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn));
+      const stored   = (typeof sessionStorage !== 'undefined')
+        ? sessionStorage.getItem('prop123_actual_' + j.geoid + '_' + new Date().getFullYear())
+        : null;
+      const current  = stored !== null ? Number(stored) : null;
+      const pct      = (current !== null && target > 0) ? Math.round((current / target) * 100) : null;
+
+      let status;
+      if (current === null) {
+        status = 'no-data';
+      } else if (current >= target) {
+        status = 'on-track';
+      } else if (current >= target * 0.90) {
+        status = 'at-risk';
+      } else {
+        status = 'off-track';
+      }
+
+      return Object.assign({}, j, { target, current, pctComplete: pct, status, lastFiled: null });
+    }
+
+    function statusIcon(s) {
+      return { 'on-track':'🟢', 'at-risk':'🟡', 'off-track':'🔴', 'no-data':'⚪' }[s] || '⚪';
+    }
+
+    function statusLabel(s) {
+      return { 'on-track':'On Track', 'at-risk':'At Risk', 'off-track':'Off Track', 'no-data':'No Data' }[s] || 'No Data';
+    }
+
+    function renderTable(rows) {
+      const tbody = document.getElementById('cdTableBody');
+      if (!tbody) return;
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="cd-empty">No jurisdictions match the current filters.</td></tr>';
+        return;
+      }
+      const fragment = document.createDocumentFragment();
+      rows.forEach(function (r) {
+        const tr = document.createElement('tr');
+        tr.className = 'cd-row cd-status-' + r.status;
+        tr.innerHTML =
+          '<td class="cd-name"><a href="housing-needs-assessment.html?geoType=' + r.type + '&geoid=' + r.geoid + '">' + r.name + '</a></td>' +
+          '<td class="cd-type">' + (r.type === 'county' ? 'County' : 'Municipality') + '</td>' +
+          '<td class="cd-num">' + r.baseline.toLocaleString() + '</td>' +
+          '<td class="cd-num">' + r.target.toLocaleString() + '</td>' +
+          '<td class="cd-num">' + (r.current !== null ? r.current.toLocaleString() : '<em class="cd-muted">Not reported</em>') + '</td>' +
+          '<td class="cd-num">' + (r.pctComplete !== null ? r.pctComplete + '%' : '—') + '</td>' +
+          '<td class="cd-status"><span class="cd-badge cd-badge-' + r.status + '">' + statusIcon(r.status) + ' ' + statusLabel(r.status) + '</span></td>' +
+          '<td class="cd-filing">' + (r.lastFiled ? '✅ ' + r.lastFiled : '<span class="cd-muted">—</span>') + '</td>';
+        fragment.appendChild(tr);
+      });
+      tbody.innerHTML = '';
+      tbody.appendChild(fragment);
+    }
+
+    function updateKpis(rows) {
+      var counts = { 'on-track':0, 'at-risk':0, 'off-track':0, 'no-data':0 };
+      rows.forEach(function(r){ counts[r.status] = (counts[r.status]||0)+1; });
+      var set = function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+      set('kpiTotal',   allRows.length);
+      set('kpiOnTrack', counts['on-track']);
+      set('kpiAtRisk',  counts['at-risk']);
+      set('kpiOffTrack',counts['off-track']);
+      set('kpiNoData',  counts['no-data']);
+    }
+
+    function getFiltered() {
+      var statusFilter = (document.getElementById('cdFilterStatus') || {}).value || '';
+      var typeFilter   = (document.getElementById('cdFilterType')   || {}).value || '';
+      var search       = ((document.getElementById('cdSearch') || {}).value || '').toLowerCase().trim();
+      return allRows.filter(function(r){
+        if (statusFilter && r.status !== statusFilter) return false;
+        if (typeFilter   && r.type   !== typeFilter)   return false;
+        if (search       && r.name.toLowerCase().indexOf(search) === -1) return false;
+        return true;
+      });
+    }
+
+    function getSorted(rows) {
+      var col = sortState.col;
+      var dir = sortState.dir === 'asc' ? 1 : -1;
+      return rows.slice().sort(function(a, b) {
+        var av = a[col], bv = b[col];
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        if (typeof av === 'number') return dir * (av - bv);
+        return dir * String(av).localeCompare(String(bv));
+      });
+    }
+
+    function refresh() {
+      var filtered = getFiltered();
+      var sorted   = getSorted(filtered);
+      renderTable(sorted);
+      updateKpis(filtered);
+    }
+
+    function setupSorting() {
+      document.querySelectorAll('.cd-th.sortable').forEach(function(th) {
+        th.addEventListener('click', function() {
+          var col = th.getAttribute('data-col');
+          if (sortState.col === col) {
+            sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
+          } else {
+            sortState.col = col;
+            sortState.dir = 'asc';
+          }
+          document.querySelectorAll('.cd-th.sortable').forEach(function(h){
+            h.setAttribute('aria-sort', 'none');
+            var icon = h.querySelector('.sort-icon');
+            if (icon) icon.textContent = '↕';
+          });
+          th.setAttribute('aria-sort', sortState.dir === 'asc' ? 'ascending' : 'descending');
+          var icon = th.querySelector('.sort-icon');
+          if (icon) icon.textContent = sortState.dir === 'asc' ? '↑' : '↓';
+          refresh();
+        });
+        th.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); th.click(); } });
+      });
+    }
+
+    function setupFilters() {
+      ['cdFilterStatus','cdFilterType','cdSearch'].forEach(function(id){
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', refresh);
+      });
+    }
+
+    function setupExport() {
+      var btn = document.getElementById('cdExportBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        var headers = ['geoid','name','type','population','baseline','target','current','pct_complete','status','last_filed'];
+        var escape = function(v){
+          var s = String(v==null?'':v);
+          return (s.indexOf(',')!==-1||s.indexOf('"')!==-1||s.indexOf('\n')!==-1)
+            ? '"'+s.replace(/"/g,'""')+'"' : s;
+        };
+        var lines = [headers.join(',')];
+        allRows.forEach(function(r){
+          lines.push([r.geoid,r.name,r.type,r.population,r.baseline,r.target,
+            r.current,r.pctComplete,r.status,r.lastFiled].map(escape).join(','));
+        });
+        var csv  = lines.join('\n');
+        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'prop123-compliance-' + new Date().toISOString().slice(0,10) + '.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    function loadData() {
+      // Try to load from data/policy/prop123_jurisdictions.json; fall back to sample set
+      var ds = window.DataService;
+      if (ds && ds.getJSON) {
+        ds.getJSON(ds.baseData('policy/prop123_jurisdictions.json'))
+          .then(function(data) {
+            // Merge jurisdiction names with computed compliance metrics
+            var jurs = (data && Array.isArray(data.jurisdictions)) ? data.jurisdictions : SAMPLE_JURISDICTIONS;
+            allRows = jurs.map(computeRow);
+            refresh();
+          })
+          .catch(function() {
+            allRows = SAMPLE_JURISDICTIONS.map(computeRow);
+            refresh();
+          });
+      } else {
+        allRows = SAMPLE_JURISDICTIONS.map(computeRow);
+        refresh();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setupSorting();
+      setupFilters();
+      setupExport();
+      loadData();
+    });
+  })();
+  </script>
+  <script defer src="js/audit-hook.js"></script>
+</body>
+</html>
