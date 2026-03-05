@@ -111,6 +111,53 @@
   }
 
   /**
+   * Fetch a URL with an AbortController timeout and exponential backoff retry.
+   * Unlike safeFetchJSON, this returns the raw Response (not parsed JSON) and
+   * works for any URL (not just local assets).
+   *
+   * @param {string} url       - URL to fetch.
+   * @param {object} [options] - Fetch options (method, headers, cache, etc.).
+   * @param {number} [timeoutMs=15000] - Per-attempt timeout in milliseconds.
+   * @param {number} [maxRetries=2]    - Number of retry attempts after first failure.
+   * @returns {Promise<Response>}      - Resolves with the fetch Response on success.
+   */
+  function fetchWithTimeout(url, options, timeoutMs, maxRetries) {
+    timeoutMs  = (typeof timeoutMs  === 'number') ? timeoutMs  : 15000;
+    maxRetries = (typeof maxRetries === 'number') ? maxRetries : 2;
+
+    function attempt(n) {
+      return new Promise(function (resolve, reject) {
+        var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        var timer = controller
+          ? setTimeout(function () { controller.abort(); }, timeoutMs)
+          : null;
+
+        var fetchOptions = Object.assign({}, options || {});
+        if (controller) fetchOptions.signal = controller.signal;
+
+        fetch(url, fetchOptions)
+          .then(function (res) {
+            if (timer) clearTimeout(timer);
+            resolve(res);
+          })
+          .catch(function (err) {
+            if (timer) clearTimeout(timer);
+            if (n <= maxRetries) {
+              // Exponential backoff: 1st retry after 1s, 2nd after 2s
+              setTimeout(function () {
+                attempt(n + 1).then(resolve).catch(reject);
+              }, 1000 * Math.pow(2, n - 1));
+            } else {
+              reject(err);
+            }
+          });
+      });
+    }
+
+    return attempt(1);
+  }
+
+  /**
    * Fetch JSON from a local asset path with cache-busting, timeout, and retry.
    *
    * @param {string} relativePath - Relative (or absolute) path to the JSON asset.
@@ -193,4 +240,5 @@
   // Expose on window
   window.resolveAssetUrl = resolveAssetUrl;
   window.safeFetchJSON   = safeFetchJSON;
+  window.fetchWithTimeout = fetchWithTimeout;
 })();

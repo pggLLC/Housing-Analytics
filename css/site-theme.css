@@ -702,3 +702,15 @@ html.dark-mode html {
   outline: none;
   box-shadow: var(--focus-ring), var(--shadow);
 }
+
+/* ----------------------------------------------------------------
+   DATA FRESHNESS TIMESTAMP — shown on all major data pages
+   ---------------------------------------------------------------- */
+.data-timestamp {
+  display: block;
+  font-size: var(--tiny);
+  color: var(--faint);
+  margin-top: var(--sp1);
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+}
