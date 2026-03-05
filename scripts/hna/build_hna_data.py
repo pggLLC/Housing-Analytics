@@ -65,13 +65,17 @@ def utc_now_z() -> str:
 
 
 def redact(s: str) -> str:
-    """Redact sensitive API keys from logs."""
+    """Redact sensitive API keys from logs.
+
+    Only replaces keys that are at least 8 characters long to avoid corrupting
+    log output when an env var is accidentally set to a short or single-character
+    value (which would replace every occurrence of that character in the URL).
+    """
     census_key_val = os.environ.get('CENSUS_API_KEY', '')
     fred_key_val = os.environ.get('FRED_API_KEY', '')
-    # Only replace when the key is non-empty; replacing '' corrupts the whole string
-    if census_key_val:
+    if len(census_key_val) >= 8:
         s = s.replace(census_key_val, '***CENSUS_API_KEY***')
-    if fred_key_val:
+    if len(fred_key_val) >= 8:
         s = s.replace(fred_key_val, '***FRED_API_KEY***')
     return s
 
@@ -1406,28 +1410,92 @@ def write_geo_config():
     print(f"✓ geo-config counties: {len(counties)}, places: {len(places)}, cdps: {len(cdps)}")
 
 
+def _log_step(name: str) -> None:
+    """Print a timestamped section header to stdout."""
+    print(f"\n── {name} [{utc_now_z()}] ──")
+
+
+def _count_dir(path: str) -> int:
+    """Return the number of files directly inside *path* (non-recursive)."""
+    try:
+        return sum(1 for e in os.scandir(path) if e.is_file())
+    except FileNotFoundError:
+        return 0
+
+
+def _print_summary() -> None:
+    """Print file counts for every HNA output directory."""
+    print("\n── Build summary ──")
+    # Expected counts reflect the full Colorado geography set processed by the pipeline:
+    #   summary/     – one file per county (64) + places/CDPs (~480) = ~544 total
+    #   lehd/        – one file per Colorado county (64)
+    #   dola_sya/    – one file per Colorado county (64)
+    #   projections/ – one file per Colorado county (64)
+    rows = [
+        ('geo-config.json', 1 if os.path.exists(OUT['geo_config']) else 0, 1),
+        ('summary/', _count_dir(OUT['summary_dir']), 544),
+        ('lehd/', _count_dir(OUT['lehd_dir']), 64),
+        ('dola_sya/', _count_dir(OUT['dola_dir']), 64),
+        ('projections/', _count_dir(OUT['proj_dir']), 64),
+        ('derived/', _count_dir(OUT['derived_dir']), 1),
+    ]
+    for label, count, expected in rows:
+        icon = '✓' if count >= expected else ('⚠' if count > 0 else '✗')
+        print(f"  {icon} {label}: {count} file(s) (expected ≥{expected})")
+
+    # Overall key presence check
+    key = census_key()
+    key_status = f'set ({len(key)} chars)' if key else 'NOT SET — Census API calls will be unauthenticated'
+    print(f"  ℹ CENSUS_API_KEY: {key_status}")
+    print(f"── Done [{utc_now_z()}] ──\n")
+
+
 def main():
+    print(f"── HNA data build starting [{utc_now_z()}] ──")
+    print(f"  ROOT: {ROOT}")
+    print(f"  CENSUS_API_KEY: {'set' if census_key() else 'NOT SET'}")
+    print(f"  ACS_START_YEAR: {acs_start_year()}")
+    print(f"  SKIP_ACS: {os.environ.get('SKIP_ACS', 'false')}")
+    print(f"  SKIP_LEHD: {os.environ.get('SKIP_LEHD', 'false')}")
+    print(f"  SKIP_DOLA: {os.environ.get('SKIP_DOLA', 'false')}")
+
     ensure_dirs()
 
     # Always write geo config
+    _log_step('geo-config')
     write_geo_config()
 
     if os.environ.get('SKIP_ACS', '').lower() != 'true':
+        _log_step('ACS summary cache')
         build_summary_cache()
         if os.environ.get('SKIP_DERIVED', '').lower() != 'true':
+            _log_step('geo-derived inputs')
             build_geo_derived_inputs()
+    else:
+        print('  ℹ Skipping ACS (SKIP_ACS=true)')
 
     if os.environ.get('SKIP_LEHD', '').lower() != 'true':
+        _log_step('LEHD by county')
         build_lehd_by_county()
+    else:
+        print('  ℹ Skipping LEHD (SKIP_LEHD=true)')
 
     if os.environ.get('SKIP_DOLA', '').lower() != 'true':
+        _log_step('DOLA SYA by county')
         build_dola_sya_by_county()
+        _log_step('DOLA projections by county')
         build_dola_projections_by_county()
+    else:
+        print('  ℹ Skipping DOLA (SKIP_DOLA=true)')
+
+    _print_summary()
 
 
 if __name__ == '__main__':
     try:
         main()
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
