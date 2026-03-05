@@ -85,28 +85,36 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
     wait = 1
     for attempt in range(retries):
         try:
+            print(f"→ GET {redact(url)}  (attempt {attempt + 1}/{retries}, timeout={timeout}s)", file=sys.stderr)
             req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
+            t0 = time.monotonic()
             with urllib.request.urlopen(req, timeout=timeout) as r:
-                return (r.status, r.read().decode('utf-8', errors='replace'))
+                data = r.read()
+                elapsed = time.monotonic() - t0
+                text = data.decode('utf-8', errors='replace')
+                print(f"← {r.status} OK  {len(data):,} bytes  {elapsed:.1f}s  {redact(url)}", file=sys.stderr)
+                return (r.status, text)
         except urllib.error.HTTPError as e:
             status = e.code
             try:
                 body = e.read().decode('utf-8', errors='replace')
             except Exception:
                 body = ''
-            print(f"HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
+            print(f"✗ HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
             if status >= 400:
                 # Log full URL and response body for all API errors to aid debugging
                 print(f"  URL: {redact(url)}", file=sys.stderr)
                 print(f"  Response: {body[:1000]}", file=sys.stderr)
             if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
+                print(f"  Retrying in {wait:.1f}s...", file=sys.stderr)
                 time.sleep(wait)
                 wait *= backoff
                 continue
             return (status, body or f"HTTP {status}: {e.reason}")
         except Exception as e:
-            print(f"Error fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
+            print(f"✗ Error fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
             if attempt < retries - 1:
+                print(f"  Retrying in {wait:.1f}s...", file=sys.stderr)
                 time.sleep(wait)
                 wait *= backoff
                 continue
@@ -121,9 +129,13 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
         print(f"⚠ Failed to fetch JSON from {redact(url)}: HTTP {status}", file=sys.stderr)
         return None
     try:
-        return json.loads(text)
+        result = json.loads(text)
+        size_info = f"{len(result)} items" if isinstance(result, (list, dict)) else repr(result)
+        print(f"  JSON parsed: {type(result).__name__} {size_info}", file=sys.stderr)
+        return result
     except json.JSONDecodeError as e:
         print(f"⚠ Failed to parse JSON from {redact(url)}: {e}", file=sys.stderr)
+        print(f"  Response preview: {text[:200]}", file=sys.stderr)
         return None
 
 
@@ -190,10 +202,15 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
 
 
 def http_get(url: str, timeout: int = 60) -> bytes:
-    """Original http_get for LEHD (critical path, no fallback)."""
+    """Fetch URL, returning raw bytes. Raises on any error."""
+    print(f"→ GET {redact(url)}  (timeout={timeout}s)", file=sys.stderr)
     req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
+    t0 = time.monotonic()
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+        data = r.read()
+        elapsed = time.monotonic() - t0
+        print(f"← {r.status} OK  {len(data):,} bytes  {elapsed:.1f}s  {redact(url)}", file=sys.stderr)
+        return data
 
 
 def pick_substr(fields: list[str], *cands: str) -> str | None:
@@ -276,6 +293,19 @@ def ensure_dirs():
     os.makedirs(OUT['proj_dir'], exist_ok=True)
     os.makedirs(OUT['derived_dir'], exist_ok=True)
     os.makedirs(OUT['cache_dir'], exist_ok=True)
+
+
+def _log_file_written(path: str, label: str = '') -> None:
+    """Print the size of a newly written file to stdout."""
+    try:
+        size = os.path.getsize(path)
+        tag = f" ({label})" if label else ""
+        if size == 0:
+            print(f"  ⚠ EMPTY file written{tag}: {path}", file=sys.stderr)
+        else:
+            print(f"  ✓ wrote {size:,} bytes{tag}: {path}")
+    except Exception:
+        pass
 
 
 def safe_float(v):
@@ -853,6 +883,7 @@ def build_summary_cache():
             }
             with open(out_path, 'w', encoding='utf-8') as f:
                 json.dump(payload, f)
+            _log_file_written(out_path, f'{geo_type}:{geoid}')
             print(f"✓ summary {geo_type}:{geoid}")
         except Exception as e:
             print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
@@ -907,8 +938,10 @@ def build_lehd_by_county():
                 'url': url
             }
         }
-        with open(os.path.join(OUT['lehd_dir'], f"{c}.json"), 'w', encoding='utf-8') as f:
+        out_path = os.path.join(OUT['lehd_dir'], f"{c}.json")
+        with open(out_path, 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(out_path, f'lehd:{c}')
 
     print(f"✓ LEHD county summaries written: {len(county_ids)}")
 
@@ -1054,8 +1087,10 @@ def build_dola_sya_by_county():
                 'notes': 'Pyramid uses the selected pyramidYear; senior pressure uses available years in the file.'
             }
         }
-        with open(os.path.join(OUT['dola_dir'], f"{cf}.json"), 'w', encoding='utf-8') as f:
+        out_path = os.path.join(OUT['dola_dir'], f"{cf}.json")
+        with open(out_path, 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(out_path, f'dola_sya:{cf}')
 
     print(f"✓ DOLA SYA county files written: {len(by_county)}")
 
@@ -1265,8 +1300,10 @@ def build_dola_projections_by_county():
             }
         }
 
-        with open(os.path.join(OUT['proj_dir'], f"{cf}.json"), 'w', encoding='utf-8') as f:
+        out_path = os.path.join(OUT['proj_dir'], f"{cf}.json")
+        with open(out_path, 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(out_path, f'projections:{cf}')
 
     print(f"✓ DOLA projections written: {len(county_ids)}")
 
@@ -1375,6 +1412,7 @@ def build_geo_derived_inputs():
     out_path = os.path.join(OUT['derived_dir'], 'geo-derived.json')
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(derived, f)
+    _log_file_written(out_path, 'geo-derived')
     print(f"✓ derived inputs written: {out_path}")
 
 
@@ -1403,10 +1441,16 @@ def write_geo_config():
     }
     with open(OUT['geo_config'], 'w', encoding='utf-8') as f:
         json.dump(payload, f)
+    _log_file_written(OUT['geo_config'], 'geo-config')
     print(f"✓ geo-config counties: {len(counties)}, places: {len(places)}, cdps: {len(cdps)}")
 
 
 def main():
+    print(f"=== HNA Build started at {utc_now_z()} ===")
+    print(f"  CENSUS_API_KEY set: {'yes' if os.environ.get('CENSUS_API_KEY', '').strip() else 'NO (may cause rate limits)'}")
+    print(f"  ACS_START_YEAR: {os.environ.get('ACS_START_YEAR', '2024')}")
+    print(f"  LODES_YEAR: {os.environ.get('LODES_YEAR', '2022')}")
+
     ensure_dirs()
 
     # Always write geo config
@@ -1423,6 +1467,37 @@ def main():
     if os.environ.get('SKIP_DOLA', '').lower() != 'true':
         build_dola_sya_by_county()
         build_dola_projections_by_county()
+
+    # Final file summary
+    print(f"\n=== HNA Build file summary ===")
+    for label, directory in [
+        ("summary", OUT['summary_dir']),
+        ("lehd", OUT['lehd_dir']),
+        ("dola_sya", OUT['dola_dir']),
+        ("projections", OUT['proj_dir']),
+        ("derived", OUT['derived_dir']),
+    ]:
+        try:
+            files = [f for f in os.listdir(directory) if f.endswith('.json')]
+            total_bytes = sum(
+                os.path.getsize(os.path.join(directory, f)) for f in files
+            )
+            empty = [f for f in files if os.path.getsize(os.path.join(directory, f)) == 0]
+            msg = f"  {label}: {len(files)} files, {total_bytes:,} bytes"
+            if empty:
+                msg += f"  ⚠ {len(empty)} EMPTY: {empty[:5]}"
+                print(msg, file=sys.stderr)
+            else:
+                print(msg)
+        except Exception as e:
+            print(f"  {label}: could not list ({e})", file=sys.stderr)
+    # geo-config
+    if os.path.exists(OUT['geo_config']):
+        sz = os.path.getsize(OUT['geo_config'])
+        print(f"  geo-config.json: {sz:,} bytes")
+    else:
+        print(f"  geo-config.json: MISSING", file=sys.stderr)
+    print(f"=== HNA Build completed at {utc_now_z()} ===")
 
 
 if __name__ == '__main__':

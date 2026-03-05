@@ -15,12 +15,58 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Print environment and validate CENSUS_API_KEY
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          set -x
+          echo "Python version: $(python3 --version)"
+          echo "Working directory: $(pwd)"
+          echo "Disk space:"
+          df -h .
+          if [ -z "$CENSUS_API_KEY" ]; then
+            echo "WARNING: CENSUS_API_KEY is not set — unauthenticated Census requests may fail"
+          else
+            echo "CENSUS_API_KEY is set (length: ${#CENSUS_API_KEY})"
+          fi
+
+      - name: Validate Python imports
+        run: |
+          set -x
+          python3 -c "import csv, gzip, io, json, os, sys, time, urllib.request; print('All required modules imported successfully')"
+
+      - name: Run pre-build diagnostics
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          ACS_START_YEAR: '2024'
+          LODES_YEAR: '2022'
+        run: |
+          set -x
+          python3 scripts/hna/diagnose.py
+
       - name: Build cached HNA datasets (ACS + LEHD + DOLA)
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
         run: |
-          python3 scripts/hna/build_hna_data.py
+          set -x
+          python3 scripts/hna/build_hna_data.py 2>&1
+
+      - name: Verify output files
+        run: |
+          set -x
+          echo "=== data/hna directory contents ==="
+          find data/hna -type f | sort
+          echo ""
+          echo "=== File sizes ==="
+          find data/hna -type f -name "*.json" | sort | xargs -I{} sh -c 'echo "$(wc -c < {}) bytes  {}"'
+          echo ""
+          echo "=== Summary counts ==="
+          echo "Summary files:    $(find data/hna/summary    -name '*.json' 2>/dev/null | wc -l)"
+          echo "LEHD files:       $(find data/hna/lehd       -name '*.json' 2>/dev/null | wc -l)"
+          echo "DOLA SYA files:   $(find data/hna/dola_sya   -name '*.json' 2>/dev/null | wc -l)"
+          echo "Projection files: $(find data/hna/projections -name '*.json' 2>/dev/null | wc -l)"
+          echo "Derived files:    $(find data/hna/derived    -name '*.json' 2>/dev/null | wc -l)"
 
       - name: Commit and push
         run: |
