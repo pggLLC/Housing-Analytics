@@ -52,6 +52,7 @@
   var tractCentroids      = null;
   var acsMetrics          = null;
   var lihtcFeatures       = null;
+  var lihtcLoadError      = false;   // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
 
   // Overlay layer references
@@ -758,9 +759,11 @@
       var lihtcData = results[2];
       if (lihtcData && lihtcData._loadError) {
         console.warn('[market-analysis] LIHTC data missing:', lihtcData._msg);
-        lihtcFeatures = [];
+        lihtcFeatures  = [];
+        lihtcLoadError = true;
       } else {
-        lihtcFeatures = (lihtcData && lihtcData.features) || [];
+        lihtcFeatures  = (lihtcData && lihtcData.features) || [];
+        lihtcLoadError = false;
       }
 
       dataLoaded = true;
