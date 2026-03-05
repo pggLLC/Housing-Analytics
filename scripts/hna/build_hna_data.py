@@ -88,20 +88,26 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
     """
     wait = 1
     for attempt in range(retries):
+        print(f"→ GET {redact(url)}  (attempt {attempt + 1}/{retries}, timeout={timeout}s)", file=sys.stderr)
+        t0 = time.monotonic()
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
-                return (r.status, r.read().decode('utf-8', errors='replace'))
+                body = r.read().decode('utf-8', errors='replace')
+                status = r.status
+            elapsed = time.monotonic() - t0
+            print(f"← {status} OK  {len(body):,} bytes  {elapsed:.1f}s", file=sys.stderr)
+            return (status, body)
         except urllib.error.HTTPError as e:
+            elapsed = time.monotonic() - t0
             status = e.code
             try:
                 body = e.read().decode('utf-8', errors='replace')
             except Exception:
                 body = ''
-            print(f"HTTP {status} fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
+            print(f"← HTTP {status}  {elapsed:.1f}s  fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
             if status >= 400:
-                # Log full URL and response body for all API errors to aid debugging
-                print(f"  URL: {redact(url)}", file=sys.stderr)
+                # Log response body preview for all API errors to aid debugging
                 print(f"  Response: {body[:1000]}", file=sys.stderr)
             if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
                 time.sleep(wait)
@@ -109,7 +115,8 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
                 continue
             return (status, body or f"HTTP {status}: {e.reason}")
         except Exception as e:
-            print(f"Error fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
+            elapsed = time.monotonic() - t0
+            print(f"← ERROR  {elapsed:.1f}s  fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
             if attempt < retries - 1:
                 time.sleep(wait)
                 wait *= backoff
@@ -123,6 +130,7 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
     status, text = http_get_text(url, timeout=timeout, retries=1)
     if status != 200:
         print(f"⚠ Failed to fetch JSON from {redact(url)}: HTTP {status}", file=sys.stderr)
+        print(f"  Response preview: {text[:500]}", file=sys.stderr)
         return None
     try:
         return json.loads(text)
@@ -195,9 +203,15 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
 
 def http_get(url: str, timeout: int = 60) -> bytes:
     """Original http_get for LEHD (critical path, no fallback)."""
+    print(f"→ GET {redact(url)}  (timeout={timeout}s)", file=sys.stderr)
+    t0 = time.monotonic()
     req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+        raw = r.read()
+        status = r.status
+    elapsed = time.monotonic() - t0
+    print(f"← {status} OK  {len(raw):,} bytes  {elapsed:.1f}s", file=sys.stderr)
+    return raw
 
 
 def pick_substr(fields: list[str], *cands: str) -> str | None:
@@ -857,7 +871,7 @@ def build_summary_cache():
             }
             with open(out_path, 'w', encoding='utf-8') as f:
                 json.dump(payload, f)
-            print(f"✓ summary {geo_type}:{geoid}")
+            _log_file_written(out_path, f"summary:{geoid}")
         except Exception as e:
             print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
 
@@ -913,6 +927,7 @@ def build_lehd_by_county():
         }
         with open(os.path.join(OUT['lehd_dir'], f"{c}.json"), 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(os.path.join(OUT['lehd_dir'], f"{c}.json"), f"lehd:{c}")
 
     print(f"✓ LEHD county summaries written: {len(county_ids)}")
 
@@ -1060,6 +1075,7 @@ def build_dola_sya_by_county():
         }
         with open(os.path.join(OUT['dola_dir'], f"{cf}.json"), 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(os.path.join(OUT['dola_dir'], f"{cf}.json"), f"dola_sya:{cf}")
 
     print(f"✓ DOLA SYA county files written: {len(by_county)}")
 
@@ -1271,6 +1287,7 @@ def build_dola_projections_by_county():
 
         with open(os.path.join(OUT['proj_dir'], f"{cf}.json"), 'w', encoding='utf-8') as f:
             json.dump(payload, f)
+        _log_file_written(os.path.join(OUT['proj_dir'], f"{cf}.json"), f"projections:{cf}")
 
     print(f"✓ DOLA projections written: {len(county_ids)}")
 
@@ -1379,7 +1396,7 @@ def build_geo_derived_inputs():
     out_path = os.path.join(OUT['derived_dir'], 'geo-derived.json')
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(derived, f)
-    print(f"✓ derived inputs written: {out_path}")
+    _log_file_written(out_path, 'derived:geo-derived')
 
 
 def write_geo_config():
@@ -1407,6 +1424,7 @@ def write_geo_config():
     }
     with open(OUT['geo_config'], 'w', encoding='utf-8') as f:
         json.dump(payload, f)
+    _log_file_written(OUT['geo_config'], 'geo-config')
     print(f"✓ geo-config counties: {len(counties)}, places: {len(places)}, cdps: {len(cdps)}")
 
 
@@ -1423,25 +1441,60 @@ def _count_dir(path: str) -> int:
         return 0
 
 
+def _safe_getsize(path: str) -> int:
+    """Return the byte size of *path*, or 0 if the file does not exist or cannot be read."""
+    try:
+        return os.path.getsize(path)
+    except OSError:
+        return 0
+
+
+def _sum_dir_bytes(path: str) -> int:
+    """Return total byte size of all files directly inside *path* (non-recursive)."""
+    try:
+        return sum(e.stat().st_size for e in os.scandir(path) if e.is_file())
+    except FileNotFoundError:
+        return 0
+
+
+def _log_file_written(path: str, label: str) -> None:
+    """Print file size after writing; warn to stderr on zero-byte output."""
+    try:
+        size = os.path.getsize(path)
+    except OSError as e:
+        print(f"⚠ could not stat {path}: {e}", file=sys.stderr)
+        return
+    if size == 0:
+        print(f"⚠ wrote 0 bytes ({label}): {path}", file=sys.stderr)
+    else:
+        print(f"  ✓ wrote {size:,} bytes ({label}): {path}")
+
+
 def _print_summary() -> None:
-    """Print file counts for every HNA output directory."""
-    print("\n── Build summary ──")
+    """Print file counts and byte totals for every HNA output directory."""
+    print("\n=== HNA Build file summary ===")
     # Expected counts reflect the full Colorado geography set processed by the pipeline:
     #   summary/     – one file per county (64) + places/CDPs (~480) = ~544 total
     #   lehd/        – one file per Colorado county (64)
     #   dola_sya/    – one file per Colorado county (64)
     #   projections/ – one file per Colorado county (64)
     rows = [
-        ('geo-config.json', 1 if os.path.exists(OUT['geo_config']) else 0, 1),
-        ('summary/', _count_dir(OUT['summary_dir']), 544),
-        ('lehd/', _count_dir(OUT['lehd_dir']), 64),
-        ('dola_sya/', _count_dir(OUT['dola_dir']), 64),
-        ('projections/', _count_dir(OUT['proj_dir']), 64),
-        ('derived/', _count_dir(OUT['derived_dir']), 1),
+        ('geo-config.json', 1 if os.path.exists(OUT['geo_config']) else 0,
+         _safe_getsize(OUT['geo_config']), 1),
+        ('summary/', _count_dir(OUT['summary_dir']), _sum_dir_bytes(OUT['summary_dir']), 544),
+        ('lehd/', _count_dir(OUT['lehd_dir']), _sum_dir_bytes(OUT['lehd_dir']), 64),
+        ('dola_sya/', _count_dir(OUT['dola_dir']), _sum_dir_bytes(OUT['dola_dir']), 64),
+        ('projections/', _count_dir(OUT['proj_dir']), _sum_dir_bytes(OUT['proj_dir']), 64),
+        ('derived/', _count_dir(OUT['derived_dir']), _sum_dir_bytes(OUT['derived_dir']), 1),
     ]
-    for label, count, expected in rows:
+    empty_labels = []
+    for label, count, total_bytes, expected in rows:
         icon = '✓' if count >= expected else ('⚠' if count > 0 else '✗')
-        print(f"  {icon} {label}: {count} file(s) (expected ≥{expected})")
+        if count > 0 and total_bytes == 0:
+            empty_labels.append(label)
+        print(f"  {icon} {label}: {count} file(s), {total_bytes:,} bytes (expected ≥{expected})")
+    if empty_labels:
+        print(f"  ⚠ zero-byte output detected in: {', '.join(empty_labels)}", file=sys.stderr)
 
     # Overall key presence check
     key = census_key()

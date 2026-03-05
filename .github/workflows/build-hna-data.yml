@@ -15,28 +15,63 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Check API connectivity
+      - name: Environment check
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
-          python3 scripts/hna/test-connectivity.py || true
+          echo "── Python version ──"
+          python3 --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── CENSUS_API_KEY ──"
+          python3 -c "
+          import os, sys
+          k = os.environ.get('CENSUS_API_KEY', '').strip()
+          if k:
+              print(f'CENSUS_API_KEY: set ({len(k)} chars)')
+          else:
+              print('CENSUS_API_KEY: NOT SET — API calls will be unauthenticated', file=sys.stderr)
+          "
+
+      - name: Validate Python imports
+        run: |
+          python3 -c "
+          import csv, gzip, io, json, os, sys, time, urllib.parse, urllib.request
+          print('All required stdlib modules loaded OK')
+          "
+
+      - name: Pre-build diagnostics
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python3 scripts/hna/diagnose.py || true
 
       - name: Build cached HNA datasets (ACS + LEHD + DOLA)
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
         run: |
-          python3 scripts/hna/build_hna_data.py
+          set -x
+          python3 scripts/hna/build_hna_data.py 2>&1
 
-      - name: Report output file counts
+      - name: Post-build verification
         run: |
-          echo "── HNA output file counts ──"
-          echo "  summary/   : $(ls data/hna/summary/   2>/dev/null | wc -l) files"
-          echo "  lehd/      : $(ls data/hna/lehd/       2>/dev/null | wc -l) files"
-          echo "  dola_sya/  : $(ls data/hna/dola_sya/  2>/dev/null | wc -l) files"
-          echo "  projections/: $(ls data/hna/projections/ 2>/dev/null | wc -l) files"
-          echo "  lihtc/     : $(ls data/hna/lihtc/      2>/dev/null | wc -l) files"
-          echo "  derived/   : $(ls data/hna/derived/    2>/dev/null | wc -l) files"
+          echo "── HNA output .json files ──"
+          for dir in data/hna/summary data/hna/lehd data/hna/dola_sya data/hna/projections data/hna/derived; do
+            echo ""
+            echo "$dir:"
+            if [ -d "$dir" ]; then
+              count=$(find "$dir" -maxdepth 1 -name '*.json' | wc -l)
+              total=$(find "$dir" -maxdepth 1 -name '*.json' -exec stat -c%s {} \; 2>/dev/null \
+                      | awk '{s+=$1} END {print s+0}')
+              echo "  files : $count"
+              echo "  bytes : $total"
+              find "$dir" -maxdepth 1 -name '*.json' -empty | \
+                while read f; do echo "  ⚠ zero-byte: $f"; done
+            else
+              echo "  (directory not found)"
+            fi
+          done
 
       - name: Commit and push
         run: |
