@@ -109,11 +109,11 @@ function loadCache() {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  const apiKey = (process.env.KASHLI_API_KEY || '').trim();
+  const apiKey = (process.env.KALSHI_API_KEY || '').trim();
 
   if (!apiKey) {
     console.error(
-      'ERROR: KASHLI_API_KEY environment variable is not set.\n' +
+      'ERROR: KALSHI_API_KEY environment variable is not set.\n' +
       'Add it in GitHub repo settings: Settings → Secrets and variables → Actions.'
     );
     process.exit(1);
