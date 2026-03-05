@@ -101,6 +101,65 @@ test('HNA boundary failure message is informative', () => {
     'Boundary failure message mentions TIGERweb for user clarity');
 });
 
+test('Labor Market section: JS functions defined', () => {
+  assert(hnaSrc.includes('function calculateJobMetrics'),   'calculateJobMetrics is defined');
+  assert(hnaSrc.includes('function calculateWageDistribution'), 'calculateWageDistribution is defined');
+  assert(hnaSrc.includes('function parseIndustries'),       'parseIndustries is defined');
+  assert(hnaSrc.includes('function renderLaborMarketSection'), 'renderLaborMarketSection is defined');
+  assert(hnaSrc.includes('function renderJobMetrics'),      'renderJobMetrics is defined');
+  assert(hnaSrc.includes('function renderWageChart'),       'renderWageChart is defined');
+  assert(hnaSrc.includes('function renderIndustryChart'),   'renderIndustryChart is defined');
+  assert(hnaSrc.includes('function renderCommutingFlows'),  'renderCommutingFlows is defined');
+});
+
+test('Prop 123 section: JS functions defined', () => {
+  assert(hnaSrc.includes('function calculateBaseline'),          'calculateBaseline is defined');
+  assert(hnaSrc.includes('function calculateGrowthTarget'),      'calculateGrowthTarget is defined');
+  assert(hnaSrc.includes('function checkFastTrackEligibility'),  'checkFastTrackEligibility is defined');
+  assert(hnaSrc.includes('function renderProp123Section'),       'renderProp123Section is defined');
+  assert(hnaSrc.includes('function renderBaselineCard'),         'renderBaselineCard is defined');
+  assert(hnaSrc.includes('function renderGrowthChart'),          'renderGrowthChart is defined');
+  assert(hnaSrc.includes('function renderFastTrackCard'),        'renderFastTrackCard is defined');
+  assert(hnaSrc.includes('function renderChecklist'),            'renderChecklist is defined');
+});
+
+test('Prop 123 section: constants defined correctly', () => {
+  assert(hnaSrc.includes('PROP123_GROWTH_RATE = 0.03'),     'growth rate constant is 0.03 (3%)');
+  assert(hnaSrc.includes('PROP123_MUNICIPALITY_THRESHOLD'), 'municipality threshold constant defined');
+  assert(hnaSrc.includes('PROP123_COUNTY_THRESHOLD'),       'county threshold constant defined');
+});
+
+test('HTML contains Labor Market section with expected elements', () => {
+  assert(hnaHtml.includes('id="labor-market-section"'),      'labor-market-section present');
+  assert(hnaHtml.includes('id="jobMetrics"'),                'jobMetrics container present');
+  assert(hnaHtml.includes('id="wageChartContainer"'),        'wageChartContainer present');
+  assert(hnaHtml.includes('id="industryChartContainer"'),    'industryChartContainer present');
+  assert(hnaHtml.includes('id="commutingFlowsContainer"'),   'commutingFlowsContainer present');
+  assert(hnaHtml.includes('id="chartWage"'),                 'chartWage canvas present');
+  assert(hnaHtml.includes('id="chartIndustry"'),             'chartIndustry canvas present');
+});
+
+test('HTML contains Prop 123 section with expected elements', () => {
+  assert(hnaHtml.includes('id="prop123-section"'),           'prop123-section present');
+  assert(hnaHtml.includes('id="prop123BaselineContent"'),    'baseline content area present');
+  assert(hnaHtml.includes('id="prop123GrowthContent"'),      'growth content area present');
+  assert(hnaHtml.includes('id="prop123FastTrackContent"'),   'fast-track content area present');
+  assert(hnaHtml.includes('id="prop123Checklist"'),          'compliance checklist present');
+  assert(hnaHtml.includes('id="chartProp123Growth"'),        'growth chart canvas present');
+  assert(hnaHtml.includes('HB 22-1093'),                     'HB 22-1093 referenced in HTML');
+});
+
+test('CSS contains new section styles', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8');
+  assert(css.includes('.labor-market-section'),  '.labor-market-section class defined');
+  assert(css.includes('.metric-card'),           '.metric-card class defined');
+  assert(css.includes('.prop123-section'),        '.prop123-section class defined');
+  assert(css.includes('.compliance-status'),      '.compliance-status class defined');
+  assert(css.includes('.timeline-chart'),         '.timeline-chart class defined');
+  assert(css.includes('.checklist-item'),         '.checklist-item class defined');
+  assert(css.includes('.commuting-table'),        '.commuting-table class defined');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);

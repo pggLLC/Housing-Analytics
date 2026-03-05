@@ -158,6 +158,22 @@ test('.github/workflows/car-data-update.yml has monthly schedule', () => {
   assert(wf.includes('workflow_dispatch'), 'manual trigger is preserved');
 });
 
+test('housing-needs-assessment.html has Labor Market and Prop 123 sections', () => {
+  const hnaHtml = fs.readFileSync(path.join(ROOT, 'housing-needs-assessment.html'), 'utf8');
+  assert(hnaHtml.includes('id="labor-market-section"'), 'Labor Market section present in HNA HTML');
+  assert(hnaHtml.includes('id="prop123-section"'),       'Prop 123 section present in HNA HTML');
+  assert(hnaHtml.includes('id="jobMetrics"'),            'jobMetrics container present in HNA HTML');
+  assert(hnaHtml.includes('HB 22-1093'),                 'HB 22-1093 referenced in HNA HTML');
+});
+
+test('housing-needs-assessment.css has new section styles', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8');
+  assert(css.includes('.labor-market-section'), '.labor-market-section CSS defined');
+  assert(css.includes('.prop123-section'),       '.prop123-section CSS defined');
+  assert(css.includes('.metric-card'),           '.metric-card CSS defined');
+  assert(css.includes('.compliance-status'),     '.compliance-status CSS defined');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);

@@ -257,6 +257,123 @@
         </div>
       </div>
 
+      <!-- Labor Market Metrics -->
+      <section id="labor-market-section" class="chart-card span-12 labor-market-section">
+        <h2>Labor Market Context</h2>
+        <p style="color:var(--muted)">
+          Workplace-area employment estimates from LEHD LODES. Job totals, wage distribution, and top industries
+          display when the LEHD WAC cache is populated; commuting flows are available now from the OD summary.
+        </p>
+        <div id="jobMetrics" class="metric-cards">
+          <!-- populated by JS -->
+        </div>
+        <div class="hna-grid" style="margin-top:0">
+          <div class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Wage Distribution</h2>
+            <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
+            <div id="wageChartContainer" class="chart-container">
+              <div class="chart-box"><canvas id="chartWage"></canvas></div>
+            </div>
+          </div>
+          <div class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Top Industries by Employment</h2>
+            <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
+            <div id="industryChartContainer" class="chart-container">
+              <div class="chart-box"><canvas id="chartIndustry"></canvas></div>
+            </div>
+          </div>
+        </div>
+        <details class="accordion-section" style="margin-top:14px">
+          <summary>Commuting Flows &amp; Methodology</summary>
+          <div style="margin-top:10px">
+            <div id="commutingFlowsContainer">—</div>
+            <p style="margin:10px 0 0;color:var(--muted);font-size:.88rem">
+              <strong>Data source:</strong> LEHD LODES8 OD main (JT00) — all workers, all jobs.
+              WAC (Workplace Area Characteristics) data provides job totals, wage bins, and NAICS sectors.
+              <a href="https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf" target="_blank" rel="noopener">LODES Technical Documentation</a> ·
+              <a href="https://lehd.ces.census.gov/data/lodes/LODES8/" target="_blank" rel="noopener">LODES8 Downloads</a>
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Prop 123 / HB 22-1093 Compliance -->
+      <section id="prop123-section" class="chart-card span-12 prop123-section">
+        <h2>Affordable Housing Compliance (HB 22-1093 / Prop 123)</h2>
+        <p style="color:var(--muted)">
+          Colorado's HB 22-1093 (Proposition 123, effective Jan 1, 2023) requires communities to track affordable
+          housing progress. Jurisdictions must establish a baseline of 60% AMI rentals and commit to 3% annual growth.
+          <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 page</a>
+        </p>
+
+        <div class="prop123-cards-row">
+          <!-- Baseline card -->
+          <div class="baseline-card">
+            <h3>Baseline: 60% AMI Rentals</h3>
+            <div id="prop123BaselineContent">
+              <p style="color:var(--muted);font-size:.9rem">Select a geography to calculate the baseline.</p>
+            </div>
+          </div>
+
+          <!-- Growth tracking card -->
+          <div class="growth-tracking">
+            <h3>3% Annual Growth Target</h3>
+            <div id="prop123GrowthContent">
+              <p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>
+              <div class="timeline-chart"><canvas id="chartProp123Growth"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Fast-track eligibility card -->
+          <div class="fast-track-card">
+            <h3>Fast-Track Approval Eligibility</h3>
+            <div id="prop123FastTrackContent">
+              <p style="color:var(--muted);font-size:.9rem">Select a geography to check eligibility.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance checklist -->
+        <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
+          <h3>Compliance Checklist</h3>
+          <ul class="compliance-checklist" id="prop123Checklist">
+            <li class="checklist-item" id="checkItemBaseline">
+              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)">
+              <label for="chkBaseline">Establish baseline (60% AMI rentals documented)</label>
+            </li>
+            <li class="checklist-item" id="checkItemGrowth">
+              <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target">
+              <label for="chkGrowth">Adopt 3% annual growth target</label>
+            </li>
+            <li class="checklist-item" id="checkItemFastTrack">
+              <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process">
+              <label for="chkFastTrack">Document fast-track approval process</label>
+            </li>
+            <li class="checklist-item" id="checkItemDola">
+              <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)">
+              <label for="chkDola">File notice with DOLA (annual deadline: January 31)</label>
+            </li>
+            <li class="checklist-item" id="checkItemReport">
+              <input type="checkbox" id="chkReport" aria-label="Annual reporting filed">
+              <label for="chkReport">Annual reporting filed with DOLA</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="resources-section chart-card" style="margin-top:14px;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
+          <h3>Resources &amp; Deadlines</h3>
+          <ul>
+            <li><strong>Annual filing deadline:</strong> January 31 each year — File commitment notice with DOLA</li>
+            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Guidance, FAQ, and forms</li>
+            <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a> — Submit and track your commitment</li>
+            <li><a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093 Full Text</a> — Colorado General Assembly</li>
+            <li><strong>Eligible jurisdictions:</strong> Municipalities ≥ 1,000 population &amp; counties ≥ 5,000 population (per HB 22-1093)</li>
+            <li><strong>Questions?</strong> Contact DOLA Division of Housing: <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">cdola.colorado.gov/housing</a></li>
+          </ul>
+        </div>
+      </section>
+
       <div class="chart-card span-12 methodology">
         <h2>Methodology & data sources (dynamic)</h2>
         <p style="color:var(--muted)">

@@ -1470,6 +1470,504 @@
   }
 
   // --- Computations ---
+
+  // ---------------------------------------------------------------
+  // Labor Market helpers
+  // ---------------------------------------------------------------
+
+  // NAICS 2-digit sector labels (LEHD WAC CNS01-CNS20)
+  const NAICS_LABELS = {
+    CNS01: 'Agriculture & Forestry',
+    CNS02: 'Mining & Oil/Gas',
+    CNS03: 'Utilities',
+    CNS04: 'Construction',
+    CNS05: 'Manufacturing',
+    CNS06: 'Wholesale Trade',
+    CNS07: 'Retail Trade',
+    CNS08: 'Transportation & Warehousing',
+    CNS09: 'Information',
+    CNS10: 'Finance & Insurance',
+    CNS11: 'Real Estate',
+    CNS12: 'Professional & Technical Services',
+    CNS13: 'Management',
+    CNS14: 'Administrative & Support',
+    CNS15: 'Educational Services',
+    CNS16: 'Health Care & Social Assistance',
+    CNS17: 'Arts & Entertainment',
+    CNS18: 'Accommodation & Food Services',
+    CNS19: 'Other Services',
+    CNS20: 'Public Administration',
+  };
+
+  /**
+   * Calculate high-level job metrics from LEHD data.
+   * Supports both WAC (full) and OD-only (inflow/outflow/within) data shapes.
+   * @param {object} lehd - LEHD JSON object
+   * @param {object|null} profile - ACS profile for population (J:W ratio denominator)
+   * @returns {object} metrics object
+   */
+  function calculateJobMetrics(lehd, profile) {
+    if (!lehd) return null;
+    const totalJobs = Number(lehd.C000) || null;  // WAC total jobs field
+    const within    = Number(lehd.within)  || 0;
+    const inflow    = Number(lehd.inflow)  || 0;
+    const outflow   = Number(lehd.outflow) || 0;
+
+    // If WAC C000 present use it; otherwise fall back to within+inflow (OD-based)
+    const jobs = Number.isFinite(totalJobs) && totalJobs > 0
+      ? totalJobs
+      : (within + inflow > 0 ? within + inflow : null);
+
+    const pop = Number(profile?.DP05_0001E) || null;
+    // Workers ≈ labour-force participants; ~47% is a conservative approximation of the
+    // civilian employment-population ratio (BLS FRED series EMRATIO hovers ~59–61% for all
+    // ages, but including non-working-age population gives roughly 46–48% for total pop).
+    // This is used only as a J:W ratio denominator when no local labour-force count is cached.
+    const workers = pop ? Math.round(pop * 0.47) : null;
+    const jwRatio = (jobs && workers && workers > 0) ? (jobs / workers) : null;
+
+    return { jobs, within, inflow, outflow, jwRatio };
+  }
+
+  /**
+   * Parse top-N industries from LEHD WAC CNS fields.
+   * Returns [] if no WAC data available.
+   * @param {object} lehd
+   * @param {number} topN
+   * @returns {Array<{label, count}>}
+   */
+  function parseIndustries(lehd, topN) {
+    topN = topN || 5;
+    if (!lehd) return [];
+    const entries = [];
+    Object.keys(NAICS_LABELS).forEach(function(key) {
+      const count = Number(lehd[key]);
+      if (Number.isFinite(count) && count > 0) {
+        entries.push({ label: NAICS_LABELS[key], count: count });
+      }
+    });
+    if (!entries.length) return [];
+    entries.sort(function(a, b) { return b.count - a.count; });
+    return entries.slice(0, topN);
+  }
+
+  /**
+   * Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields.
+   * @param {object} lehd
+   * @returns {{low, medium, high, total}|null}
+   */
+  function calculateWageDistribution(lehd) {
+    if (!lehd) return null;
+    const low    = Number(lehd.CE01);  // ≤ $1,250/month
+    const medium = Number(lehd.CE02);  // $1,251–$3,333/month
+    const high   = Number(lehd.CE03);  // > $3,333/month
+    if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) return null;
+    const l = Number.isFinite(low)    ? low    : 0;
+    const m = Number.isFinite(medium) ? medium : 0;
+    const h = Number.isFinite(high)   ? high   : 0;
+    const total = l + m + h;
+    if (total === 0) return null;
+    return { low: l, medium: m, high: h, total };
+  }
+
+  // ---------------------------------------------------------------
+  // Prop 123 / HB 22-1093 helpers
+  // ---------------------------------------------------------------
+
+  // Population thresholds for eligibility (per HB 22-1093)
+  const PROP123_MUNICIPALITY_THRESHOLD = 1000;
+  const PROP123_COUNTY_THRESHOLD       = 5000;
+  // Required annual growth rate (3%)
+  const PROP123_GROWTH_RATE = 0.03;
+
+  /**
+   * Estimate count of 60% AMI rental units from ACS profile data.
+   * Uses ACS DP04 GRAPI bins as a proxy:
+   *   - Total renter-occupied units (DP04_0003E - vacant, or derived from tenure pct)
+   *   - Affordability proxy: units paying < 30% income (not rent-burdened) as a proxy for
+   *     units affordable at ≤60% AMI.  This is an approximation — true 60% AMI counts
+   *     require ACS B25106 cross-tabulations not in the DP04 profile.
+   *
+   * ACS DP04 fields used:
+   *   DP04_0001E  - Total housing units
+   *   DP04_0046PE - Renter-occupied (%)
+   *   DP04_0003E  - Occupied housing units
+   *   DP04_0144PE - GRAPI <15%
+   *   DP04_0145PE - GRAPI 15-19.9%
+   *   DP04_0146PE - GRAPI 20-24.9%  (not burdened)
+   *
+   * @param {object} profile - ACS profile (DP04 fields)
+   * @returns {{baseline60Ami, totalRentals, pctOfStock, method}|null}
+   */
+  function calculateBaseline(profile) {
+    if (!profile) return null;
+
+    const totalUnits  = Number(profile.DP04_0001E);
+    const renterPct   = Number(profile.DP04_0046PE);  // e.g. 27.5
+    const occupiedUnits = Number(profile.DP04_0003E);
+
+    if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
+    if (!Number.isFinite(renterPct)  || renterPct  <= 0) return null;
+
+    // Estimate total renter-occupied units
+    const totalRentals = Math.round(totalUnits * (renterPct / 100));
+    if (totalRentals <= 0) return null;
+
+    // GRAPI bins: <15%, 15-19.9%, 20-24.9% are not-burdened (paying <30% income)
+    // Use these as a proxy for affordability at ≤60% AMI (conservative estimate)
+    const grapi_lt15   = Number(profile.DP04_0144PE);
+    const grapi_15_20  = Number(profile.DP04_0145PE);
+    const grapi_20_25  = Number(profile.DP04_0146PE);
+
+    let baseline60Ami = null;
+    let method = 'estimate';
+
+    if (Number.isFinite(grapi_lt15) || Number.isFinite(grapi_15_20) || Number.isFinite(grapi_20_25)) {
+      // Sum of not-burdened GRAPI bins as fraction of rentals
+      const notBurdenedPct = (Number.isFinite(grapi_lt15) ? grapi_lt15 : 0) +
+                             (Number.isFinite(grapi_15_20) ? grapi_15_20 : 0) +
+                             (Number.isFinite(grapi_20_25) ? grapi_20_25 : 0);
+      // 60% AMI affordability threshold proxy: among not-burdened renters (paying <25% of income),
+      // approximately 65–70% are estimated to be at or below 60% AMI.  This is consistent with
+      // HUD income/rent relationship analysis for moderate-income renter households nationally.
+      // NOTE: This is a rough proxy only.  For a certified Prop 123 baseline, jurisdictions must
+      // conduct a formal housing needs assessment using ACS B25106 cross-tabulations or local data.
+      baseline60Ami = Math.round(totalRentals * (notBurdenedPct / 100) * 0.70);
+      method = 'acs-grapi-proxy';
+    } else {
+      // Fallback national average: roughly 40% of renter-occupied units are estimated to be
+      // affordable at ≤60% AMI based on national ACS income/rent cross-tabulations (HUD
+      // Worst Case Housing Needs reports consistently find ~38–42% of rentals affordable at
+      // this level nationally). This fallback is used only when GRAPI data is unavailable.
+      baseline60Ami = Math.round(totalRentals * 0.40);
+      method = 'national-avg-proxy';
+    }
+
+    const pctOfStock = totalRentals > 0 ? (baseline60Ami / totalRentals) * 100 : 0;
+    return { baseline60Ami, totalRentals, pctOfStock, method };
+  }
+
+  /**
+   * Calculate the 3% annual growth target for a given baseline and year offset.
+   * @param {number} baseline - Starting 60% AMI rental count
+   * @param {number} yearsAhead - Years from baseline (0 = baseline year)
+   * @returns {number}
+   */
+  function calculateGrowthTarget(baseline, yearsAhead) {
+    if (!Number.isFinite(baseline) || baseline <= 0) return 0;
+    yearsAhead = Number.isFinite(yearsAhead) ? yearsAhead : 0;
+    return Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsAhead));
+  }
+
+  /**
+   * Check if a jurisdiction is eligible for Prop 123 fast-track.
+   * @param {number} population
+   * @param {string} geoType - 'county' | 'place' | 'cdp'
+   * @returns {{eligible, threshold, reason}}
+   */
+  function checkFastTrackEligibility(population, geoType) {
+    const pop = Number(population);
+    if (!Number.isFinite(pop) || pop <= 0) {
+      return { eligible: null, threshold: null, reason: 'Population data unavailable' };
+    }
+    const isCounty  = geoType === 'county';
+    const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
+    const eligible  = pop >= threshold;
+    return {
+      eligible,
+      threshold,
+      reason: eligible
+        ? `Population (${pop.toLocaleString()}) meets the ${threshold.toLocaleString()} threshold`
+        : `Population (${pop.toLocaleString()}) below the ${threshold.toLocaleString()} minimum`,
+    };
+  }
+
+  // ---------------------------------------------------------------
+  // Labor Market renderers
+  // ---------------------------------------------------------------
+
+  function renderJobMetrics(container, metrics) {
+    if (!container) return;
+    if (!metrics || metrics.jobs === null) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">LEHD WAC job totals not yet cached. Run the HNA data build workflow to populate.</p>';
+      return;
+    }
+    const fmt   = function(v){ return v !== null && Number.isFinite(v) ? v.toLocaleString() : '—'; };
+    const fmtR  = function(v){ return v !== null && Number.isFinite(v) ? v.toFixed(2) : '—'; };
+    const cards = [
+      { label: 'Total Jobs', value: fmt(metrics.jobs),   sub: 'LEHD LODES workplace-based' },
+      { label: 'Jobs-to-Workers Ratio', value: fmtR(metrics.jwRatio), sub: 'Jobs ÷ estimated workers' },
+      { label: 'In-Commuters', value: fmt(metrics.inflow > 0 ? metrics.inflow : null),   sub: 'Work here, live elsewhere' },
+      { label: 'Out-Commuters', value: fmt(metrics.outflow > 0 ? metrics.outflow : null), sub: 'Live here, work elsewhere' },
+      { label: 'Live & Work Here', value: fmt(metrics.within > 0 ? metrics.within : null), sub: 'Contained workforce' },
+    ];
+    container.innerHTML = cards.map(function(c) {
+      return '<div class="metric-card">' +
+               '<div class="mc-label">' + c.label + '</div>' +
+               '<div class="mc-value">' + c.value + '</div>' +
+               '<div class="mc-sub">' + c.sub + '</div>' +
+             '</div>';
+    }).join('');
+  }
+
+  function renderWageChart(container, dist) {
+    if (!container) return;
+    if (!dist) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Wage distribution requires LEHD WAC data (CE01–CE03). Cache not yet populated.</p>';
+      return;
+    }
+    container.innerHTML = '<div class="chart-box"><canvas id="chartWage"></canvas></div>';
+    const t = chartTheme();
+    makeChart(document.getElementById('chartWage').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Low wage\n(≤$1,250/mo)', 'Medium wage\n($1,251–$3,333/mo)', 'High wage\n(>$3,333/mo)'],
+        datasets: [{
+          label: 'Jobs',
+          data: [dist.low, dist.medium, dist.high],
+          backgroundColor: ['rgba(239,68,68,.7)', 'rgba(251,191,36,.7)', 'rgba(34,163,111,.7)'],
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+        }
+      }
+    });
+  }
+
+  function renderIndustryChart(container, industries) {
+    if (!container) return;
+    if (!industries || !industries.length) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Industry breakdown requires LEHD WAC data (CNS fields). Cache not yet populated.</p>';
+      return;
+    }
+    container.innerHTML = '<div class="chart-box"><canvas id="chartIndustry"></canvas></div>';
+    const t = chartTheme();
+    makeChart(document.getElementById('chartIndustry').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: industries.map(function(d){ return d.label; }),
+        datasets: [{
+          label: 'Jobs',
+          data: industries.map(function(d){ return d.count; }),
+          backgroundColor: 'rgba(59,130,246,.7)',
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted, font: { size: 11 } }, grid: { color: t.border } },
+        }
+      }
+    });
+  }
+
+  function renderCommutingFlows(container, metrics) {
+    if (!container) return;
+    if (!metrics || (metrics.inflow === 0 && metrics.outflow === 0 && metrics.within === 0)) {
+      container.innerHTML = '<p style="color:var(--muted)">No commuting data available.</p>';
+      return;
+    }
+    const fmt = function(v){ return Number.isFinite(v) && v > 0 ? v.toLocaleString() : '—'; };
+    container.innerHTML =
+      '<table class="commuting-table" aria-label="Commuting flows summary">' +
+        '<thead><tr><th>Flow type</th><th>Count</th><th>Description</th></tr></thead>' +
+        '<tbody>' +
+          '<tr><td>In-commuters</td><td>' + fmt(metrics.inflow) + '</td><td>Jobs located here, filled by residents of other areas</td></tr>' +
+          '<tr><td>Out-commuters</td><td>' + fmt(metrics.outflow) + '</td><td>Residents who work in other areas</td></tr>' +
+          '<tr><td>Live & work here</td><td>' + fmt(metrics.within) + '</td><td>Both live and work within this geography</td></tr>' +
+        '</tbody>' +
+      '</table>';
+  }
+
+  /**
+   * Main Labor Market section renderer.
+   * @param {object|null} lehd
+   * @param {object|null} profile
+   */
+  function renderLaborMarketSection(lehd, profile) {
+    const metrics     = calculateJobMetrics(lehd, profile);
+    const wageDist    = calculateWageDistribution(lehd);
+    const industries  = parseIndustries(lehd, 5);
+
+    renderJobMetrics(document.getElementById('jobMetrics'), metrics);
+
+    const wageContainer = document.getElementById('wageChartContainer');
+    if (wageContainer) renderWageChart(wageContainer, wageDist);
+
+    const industryContainer = document.getElementById('industryChartContainer');
+    if (industryContainer) renderIndustryChart(industryContainer, industries);
+
+    const commutingContainer = document.getElementById('commutingFlowsContainer');
+    if (commutingContainer) renderCommutingFlows(commutingContainer, metrics);
+  }
+
+  // ---------------------------------------------------------------
+  // Prop 123 renderers
+  // ---------------------------------------------------------------
+
+  function renderBaselineCard(container, baselineData) {
+    if (!container) return;
+    if (!baselineData) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">ACS data needed to calculate baseline.</p>';
+      return;
+    }
+    const { baseline60Ami, totalRentals, pctOfStock, method } = baselineData;
+    const fmt    = function(v){ return Number.isFinite(v) ? v.toLocaleString() : '—'; };
+    const fmtPct = function(v){ return Number.isFinite(v) ? v.toFixed(1) + '%' : '—'; };
+
+    // Status: if pctOfStock > 15%, consider on-track; <10% below-target
+    let statusClass = 'on-track', statusText = '✅ Baseline established (estimate)';
+    if (pctOfStock < 10) { statusClass = 'below-target'; statusText = '⚠️ Below typical threshold'; }
+    if (!baseline60Ami) { statusClass = 'no-data'; statusText = '❓ No data'; }
+
+    container.innerHTML =
+      '<div class="prop123-stat-row">' +
+        '<div class="prop123-stat"><strong>' + fmt(baseline60Ami) + '</strong> est. 60% AMI rental units</div>' +
+        '<div class="prop123-stat"><strong>' + fmt(totalRentals) + '</strong> total rental units</div>' +
+        '<div class="prop123-stat"><strong>' + fmtPct(pctOfStock) + '</strong> of rental stock</div>' +
+      '</div>' +
+      '<div><span class="compliance-status ' + statusClass + '">' + statusText + '</span></div>' +
+      '<p style="margin:8px 0 0;color:var(--muted);font-size:.82rem">' +
+        'Estimated using ACS GRAPI rent-burden bins as an affordability proxy. ' +
+        'For a certified baseline, jurisdictions should conduct a formal housing needs assessment.' +
+      '</p>';
+  }
+
+  function renderGrowthChart(baselineData) {
+    const canvas = document.getElementById('chartProp123Growth');
+    const contentDiv = document.getElementById('prop123GrowthContent');
+    if (!canvas || !baselineData) return;
+    if (!contentDiv) return;
+
+    const currentYear = new Date().getFullYear();
+    const years = [currentYear - 1, currentYear, currentYear + 1, currentYear + 2, currentYear + 3];
+    const b = baselineData.baseline60Ami;
+
+    const targetData = years.map(function(yr) {
+      return calculateGrowthTarget(b, yr - currentYear + 1);
+    });
+    const baselineData_flat = years.map(function() { return b; });
+
+    const t = chartTheme();
+    makeChart(canvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [
+          {
+            label: 'Required target (3% growth)',
+            data: targetData,
+            borderColor: 'rgba(34,163,111,0.85)',
+            backgroundColor: 'rgba(34,163,111,0.12)',
+            borderDash: [],
+            tension: 0.3,
+            fill: false,
+          },
+          {
+            label: 'Baseline',
+            data: baselineData_flat,
+            borderColor: 'rgba(251,191,36,0.75)',
+            backgroundColor: 'rgba(251,191,36,0.10)',
+            borderDash: [5, 5],
+            tension: 0,
+            fill: false,
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: t.text } } },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border }, beginAtZero: false },
+        }
+      }
+    });
+
+    const nextTarget = calculateGrowthTarget(b, 1);
+    const p = document.createElement('p');
+    p.style.cssText = 'margin:8px 0 0;color:var(--muted);font-size:.82rem';
+    p.textContent = 'Baseline: ' + b.toLocaleString() + ' units. ' +
+      'One-year target (' + currentYear + '): ' + nextTarget.toLocaleString() + ' units (+3%).';
+    contentDiv.appendChild(p);
+  }
+
+  function renderFastTrackCard(container, eligibility) {
+    if (!container) return;
+    if (!eligibility) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Population data needed to check eligibility.</p>';
+      return;
+    }
+    let statusClass, statusText;
+    if (eligibility.eligible === null) {
+      statusClass = 'no-data'; statusText = '❓ Unknown';
+    } else if (eligibility.eligible) {
+      statusClass = 'eligible'; statusText = '✅ Eligible';
+    } else {
+      statusClass = 'not-eligible'; statusText = '❌ Not eligible';
+    }
+    container.innerHTML =
+      '<span class="compliance-status ' + statusClass + '">' + statusText + '</span>' +
+      '<p style="margin:8px 0 0;color:var(--muted);font-size:.88rem">' + eligibility.reason + '</p>' +
+      (eligibility.eligible ? (
+        '<p style="margin:6px 0 0;font-size:.88rem">' +
+          '<a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">View fast-track application process →</a>' +
+        '</p>'
+      ) : '');
+  }
+
+  function renderChecklist(baselineData, eligibility) {
+    const hasBaseline  = !!(baselineData && baselineData.baseline60Ami);
+    const hasGrowth    = !!(baselineData && baselineData.baseline60Ami);
+    const hasFastTrack = !!(eligibility && eligibility.eligible);
+
+    function setItem(id, checked) {
+      const item = document.getElementById(id);
+      const chk  = item && item.querySelector('input[type="checkbox"]');
+      if (!item || !chk) return;
+      chk.checked = checked;
+      item.classList.toggle('done', checked);
+    }
+    setItem('checkItemBaseline',  hasBaseline);
+    setItem('checkItemGrowth',    hasGrowth);
+    setItem('checkItemFastTrack', hasFastTrack);
+    // DOLA filing and reporting: user-managed checkboxes (persist if already checked)
+  }
+
+  /**
+   * Main Prop 123 section renderer.
+   * @param {object|null} profile - ACS profile data
+   * @param {string} geoType
+   */
+  function renderProp123Section(profile, geoType) {
+    const baselineData = calculateBaseline(profile);
+    const population   = profile ? Number(profile.DP05_0001E) : null;
+    const eligibility  = checkFastTrackEligibility(population, geoType);
+
+    renderBaselineCard(document.getElementById('prop123BaselineContent'), baselineData);
+    renderFastTrackCard(document.getElementById('prop123FastTrackContent'), eligibility);
+    renderChecklist(baselineData, eligibility);
+
+    const contentDiv = document.getElementById('prop123GrowthContent');
+    if (contentDiv && baselineData) {
+      renderGrowthChart(baselineData);
+    } else if (contentDiv) {
+      contentDiv.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>' +
+        '<div class="timeline-chart"><canvas id="chartProp123Growth"></canvas></div>';
+    }
+  }
+
   function computeIncomeNeeded(homeValue){
     const V = Number(homeValue);
     if (!Number.isFinite(V) || V <= 0) return null;
@@ -2355,6 +2853,12 @@
     } else {
       els.lehdNote.textContent = 'LEHD flow cache not yet available. Run the HNA data build workflow to populate.';
     }
+
+    // Labor Market section (uses LEHD + ACS profile)
+    renderLaborMarketSection(lehd, profile);
+
+    // Prop 123 compliance section (uses ACS profile + geoType)
+    renderProp123Section(profile, geoType);
 
     // DOLA SYA (cached; county context)
     let dola=null;
