@@ -24,17 +24,37 @@
 
   const _cache = {};
 
+  // Optional localStorage-backed cache (provided by js/cache-manager.js).
+  // Falls back gracefully if CacheManager is not loaded.
+  const _lsCache = (typeof global.CacheManager === 'function')
+    ? new global.CacheManager('hdi', CACHE_TTL)
+    : null;
+
   function _isFresh(entry) {
     return entry && (Date.now() - entry.ts) < CACHE_TTL;
   }
 
   function _set(key, data) {
     _cache[key] = { ts: Date.now(), data };
+    if (_lsCache) _lsCache.set(key, data);
   }
 
   function _get(key) {
+    // Check in-memory first (fastest)
     const entry = _cache[key];
-    return _isFresh(entry) ? entry.data : null;
+    if (_isFresh(entry)) return entry.data;
+
+    // Fall back to localStorage cache
+    if (_lsCache) {
+      const lsData = _lsCache.get(key);
+      if (lsData !== null) {
+        // Warm the in-memory cache so subsequent calls are instant
+        _cache[key] = { ts: Date.now(), data: lsData };
+        return lsData;
+      }
+    }
+
+    return null;
   }
 
   async function _fetchJson(url) {

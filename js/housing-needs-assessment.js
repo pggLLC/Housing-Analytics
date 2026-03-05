@@ -7,9 +7,10 @@
 (function(){
   const STATE_FIPS_CO = '08';
 
-  // Cross-browser fetch with timeout (uses AbortController; avoids AbortSignal.timeout
-  // which is not available in all browser versions).
-  function fetchWithTimeout(url, options, timeoutMs) {
+  // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
+  // Alias it locally so in-file calls work without modification.
+  var fetchWithTimeout = window.fetchWithTimeout || function (url, options, timeoutMs) {
+    // Minimal inline fallback in case fetch-helper.js is not loaded first.
     timeoutMs = timeoutMs || 10000;
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, timeoutMs);
@@ -21,7 +22,7 @@
       clearTimeout(timer);
       throw err;
     });
-  }
+  };
 
   // Probe vintages newest-first to always surface the most recent data available.
   const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
@@ -2390,6 +2391,10 @@
 
     // LIHTC / QCT / DDA overlays (non-blocking; county context)
     updateLihtcOverlays(contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+
+    // Update data freshness timestamp
+    const tsEl = document.getElementById('hnaDataTimestamp');
+    if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toISOString();
   }
 
   async function init(){
