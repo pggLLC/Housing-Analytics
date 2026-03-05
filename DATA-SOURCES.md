@@ -61,12 +61,29 @@ The generated `js/config.js` is listed in `.gitignore` and is never committed.
 | `data/hna/geo-config.json` | Featured geographies (counties, places, CDPs) | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Required for HNA geography selector |
 | `data/hna/local-resources.json` | Curated local housing authority / advocacy links | Committed to repo | Static | ✅ | |
 | `data/hna/summary/{geoid}.json` | ACS profile + S0801 commuting cache per geography | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Requires `CENSUS_API_KEY` |
-| `data/hna/lehd/{countyFips5}.json` | LEHD LODES OD inflow/outflow/within-county | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | No live API fallback; shows "not yet available" until workflow runs |
+| `data/hna/lehd/{countyFips5}.json` | LEHD LODES OD inflow/outflow/within-county; multi-year employment + industry breakdown (Phase 3) | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Phase 3: also updated by `scripts/hna/parse_lehd_wac.py` with historical WAC data |
 | `data/hna/dola_sya/{fips5}.json` | DOLA/SDO single-year-of-age pyramid + senior pressure | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | No live API fallback |
 | `data/hna/projections/{fips5}.json` | DOLA/SDO 20-year population + housing-need model | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | No live API fallback |
 | `data/hna/derived/geo-derived.json` | ETL-computed inputs for municipal scaling | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | |
 | `data/hna/lihtc/{countyFips5}.json` | Per-county LIHTC features (64 files) | `generate-housing-data.yml` | Monday 06:00 UTC | ✅ | HUD ArcGIS source; first-tier cache for HNA LIHTC map layer |
 | `data/hna/acs_debug_log.txt` | ACS fetch diagnostics | `build-hna-data.yml` | Monday 06:30 UTC | — | Inspect when ACS data fails to load |
+
+### `data/market/` — Market analysis artifacts (Phase 3)
+
+| Path | Contents | CI Workflow | Schedule | Status | Notes |
+|---|---|---|---|---|---|
+| `data/market/tract_centroids_co.json` | Colorado census tract centroids (lat/lon, county FIPS) | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Rebuilt by `scripts/generate_tract_centroids.py`; cached for 30 days |
+| `data/market/acs_tract_metrics_co.json` | ACS 5-year tract-level metrics | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Built by `scripts/market/build_public_market_data.py` |
+| `data/market/hud_lihtc_co.geojson` | HUD LIHTC Colorado properties (GeoJSON) | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Built by `scripts/market/build_public_market_data.py` |
+| `data/tract-centroids.json` | Phase 3 centroid format — 11-digit FIPS, county_geoid, name, area_sqmiles | `build-hna-data.yml` | Monday 06:30 UTC | ✅ | Phase 3 spec format; rebuilt by `scripts/generate_tract_centroids.py` |
+
+### `data/policy/` — Policy data artifacts
+
+| Path | Contents | CI Workflow | Schedule | Status | Notes |
+|---|---|---|---|---|---|
+| `data/policy/prop123_jurisdictions.json` | Prop 123 / HB 22-1093 commitment filings | Committed to repo + manual | Manual | ✅ | Used by compliance dashboard and HNA page |
+
+
 
 ---
 

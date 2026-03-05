@@ -1966,6 +1966,296 @@
       contentDiv.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>' +
         '<div class="timeline-chart"><canvas id="chartProp123Growth"></canvas></div>';
     }
+
+    // Phase 3: historical compliance + fast-track calculator
+    const geoid = (profile && profile._geoid) ? profile._geoid : '';
+    renderHistoricalSection(baselineData, geoType, geoid);
+    renderFastTrackCalculatorSection();
+  }
+
+  // ---------------------------------------------------------------
+  // Phase 3: Historical compliance tracking + Fast-track timeline
+  // ---------------------------------------------------------------
+
+  /**
+   * Calculate fast-track approval timeline under HB 22-1093 / Prop 123.
+   *
+   * @param {number} projectUnits       - Total units in project
+   * @param {number} ami_pct            - AMI percentage (e.g. 60 for 60% AMI)
+   * @param {string} jurisdiction_type  - 'county' | 'place' | 'cdp'
+   * @returns {{
+   *   standardDays: number,
+   *   fastTrackDays: number,
+   *   timelineSavings: string,
+   *   eligible: boolean,
+   *   conditions: string[]
+   * }}
+   */
+  function calculateFastTrackTimeline(projectUnits, ami_pct, jurisdiction_type) {
+    const units  = Number(projectUnits);
+    const ami    = Number(ami_pct);
+
+    // Standard local review cycle (per HB 22-1093 legislative findings, 180–365 days)
+    const standardDays  = 270;  // median estimate
+    // HB 22-1093 expedited timeline (45–90 days)
+    const fastTrackDays = 60;   // typical with complete application
+
+    const conditions = [];
+    let eligible = true;
+
+    if (!Number.isFinite(ami) || ami > 60) {
+      eligible = false;
+      conditions.push('Project must serve households at 60% AMI or below');
+    } else {
+      conditions.push('✅ 60% AMI or below — meets income targeting requirement');
+    }
+
+    if (!Number.isFinite(units) || units < 1) {
+      eligible = false;
+      conditions.push('At least 1 affordable unit required');
+    } else {
+      conditions.push(`✅ ${units} unit(s) proposed`);
+    }
+
+    // Only counties/municipalities that have filed a Prop 123 commitment are eligible
+    const eligibleTypes = ['county', 'place'];
+    if (!eligibleTypes.includes(jurisdiction_type)) {
+      eligible = false;
+      conditions.push('Jurisdiction must be a county or incorporated municipality with a filed commitment');
+    } else {
+      conditions.push('✅ Eligible jurisdiction type (' + jurisdiction_type + ')');
+    }
+
+    conditions.push('Must provide proper advance notice to DOLA (per statute)');
+    conditions.push('Must comply with DOLA expedited process guidance');
+
+    const savedDays   = standardDays - fastTrackDays;
+    const savedMonths = Math.round(savedDays / 30);
+    const savings     = savedMonths + ' month' + (savedMonths !== 1 ? 's' : '');
+
+    return { standardDays, fastTrackDays, timelineSavings: savings, eligible, conditions };
+  }
+
+  /**
+   * Get jurisdiction-level compliance status (single geography).
+   * Delegates to Prop123Tracker if loaded, otherwise computes inline.
+   *
+   * @param {string} geoid
+   * @param {string} geoType
+   * @param {object|null} profile - ACS profile
+   * @returns {{
+   *   baseline: number|null,
+   *   current: number|null,
+   *   target: number|null,
+   *   pctComplete: number|null,
+   *   status: string,
+   *   lastFiled: string|null
+   * }}
+   */
+  function getJurisdictionComplianceStatus(geoid, geoType, profile) {
+    const baselineData = calculateBaseline(profile);
+    if (!baselineData) {
+      return { baseline: null, current: null, target: null, pctComplete: null, status: 'no-data', lastFiled: null };
+    }
+
+    const baseline    = baselineData.baseline60Ami;
+    const currentYear = new Date().getFullYear();
+    const yearsIn     = currentYear - 2023;
+    const target      = Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn));
+
+    // Check for user-supplied actuals in sessionStorage
+    const storedKey = 'prop123_actual_' + geoid + '_' + currentYear;
+    const stored    = (typeof sessionStorage !== 'undefined')
+      ? sessionStorage.getItem(storedKey)
+      : null;
+    const current   = stored !== null ? Number(stored) : baseline; // fallback: assume at baseline
+    const pct       = target > 0 ? Math.round((current / target) * 100) : null;
+
+    let status;
+    if (pct === null) {
+      status = 'no-data';
+    } else if (current >= target) {
+      status = 'on-track';
+    } else if (current >= target * 0.90) {
+      status = 'at-risk';
+    } else {
+      status = 'off-track';
+    }
+
+    return { baseline, current, target, pctComplete: pct, status, lastFiled: null };
+  }
+
+  /**
+   * Generate a CSV string for compliance report across a list of jurisdiction objects.
+   * Each item: { geoid, name, population, baseline, current, target, status, lastFiled }
+   *
+   * @param {object[]} rows
+   * @returns {string} CSV content
+   */
+  function generateComplianceReport(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) return '';
+
+    const headers = ['geoid', 'name', 'population', 'baseline', 'current', 'target', 'pct_complete', 'status', 'last_filed'];
+    const escape  = (v) => {
+      const s = String(v == null ? '' : v);
+      return s.includes(',') || s.includes('"') || s.includes('\n')
+        ? '"' + s.replace(/"/g, '""') + '"'
+        : s;
+    };
+
+    const lines = [headers.join(',')];
+    rows.forEach((r) => {
+      lines.push([
+        r.geoid, r.name, r.population,
+        r.baseline, r.current, r.target,
+        r.pctComplete, r.status, r.lastFiled,
+      ].map(escape).join(','));
+    });
+    return lines.join('\n');
+  }
+
+  /**
+   * Render the fast-track timeline calculator card.
+   * Wires up form controls inside the #fastTrackCalculator container.
+   */
+  function renderFastTrackCalculatorSection() {
+    const container = document.getElementById('fastTrackCalculator');
+    if (!container) return;
+
+    // Read inputs
+    const unitsEl = document.getElementById('ftUnits');
+    const amiEl   = document.getElementById('ftAmi');
+    const geoEl   = document.getElementById('ftGeoType');
+    const outEl   = document.getElementById('ftResult');
+    if (!outEl) return;
+
+    const units   = unitsEl ? Number(unitsEl.value) : 10;
+    const ami     = amiEl   ? Number(amiEl.value)   : 60;
+    const geoType = geoEl   ? geoEl.value           : 'place';
+
+    const result  = calculateFastTrackTimeline(units, ami, geoType);
+
+    outEl.innerHTML = '';
+
+    const statusP = document.createElement('p');
+    statusP.className = 'fast-track-status ' + (result.eligible ? 'eligible' : 'not-eligible');
+    statusP.textContent = result.eligible
+      ? '✅ Eligible for fast-track approval'
+      : '❌ Not eligible for fast-track — see requirements below';
+    outEl.appendChild(statusP);
+
+    const timelineDiv = document.createElement('div');
+    timelineDiv.className = 'fast-track-timeline-row';
+    timelineDiv.innerHTML =
+      '<span class="tl-label">Standard approval:</span><span class="tl-value">~' + result.standardDays + ' days (~' + Math.round(result.standardDays / 30) + ' months)</span>' +
+      '<span class="tl-label">Fast-track:</span><span class="tl-value">~' + result.fastTrackDays + ' days (~' + Math.round(result.fastTrackDays / 30) + ' months)</span>' +
+      '<span class="tl-label">Time saved:</span><span class="tl-value tl-savings">~' + result.timelineSavings + '</span>';
+    outEl.appendChild(timelineDiv);
+
+    const ul = document.createElement('ul');
+    ul.className = 'fast-track-conditions';
+    result.conditions.forEach((c) => {
+      const li = document.createElement('li');
+      li.textContent = c;
+      ul.appendChild(li);
+    });
+    outEl.appendChild(ul);
+  }
+
+  /**
+   * Render the historical compliance section using Prop123Tracker (if loaded).
+   *
+   * @param {object|null} baselineData - from calculateBaseline()
+   * @param {string}      geoType
+   * @param {string}      geoid
+   */
+  function renderHistoricalSection(baselineData, geoType, geoid) {
+    const container = document.getElementById('prop123HistoricalContent');
+    if (!container) return;
+
+    const dolaContainer = document.getElementById('prop123DolaFiling');
+
+    if (!baselineData) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Select a geography to view historical compliance data.</p>';
+      return;
+    }
+
+    const baseline    = baselineData.baseline60Ami;
+    const currentYear = new Date().getFullYear();
+    const tracker     = window.Prop123Tracker;
+
+    // DOLA filing status
+    if (dolaContainer && tracker) {
+      tracker.renderDolaFilingStatus('prop123DolaFiling');
+    }
+
+    // Historical chart
+    if (tracker) {
+      const histData = tracker.getHistoricalAffordableData(geoType, geoid, baseline);
+      const traj     = tracker.calculateComplianceTrajectory(baseline, histData.actuals, currentYear);
+
+      const statusEl = document.getElementById('prop123HistoricalStatus');
+      if (statusEl) {
+        if (traj.onTrack === null) {
+          statusEl.textContent = 'Insufficient data to determine compliance status.';
+          statusEl.className   = 'compliance-status status-unknown';
+        } else if (traj.onTrack) {
+          statusEl.textContent = 'On track — meeting 3% annual growth requirement';
+          statusEl.className   = 'compliance-status status-on-track';
+        } else {
+          const gap = Math.abs(traj.gapAtCurrentYear);
+          statusEl.textContent = 'Off track — need ' + gap + ' more units to meet ' + currentYear + ' target';
+          statusEl.className   = 'compliance-status status-off-track';
+        }
+      }
+
+      // Render multi-year table
+      renderComplianceTable(histData, traj, baseline, container);
+
+      // Render chart on canvas
+      const chartCanvas = document.getElementById('chartProp123Historical');
+      if (chartCanvas) {
+        tracker.renderHistoricalComplianceChart('chartProp123Historical', baseline, histData, currentYear);
+      }
+    } else {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Historical tracker not loaded.</p>';
+    }
+  }
+
+  /**
+   * Render the multi-year compliance table.
+   */
+  function renderComplianceTable(histData, traj, baseline, container) {
+    const { years, actuals } = histData;
+    const { targets }        = traj;
+
+    const table = document.createElement('table');
+    table.className = 'compliance-history-table';
+    table.setAttribute('aria-label', 'Prop 123 multi-year compliance');
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Year</th><th>Required Target</th><th>Actual Units</th><th>Gap</th><th>Status</th></tr>';
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    years.forEach((year, i) => {
+      const target = targets[i] || Math.round(baseline * Math.pow(1.03, i));
+      const actual = actuals[i];
+      const gap    = actual !== null ? actual - target : null;
+      const status = actual === null ? '—' : (actual >= target ? '🟢 On track' : '🔴 Off track');
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + year + '</td>' +
+        '<td>' + target.toLocaleString() + '</td>' +
+        '<td>' + (actual !== null ? Number(actual).toLocaleString() : '<em>Not reported</em>') + '</td>' +
+        '<td>' + (gap !== null ? (gap >= 0 ? '+' : '') + gap.toLocaleString() : '—') + '</td>' +
+        '<td>' + status + '</td>';
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    container.innerHTML = '';
+    container.appendChild(table);
   }
 
   function computeIncomeNeeded(homeValue){
@@ -2948,6 +3238,14 @@
     ensureMap();
     update();
   }
+
+  // Expose fast-track recalculate function for inline HTML button
+  window.__HNA_renderFastTrack = renderFastTrackCalculatorSection;
+
+  // Expose compliance report generator for compliance dashboard
+  window.__HNA_generateComplianceReport  = generateComplianceReport;
+  window.__HNA_getJurisdictionCompliance = getJurisdictionComplianceStatus;
+  window.__HNA_calculateFastTrackTimeline = calculateFastTrackTimeline;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
