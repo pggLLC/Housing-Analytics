@@ -26,6 +26,7 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/prop123-historical-tracker.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
@@ -331,6 +332,59 @@
               <p style="color:var(--muted);font-size:.9rem">Select a geography to check eligibility.</p>
             </div>
           </div>
+        </div>
+
+        <!-- Phase 3: DOLA filing deadline badge -->
+        <div id="prop123DolaFiling" style="margin-bottom:12px;"></div>
+
+        <!-- Phase 3: Historical compliance chart -->
+        <div class="chart-card" style="margin-top:14px;padding:14px;">
+          <h3>Historical Compliance Tracking</h3>
+          <div id="prop123HistoricalStatus" class="compliance-status" style="margin-bottom:10px;">
+            Select a geography to view compliance status.
+          </div>
+          <div class="timeline-chart" style="height:220px;">
+            <canvas id="chartProp123Historical"></canvas>
+          </div>
+          <div id="prop123HistoricalContent" style="margin-top:12px;overflow-x:auto;"></div>
+        </div>
+
+        <!-- Phase 3: Fast-track timeline calculator -->
+        <div id="fastTrackCalculator" class="chart-card" style="margin-top:14px;padding:14px;">
+          <h3>Fast-Track Approval Timeline Calculator</h3>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:10px;">
+            Estimate permitting duration under HB 22-1093 fast-track vs. standard process.
+            <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093</a>
+          </p>
+          <div class="fast-track-inputs" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              Units
+              <input id="ftUnits" type="number" min="1" value="20"
+                style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+            </label>
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              AMI %
+              <input id="ftAmi" type="number" min="1" max="120" value="60"
+                style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+            </label>
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              Jurisdiction Type
+              <select id="ftGeoType"
+                style="margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+                <option value="place">Municipality</option>
+                <option value="county">County</option>
+                <option value="cdp">CDP (unincorporated)</option>
+              </select>
+            </label>
+            <button onclick="(function(){var m=document.getElementById('fastTrackCalculator');if(m&&window.__HNA_renderFastTrack)window.__HNA_renderFastTrack();})()"
+              style="align-self:flex-end;padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:.9rem;">
+              Calculate
+            </button>
+          </div>
+          <div id="ftResult"></div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
+            <a href="compliance-dashboard.html">View full compliance dashboard →</a>
+          </p>
         </div>
 
         <!-- Compliance checklist -->

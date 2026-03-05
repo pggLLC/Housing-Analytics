@@ -1,0 +1,225 @@
+/* ================================================================
+   css/pages/compliance-dashboard.css — Prop 123 Compliance Dashboard styles
+   Depends on: css/site-theme.css, css/layout.css
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Page layout
+   ---------------------------------------------------------------- */
+.compliance-dashboard-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.25rem var(--sp4, 1rem) 3rem;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.cd-header {
+  margin-bottom: 1.25rem;
+}
+.cd-header h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem;
+  color: var(--text-strong, var(--text));
+}
+.cd-subtitle {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+}
+.cd-subtitle a { color: var(--accent); text-decoration: none; }
+.cd-subtitle a:hover { text-decoration: underline; }
+
+/* ----------------------------------------------------------------
+   KPI strip
+   ---------------------------------------------------------------- */
+.cd-kpi-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.cd-kpi-card {
+  flex: 1 1 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+.cd-kpi-value {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--text-strong, var(--text));
+  line-height: 1;
+}
+.cd-kpi-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+.cd-kpi-green { border-color: #22c55e; }
+.cd-kpi-green .cd-kpi-value { color: #16a34a; }
+.cd-kpi-yellow { border-color: #f59e0b; }
+.cd-kpi-yellow .cd-kpi-value { color: #d97706; }
+.cd-kpi-red { border-color: #ef4444; }
+.cd-kpi-red .cd-kpi-value { color: #dc2626; }
+
+/* ----------------------------------------------------------------
+   Controls bar
+   ---------------------------------------------------------------- */
+.cd-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.cd-filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.cd-select,
+.cd-search {
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg2, var(--card));
+  color: var(--text);
+  font: inherit;
+  font-size: 0.88rem;
+  min-width: 130px;
+}
+.cd-search { min-width: 200px; }
+.cd-export-btn {
+  margin-left: auto;
+  padding: 7px 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: opacity 0.15s;
+}
+.cd-export-btn:hover { opacity: 0.85; }
+.cd-export-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ----------------------------------------------------------------
+   Compliance table
+   ---------------------------------------------------------------- */
+.cd-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+.cd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.cd-th {
+  padding: 9px 12px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 85%, var(--bg2, #f3f4f6) 15%);
+  white-space: nowrap;
+  user-select: none;
+}
+.cd-th.sortable {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.cd-th.sortable:hover { background: color-mix(in oklab, var(--card) 70%, var(--bg2, #f3f4f6) 30%); }
+.cd-th.sortable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.sort-icon { font-size: 0.72rem; opacity: 0.6; margin-left: 3px; }
+.cd-row td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.cd-row:last-child td { border-bottom: none; }
+.cd-row:hover { background: color-mix(in oklab, var(--card) 80%, var(--accent) 5%); }
+
+/* Status row highlights */
+.cd-status-on-track  td:first-child { border-left: 3px solid #22c55e; }
+.cd-status-at-risk   td:first-child { border-left: 3px solid #f59e0b; }
+.cd-status-off-track td:first-child { border-left: 3px solid #ef4444; }
+.cd-status-no-data   td:first-child { border-left: 3px solid var(--border); }
+
+.cd-name a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.cd-name a:hover { text-decoration: underline; }
+.cd-num { text-align: right; font-variant-numeric: tabular-nums; }
+.cd-type { font-size: 0.82rem; color: var(--muted); }
+.cd-filing { font-size: 0.82rem; }
+.cd-muted { color: var(--muted); font-style: italic; font-size: 0.85rem; }
+
+/* Status badges */
+.cd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cd-badge-on-track  { background: #dcfce7; color: #15803d; }
+.cd-badge-at-risk   { background: #fef3c7; color: #b45309; }
+.cd-badge-off-track { background: #fee2e2; color: #b91c1c; }
+.cd-badge-no-data   { background: var(--bg2, #f3f4f6); color: var(--muted); }
+
+/* Dark mode badge overrides */
+[data-theme="dark"] .cd-badge-on-track  { background: rgba(34,197,94,0.18);  color: #86efac; }
+[data-theme="dark"] .cd-badge-at-risk   { background: rgba(245,158,11,0.18); color: #fcd34d; }
+[data-theme="dark"] .cd-badge-off-track { background: rgba(239,68,68,0.18);  color: #fca5a5; }
+[data-theme="dark"] .cd-badge-no-data   { background: rgba(255,255,255,0.06); color: var(--muted); }
+
+.cd-loading,
+.cd-empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ----------------------------------------------------------------
+   Footnote
+   ---------------------------------------------------------------- */
+.cd-footnote {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+.cd-footnote a { color: var(--accent); text-decoration: none; }
+.cd-footnote a:hover { text-decoration: underline; }
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 700px) {
+  .cd-kpi-card { flex: 1 1 80px; }
+  .cd-kpi-value { font-size: 1.3rem; }
+  .cd-search { min-width: 140px; }
+  .cd-th, .cd-row td { padding: 6px 8px; font-size: 0.82rem; }
+}
