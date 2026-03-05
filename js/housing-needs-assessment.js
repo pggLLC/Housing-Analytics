@@ -2046,6 +2046,22 @@
     if (r.prop123){
       parts.push(`<p><strong>Proposition 123:</strong> ${r.prop123.status || 'Unknown'} ${r.prop123.link ? `(<a href="${r.prop123.link}" target="_blank" rel="noopener">source</a>)` : ''}</p>`);
     }
+    if (r.housingPlans?.length){
+      parts.push(`<p><strong>Housing plans &amp; assessments:</strong></p><ul>${r.housingPlans.map(x=>{
+        const label = x.year ? `${x.name} (${x.year})` : x.name;
+        const typeTag = x.type ? ` <span style="color:var(--muted);font-size:.85em">[${x.type}]</span>` : '';
+        return x.url
+          ? `<li><a href="${x.url}" target="_blank" rel="noopener">${label}</a>${typeTag}</li>`
+          : `<li>${label}${typeTag}</li>`;
+      }).join('')}</ul>`);
+    }
+    if (r.contacts?.length){
+      parts.push(`<p><strong>Key contacts:</strong></p><ul>${r.contacts.map(x=>{
+        const nameStr = x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${x.name}</a>` : x.name;
+        const detail = [x.title, x.jurisdiction].filter(Boolean).join(', ');
+        return `<li>${nameStr}${detail ? ` — ${detail}` : ''}</li>`;
+      }).join('')}</ul>`);
+    }
     if (r.housingAuthority?.length){
       parts.push(`<p><strong>Local housing authority:</strong></p><ul>${r.housingAuthority.map(x=>`<li><a href="${x.url}" target="_blank" rel="noopener">${x.name}</a></li>`).join('')}</ul>`);
     }
