@@ -80,10 +80,10 @@ test('guard clause blocks scoring when lihtcLoadError is set', () => {
   assert(guardIdx !== -1, 'lihtcLoadError guard clause exists in runAnalysis');
 
   // Guard must appear before the computePma() call (not the function definition).
-  // The call site assigns to `var pma`: var pma = computePma(acs, lihtcUnits, 0)
-  const callIdx = maSrc.indexOf('var pma          = computePma(');
-  assert(callIdx !== -1, 'computePma() call site (var pma = ...) exists');
-  assert(guardIdx < callIdx,
+  // Match the variable assignment call site, tolerating whitespace variations.
+  const callMatch = /var\s+pma\s*=\s*computePma\s*\(/.exec(maSrc);
+  assert(callMatch !== null, 'computePma() call site (var pma = ...) exists');
+  assert(guardIdx < callMatch.index,
     'guard clause appears before computePma call in source order');
 });
 

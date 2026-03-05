@@ -143,7 +143,8 @@
           .catch(function (err) {
             if (timer) clearTimeout(timer);
             if (n <= maxRetries) {
-              // Exponential backoff: 1st retry after 1s, 2nd after 2s
+              // Exponential backoff: attempt 1→2 waits 1s, attempt 2→3 waits 2s.
+              // Formula: 1000 * 2^(n-1) ms.  With maxRetries=2: delays are 1s, 2s.
               setTimeout(function () {
                 attempt(n + 1).then(resolve).catch(reject);
               }, 1000 * Math.pow(2, n - 1));

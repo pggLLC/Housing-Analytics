@@ -102,7 +102,9 @@ test('site-theme.css defines .data-timestamp style', () => {
 
 test('cache-manager.js is syntactically sound', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js', 'cache-manager.js'), 'utf8');
-  // Check for unbalanced braces (rough syntax check)
+  // Basic brace-balance check as a quick sanity test.
+  // Note: this does not account for braces inside strings or comments — it is
+  // a lightweight heuristic, not a full syntax parse.
   const openBraces  = (src.match(/\{/g) || []).length;
   const closeBraces = (src.match(/\}/g) || []).length;
   assert(openBraces === closeBraces,

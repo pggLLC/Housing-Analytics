@@ -11,7 +11,8 @@
   // Alias it locally so in-file calls work without modification.
   var fetchWithTimeout = window.fetchWithTimeout || function (url, options, timeoutMs) {
     // Minimal inline fallback in case fetch-helper.js is not loaded first.
-    timeoutMs = timeoutMs || 10000;
+    // Uses the same 15s default as the shared implementation in fetch-helper.js.
+    timeoutMs = timeoutMs || 15000;
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, timeoutMs);
     var merged = Object.assign({}, options || {}, { signal: ctrl.signal });
@@ -2394,7 +2395,7 @@
 
     // Update data freshness timestamp
     const tsEl = document.getElementById('hnaDataTimestamp');
-    if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toISOString();
+    if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
   }
 
   async function init(){
