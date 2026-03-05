@@ -4,7 +4,9 @@
 Writes:
 - data/hna/geo-config.json (county list + featured)
 - data/hna/summary/{geoid}.json (ACS profile + S0801 for featured geos)
-- data/hna/lehd/{countyFips5}.json (LEHD LODES OD inflow/outflow/within by county)
+- data/hna/lehd/{countyFips5}.json (LEHD LODES OD + WAC by county)
+  Fields: within, inflow, outflow (from OD); C000, CE01-CE03 wages,
+  CNS01-CNS20 industries (from WAC); yoyGrowth (from prior-year WAC)
 - data/hna/dola_sya/{countyFips5}.json (DOLA/SDO single-year-of-age pyramid + senior pressure)
 
 Designed to run in GitHub Actions. All sources are public.
@@ -876,6 +878,61 @@ def build_summary_cache():
             print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
 
 
+def _fetch_lehd_wac_by_county(year: str) -> dict[str, dict]:
+    """Download LODES8 WAC file for Colorado and aggregate to county level.
+
+    WAC (Workplace Area Characteristics) provides per-block employment broken
+    down by wage tier (CE01–CE03) and NAICS industry sector (CNS01–CNS20).
+    Blocks are aggregated to counties by taking the first 5 digits of w_geocode.
+
+    Returns a dict keyed by 5-digit county FIPS with values:
+      {C000, CE01, CE02, CE03, CNS01, …, CNS20}
+    Returns an empty dict on any download or parse error so that the caller
+    can fall back gracefully to OD-only data.
+    """
+    url = (
+        f"https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/"
+        f"co_wac_S000_JT00_{year}.csv.gz"
+    )
+    print(f"Downloading LEHD LODES WAC (CO) {year}...", file=sys.stderr)
+    try:
+        raw = http_get(url, timeout=180)
+    except Exception as e:
+        print(f"⚠ LEHD WAC {year}: download failed — {e}", file=sys.stderr)
+        return {}
+
+    WAC_NUMERIC_FIELDS = (
+        ['C000', 'CE01', 'CE02', 'CE03'] +
+        [f'CNS{i:02d}' for i in range(1, 21)]
+    )
+
+    county_data: dict[str, dict] = {}
+
+    try:
+        bio = io.BytesIO(raw)
+        with gzip.GzipFile(fileobj=bio, mode='rb') as gz:
+            reader = csv.DictReader(io.TextIOWrapper(gz, encoding='utf-8', newline=''))
+            for row in reader:
+                try:
+                    w = row.get('w_geocode', '')
+                    if len(w) < 5:
+                        continue
+                    county = w[:5]
+                    if county not in county_data:
+                        county_data[county] = {f: 0 for f in WAC_NUMERIC_FIELDS}
+                    for field in WAC_NUMERIC_FIELDS:
+                        val = int(row.get(field, '0') or '0')
+                        county_data[county][field] += val
+                except Exception:
+                    continue
+    except Exception as e:
+        print(f"⚠ LEHD WAC {year}: parse failed — {e}", file=sys.stderr)
+        return {}
+
+    print(f"✓ LEHD WAC {year}: aggregated {len(county_data)} counties", file=sys.stderr)
+    return county_data
+
+
 def build_lehd_by_county():
     # LODES8 CO OD main file index: https://lehd.ces.census.gov/data/lodes/LODES8/co/od/
     year = os.environ.get('LODES_YEAR', '2022').strip() or '2022'
@@ -908,11 +965,29 @@ def build_lehd_by_county():
             except Exception:
                 continue
 
+    # Fetch WAC data for current year (provides total jobs, wages, industries)
+    wac_current = _fetch_lehd_wac_by_county(year)
+
+    # Fetch prior-year WAC for year-over-year growth calculation
+    prior_year = str(int(year) - 1)
+    wac_prior = _fetch_lehd_wac_by_county(prior_year)
+
     # Write one JSON per county
     counties = fetch_counties()
     county_ids = {c['geoid'] for c in counties}
 
     for c in sorted(county_ids):
+        wac = wac_current.get(c, {})
+        wac_py = wac_prior.get(c, {})
+
+        # Year-over-year growth: compare C000 totals if both years available
+        c000_current = wac.get('C000', 0)
+        c000_prior   = wac_py.get('C000', 0)
+        if c000_current > 0 and c000_prior > 0:
+            yoy_growth: float | None = round((c000_current - c000_prior) / c000_prior * 100, 2)
+        else:
+            yoy_growth = None
+
         payload = {
             'updated': utc_now_z(),
             'year': int(year),
@@ -921,10 +996,18 @@ def build_lehd_by_county():
             'inflow': inflow.get(c, 0),
             'outflow': outflow.get(c, 0),
             'source': {
-                'dataset': 'LEHD LODES8 OD main (JT00)',
-                'url': url
+                'dataset': f'LEHD LODES8 OD main (JT00) + WAC {year} (workplace area characteristics)',
+                'url': f"https://lehd.ces.census.gov/data/lodes/LODES8/co/"
             }
         }
+
+        # Merge WAC fields if available
+        if wac:
+            payload.update(wac)
+
+        # Add YoY growth rate (null when prior-year data unavailable)
+        payload['yoyGrowth'] = yoy_growth
+
         with open(os.path.join(OUT['lehd_dir'], f"{c}.json"), 'w', encoding='utf-8') as f:
             json.dump(payload, f)
         _log_file_written(os.path.join(OUT['lehd_dir'], f"{c}.json"), f"lehd:{c}")

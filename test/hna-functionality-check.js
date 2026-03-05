@@ -688,6 +688,49 @@ test('Python build_hna_data.py: fetch_counties uses STATEFP (not STATE) for TIGE
     );
 });
 
+// ---------------------------------------------------------------------------
+// LEHD WAC data enhancement: build_hna_data.py must fetch WAC file and merge
+// C000 (total jobs), CE01-CE03 (wage tiers), CNS01-CNS20 (industry sectors),
+// and yoyGrowth into the LEHD per-county JSON output.
+// ---------------------------------------------------------------------------
+test('Python build_hna_data.py: LEHD output includes WAC fields (jobs, wages, industries)', () => {
+    const py = fs.readFileSync(path.join(ROOT, 'scripts', 'hna', 'build_hna_data.py'), 'utf8');
+    assert(
+        py.includes('_fetch_lehd_wac_by_county'),
+        '_fetch_lehd_wac_by_county helper is defined'
+    );
+    assert(
+        py.includes('co_wac_S000_JT00_'),
+        'WAC file URL pattern (co_wac_S000_JT00_) is referenced'
+    );
+    assert(
+        py.includes("'C000'"),
+        'C000 (total jobs) field is aggregated in WAC fetch'
+    );
+    assert(
+        py.includes("'CE01'") && py.includes("'CE02'") && py.includes("'CE03'"),
+        'CE01/CE02/CE03 wage tier fields are aggregated in WAC fetch'
+    );
+    assert(
+        (py.includes("'CNS01'") && py.includes("'CNS20'")) ||
+        py.includes("f'CNS{i:02d}'") ||
+        py.includes('CNS{i:02d}'),
+        'CNS industry sector fields (CNS01–CNS20) are aggregated in WAC fetch'
+    );
+    assert(
+        py.includes("'yoyGrowth'"),
+        'yoyGrowth field is written to LEHD JSON payload'
+    );
+    assert(
+        py.includes('wac_current') && py.includes('wac_prior'),
+        'Both current-year and prior-year WAC data are fetched for YoY comparison'
+    );
+    assert(
+        py.includes('payload.update(wac)') || py.includes('payload.update'),
+        'WAC fields are merged into the LEHD payload'
+    );
+});
+
 
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
