@@ -52,6 +52,7 @@
   var tractCentroids      = null;
   var acsMetrics          = null;
   var lihtcFeatures       = null;
+  var lihtcLoadError      = false;  // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
 
   // Overlay layer references
@@ -423,6 +424,12 @@
     }
 
     var nearbyLihtc  = lihtcInBuffer(lat, lon, bufferMiles);
+    if (lihtcLoadError) {
+      showEmpty('pmaScoreWrap',
+        'LIHTC data is unavailable — PMA score cannot be computed. ' +
+        'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
+      return;
+    }
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
@@ -759,8 +766,10 @@
       if (lihtcData && lihtcData._loadError) {
         console.warn('[market-analysis] LIHTC data missing:', lihtcData._msg);
         lihtcFeatures = [];
+        lihtcLoadError = true;
       } else {
         lihtcFeatures = (lihtcData && lihtcData.features) || [];
+        lihtcLoadError = false;
       }
 
       dataLoaded = true;
@@ -771,6 +780,9 @@
       } else {
         if (hint) hint.textContent = 'Data loaded — click map to begin analysis.';
       }
+
+      var tsEl = el('pmaDataTimestamp');
+      if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
     });
   }
 
@@ -802,7 +814,10 @@
     isInProp123Jurisdiction: isInProp123Jurisdiction,
     WEIGHTS:                 WEIGHTS,
     RISK:                    RISK,
-    OVERLAY_STYLES:          OVERLAY_STYLES
+    OVERLAY_STYLES:          OVERLAY_STYLES,
+    _state: {
+      getLihtcLoadError: function () { return lihtcLoadError; }
+    }
   };
 
 }());
