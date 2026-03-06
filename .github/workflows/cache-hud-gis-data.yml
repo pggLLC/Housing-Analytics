@@ -172,15 +172,43 @@ jobs:
       - name: Build Colorado county boundaries
         run: python scripts/boundaries/build_counties_co.py
 
+      - name: Fetch US state boundaries (maps/us-states.geojson)
+        run: |
+          node - <<'EOF'
+          const fetch = require('node-fetch');
+          const fs    = require('fs');
+
+          // Public domain US states GeoJSON from PublicaMundi MappingAPI.
+          // This is a stable, versioned file that rarely changes.
+          const URL = 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json';
+
+          async function run() {
+            try {
+              const res = await fetch(URL, { timeout: 30000 });
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const data = await res.json();
+              if (!Array.isArray(data.features) || data.features.length < 50) {
+                throw new Error(`Unexpected feature count: ${(data.features || []).length}`);
+              }
+              fs.writeFileSync('maps/us-states.geojson', JSON.stringify(data));
+              console.log(`Wrote ${data.features.length} state features to maps/us-states.geojson`);
+            } catch (err) {
+              console.warn(`⚠️  Could not fetch us-states.geojson: ${err.message} — keeping existing placeholder`);
+            }
+          }
+
+          run();
+          EOF
+
       - name: Commit and push cached overlay files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson
+          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson maps/us-states.geojson
           if git diff --cached --quiet; then
             echo "No changes to overlay cache files"
           else
-            git commit -m "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]"
+            git commit -m "chore: update HUD QCT/DDA overlay cache, county boundaries, and US state map [$(date -u '+%Y-%m-%d')]"
             git restore .
             git pull --rebase origin main
             git push

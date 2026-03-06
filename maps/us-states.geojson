@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "PublicaMundi MappingAPI (https://github.com/PublicaMundi/MappingAPI)",
+    "note": "Placeholder \u2014 populate by running: gh workflow run cache-hud-gis-data.yml"
+  },
+  "features": []
+}

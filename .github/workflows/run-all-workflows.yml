@@ -1,4 +1,12 @@
-name: Run All Workflows
+name: Run All GIS Data Workflows
+
+# Triggers all GIS data-update workflows and reports failures.
+# Runs every Sunday at midnight UTC so that all cached data files are
+# refreshed at the start of each week (complements the individual
+# Monday/Sunday schedules on each data workflow).
+#
+# Non-data workflows (deploy, CI checks, audits) are excluded so that
+# this weekly trigger never accidentally kicks off a production deploy.
 
 on:
   schedule:
@@ -16,19 +24,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Discover workflows
+      - name: Discover data workflows
         id: discover
         run: |
           self="run-all-workflows.yml"
+
+          # Workflows that should NOT be triggered by this job —
+          # deployments, CI checks, and UI/accessibility audits are excluded
+          # to prevent accidental deploys and to keep the scope to data refreshes.
+          declare -A SKIP_LIST
+          SKIP_LIST["deploy.yml"]=1
+          SKIP_LIST["redeploy-zip.yml"]=1
+          SKIP_LIST["ci-checks.yml"]=1
+          SKIP_LIST["contrast-audit.yml"]=1
+          SKIP_LIST["site-audit.yml"]=1
+          SKIP_LIST["daily-monitoring.yml"]=1
+
           workflows=()
           while IFS= read -r -d '' f; do
             name=$(basename "$f")
-            if [ "$name" != "$self" ]; then
-              workflows+=("$name")
+            if [ "$name" = "$self" ] || [ "${SKIP_LIST[$name]+_}" ]; then
+              continue
             fi
+            workflows+=("$name")
           done < <(find .github/workflows -maxdepth 1 -name "*.yml" -print0 | sort -z)
 
-          echo "Discovered workflows (excluding self):"
+          echo "Data workflows to trigger:"
           for wf in "${workflows[@]}"; do
             echo "  - $wf"
           done
@@ -37,7 +58,7 @@ jobs:
           printf '%s\n' "${workflows[@]}" > /tmp/workflows.txt
           echo "count=${#workflows[@]}" >> "$GITHUB_OUTPUT"
 
-      - name: Trigger each workflow
+      - name: Trigger each data workflow
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
@@ -52,7 +73,7 @@ jobs:
             echo ""
             echo "▶ Triggering: $workflow"
 
-            # Check if the workflow supports workflow_dispatch before triggering
+            # Only trigger workflows that explicitly support workflow_dispatch
             if grep -qE '^\s+workflow_dispatch' ".github/workflows/$workflow" 2>/dev/null; then
               if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
                 echo "  ✅ Triggered successfully"
@@ -62,7 +83,7 @@ jobs:
                 failure=$((failure + 1))
               fi
             else
-              echo "  ⚠️  Workflow not found or inaccessible — skipping"
+              echo "  ⚠️  No workflow_dispatch trigger — skipping"
               skipped=$((skipped + 1))
             fi
 
@@ -74,8 +95,9 @@ jobs:
           echo "=== Trigger Summary ==="
           echo "  Triggered successfully : $success"
           echo "  Failed to trigger      : $failure"
-          echo "  Skipped                : $skipped"
+          echo "  Skipped (no dispatch)  : $skipped"
 
           if [ "$failure" -gt 0 ]; then
-            echo "::warning::$failure workflow(s) failed to trigger."
+            echo "::error::$failure data workflow(s) failed to trigger. Check the logs above."
+            exit 1
           fi
