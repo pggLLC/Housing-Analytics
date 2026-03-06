@@ -25,11 +25,33 @@ const BASE_URL = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:8080';
 const REPORT_DIR_BASE = path.resolve(__dirname, '..', '..', 'audit-report');
 
 const PAGES_TO_AUDIT = [
-  { name: 'index',                   path: '/' },
-  { name: 'colorado-deep-dive',      path: '/colorado-deep-dive.html' },
-  { name: 'economic-dashboard',      path: '/economic-dashboard.html' },
-  { name: 'LIHTC-dashboard',         path: '/LIHTC-dashboard.html' },
+  // Map-heavy pages (Critical / High priority)
+  { name: 'colorado-deep-dive',       path: '/colorado-deep-dive.html' },
+  { name: 'state-allocation-map',     path: '/state-allocation-map.html' },
+  { name: 'LIHTC-dashboard',          path: '/LIHTC-dashboard.html' },
   { name: 'housing-needs-assessment', path: '/housing-needs-assessment.html' },
+  { name: 'market-analysis',          path: '/market-analysis.html' },
+  // Data-rich pages (Medium priority)
+  { name: 'index',                    path: '/' },
+  { name: 'economic-dashboard',       path: '/economic-dashboard.html' },
+  { name: 'colorado-market',          path: '/colorado-market.html' },
+  { name: 'market-intelligence',      path: '/market-intelligence.html' },
+  // Informational pages (Low priority)
+  { name: 'dashboard',                path: '/dashboard.html' },
+  { name: 'regional',                 path: '/regional.html' },
+  { name: 'compliance-dashboard',     path: '/compliance-dashboard.html' },
+  { name: 'census-dashboard',         path: '/census-dashboard.html' },
+  { name: 'chfa-portfolio',           path: '/chfa-portfolio.html' },
+  { name: 'construction-commodities', path: '/construction-commodities.html' },
+  { name: 'cra-expansion-analysis',   path: '/cra-expansion-analysis.html' },
+  { name: 'insights',                 path: '/insights.html' },
+  // Static / article pages
+  { name: 'about',                    path: '/about.html' },
+  { name: 'article-pricing',          path: '/article-pricing.html' },
+  { name: 'housing-legislation-2026', path: '/housing-legislation-2026.html' },
+  { name: 'lihtc-enhancement-ahcia',  path: '/lihtc-enhancement-ahcia.html' },
+  { name: 'lihtc-guide',              path: '/lihtc-guide-for-stakeholders.html' },
+  { name: 'privacy-policy',           path: '/privacy-policy.html' },
 ];
 
 // Patterns that indicate hard failures when a request fails
