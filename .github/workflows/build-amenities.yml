@@ -1,0 +1,95 @@
+name: Build OSM Amenity Data
+
+# Fetches amenity POIs from OpenStreetMap (Overpass API) for Colorado and
+# caches them as GeoJSON files under data/amenities/:
+#   - data/amenities/schools_co.geojson
+#   - data/amenities/grocery_co.geojson
+#   - data/amenities/healthcare_co.geojson
+#   - data/amenities/retail_nodes_co.geojson
+#
+# Used by the PMA amenity-scoring engine when that feature is enabled.
+# Runs weekly on Tuesdays at 02:00 UTC and on-demand via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 2 * * 2'   # Tuesdays at 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Amenity category to fetch (leave blank for all)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch OSM amenity data
+        env:
+          OVERPASS_URL: ${{ vars.OVERPASS_URL || '' }}
+        run: |
+          if [ -n "${{ inputs.category }}" ]; then
+            python scripts/amenities/build_osm_amenities.py --category "${{ inputs.category }}"
+          else
+            python scripts/amenities/build_osm_amenities.py
+          fi
+        timeout-minutes: 20
+
+      - name: Validate output
+        run: |
+          python - <<'EOF'
+          import json, sys
+          from pathlib import Path
+
+          AMENITY_FILES = [
+              "data/amenities/schools_co.geojson",
+              "data/amenities/grocery_co.geojson",
+              "data/amenities/healthcare_co.geojson",
+              "data/amenities/retail_nodes_co.geojson",
+          ]
+          errors = []
+          for path in AMENITY_FILES:
+              p = Path(path)
+              if not p.exists():
+                  errors.append(f"Missing: {path}")
+                  continue
+              try:
+                  obj = json.loads(p.read_text())
+              except json.JSONDecodeError as e:
+                  errors.append(f"Invalid JSON in {path}: {e}")
+                  continue
+              n = len(obj.get("features", []))
+              print(f"{'✓' if n > 0 else '⚠'} {path}: {n} features")
+
+          if errors:
+              for e in errors:
+                  print(f"::error::{e}")
+              sys.exit(1)
+          EOF
+
+      - name: Commit updated amenity files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/amenities/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(data): refresh OSM amenity data [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash origin main
+            git push
+          fi

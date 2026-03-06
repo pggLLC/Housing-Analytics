@@ -133,7 +133,7 @@ def main() -> int:
 
     base_params = {
         "where": f"STATEFP='{STATE_FIPS}'",
-        "outFields": "NAME,NAMELSAD,STATEFP,COUNTYFP,GEOID",
+        "outFields": "NAME,NAMELSAD,STATEFP,COUNTYFP",
         "f": "geojson",
         "outSR": "4326",
     }

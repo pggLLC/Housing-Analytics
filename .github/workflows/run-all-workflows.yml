@@ -1,81 +1,227 @@
-name: Run All Workflows
+name: Refresh GIS Data — Run All & Report
+
+# Triggers all GIS/data-refresh workflows, waits for them to complete, and
+# publishes a pass/fail summary in the GitHub Actions step summary.
+# Fails this job if any triggered workflow fails or times out.
 
 on:
   schedule:
     - cron: '0 0 * * 0'   # Every Sunday at midnight UTC
   workflow_dispatch:
+    inputs:
+      timeout_minutes:
+        description: 'Max minutes to wait for each workflow run (default: 45)'
+        required: false
+        default: '45'
 
 permissions:
   actions: write
   contents: read
 
 jobs:
-  discover-and-trigger:
+  trigger-and-monitor:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Discover workflows
-        id: discover
-        run: |
-          self="run-all-workflows.yml"
-          workflows=()
-          while IFS= read -r -d '' f; do
-            name=$(basename "$f")
-            if [ "$name" != "$self" ]; then
-              workflows+=("$name")
-            fi
-          done < <(find .github/workflows -maxdepth 1 -name "*.yml" -print0 | sort -z)
-
-          echo "Discovered workflows (excluding self):"
-          for wf in "${workflows[@]}"; do
-            echo "  - $wf"
-          done
-
-          # Encode as newline-delimited string for next step
-          printf '%s\n' "${workflows[@]}" > /tmp/workflows.txt
-          echo "count=${#workflows[@]}" >> "$GITHUB_OUTPUT"
-
-      - name: Trigger each workflow
+      # ── Step 1: Trigger every GIS/data workflow ────────────────────────────
+      - name: Trigger GIS data workflows
+        id: trigger
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
         run: |
-          success=0
-          failure=0
-          skipped=0
+          # Curated list of data-refresh workflows (edit to add/remove entries).
+          # Deployment, CI-check, audit, and CAR-update workflows are intentionally
+          # excluded because they require manual inputs or are triggered separately.
+          GIS_WORKFLOWS=(
+            "fetch-chfa-lihtc.yml"
+            "build-county-boundaries.yml"
+            "build-market-data.yml"
+            "generate-market-analysis-data.yml"
+            "cache-hud-gis-data.yml"
+            "fetch-lihtc-data.yml"
+            "fetch-census-acs.yml"
+            "fetch-county-data.yml"
+            "fetch-fred-data.yml"
+            "zillow-data-sync.yml"
+            "build-amenities.yml"
+            "fetch-kalshi.yml"
+            "fetch-kashli-data.yml"
+            "build-hna-data.yml"
+          )
 
-          while IFS= read -r workflow; do
-            [ -z "$workflow" ] && continue
-            echo ""
-            echo "▶ Triggering: $workflow"
+          # Record start time (ISO 8601) for run-ID detection
+          START_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+          echo "start_time=$START_TIME" >> "$GITHUB_OUTPUT"
+          echo "Trigger start: $START_TIME"
+          echo ""
 
-            # Check if the workflow supports workflow_dispatch before triggering
-            if grep -qE '^\s+workflow_dispatch' ".github/workflows/$workflow" 2>/dev/null; then
-              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
-                echo "  ✅ Triggered successfully"
-                success=$((success + 1))
-              else
-                echo "  ❌ Failed to trigger"
-                failure=$((failure + 1))
-              fi
-            else
-              echo "  ⚠️  Workflow not found or inaccessible — skipping"
-              skipped=$((skipped + 1))
+          triggered=()
+          skipped=()
+
+          for wf in "${GIS_WORKFLOWS[@]}"; do
+            echo "▶ $wf"
+
+            if [ ! -f ".github/workflows/$wf" ]; then
+              echo "  ⏭  file not found — skipping"
+              skipped+=("missing|$wf")
+              continue
             fi
 
-            # Delay between triggers to avoid rate limiting
-            sleep 3
-          done < /tmp/workflows.txt
+            if ! grep -qE '^\s+workflow_dispatch' ".github/workflows/$wf" 2>/dev/null; then
+              echo "  ⏭  no workflow_dispatch trigger — skipping"
+              skipped+=("no-dispatch|$wf")
+              continue
+            fi
 
+            if gh workflow run "$wf" --repo "$REPO" --ref "$REF" 2>&1; then
+              echo "  ✅ triggered"
+              triggered+=("$wf")
+            else
+              echo "  ❌ failed to trigger"
+              skipped+=("trigger-failed|$wf")
+            fi
+
+            sleep 3   # avoid API rate-limit
+          done
+
+          printf '%s\n' "${triggered[@]}" > /tmp/triggered.txt
+          printf '%s\n' "${skipped[@]}"   > /tmp/skipped.txt
           echo ""
-          echo "=== Trigger Summary ==="
-          echo "  Triggered successfully : $success"
-          echo "  Failed to trigger      : $failure"
-          echo "  Skipped                : $skipped"
+          echo "Triggered: ${#triggered[@]}, Skipped/failed: ${#skipped[@]}"
 
-          if [ "$failure" -gt 0 ]; then
-            echo "::warning::$failure workflow(s) failed to trigger."
+      # ── Step 2: Collect run IDs once runs have started ────────────────────
+      - name: Collect run IDs
+        id: collect
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          START_TIME: ${{ steps.trigger.outputs.start_time }}
+        run: |
+          echo "Waiting 30 s for workflow runs to register…"
+          sleep 30
+
+          > /tmp/run_ids.txt   # wf_name<TAB>run_id
+
+          while IFS= read -r wf; do
+            [ -z "$wf" ] && continue
+            RUN_ID=$(gh run list \
+              --repo "$REPO" \
+              --workflow "$wf" \
+              --json databaseId,createdAt \
+              --jq "[.[] | select(.createdAt >= \"$START_TIME\")] | .[0].databaseId // empty" \
+              2>/dev/null || true)
+            if [ -n "$RUN_ID" ]; then
+              echo "$wf	$RUN_ID" >> /tmp/run_ids.txt
+              echo "  $wf → run #$RUN_ID"
+            else
+              echo "  $wf → no matching run found yet"
+            fi
+          done < /tmp/triggered.txt
+
+      # ── Step 3: Poll until all runs complete (or timeout) ─────────────────
+      - name: Wait for runs to complete
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TIMEOUT_MIN: ${{ inputs.timeout_minutes || '45' }}
+        run: |
+          TIMEOUT_SEC=$(( TIMEOUT_MIN * 60 ))
+          DEADLINE=$(( SECONDS + TIMEOUT_SEC ))
+
+          echo "Polling (timeout ${TIMEOUT_MIN} min)…"
+
+          while [ "$SECONDS" -lt "$DEADLINE" ]; do
+            pending=0
+            while IFS='	' read -r wf run_id; do
+              [ -z "$wf" ] && continue
+              STATUS=$(gh run view "$run_id" \
+                --repo "$REPO" \
+                --json status \
+                --jq '.status' \
+                2>/dev/null || echo "unknown")
+              [ "$STATUS" != "completed" ] && pending=$(( pending + 1 ))
+            done < /tmp/run_ids.txt
+
+            if [ "$pending" -eq 0 ]; then
+              echo "All runs finished."
+              break
+            fi
+
+            REMAINING=$(( (DEADLINE - SECONDS) / 60 ))
+            echo "  $pending run(s) still in progress — ${REMAINING} min remaining"
+            sleep 60
+          done
+
+      # ── Step 4: Generate step summary and fail if any workflow failed ──────
+      - name: Report results
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          START_TIME: ${{ steps.trigger.outputs.start_time }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: |
+          {
+            echo "## GIS Data Refresh — Results"
+            echo ""
+            echo "**Triggered at:** ${START_TIME:-unknown}"
+            echo ""
+            echo "| Workflow | Status | Conclusion | Run |"
+            echo "|---|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          overall=0
+
+          # Completed / monitored runs
+          if [ -f /tmp/run_ids.txt ]; then
+            while IFS='	' read -r wf run_id; do
+              [ -z "$wf" ] && continue
+              RESULT=$(gh run view "$run_id" \
+                --repo "$REPO" \
+                --json status,conclusion \
+                2>/dev/null || echo '{"status":"unknown","conclusion":"unknown"}')
+              STATUS=$(echo "$RESULT"     | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','unknown'))")
+              CONCLUSION=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('conclusion','unknown'))")
+
+              case "$CONCLUSION" in
+                success)   ICON="✅" ;;
+                failure)   ICON="❌"; overall=1 ;;
+                cancelled) ICON="⏹️" ;;
+                skipped)   ICON="⏭️" ;;
+                timed_out) ICON="⏱️"; overall=1 ;;
+                *)         ICON="❓"; [ "$STATUS" != "completed" ] && ICON="🔄"; overall=1 ;;
+              esac
+
+              RUN_URL="${GITHUB_SERVER_URL}/${REPO}/actions/runs/${run_id}"
+              echo "| \`$wf\` | $STATUS | $ICON $CONCLUSION | [#${run_id}]($RUN_URL) |" \
+                >> "$GITHUB_STEP_SUMMARY"
+            done < /tmp/run_ids.txt
           fi
+
+          # Skipped / failed-to-trigger entries
+          if [ -f /tmp/skipped.txt ]; then
+            while IFS= read -r entry; do
+              [ -z "$entry" ] && continue
+              reason="${entry%%|*}"
+              wf="${entry#*|}"
+              case "$reason" in
+                missing)        ICON="⚠️";  NOTE="file not found" ;;
+                no-dispatch)    ICON="⏭️";  NOTE="no workflow_dispatch trigger" ;;
+                trigger-failed) ICON="❌";  NOTE="failed to trigger"; overall=1 ;;
+                *)              ICON="❓";  NOTE="skipped" ;;
+              esac
+              echo "| \`$wf\` | skipped | $ICON $NOTE | — |" >> "$GITHUB_STEP_SUMMARY"
+            done < /tmp/skipped.txt
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$overall" -ne 0 ]; then
+            echo "::error::One or more GIS data workflows failed or could not be triggered. See the step summary for details."
+            exit 1
+          fi
+          echo "::notice::All GIS data workflows completed successfully."

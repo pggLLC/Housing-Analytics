@@ -1,0 +1,85 @@
+name: Build County Boundaries
+
+# Fetches the 64 Colorado county boundary polygons from the US Census TIGERweb
+# ArcGIS REST service and writes them to:
+#   - data/co-county-boundaries.json        (used by co-lihtc-map.js, market-analysis.js)
+#   - data/boundaries/counties_co.geojson   (canonical boundary file)
+#
+# Runs weekly on Mondays at 04:30 UTC (after generate-market-analysis-data) and
+# on-demand via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '30 4 * * 1'   # Mondays at 04:30 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch Colorado county boundaries from TIGERweb
+        run: python scripts/boundaries/build_counties_co.py
+        timeout-minutes: 10
+
+      - name: Validate output
+        run: |
+          python - <<'EOF'
+          import json, sys
+          from pathlib import Path
+
+          EXPECTED = 64
+          errors = []
+
+          for path in [
+              "data/co-county-boundaries.json",
+              "data/boundaries/counties_co.geojson",
+          ]:
+              p = Path(path)
+              if not p.exists():
+                  errors.append(f"Missing: {path}")
+                  continue
+              try:
+                  obj = json.loads(p.read_text())
+              except json.JSONDecodeError as e:
+                  errors.append(f"Invalid JSON in {path}: {e}")
+                  continue
+              n = len(obj.get("features", []))
+              if n == 0:
+                  errors.append(f"{path}: 0 features — TIGERweb may be unavailable")
+              elif n != EXPECTED:
+                  print(f"⚠ {path}: {n} features (expected {EXPECTED}); may indicate incomplete data from TIGERweb")
+              else:
+                  print(f"✓ {path}: {n} county features")
+
+          if errors:
+              for e in errors:
+                  print(f"::error::{e}")
+              sys.exit(1)
+          EOF
+
+      - name: Commit updated boundary files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/co-county-boundaries.json data/boundaries/counties_co.geojson
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(data): refresh CO county boundaries from TIGERweb [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash origin main
+            git push
+          fi

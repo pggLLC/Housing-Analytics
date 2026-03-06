@@ -510,7 +510,7 @@ function toGeoJsonFeature(esriFeature) {
   //   3. Derived from PROJ_CTY using the city→county lookup table (fallback)
   const cntyFipsFromName = resolveCntyFips(attrs.CNTY_NAME ?? null);
   const cntyFipsFromCity = resolveCntyFipsFromCity(attrs.PROJ_CTY ?? null);
-  const cntyFips = (attrs.CNTY_FIPS ?? cntyFipsFromName || cntyFipsFromCity) || '';
+  const cntyFips = attrs.CNTY_FIPS || cntyFipsFromName || cntyFipsFromCity || '';
   // COUNTYFP is the 3-digit suffix of the 5-digit CNTY_FIPS (e.g. "031").
   const countyFp = cntyFips ? cntyFips.slice(2) : '';
   // STATEFP is always "08" for Colorado; derive if absent.
@@ -553,6 +553,102 @@ function toGeoJsonFeature(esriFeature) {
 }
 
 // ---------------------------------------------------------------------------
+// Reverse-geocoding fallback (4th tier): Census Geocoder / TIGERweb
+// ---------------------------------------------------------------------------
+
+/**
+ * Reverse-geocode a coordinate pair to a 5-digit county FIPS code.
+ * Tries the Census Geocoder API first; falls back to TIGERweb spatial query.
+ *
+ * Both endpoints are free public APIs that require no API key.
+ *
+ * @param {number} lat
+ * @param {number} lon
+ * @returns {Promise<string>}  5-digit FIPS (e.g. "08031") or empty string.
+ */
+async function reverseGeocodeFips(lat, lon) {
+  // --- Census Geocoder API ---
+  // Returns county GEOID for the census tract/block containing the point.
+  const censusPath =
+    `/geocoder/geographies/coordinates?x=${lon}&y=${lat}` +
+    `&benchmark=Public_AR_Current&vintage=Current_Current&layers=Counties&format=json`;
+  try {
+    const body = await httpsGet('geocoding.geo.census.gov', censusPath);
+    const parsed = JSON.parse(body);
+    const county = parsed?.result?.geographies?.Counties?.[0];
+    if (county) {
+      const fips = county.GEOID ? county.GEOID.substring(0, 5)
+        : (county.STATE || '') + (county.COUNTY || '');
+      if (fips.length === 5) return fips;
+    }
+  } catch (_) {
+    // fall through to TIGERweb
+  }
+
+  // --- TIGERweb point-in-polygon fallback ---
+  const tigerPath =
+    `/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query` +
+    `?geometry=${lon},${lat}&geometryType=esriGeometryPoint` +
+    `&spatialRel=esriSpatialRelIntersects` +
+    `&outFields=STATEFP,COUNTYFP&returnGeometry=false&f=json`;
+  try {
+    const body = await httpsGet('tigerweb.geo.census.gov', tigerPath);
+    const parsed = JSON.parse(body);
+    const feat = parsed?.features?.[0]?.attributes;
+    if (feat && feat.STATEFP && feat.COUNTYFP) {
+      return feat.STATEFP + feat.COUNTYFP;
+    }
+  } catch (_) {
+    // both tiers failed
+  }
+
+  return '';
+}
+
+/**
+ * Enrich features that still have a null CNTY_FIPS by reverse-geocoding their
+ * coordinates.  Only called when the cheaper name/city lookups failed.
+ *
+ * @param {object[]} features  GeoJSON Feature array (mutated in-place).
+ * @returns {Promise<object[]>}
+ */
+async function enrichMissingFips(features) {
+  const missing = features.filter((f) => !f.properties.CNTY_FIPS);
+  if (missing.length === 0) return features;
+
+  console.log(`\nReverse-geocoding ${missing.length} feature(s) with missing CNTY_FIPS…`);
+  let resolved = 0;
+
+  for (const feature of missing) {
+    const [lon, lat] = feature.geometry.coordinates;
+    try {
+      const fips = await reverseGeocodeFips(lat, lon);
+      if (fips) {
+        feature.properties.CNTY_FIPS  = fips;
+        feature.properties.COUNTYFP   = fips.slice(2) || null;
+        feature.properties.STATEFP    = fips.slice(0, 2) || null;
+        feature.properties.CNTY_NAME  =
+          feature.properties.CNTY_NAME || resolveCntyNameFromFips(fips) || null;
+        resolved++;
+      }
+    } catch (e) {
+      console.warn(
+        `  Warning: reverse-geocode failed for [${lon}, ${lat}]: ${e.message}`
+      );
+    }
+    // Throttle: Census Geocoder asks for ~4 rps or less.
+    await new Promise((r) => setTimeout(r, 400));
+  }
+
+  const stillMissing = missing.length - resolved;
+  console.log(
+    `Reverse-geocode: resolved ${resolved} / ${missing.length}` +
+    (stillMissing > 0 ? `, ${stillMissing} unresolved` : '') + '.'
+  );
+  return features;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -564,8 +660,11 @@ function toGeoJsonFeature(esriFeature) {
   console.log('Fetching CHFA LIHTC data from ArcGIS FeatureServer…');
 
   const rawFeatures = await fetchAllRecords();
-  const allFeatures = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
+  let allFeatures = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
   console.log(`\n${allFeatures.length} feature(s) converted from ${rawFeatures.length} record(s).`);
+
+  // 4th-tier fallback: reverse-geocode any features still missing CNTY_FIPS.
+  allFeatures = await enrichMissingFips(allFeatures);
 
   const geojson = {
     type: 'FeatureCollection',
