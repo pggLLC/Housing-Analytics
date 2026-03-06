@@ -25,8 +25,10 @@
       const url = 'data/kalshi/prediction-market.json?v=' + Date.now();
       const res = await fetch(url);
       if (!res.ok) return null;
-      const json = await res.json();
-      return (json && Array.isArray(json.items) && json.items.length > 0) ? json : null;
+      let json;
+      try { json = await res.json(); } catch (_) { return null; }
+      if (!json || json.error) return null;
+      return (Array.isArray(json.items) && json.items.length > 0) ? json : null;
     } catch (_) {
       return null;
     }
@@ -471,19 +473,14 @@
     // Header + disclaimer
     const disclaimerDiv = el('div', { class: 'hp-disclaimer', role: 'note', 'aria-label': 'Data disclaimer' });
     if (usingLiveData) {
-      disclaimerDiv.appendChild(document.createTextNode('📊 Data from '));
+      disclaimerDiv.appendChild(document.createTextNode('✅ Live prediction-market data loaded from the latest Kalshi feed. '));
       disclaimerDiv.appendChild(sourceLink);
-      disclaimerDiv.appendChild(document.createTextNode(
-        ' (Kalshi). If the feed is unavailable, the dashboard displays ' +
-        'illustrative demo probabilities. Last updated: ' + updatedLabel + '.',
-      ));
+      disclaimerDiv.appendChild(document.createTextNode(' · Last updated: ' + updatedLabel + '.'));
     } else {
+      disclaimerDiv.appendChild(document.createTextNode('⚠️ Live prediction-market feed is unavailable. This section is currently showing illustrative fallback data. '));
       disclaimerDiv.appendChild(document.createTextNode('📊 Data from '));
       disclaimerDiv.appendChild(sourceLink);
-      disclaimerDiv.appendChild(document.createTextNode(
-        ' (Kalshi). If the feed is unavailable, the dashboard displays ' +
-        'illustrative demo probabilities. Currently showing illustrative demo values (Last updated: ' + updatedLabel + ').',
-      ));
+      disclaimerDiv.appendChild(document.createTextNode(' (Kalshi). Last updated: ' + updatedLabel + '.'));
     }
 
     section.appendChild(el('div', { class: 'hp-header' },

@@ -418,6 +418,43 @@
         </details>
       </section>
 
+      <!-- Economic Indicators (Employment, Wages, Industry) -->
+      <section id="economicIndicatorsContainer" class="chart-card span-12" aria-label="Economic Indicators">
+        <h2>Economic Indicators</h2>
+        <p style="color:var(--muted)">
+          Employment trends, industry mix, and wage analysis for the selected geography.
+          Data from LEHD LODES and BLS. Updates when county-level LEHD data is cached.
+        </p>
+        <div class="hna-grid" style="margin-top:0">
+          <div id="employmentTrendContainer" class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Employment Trend</h2>
+            <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
+            <div class="chart-container">
+              <div class="chart-box"><canvas id="chartEmploymentTrend"></canvas></div>
+            </div>
+          </div>
+          <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Wage Trend</h2>
+            <p style="color:var(--muted);font-size:.88rem">Average wages over time (BLS QCEW).</p>
+            <div class="chart-container">
+              <div class="chart-box"><canvas id="chartWageTrend"></canvas></div>
+            </div>
+          </div>
+          <div id="industryAnalysisContainer" class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Industry Analysis</h2>
+            <p style="color:var(--muted);font-size:.88rem">Employment share by NAICS sector.</p>
+            <div class="chart-container">
+              <div class="chart-box"><canvas id="chartIndustryAnalysis"></canvas></div>
+            </div>
+          </div>
+          <div id="wageGapsContainer" class="chart-card span-6" style="margin:0">
+            <h2 style="font-size:1rem">Wage Gaps</h2>
+            <p style="color:var(--muted);font-size:.88rem">High / medium / low wage job distribution (LEHD CE01–CE03).</p>
+            <div class="chart-container chart-container--bar"></div>
+          </div>
+        </div>
+      </section>
+
       <!-- Prop 123 / HB 22-1093 Compliance -->
       <section id="prop123-section" class="chart-card span-12 prop123-section">
         <h2>Affordable Housing Compliance (HB 22-1093 / Prop 123)</h2>
