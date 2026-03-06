@@ -227,6 +227,50 @@
         "YEAR_ALLOC": 2020,
         "CREDIT_PCT": "9%"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5506,
+          39.0639
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2016A011",
+        "PROJECT_NAME": "Grand Valley Affordable Homes",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81501",
+        "TOTAL_UNITS": 60,
+        "LI_UNITS": 60,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8801,
+          37.2753
+        ]
+      },
+      "properties": {
+        "HUD_ID": "COA2019A012",
+        "PROJECT_NAME": "Durango Senior Living Community",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "81301",
+        "TOTAL_UNITS": 48,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
     }
   ]
 }
