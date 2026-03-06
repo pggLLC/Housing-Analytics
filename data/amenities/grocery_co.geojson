@@ -1,10 +1,271 @@
 {
   "type": "FeatureCollection",
-  "features": [],
   "meta": {
     "source": "OpenStreetMap Overpass API (public)",
     "state": "Colorado",
-    "generated": "2026-01-01T00:00:00Z",
-    "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
-  }
+    "generated": "2026-03-06T00:00:00Z",
+    "note": "Seed data — run scripts/amenities/build_osm_amenities.py to refresh from live OSM."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9878, 39.7517] },
+      "properties": {
+        "name": "King Soopers - Colfax",
+        "brand": "King Soopers",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "2340 E Colfax Ave",
+        "zip": "80206",
+        "phone": "303-320-1736"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9631, 39.7047] },
+      "properties": {
+        "name": "Safeway - Washington Park",
+        "brand": "Safeway",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "1940 E Kentucky Ave",
+        "zip": "80209",
+        "phone": "303-722-0711"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0178, 39.7654] },
+      "properties": {
+        "name": "King Soopers - Sloan Lake",
+        "brand": "King Soopers",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "3100 W 35th Ave",
+        "zip": "80211",
+        "phone": "303-433-0922"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9425, 39.7392] },
+      "properties": {
+        "name": "Whole Foods Market - Cherry Creek",
+        "brand": "Whole Foods Market",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "2375 E 1st Ave",
+        "zip": "80206",
+        "phone": "303-394-9399"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9994, 39.6944] },
+      "properties": {
+        "name": "Sprouts Farmers Market - South Broadway",
+        "brand": "Sprouts",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "780 S Broadway",
+        "zip": "80209",
+        "phone": "720-570-5900"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9762, 39.7295] },
+      "properties": {
+        "name": "Natural Grocers - Capitol Hill",
+        "brand": "Natural Grocers",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "1548 Colorado Blvd",
+        "zip": "80220",
+        "phone": "303-333-0115"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0722, 39.6536] },
+      "properties": {
+        "name": "King Soopers - Lakewood",
+        "brand": "King Soopers",
+        "city": "Lakewood",
+        "county": "Jefferson",
+        "address": "9925 W Remington Pl",
+        "zip": "80128",
+        "phone": "303-973-1622"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0841, 39.6412] },
+      "properties": {
+        "name": "Safeway - Belmar",
+        "brand": "Safeway",
+        "city": "Lakewood",
+        "county": "Jefferson",
+        "address": "395 S Teller St",
+        "zip": "80226",
+        "phone": "303-232-5115"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.7936, 39.6089] },
+      "properties": {
+        "name": "King Soopers - Aurora",
+        "brand": "King Soopers",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "14261 E Mississippi Ave",
+        "zip": "80012",
+        "phone": "303-745-3131"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8319, 39.6501] },
+      "properties": {
+        "name": "Walmart Supercenter - Aurora",
+        "brand": "Walmart",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "5650 S Chambers Rd",
+        "zip": "80015",
+        "phone": "303-617-1001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8657, 39.5772] },
+      "properties": {
+        "name": "Sprouts Farmers Market - Aurora",
+        "brand": "Sprouts",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "13570 E Alameda Ave",
+        "zip": "80012",
+        "phone": "720-748-7900"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.7631, 38.8539] },
+      "properties": {
+        "name": "King Soopers - Colorado Springs North",
+        "brand": "King Soopers",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "3620 Austin Bluffs Pkwy",
+        "zip": "80918",
+        "phone": "719-593-0550"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8253, 38.8226] },
+      "properties": {
+        "name": "Safeway - Colorado Springs",
+        "brand": "Safeway",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "1155 N Circle Dr",
+        "zip": "80909",
+        "phone": "719-634-7777"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8742, 38.8686] },
+      "properties": {
+        "name": "Walmart Supercenter - Colorado Springs",
+        "brand": "Walmart",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "3201 Cinema Pt",
+        "zip": "80922",
+        "phone": "719-522-1010"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.7935, 38.9019] },
+      "properties": {
+        "name": "Natural Grocers - Colorado Springs",
+        "brand": "Natural Grocers",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "5765 N Academy Blvd",
+        "zip": "80918",
+        "phone": "719-591-5015"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.2669, 40.0089] },
+      "properties": {
+        "name": "Whole Foods Market - Boulder",
+        "brand": "Whole Foods Market",
+        "city": "Boulder",
+        "county": "Boulder",
+        "address": "2905 Pearl St",
+        "zip": "80301",
+        "phone": "303-545-6611"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.1991, 40.0327] },
+      "properties": {
+        "name": "Safeway - Table Mesa",
+        "brand": "Safeway",
+        "city": "Boulder",
+        "county": "Boulder",
+        "address": "400 Table Mesa Dr",
+        "zip": "80305",
+        "phone": "303-499-4774"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0872, 40.5684] },
+      "properties": {
+        "name": "King Soopers - Fort Collins",
+        "brand": "King Soopers",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "address": "1015 S Taft Hill Rd",
+        "zip": "80521",
+        "phone": "970-484-0267"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-108.5506, 39.0639] },
+      "properties": {
+        "name": "City Market - Grand Junction",
+        "brand": "City Market",
+        "city": "Grand Junction",
+        "county": "Mesa",
+        "address": "2830 North Ave",
+        "zip": "81501",
+        "phone": "970-243-6700"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-107.8801, 37.2753] },
+      "properties": {
+        "name": "City Market - Durango",
+        "brand": "City Market",
+        "city": "Durango",
+        "county": "La Plata",
+        "address": "1900 Main Ave",
+        "zip": "81301",
+        "phone": "970-247-4494"
+      }
+    }
+  ]
 }

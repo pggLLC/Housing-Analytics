@@ -1,0 +1,157 @@
+{
+  "manifest_version": "1.0",
+  "generated": "2026-03-06T00:00:00Z",
+  "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
+  "sources": [
+    {
+      "file_path": "data/boundaries/counties_co.geojson",
+      "source_name": "US Census Bureau TIGERweb — Colorado County Boundaries",
+      "source_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Render map without county boundary overlay; log warning to console",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "GeoJSON polygon boundaries for all 64 Colorado counties sourced from Census TIGERweb ArcGIS REST service. Used as the base layer for choropleth maps throughout the dashboards."
+    },
+    {
+      "file_path": "data/market/hud_lihtc_co.geojson",
+      "source_name": "HUD Low-Income Housing Tax Credit (LIHTC) Database",
+      "source_url": "https://www.huduser.gov/portal/datasets/lihtc.html",
+      "update_method": "manual",
+      "status": "seed",
+      "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
+      "last_update": "2026-03-06T00:00:00Z",
+      "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. Seed data for 12 representative projects across 8 counties."
+    },
+    {
+      "file_path": "data/market/acs_tract_metrics_co.json",
+      "source_name": "US Census Bureau — American Community Survey (ACS) 5-Year Estimates, 2022",
+      "source_url": "https://api.census.gov/data/2022/acs/acs5",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
+      "last_update": "2026-03-06T00:00:00Z",
+      "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
+    },
+    {
+      "file_path": "data/market/tract_centroids_co.json",
+      "source_name": "US Census Bureau TIGERweb — Colorado Census Tract Centroids",
+      "source_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Disable tract-level point clustering; fall back to county centroid display",
+      "last_update": "2026-03-06T00:00:00Z",
+      "description": "Latitude/longitude centroids for Colorado census tracts used for map point placement and spatial joins. Covers 22 representative tracts across 12 major counties."
+    },
+    {
+      "file_path": "data/amenities/grocery_co.geojson",
+      "source_name": "OpenStreetMap — Overpass API (Grocery/Supermarket nodes)",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "update_method": "cached",
+      "status": "seed",
+      "fallback_rule": "Hide grocery amenity layer on map; suppress amenity score calculation",
+      "last_update": "2026-03-06T00:00:00Z",
+      "description": "Point features for major grocery and supermarket locations in Colorado (20 stores) used to compute walkability and amenity proximity scores in the market analysis dashboards."
+    },
+    {
+      "file_path": "data/amenities/healthcare_co.geojson",
+      "source_name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "update_method": "cached",
+      "status": "seed",
+      "fallback_rule": "Hide healthcare amenity layer on map; suppress healthcare proximity scoring",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Point features for hospitals, clinics, and healthcare facilities in Colorado used to score healthcare access as part of the Housing Needs Assessment amenity index."
+    },
+    {
+      "file_path": "data/amenities/schools_co.geojson",
+      "source_name": "OpenStreetMap — Overpass API (School nodes)",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "update_method": "cached",
+      "status": "seed",
+      "fallback_rule": "Hide schools amenity layer on map; suppress school proximity scoring",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Point features for K-12 schools in Colorado used to assess educational facility proximity as part of the Housing Needs Assessment amenity scoring model."
+    },
+    {
+      "file_path": "data/amenities/retail_nodes_co.geojson",
+      "source_name": "OpenStreetMap — Overpass API (Retail node clusters)",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "update_method": "cached",
+      "status": "seed",
+      "fallback_rule": "Hide retail amenity layer on map; suppress retail proximity scoring",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Point features representing retail commercial nodes in Colorado used for walkability and amenity scoring in the market intelligence dashboards."
+    },
+    {
+      "file_path": "data/policy/prop123_jurisdictions.json",
+      "source_name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
+      "source_url": "https://dola.colorado.gov/prop123",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Display all Colorado jurisdictions without Prop 123 compliance status overlay",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Registry of Colorado municipalities and counties that have opted into Proposition 123 affordable housing funding, with affordability commitment tier and unit targets."
+    },
+    {
+      "file_path": "data/chfa-lihtc.json",
+      "source_name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
+      "source_url": "https://www.chfainfo.com/arh/lihtc",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide CHFA allocation chart; display statewide HUD totals only",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Annual LIHTC allocation data from CHFA including award amounts, project counts, and unit totals by year. Used to populate the LIHTC allocation trend charts on the dashboard."
+    },
+    {
+      "file_path": "data/fred-data.json",
+      "source_name": "Federal Reserve Bank of St. Louis — FRED Economic Data",
+      "source_url": "https://fred.stlouisfed.org/",
+      "update_method": "live",
+      "status": "live",
+      "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
+      "last_update": "2026-03-06T00:00:00Z",
+      "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
+    },
+    {
+      "file_path": "data/co-county-demographics.json",
+      "source_name": "US Census Bureau — ACS 5-Year County-Level Demographics",
+      "source_url": "https://api.census.gov/data/2022/acs/acs5",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
+    },
+    {
+      "file_path": "data/co-county-economic-indicators.json",
+      "source_name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
+      "source_url": "https://www.bls.gov/cew/",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Hide employment trend charts; display static summary table",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "County-level employment and wage data for Colorado sourced from BLS QCEW, including industry sector breakdowns and wage band distributions used in the economic dashboard."
+    },
+    {
+      "file_path": "data/dda-colorado.json",
+      "source_name": "HUD — Difficult Development Areas (DDA) Designations",
+      "source_url": "https://www.huduser.gov/portal/datasets/qct.html",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Disable DDA overlay layer; suppress DDA bonus credit indicator",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "HUD-designated Difficult Development Areas in Colorado where 30% LIHTC basis boost is available. Updated annually by HUD; used to flag eligible project locations on the LIHTC dashboard."
+    },
+    {
+      "file_path": "data/qct-colorado.json",
+      "source_name": "HUD — Qualified Census Tracts (QCT) Designations",
+      "source_url": "https://www.huduser.gov/portal/datasets/qct.html",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Disable QCT overlay layer; suppress QCT basis boost indicator",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "HUD-designated Qualified Census Tracts in Colorado where 30% LIHTC basis boost is available due to low-income concentration. Used to flag eligible tracts on the LIHTC dashboard."
+    }
+  ]
+}

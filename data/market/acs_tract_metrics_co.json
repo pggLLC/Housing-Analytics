@@ -66,6 +66,138 @@
       "median_hh_income": 39673,
       "cost_burden_rate": 0.5408,
       "vacancy_rate": 0.1284
+    },
+    {
+      "geoid": "08031000100",
+      "pop": 4821,
+      "renter_hh": 2654,
+      "owner_hh": 312,
+      "vacant": 421,
+      "total_hh": 2966,
+      "median_gross_rent": 1612,
+      "median_hh_income": 52340,
+      "cost_burden_rate": 0.5821,
+      "vacancy_rate": 0.1241
+    },
+    {
+      "geoid": "08031000200",
+      "pop": 3952,
+      "renter_hh": 1876,
+      "owner_hh": 445,
+      "vacant": 289,
+      "total_hh": 2321,
+      "median_gross_rent": 1489,
+      "median_hh_income": 58920,
+      "cost_burden_rate": 0.4963,
+      "vacancy_rate": 0.1108
+    },
+    {
+      "geoid": "08031000300",
+      "pop": 4103,
+      "renter_hh": 2012,
+      "owner_hh": 388,
+      "vacant": 312,
+      "total_hh": 2400,
+      "median_gross_rent": 1352,
+      "median_hh_income": 44810,
+      "cost_burden_rate": 0.5601,
+      "vacancy_rate": 0.1150
+    },
+    {
+      "geoid": "08013000100",
+      "pop": 3618,
+      "renter_hh": 1423,
+      "owner_hh": 987,
+      "vacant": 198,
+      "total_hh": 2410,
+      "median_gross_rent": 1845,
+      "median_hh_income": 82450,
+      "cost_burden_rate": 0.3912,
+      "vacancy_rate": 0.0759
+    },
+    {
+      "geoid": "08013000200",
+      "pop": 2941,
+      "renter_hh": 1102,
+      "owner_hh": 743,
+      "vacant": 154,
+      "total_hh": 1845,
+      "median_gross_rent": 1968,
+      "median_hh_income": 91200,
+      "cost_burden_rate": 0.3542,
+      "vacancy_rate": 0.0770
+    },
+    {
+      "geoid": "08041000100",
+      "pop": 3284,
+      "renter_hh": 1231,
+      "owner_hh": 842,
+      "vacant": 187,
+      "total_hh": 2073,
+      "median_gross_rent": 1124,
+      "median_hh_income": 63500,
+      "cost_burden_rate": 0.4210,
+      "vacancy_rate": 0.0826
+    },
+    {
+      "geoid": "08041000200",
+      "pop": 4512,
+      "renter_hh": 1987,
+      "owner_hh": 621,
+      "vacant": 298,
+      "total_hh": 2608,
+      "median_gross_rent": 1198,
+      "median_hh_income": 55780,
+      "cost_burden_rate": 0.4875,
+      "vacancy_rate": 0.1024
+    },
+    {
+      "geoid": "08059000100",
+      "pop": 3105,
+      "renter_hh": 987,
+      "owner_hh": 1234,
+      "vacant": 143,
+      "total_hh": 2221,
+      "median_gross_rent": 1412,
+      "median_hh_income": 78900,
+      "cost_burden_rate": 0.3621,
+      "vacancy_rate": 0.0604
+    },
+    {
+      "geoid": "08059000200",
+      "pop": 2876,
+      "renter_hh": 876,
+      "owner_hh": 1102,
+      "vacant": 112,
+      "total_hh": 1978,
+      "median_gross_rent": 1523,
+      "median_hh_income": 84300,
+      "cost_burden_rate": 0.3387,
+      "vacancy_rate": 0.0534
+    },
+    {
+      "geoid": "08069000200",
+      "pop": 3421,
+      "renter_hh": 1245,
+      "owner_hh": 892,
+      "vacant": 165,
+      "total_hh": 2137,
+      "median_gross_rent": 1387,
+      "median_hh_income": 72100,
+      "cost_burden_rate": 0.4012,
+      "vacancy_rate": 0.0717
+    },
+    {
+      "geoid": "08123000300",
+      "pop": 3891,
+      "renter_hh": 1456,
+      "owner_hh": 734,
+      "vacant": 198,
+      "total_hh": 2190,
+      "median_gross_rent": 1245,
+      "median_hh_income": 61500,
+      "cost_burden_rate": 0.4523,
+      "vacancy_rate": 0.0827
     }
   ]
 }
