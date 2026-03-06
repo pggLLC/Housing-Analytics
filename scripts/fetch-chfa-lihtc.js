@@ -436,6 +436,18 @@ async function fetchAllRecords() {
 }
 
 /**
+ * Reverse lookup: 5-digit county FIPS → Title-Case county name.
+ * Built by inverting CO_COUNTY_FIPS at module load time.
+ * Example: '08031' → 'Denver', '08067' → 'La Plata'.
+ */
+const CO_FIPS_TO_COUNTY_NAME = Object.fromEntries(
+  Object.entries(CO_COUNTY_FIPS).map(([name, fips]) => [
+    fips,
+    name.replace(/\b\w/g, (c) => c.toUpperCase()),
+  ])
+);
+
+/**
  * Resolve a county name to its 5-digit Colorado FIPS code.
  * Normalises the input to lowercase and trims whitespace before lookup so
  * that alternate capitalisations and leading/trailing spaces don't silently
@@ -448,6 +460,18 @@ function resolveCntyFips(cntyName) {
   if (!cntyName) return '';
   const key = String(cntyName).trim().toLowerCase();
   return CO_COUNTY_FIPS[key] || '';
+}
+
+/**
+ * Reverse-resolve a county name from a 5-digit Colorado FIPS code.
+ * Returns the Title-Case county name (e.g. "Denver", "La Plata") or null.
+ *
+ * @param {string|null} fips  5-digit FIPS (e.g. "08031").
+ * @returns {string|null}
+ */
+function resolveCntyNameFromFips(fips) {
+  if (!fips) return null;
+  return CO_FIPS_TO_COUNTY_NAME[String(fips).trim()] || null;
 }
 
 /**
@@ -491,6 +515,9 @@ function toGeoJsonFeature(esriFeature) {
   const countyFp = cntyFips ? cntyFips.slice(2) : '';
   // STATEFP is always "08" for Colorado; derive if absent.
   const stateFp = attrs.STATEFP ?? (cntyFips ? cntyFips.slice(0, 2) : null) ?? null;
+  // Resolve county name: prefer service value; fall back to reverse FIPS lookup so
+  // CNTY_NAME is never left null when CNTY_FIPS is known.
+  const cntyName = attrs.CNTY_NAME ?? resolveCntyNameFromFips(cntyFips) ?? null;
 
   return {
     type: 'Feature',
@@ -509,7 +536,7 @@ function toGeoJsonFeature(esriFeature) {
       PROJ_ADD:  attrs.PROJ_ADD  ?? null,
       PROJ_CTY:  attrs.PROJ_CTY  ?? null,
       PROJ_ST:   attrs.PROJ_ST   ?? null,
-      CNTY_NAME: attrs.CNTY_NAME ?? null,
+      CNTY_NAME: cntyName,
       CNTY_FIPS: cntyFips || null,
       STATEFP:   stateFp,
       COUNTYFP:  countyFp || null,

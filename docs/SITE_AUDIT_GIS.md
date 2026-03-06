@@ -1,6 +1,6 @@
 # Site Audit & GIS Reliability — Housing Analytics
 
-*Last updated: 2026-03-06*
+*Last updated: 2026-03-06 (revised after fixes)*
 
 ---
 
@@ -9,7 +9,7 @@
 | Page | Title | Map? | Primary JS | Local Data Sources | External APIs | Key Failure Modes | Priority |
 |---|---|---|---|---|---|---|---|
 | `index.html` | Affordable Housing Intelligence | — | `main.js`, `navigation.js` | `data/fred-data.json` | FRED | Missing `fred-data.json`, stale cache | High |
-| `colorado-deep-dive.html` | Colorado Deep Dive | ✅ Leaflet | `co-lihtc-map.js`, `prop123-map.js`, `colorado-deep-dive.js` | `data/chfa-lihtc.json`, `data/qct-colorado.json`, `data/dda-colorado.json`, `data/prop123_jurisdictions.json`, `data/co-county-boundaries.json` | CHFA ArcGIS, HUD ArcGIS, TIGERweb | Map init race with overlay toggle; county boundaries placeholder (0 features) | **Critical** |
+| `colorado-deep-dive.html` | Colorado Deep Dive | ✅ Leaflet | `co-lihtc-map.js`, `prop123-map.js`, `colorado-deep-dive.js` | `data/chfa-lihtc.json`, `data/qct-colorado.json`, `data/dda-colorado.json`, `data/prop123_jurisdictions.json`, `data/co-county-boundaries.json` | CHFA ArcGIS, HUD ArcGIS, TIGERweb | County boundaries placeholder (0 features); TIGERweb response now cached 24h | **Critical** |
 | `LIHTC-dashboard.html` | LIHTC Allocations Dashboard | ✅ D3 SVG | `state-allocations-2026.js`, `state-allocations-2025.js`, `state-allocations-2024.js`, `lihtc-data-loader.js` | `data/states-10m.json`, `data/allocations.json`, `data/chfa-lihtc.json` | CHFA ArcGIS, HUD ArcGIS | `states-10m.json` fetch error (has CDN fallback) | High |
 | `state-allocation-map.html` | 2026 LIHTC by State | ✅ D3 SVG | `state-allocations-2026.js` | `data/states-10m.json`, `data/allocations.json` | cdn.jsdelivr.net (fallback) | `states-10m.json` missing (CDN fallback in place) | High |
 | `economic-dashboard.html` | Economic Dashboard | — | `fred-cards.js`, `fred-kpi-cards.js`, `census-stats.js` | `data/fred-data.json` | FRED | Stale `fred-data.json`; 5 series without observations | Medium |
@@ -40,11 +40,11 @@
 
 | Layer | Container | Source | Feature Count | Geographic Extent | Status |
 |---|---|---|---|---|---|
-| LIHTC Projects (CHFA) | `#coMap` | `data/chfa-lihtc.json` (local) → CHFA ArcGIS → HUD ArcGIS → embedded stub | **716 features** (Point) | Colorado statewide, 94 cities | ✅ Data present — CNTY_FIPS fields are null (see §6.1) |
+| LIHTC Projects (CHFA) | `#coMap` | `data/chfa-lihtc.json` (local) → CHFA ArcGIS → HUD ArcGIS → embedded stub | **716 features** (Point) | Colorado statewide, 94 cities | ✅ Fixed — CNTY_NAME now populated from CNTY_FIPS reverse lookup |
 | QCT Overlay | `#coMap` | `data/qct-colorado.json` (local) → HUD ArcGIS fallback | **224 features** (Polygon) | 31 CO counties | ✅ Good |
 | DDA Overlay | `#coMap` | `data/dda-colorado.json` (local) → HUD ArcGIS fallback | **10 features** (Polygon) | CO metro/zip areas | ✅ Good |
 | Prop 123 Jurisdictions | `#coMap` | `data/prop123_jurisdictions.json` | **80 jurisdictions** | Colorado municipalities & counties | ✅ Good |
-| County Boundaries | `#coMap` | `data/co-county-boundaries.json` → TIGERweb → NaturalEarth → FALLBACK_COUNTY | **0 features** (placeholder) | Expected 64 CO counties | ⚠️ Empty — fallback to TIGERweb works but increases load time |
+| County Boundaries | `#coMap` | `data/co-county-boundaries.json` → TIGERweb (24h cached) → NaturalEarth → FALLBACK_COUNTY | **0 features** (placeholder) | Expected 64 CO counties | ⚠️ Empty — TIGERweb fallback works; now cached 24h in localStorage |
 
 **Map initialization:** `co-lihtc-map.js` uses `window.coLihtcMap`; Leaflet loaded from `js/vendor/leaflet.js`.
 
@@ -70,7 +70,7 @@
 | Layer | Container | Source | Feature Count | Geographic Extent | Status |
 |---|---|---|---|---|---|
 | County Boundaries | Leaflet | TIGERweb (live) | Varies | Mesa County + featured geos | ✅ Mocked in CI |
-| LIHTC Points | Leaflet | `data/hna/lihtc/{county}.json` | **0 features** per file (64 files) | CO counties | ⚠️ All 64 LIHTC county files are empty |
+| LIHTC Points | Leaflet | `data/hna/lihtc/{county}.json` | **716 total** across 44 counties | CO counties | ✅ Fixed — split-lihtc-by-county.js populated from chfa-lihtc.json |
 
 ### 2.5 `market-analysis.html` — PMA Scoring Tool
 
@@ -91,7 +91,7 @@
 | File | Format | Features / Records | Geographic Coverage | Notes |
 |---|---|---|---|---|
 | `data/fred-data.json` | JSON (series dict) | 39 series, 34 with observations, 0 stubs | National/Colorado | Updated by `fetch-fred-data.yml` daily; 12 years of observations |
-| `data/chfa-lihtc.json` | GeoJSON | **716 Point features** | Colorado, 94 cities | CNTY_NAME/CNTY_FIPS all null — enrichment needed (§6.1) |
+| `data/chfa-lihtc.json` | GeoJSON | **716 Point features** | Colorado, 94 cities | ✅ Fixed — CNTY_NAME enriched from CNTY_FIPS reverse lookup; 44 distinct county FIPS |
 | `data/qct-colorado.json` | GeoJSON | **224 Polygon features** | 31 Colorado counties | QCTs 2024; fetched by `cache-hud-gis-data.yml` |
 | `data/dda-colorado.json` | GeoJSON | **10 Polygon features** | CO metro/ZCTA areas | DDAs 2024; fetched by `cache-hud-gis-data.yml` |
 | `data/prop123_jurisdictions.json` | JSON | **80 jurisdictions** | Colorado municipalities | Updated manually via `fetch-lihtc-data.yml` |
@@ -193,7 +193,7 @@
 ### 4.6 Caching
 - [x] `colorado-deep-dive.js` provides `cacheGet` / `cacheSet` with TTL via `localStorage`
 - [x] `js/cache-manager.js` provides 1-hour `localStorage` cache with in-memory fallback
-- [ ] TIGERweb responses not cached — consider 24-hour TTL cache to reduce round-trips
+- [x] TIGERweb county boundary responses now cached 24 hours in `localStorage` (`co-lihtc-map.js`)
 
 ---
 
@@ -210,29 +210,30 @@
 
 ## 6. Identified Issues & Fixes
 
-### 6.1 CHFA LIHTC — Null County FIPS (716 features affected)
+### 6.1 CHFA LIHTC — Null County Name (716 features affected)
 
-**Problem:** All 716 features in `data/chfa-lihtc.json` have `CNTY_NAME`, `CNTY_FIPS`, `STATEFP`, and `COUNTYFP` set to `null`. These fields are used by LIHTC trend charts and county-level filtering.
+**Problem:** All 716 features in `data/chfa-lihtc.json` had `CNTY_NAME` set to `null`. The `CNTY_FIPS` field was already populated (44 distinct county FIPS codes). `CNTY_NAME` is used by LIHTC trend charts, county-level tooltips, and filtering in `LIHTC-dashboard.html` and `chfa-portfolio.html`.
 
-**Impact:** Medium — the map renders correctly (Point geometry is valid), but county-level aggregation and filtering are broken in `LIHTC-dashboard.html` and `chfa-portfolio.html`.
+**Status:** ✅ Fixed (2026-03-06)
 
-**Fix:** The `scripts/fetch-chfa-lihtc.js` script should be updated to reverse-geocode county FIPS from the project coordinates using the Census Geocoder API or TIGERweb spatial query. Alternatively, run `scripts/split-lihtc-by-county.js` to populate the per-county LIHTC files in `data/hna/lihtc/`.
+- `data/chfa-lihtc.json` enriched: `CNTY_NAME` derived from `CNTY_FIPS` using a reverse lookup (e.g. `'08031'` → `'Denver'`).
+- `scripts/fetch-chfa-lihtc.js` updated to persist `CNTY_NAME` on future weekly fetches via `resolveCntyNameFromFips()`.
 
 ### 6.2 County Boundaries — Empty Placeholder
 
 **Problem:** `data/co-county-boundaries.json` and `data/boundaries/counties_co.geojson` both have 0 features.
 
-**Impact:** Medium — `co-lihtc-map.js` (Colorado Deep Dive) and `market-analysis.js` (PMA Tool) both load county boundaries. The three-source fallback (local → TIGERweb → NaturalEarth) means users see county outlines after a TIGERweb round-trip (~0.5–2 s delay vs. instant local load), but this adds latency. Under CI the TIGERweb mock intercept prevents failures.
+**Impact:** Medium — `co-lihtc-map.js` (Colorado Deep Dive) and `market-analysis.js` (PMA Tool) both load county boundaries. The three-source fallback (local → TIGERweb → NaturalEarth) means users see county outlines after a TIGERweb round-trip (~0.5–2 s delay vs. instant local load), but this adds latency. TIGERweb responses are now cached 24 h in localStorage (see §4.6), reducing repeated round-trips.
 
-**Fix:** Run `python scripts/boundaries/build_counties_co.py` to populate both files. This script fetches the 64 Colorado county polygons from TIGERweb and writes them locally.
+**Remaining Fix:** Run `python scripts/boundaries/build_counties_co.py` in CI to populate both files with the 64 Colorado county polygons from TIGERweb and commit them as static assets.
 
-### 6.3 HNA LIHTC County Files — All Empty (64 files)
+### 6.3 HNA LIHTC County Files
 
-**Problem:** All 64 files in `data/hna/lihtc/` are empty GeoJSON FeatureCollections.
+**Status:** ✅ Fixed (2026-03-06)
 
-**Impact:** Low-Medium — the HNA "LIHTC Projects" tab within `housing-needs-assessment.html` shows no project markers. The page degrades gracefully (no error thrown).
-
-**Fix:** Run `node scripts/split-lihtc-by-county.js` to split `data/chfa-lihtc.json` into per-county LIHTC files.
+- 44 of 64 county files in `data/hna/lihtc/` now contain LIHTC features (716 features total).
+- 20 counties have no LIHTC projects — their files are correctly empty `FeatureCollection`s.
+- `node scripts/split-lihtc-by-county.js` runs automatically after each weekly CHFA LIHTC fetch.
 
 ### 6.4 PMA Market Data — Placeholder Files
 
@@ -260,12 +261,11 @@
 
 ### 6.7 County Boundary Visibility — Dark Mode
 
-**Status:** ✅ Fixed (2026-03-02)
+**Status:** ✅ Fixed (2026-03-06)
 
-- CSS variables `--map-boundary-stroke` and `--map-boundary-weight` added to `css/site-theme.css`
-- Light mode: `rgba(15, 23, 42, 0.55)` — dark slate with 55 % opacity
-- Dark mode: `rgba(248, 250, 252, 0.50)` — near-white with 50 % opacity
-- A theme-change `MutationObserver` is recommended to restyle Leaflet layers on toggle
+- CSS variables `--map-boundary-stroke` and `--map-boundary-weight` defined in `css/site-theme.css` — light mode `rgba(15, 23, 42, 0.55)`, dark mode `rgba(130, 180, 240, 0.55)`.
+- `co-lihtc-map.js` now reads these CSS variables via `getCountyBoundaryStyle()` and applies them when rendering the county boundary layer.
+- A `MutationObserver` on `<html>` and `<body>` class changes calls `updateCountyBoundaryTheme()` to restyle Leaflet layers immediately on dark/light toggle without requiring a page reload.
 
 ---
 
@@ -365,21 +365,25 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 ## 9. Prioritized Recommendations
 
 ### Critical
-1. **Populate `data/co-county-boundaries.json`**: Run `python scripts/boundaries/build_counties_co.py` in CI (`cache-hud-gis-data.yml`). Eliminates TIGERweb round-trip (~1–2 s) on colorado-deep-dive and market-analysis map init.
+1. **Populate `data/co-county-boundaries.json`**: Run `python scripts/boundaries/build_counties_co.py` in CI (`cache-hud-gis-data.yml`). Eliminates TIGERweb round-trip (~1–2 s) on colorado-deep-dive and market-analysis map init. TIGERweb is now 24h cached (§4.6) as a stop-gap.
 
-### High
-2. **Enrich `data/chfa-lihtc.json` COUNTY FIPS**: Update `scripts/fetch-chfa-lihtc.js` to reverse-geocode or spatial-join CNTY_FIPS from project lat/lon. All 716 records have null CNTY_NAME / CNTY_FIPS.
-3. **Populate HNA LIHTC county files**: Run `node scripts/split-lihtc-by-county.js` in CI after each CHFA LIHTC fetch. The 64 empty files in `data/hna/lihtc/` break HNA project map markers.
+### High — *Completed*
+2. ~~Enrich `data/chfa-lihtc.json` COUNTY FIPS~~ ✅ **Fixed 2026-03-06** — `CNTY_NAME` enriched from CNTY_FIPS reverse lookup; `fetch-chfa-lihtc.js` updated to persist on future fetches.
+3. ~~Populate HNA LIHTC county files~~ ✅ **Fixed 2026-03-06** — 44/64 county files now have features (716 total); `split-lihtc-by-county.js` runs after each weekly CHFA fetch.
+
+### High — *Remaining*
 4. **Run `build_public_market_data.py`**: The PMA scoring tool has placeholder data for tracts (4), centroids (20), and HUD LIHTC (10). Real data significantly improves scoring accuracy.
 
-### Medium
-5. **TIGERweb TTL cache**: Add a 24-hour `localStorage` cache for TIGERweb GeoJSON responses to reduce redundant network requests when county boundaries are placeholder.
-6. **Map boundary theme observer**: Wire a `MutationObserver` on `<html>` class changes to restyle Leaflet county boundary layers when the theme toggles (currently requires page reload to update colors in dark mode).
+### Medium — *Completed*
+5. ~~TIGERweb TTL cache~~ ✅ **Fixed 2026-03-06** — 24-hour `localStorage` cache added to `co-lihtc-map.js`.
+6. ~~Map boundary theme observer~~ ✅ **Fixed 2026-03-06** — `MutationObserver` on `<html>` and `<body>` class changes added to `co-lihtc-map.js`; county boundary style now reads CSS custom properties `--map-boundary-stroke` / `--map-boundary-weight`.
+
+### Medium — *Remaining*
 7. **Show projection uncertainty bands**: The demographic projections (§7.1) produce `low_growth` and `high_growth` scenarios but only the `baseline` is displayed. Surface all three as a shaded band in the HNA charts.
 8. **Configure Kalshi credentials**: Set `KALSHI_API_KEY` / `KALSHI_API_SECRET` in GitHub Actions to populate prediction-market data.
 
 ### Low
-9. **Expand `data/manifest.json`**: Currently tracks only `qct-colorado.json` and `dda-colorado.json`. Add all major local data files with placeholder/feature metadata for monitoring.
+9. ~~Expand `data/manifest.json`~~ ✅ **Fixed 2026-03-06** — manifest updated to reflect correct lihtc/chfa status; records all 38 tracked data files.
 10. **Retire or wire `js/data.js` and `js/app.js`**: These ES modules are not referenced by any HTML page but reference the missing `maps/us-states.geojson`. Either integrate them into a page or remove them to avoid confusion.
 11. **Add amenity scoring to PMA**: The `data/amenities/` files are ready-to-populate stubs. Run `build_osm_amenities.py` and integrate grocery/school/healthcare proximity into the PMA score.
 12. **Link validation in CI**: Run `node test/validate-links.js` in `ci-checks.yml` to catch broken internal hrefs before deploy.
