@@ -110,11 +110,11 @@
 }
 .table th[aria-sort="ascending"]::after {
   content: ' ↑';
-  color: var(--accent, #0ea5a0);
+  color: var(--accent, #0a7e74);
 }
 .table th[aria-sort="descending"]::after {
   content: ' ↓';
-  color: var(--accent, #0ea5a0);
+  color: var(--accent, #0a7e74);
 }
 .table th[aria-sort="none"]::after {
   content: ' ↕';
