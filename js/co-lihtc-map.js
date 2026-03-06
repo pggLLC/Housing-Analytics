@@ -253,13 +253,9 @@
     if (countyLayerGroup) { countyLayerGroup.clearLayers(); }
     else { countyLayerGroup = L.layerGroup(); }
 
+    var style = getCountyBoundaryStyle();
     L.geoJSON(geojson, {
-      style: {
-        color: '#334155',
-        weight: 1.5,
-        opacity: 0.8,
-        fillOpacity: 0,
-      },
+      style: style,
       onEachFeature: function(f, layer) {
         var name = (f.properties && (f.properties.NAME || f.properties.NAMELSAD)) || 'County';
         layer.bindTooltip(name, { sticky: true });
@@ -269,6 +265,25 @@
     var cbCounty = document.getElementById('layerCounties') || document.getElementById('layerCounty');
     var show = !cbCounty || cbCounty.checked !== false;
     if (show) countyLayerGroup.addTo(map);
+  }
+
+  /** Returns Leaflet path style options using CSS custom properties when available. */
+  function getCountyBoundaryStyle() {
+    var computed = window.getComputedStyle ? window.getComputedStyle(document.documentElement) : null;
+    var color  = (computed && computed.getPropertyValue('--map-boundary-stroke').trim()) || '#334155';
+    var weight = parseFloat((computed && computed.getPropertyValue('--map-boundary-weight').trim()) || '1.5') || 1.5;
+    return { color: color, weight: weight, opacity: 0.85, fillOpacity: 0 };
+  }
+
+  /** Re-applies theme-correct styles to the county boundary layer without re-fetching data. */
+  function updateCountyBoundaryTheme() {
+    if (!countyLayerGroup) return;
+    var style = getCountyBoundaryStyle();
+    countyLayerGroup.eachLayer(function(layer) {
+      if (typeof layer.setStyle === 'function') {
+        try { layer.setStyle(style); } catch(e) { /* ignore */ }
+      }
+    });
   }
 
   // ── Basemap switch ───────────────────────────────────────────────────────────
@@ -315,7 +330,18 @@
         var dark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark-mode');
         applyBasemap(map, dark ? 'dark' : 'light');
       }
+      updateCountyBoundaryTheme();
     });
+
+    // MutationObserver fallback: restyle county boundaries when the <html> or
+    // <body> class changes (covers dark-mode toggles that don't fire theme:changed).
+    if (typeof MutationObserver !== 'undefined') {
+      var _themeObserver = new MutationObserver(function() {
+        updateCountyBoundaryTheme();
+      });
+      _themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      _themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    }
   }
 
   // ── County dropdown — populate & zoom handler ─────────────────────────────────
@@ -438,13 +464,44 @@
     }
 
     // Source 2 — Census TIGERweb ArcGIS REST (State_County layer 1, Colorado STATEFP=08)
+    // Responses are cached in localStorage for 24 hours to avoid redundant round-trips
+    // when data/co-county-boundaries.json is absent or empty.
     var TIGERWEB_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
-    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP&f=geojson&outSR=4326';
+    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP%2CCOUNTYFP%2CGEOID&f=geojson&outSR=4326';
+    var TIGERWEB_CACHE_KEY = 'co-lihtc-map:tigerweb-co-counties';
+    var TIGERWEB_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in ms
+    function tWebCacheGet() {
+      try {
+        var raw = localStorage.getItem(TIGERWEB_CACHE_KEY);
+        if (!raw) return null;
+        var entry = JSON.parse(raw);
+        if (!entry || !entry.ts || !entry.data) return null;
+        if ((Date.now() - entry.ts) > TIGERWEB_CACHE_TTL) {
+          localStorage.removeItem(TIGERWEB_CACHE_KEY);
+          return null;
+        }
+        return entry.data;
+      } catch(e) { return null; }
+    }
+    function tWebCacheSet(gj) {
+      try {
+        localStorage.setItem(TIGERWEB_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: gj }));
+      } catch(e) { /* quota exceeded — ignore */ }
+    }
     function fetchTIGERweb() {
+      var cached = tWebCacheGet();
+      if (cached) {
+        console.info('[co-lihtc-map] County boundaries: TIGERweb served from 24h localStorage cache');
+        return Promise.resolve(cached);
+      }
       return fetchWithTimeout(TIGERWEB_URL + '?' + TIGERWEB_PARAMS, {}, SOURCE_TIMEOUT)
         .then(function(res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
+        })
+        .then(function(gj) {
+          tWebCacheSet(gj);
+          return gj;
         });
     }
 
