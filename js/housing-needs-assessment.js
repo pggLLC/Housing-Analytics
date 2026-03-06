@@ -258,6 +258,8 @@
     geoSelect: document.getElementById('geoSelect'),
     btnRefresh: document.getElementById('btnRefresh'),
     btnPdf: document.getElementById('btnPdf'),
+    btnCsv: document.getElementById('btnCsv'),
+    btnJson: document.getElementById('btnJson'),
     banner: document.getElementById('hnaBanner'),
     geoContextPill: document.getElementById('geoContextPill'),
     execNarrative: document.getElementById('execNarrative'),
@@ -419,42 +421,12 @@
   }
 
   async function exportPdf(){
-    // Best-effort client-side export. If it fails, fall back to print.
-    try{
-      if (!window.html2canvas || !window.jspdf){
-        window.print();
-        return;
-      }
-      const { jsPDF } = window.jspdf;
-      const node = document.querySelector('main');
-      const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#ffffff';
-      const canvas = await window.html2canvas(node, { scale: 2, useCORS: true, backgroundColor: bg });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
-
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      const imgW = pageW;
-      const imgH = canvas.height * (pageW / canvas.width);
-
-      // first page
-      pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-      let remaining = imgH - pageH;
-      let offset = 0;
-
-      while (remaining > 0){
-        pdf.addPage();
-        offset += pageH;
-        // shift image up by offset
-        pdf.addImage(imgData, 'PNG', 0, -offset, imgW, imgH);
-        remaining -= pageH;
-      }
-
-      pdf.save('housing-needs-assessment.pdf');
-    }catch(e){
-      console.warn('PDF export failed; falling back to print()', e);
-      window.print();
+    // Delegate to the dedicated export module (js/hna-export.js).
+    // Falls back to the print dialog if the module is not yet loaded.
+    if (window.__HNA_exportPdf){
+      return window.__HNA_exportPdf();
     }
+    window.print();
   }
 
   // --- Geography helpers ---
@@ -4042,6 +4014,12 @@
     els.geoSelect.addEventListener('change', update);
     els.btnRefresh.addEventListener('click', update);
     els.btnPdf?.addEventListener('click', exportPdf);
+    els.btnCsv?.addEventListener('click', ()=>{
+      if (window.__HNA_exportCsv){ window.__HNA_exportCsv(); }
+    });
+    els.btnJson?.addEventListener('click', ()=>{
+      if (window.__HNA_exportJson){ window.__HNA_exportJson(); }
+    });
 
     // Projection assumptions controls
     const onAssumpChange = ()=>{ if(state.lastProj && state.current){ applyAssumptions(state.lastProj, state.current); } };

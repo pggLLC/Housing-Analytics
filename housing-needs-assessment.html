@@ -27,6 +27,8 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
+  <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA main script -->
+  <script defer src="js/hna-export.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
@@ -55,6 +57,8 @@
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
+          <button id="btnCsv" type="button" title="Downloads key housing metrics as a CSV file">Download CSV</button>
+          <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>
         </div>
       </div>
     </section>

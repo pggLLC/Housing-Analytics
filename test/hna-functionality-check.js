@@ -291,6 +291,98 @@ test('JS: PDF export button is wired and has fallback to print()', () => {
 });
 
 // ---------------------------------------------------------------------------
+// hna-export.js: dedicated export utilities module
+// ---------------------------------------------------------------------------
+const HNA_EXPORT_JS = path.join(ROOT, 'js', 'hna-export.js');
+let exportJs = '';
+
+test('hna-export.js: module exists and is readable', () => {
+    assert(fs.existsSync(HNA_EXPORT_JS), 'js/hna-export.js exists');
+    exportJs = fs.readFileSync(HNA_EXPORT_JS, 'utf8');
+    assert(exportJs.length > 100, 'hna-export.js is non-empty');
+});
+
+test('hna-export.js: exports buildReportData on window', () => {
+    assert(exportJs.includes('window.__HNA_buildReportData'), 'window.__HNA_buildReportData is assigned');
+    assert(exportJs.includes('function buildReportData'),     'buildReportData function is defined');
+});
+
+test('hna-export.js: exports exportPdf on window', () => {
+    assert(exportJs.includes('window.__HNA_exportPdf'), 'window.__HNA_exportPdf is assigned');
+    assert(exportJs.includes('async function exportPdf'), 'exportPdf is async');
+    assert(exportJs.includes('window.print()'),           'exportPdf falls back to window.print()');
+    assert(exportJs.includes('html2canvas'),              'exportPdf uses html2canvas');
+    assert(exportJs.includes('jspdf'),                    'exportPdf uses jsPDF');
+});
+
+test('hna-export.js: exports exportCsv on window', () => {
+    assert(exportJs.includes('window.__HNA_exportCsv'), 'window.__HNA_exportCsv is assigned');
+    assert(exportJs.includes('function exportCsv'),     'exportCsv function is defined');
+    assert(exportJs.includes('text/csv'),               'exportCsv sets CSV MIME type');
+    assert(exportJs.includes('createObjectURL'),        'exportCsv triggers download via createObjectURL');
+});
+
+test('hna-export.js: exports exportJson on window', () => {
+    assert(exportJs.includes('window.__HNA_exportJson'), 'window.__HNA_exportJson is assigned');
+    assert(exportJs.includes('function exportJson'),     'exportJson function is defined');
+    assert(exportJs.includes('application/json'),        'exportJson sets JSON MIME type');
+    assert(exportJs.includes('JSON.stringify'),          'exportJson serialises data with JSON.stringify');
+});
+
+test('hna-export.js: buildReportData reads expected DOM fields', () => {
+    assert(exportJs.includes("'statPop'"),           "buildReportData reads statPop");
+    assert(exportJs.includes("'statMhi'"),           "buildReportData reads statMhi");
+    assert(exportJs.includes("'statHomeValue'"),     "buildReportData reads statHomeValue");
+    assert(exportJs.includes("'statRent'"),          "buildReportData reads statRent");
+    assert(exportJs.includes("'statTenure'"),        "buildReportData reads statTenure");
+    assert(exportJs.includes("'statRentBurden'"),    "buildReportData reads statRentBurden");
+    assert(exportJs.includes("'statCommute'"),       "buildReportData reads statCommute");
+    assert(exportJs.includes("'statBaseUnits'"),     "buildReportData reads statBaseUnits");
+    assert(exportJs.includes("'statUnitsNeed'"),     "buildReportData reads statUnitsNeed");
+    assert(exportJs.includes("'statLihtcCount'"),    "buildReportData reads statLihtcCount");
+    assert(exportJs.includes("'geoContextPill'"),    "buildReportData reads geoContextPill");
+});
+
+test('hna-export.js: CSV rows include required housing metric labels', () => {
+    assert(exportJs.includes('Population'),                     'CSV row: Population');
+    assert(exportJs.includes('Median Household Income'),        'CSV row: Median Household Income');
+    assert(exportJs.includes('Median Home Value'),              'CSV row: Median Home Value');
+    assert(exportJs.includes('Median Gross Rent'),              'CSV row: Median Gross Rent');
+    assert(exportJs.includes('Rent Burden'),                    'CSV row: Rent Burden');
+    assert(exportJs.includes('Baseline Housing Units'),         'CSV row: Baseline Housing Units');
+    assert(exportJs.includes('Estimated Units Needed'),         'CSV row: Estimated Units Needed');
+    assert(exportJs.includes('LIHTC Projects'),                 'CSV row: LIHTC Projects in County');
+    assert(exportJs.includes('Exported At'),                    'CSV row: Exported At');
+});
+
+test('HTML: hna-export.js script tag is present', () => {
+    assert(html.includes('js/hna-export.js'), 'housing-needs-assessment.html loads hna-export.js');
+});
+
+test('HTML: hna-export.js loads before housing-needs-assessment.js', () => {
+    const exportIdx = html.indexOf('hna-export.js');
+    const hnaIdx    = html.indexOf('housing-needs-assessment.js');
+    assert(exportIdx !== -1 && hnaIdx !== -1 && exportIdx < hnaIdx,
+        'hna-export.js script appears before housing-needs-assessment.js');
+});
+
+test('HTML: CSV and JSON download buttons are present', () => {
+    assert(html.includes('id="btnCsv"'),  'btnCsv button is present in HTML');
+    assert(html.includes('id="btnJson"'), 'btnJson button is present in HTML');
+});
+
+test('JS: CSV and JSON export buttons are wired in init()', () => {
+    assert(js.includes('btnCsv'),                'btnCsv is referenced in housing-needs-assessment.js');
+    assert(js.includes('btnJson'),               'btnJson is referenced in housing-needs-assessment.js');
+    assert(js.includes('__HNA_exportCsv'),       '__HNA_exportCsv is called from housing-needs-assessment.js');
+    assert(js.includes('__HNA_exportJson'),      '__HNA_exportJson is called from housing-needs-assessment.js');
+});
+
+test('JS: exportPdf delegates to window.__HNA_exportPdf', () => {
+    assert(js.includes('window.__HNA_exportPdf'), 'exportPdf delegates to window.__HNA_exportPdf');
+});
+
+// ---------------------------------------------------------------------------
 // JS: LIHTC / QCT / DDA map overlays
 // ---------------------------------------------------------------------------
 test('JS: LIHTC layer variables and fallback data are defined', () => {
