@@ -29,16 +29,16 @@
   /* Accent colors */
   --accent:       #0a7e74;
   --accent-dim:   rgba(10,126,116,.10);
-  --accent2:      #e8891a;
-  --accent2-dim:  rgba(232,137,26,.10);
-  --good:         #059669;
-  --good-dim:     rgba(5,150,105,.10);
-  --warn:         #d97706;
-  --warn-dim:     rgba(217,119,6,.10);
-  --bad:          #dc2626;
-  --bad-dim:      rgba(220,38,38,.10);
-  --info:         #2563eb;
-  --info-dim:     rgba(37,99,235,.09);
+  --accent2:      #c86f0d;
+  --accent2-dim:  rgba(200,111,13,.10);
+  --good:         #047857;
+  --good-dim:     rgba(4,120,87,.10);
+  --warn:         #b45309;
+  --warn-dim:     rgba(180,83,9,.10);
+  --bad:          #991b1b;
+  --bad-dim:      rgba(153,27,27,.10);
+  --info:         #1d4ed8;
+  --info-dim:     rgba(29,78,216,.09);
 
   /* Shadows */
   --shadow-sm:    0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);
@@ -575,18 +575,18 @@ html.light-mode {
   --border-strong: rgba(13,31,53,.20);
   --link:          #005a9c;
   --link-hover:    #004880;
-  --accent:        #3d8378;
-  --accent-dim:    rgba(61,131,120,.10);
-  --accent2:       #e8891a;
-  --accent2-dim:   rgba(232,137,26,.10);
-  --good:          #059669;
-  --good-dim:      rgba(5,150,105,.10);
-  --warn:          #d97706;
-  --warn-dim:      rgba(217,119,6,.10);
-  --bad:           #dc2626;
-  --bad-dim:       rgba(220,38,38,.10);
-  --info:          #2563eb;
-  --info-dim:      rgba(37,99,235,.09);
+  --accent:        #0a7e74;
+  --accent-dim:    rgba(10,126,116,.10);
+  --accent2:       #c86f0d;
+  --accent2-dim:   rgba(200,111,13,.10);
+  --good:          #047857;
+  --good-dim:      rgba(4,120,87,.10);
+  --warn:          #b45309;
+  --warn-dim:      rgba(180,83,9,.10);
+  --bad:           #991b1b;
+  --bad-dim:       rgba(153,27,27,.10);
+  --info:          #1d4ed8;
+  --info-dim:      rgba(29,78,216,.09);
   --shadow-sm:     0 1px 3px rgba(13,31,53,.07),0 1px 2px rgba(13,31,53,.04);
   --shadow:        0 4px 16px rgba(13,31,53,.08),0 1px 4px rgba(13,31,53,.05);
   --shadow-lg:     0 12px 40px rgba(13,31,53,.12),0 4px 12px rgba(13,31,53,.07);
