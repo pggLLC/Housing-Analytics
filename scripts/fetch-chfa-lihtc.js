@@ -510,7 +510,7 @@ function toGeoJsonFeature(esriFeature) {
   //   3. Derived from PROJ_CTY using the city→county lookup table (fallback)
   const cntyFipsFromName = resolveCntyFips(attrs.CNTY_NAME ?? null);
   const cntyFipsFromCity = resolveCntyFipsFromCity(attrs.PROJ_CTY ?? null);
-  const cntyFips = (attrs.CNTY_FIPS ?? cntyFipsFromName || cntyFipsFromCity) || '';
+  const cntyFips = (attrs.CNTY_FIPS ?? (cntyFipsFromName || cntyFipsFromCity)) || '';
   // COUNTYFP is the 3-digit suffix of the 5-digit CNTY_FIPS (e.g. "031").
   const countyFp = cntyFips ? cntyFips.slice(2) : '';
   // STATEFP is always "08" for Colorado; derive if absent.
