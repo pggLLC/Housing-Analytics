@@ -1,0 +1,41 @@
+{
+  "baseline": {
+    "description": "Baseline scenario: moderate growth following recent historical trends. Fertility rates hold steady at recent levels; net migration reflects the 2018–2023 average; mortality follows current life-table patterns.",
+    "assumptions": {
+      "fertility": "Hold at recent ACS-derived rates",
+      "migration": "County average 2018–2023 net in-migration",
+      "mortality": "Standard US life-table survival rates"
+    },
+    "parameters": {
+      "fertility_multiplier": 1.0,
+      "mortality_multiplier": 1.0,
+      "net_migration_annual": 500
+    }
+  },
+  "low_growth": {
+    "description": "Low-growth scenario: slowing in-migration, modest fertility decline, and slightly elevated mortality (aging population effect). Reflects headwinds such as affordability-driven out-migration.",
+    "assumptions": {
+      "fertility": "10% below baseline (declining household formation among young adults)",
+      "migration": "50% of baseline net in-migration",
+      "mortality": "Slightly higher (1.02× baseline mortality rate)"
+    },
+    "parameters": {
+      "fertility_multiplier": 0.90,
+      "mortality_multiplier": 1.02,
+      "net_migration_annual": 250
+    }
+  },
+  "high_growth": {
+    "description": "High-growth scenario: accelerated in-migration driven by economic expansion, slightly above-trend fertility, and continued mortality improvements. Reflects a strong regional economy drawing working-age households.",
+    "assumptions": {
+      "fertility": "5% above baseline",
+      "migration": "2× baseline net in-migration",
+      "mortality": "Slightly lower (0.98× baseline mortality rate, reflecting health improvements)"
+    },
+    "parameters": {
+      "fertility_multiplier": 1.05,
+      "mortality_multiplier": 0.98,
+      "net_migration_annual": 1000
+    }
+  }
+}

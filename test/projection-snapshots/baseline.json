@@ -1,0 +1,155 @@
+{
+  "scenario": "baseline",
+  "description": "Baseline 10-year cohort-component projection (Mesa County representative)",
+  "base_population": 144300.0,
+  "base_households": 59000.0,
+  "population_series": [
+    {
+      "year_offset": 0,
+      "total_population": 144300.0
+    },
+    {
+      "year_offset": 1,
+      "total_population": 147792.93
+    },
+    {
+      "year_offset": 2,
+      "total_population": 151257.21
+    },
+    {
+      "year_offset": 3,
+      "total_population": 154692.81
+    },
+    {
+      "year_offset": 4,
+      "total_population": 158098.86
+    },
+    {
+      "year_offset": 5,
+      "total_population": 161474.67
+    },
+    {
+      "year_offset": 6,
+      "total_population": 164820.57
+    },
+    {
+      "year_offset": 7,
+      "total_population": 168138.47
+    },
+    {
+      "year_offset": 8,
+      "total_population": 171432.36
+    },
+    {
+      "year_offset": 9,
+      "total_population": 174708.52
+    },
+    {
+      "year_offset": 10,
+      "total_population": 177975.6
+    }
+  ],
+  "household_series": [
+    {
+      "year_offset": 0,
+      "households": 59000.0
+    },
+    {
+      "year_offset": 1,
+      "households": 59157.5
+    },
+    {
+      "year_offset": 2,
+      "households": 59304.5
+    },
+    {
+      "year_offset": 3,
+      "households": 59442.0
+    },
+    {
+      "year_offset": 4,
+      "households": 59571.4
+    },
+    {
+      "year_offset": 5,
+      "households": 59695.5
+    },
+    {
+      "year_offset": 6,
+      "households": 59818.5
+    },
+    {
+      "year_offset": 7,
+      "households": 59945.8
+    },
+    {
+      "year_offset": 8,
+      "households": 60084.3
+    },
+    {
+      "year_offset": 9,
+      "households": 60241.2
+    },
+    {
+      "year_offset": 10,
+      "households": 60424.5
+    }
+  ],
+  "demand_series": [
+    {
+      "year_offset": 0,
+      "units_required": 62105.3,
+      "incremental_units": 1105.3
+    },
+    {
+      "year_offset": 1,
+      "units_required": 62271.1,
+      "incremental_units": 1271.1
+    },
+    {
+      "year_offset": 2,
+      "units_required": 62425.8,
+      "incremental_units": 1425.8
+    },
+    {
+      "year_offset": 3,
+      "units_required": 62570.5,
+      "incremental_units": 1570.5
+    },
+    {
+      "year_offset": 4,
+      "units_required": 62706.7,
+      "incremental_units": 1706.7
+    },
+    {
+      "year_offset": 5,
+      "units_required": 62837.4,
+      "incremental_units": 1837.4
+    },
+    {
+      "year_offset": 6,
+      "units_required": 62966.8,
+      "incremental_units": 1966.8
+    },
+    {
+      "year_offset": 7,
+      "units_required": 63100.8,
+      "incremental_units": 2100.8
+    },
+    {
+      "year_offset": 8,
+      "units_required": 63246.6,
+      "incremental_units": 2246.6
+    },
+    {
+      "year_offset": 9,
+      "units_required": 63411.8,
+      "incremental_units": 2411.8
+    },
+    {
+      "year_offset": 10,
+      "units_required": 63604.7,
+      "incremental_units": 2604.7
+    }
+  ]
+}

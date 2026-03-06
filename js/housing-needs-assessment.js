@@ -2816,6 +2816,378 @@
   }
 
 
+  // ---------------------------------------------------------------------------
+  // Demographic / scenario projection visualization helpers
+  // ---------------------------------------------------------------------------
+
+  // Scenario metadata loaded once from the embedded JSON (avoids a network request).
+  const PROJECTION_SCENARIOS = {
+    baseline: {
+      label: 'Baseline',
+      description: 'Moderate growth following recent historical trends. Fertility holds steady; migration reflects the 2018–2023 average.',
+      color: '#4a90d9',
+    },
+    low_growth: {
+      label: 'Low growth',
+      description: 'Slowing in-migration, modest fertility decline, slightly elevated mortality. Reflects affordability-driven headwinds.',
+      color: '#e07b39',
+    },
+    high_growth: {
+      label: 'High growth',
+      description: 'Accelerated in-migration driven by economic expansion, slightly above-trend fertility, continued mortality improvement.',
+      color: '#4caf50',
+    },
+  };
+
+  // AMI tier labels for housing demand charts
+  const AMI_TIER_LABELS = {
+    '30_ami':       '≤30% AMI',
+    '50_ami':       '31–50% AMI',
+    '80_ami':       '51–80% AMI',
+    '100_ami':      '81–100% AMI',
+    '120_ami':      '101–120% AMI',
+    'above_120_ami':'Above 120% AMI',
+  };
+
+  const AMI_TIER_COLORS = {
+    '30_ami':       '#d32f2f',
+    '50_ami':       '#f57c00',
+    '80_ami':       '#fbc02d',
+    '100_ami':      '#388e3c',
+    '120_ami':      '#1976d2',
+    'above_120_ami':'#7b1fa2',
+  };
+
+  /**
+   * renderProjectionChart — draw a line chart of projected population for one
+   * scenario over a custom year range.
+   *
+   * @param {string}   geoid    - 5-digit county FIPS (or place FIPS)
+   * @param {string}   scenario - 'baseline' | 'low_growth' | 'high_growth'
+   * @param {number}   years    - projection horizon (e.g. 10)
+   * @param {Object}   opts
+   * @param {Element}  opts.canvas  - <canvas> element to draw on
+   * @param {Array}    opts.basePopSeries  - [{year, population}, ...] from loaded projections
+   */
+  function renderProjectionChart(geoid, scenario, years, opts){
+    if (!opts || !opts.canvas) return;
+    const ctx = opts.canvas.getContext('2d');
+    const scenarioMeta = PROJECTION_SCENARIOS[scenario] || PROJECTION_SCENARIOS.baseline;
+    const t = chartTheme();
+
+    // Build a synthetic forward series from the basePopSeries if provided,
+    // or fall back to a placeholder so the chart always renders.
+    const basePopSeries = opts.basePopSeries || [];
+    const labels  = [];
+    const values  = [];
+
+    // Determine the base year from available data or current year
+    const nowYear = new Date().getFullYear();
+    const baseYear = (basePopSeries.length > 0 && basePopSeries[0].year)
+      ? Number(basePopSeries[0].year)
+      : nowYear;
+
+    // Use the provided data series where available, then extend to horizon
+    const dataByYear = {};
+    basePopSeries.forEach(pt => { dataByYear[Number(pt.year)] = Number(pt.population) || null; });
+
+    for (let y = baseYear; y <= baseYear + years; y++){
+      labels.push(y);
+      values.push(dataByYear[y] !== undefined ? dataByYear[y] : null);
+    }
+
+    makeChart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: `Population — ${scenarioMeta.label}`,
+          data:   values,
+          borderColor: scenarioMeta.color,
+          backgroundColor: scenarioMeta.color + '22',
+          borderWidth: 2,
+          pointRadius: 2,
+          tension: 0.25,
+          fill: true,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
+            },
+          },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+        },
+      },
+    });
+  }
+
+  /**
+   * renderScenarioComparison — draw a multi-line chart comparing several
+   * projection scenarios on a single axis.
+   *
+   * @param {string}   geoid          - 5-digit county or place FIPS
+   * @param {string[]} scenario_names - array of scenario keys to compare
+   * @param {Object}   opts
+   * @param {Element}  opts.canvas        - <canvas> element
+   * @param {Object}   opts.seriesByScenario - {scenarioKey: [{year, population}, ...], ...}
+   * @param {number}   [opts.years=10]   - projection horizon
+   */
+  function renderScenarioComparison(geoid, scenario_names, opts){
+    if (!opts || !opts.canvas) return;
+    const ctx  = opts.canvas.getContext('2d');
+    const t    = chartTheme();
+    const years = opts.years || 10;
+    const seriesByScenario = opts.seriesByScenario || {};
+
+    const nowYear  = new Date().getFullYear();
+    const allYears = new Set();
+    scenario_names.forEach(sc => {
+      (seriesByScenario[sc] || []).forEach(pt => allYears.add(Number(pt.year)));
+    });
+    if (!allYears.size){
+      for (let y = nowYear; y <= nowYear + years; y++) allYears.add(y);
+    }
+    const labels = Array.from(allYears).sort((a,b) => a-b);
+
+    const datasets = scenario_names.map(sc => {
+      const meta   = PROJECTION_SCENARIOS[sc] || PROJECTION_SCENARIOS.baseline;
+      const series = seriesByScenario[sc] || [];
+      const byYear = {};
+      series.forEach(pt => { byYear[Number(pt.year)] = Number(pt.population) || null; });
+      const data = labels.map(y => byYear[y] !== undefined ? byYear[y] : null);
+      return {
+        label: meta.label,
+        data,
+        borderColor: meta.color,
+        borderWidth: 2,
+        pointRadius: 2,
+        tension: 0.25,
+        fill: false,
+      };
+    });
+
+    makeChart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
+            },
+          },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+        },
+      },
+    });
+  }
+
+  /**
+   * renderHouseholdDemand — draw a stacked bar chart of projected housing demand
+   * broken out by affordability tier (AMI bands) for owner and renter segments.
+   *
+   * @param {string}   geoid               - 5-digit FIPS
+   * @param {string}   scenario            - scenario key
+   * @param {string[]} affordability_tiers - subset of AMI tier keys to display
+   * @param {Object}   opts
+   * @param {Element}  opts.canvas          - <canvas> element
+   * @param {Array}    opts.demandSeries    - array of demand-projection records:
+   *                                          [{year_offset, demand_by_ami: {owner: {...}, renter: {...}}}, ...]
+   * @param {string}   [opts.tenure='renter'] - 'owner' | 'renter' | 'both'
+   */
+  function renderHouseholdDemand(geoid, scenario, affordability_tiers, opts){
+    if (!opts || !opts.canvas) return;
+    const ctx    = opts.canvas.getContext('2d');
+    const t      = chartTheme();
+    const tenure = opts.tenure || 'renter';
+    const demandSeries = opts.demandSeries || [];
+
+    const tiers  = Array.isArray(affordability_tiers) && affordability_tiers.length
+      ? affordability_tiers
+      : Object.keys(AMI_TIER_LABELS);
+
+    const labels   = demandSeries.map(d => `Year +${d.year_offset}`);
+    const datasets = tiers.map(tier => {
+      const data = demandSeries.map(d => {
+        if (!d.demand_by_ami) return 0;
+        if (tenure === 'both'){
+          return ((d.demand_by_ami.owner || {})[tier] || 0) +
+                 ((d.demand_by_ami.renter || {})[tier] || 0);
+        }
+        return (d.demand_by_ami[tenure] || {})[tier] || 0;
+      });
+      return {
+        label: AMI_TIER_LABELS[tier] || tier,
+        data,
+        backgroundColor: AMI_TIER_COLORS[tier] || '#999',
+      };
+    });
+
+    makeChart(ctx, {
+      type: 'bar',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${fmtNum(Math.round(ctx.parsed.y))}`,
+            },
+          },
+        },
+        scales: {
+          x: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
+        },
+      },
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Scenario selector and demographic-rate sliders
+  // ---------------------------------------------------------------------------
+
+  // Scenario selector state
+  const scenarioState = {
+    current: 'baseline',
+  };
+
+  function getSelectedScenario(){
+    const el = document.getElementById('projScenario');
+    return el ? el.value : 'baseline';
+  }
+
+  function getScenarioRateOverrides(){
+    const fertility  = parseFloat((document.getElementById('scenFertility')  || {}).value);
+    const migration  = parseFloat((document.getElementById('scenMigration')  || {}).value);
+    const mortality  = parseFloat((document.getElementById('scenMortality')  || {}).value);
+    return {
+      fertilityMultiplier: Number.isFinite(fertility)  ? fertility  : 1.0,
+      netMigrationAnnual:  Number.isFinite(migration)  ? migration  : 500,
+      mortalityMultiplier: Number.isFinite(mortality)  ? mortality  : 1.0,
+    };
+  }
+
+  function updateScenarioDescription(){
+    const sc   = getSelectedScenario();
+    const meta = PROJECTION_SCENARIOS[sc];
+    const el   = document.getElementById('scenarioDescription');
+    if (el && meta) el.textContent = meta.description;
+  }
+
+  function wireScenarioControls(){
+    const scenarioSel = document.getElementById('projScenario');
+    if (scenarioSel){
+      scenarioSel.addEventListener('change', () => {
+        const sc   = scenarioSel.value;
+        const meta = PROJECTION_SCENARIOS[sc];
+        if (!meta) return;
+        // Pre-populate sliders with scenario defaults
+        const defaults = {
+          baseline:   { fertility: 1.0,  migration: 500,  mortality: 1.0  },
+          low_growth: { fertility: 0.90, migration: 250,  mortality: 1.02 },
+          high_growth:{ fertility: 1.05, migration: 1000, mortality: 0.98 },
+        };
+        const d = defaults[sc] || defaults.baseline;
+        const fEl = document.getElementById('scenFertility');
+        const mEl = document.getElementById('scenMigration');
+        const rEl = document.getElementById('scenMortality');
+        if (fEl){ fEl.value = d.fertility;  _updateSliderLabel('scenFertilityVal',  d.fertility.toFixed(2)); }
+        if (mEl){ mEl.value = d.migration;  _updateSliderLabel('scenMigrationVal',  Math.round(d.migration)); }
+        if (rEl){ rEl.value = d.mortality;  _updateSliderLabel('scenMortalityVal',  d.mortality.toFixed(2)); }
+        updateScenarioDescription();
+        // Re-render the projection charts if data is loaded
+        if (state.lastProj && state.current){ applyAssumptions(state.lastProj, state.current); }
+      });
+    }
+
+    // Slider live-update labels
+    [
+      ['scenFertility', 'scenFertilityVal', v => Number(v).toFixed(2)],
+      ['scenMigration', 'scenMigrationVal', v => Math.round(Number(v)).toLocaleString()],
+      ['scenMortality', 'scenMortalityVal', v => Number(v).toFixed(2)],
+    ].forEach(([sliderId, labelId, fmt]) => {
+      const slider = document.getElementById(sliderId);
+      if (slider){
+        slider.addEventListener('input', () => {
+          _updateSliderLabel(labelId, fmt(slider.value));
+          // Re-render after slider change
+          if (state.lastProj && state.current){ applyAssumptions(state.lastProj, state.current); }
+        });
+      }
+    });
+
+    // Save custom scenario button
+    const saveBtn = document.getElementById('btnSaveCustomScenario');
+    if (saveBtn){
+      saveBtn.addEventListener('click', () => {
+        const overrides = getScenarioRateOverrides();
+        const name = 'Custom: f×' + overrides.fertilityMultiplier.toFixed(2) +
+                     ' mig ' + Math.round(overrides.netMigrationAnnual) +
+                     ' mort×' + overrides.mortalityMultiplier.toFixed(2);
+        PROJECTION_SCENARIOS['custom'] = {
+          label:       'Custom',
+          description: name,
+          color:       '#9c27b0',
+        };
+        const sel = document.getElementById('projScenario');
+        if (sel){
+          // Add custom option if not already present
+          if (!sel.querySelector('option[value="custom"]')){
+            const opt = document.createElement('option');
+            opt.value = 'custom';
+            opt.textContent = 'Custom';
+            sel.appendChild(opt);
+          }
+          sel.value = 'custom';
+        }
+        updateScenarioDescription();
+        if (state.lastProj && state.current){ applyAssumptions(state.lastProj, state.current); }
+      });
+    }
+
+    // View toggle (population / household / housing demand)
+    const viewToggle = document.querySelectorAll('input[name="projViewToggle"]');
+    viewToggle.forEach(r => r.addEventListener('change', () => {
+      const val = r.value;
+      ['projViewPop', 'projViewHH', 'projViewDemand'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.hidden = true;
+      });
+      const showId = val === 'population' ? 'projViewPop'
+                   : val === 'household'  ? 'projViewHH'
+                   : 'projViewDemand';
+      const showEl = document.getElementById(showId);
+      if (showEl) showEl.hidden = false;
+    }));
+  }
+
+  function _updateSliderLabel(labelId, text){
+    const el = document.getElementById(labelId);
+    if (el) el.textContent = text;
+  }
+
+  // ---------------------------------------------------------------------------
+  // End demographic projection helpers
+  // ---------------------------------------------------------------------------
+
   function renderLocalResources(geoType, geoid){
     const data = window.__HNA_LOCAL_RESOURCES || {};
     const key = `${geoType}:${geoid}`;
@@ -3235,6 +3607,8 @@
     document.addEventListener('nav:rendered', ()=>{ /* no-op */ });
 
     wireLayerToggles();
+    wireScenarioControls();
+    updateScenarioDescription();
     ensureMap();
     update();
   }
@@ -3246,6 +3620,12 @@
   window.__HNA_generateComplianceReport  = generateComplianceReport;
   window.__HNA_getJurisdictionCompliance = getJurisdictionComplianceStatus;
   window.__HNA_calculateFastTrackTimeline = calculateFastTrackTimeline;
+
+  // Expose demographic projection visualization helpers for external consumers
+  window.__HNA_renderProjectionChart    = renderProjectionChart;
+  window.__HNA_renderScenarioComparison = renderScenarioComparison;
+  window.__HNA_renderHouseholdDemand    = renderHouseholdDemand;
+  window.__HNA_PROJECTION_SCENARIOS     = PROJECTION_SCENARIOS;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
