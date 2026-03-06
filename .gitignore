@@ -10,3 +10,7 @@ node_modules/
 
 # Audit reports (generated locally; uploaded as CI artifacts)
 audit-report/
+
+# macOS packaging artifacts
+.DS_Store
+__MACOSX/
