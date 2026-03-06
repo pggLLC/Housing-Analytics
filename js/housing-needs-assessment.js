@@ -1499,6 +1499,12 @@
     CNS20: 'Public Administration',
   };
 
+  // Approximate annual wage midpoints for LEHD WAC wage bands (CE01–CE03).
+  // CE01: ≤ $1,250/month → ≤ $15,000/year
+  // CE02: $1,251–$3,333/month → midpoint ≈ $27,500/year
+  // CE03: > $3,333/month → representative midpoint ≈ $55,000/year
+  const WAGE_BAND_ANNUAL = { low: 15000, medium: 27500, high: 55000 };
+
   /**
    * Calculate high-level job metrics from LEHD data.
    * Supports both WAC (full) and OD-only (inflow/outflow/within) data shapes.
@@ -1809,6 +1815,437 @@
 
     const commutingContainer = document.getElementById('commutingFlowsContainer');
     if (commutingContainer) renderCommutingFlows(commutingContainer, metrics);
+  }
+
+  // ---------------------------------------------------------------
+  // Economic Indicators — Employment Trend, Wage Trend, Industry
+  // Analysis, 4-card Dashboard, Wage Gaps
+  // ---------------------------------------------------------------
+
+  /**
+   * Render a multi-year employment trend line chart with YoY labels.
+   * Reads annualEmployment and yoyGrowth from the cached LEHD file.
+   *
+   * @param {string} geoid - 5-digit county FIPS (used for data lookup)
+   */
+  function renderEmploymentTrend(geoid) {
+    var container = document.getElementById('employmentTrendContainer');
+    if (!container) return;
+
+    var lehd = null;
+    try {
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
+      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+    } catch (_) {}
+
+    if (!lehd || !lehd.annualEmployment) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Employment trend data requires LEHD WAC annual snapshots. Run the HNA data build workflow to populate.</p>';
+      return;
+    }
+
+    var years  = Object.keys(lehd.annualEmployment).sort();
+    var counts = years.map(function(y) { return Number(lehd.annualEmployment[y]) || 0; });
+    var yoy    = lehd.yoyGrowth || {};
+
+    container.innerHTML = '<div class="chart-box"><canvas id="chartEmploymentTrend"></canvas></div>';
+    var t = chartTheme();
+    makeChart(document.getElementById('chartEmploymentTrend').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{
+          label: 'Total Jobs',
+          data: counts,
+          borderColor: 'rgba(59,130,246,.9)',
+          backgroundColor: 'rgba(59,130,246,.15)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              afterLabel: function(ctx) {
+                var yr = ctx.label;
+                var g  = yoy[yr];
+                return (g != null) ? 'YoY: ' + (g > 0 ? '+' : '') + g.toFixed(1) + '%' : '';
+              }
+            }
+          },
+          datalabels: {
+            display: false,
+          },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: {
+            ticks: { color: t.muted, callback: function(v) { return v.toLocaleString(); } },
+            grid: { color: t.border },
+          },
+        }
+      }
+    });
+
+    // Render YoY labels below the chart
+    var labelsHtml = years.slice(1).map(function(y) {
+      var g = yoy[y];
+      if (g == null) return '';
+      var cls = g > 0 ? 'color:var(--success,#22a36f)' : (g < 0 ? 'color:var(--danger,#ef4444)' : '');
+      return '<span style="margin-right:.75rem;font-size:.8rem;' + cls + '">' + y + ': ' + (g > 0 ? '+' : '') + g.toFixed(1) + '%</span>';
+    }).join('');
+    if (labelsHtml) {
+      var row = document.createElement('div');
+      row.style.cssText = 'margin-top:.4rem;line-height:1.6';
+      row.innerHTML = labelsHtml;
+      container.appendChild(row);
+    }
+  }
+
+  /**
+   * Render a dual-axis line chart: nominal wage trend vs. annual housing cost.
+   * Reads data from the LEHD wage bands and ACS profile.
+   *
+   * @param {string} geoid - 5-digit county FIPS
+   */
+  function renderWageTrend(geoid) {
+    var container = document.getElementById('wageTrendContainer');
+    if (!container) return;
+
+    var lehd = null;
+    try {
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
+      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+    } catch (_) {}
+
+    if (!lehd || !lehd.annualEmployment) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Wage trend requires LEHD WAC annual snapshots. Run the HNA data build workflow to populate.</p>';
+      return;
+    }
+
+    var years = Object.keys(lehd.annualEmployment).sort();
+    var annualWages = lehd.annualWages || {};
+
+    // Derive proxy median wage: LEHD CE02 (medium wage band midpoint ≈ $27,500 annual)
+    var wageSeries = years.map(function(y) {
+      var w = annualWages[y];
+      if (!w) return null;
+      var total = (w.low || 0) + (w.medium || 0) + (w.high || 0);
+      if (!total) return null;
+      // Weighted average using band midpoints
+      var weighted = (
+        (w.low    || 0) * WAGE_BAND_ANNUAL.low    +
+        (w.medium || 0) * WAGE_BAND_ANNUAL.medium  +
+        (w.high   || 0) * WAGE_BAND_ANNUAL.high
+      ) / total;
+      return Math.round(weighted);
+    });
+
+    container.innerHTML = '<div class="chart-box"><canvas id="chartWageTrend"></canvas></div>';
+    var t = chartTheme();
+    makeChart(document.getElementById('chartWageTrend').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{
+          label: 'Avg Annual Wage (est.)',
+          data: wageSeries,
+          borderColor: 'rgba(34,163,111,.9)',
+          backgroundColor: 'rgba(34,163,111,.1)',
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'yWage',
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { color: t.muted } },
+        },
+        scales: {
+          x: { ticks: { color: t.muted }, grid: { color: t.border } },
+          yWage: {
+            type: 'linear',
+            position: 'left',
+            title: { display: true, text: 'Est. Annual Wage ($)', color: t.muted },
+            ticks: {
+              color: t.muted,
+              callback: function(v) { return '$' + v.toLocaleString(); },
+            },
+            grid: { color: t.border },
+          },
+        }
+      }
+    });
+  }
+
+  /**
+   * Render an industry analysis combining a horizontal bar chart and
+   * an HHI concentration badge.
+   *
+   * @param {string} geoid - 5-digit county FIPS
+   */
+  function renderIndustryAnalysis(geoid) {
+    var container = document.getElementById('industryAnalysisContainer');
+    if (!container) return;
+
+    var lehd = null;
+    try {
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
+      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+    } catch (_) {}
+
+    var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries.slice(0, 10) : [];
+
+    if (!industries.length) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Industry analysis requires LEHD WAC data. Run the HNA data build workflow to populate.</p>';
+      return;
+    }
+
+    // Compute HHI from top industries
+    var totalEmp = industries.reduce(function(s, d) { return s + (d.count || 0); }, 0);
+    var hhi = 0;
+    if (totalEmp > 0) {
+      industries.forEach(function(d) {
+        var share = (d.count || 0) / totalEmp * 100;
+        hhi += share * share;
+      });
+      hhi = Math.round(hhi);
+    }
+    var hhiLabel = hhi < 1500 ? 'Competitive' : (hhi < 2500 ? 'Moderately Concentrated' : 'Highly Concentrated');
+    var hhiColor = hhi < 1500 ? '#22a36f' : (hhi < 2500 ? '#f59e0b' : '#ef4444');
+
+    container.innerHTML =
+      '<div style="margin-bottom:.5rem;font-size:.85rem">' +
+        'HHI: <strong>' + hhi.toLocaleString() + '</strong> — ' +
+        '<span style="color:' + hhiColor + '">' + hhiLabel + '</span>' +
+      '</div>' +
+      '<div class="chart-box"><canvas id="chartIndustryAnalysis"></canvas></div>';
+
+    var t = chartTheme();
+    var colors = industries.map(function(_, i) {
+      var palette = [
+        'rgba(59,130,246,.75)', 'rgba(34,163,111,.75)', 'rgba(251,191,36,.75)',
+        'rgba(239,68,68,.75)',  'rgba(168,85,247,.75)', 'rgba(20,184,166,.75)',
+        'rgba(249,115,22,.75)', 'rgba(236,72,153,.75)', 'rgba(99,102,241,.75)',
+        'rgba(156,163,175,.75)',
+      ];
+      return palette[i % palette.length];
+    });
+
+    makeChart(document.getElementById('chartIndustryAnalysis').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: industries.map(function(d) { return d.label; }),
+        datasets: [{
+          label: 'Jobs',
+          data: industries.map(function(d) { return d.count || 0; }),
+          backgroundColor: colors,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              afterLabel: function(ctx) {
+                var d = industries[ctx.dataIndex];
+                return d ? d.pct + '% of local jobs' : '';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: t.muted, callback: function(v) { return v.toLocaleString(); } },
+            grid: { color: t.border },
+          },
+          y: { ticks: { color: t.muted, font: { size: 11 } }, grid: { color: t.border } },
+        }
+      }
+    });
+  }
+
+  /**
+   * Render a 4-card economic indicator dashboard showing:
+   *   1. Total jobs (latest year)
+   *   2. YoY employment growth
+   *   3. CAGR over available years
+   *   4. Industry diversity (HHI)
+   *
+   * @param {string} geoid - 5-digit county FIPS
+   */
+  function renderEconomicIndicators(geoid) {
+    var container = document.getElementById('economicIndicatorsContainer');
+    if (!container) return;
+
+    var lehd = null;
+    try {
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
+      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+    } catch (_) {}
+
+    var annualEmp  = (lehd && lehd.annualEmployment) ? lehd.annualEmployment : {};
+    var yoyGrowth  = (lehd && lehd.yoyGrowth)        ? lehd.yoyGrowth        : {};
+    var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries : [];
+
+    var years     = Object.keys(annualEmp).sort();
+    var latestYr  = years[years.length - 1] || null;
+    var firstYr   = years[0]               || null;
+    var totalJobs = latestYr ? (Number(annualEmp[latestYr]) || null) : null;
+
+    var latestYoy = null;
+    if (latestYr && yoyGrowth[latestYr] != null) latestYoy = Number(yoyGrowth[latestYr]);
+
+    var cagr = null;
+    if (firstYr && latestYr && firstYr !== latestYr) {
+      var v0 = Number(annualEmp[firstYr]);
+      var v1 = Number(annualEmp[latestYr]);
+      var span = Number(latestYr) - Number(firstYr);
+      if (v0 > 0 && v1 > 0 && span > 0) {
+        cagr = ((Math.pow(v1 / v0, 1 / span) - 1) * 100).toFixed(2);
+      }
+    }
+
+    var hhi = 0;
+    var totalInd = industries.reduce(function(s, d) { return s + (d.count || 0); }, 0);
+    if (totalInd > 0) {
+      industries.forEach(function(d) {
+        var share = (d.count || 0) / totalInd * 100;
+        hhi += share * share;
+      });
+      hhi = Math.round(hhi);
+    }
+
+    function fmt(v) { return (v !== null && Number.isFinite(Number(v))) ? Number(v).toLocaleString() : '—'; }
+    function fmtPct(v) {
+      if (v === null || !Number.isFinite(Number(v))) return '—';
+      var n = Number(v);
+      return (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+    }
+
+    var cards = [
+      {
+        label: 'Total Jobs (' + (latestYr || '—') + ')',
+        value: fmt(totalJobs),
+        sub: 'LEHD WAC workplace-based employment',
+        color: '',
+      },
+      {
+        label: 'YoY Growth',
+        value: fmtPct(latestYoy),
+        sub: (latestYr && years[years.length - 2])
+          ? years[years.length - 2] + ' → ' + latestYr
+          : 'Year-over-year change',
+        color: latestYoy !== null ? (latestYoy > 0 ? '#22a36f' : (latestYoy < 0 ? '#ef4444' : '')) : '',
+      },
+      {
+        label: 'CAGR',
+        value: fmtPct(cagr),
+        sub: firstYr && latestYr ? firstYr + ' → ' + latestYr + ' compound annual growth' : 'Compound annual growth rate',
+        color: cagr !== null ? (Number(cagr) > 0 ? '#22a36f' : (Number(cagr) < 0 ? '#ef4444' : '')) : '',
+      },
+      {
+        label: 'Industry HHI',
+        value: hhi > 0 ? hhi.toLocaleString() : '—',
+        sub: hhi < 1500 ? 'Competitive market' : (hhi < 2500 ? 'Moderately concentrated' : 'Highly concentrated'),
+        color: hhi < 1500 ? '#22a36f' : (hhi < 2500 ? '#f59e0b' : '#ef4444'),
+      },
+    ];
+
+    container.innerHTML = cards.map(function(c) {
+      return '<div class="metric-card">' +
+        '<div class="mc-label">' + c.label + '</div>' +
+        '<div class="mc-value"' + (c.color ? ' style="color:' + c.color + '"' : '') + '>' + c.value + '</div>' +
+        '<div class="mc-sub">' + c.sub + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  /**
+   * Render a wage-gap affordability table showing each LEHD wage tier vs.
+   * local median rent.
+   *
+   * @param {string} geoid   - 5-digit county FIPS
+   * @param {object} profile - ACS profile (for median rent DP04_0134E)
+   */
+  function renderWageGaps(geoid, profile) {
+    var container = document.getElementById('wageGapsContainer');
+    if (!container) return;
+
+    var monthlyRent = null;
+    if (profile) {
+      var rentVal = Number(profile.DP04_0134E);
+      if (Number.isFinite(rentVal) && rentVal > 0) monthlyRent = rentVal;
+    }
+
+    var WAGE_TIERS = [
+      { label: 'Low wage (CE01)',    annualWage: WAGE_BAND_ANNUAL.low,    desc: '≤ $1,250/mo LEHD' },
+      { label: 'Medium wage (CE02)', annualWage: WAGE_BAND_ANNUAL.medium, desc: '$1,251–$3,333/mo LEHD' },
+      { label: 'High wage (CE03)',   annualWage: WAGE_BAND_ANNUAL.high,   desc: '> $3,333/mo LEHD' },
+    ];
+
+    var rows = WAGE_TIERS.map(function(tier) {
+      var maxRent = tier.annualWage * 0.30 / 12;
+      var deficit = monthlyRent !== null ? monthlyRent - maxRent : null;
+      var canAfford = deficit !== null ? deficit <= 0 : null;
+      return {
+        tier: tier.label,
+        desc: tier.desc,
+        annualWage: tier.annualWage,
+        maxRent: Math.round(maxRent),
+        actualRent: monthlyRent !== null ? Math.round(monthlyRent) : null,
+        deficit: deficit !== null ? Math.round(deficit) : null,
+        canAfford: canAfford,
+      };
+    });
+
+    var fmtDollar = function(v) { return v !== null ? '$' + v.toLocaleString() : '—'; };
+
+    container.innerHTML =
+      '<table class="commuting-table" aria-label="Wage-rent affordability gap by tier">' +
+        '<thead><tr>' +
+          '<th>Wage Tier</th>' +
+          '<th>Est. Annual Wage</th>' +
+          '<th>Max Affordable Rent/mo</th>' +
+          '<th>Actual Median Rent/mo</th>' +
+          '<th>Monthly Gap</th>' +
+          '<th>Can Afford?</th>' +
+        '</tr></thead>' +
+        '<tbody>' +
+        rows.map(function(r) {
+          var gapStyle = '';
+          if (r.deficit !== null) {
+            gapStyle = r.deficit > 0
+              ? 'color:#ef4444;font-weight:600'
+              : 'color:#22a36f';
+          }
+          return '<tr>' +
+            '<td>' + r.tier + '<br><small style="color:var(--muted)">' + r.desc + '</small></td>' +
+            '<td>' + fmtDollar(r.annualWage) + '</td>' +
+            '<td>' + fmtDollar(r.maxRent) + '</td>' +
+            '<td>' + fmtDollar(r.actualRent) + '</td>' +
+            '<td style="' + gapStyle + '">' +
+              (r.deficit !== null ? (r.deficit > 0 ? '+$' + r.deficit.toLocaleString() : '—') : '—') +
+            '</td>' +
+            '<td>' + (r.canAfford === null ? '—' : (r.canAfford ? '✅ Yes' : '❌ No')) + '</td>' +
+            '</tr>';
+        }).join('') +
+        '</tbody>' +
+      '</table>' +
+      (monthlyRent === null
+        ? '<p style="color:var(--muted);font-size:.8rem;margin-top:.4rem">Median rent not available from ACS data; gap column shows estimates only.</p>'
+        : '');
   }
 
   // ---------------------------------------------------------------
@@ -3519,6 +3956,16 @@
     // Labor Market section (uses LEHD + ACS profile)
     renderLaborMarketSection(lehd, profile);
 
+    // Economic indicators — trend charts and affordability gap table
+    const econGeoid = geoType === 'county' ? geoid : contextCounty;
+    if (!window.__HNA_LEHD_CACHE) window.__HNA_LEHD_CACHE = {};
+    if (lehd) window.__HNA_LEHD_CACHE[econGeoid] = lehd;
+    renderEconomicIndicators(econGeoid);
+    renderEmploymentTrend(econGeoid);
+    renderWageTrend(econGeoid);
+    renderIndustryAnalysis(econGeoid);
+    renderWageGaps(econGeoid, profile);
+
     // Prop 123 compliance section (uses ACS profile + geoType)
     renderProp123Section(profile, geoType);
 
@@ -3626,6 +4073,13 @@
   window.__HNA_renderScenarioComparison = renderScenarioComparison;
   window.__HNA_renderHouseholdDemand    = renderHouseholdDemand;
   window.__HNA_PROJECTION_SCENARIOS     = PROJECTION_SCENARIOS;
+
+  // Expose economic indicator visualization helpers for external consumers
+  window.__HNA_renderEmploymentTrend   = renderEmploymentTrend;
+  window.__HNA_renderWageTrend         = renderWageTrend;
+  window.__HNA_renderIndustryAnalysis  = renderIndustryAnalysis;
+  window.__HNA_renderEconomicIndicators = renderEconomicIndicators;
+  window.__HNA_renderWageGaps          = renderWageGaps;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
