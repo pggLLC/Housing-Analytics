@@ -34,6 +34,11 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: npm install --omit=dev node-fetch@2
 
@@ -164,15 +169,18 @@ jobs:
       - name: Normalize DDA data (map HUD field names to front-end schema)
         run: node scripts/normalize-dda.js
 
+      - name: Build Colorado county boundaries
+        run: python scripts/boundaries/build_counties_co.py
+
       - name: Commit and push cached overlay files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/qct-colorado.json data/dda-colorado.json
+          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson
           if git diff --cached --quiet; then
             echo "No changes to overlay cache files"
           else
-            git commit -m "chore: update HUD QCT/DDA overlay cache [$(date -u '+%Y-%m-%d')]"
+            git commit -m "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]"
             git restore .
             git pull --rebase origin main
             git push
