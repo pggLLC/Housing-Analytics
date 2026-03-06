@@ -4,7 +4,8 @@
 Writes:
 - data/hna/geo-config.json (county list + featured)
 - data/hna/summary/{geoid}.json (ACS profile + S0801 for featured geos)
-- data/hna/lehd/{countyFips5}.json (LEHD LODES OD inflow/outflow/within by county)
+- data/hna/lehd/{countyFips5}.json (LEHD LODES OD inflow/outflow/within by county,
+  plus annual WAC employment snapshots and YoY growth rates for 2019–2023)
 - data/hna/dola_sya/{countyFips5}.json (DOLA/SDO single-year-of-age pyramid + senior pressure)
 
 Designed to run in GitHub Actions. All sources are public.
@@ -932,6 +933,204 @@ def build_lehd_by_county():
     print(f"✓ LEHD county summaries written: {len(county_ids)}")
 
 
+# WAC columns to aggregate: total employment + wage bands + top industries
+_WAC_TOTAL_COL = 'C000'
+_WAC_WAGE_COLS = ('CE01', 'CE02', 'CE03')
+_WAC_INDUSTRY_COLS = (
+    'CNS01', 'CNS02', 'CNS03', 'CNS04', 'CNS05', 'CNS06', 'CNS07',
+    'CNS08', 'CNS09', 'CNS10', 'CNS11', 'CNS12', 'CNS13', 'CNS14',
+    'CNS15', 'CNS16', 'CNS17', 'CNS18', 'CNS19', 'CNS20',
+)
+_WAC_INDUSTRY_LABELS = {
+    'CNS01': 'Agriculture & Forestry',
+    'CNS02': 'Mining & Oil/Gas',
+    'CNS03': 'Utilities',
+    'CNS04': 'Construction',
+    'CNS05': 'Manufacturing',
+    'CNS06': 'Wholesale Trade',
+    'CNS07': 'Retail Trade',
+    'CNS08': 'Transportation & Warehousing',
+    'CNS09': 'Information',
+    'CNS10': 'Finance & Insurance',
+    'CNS11': 'Real Estate',
+    'CNS12': 'Professional & Technical Services',
+    'CNS13': 'Management',
+    'CNS14': 'Admin & Waste Services',
+    'CNS15': 'Educational Services',
+    'CNS16': 'Healthcare & Social Assistance',
+    'CNS17': 'Arts & Entertainment',
+    'CNS18': 'Accommodation & Food Services',
+    'CNS19': 'Other Services',
+    'CNS20': 'Public Administration',
+}
+# Years to fetch for multi-year WAC snapshots (OD year is separate from WAC)
+_WAC_SNAPSHOT_YEARS = [2019, 2020, 2021, 2022, 2023]
+
+
+def _fetch_wac_gz(year: int, state: str = 'co') -> bytes | None:
+    """Download a LEHD WAC gzip file for *year*.  Returns None on HTTP error."""
+    url = (
+        f"https://lehd.ces.census.gov/data/lodes/LODES8/{state}/wac/"
+        f"{state}_wac_S000_JT00_{year}.csv.gz"
+    )
+    print(f"  Downloading WAC {year}: {url}", file=sys.stderr)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
+        with urllib.request.urlopen(req, timeout=120) as r:
+            if r.status == 404:
+                print(f"  WAC {year}: 404 (file not yet published)", file=sys.stderr)
+                return None
+            raw = r.read()
+        print(f"  WAC {year}: {len(raw):,} bytes downloaded", file=sys.stderr)
+        return raw
+    except Exception as exc:
+        print(f"  WAC {year}: download error — {exc}", file=sys.stderr)
+        return None
+
+
+def _parse_wac_by_county(raw_gz: bytes) -> dict[str, dict[str, int]]:
+    """Parse a WAC gzip CSV and return {county_fips5: {col: total, …}}."""
+    agg: dict[str, dict[str, int]] = {}
+    cols_to_agg = (_WAC_TOTAL_COL,) + _WAC_WAGE_COLS + _WAC_INDUSTRY_COLS
+
+    with gzip.GzipFile(fileobj=io.BytesIO(raw_gz), mode='rb') as gz:
+        reader = csv.DictReader(io.TextIOWrapper(gz, encoding='utf-8', newline=''))
+        for row in reader:
+            geocode = row.get('w_geocode', '')
+            if len(geocode) < 5:
+                continue
+            county = geocode[:5]
+            bucket = agg.setdefault(county, {})
+            for col in cols_to_agg:
+                val = row.get(col)
+                if val:
+                    try:
+                        bucket[col] = bucket.get(col, 0) + int(val)
+                    except ValueError:
+                        pass
+    return agg
+
+
+def build_lehd_wac_snapshots() -> None:
+    """Fetch LEHD WAC data for 2019–2023 and merge into existing LEHD county files.
+
+    For each county, adds/updates:
+      - annualEmployment : {year: total_jobs, …}
+      - annualWages      : {year: {low, medium, high}, …}
+      - yoyGrowth        : {year: pct_change, …} (vs. prior year)
+      - wacYear          : most recent WAC year successfully fetched
+      - industries       : top-20 industry breakdown from the most recent year
+    """
+    print("\nBuilding LEHD WAC annual employment snapshots (2019–2023)…")
+    year_county: dict[int, dict[str, dict[str, int]]] = {}
+
+    for yr in _WAC_SNAPSHOT_YEARS:
+        raw = _fetch_wac_gz(yr)
+        if raw is None:
+            print(f"  Skipping WAC {yr}", file=sys.stderr)
+            continue
+        by_county = _parse_wac_by_county(raw)
+        year_county[yr] = by_county
+        print(f"  WAC {yr}: {len(by_county)} counties parsed", file=sys.stderr)
+
+    if not year_county:
+        print("  No WAC data available; skipping WAC snapshot update.", file=sys.stderr)
+        return
+
+    sorted_years = sorted(year_county)
+    primary_year = sorted_years[-1]
+    print(f"  Primary WAC year: {primary_year}", file=sys.stderr)
+
+    lehd_dir = OUT['lehd_dir']
+    updated = 0
+
+    for county_fips5 in sorted(
+        {c for yr_data in year_county.values() for c in yr_data}
+    ):
+        # Annual total employment per year
+        annual_emp: dict[str, int] = {}
+        annual_wages: dict[str, dict[str, int]] = {}
+
+        for yr in sorted_years:
+            agg = year_county.get(yr, {}).get(county_fips5)
+            if agg:
+                annual_emp[str(yr)] = agg.get(_WAC_TOTAL_COL, 0)
+                annual_wages[str(yr)] = {
+                    'low':    agg.get('CE01', 0),
+                    'medium': agg.get('CE02', 0),
+                    'high':   agg.get('CE03', 0),
+                }
+
+        # YoY growth rates
+        yoy_growth: dict[str, float | None] = {}
+        yr_list = sorted_years
+        for i in range(1, len(yr_list)):
+            prev_yr = yr_list[i - 1]
+            curr_yr = yr_list[i]
+            prev_val = annual_emp.get(str(prev_yr))
+            curr_val = annual_emp.get(str(curr_yr))
+            if prev_val and curr_val and prev_val > 0:
+                pct = round((curr_val - prev_val) / prev_val * 100.0, 2)
+            else:
+                pct = None
+            yoy_growth[str(curr_yr)] = pct
+
+        # Industry breakdown from primary year
+        primary_agg = year_county.get(primary_year, {}).get(county_fips5, {})
+        total = primary_agg.get(_WAC_TOTAL_COL, 0)
+        industries = []
+        for col in _WAC_INDUSTRY_COLS:
+            count = primary_agg.get(col, 0)
+            if count > 0:
+                pct = round(count / total * 100.0, 1) if total > 0 else 0.0
+                industries.append({
+                    'naics': col,
+                    'label': _WAC_INDUSTRY_LABELS.get(col, col),
+                    'count': count,
+                    'pct': pct,
+                })
+        industries.sort(key=lambda x: x['count'], reverse=True)
+
+        # Also store top-level WAC fields for primary year (compatible with JS)
+        wac_primary = primary_agg or {}
+
+        # Merge into existing LEHD county file
+        lehd_path = os.path.join(lehd_dir, f"{county_fips5}.json")
+        try:
+            with open(lehd_path, 'r', encoding='utf-8') as f:
+                payload = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            payload = {
+                'updated': utc_now_z(),
+                'countyFips': county_fips5,
+                'within': 0,
+                'inflow': 0,
+                'outflow': 0,
+            }
+
+        payload.update({
+            'wacYear':          primary_year,
+            'annualEmployment': annual_emp,
+            'annualWages':      annual_wages,
+            'yoyGrowth':        yoy_growth,
+            'industries':       industries,
+        })
+
+        # Copy WAC primary-year fields (C000, CE01–CE03, CNS01–CNS20) for JS compatibility
+        for col in (_WAC_TOTAL_COL,) + _WAC_WAGE_COLS + _WAC_INDUSTRY_COLS:
+            if col in wac_primary:
+                payload[col] = wac_primary[col]
+        if total > 0:
+            payload['C000'] = total
+
+        with open(lehd_path, 'w', encoding='utf-8') as f:
+            json.dump(payload, f)
+        _log_file_written(lehd_path, f"lehd-wac:{county_fips5}")
+        updated += 1
+
+    print(f"✓ LEHD WAC snapshots merged into {updated} county files (years: {sorted_years})")
+
+
 def build_dola_sya_by_county():
     # URL discovered via SDO Data Download page: https://demography.dola.colorado.gov/assets/html/sdodata.html
     url = 'https://storage.googleapis.com/co-publicdata/sya-county.csv'
@@ -1530,6 +1729,8 @@ def main():
     if os.environ.get('SKIP_LEHD', '').lower() != 'true':
         _log_step('LEHD by county')
         build_lehd_by_county()
+        _log_step('LEHD WAC annual snapshots (2019–2023)')
+        build_lehd_wac_snapshots()
     else:
         print('  ℹ Skipping LEHD (SKIP_LEHD=true)')
 
