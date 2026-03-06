@@ -258,6 +258,122 @@
         </div>
       </div>
 
+      <!-- Scenario-based demographic projections -->
+      <div class="chart-card span-12" id="scenario-projections-section">
+        <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
+        <p>
+          Cohort-component forward projections under three growth scenarios.
+          Adjust scenario assumptions below and switch views to compare population,
+          household formation, and housing demand by affordability tier.
+        </p>
+
+        <!-- Scenario selector row -->
+        <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
+          <div class="span-4">
+            <label for="projScenario" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Scenario</label>
+            <select id="projScenario" class="control" style="width:100%">
+              <option value="baseline" selected>Baseline</option>
+              <option value="low_growth">Low growth</option>
+              <option value="high_growth">High growth</option>
+            </select>
+          </div>
+          <div class="span-8" style="display:flex;align-items:center">
+            <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
+              Moderate growth following recent historical trends.
+            </p>
+          </div>
+        </div>
+
+        <!-- View toggle -->
+        <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+            <input type="radio" name="projViewToggle" value="population" checked>
+            <span>Population</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+            <input type="radio" name="projViewToggle" value="household">
+            <span>Households</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+            <input type="radio" name="projViewToggle" value="demand">
+            <span>Housing demand</span>
+          </label>
+        </div>
+
+        <!-- Population view -->
+        <div id="projViewPop" style="margin-top:12px">
+          <div class="hna-grid" style="margin-top:0">
+            <div class="chart-card span-8" style="margin:0">
+              <h3 style="font-size:.95rem;margin:0 0 8px">Population projection by scenario</h3>
+              <div class="chart-box tall"><canvas id="chartScenarioComparison" aria-label="Scenario comparison chart"></canvas></div>
+            </div>
+            <div class="chart-card span-4" style="margin:0">
+              <h3 style="font-size:.95rem;margin:0 0 8px">Single-scenario detail</h3>
+              <div class="chart-box tall"><canvas id="chartProjectionDetail" aria-label="Single-scenario projection chart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Household view -->
+        <div id="projViewHH" hidden style="margin-top:12px">
+          <div class="chart-card" style="margin:0">
+            <h3 style="font-size:.95rem;margin:0 0 8px">Projected households over time</h3>
+            <div class="chart-box tall"><canvas id="chartProjectedHH" aria-label="Household projection chart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Housing demand view -->
+        <div id="projViewDemand" hidden style="margin-top:12px">
+          <div class="chart-card" style="margin:0">
+            <h3 style="font-size:.95rem;margin:0 0 8px">Housing demand by affordability tier (renter)</h3>
+            <div class="chart-box tall"><canvas id="chartHouseholdDemand" aria-label="Housing demand by AMI tier chart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Projection assumption sliders (demographic rates) -->
+        <div class="chart-card" style="padding:12px;margin-top:16px;background:rgba(255,255,255,.04)">
+          <h3 style="margin:0 0 10px;font-size:.95rem">Projection assumption overrides</h3>
+          <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
+            <div class="span-4">
+              <label for="scenFertility" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                Fertility rate multiplier
+              </label>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input id="scenFertility" type="range" min="0.5" max="2.0" step="0.01" value="1.0" style="flex:1" aria-label="Fertility rate multiplier" />
+                <div id="scenFertilityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
+              </div>
+            </div>
+            <div class="span-4">
+              <label for="scenMigration" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                Net migration (annual)
+              </label>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input id="scenMigration" type="range" min="-500" max="3000" step="50" value="500" style="flex:1" aria-label="Annual net migration" />
+                <div id="scenMigrationVal" style="min-width:48px;text-align:right;color:var(--text);font-weight:700">500</div>
+              </div>
+            </div>
+            <div class="span-4">
+              <label for="scenMortality" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                Mortality rate multiplier
+              </label>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input id="scenMortality" type="range" min="0.8" max="1.2" step="0.01" value="1.0" style="flex:1" aria-label="Mortality rate multiplier" />
+                <div id="scenMortalityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:flex;align-items:center;justify-content:flex-end">
+            <button id="btnSaveCustomScenario" class="control" style="padding:6px 14px;font-size:.85rem;cursor:pointer">
+              Save as custom scenario
+            </button>
+          </div>
+          <p style="margin:10px 0 0;color:var(--muted);font-size:.88rem">
+            Sliders override the selected scenario's default assumptions. Changes apply immediately to all projection charts.
+            Use "Save as custom scenario" to compare your custom settings alongside baseline/low/high growth.
+          </p>
+        </div>
+      </div>
+
       <!-- Labor Market Metrics -->
       <section id="labor-market-section" class="chart-card span-12 labor-market-section">
         <h2>Labor Market Context</h2>
