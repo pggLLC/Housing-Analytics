@@ -110,7 +110,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": null
+      "note": "Seed placeholder — run scripts/boundaries/build_counties_co.py to populate."
     },
     "data/co-county-demographics.json": {
       "sizeKb": 20.7,
