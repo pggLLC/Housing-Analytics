@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-06T06:57:55.366Z",
+  "generated": "2026-03-06T07:36:58Z",
   "totalFiles": 837,
   "totalSizeKb": 21217.3,
   "placeholders": 28,
@@ -20,7 +20,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/amenities/build_osm_amenities.py to populate."
     },
     "data/amenities/healthcare_co.geojson": {
       "sizeKb": 0.3,
@@ -29,7 +29,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/amenities/build_osm_amenities.py to populate."
     },
     "data/amenities/retail_nodes_co.geojson": {
       "sizeKb": 0.3,
@@ -38,7 +38,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/amenities/build_osm_amenities.py to populate."
     },
     "data/amenities/schools_co.geojson": {
       "sizeKb": 0.3,
@@ -47,7 +47,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/amenities/build_osm_amenities.py to populate."
     },
     "data/boundaries/counties_co.geojson": {
       "sizeKb": 0.3,
@@ -56,7 +56,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/boundaries/build_counties_co.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/boundaries/build_counties_co.py to populate."
     },
     "data/car-market-report-2026-02.json": {
       "sizeKb": 2.2,
@@ -101,7 +101,7 @@
       "recordCount": null,
       "geoCoverage": "Colorado",
       "placeholder": false,
-      "note": null
+      "note": "CNTY_NAME enriched from CNTY_FIPS reverse lookup; 44 distinct county FIPS values"
     },
     "data/co-county-boundaries.json": {
       "sizeKb": 0.2,
@@ -110,7 +110,7 @@
       "recordCount": null,
       "geoCoverage": null,
       "placeholder": true,
-      "note": "Seed placeholder — run scripts/boundaries/build_counties_co.py to populate."
+      "note": "Seed placeholder \u2014 run scripts/boundaries/build_counties_co.py to populate."
     },
     "data/co-county-demographics.json": {
       "sizeKb": 20.7,
@@ -361,8 +361,8 @@
       "featureCount": null,
       "recordCount": 64,
       "geoCoverage": "Colorado (64 counties)",
-      "placeholder": true,
-      "note": "20 of 64 files empty"
+      "placeholder": false,
+      "note": "44 of 64 counties have LIHTC features (716 total); 20 counties have no LIHTC projects (correct)"
     },
     "data/hna/projections/*.json": {
       "sizeKb": 182.4,
