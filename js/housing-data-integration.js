@@ -198,6 +198,11 @@
 
     try {
       const data = await _fetchJson("data/kashli-market-data.json");
+      // Treat missing, empty, or error-flagged markets as unavailable
+      if (!data || data.error) return null;
+      const markets = data.markets;
+      if (!markets || typeof markets !== 'object') return null;
+      if (Object.keys(markets).length === 0) return null;
       _set("kashli", data);
       return data;
     } catch (err) {

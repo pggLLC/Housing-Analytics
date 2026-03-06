@@ -80,6 +80,7 @@
   }
 
   let _barChart = null, _radarChart = null;
+  let _ps1Initialized = false;
 
   function renderBarCharts(container) {
     if (!window.Chart) return;
@@ -153,7 +154,8 @@
 
     const canvas = container.querySelector("#psRadar");
     if (!canvas) return;
-    new Chart(canvas, {
+    if (_radarChart) { _radarChart.destroy(); _radarChart = null; }
+    _radarChart = new Chart(canvas, {
       type: "radar",
       data: { labels: radarLabels, datasets },
       options: {
@@ -259,10 +261,17 @@
     renderBarCharts(root);
     renderRadarChart(root);
 
-    root.querySelector("#psExportBtn").addEventListener("click", exportCSV);
+    const exportBtn = root.querySelector("#psExportBtn");
+    if (exportBtn) exportBtn.addEventListener("click", exportCSV);
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("DOMContentLoaded", function () {
+    // Defer to the authoritative PolicySimulator if it is defined (second implementation).
+    if (window.PolicySimulator) return;
+    if (_ps1Initialized) return;
+    _ps1Initialized = true;
+    init();
+  });
 })();
 /**
  * policy-simulator.js

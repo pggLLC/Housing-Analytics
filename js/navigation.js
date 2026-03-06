@@ -162,6 +162,23 @@
     // Inject drawer into body
     document.body.appendChild(drawer);
 
+    // Inject a site-wide #statusPanel after the header if one doesn't already exist
+    if (!document.getElementById('statusPanel')) {
+      const sp = document.createElement('div');
+      sp.id = 'statusPanel';
+      sp.setAttribute('aria-live', 'polite');
+      sp.setAttribute('role', 'status');
+      sp.style.cssText = 'display:none;';
+      const headerEl = document.querySelector('header.site-header, header');
+      if (headerEl && headerEl.parentNode) {
+        if (headerEl.nextSibling) {
+          headerEl.parentNode.insertBefore(sp, headerEl.nextSibling);
+        } else {
+          headerEl.parentNode.appendChild(sp);
+        }
+      }
+    }
+
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }
 
