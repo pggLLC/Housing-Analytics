@@ -42,8 +42,8 @@
 
 /* Primary */
 .btn-primary {
-  background-color: var(--accent, #0ea5a0);
-  border-color: var(--accent, #0ea5a0);
+  background-color: var(--accent, #0a7e74);
+  border-color: var(--accent, #0a7e74);
   color: #fff;
 }
 .btn-primary:hover {
@@ -64,7 +64,7 @@
 }
 .btn-secondary:hover {
   background-color: var(--bg2, #e4ecf4);
-  border-color: var(--accent, #0ea5a0);
+  border-color: var(--accent, #0a7e74);
   color: var(--text, #0d1f35);
 }
 .btn-secondary:active {
@@ -74,8 +74,8 @@
 /* Outline */
 .btn-outline {
   background-color: transparent;
-  border-color: var(--accent, #0ea5a0);
-  color: var(--accent, #0ea5a0);
+  border-color: var(--accent, #0a7e74);
+  color: var(--accent, #0a7e74);
 }
 .btn-outline:hover {
   background-color: var(--accent-dim, rgba(14,165,160,.10));
@@ -162,7 +162,7 @@
   animation: btn-spin 0.65s linear infinite;
 }
 .btn-primary.btn-loading::after  { border-color: rgba(255,255,255,.6); border-right-color: transparent; }
-.btn-outline.btn-loading::after  { border-color: var(--accent, #0ea5a0); border-right-color: transparent; }
+.btn-outline.btn-loading::after  { border-color: var(--accent, #0a7e74); border-right-color: transparent; }
 
 @keyframes btn-spin {
   to { transform: rotate(360deg); }

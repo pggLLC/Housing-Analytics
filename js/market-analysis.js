@@ -332,7 +332,7 @@
       dims.workforce
     ];
     var cs = getComputedStyle(document.documentElement);
-    var accent = cs.getPropertyValue('--accent').trim() || '#0ea5a0';
+    var accent = cs.getPropertyValue('--accent').trim() || '#0a7e74';
     var muted  = cs.getPropertyValue('--muted').trim()  || '#476080';
     var border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.11)';
 
@@ -529,8 +529,8 @@
           var inProp123 = isInProp123Jurisdiction(f);
           return window.L.circleMarker(latlng, {
             radius: 5,
-            color: inProp123 ? '#7c3aed' : '#0ea5a0',
-            fillColor: inProp123 ? '#7c3aed' : '#0ea5a0',
+            color: inProp123 ? '#7c3aed' : '#0a7e74',
+            fillColor: inProp123 ? '#7c3aed' : '#0a7e74',
             fillOpacity: 0.7, weight: 1.5
           });
         },
@@ -582,7 +582,7 @@
         items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
       }
       if (overlayMaps['LIHTC Projects']) {
-        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0ea5a0"></span> LIHTC');
+        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
       }
       div.innerHTML = items.map(function (i) { return '<div>' + i + '</div>'; }).join('');
       return div;

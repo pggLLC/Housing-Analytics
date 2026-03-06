@@ -33,7 +33,7 @@ No JavaScript is required for the basic OS-preference-based behaviour.
 | `--card` | `#ffffff` | `#0d1e30` |
 | `--text` | `#0d1f35` | `rgba(215,232,248,.93)` |
 | `--muted` | `#476080` | `rgba(155,185,215,.72)` |
-| `--accent` | `#0ea5a0` | `#0fd4cf` |
+| `--accent` | `#0a7e74` | `#0fd4cf` |
 | `--accent2` (gold) | `#e8891a` | `#fbbf24` |
 | `--link` | `#0b7285` | `#5ecbcc` |
 | `--good` | `#059669` | `#34d399` |

@@ -334,7 +334,7 @@
 }
 .page-hero {
   background: linear-gradient(135deg,
-    color-mix(in srgb, var(--accent, #0ea5a0) 15%, var(--bg, #f0f4f8)) 0%,
+    color-mix(in srgb, var(--accent, #0a7e74) 15%, var(--bg, #f0f4f8)) 0%,
     var(--bg, #f0f4f8) 60%);
   border-radius: var(--radius-lg, 16px);
   padding: 2rem 2rem 1.5rem;
@@ -343,9 +343,9 @@
 
 .page-hero .pill {
   display: inline-block;
-  background: color-mix(in srgb, var(--accent, #0ea5a0) 15%, transparent);
-  color: var(--accent, #0ea5a0);
-  border: 1px solid color-mix(in srgb, var(--accent, #0ea5a0) 30%, transparent);
+  background: color-mix(in srgb, var(--accent, #0a7e74) 15%, transparent);
+  color: var(--accent, #0a7e74);
+  border: 1px solid color-mix(in srgb, var(--accent, #0a7e74) 30%, transparent);
   border-radius: 999px;
   padding: 3px 14px;
   font-size: var(--tiny);
@@ -436,7 +436,7 @@
   width: 1.75rem;
   height: 1.75rem;
   border: 3px solid var(--border, rgba(13, 31, 53, .12));
-  border-top-color: var(--accent, #0ea5a0);
+  border-top-color: var(--accent, #0a7e74);
   border-radius: 50%;
   animation: ui-spin 0.7s linear infinite;
 }
