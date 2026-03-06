@@ -57,7 +57,7 @@
   min-height: 44px; /* WCAG touch target */
 }
 .navbar-brand:hover {
-  color: var(--accent, #0ea5a0);
+  color: var(--accent, #0a7e74);
 }
 .navbar-brand:focus-visible {
   outline: none;
@@ -115,7 +115,7 @@
 /* Active state */
 .navbar-link.active,
 .navbar-link[aria-current="page"] {
-  color: var(--accent, #0ea5a0);
+  color: var(--accent, #0a7e74);
   background-color: var(--accent-dim, rgba(14,165,160,.10));
 }
 
@@ -128,7 +128,7 @@
   left: 0.75rem;
   right: 0.75rem;
   height: 2px;
-  background: var(--accent, #0ea5a0);
+  background: var(--accent, #0a7e74);
   border-radius: 2px 2px 0 0;
 }
 
@@ -256,7 +256,7 @@
   transition: color 0.15s ease;
 }
 .breadcrumb-link:hover {
-  color: var(--accent, #0ea5a0);
+  color: var(--accent, #0a7e74);
 }
 .breadcrumb-link:focus-visible {
   outline: none;

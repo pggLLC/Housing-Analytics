@@ -18,7 +18,7 @@
 .text-primary  { color: var(--text, #0d1f35) !important; }
 .text-muted    { color: var(--muted, #476080) !important; }
 .text-faint    { color: var(--faint, #7a96b0) !important; }
-.text-accent   { color: var(--accent, #0ea5a0) !important; }
+.text-accent   { color: var(--accent, #0a7e74) !important; }
 .text-good     { color: var(--good,  #059669) !important; }
 .text-warn     { color: var(--warn,  #d97706) !important; }
 .text-bad      { color: var(--bad,   #dc2626) !important; }
