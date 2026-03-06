@@ -180,9 +180,110 @@ const CO_COUNTY_FIPS = {
   'yuma':        '08125',
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+/**
+ * Lookup table: Colorado city/place name → 5-digit county FIPS.
+ * Keys are uppercase to match the PROJ_CTY field in the CHFA ArcGIS response,
+ * which returns city names in all-caps (e.g. "DENVER", "AURORA").
+ * Used as a secondary fallback when the ArcGIS service omits CNTY_NAME.
+ * Cities that straddle county lines are mapped to the county containing the
+ * majority of the city's population / LIHTC inventory.
+ */
+const CO_CITY_TO_COUNTY_FIPS = {
+  'ALAMOSA':           '08003', // Alamosa County
+  'ALMA':              '08093', // Park County
+  'ANTONITO':          '08021', // Conejos County
+  'ARVADA':            '08059', // Jefferson County (majority)
+  'ASPEN':             '08097', // Pitkin County
+  'AURORA':            '08005', // Arapahoe County (majority)
+  'AVON':              '08037', // Eagle County
+  'BASALT':            '08097', // Pitkin County
+  'BAYFIELD':          '08067', // La Plata County
+  'BOULDER':           '08013', // Boulder County
+  'BRECKENRIDGE':      '08117', // Summit County
+  'BRIGHTON':          '08001', // Adams County
+  'BROOMFIELD':        '08014', // Broomfield County
+  'BRUSH':             '08087', // Morgan County
+  'BUENA VISTA':       '08015', // Chaffee County
+  'BURLINGTON':        '08063', // Kit Carson County
+  'CANON CITY':        '08043', // Fremont County
+  'CARBONDALE':        '08045', // Garfield County
+  'CASTLE ROCK':       '08035', // Douglas County
+  'CENTER':            '08109', // Saguache County
+  'CENTRAL CITY':      '08047', // Gilpin County
+  'CLIFTON':           '08077', // Mesa County
+  'COLORADO SPRINGS':  '08041', // El Paso County
+  'COMMERCE CITY':     '08001', // Adams County
+  'CORTEZ':            '08083', // Montezuma County
+  'CRESTED BUTTE':     '08051', // Gunnison County
+  'DACONO':            '08123', // Weld County
+  'DEL NORTE':         '08105', // Rio Grande County
+  'DELTA':             '08029', // Delta County
+  'DENVER':            '08031', // Denver County
+  'DIVIDE':            '08119', // Teller County
+  'DURANGO':           '08067', // La Plata County
+  'EAGLE':             '08037', // Eagle County
+  'ENGLEWOOD':         '08005', // Arapahoe County
+  'ESTES PARK':        '08069', // Larimer County
+  'EVANS':             '08123', // Weld County
+  'EVERGREEN':         '08059', // Jefferson County
+  'FLORENCE':          '08043', // Fremont County
+  'FORT COLLINS':      '08069', // Larimer County
+  'FORT LUPTON':       '08123', // Weld County
+  'FORT MORGAN':       '08087', // Morgan County
+  'FOUNTAIN':          '08041', // El Paso County
+  'FRASER':            '08049', // Grand County
+  'FRUITA':            '08077', // Mesa County
+  'GLENDALE':          '08005', // Arapahoe County
+  'GLENWOOD SPRINGS':  '08045', // Garfield County
+  'GOLDEN':            '08059', // Jefferson County
+  'GRAND JUNCTION':    '08077', // Mesa County
+  'GREELEY':           '08123', // Weld County
+  'GREENWOOD VILLAGE': '08005', // Arapahoe County
+  'GYPSUM':            '08037', // Eagle County
+  'HIGHLANDS RANCH':   '08035', // Douglas County
+  'IDAHO SPRINGS':     '08019', // Clear Creek County
+  'KEYSTONE':          '08117', // Summit County
+  'LA JUNTA':          '08089', // Otero County
+  'LAFAYETTE':         '08013', // Boulder County
+  'LAKEWOOD':          '08059', // Jefferson County
+  'LAMAR':             '08099', // Prowers County
+  'LAS ANIMAS':        '08071', // Las Animas County (city)
+  'LEADVILLE':         '08065', // Lake County
+  'LITTLETON':         '08005', // Arapahoe County (majority)
+  'LONGMONT':          '08013', // Boulder County
+  'LOUISVILLE':        '08013', // Boulder County
+  'LOVELAND':          '08069', // Larimer County
+  'MANCOS':            '08083', // Montezuma County
+  'MILLIKEN':          '08123', // Weld County
+  'MONTE VISTA':       '08105', // Rio Grande County
+  'MONTROSE':          '08085', // Montrose County
+  'NEDERLAND':         '08013', // Boulder County
+  'NEW CASTLE':        '08045', // Garfield County
+  'NORTHGLENN':        '08001', // Adams County
+  'NORWOOD':           '08113', // San Miguel County
+  'NUCLA':             '08085', // Montrose County
+  'PAONIA':            '08029', // Delta County
+  'PARKER':            '08035', // Douglas County
+  'PONCHA SPRINGS':    '08015', // Chaffee County
+  'PUEBLO':            '08101', // Pueblo County
+  'PUEBLO WEST':       '08101', // Pueblo County
+  'RIFLE':             '08045', // Garfield County
+  'SALIDA':            '08015', // Chaffee County
+  'SHERIDAN':          '08005', // Arapahoe County
+  'SILVER CLIFF':      '08027', // Custer County
+  'SILVERTHORNE':      '08117', // Summit County
+  'SOUTH FORK':        '08105', // Rio Grande County
+  'STEAMBOAT SPRINGS': '08107', // Routt County
+  'STERLING':          '08075', // Logan County
+  'TELLURIDE':         '08113', // San Miguel County
+  'THORNTON':          '08001', // Adams County
+  'VAIL':              '08037', // Eagle County
+  'WALSENBURG':        '08055', // Huerfano County
+  'WESTMINSTER':       '08001', // Adams County (majority)
+  'WHEAT RIDGE':       '08059', // Jefferson County
+  'WINDSOR':           '08123', // Weld County
+  'YUMA':              '08125', // Yuma County
+};
 
 /**
  * Make an HTTPS request and return the raw response body as a string.
@@ -350,6 +451,21 @@ function resolveCntyFips(cntyName) {
 }
 
 /**
+ * Resolve a county FIPS from a city/place name using CO_CITY_TO_COUNTY_FIPS.
+ * Used as a secondary fallback when the ArcGIS service omits CNTY_NAME.
+ * Normalises input to uppercase to match the table keys, which mirror the
+ * all-caps PROJ_CTY values returned by the CHFA ArcGIS service.
+ *
+ * @param {string|null} cityName  City/place name in any case (e.g. "Denver").
+ * @returns {string}  5-digit FIPS string or empty string if unresolved.
+ */
+function resolveCntyFipsFromCity(cityName) {
+  if (!cityName) return '';
+  const key = String(cityName).trim().toUpperCase();
+  return CO_CITY_TO_COUNTY_FIPS[key] || '';
+}
+
+/**
  * Convert an ArcGIS JSON feature to a GeoJSON Feature.
  * Handles Point geometry (x/y) only; skips features without valid geometry.
  *
@@ -364,9 +480,17 @@ function toGeoJsonFeature(esriFeature) {
     return null;
   }
 
-  const cntyFips = resolveCntyFips(attrs.CNTY_NAME ?? null);
+  // Resolve county FIPS:
+  //   1. CNTY_FIPS from the ArcGIS service (ideal, but often absent)
+  //   2. Derived from CNTY_NAME using the county name lookup table
+  //   3. Derived from PROJ_CTY using the city→county lookup table (fallback)
+  const cntyFipsFromName = resolveCntyFips(attrs.CNTY_NAME ?? null);
+  const cntyFipsFromCity = resolveCntyFipsFromCity(attrs.PROJ_CTY ?? null);
+  const cntyFips = (attrs.CNTY_FIPS ?? cntyFipsFromName || cntyFipsFromCity) || '';
   // COUNTYFP is the 3-digit suffix of the 5-digit CNTY_FIPS (e.g. "031").
   const countyFp = cntyFips ? cntyFips.slice(2) : '';
+  // STATEFP is always "08" for Colorado; derive if absent.
+  const stateFp = attrs.STATEFP ?? (cntyFips ? cntyFips.slice(0, 2) : null) ?? null;
 
   return {
     type: 'Feature',
@@ -386,9 +510,9 @@ function toGeoJsonFeature(esriFeature) {
       PROJ_CTY:  attrs.PROJ_CTY  ?? null,
       PROJ_ST:   attrs.PROJ_ST   ?? null,
       CNTY_NAME: attrs.CNTY_NAME ?? null,
-      CNTY_FIPS: (attrs.CNTY_FIPS ?? cntyFips) || null,
-      STATEFP:   attrs.STATEFP   ?? null,
-      COUNTYFP:  (attrs.COUNTYFP ?? countyFp) || null,
+      CNTY_FIPS: cntyFips || null,
+      STATEFP:   stateFp,
+      COUNTYFP:  countyFp || null,
       N_UNITS:   attrs.N_UNITS   ?? null,
       LI_UNITS:  attrs.LI_UNITS  ?? null,
       YR_PIS:    attrs.YR_PIS    ?? null,

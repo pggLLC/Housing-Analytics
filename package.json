@@ -16,6 +16,8 @@
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
     "audit:contrast": "node scripts/contrast-audit.js",
+    "audit:data": "node scripts/audit/data-inventory.mjs",
+    "audit:data:manifest": "node scripts/audit/data-inventory.mjs --json",
     "audit:site": "node scripts/audit/site-audit.mjs",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs"
