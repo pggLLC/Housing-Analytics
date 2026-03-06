@@ -21,7 +21,7 @@ h3 { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 h4 { font-size: 1.1rem; }
 
 p { margin-bottom: 0.9rem; color: var(--muted, #476080); }
-a { color: var(--link, var(--accent, #0ea5a0)); text-decoration: none; transition: opacity 0.15s; }
+a { color: var(--link, var(--accent, #0a7e74)); text-decoration: none; transition: opacity 0.15s; }
 a:hover { opacity: 0.82; }
 
 /* --- Container --- */
@@ -68,7 +68,7 @@ a:hover { opacity: 0.82; }
   font-weight: 700; cursor: pointer; text-decoration: none;
 }
 .btn-primary, .button-primary {
-  background: var(--accent, #0ea5a0); border-color: transparent; color: #fff;
+  background: var(--accent, #0a7e74); border-color: transparent; color: #fff;
 }
 .btn:hover, .button:hover { opacity: 0.88; }
 
@@ -97,7 +97,7 @@ select, input, textarea {
 /* --- Callouts / alerts --- */
 .callout, .alert {
   padding: 1rem 1.2rem; border-radius: 8px;
-  border-left: 4px solid var(--accent, #0ea5a0);
+  border-left: 4px solid var(--accent, #0a7e74);
   background: var(--accent-dim, rgba(14,165,160,.09));
   color: var(--text, #0d1f35);
 }
@@ -117,8 +117,8 @@ select, input, textarea {
 
 /* --- CSS variable aliases for old naming conventions --- */
 :root {
-  --color-primary:       var(--accent,     #0ea5a0);
-  --color-primary-dark:  color-mix(in srgb, var(--accent, #0ea5a0) 70%, #000);
+  --color-primary:       var(--accent,     #0a7e74);
+  --color-primary-dark:  color-mix(in srgb, var(--accent, #0a7e74) 70%, #000);
   --color-accent:        var(--accent2,    #e8891a);
   --color-text:          var(--text,       #0d1f35);
   --color-text-light:    var(--muted,      #476080);

@@ -7,7 +7,7 @@
    CTA / hero buttons — elevated visual hierarchy
    ---------------------------------------------------------------- */
 .btn-cta {
-  background: linear-gradient(135deg, var(--accent, #0ea5a0) 0%, var(--link, #0b7285) 100%);
+  background: linear-gradient(135deg, var(--accent, #0a7e74) 0%, var(--link, #0b7285) 100%);
   border-color: transparent;
   color: #fff;
   font-weight: 700;
@@ -52,7 +52,7 @@
    ---------------------------------------------------------------- */
 .btn:focus-visible,
 .btn-cta:focus-visible {
-  outline: 3px solid var(--accent, #0ea5a0);
+  outline: 3px solid var(--accent, #0a7e74);
   outline-offset: 3px;
   box-shadow: none;
 }
@@ -73,8 +73,8 @@
 
 .btn-icon:hover {
   background: var(--accent-dim, rgba(14, 165, 160, .10));
-  border-color: var(--accent, #0ea5a0);
-  color: var(--accent, #0ea5a0);
+  border-color: var(--accent, #0a7e74);
+  color: var(--accent, #0a7e74);
 }
 
 .btn-icon:active,
@@ -87,7 +87,7 @@
    ---------------------------------------------------------------- */
 .map-controls label[data-active="true"] {
   background: var(--accent-dim, rgba(14, 165, 160, .12));
-  border-color: color-mix(in srgb, var(--accent, #0ea5a0) 40%, transparent);
+  border-color: color-mix(in srgb, var(--accent, #0a7e74) 40%, transparent);
   color: var(--text, #0d1f35);
   font-weight: 700;
 }

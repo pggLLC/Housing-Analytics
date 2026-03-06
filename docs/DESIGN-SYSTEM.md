@@ -33,7 +33,7 @@ All tokens are defined as CSS custom properties in `css/site-theme.css` and are 
 
 | Token | Light | Dark | Usage |
 |-------|-------|------|-------|
-| `--accent` | `#0ea5a0` | `#0fd4cf` | Primary interactive, active states |
+| `--accent` | `#0a7e74` | `#0fd4cf` | Primary interactive, active states |
 | `--accent-dim` | `rgba(14,165,160,.10)` | `rgba(15,212,207,.12)` | Accent backgrounds |
 | `--accent2` | `#e8891a` | `#fbbf24` | Gold, secondary accent |
 | `--good` | `#059669` | `#34d399` | Positive delta, success |

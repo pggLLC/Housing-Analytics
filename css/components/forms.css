@@ -84,7 +84,7 @@
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--accent, #0ea5a0);
+  border-color: var(--accent, #0a7e74);
   box-shadow: var(--focus-ring, 0 0 0 3px rgba(14,165,160,.30));
 }
 
@@ -181,7 +181,7 @@
   height: 1.125rem;
   margin-top: 0.125rem;
   flex-shrink: 0;
-  accent-color: var(--accent, #0ea5a0);
+  accent-color: var(--accent, #0a7e74);
   cursor: pointer;
 }
 

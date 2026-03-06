@@ -140,7 +140,7 @@
     if (covBar && cov != null) {
       const pct = Math.min(100, Math.max(0, cov * 100));
       covBar.style.width = pct.toFixed(1) + "%";
-      covBar.style.background = cov < 0.5 ? cssVar("--bad", "#e05252") : cov < 0.8 ? cssVar("--warn", "#e09a25") : cssVar("--accent", "#0ea5a0");
+      covBar.style.background = cov < 0.5 ? cssVar("--bad", "#e05252") : cov < 0.8 ? cssVar("--warn", "#e09a25") : cssVar("--accent", "#0a7e74");
     }
   }
 
