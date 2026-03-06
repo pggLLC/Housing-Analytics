@@ -146,6 +146,20 @@
       "lon": -107.8762,
       "county_fips": "08101",
       "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08077000100",
+      "lat": 39.0639,
+      "lon": -108.5506,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08067000100",
+      "lat": 37.2753,
+      "lon": -107.8801,
+      "county_fips": "08067",
+      "county_name": "La Plata"
     }
   ]
 }
