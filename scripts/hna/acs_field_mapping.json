@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "description": "Centralized field mapping for ACS DP04 (Housing Characteristics) and DP05 (Demographic Estimates) profile tables.",
+    "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates",
+    "tables": ["DP04", "DP05"],
+    "updated": "2024"
+  },
+  "DP04": {
+    "_description": "Selected Housing Characteristics",
+    "DP04_0001E":  { "name": "total_housing_units",          "type": "integer",    "required": true,  "description": "Total housing units" },
+    "DP04_0002E":  { "name": "occupied_housing_units",       "type": "integer",    "required": false, "description": "Occupied housing units" },
+    "DP04_0003E":  { "name": "vacant_housing_units",         "type": "integer",    "required": false, "description": "Vacant housing units" },
+    "DP04_0003PE": { "name": "vacancy_rate",                 "type": "percentage", "required": false, "description": "Vacancy rate (%)", "range": [0, 100] },
+    "DP04_0004E":  { "name": "homeowner_vacancy_rate_num",   "type": "float",      "required": false, "description": "Homeowner vacancy rate (numeric)" },
+    "DP04_0005E":  { "name": "rental_vacancy_rate_num",      "type": "float",      "required": false, "description": "Rental vacancy rate (numeric)" },
+
+    "DP04_0007E":  { "name": "units_1_detached",             "type": "integer",    "required": false, "description": "1-unit, detached structures" },
+    "DP04_0008E":  { "name": "units_1_attached",             "type": "integer",    "required": false, "description": "1-unit, attached structures" },
+    "DP04_0009E":  { "name": "units_2",                      "type": "integer",    "required": false, "description": "2-unit structures" },
+    "DP04_0010E":  { "name": "units_3_4",                    "type": "integer",    "required": false, "description": "3-4 unit structures" },
+    "DP04_0011E":  { "name": "units_5_9",                    "type": "integer",    "required": false, "description": "5-9 unit structures" },
+    "DP04_0012E":  { "name": "units_10_19",                  "type": "integer",    "required": false, "description": "10-19 unit structures" },
+    "DP04_0013E":  { "name": "units_20_plus",                "type": "integer",    "required": false, "description": "20+ unit structures" },
+    "DP04_0014E":  { "name": "units_mobile_home",            "type": "integer",    "required": false, "description": "Mobile homes" },
+
+    "DP04_0011PE": { "name": "pct_units_5_9",                "type": "percentage", "required": false, "description": "% units in 5-9 unit structures", "range": [0, 100] },
+    "DP04_0012PE": { "name": "pct_units_10_19",              "type": "percentage", "required": false, "description": "% units in 10-19 unit structures", "range": [0, 100] },
+    "DP04_0013PE": { "name": "pct_units_20_plus",            "type": "percentage", "required": false, "description": "% units in 20+ unit structures", "range": [0, 100] },
+
+    "DP04_0046E":  { "name": "renter_occupied_units",        "type": "integer",    "required": false, "description": "Renter-occupied housing units" },
+    "DP04_0046PE": { "name": "pct_renter_occupied",          "type": "percentage", "required": true,  "description": "% renter-occupied units", "range": [0, 100] },
+    "DP04_0047E":  { "name": "owner_occupied_units",         "type": "integer",    "required": false, "description": "Owner-occupied housing units" },
+    "DP04_0047PE": { "name": "pct_owner_occupied",           "type": "percentage", "required": false, "description": "% owner-occupied units", "range": [0, 100] },
+
+    "DP04_0089E":  { "name": "median_home_value",            "type": "integer",    "required": false, "description": "Median value of owner-occupied housing units ($)" },
+    "DP04_0134E":  { "name": "median_gross_rent",            "type": "integer",    "required": false, "description": "Median gross rent ($)" },
+
+    "DP04_0142PE": { "name": "grapi_lt15",                   "type": "percentage", "required": false, "description": "Gross rent as % of income: less than 15%", "range": [0, 100] },
+    "DP04_0143PE": { "name": "grapi_15_19",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 15-19.9%", "range": [0, 100] },
+    "DP04_0144PE": { "name": "grapi_20_24",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 20-24.9%", "range": [0, 100] },
+    "DP04_0145PE": { "name": "grapi_25_29",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 25-29.9%", "range": [0, 100] },
+    "DP04_0146PE": { "name": "grapi_30_34",                  "type": "percentage", "required": false, "description": "Gross rent as % of income: 30-34.9%", "range": [0, 100] },
+    "DP04_0147PE": { "name": "grapi_35_plus",                "type": "percentage", "required": false, "description": "Gross rent as % of income: 35%+", "range": [0, 100] }
+  },
+  "DP05": {
+    "_description": "ACS Demographic and Housing Estimates",
+    "DP05_0001E":  { "name": "total_population",             "type": "integer",    "required": true,  "description": "Total population" },
+    "DP05_0002E":  { "name": "population_male",              "type": "integer",    "required": false, "description": "Male population" },
+    "DP05_0003E":  { "name": "population_female",            "type": "integer",    "required": false, "description": "Female population" },
+    "DP05_0002PE": { "name": "pct_male",                     "type": "percentage", "required": false, "description": "% male", "range": [0, 100] },
+    "DP05_0003PE": { "name": "pct_female",                   "type": "percentage", "required": false, "description": "% female", "range": [0, 100] },
+
+    "DP05_0005E":  { "name": "pop_under_5",                  "type": "integer",    "required": false, "description": "Population under 5 years" },
+    "DP05_0006E":  { "name": "pop_5_to_9",                   "type": "integer",    "required": false, "description": "Population 5-9 years" },
+    "DP05_0007E":  { "name": "pop_10_to_14",                 "type": "integer",    "required": false, "description": "Population 10-14 years" },
+    "DP05_0008E":  { "name": "pop_15_to_19",                 "type": "integer",    "required": false, "description": "Population 15-19 years" },
+    "DP05_0009E":  { "name": "pop_20_to_24",                 "type": "integer",    "required": false, "description": "Population 20-24 years" },
+    "DP05_0010E":  { "name": "pop_25_to_34",                 "type": "integer",    "required": false, "description": "Population 25-34 years" },
+    "DP05_0011E":  { "name": "pop_35_to_44",                 "type": "integer",    "required": false, "description": "Population 35-44 years" },
+    "DP05_0012E":  { "name": "pop_45_to_54",                 "type": "integer",    "required": false, "description": "Population 45-54 years" },
+    "DP05_0013E":  { "name": "pop_55_to_59",                 "type": "integer",    "required": false, "description": "Population 55-59 years" },
+    "DP05_0014E":  { "name": "pop_60_to_64",                 "type": "integer",    "required": false, "description": "Population 60-64 years" },
+    "DP05_0015E":  { "name": "pop_65_to_74",                 "type": "integer",    "required": false, "description": "Population 65-74 years" },
+    "DP05_0016E":  { "name": "pop_75_to_84",                 "type": "integer",    "required": false, "description": "Population 75-84 years" },
+    "DP05_0017E":  { "name": "pop_85_plus",                  "type": "integer",    "required": false, "description": "Population 85 years and over" },
+    "DP05_0018E":  { "name": "median_age",                   "type": "float",      "required": false, "description": "Median age (years)" },
+
+    "DP05_0037E":  { "name": "pop_white_alone",              "type": "integer",    "required": false, "description": "White alone population" },
+    "DP05_0038E":  { "name": "pop_black_alone",              "type": "integer",    "required": false, "description": "Black or African American alone" },
+    "DP05_0039E":  { "name": "pop_aian_alone",               "type": "integer",    "required": false, "description": "American Indian and Alaska Native alone" },
+    "DP05_0044E":  { "name": "pop_asian_alone",              "type": "integer",    "required": false, "description": "Asian alone" },
+    "DP05_0052E":  { "name": "pop_nhpi_alone",               "type": "integer",    "required": false, "description": "Native Hawaiian and Other Pacific Islander alone" },
+    "DP05_0057E":  { "name": "pop_other_alone",              "type": "integer",    "required": false, "description": "Some other race alone" },
+    "DP05_0058E":  { "name": "pop_two_or_more_races",        "type": "integer",    "required": false, "description": "Two or more races" },
+    "DP05_0071E":  { "name": "pop_hispanic_latino",          "type": "integer",    "required": false, "description": "Hispanic or Latino (of any race)" },
+    "DP05_0037PE": { "name": "pct_white_alone",              "type": "percentage", "required": false, "description": "% White alone", "range": [0, 100] },
+    "DP05_0038PE": { "name": "pct_black_alone",              "type": "percentage", "required": false, "description": "% Black or African American alone", "range": [0, 100] },
+    "DP05_0044PE": { "name": "pct_asian_alone",              "type": "percentage", "required": false, "description": "% Asian alone", "range": [0, 100] },
+    "DP05_0071PE": { "name": "pct_hispanic_latino",          "type": "percentage", "required": false, "description": "% Hispanic or Latino", "range": [0, 100] }
+  }
+}
