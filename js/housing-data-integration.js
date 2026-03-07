@@ -198,11 +198,26 @@
 
     try {
       const data = await _fetchJson("data/kashli-market-data.json");
-      // Treat missing, empty, or error-flagged markets as unavailable
-      if (!data || data.error) return null;
+      // Treat missing, empty, or error-flagged markets as unavailable:
+      //   - data is falsy (null/undefined) → file was empty or fetch returned nothing.
+      //   - data.error is truthy → the workflow that generated the file reported a failure.
+      if (!data || data.error) {
+        console.warn("[HousingData] Kashli data is unavailable: missing or error response.");
+        return null;
+      }
       const markets = data.markets;
-      if (!markets || typeof markets !== 'object') return null;
-      if (Object.keys(markets).length === 0) return null;
+      // Treat absent or non-object markets field as unavailable:
+      //   - markets is missing or not a plain object → schema mismatch / empty payload.
+      if (!markets || typeof markets !== 'object') {
+        console.warn("[HousingData] Kashli data is unavailable: markets field missing or invalid.");
+        return null;
+      }
+      // Treat a markets object with no keys as unavailable:
+      //   - empty object → workflow ran but returned no market entries.
+      if (Object.keys(markets).length === 0) {
+        console.warn("[HousingData] Kashli data is unavailable: markets object is empty.");
+        return null;
+      }
       _set("kashli", data);
       return data;
     } catch (err) {
