@@ -164,6 +164,41 @@ This produces a ZIP containing exactly the files tracked in the repository, read
 
 ---
 
+## Production Data & Feature Notes
+
+### County boundary GeoJSONs
+
+The county boundary GeoJSON files (`data/co-county-boundaries.json` and
+`data/boundaries/counties_co.geojson`) are committed directly to the repository
+so the site can be served from GitHub Pages — or any other static host — without
+an external API dependency. All 64 Colorado counties are present and validated
+by `scripts/validate-critical-data.js` during CI.
+
+### Live prediction-market widgets
+
+The Housing Prediction Market Dashboard (`js/housing-predictions.js`) attempts
+to load a pre-fetched Kalshi feed from `data/kalshi/prediction-market.json`
+(written by `.github/workflows/fetch-kalshi.yml`). If that file is absent,
+returns an HTTP error, contains invalid JSON, or holds an empty `items` array —
+conditions that arise when live Kalshi credentials are not configured — the
+module automatically falls back to built-in illustrative data and displays a
+visible disclaimer. No manual intervention is required; the fallback data is
+always shown when live credentials or data are unavailable.
+
+### Statewide market-analysis datasets
+
+The files under `data/market/` (`acs_tract_metrics_co.json`,
+`tract_centroids_co.json`, `hud_lihtc_co.geojson`) currently contain a small
+number of sample records and **must be expanded to full statewide coverage before
+enabling production scoring** (PMA site-selection, market-analysis scoring, etc.).
+Running `npm run validate:data` will log a `WARN Sparse market-analysis data`
+message for each file that is below the expected feature count.  These warnings
+do not fail the CI build during the expansion phase, but the warnings must be
+resolved — by populating the files with complete statewide data — before relying
+on scoring results in a production environment.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
