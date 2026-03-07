@@ -8,7 +8,7 @@ name: Generate Market Analysis Data
 #   - data/co-county-boundaries.json         (TIGERweb county polygons)
 #
 # QCTs (data/qct-colorado.json) and DDAs (data/dda-colorado.json) are managed
-# separately by the fetch-lihtc-data.yml workflow.
+# separately by the cache-hud-gis-data.yml workflow.
 #
 # Runs weekly on Mondays at 04:00 UTC and on-demand via workflow_dispatch.
 
