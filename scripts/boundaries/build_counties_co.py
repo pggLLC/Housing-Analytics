@@ -49,6 +49,14 @@ EXPECTED   = 64         # Colorado has 64 counties
 PAGE_SIZE  = int(os.environ.get("TIGERWEB_PAGE_SIZE", "100"))
 TIMEOUT    = int(os.environ.get("TIGERWEB_TIMEOUT", "30"))
 
+# TIGERweb field name for the state FIPS code has varied over service versions.
+# Try each candidate in order; the first one that returns ≥1 feature wins.
+WHERE_CANDIDATES = [
+    f"STATEFP='{STATE_FIPS}'",
+    f"STATE='{STATE_FIPS}'",
+    f"GEOID LIKE '{STATE_FIPS}%'",
+]
+
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec='seconds').replace("+00:00", "Z")
@@ -92,6 +100,14 @@ def fetch_all_pages(base_url: str, base_params: dict) -> list[dict]:
         if data is None:
             raise RuntimeError(f"All retries exhausted for offset {offset}")
 
+        # ArcGIS REST returns {"error": {"code": N, "message": "..."}} on failure
+        # instead of raising an HTTP error.  Surface it so callers can react.
+        if "error" in data:
+            err = data["error"]
+            code = err.get("code", "?")
+            msg  = err.get("message", str(err))
+            raise RuntimeError(f"ArcGIS error (code {code}): {msg}")
+
         page_features = data.get("features", [])
         features.extend(page_features)
         print(f"    page offset={offset}: {len(page_features)} features (total so far: {len(features)})")
@@ -132,24 +148,48 @@ def main() -> int:
     generated = utc_now()
 
     base_params = {
-        "where": f"STATEFP='{STATE_FIPS}'",
         "outFields": "NAME,NAMELSAD,STATEFP,COUNTYFP,GEOID",
         "f": "geojson",
         "outSR": "4326",
     }
 
     print(f"\nFetching Colorado counties from TIGERweb (STATEFP='{STATE_FIPS}')…")
-    try:
-        features = fetch_all_pages(TIGERWEB_BASE, base_params)
-    except RuntimeError as exc:
-        print(f"\n❌ Failed to fetch county boundaries: {exc}", file=sys.stderr)
-        return 1
+
+    features: list[dict] = []
+    last_error: Exception | None = None
+    for where in WHERE_CANDIDATES:
+        params = dict(base_params)
+        params["where"] = where
+        print(f"  Trying WHERE: {where}")
+        try:
+            features = fetch_all_pages(TIGERWEB_BASE, params)
+        except RuntimeError as exc:
+            last_error = exc
+            print(f"  ✗ Failed ({exc}); trying next candidate…", file=sys.stderr)
+            continue
+        if features:
+            print(f"  ✓ {len(features)} features with WHERE: {where}")
+            break
+        print(f"  ✗ WHERE '{where}' returned 0 features; trying next candidate…",
+              file=sys.stderr)
 
     n = len(features)
     print(f"\nReceived {n} features.")
 
     if n == 0:
-        print("❌ Zero features returned — nothing to write.", file=sys.stderr)
+        # API is temporarily unavailable or all WHERE candidates failed.
+        # If both output files already exist, preserve them and exit cleanly so
+        # the workflow doesn't block on a transient upstream outage.
+        if OUT_BOUNDARIES.exists() and OUT_COUNTIES_CO.exists():
+            print(
+                "⚠ TIGERweb returned no features; preserving existing cached files.",
+                file=sys.stderr,
+            )
+            return 0
+        if last_error:
+            print(f"\n❌ Failed to fetch county boundaries: {last_error}", file=sys.stderr)
+        else:
+            print("❌ Zero features returned — nothing to write.", file=sys.stderr)
         return 1
 
     if n != EXPECTED:
