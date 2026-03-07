@@ -160,6 +160,82 @@ test('CSS contains new section styles', () => {
   assert(css.includes('.commuting-table'),        '.commuting-table class defined');
 });
 
+test('HTML contains Data Quality badge and aria-live region', () => {
+  assert(hnaHtml.includes('id="dataQualityBadge"'),
+    'dataQualityBadge element present');
+  assert(hnaHtml.includes('aria-live="polite"'),
+    'aria-live="polite" region present (WCAG 4.1.3)');
+  assert(hnaHtml.includes('id="hnaLiveRegion"'),
+    'hnaLiveRegion element present');
+});
+
+test('HTML contains Municipal vs County comparison panel', () => {
+  assert(hnaHtml.includes('id="municipalComparisonPanel"'),
+    'municipalComparisonPanel present');
+  assert(hnaHtml.includes('id="mcpPopShare"'),      'mcpPopShare metric present');
+  assert(hnaHtml.includes('id="mcpHousingUnits"'),  'mcpHousingUnits metric present');
+  assert(hnaHtml.includes('id="mcpRentAdj"'),       'mcpRentAdj metric present');
+  assert(hnaHtml.includes('id="mcpEstJobs"'),       'mcpEstJobs metric present');
+  assert(hnaHtml.includes('docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md'),
+    'link to MUNICIPAL-ANALYSIS-METHODOLOGY.md present');
+});
+
+test('HTML references municipal-analysis.js', () => {
+  assert(hnaHtml.includes('municipal-analysis.js'),
+    'housing-needs-assessment.html references municipal-analysis.js');
+});
+
+test('CSS contains Data Quality badge and comparison panel styles', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8');
+  assert(css.includes('.data-quality-badge'),         '.data-quality-badge class defined');
+  assert(css.includes('.confidence-direct'),          '.confidence-direct class defined');
+  assert(css.includes('.confidence-interpolated'),    '.confidence-interpolated class defined');
+  assert(css.includes('.confidence-estimated'),       '.confidence-estimated class defined');
+  assert(css.includes('.municipal-comparison-panel'), '.municipal-comparison-panel class defined');
+  assert(css.includes('.mcp-grid'),                   '.mcp-grid class defined');
+  assert(css.includes('.mcp-metric'),                 '.mcp-metric class defined');
+});
+
+test('js/municipal-analysis.js exists and exports key functions', () => {
+  const maPath = path.join(ROOT, 'js', 'municipal-analysis.js');
+  assert(fs.existsSync(maPath), 'js/municipal-analysis.js exists');
+  const maSrc = fs.readFileSync(maPath, 'utf8');
+  assert(maSrc.includes('calculateMunicipalScaling'),         'calculateMunicipalScaling defined');
+  assert(maSrc.includes('estimateMunicipalHousingStock'),     'estimateMunicipalHousingStock defined');
+  assert(maSrc.includes('scaleMunicipalAffordability'),       'scaleMunicipalAffordability defined');
+  assert(maSrc.includes('projectMunicipalDemographics'),      'projectMunicipalDemographics defined');
+  assert(maSrc.includes('estimateMunicipalEmployment'),       'estimateMunicipalEmployment defined');
+  assert(maSrc.includes('calculateMunicipalProp123Baseline'), 'calculateMunicipalProp123Baseline defined');
+  assert(maSrc.includes('getDataConfidence'),                 'getDataConfidence defined');
+  assert(maSrc.includes('buildMunicipalAnalysis'),            'buildMunicipalAnalysis defined');
+  assert(maSrc.includes('window.MunicipalAnalysis'),         'exposed on window.MunicipalAnalysis');
+  assert(maSrc.includes('module.exports'),                    'CommonJS export for Node.js tests');
+});
+
+test('Municipal data files exist and are valid JSON', () => {
+  const municipalConfig  = path.join(ROOT, 'data', 'hna', 'municipal', 'municipal-config.json');
+  const growthRates      = path.join(ROOT, 'data', 'hna', 'municipal', 'growth-rates.json');
+  assert(fs.existsSync(municipalConfig), 'data/hna/municipal/municipal-config.json exists');
+  assert(fs.existsSync(growthRates),     'data/hna/municipal/growth-rates.json exists');
+  // Validate JSON
+  let cfg, gr;
+  try { cfg = JSON.parse(fs.readFileSync(municipalConfig, 'utf8')); }
+  catch(e) { assert(false, `municipal-config.json is valid JSON: ${e.message}`); return; }
+  try { gr  = JSON.parse(fs.readFileSync(growthRates, 'utf8')); }
+  catch(e) { assert(false, `growth-rates.json is valid JSON: ${e.message}`); return; }
+  assert(Array.isArray(cfg.municipalities) && cfg.municipalities.length > 0,
+    'municipal-config.json has non-empty municipalities array');
+  assert(Array.isArray(gr.rates) && gr.rates.length > 0,
+    'growth-rates.json has non-empty rates array');
+  // Verify FIPS code format
+  cfg.municipalities.forEach(function(m) {
+    assert(typeof m.geoid === 'string' && m.geoid.length === 7,
+      `FIPS geoid "${m.geoid}" is 7 chars`);
+    assert(typeof m.countyFips5 === 'string' && m.countyFips5.length === 5,
+      `countyFips5 "${m.countyFips5}" is 5 chars`);
+  });
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);

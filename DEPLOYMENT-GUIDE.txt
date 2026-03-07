@@ -132,7 +132,42 @@ Directory layout for HNA data
   ├── lehd/{countyFips5}.json  — LEHD LODES OD inflow/outflow/within per county
   ├── dola_sya/{fips5}.json    — DOLA/SDO age pyramid + senior pressure per county
   ├── projections/{fips5}.json — DOLA/SDO 20-year population + housing-need model
-  └── derived/geo-derived.json — ETL-computed inputs for municipal scaling
+  ├── derived/geo-derived.json — ETL-computed inputs for municipal scaling
+  └── municipal/               — Sub-county municipal analysis data (NEW)
+      ├── municipal-config.json         — All featured CO municipalities (FIPS, pop, county)
+      ├── growth-rates.json             — 3/5/10-yr CAGRs and smoothed projection rate
+      ├── scaling-factors/{fips5}.json  — (ETL-generated) Per-county scaling inputs
+      ├── demographics/{geoid}.json     — (ETL-generated) Municipal demographic baselines
+      └── affordability/{geoid}.json    — (ETL-generated) Affordability tier distributions
+
+Municipal data ETL workflow
+  The municipal data directory is seeded with curated JSON for featured geographies.
+  To expand coverage or refresh existing entries:
+
+  1. Update municipal-config.json and growth-rates.json for the target municipality.
+  2. Run: python scripts/hna/build_hna_data.py --place <7-digit-geoid>
+     This fetches ACS place-level data and generates:
+       data/hna/summary/<geoid>.json
+       data/hna/municipal/demographics/<geoid>.json
+       data/hna/municipal/affordability/<geoid>.json
+  3. Run: python scripts/rebuild_manifest.py
+  4. Commit the updated files to main.
+
+  Per-county scaling factors can be regenerated for all places within a county:
+    python scripts/hna/build_hna_data.py --county <5-digit-fips>
+
+  The GitHub Actions workflow build-hna-data.yml (runs Monday 06:30 UTC) automatically
+  refreshes data for all featured geographies in geo-config.json. To add a new
+  municipality to the automated run, add it to geo-config.json in addition to
+  municipal-config.json.
+
+  Data confidence levels (shown as a badge in the HNA UI):
+    Direct       (green)  — Direct ACS place-level data
+    Interpolated (blue)   — County data scaled by municipal share + growth rate
+    Estimated    (amber)  — Extrapolated from county trends only
+    Unavailable  (grey)   — No data available
+
+  See docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md for full technical detail.
 
 Running the automated functionality test
   node test/hna-functionality-check.js
