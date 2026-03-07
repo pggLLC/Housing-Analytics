@@ -135,19 +135,19 @@
       <div class="chart-card span-6">
         <h2>Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
-        <div class="chart-box"><canvas id="chartStock"></canvas></div>
+        <div class="chart-box"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
-        <div class="chart-box"><canvas id="chartTenure"></canvas></div>
+        <div class="chart-box"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Affordability</h2>
         <p>What income is needed to afford the typical home value using a simple, transparent mortgage model (assumptions shown below).</p>
-        <div class="chart-box"><canvas id="chartAfford"></canvas></div>
+        <div class="chart-box"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
         <details style="margin-top:10px">
           <summary>Affordability assumptions (editable in JS)</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -157,13 +157,13 @@
       <div class="chart-card span-6">
         <h2>Rent burden distribution</h2>
         <p>Share of renter households by gross rent as a percent of income (ACS DP04 / GRAPI bins).</p>
-        <div class="chart-box"><canvas id="chartRentBurdenBins"></canvas></div>
+        <div class="chart-box"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
         <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box"><canvas id="chartMode"></canvas></div>
+        <div class="chart-box"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
@@ -172,7 +172,7 @@
           Workplace-based flows: <strong>inflow</strong> = jobs located here filled by residents of other counties;
           <strong>outflow</strong> = residents working elsewhere; <strong>within</strong> = live+work here.
         </p>
-        <div class="chart-box"><canvas id="chartLehd"></canvas></div>
+        <div class="chart-box"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
       </div>
 
@@ -185,11 +185,11 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Age pyramid</h2>
-            <div class="chart-box tall"><canvas id="chartPyramid"></canvas></div>
+            <div class="chart-box tall"><canvas id="chartPyramid" role="img" aria-label="Population age pyramid chart"></canvas></div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Senior growth pressure</h2>
-            <div class="chart-box"><canvas id="chartSenior"></canvas></div>
+            <div class="chart-box"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
         </div>
@@ -205,7 +205,7 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-8" style="margin:0">
             <h2 style="font-size:1rem">Population: DOLA forecast vs historic-trend sensitivity</h2>
-            <div class="chart-box tall"><canvas id="chartPopProj"></canvas></div>
+            <div class="chart-box tall"><canvas id="chartPopProj" role="img" aria-label="Population projection and DOLA forecast chart"></canvas></div>
           </div>
           <div class="chart-card span-4" style="margin:0">
             <h2 style="font-size:1rem">Housing need summary</h2>
@@ -393,14 +393,14 @@
             <h2 style="font-size:1rem">Wage Distribution</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartWage"></canvas></div>
+              <div class="chart-box"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Top Industries by Employment</h2>
             <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
             <div id="industryChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartIndustry"></canvas></div>
+              <div class="chart-box"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -432,21 +432,21 @@
             <h2 style="font-size:1rem">Employment Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartEmploymentTrend"></canvas></div>
+              <div class="chart-box"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Wage Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Average wages over time (BLS QCEW).</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartWageTrend"></canvas></div>
+              <div class="chart-box"><canvas id="chartWageTrend" role="img" aria-label="Average wage trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="industryAnalysisContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Industry Analysis</h2>
             <p style="color:var(--muted);font-size:.88rem">Employment share by NAICS sector.</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartIndustryAnalysis"></canvas></div>
+              <div class="chart-box"><canvas id="chartIndustryAnalysis" role="img" aria-label="Industry employment share by NAICS sector chart"></canvas></div>
             </div>
           </div>
           <div id="wageGapsContainer" class="chart-card span-6" style="margin:0">
@@ -480,7 +480,7 @@
             <h3>3% Annual Growth Target</h3>
             <div id="prop123GrowthContent">
               <p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>
-              <div class="timeline-chart"><canvas id="chartProp123Growth"></canvas></div>
+              <div class="timeline-chart"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
             </div>
           </div>
 
@@ -503,7 +503,7 @@
             Select a geography to view compliance status.
           </div>
           <div class="timeline-chart" style="height:220px;">
-            <canvas id="chartProp123Historical"></canvas>
+            <canvas id="chartProp123Historical" role="img" aria-label="Proposition 123 historical compliance tracking chart"></canvas>
           </div>
           <div id="prop123HistoricalContent" style="margin-top:12px;overflow-x:auto;"></div>
         </div>
