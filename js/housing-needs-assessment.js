@@ -55,11 +55,28 @@
   };
 
   const FEATURED = [
+    // Counties
+    { type: 'county', geoid: '08031', label: 'Denver County' },
+    { type: 'county', geoid: '08041', label: 'El Paso County' },
+    { type: 'county', geoid: '08069', label: 'Larimer County' },
+    { type: 'county', geoid: '08013', label: 'Boulder County' },
     { type: 'county', geoid: '08077', label: 'Mesa County' },
-    { type: 'place',  geoid: '0828745', label: 'Fruita (city)' },
-    { type: 'place',  geoid: '0831660', label: 'Grand Junction (city)' },
-    { type: 'place',  geoid: '0856970', label: 'Palisade (town)' },
-    { type: 'cdp',    geoid: '0815165', label: 'Clifton (CDP)' },
+    { type: 'county', geoid: '08101', label: 'Pueblo County' },
+    { type: 'county', geoid: '08097', label: 'Pitkin County' },
+    { type: 'county', geoid: '08117', label: 'Summit County' },
+    // Municipalities
+    { type: 'place', geoid: '0820000', label: 'Denver (city)',           containingCounty: '08031' },
+    { type: 'place', geoid: '0816000', label: 'Colorado Springs (city)', containingCounty: '08041' },
+    { type: 'place', geoid: '0827425', label: 'Fort Collins (city)',     containingCounty: '08069' },
+    { type: 'place', geoid: '0807850', label: 'Boulder (city)',          containingCounty: '08013' },
+    { type: 'place', geoid: '0831660', label: 'Grand Junction (city)',   containingCounty: '08077' },
+    { type: 'place', geoid: '0855745', label: 'Pueblo (city)',           containingCounty: '08101' },
+    { type: 'place', geoid: '0830475', label: 'Glenwood Springs (city)', containingCounty: '08097' },
+    { type: 'place', geoid: '0873220', label: 'Steamboat Springs (city)', containingCounty: '08107' },
+    { type: 'place', geoid: '0823680', label: 'Durango (city)',          containingCounty: '08067' },
+    // CDPs
+    { type: 'cdp',   geoid: '0836000', label: 'Highlands Ranch (CDP)',  containingCounty: '08035' },
+    { type: 'cdp',   geoid: '0815165', label: 'Clifton (CDP)',          containingCounty: '08077' },
   ];
 
   // Cached resource files (curated for featured geos; can be expanded by ETL)
@@ -3236,6 +3253,172 @@
         }
       }
     });
+
+    // ---- Scenario comparison charts (5–10 year horizon section) ----
+    _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t);
+  }
+
+  /**
+   * _renderScenarioSection — populate the three scenario-based projection charts
+   * (population comparison, single-scenario detail, household projection, and
+   * housing-demand-by-AMI-tier).  Called from applyAssumptions so all four
+   * canvases update whenever the geography or assumptions change.
+   */
+  function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
+    const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
+
+    // Find the index of the base year in the years array
+    const baseIdx = years.indexOf(baseYear);
+    const basePop0 = (baseIdx >= 0 && popSel[baseIdx] !== null) ? popSel[baseIdx]
+                   : popSel.find(v => v !== null) || null;
+
+    // Guard: skip all scenario chart rendering if no valid base population exists
+    if (basePop0 === null || basePop0 === 0) return;
+
+    // Growth multipliers per scenario: applied to the *delta* from the base year
+    // so low/high scenarios diverge progressively from the same starting point.
+    const GROWTH_MULT = { baseline: 1.0, low_growth: 0.55, high_growth: 1.5 };
+
+    // Build a synthetic {year, population} series for each scenario using
+    // the DOLA baseline as the reference trajectory.
+    function buildScenarioSeries(multiplier){
+      const out = [];
+      let count = 0;
+      for (let i = 0; i < years.length; i++){
+        if (years[i] < baseYear) continue;
+        if (count > SCENARIO_HORIZON) break;
+        const baselineVal = popSel[i];
+        if (baselineVal === null) continue;
+        const delta = baselineVal - basePop0;
+        out.push({ year: years[i], population: Math.max(0, Math.round(basePop0 + delta * multiplier)) });
+        count++;
+      }
+      return out;
+    }
+
+    const seriesByScenario = {};
+    ['baseline', 'low_growth', 'high_growth'].forEach(sc => {
+      seriesByScenario[sc] = buildScenarioSeries(GROWTH_MULT[sc]);
+    });
+
+    // Include custom scenario if the user has saved one.
+    // The effective growth multiplier is a weighted combination of the three
+    // demographic rate overrides: migration (60% weight), fertility (30%), mortality (10%).
+    // The baseline annual net migration of 500 is the median of the three built-in scenarios.
+    if (PROJECTION_SCENARIOS['custom']){
+      const overrides = getScenarioRateOverrides();
+      const BASELINE_NET_MIGRATION = 500; // persons/year — median across the three built-in scenarios
+      // Weights: migration dominates CO county growth (60%), fertility secondary (30%), mortality minor (10%)
+      const MIG_WEIGHT  = 0.6;
+      const FERT_WEIGHT = 0.3;
+      const MORT_WEIGHT = 0.1;
+      const migMult = Number.isFinite(overrides.netMigrationAnnual / BASELINE_NET_MIGRATION)
+        ? overrides.netMigrationAnnual / BASELINE_NET_MIGRATION : 1;
+      // Mortality inverts: multiplier > 1 means higher mortality → lower effective growth
+      const mortAdjust = 2.0 - overrides.mortalityMultiplier; // 1.0 when mortality = 1.0 (neutral)
+      const effectiveMult = migMult * MIG_WEIGHT
+                          + overrides.fertilityMultiplier * FERT_WEIGHT
+                          + mortAdjust * MORT_WEIGHT;
+      seriesByScenario['custom'] = buildScenarioSeries(effectiveMult);
+    }
+
+    // chartScenarioComparison — all three base scenarios on one axis
+    const scenCompCanvas = document.getElementById('chartScenarioComparison');
+    if (scenCompCanvas){
+      renderScenarioComparison(geoid || '', ['baseline', 'low_growth', 'high_growth'], {
+        canvas: scenCompCanvas,
+        seriesByScenario,
+        years: SCENARIO_HORIZON,
+      });
+    }
+
+    // chartProjectionDetail — single selected scenario
+    const sc = getSelectedScenario();
+    const detailCanvas = document.getElementById('chartProjectionDetail');
+    if (detailCanvas){
+      renderProjectionChart(geoid || '', sc, SCENARIO_HORIZON, {
+        canvas: detailCanvas,
+        basePopSeries: seriesByScenario[sc] || seriesByScenario.baseline,
+      });
+    }
+
+    // chartProjectedHH — household projection (uses DOLA households_dola series)
+    const hhCanvas = document.getElementById('chartProjectedHH');
+    if (hhCanvas){
+      const hhDola = proj?.housing_need?.households_dola || [];
+      const hhSeries = [];
+      let hhCount = 0;
+      for (let i = 0; i < years.length; i++){
+        if (years[i] < baseYear) continue;
+        if (hhCount > SCENARIO_HORIZON) break;
+        const v = hhDola[i] !== undefined ? Number(hhDola[i]) : null;
+        hhSeries.push({ year: years[i], households: Number.isFinite(v) ? Math.round(v) : null });
+        hhCount++;
+      }
+      makeChart(hhCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: hhSeries.map(d => d.year),
+          datasets: [{
+            label: 'Households (DOLA forecast)',
+            data:  hhSeries.map(d => d.households),
+            borderColor: PROJECTION_SCENARIOS.baseline.color,
+            backgroundColor: PROJECTION_SCENARIOS.baseline.color + '22',
+            borderWidth: 2,
+            pointRadius: 2,
+            tension: 0.25,
+            fill: true,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: t.text } },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}` } },
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.border } },
+            y: { ticks: { color: t.muted }, grid: { color: t.border } },
+          },
+        },
+      });
+    }
+
+    // chartHouseholdDemand — housing demand by AMI tier
+    // Synthesise demand series from households * fixed AMI-tier income shares.
+    // These statewide CO defaults (from ACS CHAS approximations) are used when
+    // county-specific ETL data is not available; county-level data from
+    // data/hna/derived/geo-derived.json takes precedence when present.
+    const demandCanvas = document.getElementById('chartHouseholdDemand');
+    if (demandCanvas){
+      const hhDola = proj?.housing_need?.households_dola || [];
+      // Statewide CO renter share (ACS 5-year): ~35% of households rent
+      const RENTER_SHARE = 0.35;
+      // Statewide income-tier distribution for renter households (ACS CHAS CO defaults)
+      const tierShares = { '30_ami': 0.13, '50_ami': 0.17, '80_ami': 0.25,
+                           '100_ami': 0.20, '120_ami': 0.15, 'above_120_ami': 0.10 };
+      const demandSeries = [];
+      let dsCount = 0;
+      for (let i = 0; i < years.length; i++){
+        if (years[i] < baseYear) continue;
+        if (dsCount > SCENARIO_HORIZON) break;
+        const hh = hhDola[i] !== undefined ? Number(hhDola[i]) : null;
+        if (!Number.isFinite(hh)){ dsCount++; continue; }
+        const renters = hh * RENTER_SHARE;
+        const demand_by_ami = { renter: {} };
+        Object.keys(tierShares).forEach(tier => {
+          demand_by_ami.renter[tier] = Math.round(renters * tierShares[tier]);
+        });
+        demandSeries.push({ year_offset: dsCount, demand_by_ami });
+        dsCount++;
+      }
+      renderHouseholdDemand(geoid || '', sc, Object.keys(AMI_TIER_LABELS), {
+        canvas: demandCanvas,
+        demandSeries,
+        tenure: 'renter',
+      });
+    }
   }
 
 
