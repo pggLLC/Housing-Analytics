@@ -20,6 +20,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
 <main id="main-content">
 <div class="container">
 <div class="page-header">
@@ -34,28 +35,28 @@
 <div class="chart-section">
 <h2 class="chart-title">Steel &amp; Metal Products</h2>
 <div class="chart-container">
-<canvas id="steel-chart"></canvas>
+<canvas id="steel-chart" role="img" aria-label="Line chart: Steel and Metal Products Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 </div>
 <!-- Lumber Chart -->
 <div class="chart-section">
 <h2 class="chart-title">Lumber &amp; Wood Products</h2>
 <div class="chart-container">
-<canvas id="lumber-chart"></canvas>
+<canvas id="lumber-chart" role="img" aria-label="Line chart: Lumber and Wood Products Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 </div>
 <!-- Concrete Chart -->
 <div class="chart-section">
 <h2 class="chart-title">Concrete &amp; Cement</h2>
 <div class="chart-container">
-<canvas id="concrete-chart"></canvas>
+<canvas id="concrete-chart" role="img" aria-label="Line chart: Concrete and Cement Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 </div>
 <!-- Composite Index -->
 <div class="chart-section">
 <h2 class="chart-title">Construction Materials Input PPI (Composite)</h2>
 <div class="chart-container">
-<canvas id="composite-chart"></canvas>
+<canvas id="composite-chart" role="img" aria-label="Line chart: Construction Materials Input PPI composite index over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
 </div>
 <!-- Data Source -->
@@ -102,7 +103,7 @@
             if (!ctx) return;
             
             const datasets = commodities.map((commodity, index) => {
-                const colors = ['#d4a574', '#c0392b', '#3498db', '#2ecc71', '#f39c12'];
+                const colors = ['#7c3d00', '#991b1b', '#0369a1', '#166534', '#92400e'];
                 return {
                     label: commodity.name,
                     data: commodity.history
@@ -169,7 +170,7 @@
                     .map(key => createPriceCard(key, data[key]))
                     .join('');
                 
-                document.getElementById('price-cards-container').innerHTML = cardsHTML;
+                window.__announceUpdate && window.__announceUpdate(\'Commodity price data loaded\'); document.getElementById('price-cards-container').innerHTML = cardsHTML;
                 
                 // Create charts
                 // Steel & Metal
@@ -208,5 +209,19 @@
 <!-- Navigation -->
 
   <script src="js/contrast-guard.js"></script>
+<script>
+// Accessibility: announce dynamic content changes to screen readers
+(function () {
+  function announce(msg) {
+    var el = document.getElementById('aria-live-region');
+    if (!el) return;
+    el.textContent = '';                        // force re-announcement
+    requestAnimationFrame(function () { el.textContent = msg; });
+  }
+  window.__announceUpdate = announce;
+})();
+</script>
+
+<footer id="site-footer"></footer>
 </body>
 </html>

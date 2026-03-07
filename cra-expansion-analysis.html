@@ -18,8 +18,8 @@
 </head>
 <body data-page="cra-expansion-analysis.html">
 <a class="skip-link" href="#main-content">Skip to main content</a>
-<div id="site-header"></div>
-<div id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem;">
+<header id="site-header"></header>
+<main id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem;">
 <div style="display: inline-block; padding: 0.5rem 1rem; background: var(--color-info); color: white; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1.5rem;">
             Policy Analysis
         </div>
@@ -52,14 +52,14 @@
 <p class="chart-subtitle">9% credit pricing projections through Q4 2027</p>
 </div>
 <div style="height: 400px; position: relative;">
-<canvas id="scenarios-chart"></canvas>
+<canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing forecast under four CRA expansion scenarios (Baseline, Moderate, Aggressive, Transformative) through Q4 2027"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: Baseline scenario ends at $0.85 (Q4 2027); Moderate Expansion $0.94; Aggressive Expansion $1.01; Transformative Reform $1.11.</p>
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; margin: 1.25rem 0;">
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title" style="color: var(--color-text);">Scenario 1: Baseline (No Change)</h3>
-<span style="background: rgba(108, 122, 137, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">40% Probability</span>
+<span style="background: rgba(30, 87, 153, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">40% Probability</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Current CRA rules remain unchanged</strong></p>
@@ -75,14 +75,14 @@
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title" style="color: var(--color-info);">Scenario 2: Moderate Expansion</h3>
-<span style="background: rgba(52, 152, 219, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">35% Probability</span>
+<span style="background: rgba(3, 105, 161, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">35% Probability</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Credit unions gain CRA-equivalent mandate</strong></p>
 <p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
                         Major credit unions (&gt;$1B assets) required to meet CRA-like standards. Insurance companies receive enhanced incentives. 15-20% investor pool expansion.
                     </p>
-<div style="background: rgba(52, 152, 219, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(52, 152, 219, 0.2);">
+<div style="background: rgba(3, 105, 161, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(3, 105, 161, 0.2);">
 <div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.92-$0.95</div>
 <div><strong>Change from current:</strong> <span style="color: var(--color-success);">+6% to +9%</span></div>
 </div>
@@ -91,14 +91,14 @@
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title" style="color: var(--color-success);">Scenario 3: Aggressive Expansion</h3>
-<span style="background: rgba(39, 174, 96, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">20% Probability</span>
+<span style="background: rgba(10, 126, 116, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">20% Probability</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>All credit unions + non-bank lenders covered</strong></p>
 <p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
                         Comprehensive expansion including all credit unions, insurance companies with mandates, and major FinTech lenders. 30-40% pool expansion.
                     </p>
-<div style="background: rgba(39, 174, 96, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(39, 174, 96, 0.2);">
+<div style="background: rgba(10, 126, 116, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(10, 126, 116, 0.2);">
 <div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.98-$1.02</div>
 <div><strong>Change from current:</strong> <span style="color: var(--color-success);">+13% to +17%</span></div>
 </div>
@@ -107,14 +107,14 @@
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title" style="color: #0f172a;">Scenario 4: Transformative Reform</h3>
-<span style="background: rgba(212, 165, 116, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">5% Probability</span>
+<span style="background: rgba(124, 61, 0, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem;">5% Probability</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Complete CRA restructuring with LIHTC priority</strong></p>
 <p style="font-size: 0.9375rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1rem;">
                         All financial institutions subject to CRA. LIHTC investments receive enhanced weight (double counting). Tax incentives layer on top. 50-70% pool expansion.
                     </p>
-<div style="background: rgba(212, 165, 116, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(212, 165, 116, 0.3);">
+<div style="background: rgba(124, 61, 0, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(124, 61, 0, 0.3);">
 <div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $1.05-$1.12</div>
 <div><strong>Change from current:</strong> <span style="color: var(--color-success);">+21% to +29%</span></div>
 </div>
@@ -191,17 +191,17 @@
 <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">$2.55M</div>
 <div style="font-size: 0.875rem; color: var(--color-text-light);">At $0.85 pricing</div>
 </div>
-<div style="padding: 1.5rem; background: rgba(52, 152, 219, 0.05); border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.2);">
+<div style="padding: 1.5rem; background: rgba(3, 105, 161, 0.05); border-radius: 8px; border: 1px solid rgba(3, 105, 161, 0.2);">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Moderate Expansion</div>
 <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-info); margin-bottom: 0.5rem;">$2.79M</div>
 <div style="font-size: 0.875rem; color: var(--color-success);">+$240K equity</div>
 </div>
-<div style="padding: 1.5rem; background: rgba(39, 174, 96, 0.05); border-radius: 8px; border: 1px solid rgba(39, 174, 96, 0.2);">
+<div style="padding: 1.5rem; background: rgba(10, 126, 116, 0.05); border-radius: 8px; border: 1px solid rgba(10, 126, 116, 0.2);">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Aggressive Expansion</div>
 <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.5rem;">$3.00M</div>
 <div style="font-size: 0.875rem; color: var(--color-success);">+$450K equity</div>
 </div>
-<div style="padding: 1.5rem; background: rgba(212, 165, 116, 0.05); border-radius: 8px; border: 1px solid rgba(212, 165, 116, 0.3);">
+<div style="padding: 1.5rem; background: rgba(124, 61, 0, 0.05); border-radius: 8px; border: 1px solid rgba(124, 61, 0, 0.3);">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Transformative Reform</div>
 <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem;">$3.26M</div>
 <div style="font-size: 0.875rem; color: var(--color-success);">+$710K equity</div>
@@ -213,7 +213,7 @@
 <div class="chart-card">
 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
 <h3 style="margin: 0; color: #0f172a;">Affordable Housing Credit Improvement Act (AHCIA)</h3>
-<span style="background: rgba(52, 152, 219, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; white-space: nowrap;">Medium (40%)</span>
+<span style="background: rgba(3, 105, 161, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; white-space: nowrap;">Medium (40%)</span>
 </div>
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Status:</strong> Introduced in both chambers</p>
 <p style="margin-bottom: 1rem; line-height: 1.7; color: var(--color-text-light);"><strong>CRA Provisions:</strong> Enhances CRA credit value for LIHTC investments; encourages credit union participation</p>
@@ -240,7 +240,7 @@
 <li><strong>Geographic strategy:</strong> Target CRA-eligible census tracts to maximize appeal to expanded investor base</li>
 </ul>
 </div>
-<div style="background: rgba(52, 152, 219, 0.05); padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid rgba(52, 152, 219, 0.2);">
+<div style="background: rgba(3, 105, 161, 0.05); padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid rgba(3, 105, 161, 0.2);">
 <h3 style="color: #0f172a; margin-bottom: 1.5rem;">For Investors:</h3>
 <ul style="line-height: 1.8;">
 <li><strong>Competitive positioning:</strong> CRA expansion increases competition - lock in deals early if baseline likely</li>
@@ -255,7 +255,7 @@
 <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">$0.90 - $0.93</div>
 <div style="opacity: 0.9;">Expected 9% credit pricing range by Q4 2027</div>
 </div>
-</div>
+</main>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('scenarios-chart');
@@ -268,32 +268,32 @@
                             {
                                 label: 'Baseline (No Change)',
                                 data: [0.87, 0.86, 0.86, 0.85, 0.85, 0.85, 0.84, 0.84, 0.84, 0.85, 0.85],
-                                borderColor: '#6c7a89',
-                                backgroundColor: 'rgba(108, 122, 137, 0.1)',
+                                borderColor: '#1e5799',
+                                backgroundColor: 'rgba(30, 87, 153, 0.1)',
                                 borderWidth: 2,
                                 tension: 0.4
                             },
                             {
                                 label: 'Moderate Expansion',
                                 data: [0.87, 0.87, 0.88, 0.89, 0.90, 0.91, 0.92, 0.93, 0.93, 0.94, 0.94],
-                                borderColor: '#3498db',
-                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                                borderColor: '#0369a1',
+                                backgroundColor: 'rgba(3, 105, 161, 0.1)',
                                 borderWidth: 2,
                                 tension: 0.4
                             },
                             {
                                 label: 'Aggressive Expansion',
                                 data: [0.87, 0.88, 0.90, 0.92, 0.94, 0.96, 0.97, 0.99, 1.00, 1.01, 1.01],
-                                borderColor: '#27ae60',
-                                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                                borderColor: '#0a7e74',
+                                backgroundColor: 'rgba(10, 126, 116, 0.1)',
                                 borderWidth: 2,
                                 tension: 0.4
                             },
                             {
                                 label: 'Transformative Reform',
                                 data: [0.87, 0.89, 0.92, 0.95, 0.98, 1.01, 1.04, 1.06, 1.08, 1.10, 1.11],
-                                borderColor: '#d4a574',
-                                backgroundColor: 'rgba(212, 165, 116, 0.1)',
+                                borderColor: '#7c3d00',
+                                backgroundColor: 'rgba(124, 61, 0, 0.1)',
                                 borderWidth: 2,
                                 tension: 0.4
                             }
@@ -324,4 +324,6 @@
   <script src="js/contrast-guard.js"></script>
 
 
+
+<footer id="site-footer"></footer>
 </body></html>

@@ -22,6 +22,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
   <main id="main-content" class="compliance-dashboard-main">
     <div class="cd-header">
       <h1>Prop 123 Compliance Dashboard</h1>
@@ -353,5 +354,19 @@
   })();
   </script>
   <script defer src="js/audit-hook.js"></script>
+<script>
+// Accessibility: announce dynamic content changes to screen readers
+(function () {
+  function announce(msg) {
+    var el = document.getElementById('aria-live-region');
+    if (!el) return;
+    el.textContent = '';                        // force re-announcement
+    requestAnimationFrame(function () { el.textContent = msg; });
+  }
+  window.__announceUpdate = announce;
+})();
+</script>
+
+<footer id="site-footer"></footer>
 </body>
 </html>
