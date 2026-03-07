@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   fetch-lihtc-data:
@@ -30,6 +31,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── npm version ──"
+          npm --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
 
       - name: Install dependencies
         run: npm install --omit=dev node-fetch@2
@@ -140,11 +153,16 @@ jobs:
         continue-on-error: true
 
       - name: Validate output files with jq
+        id: validate
         run: |
           echo "Validating QCT file..."
           if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/qct-colorado.json > /dev/null; then
+            qct_count=$(jq '.features | length' data/qct-colorado.json)
             echo "✅ data/qct-colorado.json is valid GeoJSON"
-            echo "   Features: $(jq '.features | length' data/qct-colorado.json)"
+            echo "   Features: ${qct_count}"
+            if [ "$qct_count" -eq 0 ]; then
+              echo "::warning::QCT dataset is empty (0 features) — HUD API may have returned no results"
+            fi
           else
             echo "❌ data/qct-colorado.json is invalid — replacing with placeholder"
             echo '{"type":"FeatureCollection","features":[]}' > data/qct-colorado.json
@@ -152,8 +170,12 @@ jobs:
 
           echo "Validating DDA file..."
           if jq -e '.type == "FeatureCollection" and (.features | type) == "array"' data/dda-colorado.json > /dev/null; then
+            dda_count=$(jq '.features | length' data/dda-colorado.json)
             echo "✅ data/dda-colorado.json is valid GeoJSON"
-            echo "   Features: $(jq '.features | length' data/dda-colorado.json)"
+            echo "   Features: ${dda_count}"
+            if [ "$dda_count" -eq 0 ]; then
+              echo "::warning::DDA dataset is empty (0 features) — HUD API may have returned no results"
+            fi
           else
             echo "❌ data/dda-colorado.json is invalid — replacing with placeholder"
             echo '{"type":"FeatureCollection","features":[]}' > data/dda-colorado.json
@@ -170,9 +192,11 @@ jobs:
           ['data/qct-colorado.json', 'data/dda-colorado.json'].forEach(f => {
             try {
               const data = JSON.parse(fs.readFileSync(f, 'utf8'));
+              const count = (data.features || []).length;
               manifest.files[f] = {
-                featureCount: (data.features || []).length,
-                placeholder: (data.features || []).length === 0
+                featureCount: count,
+                placeholder: count === 0,
+                bytes: fs.statSync(f).size,
               };
             } catch (e) {
               manifest.files[f] = { error: e.message };
@@ -181,6 +205,23 @@ jobs:
           fs.writeFileSync('data/manifest.json', JSON.stringify(manifest, null, 2));
           console.log('Manifest:', JSON.stringify(manifest, null, 2));
           EOF
+
+      - name: Alert on empty datasets
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-lihtc-data.yml --run-id ${context.runId} --data-file data/qct-colorado.json --details "HUD QCT/DDA fetch or validation failed. Check HUD ArcGIS API availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push updated data files
         run: |
