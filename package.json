@@ -21,7 +21,10 @@
     "audit:site": "node scripts/audit/site-audit.mjs",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
-    "validate:data": "node scripts/validate-critical-data.js"
+    "validate:data": "node scripts/validate-critical-data.js",
+    "monitor:report": "node scripts/monitoring/generate-report.js",
+    "monitor:report:json": "node scripts/monitoring/generate-report.js --json",
+    "monitor:check": "python3 scripts/monitoring/data-quality-check.py"
   },
   "dependencies": {
     "color": "^4.2.3",

@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   fetch-kashli:
@@ -21,10 +22,72 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Fetch Kashli market data
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── npm version ──"
+          npm --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
+          echo "── API key check ──"
+          if [ -n "$KASHLI_API_KEY" ]; then
+            echo "  KASHLI_API_KEY: set (${#KASHLI_API_KEY} chars)"
+          else
+            echo "  KASHLI_API_KEY: NOT SET ⚠️"
+          fi
         env:
           KASHLI_API_KEY: ${{ secrets.KASHLI_API_KEY }}
-        run: node scripts/fetch-kashli.js
+
+      - name: Fetch Kashli market data
+        id: fetch
+        env:
+          KASHLI_API_KEY: ${{ secrets.KASHLI_API_KEY }}
+        run: |
+          echo "── Starting Kashli fetch at $(date -u) ──"
+          node scripts/fetch-kashli.js
+          echo "── Fetch completed at $(date -u) ──"
+
+      - name: Validate output
+        id: validate
+        run: |
+          OUT="data/kashli-market-data.json"
+          echo "── Validating $OUT ──"
+          if [ ! -f "$OUT" ]; then
+            echo "::error::Output file not found: $OUT"
+            exit 1
+          fi
+          size=$(stat -c%s "$OUT" 2>/dev/null || stat -f%z "$OUT")
+          echo "  File size: ${size} bytes"
+          if [ "$size" -eq 0 ]; then
+            echo "::error::Output file is empty (0 bytes)"
+            exit 1
+          fi
+          if ! python3 -c "import json,sys; d=json.load(open('$OUT')); print('  JSON valid: ✅'); print(f'  Type: {type(d).__name__}')"; then
+            echo "::error::Output file contains invalid JSON"
+            exit 1
+          fi
+          echo "  Validation passed ✅"
+
+      - name: Alert on empty dataset
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-kashli-data.yml --run-id ${context.runId} --data-file data/kashli-market-data.json --details "Kashli fetch or validation failed"`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push data file
         run: |
