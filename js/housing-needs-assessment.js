@@ -1811,7 +1811,7 @@
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Employment trend data requires LEHD WAC annual snapshots. Run the HNA data build workflow to populate.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -1896,7 +1896,7 @@
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Wage trend requires LEHD WAC annual snapshots. Run the HNA data build workflow to populate.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -1977,7 +1977,7 @@
     var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries.slice(0, 10) : [];
 
     if (!industries.length) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Industry analysis requires LEHD WAC data. Run the HNA data build workflow to populate.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -2071,9 +2071,17 @@
     var yoyGrowth  = (lehd && lehd.yoyGrowth)        ? lehd.yoyGrowth        : {};
     var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries : [];
 
-    // If no LEHD data cached yet, show a fallback message instead of dashes
-    if (!lehd) {
-      container.innerHTML = '<p class="metric-cards-note">Economic indicator data requires LEHD WAC snapshots. Run the HNA data build workflow to populate.</p>';
+    // If no LEHD data cached, or LEHD exists but lacks WAC-enriched fields,
+    // show a descriptive fallback message at the section level.
+    var wacMissing = !lehd || (!lehd.annualEmployment && !lehd.annualWages && (!Array.isArray(lehd.industries) || lehd.industries.length === 0));
+    if (wacMissing) {
+      var sectionEl = document.getElementById('economicIndicatorsContainer');
+      var fallbackMsg = '<p class="metric-cards-note" style="padding:.75rem 0">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
+      if (sectionEl) {
+        var existing = sectionEl.querySelector('.metric-cards-note');
+        if (!existing) sectionEl.insertAdjacentHTML('beforeend', fallbackMsg);
+      }
+      container.innerHTML = fallbackMsg;
       return;
     }
 
