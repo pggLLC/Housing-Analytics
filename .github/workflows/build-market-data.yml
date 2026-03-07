@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
 
     steps:
       - name: Checkout repository
@@ -28,14 +29,41 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Environment diagnostics
+        run: |
+          echo "── Python version ──"
+          python3 --version
+          echo "── Node.js version ──"
+          node --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
+          echo "── API key check ──"
+          python3 -c "
+          import os, sys
+          k = os.environ.get('CENSUS_API_KEY', '').strip()
+          if k:
+              print(f'  CENSUS_API_KEY: set ({len(k)} chars)')
+          else:
+              print('  CENSUS_API_KEY: NOT SET ⚠️', file=sys.stderr)
+          "
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+
       - name: Run market data builder
+        id: build
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
+          echo "── Starting market data build at $(date -u) ──"
           python scripts/market/build_public_market_data.py
+          echo "── Build completed at $(date -u) ──"
         timeout-minutes: 15
 
       - name: Validate artifacts
+        id: validate
         run: |
           python - <<'EOF'
           import json, sys
@@ -53,22 +81,47 @@ jobs:
             if not p.exists():
               errors.append(f"Missing: {a}")
               continue
+            size = p.stat().st_size
+            print(f"  {a}: {size} bytes")
+            if size == 0:
+              errors.append(f"Zero-byte file: {a}")
+              continue
             try:
               obj = json.loads(p.read_text())
             except json.JSONDecodeError as e:
               errors.append(f"Invalid JSON in {a}: {e}")
               continue
-            if a.endswith(".geojson") and not isinstance(obj.get("features"), list):
-              errors.append(f"{a}: no 'features' array")
-            elif not a.endswith(".geojson") and not isinstance(obj.get("tracts"), list):
+            if a.endswith(".geojson"):
+              if not isinstance(obj.get("features"), list):
+                errors.append(f"{a}: no 'features' array")
+              else:
+                print(f"  {a}: {len(obj['features'])} features")
+            elif not isinstance(obj.get("tracts"), list):
               errors.append(f"{a}: no 'tracts' array (may be OK for empty states)")
 
           if errors:
             for e in errors:
               print(f"::error::{e}")
             sys.exit(1)
-          print("All artifacts valid.")
+          print("All artifacts valid ✅")
           EOF
+
+      - name: Alert on build failure
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode failure --workflow build-market-data.yml --run-id ${context.runId} --step "Build or Validate" --details "Market data build or artifact validation failed. Check Census API key and build script logs."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit updated artifacts
         run: |

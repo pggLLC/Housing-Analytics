@@ -12,6 +12,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   contrast-audit:
@@ -25,6 +26,16 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── npm version ──"
+          npm --version
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
 
       - name: Install dependencies
         run: npm install
@@ -135,3 +146,20 @@ jobs:
               issue_number: context.issue.number,
               body: body
             });
+
+      - name: Alert on audit failure
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode failure --workflow contrast-audit.yml --run-id ${context.runId} --step "Contrast Audit" --details "WCAG contrast audit failed. Check audit logs and reports artifact."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }

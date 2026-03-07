@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   fetch-kalshi:
@@ -21,12 +22,76 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── npm version ──"
+          npm --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
+          echo "  Actor      : $GITHUB_ACTOR"
+          echo "  Ref        : $GITHUB_REF"
+          echo "── API key check ──"
+          if [ -n "$KALSHI_API_KEY" ]; then
+            echo "  KALSHI_API_KEY: set (${#KALSHI_API_KEY} chars)"
+          else
+            echo "  KALSHI_API_KEY: NOT SET ⚠️"
+          fi
+        env:
+          KALSHI_API_KEY: ${{ secrets.KALSHI_API_KEY }}
+
       - name: Fetch Kalshi prediction market data
+        id: fetch
         env:
           KALSHI_API_KEY: ${{ secrets.KALSHI_API_KEY }}
           KALSHI_API_SECRET: ${{ secrets.KALSHI_API_SECRET }}
           KALSHI_API_BASE_URL: ${{ secrets.KALSHI_API_BASE_URL }}
-        run: node scripts/kalshi/fetch_kalshi_prediction_markets.js
+        run: |
+          echo "── Starting Kalshi fetch at $(date -u) ──"
+          node scripts/kalshi/fetch_kalshi_prediction_markets.js
+          echo "── Fetch completed at $(date -u) ──"
+
+      - name: Validate output
+        id: validate
+        run: |
+          OUT="data/kalshi/prediction-market.json"
+          echo "── Validating $OUT ──"
+          if [ ! -f "$OUT" ]; then
+            echo "::error::Output file not found: $OUT"
+            exit 1
+          fi
+          size=$(stat -c%s "$OUT" 2>/dev/null || stat -f%z "$OUT")
+          echo "  File size: ${size} bytes"
+          if [ "$size" -eq 0 ]; then
+            echo "::error::Output file is empty (0 bytes)"
+            exit 1
+          fi
+          if ! python3 -c "import json,sys; d=json.load(open('$OUT')); print('  JSON valid: ✅'); print(f'  Keys: {list(d.keys()) if isinstance(d,dict) else type(d).__name__}')"; then
+            echo "::error::Output file contains invalid JSON"
+            exit 1
+          fi
+          echo "  Validation passed ✅"
+
+      - name: Alert on empty dataset
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-kalshi.yml --run-id ${context.runId} --data-file data/kalshi/prediction-market.json --details "Kalshi fetch or validation failed"`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push data file
         run: |
