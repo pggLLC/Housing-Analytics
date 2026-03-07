@@ -42,7 +42,18 @@ function fmtPct(x){
 }
 
 async function fetchJson(url){
-  const res = await fetch(url);
+  let res;
+  if (typeof window.fetchWithTimeout === 'function') {
+    res = await window.fetchWithTimeout(url, {}, 8000, 0);
+  } else {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+      res = await fetch(url, { signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
   if (!res.ok) throw new Error(`Census API error: ${res.status}`);
   return await res.json();
 }
