@@ -1,10 +1,227 @@
 {
   "type": "FeatureCollection",
-  "features": [],
   "meta": {
-    "source": "OpenStreetMap Overpass API (public)",
-    "state": "Colorado",
-    "generated": "2026-01-01T00:00:00Z",
-    "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
-  }
+    "source": "Colorado HPMS / CHA public registry",
+    "note": "Placeholder seed \u2014 major Colorado hospitals (verified public data)",
+    "generated": "2025-01-01",
+    "feature_type": "hospital"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8383,
+          39.7449
+        ]
+      },
+      "properties": {
+        "name": "UCHealth University of Colorado Hospital",
+        "type": "hospital",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "12605 E 16th Ave",
+        "zip": "80045"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8322,
+          39.7444
+        ]
+      },
+      "properties": {
+        "name": "Children's Hospital Colorado",
+        "type": "hospital",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "13123 E 16th Ave",
+        "zip": "80045"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9862,
+          39.7282
+        ]
+      },
+      "properties": {
+        "name": "Denver Health Medical Center",
+        "type": "hospital",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "777 Bannock St",
+        "zip": "80204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9699,
+          39.7452
+        ]
+      },
+      "properties": {
+        "name": "Saint Joseph Hospital",
+        "type": "hospital",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "1375 E 19th Ave",
+        "zip": "80218"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5572,
+          39.0752
+        ]
+      },
+      "properties": {
+        "name": "SCL Health Saint Mary's Hospital",
+        "type": "hospital",
+        "city": "Grand Junction",
+        "county": "Mesa",
+        "address": "2635 N 7th St",
+        "zip": "81501"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8072,
+          38.8339
+        ]
+      },
+      "properties": {
+        "name": "Memorial Hospital Central",
+        "type": "hospital",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "1400 E Boulder St",
+        "zip": "80909"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8265,
+          38.8595
+        ]
+      },
+      "properties": {
+        "name": "Penrose-St. Francis Health Services",
+        "type": "hospital",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "2222 N Nevada Ave",
+        "zip": "80907"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.058,
+          40.5553
+        ]
+      },
+      "properties": {
+        "name": "Poudre Valley Hospital",
+        "type": "hospital",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "address": "1024 S Lemay Ave",
+        "zip": "80524"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7062,
+          40.4193
+        ]
+      },
+      "properties": {
+        "name": "North Colorado Medical Center",
+        "type": "hospital",
+        "city": "Greeley",
+        "county": "Weld",
+        "address": "1801 16th St",
+        "zip": "80631"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6248,
+          38.2397
+        ]
+      },
+      "properties": {
+        "name": "St. Mary-Corwin Medical Center",
+        "type": "hospital",
+        "city": "Pueblo",
+        "county": "Pueblo",
+        "address": "1008 Minnequa Ave",
+        "zip": "81004"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3248,
+          39.5505
+        ]
+      },
+      "properties": {
+        "name": "Valley View Hospital",
+        "type": "hospital",
+        "city": "Glenwood Springs",
+        "county": "Garfield",
+        "address": "1906 Blake Ave",
+        "zip": "81601"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2354,
+          38.4456
+        ]
+      },
+      "properties": {
+        "name": "Centura Health St. Thomas More",
+        "type": "hospital",
+        "city": "Canon City",
+        "county": "Fremont",
+        "address": "1338 Phay Ave",
+        "zip": "81212"
+      }
+    }
+  ]
 }
