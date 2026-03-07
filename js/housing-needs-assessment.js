@@ -2058,7 +2058,7 @@
    * @param {string} geoid - 5-digit county FIPS
    */
   function renderEconomicIndicators(geoid) {
-    var container = document.getElementById('economicIndicatorsContainer');
+    var container = document.getElementById('econIndicatorCards');
     if (!container) return;
 
     var lehd = null;
@@ -2070,6 +2070,12 @@
     var annualEmp  = (lehd && lehd.annualEmployment) ? lehd.annualEmployment : {};
     var yoyGrowth  = (lehd && lehd.yoyGrowth)        ? lehd.yoyGrowth        : {};
     var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries : [];
+
+    // If no LEHD data cached yet, show a fallback message instead of dashes
+    if (!lehd) {
+      container.innerHTML = '<p class="metric-cards-note">Economic indicator data requires LEHD WAC snapshots. Run the HNA data build workflow to populate.</p>';
+      return;
+    }
 
     var years     = Object.keys(annualEmp).sort();
     var latestYr  = years[years.length - 1] || null;
