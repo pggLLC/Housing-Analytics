@@ -109,14 +109,27 @@ function loadCache() {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  const apiKey = (process.env.KALSHI_API_KEY || '').trim();
+  const apiKey = (process.env.KASHLI_API_KEY || '').trim();
 
   if (!apiKey) {
-    console.error(
-      'ERROR: KALSHI_API_KEY environment variable is not set.\n' +
-      'Add it in GitHub repo settings: Settings → Secrets and variables → Actions.'
+    console.warn(
+      'KASHLI_API_KEY environment variable is not set.\n' +
+      'Writing empty kashli-market-data.json — dashboard will use cached data.\n' +
+      'To enable live data, add KASHLI_API_KEY as a GitHub Actions secret\n' +
+      '(Settings → Secrets and variables → Actions).'
     );
-    process.exit(1);
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(OUTPUT_FILE)) {
+      fs.writeFileSync(OUTPUT_FILE, JSON.stringify({
+        source: 'Kashli API',
+        sourceUrl: `https://${KASHLI_BASE_URL}`,
+        fetchedAt: new Date().toISOString(),
+        markets: {},
+      }, null, 2), 'utf8');
+    }
+    process.exit(0);
   }
 
   if (!fs.existsSync(DATA_DIR)) {
