@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","features":[]}
+{"type":"FeatureCollection","fetchedAt":"2026-03-07T03:28:44.166Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-105.812976,39.947147]},"properties":{"PROJECT":"FRASER HOUSING","PROJ_ADD":"505 WILLOW LN","PROJ_CTY":"FRASER","PROJ_ST":"CO","CNTY_NAME":"Grand","CNTY_FIPS":"08049","STATEFP":"08","COUNTYFP":"049","N_UNITS":50,"LI_UNITS":49,"YR_PIS":"1995","YR_ALLOC":"1994","CREDIT":"2","NON_PROF":"1","QCT":"2","DDA":null}}]}
