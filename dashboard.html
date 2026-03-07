@@ -22,6 +22,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
 <main id="main-content">
 <div class="dashboard-container">
 <!-- Page Header -->
@@ -134,7 +135,7 @@
 <h2 class="section-title">Top States by Allocation</h2>
 <p class="section-subtitle">Visual comparison of leading states</p>
 <div class="chart-container">
-<canvas id="allocations-chart"></canvas>
+<canvas id="allocations-chart" role="img" aria-label="Bar chart: top 10 states ranked by total LIHTC allocation amount"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: top 10 states by LIHTC allocation are displayed in the data table immediately above this chart.</p>
 </div>
 </div>
 </div>
@@ -373,8 +374,8 @@
                     datasets: [{
                         label: 'Allocation ($M)',
                         data: top10.map(s => s.allocation / 1000000),
-                        backgroundColor: '#d4a574',
-                        borderColor: '#e4b584',
+                        backgroundColor: '#7c3d00',
+                        borderColor: '#7c3d00',
                         borderWidth: 1
                     }]
                 },
@@ -385,7 +386,7 @@
                         legend: { display: false },
                         tooltip: {
                             backgroundColor: 'rgba(42, 37, 32, 0.95)',
-                            titleColor: '#d4a574',
+                            titleColor: '#7c3d00',
                             bodyColor: '#e8dcc4'
                         }
                     },
@@ -417,6 +418,7 @@
         
         // Region select handler
         document.getElementById('region-select').addEventListener('change', function(e) {
+            window.__announceUpdate && window.__announceUpdate('Dashboard updated: ' + e.target.options[e.target.selectedIndex].text + ' region');
             currentRegion = e.target.value;
             console.log('Region changed to:', currentRegion);
             updateStats(currentRegion);
@@ -456,5 +458,19 @@
         });
     </script>
 <script src="js/contrast-guard.js"></script>
+<script>
+// Accessibility: announce dynamic content changes to screen readers
+(function () {
+  function announce(msg) {
+    var el = document.getElementById('aria-live-region');
+    if (!el) return;
+    el.textContent = '';                        // force re-announcement
+    requestAnimationFrame(function () { el.textContent = msg; });
+  }
+  window.__announceUpdate = announce;
+})();
+</script>
+
+<footer id="site-footer"></footer>
 </body>
 </html>
