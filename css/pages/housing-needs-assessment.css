@@ -225,11 +225,16 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   gap: 10px;
   margin-bottom: 14px;
 }
+.metric-cards-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 @media (max-width: 980px) {
-  .metric-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric-cards,
+  .metric-cards-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
-  .metric-cards { grid-template-columns: 1fr; }
+  .metric-cards,
+  .metric-cards-4 { grid-template-columns: 1fr; }
 }
 .metric-card {
   border: 1px solid var(--border);
@@ -241,6 +246,8 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .metric-card .mc-label { font-size: .84rem; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
 .metric-card .mc-value { font-size: 1.3rem; font-weight: 900; color: var(--text); }
 .metric-card .mc-sub { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+/* Spans the full grid width — used for no-data fallback messages inside .metric-cards */
+.metric-cards-note { grid-column: 1 / -1; font-size: .9rem; color: var(--muted); }
 
 .chart-container { margin-bottom: 14px; }
 
@@ -305,7 +312,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 }
 .checklist-item:last-child { border-bottom: none; }
 .checklist-item input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--accent); }
-.checklist-item label { cursor: pointer; }
+.checklist-item label { cursor: pointer; flex: 1; min-width: 0; }
 .checklist-item.done label { color: var(--muted); text-decoration: line-through; }
 
 .resources-section { margin-top: 0; }
