@@ -120,7 +120,7 @@ def inject_announce_js(html: str) -> str:
     # Strategy: find all </script> positions and pick the last one that is
     # preceded by an inline (not src) <script> opening.
     inline_script_pattern = re.compile(
-        r'<script(?!\s+[^>]*\bsrc\s*=)[^>]*>.*?</script>',
+        r'<script(?!\s+[^>]*\bsrc\s*=)[^>]*>.*?</\s*script[^>]*>',
         re.DOTALL | re.IGNORECASE,
     )
     matches = list(inline_script_pattern.finditer(html))
@@ -128,8 +128,11 @@ def inject_announce_js(html: str) -> str:
     if matches:
         # Inject before the LAST inline </script>
         last_match = matches[-1]
-        insert_pos = last_match.end() - len('</script>')
-        return html[:insert_pos] + ANNOUNCE_JS + html[insert_pos:]
+        # Find the closing tag offset: search backward for </ then script
+        closing_tag_match = re.search(r'</\s*script[^>]*>$', last_match.group(), re.IGNORECASE)
+        if closing_tag_match:
+            insert_pos = last_match.start() + closing_tag_match.start()
+            return html[:insert_pos] + ANNOUNCE_JS + html[insert_pos:]
 
     # No inline scripts at all — add a new <script> block before </body>
     body_end = html.lower().rfind('</body>')
