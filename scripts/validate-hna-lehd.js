@@ -26,7 +26,7 @@ const path = require('path');
 
 const ROOT      = path.resolve(__dirname, '..');
 const LEHD_DIR  = path.join(ROOT, 'data', 'hna', 'lehd');
-const WAC_FIELDS = ['annualEmployment', 'annualWages', 'industries'];
+const WAC_FIELDS = ['annualEmployment', 'annualWages', 'yoyGrowth', 'industries'];
 
 let passed  = 0;
 let failed  = 0;
@@ -99,19 +99,26 @@ for (const file of files) {
   // 5. WAC-enriched fields check
   const missingWac = WAC_FIELDS.filter(function(f) { return !json[f]; });
   if (missingWac.length > 0) {
-    console.warn('  WARN ' + file + ' missing WAC-enriched fields: ' + missingWac.join(', '));
+    console.warn(
+      '  WARN ' + file + ' missing WAC-enriched fields: ' + missingWac.join(', ') + '\n' +
+      '       Economic charts require WAC-enriched LEHD data. Run the data build pipeline to\n' +
+      '       populate annual employment, wages, and industry data:\n' +
+      '         python3 scripts/hna/build_hna_data.py'
+    );
     warned++;
     wacMissingCount++;
   } else {
     // Spot-check: annualEmployment must be a non-empty object
     var empYears = Object.keys(json.annualEmployment || {});
+    var yoyYears = Object.keys(json.yoyGrowth || {});
     var hasEmptyFields = empYears.length === 0 || !Array.isArray(json.industries) || json.industries.length === 0;
     if (hasEmptyFields) {
       console.warn('  WARN ' + file + ' WAC fields present but empty (annualEmployment years: ' + empYears.length + ', industries: ' + (Array.isArray(json.industries) ? json.industries.length : 0) + ')');
       warned++;
       wacMissingCount++;
     } else {
-      console.log('  OK  ' + file + ' (WAC years: ' + empYears.join(', ') + '; industries: ' + json.industries.length + ')');
+      var syntheticNote = json.syntheticWac ? ' [synthetic]' : '';
+      console.log('  OK  ' + file + ' (WAC years: ' + empYears.join(', ') + '; yoy years: ' + yoyYears.length + '; industries: ' + json.industries.length + syntheticNote + ')');
       passed++;
     }
   }
@@ -132,10 +139,11 @@ if (failed > 0) {
 if (wacMissingCount > totalFiles / 2) {
   console.warn(
     '\nWARN ' + wacMissingCount + ' of ' + totalFiles + ' LEHD county files are missing WAC-enriched fields\n' +
-    '     (annualEmployment, annualWages, industries).\n' +
-    '     Trend charts in the HNA Economic Indicators section will show fallback messages.\n' +
-    '     To populate, run:\n' +
-    '       python3 scripts/hna/build_hna_data.py'
+    '     (annualEmployment, annualWages, yoyGrowth, industries).\n' +
+    '     Economic charts require WAC-enriched LEHD data. Run the data build pipeline to\n' +
+    '     populate annual employment, wages, and industry data:\n' +
+    '       python3 scripts/hna/build_hna_data.py\n' +
+    '     Trend charts in the HNA Economic Indicators section will show fallback messages.'
   );
   process.exit(1);
 }
