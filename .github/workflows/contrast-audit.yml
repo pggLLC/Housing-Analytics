@@ -27,6 +27,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Environment diagnostics
         run: |
           echo "── Node.js version ──"
@@ -64,6 +69,26 @@ jobs:
       - name: Wait for server to be ready
         run: npx wait-on http://localhost:8080 --timeout 15000
 
+      - name: Run Stage 3 WCAG Accessibility Gate (46 checks)
+        id: wcag-gate
+        run: |
+          pip install pytest --quiet
+          pytest tests/test_stage3_accessibility.py -v --tb=short \
+            2>&1 | tee wcag-test-output.txt
+          
+          # Extract final score from pytest output
+          SCORE=$(grep -o "WCAG COMPLIANCE SCORE: [0-9]*%" wcag-test-output.txt | tail -1)
+          if [ -z "$SCORE" ]; then
+            SCORE="UNKNOWN"
+          fi
+          echo "score=$SCORE" >> "$GITHUB_OUTPUT"
+          
+          # Count passed/failed
+          PASSED=$(grep -o "passed" wcag-test-output.txt | wc -l)
+          FAILED=$(grep -o "failed" wcag-test-output.txt | wc -l)
+          echo "passed=$PASSED" >> "$GITHUB_OUTPUT"
+          echo "failed=$FAILED" >> "$GITHUB_OUTPUT"
+
       - name: Run contrast audit on each page
         id: audit
         run: |
@@ -76,6 +101,13 @@ jobs:
           echo "# WCAG Contrast Audit Report" > "$summary_file"
           echo "" >> "$summary_file"
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "## WCAG Accessibility Gate (Stage 3)" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "- **WCAG Compliance Score:** ${{ steps.wcag-gate.outputs.score }}" >> "$summary_file"
+          echo "- **Pytest Status:** ${{ steps.wcag-gate.outcome }}" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "## Contrast Audit Results" >> "$summary_file"
           echo "" >> "$summary_file"
           echo "| Page | Status | Issues |" >> "$summary_file"
           echo "|------|--------|--------|" >> "$summary_file"
@@ -117,12 +149,22 @@ jobs:
           echo "passed=$passed" >> "$GITHUB_OUTPUT"
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
-      - name: Upload contrast audit reports
+      - name: Validate accessibility compliance
+        if: failure()
+        run: |
+          echo "❌ WCAG Accessibility Gate FAILED"
+          echo "   Pytest tests did not achieve 100% compliance."
+          echo "   Review wcag-test-output.txt and contrast-reports/summary.md"
+          exit 1
+
+      - name: Upload audit reports and test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: contrast-audit-reports
-          path: contrast-reports/
+          name: accessibility-audit-results
+          path: |
+            contrast-reports/
+            wcag-test-output.txt
           retention-days: 30
 
       - name: Comment on pull request
@@ -132,12 +174,29 @@ jobs:
           script: |
             const fs = require('fs');
             const summaryPath = 'contrast-reports/summary.md';
-            let body = '## 🎨 WCAG Contrast Audit Results\n\n';
+            const wcagOutputPath = 'wcag-test-output.txt';
+
+            let body = '## ✅ WCAG 2.1 AA Accessibility & Contrast Audit\n\n';
+
+            // Include WCAG test results summary
+            if (fs.existsSync(wcagOutputPath)) {
+              const wcagOutput = fs.readFileSync(wcagOutputPath, 'utf8');
+              const scoreMatch = wcagOutput.match(/WCAG COMPLIANCE SCORE: (\d+%)/);
+              const testMatch = wcagOutput.match(/(\d+) passed/);
+
+              body += '### 🎯 WCAG Compliance Gate\n';
+              body += scoreMatch ? `- **Compliance Score:** ${scoreMatch[1]}\n` : '- **Compliance Score:** Unknown\n';
+              body += testMatch ? `- **Tests Passed:** ${testMatch[1]}/46\n` : '- **Tests Passed:** Unknown\n';
+              body += '\n';
+            }
+
+            body += '### 📊 Contrast Audit Results\n\n';
             if (fs.existsSync(summaryPath)) {
               body += fs.readFileSync(summaryPath, 'utf8');
             } else {
               body += '_No summary report generated._';
             }
+
             body += '\n\n_Audit run on commit ' + context.sha.slice(0, 7) + '_';
 
             await github.rest.issues.createComment({
@@ -155,9 +214,19 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
+            const fs = require('fs');
+            let failureDetails = 'WCAG accessibility audit failed.';
+
+            // Check if it's a pytest failure or contrast failure
+            if (fs.existsSync('wcag-test-output.txt')) {
+              failureDetails = 'WCAG Stage 3 pytest gate failed. Review test results.';
+            } else if (fs.existsSync('contrast-reports/summary.md')) {
+              failureDetails = 'Contrast audit detected violations. Review contrast reports.';
+            }
+
             try {
               execSync(
-                `node scripts/monitoring/alert.js --mode failure --workflow contrast-audit.yml --run-id ${context.runId} --step "Contrast Audit" --details "WCAG contrast audit failed. Check audit logs and reports artifact."`,
+                `node scripts/monitoring/alert.js --mode failure --workflow contrast-audit.yml --run-id ${context.runId} --step "WCAG Accessibility & Contrast Audit" --details "${failureDetails}"`,
                 { stdio: 'inherit', env: { ...process.env } }
               );
             } catch (e) {
