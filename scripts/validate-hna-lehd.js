@@ -5,7 +5,7 @@
  * Validates all JSON files in data/hna/lehd/ to ensure:
  *   1. Each file contains valid JSON.
  *   2. Each file has the required base fields (countyFips, updated).
- *   3. WAC-enriched fields are present (annualEmployment, annualWages, industries).
+ *   3. WAC-enriched fields are present (annualEmployment, annualWages, yoyGrowth, industries).
  *   4. Warns (and exits 1) if more than half the files are missing WAC fields,
  *      indicating the data build workflow has not been run yet.
  *
@@ -102,8 +102,10 @@ for (const file of files) {
     console.warn(
       '  WARN ' + file + ' missing WAC-enriched fields: ' + missingWac.join(', ') + '\n' +
       '       Economic charts require WAC-enriched LEHD data. Run the data build pipeline to\n' +
-      '       populate annual employment, wages, and industry data:\n' +
-      '         python3 scripts/hna/build_hna_data.py'
+      '       populate annual employment, wages, yoyGrowth, and industry data:\n' +
+      '         python3 scripts/hna/build_hna_data.py\n' +
+      '       Alternatively, seed synthetic stubs offline:\n' +
+      '         python3 scripts/hna/seed_lehd_wac_stubs.py'
     );
     warned++;
     wacMissingCount++;
@@ -141,8 +143,10 @@ if (wacMissingCount > totalFiles / 2) {
     '\nWARN ' + wacMissingCount + ' of ' + totalFiles + ' LEHD county files are missing WAC-enriched fields\n' +
     '     (annualEmployment, annualWages, yoyGrowth, industries).\n' +
     '     Economic charts require WAC-enriched LEHD data. Run the data build pipeline to\n' +
-    '     populate annual employment, wages, and industry data:\n' +
+    '     populate annual employment, wages, yoyGrowth, and industry data:\n' +
     '       python3 scripts/hna/build_hna_data.py\n' +
+    '     For offline/CI environments, seed synthetic stubs instead:\n' +
+    '       python3 scripts/hna/seed_lehd_wac_stubs.py\n' +
     '     Trend charts in the HNA Economic Indicators section will show fallback messages.'
   );
   process.exit(1);
