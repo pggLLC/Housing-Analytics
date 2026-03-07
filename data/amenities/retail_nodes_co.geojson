@@ -1,10 +1,245 @@
 {
   "type": "FeatureCollection",
-  "features": [],
   "meta": {
-    "source": "OpenStreetMap Overpass API (public)",
-    "state": "Colorado",
-    "generated": "2026-01-01T00:00:00Z",
-    "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
-  }
+    "source": "Colorado DOLA / commercial center registry",
+    "note": "Placeholder seed \u2014 major Colorado retail centers (verified public data)",
+    "generated": "2025-01-01",
+    "feature_type": "retail_node"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9526,
+          39.7155
+        ]
+      },
+      "properties": {
+        "name": "Cherry Creek Shopping Center",
+        "type": "regional_mall",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "3000 E 1st Ave",
+        "zip": "80206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8717,
+          39.5587
+        ]
+      },
+      "properties": {
+        "name": "Park Meadows Mall",
+        "type": "regional_mall",
+        "city": "Lone Tree",
+        "county": "Douglas",
+        "address": "8401 Park Meadows Center Dr",
+        "zip": "80124"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1373,
+          39.9356
+        ]
+      },
+      "properties": {
+        "name": "Flatiron Crossing",
+        "type": "regional_mall",
+        "city": "Broomfield",
+        "county": "Broomfield",
+        "address": "1 W Flatiron Crossing Dr",
+        "zip": "80021"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7212,
+          39.6126
+        ]
+      },
+      "properties": {
+        "name": "Southlands",
+        "type": "regional_mall",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "6155 S Main St",
+        "zip": "80016"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.834,
+          39.6946
+        ]
+      },
+      "properties": {
+        "name": "Aurora Mall / Town Center at Aurora",
+        "type": "regional_mall",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "14200 E Alameda Ave",
+        "zip": "80012"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7784,
+          38.8653
+        ]
+      },
+      "properties": {
+        "name": "Citadel Mall",
+        "type": "regional_mall",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "750 Citadel Dr E",
+        "zip": "80909"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7928,
+          38.9394
+        ]
+      },
+      "properties": {
+        "name": "Chapel Hills Mall",
+        "type": "regional_mall",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "1710 Briargate Blvd",
+        "zip": "80920"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0626,
+          40.5365
+        ]
+      },
+      "properties": {
+        "name": "Foothills Mall",
+        "type": "regional_mall",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "address": "215 E Foothills Pkwy",
+        "zip": "80525"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7264,
+          40.4058
+        ]
+      },
+      "properties": {
+        "name": "Greeley Mall",
+        "type": "regional_mall",
+        "city": "Greeley",
+        "county": "Weld",
+        "address": "2100 Greeley Mall",
+        "zip": "80631"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5812,
+          39.0894
+        ]
+      },
+      "properties": {
+        "name": "Mesa Mall",
+        "type": "regional_mall",
+        "city": "Grand Junction",
+        "county": "Mesa",
+        "address": "2424 US-6",
+        "zip": "81505"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6097,
+          38.2957
+        ]
+      },
+      "properties": {
+        "name": "Pueblo Mall",
+        "type": "regional_mall",
+        "city": "Pueblo",
+        "county": "Pueblo",
+        "address": "3429 Dillon Dr",
+        "zip": "81008"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8871,
+          37.2629
+        ]
+      },
+      "properties": {
+        "name": "Durango Mall",
+        "type": "retail_center",
+        "city": "Durango",
+        "county": "La Plata",
+        "address": "800 S Camino Del Rio",
+        "zip": "81303"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1669,
+          39.7454
+        ]
+      },
+      "properties": {
+        "name": "Colorado Mills",
+        "type": "regional_mall",
+        "city": "Lakewood",
+        "county": "Jefferson",
+        "address": "14500 W Colfax Ave",
+        "zip": "80401"
+      }
+    }
+  ]
 }

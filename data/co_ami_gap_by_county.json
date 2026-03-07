@@ -18,8 +18,16 @@
   "statewide": {
     "fips": "08",
     "county_name": "Colorado (statewide)",
-    "ami_4person": null,
-    "affordable_rent_monthly": {},
+    "ami_4person": 107200,
+    "affordable_rent_monthly": {
+      "30": 804,
+      "40": 1072,
+      "50": 1340,
+      "60": 1608,
+      "70": 1876,
+      "80": 2144,
+      "100": 2680
+    },
     "households_le_ami_pct": {
       "30": 532653,
       "40": 728614,
@@ -59,7 +67,7 @@
   },
   "counties": [
     {
-      "fips": "001",
+      "fips": "08001",
       "county_name": "Adams County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -109,7 +117,7 @@
       }
     },
     {
-      "fips": "003",
+      "fips": "08003",
       "county_name": "Alamosa County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -159,7 +167,7 @@
       }
     },
     {
-      "fips": "005",
+      "fips": "08005",
       "county_name": "Arapahoe County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -209,7 +217,7 @@
       }
     },
     {
-      "fips": "007",
+      "fips": "08007",
       "county_name": "Archuleta County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -259,7 +267,7 @@
       }
     },
     {
-      "fips": "009",
+      "fips": "08009",
       "county_name": "Baca County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -309,7 +317,7 @@
       }
     },
     {
-      "fips": "011",
+      "fips": "08011",
       "county_name": "Bent County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -359,7 +367,7 @@
       }
     },
     {
-      "fips": "013",
+      "fips": "08013",
       "county_name": "Boulder County",
       "ami_4person": 131900,
       "affordable_rent_monthly": {
@@ -409,7 +417,7 @@
       }
     },
     {
-      "fips": "014",
+      "fips": "08014",
       "county_name": "Broomfield County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -459,7 +467,7 @@
       }
     },
     {
-      "fips": "015",
+      "fips": "08015",
       "county_name": "Chaffee County",
       "ami_4person": 90600,
       "affordable_rent_monthly": {
@@ -509,7 +517,7 @@
       }
     },
     {
-      "fips": "017",
+      "fips": "08017",
       "county_name": "Cheyenne County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -559,7 +567,7 @@
       }
     },
     {
-      "fips": "019",
+      "fips": "08019",
       "county_name": "Clear Creek County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -609,7 +617,7 @@
       }
     },
     {
-      "fips": "021",
+      "fips": "08021",
       "county_name": "Conejos County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -659,7 +667,7 @@
       }
     },
     {
-      "fips": "023",
+      "fips": "08023",
       "county_name": "Costilla County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -709,7 +717,7 @@
       }
     },
     {
-      "fips": "025",
+      "fips": "08025",
       "county_name": "Crowley County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -759,7 +767,7 @@
       }
     },
     {
-      "fips": "027",
+      "fips": "08027",
       "county_name": "Custer County",
       "ami_4person": 83400,
       "affordable_rent_monthly": {
@@ -809,7 +817,7 @@
       }
     },
     {
-      "fips": "029",
+      "fips": "08029",
       "county_name": "Delta County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -859,7 +867,7 @@
       }
     },
     {
-      "fips": "031",
+      "fips": "08031",
       "county_name": "Denver County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -909,7 +917,7 @@
       }
     },
     {
-      "fips": "033",
+      "fips": "08033",
       "county_name": "Dolores County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -959,7 +967,7 @@
       }
     },
     {
-      "fips": "035",
+      "fips": "08035",
       "county_name": "Douglas County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -1009,7 +1017,7 @@
       }
     },
     {
-      "fips": "037",
+      "fips": "08037",
       "county_name": "Eagle County",
       "ami_4person": 131900,
       "affordable_rent_monthly": {
@@ -1059,7 +1067,7 @@
       }
     },
     {
-      "fips": "041",
+      "fips": "08041",
       "county_name": "El Paso County",
       "ami_4person": 111700,
       "affordable_rent_monthly": {
@@ -1109,7 +1117,7 @@
       }
     },
     {
-      "fips": "039",
+      "fips": "08039",
       "county_name": "Elbert County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -1159,7 +1167,7 @@
       }
     },
     {
-      "fips": "043",
+      "fips": "08043",
       "county_name": "Fremont County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -1209,7 +1217,7 @@
       }
     },
     {
-      "fips": "045",
+      "fips": "08045",
       "county_name": "Garfield County",
       "ami_4person": 97600,
       "affordable_rent_monthly": {
@@ -1259,7 +1267,7 @@
       }
     },
     {
-      "fips": "047",
+      "fips": "08047",
       "county_name": "Gilpin County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -1309,7 +1317,7 @@
       }
     },
     {
-      "fips": "049",
+      "fips": "08049",
       "county_name": "Grand County",
       "ami_4person": 97600,
       "affordable_rent_monthly": {
@@ -1359,7 +1367,7 @@
       }
     },
     {
-      "fips": "051",
+      "fips": "08051",
       "county_name": "Gunnison County",
       "ami_4person": 93400,
       "affordable_rent_monthly": {
@@ -1409,7 +1417,7 @@
       }
     },
     {
-      "fips": "053",
+      "fips": "08053",
       "county_name": "Hinsdale County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -1459,7 +1467,7 @@
       }
     },
     {
-      "fips": "055",
+      "fips": "08055",
       "county_name": "Huerfano County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -1509,7 +1517,7 @@
       }
     },
     {
-      "fips": "057",
+      "fips": "08057",
       "county_name": "Jackson County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -1559,7 +1567,7 @@
       }
     },
     {
-      "fips": "059",
+      "fips": "08059",
       "county_name": "Jefferson County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -1609,7 +1617,7 @@
       }
     },
     {
-      "fips": "061",
+      "fips": "08061",
       "county_name": "Kiowa County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -1659,7 +1667,7 @@
       }
     },
     {
-      "fips": "063",
+      "fips": "08063",
       "county_name": "Kit Carson County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -1709,7 +1717,7 @@
       }
     },
     {
-      "fips": "067",
+      "fips": "08067",
       "county_name": "La Plata County",
       "ami_4person": 103500,
       "affordable_rent_monthly": {
@@ -1759,7 +1767,7 @@
       }
     },
     {
-      "fips": "065",
+      "fips": "08065",
       "county_name": "Lake County",
       "ami_4person": 97600,
       "affordable_rent_monthly": {
@@ -1809,7 +1817,7 @@
       }
     },
     {
-      "fips": "069",
+      "fips": "08069",
       "county_name": "Larimer County",
       "ami_4person": 120400,
       "affordable_rent_monthly": {
@@ -1859,7 +1867,7 @@
       }
     },
     {
-      "fips": "071",
+      "fips": "08071",
       "county_name": "Las Animas County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -1909,7 +1917,7 @@
       }
     },
     {
-      "fips": "073",
+      "fips": "08073",
       "county_name": "Lincoln County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -1959,7 +1967,7 @@
       }
     },
     {
-      "fips": "075",
+      "fips": "08075",
       "county_name": "Logan County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2009,7 +2017,7 @@
       }
     },
     {
-      "fips": "077",
+      "fips": "08077",
       "county_name": "Mesa County",
       "ami_4person": 97600,
       "affordable_rent_monthly": {
@@ -2059,7 +2067,7 @@
       }
     },
     {
-      "fips": "079",
+      "fips": "08079",
       "county_name": "Mineral County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2109,7 +2117,7 @@
       }
     },
     {
-      "fips": "081",
+      "fips": "08081",
       "county_name": "Moffat County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2159,7 +2167,7 @@
       }
     },
     {
-      "fips": "083",
+      "fips": "08083",
       "county_name": "Montezuma County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2209,7 +2217,7 @@
       }
     },
     {
-      "fips": "085",
+      "fips": "08085",
       "county_name": "Montrose County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2259,7 +2267,7 @@
       }
     },
     {
-      "fips": "087",
+      "fips": "08087",
       "county_name": "Morgan County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2309,7 +2317,7 @@
       }
     },
     {
-      "fips": "089",
+      "fips": "08089",
       "county_name": "Otero County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -2359,7 +2367,57 @@
       }
     },
     {
-      "fips": "093",
+      "fips": "08091",
+      "county_name": "Ouray County",
+      "ami_4person": 96300,
+      "affordable_rent_monthly": {
+        "30": 722,
+        "40": 963,
+        "50": 1204,
+        "60": 1444,
+        "70": 1685,
+        "80": 1926,
+        "100": 2408
+      },
+      "households_le_ami_pct": {
+        "30": 287,
+        "40": 406,
+        "50": 526,
+        "60": 669,
+        "70": 836,
+        "80": 1003,
+        "100": 1338
+      },
+      "units_priced_affordable_le_ami_pct": {
+        "30": 143,
+        "40": 215,
+        "50": 311,
+        "60": 406,
+        "70": 502,
+        "80": 597,
+        "100": 788
+      },
+      "gap_units_minus_households_le_ami_pct": {
+        "30": -144,
+        "40": -191,
+        "50": -215,
+        "60": -263,
+        "70": -334,
+        "80": -406,
+        "100": -550
+      },
+      "coverage_le_ami_pct": {
+        "30": 0.4983,
+        "40": 0.5295,
+        "50": 0.5912,
+        "60": 0.6069,
+        "70": 0.6003,
+        "80": 0.5952,
+        "100": 0.589
+      }
+    },
+    {
+      "fips": "08093",
       "county_name": "Park County",
       "ami_4person": 124100,
       "affordable_rent_monthly": {
@@ -2409,7 +2467,7 @@
       }
     },
     {
-      "fips": "095",
+      "fips": "08095",
       "county_name": "Phillips County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2459,7 +2517,7 @@
       }
     },
     {
-      "fips": "097",
+      "fips": "08097",
       "county_name": "Pitkin County",
       "ami_4person": 131900,
       "affordable_rent_monthly": {
@@ -2509,7 +2567,7 @@
       }
     },
     {
-      "fips": "099",
+      "fips": "08099",
       "county_name": "Prowers County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -2559,7 +2617,7 @@
       }
     },
     {
-      "fips": "101",
+      "fips": "08101",
       "county_name": "Pueblo County",
       "ami_4person": 87900,
       "affordable_rent_monthly": {
@@ -2609,7 +2667,7 @@
       }
     },
     {
-      "fips": "103",
+      "fips": "08103",
       "county_name": "Rio Blanco County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2659,7 +2717,7 @@
       }
     },
     {
-      "fips": "105",
+      "fips": "08105",
       "county_name": "Rio Grande County",
       "ami_4person": 78600,
       "affordable_rent_monthly": {
@@ -2709,7 +2767,7 @@
       }
     },
     {
-      "fips": "107",
+      "fips": "08107",
       "county_name": "Routt County",
       "ami_4person": 115000,
       "affordable_rent_monthly": {
@@ -2759,7 +2817,7 @@
       }
     },
     {
-      "fips": "109",
+      "fips": "08109",
       "county_name": "Saguache County",
       "ami_4person": 75600,
       "affordable_rent_monthly": {
@@ -2809,7 +2867,7 @@
       }
     },
     {
-      "fips": "111",
+      "fips": "08111",
       "county_name": "San Juan County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2859,7 +2917,7 @@
       }
     },
     {
-      "fips": "113",
+      "fips": "08113",
       "county_name": "San Miguel County",
       "ami_4person": 97600,
       "affordable_rent_monthly": {
@@ -2909,7 +2967,7 @@
       }
     },
     {
-      "fips": "115",
+      "fips": "08115",
       "county_name": "Sedgwick County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -2959,7 +3017,7 @@
       }
     },
     {
-      "fips": "117",
+      "fips": "08117",
       "county_name": "Summit County",
       "ami_4person": 131900,
       "affordable_rent_monthly": {
@@ -3009,7 +3067,7 @@
       }
     },
     {
-      "fips": "119",
+      "fips": "08119",
       "county_name": "Teller County",
       "ami_4person": 111700,
       "affordable_rent_monthly": {
@@ -3059,7 +3117,7 @@
       }
     },
     {
-      "fips": "121",
+      "fips": "08121",
       "county_name": "Washington County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
@@ -3109,7 +3167,7 @@
       }
     },
     {
-      "fips": "123",
+      "fips": "08123",
       "county_name": "Weld County",
       "ami_4person": 108200,
       "affordable_rent_monthly": {
@@ -3159,7 +3217,7 @@
       }
     },
     {
-      "fips": "125",
+      "fips": "08125",
       "county_name": "Yuma County",
       "ami_4person": 84200,
       "affordable_rent_monthly": {
