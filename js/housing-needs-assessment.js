@@ -1811,7 +1811,7 @@
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Economic charts require WAC-enriched LEHD data. Run the data build pipeline to populate annual employment, wages, and industry data.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -1896,7 +1896,7 @@
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Economic charts require WAC-enriched LEHD data. Run the data build pipeline to populate annual employment, wages, and industry data.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -1977,7 +1977,7 @@
     var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries.slice(0, 10) : [];
 
     if (!industries.length) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Economic charts require WAC-enriched LEHD data. Run the data build pipeline to populate annual employment, wages, and industry data.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       return;
     }
 
@@ -2076,7 +2076,7 @@
     var wacMissing = !lehd || (!lehd.annualEmployment && !lehd.annualWages && (!Array.isArray(lehd.industries) || lehd.industries.length === 0));
     if (wacMissing) {
       var sectionEl = document.getElementById('economicIndicatorsContainer');
-      var fallbackMsg = '<p class="metric-cards-note" style="padding:.75rem 0">Trend charts require WAC-enriched LEHD county files (annual employment, wages, and industries). Run the HNA data build workflow to populate.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
+      var fallbackMsg = '<p class="metric-cards-note" style="padding:.75rem 0">Economic charts require WAC-enriched LEHD data. Run the data build pipeline to populate annual employment, wages, and industry data.<br><code style="font-size:.8rem">python3 scripts/hna/build_hna_data.py</code></p>';
       if (sectionEl) {
         var existing = sectionEl.querySelector('.metric-cards-note');
         if (!existing) sectionEl.insertAdjacentHTML('beforeend', fallbackMsg);
