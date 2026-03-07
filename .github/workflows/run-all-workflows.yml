@@ -1,4 +1,4 @@
-name: Run All Workflows
+name: Run All Data Workflows
 
 on:
   schedule:
@@ -10,72 +10,170 @@ permissions:
   contents: read
 
 jobs:
-  discover-and-trigger:
+  run-data-workflows:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Discover workflows
-        id: discover
-        run: |
-          self="run-all-workflows.yml"
-          workflows=()
-          while IFS= read -r -d '' f; do
-            name=$(basename "$f")
-            if [ "$name" != "$self" ]; then
-              workflows+=("$name")
-            fi
-          done < <(find .github/workflows -maxdepth 1 -name "*.yml" -print0 | sort -z)
-
-          echo "Discovered workflows (excluding self):"
-          for wf in "${workflows[@]}"; do
-            echo "  - $wf"
-          done
-
-          # Encode as newline-delimited string for next step
-          printf '%s\n' "${workflows[@]}" > /tmp/workflows.txt
-          echo "count=${#workflows[@]}" >> "$GITHUB_OUTPUT"
-
-      - name: Trigger each workflow
+      - name: Trigger all data workflows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
         run: |
-          success=0
-          failure=0
-          skipped=0
+          # Explicit list of data-creation workflows only.
+          # Excludes non-data workflows: ci-checks, deploy, site-audit,
+          #   contrast-audit, daily-monitoring, redeploy-zip.
+          DATA_WORKFLOWS=(
+            "build-hna-data.yml"
+            "build-market-data.yml"
+            "cache-hud-gis-data.yml"
+            "car-data-update.yml"
+            "fetch-census-acs.yml"
+            "fetch-chfa-lihtc.yml"
+            "fetch-county-data.yml"
+            "fetch-fred-data.yml"
+            "fetch-kalshi.yml"
+            "fetch-kashli-data.yml"     # separate script; note: 'kashli' is a legacy typo of 'kalshi'
+            "fetch-lihtc-data.yml"
+            "generate-housing-data.yml"
+            "generate-market-analysis-data.yml"
+            "zillow-data-sync.yml"
+          )
 
-          while IFS= read -r workflow; do
-            [ -z "$workflow" ] && continue
-            echo ""
+          > /tmp/trigger_times.txt
+          triggered=0
+          failed_trigger=0
+
+          for workflow in "${DATA_WORKFLOWS[@]}"; do
             echo "▶ Triggering: $workflow"
-
-            # Check if the workflow supports workflow_dispatch before triggering
-            if grep -qE '^\s+workflow_dispatch' ".github/workflows/$workflow" 2>/dev/null; then
-              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
-                echo "  ✅ Triggered successfully"
-                success=$((success + 1))
-              else
-                echo "  ❌ Failed to trigger"
-                failure=$((failure + 1))
-              fi
+            TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+              echo "  ✅ Triggered"
+              echo "${workflow}=${TRIGGER_TIME}" >> /tmp/trigger_times.txt
+              triggered=$((triggered + 1))
             else
-              echo "  ⚠️  Workflow not found or inaccessible — skipping"
-              skipped=$((skipped + 1))
+              echo "  ❌ Failed to trigger"
+              echo "::error::Failed to trigger data workflow: $workflow"
+              failed_trigger=$((failed_trigger + 1))
             fi
-
-            # Delay between triggers to avoid rate limiting
-            sleep 3
-          done < /tmp/workflows.txt
+            sleep 2
+          done
 
           echo ""
-          echo "=== Trigger Summary ==="
-          echo "  Triggered successfully : $success"
-          echo "  Failed to trigger      : $failure"
-          echo "  Skipped                : $skipped"
-
-          if [ "$failure" -gt 0 ]; then
-            echo "::warning::$failure workflow(s) failed to trigger."
+          echo "Triggered: $triggered  |  Failed to trigger: $failed_trigger"
+          if [ "$failed_trigger" -gt 0 ]; then
+            echo "::warning::$failed_trigger workflow(s) could not be triggered."
           fi
+
+      - name: Collect run IDs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Allow GitHub enough time to queue the triggered runs.
+          sleep 15
+
+          > /tmp/run_ids.txt
+          while IFS='=' read -r workflow trigger_time; do
+            [ -z "$workflow" ] && continue
+            run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+              --limit 5 --json databaseId,createdAt \
+              --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+              2>/dev/null)
+            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
+              echo "$workflow=$run_id" >> /tmp/run_ids.txt
+              echo "  📋 $workflow → run #$run_id"
+            else
+              echo "  ⚠️  Run not found for $workflow (triggered at $trigger_time)"
+              echo "$workflow=unknown" >> /tmp/run_ids.txt
+            fi
+          done < /tmp/trigger_times.txt
+
+      - name: Wait for completions and report errors
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Poll all triggered runs concurrently in a single loop.
+          # Timeout: 45 minutes (90 polls × 30-second interval).
+          MAX_POLLS=90
+          > /tmp/conclusions.txt
+
+          for poll in $(seq 1 "$MAX_POLLS"); do
+            all_done=true
+
+            while IFS='=' read -r workflow run_id; do
+              [ -z "$workflow" ] && continue
+              # Skip workflows already concluded.
+              grep -q "^${workflow}=" /tmp/conclusions.txt 2>/dev/null && continue
+
+              if [ "$run_id" = "unknown" ]; then
+                echo "$workflow=not_found" >> /tmp/conclusions.txt
+                continue
+              fi
+
+              result=$(gh run view "$run_id" --repo "$REPO" \
+                --json status,conclusion \
+                --jq '.status + ":" + (.conclusion // "")' 2>/dev/null || echo "error:")
+
+              run_status=$(echo "$result" | cut -d: -f1)
+              conclusion=$(echo "$result" | cut -d: -f2)
+
+              if [ "$run_status" = "completed" ]; then
+                echo "$workflow=$conclusion" >> /tmp/conclusions.txt
+                if [ "$conclusion" = "success" ]; then
+                  echo "  ✅ $workflow: success"
+                else
+                  echo "  ❌ $workflow: $conclusion"
+                  echo "::error::Data workflow failed: $workflow (conclusion: $conclusion)"
+                fi
+              else
+                all_done=false
+              fi
+            done < /tmp/run_ids.txt
+
+            [ "$all_done" = "true" ] && break
+            echo "  … still waiting (poll $poll/$MAX_POLLS)"
+            sleep 30
+          done
+
+          # Mark any runs that never concluded as timed out.
+          while IFS='=' read -r workflow run_id; do
+            [ -z "$workflow" ] && continue
+            if ! grep -q "^${workflow}=" /tmp/conclusions.txt 2>/dev/null; then
+              echo "$workflow=timeout" >> /tmp/conclusions.txt
+              echo "  ⏰ $workflow: timed out"
+              echo "::warning::Data workflow timed out: $workflow"
+            fi
+          done < /tmp/run_ids.txt
+
+          echo ""
+          echo "============================================"
+          echo "         DATA WORKFLOWS — FINAL REPORT     "
+          echo "============================================"
+          passed=0; failed=0; timedout=0; notfound=0
+
+          while IFS='=' read -r workflow conclusion; do
+            [ -z "$workflow" ] && continue
+            case "$conclusion" in
+              success)   echo "  ✅ $workflow"; passed=$((passed + 1)) ;;
+              timeout)   echo "  ⏰ $workflow (timed out)"; timedout=$((timedout + 1)) ;;
+              not_found) echo "  ❓ $workflow (run not found)"; notfound=$((notfound + 1)) ;;
+              *)         echo "  ❌ $workflow ($conclusion)"; failed=$((failed + 1)) ;;
+            esac
+          done < /tmp/conclusions.txt
+
+          echo ""
+          echo "  Passed    : $passed"
+          echo "  Failed    : $failed"
+          echo "  Timed out : $timedout"
+          echo "  Not found : $notfound"
+
+          if [ "$failed" -gt 0 ] || [ "$timedout" -gt 0 ]; then
+            exit 1
+          fi
+
+          echo ""
+          echo "All data workflows completed successfully ✅"
