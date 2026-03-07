@@ -168,6 +168,36 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Run-all-data-workflows orchestrator
+// ---------------------------------------------------------------------------
+test('Run-all-workflows: run-all-workflows.yml exists and is properly configured', () => {
+    const ymlPath = '.github/workflows/run-all-workflows.yml';
+    assert(fileExists(ymlPath), 'run-all-workflows.yml exists');
+
+    const content = fs.readFileSync(path.join(ROOT, ymlPath), 'utf8');
+    assert(content.includes('workflow_dispatch'),         'workflow_dispatch trigger present');
+    assert(content.includes('schedule'),                  'schedule trigger present');
+    assert(content.includes('actions: write'),            'actions: write permission present');
+    assert(content.includes('actions/checkout'),          'actions/checkout step present');
+
+    // Must list only data workflows — not CI/deploy/audit workflows
+    assert(content.includes('build-hna-data.yml'),        'build-hna-data.yml in data list');
+    assert(content.includes('fetch-census-acs.yml'),      'fetch-census-acs.yml in data list');
+    assert(content.includes('fetch-fred-data.yml'),       'fetch-fred-data.yml in data list');
+    assert(content.includes('generate-market-analysis-data.yml'), 'generate-market-analysis-data.yml in data list');
+    assert(!content.includes('ci-checks.yml'),            'ci-checks.yml excluded from data list');
+    assert(!content.includes('deploy.yml'),               'deploy.yml excluded from data list');
+    assert(!content.includes('site-audit.yml'),           'site-audit.yml excluded from data list');
+
+    // Must report errors (not just trigger failures)
+    assert(content.includes('::error::'),                 '::error:: annotation used for failures');
+    assert(content.includes('exit 1'),                    'exits with failure when workflows fail');
+
+    // Must wait for completion (polling)
+    assert(content.includes('gh run view'),               'polls run status with gh run view');
+});
+
+// ---------------------------------------------------------------------------
 // CSS assets
 // ---------------------------------------------------------------------------
 test('CSS directory: css/ directory is present and contains stylesheets', () => {
