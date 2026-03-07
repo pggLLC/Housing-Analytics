@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   build-hna:
@@ -78,23 +79,51 @@ jobs:
           python3 scripts/generate_tract_centroids.py 2>&1 || echo "::warning::Tract centroid generation failed (non-critical; using existing file)"
 
       - name: Post-build verification
+        id: verify
         run: |
           echo "── HNA output .json files ──"
+          total_files=0
+          total_bytes=0
           for dir in data/hna/summary data/hna/lehd data/hna/dola_sya data/hna/projections data/hna/derived; do
             echo ""
             echo "$dir:"
             if [ -d "$dir" ]; then
               count=$(find "$dir" -maxdepth 1 -name '*.json' | wc -l)
-              total=$(find "$dir" -maxdepth 1 -name '*.json' -exec stat -c%s {} \; 2>/dev/null \
+              bytes=$(find "$dir" -maxdepth 1 -name '*.json' -exec stat -c%s {} \; 2>/dev/null \
                       | awk '{s+=$1} END {print s+0}')
               echo "  files : $count"
-              echo "  bytes : $total"
+              echo "  bytes : $bytes"
+              total_files=$((total_files + count))
+              total_bytes=$((total_bytes + bytes))
               find "$dir" -maxdepth 1 -name '*.json' -empty | \
                 while read f; do echo "  ⚠ zero-byte: $f"; done
             else
               echo "  (directory not found)"
             fi
           done
+          echo ""
+          echo "── Totals: ${total_files} files, ${total_bytes} bytes ──"
+          if [ "$total_files" -eq 0 ]; then
+            echo "::error::No HNA output files were produced"
+            exit 1
+          fi
+
+      - name: Alert on build failure
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode failure --workflow build-hna-data.yml --run-id ${context.runId} --step "Build or Verify" --details "HNA data build produced no output files. Check Census API key and Python build logs."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push
         run: |

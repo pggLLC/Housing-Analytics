@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   cache-hud-gis:
@@ -38,6 +39,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── Python version ──"
+          python3 --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
 
       - name: Install dependencies
         run: npm install --omit=dev node-fetch@2
@@ -171,6 +184,46 @@ jobs:
 
       - name: Build Colorado county boundaries
         run: python scripts/boundaries/build_counties_co.py
+
+      - name: Validate output files
+        id: validate
+        run: |
+          echo "── Validating output files ──"
+          for f in data/qct-colorado.json data/dda-colorado.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing output file: $f"
+              exit 1
+            fi
+            size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
+            echo "  $f: ${size} bytes"
+            count=$(jq '.features | length' "$f" 2>/dev/null || echo "invalid")
+            echo "  Features: ${count}"
+            if [ "$count" = "invalid" ]; then
+              echo "::error::$f is not valid GeoJSON"
+              exit 1
+            fi
+            if [ "$count" -eq 0 ]; then
+              echo "::warning::$f has 0 features — HUD API may have returned empty results"
+            fi
+          done
+          echo "  Validation passed ✅"
+
+      - name: Alert on empty datasets
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow cache-hud-gis-data.yml --run-id ${context.runId} --data-file data/qct-colorado.json --details "HUD GIS cache step failed. Check HUD ArcGIS API availability and WHERE filter logic."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push cached overlay files
         run: |

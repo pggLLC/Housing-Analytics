@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   fetch-data:
@@ -15,10 +16,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Environment diagnostics
+        run: |
+          echo "── Python version ──"
+          python3 --version
+          echo "── Node.js version ──"
+          node --version
+          echo "── Disk space ──"
+          df -h .
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
+          echo "── API key check ──"
+          python3 -c "
+          import os, sys
+          k = os.environ.get('FRED_API_KEY', '').strip()
+          if k:
+              print(f'  FRED_API_KEY: set ({len(k)} chars)')
+          else:
+              print('  FRED_API_KEY: NOT SET ⚠️', file=sys.stderr)
+          "
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+
       - name: Build data/fred-data.json from FRED API
+        id: fetch
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
+          echo "── Starting FRED fetch at $(date -u) ──"
           python3 - <<'PY'
           import json, os, sys, datetime, urllib.request, urllib.parse
 
@@ -95,6 +121,7 @@ jobs:
             return obs
 
           result = {}
+          errors = []
           for sid, name in SERIES.items():
             try:
               obs = fetch_observations(sid)
@@ -103,6 +130,10 @@ jobs:
             except Exception as e:
               print(f"✗ {sid}: {e}", file=sys.stderr)
               result[sid] = {"name": name, "observations": []}
+              errors.append(sid)
+
+          if errors:
+            print(f"\n⚠️  {len(errors)} series failed: {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}", file=sys.stderr)
 
           output = {
             "updated": datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
@@ -113,8 +144,64 @@ jobs:
           with open("data/fred-data.json", "w", encoding="utf-8") as f:
             json.dump(output, f)
 
-          print("Wrote data/fred-data.json")
+          total = len(result)
+          with_data = sum(1 for v in result.values() if v["observations"])
+          print(f"\nWrote data/fred-data.json — {with_data}/{total} series have observations")
           PY
+          echo "── FRED fetch completed at $(date -u) ──"
+
+      - name: Validate output
+        id: validate
+        run: |
+          OUT="data/fred-data.json"
+          echo "── Validating $OUT ──"
+          if [ ! -f "$OUT" ]; then
+            echo "::error::Output file not found: $OUT"
+            exit 1
+          fi
+          size=$(stat -c%s "$OUT" 2>/dev/null || stat -f%z "$OUT")
+          echo "  File size: ${size} bytes"
+          if [ "$size" -eq 0 ]; then
+            echo "::error::Output file is empty (0 bytes)"
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, sys
+          with open("data/fred-data.json") as f:
+              d = json.load(f)
+          series = d.get("series", {})
+          total = len(series)
+          with_data = sum(1 for v in series.values() if v.get("observations"))
+          empty = total - with_data
+          print(f"  Series total   : {total}")
+          print(f"  With data      : {with_data}")
+          print(f"  Empty series   : {empty}")
+          print(f"  Updated        : {d.get('updated', 'unknown')}")
+          if total == 0:
+              print("::error::No series found in FRED data output", file=sys.stderr)
+              sys.exit(1)
+          if with_data == 0:
+              print("::error::All FRED series have zero observations", file=sys.stderr)
+              sys.exit(1)
+          print("  Validation passed ✅")
+          PY
+
+      - name: Alert on empty dataset
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-fred-data.yml --run-id ${context.runId} --data-file data/fred-data.json --details "FRED API fetch or validation failed. Check FRED_API_KEY secret and API availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
 
       - name: Commit and push updated data
         run: |
