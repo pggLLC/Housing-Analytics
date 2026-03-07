@@ -42,36 +42,43 @@ console.log('Critical data validation passed.');
  * the build-out phase, but the warnings must be resolved before enabling
  * production scoring.
  *
+ * Sparseness thresholds are set conservatively (100 tracts / 50 LIHTC props)
+ * to catch early build-out stages where even a few percent of real data has
+ * been loaded.  Raise these thresholds once the datasets near full coverage.
+ *
  * Error (exit 1) is raised only when a file is entirely empty or contains
  * invalid JSON/GeoJSON — that would make the feature completely non-functional.
  */
+
+/**
+ * Count the number of records in a parsed JSON object.
+ * Handles: {tracts:[]} (ACS/centroid files), GeoJSON FeatureCollections,
+ * and plain arrays.
+ * @param {*} json
+ * @returns {number}
+ */
+function countRecords(json) {
+  if (Array.isArray(json && json.tracts))    return json.tracts.length;
+  if (Array.isArray(json && json.features))  return json.features.length;
+  if (Array.isArray(json))                   return json.length;
+  return 0;
+}
+
 const sparseChecks = [
   {
     file: 'data/market/acs_tract_metrics_co.json',
     // Colorado has ~1,300 census tracts; fewer than 100 entries is unusually sparse.
     warnBelowFeatures: 100,
-    // Count items: may be a {meta, tracts} object, a GeoJSON FeatureCollection, or a plain array.
-    countFn: json => Array.isArray(json && json.tracts) ? json.tracts.length
-      : Array.isArray(json && json.features) ? json.features.length
-      : Array.isArray(json) ? json.length
-      : 0,
   },
   {
     file: 'data/market/tract_centroids_co.json',
     // Should have one centroid per census tract (~1,300 for Colorado).
     warnBelowFeatures: 100,
-    countFn: json => Array.isArray(json && json.tracts) ? json.tracts.length
-      : Array.isArray(json && json.features) ? json.features.length
-      : Array.isArray(json) ? json.length
-      : 0,
   },
   {
     file: 'data/market/hud_lihtc_co.geojson',
     // Colorado has hundreds of LIHTC-funded properties; fewer than 50 is sparse.
     warnBelowFeatures: 50,
-    countFn: json => Array.isArray(json && json.features) ? json.features.length
-      : Array.isArray(json) ? json.length
-      : 0,
   },
 ];
 
@@ -104,7 +111,7 @@ for (const sc of sparseChecks) {
     sparseFailed = true;
     continue;
   }
-  const count = sc.countFn(json);
+  const count = countRecords(json);
   if (count < sc.warnBelowFeatures) {
     console.warn(
       'WARN Sparse market-analysis data: ' + sc.file +
