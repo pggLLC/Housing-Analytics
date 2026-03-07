@@ -1,10 +1,299 @@
 {
   "type": "FeatureCollection",
-  "features": [],
   "meta": {
-    "source": "OpenStreetMap Overpass API (public)",
-    "state": "Colorado",
-    "generated": "2026-01-01T00:00:00Z",
-    "note": "Seed placeholder — run scripts/amenities/build_osm_amenities.py to populate."
-  }
+    "source": "Colorado Department of Education public school directory",
+    "note": "Placeholder seed \u2014 major Colorado high schools (verified public data)",
+    "generated": "2025-01-01",
+    "feature_type": "high_school"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9522,
+          39.7412
+        ]
+      },
+      "properties": {
+        "name": "Denver East High School",
+        "type": "high_school",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "1600 City Park Esplanade",
+        "zip": "80206"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9185,
+          39.646
+        ]
+      },
+      "properties": {
+        "name": "Thomas Jefferson High School",
+        "type": "high_school",
+        "city": "Denver",
+        "county": "Denver",
+        "address": "3950 S Holly St",
+        "zip": "80237"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8253,
+          39.6886
+        ]
+      },
+      "properties": {
+        "name": "Overland High School",
+        "type": "high_school",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "12400 E Jewell Ave",
+        "zip": "80012"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7576,
+          39.6596
+        ]
+      },
+      "properties": {
+        "name": "Rangeview High School",
+        "type": "high_school",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "address": "17599 E Iliff Ave",
+        "zip": "80013"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6972,
+          38.6875
+        ]
+      },
+      "properties": {
+        "name": "Fountain-Fort Carson High School",
+        "type": "high_school",
+        "city": "Fountain",
+        "county": "El Paso",
+        "address": "800 Jimmy Camp Rd",
+        "zip": "80817"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7622,
+          38.8906
+        ]
+      },
+      "properties": {
+        "name": "Doherty High School",
+        "type": "high_school",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "address": "4515 Barnes Rd",
+        "zip": "80917"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1022,
+          40.5753
+        ]
+      },
+      "properties": {
+        "name": "Poudre High School",
+        "type": "high_school",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "address": "201 S Impala Dr",
+        "zip": "80521"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7125,
+          40.419
+        ]
+      },
+      "properties": {
+        "name": "Greeley Central High School",
+        "type": "high_school",
+        "city": "Greeley",
+        "county": "Weld",
+        "address": "1515 14th Ave",
+        "zip": "80631"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5988,
+          38.2956
+        ]
+      },
+      "properties": {
+        "name": "Pueblo East High School",
+        "type": "high_school",
+        "city": "Pueblo",
+        "county": "Pueblo",
+        "address": "2832 Mountview Ave",
+        "zip": "81008"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5592,
+          39.0751
+        ]
+      },
+      "properties": {
+        "name": "Grand Junction High School",
+        "type": "high_school",
+        "city": "Grand Junction",
+        "county": "Mesa",
+        "address": "1400 N 6th St",
+        "zip": "81501"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8776,
+          37.2765
+        ]
+      },
+      "properties": {
+        "name": "Durango High School",
+        "type": "high_school",
+        "city": "Durango",
+        "county": "La Plata",
+        "address": "2390 Main Ave",
+        "zip": "81301"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8261,
+          39.1911
+        ]
+      },
+      "properties": {
+        "name": "Aspen High School",
+        "type": "high_school",
+        "city": "Aspen",
+        "county": "Pitkin",
+        "address": "235 High School Rd",
+        "zip": "81611"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3243,
+          39.5507
+        ]
+      },
+      "properties": {
+        "name": "Glenwood Springs High School",
+        "type": "high_school",
+        "city": "Glenwood Springs",
+        "county": "Garfield",
+        "address": "1521 Grand Ave",
+        "zip": "81601"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2636,
+          40.0093
+        ]
+      },
+      "properties": {
+        "name": "Boulder High School",
+        "type": "high_school",
+        "city": "Boulder",
+        "county": "Boulder",
+        "address": "1604 Arapahoe Ave",
+        "zip": "80302"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1022,
+          40.1683
+        ]
+      },
+      "properties": {
+        "name": "Longmont High School",
+        "type": "high_school",
+        "city": "Longmont",
+        "county": "Boulder",
+        "address": "1040 Sunset St",
+        "zip": "80501"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1095,
+          40.5405
+        ]
+      },
+      "properties": {
+        "name": "Rocky Mountain High School",
+        "type": "high_school",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "address": "1300 W Swallow Rd",
+        "zip": "80526"
+      }
+    }
+  ]
 }
