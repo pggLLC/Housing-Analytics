@@ -5,7 +5,7 @@
  * Validates all JSON files in data/hna/lehd/ to ensure:
  *   1. Each file contains valid JSON.
  *   2. Each file has the required base fields (countyFips, updated).
- *   3. WAC-enriched fields are present (annualEmployment, annualWages, industries).
+ *   3. WAC-enriched fields are present (annualEmployment, annualWages, yoyGrowth, industries).
  *   4. Warns (and exits 1) if more than half the files are missing WAC fields,
  *      indicating the data build workflow has not been run yet.
  *
@@ -26,7 +26,7 @@ const path = require('path');
 
 const ROOT      = path.resolve(__dirname, '..');
 const LEHD_DIR  = path.join(ROOT, 'data', 'hna', 'lehd');
-const WAC_FIELDS = ['annualEmployment', 'annualWages', 'industries'];
+const WAC_FIELDS = ['annualEmployment', 'annualWages', 'yoyGrowth', 'industries'];
 
 let passed  = 0;
 let failed  = 0;
@@ -132,7 +132,7 @@ if (failed > 0) {
 if (wacMissingCount > totalFiles / 2) {
   console.warn(
     '\nWARN ' + wacMissingCount + ' of ' + totalFiles + ' LEHD county files are missing WAC-enriched fields\n' +
-    '     (annualEmployment, annualWages, industries).\n' +
+    '     (annualEmployment, annualWages, yoyGrowth, industries).\n' +
     '     Trend charts in the HNA Economic Indicators section will show fallback messages.\n' +
     '     To populate, run:\n' +
     '       python3 scripts/hna/build_hna_data.py'
