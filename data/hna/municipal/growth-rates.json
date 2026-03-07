@@ -34,7 +34,7 @@
     { "geoid": "0882585", "name": "Vail (town)",                 "cagr_3yr": -0.0012,"cagr_5yr": -0.0005,"cagr_10yr": 0.0022, "smoothed_rate": 0.0001, "confidence": "interpolated", "note": "Slight decline in resident pop offset by vacation-home growth" },
     { "geoid": "0808675", "name": "Breckenridge (town)",         "cagr_3yr": 0.0030, "cagr_5yr": 0.0025, "cagr_10yr": 0.0048, "smoothed_rate": 0.0034, "confidence": "interpolated", "note": "Vacation-home dominated; resident vs. total unit dynamics" },
     { "geoid": "0803070", "name": "Arvada (city)",               "cagr_3yr": 0.0092, "cagr_5yr": 0.0085, "cagr_10yr": 0.0098, "smoothed_rate": 0.0091, "confidence": "direct" },
-    { "geoid": "0808675", "name": "Brighton (city)",             "cagr_3yr": 0.0240, "cagr_5yr": 0.0218, "cagr_10yr": 0.0185, "smoothed_rate": 0.0214, "confidence": "direct" },
+    { "geoid": "0808720", "name": "Brighton (city)",             "cagr_3yr": 0.0240, "cagr_5yr": 0.0218, "cagr_10yr": 0.0185, "smoothed_rate": 0.0214, "confidence": "direct" },
     { "geoid": "0808900", "name": "Broomfield (city and county)","cagr_3yr": 0.0175, "cagr_5yr": 0.0162, "cagr_10yr": 0.0148, "smoothed_rate": 0.0162, "confidence": "direct" },
     { "geoid": "0810430", "name": "Castle Rock (town)",          "cagr_3yr": 0.0310, "cagr_5yr": 0.0285, "cagr_10yr": 0.0260, "smoothed_rate": 0.0285, "confidence": "direct" },
     { "geoid": "0811185", "name": "Centennial (city)",           "cagr_3yr": 0.0055, "cagr_5yr": 0.0048, "cagr_10yr": 0.0060, "smoothed_rate": 0.0055, "confidence": "direct" },
