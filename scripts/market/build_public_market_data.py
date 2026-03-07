@@ -18,6 +18,7 @@ All sources are free and publicly accessible without authentication.
 
 import json
 import os
+import random
 import sys
 import time
 import hashlib
@@ -49,35 +50,133 @@ HUD_LIHTC_URL = (
 )
 
 
+# ── Logging helper ─────────────────────────────────────────────────────────────
+
+def _ts() -> str:
+    """Return a compact UTC timestamp for log prefixes."""
+    return datetime.now(timezone.utc).strftime("%H:%M:%S")
+
+
+def log(msg: str, level: str = "INFO") -> None:
+    """Print a timestamped log line."""
+    print(f"[{_ts()}] [{level}] {msg}", flush=True)
+
+
+# ── ArcGIS error handler ───────────────────────────────────────────────────────
+
+def arcgis_error_handler(data: dict, url: str) -> None:
+    """Inspect a parsed ArcGIS JSON response and raise a descriptive error if it
+    contains an error payload.  ArcGIS REST returns HTTP 200 even for errors, so
+    HTTP status alone is not sufficient.
+    """
+    err = data.get("error")
+    if not err:
+        return
+    code = err.get("code", "?")
+    message = err.get("message", str(err))
+    details = err.get("details") or err.get("messageCode", "")
+    detail_str = f" — details: {details}" if details else ""
+    raise RuntimeError(
+        f"ArcGIS error (code {code}): {message}{detail_str} | URL: {url[:120]}"
+    )
+
+
 # ── HTTP helper ────────────────────────────────────────────────────────────────
 
-def fetch_url(url: str, retries: int = 3, timeout: int = 60) -> bytes:
-    """Fetch a URL with retries and optional disk caching."""
+# Codes that indicate a transient server-side problem worth retrying.
+_TRANSIENT_HTTP_CODES = {429, 500, 502, 503, 504}
+
+
+def fetch_url(
+    url: str,
+    retries: int = 4,
+    timeout: int = 60,
+    backoff_base: float = 5.0,
+    max_backoff: float = 60.0,
+) -> bytes:
+    """Fetch a URL with retries, exponential backoff + jitter, and disk caching.
+
+    Parameters
+    ----------
+    url:          The URL to fetch.
+    retries:      Total number of attempts (including the first).
+    timeout:      Per-request socket timeout in seconds.
+    backoff_base: Base wait in seconds before the first retry.  Subsequent
+                  retries double the wait (+ jitter).  Defaults to 5 s which
+                  is more appropriate for rate-limited external APIs than the
+                  previous 1 s default.
+    max_backoff:  Upper cap on the computed wait interval (seconds).
+    """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_key = hashlib.md5(url.encode()).hexdigest()
     cache_file = CACHE_DIR / cache_key
     if cache_file.exists():
         age_hours = (time.time() - cache_file.stat().st_mtime) / 3600
         if age_hours < CACHE_TTL_HOURS:
-            print(f"  [cache] {url[:80]}")
+            log(f"[cache hit] {url[:100]}")
             return cache_file.read_bytes()
 
-    last_err = None
+    def _next_wait(attempt: int) -> float:
+        """Exponential backoff with +0–20 % jitter."""
+        base = min(backoff_base * (2 ** attempt), max_backoff)
+        return base + random.uniform(0, base * 0.2)
+
+    last_err: Exception | None = None
+    t_start = time.monotonic()
     for attempt in range(retries):
         try:
-            print(f"  [fetch] {url[:100]}")
+            log(f"[fetch attempt {attempt + 1}/{retries}] {url[:120]}")
             req = urllib.request.Request(url, headers={"User-Agent": "pma-build/1.0"})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
+                status = resp.status
+                log(f"[fetch] HTTP {status} in {time.monotonic() - t_start:.1f}s")
                 data = resp.read()
             cache_file.write_bytes(data)
             return data
+        except urllib.error.HTTPError as e:
+            last_err = e
+            http_code = e.code
+            if http_code not in _TRANSIENT_HTTP_CODES:
+                log(
+                    f"[fetch] Non-retryable HTTP {http_code} for {url[:100]}",
+                    level="ERROR",
+                )
+                raise RuntimeError(
+                    f"HTTP {http_code} (non-retryable) fetching {url[:120]}: {e.reason}"
+                ) from e
+            if attempt < retries - 1:
+                wait = _next_wait(attempt)
+                log(
+                    f"[retry {attempt + 1}/{retries - 1}] HTTP {http_code} — "
+                    f"waiting {wait:.1f}s before next attempt",
+                    level="WARN",
+                )
+                time.sleep(wait)
+        except urllib.error.URLError as e:
+            last_err = e
+            if attempt < retries - 1:
+                wait = _next_wait(attempt)
+                log(
+                    f"[retry {attempt + 1}/{retries - 1}] URLError: {e.reason} — "
+                    f"waiting {wait:.1f}s",
+                    level="WARN",
+                )
+                time.sleep(wait)
         except Exception as e:
             last_err = e
             if attempt < retries - 1:
-                wait = 2 ** attempt
-                print(f"  [retry {attempt+1}] {e} — waiting {wait}s")
+                wait = _next_wait(attempt)
+                log(
+                    f"[retry {attempt + 1}/{retries - 1}] {type(e).__name__}: {e} — "
+                    f"waiting {wait:.1f}s",
+                    level="WARN",
+                )
                 time.sleep(wait)
-    raise RuntimeError(f"Failed after {retries} retries: {last_err}") from last_err
+
+    raise RuntimeError(
+        f"Failed after {retries} attempts ({time.monotonic() - t_start:.1f}s total): "
+        f"{last_err} | URL: {url[:120]}"
+    ) from last_err
 
 
 def fetch_json(url: str, **kwargs) -> dict:
@@ -95,18 +194,35 @@ def arcgis_query(layer_url: str, where: str = "1=1", offset: int = 0, limit: int
         "resultOffset": str(offset),
         "returnExceededLimitFeatures": "true",
     })
-    return fetch_json(f"{layer_url}/query?{params}")
+    query_url = f"{layer_url}/query?{params}"
+    log(f"[arcgis] layer={layer_url.split('/')[-2]}/{layer_url.split('/')[-1]} "
+        f"where={where!r} offset={offset}")
+    data = fetch_json(query_url, backoff_base=5.0)
+    arcgis_error_handler(data, query_url)
+    return data
 
 
 # ── Tract centroids ────────────────────────────────────────────────────────────
 
 def build_tract_centroids() -> dict:
-    print("\n[1/3] Fetching Colorado tract geometries from TIGERweb…")
+    log("\n[1/3] Fetching Colorado tract geometries from TIGERweb…")
     tracts = []
     offset = 0
+    page_num = 0
     while True:
-        page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+        page_num += 1
+        try:
+            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+        except RuntimeError as e:
+            log(
+                f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
+                "  → Recovery suggestion: check TIGERweb service status at "
+                "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
+                level="ERROR",
+            )
+            raise
         features = page.get("features", [])
+        log(f"[arcgis] Page {page_num}: received {len(features)} features (offset={offset})")
         for f in features:
             props = f.get("properties", {})
             geoid = props.get("GEOID") or props.get("GEOID10") or props.get("AFFGEOID", "")
@@ -126,7 +242,7 @@ def build_tract_centroids() -> dict:
             break
         offset += len(features)
 
-    print(f"  → {len(tracts)} tracts fetched")
+    log(f"[arcgis] {len(tracts)} tracts fetched total")
     return {
         "meta": {
             "source": "US Census TIGERweb ArcGIS REST (public)",
@@ -189,7 +305,7 @@ ACS_VARIABLES = [
 ]
 
 def build_acs_metrics(centroids: dict) -> dict:
-    print("\n[2/3] Fetching ACS tract metrics from Census API…")
+    log("\n[2/3] Fetching ACS tract metrics from Census API…")
     geoids = {t["geoid"] for t in centroids.get("tracts", [])}
 
     vars_str = ",".join(ACS_VARIABLES)
@@ -203,7 +319,7 @@ def build_acs_metrics(centroids: dict) -> dict:
         raw = fetch_url(url)
         rows = json.loads(raw)
     except Exception as e:
-        print(f"  [warn] ACS fetch failed: {e}. Returning empty metrics.")
+        log(f"ACS fetch failed: {e}. Returning empty metrics.", level="WARN")
         return {"meta": _acs_meta(), "tracts": []}
 
     header = rows[0]
@@ -253,7 +369,7 @@ def build_acs_metrics(centroids: dict) -> dict:
             "vacancy_rate":      vac_rate,
         })
 
-    print(f"  → {len(tracts)} tracts with ACS metrics")
+    log(f"[acs] {len(tracts)} tracts with ACS metrics")
     return {"meta": _acs_meta(), "tracts": tracts}
 
 
@@ -282,12 +398,12 @@ def _acs_meta() -> dict:
 # ── HUD LIHTC ─────────────────────────────────────────────────────────────────
 
 def build_hud_lihtc() -> dict:
-    print("\n[3/3] Fetching HUD LIHTC public dataset…")
+    log("\n[3/3] Fetching HUD LIHTC public dataset…")
     try:
         raw = fetch_url(HUD_LIHTC_URL, retries=3, timeout=120)
         data = json.loads(raw)
     except Exception as e:
-        print(f"  [warn] HUD LIHTC fetch failed: {e}. Returning empty GeoJSON.")
+        log(f"HUD LIHTC fetch failed: {e}. Returning empty GeoJSON.", level="WARN")
         return _empty_lihtc_geojson()
 
     features = data.get("features", [])
@@ -307,7 +423,7 @@ def build_hud_lihtc() -> dict:
         props["TOTAL_UNITS"] = units
         co_features.append({"type": "Feature", "geometry": f.get("geometry"), "properties": props})
 
-    print(f"  → {len(co_features)} Colorado LIHTC projects")
+    log(f"[lihtc] {len(co_features)} Colorado LIHTC projects")
     return {
         "type": "FeatureCollection",
         "meta": {
@@ -354,14 +470,14 @@ def write_json(path: Path, obj: dict):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(obj, fh, indent=2, ensure_ascii=False)
-    print(f"  → wrote {path.relative_to(ROOT)} ({path.stat().st_size:,} bytes)")
+    log(f"wrote {path.relative_to(ROOT)} ({path.stat().st_size:,} bytes)")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
     print("=" * 60)
-    print("PMA Market Data Builder")
+    print(f"PMA Market Data Builder — {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC")
     print("=" * 60)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -370,7 +486,7 @@ def main():
     try:
         centroids = build_tract_centroids()
     except Exception as e:
-        print(f"[ERROR] Tract centroids failed: {e}")
+        log(f"Tract centroids failed: {e}", level="ERROR")
         centroids = {"meta": {}, "tracts": []}
     # Fall back to existing file if fetch returned no tracts
     if not centroids.get("tracts"):
@@ -379,13 +495,13 @@ def main():
             saved = json.loads(existing.read_text())
             if saved.get("tracts"):
                 centroids = saved
-                print("  [fallback] Using existing tract_centroids_co.json")
+                log("[fallback] Using existing tract_centroids_co.json")
 
     # 2. ACS metrics
     try:
         acs = build_acs_metrics(centroids)
     except Exception as e:
-        print(f"[ERROR] ACS metrics failed: {e}")
+        log(f"ACS metrics failed: {e}", level="ERROR")
         acs = {"meta": {}, "tracts": []}
     # Fall back to existing file if fetch returned no tracts
     if not acs.get("tracts"):
@@ -394,13 +510,13 @@ def main():
             saved = json.loads(existing.read_text())
             if saved.get("tracts"):
                 acs = saved
-                print("  [fallback] Using existing acs_tract_metrics_co.json")
+                log("[fallback] Using existing acs_tract_metrics_co.json")
 
     # 3. HUD LIHTC
     try:
         lihtc = build_hud_lihtc()
     except Exception as e:
-        print(f"[ERROR] HUD LIHTC failed: {e}")
+        log(f"HUD LIHTC failed: {e}", level="ERROR")
         lihtc = _empty_lihtc_geojson()
     # Fall back to existing file if fetch returned no features
     if not lihtc.get("features"):
@@ -409,10 +525,10 @@ def main():
             saved = json.loads(existing.read_text())
             if saved.get("features"):
                 lihtc = saved
-                print("  [fallback] Using existing hud_lihtc_co.geojson")
+                log("[fallback] Using existing hud_lihtc_co.geojson")
 
     # Write artifacts
-    print("\n[Write] Saving artifacts…")
+    log("[Write] Saving artifacts…")
     write_json(OUT_DIR / "tract_centroids_co.json", centroids)
     write_json(OUT_DIR / "acs_tract_metrics_co.json", acs)
     write_json(OUT_DIR / "hud_lihtc_co.geojson", lihtc)
