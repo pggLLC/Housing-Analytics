@@ -104,7 +104,7 @@
     lihtcDb: 'https://lihtc.huduser.gov/',
     hudQct: 'https://www.huduser.gov/portal/datasets/qct.html',
     hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
-    chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0',
+    chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
     hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // Update year annually (e.g. Qualified_Census_Tracts_2027 when HUD publishes next cycle)
     hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0', // Update year annually (e.g. Difficult_Development_Areas_2027 when HUD publishes next cycle)
@@ -563,10 +563,10 @@
   async function fetchBoundary(geoType, geoid){
     // Use TIGERweb MapServer for geometry as GeoJSON
     // Counties: TIGERweb/State_County MapServer/1
-    // Places: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/4
+    // Places: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
     // CDPs:   TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5
 
-    const layer = geoType === 'county' ? 1 : (geoType === 'place' ? 4 : 5);
+    const layer = geoType === 'county' ? 1 : (geoType === 'place' ? 2 : 5);
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
     const base = geoType === 'county' ? `${countyService}/${layer}` : `${service}/${layer}`;

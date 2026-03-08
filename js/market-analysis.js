@@ -877,7 +877,7 @@
     if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
 
     // Load Prop 123 jurisdictions in parallel (non-fatal if unavailable)
-    DS.getJSON(DS.baseData('prop123_jurisdictions.json')).then(function (data) {
+    DS.getJSON(DS.baseData('policy/prop123_jurisdictions.json')).then(function (data) {
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
       prop123Jurisdictions = list;
     }).catch(function () { /* optional data — ignore errors */ });
