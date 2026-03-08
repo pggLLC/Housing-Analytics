@@ -322,7 +322,25 @@ The five-item checklist in the tool tracks:
 - [ ] File notice with DOLA (annual deadline: January 31)
 - [ ] Annual reporting filed with DOLA
 
-Check items off as they are completed. Checked items are visually marked (strikethrough) to distinguish from pending items.
+#### Checking Off Items & Progress Tracking
+
+**Automatic item detection:** Items 1–3 (baseline, growth target, fast-track) are automatically checked when the tool detects sufficient data from ACS. Items 4–5 (DOLA filing and annual reporting) require manual confirmation, since they are administrative actions taken outside this tool.
+
+**Persistent state:** Checkbox states are saved to your browser's local storage by geography (county or municipality). Your progress persists across page refreshes and browser sessions. Each checked item shows a completion timestamp (e.g., "Completed Mar 8, 2026").
+
+**Deadline warnings:** When the DOLA filing deadline (January 31) is within 30 days, item 4 displays an orange ⚠️ warning with the exact deadline date.
+
+**Screen reader support:** The checklist includes an ARIA live region. Whenever the state changes, a status message (e.g., "Adopt 3% annual growth target") is announced to screen readers automatically.
+
+**Cross-tab synchronization:** If you have the Compliance Dashboard open in another tab, it will receive the same state updates automatically via the browser `storage` event.
+
+#### Undo / Re-check
+
+To undo a checked item, simply uncheck it. The completion timestamp is cleared and the item returns to its pending state. State changes are saved immediately.
+
+#### Data Isolation
+
+Each county or municipality has its own independent checklist stored under a namespaced localStorage key (e.g., `hna_compliance_county_08031`). Switching geographies loads that geography's saved state.
 
 ### Viewing the Full Compliance Dashboard
 
