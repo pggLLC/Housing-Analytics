@@ -2,8 +2,8 @@ name: Build Market Data
 
 on:
   schedule:
-    # Run weekly on Mondays at 03:15 UTC
-    - cron: '15 3 * * 1'
+    # Run weekly on Sundays at 23:00 UTC (less GitHub congestion than weekday early-morning)
+    - cron: '0 23 * * 0'
   workflow_dispatch:
     inputs:
       force_refresh:
@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Environment diagnostics
+      - name: Pre-flight validation
         run: |
           echo "── Python version ──"
           python3 --version
@@ -40,15 +40,18 @@ jobs:
           echo "── Run context ──"
           echo "  Repository : $GITHUB_REPOSITORY"
           echo "  Run ID     : $GITHUB_RUN_ID"
-          echo "── API key check ──"
-          python3 -c "
+          echo "── Census API key check ──"
+          python3 - <<'EOF'
           import os, sys
           k = os.environ.get('CENSUS_API_KEY', '').strip()
           if k:
-              print(f'  CENSUS_API_KEY: set ({len(k)} chars)')
+              print(f'  CENSUS_API_KEY: set ({len(k)} chars) ✅')
           else:
-              print('  CENSUS_API_KEY: NOT SET ⚠️', file=sys.stderr)
-          "
+              print('::error::CENSUS_API_KEY secret is not set. '
+                    'Add it in GitHub Settings → Secrets → Actions. '
+                    'Get a free key at https://api.census.gov/data/key_signup.html', file=sys.stderr)
+              sys.exit(1)
+          EOF
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
 
@@ -62,42 +65,72 @@ jobs:
           echo "── Build completed at $(date -u) ──"
         timeout-minutes: 15
 
-      - name: Validate artifacts
+      - name: Validate artifacts and write job summary
         id: validate
         run: |
-          python - <<'EOF'
-          import json, sys
+          python3 - <<'EOF'
+          import json, os, sys
           from pathlib import Path
 
           ROOT = Path(".")
+          MIN_TRACTS = 100   # Colorado has ~1,300 census tracts; fewer than 100 means placeholder data
+          MIN_LIHTC  = 50    # Colorado has hundreds of LIHTC properties; fewer than 50 is placeholder data
+
           artifacts = [
-            "data/market/tract_centroids_co.json",
-            "data/market/acs_tract_metrics_co.json",
-            "data/market/hud_lihtc_co.geojson",
+            ("data/market/tract_centroids_co.json",  "tracts",    MIN_TRACTS),
+            ("data/market/acs_tract_metrics_co.json", "tracts",   MIN_TRACTS),
+            ("data/market/hud_lihtc_co.geojson",     "features",  MIN_LIHTC),
           ]
           errors = []
-          for a in artifacts:
+          summary_rows = []
+
+          for a, array_key, min_count in artifacts:
             p = ROOT / a
             if not p.exists():
-              errors.append(f"Missing: {a}")
+              errors.append(f"Missing artifact: {a}")
+              summary_rows.append(f"| `{a}` | ❌ missing | — | {min_count} |")
               continue
             size = p.stat().st_size
-            print(f"  {a}: {size} bytes")
             if size == 0:
-              errors.append(f"Zero-byte file: {a}")
+              errors.append(f"Zero-byte artifact: {a}")
+              summary_rows.append(f"| `{a}` | ❌ empty | 0 | {min_count} |")
               continue
             try:
               obj = json.loads(p.read_text())
             except json.JSONDecodeError as e:
               errors.append(f"Invalid JSON in {a}: {e}")
+              summary_rows.append(f"| `{a}` | ❌ invalid JSON | — | {min_count} |")
               continue
-            if a.endswith(".geojson"):
-              if not isinstance(obj.get("features"), list):
-                errors.append(f"{a}: no 'features' array")
+            records = obj.get(array_key, [])
+            if not isinstance(records, list):
+              errors.append(f"{a}: no '{array_key}' array")
+              summary_rows.append(f"| `{a}` | ❌ schema error | — | {min_count} |")
+              continue
+            count = len(records)
+            print(f"  {a}: {count} {array_key}")
+            if count < min_count:
+              errors.append(
+                f"{a}: only {count} {array_key} (minimum {min_count}). "
+                f"Placeholder data detected — check Census API key and build script."
+              )
+              summary_rows.append(f"| `{a}` | ❌ sparse ({count}) | {size} B | {min_count} |")
+            else:
+              summary_rows.append(f"| `{a}` | ✅ {count} records | {size} B | {min_count} |")
+
+          # Write GitHub job summary
+          summary_file = os.environ.get("GITHUB_STEP_SUMMARY", "")
+          if summary_file:
+            with open(summary_file, "a") as fh:
+              fh.write("## Market Data Build Artifacts\n\n")
+              fh.write("| File | Status | Size | Min records |\n")
+              fh.write("|------|--------|------|-------------|\n")
+              fh.write("\n".join(summary_rows) + "\n\n")
+              if errors:
+                fh.write("### ❌ Errors\n\n")
+                for e in errors:
+                  fh.write(f"- {e}\n")
               else:
-                print(f"  {a}: {len(obj['features'])} features")
-            elif not isinstance(obj.get("tracts"), list):
-              errors.append(f"{a}: no 'tracts' array (may be OK for empty states)")
+                fh.write("All artifacts meet minimum data thresholds ✅\n")
 
           if errors:
             for e in errors:
@@ -121,6 +154,38 @@ jobs:
               );
             } catch (e) {
               console.error('Alert script failed:', e.message);
+            }
+            // Also open a GitHub issue for visibility
+            const title = `[Market Data] Build failed — run #${context.runId}`;
+            const body = [
+              `The **Build Market Data** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              '### Common causes',
+              '- `CENSUS_API_KEY` secret is missing or expired → [verify in Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions)',
+              '- Census API is temporarily unavailable — re-run the workflow to retry',
+              '- TIGERweb ArcGIS REST service is down — check https://tigerweb.geo.census.gov',
+              '',
+              '### How to manually rebuild',
+              '```bash',
+              `gh workflow run build-market-data.yml --repo ${context.repo.owner}/${context.repo.repo}`,
+              '```',
+              '',
+              'See `.github/WORKFLOW_TROUBLESHOOTING.md` for a full troubleshooting guide.',
+            ].join('\n');
+            const existingBuildFailureIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'market-data-build-failure',
+            });
+            if (existingBuildFailureIssues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['market-data-build-failure'],
+              });
             }
 
       - name: Commit updated artifacts

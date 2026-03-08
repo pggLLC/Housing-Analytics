@@ -195,3 +195,32 @@ jobs:
             } catch (e) {
               console.error('Alert script failed:', e.message);
             }
+            const title = `[Weekly Data Sync] One or more workflows failed — run #${context.runId}`;
+            const body = [
+              `The **Run All Data Workflows** orchestration run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) reported one or more failures or timeouts.`,
+              '',
+              '### Next steps',
+              '1. Open the run link above and inspect each failed child workflow.',
+              '2. For **build-market-data** failures: verify `CENSUS_API_KEY` is set in [Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions).',
+              '3. Re-trigger individual workflows with:',
+              '   ```bash',
+              `   gh workflow run build-market-data.yml --repo ${context.repo.owner}/${context.repo.repo}`,
+              '   ```',
+              '',
+              'See `.github/WORKFLOW_TROUBLESHOOTING.md` for a full troubleshooting guide.',
+            ].join('\n');
+            const existingOrchestratorIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'workflow-orchestration-failure',
+            });
+            if (existingOrchestratorIssues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['workflow-orchestration-failure'],
+              });
+            }
