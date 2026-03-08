@@ -208,16 +208,15 @@
       var mhi      = _num(c.DP03_0062E);
 
       // Income needed to qualify for a 30-yr mortgage at ~6.5 % on median value
-      // (28 % front-end DTI rule; annual = monthly PITI * 12 / 0.28)
-      var annualPITI    = medValue > 0 ? (medValue * 0.065 / 12) * 12 : 0;
-      var incomeNeeded  = annualPITI > 0 ? annualPITI / 0.28 : 0;
+      // (28 % front-end DTI rule: annual interest ≈ value × 0.065; divide by 0.28)
+      var incomeNeeded = medValue > 0 ? (medValue * 0.065) / 0.28 : 0;
 
-      // Rent-burden: not-burdened bins are DP04_0142PE (<10%), 0143PE (10-14.9%),
-      // 0144PE (15-19.9%), 0145PE (20-24.9%), 0146PE (25-29.9%).
-      // DP04_0142PE through DP04_0146PE are the five "<30 %" sub-bins.
+      // Rent-burden: ACS DP04 not-burdened bins (< 30 % of income on rent):
+      //   0142PE = < 15 %, 0143PE = 15–19.9 %, 0144PE = 20–24.9 %, 0145PE = 25–29.9 %.
+      //   0146PE = 30–34.9 % which is the first BURDENED bin; exclude from not-burdened sum.
+      // 100 % minus the four not-burdened shares gives the ≥ 30 % burdened rate.
       var notBurdened = _num(c.DP04_0142PE) + _num(c.DP04_0143PE) +
-                        _num(c.DP04_0144PE) + _num(c.DP04_0145PE) +
-                        _num(c.DP04_0146PE);
+                        _num(c.DP04_0144PE) + _num(c.DP04_0145PE);
       var burdenRate  = notBurdened > 0 ? Math.max(0, 100 - notBurdened) / 100 : 0;
 
       rentNumer       += medRent      * weight;
@@ -330,7 +329,9 @@
       totalInflow:  totalInflow,
       totalOutflow: totalOutflow,
       totalWithin:  totalWithin,
-      totalJobs:    totalInflow + totalOutflow + totalWithin
+      // Jobs located in the state = workers commuting in + workers who live-and-work locally.
+      // (outflow counts residents who work elsewhere, so it must not be added to the state total.)
+      totalJobs:    totalInflow + totalWithin
     };
   }
 
@@ -439,12 +440,12 @@
    * Public API
    * ---------------------------------------------------------------------- */
   return {
-    calculateStateScaling,
-    estimateStateHousingStock,
-    scaleStateAffordability,
-    projectStateDemographics,
-    estimateStateEmployment,
-    calculateStateProp123Baseline,
-    getStateDataConfidence,
+    calculateStateScaling:       calculateStateScaling,
+    estimateStateHousingStock:   estimateStateHousingStock,
+    scaleStateAffordability:     scaleStateAffordability,
+    projectStateDemographics:    projectStateDemographics,
+    estimateStateEmployment:     estimateStateEmployment,
+    calculateStateProp123Baseline: calculateStateProp123Baseline,
+    getStateDataConfidence:      getStateDataConfidence
   };
 });
