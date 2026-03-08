@@ -266,7 +266,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (totalEl) totalEl.textContent = '$' + (total / 1000000000).toFixed(1) + 'B';
             }
             
-            console.log('Dashboard data loaded successfully');
         } catch (error) {
             console.error('Error loading dashboard data:', error);
         }
@@ -283,7 +282,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     function updateAllocationData(data) {
         // Update allocation displays
-        console.log('Allocation data updated:', data);
     }
     
     function updateHousingData(data) {
@@ -330,7 +328,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const region = regionFilter ? regionFilter.value : 'national';
         const metric = metricFilter ? metricFilter.value : 'allocations';
         
-        console.log('Updating dashboard:', { year, region, metric });
         updateKeyMetrics(year, region);
     }
     

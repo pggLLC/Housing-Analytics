@@ -1,5 +1,5 @@
 /**
- * dark-mode-toggle.js — Affordable Housing Intelligence
+ * dark-mode-toggle.js — COHO Analytics
  *
  * Detects the OS colour-scheme preference, allows the user to
  * manually override it, and persists the choice to localStorage.
@@ -10,7 +10,7 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'lihtc-color-scheme';
+  var STORAGE_KEY = 'coho-analytics-scheme';
   var CLASS_DARK  = 'dark-mode';
   var CLASS_LIGHT = 'light-mode';
 

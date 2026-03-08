@@ -25,7 +25,6 @@ class LIHTCDataService {
             this.fetchAllData();
         }, this.updateInterval);
         
-        console.log('Continuous data fetching initialized');
     }
 
     // Subscribe to data updates

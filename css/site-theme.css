@@ -734,3 +734,27 @@ html.dark-mode html {
   font-family: var(--font-mono);
   letter-spacing: 0.01em;
 }
+
+/* === COHO Analytics — workflow step component === */
+.workflow-steps{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 0;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.workflow-step{padding:6px 12px;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--muted);background:transparent;text-decoration:none;border:1px solid transparent;transition:background .15s,color .15s}
+.workflow-step:hover{color:var(--text);background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%)}
+.workflow-step--active{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--card) 85%,var(--accent) 15%)}
+.workflow-step-arrow{color:var(--muted);font-size:.82rem}
+
+/* === Platform disclaimer === */
+.platform-disclaimer{padding:10px 16px;background:color-mix(in oklab,var(--card) 90%,var(--accent) 10%);border-left:3px solid var(--accent);border-radius:4px;font-size:.85rem;color:var(--muted);margin-bottom:16px}
+
+/* === Kicker spans === */
+span.kicker{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:4px}
+
+/* === Deal calculator === */
+.deal-calc-panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-top:24px}
+.deal-calc-panel h2{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.deal-calc-disclaimer{font-size:.8rem;color:var(--muted);margin-bottom:16px}
+.deal-calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
+.deal-calc-field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:4px;color:var(--muted)}
+.deal-calc-field input[type=number],.deal-calc-field input[type=range]{width:100%}
+.deal-calc-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;background:var(--bg2);border-radius:6px;padding:16px}
+.deal-calc-result-item .label{font-size:.78rem;color:var(--muted);font-weight:600}
+.deal-calc-result-item .value{font-size:1.15rem;font-weight:800;color:var(--text)}

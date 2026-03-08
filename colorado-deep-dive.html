@@ -1,7 +1,11 @@
 <!DOCTYPE html><html lang="en"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colorado Affordable Housing Deep Dive | Affordable Housing Intelligence</title>
+  <title>Colorado Affordable Housing Deep Dive | COHO Analytics</title>
+  <meta property="og:title" content="Colorado Deep Dive | COHO Analytics">
+  <meta property="og:description" content="County-level housing analysis and detailed data for Colorado.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -267,9 +271,24 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell">
+<div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
+  <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="market-analysis.html">2. Market Analysis</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <span class="workflow-step workflow-step--active">3. Deep Dive</span>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+</div>
+<div class="platform-disclaimer" role="note">
+  <strong>COHO Analytics</strong> provides data-driven research tools. Analysis represents independent research using public datasets. Not financial or legal advice.
+</div>
     
 <div class="page-hero">
 <div class="pill">Colorado Market Deep Dive</div>
+<span class="kicker">Colorado</span>
 <h1>Colorado Affordable Housing Market Analysis</h1>
 <p class="hero-subtitle">
             Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
@@ -1175,7 +1194,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
        Colorado vs Peer States — Trend Analysis
        Powered by js/trend-analysis.js
        ══════════════════════════════════════════════════════════════ -->
-  <section id="trend-analysis-section" aria-label="Colorado vs Peer States Trend Analysis" style="margin:2rem 0;"></section>
 
   <!-- ══════════════════════════════════════════════════════════════
        LIHTC Policy Scenario Simulator
@@ -1185,8 +1203,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
   <!-- Tab 3: Market Conditions -->
   <div class="tab-panel" id="tab-policy-simulator" role="tabpanel" aria-labelledby="tab-btn-policy-simulator">
-
-  <section id="policy-simulator-section" aria-label="LIHTC Policy Scenario Simulator" style="margin:2rem 0;"></section>
 
   <section id="prop123Section" aria-label="Proposition 123 — Local Government Commitments" style="margin:2.5rem 0;">
     <div class="chart-card">
