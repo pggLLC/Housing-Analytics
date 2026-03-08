@@ -416,6 +416,37 @@
     els.banner.textContent = msg;
   }
 
+  // Reset all stat cards to placeholder state before fetching new geography data.
+  // Prevents stale values from a previous geography persisting while new data loads.
+  function clearStats(){
+    const DASH = '—';
+    const statTextEls = [
+      'statPop','statMhi','statHomeValue','statRent','statTenure',
+      'statRentBurden','statIncomeNeed','statCommute',
+      'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
+    ];
+    statTextEls.forEach(function(id){
+      const el = els[id];
+      if (el) el.textContent = DASH;
+    });
+    const yoyEls = ['statPopYoy','statMhiYoy','statHomeValueYoy','statRentYoy'];
+    yoyEls.forEach(function(id){
+      const el = els[id];
+      if (el){ el.textContent = ''; el.className = 'yoy'; }
+    });
+    const srcEls = [
+      'statPopSrc','statMhiSrc','statHomeValueSrc','statRentSrc',
+      'statTenureSrc','statRentBurdenSrc','statCommuteSrc','statBaseUnitsSrc',
+    ];
+    srcEls.forEach(function(id){
+      const el = els[id];
+      if (el) el.innerHTML = '';
+    });
+    if (els.statIncomeNeedNote) els.statIncomeNeedNote.textContent = '';
+    if (els.execNarrative) els.execNarrative.textContent = '';
+    if (els.needNote) els.needNote.textContent = '';
+  }
+
   function chartTheme(){
     const style = getComputedStyle(document.documentElement);
     const text = style.getPropertyValue('--text').trim() || '#111';
@@ -585,8 +616,7 @@
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
     const base = geoType === 'county' ? `${countyService}/${layer}` : `${service}/${layer}`;
 
-    const whereField = geoType === 'county' ? 'GEOID' : 'GEOID';
-    const where = `${whereField}='${geoid}'`;
+    const where = `GEOID='${geoid}'`;
     const params = new URLSearchParams({
       where,
       outFields: '*',
@@ -596,7 +626,11 @@
     const url = `${base}/query?${params.toString()}`;
     const r = await fetchWithTimeout(url, {}, 15000);
     if (!r.ok) throw new Error(`Boundary fetch failed (${r.status})`);
-    return await r.json();
+    const gj = await r.json();
+    if (!Array.isArray(gj?.features) || gj.features.length === 0) {
+      throw new Error(`No boundary found for ${geoType} ${geoid} in TIGERweb`);
+    }
+    return gj;
   }
 
   function ensureMap(){
@@ -712,16 +746,25 @@
     map.on('moveend', updateLihtcInfoPanel);
   }
 
-  function renderBoundary(geojson){
+  // Boundary style tokens keyed by geoType — counties use a thinner/lighter stroke
+  // so that municipality outlines (smaller areas) are visually distinct from county ones.
+  const BOUNDARY_STYLES = {
+    county: { weight: 2,   color: '#2b6cb0', fillOpacity: 0.06 },
+    place:  { weight: 3,   color: '#096e65', fillOpacity: 0.10 },
+    cdp:    { weight: 3,   color: '#7c3d00', fillOpacity: 0.10 },
+    state:  { weight: 1.5, color: '#2b6cb0', fillOpacity: 0.04 },
+  };
+
+  function renderBoundary(geojson, geoType){
     ensureMap();
-    if (boundaryLayer) boundaryLayer.remove();
-    boundaryLayer = L.geoJSON(geojson, {
-      style: {
-        weight: 2,
-        color: '#2b6cb0',
-        fillOpacity: 0.06,
-      }
-    }).addTo(map);
+    if (boundaryLayer) {
+      boundaryLayer.remove();
+      boundaryLayer = null;
+    }
+    const features = Array.isArray(geojson?.features) ? geojson.features : [];
+    if (!features.length) return;
+    const style = BOUNDARY_STYLES[geoType] || BOUNDARY_STYLES.county;
+    boundaryLayer = L.geoJSON(geojson, { style }).addTo(map);
     try{
       map.fitBounds(boundaryLayer.getBounds(), {padding:[16,16]});
     }catch(e){
@@ -4145,12 +4188,23 @@
 
     setBanner('');
 
+    // Clear stat cards immediately so users never see stale data from a previous geography.
+    // Cards will be repopulated once the new profile data arrives.
+    clearStats();
+
+    // Announce geography change to screen readers (WCAG 4.1.3 / Rule 11)
+    if (typeof window.__announceUpdate === 'function') {
+      window.__announceUpdate(`Loading data for ${label}`);
+    }
+
     // Load boundary
     try{
       const gj = await fetchBoundary(geoType, geoid);
-      renderBoundary(gj);
+      renderBoundary(gj, geoType);
     }catch(e){
       console.warn(e);
+      // Clear any stale boundary from a previous geography selection
+      renderBoundary({ type: 'FeatureCollection', features: [] }, geoType);
       setBanner('Boundary failed to load (TIGERweb). The rest of the page may still populate.', 'warn');
     }
 
@@ -4304,6 +4358,11 @@
     // Update data freshness timestamp
     const tsEl = document.getElementById('hnaDataTimestamp');
     if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
+
+    // Announce completion to screen readers (WCAG 4.1.3 / Rule 11)
+    if (typeof window.__announceUpdate === 'function') {
+      window.__announceUpdate(`Data loaded for ${label}`);
+    }
   }
 
   async function init(){
@@ -4311,6 +4370,16 @@
     try{ window.__HNA_GEO_CONFIG = await loadJson(PATHS.geoConfig); }catch(_){ window.__HNA_GEO_CONFIG = { featured: FEATURED }; }
     try{ window.__HNA_LOCAL_RESOURCES = await loadJson(PATHS.localResources); }catch(_){ window.__HNA_LOCAL_RESOURCES = {}; }
     try{ state.derived = await loadJson(PATHS.derived); }catch(_){ state.derived = null; }
+
+    // Wire up aria-live announcement helper for screen reader updates (Rule 11)
+    const liveRegion = document.getElementById('hnaLiveRegion');
+    if (liveRegion && typeof window.__announceUpdate !== 'function') {
+      window.__announceUpdate = function(msg) {
+        liveRegion.textContent = '';
+        // Force re-announcement by toggling content after a microtask
+        requestAnimationFrame(function() { liveRegion.textContent = msg; });
+      };
+    }
 
     // Populate full county list (small) if not present in repo cache
     if (!Array.isArray(window.__HNA_GEO_CONFIG.counties) || !window.__HNA_GEO_CONFIG.counties.length){
