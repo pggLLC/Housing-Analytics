@@ -1,0 +1,43 @@
+name: Workflow Comment Trigger
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+jobs:
+  rebuild-market-data:
+    # Only react to the exact trigger phrase from repository collaborators or above
+    if: |
+      contains(github.event.comment.body, '@github-actions rebuild-market-data') &&
+      contains(fromJSON('["MEMBER", "COLLABORATOR", "OWNER"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acknowledge trigger
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                `👷 Rebuilding market data — triggered by @${context.actor}.`,
+                '',
+                `Workflow dispatch: [Build Market Data](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/build-market-data.yml)`,
+                '',
+                '_This comment was posted automatically. The build typically takes 10–15 minutes._',
+              ].join('\n'),
+            });
+
+      - name: Dispatch build-market-data workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh workflow run build-market-data.yml --repo "$REPO" --ref main
+          echo "build-market-data.yml dispatched ✅"
