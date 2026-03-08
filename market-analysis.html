@@ -28,6 +28,7 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
+    <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
     <div style="padding:1rem 0 0.5rem">
       <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p style="max-width:640px">Public Market Analysis (PMA) scoring engine. Click the map to place a site, choose a buffer radius, and receive a scored assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required.</p>
@@ -50,6 +51,79 @@
       <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
     </div>
 
+    <!-- ── Report Section Navigation ── -->
+    <nav class="ma-section-nav" aria-label="Report sections">
+      <ul class="ma-section-nav-list">
+        <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
+        <li><a href="#maMarketDemand" class="ma-section-nav-link">Market Demand</a></li>
+        <li><a href="#maAffordableSupply" class="ma-section-nav-link">Affordable Supply</a></li>
+        <li><a href="#maSubsidyOpp" class="ma-section-nav-link">Subsidy &amp; Finance</a></li>
+        <li><a href="#maSiteFeasibility" class="ma-section-nav-link">Site Feasibility</a></li>
+        <li><a href="#maNeighborhoodAccess" class="ma-section-nav-link">Neighborhood Access</a></li>
+        <li><a href="#maPolicyOverlays" class="ma-section-nav-link">Policy Overlays</a></li>
+        <li><a href="#maOpportunities" class="ma-section-nav-link">Opportunities</a></li>
+        <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Tool</a></li>
+      </ul>
+    </nav>
+
+    <section class="ma-report-section" id="maExecSummary">
+      <h2>Executive Summary</h2>
+      <div id="maExecSummaryContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maMarketDemand">
+      <h2>Market Demand Analysis</h2>
+      <div id="maMarketDemandContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maAffordableSupply">
+      <h2>Existing Affordable Supply</h2>
+      <div id="maAffordableSupplyContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maSubsidyOpp">
+      <h2>Subsidy &amp; Finance Opportunities</h2>
+      <div id="maSubsidyOppContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maSiteFeasibility">
+      <h2>Site Feasibility Constraints</h2>
+      <div id="maSiteFeasibilityContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maNeighborhoodAccess">
+      <h2>Neighborhood Access &amp; Services</h2>
+      <div id="maNeighborhoodAccessContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maPolicyOverlays">
+      <h2>Policy &amp; Eligibility Overlays</h2>
+      <div id="maPolicyOverlaysContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maOpportunities">
+      <h2>Ranked Development Opportunities</h2>
+      <div id="maOpportunitiesContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maPmaTool">
+      <h2>PMA Scoring Tool</h2>
     <div class="pma-layout">
       <!-- ── Left: Map ── -->
       <div class="pma-map-wrap">
@@ -206,6 +280,7 @@
 
       </div><!-- /.pma-panel -->
     </div><!-- /.pma-layout -->
+    </section><!-- /#maPmaTool -->
 
     <!-- Methodology note -->
     <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
@@ -221,6 +296,19 @@
     </section>
   </main>
 
+  <script defer src="js/market-analysis/market-analysis-state.js"></script>
+  <script defer src="js/market-analysis/market-analysis-utils.js"></script>
+  <script defer src="js/market-analysis/site-selection-score.js"></script>
+  <script defer src="js/market-analysis/market-report-renderers.js"></script>
+  <script defer src="js/data-connectors/market-data-cache.js"></script>
+  <script defer src="js/data-connectors/hud-egis.js"></script>
+  <script defer src="js/data-connectors/census-acs.js"></script>
+  <script defer src="js/data-connectors/hud-lihtc.js"></script>
+  <script defer src="js/data-connectors/nhpd.js"></script>
+  <script defer src="js/data-connectors/osm-amenities.js"></script>
+  <script defer src="js/data-connectors/fema-flood.js"></script>
+  <script defer src="js/data-connectors/epa-cleanup.js"></script>
+  <script defer src="js/market-analysis/market-analysis-controller.js"></script>
   <script defer src="js/market-analysis.js"></script>
 
 <footer id="site-footer"></footer>

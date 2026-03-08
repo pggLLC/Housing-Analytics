@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "generated": "2026-03-08T08:40:57.291125+00:00",
+    "source": "HUD LIHTC"
+  },
+  "summary": {
+    "total_projects": 360,
+    "total_units": 34835
+  },
+  "by_county": {
+    "UNKNOWN": {
+      "projects": 360,
+      "units": 34835,
+      "avg_year": 0
+    }
+  }
+}

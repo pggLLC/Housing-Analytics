@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "generated": "2026-03-08T08:40:57.262260+00:00",
+    "source": "ACS 5-Year",
+    "tract_count": 47
+  },
+  "statewide": {
+    "mean_cost_burden_rate": 0.463,
+    "mean_median_gross_rent": 1224,
+    "mean_renter_share": 0.0,
+    "total_population": 0,
+    "high_burden_tracts": 41
+  },
+  "tracts": [
+    {
+      "geoid": "08031000600",
+      "cost_burden_rate": 0.3411,
+      "median_gross_rent": 1582,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031000800",
+      "cost_burden_rate": 0.2955,
+      "median_gross_rent": 272,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031001000",
+      "cost_burden_rate": 0.5631,
+      "median_gross_rent": 0,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031001500",
+      "cost_burden_rate": 0.5723,
+      "median_gross_rent": 1505,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031001800",
+      "cost_burden_rate": 0.4711,
+      "median_gross_rent": 1392,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031002000",
+      "cost_burden_rate": 0.4625,
+      "median_gross_rent": 2248,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08031002300",
+      "cost_burden_rate": 0.2698,
+      "median_gross_rent": 992,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08037000100",
+      "cost_burden_rate": 0.0968,
+      "median_gross_rent": 962,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08037000200",
+      "cost_burden_rate": 0.4599,
+      "median_gross_rent": 1741,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000400",
+      "cost_burden_rate": 0.523,
+      "median_gross_rent": 1679,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000500",
+      "cost_burden_rate": 0.3276,
+      "median_gross_rent": 1829,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000600",
+      "cost_burden_rate": 0.5354,
+      "median_gross_rent": 1577,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000700",
+      "cost_burden_rate": 0.633,
+      "median_gross_rent": 1232,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000800",
+      "cost_burden_rate": 0.5006,
+      "median_gross_rent": 1133,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041000900",
+      "cost_burden_rate": 0.4041,
+      "median_gross_rent": 1405,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001000",
+      "cost_burden_rate": 0.6274,
+      "median_gross_rent": 1296,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001400",
+      "cost_burden_rate": 0.6003,
+      "median_gross_rent": 1304,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001500",
+      "cost_burden_rate": 0.4856,
+      "median_gross_rent": 1573,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001600",
+      "cost_burden_rate": 0.6497,
+      "median_gross_rent": 1097,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001700",
+      "cost_burden_rate": 0.5853,
+      "median_gross_rent": 1535,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041001800",
+      "cost_burden_rate": 0.3463,
+      "median_gross_rent": 1595,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08041002000",
+      "cost_burden_rate": 0.6061,
+      "median_gross_rent": 1133,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08069000100",
+      "cost_burden_rate": 0.6163,
+      "median_gross_rent": 1496,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08069000300",
+      "cost_burden_rate": 0.3945,
+      "median_gross_rent": 1347,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08069000600",
+      "cost_burden_rate": 0.6663,
+      "median_gross_rent": 978,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08069000700",
+      "cost_burden_rate": 0.4058,
+      "median_gross_rent": 1548,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08077000200",
+      "cost_burden_rate": 0.5114,
+      "median_gross_rent": 916,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08077000300",
+      "cost_burden_rate": 0.3623,
+      "median_gross_rent": 855,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08077000400",
+      "cost_burden_rate": 0.3988,
+      "median_gross_rent": 1095,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08077000500",
+      "cost_burden_rate": 0.5015,
+      "median_gross_rent": 805,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000100",
+      "cost_burden_rate": 0.6243,
+      "median_gross_rent": 746,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000200",
+      "cost_burden_rate": 0.4503,
+      "median_gross_rent": 982,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000300",
+      "cost_burden_rate": 0.0,
+      "median_gross_rent": 0,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000400",
+      "cost_burden_rate": 0.3386,
+      "median_gross_rent": 1088,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000500",
+      "cost_burden_rate": 0.7373,
+      "median_gross_rent": 1051,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000600",
+      "cost_burden_rate": 0.3494,
+      "median_gross_rent": 761,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08101000800",
+      "cost_burden_rate": 0.6939,
+      "median_gross_rent": 955,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08107000100",
+      "cost_burden_rate": 0.6207,
+      "median_gross_rent": 0,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08107000200",
+      "cost_burden_rate": 0.5773,
+      "median_gross_rent": 1386,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08107000300",
+      "cost_burden_rate": 0.3266,
+      "median_gross_rent": 1265,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000100",
+      "cost_burden_rate": 0.6563,
+      "median_gross_rent": 939,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000200",
+      "cost_burden_rate": 0.5408,
+      "median_gross_rent": 1018,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000300",
+      "cost_burden_rate": 0.0,
+      "median_gross_rent": 0,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000600",
+      "cost_burden_rate": 0.05,
+      "median_gross_rent": 729,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000800",
+      "cost_burden_rate": 0.637,
+      "median_gross_rent": 1214,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123000900",
+      "cost_burden_rate": 0.4762,
+      "median_gross_rent": 1409,
+      "renter_share": 0.0,
+      "total_population": 0
+    },
+    {
+      "geoid": "08123001100",
+      "cost_burden_rate": 0.4684,
+      "median_gross_rent": 987,
+      "renter_share": 0.0,
+      "total_population": 0
+    }
+  ]
+}
