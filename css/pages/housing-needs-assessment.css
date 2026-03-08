@@ -403,3 +403,9 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .commuting-table th { text-align: left; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); }
 .commuting-table td { padding: 5px 8px; color: var(--text); border-bottom: 1px solid var(--border); }
 .commuting-table tr:last-child td { border-bottom: none; }
+
+/* === HNA waiting/loading state === */
+.hna-waiting{padding:20px;text-align:center;background:var(--card);border-radius:8px;margin-bottom:16px;border:1px dashed var(--border)}
+.hna-waiting-text{color:var(--muted);font-size:.95rem;margin-bottom:8px}
+.hna-waiting-dashes{font-size:1.4rem;color:var(--border);letter-spacing:.2em;animation:hna-pulse 2s ease-in-out infinite}
+@keyframes hna-pulse{0%,100%{opacity:.4}50%{opacity:1}}
