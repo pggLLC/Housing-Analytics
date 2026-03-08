@@ -72,9 +72,12 @@ def build(input_path: Path, output_path: Path) -> None:
         )
         if not fips:
             fips = "UNKNOWN"
-        # Pad to 5 digits if it looks like a short code
-        if fips.isdigit() and len(fips) < 5:
+        # Pad to 5 digits if it looks like a short code, then validate
+        if fips.isdigit() and len(fips) <= 5:
             fips = fips.zfill(5)
+        # Only accept valid Colorado county FIPS (08001–08125); reject anything else
+        if len(fips) != 5 or not fips.startswith('08'):
+            fips = "UNKNOWN"
 
         units = _safe_int(
             props.get("li_units")
