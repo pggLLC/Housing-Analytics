@@ -40,6 +40,17 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
+    <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
+  <span class="workflow-step workflow-step--active">1. Housing Needs Assessment</span>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="market-analysis.html">2. Market Analysis</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="colorado-deep-dive.html">3. Deep Dive</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+</div>
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
@@ -73,6 +84,10 @@
 
     <section class="hna-grid">
       <div class="chart-card span-12">
+        <div id="hnaWaitingState" class="hna-waiting" aria-live="polite" aria-atomic="true">
+  <p class="hna-waiting-text">Select a geography above to load housing data</p>
+  <div class="hna-waiting-dashes" aria-hidden="true">— — — — —</div>
+</div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
           <h2 style="margin:0">Executive Snapshot</h2>
           <div class="pill" id="geoContextPill">—</div>
