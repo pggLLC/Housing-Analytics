@@ -14,3 +14,4 @@ audit-report/
 # macOS packaging artifacts
 .DS_Store
 __MACOSX/
+._*

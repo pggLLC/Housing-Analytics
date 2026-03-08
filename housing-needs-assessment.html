@@ -52,6 +52,7 @@
             <option value="county">County</option>
             <option value="place">Municipality</option>
             <option value="cdp">Census-Designated Place (CDP)</option>
+            <option value="state">State of Colorado</option>
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
@@ -73,10 +74,10 @@
         </div>
         <p id="execNarrative">Select a geography to generate an HNA-style baseline narrative.</p>
         <div class="stats" aria-label="Headline indicators">
-          <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div class="s" id="statPopSrc">—</div></div>
-          <div class="stat"><div class="k">Median household income</div><div class="v" id="statMhi">—</div><div class="s" id="statMhiSrc">—</div></div>
-          <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div class="s" id="statHomeValueSrc">—</div></div>
-          <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div class="s" id="statRentSrc">—</div></div>
+          <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>
+          <div class="stat"><div class="k">Median household income</div><div class="v" id="statMhi">—</div><div id="statMhiYoy" class="yoy"></div><div class="s" id="statMhiSrc">—</div></div>
+          <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div id="statHomeValueYoy" class="yoy"></div><div class="s" id="statHomeValueSrc">—</div></div>
+          <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
 
           <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">Owner vs renter</div></div>
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS GRAPI bins</div></div>

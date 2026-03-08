@@ -283,12 +283,16 @@
 
     statPop: document.getElementById('statPop'),
     statPopSrc: document.getElementById('statPopSrc'),
+    statPopYoy: document.getElementById('statPopYoy'),
     statMhi: document.getElementById('statMhi'),
     statMhiSrc: document.getElementById('statMhiSrc'),
+    statMhiYoy: document.getElementById('statMhiYoy'),
     statHomeValue: document.getElementById('statHomeValue'),
     statHomeValueSrc: document.getElementById('statHomeValueSrc'),
+    statHomeValueYoy: document.getElementById('statHomeValueYoy'),
     statRent: document.getElementById('statRent'),
     statRentSrc: document.getElementById('statRentSrc'),
+    statRentYoy: document.getElementById('statRentYoy'),
     statTenure: document.getElementById('statTenure'),
     statTenureSrc: document.getElementById('statTenureSrc'),
     statRentBurden: document.getElementById('statRentBurden'),
@@ -341,7 +345,7 @@
   let lihtcDataSource = 'HUD';
   let _lihtcRequestSeq = 0;  // incremented on each county change to cancel stale async results
 
-  const state = { current:null, lastProj:null, trendCache:{}, derived:null };
+  const state = { current:null, lastProj:null, trendCache:{}, derived:null, prevProfile:{} };
 
   function fmtNum(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
@@ -471,6 +475,16 @@
     const type = els.geoType.value;
     els.geoSelect.innerHTML='';
     const cfg = window.__HNA_GEO_CONFIG;
+
+    // State of Colorado — single fixed option
+    if (type === 'state') {
+      const opt = document.createElement('option');
+      opt.value = '08';
+      opt.textContent = 'State of Colorado';
+      opt.selected = true;
+      els.geoSelect.appendChild(opt);
+      return;
+    }
 
     // Prefer full list from config for each type; fall back to featured items
     if (type === 'county' && Array.isArray(cfg?.counties) && cfg.counties.length){
@@ -1238,11 +1252,13 @@
 
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
-      : geoType === 'place'
-        ? `place:${geoid.slice(2)}`
-        : `place:${geoid.slice(2)}`;
+      : geoType === 'state'
+        ? `state:${STATE_FIPS_CO}`
+        : geoType === 'place'
+          ? `place:${geoid.slice(2)}`
+          : `place:${geoid.slice(2)}`;
 
-    const inParam = `state:${STATE_FIPS_CO}`;
+    const inParam = geoType === 'state' ? null : `state:${STATE_FIPS_CO}`;
     const key = censusKey();
 
     function buildUrl(year, dataset){
@@ -1251,7 +1267,8 @@
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}&in=${inParam}`;
+      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
+      if (inParam) qs += `&in=${inParam}`;
       if (key) qs += `&key=${encodeURIComponent(key)}`;
       return `${base}?${qs}`;
     }
@@ -2779,7 +2796,7 @@
   }
 
   // --- Renderers ---
-  function renderSnapshot(profile, s0801, geoLabel){
+  function renderSnapshot(profile, s0801, geoLabel, prevProfile){
     const pop = profile?.DP05_0001E;
     const mhi = profile?.DP03_0062E;
     const homeValue = profile?.DP04_0089E;
@@ -2791,14 +2808,29 @@
     const gt   = profile?._geoType   || null;
     const gid  = profile?._geoid     || null;
 
+    // Helper: render YOY change badge
+    function setYoy(el, curr, prev) {
+      if (!el) return;
+      const c = Number(curr), p = Number(prev);
+      if (!Number.isFinite(c) || !Number.isFinite(p) || p === 0) { el.textContent = ''; el.className = 'yoy'; return; }
+      const pct = ((c - p) / p) * 100;
+      const sign = pct >= 0 ? '+' : '';
+      el.textContent = `${sign}${pct.toFixed(1)}% YoY`;
+      el.className = 'yoy ' + (pct >= 0 ? 'pos' : 'neg');
+    }
+
     els.statPop.textContent = fmtNum(pop);
     els.statPopSrc.innerHTML = srcLink('DP05', yr, sr, 'DP05', gt, gid);
+    setYoy(els.statPopYoy, pop, prevProfile?.DP05_0001E);
     els.statMhi.textContent = fmtMoney(mhi);
     els.statMhiSrc.innerHTML = srcLink('DP03', yr, sr, 'DP03', gt, gid);
+    setYoy(els.statMhiYoy, mhi, prevProfile?.DP03_0062E);
     els.statHomeValue.textContent = fmtMoney(homeValue);
     els.statHomeValueSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    setYoy(els.statHomeValueYoy, homeValue, prevProfile?.DP04_0089E);
     els.statRent.textContent = fmtMoney(rent);
     els.statRentSrc.innerHTML = srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    setYoy(els.statRentYoy, rent, prevProfile?.DP04_0134E);
 
     const owner = Number(profile?.DP04_0047PE);
     const renter = Number(profile?.DP04_0046PE);
@@ -2865,10 +2897,14 @@
       options:{
         responsive:true,
         maintainAspectRatio:false,
-        plugins:{ legend:{ labels:{ color:t.text } } },
+        plugins:{
+          legend:{ labels:{ color:t.text } },
+          subtitle:{ display:true, text:'Source: Census ACS DP04', color:t.muted, font:{ size:10 }, padding:{ bottom:4 } }
+        },
         scales:{
           x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-          y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
+          y:{ ticks:{ color:t.muted }, grid:{ color:t.border },
+              title:{ display:true, text:'Housing Units (count)', color:t.muted, font:{ size:11 } } },
         }
       }
     });
@@ -3003,6 +3039,7 @@
         maintainAspectRatio:false,
         plugins:{
           legend:{ labels:{ color:t.text } },
+          subtitle:{ display:true, text:'Source: Census ACS S0801 (Commuting Characteristics)', color:t.muted, font:{ size:10 }, padding:{ bottom:4 } },
           tooltip:{
             callbacks:{
               label:(ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
@@ -3011,7 +3048,8 @@
         },
         scales:{
           x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-          y:{ ticks:{ color:t.muted, callback:(v)=>v+'%' }, grid:{ color:t.border }, suggestedMax:100 },
+          y:{ ticks:{ color:t.muted, callback:(v)=>v+'%' }, grid:{ color:t.border }, suggestedMax:100,
+              title:{ display:true, text:'Mode Share (%)', color:t.muted, font:{ size:11 } } },
         },
       },
     });
@@ -4089,6 +4127,7 @@
     const geoid = els.geoSelect.value;
 
     const label = (()=>{
+      if (geoType === 'state') return 'State of Colorado';
       const conf = window.__HNA_GEO_CONFIG;
       if (geoType==='county' && Array.isArray(conf?.counties)){
         const m = conf.counties.find(c=>c.geoid===geoid);
@@ -4179,7 +4218,8 @@
     }
 
     if (profile){
-      renderSnapshot(profile, s0801, label);
+      const prevProfile = state.prevProfile[geoid] || null;
+      renderSnapshot(profile, s0801, label, prevProfile);
       renderHousingCharts(profile);
       renderAffordChart(profile);
       renderRentBurdenBins(profile);
@@ -4238,6 +4278,8 @@
 
     // 20-year projections (cached; county context)
     state.current = { geoType, geoid, label, contextCounty, profile };
+    // Store profile for next refresh — enables YOY comparison on subsequent updates
+    if (profile && geoid) state.prevProfile[geoid] = profile;
     const projRes = await renderProjections(contextCounty, state.current);
     if (projRes?.ok) cacheFlags.projections = true;
 
