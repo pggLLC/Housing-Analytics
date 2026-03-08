@@ -33,12 +33,20 @@ jobs:
           echo "=== Checking required pages ==="
           check_file "market-analysis.html"
           check_file "market-intelligence.html"
+          check_file "dashboard-data-sources-ui.html"
 
           echo ""
           echo "=== Checking required JS files ==="
           check_file "js/market-analysis.js"
           check_file "js/market-intelligence.js"
           check_file "js/data-service-portable.js"
+          check_file "js/data-source-inventory.js"
+          check_file "js/temporal-dashboard.js"
+          check_file "js/geographic-dashboard.js"
+
+          echo ""
+          echo "=== Checking required CSS files ==="
+          check_file "css/data-dashboard.css"
 
           echo ""
           echo "=== Checking required data artifacts ==="
@@ -73,8 +81,11 @@ jobs:
           }
 
           echo "=== Checking script tag references ==="
-          check_script_ref "market-analysis.html"      "js/market-analysis.js"
-          check_script_ref "market-intelligence.html"  "js/market-intelligence.js"
+          check_script_ref "market-analysis.html"          "js/market-analysis.js"
+          check_script_ref "market-intelligence.html"      "js/market-intelligence.js"
+          check_script_ref "dashboard-data-sources-ui.html" "js/data-source-inventory.js"
+          check_script_ref "dashboard-data-sources-ui.html" "js/temporal-dashboard.js"
+          check_script_ref "dashboard-data-sources-ui.html" "js/geographic-dashboard.js"
 
           if [ $errors -gt 0 ]; then
             echo ""

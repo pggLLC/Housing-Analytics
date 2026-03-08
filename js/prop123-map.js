@@ -110,11 +110,25 @@
   async function loadProp123List() {
     const cfg = getConfig();
     if (cfg.PROP123_API_URL) return fetchJSON(cfg.PROP123_API_URL);
-    // Use DataService for portable path resolution; fall back to legacy root path
-    if (window.DataService && typeof window.DataService.baseData === 'function') {
-      return fetchJSON(window.DataService.baseData('policy/prop123_jurisdictions.json'));
+    // Prefer DataService for portable path resolution (GitHub Pages subpath safe)
+    if (window.DataService && typeof window.DataService.getJSON === 'function' &&
+        typeof window.DataService.baseData === 'function') {
+      return window.DataService.getJSON(window.DataService.baseData('policy/prop123_jurisdictions.json'));
     }
-    return fetchJSON('data/policy/prop123_jurisdictions.json');
+    // Legacy fallback: use fetchJSON with absolute path derived from script location
+    const base = (function () {
+      try {
+        const scripts = document.querySelectorAll('script[src]');
+        for (var i = 0; i < scripts.length; i++) {
+          const src = scripts[i].getAttribute('src') || '';
+          if (src.includes('prop123-map')) {
+            return new URL(src, location.href).href.replace(/\/js\/[^/]+$/, '');
+          }
+        }
+      } catch (e) { /* ignore */ }
+      return location.origin + location.pathname.replace(/\/[^/]*$/, '');
+    }());
+    return fetchJSON(base + '/data/policy/prop123_jurisdictions.json');
   }
 
   function buildIndex(payload) {
