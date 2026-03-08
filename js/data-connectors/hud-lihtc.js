@@ -74,7 +74,7 @@
     } else if (geojson.features && Array.isArray(geojson.features)) {
       features = geojson.features;
     } else {
-      console.warn('[HudLihtc] loadFeatures: unrecognised format; expected GeoJSON FeatureCollection or array');
+      console.warn('[HudLihtc] loadFeatures: unrecognized format; expected GeoJSON FeatureCollection or array');
       return;
     }
 

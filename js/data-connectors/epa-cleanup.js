@@ -52,22 +52,22 @@
   }
 
   /**
-   * Validates and normalises the `type` field of a site record.
+   * Validates and normalizes the `type` field of a site record.
    * @param {*} raw
    * @returns {string}
    */
-  function normaliseType(raw) {
+  function normalizeType(raw) {
     var t = String(raw || '').toLowerCase().trim();
     if (t === 'brownfield' || t === 'superfund' || t === 'rcra') { return t; }
     return 'brownfield'; // safe default
   }
 
   /**
-   * Validates and normalises the `status` field of a site record.
+   * Validates and normalizes the `status` field of a site record.
    * @param {*} raw
    * @returns {string}
    */
-  function normaliseStatus(raw) {
+  function normalizeStatus(raw) {
     var s = String(raw || '').toLowerCase().trim();
     if (s === 'active' || s === 'complete' || s === 'listed') { return s; }
     return 'active'; // safe default
@@ -91,8 +91,8 @@
         name:   String(item.name || item.NAME || ''),
         lat:    parseFloat(item.lat  || item.LATITUDE  || item.latitude)  || 0,
         lon:    parseFloat(item.lon  || item.LONGITUDE || item.longitude) || 0,
-        type:   normaliseType(item.type   || item.TYPE),
-        status: normaliseStatus(item.status || item.STATUS)
+        type:   normalizeType(item.type   || item.TYPE),
+        status: normalizeStatus(item.status || item.STATUS)
       });
     }
 
@@ -149,8 +149,8 @@
       var s = sitesArr[i];
       if (!s) { continue; }
 
-      var type   = normaliseType(s.type);
-      var status = normaliseStatus(s.status);
+      var type   = normalizeType(s.type);
+      var status = normalizeStatus(s.status);
 
       if (type === 'superfund' && status === 'listed') {
         // Worst case — return immediately

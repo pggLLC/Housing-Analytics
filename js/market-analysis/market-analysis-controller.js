@@ -346,7 +346,7 @@
 
     if (scores.feasibility_score >= 70) {
       items.push({
-        title:       'Favourable Site Conditions',
+        title:       'Favorable Site Conditions',
         description: 'Low flood risk and strong soil scores reduce pre-development risk and cost.',
         priority:    'Moderate'
       });

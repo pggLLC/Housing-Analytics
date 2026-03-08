@@ -16,6 +16,39 @@ INPUT_PATH = REPO_ROOT / "data" / "market" / "hud_lihtc_co.geojson"
 OUTPUT_DIR = REPO_ROOT / "data" / "derived" / "market-analysis"
 OUTPUT_PATH = OUTPUT_DIR / "subsidy_layers.json"
 
+# Colorado county name → 5-digit FIPS mapping (all 64 counties, Rule 1)
+CO_COUNTY_FIPS = {
+    "adams": "08001", "alamosa": "08003", "arapahoe": "08005", "archuleta": "08007",
+    "baca": "08009", "bent": "08011", "boulder": "08013", "broomfield": "08014",
+    "chaffee": "08015", "cheyenne": "08017", "clear creek": "08019", "conejos": "08021",
+    "costilla": "08023", "crowley": "08025", "custer": "08027", "delta": "08029",
+    "denver": "08031", "dolores": "08033", "douglas": "08035", "eagle": "08037",
+    "el paso": "08041", "elbert": "08039", "fremont": "08043", "garfield": "08045",
+    "gilpin": "08047", "grand": "08049", "gunnison": "08051", "hinsdale": "08053",
+    "huerfano": "08055", "jackson": "08057", "jefferson": "08059", "kiowa": "08061",
+    "kit carson": "08063", "la plata": "08067", "lake": "08065", "larimer": "08069",
+    "las animas": "08071", "lincoln": "08073", "logan": "08075", "mesa": "08077",
+    "mineral": "08079", "moffat": "08081", "montezuma": "08083", "montrose": "08085",
+    "morgan": "08087", "otero": "08089", "ouray": "08091", "park": "08093",
+    "phillips": "08095", "pitkin": "08097", "prowers": "08099", "pueblo": "08101",
+    "rio blanco": "08103", "rio grande": "08105", "routt": "08107", "saguache": "08109",
+    "san juan": "08111", "san miguel": "08113", "sedgwick": "08115", "summit": "08117",
+    "teller": "08119", "washington": "08121", "weld": "08123", "yuma": "08125",
+}
+
+
+def _county_name_to_fips(county_raw: str) -> str | None:
+    """Map a county name string to a 5-digit Colorado FIPS code.
+    Returns the FIPS string if found, or None if the county is unrecognized.
+    """
+    normalized = county_raw.strip().lower()
+    # Strip common suffixes like " county", " co."
+    for suffix in (" county", " co.", " co"):
+        if normalized.endswith(suffix):
+            normalized = normalized[: -len(suffix)].strip()
+    return CO_COUNTY_FIPS.get(normalized)
+
+
 STUB = {
     "meta": {
         "generated": "",
@@ -63,21 +96,21 @@ def build(input_path: Path, output_path: Path) -> None:
 
     for feat in features:
         props = feat.get("properties") or {}
-        # FIPS: prefer fips5 → county_fips → first 5 chars of tract GEOID
-        fips = (
-            props.get("fips5")
-            or props.get("county_fips")
-            or props.get("COUNTY_FIPS")
-            or props.get("censustract", "")[:5]
+        # HUD LIHTC GeoJSON uses a COUNTY name field, not a numeric FIPS code.
+        # Map county name → 5-digit Colorado FIPS (Rule 1: must be 5-digit string).
+        county_raw = (
+            props.get("COUNTY")
+            or props.get("county")
+            or props.get("COUNTY_NAME")
+            or ""
         )
+        fips = _county_name_to_fips(county_raw) if county_raw else None
         if not fips:
-            fips = "UNKNOWN"
-        # Pad to 5 digits if it looks like a short code, then validate
-        if fips.isdigit() and len(fips) <= 5:
-            fips = fips.zfill(5)
-        # Only accept valid Colorado county FIPS (08001–08125); reject anything else
-        if len(fips) != 5 or not fips.startswith('08'):
-            fips = "UNKNOWN"
+            if county_raw:
+                print(f"  WARNING: unrecognized county '{county_raw}' — skipping record.")
+            else:
+                print("  WARNING: record has no COUNTY field — skipping.")
+            continue
 
         units = _safe_int(
             props.get("li_units")

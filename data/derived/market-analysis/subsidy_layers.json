@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-03-08T08:42:37.733327+00:00",
+    "generated": "2026-03-08T08:47:55.439621+00:00",
     "source": "HUD LIHTC"
   },
   "summary": {
@@ -8,9 +8,104 @@
     "total_units": 34835
   },
   "by_county": {
-    "UNKNOWN": {
-      "projects": 360,
-      "units": 34835,
+    "08031": {
+      "projects": 110,
+      "units": 12512,
+      "avg_year": 0
+    },
+    "08059": {
+      "projects": 20,
+      "units": 2068,
+      "avg_year": 0
+    },
+    "08001": {
+      "projects": 20,
+      "units": 1997,
+      "avg_year": 0
+    },
+    "08005": {
+      "projects": 18,
+      "units": 1980,
+      "avg_year": 0
+    },
+    "08013": {
+      "projects": 18,
+      "units": 1750,
+      "avg_year": 0
+    },
+    "08041": {
+      "projects": 50,
+      "units": 5554,
+      "avg_year": 0
+    },
+    "08069": {
+      "projects": 20,
+      "units": 2487,
+      "avg_year": 0
+    },
+    "08123": {
+      "projects": 16,
+      "units": 808,
+      "avg_year": 0
+    },
+    "08035": {
+      "projects": 12,
+      "units": 1332,
+      "avg_year": 0
+    },
+    "08014": {
+      "projects": 6,
+      "units": 508,
+      "avg_year": 0
+    },
+    "08101": {
+      "projects": 12,
+      "units": 706,
+      "avg_year": 0
+    },
+    "08077": {
+      "projects": 10,
+      "units": 425,
+      "avg_year": 0
+    },
+    "08045": {
+      "projects": 5,
+      "units": 264,
+      "avg_year": 0
+    },
+    "08037": {
+      "projects": 8,
+      "units": 488,
+      "avg_year": 0
+    },
+    "08117": {
+      "projects": 6,
+      "units": 303,
+      "avg_year": 0
+    },
+    "08097": {
+      "projects": 6,
+      "units": 397,
+      "avg_year": 0
+    },
+    "08107": {
+      "projects": 5,
+      "units": 264,
+      "avg_year": 0
+    },
+    "08067": {
+      "projects": 8,
+      "units": 536,
+      "avg_year": 0
+    },
+    "08085": {
+      "projects": 5,
+      "units": 201,
+      "avg_year": 0
+    },
+    "08043": {
+      "projects": 5,
+      "units": 255,
       "avg_year": 0
     }
   }
