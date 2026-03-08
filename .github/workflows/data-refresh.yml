@@ -1,0 +1,79 @@
+name: Data Refresh Pipeline
+
+on:
+  schedule:
+    - cron: '0 7 * * *'   # daily at 07:00 UTC (after individual source workflows)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ------------------------------------------------------------------ #
+      # API key status check — logged without exposing values               #
+      # ------------------------------------------------------------------ #
+      - name: API key status
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          FRED_API_KEY:   ${{ secrets.FRED_API_KEY }}
+        run: |
+          node - <<'JS'
+          const censusKey = (process.env.CENSUS_API_KEY || '').trim();
+          const fredKey   = (process.env.FRED_API_KEY   || '').trim();
+          console.log('CENSUS_API_KEY :', censusKey ? `set (${censusKey.length} chars)` : 'NOT SET — Census requests will be unauthenticated');
+          console.log('FRED_API_KEY   :', fredKey   ? `set (${fredKey.length} chars)`   : 'NOT SET');
+          if (!censusKey) {
+            console.warn('WARNING: Add CENSUS_API_KEY to GitHub Secrets for authenticated Census API access.');
+            console.warn('  Settings → Secrets and variables → Actions → New repository secret');
+            console.warn('  Free key signup: https://api.census.gov/data/key_signup.html');
+          }
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Run the Node.js data refresh pipeline                               #
+      # ------------------------------------------------------------------ #
+      - name: Run data refresh pipeline (Node.js)
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          FRED_API_KEY:   ${{ secrets.FRED_API_KEY }}
+        run: node scripts/refresh-data-pipeline.js
+
+      # ------------------------------------------------------------------ #
+      # Python HNA pipeline step — passes Census key as env variable        #
+      # ------------------------------------------------------------------ #
+      - name: Python environment check
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          python3 -c "
+          import os, sys
+          k = os.environ.get('CENSUS_API_KEY', '').strip()
+          if k:
+              print(f'CENSUS_API_KEY: set ({len(k)} chars)')
+          else:
+              print('CENSUS_API_KEY: NOT SET — Python scripts will use unauthenticated Census requests', file=sys.stderr)
+          "
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "chore: data refresh pipeline $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
