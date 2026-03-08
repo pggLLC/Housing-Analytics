@@ -26,6 +26,7 @@
         { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
         { label: "Construction Costs", href: "construction-commodities.html", desc: "PPI & commodities" },
         { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
+        { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "All 43+ data sources" },
       ]
     },
     {

@@ -153,8 +153,15 @@
       if (data && data.jurisdictions) jurisdictions = data.jurisdictions;
       if (!Array.isArray(jurisdictions)) jurisdictions = [];
       var count = jurisdictions.length;
-      if (summary) summary.textContent = count ? (count + ' jurisdictions currently listed in the Prop 123 commitment dataset.') : 'No jurisdictions found in the dataset.';
-      setStatus(count ? ('Loaded ' + count + ' features') : '(0)');
+      var countyCount = jurisdictions.filter(function (j) {
+        var k = (j.kind || j.type || '').toString().toLowerCase();
+        return k.includes('county') || (j.name || '').toLowerCase().includes(' county');
+      }).length;
+      var muniCount = count - countyCount;
+      if (summary) summary.textContent = count
+        ? (count + ' jurisdictions (' + countyCount + ' counti' + (countyCount === 1 ? 'y' : 'es') + ', ' + muniCount + ' municipalit' + (muniCount === 1 ? 'y' : 'ies') + ') currently listed in the Prop 123 commitment dataset.')
+        : 'No jurisdictions found in the dataset.';
+      setStatus(count ? ('Loaded ' + count + ' Prop 123 jurisdictions') : '(0)');
 
       // Render table rows
       tbody.innerHTML = '';
@@ -167,7 +174,7 @@
         var name = j.name || j.jurisdiction || j.place || j.county || '—';
         var type = j.type || j.jurisdiction_type || (j.is_county ? 'County' : (j.is_place ? 'Municipality' : '—'));
         var statusTxt = j.status || j.commitment_status || '—';
-        var dt = j.commitment_date || j.date || j.filed_date || '';
+        var dt = j.commitment_date || j.filing_date || j.date || j.filed_date || '';
         var dateTxt = dt ? String(dt).replace('T00:00:00.000Z','') : '—';
 
         var tr = document.createElement('tr');
