@@ -77,9 +77,12 @@ test('HNA JS uses fetchWithTimeout from global (fetch-helper)', () => {
 test('TIGERweb boundary fetch is wrapped in try/catch for graceful degradation', () => {
   // The update() function wraps fetchBoundary in try/catch
   assert(hnaSrc.includes('fetchBoundary('), 'fetchBoundary is called');
-  // Check that it's in a try block
-  const tryBoundaryIdx = hnaSrc.indexOf('fetchBoundary(');
-  const tryCatchIdx    = hnaSrc.lastIndexOf('try{', tryBoundaryIdx);
+  // Search for the CALL site (await fetchBoundary) rather than the definition,
+  // so that lastIndexOf finds the try{ that guards the call, not the definition.
+  const callIdx     = hnaSrc.indexOf('await fetchBoundary(');
+  const tryCatchIdx = hnaSrc.lastIndexOf('try{', callIdx);
+  assert(callIdx !== -1,
+    'fetchBoundary is called with await (indicating async call site exists)');
   assert(tryCatchIdx !== -1,
     'fetchBoundary call is inside a try block (graceful degradation)');
 });
@@ -225,6 +228,85 @@ test('CSS: new checklist status classes defined', () => {
   assert(css.includes('.checklist-item.pending'),    '.checklist-item.pending class defined');
   assert(css.includes('.checklist-date-completed'),  '.checklist-date-completed class defined');
   assert(css.includes('max-width: 480px'),           'mobile 480px breakpoint defined');
+});
+
+// ── ACS S0801 Commuting Mode Share ───────────────────────────────────────────
+
+test('ACS S0801: fetchAcsS0801 function is defined', () => {
+  assert(hnaSrc.includes('async function fetchAcsS0801'),
+    'fetchAcsS0801 async function is defined');
+});
+
+test('ACS S0801: all required mode-share fields requested', () => {
+  assert(hnaSrc.includes('S0801_C01_001E'), 'S0801_C01_001E (total workers) in fetch');
+  assert(hnaSrc.includes('S0801_C01_002E'), 'S0801_C01_002E (drove alone) in fetch');
+  assert(hnaSrc.includes('S0801_C01_003E'), 'S0801_C01_003E (carpool) in fetch');
+  assert(hnaSrc.includes('S0801_C01_004E'), 'S0801_C01_004E (transit) in fetch');
+  assert(hnaSrc.includes('S0801_C01_005E'), 'S0801_C01_005E (walked) in fetch');
+  assert(hnaSrc.includes('S0801_C01_006E'), 'S0801_C01_006E (other means) in fetch');
+  assert(hnaSrc.includes('S0801_C01_007E'), 'S0801_C01_007E (work from home) in fetch');
+  assert(hnaSrc.includes('S0801_C01_018E'), 'S0801_C01_018E (mean commute time) in fetch');
+});
+
+test('ACS S0801: renderModeShare function is defined', () => {
+  assert(hnaSrc.includes('function renderModeShare'),
+    'renderModeShare function is defined');
+});
+
+test('ACS S0801: renderModeShare is called in update() pipeline', () => {
+  assert(hnaSrc.includes('renderModeShare(s0801)'),
+    'renderModeShare(s0801) is called in the update pipeline');
+});
+
+test('ACS S0801: renderModeShare has a null/missing-data guard', () => {
+  // The function should guard against null s0801 or missing total field
+  assert(hnaSrc.includes('!s0801') || hnaSrc.includes('s0801?.S0801_C01_001E') ||
+    hnaSrc.includes('s0801.S0801_C01_001E'),
+    'renderModeShare guards against null/missing S0801 data');
+  // The outer caller also guards
+  assert(hnaSrc.includes('if (s0801)') && hnaSrc.includes('renderModeShare(s0801)'),
+    'update() guards renderModeShare call with if (s0801)');
+});
+
+test('ACS S0801: mean commute time populates statCommute element', () => {
+  assert(hnaSrc.includes('statCommute'),
+    'statCommute element is referenced in JS');
+  assert(hnaSrc.includes('S0801_C01_018E'),
+    'S0801_C01_018E (mean commute time) is used');
+  // Confirm it's used to set text (either textContent or innerHTML)
+  assert(hnaSrc.includes('els.statCommute.textContent'),
+    'statCommute textContent is set from S0801 mean commute field');
+});
+
+test('ACS S0801: renderModeShare uses a per-bar color palette from CSS tokens', () => {
+  // The enhanced renderModeShare should use chartTheme().chartColors (from --chart-* CSS tokens)
+  const modeShareFnStart = hnaSrc.indexOf('function renderModeShare');
+  const modeShareFnEnd   = hnaSrc.indexOf('\n  function ', modeShareFnStart + 1);
+  const fnBody = modeShareFnEnd > modeShareFnStart
+    ? hnaSrc.slice(modeShareFnStart, modeShareFnEnd)
+    : hnaSrc.slice(modeShareFnStart, modeShareFnStart + 3000);
+  assert(fnBody.includes('backgroundColor'),
+    'renderModeShare sets backgroundColor for bars');
+  // Colors must come from chartTheme().chartColors, not hardcoded hex values (Rule 10)
+  assert(fnBody.includes('chartColors'),
+    'renderModeShare uses chartTheme().chartColors (CSS token palette, Rule 10)');
+  // chartTheme() must expose chartColors populated from --chart-* tokens
+  const themeFnStart = hnaSrc.indexOf('function chartTheme');
+  const themeFnEnd   = hnaSrc.indexOf('\n  function ', themeFnStart + 1);
+  const themeFnBody  = hnaSrc.slice(themeFnStart, themeFnEnd);
+  assert(themeFnBody.includes('--chart-'),
+    'chartTheme() reads --chart-* CSS variable tokens');
+  assert(themeFnBody.includes('chartColors'),
+    'chartTheme() returns chartColors array');
+});
+
+test('HTML: chartMode canvas and statCommute element present', () => {
+  assert(hnaHtml.includes('id="chartMode"'),
+    'chartMode canvas is present in HTML');
+  assert(hnaHtml.includes('id="statCommute"'),
+    'statCommute stat element is present in HTML');
+  assert(hnaHtml.includes('S0801'),
+    'HTML references ACS S0801 table');
 });
 
 // ── Summary ─────────────────────────────────────────────────────────────────

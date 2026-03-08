@@ -417,7 +417,11 @@
     const text = style.getPropertyValue('--text').trim() || '#111';
     const muted = style.getPropertyValue('--muted').trim() || '#555';
     const border = style.getPropertyValue('--border').trim() || '#ddd';
-    return { text, muted, border };
+    // Chart palette tokens (var(--chart-1) … var(--chart-7), Rule 10)
+    const chartColors = [1,2,3,4,5,6,7].map(n =>
+      style.getPropertyValue(`--chart-${n}`).trim() || ['#1e5799','#0369a1','#096e65','#7c3d00','#166534','#92400e','#991b1b'][n-1]
+    );
+    return { text, muted, border, chartColors };
   }
 
   function makeChart(ctx, config){
@@ -2939,37 +2943,77 @@
   }
 
   function renderModeShare(s0801){
+    const canvas = document.getElementById('chartMode');
+    if (!canvas) return;
+
+    // Show placeholder when S0801 data is absent or total is missing
+    if (!s0801 || !s0801.S0801_C01_001E) {
+      const box = canvas.parentElement;
+      if (box) {
+        box.textContent = 'Data unavailable for this geography (ACS S0801 not reported).';
+        box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem';
+      }
+      return;
+    }
+
     const t = chartTheme();
-    const total = Number(s0801?.S0801_C01_001E);
-    const drove = Number(s0801?.S0801_C01_002E);
-    const carpool = Number(s0801?.S0801_C01_003E);
-    const transit = Number(s0801?.S0801_C01_004E);
-    const walked = Number(s0801?.S0801_C01_005E);
-    const other = Number(s0801?.S0801_C01_006E);
-    const wfh = Number(s0801?.S0801_C01_007E);
+    const total = Number(s0801.S0801_C01_001E);
 
-    const items = [
-      { k:'Drove alone', v:drove },
-      { k:'Carpool', v:carpool },
-      { k:'Transit', v:transit },
-      { k:'Walk', v:walked },
-      { k:'Other', v:other },
-      { k:'Work from home', v:wfh },
-    ].filter(d=>Number.isFinite(d.v) && Number.isFinite(total) && total>0)
-     .map(d=>({k:d.k, v:(d.v/total)*100}));
+    if (!Number.isFinite(total) || total <= 0) {
+      const box = canvas.parentElement;
+      if (box) {
+        box.textContent = 'Data unavailable for this geography (ACS S0801 not reported).';
+        box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem';
+      }
+      return;
+    }
 
-    makeChart(document.getElementById('chartMode').getContext('2d'), {
+    const drove   = Number(s0801.S0801_C01_002E);
+    const carpool = Number(s0801.S0801_C01_003E);
+    const transit = Number(s0801.S0801_C01_004E);
+    const walked  = Number(s0801.S0801_C01_005E);
+    const other   = Number(s0801.S0801_C01_006E);
+    const wfh     = Number(s0801.S0801_C01_007E);
+
+    // Per Rule 10: colors drawn from var(--chart-*) tokens in chartTheme().chartColors
+    const c = t.chartColors;
+    const raw = [
+      { k:'Drove alone',    v:drove,   color:c[0] },
+      { k:'Carpool',        v:carpool, color:c[1] },
+      { k:'Transit',        v:transit, color:c[2] },
+      { k:'Walk',           v:walked,  color:c[4] },
+      { k:'Other',          v:other,   color:c[3] },
+      { k:'Work from home', v:wfh,     color:c[5] },
+    ].filter(d => Number.isFinite(d.v));
+
+    const items = raw.map(d => ({ k:d.k, v:(d.v/total)*100, color:d.color }));
+
+    makeChart(canvas.getContext('2d'), {
       type:'bar',
-      data:{ labels:items.map(d=>d.k), datasets:[{ label:'% of workers', data:items.map(d=>d.v) }] },
+      data:{
+        labels: items.map(d=>d.k),
+        datasets:[{
+          label:'% of workers',
+          data: items.map(d=>d.v),
+          backgroundColor: items.map(d=>d.color),
+        }]
+      },
       options:{
         responsive:true,
         maintainAspectRatio:false,
-        plugins:{ legend:{ labels:{ color:t.text } } },
+        plugins:{
+          legend:{ labels:{ color:t.text } },
+          tooltip:{
+            callbacks:{
+              label:(ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
+            },
+          },
+        },
         scales:{
           x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-          y:{ ticks:{ color:t.muted, callback:(v)=>v+'%' }, grid:{ color:t.border }, suggestedMax: 100 },
-        }
-      }
+          y:{ ticks:{ color:t.muted, callback:(v)=>v+'%' }, grid:{ color:t.border }, suggestedMax:100 },
+        },
+      },
     });
   }
 
