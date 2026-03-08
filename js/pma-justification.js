@@ -18,6 +18,10 @@
   'use strict';
 
   /* ── Constants ────────────────────────────────────────────────────── */
+  // NOTE (Rule 3 / Rule 18): Update DATA_VINTAGE and LODES_VINTAGE together
+  // whenever the underlying data vintage advances.  These values must stay in
+  // sync with the pyramidYear / baseYear in projection data files.
+  // DATA_VINTAGE corresponds to 'generated'/'updated' sentinel keys (Rule 18).
   var DATA_VINTAGE   = 'ACS_2023_5YR';
   var LODES_VINTAGE  = '2021';
   var SCHEMA_VERSION = '2.0';

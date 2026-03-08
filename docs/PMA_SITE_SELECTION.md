@@ -8,23 +8,110 @@
 
 A **Primary Market Area (PMA)** is the geographic zone from which a proposed affordable housing development is expected to draw the majority of its residents.
 
+### 1.1 Delineation Methods
+
 | Mode | Definition | When to Use |
 |---|---|---|
-| **Buffer-based (no API)** | Circular buffer around site centroid — 15-min drive ≈ 12 mi radius in urban/suburban areas; 20–25 mi in rural | Default; no external routing API required |
-| **Isochrone-based** | True drive-time polygon using OpenRouteService or Mapbox Isochrone API | Preferred when API is available; more accurate for mountainous terrain |
+| **Buffer-based (legacy)** | Circular buffer around site centroid — 3, 5, 10, or 15 mile options | Backward-compatible default; no external API required |
+| **Commuting-based (recommended)** | LEHD/LODES commuting flow polygon capturing ~75 % of likely residents | Preferred for LIHTC market studies; meets NH&RA/Novogradac standards |
+| **Hybrid (smart default)** | Commuting boundary + school district alignment + transit catchment | Best defensibility for CHFA applications |
+| **Isochrone-based** | True drive-time polygon using OpenRouteService or Mapbox Isochrone API | When optional routing API is configured |
 
-### PMA Tiers
-- **Primary PMA**: 15-minute drive-time (or ~12-mile buffer in absence of routing API)
-- **Secondary PMA**: 30-minute drive-time (or ~25-mile buffer)
-- **Competitive Set**: Properties within the Primary PMA that share ≥2 of: same program type (LIHTC, market-rate, HUD Section 8), overlapping bedroom mix, same AMI band (≤60% AMI, 60–80%, 80–120%)
+### 1.2 Commuting-Based Delineation Workflow
+
+1. **Fetch LODES workplace data** — query LEHD/LODES WAC file for all workplace locations within a 30-mile radius (vintage 2021 by default).
+2. **Analyze commuting flows** — aggregate job counts by census tract; identify origin zones that together account for ~75 % of workers.
+3. **Generate convex hull boundary** — build a convex hull from the top origin zone centroids, including the site itself.
+4. **Subtract barriers** — remove water bodies (USGS NHD), major highways (TIGERweb), and barrier land cover types (NLCD codes 11, 12, 95).
+5. **Align with school districts** — optionally extend or constrain the boundary to match school attendance areas.
+6. **Generate justification narrative** — produce an auto-written rationale document citing all data sources.
+
+### 1.3 PMA Tiers
+- **Primary PMA (PMA)**: Commuting-based polygon, or ~5–12 mile buffer
+- **Secondary Market Area (SMA)**: 30-minute drive-time, or ~25-mile buffer
+- **Competitive Set**: Properties within the PMA sharing ≥2 of: same program type, overlapping bedroom mix, same AMI band
 
 ---
 
-## 2. PMA Scoring Algorithm (0–100)
+## 2. Barrier Exclusion Logic
+
+The `PMABarriers` module refines the candidate PMA polygon by excluding:
+
+| Barrier type | Source | Exclusion logic |
+|---|---|---|
+| Open water bodies | USGS NHD (hydrology layer) | Features with NLCD code 11; any NHD polygon |
+| Major highways | TIGERweb Transportation (RTTYP = I, U, S) | Buffered 111 m either side |
+| Wetlands / ice | NLCD codes 12, 95 | Direct exclusion |
+
+Estimated exclusion fractions are reported in the ScoreRun `barriers` object and included in the justification narrative.
+
+---
+
+## 3. School District Alignment Rationale
+
+For family-size affordable housing (2+ BR), school quality is a primary resident draw factor. The `PMASchools` module:
+
+1. Fetches ED attendance boundaries within the PMA bounding box.
+2. Scores each district by proximity (60 %) and NCES performance index (40 %).
+3. Reports the average performance score and lists aligned districts in the justification.
+
+**Alignment rationale** is automatically generated: *"PMA boundary aligns with N school district(s) with avg performance score X/100."*
+
+---
+
+## 4. Transit Accessibility Weighting Formula
+
+```
+Transit_Score = 0.35 × Frequency_Score
+              + 0.30 × Coverage_Score
+              + 0.25 × EPA_SmartLocation_D4a
+              + 0.10 × Walk_Score
+```
+
+- **Frequency_Score**: Fraction of nearby routes with headway ≤ 15 min × 100
+- **Coverage_Score**: Number of distinct routes within 0.5 miles × 15, capped at 100
+- **EPA_SmartLocation_D4a**: Transit accessibility index (0–20, scaled ×5)
+- **Walk_Score**: EPA D3b pedestrian environment index (scaled ×5)
+
+Transit deserts within the PMA are flagged when no transit stop is within a 0.5-mile walk of a 1-mile grid cell.
+
+---
+
+## 5. Subsidy Expiry Risk Calculation
+
+The `PMACompetitiveSet` module flags HUD NHPD-assisted properties where the subsidy contract expires within the configurable threshold (default: 5 years).
+
+```
+atExpiryRisk = (expiryYear - currentYear) ≤ EXPIRY_THRESHOLD
+```
+
+At-risk units are listed in the justification narrative as a demand-driver signal: expiring affordable units may convert to market-rate, reducing competition and creating unmet demand.
+
+---
+
+## 6. Automated Justification Narrative Generation
+
+The `PMAJustification` module synthesizes all component outputs into a structured plain-English narrative (≤500 words) suitable for LIHTC/CHFA application attachments.
+
+**Narrative sections:**
+1. Boundary method and capture rate
+2. Barrier exclusions (if any)
+3. Employment center summary
+4. School district alignment
+5. Transit accessibility rating
+6. Opportunity Zone share and incentive eligibility
+7. Infrastructure flags (flood risk, utility capacity)
+8. Data quality and run ID
+
+**Audit trail** (`generateAuditTrail()`) captures: run_id, data_vintage, LODES_vintage, component weights, data quality rating, and the full narrative.
+
+---
+
+## 7. PMA Scoring Algorithm (0–100)
 
 All sub-scores are normalized to 0–100 using **percentile ranks within Colorado** across the same geography type (census tract or county subdivision). Scores are then weighted and summed.
 
-### 2.1 Weights
+### 7.1 Weights
 
 | Domain | Weight | Sub-components |
 |---|---|---|
@@ -33,7 +120,7 @@ All sub-scores are normalized to 0–100 using **percentile ranks within Colorad
 | Competition & Absorption | **25%** | LIHTC units per 1,000 households, pipeline units (permits issued but not complete), vacancy proxy |
 | Policy / Feasibility | **15%** | Prop 123 commitment status, zoning inclusionary rate, FEMA flood zone share, SB23-213 rezoning area |
 
-### 2.2 PMA Score Formula
+### 7.2 PMA Score Formula
 
 ```
 PMA_Score = 0.30 × Access_Score

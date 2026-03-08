@@ -163,7 +163,7 @@
    */
   function analyzeCommutingFlows(workplaces) {
     if (!workplaces || !workplaces.length) {
-      return { originZones: [], totalWorkers: 0 };
+      return { originZones: [], totalWorkers: 0, captureRate: 0 };
     }
 
     lastWorkplaces = workplaces;
