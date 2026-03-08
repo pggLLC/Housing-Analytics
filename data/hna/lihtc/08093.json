@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","fetchedAt":"2026-03-08T18:28:20.129Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-106.1017,39.2838]},"properties":{"PROJECT":"TREELINE VILLAGE","PROJ_ADD":"260 CHISHOLM WAY","PROJ_CTY":"ALMA","PROJ_ST":"CO","CNTY_NAME":"Park","CNTY_FIPS":"08093","STATEFP":"08","COUNTYFP":"093","N_UNITS":14,"LI_UNITS":13,"YR_PIS":"2006","YR_ALLOC":"2004","CREDIT":"2","NON_PROF":"2","QCT":"2","DDA":null}}]}
+{"type":"FeatureCollection","features":[]}

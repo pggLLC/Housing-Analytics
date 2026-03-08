@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","fetchedAt":"2026-03-08T18:28:20.129Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-105.509323,39.792901]},"properties":{"PROJECT":"GOLD MOUNTAIN VILLAGE","PROJ_ADD":"440 POWDER RUN DR","PROJ_CTY":"CENTRAL CITY","PROJ_ST":"CO","CNTY_NAME":"Gilpin","CNTY_FIPS":"08047","STATEFP":"08","COUNTYFP":"047","N_UNITS":168,"LI_UNITS":null,"YR_PIS":"1999","YR_ALLOC":"8888","CREDIT":null,"NON_PROF":null,"QCT":"2","DDA":null}}]}
+{"type":"FeatureCollection","features":[]}
