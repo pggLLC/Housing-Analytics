@@ -309,6 +309,162 @@ test('HTML: chartMode canvas and statCommute element present', () => {
     'HTML references ACS S0801 table');
 });
 
+// ── Municipality Boundary Fix ────────────────────────────────────────────────
+
+test('fetchBoundary: uses Places MapServer for place/CDP geography types', () => {
+  const fnStart = hnaSrc.indexOf('async function fetchBoundary(');
+  const fnEnd   = hnaSrc.indexOf('\n  }', fnStart + 1);
+  const fnBody  = hnaSrc.slice(fnStart, fnEnd + 4);
+
+  // Must use the Places_CouSub_ConCity_SubMCD MapServer (not County) for places
+  assert(fnBody.includes('Places_CouSub_ConCity_SubMCD'),
+    'fetchBoundary references TIGERweb Places_CouSub_ConCity_SubMCD MapServer');
+  // Must use State_County MapServer for counties
+  assert(fnBody.includes('State_County'),
+    'fetchBoundary references TIGERweb State_County MapServer for counties');
+  // Layer selection: county=1, place=2, cdp=5
+  assert(fnBody.includes("geoType === 'county' ? 1"),
+    'fetchBoundary selects layer 1 for counties');
+  assert(fnBody.includes("geoType === 'place' ? 2"),
+    'fetchBoundary selects layer 2 for places');
+  // Validates that features were actually returned (not silently empty)
+  assert(fnBody.includes('features.length === 0') || fnBody.includes('!Array.isArray(gj?.features)'),
+    'fetchBoundary validates that TIGERweb returned at least one feature');
+  // outSR=4326 required by Rule 9
+  assert(fnBody.includes("outSR: '4326'") || fnBody.includes("outSR=4326"),
+    'fetchBoundary requests WGS84 output coordinates (outSR=4326, Rule 9)');
+});
+
+test('fetchBoundary: throws informative error when TIGERweb returns no features', () => {
+  // Must throw (not silently succeed) when 0 features returned so callers know to clear the boundary
+  assert(hnaSrc.includes('No boundary found for'),
+    'fetchBoundary throws when TIGERweb returns no features');
+});
+
+test('renderBoundary: clears old layer before rendering new one', () => {
+  const fnStart = hnaSrc.indexOf('function renderBoundary(');
+  const fnEnd   = hnaSrc.indexOf('\n  }', fnStart + 1);
+  const fnBody  = hnaSrc.slice(fnStart, fnEnd + 4);
+
+  assert(fnBody.includes('boundaryLayer.remove()'),
+    'renderBoundary removes old boundary layer');
+  assert(fnBody.includes('boundaryLayer = null'),
+    'renderBoundary nulls out the old layer reference');
+  assert(fnBody.includes('features.length') || fnBody.includes('!features.length'),
+    'renderBoundary guards against empty GeoJSON features');
+});
+
+test('renderBoundary: uses distinct visual styles for place vs county', () => {
+  assert(hnaSrc.includes('BOUNDARY_STYLES'),
+    'BOUNDARY_STYLES constant is defined');
+  // Places must use a different color from counties (green accent vs blue)
+  assert(hnaSrc.includes("place:"),
+    'BOUNDARY_STYLES includes place entry');
+  assert(hnaSrc.includes("county:"),
+    'BOUNDARY_STYLES includes county entry');
+  assert(hnaSrc.includes("cdp:"),
+    'BOUNDARY_STYLES includes cdp entry');
+  // geoType is passed to renderBoundary so the correct style is applied
+  assert(hnaSrc.includes('renderBoundary(gj, geoType)'),
+    'renderBoundary is called with geoType argument');
+});
+
+test('update(): clears stat cards before fetching new geography data', () => {
+  assert(hnaSrc.includes('function clearStats('),
+    'clearStats function is defined');
+  // clearStats must be called in update() before any async data fetch
+  const updateIdx = hnaSrc.indexOf('async function update()');
+  const clearIdx  = hnaSrc.indexOf('clearStats()', updateIdx);
+  const fetchIdx  = hnaSrc.indexOf('fetchBoundary(', updateIdx);
+  assert(clearIdx !== -1,
+    'clearStats() is called inside update()');
+  assert(clearIdx < fetchIdx,
+    'clearStats() is called BEFORE boundary/data fetching (no stale values shown)');
+});
+
+test('update(): clears stale boundary when fetchBoundary fails', () => {
+  // The catch block must call renderBoundary with empty GeoJSON to remove stale boundary
+  const updateIdx = hnaSrc.indexOf('async function update()');
+  const catchIdx  = hnaSrc.indexOf('renderBoundary({ type:', updateIdx);
+  assert(catchIdx !== -1,
+    'catch block calls renderBoundary with empty FeatureCollection to clear stale boundary');
+  assert(hnaSrc.slice(catchIdx, catchIdx + 60).includes('features: []'),
+    'stale-boundary clear passes empty features array');
+});
+
+test('FEATURED list: four required Colorado cities have correct 7-digit GEOIDs', () => {
+  // Verify the specific cities from the requirements
+  const cities = [
+    { label: 'Colorado Springs', geoid: '0816000', county: '08041' },
+    { label: 'Boulder',          geoid: '0807850', county: '08013' },
+    { label: 'Fort Collins',     geoid: '0827425', county: '08069' },
+    { label: 'Grand Junction',   geoid: '0831660', county: '08077' },
+  ];
+  cities.forEach(function(city) {
+    assert(hnaSrc.includes(`geoid: '${city.geoid}'`),
+      `${city.label} has correct 7-digit GEOID ${city.geoid} in FEATURED`);
+    assert(hnaSrc.includes(`containingCounty: '${city.county}'`),
+      `${city.label} has correct containingCounty ${city.county} in FEATURED`);
+  });
+});
+
+test('FEATURED list: all four cities use geoType=place (not county)', () => {
+  // Cities must be place type so fetchBoundary queries Places MapServer
+  assert(hnaSrc.includes("{ type: 'place', geoid: '0816000'"),
+    "Colorado Springs is type 'place'");
+  assert(hnaSrc.includes("{ type: 'place', geoid: '0807850'"),
+    "Boulder is type 'place'");
+  assert(hnaSrc.includes("{ type: 'place', geoid: '0827425'"),
+    "Fort Collins is type 'place'");
+  assert(hnaSrc.includes("{ type: 'place', geoid: '0831660'"),
+    "Grand Junction is type 'place'");
+});
+
+test('fetchAcsProfile: constructs place-specific Census API parameter for municipalities', () => {
+  const fnStart = hnaSrc.indexOf('async function fetchAcsProfile(');
+  const fnEnd   = hnaSrc.indexOf('\n  async function ', fnStart + 1);
+  const fnBody  = fnEnd > fnStart
+    ? hnaSrc.slice(fnStart, fnEnd)
+    : hnaSrc.slice(fnStart, fnStart + 3000);
+
+  // Place ACS uses place:XXXXX (5-digit code = 7-digit GEOID minus state 2-digit prefix)
+  assert(fnBody.includes("place:${geoid.slice(2)}"),
+    "fetchAcsProfile uses place:${geoid.slice(2)} for municipality queries");
+  // County ACS uses county:XXX (3-digit code = 5-digit GEOID minus state 2-digit prefix)
+  assert(fnBody.includes("county:${geoid.slice(2,5)}"),
+    "fetchAcsProfile uses county:${geoid.slice(2,5)} for county queries");
+  // These are mutually exclusive — the same geoid slice pattern must NOT be used for both
+  assert(
+    fnBody.includes("geoType === 'county'") && fnBody.includes("geoType === 'place'"),
+    'fetchAcsProfile branches on geoType to distinguish county vs place ACS endpoints'
+  );
+});
+
+test('HTML: hnaLiveRegion aria-live region present for geography update announcements', () => {
+  assert(hnaHtml.includes('id="hnaLiveRegion"'),
+    'hnaLiveRegion element present in HTML');
+  // The region containing hnaLiveRegion must have aria-live and aria-atomic
+  const liveIdx = hnaHtml.indexOf('id="hnaLiveRegion"');
+  const tagStart = hnaHtml.lastIndexOf('<', liveIdx);
+  const tag = hnaHtml.slice(tagStart, hnaHtml.indexOf('>', liveIdx) + 1);
+  assert(tag.includes('aria-live="polite"'),
+    'hnaLiveRegion has aria-live="polite"');
+  assert(tag.includes('aria-atomic="true"'),
+    'hnaLiveRegion has aria-atomic="true"');
+});
+
+test('HNA JS: __announceUpdate is wired up in init() and called in update()', () => {
+  assert(hnaSrc.includes('window.__announceUpdate'),
+    'HNA JS references window.__announceUpdate');
+  assert(hnaSrc.includes('hnaLiveRegion'),
+    'HNA JS references hnaLiveRegion element');
+  // update() must call it at start (loading) and end (loaded)
+  const updateIdx = hnaSrc.indexOf('async function update()');
+  const announceIdx = hnaSrc.indexOf('window.__announceUpdate', updateIdx);
+  assert(announceIdx !== -1,
+    'window.__announceUpdate is called inside update()');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
