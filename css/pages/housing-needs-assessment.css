@@ -319,6 +319,46 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .checklist-item label { cursor: pointer; flex: 1; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .checklist-item.done label { color: var(--muted); text-decoration: line-through; }
 
+/* Status icon (✓, ⏳, ⚠️) */
+.checklist-status-icon {
+  flex-shrink: 0;
+  font-size: .85rem;
+  margin-top: 3px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Item content wrapper (label + completed date) */
+.checklist-item-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Completed-on timestamp */
+.checklist-date-completed {
+  font-size: .8rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Warning state: DOLA deadline within 30 days */
+.checklist-item.warning {
+  background: color-mix(in oklab, #f97316 10%, transparent 90%);
+  border-radius: 4px;
+  padding-left: 6px;
+  margin-left: -6px;
+}
+.checklist-item.warning label { color: #c2410c; font-weight: 600; }
+
+/* Pending state (not yet checked) */
+.checklist-item.pending .checklist-status-icon { color: var(--muted); }
+
+/* Done state */
+.checklist-item.done .checklist-status-icon { color: var(--accent); }
+
 @media (max-width: 640px) {
   .compliance-checklist { padding: 0; }
   .checklist-item {
@@ -328,6 +368,14 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
     line-height: 1.45;
   }
   .checklist-item input[type="checkbox"] { min-width: 18px; min-height: 18px; }
+}
+
+@media (max-width: 480px) {
+  .checklist-item {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .checklist-item input[type="checkbox"] { order: -1; }
 }
 
 @media (max-width: 400px) {
