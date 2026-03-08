@@ -1,0 +1,321 @@
+/**
+ * js/pma-ui-controller.js
+ * UI controller for the enhanced PMA delineation tool on market-analysis.html.
+ *
+ * Responsibilities:
+ *  - Tab switching between buffer / commuting / hybrid methods
+ *  - Show/hide layer picker for non-buffer modes
+ *  - Hook into the existing pmaRunBtn click to trigger PMAAnalysisRunner
+ *  - Drive the progress bar (step label, fill width, %, step count)
+ *  - Render justification narrative, subsidy-expiry risk, and incentive badges
+ *  - "Explain Score" and "Export Audit Trail" buttons
+ *
+ * Depends on (loaded before this script, all deferred):
+ *   window.PMAAnalysisRunner   — js/pma-analysis-runner.js
+ *   window.PMAJustification    — js/pma-justification.js
+ *   window.PMAEngine           — js/market-analysis.js
+ *
+ * Backward-compatible: when PMAAnalysisRunner is absent the existing
+ * buffer-based flow continues to work uninterrupted.
+ */
+(function () {
+  'use strict';
+
+  /* ── CSS for active tab state (injected once) ────────────────────── */
+  var STYLE_INJECTED = false;
+  function _injectStyle() {
+    if (STYLE_INJECTED || typeof document === 'undefined') return;
+    STYLE_INJECTED = true;
+    var s = document.createElement('style');
+    s.textContent = [
+      '.pma-tab{background:var(--card,#1e1e1e);color:var(--text,#eee);transition:background .15s,border-color .15s;}',
+      '.pma-tab--active{background:var(--accent,#096e65)!important;color:#fff!important;',
+      '  border-color:var(--accent,#096e65)!important;}',
+      '.pma-tab:hover:not(.pma-tab--active){background:var(--border,#2a2a2a);}',
+      '#pmaProgressFill{will-change:width;}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
+  /* ── Element references ─────────────────────────────────────────── */
+  function $id(id) { return document.getElementById(id); }
+
+  /* ── Internal state ─────────────────────────────────────────────── */
+  var _method       = 'buffer';
+  var _bufferMiles  = 5;
+  var _lastScoreRun = null;
+  var _running      = false;
+
+  /* ── Progress bar helpers ────────────────────────────────────────── */
+  function _progressShow() {
+    var wrap = $id('pmaProgressWrap');
+    if (wrap) wrap.style.display = 'block';
+  }
+  function _progressHide() {
+    var wrap = $id('pmaProgressWrap');
+    if (wrap) wrap.style.display = 'none';
+  }
+  function _progressUpdate(step) {
+    var label = $id('pmaProgressLabel');
+    var pct   = $id('pmaProgressPct');
+    var fill  = $id('pmaProgressFill');
+    var bar   = $id('pmaProgressBar');
+    var steps = $id('pmaProgressSteps');
+    var total = (window.PMAAnalysisRunner && window.PMAAnalysisRunner.STEPS)
+      ? window.PMAAnalysisRunner.STEPS.length : 9;
+
+    if (label) label.textContent = step.label  || '…';
+    if (pct)   pct.textContent   = step.pct    + ' %';
+    if (fill)  fill.style.width  = step.pct    + '%';
+    if (bar)   bar.setAttribute('aria-valuenow', String(step.pct));
+    if (steps) steps.textContent = 'Step ' + step.index + ' of ' + total;
+    if (window.__announceUpdate) window.__announceUpdate(step.label);
+  }
+  function _progressComplete() {
+    var fill  = $id('pmaProgressFill');
+    var pct   = $id('pmaProgressPct');
+    var label = $id('pmaProgressLabel');
+    var bar   = $id('pmaProgressBar');
+    if (fill)  fill.style.width = '100%';
+    if (pct)   pct.textContent  = '100 %';
+    if (label) label.textContent = 'Analysis complete ✓';
+    if (bar)   bar.setAttribute('aria-valuenow', '100');
+    // Auto-hide after 1.5 s
+    setTimeout(_progressHide, 1500);
+  }
+
+  /* ── Render justification card ───────────────────────────────────── */
+  function _renderJustification(scoreRun) {
+    var card = $id('pmaJustificationCard');
+    if (!card) return;
+
+    var just = window.PMAJustification;
+    if (!just) { card.hidden = true; return; }
+
+    var narrative = just.generateNarrative(scoreRun);
+    var narEl = $id('pmaJustificationNarrative');
+    if (narEl) narEl.textContent = narrative;
+
+    // Subsidy expiry risk
+    var compSet = scoreRun.competitiveSet || {};
+    var expiry  = compSet.subsidyExpiryRisk || [];
+    var riskWrap = $id('pmaSubsidyRiskWrap');
+    var riskList = $id('pmaSubsidyRiskList');
+    if (riskWrap && riskList) {
+      if (expiry.length) {
+        riskList.innerHTML = expiry.map(function (p) {
+          return '<div style="padding:.2rem 0;border-bottom:1px solid var(--border,#333);">' +
+                 '<strong>' + _esc(p.property) + '</strong> — expiry ' + (p.expiryYear || 'unknown') +
+                 ', ' + (p.atRiskUnits || '?') + ' units at risk</div>';
+        }).join('');
+        riskWrap.hidden = false;
+      } else {
+        riskWrap.hidden = true;
+      }
+    }
+
+    // Incentive eligibility badges
+    var badgeWrap = $id('pmaIncentiveBadges');
+    if (badgeWrap) {
+      var opps = scoreRun.opportunities || {};
+      var elig = opps.incentiveEligibility || {};
+      var badges = [];
+      if (elig.qualifiedOpportunityZone) badges.push({ label: 'Opportunity Zone', color: '#1a6b3c' });
+      if (elig.lihtcBasisStepDown)       badges.push({ label: 'LIHTC Basis Step-down', color: '#096e65' });
+      if (elig.newMarketsTaxCredit)       badges.push({ label: 'NMTC Eligible', color: '#6b4800' });
+      badgeWrap.innerHTML = badges.map(function (b) {
+        return '<span style="display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75em;' +
+               'background:' + b.color + ';color:#fff;">' + _esc(b.label) + '</span>';
+      }).join('');
+    }
+
+    card.hidden = false;
+  }
+
+  function _esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* ── Main analysis trigger ───────────────────────────────────────── */
+  function _runEnhancedAnalysis(lat, lon) {
+    if (_running) return;
+    var runner = window.PMAAnalysisRunner;
+    if (!runner) return;   // fall through to existing buffer flow
+
+    _running = true;
+    _progressShow();
+    _progressUpdate({ index: 0, total: 9, label: 'Starting analysis…', pct: 0 });
+
+    var explainBtn = $id('pmaExplainScoreBtn');
+    if (explainBtn) explainBtn.hidden = true;
+
+    var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
+
+    runner.run(lat, lon, {
+      method:        _method,
+      bufferMiles:   _bufferMiles,
+      proposedUnits: proposed
+    })
+    .on('progress', _progressUpdate)
+    .on('complete', function (scoreRun) {
+      _lastScoreRun = scoreRun;
+      _running = false;
+      _progressComplete();
+      _renderJustification(scoreRun);
+      if (explainBtn) explainBtn.hidden = false;
+    })
+    .on('error', function (err) {
+      _running = false;
+      _progressHide();
+      console.error('[PMAUIController] Analysis error:', err);
+    });
+  }
+
+  /* ── Tab switching ───────────────────────────────────────────────── */
+  function _initTabs() {
+    var tabs   = document.querySelectorAll('[data-pma-method]');
+    var panels = {
+      buffer:    $id('pmaMethodPanel-buffer'),
+      commuting: $id('pmaMethodPanel-commuting'),
+      hybrid:    $id('pmaMethodPanel-hybrid')
+    };
+    var layerPickerWrap = $id('pmaLayerPickerWrap');
+    var bufferSelect    = $id('pmaBufferSelect');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', 'false');
+          t.classList.remove('pma-tab--active');
+        });
+        tab.setAttribute('aria-selected', 'true');
+        tab.classList.add('pma-tab--active');
+
+        _method = tab.dataset.pmaMethod || 'buffer';
+
+        Object.keys(panels).forEach(function (k) {
+          if (panels[k]) panels[k].hidden = (k !== _method);
+        });
+
+        // Show layer picker for non-buffer modes
+        if (layerPickerWrap) layerPickerWrap.hidden = (_method === 'buffer');
+
+        // Buffer select only relevant in buffer mode
+        if (bufferSelect) bufferSelect.disabled = (_method !== 'buffer');
+      });
+    });
+
+    // Buffer radius change
+    if (bufferSelect) {
+      bufferSelect.addEventListener('change', function () {
+        _bufferMiles = parseInt(bufferSelect.value, 10) || 5;
+      });
+    }
+  }
+
+  /* ── Intercept existing Run Analysis button ──────────────────────── */
+  function _initRunButton() {
+    var runBtn = $id('pmaRunBtn');
+    if (!runBtn) return;
+
+    runBtn.addEventListener('click', function () {
+      // Only intercept non-buffer modes (buffer flow handled by market-analysis.js)
+      if (_method === 'buffer') return;
+
+      // Read coords from pmaSiteCoords or from Leaflet marker if available
+      var lat, lon;
+      var siteCoords = ($id('pmaSiteCoords') || {}).textContent || '';
+      var m = siteCoords.match(/([\d.\-]+)\s*,\s*([\d.\-]+)/);
+      if (m) {
+        lat = parseFloat(m[1]);
+        lon = parseFloat(m[2]);
+      } else if (window.PMAEngine && window.PMAEngine._lastLat) {
+        lat = window.PMAEngine._lastLat;
+        lon = window.PMAEngine._lastLon;
+      }
+
+      if (!lat || !lon) {
+        // No site placed yet — let existing flow show its own message
+        return;
+      }
+
+      // For commuting/hybrid: run enhanced pipeline in parallel with
+      // the existing ACS scoring (which the original click handler still fires)
+      _runEnhancedAnalysis(lat, lon);
+    }, true);   // capture phase — fires before market-analysis.js handler
+  }
+
+  /* ── Explain Score button ────────────────────────────────────────── */
+  function _initExplainScore() {
+    var btn = $id('pmaExplainScoreBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var just = window.PMAJustification;
+      if (!just || !_lastScoreRun) { return; }
+      var trail = just.generateAuditTrail(_lastScoreRun);
+      var info = [
+        'Run ID: '      + trail.run_id,
+        'Data vintage: '+ trail.data_vintage,
+        'LODES vintage: '+ trail.lodes_vintage,
+        'Quality: '     + trail.data_quality,
+        '',
+        'Decision layers: ' + (trail.layers || []).join(', '),
+        '',
+        'See browser console (PMAJustification: Audit Trail) for full details.'
+      ].join('\n');
+      console.log('[PMAJustification] Audit Trail:', trail);
+      alert(info);
+    });
+  }
+
+  /* ── Export Audit Trail JSON ─────────────────────────────────────── */
+  function _initExportAudit() {
+    var btn = $id('pmaExportAuditJson');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var just = window.PMAJustification;
+      if (!just) { alert('PMAJustification module not loaded.'); return; }
+      var json  = just.exportToJSON(_lastScoreRun);
+      var blob  = new Blob([json], { type: 'application/json' });
+      var url   = URL.createObjectURL(blob);
+      var a     = document.createElement('a');
+      a.href    = url;
+      a.download = 'pma-audit-trail.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  /* ── Bootstrap ───────────────────────────────────────────────────── */
+  function _init() {
+    _injectStyle();
+    _initTabs();
+    _initRunButton();
+    _initExplainScore();
+    _initExportAudit();
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', _init);
+    } else {
+      _init();
+    }
+  }
+
+  /* ── Public API (minimal, for testing) ──────────────────────────── */
+  if (typeof window !== 'undefined') {
+    window.PMAUIController = {
+      getMethod:      function () { return _method; },
+      getLastScoreRun: function () { return _lastScoreRun; },
+      runEnhanced:    _runEnhancedAnalysis
+    };
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { getMethod: function () { return _method; } };
+  }
+
+}());

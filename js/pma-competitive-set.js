@@ -20,7 +20,7 @@
   /* ── Constants ────────────────────────────────────────────────────── */
   var EARTH_RADIUS_MI   = 3958.8;
   var DEFAULT_RADIUS    = 5;         // miles
-  var EXPIRY_THRESHOLD  = 5;         // years until subsidy expiry = "at risk"
+  var SUBSIDY_EXPIRY_RISK_YEARS = 5;         // properties expiring within this many years are "at risk"
   var SATURATION_LIMIT  = 0.10;      // >10 % capture rate = high absorption risk
   var CURRENT_YEAR      = new Date().getFullYear();
 
@@ -130,7 +130,7 @@
         yearPlaced:      toNum(props.YR_PIS || props.yearPlaced || 0),
         hasNhpd:         !!nhpdMatch,
         subsidyExpiryYear: expiryYear,
-        atExpiryRisk:    expiryYear && expiryYear - CURRENT_YEAR <= EXPIRY_THRESHOLD
+        atExpiryRisk:    expiryYear && expiryYear - CURRENT_YEAR <= SUBSIDY_EXPIRY_RISK_YEARS
       };
     });
 
@@ -156,7 +156,7 @@
           yearPlaced:      toNum(props.yearPlaced || 0),
           hasNhpd:         true,
           subsidyExpiryYear: expYear,
-          atExpiryRisk:    expYear && expYear - CURRENT_YEAR <= EXPIRY_THRESHOLD
+          atExpiryRisk:    expYear && expYear - CURRENT_YEAR <= SUBSIDY_EXPIRY_RISK_YEARS
         });
       }
     });
@@ -175,7 +175,7 @@
    * @returns {Array} at-risk properties sorted by expiry year
    */
   function flagSubsidyExpiryRisk(nhpdFeatures, thresholdYears) {
-    thresholdYears = thresholdYears || EXPIRY_THRESHOLD;
+    thresholdYears = thresholdYears || SUBSIDY_EXPIRY_RISK_YEARS;
     nhpdFeatures   = nhpdFeatures   || [];
 
     lastExpiryRisk = nhpdFeatures
@@ -275,7 +275,7 @@
       calculateAbsorptionRisk:   calculateAbsorptionRisk,
       getCompetitiveSetLayer:    getCompetitiveSetLayer,
       getCompetitiveJustification: getCompetitiveJustification,
-      EXPIRY_THRESHOLD:          EXPIRY_THRESHOLD
+      SUBSIDY_EXPIRY_RISK_YEARS: SUBSIDY_EXPIRY_RISK_YEARS
     };
   }
 
@@ -286,7 +286,7 @@
       calculateAbsorptionRisk:   calculateAbsorptionRisk,
       getCompetitiveSetLayer:    getCompetitiveSetLayer,
       getCompetitiveJustification: getCompetitiveJustification,
-      EXPIRY_THRESHOLD:          EXPIRY_THRESHOLD
+      SUBSIDY_EXPIRY_RISK_YEARS: SUBSIDY_EXPIRY_RISK_YEARS
     };
   }
 

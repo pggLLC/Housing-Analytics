@@ -123,7 +123,10 @@
     foodData    = foodData    || {};
 
     // Flood risk: inverse scale — lower hazard % = higher score
-    lastFloodRiskPct = clamp(toNum(floodData.hazardPercent || 0.05), 0, 1);
+    lastFloodRiskPct = clamp(
+      floodData.hazardPercent != null ? toNum(floodData.hazardPercent) : 0.05,
+      0, 1
+    );
     var floodScore   = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
 
     // Climate resilience (already 0–100 or convert from raw)

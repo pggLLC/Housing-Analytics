@@ -116,7 +116,11 @@
 
   /**
    * Fetch LEHD/LODES workplace and commuting flow data.
-   * Uses the Census LEHD on-the-map API.
+   * LODES files are bulk static downloads; a server-side proxy is required
+   * for spatial queries.  This method returns the graceful-degradation stub
+   * (synthetic workplace distribution) until a proxy is configured via
+   * APP_CONFIG.LODES_PROXY_URL.
+   *
    * @param {number} lat
    * @param {number} lon
    * @param {number} radiusMiles
@@ -125,15 +129,22 @@
    */
   function fetchLODES(lat, lon, radiusMiles, vintage) {
     vintage = vintage || '2021';
+    var proxyUrl = (window.APP_CONFIG || {}).LODES_PROXY_URL;
+    if (!proxyUrl) {
+      // No proxy configured — degrade gracefully; PMACommuting will use synthetic workplaces
+      return Promise.resolve({ workplaces: [], commutingFlows: [] });
+    }
     var fetcher = (typeof window.fetchWithTimeout === 'function')
       ? window.fetchWithTimeout
       : function (url) { return fetch(url); };
-    // LEHD Origin-Destination Employment Statistics (LODES) — WAC endpoint
-    var url = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_' +
-              vintage + '.csv.gz?lat=' + lat + '&lon=' + lon + '&r=' + radiusMiles;
+    var url = proxyUrl +
+              '?lat=' + encodeURIComponent(lat) +
+              '&lon=' + encodeURIComponent(lon) +
+              '&r='   + encodeURIComponent(radiusMiles) +
+              '&vintage=' + encodeURIComponent(vintage);
     return fetcher(url)
       .then(function (r) {
-        if (!r.ok) throw new Error('LODES HTTP ' + r.status);
+        if (!r.ok) throw new Error('LODES proxy HTTP ' + r.status);
         return r.json();
       })
       .then(function (data) {

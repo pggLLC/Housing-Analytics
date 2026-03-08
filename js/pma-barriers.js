@@ -15,9 +15,12 @@
 (function () {
   'use strict';
 
-  /* ── Constants ────────────────────────────────────────────────────── */
-  var HIGHWAY_BUFFER_DEG  = 0.001;  // ~111m buffer around highway lines
-  var WATER_BODY_MIN_AREA = 0.0001; // minimum polygon area in deg² to include
+  /* ── Exclusion heuristic factors ─────────────────────────────────── */
+  // Each factor represents the estimated fractional area exclusion per feature.
+  // E.g. WATER_EXCLUSION_FACTOR = 0.02 assumes each water body covers ~2 % of PMA area.
+  var WATER_EXCLUSION_FACTOR    = 0.02;
+  var HIGHWAY_EXCLUSION_FACTOR  = 0.01;
+  var LAND_COVER_EXCLUSION_FACTOR = 0.015;
 
   /* ── NLCD classification codes that represent barriers ─────────────── */
   var BARRIER_LAND_COVER = {
@@ -130,12 +133,12 @@
     lastLandCover   = landCover;
 
     // Estimate exclusion fractions (heuristic without full polygon intersection)
-    var waterPct    = Math.min(0.5, waterBodies.length * 0.02);
-    var highwayPct  = Math.min(0.15, highways.length  * 0.01);
+    var waterPct    = Math.min(0.5, waterBodies.length * WATER_EXCLUSION_FACTOR);
+    var highwayPct  = Math.min(0.15, highways.length  * HIGHWAY_EXCLUSION_FACTOR);
     var lcBarriers  = landCover.filter(function (lc) {
       return BARRIER_LAND_COVER[lc.classCode] !== undefined;
     });
-    var lcPct = Math.min(0.3, lcBarriers.length * 0.015);
+    var lcPct = Math.min(0.3, lcBarriers.length * LAND_COVER_EXCLUSION_FACTOR);
 
     lastExcludedPct = {
       water:     Math.round(waterPct    * 100) / 100,
