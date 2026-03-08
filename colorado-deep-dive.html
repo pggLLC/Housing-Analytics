@@ -259,6 +259,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 }
 #amiGapModule .data-table table th { white-space:nowrap; }
 #amiGapModule .data-table table td:nth-child(5) { font-weight:600; font-variant-numeric:tabular-nums; }
+@keyframes mapSpin { to { transform: rotate(360deg); } }
 </style>
 </head>
 
@@ -403,6 +404,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       </form>
     </div>
     <div id="coMap"></div>
+    <div id="mapLoadingIndicator" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:.6rem 1rem;font-size:.82rem;color:var(--muted);border-top:1px solid var(--border);background:var(--bg2);" aria-live="polite" aria-label="Map loading status">
+      <span id="mapLoadingSpinner" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:mapSpin .7s linear infinite;" aria-hidden="true"></span>
+      <span id="mapLoadingText">Loading map data…</span>
+    </div>
     <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
