@@ -607,14 +607,23 @@
   // --- TIGERweb boundary ---
   async function fetchBoundary(geoType, geoid){
     // Use TIGERweb MapServer for geometry as GeoJSON
+    // States:  TIGERweb/State_County MapServer/0
     // Counties: TIGERweb/State_County MapServer/1
     // Places: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
     // CDPs:   TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5
 
-    const layer = geoType === 'county' ? 1 : (geoType === 'place' ? 2 : 5);
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
-    const base = geoType === 'county' ? `${countyService}/${layer}` : `${service}/${layer}`;
+    let base;
+    if (geoType === 'state') {
+      base = `${countyService}/0`;
+    } else if (geoType === 'county') {
+      base = `${countyService}/1`;
+    } else if (geoType === 'place') {
+      base = `${service}/2`;
+    } else {
+      base = `${service}/5`;
+    }
 
     const where = `GEOID='${geoid}'`;
     const params = new URLSearchParams({
@@ -1352,12 +1361,13 @@
       'DP04_0008E', // 10-19
       'DP04_0009E', // 20+ units
       'DP04_0010E', // mobile home
-      // Rent burden bins (GRAPI)
-      'DP04_0142PE', // <20
-      'DP04_0143PE', // 20-24.9
-      'DP04_0144PE', // 25-29.9
-      'DP04_0145PE', // 30-34.9
-      'DP04_0146PE', // 35+
+      // Rent burden bins (GRAPI) — only DP04_0142PE and DP04_0143PE exist in
+      // ACS 1-year profile across vintages 2020-2024.  The 25-29.9%, 30-34.9%,
+      // and 35%+ bins (formerly DP04_0144PE through DP04_0146PE) were removed
+      // from the DP04 profile table and are no longer valid ACS variables;
+      // those values are derived from the B25070 B-series fallback instead.
+      'DP04_0142PE', // <20%
+      'DP04_0143PE', // 20-24.9%
     ];
 
     const forParam = geoType === 'county'
@@ -1425,14 +1435,17 @@
   }
 
   async function fetchAcs5BSeries(geoType, geoid){
-    // ACS 5-year B-series fallback for all geography types (county, place, CDP).
+    // ACS 5-year B-series fallback for all geography types (county, place, CDP, state).
     // Profile (DP) and subject (S) tables may fail due to geography constraints
     // or variable numbering changes across ACS releases.  The B-series detailed
     // tables cover all geography types and use stable variable codes.
     // Maps B-series codes to DP-series names for UI compatibility.
+    const isState = geoType === 'state';
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(-3)}`
-      : `place:${geoid.slice(2)}`;
+      : isState
+        ? `state:${STATE_FIPS_CO}`
+        : `place:${geoid.slice(2)}`;
     const key = censusKey();
     const bVars = [
       'B01003_001E', // total population        → DP05_0001E
@@ -1464,7 +1477,9 @@
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}&in=state:${STATE_FIPS_CO}`;
+      // For state-level queries omit the &in= parameter (it is not needed).
+      let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}`;
+      if (!isState) qs += `&in=state:${STATE_FIPS_CO}`;
       if (key) qs += `&key=${encodeURIComponent(key)}`;
       const u = `${base}?${qs}`;
       const resp = await _fetchCensusUrl(u, 'ACS5 B-series ' + geoType + ':' + geoid + ' y=' + v);
@@ -4318,6 +4333,10 @@
     }catch(_){/* ignore */}
 
     if (!profile){
+      if (!censusKey()) {
+        setBanner('Census API key not configured — live data requests may be rate-limited. ' +
+          'Set CENSUS_API_KEY in js/config.js for full functionality.', 'warn');
+      }
       try{
         profile = await fetchAcsProfile(geoType, geoid);
       }catch(e){
