@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap | COHO Analytics</title>
+  <meta name="description" content="Complete directory of all pages and tools available on the COHO Analytics platform.">
+  <meta property="og:title" content="Sitemap | COHO Analytics">
+  <meta property="og:description" content="Complete directory of all pages and tools available on the COHO Analytics platform.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .sitemap-section { margin-bottom: var(--sp6); }
+    .sitemap-section-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: var(--sp3);
+      padding-bottom: var(--sp2);
+      border-bottom: 2px solid var(--accent);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--sp3);
+    }
+    .site-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp3) var(--sp4);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .site-card:hover,
+    .site-card:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      outline: none;
+    }
+    .site-card-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-strong, var(--text));
+      margin-bottom: 0.35rem;
+    }
+    .site-card-desc {
+      font-size: var(--small);
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="statusPanel" aria-live="polite"></div>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <div class="container" style="max-width:1100px;padding-block:var(--sp5);">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Sitemap</span>
+      </nav>
+
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <span class="kicker">Site Directory</span>
+        <h1>Sitemap</h1>
+        <p class="page-sub">Browse all 24 pages and tools available on the COHO Analytics platform.</p>
+      </div>
+
+      <div id="liveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+      <!-- Analysis Tools -->
+      <section class="sitemap-section" aria-labelledby="section-analysis">
+        <h2 id="section-analysis" class="sitemap-section-heading">Analysis Tools</h2>
+        <div class="card-grid">
+          <a class="site-card" href="housing-needs-assessment.html">
+            <div class="site-card-name">Housing Needs Assessment</div>
+            <div class="site-card-desc">County &amp; municipal HNA tool</div>
+          </a>
+          <a class="site-card" href="market-analysis.html">
+            <div class="site-card-name">Market Analysis</div>
+            <div class="site-card-desc">PMA &amp; development feasibility</div>
+          </a>
+          <a class="site-card" href="market-intelligence.html">
+            <div class="site-card-name">Market Intelligence</div>
+            <div class="site-card-desc">Statewide market data</div>
+          </a>
+          <a class="site-card" href="colorado-deep-dive.html">
+            <div class="site-card-name">Colorado Deep Dive</div>
+            <div class="site-card-desc">County-level analysis</div>
+          </a>
+          <a class="site-card" href="regional.html">
+            <div class="site-card-name">Regional Overview</div>
+            <div class="site-card-desc">Regional comparisons</div>
+          </a>
+          <a class="site-card" href="colorado-market.html">
+            <div class="site-card-name">Colorado Market</div>
+            <div class="site-card-desc">Market conditions</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Dashboards -->
+      <section class="sitemap-section" aria-labelledby="section-dashboards">
+        <h2 id="section-dashboards" class="sitemap-section-heading">Dashboards</h2>
+        <div class="card-grid">
+          <a class="site-card" href="economic-dashboard.html">
+            <div class="site-card-name">Economic Dashboard</div>
+            <div class="site-card-desc">FRED economic indicators</div>
+          </a>
+          <a class="site-card" href="LIHTC-dashboard.html">
+            <div class="site-card-name">LIHTC Dashboard</div>
+            <div class="site-card-desc">Allocation maps &amp; data</div>
+          </a>
+          <a class="site-card" href="census-dashboard.html">
+            <div class="site-card-name">Census Dashboard</div>
+            <div class="site-card-desc">ACS demographic data</div>
+          </a>
+          <a class="site-card" href="chfa-portfolio.html">
+            <div class="site-card-name">CHFA Portfolio</div>
+            <div class="site-card-desc">CHFA LIHTC projects</div>
+          </a>
+          <a class="site-card" href="compliance-dashboard.html">
+            <div class="site-card-name">Compliance Dashboard</div>
+            <div class="site-card-desc">Prop 123 compliance</div>
+          </a>
+          <a class="site-card" href="construction-commodities.html">
+            <div class="site-card-name">Construction Costs</div>
+            <div class="site-card-desc">PPI &amp; commodities</div>
+          </a>
+          <a class="site-card" href="cra-expansion-analysis.html">
+            <div class="site-card-name">CRA Expansion Analysis</div>
+            <div class="site-card-desc">CRA opportunity areas</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Intelligence -->
+      <section class="sitemap-section" aria-labelledby="section-intelligence">
+        <h2 id="section-intelligence" class="sitemap-section-heading">Intelligence</h2>
+        <div class="card-grid">
+          <a class="site-card" href="insights.html">
+            <div class="site-card-name">Market Insights</div>
+            <div class="site-card-desc">Analysis &amp; commentary</div>
+          </a>
+          <a class="site-card" href="state-allocation-map.html">
+            <div class="site-card-name">State Allocation Map</div>
+            <div class="site-card-desc">2026 LIHTC allocations</div>
+          </a>
+          <a class="site-card" href="lihtc-guide-for-stakeholders.html">
+            <div class="site-card-name">LIHTC Guide</div>
+            <div class="site-card-desc">LIHTC basics</div>
+          </a>
+          <a class="site-card" href="lihtc-enhancement-ahcia.html">
+            <div class="site-card-name">LIHTC Enhancement / AHCIA</div>
+            <div class="site-card-desc">AHCIA provisions</div>
+          </a>
+          <a class="site-card" href="housing-legislation-2026.html">
+            <div class="site-card-name">Housing Legislation 2026</div>
+            <div class="site-card-desc">2026 bills tracker</div>
+          </a>
+          <a class="site-card" href="policy-briefs.html">
+            <div class="site-card-name">Policy Briefs</div>
+            <div class="site-card-desc">Research summaries</div>
+          </a>
+          <a class="site-card" href="article-pricing.html">
+            <div class="site-card-name">Article: Pricing Dynamics</div>
+            <div class="site-card-desc">Pricing analysis</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="sitemap-section" aria-labelledby="section-about">
+        <h2 id="section-about" class="sitemap-section-heading">About</h2>
+        <div class="card-grid">
+          <a class="site-card" href="index.html">
+            <div class="site-card-name">Home</div>
+            <div class="site-card-desc">Platform overview</div>
+          </a>
+          <a class="site-card" href="about.html">
+            <div class="site-card-name">About COHO Analytics</div>
+            <div class="site-card-desc">Platform &amp; methodology</div>
+          </a>
+          <a class="site-card" href="dashboard.html">
+            <div class="site-card-name">Dashboard (Legacy)</div>
+            <div class="site-card-desc">Legacy dashboard</div>
+          </a>
+          <a class="site-card" href="privacy-policy.html">
+            <div class="site-card-name">Privacy Policy</div>
+            <div class="site-card-desc">Data &amp; privacy</div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
