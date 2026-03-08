@@ -2372,12 +2372,49 @@
     const hasGrowth    = !!(baselineData && baselineData.baseline60Ami);
     const hasFastTrack = !!(eligibility && eligibility.eligible);
 
+    // If the ComplianceChecklist module is loaded, use it for persistence
+    if (window.ComplianceChecklist) {
+      const geoType = els.geoType ? els.geoType.value : 'county';
+      const geoid   = els.geoSelect ? els.geoSelect.value : '';
+
+      // Load saved state; auto-check items supported by data
+      const savedState = window.ComplianceChecklist.initComplianceChecklist(geoType, geoid);
+
+      // Auto-check data-driven items only if not already checked in saved state
+      if (hasBaseline && !(savedState.items.baseline && savedState.items.baseline.checked)) {
+        window.ComplianceChecklist.updateChecklistItem('baseline', true, {
+          value: baselineData.baseline60Ami,
+          date:  new Date().toISOString(),
+        });
+      }
+      if (hasGrowth && !(savedState.items.growth && savedState.items.growth.checked)) {
+        window.ComplianceChecklist.updateChecklistItem('growth', true, {
+          date: new Date().toISOString(),
+        });
+      }
+      if (hasFastTrack && !(savedState.items.fasttrack && savedState.items.fasttrack.checked)) {
+        window.ComplianceChecklist.updateChecklistItem('fasttrack', true, {
+          date: new Date().toISOString(),
+        });
+      }
+
+      // Announce the next action to screen readers
+      const announcer = document.getElementById('checklistAnnouncer');
+      if (announcer) {
+        announcer.textContent = window.ComplianceChecklist.getNextAction(geoType, geoid);
+      }
+      return;
+    }
+
+    // Fallback (no module): simple DOM update without persistence
     function setItem(id, checked) {
       const item = document.getElementById(id);
       const chk  = item && item.querySelector('input[type="checkbox"]');
       if (!item || !chk) return;
       chk.checked = checked;
-      item.classList.toggle('done', checked);
+      chk.setAttribute('aria-checked', String(checked));
+      item.classList.toggle('done',    checked);
+      item.classList.toggle('pending', !checked);
     }
     setItem('checkItemBaseline',  hasBaseline);
     setItem('checkItemGrowth',    hasGrowth);
@@ -4227,6 +4264,38 @@
     // Re-render charts on theme toggle
     document.addEventListener('theme:changed', ()=>{ update(); });
     document.addEventListener('nav:rendered', ()=>{ /* no-op */ });
+
+    // Wire manual checkbox clicks in the compliance checklist to persistence module
+    const checklistEl = document.getElementById('prop123Checklist');
+    if (checklistEl && window.ComplianceChecklist) {
+      checklistEl.addEventListener('change', (e) => {
+        const chk = e.target;
+        if (chk.type !== 'checkbox') return;
+        const li = chk.closest('[data-storage-key]');
+        if (!li) return;
+        const itemId = li.getAttribute('data-storage-key');
+        window.ComplianceChecklist.updateChecklistItem(itemId, chk.checked, {
+          date: new Date().toISOString(),
+        });
+        // Announce change to screen readers
+        const announcer = document.getElementById('checklistAnnouncer');
+        if (announcer) {
+          const geoType = els.geoType ? els.geoType.value : 'county';
+          const geoid   = els.geoSelect ? els.geoSelect.value : '';
+          announcer.textContent = window.ComplianceChecklist.getNextAction(geoType, geoid);
+        }
+      });
+    }
+
+    // Sync checklist state to compliance-dashboard.html on unload
+    window.addEventListener('beforeunload', () => {
+      if (window.ComplianceChecklist && state.current) {
+        window.ComplianceChecklist.broadcastChecklistChange({
+          geoType: state.current.geoType,
+          geoid:   state.current.geoid,
+        });
+      }
+    });
 
     wireLayerToggles();
     wireScenarioControls();
