@@ -51,5 +51,4 @@
     }
   };
 
-  console.log("✓ API config wrapper active");
 })();

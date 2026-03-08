@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Market Analysis | Colorado Housing Analytics</title>
   <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
+  <meta property="og:title" content="Market Analysis | COHO Analytics">
+  <meta property="og:description" content="Primary Market Area analysis and LIHTC development feasibility tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -28,9 +32,21 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
+    <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
+  <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <span class="workflow-step workflow-step--active">2. Market Analysis</span>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="colorado-deep-dive.html">3. Deep Dive</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+</div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
     <div style="padding:1rem 0 0.5rem">
-      <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
+      <span class="kicker">Analysis</span>
+<h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p style="max-width:640px">Public Market Analysis (PMA) scoring engine. Click the map to place a site, choose a buffer radius, and receive a scored assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
@@ -399,6 +415,9 @@
     </div><!-- /.pma-layout -->
     </section><!-- /#maPmaTool -->
 
+    <!-- LIHTC Deal Calculator -->
+    <div id="dealCalcMount" class="container" style="padding-bottom:0;"></div>
+
     <!-- Methodology note -->
     <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
       <h2 style="font-size:var(--small);font-weight:700;margin-bottom:0.4rem">Methodology &amp; Data Sources</h2>
@@ -429,6 +448,7 @@
   <script defer src="js/data-connectors/epa-cleanup.js"></script>
   <script defer src="js/market-analysis/market-analysis-controller.js"></script>
   <script defer src="js/market-analysis.js"></script>
+  <script defer src="js/deal-calculator.js"></script>
   <!-- Enhanced PMA delineation modules -->
   <script defer src="js/pma-commuting.js"></script>
   <script defer src="js/pma-barriers.js"></script>

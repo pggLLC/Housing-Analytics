@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LIHTC Allocations Dashboard | Affordable Housing Intelligence</title>
+  <title>LIHTC Allocations Dashboard | COHO Analytics</title>
   <meta name="description" content="Interactive LIHTC state allocation maps and analysis.">
+  <meta property="og:title" content="LIHTC Dashboard | COHO Analytics">
+  <meta property="og:description" content="LIHTC allocation maps and data for Colorado.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
     <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -27,7 +31,19 @@
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <main id="main-content" class="page-container content-shell">
+<div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
+  <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="market-analysis.html">2. Market Analysis</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="colorado-deep-dive.html">3. Deep Dive</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
+  <span class="workflow-step-arrow" aria-hidden="true">→</span>
+  <span class="workflow-step workflow-step--active">5. LIHTC Dashboard</span>
+</div>
 <section class="hero">
+<span class="kicker">Dashboard</span>
 <h1>LIHTC Allocations</h1>
 <p>One-page workspace combining the Dashboard, Regional Analysis, and State Allocation Map. Each section runs the original page inside an embedded frame to keep all maps, tables, dropdowns, exports, and tooltips working without conflicts.</p>
 <div class="sub">Distribution / allocation of LIHTC by region and state.</div>

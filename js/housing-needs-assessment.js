@@ -4244,6 +4244,8 @@
 
   // --- Main update ---
   async function update(){
+    var ws = document.getElementById('hnaWaitingState');
+    if (ws) ws.style.display = 'none';
     const geoType = els.geoType.value;
     const geoid = els.geoSelect.value;
 

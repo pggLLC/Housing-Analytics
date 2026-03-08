@@ -1,19 +1,55 @@
 /**
- * navigation.js
+ * navigation.js — COHO Analytics
  * Injects a consistent header + footer across pages.
  * Uses site-theme.css variables.
  */
 (function () {
-  const LINKS = [
-    { label: "Home", href: "index.html" },
-    { label: "Dashboard", href: "economic-dashboard.html" },
-    { label: "Housing Needs", href: "housing-needs-assessment.html" },
-    { label: "Market Insights", href: "insights.html" },
-    { label: "LIHTC Allocation", href: "LIHTC-dashboard.html" },
-    { label: "LIHTC Basics", href: "lihtc-guide-for-stakeholders.html" },
-    { label: "Market Analysis", href: "market-analysis.html" },
-    { label: "Market Intelligence", href: "market-intelligence.html" },
-    { label: "About", href: "about.html" },
+  const GROUPS = [
+    {
+      label: "Analysis",
+      items: [
+        { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
+        { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
+        { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
+        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail" },
+        { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
+        { label: "Colorado Market", href: "colorado-market.html", desc: "Market conditions" },
+      ]
+    },
+    {
+      label: "Dashboards",
+      items: [
+        { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
+        { label: "LIHTC Dashboard", href: "LIHTC-dashboard.html", desc: "Allocation maps" },
+        { label: "Census Dashboard", href: "census-dashboard.html", desc: "ACS data" },
+        { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
+        { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
+        { label: "Construction Costs", href: "construction-commodities.html", desc: "PPI & commodities" },
+        { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
+      ]
+    },
+    {
+      label: "Intelligence",
+      items: [
+        { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
+        { label: "State Allocations", href: "state-allocation-map.html", desc: "2026 LIHTC allocations" },
+        { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
+        { label: "LIHTC Enhancement", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
+        { label: "Housing Legislation", href: "housing-legislation-2026.html", desc: "2026 bills tracker" },
+        { label: "Policy Briefs", href: "policy-briefs.html", desc: "Research summaries" },
+        { label: "Article: Pricing", href: "article-pricing.html", desc: "Pricing dynamics" },
+      ]
+    },
+    {
+      label: "About",
+      items: [
+        { label: "Home", href: "index.html", desc: "Platform overview" },
+        { label: "About COHO", href: "about.html", desc: "Platform & methodology" },
+        { label: "Sitemap", href: "sitemap.html", desc: "All pages" },
+        { label: "Dashboard (Legacy)", href: "dashboard.html", desc: "Legacy dashboard" },
+        { label: "Privacy Policy", href: "privacy-policy.html", desc: "Data & privacy" },
+      ]
+    }
   ];
 
   function relToRoot() {
@@ -51,28 +87,45 @@
       nav.site-nav a:hover{background:color-mix(in oklab, var(--card) 70%, var(--accent) 30%);border-color:color-mix(in oklab, var(--border) 60%, var(--accent) 40%)}
       nav.site-nav a.is-active{background:color-mix(in oklab, var(--card) 60%, var(--accent) 40%);border-color:color-mix(in oklab, var(--border) 40%, var(--accent) 60%)}
       footer.site-footer{margin-top:32px;border-top:1px solid var(--border);background:var(--bg2)}
-      .footer-wrap{max-width:1200px;margin:0 auto;padding:18px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
-      .footer-wrap a{color:var(--muted);text-decoration:none}
-      .footer-wrap a:hover{color:var(--text)}
       main{max-width:1200px;margin:0 auto;padding:18px}
       .mobile-menu-btn{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:8px}
       .mobile-menu-btn span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.2s,opacity 0.2s}
       .mobile-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
       .mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
       .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+      .nav-group{position:relative}
+      .nav-group-btn{background:none;border:none;cursor:pointer;color:var(--text);font-weight:700;font-size:.92rem;padding:8px 10px;border-radius:999px;border:1px solid transparent;display:flex;align-items:center;gap:4px}
+      .nav-group-btn:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%);border-color:color-mix(in oklab,var(--border) 60%,var(--accent) 40%)}
+      .nav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2000}
+      .nav-dropdown a{display:flex;flex-direction:column;padding:8px 10px;border-radius:6px;color:var(--text);text-decoration:none}
+      .nav-dropdown a:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%)}
+      .nav-link-label{font-weight:700;font-size:.9rem}
+      .nav-link-desc{font-size:.78rem;color:var(--muted)}
+      .nav-caret{font-size:.7em;transition:transform .2s}
+      [aria-expanded="true"] .nav-caret{transform:rotate(180deg)}
+      .mobile-nav-section-btn{width:100%;text-align:left;background:none;border:none;padding:12px 16px;font-weight:700;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)}
+      .mobile-nav-section-items a{display:block;padding:10px 24px;color:var(--text);text-decoration:none}
+      .footer-wrap{max-width:1200px;margin:0 auto;padding:24px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+      .footer-col{display:flex;flex-direction:column;gap:8px}
+      .footer-col strong{font-size:.95rem;color:var(--text)}
+      .footer-col a{color:var(--muted);text-decoration:none;font-size:.88rem}
+      .footer-col a:hover{color:var(--text)}
+      .footer-col p{color:var(--muted);font-size:.82rem;margin:0}
+      .footer-disclaimer{grid-column:1/-1;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);font-size:.8rem}
       @media(max-width:768px){
         .mobile-menu-btn{display:flex}
         nav.site-nav{display:none}
+        .footer-wrap{grid-template-columns:1fr}
       }
     `;
     document.head.appendChild(s);
   }
 
   function inject() {
-  // Prevent duplicate navigation injection
-  if (document.querySelector('header.site-header')) {
-    return;
-  }
+    // Prevent duplicate navigation injection
+    if (document.querySelector('header.site-header')) {
+      return;
+    }
 
     ensureHeaderStyles();
 
@@ -92,11 +145,23 @@
     header.innerHTML = `
       <div class="nav-wrap">
         <div class="brand">
-          <a href="${normalizeHref('index.html')}">Affordable Housing Intelligence</a>
-          <small>Market Intelligence</small>
+          <a href="${normalizeHref('index.html')}">COHO Analytics</a>
+          <small>Colorado Housing Intelligence</small>
         </div>
         <nav class="site-nav" aria-label="Primary">
-          ${LINKS.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
+          ${GROUPS.map(g => `
+            <div class="nav-group">
+              <button class="nav-group-btn" type="button" aria-expanded="false" aria-haspopup="true">
+                ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-dropdown" hidden>
+                ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
+                  <span class="nav-link-label">${l.label}</span>
+                  <span class="nav-link-desc">${l.desc}</span>
+                </a>`).join('')}
+              </div>
+            </div>
+          `).join('')}
         </nav>
         <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
           aria-label="Open navigation menu"
@@ -117,27 +182,47 @@
     drawer.setAttribute('aria-label', 'Site navigation');
     drawer.innerHTML = `
       <div class="mobile-nav-header">
-        <div class="mobile-nav-title">Menu</div>
+        <div class="mobile-nav-title">COHO Analytics</div>
         <button type="button" id="mobileNavClose" class="mobile-nav-close" aria-label="Close menu">&#x2715;</button>
       </div>
       <nav class="mobile-nav-links">
-        ${LINKS.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
+        ${GROUPS.map(g => `
+          <div class="mobile-nav-section">
+            <button class="mobile-nav-section-btn" type="button" aria-expanded="false">
+              ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="mobile-nav-section-items" hidden>
+              ${g.items.map(l => `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}</a>`).join('')}
+            </div>
+          </div>
+        `).join('')}
       </nav>
     `;
 
     // Footer
-    const year = new Date().getFullYear();
     const footer = document.createElement('footer');
     footer.className = 'site-footer';
     footer.setAttribute('role', 'contentinfo');
     footer.innerHTML = `
       <div class="footer-wrap">
-        <div>© ${year} Affordable Housing Intelligence</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="${normalizeHref('about.html')}">Methodology</a>
-          <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
-          <a href="${normalizeHref('LIHTC-dashboard.html')}">Allocations</a>
+        <div class="footer-col">
+          <strong>COHO Analytics</strong>
+          <p>Colorado Housing Intelligence — data-driven insights for affordable housing professionals.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Platform</strong>
+          <a href="${normalizeHref('about.html')}">About & Methodology</a>
+          <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
           <a href="${normalizeHref('privacy-policy.html')}">Privacy Policy</a>
+        </div>
+        <div class="footer-col">
+          <strong>Data</strong>
+          <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
+          <a href="${normalizeHref('LIHTC-dashboard.html')}">LIHTC Allocations</a>
+          <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
+        </div>
+        <div class="footer-disclaimer">
+          <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
         </div>
       </div>
     `;
@@ -161,6 +246,45 @@
 
     // Inject drawer into body
     document.body.appendChild(drawer);
+
+    // Desktop dropdown toggle
+    header.querySelectorAll('.nav-group-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close all dropdowns first
+        header.querySelectorAll('.nav-group-btn').forEach(function(b) {
+          b.setAttribute('aria-expanded', 'false');
+          var dd = b.nextElementSibling;
+          if (dd) dd.hidden = true;
+        });
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          var dd = btn.nextElementSibling;
+          if (dd) dd.hidden = false;
+        }
+      });
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-group')) {
+        header.querySelectorAll('.nav-group-btn').forEach(function(btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          var dd = btn.nextElementSibling;
+          if (dd) dd.hidden = true;
+        });
+      }
+    });
+
+    // Mobile accordion sections
+    drawer.querySelectorAll('.mobile-nav-section-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        var items = btn.nextElementSibling;
+        if (items) items.hidden = expanded;
+      });
+    });
 
     // Inject a site-wide #statusPanel after the header if one doesn't already exist
     if (!document.getElementById('statusPanel')) {
