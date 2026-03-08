@@ -160,6 +160,73 @@ test('CSS contains new section styles', () => {
   assert(css.includes('.commuting-table'),        '.commuting-table class defined');
 });
 
+// ── Compliance Checklist module integration ──────────────────────────────────
+
+const CC_JS = path.join(ROOT, 'js', 'compliance-checklist.js');
+const ccSrc  = fs.existsSync(CC_JS) ? fs.readFileSync(CC_JS, 'utf8') : '';
+
+test('compliance-checklist.js: file exists and exports 7 public functions', () => {
+  assert(fs.existsSync(CC_JS), 'js/compliance-checklist.js exists');
+  assert(ccSrc.includes('initComplianceChecklist'),  'exports initComplianceChecklist');
+  assert(ccSrc.includes('updateChecklistItem'),      'exports updateChecklistItem');
+  assert(ccSrc.includes('getChecklistState'),        'exports getChecklistState');
+  assert(ccSrc.includes('isChecklistComplete'),      'exports isChecklistComplete');
+  assert(ccSrc.includes('getNextAction'),            'exports getNextAction');
+  assert(ccSrc.includes('broadcastChecklistChange'), 'exports broadcastChecklistChange');
+  assert(ccSrc.includes('validateChecklistItem'),    'exports validateChecklistItem');
+});
+
+test('compliance-checklist.js: referenced in housing-needs-assessment.html', () => {
+  assert(hnaHtml.includes('compliance-checklist.js'), 'HTML includes compliance-checklist.js script');
+});
+
+test('HTML checklist: data-storage-key attributes present on all 5 items', () => {
+  assert(hnaHtml.includes('data-storage-key="baseline"'),  'baseline has data-storage-key');
+  assert(hnaHtml.includes('data-storage-key="growth"'),    'growth has data-storage-key');
+  assert(hnaHtml.includes('data-storage-key="fasttrack"'), 'fasttrack has data-storage-key');
+  assert(hnaHtml.includes('data-storage-key="dola"'),      'dola has data-storage-key');
+  assert(hnaHtml.includes('data-storage-key="report"'),    'report has data-storage-key');
+});
+
+test('HTML checklist: timestamp elements present on all 5 items', () => {
+  const dateCount = (hnaHtml.match(/class="checklist-date-completed"/g) || []).length;
+  assert(dateCount === 5, 'exactly 5 checklist-date-completed elements present');
+});
+
+test('HTML checklist: status icon spans present on all 5 items', () => {
+  const iconCount = (hnaHtml.match(/class="checklist-status-icon"/g) || []).length;
+  assert(iconCount === 5, 'exactly 5 checklist-status-icon elements present');
+});
+
+test('HTML checklist: aria-live announcement region present', () => {
+  assert(hnaHtml.includes('aria-live="polite"'),       'aria-live polite region present');
+  assert(hnaHtml.includes('id="checklistAnnouncer"'),  'checklistAnnouncer element present');
+  assert(hnaHtml.includes('aria-atomic="true"'),       'aria-atomic="true" present');
+});
+
+test('HTML checklist: aria-checked attribute on all 5 checkboxes', () => {
+  // All checkboxes in the checklist should have aria-checked attribute
+  assert(hnaHtml.includes('aria-checked="false"'), 'aria-checked="false" present on checkboxes');
+});
+
+test('HNA JS: wires compliance checklist change listener', () => {
+  assert(hnaSrc.includes('ComplianceChecklist'),              'HNA JS references ComplianceChecklist');
+  assert(hnaSrc.includes('updateChecklistItem'),              'HNA JS calls updateChecklistItem');
+  assert(hnaSrc.includes('initComplianceChecklist'),          'HNA JS calls initComplianceChecklist');
+  assert(hnaSrc.includes('broadcastChecklistChange'),         'HNA JS calls broadcastChecklistChange');
+  assert(hnaSrc.includes('data-storage-key'),                 'HNA JS reads data-storage-key attribute');
+  assert(hnaSrc.includes('checklistAnnouncer'),               'HNA JS updates ARIA announcer');
+});
+
+test('CSS: new checklist status classes defined', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8');
+  assert(css.includes('.checklist-status-icon'),     '.checklist-status-icon class defined');
+  assert(css.includes('.checklist-item.warning'),    '.checklist-item.warning class defined');
+  assert(css.includes('.checklist-item.pending'),    '.checklist-item.pending class defined');
+  assert(css.includes('.checklist-date-completed'),  '.checklist-date-completed class defined');
+  assert(css.includes('max-width: 480px'),           'mobile 480px breakpoint defined');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);

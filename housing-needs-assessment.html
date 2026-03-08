@@ -29,6 +29,8 @@
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA main script -->
   <script defer src="js/hna-export.js"></script>
+  <!-- Compliance checklist persistence and state management -->
+  <script defer src="js/compliance-checklist.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
@@ -549,26 +551,47 @@
         <!-- Compliance checklist -->
         <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Compliance Checklist</h3>
+          <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
           <ul class="compliance-checklist" id="prop123Checklist">
-            <li class="checklist-item" id="checkItemBaseline">
-              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)">
-              <label for="chkBaseline">Establish baseline (60% AMI rentals documented)</label>
+            <li class="checklist-item pending" id="checkItemBaseline" data-storage-key="baseline">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkBaseline">Establish baseline (60% AMI rentals documented)</label>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
             </li>
-            <li class="checklist-item" id="checkItemGrowth">
-              <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target">
-              <label for="chkGrowth">Adopt 3% annual growth target</label>
+            <li class="checklist-item pending" id="checkItemGrowth" data-storage-key="growth">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkGrowth">Adopt 3% annual growth target</label>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
             </li>
-            <li class="checklist-item" id="checkItemFastTrack">
-              <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process">
-              <label for="chkFastTrack">Document fast-track approval process</label>
+            <li class="checklist-item pending" id="checkItemFastTrack" data-storage-key="fasttrack">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkFastTrack">Document fast-track approval process</label>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
             </li>
-            <li class="checklist-item" id="checkItemDola">
-              <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)">
-              <label for="chkDola">File notice with DOLA (annual deadline: January 31)</label>
+            <li class="checklist-item pending" id="checkItemDola" data-storage-key="dola">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkDola">File notice with DOLA (annual deadline: January 31)</label>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
             </li>
-            <li class="checklist-item" id="checkItemReport">
-              <input type="checkbox" id="chkReport" aria-label="Annual reporting filed">
-              <label for="chkReport">Annual reporting filed with DOLA</label>
+            <li class="checklist-item pending" id="checkItemReport" data-storage-key="report">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkReport" aria-label="Annual reporting filed" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkReport">Annual reporting filed with DOLA</label>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
             </li>
           </ul>
         </div>
