@@ -188,7 +188,7 @@ def arcgis_query(layer_url: str, where: str = "1=1", offset: int = 0, limit: int
         "where": where,
         "outFields": "*",
         "returnGeometry": "true",
-        "f": "geojson",
+        "f": "json",   # Use ArcGIS native JSON; f=geojson is rejected (400) by some TIGERweb layers
         "outSR": "4326",
         "resultRecordCount": str(limit),
         "resultOffset": str(offset),
@@ -224,7 +224,8 @@ def build_tract_centroids() -> dict:
         features = page.get("features", [])
         log(f"[arcgis] Page {page_num}: received {len(features)} features (offset={offset})")
         for f in features:
-            props = f.get("properties", {})
+            # ArcGIS native JSON (f=json) uses "attributes"; GeoJSON uses "properties"
+            props = f.get("attributes") or f.get("properties") or {}
             geoid = props.get("GEOID") or props.get("GEOID10") or props.get("AFFGEOID", "")
             # Compute centroid from bbox or geometry
             geom = f.get("geometry")
@@ -258,6 +259,23 @@ def build_tract_centroids() -> dict:
 def _centroid(geom: dict | None) -> tuple[float | None, float | None]:
     if not geom:
         return None, None
+    # ArcGIS native JSON (f=json) uses "rings" for polygons and "x"/"y" for points
+    if "rings" in geom:
+        rings = geom["rings"]
+        if not rings:
+            return None, None
+        all_lons: list[float] = []
+        all_lats: list[float] = []
+        for ring in rings:
+            for coord in ring:
+                all_lons.append(coord[0])
+                all_lats.append(coord[1])
+        if not all_lons:
+            return None, None
+        return (min(all_lats) + max(all_lats)) / 2, (min(all_lons) + max(all_lons)) / 2
+    if "x" in geom and "y" in geom:
+        return geom["y"], geom["x"]
+    # GeoJSON format (f=geojson)
     gtype = geom.get("type", "")
     coords = geom.get("coordinates")
     if not coords:
@@ -306,7 +324,6 @@ ACS_VARIABLES = [
 
 def build_acs_metrics(centroids: dict) -> dict:
     log("\n[2/3] Fetching ACS tract metrics from Census API…")
-    geoids = {t["geoid"] for t in centroids.get("tracts", [])}
 
     vars_str = ",".join(ACS_VARIABLES)
     key_param = f"&key={CENSUS_API_KEY}" if CENSUS_API_KEY else ""
@@ -338,10 +355,6 @@ def build_acs_metrics(centroids: dict) -> dict:
         county_fips_part = row[idx.get("county", -1)] if "county" in idx else ""
         tract_part = row[idx.get("tract", -1)] if "tract" in idx else ""
         geoid = state_fips + county_fips_part + tract_part
-
-        # Skip tracts not in our centroids index (avoid orphan metrics)
-        if geoid and geoid not in geoids:
-            continue
 
         total_hh  = safe_int(row[idx.get("B25003_001E", -1)])
         vacant    = safe_int(row[idx.get("B25004_001E", -1)])
@@ -457,8 +470,14 @@ def validate(centroids, acs, lihtc) -> list[str]:
     errors = []
     if not centroids.get("tracts"):
         errors.append("tract_centroids_co.json has no tracts")
-    if not acs.get("tracts"):
+    n_acs = len(acs.get("tracts", []))
+    if n_acs == 0:
         errors.append("acs_tract_metrics_co.json has no tracts (may be empty in offline mode)")
+    elif n_acs < 100:
+        errors.append(
+            f"acs_tract_metrics_co.json: only {n_acs} tracts (minimum 100) — "
+            "check Census API key and build script"
+        )
     if not isinstance(lihtc.get("features"), list):
         errors.append("hud_lihtc_co.geojson has no features array")
     return errors
@@ -503,12 +522,12 @@ def main():
     except Exception as e:
         log(f"ACS metrics failed: {e}", level="ERROR")
         acs = {"meta": {}, "tracts": []}
-    # Fall back to existing file if fetch returned no tracts
-    if not acs.get("tracts"):
+    # Fall back to existing file if fetch returned too few tracts (< 100 means partial/failed fetch)
+    if len(acs.get("tracts", [])) < 100:
         existing = OUT_DIR / "acs_tract_metrics_co.json"
         if existing.exists():
             saved = json.loads(existing.read_text())
-            if saved.get("tracts"):
+            if len(saved.get("tracts", [])) >= 100:
                 acs = saved
                 log("[fallback] Using existing acs_tract_metrics_co.json")
 
