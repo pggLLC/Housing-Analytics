@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policy Briefs | Affordable Housing Intelligence</title>
+  <meta name="description" content="AI-assisted policy briefs on affordable housing in Colorado, generated from curated news alerts and housing datasets.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .briefs-hero {
+      padding: var(--sp6) var(--sp4) var(--sp4);
+      border-bottom: 1px solid var(--border);
+    }
+    .briefs-hero h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
+    .briefs-hero p { color: var(--muted); max-width: 640px; margin: 0; }
+    .briefs-controls {
+      display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+      padding: var(--sp3) var(--sp4);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .briefs-controls label { color: var(--muted); font-size: .83rem; font-weight: 600; }
+    .briefs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1rem;
+      padding: var(--sp4);
+    }
+    .brief-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    .brief-topic {
+      display: inline-block;
+      font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+      padding: 2px 8px; border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+    }
+    .brief-title { font-size: 1rem; font-weight: 700; line-height: 1.35; margin: 0; }
+    .brief-summary { font-size: .87rem; color: var(--muted); line-height: 1.55; }
+    .brief-implications {
+      font-size: .83rem; color: var(--text);
+      border-left: 3px solid var(--accent); padding-left: .65rem;
+      line-height: 1.5;
+    }
+    .brief-meta { font-size: .72rem; color: var(--faint); margin-top: auto; }
+    .brief-meta a { color: var(--faint); }
+    .brief-regions { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .region-tag {
+      font-size: .68rem; padding: 1px 7px; border-radius: 999px;
+      background: var(--bg2); border: 1px solid var(--border); color: var(--muted);
+    }
+    #briefsStatus { padding: var(--sp4); color: var(--muted); font-size: .9rem; }
+    #briefsLiveRegion { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body data-page="policy-briefs.html">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <section class="briefs-hero" aria-labelledby="pageTitleBriefs">
+      <div style="padding:0 var(--sp4) var(--sp4);">
+        <div class="kicker">Colorado • Intelligence</div>
+        <h1 id="pageTitleBriefs">Policy Briefs</h1>
+        <p>
+          AI-assisted summaries of affordable housing news and policy trends in Colorado.
+          Briefs are generated from curated RSS alerts and linked to relevant datasets.
+        </p>
+      </div>
+    </section>
+
+    <div class="briefs-controls" role="search" aria-label="Filter policy briefs">
+      <label for="topicFilter">Filter by topic:</label>
+      <select id="topicFilter" aria-label="Select policy topic">
+        <option value="">All Topics</option>
+      </select>
+      <label for="regionFilter" style="margin-left:.5rem;">Region:</label>
+      <select id="regionFilter" aria-label="Select region">
+        <option value="">All Regions</option>
+      </select>
+      <span id="briefsCount" style="margin-left:auto;font-size:.82rem;color:var(--muted);"></span>
+    </div>
+
+    <div id="briefsLiveRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <div id="briefsStatus" role="status">Loading policy briefs…</div>
+    <div id="briefsGrid" class="briefs-grid" aria-label="Policy briefs"></div>
+
+    <section style="padding:var(--sp4);border-top:1px solid var(--border);margin-top:var(--sp4);">
+      <h2 style="font-size:1rem;margin:0 0 .5rem;">Related Datasets</h2>
+      <ul style="font-size:.85rem;color:var(--muted);line-height:2;">
+        <li><a href="colorado-deep-dive.html">Colorado LIHTC Deep Dive Map</a></li>
+        <li><a href="housing-needs-assessment.html">Housing Needs Assessment</a></li>
+        <li><a href="LIHTC-dashboard.html">LIHTC Dashboard</a></li>
+        <li><a href="market-analysis.html">Market Analysis</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy_briefs.json')
+      : 'data/policy_briefs.json';
+
+    var briefs = [];
+    var topicFilter = document.getElementById('topicFilter');
+    var regionFilter = document.getElementById('regionFilter');
+    var statusEl = document.getElementById('briefsStatus');
+    var gridEl = document.getElementById('briefsGrid');
+    var countEl = document.getElementById('briefsCount');
+    var liveEl = document.getElementById('briefsLiveRegion');
+
+    function escapeHtml(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      try {
+        return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      } catch (e) { return iso.slice(0, 7); }
+    }
+
+    function renderBriefs(list) {
+      gridEl.innerHTML = '';
+      if (!list.length) {
+        statusEl.textContent = 'No briefs match the selected filters.';
+        statusEl.style.display = 'block';
+        countEl.textContent = '';
+        return;
+      }
+      statusEl.style.display = 'none';
+      countEl.textContent = list.length + ' brief' + (list.length === 1 ? '' : 's');
+      if (liveEl) liveEl.textContent = countEl.textContent + ' displayed';
+
+      list.forEach(function (brief) {
+        var regions = Array.isArray(brief.regions) ? brief.regions : [];
+        var sources = Array.isArray(brief.sources) ? brief.sources : [];
+        var regionTags = regions.map(function (r) {
+          return '<span class="region-tag">' + escapeHtml(r) + '</span>';
+        }).join('');
+        var sourceLinks = sources.slice(0, 3).map(function (s) {
+          return '<a href="' + escapeHtml(s) + '" target="_blank" rel="noopener">' + escapeHtml(s.replace(/^https?:\/\//, '').split('/')[0]) + '</a>';
+        }).join(' &bull; ');
+
+        var card = document.createElement('article');
+        card.className = 'brief-card';
+        card.setAttribute('aria-label', brief.title || 'Policy Brief');
+        card.innerHTML =
+          '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
+          '<h2 class="brief-title">' + escapeHtml(brief.title || '') + '</h2>' +
+          (brief.summary ? '<p class="brief-summary">' + escapeHtml(brief.summary) + '</p>' : '') +
+          (brief.implications ? '<blockquote class="brief-implications">' + escapeHtml(brief.implications) + '</blockquote>' : '') +
+          (regionTags ? '<div class="brief-regions" aria-label="Regions">' + regionTags + '</div>' : '') +
+          '<div class="brief-meta">' +
+            formatDate(brief.generated) +
+            (brief.alert_count ? ' &bull; ' + brief.alert_count + ' alert(s)' : '') +
+            (sourceLinks ? ' &bull; ' + sourceLinks : '') +
+          '</div>';
+        gridEl.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      var topic = topicFilter.value;
+      var region = regionFilter.value;
+      var filtered = briefs.filter(function (b) {
+        var topicMatch = !topic || (b.policy_topic || '') === topic;
+        var regionMatch = !region || (Array.isArray(b.regions) && b.regions.indexOf(region) !== -1);
+        return topicMatch && regionMatch;
+      });
+      renderBriefs(filtered);
+    }
+
+    function populateFilters(list) {
+      var topics = Array.from(new Set(list.map(function (b) { return b.policy_topic || ''; }).filter(Boolean)));
+      var regions = Array.from(new Set(
+        list.flatMap ? list.flatMap(function (b) { return Array.isArray(b.regions) ? b.regions : []; })
+          : [].concat.apply([], list.map(function (b) { return Array.isArray(b.regions) ? b.regions : []; }))
+      )).filter(Boolean);
+
+      topics.forEach(function (t) {
+        var opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t;
+        topicFilter.appendChild(opt);
+      });
+      regions.forEach(function (r) {
+        var opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = r;
+        regionFilter.appendChild(opt);
+      });
+
+      topicFilter.addEventListener('change', applyFilters);
+      regionFilter.addEventListener('change', applyFilters);
+    }
+
+    function loadBriefs() {
+      var fetcher = window.fetchWithTimeout || fetch;
+      fetcher(BRIEFS_URL, {}, 15000)
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var list = Array.isArray(data) ? data
+            : (data && Array.isArray(data.briefs) ? data.briefs : []);
+          briefs = list;
+          if (!list.length) {
+            statusEl.textContent = 'No policy briefs are available yet. Run scripts/generate_policy_briefs.py to generate them.';
+            return;
+          }
+          populateFilters(list);
+          renderBriefs(list);
+        })
+        .catch(function (err) {
+          statusEl.textContent = 'Policy briefs are not yet available. Run scripts/generate_policy_briefs.py to generate them.';
+          console.warn('[policy-briefs] Could not load briefs:', err.message);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadBriefs);
+    } else {
+      loadBriefs();
+    }
+  })();
+  </script>
+</body>
+</html>

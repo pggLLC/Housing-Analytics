@@ -4,21 +4,28 @@
  * Sets window.APP_BASE_PATH and window.APP_BASE_URL for use by other scripts.
  *
  * Algorithm (portable, case-preserving):
- *  - Take the actual pathname as-is (no case normalisation, no hardcoded repo names).
- *  - Strip the leading slash and split on "/".
- *  - If the first segment looks like a file (contains ".") or is absent, treat as root "/".
- *  - Otherwise the first segment is the GitHub Pages repo sub-path prefix.
+ *  - On github.io domains: detect the repo sub-path prefix from the first pathname segment.
+ *  - On custom domains: always return "/" (no repo prefix applies).
+ *  - If the first segment looks like a file (contains a recognised extension), treat as root "/".
  *
  * Works on:
  *  - https://user.github.io/RepoName/page.html  →  /RepoName/
  *  - https://user.github.io/page.html           →  /
  *  - https://custom-domain.com/page.html        →  /
+ *  - https://custom-domain.com/admin/page.html  →  /  (NOT /admin/)
  */
 (function () {
   'use strict';
 
   function computeBasePath() {
+    var hostname = (window.location && window.location.hostname) ? window.location.hostname : '';
     var pathname = (window.location && window.location.pathname) ? window.location.pathname : '/';
+
+    // Only attempt GitHub Pages repo detection on *.github.io hosts.
+    // Custom domains always serve from the root — no repo sub-path prefix applies.
+    var isGitHubPages = /\.github\.io$/i.test(hostname);
+    if (!isGitHubPages) return '/';
+
     var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
 
     // If first segment looks like a file (has a recognised extension), treat as root

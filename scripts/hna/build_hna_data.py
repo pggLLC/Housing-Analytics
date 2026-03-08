@@ -805,6 +805,91 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
     return None
 
 
+def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
+    """Fetch ACS B08301 (Means of Transportation to Work) with ACS1→ACS5 fallback.
+
+    Returns a normalised dict with keys:
+        drive, carpool, transit, walk, bike, work_from_home, other, total
+    All values are integer worker counts.
+    """
+    # B08301 variable mapping:
+    #   B08301_001E – Total workers 16+
+    #   B08301_003E – Drove alone
+    #   B08301_004E – Carpooled
+    #   B08301_010E – Public transit (excl. taxicab)
+    #   B08301_018E – Bicycle
+    #   B08301_019E – Walked
+    #   B08301_020E – Taxicab / motorcycle / other means
+    #   B08301_021E – Worked from home
+    vars_ = [
+        'B08301_001E',  # Total
+        'B08301_003E',  # Drove alone
+        'B08301_004E',  # Carpooled
+        'B08301_010E',  # Public transit
+        'B08301_018E',  # Bicycle
+        'B08301_019E',  # Walked
+        'B08301_020E',  # Taxicab / motorcycle / other
+        'B08301_021E',  # Worked from home
+        'NAME',
+    ]
+
+    def build_url(year: int, series: str = 'acs1') -> str:
+        base = f'https://api.census.gov/data/{year}/acs/{series}'
+        if geo_type == 'county':
+            for_ = f"county:{geoid[-3:]}"
+            in_ = f"state:{STATE_FIPS_CO}"
+        elif geo_type in ('place', 'cdp'):
+            for_ = f"place:{geoid[2:]}"
+            in_ = f"state:{STATE_FIPS_CO}"
+        else:
+            for_ = f"state:{STATE_FIPS_CO}"
+            in_ = None
+        key = census_key()
+        qs = f"get={','.join(vars_)}&for={for_}"
+        if in_:
+            qs += f"&in={in_}"
+        if key:
+            qs += f"&key={urllib.parse.quote(key, safe='')}"
+        return f"{base}?{qs}"
+
+    start_year = acs_start_year()
+    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
+    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+
+    raw = None
+    for year in years_to_try:
+        for series in ('acs1', 'acs5'):
+            url = build_url(year, series)
+            result = http_get_json(url)
+            if result and len(result) > 1:
+                raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                break
+        if raw:
+            break
+
+    if not raw:
+        print(f"⚠ Could not fetch ACS B08301 for {geo_type}:{geoid}", file=sys.stderr)
+        return None
+
+    def _int(key: str) -> int:
+        try:
+            v = raw.get(key)
+            return int(v) if v is not None and str(v) != '-1' else 0
+        except (TypeError, ValueError):
+            return 0
+
+    return {
+        'total':          _int('B08301_001E'),
+        'drive':          _int('B08301_003E'),
+        'carpool':        _int('B08301_004E'),
+        'transit':        _int('B08301_010E'),
+        'bike':           _int('B08301_018E'),
+        'walk':           _int('B08301_019E'),
+        'other':          _int('B08301_020E'),
+        'work_from_home': _int('B08301_021E'),
+    }
+
+
 def _run_diagnostics(geo_type: str, geoid: str) -> None:
     """Run ACS diagnostics and log results when all fetch attempts fail."""
     if _acs_diag is None:
@@ -852,6 +937,7 @@ def build_summary_cache():
         try:
             acs_profile = fetch_acs_profile(geo_type, geoid)
             acs_s0801 = fetch_acs_s0801(geo_type, geoid)
+            acs_b08301 = fetch_acs_b08301(geo_type, geoid)
             if acs_profile is None and acs_s0801 is None:
                 print(f"⚠ summary {geo_type}:{geoid}: no ACS data available – running diagnostics", file=sys.stderr)
                 _run_diagnostics(geo_type, geoid)
@@ -865,9 +951,11 @@ def build_summary_cache():
                 'geo': g,
                 'acsProfile': acs_profile,
                 'acsS0801': acs_s0801,
+                'acsB08301': acs_b08301,
                 'source': {
                     'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
-                    'acs_s0801_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/subject'
+                    'acs_s0801_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/subject',
+                    'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
                 }
             }
             with open(out_path, 'w', encoding='utf-8') as f:

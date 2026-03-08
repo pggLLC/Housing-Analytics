@@ -168,7 +168,7 @@
       sp.id = 'statusPanel';
       sp.setAttribute('aria-live', 'polite');
       sp.setAttribute('role', 'status');
-      sp.style.cssText = 'display:none;';
+      sp.style.cssText = 'display:none;position:relative;z-index:900;padding:.55rem 1.25rem;font-size:.82rem;font-weight:600;background:#7c2d12;color:#fef3c7;border-bottom:1px solid #92400e;';
       const headerEl = document.querySelector('header.site-header, header');
       if (headerEl && headerEl.parentNode) {
         if (headerEl.nextSibling) {
@@ -178,6 +178,26 @@
         }
       }
     }
+
+    // Wire up global error handler to surface runtime errors in the status panel
+    window.__navShowError = function(msg) {
+      var sp = document.getElementById('statusPanel');
+      if (!sp) return;
+      sp.textContent = '⚠ ' + msg;
+      sp.style.display = 'block';
+    };
+
+    // Capture unhandled JS errors and show them in the status panel
+    window.addEventListener('error', function(ev) {
+      var msg = (ev && ev.message) ? ev.message : 'An unexpected error occurred.';
+      window.__navShowError(msg);
+    });
+
+    // Capture unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(ev) {
+      var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
+      window.__navShowError(msg);
+    });
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }

@@ -67,18 +67,18 @@ function countRecords(json) {
 const sparseChecks = [
   {
     file: 'data/market/acs_tract_metrics_co.json',
-    // Colorado has ~1,300 census tracts; fewer than 100 entries is unusually sparse.
-    warnBelowFeatures: 100,
+    // Colorado has ~1,300 census tracts; fewer than 500 entries is unusually sparse.
+    warnBelowFeatures: 500,
   },
   {
     file: 'data/market/tract_centroids_co.json',
     // Should have one centroid per census tract (~1,300 for Colorado).
-    warnBelowFeatures: 100,
+    warnBelowFeatures: 500,
   },
   {
     file: 'data/market/hud_lihtc_co.geojson',
-    // Colorado has hundreds of LIHTC-funded properties; fewer than 50 is sparse.
-    warnBelowFeatures: 50,
+    // Colorado has hundreds of LIHTC-funded properties; fewer than 100 is sparse.
+    warnBelowFeatures: 100,
   },
 ];
 
