@@ -1,0 +1,169 @@
+name: Audit Endpoints
+
+on:
+  schedule:
+    - cron: '30 8 * * 1'  # Mondays 08:30 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ------------------------------------------------------------------ #
+      # Validate Census API key configuration                               #
+      # ------------------------------------------------------------------ #
+      - name: Validate Census API key
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          node - <<'JS'
+          const key = (process.env.CENSUS_API_KEY || '').trim();
+          if (!key) {
+            console.warn('::warning::CENSUS_API_KEY is not set. Census API calls will be unauthenticated and rate-limited.');
+            console.warn('Add CENSUS_API_KEY to repository secrets: Settings → Secrets and variables → Actions');
+            console.warn('Free key signup: https://api.census.gov/data/key_signup.html');
+          } else {
+            console.log(`CENSUS_API_KEY: configured (${key.length} chars)`);
+          }
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe Census ACS endpoint reachability                              #
+      # ------------------------------------------------------------------ #
+      - name: Probe Census ACS endpoint
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          node - <<'JS'
+          const https = require('https');
+
+          const key = (process.env.CENSUS_API_KEY || '').trim();
+          // Use a lightweight discovery URL — does not require a key
+          const probeUrl = 'https://api.census.gov/data.json';
+
+          function probe(url) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(url, { timeout: 15000 }, function(res) {
+                let body = '';
+                res.setEncoding('utf8');
+                res.on('data', function(c){ body += c; });
+                res.on('end', function(){ resolve({ status: res.statusCode, ok: res.statusCode < 400 }); });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(probeUrl);
+              if (r.ok) {
+                console.log('✓ Census API reachable (HTTP ' + r.status + ')');
+              } else {
+                console.error('::error::Census API returned HTTP ' + r.status);
+                process.exit(1);
+              }
+            } catch(e) {
+              console.error('::error::Census API unreachable: ' + e.message);
+              process.exit(1);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe FRED API endpoint reachability                                #
+      # ------------------------------------------------------------------ #
+      - name: Probe FRED endpoint
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          const url   = 'https://api.stlouisfed.org/fred/series?series_id=MORTGAGE30US&api_key=test&file_type=json';
+
+          function probe(u) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(u, { timeout: 15000 }, function(res) {
+                res.resume();
+                // 200 (valid key) or 400 (bad key but API reachable) — both are "up"
+                resolve({ status: res.statusCode, ok: res.statusCode < 500 });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(url);
+              if (r.ok) {
+                console.log('✓ FRED API reachable (HTTP ' + r.status + ')');
+              } else {
+                console.warn('::warning::FRED API returned HTTP ' + r.status);
+              }
+            } catch(e) {
+              console.warn('::warning::FRED API unreachable: ' + e.message);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe HUD GIS endpoint reachability                                 #
+      # ------------------------------------------------------------------ #
+      - name: Probe HUD GIS endpoint
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          // Lightweight info query — no key required
+          const url = 'https://hudgis-hud.opendata.arcgis.com/datasets.json?q=qct&limit=1';
+
+          function probe(u) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(u, { timeout: 15000 }, function(res) {
+                res.resume();
+                resolve({ status: res.statusCode, ok: res.statusCode < 500 });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(url);
+              if (r.ok) {
+                console.log('✓ HUD GIS endpoint reachable (HTTP ' + r.status + ')');
+              } else {
+                console.warn('::warning::HUD GIS endpoint returned HTTP ' + r.status);
+              }
+            } catch(e) {
+              console.warn('::warning::HUD GIS endpoint unreachable: ' + e.message);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Summary                                                             #
+      # ------------------------------------------------------------------ #
+      - name: Audit summary
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          FRED_API_KEY:   ${{ secrets.FRED_API_KEY }}
+        run: |
+          node - <<'JS'
+          const censusKey = (process.env.CENSUS_API_KEY || '').trim();
+          const fredKey   = (process.env.FRED_API_KEY   || '').trim();
+          console.log('=== Endpoint Audit Summary ===');
+          console.log('CENSUS_API_KEY :', censusKey ? `configured (${censusKey.length} chars)` : '⚠ NOT SET');
+          console.log('FRED_API_KEY   :', fredKey   ? `configured (${fredKey.length} chars)`   : '⚠ NOT SET');
+          console.log('Audit complete.');
+          JS
