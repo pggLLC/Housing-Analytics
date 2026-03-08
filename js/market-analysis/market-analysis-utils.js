@@ -141,6 +141,8 @@
     if (typeof str !== 'string') return '';
     if (typeof maxLen !== 'number' || maxLen <= 0) return str;
     if (str.length <= maxLen) return str;
+    // Need at least 2 chars to show any content before the ellipsis.
+    if (maxLen < 2) return '\u2026';
     return str.slice(0, maxLen - 1) + '\u2026';
   }
 

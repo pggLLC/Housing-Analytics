@@ -285,7 +285,10 @@
       var p     = (features[i] && features[i].properties) ? features[i].properties : features[i];
       var name  = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
       var city  = p.CITY || p.city || '—';
-      var units = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || '—';
+      // Parse unit count safely; any non-numeric value yields '—'.
+      var rawUnits = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units;
+      var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
+        ? String(Number(rawUnits)) : '—';
       var yr    = p.YEAR_ALLOC  || p.year_alloc  || '—';
       rows += (
         '<tr>' +
@@ -344,7 +347,7 @@
               fmr >= 1.1 ? 'var(--warn)' : 'var(--good)')
           : '') +
         (nearby !== null && nearby !== undefined
-          ? _metricRow('Subsidised Units Nearby', _fmtN(nearby))
+          ? _metricRow('Subsidized Units Nearby', _fmtN(nearby))
           : '') +
         (typeof score === 'number'
           ? _metricRow('Subsidy Score', _scoreBadge(score))

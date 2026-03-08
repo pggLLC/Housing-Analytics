@@ -183,8 +183,11 @@
 
     _showAllLoading();
 
-    // Wrap the analysis in a zero-delay timeout so the loading spinners
-    // have time to render before synchronous scoring work begins.
+    // Defer the synchronous scoring work by one tick so that the loading
+    // spinners painted above have time to reach the screen before the
+    // main thread is occupied.  requestAnimationFrame is not available in
+    // all environments targeted by this ES5 module, so setTimeout(fn, 0)
+    // is used as the equivalent portable deferral mechanism.
     setTimeout(function () {
       try {
         // ── 2. Gather data ───────────────────────────────────────────

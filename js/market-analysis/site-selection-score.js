@@ -117,7 +117,7 @@
     var fmrPts = _clamp(((fmr - 0.80) / 0.40) * 30);
     score += fmrPts;
 
-    // Nearby subsidised units: gap measured against 200-unit saturation ceiling.
+    // Nearby subsidized units: gap measured against 200-unit saturation ceiling.
     // Fewer units → more need → higher score (up to 20 pts).
     var ns     = _safe(nearbySubsidized, 0);
     var nsPts  = _clamp(((200 - Math.min(ns, 200)) / 200) * 20);
@@ -325,6 +325,7 @@
     );
 
     // Identify the top driver (highest scoring component).
+    // Sort a copy so the original declaration order is preserved.
     var comps = [
       { label: 'housing demand', score: demand },
       { label: 'subsidy eligibility', score: subsidy },
@@ -332,8 +333,7 @@
       { label: 'neighborhood access', score: access },
       { label: 'policy environment', score: policy },
       { label: 'market conditions', score: market }
-    ];
-    comps.sort(function (a, b) { return b.score - a.score; });
+    ].slice().sort(function (a, b) { return b.score - a.score; });
 
     parts.push(
       'The strongest driver is ' + comps[0].label +
