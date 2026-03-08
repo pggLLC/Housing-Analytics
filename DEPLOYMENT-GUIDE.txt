@@ -152,6 +152,40 @@ HNA-specific troubleshooting
          only in ACS 5-year; the page already tries both 1-year and 5-year).
       3. Download the Debug Log linked in the banner and share it with support.
 
+• Census API 400 / 404 errors in browser DevTools console
+  → Common causes and diagnostics:
+      - Open DevTools (F12) → Console and look for "[HNA] ... HTTP 4xx" messages.
+        Each message shows the exact URL (with the API key redacted), the HTTP
+        status, and the first 500 characters of the Census error response so you
+        can identify the problem without exposing credentials.
+      - HTTP 400 "unknown/unsupported geography": the selected geography (place
+        or CDP) may not be published in ACS 1-year tables.  The page automatically
+        retries with ACS 5-year and then with ACS B-series tables.
+      - HTTP 400 "error: unknown variable": a variable code changed between ACS
+        releases.  File a bug with the variable name shown in the console message.
+      - HTTP 400 "invalid key": CENSUS_API_KEY is set but the value is wrong.
+        Verify the key at https://api.census.gov/data/key_signup.html.
+      - HTTP 403 / 429: The API key has exceeded its rate limit (500 req / 10 s).
+        The page retries once with exponential backoff.  If this persists, reduce
+        the number of simultaneous geography loads.
+      - "CENSUS_API_KEY is not configured" console warning: add the key to
+        js/config.js (see template: js/config.js.template) or configure the
+        CENSUS_API_KEY GitHub Actions secret and re-run the deploy workflow.
+
+• Census API requests return empty data for a place / CDP
+  → Small CDPs and unincorporated places are often absent from ACS 1-year
+    profile tables (DP-series) because they are below the 65,000-person
+    publication threshold.  The fallback chain (ACS1 → ACS5 profile → ACS5
+    B-series detailed tables) handles this automatically.  If all three tiers
+    fail, the "[HNA] … HTTP …" console messages will indicate which tier failed
+    and why.
+
+• GEOID validation warnings ("county GEOID … is not 5 digits")
+  → The geo-config.json entry for this geography has a malformed FIPS code.
+    Colorado county GEOIDs must be exactly 5 digits (e.g., "08077" for Mesa County); place
+    GEOIDs must be exactly 7 digits (e.g., "0820000" for Denver).  Edit data/hna/geo-config.json
+    and re-run the "Build HNA Data Cache" workflow.
+
 • LEHD / DOLA panels show "not yet available"
   → The cache files for this county have not been generated yet.
     Run the "Build HNA Data Cache" workflow from the Actions tab.
