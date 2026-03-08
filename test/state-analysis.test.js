@@ -51,11 +51,11 @@ function makeCountyProfile(overrides) {
     DP04_0134E:  '1400',    // median gross rent
     DP03_0062E:  '75000',   // median household income
     DP04_0003E:  '1200',    // vacant units
-    DP04_0142PE: '5.0',     // rent burden < 10%
-    DP04_0143PE: '15.0',    // rent burden 10-14.9%
-    DP04_0144PE: '20.0',    // rent burden 15-19.9%
-    DP04_0145PE: '10.0',    // rent burden 20-24.9%
-    DP04_0146PE: '10.0',    // rent burden 30-34.9% (burdened)
+    DP04_0142PE: '20.0',    // rent burden <20% (not burdened)
+    DP04_0143PE: '15.0',    // rent burden 20-24.9% (not burdened)
+    DP04_0144PE: '10.0',    // rent burden 25-29.9% (not burdened)
+    DP04_0145PE: '10.0',    // rent burden 30-34.9% (BURDENED — first burdened bin)
+    DP04_0146PE: '5.0',     // rent burden 35%+ (BURDENED — severely burdened)
     DP04_0004E:  '1000',    // single-family detached
     DP04_0005E:  '200',     // single-family attached
     DP04_0006E:  '400',     // 2-unit structures

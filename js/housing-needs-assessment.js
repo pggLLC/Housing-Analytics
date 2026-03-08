@@ -518,12 +518,8 @@
     const ownerRate = Number(profile.DP04_0047PE) || 0;
     const stateRentBurden = stateMetrics.weightedRentBurdenRate || 0;
     const localRentBurden = (()=>{
-      const bins = [
-        Number(profile.DP04_0144PE) || 0,
-        Number(profile.DP04_0145PE) || 0,
-        Number(profile.DP04_0146PE) || 0,
-      ];
-      return bins.reduce((s, v) => s + v, 0);
+      // Burdened = ≥30% of income on rent: bins 0145PE (30-34.9%) + 0146PE (35%+)
+      return (Number(profile.DP04_0145PE) || 0) + (Number(profile.DP04_0146PE) || 0);
     })();
 
     const popShareEl = document.getElementById('scpPopShare');

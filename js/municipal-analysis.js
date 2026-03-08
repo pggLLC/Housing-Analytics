@@ -174,9 +174,11 @@
     // (28 % front-end DTI rule: annual payment ≈ value × 0.065; divide by 0.28).
     var incomeNeedToBuy = medValue > 0 ? (medValue * 0.065) / 0.28 : 0;
 
-    // Rent-burden: 100 % minus the four not-burdened ACS DP04 share bins (< 30 % of income).
+    // Rent-burden: 100 % minus the three not-burdened ACS DP04 GRAPI bins (< 30 % of income).
+    //   0142PE = <20 %, 0143PE = 20–24.9 %, 0144PE = 25–29.9 % → NOT burdened.
+    //   0145PE = 30–34.9 %, 0146PE = 35 %+ → BURDENED.
     var notBurdened = _num(countyData.DP04_0142PE) + _num(countyData.DP04_0143PE) +
-                      _num(countyData.DP04_0144PE) + _num(countyData.DP04_0145PE);
+                      _num(countyData.DP04_0144PE);
     var rentBurdenRate = notBurdened > 0 ? Math.max(0, 100 - notBurdened) / 100 : 0;
 
     return {

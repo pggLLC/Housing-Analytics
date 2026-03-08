@@ -211,12 +211,12 @@
       // (28 % front-end DTI rule: annual interest ≈ value × 0.065; divide by 0.28)
       var incomeNeeded = medValue > 0 ? (medValue * 0.065) / 0.28 : 0;
 
-      // Rent-burden: ACS DP04 not-burdened bins (< 30 % of income on rent):
-      //   0142PE = < 15 %, 0143PE = 15–19.9 %, 0144PE = 20–24.9 %, 0145PE = 25–29.9 %.
-      //   0146PE = 30–34.9 % which is the first BURDENED bin; exclude from not-burdened sum.
-      // 100 % minus the four not-burdened shares gives the ≥ 30 % burdened rate.
+      // Rent-burden: ACS DP04 GRAPI bins (as used throughout this codebase):
+      //   0142PE = <20 %, 0143PE = 20–24.9 %, 0144PE = 25–29.9 % → NOT burdened.
+      //   0145PE = 30–34.9 %, 0146PE = 35 %+ → BURDENED (≥ 30 % of income on rent).
+      // 100 % minus the three not-burdened shares gives the ≥ 30 % burdened rate.
       var notBurdened = _num(c.DP04_0142PE) + _num(c.DP04_0143PE) +
-                        _num(c.DP04_0144PE) + _num(c.DP04_0145PE);
+                        _num(c.DP04_0144PE);
       var burdenRate  = notBurdened > 0 ? Math.max(0, 100 - notBurdened) / 100 : 0;
 
       rentNumer       += medRent      * weight;
