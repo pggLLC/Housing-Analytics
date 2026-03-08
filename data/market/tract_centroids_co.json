@@ -3,163 +3,1444 @@
     "source": "US Census TIGERweb ArcGIS REST (public)",
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2025-01-01",
+    "generated": "2026-03-08",
     "note": "Rebuild via scripts/market/build_public_market_data.py"
   },
   "tracts": [
     {
-      "geoid": "08001000100",
-      "lat": 38.5099,
-      "lon": -102.4267,
-      "county_fips": "08001",
-      "county_name": "Adams"
-    },
-    {
-      "geoid": "08001000200",
-      "lat": 38.7011,
-      "lon": -102.6132,
-      "county_fips": "08001",
-      "county_name": "Adams"
-    },
-    {
-      "geoid": "08005000101",
-      "lat": 38.6895,
-      "lon": -105.9921,
-      "county_fips": "08005",
-      "county_name": "Arapahoe"
-    },
-    {
-      "geoid": "08013000100",
-      "lat": 39.6403,
-      "lon": -104.9849,
-      "county_fips": "08013",
-      "county_name": "Boulder"
-    },
-    {
-      "geoid": "08013000200",
-      "lat": 40.015,
-      "lon": -105.2705,
-      "county_fips": "08013",
-      "county_name": "Boulder"
-    },
-    {
       "geoid": "08031000100",
-      "lat": 39.7392,
-      "lon": -104.9903,
+      "lat": 39.7615,
+      "lon": -105.0663,
       "county_fips": "08031",
       "county_name": "Denver"
     },
     {
       "geoid": "08031000200",
-      "lat": 39.755,
-      "lon": -104.96,
+      "lat": 39.7032,
+      "lon": -105.0346,
       "county_fips": "08031",
       "county_name": "Denver"
     },
     {
       "geoid": "08031000300",
-      "lat": 39.72,
-      "lon": -105.01,
+      "lat": 39.777,
+      "lon": -104.962,
       "county_fips": "08031",
       "county_name": "Denver"
     },
     {
       "geoid": "08031000400",
-      "lat": 39.765,
-      "lon": -105.02,
+      "lat": 39.8019,
+      "lon": -105.0564,
       "county_fips": "08031",
       "county_name": "Denver"
     },
     {
       "geoid": "08031000500",
-      "lat": 39.71,
-      "lon": -104.97,
+      "lat": 39.7267,
+      "lon": -105.0655,
       "county_fips": "08031",
       "county_name": "Denver"
     },
     {
-      "geoid": "08035000100",
-      "lat": 38.8339,
-      "lon": -104.8214,
-      "county_fips": "08035",
-      "county_name": "Douglas"
+      "geoid": "08031000600",
+      "lat": 39.6942,
+      "lon": -104.9894,
+      "county_fips": "08031",
+      "county_name": "Denver"
     },
     {
-      "geoid": "08041000100",
-      "lat": 38.9731,
-      "lon": -104.622,
-      "county_fips": "08041",
-      "county_name": "El Paso"
+      "geoid": "08031000700",
+      "lat": 39.6634,
+      "lon": -105.0385,
+      "county_fips": "08031",
+      "county_name": "Denver"
     },
     {
-      "geoid": "08041000200",
-      "lat": 38.8686,
-      "lon": -104.7631,
-      "county_fips": "08041",
-      "county_name": "El Paso"
+      "geoid": "08031000800",
+      "lat": 39.7632,
+      "lon": -104.9831,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031000900",
+      "lat": 39.6945,
+      "lon": -104.976,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001000",
+      "lat": 39.7887,
+      "lon": -105.0693,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001100",
+      "lat": 39.7881,
+      "lon": -104.9586,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001200",
+      "lat": 39.7136,
+      "lon": -105.0454,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001300",
+      "lat": 39.8124,
+      "lon": -105.0164,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001400",
+      "lat": 39.674,
+      "lon": -105.0548,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001500",
+      "lat": 39.7948,
+      "lon": -104.9737,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001600",
+      "lat": 39.7883,
+      "lon": -104.9535,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001700",
+      "lat": 39.745,
+      "lon": -104.9146,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001800",
+      "lat": 39.7198,
+      "lon": -104.982,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031001900",
+      "lat": 39.7919,
+      "lon": -104.9713,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002000",
+      "lat": 39.7971,
+      "lon": -104.9779,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002100",
+      "lat": 39.7719,
+      "lon": -105.063,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002200",
+      "lat": 39.6957,
+      "lon": -105.024,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002300",
+      "lat": 39.672,
+      "lon": -105.0331,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002400",
+      "lat": 39.6754,
+      "lon": -105.0258,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002500",
+      "lat": 39.7609,
+      "lon": -105.0119,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002600",
+      "lat": 39.7184,
+      "lon": -105.0368,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002700",
+      "lat": 39.7019,
+      "lon": -104.9204,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002800",
+      "lat": 39.7629,
+      "lon": -104.9728,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031002900",
+      "lat": 39.6866,
+      "lon": -104.9536,
+      "county_fips": "08031",
+      "county_name": "Denver"
+    },
+    {
+      "geoid": "08031003000",
+      "lat": 39.6853,
+      "lon": -105.0096,
+      "county_fips": "08031",
+      "county_name": "Denver"
     },
     {
       "geoid": "08059000100",
-      "lat": 40.3769,
-      "lon": -105.5217,
+      "lat": 39.7327,
+      "lon": -105.2131,
       "county_fips": "08059",
       "county_name": "Jefferson"
     },
     {
       "geoid": "08059000200",
-      "lat": 39.648,
-      "lon": -105.12,
+      "lat": 39.6029,
+      "lon": -105.1997,
       "county_fips": "08059",
       "county_name": "Jefferson"
     },
     {
+      "geoid": "08059000300",
+      "lat": 39.6887,
+      "lon": -105.1723,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000400",
+      "lat": 39.5045,
+      "lon": -105.3955,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000500",
+      "lat": 39.5304,
+      "lon": -105.3248,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000600",
+      "lat": 39.4991,
+      "lon": -105.1222,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000700",
+      "lat": 39.6987,
+      "lon": -105.3107,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000800",
+      "lat": 39.6324,
+      "lon": -105.2864,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059000900",
+      "lat": 39.7102,
+      "lon": -105.2674,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001000",
+      "lat": 39.5153,
+      "lon": -105.3311,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001100",
+      "lat": 39.6042,
+      "lon": -105.3263,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001200",
+      "lat": 39.6112,
+      "lon": -105.1358,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001300",
+      "lat": 39.5556,
+      "lon": -105.3393,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001400",
+      "lat": 39.7351,
+      "lon": -105.2522,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001500",
+      "lat": 39.4631,
+      "lon": -105.391,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001600",
+      "lat": 39.4687,
+      "lon": -105.2169,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001700",
+      "lat": 39.6734,
+      "lon": -105.2785,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001800",
+      "lat": 39.4549,
+      "lon": -105.2906,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059001900",
+      "lat": 39.7346,
+      "lon": -105.2464,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08059002000",
+      "lat": 39.7271,
+      "lon": -105.1469,
+      "county_fips": "08059",
+      "county_name": "Jefferson"
+    },
+    {
+      "geoid": "08001000100",
+      "lat": 39.7369,
+      "lon": -104.5395,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000200",
+      "lat": 39.8977,
+      "lon": -104.5836,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000300",
+      "lat": 39.7981,
+      "lon": -104.5587,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000400",
+      "lat": 39.7609,
+      "lon": -104.6082,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000500",
+      "lat": 39.843,
+      "lon": -104.4836,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000600",
+      "lat": 39.9443,
+      "lon": -104.6493,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000700",
+      "lat": 39.8542,
+      "lon": -104.6696,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000800",
+      "lat": 39.9531,
+      "lon": -104.5036,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001000900",
+      "lat": 39.8057,
+      "lon": -104.5592,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001000",
+      "lat": 39.8803,
+      "lon": -104.6758,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001100",
+      "lat": 39.9171,
+      "lon": -104.583,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001200",
+      "lat": 39.921,
+      "lon": -104.5852,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001300",
+      "lat": 39.7342,
+      "lon": -104.6347,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001400",
+      "lat": 39.7388,
+      "lon": -104.4895,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001500",
+      "lat": 39.945,
+      "lon": -104.5129,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001600",
+      "lat": 39.8079,
+      "lon": -104.6986,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001700",
+      "lat": 39.9448,
+      "lon": -104.4852,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08001001800",
+      "lat": 39.7547,
+      "lon": -104.5959,
+      "county_fips": "08001",
+      "county_name": "Adams"
+    },
+    {
+      "geoid": "08005000100",
+      "lat": 39.5298,
+      "lon": -104.4759,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000200",
+      "lat": 39.697,
+      "lon": -104.6276,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000300",
+      "lat": 39.6273,
+      "lon": -104.5264,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000400",
+      "lat": 39.5768,
+      "lon": -104.449,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000500",
+      "lat": 39.6148,
+      "lon": -104.6076,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000600",
+      "lat": 39.6426,
+      "lon": -104.4832,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000700",
+      "lat": 39.5615,
+      "lon": -104.5836,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000800",
+      "lat": 39.752,
+      "lon": -104.5024,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005000900",
+      "lat": 39.6183,
+      "lon": -104.5342,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001000",
+      "lat": 39.5422,
+      "lon": -104.6045,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001100",
+      "lat": 39.5943,
+      "lon": -104.5172,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001200",
+      "lat": 39.5684,
+      "lon": -104.6055,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001300",
+      "lat": 39.5302,
+      "lon": -104.5069,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001400",
+      "lat": 39.5681,
+      "lon": -104.4411,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001500",
+      "lat": 39.7195,
+      "lon": -104.6414,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001600",
+      "lat": 39.5703,
+      "lon": -104.4978,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001700",
+      "lat": 39.5646,
+      "lon": -104.6266,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08005001800",
+      "lat": 39.7377,
+      "lon": -104.5213,
+      "county_fips": "08005",
+      "county_name": "Arapahoe"
+    },
+    {
+      "geoid": "08013000100",
+      "lat": 40.0219,
+      "lon": -105.2996,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000200",
+      "lat": 40.0889,
+      "lon": -105.4184,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000300",
+      "lat": 39.9468,
+      "lon": -105.3703,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000400",
+      "lat": 40.0121,
+      "lon": -105.3631,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000500",
+      "lat": 40.0732,
+      "lon": -105.3218,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000600",
+      "lat": 40.1242,
+      "lon": -105.4368,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000700",
+      "lat": 40.0079,
+      "lon": -105.3886,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000800",
+      "lat": 40.0997,
+      "lon": -105.4068,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013000900",
+      "lat": 39.9654,
+      "lon": -105.3668,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001000",
+      "lat": 40.0118,
+      "lon": -105.4008,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001100",
+      "lat": 39.9774,
+      "lon": -105.2718,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001200",
+      "lat": 40.016,
+      "lon": -105.2842,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001300",
+      "lat": 40.0375,
+      "lon": -105.4464,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001400",
+      "lat": 40.1273,
+      "lon": -105.2893,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08013001500",
+      "lat": 40.1212,
+      "lon": -105.2712,
+      "county_fips": "08013",
+      "county_name": "Boulder"
+    },
+    {
+      "geoid": "08041000100",
+      "lat": 38.9385,
+      "lon": -104.9215,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000200",
+      "lat": 38.8296,
+      "lon": -104.9073,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000300",
+      "lat": 38.8042,
+      "lon": -104.9538,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000400",
+      "lat": 38.7976,
+      "lon": -104.6758,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000500",
+      "lat": 38.7635,
+      "lon": -104.7362,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000600",
+      "lat": 38.8204,
+      "lon": -104.8445,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000700",
+      "lat": 38.9711,
+      "lon": -104.6728,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000800",
+      "lat": 38.8506,
+      "lon": -104.7559,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041000900",
+      "lat": 38.7303,
+      "lon": -104.8824,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001000",
+      "lat": 38.9745,
+      "lon": -104.7976,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001100",
+      "lat": 38.8466,
+      "lon": -104.747,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001200",
+      "lat": 38.701,
+      "lon": -104.7961,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001300",
+      "lat": 38.8348,
+      "lon": -104.7156,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001400",
+      "lat": 38.7311,
+      "lon": -104.6832,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001500",
+      "lat": 38.7079,
+      "lon": -104.9157,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001600",
+      "lat": 38.8624,
+      "lon": -104.7688,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001700",
+      "lat": 38.7545,
+      "lon": -104.9354,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001800",
+      "lat": 38.951,
+      "lon": -104.8975,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041001900",
+      "lat": 38.8623,
+      "lon": -104.7856,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
+      "geoid": "08041002000",
+      "lat": 38.8097,
+      "lon": -104.7963,
+      "county_fips": "08041",
+      "county_name": "El Paso"
+    },
+    {
       "geoid": "08069000100",
-      "lat": 40.18,
-      "lon": -105.1,
+      "lat": 40.5908,
+      "lon": -104.9801,
       "county_fips": "08069",
       "county_name": "Larimer"
     },
     {
       "geoid": "08069000200",
-      "lat": 40.5852,
-      "lon": -105.0844,
+      "lat": 40.5143,
+      "lon": -105.0325,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000300",
+      "lat": 40.5226,
+      "lon": -105.1094,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000400",
+      "lat": 40.6265,
+      "lon": -105.1324,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000500",
+      "lat": 40.5412,
+      "lon": -105.024,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000600",
+      "lat": 40.4827,
+      "lon": -105.0944,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000700",
+      "lat": 40.7049,
+      "lon": -104.9653,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000800",
+      "lat": 40.4829,
+      "lon": -105.1532,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069000900",
+      "lat": 40.5289,
+      "lon": -104.9804,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069001000",
+      "lat": 40.6767,
+      "lon": -104.9934,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069001100",
+      "lat": 40.554,
+      "lon": -105.1665,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069001200",
+      "lat": 40.6654,
+      "lon": -105.0356,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069001300",
+      "lat": 40.6121,
+      "lon": -104.9675,
+      "county_fips": "08069",
+      "county_name": "Larimer"
+    },
+    {
+      "geoid": "08069001400",
+      "lat": 40.6223,
+      "lon": -105.2025,
       "county_fips": "08069",
       "county_name": "Larimer"
     },
     {
       "geoid": "08123000100",
-      "lat": 37.2753,
-      "lon": -107.8801,
+      "lat": 40.6776,
+      "lon": -104.4746,
       "county_fips": "08123",
       "county_name": "Weld"
     },
     {
       "geoid": "08123000200",
-      "lat": 40.4233,
-      "lon": -104.6919,
+      "lat": 40.6162,
+      "lon": -104.2188,
       "county_fips": "08123",
       "county_name": "Weld"
     },
     {
+      "geoid": "08123000300",
+      "lat": 40.4045,
+      "lon": -104.5482,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000400",
+      "lat": 40.3936,
+      "lon": -104.3731,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000500",
+      "lat": 40.4597,
+      "lon": -104.3525,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000600",
+      "lat": 40.6378,
+      "lon": -104.513,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000700",
+      "lat": 40.6045,
+      "lon": -104.4888,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000800",
+      "lat": 40.5462,
+      "lon": -104.2323,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123000900",
+      "lat": 40.6892,
+      "lon": -104.5575,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123001000",
+      "lat": 40.5202,
+      "lon": -104.4837,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123001100",
+      "lat": 40.3522,
+      "lon": -104.286,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08123001200",
+      "lat": 40.6056,
+      "lon": -104.4896,
+      "county_fips": "08123",
+      "county_name": "Weld"
+    },
+    {
+      "geoid": "08035000100",
+      "lat": 39.3878,
+      "lon": -104.9212,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000200",
+      "lat": 39.3125,
+      "lon": -105.0513,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000300",
+      "lat": 39.228,
+      "lon": -104.8417,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000400",
+      "lat": 39.4268,
+      "lon": -104.9227,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000500",
+      "lat": 39.4102,
+      "lon": -104.9138,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000600",
+      "lat": 39.2454,
+      "lon": -105.023,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000700",
+      "lat": 39.2839,
+      "lon": -104.8378,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000800",
+      "lat": 39.401,
+      "lon": -104.847,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035000900",
+      "lat": 39.4256,
+      "lon": -105.0032,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035001000",
+      "lat": 39.2698,
+      "lon": -105.0289,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035001100",
+      "lat": 39.3971,
+      "lon": -104.8414,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08035001200",
+      "lat": 39.3074,
+      "lon": -104.9046,
+      "county_fips": "08035",
+      "county_name": "Douglas"
+    },
+    {
+      "geoid": "08014000100",
+      "lat": 39.8929,
+      "lon": -105.0523,
+      "county_fips": "08014",
+      "county_name": "Broomfield"
+    },
+    {
+      "geoid": "08014000200",
+      "lat": 39.9497,
+      "lon": -105.0486,
+      "county_fips": "08014",
+      "county_name": "Broomfield"
+    },
+    {
+      "geoid": "08014000300",
+      "lat": 39.9454,
+      "lon": -105.0562,
+      "county_fips": "08014",
+      "county_name": "Broomfield"
+    },
+    {
+      "geoid": "08014000400",
+      "lat": 39.8825,
+      "lon": -105.0678,
+      "county_fips": "08014",
+      "county_name": "Broomfield"
+    },
+    {
+      "geoid": "08014000500",
+      "lat": 39.9071,
+      "lon": -105.0522,
+      "county_fips": "08014",
+      "county_name": "Broomfield"
+    },
+    {
       "geoid": "08101000100",
-      "lat": 38.468,
-      "lon": -107.8762,
+      "lat": 38.3148,
+      "lon": -104.5363,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000200",
+      "lat": 38.3165,
+      "lon": -104.6557,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000300",
+      "lat": 38.3119,
+      "lon": -104.6875,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000400",
+      "lat": 38.3288,
+      "lon": -104.5374,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000500",
+      "lat": 38.1989,
+      "lon": -104.5458,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000600",
+      "lat": 38.2465,
+      "lon": -104.6481,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000700",
+      "lat": 38.3135,
+      "lon": -104.6636,
+      "county_fips": "08101",
+      "county_name": "Pueblo"
+    },
+    {
+      "geoid": "08101000800",
+      "lat": 38.1591,
+      "lon": -104.6705,
       "county_fips": "08101",
       "county_name": "Pueblo"
     },
     {
       "geoid": "08077000100",
-      "lat": 39.0639,
-      "lon": -108.5506,
+      "lat": 39.0227,
+      "lon": -108.4633,
       "county_fips": "08077",
       "county_name": "Mesa"
     },
     {
+      "geoid": "08077000200",
+      "lat": 39.176,
+      "lon": -108.6037,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08077000300",
+      "lat": 39.0979,
+      "lon": -108.5748,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08077000400",
+      "lat": 39.1794,
+      "lon": -108.542,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08077000500",
+      "lat": 39.1693,
+      "lon": -108.643,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08077000600",
+      "lat": 39.1768,
+      "lon": -108.6278,
+      "county_fips": "08077",
+      "county_name": "Mesa"
+    },
+    {
+      "geoid": "08045000100",
+      "lat": 39.8324,
+      "lon": -107.9602,
+      "county_fips": "08045",
+      "county_name": "Garfield"
+    },
+    {
+      "geoid": "08045000200",
+      "lat": 39.5761,
+      "lon": -107.9094,
+      "county_fips": "08045",
+      "county_name": "Garfield"
+    },
+    {
+      "geoid": "08045000300",
+      "lat": 39.7622,
+      "lon": -107.9457,
+      "county_fips": "08045",
+      "county_name": "Garfield"
+    },
+    {
+      "geoid": "08045000400",
+      "lat": 39.7255,
+      "lon": -107.8864,
+      "county_fips": "08045",
+      "county_name": "Garfield"
+    },
+    {
+      "geoid": "08037000100",
+      "lat": 39.6257,
+      "lon": -106.8133,
+      "county_fips": "08037",
+      "county_name": "Eagle"
+    },
+    {
+      "geoid": "08037000200",
+      "lat": 39.5944,
+      "lon": -106.7816,
+      "county_fips": "08037",
+      "county_name": "Eagle"
+    },
+    {
+      "geoid": "08037000300",
+      "lat": 39.5337,
+      "lon": -106.7296,
+      "county_fips": "08037",
+      "county_name": "Eagle"
+    },
+    {
+      "geoid": "08037000400",
+      "lat": 39.6625,
+      "lon": -106.779,
+      "county_fips": "08037",
+      "county_name": "Eagle"
+    },
+    {
+      "geoid": "08117000100",
+      "lat": 39.5888,
+      "lon": -106.0212,
+      "county_fips": "08117",
+      "county_name": "Summit"
+    },
+    {
+      "geoid": "08117000200",
+      "lat": 39.5284,
+      "lon": -106.1173,
+      "county_fips": "08117",
+      "county_name": "Summit"
+    },
+    {
+      "geoid": "08117000300",
+      "lat": 39.5764,
+      "lon": -106.0757,
+      "county_fips": "08117",
+      "county_name": "Summit"
+    },
+    {
+      "geoid": "08097000100",
+      "lat": 39.1613,
+      "lon": -106.776,
+      "county_fips": "08097",
+      "county_name": "Pitkin"
+    },
+    {
+      "geoid": "08097000200",
+      "lat": 39.2263,
+      "lon": -106.8636,
+      "county_fips": "08097",
+      "county_name": "Pitkin"
+    },
+    {
+      "geoid": "08097000300",
+      "lat": 39.1606,
+      "lon": -106.8464,
+      "county_fips": "08097",
+      "county_name": "Pitkin"
+    },
+    {
+      "geoid": "08107000100",
+      "lat": 40.4652,
+      "lon": -106.8723,
+      "county_fips": "08107",
+      "county_name": "Routt"
+    },
+    {
+      "geoid": "08107000200",
+      "lat": 40.4102,
+      "lon": -106.8473,
+      "county_fips": "08107",
+      "county_name": "Routt"
+    },
+    {
+      "geoid": "08107000300",
+      "lat": 40.5728,
+      "lon": -106.7959,
+      "county_fips": "08107",
+      "county_name": "Routt"
+    },
+    {
       "geoid": "08067000100",
-      "lat": 37.2753,
-      "lon": -107.8801,
+      "lat": 37.4249,
+      "lon": -107.774,
       "county_fips": "08067",
       "county_name": "La Plata"
+    },
+    {
+      "geoid": "08067000200",
+      "lat": 37.2804,
+      "lon": -107.7902,
+      "county_fips": "08067",
+      "county_name": "La Plata"
+    },
+    {
+      "geoid": "08067000300",
+      "lat": 37.2083,
+      "lon": -107.8528,
+      "county_fips": "08067",
+      "county_name": "La Plata"
+    },
+    {
+      "geoid": "08067000400",
+      "lat": 37.3114,
+      "lon": -107.7825,
+      "county_fips": "08067",
+      "county_name": "La Plata"
+    },
+    {
+      "geoid": "08085000100",
+      "lat": 38.4431,
+      "lon": -107.8949,
+      "county_fips": "08085",
+      "county_name": "Montrose"
+    },
+    {
+      "geoid": "08085000200",
+      "lat": 38.4006,
+      "lon": -107.9452,
+      "county_fips": "08085",
+      "county_name": "Montrose"
+    },
+    {
+      "geoid": "08085000300",
+      "lat": 38.4068,
+      "lon": -107.8077,
+      "county_fips": "08085",
+      "county_name": "Montrose"
+    },
+    {
+      "geoid": "08043000100",
+      "lat": 38.4527,
+      "lon": -105.5774,
+      "county_fips": "08043",
+      "county_name": "Fremont"
+    },
+    {
+      "geoid": "08043000200",
+      "lat": 38.3105,
+      "lon": -105.5082,
+      "county_fips": "08043",
+      "county_name": "Fremont"
+    },
+    {
+      "geoid": "08043000300",
+      "lat": 38.4201,
+      "lon": -105.5443,
+      "county_fips": "08043",
+      "county_name": "Fremont"
     }
   ]
 }
