@@ -495,10 +495,17 @@
           localStorage.removeItem(TIGERWEB_CACHE_KEY);
           return null;
         }
+        // Evict cache entries that don't have exactly 64 county features
+        if (!Array.isArray(entry.data.features) || entry.data.features.length !== EXPECTED_FEATURES) {
+          localStorage.removeItem(TIGERWEB_CACHE_KEY);
+          return null;
+        }
         return entry.data;
       } catch(e) { return null; }
     }
     function tWebCacheSet(gj) {
+      // Only cache responses that contain exactly 64 Colorado county features
+      if (!gj || !Array.isArray(gj.features) || gj.features.length !== EXPECTED_FEATURES) return;
       try {
         localStorage.setItem(TIGERWEB_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: gj }));
       } catch(e) { /* quota exceeded — ignore */ }
@@ -532,10 +539,12 @@
           // Filter to Colorado counties only
           var coFeatures = (gj && gj.features ? gj.features : []).filter(function(f) {
             var p = f.properties || {};
+            // code_hasc for US admin-2 features follows 'US.CO.XX' (not 'US.CO')
+            // fips may be stored as a 4-digit integer (e.g. 8001) — pad before slicing
             return p.iso_3166_2 === 'US-CO' ||
-                   p.code_hasc === 'US.CO' ||
-                   String(p.fips).slice(0,2) === '08' ||
-                   String(p.STATEFP || p.statefp || '').slice(0,2) === '08';
+                   String(p.code_hasc || '').slice(0, 5) === 'US.CO' ||
+                   String(p.fips || '').padStart(5, '0').slice(0, 2) === '08' ||
+                   String(p.STATEFP || p.statefp || '').padStart(2, '0') === '08';
           });
           return { type: 'FeatureCollection', features: coFeatures };
         });
@@ -679,13 +688,17 @@
       ? window.resolveAssetUrl('data/chfa-lihtc.json')
       : 'data/chfa-lihtc.json';
 
-    // Primary ArcGIS LIHTC FeatureServer — all layers, Colorado only (STATEFP='08').
+    // Primary ArcGIS LIHTC FeatureServer — all layers, Colorado only.
     // The /layers endpoint is used first to discover every available layer so that
     // no data layer is inadvertently skipped.
     var LIHTC_BASE   = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer';
     var LIHTC_LAYERS = LIHTC_BASE + '/layers?f=json';
-    // Fallback: secondary HUD properties service (also Colorado-only via STATEFP='08').
+    // Fallback: secondary HUD properties service (also Colorado-only via Proj_St='CO').
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
+    // Shared WHERE clause: matches Colorado records regardless of how the state is stored
+    // (abbreviation 'CO', FIPS '08', or full name 'Colorado').  Kept in sync with
+    // scripts/lihtc-co-query.json which uses the same filter for the CI data fetch.
+    var LIHTC_WHERE = 'where=Proj_St%3D%27CO%27%20OR%20Proj_St%3D%2708%27%20OR%20Proj_St%3D%27Colorado%27';
 
     updateStatus('Loading LIHTC data…');
 
@@ -725,7 +738,7 @@
 
     function useHUD() {
       updateStatus('Trying HUD ArcGIS…');
-      return fetchAllPages(HUD_URL, 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326', 15000)
+      return fetchAllPages(HUD_URL, LIHTC_WHERE + '&outFields=*&f=geojson&outSR=4326', 15000)
         .then(function (hudData) {
           if (validateData(hudData)) {
             var n = hudData.features.length;
@@ -745,7 +758,7 @@
     /**
      * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
      * First discovers available layers via the /layers endpoint, then queries
-     * each layer with STATEFP='08' (Colorado FIPS) to filter to Colorado only.
+     * each layer using the shared LIHTC_WHERE clause to filter to Colorado only.
      */
     function useCHFA() {
       updateStatus('Fetching LIHTC layers…');
@@ -770,7 +783,7 @@
           // Fetch all layers in parallel, Colorado-only
           var promises = layerIds.map(function (id) {
             var url = LIHTC_BASE + '/' + id + '/query';
-            return fetchAllPages(url, 'where=STATEFP%3D%2708%27&outFields=*&f=geojson&outSR=4326', 15000)
+            return fetchAllPages(url, LIHTC_WHERE + '&outFields=*&f=geojson&outSR=4326', 15000)
               .catch(function (err) {
                 console.warn('[co-lihtc-map] Layer ' + id + ' fetch failed:', err.message);
                 return { type: 'FeatureCollection', features: [] };
