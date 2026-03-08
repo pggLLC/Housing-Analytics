@@ -2380,19 +2380,22 @@
       // Load saved state; auto-check items supported by data
       const savedState = window.ComplianceChecklist.initComplianceChecklist(geoType, geoid);
 
+      // Helper: returns true if the item has already been checked in saved state
+      const isItemChecked = (id) => !!(savedState.items[id] && savedState.items[id].checked);
+
       // Auto-check data-driven items only if not already checked in saved state
-      if (hasBaseline && !(savedState.items.baseline && savedState.items.baseline.checked)) {
+      if (hasBaseline && !isItemChecked('baseline')) {
         window.ComplianceChecklist.updateChecklistItem('baseline', true, {
           value: baselineData.baseline60Ami,
           date:  new Date().toISOString(),
         });
       }
-      if (hasGrowth && !(savedState.items.growth && savedState.items.growth.checked)) {
+      if (hasGrowth && !isItemChecked('growth')) {
         window.ComplianceChecklist.updateChecklistItem('growth', true, {
           date: new Date().toISOString(),
         });
       }
-      if (hasFastTrack && !(savedState.items.fasttrack && savedState.items.fasttrack.checked)) {
+      if (hasFastTrack && !isItemChecked('fasttrack')) {
         window.ComplianceChecklist.updateChecklistItem('fasttrack', true, {
           date: new Date().toISOString(),
         });

@@ -125,8 +125,9 @@
     var d    = now || new Date();
     var year = d.getFullYear();
     var dl   = new Date(year, DOLA_DEADLINE_MONTH, DOLA_DEADLINE_DAY);
-    // If we've passed this year's deadline, roll to next year
-    if (d > dl) {
+    // Compare dates only (ignore time-of-day) to avoid rolling over on Jan 31 itself
+    var todayMidnight = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    if (todayMidnight > dl) {
       dl = new Date(year + 1, DOLA_DEADLINE_MONTH, DOLA_DEADLINE_DAY);
     }
     return dl;
@@ -222,9 +223,18 @@
 
     var state = lsRead(key) || createDefaultState(geoType, geoid);
 
+    var resolvedDate;
+    if (meta && meta.date) {
+      resolvedDate = meta.date;
+    } else if (checked) {
+      resolvedDate = new Date().toISOString();
+    } else {
+      resolvedDate = null;
+    }
+
     state.items[itemId] = {
       checked:  checked,
-      date:     (meta && meta.date) ? meta.date : (checked ? new Date().toISOString() : null),
+      date:     resolvedDate,
       metadata: meta || null,
     };
     state.updatedAt = new Date().toISOString();
