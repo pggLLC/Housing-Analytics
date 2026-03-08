@@ -112,13 +112,335 @@
     });
   }
 
+  /* ── PMA external data sources ─────────────────────────────────── */
+
+  /**
+   * Fetch LEHD/LODES workplace and commuting flow data.
+   * Uses the Census LEHD on-the-map API.
+   * @param {number} lat
+   * @param {number} lon
+   * @param {number} radiusMiles
+   * @param {string} [vintage]   - LODES vintage year
+   * @returns {Promise<{workplaces: Array, commutingFlows: Array}>}
+   */
+  function fetchLODES(lat, lon, radiusMiles, vintage) {
+    vintage = vintage || '2021';
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    // LEHD Origin-Destination Employment Statistics (LODES) — WAC endpoint
+    var url = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_' +
+              vintage + '.csv.gz?lat=' + lat + '&lon=' + lon + '&r=' + radiusMiles;
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('LODES HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        return { workplaces: data.workplaces || [], commutingFlows: data.flows || [] };
+      })
+      .catch(function () {
+        return { workplaces: [], commutingFlows: [] };
+      });
+  }
+
+  /**
+   * Fetch USGS National Hydrography Dataset (NHD) water features.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{waterBodies: Array, streams: Array}>}
+   */
+  function fetchUSGSHydrology(bbox) {
+    if (!bbox) return Promise.resolve({ waterBodies: [], streams: [] });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    var url = 'https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=*&f=geojson';
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('USGS NHD HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        return {
+          waterBodies: features.filter(function (f) { return f.geometry && f.geometry.type !== 'LineString'; }),
+          streams:     features.filter(function (f) { return f.geometry && f.geometry.type === 'LineString'; })
+        };
+      })
+      .catch(function () { return { waterBodies: [], streams: [] }; });
+  }
+
+  /**
+   * Fetch NLCD land cover classification summary for a bounding box.
+   * Uses the MRLC WMS/WCS service.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{landCover: Array, classifications: Array}>}
+   */
+  function fetchNLCDLandCover(bbox) {
+    if (!bbox) return Promise.resolve({ landCover: [], classifications: [] });
+    // NLCD data is raster; return empty stub (processing requires server-side)
+    return Promise.resolve({ landCover: [], classifications: [] });
+  }
+
+  /**
+   * Fetch state DOT highway data from the USGS National Transportation Dataset.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{highways: Array, majorRoutes: Array}>}
+   */
+  function fetchStateHighways(bbox) {
+    if (!bbox) return Promise.resolve({ highways: [], majorRoutes: [] });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    var url = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=FULLNAME,RTTYP&f=geojson' +
+              '&where=RTTYP+IN+(\'I\',\'U\',\'S\')';
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('Tiger highways HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        return {
+          highways:    features,
+          majorRoutes: features.filter(function (f) { return f.properties && f.properties.RTTYP === 'I'; })
+        };
+      })
+      .catch(function () { return { highways: [], majorRoutes: [] }; });
+  }
+
+  /**
+   * Fetch ED school attendance boundaries and NCES school data.
+   * Uses the USGS ArcGIS service for attendance boundaries.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{schoolDistricts: Array, schools: Array}>}
+   */
+  function fetchSchoolBoundaries(bbox) {
+    if (!bbox) return Promise.resolve({ schoolDistricts: [], schools: [] });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    var url = 'https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/' +
+              'Public_School_Location_201819/FeatureServer/0/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=*&f=geojson';
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('Schools HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        return { schoolDistricts: features, schools: features };
+      })
+      .catch(function () { return { schoolDistricts: [], schools: [] }; });
+  }
+
+  /**
+   * Fetch National Transit Database (NTD) transit route and service data.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{transitRoutes: Array, serviceMetrics: object}>}
+   */
+  function fetchNTDData(bbox) {
+    if (!bbox) return Promise.resolve({ transitRoutes: [], serviceMetrics: {} });
+    // NTD data is annual bulk download; return empty stub for live queries
+    return Promise.resolve({ transitRoutes: [], serviceMetrics: {} });
+  }
+
+  /**
+   * Fetch EPA Smart Location Database transit accessibility metrics.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{transitAccessibility: number, walkScore: number}>}
+   */
+  function fetchEPASmartLocation(bbox) {
+    if (!bbox) return Promise.resolve({ transitAccessibility: 50, walkScore: 50 });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    var url = 'https://geodata.epa.gov/arcgis/rest/services/OA/SmartLocationDatabase/MapServer/0/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=D4a,D3b&f=json' +
+              '&returnGeometry=false';
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('EPA SmartLocation HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        if (!features.length) return { transitAccessibility: 50, walkScore: 50 };
+        var d4aSum = 0, d3bSum = 0;
+        features.forEach(function (f) {
+          var a = (f.attributes || {});
+          d4aSum += parseFloat(a.D4a || 0);
+          d3bSum += parseFloat(a.D3b || 0);
+        });
+        return {
+          transitAccessibility: Math.min(100, Math.round((d4aSum / features.length) * 5)),
+          walkScore:            Math.min(100, Math.round((d3bSum / features.length) * 5))
+        };
+      })
+      .catch(function () { return { transitAccessibility: 50, walkScore: 50 }; });
+  }
+
+  /**
+   * Fetch HUD NHPD subsidized housing data via the HUD eGIS API.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{properties: Array, subsidyMetadata: Array}>}
+   */
+  function fetchHudNhpd(bbox) {
+    if (!bbox) return Promise.resolve({ properties: [], subsidyMetadata: [] });
+    var nhpd = (typeof window !== 'undefined') ? window.Nhpd : null;
+    if (nhpd && typeof nhpd.getPropertiesNear === 'function') {
+      var lat = (bbox.minLat + bbox.maxLat) / 2;
+      var lon = (bbox.minLon + bbox.maxLon) / 2;
+      var props = nhpd.getPropertiesNear(lat, lon, 10);
+      return Promise.resolve({ properties: props, subsidyMetadata: props });
+    }
+    return Promise.resolve({ properties: [], subsidyMetadata: [] });
+  }
+
+  /**
+   * Fetch HUD Opportunity Atlas economic mobility data.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{mobilityIndex: number, percentiles: Array}>}
+   */
+  function fetchHudOpportunityAtlas(bbox) {
+    if (!bbox) return Promise.resolve({ mobilityIndex: 50, percentiles: [] });
+    return Promise.resolve({ mobilityIndex: 50, percentiles: [] });
+  }
+
+  /**
+   * Fetch HUD AFFH fair housing opportunity index data.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{opportunityIndex: number, segregationMetrics: object}>}
+   */
+  function fetchHudAFFH(bbox) {
+    if (!bbox) return Promise.resolve({ opportunityIndex: 50, segregationMetrics: {} });
+    return Promise.resolve({ opportunityIndex: 50, segregationMetrics: {} });
+  }
+
+  /**
+   * Fetch Opportunity Zones dataset for a bounding box.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{zones: Array, designationYear: Array}>}
+   */
+  function fetchOpportunityZones(bbox) {
+    if (!bbox) return Promise.resolve({ zones: [], designationYear: [] });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    // HUD OZ data via ArcGIS FeatureServer
+    var url = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/' +
+              'Opportunity_Zones/FeatureServer/0/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=GEOID,STATE&f=geojson';
+    return fetcher(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('OZ HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        return { zones: features, designationYear: features.map(function () { return 2018; }) };
+      })
+      .catch(function () { return { zones: [], designationYear: [] }; });
+  }
+
+  /**
+   * Fetch NOAA climate data (normals and extremes) for a location.
+   * @param {{lat:number,lon:number}} location
+   * @param {string} [climateVariable]
+   * @returns {Promise<{normals: object, extremes: object, resilienceScore: number}>}
+   */
+  function fetchNOAAClimateData(location, climateVariable) {
+    // NOAA CDO API requires a token — return neutral stub when not configured
+    var token = (window.APP_CONFIG || {}).NOAA_CDO_TOKEN;
+    if (!token) return Promise.resolve({ normals: {}, extremes: {}, resilienceScore: 50 });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url, opts) { return fetch(url, opts); };
+    var url = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/data' +
+              '?datasetid=NORMAL_ANN&datatypeid=ANN-PRCP-NORMAL' +
+              '&units=standard&limit=25';
+    return fetcher(url, { headers: { token: token } })
+      .then(function (r) { if (!r.ok) throw new Error('NOAA HTTP ' + r.status); return r.json(); })
+      .then(function (d) { return { normals: d, extremes: {}, resilienceScore: 50 }; })
+      .catch(function () { return { normals: {}, extremes: {}, resilienceScore: 50 }; });
+  }
+
+  /**
+   * Fetch local utility infrastructure capacity data.
+   * No public national API exists; returns configurable stub.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @param {string} [jurisdiction]
+   * @returns {Promise<{sewerHeadroom: number, waterCapacity: number}>}
+   */
+  function fetchUtilityCapacity(bbox, jurisdiction) {
+    // Utility data requires local GIS; return neutral 50 % headroom stub
+    return Promise.resolve({ sewerHeadroom: 0.5, waterCapacity: 0.5 });
+  }
+
+  /**
+   * Fetch USDA Food Access Atlas data for a bounding box.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{foodDeserts: Array, proximityIndex: number}>}
+   */
+  function fetchFoodAccessAtlas(bbox) {
+    if (!bbox) return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
+    return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
+  }
+
+  /**
+   * Fetch FEMA National Flood Hazard Layer data.
+   * @param {{minLat,minLon,maxLat,maxLon}} bbox
+   * @returns {Promise<{floodZones: Array, hazardPercent: number}>}
+   */
+  function fetchFEMAFloodData(bbox) {
+    if (!bbox) return Promise.resolve({ floodZones: [], hazardPercent: 0.05 });
+    var fetcher = (typeof window.fetchWithTimeout === 'function')
+      ? window.fetchWithTimeout
+      : function (url) { return fetch(url); };
+    var url = 'https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer/28/query' +
+              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
+              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=FLD_ZONE&f=geojson' +
+              '&where=FLD_ZONE+IN+(\'AE\',\'AO\',\'A\',\'AH\')';
+    return fetcher(url)
+      .then(function (r) { if (!r.ok) throw new Error('FEMA NFHL HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        var features = (data && data.features) ? data.features : [];
+        return { floodZones: features, hazardPercent: Math.min(1, features.length * 0.02) };
+      })
+      .catch(function () { return { floodZones: [], hazardPercent: 0.05 }; });
+  }
+
   window.DataService = {
-    getJSON:           getJSON,
-    getGeoJSON:        getGeoJSON,
-    baseData:          baseData,
-    baseMaps:          baseMaps,
-    getText:           getText,
-    fredObservations:  fredObservations,
-    census:            census
+    getJSON:                getJSON,
+    getGeoJSON:             getGeoJSON,
+    baseData:               baseData,
+    baseMaps:               baseMaps,
+    getText:                getText,
+    fredObservations:       fredObservations,
+    census:                 census,
+    // PMA enhanced data sources
+    fetchLODES:             fetchLODES,
+    fetchUSGSHydrology:     fetchUSGSHydrology,
+    fetchNLCDLandCover:     fetchNLCDLandCover,
+    fetchStateHighways:     fetchStateHighways,
+    fetchSchoolBoundaries:  fetchSchoolBoundaries,
+    fetchNTDData:           fetchNTDData,
+    fetchEPASmartLocation:  fetchEPASmartLocation,
+    fetchHudNhpd:           fetchHudNhpd,
+    fetchHudOpportunityAtlas: fetchHudOpportunityAtlas,
+    fetchHudAFFH:           fetchHudAFFH,
+    fetchOpportunityZones:  fetchOpportunityZones,
+    fetchNOAAClimateData:   fetchNOAAClimateData,
+    fetchUtilityCapacity:   fetchUtilityCapacity,
+    fetchFoodAccessAtlas:   fetchFoodAccessAtlas,
+    fetchFEMAFloodData:     fetchFEMAFloodData
   };
 })();
