@@ -313,7 +313,7 @@
   /* ── Narrative builder ──────────────────────────────────────────── */
 
   /**
-   * Build a plain-English narrative summarising the scoring result.
+   * Build a plain-English narrative summarizing the scoring result.
    * @private
    */
   function _buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market) {

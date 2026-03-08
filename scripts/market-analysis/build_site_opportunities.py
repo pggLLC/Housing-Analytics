@@ -46,7 +46,7 @@ def _score_tract(cb: float, rs: float) -> dict:
     Simplified demand score (0-100):
       - Cost burden weight: 60 % (higher burden → more affordable-housing need)
       - Renter share weight: 40 % (higher renter share → broader eligible pool)
-    Both inputs normalised to [0, 1] using expected ranges:
+    Both inputs normalized to [0, 1] using expected ranges:
       cost_burden_rate: 0.0 – 0.6
       renter_share:     0.0 – 1.0
     """
@@ -86,7 +86,10 @@ def build(acs_path: Path, centroids_path: Path, output_path: Path) -> None:
         lat = _safe_float((centroid or {}).get("lat"))
         lon = _safe_float((centroid or {}).get("lon"))
         cb = _safe_float(acs.get("cost_burden_rate"))
-        rs = _safe_float(acs.get("renter_share"))
+        # Compute renter share from raw household counts (field is "pop"/"renter_hh")
+        total_hh = _safe_float(acs.get("total_hh"))
+        renter_hh = _safe_float(acs.get("renter_hh"))
+        rs = round(renter_hh / total_hh, 4) if total_hh > 0 else 0.0
         scores = _score_tract(cb, rs)
         opportunities.append({
             "geoid": geoid,

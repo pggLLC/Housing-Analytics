@@ -1,412 +1,412 @@
 {
   "meta": {
-    "generated": "2026-03-08T08:40:57.320786+00:00"
+    "generated": "2026-03-08T08:47:55.469481+00:00"
   },
   "opportunities": [
-    {
-      "geoid": "08041000700",
-      "lat": 38.9711,
-      "lon": -104.6728,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.633,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041001000",
-      "lat": 38.9745,
-      "lon": -104.7976,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6274,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041001400",
-      "lat": 38.7311,
-      "lon": -104.6832,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6003,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041001600",
-      "lat": 38.8624,
-      "lon": -104.7688,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6497,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041002000",
-      "lat": 38.8097,
-      "lon": -104.7963,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6061,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08069000100",
-      "lat": 40.5908,
-      "lon": -104.9801,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6163,
-      "renter_share": 0.0
-    },
     {
       "geoid": "08069000600",
       "lat": 40.4827,
       "lon": -105.0944,
-      "score": 60.0,
-      "demand_score": 60.0,
+      "score": 98.7,
+      "demand_score": 98.7,
       "cost_burden_rate": 0.6663,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08101000100",
-      "lat": 38.3148,
-      "lon": -104.5363,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6243,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08101000500",
-      "lat": 38.1989,
-      "lon": -104.5458,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.7373,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08101000800",
-      "lat": 38.1591,
-      "lon": -104.6705,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6939,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08107000100",
-      "lat": 40.4652,
-      "lon": -106.8723,
-      "score": 60.0,
-      "demand_score": 60.0,
-      "cost_burden_rate": 0.6207,
-      "renter_share": 0.0
+      "renter_share": 0.9663
     },
     {
       "geoid": "08123000100",
       "lat": 40.6776,
       "lon": -104.4746,
-      "score": 60.0,
-      "demand_score": 60.0,
+      "score": 95.5,
+      "demand_score": 95.5,
       "cost_burden_rate": 0.6563,
-      "renter_share": 0.0
+      "renter_share": 0.8875
+    },
+    {
+      "geoid": "08041001600",
+      "lat": 38.8624,
+      "lon": -104.7688,
+      "score": 92.8,
+      "demand_score": 92.8,
+      "cost_burden_rate": 0.6497,
+      "renter_share": 0.8201
     },
     {
       "geoid": "08123000800",
       "lat": 40.5462,
       "lon": -104.2323,
-      "score": 60.0,
-      "demand_score": 60.0,
+      "score": 91.4,
+      "demand_score": 91.4,
       "cost_burden_rate": 0.637,
-      "renter_share": 0.0
+      "renter_share": 0.7849
     },
     {
-      "geoid": "08041001700",
-      "lat": 38.7545,
-      "lon": -104.9354,
-      "score": 58.5,
-      "demand_score": 58.5,
-      "cost_burden_rate": 0.5853,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08107000200",
-      "lat": 40.4102,
-      "lon": -106.8473,
-      "score": 57.7,
-      "demand_score": 57.7,
-      "cost_burden_rate": 0.5773,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08031001500",
-      "lat": 39.7948,
-      "lon": -104.9737,
-      "score": 57.2,
-      "demand_score": 57.2,
-      "cost_burden_rate": 0.5723,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08031001000",
-      "lat": 39.7887,
-      "lon": -105.0693,
-      "score": 56.3,
-      "demand_score": 56.3,
-      "cost_burden_rate": 0.5631,
-      "renter_share": 0.0
+      "geoid": "08069000100",
+      "lat": 40.5908,
+      "lon": -104.9801,
+      "score": 90.3,
+      "demand_score": 90.3,
+      "cost_burden_rate": 0.6163,
+      "renter_share": 0.7566
     },
     {
       "geoid": "08123000200",
       "lat": 40.6162,
       "lon": -104.2188,
-      "score": 54.1,
-      "demand_score": 54.1,
+      "score": 89.9,
+      "demand_score": 89.9,
       "cost_burden_rate": 0.5408,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041000600",
-      "lat": 38.8204,
-      "lon": -104.8445,
-      "score": 53.5,
-      "demand_score": 53.5,
-      "cost_burden_rate": 0.5354,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041000400",
-      "lat": 38.7976,
-      "lon": -104.6758,
-      "score": 52.3,
-      "demand_score": 52.3,
-      "cost_burden_rate": 0.523,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08077000200",
-      "lat": 39.176,
-      "lon": -108.6037,
-      "score": 51.1,
-      "demand_score": 51.1,
-      "cost_burden_rate": 0.5114,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041000800",
-      "lat": 38.8506,
-      "lon": -104.7559,
-      "score": 50.1,
-      "demand_score": 50.1,
-      "cost_burden_rate": 0.5006,
-      "renter_share": 0.0
+      "renter_share": 0.8966
     },
     {
       "geoid": "08077000500",
       "lat": 39.1693,
       "lon": -108.643,
-      "score": 50.1,
-      "demand_score": 50.1,
+      "score": 85.0,
+      "demand_score": 85.0,
       "cost_burden_rate": 0.5015,
-      "renter_share": 0.0
+      "renter_share": 0.8725
     },
     {
-      "geoid": "08041001500",
-      "lat": 38.7079,
-      "lon": -104.9157,
-      "score": 48.6,
-      "demand_score": 48.6,
-      "cost_burden_rate": 0.4856,
-      "renter_share": 0.0
+      "geoid": "08041001700",
+      "lat": 38.7545,
+      "lon": -104.9354,
+      "score": 81.7,
+      "demand_score": 81.7,
+      "cost_burden_rate": 0.5853,
+      "renter_share": 0.5785
     },
     {
-      "geoid": "08123000900",
-      "lat": 40.6892,
-      "lon": -104.5575,
-      "score": 47.6,
-      "demand_score": 47.6,
-      "cost_burden_rate": 0.4762,
-      "renter_share": 0.0
+      "geoid": "08101000800",
+      "lat": 38.1591,
+      "lon": -104.6705,
+      "score": 80.8,
+      "demand_score": 80.8,
+      "cost_burden_rate": 0.6939,
+      "renter_share": 0.52
     },
     {
-      "geoid": "08031001800",
-      "lat": 39.7198,
-      "lon": -104.982,
-      "score": 47.1,
-      "demand_score": 47.1,
-      "cost_burden_rate": 0.4711,
-      "renter_share": 0.0
+      "geoid": "08031001000",
+      "lat": 39.7887,
+      "lon": -105.0693,
+      "score": 79.3,
+      "demand_score": 79.3,
+      "cost_burden_rate": 0.5631,
+      "renter_share": 0.5755
     },
     {
-      "geoid": "08123001100",
-      "lat": 40.3522,
-      "lon": -104.286,
-      "score": 46.8,
-      "demand_score": 46.8,
-      "cost_burden_rate": 0.4684,
-      "renter_share": 0.0
+      "geoid": "08101000500",
+      "lat": 38.1989,
+      "lon": -104.5458,
+      "score": 79.3,
+      "demand_score": 79.3,
+      "cost_burden_rate": 0.7373,
+      "renter_share": 0.4826
+    },
+    {
+      "geoid": "08041002000",
+      "lat": 38.8097,
+      "lon": -104.7963,
+      "score": 78.9,
+      "demand_score": 78.9,
+      "cost_burden_rate": 0.6061,
+      "renter_share": 0.4713
+    },
+    {
+      "geoid": "08031001500",
+      "lat": 39.7948,
+      "lon": -104.9737,
+      "score": 78.4,
+      "demand_score": 78.4,
+      "cost_burden_rate": 0.5723,
+      "renter_share": 0.5284
     },
     {
       "geoid": "08031002000",
       "lat": 39.7971,
       "lon": -104.9779,
-      "score": 46.2,
-      "demand_score": 46.2,
+      "score": 77.9,
+      "demand_score": 77.9,
       "cost_burden_rate": 0.4625,
-      "renter_share": 0.0
+      "renter_share": 0.7913
     },
     {
-      "geoid": "08037000200",
-      "lat": 39.5944,
-      "lon": -106.7816,
-      "score": 46.0,
-      "demand_score": 46.0,
-      "cost_burden_rate": 0.4599,
-      "renter_share": 0.0
+      "geoid": "08041001400",
+      "lat": 38.7311,
+      "lon": -104.6832,
+      "score": 77.3,
+      "demand_score": 77.3,
+      "cost_burden_rate": 0.6003,
+      "renter_share": 0.4322
     },
     {
-      "geoid": "08101000200",
-      "lat": 38.3165,
-      "lon": -104.6557,
-      "score": 45.0,
-      "demand_score": 45.0,
-      "cost_burden_rate": 0.4503,
-      "renter_share": 0.0
+      "geoid": "08041000700",
+      "lat": 38.9711,
+      "lon": -104.6728,
+      "score": 75.7,
+      "demand_score": 75.7,
+      "cost_burden_rate": 0.633,
+      "renter_share": 0.393
     },
     {
-      "geoid": "08069000700",
-      "lat": 40.7049,
-      "lon": -104.9653,
-      "score": 40.6,
-      "demand_score": 40.6,
-      "cost_burden_rate": 0.4058,
-      "renter_share": 0.0
+      "geoid": "08077000200",
+      "lat": 39.176,
+      "lon": -108.6037,
+      "score": 74.5,
+      "demand_score": 74.5,
+      "cost_burden_rate": 0.5114,
+      "renter_share": 0.5845
     },
     {
-      "geoid": "08041000900",
-      "lat": 38.7303,
-      "lon": -104.8824,
-      "score": 40.4,
-      "demand_score": 40.4,
-      "cost_burden_rate": 0.4041,
-      "renter_share": 0.0
+      "geoid": "08031001800",
+      "lat": 39.7198,
+      "lon": -104.982,
+      "score": 73.5,
+      "demand_score": 73.5,
+      "cost_burden_rate": 0.4711,
+      "renter_share": 0.6609
     },
     {
-      "geoid": "08077000400",
-      "lat": 39.1794,
-      "lon": -108.542,
-      "score": 39.9,
-      "demand_score": 39.9,
-      "cost_burden_rate": 0.3988,
-      "renter_share": 0.0
+      "geoid": "08041000800",
+      "lat": 38.8506,
+      "lon": -104.7559,
+      "score": 72.3,
+      "demand_score": 72.3,
+      "cost_burden_rate": 0.5006,
+      "renter_share": 0.556
     },
     {
-      "geoid": "08069000300",
-      "lat": 40.5226,
-      "lon": -105.1094,
-      "score": 39.5,
-      "demand_score": 39.5,
-      "cost_burden_rate": 0.3945,
-      "renter_share": 0.0
+      "geoid": "08101000100",
+      "lat": 38.3148,
+      "lon": -104.5363,
+      "score": 71.8,
+      "demand_score": 71.8,
+      "cost_burden_rate": 0.6243,
+      "renter_share": 0.2944
     },
     {
-      "geoid": "08077000300",
-      "lat": 39.0979,
-      "lon": -108.5748,
-      "score": 36.2,
-      "demand_score": 36.2,
-      "cost_burden_rate": 0.3623,
-      "renter_share": 0.0
+      "geoid": "08041001000",
+      "lat": 38.9745,
+      "lon": -104.7976,
+      "score": 70.0,
+      "demand_score": 70.0,
+      "cost_burden_rate": 0.6274,
+      "renter_share": 0.251
     },
     {
-      "geoid": "08101000600",
-      "lat": 38.2465,
-      "lon": -104.6481,
-      "score": 34.9,
-      "demand_score": 34.9,
-      "cost_burden_rate": 0.3494,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041001800",
-      "lat": 38.951,
-      "lon": -104.8975,
-      "score": 34.6,
-      "demand_score": 34.6,
-      "cost_burden_rate": 0.3463,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08031000600",
-      "lat": 39.6942,
-      "lon": -104.9894,
-      "score": 34.1,
-      "demand_score": 34.1,
-      "cost_burden_rate": 0.3411,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08101000400",
-      "lat": 38.3288,
-      "lon": -104.5374,
-      "score": 33.9,
-      "demand_score": 33.9,
-      "cost_burden_rate": 0.3386,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08041000500",
-      "lat": 38.7635,
-      "lon": -104.7362,
-      "score": 32.8,
-      "demand_score": 32.8,
-      "cost_burden_rate": 0.3276,
-      "renter_share": 0.0
-    },
-    {
-      "geoid": "08107000300",
-      "lat": 40.5728,
-      "lon": -106.7959,
-      "score": 32.7,
-      "demand_score": 32.7,
-      "cost_burden_rate": 0.3266,
-      "renter_share": 0.0
+      "geoid": "08107000200",
+      "lat": 40.4102,
+      "lon": -106.8473,
+      "score": 67.0,
+      "demand_score": 67.0,
+      "cost_burden_rate": 0.5773,
+      "renter_share": 0.2312
     },
     {
       "geoid": "08031000800",
       "lat": 39.7632,
       "lon": -104.9831,
-      "score": 29.5,
-      "demand_score": 29.5,
+      "score": 66.4,
+      "demand_score": 66.4,
       "cost_burden_rate": 0.2955,
-      "renter_share": 0.0
+      "renter_share": 0.9215
+    },
+    {
+      "geoid": "08041000400",
+      "lat": 38.7976,
+      "lon": -104.6758,
+      "score": 65.0,
+      "demand_score": 65.0,
+      "cost_burden_rate": 0.523,
+      "renter_share": 0.3178
+    },
+    {
+      "geoid": "08069000700",
+      "lat": 40.7049,
+      "lon": -104.9653,
+      "score": 64.4,
+      "demand_score": 64.4,
+      "cost_burden_rate": 0.4058,
+      "renter_share": 0.595
+    },
+    {
+      "geoid": "08107000100",
+      "lat": 40.4652,
+      "lon": -106.8723,
+      "score": 63.1,
+      "demand_score": 63.1,
+      "cost_burden_rate": 0.6207,
+      "renter_share": 0.0782
+    },
+    {
+      "geoid": "08077000300",
+      "lat": 39.0979,
+      "lon": -108.5748,
+      "score": 63.0,
+      "demand_score": 63.0,
+      "cost_burden_rate": 0.3623,
+      "renter_share": 0.6681
+    },
+    {
+      "geoid": "08123001100",
+      "lat": 40.3522,
+      "lon": -104.286,
+      "score": 62.9,
+      "demand_score": 62.9,
+      "cost_burden_rate": 0.4684,
+      "renter_share": 0.4023
+    },
+    {
+      "geoid": "08031000600",
+      "lat": 39.6942,
+      "lon": -104.9894,
+      "score": 62.5,
+      "demand_score": 62.5,
+      "cost_burden_rate": 0.3411,
+      "renter_share": 0.7094
+    },
+    {
+      "geoid": "08101000200",
+      "lat": 38.3165,
+      "lon": -104.6557,
+      "score": 61.9,
+      "demand_score": 61.9,
+      "cost_burden_rate": 0.4503,
+      "renter_share": 0.4209
+    },
+    {
+      "geoid": "08101000600",
+      "lat": 38.2465,
+      "lon": -104.6481,
+      "score": 61.9,
+      "demand_score": 61.9,
+      "cost_burden_rate": 0.3494,
+      "renter_share": 0.6735
+    },
+    {
+      "geoid": "08041001500",
+      "lat": 38.7079,
+      "lon": -104.9157,
+      "score": 61.7,
+      "demand_score": 61.7,
+      "cost_burden_rate": 0.4856,
+      "renter_share": 0.3284
+    },
+    {
+      "geoid": "08041000600",
+      "lat": 38.8204,
+      "lon": -104.8445,
+      "score": 60.8,
+      "demand_score": 60.8,
+      "cost_burden_rate": 0.5354,
+      "renter_share": 0.1817
+    },
+    {
+      "geoid": "08123000900",
+      "lat": 40.6892,
+      "lon": -104.5575,
+      "score": 59.1,
+      "demand_score": 59.1,
+      "cost_burden_rate": 0.4762,
+      "renter_share": 0.2858
+    },
+    {
+      "geoid": "08077000400",
+      "lat": 39.1794,
+      "lon": -108.542,
+      "score": 58.0,
+      "demand_score": 58.0,
+      "cost_burden_rate": 0.3988,
+      "renter_share": 0.452
+    },
+    {
+      "geoid": "08037000200",
+      "lat": 39.5944,
+      "lon": -106.7816,
+      "score": 55.9,
+      "demand_score": 55.9,
+      "cost_burden_rate": 0.4599,
+      "renter_share": 0.2465
+    },
+    {
+      "geoid": "08041000900",
+      "lat": 38.7303,
+      "lon": -104.8824,
+      "score": 53.7,
+      "demand_score": 53.7,
+      "cost_burden_rate": 0.4041,
+      "renter_share": 0.333
+    },
+    {
+      "geoid": "08069000300",
+      "lat": 40.5226,
+      "lon": -105.1094,
+      "score": 46.9,
+      "demand_score": 46.9,
+      "cost_burden_rate": 0.3945,
+      "renter_share": 0.1854
+    },
+    {
+      "geoid": "08101000400",
+      "lat": 38.3288,
+      "lon": -104.5374,
+      "score": 45.6,
+      "demand_score": 45.6,
+      "cost_burden_rate": 0.3386,
+      "renter_share": 0.293
+    },
+    {
+      "geoid": "08041001800",
+      "lat": 38.951,
+      "lon": -104.8975,
+      "score": 44.0,
+      "demand_score": 44.0,
+      "cost_burden_rate": 0.3463,
+      "renter_share": 0.2336
     },
     {
       "geoid": "08031002300",
       "lat": 39.672,
       "lon": -105.0331,
-      "score": 27.0,
-      "demand_score": 27.0,
+      "score": 43.4,
+      "demand_score": 43.4,
       "cost_burden_rate": 0.2698,
-      "renter_share": 0.0
+      "renter_share": 0.4117
     },
     {
-      "geoid": "08037000100",
-      "lat": 39.6257,
-      "lon": -106.8133,
-      "score": 9.7,
-      "demand_score": 9.7,
-      "cost_burden_rate": 0.0968,
-      "renter_share": 0.0
+      "geoid": "08041000500",
+      "lat": 38.7635,
+      "lon": -104.7362,
+      "score": 43.1,
+      "demand_score": 43.1,
+      "cost_burden_rate": 0.3276,
+      "renter_share": 0.2595
+    },
+    {
+      "geoid": "08107000300",
+      "lat": 40.5728,
+      "lon": -106.7959,
+      "score": 40.8,
+      "demand_score": 40.8,
+      "cost_burden_rate": 0.3266,
+      "renter_share": 0.2029
     },
     {
       "geoid": "08123000600",
       "lat": 40.6378,
       "lon": -104.513,
-      "score": 5.0,
-      "demand_score": 5.0,
+      "score": 25.3,
+      "demand_score": 25.3,
       "cost_burden_rate": 0.05,
-      "renter_share": 0.0
+      "renter_share": 0.5063
+    },
+    {
+      "geoid": "08037000100",
+      "lat": 39.6257,
+      "lon": -106.8133,
+      "score": 14.5,
+      "demand_score": 14.5,
+      "cost_burden_rate": 0.0968,
+      "renter_share": 0.1204
     },
     {
       "geoid": "08101000300",

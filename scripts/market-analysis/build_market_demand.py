@@ -72,15 +72,19 @@ def build(input_path: Path, output_path: Path) -> None:
     for t in tracts:
         cb = _safe_float(t.get("cost_burden_rate"))
         rent = _safe_int(t.get("median_gross_rent"))
-        rs = _safe_float(t.get("renter_share"))
-        pop = _safe_int(t.get("total_population"))
+        # ACS tract data stores raw counts; compute renter share from them
+        total_hh = _safe_int(t.get("total_hh"))
+        renter_hh = _safe_int(t.get("renter_hh"))
+        rs = round(renter_hh / total_hh, 4) if total_hh > 0 else 0.0
+        # ACS tract data uses "pop" (not "total_population")
+        total_pop = _safe_int(t.get("pop"))
 
         cost_burdens.append(cb)
         if rent > 0:
             rents.append(rent)
         renter_shares.append(rs)
-        if pop > 0:
-            populations.append(pop)
+        if total_pop > 0:
+            populations.append(total_pop)
         if cb >= 0.3:
             high_burden_count += 1
 
@@ -89,7 +93,7 @@ def build(input_path: Path, output_path: Path) -> None:
             "cost_burden_rate": cb,
             "median_gross_rent": rent,
             "renter_share": rs,
-            "total_population": pop,
+            "total_population": total_pop,
         })
 
     def _mean(lst):

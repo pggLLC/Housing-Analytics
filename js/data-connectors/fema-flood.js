@@ -112,7 +112,7 @@
     } else if (data.features && Array.isArray(data.features)) {
       floodZones = data.features;
     } else {
-      console.warn('[FemaFlood] loadFloodZones: unrecognised format');
+      console.warn('[FemaFlood] loadFloodZones: unrecognized format');
       return;
     }
 
