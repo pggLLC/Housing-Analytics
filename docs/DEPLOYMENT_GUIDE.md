@@ -188,18 +188,54 @@ always shown when live credentials or data are unavailable.
 ### Statewide market-analysis datasets
 
 The files under `data/market/` (`acs_tract_metrics_co.json`,
-`tract_centroids_co.json`, `hud_lihtc_co.geojson`) currently contain a small
-number of sample records and **must be expanded to full statewide coverage before
-enabling production scoring** (PMA site-selection, market-analysis scoring, etc.).
-Running `npm run validate:data` will log a `WARN Sparse market-analysis data`
-message for each file that is below the expected feature count.  These warnings
-do not fail the CI build during the expansion phase, but the warnings must be
-resolved — by populating the files with complete statewide data — before relying
-on scoring results in a production environment.
+`tract_centroids_co.json`, `hud_lihtc_co.geojson`) are populated by the
+**Build Market Data** workflow (`build-market-data.yml`) which runs every
+Sunday at 23:00 UTC.  A free [Census API key](https://api.census.gov/data/key_signup.html)
+must be stored as the `CENSUS_API_KEY` repository secret for the workflow to succeed.
+Running `node scripts/validate-critical-data.js` validates that the files meet
+the minimum data thresholds (100 tracts, 50 LIHTC properties) and exits with
+code 1 if the files contain placeholder data.
 
 ---
 
-## Troubleshooting
+## Troubleshooting: Market Data Not Populating
+
+If the market-analysis map shows no tracts or very few data points, the
+`data/market/` files likely contain placeholder data.
+
+**Quick diagnosis:**
+```bash
+node scripts/validate-critical-data.js
+```
+
+If this prints errors like `Placeholder/sparse market-analysis data`, the
+build workflow has not successfully populated the files.
+
+**Common causes and fixes:**
+
+| Cause | Fix |
+|-------|-----|
+| `CENSUS_API_KEY` secret missing | Add it in Settings → Secrets → Actions ([get a free key](https://api.census.gov/data/key_signup.html)) |
+| Build workflow never ran | Trigger it manually (see below) |
+| Census API returned rate-limit error | Wait ~1 hour and re-trigger |
+| Workflow ran but produced sparse output | Check the workflow logs for HTTP errors |
+
+**Manually trigger a rebuild:**
+```bash
+gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+```
+
+Or post this comment on any open issue:
+```
+@github-actions rebuild-market-data
+```
+
+For a full troubleshooting guide including Census API error codes and local
+rebuild instructions, see [`.github/WORKFLOW_TROUBLESHOOTING.md`](../.github/WORKFLOW_TROUBLESHOOTING.md).
+
+---
+
+## Troubleshooting: General Site Issues
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
