@@ -29,6 +29,9 @@
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA main script -->
   <script defer src="js/hna-export.js"></script>
+  <!-- State and municipal analysis modules (pure functions; must load before HNA main script) -->
+  <script defer src="js/state-analysis.js"></script>
+  <script defer src="js/municipal-analysis.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
@@ -43,17 +46,29 @@
           commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
         </p>
         <div id="hnaBanner" class="banner"></div>
+        <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
         <small id="hnaDataTimestamp" class="data-timestamp"></small>
         <div class="hna-controls" style="margin-top:var(--sp3);">
-          <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
-          <select id="geoType">
+          <label style="color:var(--muted);font-weight:700" for="geoScope">Geography scope</label>
+          <select id="geoScope">
             <option value="county">County</option>
-            <option value="place">Municipality</option>
-            <option value="cdp">Census-Designated Place (CDP)</option>
+            <option value="state">State (Colorado)</option>
+            <option value="municipality">Municipality</option>
           </select>
 
-          <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
-          <select id="geoSelect"></select>
+          <span id="geoSelectWrapper">
+            <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
+            <select id="geoType">
+              <option value="county">County</option>
+              <option value="place">Municipality</option>
+              <option value="cdp">Census-Designated Place (CDP)</option>
+            </select>
+
+            <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
+            <select id="geoSelect"></select>
+          </span>
+
+          <span id="dataQualityBadge" class="data-quality-badge" aria-label="Data quality indicator" title="Data confidence level"></span>
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
@@ -80,6 +95,30 @@
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS GRAPI bins</div></div>
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801</div></div>
+        </div>
+      </div>
+
+      <!-- State vs. County/Municipality Comparison Panel — shown when viewing county or municipality -->
+      <div class="chart-card span-12 state-comparison-panel" id="stateComparisonPanel" hidden>
+        <h2>State vs. Local Comparison</h2>
+        <p style="color:var(--muted)">How this geography compares to Colorado state-wide averages (aggregated from all 64 counties).</p>
+        <div class="stats" aria-label="State comparison indicators">
+          <div class="stat"><div class="k">Population share of CO</div><div class="v" id="scpPopShare">—</div><div class="s">vs. 5.9 M statewide</div></div>
+          <div class="stat"><div class="k">Median income vs. state avg</div><div class="v" id="scpMhiDelta">—</div><div class="s">±% from CO weighted avg</div></div>
+          <div class="stat"><div class="k">Owner-occupancy vs. state</div><div class="v" id="scpOwnerDelta">—</div><div class="s">±pp from CO avg</div></div>
+          <div class="stat"><div class="k">Rent burden vs. state</div><div class="v" id="scpRentBurdenDelta">—</div><div class="s">±pp from CO avg</div></div>
+        </div>
+      </div>
+
+      <!-- Municipal Comparison Panel — shown when viewing a municipality -->
+      <div class="chart-card span-12 municipal-comparison-panel" id="municipalComparisonPanel" hidden>
+        <h2>Municipal vs. County Comparison</h2>
+        <p style="color:var(--muted)">This municipality scaled from its containing county using population-share interpolation.</p>
+        <div class="stats" aria-label="Municipal comparison indicators">
+          <div class="stat"><div class="k">Population share of county</div><div class="v" id="mcpPopShare">—</div><div class="s">Estimated from ACS</div></div>
+          <div class="stat"><div class="k">Estimated housing units</div><div class="v" id="mcpEstUnits">—</div><div class="s">Scaled from county</div></div>
+          <div class="stat"><div class="k">Rent adjustment factor</div><div class="v" id="mcpRentAdj">—</div><div class="s">Local market factor</div></div>
+          <div class="stat"><div class="k">Estimated jobs (LEHD)</div><div class="v" id="mcpEstJobs">—</div><div class="s">Scaled from county LEHD</div></div>
         </div>
       </div>
 

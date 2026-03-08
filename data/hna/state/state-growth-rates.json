@@ -1,0 +1,14 @@
+{
+  "updated": "2026-03-08T00:00:00Z",
+  "source": "DOLA State Demography Office — Colorado statewide projection (2024 vintage)",
+  "baseYear": 2024,
+  "projectionHorizon": 2044,
+  "annualPopulationGrowthRate": 0.0135,
+  "annualHouseholdGrowthRate": 0.0148,
+  "annualNetMigrationRate": 0.0042,
+  "seniorGrowthRate65plus": 0.0310,
+  "housingUnitGrowthRate": 0.0155,
+  "rentalVacancyRateTarget": 0.055,
+  "ownerVacancyRateTarget": 0.018,
+  "notes": "Statewide rates derived from DOLA SDO 2024 County Population Forecasts (summed). Annualized from 20-year horizon."
+}

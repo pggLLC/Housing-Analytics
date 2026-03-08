@@ -189,3 +189,50 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout — was 10s)
 5. **Timeout increases applied** — All ArcGIS remote API calls now use 15–20 second timeouts
    (previously 5–10 seconds) to prevent premature failures on slow HUD/Census servers.
    The Prop 123 TIGERweb geometry timeout was increased from 10s to 20s.
+
+---
+
+## State-Level Analysis: Confidence Table & Aggregation Methodology
+
+### Data Confidence Levels
+
+The `StateAnalysis.getStateDataConfidence(source)` function returns a standardized confidence score based on the data source used for each analysis run:
+
+| Source string | Confidence level | Score | Description |
+|---|---|---|---|
+| `'acs1'` | High | 0.90 | ACS 1-year estimates (geographies ≥ 65,000 pop) |
+| `'acs5'` | High | 0.85 | ACS 5-year estimates (all county sizes) |
+| `'cache'` | Medium | 0.70 | Pre-built county summary cache (most common for state runs) |
+| `'derived'` | Medium | 0.65 | ETL-derived analytical inputs |
+| `'estimate'` | Low | 0.40 | Statistical estimation (< 60 counties have data) |
+| Other / null | Low | 0.30 | Unknown provenance |
+
+For a **statewide Colorado run**, the confidence is automatically set to:
+- `'cache'` (score 0.70) when ≥ 60 of 64 county summary files are loaded
+- `'estimate'` (score 0.40) when fewer counties are available
+
+### State Aggregation Methodology Summary
+
+| Metric type | Method | Notes |
+|---|---|---|
+| Absolute counts (units, population, jobs) | Sum across all available counties | Partial-state totals if < 64 counties have data |
+| Rates and percentages (owner rate, rent burden) | Population-weighted average | Missing counties excluded from weighting |
+| Median values (MHI, rent, home value) | Population-weighted average of county medians | Not a true state median; approximation |
+| Demographic projections | Element-wise sum of county `population_dola[]` arrays | Based on DOLA SDO 2024 forecasts |
+| Employment (LEHD) | Sum of county inflow + within | `totalJobs = totalInflow + totalWithin` |
+| Prop 123 baseline | 3% × total housing units / 8 years | Uses ACS county unit counts |
+
+For detailed methodology, see [`docs/STATE-ANALYSIS-METHODOLOGY.md`](docs/STATE-ANALYSIS-METHODOLOGY.md).
+
+### Municipal Analysis Confidence
+
+Municipal data uses interpolation from county data with inherently lower confidence:
+
+| Source | Level | Score |
+|---|---|---|
+| `'acs1'` | High | 0.85 (rare at municipal level) |
+| `'acs5'` | Medium | 0.70 |
+| `'cache'` | Medium | 0.65 |
+| `'interpolated'` | Medium | 0.60 |
+| `'scaled'` | Medium | 0.55 |
+| `'estimate'` | Low | 0.40 |

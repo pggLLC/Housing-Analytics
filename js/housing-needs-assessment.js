@@ -90,6 +90,10 @@
     derived: 'data/hna/derived/geo-derived.json',
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
+    stateConfig: 'data/hna/state/state-config.json',
+    stateGrowthRates: 'data/hna/state/state-growth-rates.json',
+    municipalConfig: 'data/hna/municipal/municipal-config.json',
+    municipalGrowthRates: 'data/hna/municipal/municipal-growth-rates.json',
   };
 
   const SOURCES = {
@@ -271,8 +275,12 @@
 
   // DOM
   const els = {
+    geoScope: document.getElementById('geoScope'),
+    geoSelectWrapper: document.getElementById('geoSelectWrapper'),
     geoType: document.getElementById('geoType'),
     geoSelect: document.getElementById('geoSelect'),
+    dataQualityBadge: document.getElementById('dataQualityBadge'),
+    liveRegion: document.getElementById('hnaLiveRegion'),
     btnRefresh: document.getElementById('btnRefresh'),
     btnPdf: document.getElementById('btnPdf'),
     btnCsv: document.getElementById('btnCsv'),
@@ -463,10 +471,133 @@
     return '08077';
   }
 
+  function announceUpdate(message){
+    if (els.liveRegion) {
+      els.liveRegion.textContent = '';
+      // Force a DOM repaint so screen readers re-announce
+      setTimeout(() => { if (els.liveRegion) els.liveRegion.textContent = message; }, 50);
+    }
+  }
+
+  function updateDataQualityBadge(confidence){
+    if (!els.dataQualityBadge) return;
+    const level = (confidence && confidence.level) || 'unknown';
+    const score = (confidence && confidence.score != null) ? confidence.score : null;
+    const label = level.charAt(0).toUpperCase() + level.slice(1);
+    const scoreText = score != null ? ` (${Math.round(score * 100)}%)` : '';
+    els.dataQualityBadge.textContent = `Data quality: ${label}${scoreText}`;
+    els.dataQualityBadge.className = `data-quality-badge data-quality-${level}`;
+    els.dataQualityBadge.title = (confidence && confidence.description) || label;
+  }
+
+  function applyGeoScope(){
+    const scope = els.geoScope ? els.geoScope.value : 'county';
+    if (!els.geoSelectWrapper) return;
+    if (scope === 'state') {
+      els.geoSelectWrapper.style.display = 'none';
+    } else {
+      els.geoSelectWrapper.style.display = '';
+      // Sync geoType select to scope
+      if (scope === 'municipality' && els.geoType) {
+        // Prefer place; leave whatever was selected if already place/cdp
+        if (els.geoType.value === 'county') els.geoType.value = 'place';
+      } else if (scope === 'county' && els.geoType) {
+        els.geoType.value = 'county';
+      }
+    }
+  }
+
+  function renderStateComparisonPanel(profile, stateMetrics){
+    const panel = document.getElementById('stateComparisonPanel');
+    if (!panel) return;
+    if (!stateMetrics || !profile) { panel.hidden = true; return; }
+    panel.hidden = false;
+
+    const pop = Number(profile.DP05_0001E) || 0;
+    const mhi = Number(profile.DP03_0062E) || 0;
+    const ownerRate = Number(profile.DP04_0047PE) || 0;
+    const stateRentBurden = stateMetrics.weightedRentBurdenRate || 0;
+    const localRentBurden = (()=>{
+      const bins = [
+        Number(profile.DP04_0144PE) || 0,
+        Number(profile.DP04_0145PE) || 0,
+        Number(profile.DP04_0146PE) || 0,
+      ];
+      return bins.reduce((s, v) => s + v, 0);
+    })();
+
+    const popShareEl = document.getElementById('scpPopShare');
+    const mhiDeltaEl = document.getElementById('scpMhiDelta');
+    const ownerDeltaEl = document.getElementById('scpOwnerDelta');
+    const rentBurdenDeltaEl = document.getElementById('scpRentBurdenDelta');
+
+    const statePop = stateMetrics.totalPopulation || 5900000;
+    if (popShareEl) popShareEl.textContent = pop > 0 ? `${((pop / statePop) * 100).toFixed(2)}%` : '—';
+
+    if (mhiDeltaEl && stateMetrics.weightedMhi > 0 && mhi > 0){
+      const delta = ((mhi - stateMetrics.weightedMhi) / stateMetrics.weightedMhi) * 100;
+      mhiDeltaEl.textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%`;
+    } else if (mhiDeltaEl) { mhiDeltaEl.textContent = '—'; }
+
+    if (ownerDeltaEl && stateMetrics.weightedOwnerRate > 0 && ownerRate > 0){
+      const delta = ownerRate - stateMetrics.weightedOwnerRate;
+      ownerDeltaEl.textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pp`;
+    } else if (ownerDeltaEl) { ownerDeltaEl.textContent = '—'; }
+
+    if (rentBurdenDeltaEl && stateRentBurden > 0){
+      const delta = localRentBurden - stateRentBurden;
+      rentBurdenDeltaEl.textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pp`;
+    } else if (rentBurdenDeltaEl) { rentBurdenDeltaEl.textContent = '—'; }
+  }
+
+  function renderMunicipalComparisonPanel(countyProfile, geoid){
+    const panel = document.getElementById('municipalComparisonPanel');
+    if (!panel) return;
+    const cfg = window.__HNA_MUNICIPAL_CONFIG;
+    if (!cfg || !geoid) { panel.hidden = true; return; }
+    const muni = (cfg.municipalities || []).find(m => m.geoid === geoid);
+    if (!muni) { panel.hidden = true; return; }
+    panel.hidden = false;
+
+    const popShare = muni.popShare || 0;
+    const totalUnits = Number((countyProfile || {}).DP04_0001E) || 0;
+    const estUnits = Math.round(totalUnits * popShare);
+    const rent = Number((countyProfile || {}).DP04_0134E) || 0;
+    const adjRent = rent > 0 ? `$${Math.round(rent * (popShare > 0.3 ? 1.05 : 1.0)).toLocaleString()}` : '—';
+
+    const popShareEl = document.getElementById('mcpPopShare');
+    const estUnitsEl = document.getElementById('mcpEstUnits');
+    const rentAdjEl  = document.getElementById('mcpRentAdj');
+    const estJobsEl  = document.getElementById('mcpEstJobs');
+
+    if (popShareEl) popShareEl.textContent = `${(popShare * 100).toFixed(1)}%`;
+    if (estUnitsEl) estUnitsEl.textContent = estUnits > 0 ? estUnits.toLocaleString() : '—';
+    if (rentAdjEl)  rentAdjEl.textContent  = adjRent;
+    if (estJobsEl)  estJobsEl.textContent  = '—'; // populated from LEHD data in update()
+  }
+
   function buildSelect(){
-    const type = els.geoType.value;
+    const scope = els.geoScope ? els.geoScope.value : 'county';
+    const type = els.geoType ? els.geoType.value : 'county';
     els.geoSelect.innerHTML='';
     const cfg = window.__HNA_GEO_CONFIG;
+
+    // When municipality scope, prefer the richer municipal-config list if loaded
+    if (scope === 'municipality') {
+      const muniCfg = window.__HNA_MUNICIPAL_CONFIG;
+      if (muniCfg && Array.isArray(muniCfg.municipalities) && muniCfg.municipalities.length) {
+        for (const m of muniCfg.municipalities){
+          const opt = document.createElement('option');
+          opt.value = m.geoid;
+          opt.textContent = m.label;
+          els.geoSelect.appendChild(opt);
+        }
+        if (!els.geoSelect.value && muniCfg.municipalities[0]) {
+          els.geoSelect.value = muniCfg.municipalities[0].geoid;
+        }
+        return;
+      }
+    }
 
     // Prefer full list from config for each type; fall back to featured items
     if (type === 'county' && Array.isArray(cfg?.counties) && cfg.counties.length){
@@ -3999,12 +4130,93 @@
     els.methodology.innerHTML = html;
   }
 
+  // --- State-scope update ---
+  async function updateStateScope(label){
+    const SA = window.StateAnalysis;
+    setBanner('');
+
+    if (els.geoContextPill) els.geoContextPill.textContent = label || 'Colorado (State)';
+
+    // Hide comparison panels (they don't apply at the state level)
+    const statePanel = document.getElementById('stateComparisonPanel');
+    const muniPanel  = document.getElementById('municipalComparisonPanel');
+    if (statePanel) statePanel.hidden = true;
+    if (muniPanel)  muniPanel.hidden  = true;
+
+    // Load county summaries to aggregate
+    const counties = (window.__HNA_GEO_CONFIG?.counties || []);
+    const countyProfiles = [];
+    for (const c of counties) {
+      try {
+        const sum = await loadJson(PATHS.summary(c.geoid));
+        if (sum && sum.acsProfile) {
+          sum.acsProfile._geoid = c.geoid;
+          countyProfiles.push(sum.acsProfile);
+        }
+      } catch (_) { /* county missing, skip */ }
+    }
+
+    if (SA && countyProfiles.length > 0) {
+      const stateMetrics = SA.calculateStateScaling(countyProfiles);
+      window.__HNA_STATE_METRICS = stateMetrics;
+
+      // Populate executive snapshot with state aggregates
+      const fmt = (v) => (v != null && !isNaN(Number(v))) ? Number(v).toLocaleString(undefined,{maximumFractionDigits:0}) : '—';
+      const fmtDollar = (v) => (v != null && !isNaN(Number(v))) ? '$' + Number(v).toLocaleString(undefined,{maximumFractionDigits:0}) : '—';
+      const fmtPct = (v) => (v != null && !isNaN(Number(v))) ? Number(v).toFixed(1) + '%' : '—';
+
+      if (els.statPop) { els.statPop.textContent = fmt(stateMetrics.totalPopulation); }
+      if (els.statPopSrc) { els.statPopSrc.textContent = 'ACS (all 64 counties)'; }
+      if (els.statMhi) { els.statMhi.textContent = fmtDollar(stateMetrics.weightedMhi); }
+      if (els.statMhiSrc) { els.statMhiSrc.textContent = 'Population-weighted avg'; }
+      if (els.statTenure) { els.statTenure.textContent = `${fmtPct(stateMetrics.weightedOwnerRate)} owner`; }
+
+      const stock = SA.estimateStateHousingStock(countyProfiles);
+      if (els.statBaseUnits) { els.statBaseUnits.textContent = fmt(stock.totalUnits); }
+      if (els.statBaseUnitsSrc) { els.statBaseUnitsSrc.textContent = 'Sum, all 64 counties'; }
+
+      const afford = SA.scaleStateAffordability(countyProfiles);
+      if (els.statHomeValue) { els.statHomeValue.textContent = fmtDollar(afford.weightedMedianHomeValue); }
+      if (els.statHomeValueSrc) { els.statHomeValueSrc.textContent = 'Population-weighted avg'; }
+      if (els.statRent) { els.statRent.textContent = fmtDollar(afford.weightedMedianRent); }
+      if (els.statRentSrc) { els.statRentSrc.textContent = 'Population-weighted avg'; }
+      if (els.statIncomeNeed) { els.statIncomeNeed.textContent = fmtDollar(afford.weightedIncomeNeedToBuy); }
+      if (els.statRentBurden) { els.statRentBurden.textContent = fmtPct(afford.weightedRentBurdenRate); }
+
+      if (els.execNarrative) {
+        els.execNarrative.textContent =
+          `Colorado statewide housing summary aggregated from ${stateMetrics.countyCount} of 64 counties with available data. ` +
+          `Total population: ${fmt(stateMetrics.totalPopulation)}. ` +
+          `Total housing units: ${fmt(stock.totalUnits)}. ` +
+          `Statewide affordability gap: ${fmtDollar(afford.stateAffordabilityGap)}.`;
+      }
+
+      // Data quality badge
+      const confidence = SA.getStateDataConfidence(countyProfiles.length >= 60 ? 'cache' : 'estimate');
+      updateDataQualityBadge(confidence);
+    } else {
+      // No state analysis module or no county data — show placeholder
+      if (els.execNarrative) {
+        els.execNarrative.textContent =
+          'State-level data is being aggregated. Run the HNA data build workflow to populate county data files, then reload.';
+      }
+      updateDataQualityBadge({ level: 'low', description: 'Insufficient county data for aggregation', score: 0.2 });
+    }
+
+    // Update timestamp
+    const tsEl = document.getElementById('hnaDataTimestamp');
+    if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
+  }
+
   // --- Main update ---
   async function update(){
-    const geoType = els.geoType.value;
-    const geoid = els.geoSelect.value;
+    const scope  = els.geoScope ? els.geoScope.value : 'county';
+    // For state scope, override geoType/geoid to statewide values
+    const geoType = scope === 'state' ? 'state' : (els.geoType ? els.geoType.value : 'county');
+    const geoid   = scope === 'state' ? '08'    : (els.geoSelect ? els.geoSelect.value : '08077');
 
     const label = (()=>{
+      if (geoType === 'state') return 'Colorado (State)';
       const conf = window.__HNA_GEO_CONFIG;
       if (geoType==='county' && Array.isArray(conf?.counties)){
         const m = conf.counties.find(c=>c.geoid===geoid);
@@ -4015,12 +4227,27 @@
         ...(conf?.featured || FEATURED),
         ...(conf?.places   || []),
         ...(conf?.cdps     || []),
+        ...((window.__HNA_MUNICIPAL_CONFIG?.municipalities) || []),
       ];
       const m = allEntries.find(x=>x.geoid===geoid);
       return m?.label || geoid;
     })();
 
     setBanner('');
+    announceUpdate(`Loading ${label} housing data…`);
+
+    // State-scope: delegate to state aggregation path
+    if (geoType === 'state') {
+      await updateStateScope(label);
+      announceUpdate(`${label} housing data loaded.`);
+      return;
+    }
+
+    // Show/hide comparison panels
+    const statePanel = document.getElementById('stateComparisonPanel');
+    const muniPanel  = document.getElementById('municipalComparisonPanel');
+    if (statePanel) statePanel.hidden = true;
+    if (muniPanel)  muniPanel.hidden  = true;
 
     // Load boundary
     try{
@@ -4175,9 +4402,36 @@
     // LIHTC / QCT / DDA overlays (non-blocking; county context)
     updateLihtcOverlays(contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
+    // State and municipal comparison panels
+    if (profile) {
+      const stateMetrics = window.__HNA_STATE_METRICS || null;
+      renderStateComparisonPanel(profile, stateMetrics);
+    }
+    if (geoType !== 'county') {
+      renderMunicipalComparisonPanel(profile, geoid);
+      // Update estimated jobs in municipal panel from LEHD data
+      if (lehd) {
+        const muniCfg = window.__HNA_MUNICIPAL_CONFIG;
+        const muni = muniCfg ? (muniCfg.municipalities || []).find(m => m.geoid === geoid) : null;
+        if (muni) {
+          const estJobs = Math.round(((lehd.inflow || 0) + (lehd.within || 0)) * (muni.popShare || 0));
+          const estJobsEl = document.getElementById('mcpEstJobs');
+          if (estJobsEl) estJobsEl.textContent = estJobs > 0 ? estJobs.toLocaleString() : '—';
+        }
+      }
+    }
+
+    // Update data quality badge
+    const SA = window.StateAnalysis;
+    if (SA) {
+      const confidence = SA.getStateDataConfidence(cacheFlags.summary ? 'cache' : 'estimate');
+      updateDataQualityBadge(confidence);
+    }
+
     // Update data freshness timestamp
     const tsEl = document.getElementById('hnaDataTimestamp');
     if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
+    announceUpdate(`${label} housing data loaded.`);
   }
 
   async function init(){
@@ -4185,6 +4439,10 @@
     try{ window.__HNA_GEO_CONFIG = await loadJson(PATHS.geoConfig); }catch(_){ window.__HNA_GEO_CONFIG = { featured: FEATURED }; }
     try{ window.__HNA_LOCAL_RESOURCES = await loadJson(PATHS.localResources); }catch(_){ window.__HNA_LOCAL_RESOURCES = {}; }
     try{ state.derived = await loadJson(PATHS.derived); }catch(_){ state.derived = null; }
+
+    // Load state and municipal configs (non-blocking)
+    try{ window.__HNA_STATE_CONFIG = await loadJson(PATHS.stateConfig); }catch(_){ window.__HNA_STATE_CONFIG = null; }
+    try{ window.__HNA_MUNICIPAL_CONFIG = await loadJson(PATHS.municipalConfig); }catch(_){ window.__HNA_MUNICIPAL_CONFIG = null; }
 
     // Populate full county list (small) if not present in repo cache
     if (!Array.isArray(window.__HNA_GEO_CONFIG.counties) || !window.__HNA_GEO_CONFIG.counties.length){
@@ -4195,13 +4453,24 @@
       }
     }
 
-    // Set defaults
-    els.geoType.value = DEFAULTS.geoType;
+    // Set defaults and apply initial scope
+    if (els.geoScope) els.geoScope.value = 'county';
+    applyGeoScope();
+    if (els.geoType) els.geoType.value = DEFAULTS.geoType;
     buildSelect();
 
     // If county list exists, default to Mesa
-    if (els.geoType.value === 'county'){
-      els.geoSelect.value = DEFAULTS.geoId;
+    if (els.geoType && els.geoType.value === 'county'){
+      if (els.geoSelect) els.geoSelect.value = DEFAULTS.geoId;
+    }
+
+    // Wire scope selector
+    if (els.geoScope) {
+      els.geoScope.addEventListener('change', ()=>{
+        applyGeoScope();
+        buildSelect();
+        update();
+      });
     }
 
     els.geoType.addEventListener('change', ()=>{
@@ -4255,6 +4524,11 @@
   window.__HNA_renderIndustryAnalysis  = renderIndustryAnalysis;
   window.__HNA_renderEconomicIndicators = renderEconomicIndicators;
   window.__HNA_renderWageGaps          = renderWageGaps;
+
+  // Expose geography scope helpers
+  window.__HNA_announceUpdate         = announceUpdate;
+  window.__HNA_updateDataQualityBadge = updateDataQualityBadge;
+  window.__HNA_applyGeoScope          = applyGeoScope;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);

@@ -50,16 +50,21 @@ All analysis is performed client-side in your browser. No data is sent to a serv
 
 ## 2. Quick Start
 
-### Step 1 — Select a Geography
+### Step 1 — Select a Geography Scope
 
-At the top of the page, choose from the **Geography type** dropdown:
-- **County** — full Colorado county coverage (all 64 counties)
-- **Municipality** — incorporated cities and towns with population ≥ 1,000
-- **Census-Designated Place (CDP)** — unincorporated communities with defined boundaries
+At the top of the page, first choose from the **Geography scope** dropdown:
+- **County** — full Colorado county coverage (all 64 counties) — _default_
+- **State (Colorado)** — statewide Colorado aggregated analysis
+- **Municipality** — incorporated cities and towns
+
+**Scope cascade behavior:**
+- **State** scope hides the secondary geography dropdown. Data is aggregated automatically from all available county files.
+- **County** scope shows the county selector (64 Colorado counties).
+- **Municipality** scope shows the municipality selector (32+ Colorado cities and towns).
 
 Then choose a specific geography in the **Select geography** dropdown and click **Refresh**.
 
-> **Default:** Mesa County is pre-selected on first load as a worked example.
+> **Default:** County scope → Mesa County is pre-selected on first load as a worked example.
 
 ### Step 2 — Review the Executive Snapshot
 
@@ -72,6 +77,15 @@ The first card (top of page) shows six key metrics:
 - Net migration (20-year estimate)
 
 These update automatically when you change geographies.
+
+**State scope adds:**
+- Total housing units (summed from all 64 counties)
+- Population-weighted statewide median income
+- Statewide affordability gap
+
+**Comparison panels** (county and municipality views):
+- **State vs. Local Comparison** — shows this geography relative to Colorado averages
+- **Municipal vs. County Comparison** (municipality scope only) — shows interpolation context
 
 ### Step 3 — Deep Dive Into Sections
 
@@ -333,34 +347,87 @@ Click **View full compliance dashboard →** at the bottom of the Prop 123 secti
 
 ---
 
-## 6. Municipal-Level Assessments
+## 6. State-Level and Municipal-Level Assessments
+
+### 6.1 State-Level Analysis
+
+The HNA tool supports a **Colorado statewide analysis** that aggregates metrics from all 64 counties.
+
+#### When to use State scope
+- To establish statewide housing context before drilling into a specific county
+- To benchmark a county or municipality against state averages
+- To calculate total Colorado housing need for legislative or policy reports
+
+#### How to run a statewide analysis
+1. Open the HNA tool (`housing-needs-assessment.html`)
+2. Select **"State (Colorado)"** from the **Geography scope** dropdown
+3. Data is aggregated automatically — no secondary geography selection needed
+4. Review the Executive Snapshot for statewide totals
+5. Use **Download CSV** / **Download JSON** to export the aggregate data
+
+#### State-level metrics
+| Metric | Aggregation method |
+|---|---|
+| Total housing units | Sum of all 64 counties |
+| Total population | Sum of all 64 counties |
+| Statewide median income | Population-weighted average |
+| Owner-occupancy rate | Population-weighted average |
+| Median gross rent | Population-weighted average |
+| Statewide affordability gap | Income needed to buy − weighted MHI |
+| Population projections | Year-by-year sum of DOLA county projections |
+
+#### State vs. County / Municipal comparison
+When viewing a **county** or **municipality**, the **State vs. Local Comparison** panel appears showing:
+- This geography's population share of Colorado
+- Median income delta vs. state weighted average (%)
+- Owner-occupancy delta vs. state average (percentage points)
+- Rent burden delta vs. state average (percentage points)
+
+#### Interpretation example
+A county with **+8.3%** median income vs. state average is wealthier than the statewide norm, which may indicate higher land costs and affordability pressure. Cross-reference with the statewide rent burden comparison.
+
+### 6.2 Municipal-Level Assessments
 
 The HNA tool supports municipal-level analysis using a county-to-municipality scaling methodology.
 
-### Supported Geographies
+#### How to run a municipal analysis
+1. Select **"Municipality"** from the **Geography scope** dropdown
+2. Choose a city or town from the **Select geography** dropdown
+3. Review the **Municipal vs. County Comparison** panel showing:
+   - Population share of the containing county
+   - Estimated housing units (scaled from county)
+   - Rent adjustment factor
+   - Estimated LEHD jobs (scaled from county)
 
-The tool includes **57 Colorado municipalities** (incorporated cities and towns) plus **CDPs**. The full list is in `data/hna/geo-config.json`.
+#### Supported Geographies
 
-Major cities included: Denver, Colorado Springs, Aurora, Fort Collins, Lakewood, Thornton, Greeley, Arvada, Westminster, Pueblo, Longmont, Loveland, Broomfield, Centennial, Boulder, Castle Rock, Commerce City, Parker, Northglenn, Englewood, Highlands Ranch, Brighton, and more.
+The tool includes **32+ Colorado municipalities** in `data/hna/municipal/municipal-config.json`, plus any places in the main `data/hna/geo-config.json`.
 
-Mountain and resort communities: Aspen, Breckenridge, Steamboat Springs, Vail, Telluride, Glenwood Springs, Basalt, Carbondale, Frisco, Dillon, Keystone, Gypsum, Rifle, Silt, Parachute.
+Major cities included: Denver, Colorado Springs, Aurora, Fort Collins, Lakewood, Thornton, Greeley, Centennial, Boulder, Castle Rock, Longmont, Loveland, Broomfield, Commerce City, Brighton, Englewood.
 
-### Methodology: Municipal Scaling
+Mountain and resort communities: Aspen, Breckenridge, Steamboat Springs, Vail, Telluride, Glenwood Springs, Durango, Salida, Grand Junction, Pueblo.
+
+#### Methodology: Municipal Scaling
 
 Because DOLA forecasts are county-level only, municipal projections are derived as follows:
 
 ```
-municipality_pop(t) = county_pop(t) × share(t)
-share(t) = share₀ × exp(relative_CAGR × t)
+municipality_pop(t) = county_pop(t) × popShare
 ```
 
 Where:
-- `share₀` = municipality's share of county population in the base year
-- `relative_CAGR` = municipality's population growth rate minus the county rate (annualized)
+- `popShare` = municipality's share of county population (from `municipal-config.json`)
 
 If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, those inputs take precedence. Otherwise, the tool falls back to simple population share scaling.
 
-### Limitations at Municipal Level
+#### Comparing three levels side-by-side
+1. Open three browser tabs pointing to `housing-needs-assessment.html`
+2. Tab 1: Select **State** scope → Colorado overview
+3. Tab 2: Select **County** scope → your county
+4. Tab 3: Select **Municipality** scope → your city/town
+5. Compare the three Executive Snapshots for the full context hierarchy
+
+#### Limitations at Municipal Level
 
 | Limitation | Impact | Mitigation |
 |------------|--------|------------|

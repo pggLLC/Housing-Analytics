@@ -168,3 +168,34 @@ HNA-specific troubleshooting
   → JavaScript failed silently. Open DevTools (F12) → Console and look for
     errors. The most common cause is a CDN asset (Leaflet or Chart.js) being
     blocked by a browser extension or corporate firewall.
+
+State-level analysis ETL workflow
+  State-level data does NOT require a separate ETL pipeline. The
+  state-analysis.js module aggregates county data at runtime from:
+    data/hna/summary/{geoid}.json   (one per county, 64 total)
+    data/hna/state/state-config.json
+    data/hna/state/state-growth-rates.json
+
+  To ensure statewide analysis is fully populated:
+  1. Run the county-level HNA data build (see "Running the HNA data build" above)
+     for all 64 Colorado counties.
+  2. Verify all 64 files exist: ls data/hna/summary/ | wc -l  (should be >= 64)
+  3. The geo-config.json "state" entry is pre-configured (fips: "08").
+
+  Static state config files:
+    data/hna/state/state-config.json     — 64 county GEOID mapping
+    data/hna/state/state-growth-rates.json — DOLA statewide growth rates
+    data/hna/municipal/municipal-config.json — 32+ municipality configs
+    data/hna/municipal/municipal-growth-rates.json — municipal growth rates
+
+  These static files do not need to be regenerated unless the data vintage
+  changes. Update "baseYear" and "updated" fields when advancing the vintage
+  from 2024 to a future year.
+
+Municipal analysis ETL workflow
+  Municipal data uses population-share interpolation from county data.
+  No separate ETL build is required beyond the county-level build.
+  The municipal-config.json popShare values are based on ACS 2023 estimates
+  and should be refreshed annually by running:
+    scripts/hna/build_hna_data.py --update-municipal-config
+  (or updating data/hna/municipal/municipal-config.json manually)

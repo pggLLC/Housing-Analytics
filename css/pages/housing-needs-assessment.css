@@ -355,3 +355,38 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .commuting-table th { text-align: left; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); }
 .commuting-table td { padding: 5px 8px; color: var(--text); border-bottom: 1px solid var(--border); }
 .commuting-table tr:last-child td { border-bottom: none; }
+
+/* ----------------------------------------------------------------
+   Geography scope selector & data quality badge
+   ---------------------------------------------------------------- */
+#geoSelectWrapper { display: contents; }
+
+.data-quality-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+}
+.data-quality-high   { background: color-mix(in oklab, var(--chart-2) 18%, var(--card)); color: var(--chart-2); border-color: var(--chart-2); }
+.data-quality-medium { background: color-mix(in oklab, var(--chart-4) 18%, var(--card)); color: var(--chart-4); border-color: var(--chart-4); }
+.data-quality-low    { background: color-mix(in oklab, #d97706 18%, var(--card)); color: #a35c00; border-color: #d97706; }
+.data-quality-unknown { background: var(--card); color: var(--muted); border-color: var(--border); }
+
+/* ----------------------------------------------------------------
+   State comparison & municipal comparison panels
+   ---------------------------------------------------------------- */
+.state-comparison-panel,
+.municipal-comparison-panel {
+  border-left: 4px solid var(--chart-1);
+}
+
+.municipal-comparison-panel {
+  border-left-color: var(--chart-3);
+}

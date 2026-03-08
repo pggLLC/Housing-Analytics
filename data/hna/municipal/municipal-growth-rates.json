@@ -1,0 +1,11 @@
+{
+  "updated": "2026-03-08T00:00:00Z",
+  "source": "DOLA SDO 2024 municipal place-level estimates + Census ACS 5-Year (2023)",
+  "baseYear": 2024,
+  "notes": "Municipal growth rates interpolated from containing county DOLA projections using population share. Use containingCounty rates as primary; adjust by local market factor where available.",
+  "defaultMunicipalGrowthRate": 0.0145,
+  "urbanAreaAdjustmentFactor": 1.12,
+  "ruralAreaAdjustmentFactor": 0.88,
+  "rentalMarketPressureThreshold": 0.035,
+  "annualHousingUnitGrowthRate": 0.0158
+}
