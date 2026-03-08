@@ -1258,9 +1258,76 @@
     return (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : '';
   }
 
+  // Warn once per page load when CENSUS_API_KEY is absent so developers can
+  // diagnose 400/403 failures without digging through network traffic.
+  let _censusApiWarnDone = false;
+  function _censusApiWarn() {
+    if (!_censusApiWarnDone && !censusKey()) {
+      _censusApiWarnDone = true;
+      console.warn('[HNA] CENSUS_API_KEY is not configured — Census profile and subject ' +
+        'table requests may be rate-limited or rejected for some geographies. ' +
+        'Set window.APP_CONFIG.CENSUS_API_KEY or add it to js/config.js. ' +
+        'Free key signup: https://api.census.gov/data/key_signup.html');
+    }
+  }
+
+  // Fetch a Census API URL with timeout/retry (via fetchWithTimeout) and
+  // detailed error logging.  Handles transient HTTP errors (408, 429, 5xx)
+  // by waiting and retrying once.  Returns the Response object on any HTTP
+  // reply (callers check resp.ok), or null on unrecoverable network failure.
+  async function _fetchCensusUrl(url, contextLabel) {
+    const safeUrl = redactKey(url);
+    const label = contextLabel || 'Census API';
+    const TRANSIENT = new Set([408, 429, 500, 502, 503, 504]);
+
+    async function tryFetch(retries) {
+      try {
+        return await fetchWithTimeout(url, {}, 15000, retries);
+      } catch (e) {
+        console.warn('[HNA] ' + label + ' network error (' + safeUrl + '): ' + e.message);
+        return null;
+      }
+    }
+
+    let resp = await tryFetch(2);
+    if (!resp) return null;
+
+    // One additional retry on transient HTTP status codes
+    if (!resp.ok && TRANSIENT.has(resp.status)) {
+      const backoffMs = resp.status === 429 ? 3000 : 1000;
+      if (DEBUG_HNA) {
+        console.warn('[HNA] ' + label + ' HTTP ' + resp.status + ' (transient); retrying in ' + backoffMs + 'ms (' + safeUrl + ')');
+      }
+      await new Promise(function (res) { setTimeout(res, backoffMs); });
+      const retried = await tryFetch(1);
+      if (retried) resp = retried;
+    }
+
+    if (!resp.ok) {
+      let bodyExcerpt = '';
+      try { bodyExcerpt = (await resp.text()).slice(0, 500); } catch (e) {
+        console.warn('[HNA] ' + label + ' failed to read error response body: ' + e.message);
+      }
+      console.warn('[HNA] ' + label + ' HTTP ' + resp.status + ' for ' + safeUrl +
+        (bodyExcerpt ? ': ' + bodyExcerpt : ''));
+    }
+
+    return resp;
+  }
+
   async function fetchAcsProfile(geoType, geoid){
     // Use ACS 1-year profile tables for a fast report-like snapshot.
     // Falls back to ACS 5-year if the primary year is unavailable.
+
+    _censusApiWarn();
+
+    // Validate GEOID format before building Census API URLs.
+    if (geoType === 'county' && !/^\d{5}$/.test(geoid)) {
+      console.warn('[HNA] fetchAcsProfile: county GEOID "' + geoid + '" is not 5 digits; Census API call may fail.');
+    }
+    if ((geoType === 'place' || geoType === 'cdp') && !/^\d{7}$/.test(geoid)) {
+      console.warn('[HNA] fetchAcsProfile: place GEOID "' + geoid + '" is not 7 digits; Census API call may fail.');
+    }
 
     // Variables
     const vars = [
@@ -1317,28 +1384,30 @@
     }
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/profile');
-    let r = await fetch(url1);
+    let r = await _fetchCensusUrl(url1, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
     let usedYear = ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
     let url2 = null;
-    if (!r.ok){
+    if (!r || !r.ok){
       // Probe vintages newest-first for ACS 1-year
       r = null;
       for (const v of ACS_VINTAGES) {
         const u = buildUrl(v, 'acs/acs1/profile');
-        const resp = await fetch(u);
-        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+        const resp = await _fetchCensusUrl(u, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + v);
+        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
       }
     }
     if (!r || !r.ok){
+      if (DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 profile');
       // Try ACS 5-year vintage probe
       for (const v of ACS_VINTAGES) {
         url2 = buildUrl(v, 'acs/acs5/profile');
-        const resp = await fetch(url2);
-        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+        const resp = await _fetchCensusUrl(url2, 'ACS5 profile ' + geoType + ':' + geoid + ' y=' + v);
+        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
       }
     }
     if (!r || !r.ok){
+      if (DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS5 profile exhausted for ' + geoType + ':' + geoid + '; falling back to B-series');
       // ACS profile/subject tables may not support this geography or these
       // variable codes for the requested year.  Fall back to ACS 5-year
       // B-series which covers all geography types (county, place, CDP) and
@@ -1398,9 +1467,8 @@
       let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}&in=state:${STATE_FIPS_CO}`;
       if (key) qs += `&key=${encodeURIComponent(key)}`;
       const u = `${base}?${qs}`;
-      const resp = await fetch(u);
-      if (resp.ok){ bResp = resp; bYear = v; break; }
-      if (DEBUG_HNA) console.warn(`ACS5 B-series ${v} failed: ${resp.status}`);
+      const resp = await _fetchCensusUrl(u, 'ACS5 B-series ' + geoType + ':' + geoid + ' y=' + v);
+      if (resp && resp.ok){ bResp = resp; bYear = v; break; }
     }
     if (!bResp){
       throw new Error(`ACS profile unavailable for this geography`);
@@ -1453,6 +1521,17 @@
 
   async function fetchAcsS0801(geoType, geoid){
     // Subject table S0801: commuting characteristics
+
+    _censusApiWarn();
+
+    // Validate GEOID format before building Census API URLs.
+    if (geoType === 'county' && !/^\d{5}$/.test(geoid)) {
+      console.warn('[HNA] fetchAcsS0801: county GEOID "' + geoid + '" is not 5 digits; Census API call may fail.');
+    }
+    if ((geoType === 'place' || geoType === 'cdp') && !/^\d{7}$/.test(geoid)) {
+      console.warn('[HNA] fetchAcsS0801: place GEOID "' + geoid + '" is not 7 digits; Census API call may fail.');
+    }
+
     const vars = [
       'S0801_C01_001E', // total workers 16+
       'S0801_C01_002E', // car, truck, van - drove alone
@@ -1485,31 +1564,30 @@
     }
 
     const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/subject');
-    let r = await fetch(url1);
+    let r = await _fetchCensusUrl(url1, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
     let usedYear = ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
     let url2 = null;
-    if (!r.ok){
+    if (!r || !r.ok){
       // Probe vintages newest-first for ACS 1-year
       r = null;
       for (const v of ACS_VINTAGES) {
         const u = buildUrl(v, 'acs/acs1/subject');
-        const resp = await fetch(u);
-        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+        const resp = await _fetchCensusUrl(u, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + v);
+        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
       }
     }
     if (!r || !r.ok){
+      if (DEBUG_HNA) console.warn('[HNA] fetchAcsS0801: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 subject');
       // Try ACS 5-year vintage probe
       for (const v of ACS_VINTAGES) {
         url2 = buildUrl(v, 'acs/acs5/subject');
-        const resp = await fetch(url2);
-        if (resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+        const resp = await _fetchCensusUrl(url2, 'ACS5 S0801 ' + geoType + ':' + geoid + ' y=' + v);
+        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
       }
     }
     if (!r || !r.ok){
-      const msg = DEBUG_HNA
-        ? `ACS S0801 failed for all vintages tried`
-        : `ACS S0801 failed`;
+      const msg = 'ACS S0801 failed for ' + geoType + ':' + geoid + ' (tried ACS1 and ACS5 across all vintages)';
       throw new Error(msg);
     }
     const arr = await r.json();
