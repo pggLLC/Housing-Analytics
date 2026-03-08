@@ -466,6 +466,98 @@ if (fileExists(lihtcPath)) {
   } catch (e) { fail('hud_lihtc_co.geojson: invalid JSON'); }
 }
 
+// ─── 19. New modular architecture ─────────────────────────────────────────────
+console.log('\n── 19. New modular architecture ──');
+
+// Check JS module files exist
+var newModules = [
+  'js/market-analysis/market-analysis-state.js',
+  'js/market-analysis/market-analysis-utils.js',
+  'js/market-analysis/site-selection-score.js',
+  'js/market-analysis/market-report-renderers.js',
+  'js/market-analysis/market-analysis-controller.js',
+  'js/data-connectors/market-data-cache.js',
+  'js/data-connectors/hud-egis.js',
+  'js/data-connectors/census-acs.js',
+  'js/data-connectors/hud-lihtc.js',
+  'js/data-connectors/nhpd.js',
+  'js/data-connectors/osm-amenities.js',
+  'js/data-connectors/fema-flood.js',
+  'js/data-connectors/epa-cleanup.js',
+];
+
+newModules.forEach(function(mod) {
+  if (fileExists(mod)) pass(mod + ' exists');
+  else fail(mod + ' is missing');
+});
+
+// Check each module exposes correct window global
+var globalChecks = [
+  { file: 'js/market-analysis/market-analysis-state.js',      global: 'MAState' },
+  { file: 'js/market-analysis/market-analysis-utils.js',      global: 'MAUtils' },
+  { file: 'js/market-analysis/site-selection-score.js',       global: 'SiteSelectionScore' },
+  { file: 'js/market-analysis/market-report-renderers.js',    global: 'MARenderers' },
+  { file: 'js/market-analysis/market-analysis-controller.js', global: 'MAController' },
+  { file: 'js/data-connectors/market-data-cache.js',          global: 'MarketDataCache' },
+  { file: 'js/data-connectors/hud-egis.js',                   global: 'HudEgis' },
+  { file: 'js/data-connectors/census-acs.js',                 global: 'CensusAcs' },
+  { file: 'js/data-connectors/hud-lihtc.js',                  global: 'HudLihtc' },
+  { file: 'js/data-connectors/nhpd.js',                       global: 'Nhpd' },
+  { file: 'js/data-connectors/osm-amenities.js',              global: 'OsmAmenities' },
+  { file: 'js/data-connectors/fema-flood.js',                 global: 'FemaFlood' },
+  { file: 'js/data-connectors/epa-cleanup.js',                global: 'EpaCleanup' },
+];
+
+globalChecks.forEach(function(c) {
+  if (!fileExists(c.file)) return;
+  var src = readFile(c.file);
+  if (src.includes('window.' + c.global)) pass(c.file + ' exposes window.' + c.global);
+  else fail(c.file + ' does not expose window.' + c.global);
+});
+
+// Check new HTML sections
+if (fileExists('market-analysis.html')) {
+  var html = readFile('market-analysis.html');
+  var sectionChecks = [
+    { pattern: /id=["']maExecSummary["']/, label: '#maExecSummary section present' },
+    { pattern: /id=["']maMarketDemand["']/, label: '#maMarketDemand section present' },
+    { pattern: /id=["']maAffordableSupply["']/, label: '#maAffordableSupply section present' },
+    { pattern: /id=["']maSubsidyOpp["']/, label: '#maSubsidyOpp section present' },
+    { pattern: /id=["']maSiteFeasibility["']/, label: '#maSiteFeasibility section present' },
+    { pattern: /id=["']maNeighborhoodAccess["']/, label: '#maNeighborhoodAccess section present' },
+    { pattern: /id=["']maPolicyOverlays["']/, label: '#maPolicyOverlays section present' },
+    { pattern: /id=["']maOpportunities["']/, label: '#maOpportunities section present' },
+    { pattern: /id=["']maPmaTool["']/, label: '#maPmaTool wrapper present' },
+    { pattern: /ma-section-nav/, label: '.ma-section-nav navigation present' },
+    { pattern: /maLiveRegion/, label: '#maLiveRegion aria-live region present' },
+    { pattern: /site-selection-score\.js/, label: 'HTML loads site-selection-score.js' },
+    { pattern: /market-analysis-controller\.js/, label: 'HTML loads market-analysis-controller.js' },
+  ];
+  sectionChecks.forEach(function(c) {
+    if (c.pattern.test(html)) pass(c.label);
+    else fail(c.label + ' — not found in market-analysis.html');
+  });
+}
+
+// Check build scripts exist
+var buildScripts = [
+  'scripts/market-analysis/build_market_demand.py',
+  'scripts/market-analysis/build_subsidy_layers.py',
+  'scripts/market-analysis/build_site_opportunities.py',
+  'scripts/market-analysis/build_neighborhood_access.py',
+];
+buildScripts.forEach(function(s) {
+  if (fileExists(s)) pass(s + ' exists');
+  else fail(s + ' is missing');
+});
+
+// Check derived data directory and README
+if (fileExists('data/derived/market-analysis/README.md')) {
+  pass('data/derived/market-analysis/README.md exists');
+} else {
+  fail('data/derived/market-analysis/README.md is missing');
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 console.log('\n── Summary ──');
 console.log('Passed:   ' + passed);

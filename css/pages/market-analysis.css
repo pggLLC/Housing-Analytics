@@ -451,3 +451,245 @@
 .pma-bench-table tbody tr:hover {
   background: var(--bg2);
 }
+
+/* ── Report section navigation (sticky horizontal pill nav) ── */
+.ma-section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-bottom: 1.5rem;
+}
+
+.ma-section-nav::-webkit-scrollbar { display: none; }
+
+.ma-section-nav-list {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ma-section-nav-link {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-size: var(--small);
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.ma-section-nav-link:hover,
+.ma-section-nav-link.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Report sections ── */
+.ma-report-section {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 3.5rem;
+}
+
+.ma-report-section > h2 {
+  font-size: var(--h2);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-strong);
+}
+
+/* ── KPI card grid (executive summary) ── */
+.ma-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ma-kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ma-kpi-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-strong);
+}
+
+.ma-kpi-label {
+  font-size: var(--tiny);
+  color: var(--faint);
+}
+
+.ma-kpi-card.good  { border-left: 4px solid var(--good); }
+.ma-kpi-card.warn  { border-left: 4px solid var(--warn); }
+.ma-kpi-card.bad   { border-left: 4px solid var(--bad); }
+
+/* ── Narrative block ── */
+.ma-narrative {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.1rem;
+  font-size: var(--small);
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+/* ── Data table ── */
+.ma-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.ma-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--small);
+}
+
+.ma-table thead th {
+  background: var(--bg2);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: var(--tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.ma-table tbody td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.ma-table tbody tr:last-child td { border-bottom: none; }
+.ma-table tbody tr:hover { background: var(--bg2); }
+
+/* ── Score pill / badge ── */
+.ma-score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 99px;
+  font-size: var(--tiny);
+  font-weight: 700;
+}
+
+.ma-score-pill.high     { background: var(--good-dim); color: var(--good); }
+.ma-score-pill.moderate { background: var(--warn-dim); color: var(--warn); }
+.ma-score-pill.low      { background: var(--bad-dim);  color: var(--bad);  }
+
+/* ── Section placeholder ── */
+.ma-section-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  color: var(--faint);
+  font-size: var(--small);
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ── Component score bar (6-component model) ── */
+.ma-component-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .ma-component-grid { grid-template-columns: 1fr; }
+}
+
+.ma-component-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.9rem;
+}
+
+.ma-component-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.ma-component-name {
+  font-size: var(--tiny);
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ma-component-score {
+  font-size: var(--small);
+  font-weight: 800;
+  color: var(--text-strong);
+}
+
+.ma-component-bar-wrap {
+  height: 5px;
+  background: var(--bg2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.ma-component-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+/* ── Opportunity band chip ── */
+.ma-opportunity-chip {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: var(--tiny);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ma-opportunity-chip.high     { background: var(--good-dim); color: var(--good); }
+.ma-opportunity-chip.moderate { background: var(--warn-dim); color: var(--warn); }
+.ma-opportunity-chip.lower    { background: var(--bad-dim);  color: var(--bad);  }
+
+/* ── Mobile: single column for report sections ── */
+@media (max-width: 600px) {
+  .ma-kpi-grid { grid-template-columns: 1fr 1fr; }
+  .ma-report-section > h2 { font-size: var(--h3); }
+}
