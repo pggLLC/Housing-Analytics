@@ -22,6 +22,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/market-data-quality.js"></script>
+  <script defer src="js/market-analysis-enhancements.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -31,6 +33,21 @@
       <p style="max-width:640px">Public Market Analysis (PMA) scoring engine. Click the map to place a site, choose a buffer radius, and receive a scored assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
+    </div>
+
+    <!-- ── Data Quality Banner ── -->
+    <div id="pmaDataQualityBanner" class="pma-quality-banner" aria-live="polite" aria-atomic="true" style="display:none">
+      <div class="pma-quality-row">
+        <span class="pma-quality-label">Data Coverage:</span>
+        <span id="pmaQualityAcs" class="pma-quality-pill">ACS —</span>
+        <span id="pmaQualityLihtc" class="pma-quality-pill">LIHTC —</span>
+        <span id="pmaQualityTracks" class="pma-quality-pill">Tracts —</span>
+        <span class="pma-quality-label" style="margin-left:auto">Confidence:</span>
+        <span id="pmaConfidenceScore" class="pma-confidence-badge">—</span>
+        <span class="pma-quality-label">Freshness:</span>
+        <span id="pmaFreshnessIndicator" class="pma-freshness-badge">—</span>
+      </div>
+      <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
     </div>
 
     <div class="pma-layout">
@@ -150,12 +167,40 @@
           </div>
         </div>
 
+        <!-- Scenario Analysis -->
+        <div class="pma-card">
+          <h2>Scenario Analysis</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">What-if modeling: compare score outcomes for different unit counts.</p>
+          <div id="pmaScenarioResult">
+            <div class="pma-empty">Run analysis to compare scenarios.</div>
+          </div>
+        </div>
+
+        <!-- Peer Benchmarking -->
+        <div class="pma-card">
+          <h2>Peer Benchmarking</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Compare this site to ~50 known Colorado LIHTC projects.</p>
+          <div id="pmaBenchmarkResult">
+            <div class="pma-empty">Run analysis to see benchmarking.</div>
+          </div>
+        </div>
+
+        <!-- Competitive Pipeline -->
+        <div class="pma-card">
+          <h2>Competitive Pipeline</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">LIHTC projects in buffer classified by estimated development stage.</p>
+          <div id="pmaPipelineResult">
+            <div class="pma-empty">Run analysis to see pipeline.</div>
+          </div>
+        </div>
+
         <!-- Export -->
         <div class="pma-card">
           <h2>Export</h2>
           <div class="pma-export-bar">
             <button class="pma-btn" id="pmaExportJson" type="button">Export JSON</button>
             <button class="pma-btn" id="pmaExportCsv" type="button">Export CSV</button>
+            <button class="pma-btn" id="pmaExportMeta" type="button">Export with Metadata</button>
           </div>
         </div>
 
