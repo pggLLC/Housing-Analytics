@@ -5,7 +5,7 @@
 // - Tooltips show "quick data" (required commitment + status/date/link when available).
 // Data source:
 // - Recommended: a serverless endpoint returning JSON: { updated, source_url, jurisdictions: [...] }
-// - Fallback: /data/prop123_jurisdictions.json
+// - Fallback: /data/policy/prop123_jurisdictions.json
 //
 // Jurisdiction object schema (serverless + fallback):
 // {
@@ -137,7 +137,7 @@
 
     // TIGERweb layers:
     // Places (incorporated places) layer:
-    const TIGER_PLACES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
+    const TIGER_PLACES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/2';
     // Counties layer:
     const TIGER_COUNTIES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1';
 
