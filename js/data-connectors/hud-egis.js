@@ -48,11 +48,11 @@
    */
   function isDda(lat, lon) {
     if (!localDdaData) {
-      console.log('[HudEgis] QCT lookup not available in static mode');
+      console.log('[HudEgis] DDA lookup not available in static mode');
       return false;
     }
     // Future: perform point-in-polygon against localDdaData.features
-    console.log('[HudEgis] QCT lookup not available in static mode');
+    console.log('[HudEgis] DDA lookup not available in static mode');
     return false;
   }
 
