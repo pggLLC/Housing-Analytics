@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Quality Dashboard | Colorado Housing Analytics</title>
+  <meta name="description" content="Live status of data sources, API configurations, and pipeline health for Colorado Housing Analytics.">
+  <meta property="og:title" content="Data Quality Dashboard | COHO Analytics">
+  <meta property="og:description" content="Monitor API key configuration, data freshness, and pipeline health.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .dq-section {
+      margin: 1.5rem 0;
+    }
+    .dq-section h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary, #1a1a2e);
+    }
+    .dq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .dq-card {
+      background: var(--card-bg, #fff);
+      border: 1px solid var(--border, #dde3ec);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .dq-card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary, #555);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .dq-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .dq-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dq-dot--ok      { background: #2e7d32; }
+    .dq-dot--warn    { background: #f57c00; }
+    .dq-dot--missing { background: #c62828; }
+    .dq-dot--pending { background: #546e7a; }
+    .dq-detail {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #666);
+      margin-top: 0.3rem;
+    }
+    .dq-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .dq-badge--ok      { background: #e8f5e9; color: #2e7d32; }
+    .dq-badge--warn    { background: #fff3e0; color: #e65100; }
+    .dq-badge--missing { background: #ffebee; color: #b71c1c; }
+    .dq-badge--pending { background: #eceff1; color: #37474f; }
+    .dq-notice {
+      background: var(--card-bg, #fff);
+      border-left: 4px solid var(--accent, #096e65);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary, #555);
+      margin-bottom: 1.5rem;
+    }
+    .dq-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .dq-table th,
+    .dq-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border, #dde3ec);
+      text-align: left;
+    }
+    .dq-table th {
+      font-weight: 600;
+      color: var(--text-secondary, #555);
+      background: var(--bg-muted, #f5f7fa);
+    }
+    @media (max-width: 600px) {
+      .dq-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
+
+<main id="main-content">
+<div class="dashboard-container" style="max-width:1100px;margin:0 auto;padding:1.5rem 1rem;">
+
+  <!-- Page Header -->
+  <div class="page-header" style="margin-bottom:1.5rem;">
+    <h1 class="page-title">Data Quality Dashboard</h1>
+    <p class="page-subtitle">API configuration status, data-source health, and pipeline indicators</p>
+    <small id="dqTimestamp" class="data-timestamp"></small>
+  </div>
+
+  <div class="dq-notice" id="dqNotice" aria-live="polite">
+    Checking data-source configuration&hellip;
+  </div>
+
+  <!-- API Configuration Status -->
+  <div class="dq-section">
+    <h2>API Configuration</h2>
+    <div class="dq-grid" id="apiStatusGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- Data Source Health -->
+  <div class="dq-section">
+    <h2>Data Source Health</h2>
+    <div style="overflow-x:auto;">
+      <table class="dq-table" id="sourceTable" aria-label="Data source health table">
+        <thead>
+          <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Local File</th>
+            <th scope="col">Last Refreshed</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="sourceTableBody">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pipeline Events -->
+  <div class="dq-section">
+    <h2>Pipeline Log</h2>
+    <pre id="pipelineLog" aria-live="polite" style="background:var(--bg-muted,#f5f7fa);border:1px solid var(--border,#dde3ec);border-radius:6px;padding:0.75rem 1rem;font-size:0.78rem;max-height:260px;overflow-y:auto;white-space:pre-wrap;"></pre>
+  </div>
+
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  // -------------------------------------------------------------------------
+  // Helpers
+  // -------------------------------------------------------------------------
+  var log = [];
+  function emit(msg) {
+    log.push('[' + new Date().toISOString().replace('T', ' ').slice(0, 19) + '] ' + msg);
+    var el = document.getElementById('pipelineLog');
+    if (el) el.textContent = log.join('\n');
+  }
+
+  function announceUpdate(msg) {
+    var region = document.getElementById('aria-live-region');
+    if (region) region.textContent = msg;
+  }
+
+  /**
+   * Detect whether a Census API key is configured.
+   * Browser-side: reads from window.APP_CONFIG (populated by js/config.js in CI deployments).
+   * Falls back to checking a meta tag written by a build step.
+   * @returns {{ configured: boolean, source: string }}
+   */
+  function detectCensusApiConfig() {
+    // 1. Check window.APP_CONFIG (injected by js/config.js during deploy)
+    if (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) {
+      return { configured: true, source: 'APP_CONFIG' };
+    }
+    // 2. Check meta tag <meta name="census-api-status" content="configured">
+    var meta = document.querySelector('meta[name="census-api-status"]');
+    if (meta && meta.content === 'configured') {
+      return { configured: true, source: 'meta tag' };
+    }
+    return { configured: false, source: 'none' };
+  }
+
+  function detectFredApiConfig() {
+    if (window.APP_CONFIG && window.APP_CONFIG.FRED_API_KEY) {
+      return { configured: true, source: 'APP_CONFIG' };
+    }
+    return { configured: false, source: 'none' };
+  }
+
+  // -------------------------------------------------------------------------
+  // Render API status cards
+  // -------------------------------------------------------------------------
+  function renderApiCards() {
+    var census = detectCensusApiConfig();
+    var fred   = detectFredApiConfig();
+
+    var cards = [
+      {
+        title: 'Census API Key',
+        key:   'CENSUS_API_KEY',
+        state: census.configured ? 'ok' : 'warn',
+        label: census.configured ? 'Configured' : 'Not detected',
+        detail: census.configured
+          ? 'Key present via ' + census.source + '. Authenticated Census requests enabled.'
+          : 'Key not detected in browser config. CI/CD uses GitHub Secrets. ' +
+            'Unauthenticated requests will be used (rate-limited). ' +
+            'See SETUP-DATA-SOURCES.md for instructions.',
+      },
+      {
+        title: 'FRED API Key',
+        key:   'FRED_API_KEY',
+        state: fred.configured ? 'ok' : 'warn',
+        label: fred.configured ? 'Configured' : 'Not detected',
+        detail: fred.configured
+          ? 'Key present via ' + fred.source + '. FRED economic data enabled.'
+          : 'Key not detected in browser config. CI/CD uses GitHub Secrets.',
+      },
+    ];
+
+    var grid = document.getElementById('apiStatusGrid');
+    if (!grid) return;
+
+    grid.innerHTML = cards.map(function (c) {
+      return '<div class="dq-card">' +
+        '<div class="dq-card-title">' + escHtml(c.title) + '</div>' +
+        '<div class="dq-status">' +
+          '<span class="dq-dot dq-dot--' + c.state + '" aria-hidden="true"></span>' +
+          '<span class="dq-badge dq-badge--' + c.state + '">' + escHtml(c.label) + '</span>' +
+        '</div>' +
+        '<div class="dq-detail">' + escHtml(c.detail) + '</div>' +
+      '</div>';
+    }).join('');
+
+    var censusState = census.configured ? 'ok' : 'warn';
+    emit('Census API key: ' + (census.configured ? 'configured (' + census.source + ')' : 'NOT detected in browser config'));
+    emit('FRED API key: '   + (fred.configured   ? 'configured (' + fred.source + ')'   : 'NOT detected in browser config'));
+
+    // Top-level notice
+    var notice = document.getElementById('dqNotice');
+    if (notice) {
+      if (!census.configured && !fred.configured) {
+        notice.textContent = 'Neither CENSUS_API_KEY nor FRED_API_KEY is detected in the browser ' +
+          'configuration. This is normal when viewing locally. In CI/CD both keys are supplied via ' +
+          'GitHub Secrets and injected by the deploy workflow.';
+        notice.style.borderLeftColor = '#f57c00';
+      } else if (!census.configured) {
+        notice.textContent = 'CENSUS_API_KEY is not detected in the browser configuration. ' +
+          'Census API calls will use unauthenticated (rate-limited) requests. ' +
+          'Add the key to GitHub Secrets to enable authenticated access.';
+        notice.style.borderLeftColor = '#f57c00';
+      } else {
+        notice.textContent = 'All monitored API keys are configured.';
+        notice.style.borderLeftColor = '#2e7d32';
+      }
+      announceUpdate(notice.textContent);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Render data source table
+  // -------------------------------------------------------------------------
+  var DATA_SOURCES = [
+    {
+      name:   'Census ACS (state)',
+      file:   'data/census-acs-state.json',
+      tsPath: ['meta', 'pulled_at_utc'],
+      notes:  'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
+    },
+    {
+      name:   'CO County Demographics',
+      file:   'data/co-county-demographics.json',
+      tsPath: ['meta', 'refreshed_utc'],
+      notes:  'Updated daily by data-refresh.yml. Graceful fallback if key missing.',
+    },
+    {
+      name:   'CHFA LIHTC',
+      file:   'data/chfa-lihtc.json',
+      tsPath: ['fetchedAt'],
+      notes:  'Updated weekly by fetch-chfa-lihtc.yml. No API key required.',
+    },
+    {
+      name:   'FRED Economic Data',
+      file:   'data/fred-data.json',
+      tsPath: ['updated'],
+      notes:  'Updated daily by fetch-fred-data.yml. Requires FRED_API_KEY.',
+    },
+    {
+      name:   'Data Manifest',
+      file:   'data/manifest.json',
+      tsPath: ['generated'],
+      notes:  'Rebuilt by data-refresh.yml after each successful data fetch.',
+    },
+  ];
+
+  function deepGet(obj, keys) {
+    var cur = obj;
+    for (var i = 0; i < keys.length; i++) {
+      if (cur == null || typeof cur !== 'object') return null;
+      cur = cur[keys[i]];
+    }
+    return cur != null ? String(cur) : null;
+  }
+
+  function fmtTs(iso) {
+    if (!iso) return '—';
+    try {
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      var ago = Date.now() - d.getTime();
+      var days = Math.floor(ago / 86400000);
+      if (days === 0)  return 'today';
+      if (days === 1)  return 'yesterday';
+      if (days < 30)   return days + ' days ago';
+      if (days < 365)  return Math.floor(days / 30) + ' months ago';
+      return d.toISOString().slice(0, 10);
+    } catch (_) { return iso; }
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderSourceTable() {
+    var tbody = document.getElementById('sourceTableBody');
+    if (!tbody) return;
+
+    // Fetch each file and populate rows
+    DATA_SOURCES.forEach(function (src) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + escHtml(src.name)  + '</td>' +
+        '<td><span class="dq-badge dq-badge--pending">Checking…</span></td>' +
+        '<td>—</td>' +
+        '<td>' + escHtml(src.notes) + '</td>';
+      tbody.appendChild(tr);
+
+      var fileCell = tr.cells[1];
+      var tsCell   = tr.cells[2];
+
+      var url = (window.DataService && window.DataService.baseData)
+        ? window.DataService.baseData(src.file)
+        : src.file;
+
+      fetch(url)
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var ts = deepGet(data, src.tsPath);
+          fileCell.innerHTML = '<span class="dq-badge dq-badge--ok">Present</span>';
+          tsCell.textContent = fmtTs(ts);
+          emit(src.name + ': present — last refreshed ' + (ts || 'unknown'));
+        })
+        .catch(function (e) {
+          fileCell.innerHTML = '<span class="dq-badge dq-badge--missing">Missing</span>';
+          tsCell.textContent = '—';
+          emit(src.name + ': ' + e.message);
+        });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Init
+  // -------------------------------------------------------------------------
+  function init() {
+    var tsEl = document.getElementById('dqTimestamp');
+    if (tsEl) tsEl.textContent = 'Checked at ' + new Date().toLocaleString();
+
+    emit('Data Quality Dashboard initialized');
+    renderApiCards();
+    renderSourceTable();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose for testing
+  window.__DQ = { detectCensusApiConfig: detectCensusApiConfig, detectFredApiConfig: detectFredApiConfig };
+})();
+</script>
+</body>
+</html>
