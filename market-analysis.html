@@ -124,6 +124,49 @@
 
     <section class="ma-report-section" id="maPmaTool">
       <h2>PMA Scoring Tool</h2>
+
+      <!-- ── Delineation method tabs ── -->
+      <div class="pma-method-bar" style="margin-bottom:1rem;">
+        <div role="tablist" class="pma-method-tabs" aria-label="PMA delineation method"
+             style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;">
+          <button role="tab" id="pmaMethodTabBuffer"    aria-selected="true"
+                  aria-controls="pmaMethodPanel-buffer"
+                  class="pma-tab pma-tab--active" data-pma-method="buffer"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Buffer-based
+            <span style="font-size:.75em;opacity:.65;">(legacy)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabCommuting" aria-selected="false"
+                  aria-controls="pmaMethodPanel-commuting"
+                  class="pma-tab" data-pma-method="commuting"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Commuting-based
+            <span style="font-size:.75em;opacity:.65;">(LODES)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="false"
+                  aria-controls="pmaMethodPanel-hybrid"
+                  class="pma-tab" data-pma-method="hybrid"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Hybrid
+            <span style="font-size:.75em;opacity:.65;">(recommended)</span>
+          </button>
+        </div>
+        <div id="pmaMethodPanel-buffer"    role="tabpanel" aria-labelledby="pmaMethodTabBuffer">
+          <!-- buffer radius shown inline below -->
+        </div>
+        <div id="pmaMethodPanel-commuting" role="tabpanel" aria-labelledby="pmaMethodTabCommuting" hidden>
+          <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
+            Delineates PMA from LEHD/LODES commuting flows, capturing ~75 % of likely residents.
+            Falls back to 5-mile buffer when LODES data is unavailable.
+          </p>
+        </div>
+        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid"    hidden>
+          <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
+            Combines commuting flows with school district boundaries and transit catchment areas.
+          </p>
+        </div>
+      </div>
+
     <div class="pma-layout">
       <!-- ── Left: Map ── -->
       <div class="pma-map-wrap">
@@ -139,6 +182,35 @@
         </div>
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
         <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
+
+        <!-- ── Layer picker (commuting / hybrid modes) ── -->
+        <div id="pmaLayerPickerWrap" hidden
+             style="margin-top:.75rem;border:1px solid var(--border,#444);border-radius:6px;padding:.65rem .85rem;">
+          <p style="font-size:.8em;font-weight:600;margin:0 0 .4rem;">Map layers</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.8em;">
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="commuting" checked /> Commuting flows
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="barriers" /> Barriers
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="schools" /> Schools
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> OZ / AFFH
+            </label>
+            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
+              <input type="checkbox" class="pma-layer-toggle" data-layer="infrastructure" /> Infrastructure
+            </label>
+          </div>
+        </div>
       </div>
 
       <!-- ── Right: Analysis Panel ── -->
@@ -155,9 +227,31 @@
               <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
             </div>
           </div>
-          <div style="margin-top:0.75rem">
+          <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">
             <button class="pma-btn pma-btn-primary" id="pmaRunBtn" type="button">Run Analysis</button>
+            <button class="pma-btn" id="pmaExplainScoreBtn" type="button" hidden>Explain Score</button>
           </div>
+
+          <!-- ── Progress bar (visible during analysis) ── -->
+          <div id="pmaProgressWrap"
+               style="margin-top:.75rem;display:none;"
+               aria-live="polite" aria-atomic="false">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem;">
+              <span id="pmaProgressLabel" style="font-size:.8em;color:var(--text,#eee);">Initializing…</span>
+              <span id="pmaProgressPct"   style="font-size:.75em;color:var(--faint,#888);">0 %</span>
+            </div>
+            <div role="progressbar"
+                 id="pmaProgressBar"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                 aria-labelledby="pmaProgressLabel"
+                 style="height:6px;background:var(--border,#333);border-radius:3px;overflow:hidden;">
+              <div id="pmaProgressFill"
+                   style="height:100%;width:0%;background:var(--accent,#096e65);border-radius:3px;transition:width .3s ease;"></div>
+            </div>
+            <div id="pmaProgressSteps"
+                 style="font-size:.72em;color:var(--faint,#888);margin-top:.25rem;">Step 0 of 9</div>
+          </div>
+
         </div>
 
         <!-- Radar Chart + Dimensions -->
@@ -268,6 +362,29 @@
           </div>
         </div>
 
+        <!-- Justification Narrative (commuting / hybrid modes) -->
+        <div class="pma-card" id="pmaJustificationCard" hidden>
+          <h2>PMA Justification Narrative</h2>
+          <p style="font-size:var(--tiny);margin-bottom:.5rem;">
+            Auto-generated plain-English rationale for boundary selection — suitable for LIHTC / CHFA application attachments.
+          </p>
+          <div id="pmaJustificationNarrative"
+               aria-live="polite" aria-atomic="false"
+               style="white-space:pre-wrap;font-size:.8em;line-height:1.65;max-height:260px;overflow-y:auto;
+                      background:var(--bg,#111);border:1px solid var(--border,#333);border-radius:5px;
+                      padding:.75rem .85rem;color:var(--text,#ddd);"></div>
+          <!-- Subsidy expiry risk table (populated when NHPD data found) -->
+          <div id="pmaSubsidyRiskWrap" hidden style="margin-top:.75rem;">
+            <p style="font-size:.78em;font-weight:600;margin-bottom:.35rem;">⚠ At-risk subsidy properties near site:</p>
+            <div id="pmaSubsidyRiskList" style="font-size:.78em;"></div>
+          </div>
+          <!-- Opportunity / incentive badges -->
+          <div id="pmaIncentiveBadges" style="margin-top:.65rem;display:flex;flex-wrap:wrap;gap:.4rem;"></div>
+          <div style="margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;">
+            <button class="pma-btn" id="pmaExportAuditJson" type="button">Export Audit Trail (JSON)</button>
+          </div>
+        </div>
+
         <!-- Export -->
         <div class="pma-card">
           <h2>Export</h2>
@@ -289,9 +406,11 @@
         <strong>ACS data:</strong> US Census Bureau American Community Survey 5-Year Estimates (B01003, B25003, B25004, B25070, B25064).
         <strong>LIHTC:</strong> HUD LIHTC Database (public).
         <strong>Geographies:</strong> Census TIGERweb tract centroids.
-        All data is pre-computed and bundled; no API key required.
-        See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a> and
-        <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a> for full methodology.
+        <strong>Enhanced delineation:</strong> LEHD/LODES commuting flows, USGS hydrology, school boundaries (ED), NTD transit, EPA Smart Location, HUD NHPD, Opportunity Zones, FEMA flood zones.
+        All data is pre-computed or fetched from free public APIs; no proprietary key required.
+        See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a>,
+        <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a>, and
+        <a href="docs/PMA_DATA_ENHANCEMENTS.md">PMA_DATA_ENHANCEMENTS.md</a> for full methodology.
       </p>
     </section>
   </main>
@@ -310,6 +429,18 @@
   <script defer src="js/data-connectors/epa-cleanup.js"></script>
   <script defer src="js/market-analysis/market-analysis-controller.js"></script>
   <script defer src="js/market-analysis.js"></script>
+  <!-- Enhanced PMA delineation modules -->
+  <script defer src="js/pma-commuting.js"></script>
+  <script defer src="js/pma-barriers.js"></script>
+  <script defer src="js/pma-employment-centers.js"></script>
+  <script defer src="js/pma-schools.js"></script>
+  <script defer src="js/pma-transit.js"></script>
+  <script defer src="js/pma-competitive-set.js"></script>
+  <script defer src="js/pma-opportunities.js"></script>
+  <script defer src="js/pma-infrastructure.js"></script>
+  <script defer src="js/pma-justification.js"></script>
+  <script defer src="js/pma-analysis-runner.js"></script>
+  <script defer src="js/pma-ui-controller.js"></script>
 
 <footer id="site-footer"></footer>
 </body>

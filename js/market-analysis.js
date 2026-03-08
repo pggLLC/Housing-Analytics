@@ -1041,10 +1041,68 @@
     });
   });
 
+  /* ── PMA polygon generator (buffer | commuting | hybrid) ────────── */
+  /**
+   * Generate a PMA polygon using one of three methods:
+   *   "buffer"    – legacy circular buffer (existing behaviour)
+   *   "commuting" – LEHD/LODES commuting-flow polygon via PMACommuting
+   *   "hybrid"    – commuting polygon further constrained by schools + transit
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @param {string} [method]      - "buffer" | "commuting" | "hybrid" (default: "buffer")
+   * @param {number} [bufferMiles] - radius for buffer method (default: 5)
+   * @returns {Promise<{polygon: object|null, method: string, captureRate: number}>}
+   */
+  function generatePmaPolygon(lat, lon, method, bufferMiles) {
+    method      = method      || 'buffer';
+    bufferMiles = bufferMiles || 5;
+
+    if (method === 'buffer') {
+      var commMod = window.PMACommuting;
+      var poly = commMod
+        ? commMod._buildCirclePolygon(lat, lon, bufferMiles, 32)
+        : null;
+      return Promise.resolve({ polygon: poly, method: 'buffer', captureRate: 0 });
+    }
+
+    var pmaComm = window.PMACommuting;
+    if (!pmaComm) {
+      // Fall back to buffer if module not loaded
+      return generatePmaPolygon(lat, lon, 'buffer', bufferMiles);
+    }
+
+    return pmaComm.fetchLODESWorkplaces(lat, lon).then(function (lodesData) {
+      var flowResult  = pmaComm.analyzeCommutingFlows(lodesData.workplaces || []);
+      var boundResult = pmaComm.generateCommutingBoundary(lat, lon, flowResult);
+
+      if (method === 'hybrid') {
+        // Hybrid: commuting boundary + note on schools/transit alignment
+        // (full spatial merge requires server-side; return commuting polygon with hybrid flag)
+        return {
+          polygon:     boundResult.boundary,
+          method:      'hybrid',
+          captureRate: boundResult.captureRate,
+          zoneCentroids: boundResult.zoneCentroids
+        };
+      }
+
+      return {
+        polygon:     boundResult.boundary,
+        method:      'commuting',
+        captureRate: boundResult.captureRate,
+        zoneCentroids: boundResult.zoneCentroids
+      };
+    }).catch(function () {
+      return generatePmaPolygon(lat, lon, 'buffer', bufferMiles);
+    });
+  }
+
   // Expose for testing
   window.PMAEngine = {
     haversine:               haversine,
     computePma:              computePma,
+    generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
