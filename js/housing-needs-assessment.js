@@ -1560,11 +1560,13 @@
 
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
-      : geoType === 'place'
-        ? `place:${geoid.slice(2)}`
-        : `place:${geoid.slice(2)}`;
+      : geoType === 'state'
+        ? `state:${STATE_FIPS_CO}`
+        : geoType === 'place'
+          ? `place:${geoid.slice(2)}`
+          : `place:${geoid.slice(2)}`;
 
-    const inParam = `state:${STATE_FIPS_CO}`;
+    const inParam = geoType === 'state' ? null : `state:${STATE_FIPS_CO}`;
     const key = censusKey();
 
     function buildUrl(year, dataset){
@@ -1573,7 +1575,8 @@
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}&in=${inParam}`;
+      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
+      if (inParam) qs += `&in=${inParam}`;
       if (key) qs += `&key=${encodeURIComponent(key)}`;
       return `${base}?${qs}`;
     }
