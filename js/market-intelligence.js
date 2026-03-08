@@ -6,7 +6,7 @@
  *  - Census ACS 5-year estimates (api.census.gov, public)
  *  - FRED economic series via data/fred-data.json (fetched by CI)
  *  - CHFA / HUD LIHTC data via data/chfa-lihtc.json (fetched by CI)
- *  - Prop 123 jurisdictions via data/prop123_jurisdictions.json (local)
+ *  - Prop 123 jurisdictions via data/policy/prop123_jurisdictions.json (local)
  *  - Census Building Permits via FRED proxy series
  */
 (function () {
@@ -327,7 +327,7 @@
 
   /* ── Load Prop 123 ─────────────────────────────────────────────── */
   function loadProp123() {
-    return fetchJSON(resolveData('prop123_jurisdictions.json')).then(function (data) {
+    return fetchJSON(resolveData('policy/prop123_jurisdictions.json')).then(function (data) {
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
       currentData.prop123 = list;
       renderPolicyKpis(list, selectedCounty);

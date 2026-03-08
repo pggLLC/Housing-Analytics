@@ -667,7 +667,7 @@
     // Primary ArcGIS LIHTC FeatureServer — all layers, Colorado only (STATEFP='08').
     // The /layers endpoint is used first to discover every available layer so that
     // no data layer is inadvertently skipped.
-    var LIHTC_BASE   = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer';
+    var LIHTC_BASE   = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer';
     var LIHTC_LAYERS = LIHTC_BASE + '/layers?f=json';
     // Fallback: secondary HUD properties service (also Colorado-only via STATEFP='08').
     var HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';

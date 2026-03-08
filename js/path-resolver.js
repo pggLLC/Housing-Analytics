@@ -21,8 +21,8 @@
     var pathname = (window.location && window.location.pathname) ? window.location.pathname : '/';
     var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
 
-    // If first segment looks like a file (contains '.'), treat as root
-    if (!parts.length || parts[0].indexOf('.') !== -1) return '/';
+    // If first segment looks like a file (has a recognised extension), treat as root
+    if (!parts.length || /\.\w+$/.test(parts[0])) return '/';
 
     // GitHub Pages project site: /RepoName/...  (preserve original casing)
     return '/' + parts[0] + '/';
