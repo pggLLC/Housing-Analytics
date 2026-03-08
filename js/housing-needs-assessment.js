@@ -4310,30 +4310,34 @@
     let profile=null, s0801=null;
     const cacheFlags = { summary:false, lehd:false, dola:false, projections:false, derived:false };
 
-    try{
-      const sum = await loadJson(PATHS.summary(geoid));
-      if (sum && sum.acsProfile) {
-        profile = sum.acsProfile;
-        s0801 = sum.acsS0801;
-        cacheFlags.summary = true;
-        // Extract year and series from cached source endpoint URL if available
-        const endpointMeta = (url) => {
-          if (!url) return {};
-          const m = url.match(/\/data\/(\d{4})\//);
-          return { year: m ? parseInt(m[1], 10) : null, series: url.includes('/acs1/') ? 'acs1' : 'acs5' };
-        };
-        if (!profile._acsYear && sum.source?.acs_profile_endpoint) {
-          const { year, series } = endpointMeta(sum.source.acs_profile_endpoint);
-          if (year) profile._acsYear = year;
-          profile._acsSeries = series;
+    // No state-level summary file exists (data/hna/summary/ holds 5-digit county and
+    // 7-digit place GEOIDs only). Skip the fetch for state to avoid a spurious 404.
+    if (geoType !== 'state') {
+      try{
+        const sum = await loadJson(PATHS.summary(geoid));
+        if (sum && sum.acsProfile) {
+          profile = sum.acsProfile;
+          s0801 = sum.acsS0801;
+          cacheFlags.summary = true;
+          // Extract year and series from cached source endpoint URL if available
+          const endpointMeta = (url) => {
+            if (!url) return {};
+            const m = url.match(/\/data\/(\d{4})\//);
+            return { year: m ? parseInt(m[1], 10) : null, series: url.includes('/acs1/') ? 'acs1' : 'acs5' };
+          };
+          if (!profile._acsYear && sum.source?.acs_profile_endpoint) {
+            const { year, series } = endpointMeta(sum.source.acs_profile_endpoint);
+            if (year) profile._acsYear = year;
+            profile._acsSeries = series;
+          }
+          if (s0801 && !s0801._acsYear && sum.source?.acs_s0801_endpoint) {
+            const { year, series } = endpointMeta(sum.source.acs_s0801_endpoint);
+            if (year) s0801._acsYear = year;
+            s0801._acsSeries = series;
+          }
         }
-        if (s0801 && !s0801._acsYear && sum.source?.acs_s0801_endpoint) {
-          const { year, series } = endpointMeta(sum.source.acs_s0801_endpoint);
-          if (year) s0801._acsYear = year;
-          s0801._acsSeries = series;
-        }
-      }
-    }catch(_){/* ignore */}
+      }catch(_){/* ignore */}
+    }
 
     if (!profile){
       if (!censusKey()) {
