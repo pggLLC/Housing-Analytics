@@ -111,6 +111,21 @@
   function updateStatus(message) {
     var el = document.getElementById('map-status') || document.getElementById('status');
     if (el) el.textContent = message;
+    // Update loading indicator panel if present
+    var loadingEl = document.getElementById('mapLoadingIndicator');
+    var loadingText = document.getElementById('mapLoadingText');
+    var loadingSpinner = document.getElementById('mapLoadingSpinner');
+    if (loadingEl && loadingText) {
+      loadingText.textContent = message;
+      // Hide the loading indicator when data is ready
+      var done = /Source:|ready|unavailable|failed/i.test(message);
+      if (done) {
+        loadingSpinner && (loadingSpinner.style.display = 'none');
+        loadingEl.style.opacity = '0';
+        loadingEl.style.transition = 'opacity .4s';
+        setTimeout(function () { loadingEl.style.display = 'none'; }, 450);
+      }
+    }
   }
 
   // ── Fetch with timeout ───────────────────────────────────────────────────────
@@ -822,12 +837,13 @@
       qctLayerGroup    = L.layerGroup();
       countyLayerGroup = L.layerGroup();
 
-      // Restrict pan/zoom to Colorado ± ~50 miles
+      // Restrict pan/zoom to Colorado
       var coloradoBounds = L.latLngBounds(
-        L.latLng(36.8, -109.5),
-        L.latLng(41.5, -102.0)
+        L.latLng(36.8, -109.1),
+        L.latLng(41.1, -102.0)
       );
       map.setMaxBounds(coloradoBounds.pad(0.45));
+      map.setMinZoom(6);
 
       // Apply tile layer from basemap selector (replaces hardcoded OSM)
       wireBasemap(map);
