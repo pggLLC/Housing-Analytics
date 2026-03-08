@@ -160,6 +160,96 @@ test('CSS contains new section styles', () => {
   assert(css.includes('.commuting-table'),        '.commuting-table class defined');
 });
 
+// ── Municipal Analysis Module ────────────────────────────────────────────────
+
+const MUNICIPAL_JS = path.join(ROOT, 'js', 'municipal-analysis.js');
+
+test('municipal-analysis.js: file exists and is non-empty', () => {
+  assert(fs.existsSync(MUNICIPAL_JS),                'js/municipal-analysis.js exists');
+  const src = fs.readFileSync(MUNICIPAL_JS, 'utf8');
+  assert(src.length > 500,                           'file is non-trivially sized');
+});
+
+test('municipal-analysis.js: loaded via CommonJS exports all 7 public functions', () => {
+  const MA = require(MUNICIPAL_JS);
+  assert(typeof MA.calculateMunicipalScaling         === 'function', 'calculateMunicipalScaling exported');
+  assert(typeof MA.estimateMunicipalHousingStock     === 'function', 'estimateMunicipalHousingStock exported');
+  assert(typeof MA.scaleMunicipalAffordability       === 'function', 'scaleMunicipalAffordability exported');
+  assert(typeof MA.projectMunicipalDemographics      === 'function', 'projectMunicipalDemographics exported');
+  assert(typeof MA.estimateMunicipalEmployment       === 'function', 'estimateMunicipalEmployment exported');
+  assert(typeof MA.calculateMunicipalProp123Baseline === 'function', 'calculateMunicipalProp123Baseline exported');
+  assert(typeof MA.getDataConfidence                 === 'function', 'getDataConfidence exported');
+});
+
+test('municipal-analysis.js: HTML references the script before housing-needs-assessment.js', () => {
+  const municipalIdx = hnaHtml.indexOf('municipal-analysis.js');
+  const hnaIdx       = hnaHtml.indexOf('housing-needs-assessment.js');
+  assert(municipalIdx !== -1, 'HTML references municipal-analysis.js');
+  assert(hnaIdx       !== -1, 'HTML references housing-needs-assessment.js');
+  assert(municipalIdx < hnaIdx, 'municipal-analysis.js loads before housing-needs-assessment.js');
+});
+
+test('HTML contains ARIA live region for screen-reader announcements (WCAG 4.1.3)', () => {
+  assert(hnaHtml.includes('id="hnaLiveRegion"'),       '#hnaLiveRegion element present');
+  assert(hnaHtml.includes('aria-live="polite"'),        'aria-live="polite" attribute present');
+  assert(hnaHtml.includes('aria-atomic="true"'),        'aria-atomic="true" attribute present');
+});
+
+test('HTML contains dataQualityBadge element', () => {
+  assert(hnaHtml.includes('id="dataQualityBadge"'),    '#dataQualityBadge element present');
+  assert(hnaHtml.includes('data-quality-badge'),       'data-quality-badge CSS class referenced');
+});
+
+test('HTML contains municipalComparisonPanel with required sub-elements', () => {
+  assert(hnaHtml.includes('id="municipalComparisonPanel"'), '#municipalComparisonPanel present');
+  assert(hnaHtml.includes('id="mcpPopShare"'),              '#mcpPopShare stat present');
+  assert(hnaHtml.includes('id="mcpEstUnits"'),              '#mcpEstUnits stat present');
+  assert(hnaHtml.includes('id="mcpRentAdj"'),               '#mcpRentAdj stat present');
+  assert(hnaHtml.includes('id="mcpEstJobs"'),               '#mcpEstJobs stat present');
+  assert(hnaHtml.includes('mcp-methodology'),               'methodology accordion present');
+});
+
+test('CSS contains confidence-level classes for data quality badge', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8');
+  assert(css.includes('.confidence-direct'),       '.confidence-direct class defined');
+  assert(css.includes('.confidence-interpolated'), '.confidence-interpolated class defined');
+  assert(css.includes('.confidence-estimated'),    '.confidence-estimated class defined');
+  assert(css.includes('.confidence-unavailable'),  '.confidence-unavailable class defined');
+  assert(css.includes('.data-quality-badge'),      '.data-quality-badge class defined');
+  assert(css.includes('.municipal-comparison-panel'), '.municipal-comparison-panel class defined');
+});
+
+test('data/hna/municipal/municipal-config.json exists with 32 municipalities', () => {
+  const configPath = path.join(ROOT, 'data', 'hna', 'municipal', 'municipal-config.json');
+  assert(fs.existsSync(configPath), 'municipal-config.json exists');
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  assert(Array.isArray(config.municipalities),      'municipalities array present');
+  assert(config.municipalities.length === 32,       'exactly 32 municipalities');
+});
+
+test('data/hna/municipal/municipal-config.json: FIPS codes are zero-padded strings (Rule 1)', () => {
+  const config = JSON.parse(fs.readFileSync(
+    path.join(ROOT, 'data', 'hna', 'municipal', 'municipal-config.json'), 'utf8'));
+  config.municipalities.forEach(m => {
+    assert(typeof m.placeFips === 'string' && m.placeFips.length === 7,
+      `${m.name} placeFips is a 7-char string`);
+    assert(typeof m.countyFips === 'string' && m.countyFips.length === 5,
+      `${m.name} countyFips is a 5-char string`);
+  });
+});
+
+test('data/hna/municipal/growth-rates.json exists with 32 entries', () => {
+  const grPath = path.join(ROOT, 'data', 'hna', 'municipal', 'growth-rates.json');
+  assert(fs.existsSync(grPath), 'growth-rates.json exists');
+  const gr = JSON.parse(fs.readFileSync(grPath, 'utf8'));
+  assert(Object.keys(gr.municipalities).length === 32, 'exactly 32 growth-rate entries');
+});
+
+test('docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md exists', () => {
+  assert(fs.existsSync(path.join(ROOT, 'docs', 'MUNICIPAL-ANALYSIS-METHODOLOGY.md')),
+    'docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md exists');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);

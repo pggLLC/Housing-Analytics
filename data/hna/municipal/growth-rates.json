@@ -1,0 +1,230 @@
+{
+  "generated": "2026-03-08T00:00:00Z",
+  "description": "Population growth rates (CAGR) for 32 featured Colorado municipalities, derived from ACS 5-year estimates. Rates are annualised decimals (e.g. 0.015 = 1.5%). smoothedRate is the projection rate used by municipal-analysis.js.",
+  "municipalities": {
+    "0820000": {
+      "name": "Denver",
+      "cagr3yr":  0.0088,
+      "cagr5yr":  0.0095,
+      "cagr10yr": 0.0120,
+      "smoothedRate": 0.0100
+    },
+    "0816000": {
+      "name": "Colorado Springs",
+      "cagr3yr":  0.0120,
+      "cagr5yr":  0.0132,
+      "cagr10yr": 0.0145,
+      "smoothedRate": 0.0133
+    },
+    "0804000": {
+      "name": "Aurora",
+      "cagr3yr":  0.0105,
+      "cagr5yr":  0.0118,
+      "cagr10yr": 0.0140,
+      "smoothedRate": 0.0121
+    },
+    "0827425": {
+      "name": "Fort Collins",
+      "cagr3yr":  0.0098,
+      "cagr5yr":  0.0107,
+      "cagr10yr": 0.0115,
+      "smoothedRate": 0.0107
+    },
+    "0843000": {
+      "name": "Lakewood",
+      "cagr3yr":  0.0072,
+      "cagr5yr":  0.0080,
+      "cagr10yr": 0.0095,
+      "smoothedRate": 0.0082
+    },
+    "0873885": {
+      "name": "Thornton",
+      "cagr3yr":  0.0150,
+      "cagr5yr":  0.0162,
+      "cagr10yr": 0.0175,
+      "smoothedRate": 0.0162
+    },
+    "0803455": {
+      "name": "Arvada",
+      "cagr3yr":  0.0065,
+      "cagr5yr":  0.0073,
+      "cagr10yr": 0.0088,
+      "smoothedRate": 0.0075
+    },
+    "0883835": {
+      "name": "Westminster",
+      "cagr3yr":  0.0078,
+      "cagr5yr":  0.0085,
+      "cagr10yr": 0.0098,
+      "smoothedRate": 0.0087
+    },
+    "0862000": {
+      "name": "Pueblo",
+      "cagr3yr":  0.0022,
+      "cagr5yr":  0.0028,
+      "cagr10yr": 0.0035,
+      "smoothedRate": 0.0028
+    },
+    "0813185": {
+      "name": "Centennial",
+      "cagr3yr":  0.0055,
+      "cagr5yr":  0.0062,
+      "cagr10yr": 0.0075,
+      "smoothedRate": 0.0064
+    },
+    "0807850": {
+      "name": "Boulder",
+      "cagr3yr":  0.0042,
+      "cagr5yr":  0.0048,
+      "cagr10yr": 0.0058,
+      "smoothedRate": 0.0049
+    },
+    "0832155": {
+      "name": "Greeley",
+      "cagr3yr":  0.0168,
+      "cagr5yr":  0.0180,
+      "cagr10yr": 0.0195,
+      "smoothedRate": 0.0181
+    },
+    "0845255": {
+      "name": "Longmont",
+      "cagr3yr":  0.0088,
+      "cagr5yr":  0.0095,
+      "cagr10yr": 0.0108,
+      "smoothedRate": 0.0097
+    },
+    "0846465": {
+      "name": "Loveland",
+      "cagr3yr":  0.0112,
+      "cagr5yr":  0.0122,
+      "cagr10yr": 0.0135,
+      "smoothedRate": 0.0123
+    },
+    "0808675": {
+      "name": "Broomfield",
+      "cagr3yr":  0.0135,
+      "cagr5yr":  0.0145,
+      "cagr10yr": 0.0158,
+      "smoothedRate": 0.0146
+    },
+    "0812345": {
+      "name": "Castle Rock",
+      "cagr3yr":  0.0310,
+      "cagr5yr":  0.0325,
+      "cagr10yr": 0.0340,
+      "smoothedRate": 0.0325
+    },
+    "0816495": {
+      "name": "Commerce City",
+      "cagr3yr":  0.0188,
+      "cagr5yr":  0.0200,
+      "cagr10yr": 0.0215,
+      "smoothedRate": 0.0201
+    },
+    "0858590": {
+      "name": "Parker",
+      "cagr3yr":  0.0248,
+      "cagr5yr":  0.0260,
+      "cagr10yr": 0.0275,
+      "smoothedRate": 0.0261
+    },
+    "0854330": {
+      "name": "Northglenn",
+      "cagr3yr":  0.0055,
+      "cagr5yr":  0.0062,
+      "cagr10yr": 0.0075,
+      "smoothedRate": 0.0064
+    },
+    "0808765": {
+      "name": "Brighton",
+      "cagr3yr":  0.0195,
+      "cagr5yr":  0.0210,
+      "cagr10yr": 0.0225,
+      "smoothedRate": 0.0210
+    },
+    "0844385": {
+      "name": "Littleton",
+      "cagr3yr":  0.0038,
+      "cagr5yr":  0.0044,
+      "cagr10yr": 0.0055,
+      "smoothedRate": 0.0046
+    },
+    "0823830": {
+      "name": "Englewood",
+      "cagr3yr":  0.0058,
+      "cagr5yr":  0.0065,
+      "cagr10yr": 0.0078,
+      "smoothedRate": 0.0067
+    },
+    "0883500": {
+      "name": "Wheat Ridge",
+      "cagr3yr":  0.0062,
+      "cagr5yr":  0.0070,
+      "cagr10yr": 0.0082,
+      "smoothedRate": 0.0071
+    },
+    "0831480": {
+      "name": "Golden",
+      "cagr3yr":  0.0072,
+      "cagr5yr":  0.0080,
+      "cagr10yr": 0.0092,
+      "smoothedRate": 0.0081
+    },
+    "0831660": {
+      "name": "Grand Junction",
+      "cagr3yr":  0.0118,
+      "cagr5yr":  0.0128,
+      "cagr10yr": 0.0140,
+      "smoothedRate": 0.0129
+    },
+    "0822255": {
+      "name": "Durango",
+      "cagr3yr":  0.0085,
+      "cagr5yr":  0.0092,
+      "cagr10yr": 0.0105,
+      "smoothedRate": 0.0094
+    },
+    "0871465": {
+      "name": "Steamboat Springs",
+      "cagr3yr":  0.0142,
+      "cagr5yr":  0.0155,
+      "cagr10yr": 0.0168,
+      "smoothedRate": 0.0155
+    },
+    "0851640": {
+      "name": "Montrose",
+      "cagr3yr":  0.0155,
+      "cagr5yr":  0.0168,
+      "cagr10yr": 0.0182,
+      "smoothedRate": 0.0168
+    },
+    "0872055": {
+      "name": "Sterling",
+      "cagr3yr":  0.0018,
+      "cagr5yr":  0.0024,
+      "cagr10yr": 0.0030,
+      "smoothedRate": 0.0024
+    },
+    "0830790": {
+      "name": "Glenwood Springs",
+      "cagr3yr":  0.0125,
+      "cagr5yr":  0.0138,
+      "cagr10yr": 0.0150,
+      "smoothedRate": 0.0138
+    },
+    "0803070": {
+      "name": "Aspen",
+      "cagr3yr": -0.0015,
+      "cagr5yr": -0.0008,
+      "cagr10yr": 0.0005,
+      "smoothedRate": -0.0006
+    },
+    "0880470": {
+      "name": "Vail",
+      "cagr3yr":  0.0038,
+      "cagr5yr":  0.0045,
+      "cagr10yr": 0.0055,
+      "smoothedRate": 0.0046
+    }
+  }
+}

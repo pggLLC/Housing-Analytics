@@ -168,3 +168,38 @@ HNA-specific troubleshooting
   → JavaScript failed silently. Open DevTools (F12) → Console and look for
     errors. The most common cause is a CDN asset (Leaflet or Chart.js) being
     blocked by a browser extension or corporate firewall.
+
+Municipal ETL Workflow
+  The 32 featured municipalities in data/hna/municipal/municipal-config.json
+  support pre-computed scaling factors that speed up initial page load. To
+  regenerate per-municipality cache files:
+
+  1. Run the "Build HNA Data Cache" workflow from the Actions tab, which calls
+     scripts/hna/build_hna_data.py. This script also populates the municipal
+     scaling-factors/, demographics/, and affordability/ subdirectories once
+     an ETL routine is implemented.
+
+  2. Until the ETL is in place, the page falls back to on-the-fly computation
+     inside js/municipal-analysis.js using county-level source data already
+     loaded for the containing county.
+
+  Municipal data directory structure:
+    data/hna/municipal/
+      municipal-config.json        — 32 featured municipalities (FIPS, names)
+      growth-rates.json            — ACS 3/5/10-yr CAGRs + smoothed rate
+      scaling-factors/<fips>.json  — ETL-generated scaling inputs (future)
+      demographics/<fips>.json     — ETL-generated demographic projections (future)
+      affordability/<fips>.json    — ETL-generated affordability data (future)
+
+  Validating FIPS codes (Rule 1):
+    All placeFips in municipal-config.json must be 7-digit zero-padded strings
+    (state FIPS "08" + 5-digit place FIPS). All countyFips must be 5-digit
+    zero-padded strings. Run the unit tests to verify:
+      node test/municipal-analysis.test.js
+
+  Adding a new featured municipality:
+    1. Add an entry to data/hna/municipal/municipal-config.json with:
+         "name", "placeFips" (7 digits), "countyFips" (5 digits), "geoType"
+    2. Add a matching entry to data/hna/municipal/growth-rates.json keyed by
+       the 7-digit place FIPS, with cagr3yr, cagr5yr, cagr10yr, smoothedRate.
+    3. Run node test/municipal-analysis.test.js to verify FIPS format compliance.

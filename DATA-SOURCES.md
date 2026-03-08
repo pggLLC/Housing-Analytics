@@ -189,3 +189,34 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout — was 10s)
 5. **Timeout increases applied** — All ArcGIS remote API calls now use 15–20 second timeouts
    (previously 5–10 seconds) to prevent premature failures on slow HUD/Census servers.
    The Prop 123 TIGERweb geometry timeout was increased from 10s to 20s.
+
+---
+
+## Municipal Interpolation Methodology
+
+Municipal-level data in the HNA tool is derived from county-level sources using
+the county-to-municipal scaling framework in `js/municipal-analysis.js`.
+
+### Confidence Levels
+
+| Level | Badge color | Meaning |
+|-------|------------|---------|
+| **DIRECT** | Green | Directly observed ACS 5-year or local permit data |
+| **INTERPOLATED** | Blue | Scaled from county with known ACS-derived factors (population ≥ 2,500) |
+| **ESTIMATED** | Amber | Derived via general statistical assumptions, or interpolated for small places (population < 2,500) |
+| **UNAVAILABLE** | Grey | No usable data source for this metric |
+
+The **confidence ceiling rule** automatically downgrades INTERPOLATED → ESTIMATED
+for municipalities with population below 2,500 due to high ACS coefficient of variation.
+
+### Municipal Configuration Files
+
+| File | Description |
+|------|------------|
+| `data/hna/municipal/municipal-config.json` | 32 featured CO municipalities with 7-digit place FIPS and 5-digit county FIPS |
+| `data/hna/municipal/growth-rates.json` | 3/5/10-yr ACS CAGRs and smoothed projection rate per municipality |
+| `data/hna/municipal/scaling-factors/` | ETL-generated per-municipality scaling factor cache |
+| `data/hna/municipal/demographics/` | ETL-generated per-municipality demographic projection cache |
+| `data/hna/municipal/affordability/` | ETL-generated per-municipality affordability cache |
+
+For full scaling formulas and limitations, see [docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md](docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md).

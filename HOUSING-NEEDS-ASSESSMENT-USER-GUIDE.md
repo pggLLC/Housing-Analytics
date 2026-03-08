@@ -335,15 +335,43 @@ Click **View full compliance dashboard →** at the bottom of the Prop 123 secti
 
 ## 6. Municipal-Level Assessments
 
-The HNA tool supports municipal-level analysis using a county-to-municipality scaling methodology.
+The HNA tool supports municipal-level analysis using a county-to-municipality scaling methodology
+implemented in `js/municipal-analysis.js`.
 
 ### Supported Geographies
 
 The tool includes **57 Colorado municipalities** (incorporated cities and towns) plus **CDPs**. The full list is in `data/hna/geo-config.json`.
 
-Major cities included: Denver, Colorado Springs, Aurora, Fort Collins, Lakewood, Thornton, Greeley, Arvada, Westminster, Pueblo, Longmont, Loveland, Broomfield, Centennial, Boulder, Castle Rock, Commerce City, Parker, Northglenn, Englewood, Highlands Ranch, Brighton, and more.
+**32 featured municipalities** with pre-computed ACS growth rates are listed in `data/hna/municipal/municipal-config.json`:
+Denver, Colorado Springs, Aurora, Fort Collins, Lakewood, Thornton, Arvada, Westminster, Pueblo,
+Centennial, Boulder, Greeley, Longmont, Loveland, Broomfield, Castle Rock, Commerce City, Parker,
+Northglenn, Brighton, Littleton, Englewood, Wheat Ridge, Golden, Grand Junction, Durango,
+Steamboat Springs, Montrose, Sterling, Glenwood Springs, Aspen, and Vail.
 
-Mountain and resort communities: Aspen, Breckenridge, Steamboat Springs, Vail, Telluride, Glenwood Springs, Basalt, Carbondale, Frisco, Dillon, Keystone, Gypsum, Rifle, Silt, Parachute.
+### Data Quality Badge
+
+When you select a municipality, a **Data Quality Badge** appears next to the geography pill
+in the Executive Snapshot header. It indicates how the displayed figures were derived:
+
+| Badge | Color | Meaning |
+|-------|-------|---------|
+| **Direct** | 🟢 Green | ACS 5-year estimate directly for this municipality |
+| **Interpolated** | 🔵 Blue | Scaled from county data using ACS growth rates (population ≥ 2,500) |
+| **Estimated** | 🟡 Amber | General statistical approximation, or scaled but population < 2,500 |
+| **Unavailable** | ⬜ Grey | No usable data source for this metric |
+
+### Municipal vs. County Comparison Panel
+
+When a municipality is selected, a **Municipal vs. County Context** panel appears below
+the headline statistics. It shows:
+
+- **Population share of county** — the municipality's current share of its containing county's population
+- **Estimated housing units** — derived using the best available method (direct → household-ratio → population-share)
+- **Rent adjustment factor** — `municipalRent / countyRent`, clamped to [0.5, 2.0]; used to redistribute AMI tiers
+- **Estimated jobs** — county LEHD employment × population share
+
+The **Interpolation methodology** accordion within the panel explains the formulas used.
+The panel is hidden for county-level selections.
 
 ### Methodology: Municipal Scaling
 
@@ -351,14 +379,20 @@ Because DOLA forecasts are county-level only, municipal projections are derived 
 
 ```
 municipality_pop(t) = county_pop(t) × share(t)
-share(t) = share₀ × exp(relative_CAGR × t)
+share(t) = share₀ × exp(relativeLogGrowth × t)
 ```
 
 Where:
 - `share₀` = municipality's share of county population in the base year
-- `relative_CAGR` = municipality's population growth rate minus the county rate (annualized)
+- `relativeLogGrowth` = `ln(1 + municipalGrowthRate) − ln(1 + countyGrowthRate)`
 
-If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, those inputs take precedence. Otherwise, the tool falls back to simple population share scaling.
+Growth rates are sourced from `data/hna/municipal/growth-rates.json` (3/5/10-yr ACS CAGRs).
+If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, those inputs
+take precedence. Otherwise, the tool falls back to simple population share scaling.
+
+See [docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md](docs/MUNICIPAL-ANALYSIS-METHODOLOGY.md) for
+the full technical specification including housing stock estimation, affordability scaling,
+and employment estimation.
 
 ### Limitations at Municipal Level
 
@@ -368,6 +402,7 @@ If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, thos
 | Headship rate estimated from ACS 5-year | Less precise for small municipalities | Use ACS 1-year if available |
 | LEHD WAC data aggregated to county | Job counts are workplace-area estimates | Note in reports as "county workplace area" |
 | Prop 123 eligibility uses ACS population | Small error for rapidly growing places | Verify against DOLA OFM population estimates |
+| Small-place uncertainty (< 2,500 pop) | High ACS CVs; badge downgrades to Estimated | Supplement with local census special tabulation |
 
 ---
 
