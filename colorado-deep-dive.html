@@ -907,6 +907,22 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 </div>
 
+    <!-- LIHTC Historical Allocations Timeline -->
+    <section class="chart-card" style="margin:2rem 0;" aria-labelledby="lihtcTimelineTitle">
+      <div class="chart-header">
+        <h3 class="chart-title" id="lihtcTimelineTitle">LIHTC Historical Allocations (2010–2026)</h3>
+        <p class="chart-subtitle">Annual low-income housing tax credit units placed in service — Colorado</p>
+      </div>
+      <div style="height:280px;position:relative;">
+        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026"></canvas>
+        <p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Annual LIHTC allocation counts are shown in the bar chart above.</p>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">
+        Source: <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a> •
+        Units (LI_UNITS) allocated per year based on YEAR_ALLOC field.
+      </p>
+    </section>
+
     <!-- Regional Housing Predictions -->
     <div id="co-regional-predictions" aria-label="Colorado Regional Housing Predictions"></div>
 
@@ -1311,6 +1327,83 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
                   scales: { r: { ticks: { color:"rgba(255,255,255,.65)" }, grid: { color:"var(--border)" }, angleLines: { color:"var(--border)" }, pointLabels: { color:"rgba(255,255,255,.75)" } } } }
       });
+    })();
+  </script>
+  <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
+  <script>
+    (function () {
+      var LIHTC_URL = (typeof window.resolveAssetUrl === 'function')
+        ? window.resolveAssetUrl('data/market/hud_lihtc_co.geojson')
+        : 'data/market/hud_lihtc_co.geojson';
+
+      function renderLihtcTimeline(features) {
+        // Aggregate units by YEAR_ALLOC (2010–2026)
+        var START = 2010, END = 2026;
+        var counts = {};
+        for (var y = START; y <= END; y++) counts[y] = 0;
+        features.forEach(function (f) {
+          var yr = f.properties && (f.properties.YEAR_ALLOC || f.properties.YR_PIS);
+          var units = f.properties && (f.properties.LI_UNITS || f.properties.N_UNITS || 0);
+          if (yr && yr >= START && yr <= END) counts[yr] += (parseInt(units, 10) || 0);
+        });
+        var labels = [], data = [];
+        for (var y2 = START; y2 <= END; y2++) { labels.push(String(y2)); data.push(counts[y2]); }
+
+        var el = document.getElementById('chartLihtcTimeline');
+        if (!el || !window.Chart) return;
+        try {
+          new Chart(el, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Low-Income Units (LI_UNITS)',
+                data: data,
+                backgroundColor: 'rgba(95,168,255,.75)',
+                borderColor: 'rgba(95,168,255,1)',
+                borderWidth: 1,
+                borderRadius: 4,
+              }]
+            },
+            options: {
+              responsive: true, maintainAspectRatio: false,
+              plugins: {
+                legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.75)' } },
+                tooltip: {
+                  callbacks: {
+                    footer: function () { return 'Source: HUD LIHTC Database'; }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)' },
+                  grid: { color: 'var(--border)' }
+                },
+                y: {
+                  ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)' },
+                  grid: { color: 'var(--border)' },
+                  title: { display: true, text: 'Low-Income Units', color: getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)', font: { size: 11 } }
+                }
+              }
+            }
+          });
+        } catch (e) { console.warn('[lihtcTimeline] Chart error', e); }
+      }
+
+      function init() {
+        var fetcher = window.fetchWithTimeout || fetch;
+        fetcher(LIHTC_URL, {}, 15000)
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+          .then(function (d) { renderLihtcTimeline(Array.isArray(d.features) ? d.features : []); })
+          .catch(function (e) { console.warn('[lihtcTimeline] Could not load LIHTC data', e); });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
     })();
   </script>
   <!-- Deep Dive analysis modules -->
