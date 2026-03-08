@@ -364,3 +364,90 @@
   box-shadow: 0 1px 4px rgba(0,0,0,.15);
   color: var(--text, #1a1a2e);
 }
+
+/* ── Data Quality Banner ── */
+.pma-quality-banner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.55rem 1rem;
+  margin-bottom: 1rem;
+  font-size: var(--tiny);
+}
+
+.pma-quality-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pma-quality-label {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.pma-quality-pill {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pma-confidence-badge {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pma-freshness-badge {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pma-quality-warnings {
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.pma-quality-warn-item {
+  color: var(--warn);
+  font-size: var(--tiny);
+  margin-bottom: 0.2rem;
+}
+
+/* ── Benchmarking ── */
+.pma-benchmark-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.pma-benchmark-percentile {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pma-benchmark-percentile sup {
+  font-size: 0.8rem;
+  vertical-align: super;
+}
+
+.pma-benchmark-label {
+  flex: 1;
+}
+
+/* ── Benchmarking / Pipeline comparison table ── */
+.pma-bench-table {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.pma-bench-table thead tr {
+  background: var(--bg2);
+}
+
+.pma-bench-table tbody tr:hover {
+  background: var(--bg2);
+}
