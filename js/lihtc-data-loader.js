@@ -14,13 +14,11 @@ function displayProjectCounts(data) {
         const year = new Date(project.certification).getFullYear();
         counts[year] = (counts[year] || 0) + 1;
     });
-    console.log("Project Counts by Year:", counts);
 }
 
 // Function to display statistics
 function displayStatistics(data) {
     const totalProjects = data.length;
-    console.log("Total Projects:", totalProjects);
     // Additional statistics can be computed here as needed
 }
 
