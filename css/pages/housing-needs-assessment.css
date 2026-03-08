@@ -300,7 +300,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 .timeline-chart { position: relative; height: 220px; min-height: 220px; margin-top: 10px; }
 
-.compliance-checklist { margin: 0; padding: 0; list-style: none; }
+.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow: hidden; }
 .checklist-item {
   display: flex;
   align-items: flex-start;
@@ -309,11 +309,30 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   border-bottom: 1px solid var(--border);
   font-size: .9rem;
   color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .checklist-item:last-child { border-bottom: none; }
-.checklist-item input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--accent); }
-.checklist-item label { cursor: pointer; flex: 1; min-width: 0; }
+.checklist-item input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); min-width: 16px; min-height: 16px; }
+.checklist-item label { cursor: pointer; flex: 1; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .checklist-item.done label { color: var(--muted); text-decoration: line-through; }
+
+@media (max-width: 640px) {
+  .compliance-checklist { padding: 0; }
+  .checklist-item {
+    gap: 10px;
+    padding: 8px 0;
+    font-size: .88rem;
+    line-height: 1.45;
+  }
+  .checklist-item input[type="checkbox"] { min-width: 18px; min-height: 18px; }
+}
+
+@media (max-width: 400px) {
+  .checklist-item { font-size: .84rem; gap: 8px; }
+}
 
 .resources-section { margin-top: 0; }
 .resources-section ul { margin: 6px 0 0; padding: 0 0 0 1.2rem; }
