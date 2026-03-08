@@ -817,10 +817,10 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
     #   B08301_003E – Drove alone
     #   B08301_004E – Carpooled
     #   B08301_010E – Public transit (excl. taxicab)
+    #   B08301_018E – Bicycle
     #   B08301_019E – Walked
-    #   B08301_021E – Bicycle
-    #   B08301_021E – Taxicab / motorcycle / other means (B08301_020E)
-    #   B08301_021E – Worked from home (B08301_021E)
+    #   B08301_020E – Taxicab / motorcycle / other means
+    #   B08301_021E – Worked from home
     vars_ = [
         'B08301_001E',  # Total
         'B08301_003E',  # Drove alone

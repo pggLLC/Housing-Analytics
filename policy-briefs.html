@@ -186,7 +186,7 @@
       var topic = topicFilter.value;
       var region = regionFilter.value;
       var filtered = briefs.filter(function (b) {
-        var topicMatch = !topic || (b.policy_topic || '').toLowerCase().replace(/ /g, '_').indexOf(topic.toLowerCase()) !== -1 || topic === (b.policy_topic || '');
+        var topicMatch = !topic || (b.policy_topic || '') === topic;
         var regionMatch = !region || (Array.isArray(b.regions) && b.regions.indexOf(region) !== -1);
         return topicMatch && regionMatch;
       });

@@ -310,6 +310,9 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .delta { font-weight: 700; font-size: 0.82rem; }
 .delta.up { color: var(--good) !important; }
 .delta.down { color: var(--bad) !important; }
+.yoy { font-size: 0.76rem; font-weight: 700; margin-top: 2px; color: var(--muted); min-height: 1em; }
+.yoy.pos { color: var(--good) !important; }
+.yoy.neg { color: var(--bad) !important; }
 .delta.flat { color: var(--faint) !important; }
 
 /* ================================================================

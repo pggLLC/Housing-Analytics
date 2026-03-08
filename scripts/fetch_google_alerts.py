@@ -25,6 +25,7 @@ import json
 import os
 import re
 import sys
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
@@ -124,7 +125,7 @@ def parse_feed(url: str) -> list[dict]:
                 link = item.findtext('link', '').strip()
                 desc = strip_html(item.findtext('description', ''))
                 pub_date = parse_rss_date(item.findtext('pubDate'))
-                source = item.findtext('source', '') or urllib.parse.urlparse(url).netloc if hasattr(urllib, 'parse') else ''
+                source = item.findtext('source', '') or urllib.parse.urlparse(url).netloc
                 full_text = f'{title} {desc}'
                 items.append({
                     'title': title,
@@ -225,9 +226,6 @@ def main() -> int:
     print(f'✓ Archive has {len(all_alerts)} alerts → {OUT_FILE}')
     return 0
 
-
-# Import needed for source detection in parse_feed
-import urllib.parse  # noqa: E402
 
 if __name__ == '__main__':
     sys.exit(main())
