@@ -4,7 +4,7 @@
     "source": "HUD LIHTC Database (public)",
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2025-01-01",
+    "generated": "2026-03-08",
     "note": "Rebuild via scripts/market/build_public_market_data.py"
   },
   "features": [
@@ -13,64 +13,42 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -104.9903,
-          39.7392
+          -104.962535,
+          39.762278
         ]
       },
       "properties": {
-        "HUD_ID": "COA1990A001",
-        "PROJECT_NAME": "Denver Affordable Apts I",
+        "HUD_ID": "CO00031001",
+        "PROJECT_NAME": "Denver Terrace I",
         "CITY": "Denver",
         "COUNTY": "Denver",
         "STATE": "CO",
-        "ZIP": "80203",
-        "TOTAL_UNITS": 120,
-        "LI_UNITS": 108,
-        "YEAR_ALLOC": 1990,
-        "CREDIT_PCT": "9%"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -104.96,
-          39.755
-        ]
-      },
-      "properties": {
-        "HUD_ID": "COA1995A002",
-        "PROJECT_NAME": "Five Points Family Housing",
-        "CITY": "Denver",
-        "COUNTY": "Denver",
-        "STATE": "CO",
-        "ZIP": "80205",
-        "TOTAL_UNITS": 80,
-        "LI_UNITS": 80,
-        "YEAR_ALLOC": 1995,
-        "CREDIT_PCT": "9%"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -105.01,
-          39.72
-        ]
-      },
-      "properties": {
-        "HUD_ID": "COA2000A003",
-        "PROJECT_NAME": "Southwest Denver Senior Villas",
-        "CITY": "Denver",
-        "COUNTY": "Denver",
-        "STATE": "CO",
-        "ZIP": "80219",
-        "TOTAL_UNITS": 100,
-        "LI_UNITS": 100,
+        "ZIP": "81002",
+        "TOTAL_UNITS": 183,
+        "LI_UNITS": 162,
         "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99583,
+          39.740896
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO22031002",
+        "PROJECT_NAME": "Denver Point II",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80119",
+        "TOTAL_UNITS": 64,
+        "LI_UNITS": 57,
+        "YEAR_ALLOC": 2022,
         "CREDIT_PCT": "4%"
       }
     },
@@ -79,19 +57,151 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -105.0844,
-          40.5852
+          -104.958837,
+          39.779706
         ]
       },
       "properties": {
-        "HUD_ID": "COA2005A004",
-        "PROJECT_NAME": "Fort Collins Workforce Housing",
-        "CITY": "Fort Collins",
-        "COUNTY": "Larimer",
+        "HUD_ID": "CO19031003",
+        "PROJECT_NAME": "Denver Manor III",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
         "STATE": "CO",
-        "ZIP": "80524",
-        "TOTAL_UNITS": 64,
-        "LI_UNITS": 64,
+        "ZIP": "81185",
+        "TOTAL_UNITS": 55,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.046587,
+          39.744469
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92031004",
+        "PROJECT_NAME": "Denver Heights IV",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80142",
+        "TOTAL_UNITS": 138,
+        "LI_UNITS": 129,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.972185,
+          39.692535
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92031005",
+        "PROJECT_NAME": "Denver Manor V",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81494",
+        "TOTAL_UNITS": 154,
+        "LI_UNITS": 128,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.006217,
+          39.791266
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13031006",
+        "PROJECT_NAME": "Denver Landing VI",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81399",
+        "TOTAL_UNITS": 164,
+        "LI_UNITS": 159,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.986608,
+          39.743969
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98031007",
+        "PROJECT_NAME": "Denver Crossing 7",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81491",
+        "TOTAL_UNITS": 80,
+        "LI_UNITS": 66,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.000012,
+          39.767244
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90031008",
+        "PROJECT_NAME": "Denver Affordable Apts 8",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80777",
+        "TOTAL_UNITS": 126,
+        "LI_UNITS": 112,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.942273,
+          39.699325
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05031009",
+        "PROJECT_NAME": "Denver Point 9",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81568",
+        "TOTAL_UNITS": 138,
+        "LI_UNITS": 114,
         "YEAR_ALLOC": 2005,
         "CREDIT_PCT": "9%"
       }
@@ -101,18 +211,7498 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -105.2705,
-          40.015
+          -104.978275,
+          39.683813
         ]
       },
       "properties": {
-        "HUD_ID": "COA2008A005",
-        "PROJECT_NAME": "Boulder Creek Commons",
+        "HUD_ID": "CO92031010",
+        "PROJECT_NAME": "Denver Heights 10",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80915",
+        "TOTAL_UNITS": 54,
+        "LI_UNITS": 45,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.02649,
+          39.705195
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031011",
+        "PROJECT_NAME": "Denver Court 11",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81590",
+        "TOTAL_UNITS": 61,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.980558,
+          39.792499
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98031012",
+        "PROJECT_NAME": "Denver Valley 12",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81183",
+        "TOTAL_UNITS": 124,
+        "LI_UNITS": 105,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98758,
+          39.801369
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10031013",
+        "PROJECT_NAME": "Denver Court 13",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80847",
+        "TOTAL_UNITS": 127,
+        "LI_UNITS": 123,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.937618,
+          39.787803
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07031014",
+        "PROJECT_NAME": "Denver Housing 14",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81283",
+        "TOTAL_UNITS": 192,
+        "LI_UNITS": 190,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.953717,
+          39.761132
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031015",
+        "PROJECT_NAME": "Denver Housing 15",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80653",
+        "TOTAL_UNITS": 138,
+        "LI_UNITS": 136,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99369,
+          39.771765
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16031016",
+        "PROJECT_NAME": "Denver Village 16",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80462",
+        "TOTAL_UNITS": 126,
+        "LI_UNITS": 110,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.982967,
+          39.799077
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99031017",
+        "PROJECT_NAME": "Denver Point 17",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80275",
+        "TOTAL_UNITS": 64,
+        "LI_UNITS": 58,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.996727,
+          39.685321
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05031018",
+        "PROJECT_NAME": "Denver Gardens 18",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80760",
+        "TOTAL_UNITS": 102,
+        "LI_UNITS": 88,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.049238,
+          39.752636
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02031019",
+        "PROJECT_NAME": "Denver Housing 19",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80150",
+        "TOTAL_UNITS": 118,
+        "LI_UNITS": 103,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.931801,
+          39.717819
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03031020",
+        "PROJECT_NAME": "Denver Ridge 20",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80032",
+        "TOTAL_UNITS": 103,
+        "LI_UNITS": 100,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.964218,
+          39.76424
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02031021",
+        "PROJECT_NAME": "Denver Commons 21",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80813",
+        "TOTAL_UNITS": 172,
+        "LI_UNITS": 169,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.014822,
+          39.758236
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10031022",
+        "PROJECT_NAME": "Denver Manor 22",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80737",
+        "TOTAL_UNITS": 147,
+        "LI_UNITS": 131,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.956811,
+          39.767669
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031023",
+        "PROJECT_NAME": "Denver Point 23",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80656",
+        "TOTAL_UNITS": 75,
+        "LI_UNITS": 72,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.95942,
+          39.785803
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13031024",
+        "PROJECT_NAME": "Denver Terrace 24",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80034",
+        "TOTAL_UNITS": 155,
+        "LI_UNITS": 125,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.981367,
+          39.704642
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16031025",
+        "PROJECT_NAME": "Denver Manor 25",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80504",
+        "TOTAL_UNITS": 89,
+        "LI_UNITS": 74,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.991504,
+          39.757337
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11031026",
+        "PROJECT_NAME": "Denver Gardens 26",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80345",
+        "TOTAL_UNITS": 175,
+        "LI_UNITS": 173,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.984906,
+          39.792563
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031027",
+        "PROJECT_NAME": "Denver Village 27",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81315",
+        "TOTAL_UNITS": 189,
+        "LI_UNITS": 169,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.956465,
+          39.760732
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23031028",
+        "PROJECT_NAME": "Denver Housing 28",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80845",
+        "TOTAL_UNITS": 69,
+        "LI_UNITS": 68,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.00653,
+          39.739934
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04031029",
+        "PROJECT_NAME": "Denver Residences 29",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81266",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 70,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.052783,
+          39.74581
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20031030",
+        "PROJECT_NAME": "Denver Ridge 30",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81085",
+        "TOTAL_UNITS": 54,
+        "LI_UNITS": 43,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.951111,
+          39.761476
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08031031",
+        "PROJECT_NAME": "Denver Affordable Apts 31",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80368",
+        "TOTAL_UNITS": 178,
+        "LI_UNITS": 171,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.02199,
+          39.754532
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96031032",
+        "PROJECT_NAME": "Denver Valley 32",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80726",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 74,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.023169,
+          39.733952
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15031033",
+        "PROJECT_NAME": "Denver Residences 33",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81428",
+        "TOTAL_UNITS": 145,
+        "LI_UNITS": 143,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.983554,
+          39.723746
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09031034",
+        "PROJECT_NAME": "Denver Residences 34",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80115",
+        "TOTAL_UNITS": 58,
+        "LI_UNITS": 47,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.011897,
+          39.757748
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031035",
+        "PROJECT_NAME": "Denver Residences 35",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80196",
+        "TOTAL_UNITS": 177,
+        "LI_UNITS": 171,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.981752,
+          39.763813
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92031036",
+        "PROJECT_NAME": "Denver Court 36",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80556",
+        "TOTAL_UNITS": 104,
+        "LI_UNITS": 101,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.935418,
+          39.679411
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94031037",
+        "PROJECT_NAME": "Denver Gardens 37",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80645",
+        "TOTAL_UNITS": 189,
+        "LI_UNITS": 172,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.003318,
+          39.766427
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03031038",
+        "PROJECT_NAME": "Denver Square 38",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80158",
+        "TOTAL_UNITS": 86,
+        "LI_UNITS": 81,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96764,
+          39.783929
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031039",
+        "PROJECT_NAME": "Denver Square 39",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81108",
+        "TOTAL_UNITS": 111,
+        "LI_UNITS": 101,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.047427,
+          39.799913
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14031040",
+        "PROJECT_NAME": "Denver Village 40",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80896",
+        "TOTAL_UNITS": 70,
+        "LI_UNITS": 63,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.973132,
+          39.716976
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94031041",
+        "PROJECT_NAME": "Denver Terrace 41",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81605",
+        "TOTAL_UNITS": 151,
+        "LI_UNITS": 150,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.030526,
+          39.723255
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031042",
+        "PROJECT_NAME": "Denver Court 42",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81200",
+        "TOTAL_UNITS": 141,
+        "LI_UNITS": 128,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.03456,
+          39.685701
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95031043",
+        "PROJECT_NAME": "Denver Manor 43",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81458",
+        "TOTAL_UNITS": 113,
+        "LI_UNITS": 106,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.014842,
+          39.675865
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14031044",
+        "PROJECT_NAME": "Denver Terrace 44",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80738",
+        "TOTAL_UNITS": 142,
+        "LI_UNITS": 116,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.983293,
+          39.732652
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96031045",
+        "PROJECT_NAME": "Denver Village 45",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80836",
+        "TOTAL_UNITS": 72,
+        "LI_UNITS": 60,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.953892,
+          39.751606
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91031046",
+        "PROJECT_NAME": "Denver Residences 46",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80789",
+        "TOTAL_UNITS": 140,
+        "LI_UNITS": 127,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.982679,
+          39.76798
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08031047",
+        "PROJECT_NAME": "Denver Heights 47",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80498",
+        "TOTAL_UNITS": 149,
+        "LI_UNITS": 142,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.019944,
+          39.709622
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23031048",
+        "PROJECT_NAME": "Denver Place 48",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80299",
+        "TOTAL_UNITS": 147,
+        "LI_UNITS": 122,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.044454,
+          39.737182
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031049",
+        "PROJECT_NAME": "Denver Heights 49",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80516",
+        "TOTAL_UNITS": 120,
+        "LI_UNITS": 106,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.932851,
+          39.714196
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031050",
+        "PROJECT_NAME": "Denver Homes 50",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80681",
+        "TOTAL_UNITS": 167,
+        "LI_UNITS": 137,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.944283,
+          39.779581
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14031051",
+        "PROJECT_NAME": "Denver Terrace 51",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81218",
+        "TOTAL_UNITS": 162,
+        "LI_UNITS": 140,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.003325,
+          39.697938
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09031052",
+        "PROJECT_NAME": "Denver Terrace 52",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80654",
+        "TOTAL_UNITS": 101,
+        "LI_UNITS": 90,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.953709,
+          39.711078
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031053",
+        "PROJECT_NAME": "Denver Square 53",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80748",
+        "TOTAL_UNITS": 112,
+        "LI_UNITS": 96,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.050855,
+          39.773455
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02031054",
+        "PROJECT_NAME": "Denver Square 54",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81490",
+        "TOTAL_UNITS": 189,
+        "LI_UNITS": 158,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.945783,
+          39.684052
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03031055",
+        "PROJECT_NAME": "Denver Point 55",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81629",
+        "TOTAL_UNITS": 124,
+        "LI_UNITS": 119,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96275,
+          39.759509
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031056",
+        "PROJECT_NAME": "Denver Village 56",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81617",
+        "TOTAL_UNITS": 127,
+        "LI_UNITS": 107,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.936093,
+          39.743599
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94031057",
+        "PROJECT_NAME": "Denver Point 57",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81417",
+        "TOTAL_UNITS": 172,
+        "LI_UNITS": 157,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.040301,
+          39.792243
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92031058",
+        "PROJECT_NAME": "Denver Crossing 58",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80509",
+        "TOTAL_UNITS": 187,
+        "LI_UNITS": 171,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.003149,
+          39.761916
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031059",
+        "PROJECT_NAME": "Denver Housing 59",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81542",
+        "TOTAL_UNITS": 194,
+        "LI_UNITS": 193,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.958703,
+          39.703616
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO17031060",
+        "PROJECT_NAME": "Denver Commons 60",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81143",
+        "TOTAL_UNITS": 52,
+        "LI_UNITS": 42,
+        "YEAR_ALLOC": 2017,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.97896,
+          39.77406
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04031061",
+        "PROJECT_NAME": "Denver Point 61",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81025",
+        "TOTAL_UNITS": 145,
+        "LI_UNITS": 127,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.931199,
+          39.728445
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12031062",
+        "PROJECT_NAME": "Denver Affordable Apts 62",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80238",
+        "TOTAL_UNITS": 173,
+        "LI_UNITS": 142,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.992485,
+          39.701679
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12031063",
+        "PROJECT_NAME": "Denver Manor 63",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80976",
+        "TOTAL_UNITS": 137,
+        "LI_UNITS": 122,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96332,
+          39.680919
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO18031064",
+        "PROJECT_NAME": "Denver Point 64",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80047",
+        "TOTAL_UNITS": 131,
+        "LI_UNITS": 106,
+        "YEAR_ALLOC": 2018,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.011933,
+          39.745845
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96031065",
+        "PROJECT_NAME": "Denver Place 65",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80874",
+        "TOTAL_UNITS": 112,
+        "LI_UNITS": 101,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.003665,
+          39.759335
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04031066",
+        "PROJECT_NAME": "Denver Landing 66",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81511",
+        "TOTAL_UNITS": 97,
+        "LI_UNITS": 81,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.02796,
+          39.765406
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02031067",
+        "PROJECT_NAME": "Denver Point 67",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81541",
+        "TOTAL_UNITS": 159,
+        "LI_UNITS": 139,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.039714,
+          39.700426
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96031068",
+        "PROJECT_NAME": "Denver Park 68",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81374",
+        "TOTAL_UNITS": 97,
+        "LI_UNITS": 84,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.009766,
+          39.750337
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23031069",
+        "PROJECT_NAME": "Denver Terrace 69",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80938",
+        "TOTAL_UNITS": 149,
+        "LI_UNITS": 137,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.023763,
+          39.715288
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01031070",
+        "PROJECT_NAME": "Denver Manor 70",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80240",
+        "TOTAL_UNITS": 71,
+        "LI_UNITS": 66,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.980725,
+          39.751543
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13031071",
+        "PROJECT_NAME": "Denver Village 71",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80867",
+        "TOTAL_UNITS": 180,
+        "LI_UNITS": 157,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.036342,
+          39.737874
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031072",
+        "PROJECT_NAME": "Denver Park 72",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80645",
+        "TOTAL_UNITS": 94,
+        "LI_UNITS": 85,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.005155,
+          39.700176
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031073",
+        "PROJECT_NAME": "Denver Crossing 73",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81151",
+        "TOTAL_UNITS": 52,
+        "LI_UNITS": 46,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.991746,
+          39.782706
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031074",
+        "PROJECT_NAME": "Denver Heights 74",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80170",
+        "TOTAL_UNITS": 175,
+        "LI_UNITS": 154,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.01735,
+          39.70398
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91031075",
+        "PROJECT_NAME": "Denver Court 75",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81599",
+        "TOTAL_UNITS": 124,
+        "LI_UNITS": 100,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.955086,
+          39.689818
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21031076",
+        "PROJECT_NAME": "Denver Park 76",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80752",
+        "TOTAL_UNITS": 180,
+        "LI_UNITS": 148,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.960093,
+          39.72962
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92031077",
+        "PROJECT_NAME": "Denver Point 77",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81339",
+        "TOTAL_UNITS": 189,
+        "LI_UNITS": 159,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.043166,
+          39.785562
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09031078",
+        "PROJECT_NAME": "Denver Housing 78",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80241",
+        "TOTAL_UNITS": 165,
+        "LI_UNITS": 140,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.999495,
+          39.753314
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03031079",
+        "PROJECT_NAME": "Denver Square 79",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81262",
+        "TOTAL_UNITS": 139,
+        "LI_UNITS": 135,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.977902,
+          39.743332
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03031080",
+        "PROJECT_NAME": "Denver Homes 80",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80345",
+        "TOTAL_UNITS": 65,
+        "LI_UNITS": 59,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.928157,
+          39.785026
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08031081",
+        "PROJECT_NAME": "Denver Manor 81",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81392",
+        "TOTAL_UNITS": 196,
+        "LI_UNITS": 167,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.038058,
+          39.786182
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98031082",
+        "PROJECT_NAME": "Denver Heights 82",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80272",
+        "TOTAL_UNITS": 65,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.991649,
+          39.761758
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99031083",
+        "PROJECT_NAME": "Denver Terrace 83",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81183",
+        "TOTAL_UNITS": 113,
+        "LI_UNITS": 107,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.955883,
+          39.776909
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16031084",
+        "PROJECT_NAME": "Denver Landing 84",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80826",
+        "TOTAL_UNITS": 165,
+        "LI_UNITS": 134,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.053983,
+          39.717093
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07031085",
+        "PROJECT_NAME": "Denver Crossing 85",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81586",
+        "TOTAL_UNITS": 166,
+        "LI_UNITS": 164,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.93038,
+          39.726108
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19031086",
+        "PROJECT_NAME": "Denver Crossing 86",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80434",
+        "TOTAL_UNITS": 66,
+        "LI_UNITS": 63,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.981834,
+          39.749176
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07031087",
+        "PROJECT_NAME": "Denver Terrace 87",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80994",
+        "TOTAL_UNITS": 122,
+        "LI_UNITS": 105,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.052216,
+          39.782298
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031088",
+        "PROJECT_NAME": "Denver Housing 88",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80324",
+        "TOTAL_UNITS": 75,
+        "LI_UNITS": 69,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.037415,
+          39.76334
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19031089",
+        "PROJECT_NAME": "Denver Affordable Apts 89",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81332",
+        "TOTAL_UNITS": 159,
+        "LI_UNITS": 133,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.006704,
+          39.70725
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031090",
+        "PROJECT_NAME": "Denver Gardens 90",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81329",
+        "TOTAL_UNITS": 73,
+        "LI_UNITS": 67,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.999358,
+          39.77187
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031091",
+        "PROJECT_NAME": "Denver Landing 91",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80187",
+        "TOTAL_UNITS": 128,
+        "LI_UNITS": 120,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.987811,
+          39.751191
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90031092",
+        "PROJECT_NAME": "Denver Homes 92",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80912",
+        "TOTAL_UNITS": 172,
+        "LI_UNITS": 140,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.037382,
+          39.729256
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90031093",
+        "PROJECT_NAME": "Denver Terrace 93",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80146",
+        "TOTAL_UNITS": 80,
+        "LI_UNITS": 79,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.015995,
+          39.722248
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14031094",
+        "PROJECT_NAME": "Denver Residences 94",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80784",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.033293,
+          39.753321
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99031095",
+        "PROJECT_NAME": "Denver Residences 95",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80720",
+        "TOTAL_UNITS": 185,
+        "LI_UNITS": 168,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.04144,
+          39.686296
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99031096",
+        "PROJECT_NAME": "Denver Heights 96",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81542",
+        "TOTAL_UNITS": 163,
+        "LI_UNITS": 158,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.018848,
+          39.693098
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14031097",
+        "PROJECT_NAME": "Denver Crossing 97",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80173",
+        "TOTAL_UNITS": 159,
+        "LI_UNITS": 137,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.030153,
+          39.752887
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08031098",
+        "PROJECT_NAME": "Denver Affordable Apts 98",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80803",
+        "TOTAL_UNITS": 127,
+        "LI_UNITS": 106,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.972625,
+          39.706058
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031099",
+        "PROJECT_NAME": "Denver Court 99",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80146",
+        "TOTAL_UNITS": 176,
+        "LI_UNITS": 154,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.981547,
+          39.785384
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90031100",
+        "PROJECT_NAME": "Denver Crossing 100",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80749",
+        "TOTAL_UNITS": 131,
+        "LI_UNITS": 108,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.02074,
+          39.683844
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01031101",
+        "PROJECT_NAME": "Denver Ridge 101",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80082",
+        "TOTAL_UNITS": 68,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.001125,
+          39.739334
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15031102",
+        "PROJECT_NAME": "Denver Valley 102",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81438",
+        "TOTAL_UNITS": 123,
+        "LI_UNITS": 113,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.014632,
+          39.710716
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95031103",
+        "PROJECT_NAME": "Denver Park 103",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81048",
+        "TOTAL_UNITS": 187,
+        "LI_UNITS": 172,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.947481,
+          39.75639
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99031104",
+        "PROJECT_NAME": "Denver Park 104",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81395",
+        "TOTAL_UNITS": 133,
+        "LI_UNITS": 116,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.998686,
+          39.686235
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09031105",
+        "PROJECT_NAME": "Denver Heights 105",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80929",
+        "TOTAL_UNITS": 111,
+        "LI_UNITS": 90,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.964508,
+          39.765811
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93031106",
+        "PROJECT_NAME": "Denver Manor 106",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80336",
+        "TOTAL_UNITS": 94,
+        "LI_UNITS": 77,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.032929,
+          39.767458
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12031107",
+        "PROJECT_NAME": "Denver Valley 107",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80260",
+        "TOTAL_UNITS": 182,
+        "LI_UNITS": 174,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.046124,
+          39.710014
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO97031108",
+        "PROJECT_NAME": "Denver Affordable Apts 108",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81459",
+        "TOTAL_UNITS": 135,
+        "LI_UNITS": 129,
+        "YEAR_ALLOC": 1997,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.944302,
+          39.682296
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94031109",
+        "PROJECT_NAME": "Denver Ridge 109",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "80342",
+        "TOTAL_UNITS": 166,
+        "LI_UNITS": 149,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.039537,
+          39.761487
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00031110",
+        "PROJECT_NAME": "Denver Gardens 110",
+        "CITY": "Denver",
+        "COUNTY": "Denver",
+        "STATE": "CO",
+        "ZIP": "81518",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 74,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.283185,
+          39.579024
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90059001",
+        "PROJECT_NAME": "Lakewood Housing I",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80308",
+        "TOTAL_UNITS": 53,
+        "LI_UNITS": 44,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.155295,
+          39.525383
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92059002",
+        "PROJECT_NAME": "Lakewood Park II",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80656",
+        "TOTAL_UNITS": 157,
+        "LI_UNITS": 132,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.362459,
+          39.627398
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94059003",
+        "PROJECT_NAME": "Lakewood Square III",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80458",
+        "TOTAL_UNITS": 145,
+        "LI_UNITS": 119,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.189453,
+          39.673648
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92059004",
+        "PROJECT_NAME": "Lakewood Landing IV",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80637",
+        "TOTAL_UNITS": 67,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.239786,
+          39.513961
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95059005",
+        "PROJECT_NAME": "Lakewood Park V",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80623",
+        "TOTAL_UNITS": 166,
+        "LI_UNITS": 133,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.189673,
+          39.584207
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05059006",
+        "PROJECT_NAME": "Lakewood Point VI",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80401",
+        "TOTAL_UNITS": 144,
+        "LI_UNITS": 132,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.245129,
+          39.471538
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05059007",
+        "PROJECT_NAME": "Lakewood Village 7",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81303",
+        "TOTAL_UNITS": 51,
+        "LI_UNITS": 50,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.350152,
+          39.640332
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11059008",
+        "PROJECT_NAME": "Lakewood Affordable Apts 8",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81086",
+        "TOTAL_UNITS": 146,
+        "LI_UNITS": 141,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.307942,
+          39.49997
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16059009",
+        "PROJECT_NAME": "Lakewood Ridge 9",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80090",
+        "TOTAL_UNITS": 65,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.235715,
+          39.645296
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23059010",
+        "PROJECT_NAME": "Lakewood Heights 10",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81036",
+        "TOTAL_UNITS": 145,
+        "LI_UNITS": 129,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.34373,
+          39.624787
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15059011",
+        "PROJECT_NAME": "Lakewood Residences 11",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80598",
+        "TOTAL_UNITS": 195,
+        "LI_UNITS": 158,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.357175,
+          39.531069
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10059012",
+        "PROJECT_NAME": "Lakewood Landing 12",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80416",
+        "TOTAL_UNITS": 133,
+        "LI_UNITS": 114,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.277537,
+          39.577653
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96059013",
+        "PROJECT_NAME": "Lakewood Village 13",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81098",
+        "TOTAL_UNITS": 77,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.353399,
+          39.670396
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03059014",
+        "PROJECT_NAME": "Lakewood Point 14",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81654",
+        "TOTAL_UNITS": 128,
+        "LI_UNITS": 114,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.142684,
+          39.636478
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92059015",
+        "PROJECT_NAME": "Lakewood Homes 15",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80812",
+        "TOTAL_UNITS": 133,
+        "LI_UNITS": 110,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.146597,
+          39.507528
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93059016",
+        "PROJECT_NAME": "Lakewood Manor 16",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80927",
+        "TOTAL_UNITS": 116,
+        "LI_UNITS": 111,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.345951,
+          39.656314
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05059017",
+        "PROJECT_NAME": "Lakewood Commons 17",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "80127",
+        "TOTAL_UNITS": 168,
+        "LI_UNITS": 137,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.220376,
+          39.617071
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98059018",
+        "PROJECT_NAME": "Lakewood Homes 18",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81193",
+        "TOTAL_UNITS": 152,
+        "LI_UNITS": 132,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.220063,
+          39.51326
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06059019",
+        "PROJECT_NAME": "Lakewood Residences 19",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81658",
+        "TOTAL_UNITS": 55,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.334783,
+          39.576439
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95059020",
+        "PROJECT_NAME": "Lakewood Terrace 20",
+        "CITY": "Lakewood",
+        "COUNTY": "Jefferson",
+        "STATE": "CO",
+        "ZIP": "81176",
+        "TOTAL_UNITS": 81,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.620543,
+          39.840019
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15001001",
+        "PROJECT_NAME": "Aurora Ridge I",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80384",
+        "TOTAL_UNITS": 57,
+        "LI_UNITS": 49,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.641309,
+          39.876982
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07001002",
+        "PROJECT_NAME": "Aurora Point II",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80605",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 71,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.662151,
+          39.811817
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16001003",
+        "PROJECT_NAME": "Aurora Park III",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80409",
+        "TOTAL_UNITS": 172,
+        "LI_UNITS": 139,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.61955,
+          39.908228
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05001004",
+        "PROJECT_NAME": "Aurora Park IV",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81116",
+        "TOTAL_UNITS": 54,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.683496,
+          39.810024
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12001005",
+        "PROJECT_NAME": "Aurora Square V",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81223",
+        "TOTAL_UNITS": 178,
+        "LI_UNITS": 153,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.619873,
+          39.848663
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91001006",
+        "PROJECT_NAME": "Aurora Gardens VI",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81197",
+        "TOTAL_UNITS": 64,
+        "LI_UNITS": 61,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.531773,
+          39.809273
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00001007",
+        "PROJECT_NAME": "Aurora Commons 7",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81510",
+        "TOTAL_UNITS": 113,
+        "LI_UNITS": 105,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.526218,
+          39.919231
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04001008",
+        "PROJECT_NAME": "Aurora Square 8",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80361",
+        "TOTAL_UNITS": 149,
+        "LI_UNITS": 129,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.579511,
+          39.825623
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10001009",
+        "PROJECT_NAME": "Aurora Crossing 9",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80292",
+        "TOTAL_UNITS": 57,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.671171,
+          39.852264
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02001010",
+        "PROJECT_NAME": "Aurora Ridge 10",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80477",
+        "TOTAL_UNITS": 188,
+        "LI_UNITS": 162,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.570586,
+          39.821793
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04001011",
+        "PROJECT_NAME": "Aurora Affordable Apts 11",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81652",
+        "TOTAL_UNITS": 184,
+        "LI_UNITS": 164,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.553198,
+          39.786461
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11001012",
+        "PROJECT_NAME": "Aurora Place 12",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80291",
+        "TOTAL_UNITS": 132,
+        "LI_UNITS": 107,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.612546,
+          39.938949
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23001013",
+        "PROJECT_NAME": "Aurora Crossing 13",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80207",
+        "TOTAL_UNITS": 68,
+        "LI_UNITS": 59,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.604621,
+          39.898712
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09001014",
+        "PROJECT_NAME": "Aurora Terrace 14",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81310",
+        "TOTAL_UNITS": 84,
+        "LI_UNITS": 83,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.537398,
+          39.936438
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10001015",
+        "PROJECT_NAME": "Aurora Place 15",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80458",
+        "TOTAL_UNITS": 193,
+        "LI_UNITS": 181,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.65438,
+          39.814647
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01001016",
+        "PROJECT_NAME": "Aurora Landing 16",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80004",
+        "TOTAL_UNITS": 128,
+        "LI_UNITS": 121,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.533209,
+          39.819198
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15001017",
+        "PROJECT_NAME": "Aurora Square 17",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "81253",
+        "TOTAL_UNITS": 58,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.621912,
+          39.773039
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96001018",
+        "PROJECT_NAME": "Aurora Ridge 18",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80655",
+        "TOTAL_UNITS": 86,
+        "LI_UNITS": 74,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.55541,
+          39.798359
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95001019",
+        "PROJECT_NAME": "Aurora Terrace 19",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80718",
+        "TOTAL_UNITS": 164,
+        "LI_UNITS": 131,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.502432,
+          39.898756
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96001020",
+        "PROJECT_NAME": "Aurora Affordable Apts 20",
+        "CITY": "Aurora",
+        "COUNTY": "Adams",
+        "STATE": "CO",
+        "ZIP": "80848",
+        "TOTAL_UNITS": 62,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.482964,
+          39.696331
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14005001",
+        "PROJECT_NAME": "Aurora Crossing I",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81184",
+        "TOTAL_UNITS": 189,
+        "LI_UNITS": 165,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.630545,
+          39.543615
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00005002",
+        "PROJECT_NAME": "Aurora Point II",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80535",
+        "TOTAL_UNITS": 68,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.62,
+          39.568094
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94005003",
+        "PROJECT_NAME": "Aurora Terrace III",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80191",
+        "TOTAL_UNITS": 93,
+        "LI_UNITS": 90,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.463567,
+          39.568879
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20005004",
+        "PROJECT_NAME": "Aurora Affordable Apts IV",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80322",
+        "TOTAL_UNITS": 160,
+        "LI_UNITS": 158,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.52801,
+          39.615782
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96005005",
+        "PROJECT_NAME": "Aurora Terrace V",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81495",
+        "TOTAL_UNITS": 102,
+        "LI_UNITS": 101,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.52462,
+          39.54673
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06005006",
+        "PROJECT_NAME": "Aurora Manor VI",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81006",
+        "TOTAL_UNITS": 126,
+        "LI_UNITS": 106,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.507292,
+          39.593753
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93005007",
+        "PROJECT_NAME": "Aurora Crossing 7",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81230",
+        "TOTAL_UNITS": 50,
+        "LI_UNITS": 44,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.446805,
+          39.659733
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02005008",
+        "PROJECT_NAME": "Aurora Commons 8",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80970",
+        "TOTAL_UNITS": 56,
+        "LI_UNITS": 47,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.616902,
+          39.66412
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09005009",
+        "PROJECT_NAME": "Aurora Landing 9",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81115",
+        "TOTAL_UNITS": 170,
+        "LI_UNITS": 152,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.583847,
+          39.622789
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01005010",
+        "PROJECT_NAME": "Aurora Crossing 10",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80953",
+        "TOTAL_UNITS": 147,
+        "LI_UNITS": 128,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.506246,
+          39.681629
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04005011",
+        "PROJECT_NAME": "Aurora Gardens 11",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80176",
+        "TOTAL_UNITS": 194,
+        "LI_UNITS": 157,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.477266,
+          39.698633
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16005012",
+        "PROJECT_NAME": "Aurora Square 12",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80858",
+        "TOTAL_UNITS": 108,
+        "LI_UNITS": 98,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.461067,
+          39.552359
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20005013",
+        "PROJECT_NAME": "Aurora Square 13",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81463",
+        "TOTAL_UNITS": 110,
+        "LI_UNITS": 98,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.515308,
+          39.667287
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO22005014",
+        "PROJECT_NAME": "Aurora Square 14",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80247",
+        "TOTAL_UNITS": 182,
+        "LI_UNITS": 174,
+        "YEAR_ALLOC": 2022,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.553112,
+          39.561428
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01005015",
+        "PROJECT_NAME": "Aurora Place 15",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81400",
+        "TOTAL_UNITS": 104,
+        "LI_UNITS": 100,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.47939,
+          39.676804
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02005016",
+        "PROJECT_NAME": "Aurora Village 16",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80179",
+        "TOTAL_UNITS": 116,
+        "LI_UNITS": 100,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.458305,
+          39.63698
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15005017",
+        "PROJECT_NAME": "Aurora Park 17",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "80026",
+        "TOTAL_UNITS": 133,
+        "LI_UNITS": 129,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.521517,
+          39.565654
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23005018",
+        "PROJECT_NAME": "Aurora Heights 18",
+        "CITY": "Aurora",
+        "COUNTY": "Arapahoe",
+        "STATE": "CO",
+        "ZIP": "81554",
+        "TOTAL_UNITS": 78,
+        "LI_UNITS": 68,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.295678,
+          40.086196
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96013001",
+        "PROJECT_NAME": "Boulder Square I",
         "CITY": "Boulder",
         "COUNTY": "Boulder",
         "STATE": "CO",
-        "ZIP": "80301",
+        "ZIP": "80842",
+        "TOTAL_UNITS": 75,
+        "LI_UNITS": 71,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.392434,
+          39.953395
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14013002",
+        "PROJECT_NAME": "Boulder Ridge II",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80295",
+        "TOTAL_UNITS": 196,
+        "LI_UNITS": 180,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.398487,
+          40.000439
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15013003",
+        "PROJECT_NAME": "Boulder Housing III",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81528",
+        "TOTAL_UNITS": 151,
+        "LI_UNITS": 147,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.386748,
+          40.074384
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07013004",
+        "PROJECT_NAME": "Boulder Crossing IV",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81007",
+        "TOTAL_UNITS": 55,
+        "LI_UNITS": 47,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.304368,
+          40.018298
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04013005",
+        "PROJECT_NAME": "Boulder Village V",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80552",
+        "TOTAL_UNITS": 126,
+        "LI_UNITS": 125,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.317949,
+          40.079235
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95013006",
+        "PROJECT_NAME": "Boulder Homes VI",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81556",
+        "TOTAL_UNITS": 163,
+        "LI_UNITS": 137,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.322969,
+          39.957899
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13013007",
+        "PROJECT_NAME": "Boulder Housing 7",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80827",
+        "TOTAL_UNITS": 181,
+        "LI_UNITS": 173,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.404384,
+          40.087429
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23013008",
+        "PROJECT_NAME": "Boulder Square 8",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80119",
+        "TOTAL_UNITS": 57,
+        "LI_UNITS": 47,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.392664,
+          40.060141
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92013009",
+        "PROJECT_NAME": "Boulder Point 9",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80951",
+        "TOTAL_UNITS": 62,
+        "LI_UNITS": 60,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.365123,
+          40.025606
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15013010",
+        "PROJECT_NAME": "Boulder Commons 10",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80972",
+        "TOTAL_UNITS": 57,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.303561,
+          39.988786
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12013011",
+        "PROJECT_NAME": "Boulder Crossing 11",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80186",
+        "TOTAL_UNITS": 91,
+        "LI_UNITS": 88,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.282113,
+          40.038961
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91013012",
+        "PROJECT_NAME": "Boulder Landing 12",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80454",
+        "TOTAL_UNITS": 62,
+        "LI_UNITS": 51,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.281758,
+          40.085741
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03013013",
+        "PROJECT_NAME": "Boulder Gardens 13",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81398",
+        "TOTAL_UNITS": 154,
+        "LI_UNITS": 139,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.396118,
+          39.948754
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20013014",
+        "PROJECT_NAME": "Boulder Village 14",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81649",
+        "TOTAL_UNITS": 94,
+        "LI_UNITS": 86,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.401587,
+          40.02084
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07013015",
+        "PROJECT_NAME": "Boulder Heights 15",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80619",
+        "TOTAL_UNITS": 146,
+        "LI_UNITS": 141,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.281862,
+          40.107309
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15013016",
+        "PROJECT_NAME": "Boulder Square 16",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80767",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 60,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.392263,
+          40.001205
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08013017",
+        "PROJECT_NAME": "Boulder Manor 17",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "80666",
+        "TOTAL_UNITS": 77,
+        "LI_UNITS": 69,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.29255,
+          40.069876
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06013018",
+        "PROJECT_NAME": "Boulder Manor 18",
+        "CITY": "Boulder",
+        "COUNTY": "Boulder",
+        "STATE": "CO",
+        "ZIP": "81650",
+        "TOTAL_UNITS": 98,
+        "LI_UNITS": 81,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.702007,
+          38.871196
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15041001",
+        "PROJECT_NAME": "Colorado Springs Terrace I",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80532",
+        "TOTAL_UNITS": 85,
+        "LI_UNITS": 80,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.745556,
+          38.952641
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15041002",
+        "PROJECT_NAME": "Colorado Springs Landing II",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80703",
+        "TOTAL_UNITS": 59,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.783572,
+          38.754697
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20041003",
+        "PROJECT_NAME": "Colorado Springs Crossing III",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81144",
+        "TOTAL_UNITS": 179,
+        "LI_UNITS": 153,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.747397,
+          38.775976
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08041004",
+        "PROJECT_NAME": "Colorado Springs Commons IV",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81563",
+        "TOTAL_UNITS": 170,
+        "LI_UNITS": 140,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8677,
+          38.89251
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11041005",
+        "PROJECT_NAME": "Colorado Springs Residences V",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81615",
+        "TOTAL_UNITS": 106,
+        "LI_UNITS": 92,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.828471,
+          38.918191
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13041006",
+        "PROJECT_NAME": "Colorado Springs Gardens VI",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81300",
+        "TOTAL_UNITS": 199,
+        "LI_UNITS": 170,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.849799,
+          38.922099
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94041007",
+        "PROJECT_NAME": "Colorado Springs Ridge 7",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80612",
+        "TOTAL_UNITS": 99,
+        "LI_UNITS": 89,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.704474,
+          38.796141
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93041008",
+        "PROJECT_NAME": "Colorado Springs Village 8",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80938",
+        "TOTAL_UNITS": 85,
+        "LI_UNITS": 84,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.898962,
+          38.865348
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10041009",
+        "PROJECT_NAME": "Colorado Springs Place 9",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81300",
+        "TOTAL_UNITS": 70,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.803093,
+          38.89955
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90041010",
+        "PROJECT_NAME": "Colorado Springs Point 10",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80325",
+        "TOTAL_UNITS": 120,
+        "LI_UNITS": 101,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.709721,
+          38.810714
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95041011",
+        "PROJECT_NAME": "Colorado Springs Village 11",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80786",
+        "TOTAL_UNITS": 161,
+        "LI_UNITS": 149,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.727318,
+          38.941916
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92041012",
+        "PROJECT_NAME": "Colorado Springs Park 12",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81551",
+        "TOTAL_UNITS": 101,
+        "LI_UNITS": 95,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.774954,
+          38.773618
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02041013",
+        "PROJECT_NAME": "Colorado Springs Affordable Apts 13",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80706",
+        "TOTAL_UNITS": 51,
+        "LI_UNITS": 47,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.925731,
+          38.787368
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98041014",
+        "PROJECT_NAME": "Colorado Springs Commons 14",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80094",
+        "TOTAL_UNITS": 148,
+        "LI_UNITS": 133,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.728286,
+          38.79498
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08041015",
+        "PROJECT_NAME": "Colorado Springs Point 15",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80275",
+        "TOTAL_UNITS": 183,
+        "LI_UNITS": 168,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.746518,
+          38.931555
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21041016",
+        "PROJECT_NAME": "Colorado Springs Crossing 16",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80040",
+        "TOTAL_UNITS": 98,
+        "LI_UNITS": 81,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.900844,
+          38.855426
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04041017",
+        "PROJECT_NAME": "Colorado Springs Village 17",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80751",
+        "TOTAL_UNITS": 104,
+        "LI_UNITS": 98,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.92989,
+          38.856442
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14041018",
+        "PROJECT_NAME": "Colorado Springs Gardens 18",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80222",
+        "TOTAL_UNITS": 186,
+        "LI_UNITS": 171,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.880743,
+          38.743563
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93041019",
+        "PROJECT_NAME": "Colorado Springs Commons 19",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81438",
+        "TOTAL_UNITS": 156,
+        "LI_UNITS": 138,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.816526,
+          38.738135
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03041020",
+        "PROJECT_NAME": "Colorado Springs Affordable Apts 20",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81276",
+        "TOTAL_UNITS": 127,
+        "LI_UNITS": 112,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.87355,
+          38.862148
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98041021",
+        "PROJECT_NAME": "Colorado Springs Heights 21",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81608",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 68,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.707851,
+          38.91346
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21041022",
+        "PROJECT_NAME": "Colorado Springs Homes 22",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80734",
+        "TOTAL_UNITS": 101,
+        "LI_UNITS": 96,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.776231,
+          38.932386
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08041023",
+        "PROJECT_NAME": "Colorado Springs Place 23",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80985",
+        "TOTAL_UNITS": 60,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.740944,
+          38.931551
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO05041024",
+        "PROJECT_NAME": "Colorado Springs Affordable Apts 24",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81371",
+        "TOTAL_UNITS": 53,
+        "LI_UNITS": 49,
+        "YEAR_ALLOC": 2005,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.724253,
+          38.887558
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99041025",
+        "PROJECT_NAME": "Colorado Springs Residences 25",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81320",
+        "TOTAL_UNITS": 180,
+        "LI_UNITS": 146,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.899472,
+          38.737854
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19041026",
+        "PROJECT_NAME": "Colorado Springs Manor 26",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80081",
+        "TOTAL_UNITS": 117,
+        "LI_UNITS": 104,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.759431,
+          38.7367
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13041027",
+        "PROJECT_NAME": "Colorado Springs Terrace 27",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80094",
+        "TOTAL_UNITS": 159,
+        "LI_UNITS": 150,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.792166,
+          38.818951
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98041028",
+        "PROJECT_NAME": "Colorado Springs Place 28",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81502",
+        "TOTAL_UNITS": 134,
+        "LI_UNITS": 116,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.831831,
+          38.80996
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13041029",
+        "PROJECT_NAME": "Colorado Springs Terrace 29",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80790",
+        "TOTAL_UNITS": 96,
+        "LI_UNITS": 78,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.705823,
+          38.888239
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16041030",
+        "PROJECT_NAME": "Colorado Springs Place 30",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80327",
+        "TOTAL_UNITS": 78,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.897897,
+          38.876714
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16041031",
+        "PROJECT_NAME": "Colorado Springs Square 31",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80778",
+        "TOTAL_UNITS": 173,
+        "LI_UNITS": 166,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.842692,
+          38.741005
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91041032",
+        "PROJECT_NAME": "Colorado Springs Village 32",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80095",
+        "TOTAL_UNITS": 173,
+        "LI_UNITS": 170,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.757193,
+          38.876603
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06041033",
+        "PROJECT_NAME": "Colorado Springs Terrace 33",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81181",
+        "TOTAL_UNITS": 53,
+        "LI_UNITS": 49,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.918542,
+          38.882039
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04041034",
+        "PROJECT_NAME": "Colorado Springs Terrace 34",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81356",
+        "TOTAL_UNITS": 182,
+        "LI_UNITS": 164,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.727305,
+          38.912245
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20041035",
+        "PROJECT_NAME": "Colorado Springs Crossing 35",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81256",
+        "TOTAL_UNITS": 148,
+        "LI_UNITS": 122,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.73274,
+          38.918349
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90041036",
+        "PROJECT_NAME": "Colorado Springs Place 36",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80154",
+        "TOTAL_UNITS": 179,
+        "LI_UNITS": 173,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.88795,
+          38.725984
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10041037",
+        "PROJECT_NAME": "Colorado Springs Court 37",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81318",
+        "TOTAL_UNITS": 134,
+        "LI_UNITS": 133,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.833856,
+          38.906203
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15041038",
+        "PROJECT_NAME": "Colorado Springs Court 38",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81021",
+        "TOTAL_UNITS": 70,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.844574,
+          38.718165
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10041039",
+        "PROJECT_NAME": "Colorado Springs Commons 39",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80074",
+        "TOTAL_UNITS": 177,
+        "LI_UNITS": 167,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.784297,
+          38.84886
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90041040",
+        "PROJECT_NAME": "Colorado Springs Residences 40",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80935",
+        "TOTAL_UNITS": 127,
+        "LI_UNITS": 124,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.75722,
+          38.793573
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13041041",
+        "PROJECT_NAME": "Colorado Springs Housing 41",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81229",
+        "TOTAL_UNITS": 107,
+        "LI_UNITS": 103,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.940873,
+          38.872038
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13041042",
+        "PROJECT_NAME": "Colorado Springs Point 42",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80728",
+        "TOTAL_UNITS": 79,
+        "LI_UNITS": 64,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.907692,
+          38.753297
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23041043",
+        "PROJECT_NAME": "Colorado Springs Crossing 43",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81469",
+        "TOTAL_UNITS": 77,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.847105,
+          38.937152
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96041044",
+        "PROJECT_NAME": "Colorado Springs Gardens 44",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80937",
+        "TOTAL_UNITS": 100,
+        "LI_UNITS": 83,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.780086,
+          38.865878
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11041045",
+        "PROJECT_NAME": "Colorado Springs Commons 45",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80253",
+        "TOTAL_UNITS": 156,
+        "LI_UNITS": 126,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.814113,
+          38.833619
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19041046",
+        "PROJECT_NAME": "Colorado Springs Square 46",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "80100",
+        "TOTAL_UNITS": 179,
+        "LI_UNITS": 148,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.722956,
+          38.90136
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO17041047",
+        "PROJECT_NAME": "Colorado Springs Square 47",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81417",
+        "TOTAL_UNITS": 173,
+        "LI_UNITS": 170,
+        "YEAR_ALLOC": 2017,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.729553,
+          38.858031
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01041048",
+        "PROJECT_NAME": "Colorado Springs Village 48",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81033",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 66,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.870798,
+          38.796186
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16041049",
+        "PROJECT_NAME": "Colorado Springs Court 49",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81649",
+        "TOTAL_UNITS": 120,
+        "LI_UNITS": 105,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.73483,
+          38.882259
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98041050",
+        "PROJECT_NAME": "Colorado Springs Heights 50",
+        "CITY": "Colorado Springs",
+        "COUNTY": "El Paso",
+        "STATE": "CO",
+        "ZIP": "81458",
+        "TOTAL_UNITS": 181,
+        "LI_UNITS": 155,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.114104,
+          40.545091
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03069001",
+        "PROJECT_NAME": "Fort Collins Homes I",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81378",
+        "TOTAL_UNITS": 103,
+        "LI_UNITS": 95,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.158242,
+          40.551197
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01069002",
+        "PROJECT_NAME": "Fort Collins Valley II",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80722",
+        "TOTAL_UNITS": 188,
+        "LI_UNITS": 176,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.050945,
+          40.625644
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20069003",
+        "PROJECT_NAME": "Fort Collins Square III",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81094",
+        "TOTAL_UNITS": 196,
+        "LI_UNITS": 193,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.170212,
+          40.562427
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO17069004",
+        "PROJECT_NAME": "Fort Collins Affordable Apts IV",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80116",
+        "TOTAL_UNITS": 183,
+        "LI_UNITS": 150,
+        "YEAR_ALLOC": 2017,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.16849,
+          40.517414
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07069005",
+        "PROJECT_NAME": "Fort Collins Place V",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81607",
+        "TOTAL_UNITS": 123,
+        "LI_UNITS": 115,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.062107,
+          40.576198
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03069006",
+        "PROJECT_NAME": "Fort Collins Park VI",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81384",
+        "TOTAL_UNITS": 58,
+        "LI_UNITS": 50,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.027026,
+          40.639887
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04069007",
+        "PROJECT_NAME": "Fort Collins Park 7",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80590",
+        "TOTAL_UNITS": 149,
+        "LI_UNITS": 126,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.12037,
+          40.676658
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14069008",
+        "PROJECT_NAME": "Fort Collins Landing 8",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81131",
+        "TOTAL_UNITS": 156,
+        "LI_UNITS": 154,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.013337,
+          40.639238
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90069009",
+        "PROJECT_NAME": "Fort Collins Gardens 9",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80462",
+        "TOTAL_UNITS": 101,
+        "LI_UNITS": 93,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.166102,
+          40.678123
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02069010",
+        "PROJECT_NAME": "Fort Collins Homes 10",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80356",
+        "TOTAL_UNITS": 125,
+        "LI_UNITS": 111,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.155427,
+          40.596167
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO97069011",
+        "PROJECT_NAME": "Fort Collins Landing 11",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81197",
+        "TOTAL_UNITS": 60,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 1997,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.150889,
+          40.519023
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90069012",
+        "PROJECT_NAME": "Fort Collins Terrace 12",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80661",
+        "TOTAL_UNITS": 169,
+        "LI_UNITS": 159,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.166407,
+          40.594931
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93069013",
+        "PROJECT_NAME": "Fort Collins Manor 13",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81450",
+        "TOTAL_UNITS": 175,
+        "LI_UNITS": 167,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.149801,
+          40.640262
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23069014",
+        "PROJECT_NAME": "Fort Collins Court 14",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81113",
+        "TOTAL_UNITS": 97,
+        "LI_UNITS": 87,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.116678,
+          40.530264
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15069015",
+        "PROJECT_NAME": "Fort Collins Residences 15",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80739",
+        "TOTAL_UNITS": 139,
+        "LI_UNITS": 117,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.992022,
+          40.647448
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03069016",
+        "PROJECT_NAME": "Fort Collins Valley 16",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80019",
+        "TOTAL_UNITS": 171,
+        "LI_UNITS": 170,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.061143,
+          40.607131
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12069017",
+        "PROJECT_NAME": "Fort Collins Point 17",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80082",
+        "TOTAL_UNITS": 111,
+        "LI_UNITS": 108,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.175656,
+          40.628303
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14069018",
+        "PROJECT_NAME": "Fort Collins Commons 18",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81059",
+        "TOTAL_UNITS": 148,
+        "LI_UNITS": 125,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.055307,
+          40.546215
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO22069019",
+        "PROJECT_NAME": "Fort Collins Valley 19",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "80657",
+        "TOTAL_UNITS": 164,
+        "LI_UNITS": 147,
+        "YEAR_ALLOC": 2022,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.078024,
+          40.637777
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95069020",
+        "PROJECT_NAME": "Fort Collins Commons 20",
+        "CITY": "Fort Collins",
+        "COUNTY": "Larimer",
+        "STATE": "CO",
+        "ZIP": "81284",
+        "TOTAL_UNITS": 92,
+        "LI_UNITS": 91,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.2892,
+          40.456585
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03123001",
+        "PROJECT_NAME": "Greeley Homes I",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81519",
+        "TOTAL_UNITS": 74,
+        "LI_UNITS": 71,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.526393,
+          40.496949
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94123002",
+        "PROJECT_NAME": "Greeley Village II",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80112",
+        "TOTAL_UNITS": 23,
+        "LI_UNITS": 20,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.471633,
+          40.463647
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06123003",
+        "PROJECT_NAME": "Greeley Park III",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80795",
+        "TOTAL_UNITS": 29,
+        "LI_UNITS": 26,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.383253,
+          40.606256
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15123004",
+        "PROJECT_NAME": "Greeley Heights IV",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81314",
+        "TOTAL_UNITS": 60,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.257425,
+          40.414029
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO94123005",
+        "PROJECT_NAME": "Greeley Square V",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80218",
+        "TOTAL_UNITS": 25,
+        "LI_UNITS": 23,
+        "YEAR_ALLOC": 1994,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.427964,
+          40.530856
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09123006",
+        "PROJECT_NAME": "Greeley Residences VI",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81354",
+        "TOTAL_UNITS": 56,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.299433,
+          40.629761
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20123007",
+        "PROJECT_NAME": "Greeley Place 7",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81118",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 74,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.274475,
+          40.394368
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99123008",
+        "PROJECT_NAME": "Greeley Manor 8",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80290",
+        "TOTAL_UNITS": 67,
+        "LI_UNITS": 66,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.251367,
+          40.562689
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92123009",
+        "PROJECT_NAME": "Greeley Affordable Apts 9",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80625",
+        "TOTAL_UNITS": 93,
+        "LI_UNITS": 85,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.508814,
+          40.663267
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12123010",
+        "PROJECT_NAME": "Greeley Homes 10",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80377",
         "TOTAL_UNITS": 72,
+        "LI_UNITS": 70,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.28168,
+          40.646691
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06123011",
+        "PROJECT_NAME": "Greeley Homes 11",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81539",
+        "TOTAL_UNITS": 34,
+        "LI_UNITS": 28,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.522975,
+          40.412356
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19123012",
+        "PROJECT_NAME": "Greeley Park 12",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81487",
+        "TOTAL_UNITS": 29,
+        "LI_UNITS": 24,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.522386,
+          40.600551
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21123013",
+        "PROJECT_NAME": "Greeley Terrace 13",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81269",
+        "TOTAL_UNITS": 65,
+        "LI_UNITS": 53,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.456584,
+          40.58803
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02123014",
+        "PROJECT_NAME": "Greeley Terrace 14",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81197",
+        "TOTAL_UNITS": 82,
+        "LI_UNITS": 72,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.302989,
+          40.491029
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13123015",
+        "PROJECT_NAME": "Greeley Terrace 15",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "81459",
+        "TOTAL_UNITS": 74,
+        "LI_UNITS": 61,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.400815,
+          40.4969
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07123016",
+        "PROJECT_NAME": "Greeley Crossing 16",
+        "CITY": "Greeley",
+        "COUNTY": "Weld",
+        "STATE": "CO",
+        "ZIP": "80913",
+        "TOTAL_UNITS": 37,
+        "LI_UNITS": 34,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.013861,
+          39.357846
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09035001",
+        "PROJECT_NAME": "Castle Rock Ridge I",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80575",
+        "TOTAL_UNITS": 191,
+        "LI_UNITS": 156,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.866479,
+          39.405184
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02035002",
+        "PROJECT_NAME": "Castle Rock Gardens II",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81294",
+        "TOTAL_UNITS": 69,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.925254,
+          39.339806
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15035003",
+        "PROJECT_NAME": "Castle Rock Square III",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81106",
+        "TOTAL_UNITS": 104,
+        "LI_UNITS": 102,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.88882,
+          39.382152
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99035004",
+        "PROJECT_NAME": "Castle Rock Crossing IV",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80596",
+        "TOTAL_UNITS": 150,
+        "LI_UNITS": 126,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.027566,
+          39.303762
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19035005",
+        "PROJECT_NAME": "Castle Rock Valley V",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80490",
+        "TOTAL_UNITS": 180,
+        "LI_UNITS": 147,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.847447,
+          39.268296
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00035006",
+        "PROJECT_NAME": "Castle Rock Valley VI",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81351",
+        "TOTAL_UNITS": 85,
+        "LI_UNITS": 75,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.017531,
+          39.327527
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20035007",
+        "PROJECT_NAME": "Castle Rock Crossing 7",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80757",
+        "TOTAL_UNITS": 60,
+        "LI_UNITS": 50,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.939423,
+          39.30326
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92035008",
+        "PROJECT_NAME": "Castle Rock Homes 8",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80932",
+        "TOTAL_UNITS": 182,
+        "LI_UNITS": 178,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.870308,
+          39.334004
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO92035009",
+        "PROJECT_NAME": "Castle Rock Terrace 9",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81520",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 71,
+        "YEAR_ALLOC": 1992,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.86919,
+          39.359341
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO01035010",
+        "PROJECT_NAME": "Castle Rock Landing 10",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81059",
+        "TOTAL_UNITS": 146,
+        "LI_UNITS": 127,
+        "YEAR_ALLOC": 2001,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.963354,
+          39.390809
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14035011",
+        "PROJECT_NAME": "Castle Rock Court 11",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "81624",
+        "TOTAL_UNITS": 182,
+        "LI_UNITS": 160,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.930808,
+          39.278058
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90035012",
+        "PROJECT_NAME": "Castle Rock Valley 12",
+        "CITY": "Castle Rock",
+        "COUNTY": "Douglas",
+        "STATE": "CO",
+        "ZIP": "80576",
+        "TOTAL_UNITS": 85,
+        "LI_UNITS": 75,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.111127,
+          39.934407
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99014001",
+        "PROJECT_NAME": "Broomfield Place I",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "80472",
+        "TOTAL_UNITS": 90,
+        "LI_UNITS": 78,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.080889,
+          39.919157
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO11014002",
+        "PROJECT_NAME": "Broomfield Commons II",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "81326",
+        "TOTAL_UNITS": 173,
+        "LI_UNITS": 161,
+        "YEAR_ALLOC": 2011,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.110078,
+          39.92641
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91014003",
+        "PROJECT_NAME": "Broomfield Court III",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "81050",
+        "TOTAL_UNITS": 61,
+        "LI_UNITS": 50,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.057373,
+          39.900022
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99014004",
+        "PROJECT_NAME": "Broomfield Housing IV",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "81228",
+        "TOTAL_UNITS": 92,
+        "LI_UNITS": 78,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08853,
+          39.927318
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91014005",
+        "PROJECT_NAME": "Broomfield Manor V",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "80987",
+        "TOTAL_UNITS": 71,
+        "LI_UNITS": 59,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.107059,
+          39.941009
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04014006",
+        "PROJECT_NAME": "Broomfield Heights VI",
+        "CITY": "Broomfield",
+        "COUNTY": "Broomfield",
+        "STATE": "CO",
+        "ZIP": "81351",
+        "TOTAL_UNITS": 86,
+        "LI_UNITS": 82,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.678085,
+          38.269845
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06101001",
+        "PROJECT_NAME": "Pueblo Place I",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80775",
+        "TOTAL_UNITS": 63,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.608402,
+          38.311935
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98101002",
+        "PROJECT_NAME": "Pueblo Commons II",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80860",
+        "TOTAL_UNITS": 22,
+        "LI_UNITS": 18,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.54866,
+          38.27037
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO96101003",
+        "PROJECT_NAME": "Pueblo Place III",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "81089",
+        "TOTAL_UNITS": 80,
+        "LI_UNITS": 78,
+        "YEAR_ALLOC": 1996,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.602814,
+          38.318718
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO97101004",
+        "PROJECT_NAME": "Pueblo Residences IV",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80003",
+        "TOTAL_UNITS": 81,
+        "LI_UNITS": 75,
+        "YEAR_ALLOC": 1997,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.620467,
+          38.286023
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23101005",
+        "PROJECT_NAME": "Pueblo Heights V",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "81644",
+        "TOTAL_UNITS": 67,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.55515,
+          38.319657
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14101006",
+        "PROJECT_NAME": "Pueblo Crossing VI",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "81180",
+        "TOTAL_UNITS": 95,
+        "LI_UNITS": 91,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.551651,
+          38.211602
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO17101007",
+        "PROJECT_NAME": "Pueblo Village 7",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80581",
+        "TOTAL_UNITS": 52,
+        "LI_UNITS": 46,
+        "YEAR_ALLOC": 2017,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.687962,
+          38.293383
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16101008",
+        "PROJECT_NAME": "Pueblo Gardens 8",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "81071",
+        "TOTAL_UNITS": 44,
+        "LI_UNITS": 35,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.638556,
+          38.284443
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23101009",
+        "PROJECT_NAME": "Pueblo Affordable Apts 9",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80742",
+        "TOTAL_UNITS": 68,
+        "LI_UNITS": 63,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.62133,
+          38.311196
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99101010",
+        "PROJECT_NAME": "Pueblo Heights 10",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80749",
+        "TOTAL_UNITS": 94,
+        "LI_UNITS": 79,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.611905,
+          38.299806
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07101011",
+        "PROJECT_NAME": "Pueblo Landing 11",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80759",
+        "TOTAL_UNITS": 46,
+        "LI_UNITS": 40,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.625399,
+          38.298271
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO20101012",
+        "PROJECT_NAME": "Pueblo Gardens 12",
+        "CITY": "Pueblo",
+        "COUNTY": "Pueblo",
+        "STATE": "CO",
+        "ZIP": "80283",
+        "TOTAL_UNITS": 59,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2020,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.495772,
+          39.065502
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04077001",
+        "PROJECT_NAME": "Grand Junction Point I",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81641",
+        "TOTAL_UNITS": 40,
+        "LI_UNITS": 32,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.629211,
+          38.968916
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93077002",
+        "PROJECT_NAME": "Grand Junction Place II",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "80298",
+        "TOTAL_UNITS": 69,
+        "LI_UNITS": 68,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.529766,
+          39.0391
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO17077003",
+        "PROJECT_NAME": "Grand Junction Residences III",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81484",
+        "TOTAL_UNITS": 28,
+        "LI_UNITS": 23,
+        "YEAR_ALLOC": 2017,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.465123,
+          39.082615
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15077004",
+        "PROJECT_NAME": "Grand Junction Valley IV",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "80359",
+        "TOTAL_UNITS": 56,
+        "LI_UNITS": 52,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.547215,
+          39.146606
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO18077005",
+        "PROJECT_NAME": "Grand Junction Affordable Apts V",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "80399",
+        "TOTAL_UNITS": 45,
+        "LI_UNITS": 43,
+        "YEAR_ALLOC": 2018,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.57763,
+          39.097313
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO22077006",
+        "PROJECT_NAME": "Grand Junction Valley VI",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81342",
+        "TOTAL_UNITS": 49,
+        "LI_UNITS": 45,
+        "YEAR_ALLOC": 2022,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.570833,
+          39.035701
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00077007",
+        "PROJECT_NAME": "Grand Junction Residences 7",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81201",
+        "TOTAL_UNITS": 55,
+        "LI_UNITS": 52,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.507281,
+          39.073422
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23077008",
+        "PROJECT_NAME": "Grand Junction Affordable Apts 8",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "81146",
+        "TOTAL_UNITS": 28,
+        "LI_UNITS": 27,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.559386,
+          39.152807
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12077009",
+        "PROJECT_NAME": "Grand Junction Crossing 9",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "80828",
+        "TOTAL_UNITS": 55,
+        "LI_UNITS": 46,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.632802,
+          38.988341
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90077010",
+        "PROJECT_NAME": "Grand Junction Gardens 10",
+        "CITY": "Grand Junction",
+        "COUNTY": "Mesa",
+        "STATE": "CO",
+        "ZIP": "80603",
+        "TOTAL_UNITS": 42,
+        "LI_UNITS": 37,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.871825,
+          39.768755
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO97045001",
+        "PROJECT_NAME": "Glenwood Springs Valley I",
+        "CITY": "Glenwood Springs",
+        "COUNTY": "Garfield",
+        "STATE": "CO",
+        "ZIP": "81422",
+        "TOTAL_UNITS": 52,
+        "LI_UNITS": 50,
+        "YEAR_ALLOC": 1997,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.779103,
+          39.755394
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14045002",
+        "PROJECT_NAME": "Glenwood Springs Square II",
+        "CITY": "Glenwood Springs",
+        "COUNTY": "Garfield",
+        "STATE": "CO",
+        "ZIP": "80940",
+        "TOTAL_UNITS": 81,
+        "LI_UNITS": 77,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.820523,
+          39.665442
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91045003",
+        "PROJECT_NAME": "Glenwood Springs Ridge III",
+        "CITY": "Glenwood Springs",
+        "COUNTY": "Garfield",
+        "STATE": "CO",
+        "ZIP": "80452",
+        "TOTAL_UNITS": 34,
+        "LI_UNITS": 28,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.810078,
+          39.575934
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10045004",
+        "PROJECT_NAME": "Glenwood Springs Heights IV",
+        "CITY": "Glenwood Springs",
+        "COUNTY": "Garfield",
+        "STATE": "CO",
+        "ZIP": "80509",
+        "TOTAL_UNITS": 65,
+        "LI_UNITS": 58,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.895427,
+          39.797135
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO95045005",
+        "PROJECT_NAME": "Glenwood Springs Landing V",
+        "CITY": "Glenwood Springs",
+        "COUNTY": "Garfield",
+        "STATE": "CO",
+        "ZIP": "80725",
+        "TOTAL_UNITS": 63,
+        "LI_UNITS": 51,
+        "YEAR_ALLOC": 1995,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.786498,
+          39.595636
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07037001",
+        "PROJECT_NAME": "Vail Place I",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "80544",
+        "TOTAL_UNITS": 44,
+        "LI_UNITS": 39,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.778144,
+          39.625657
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04037002",
+        "PROJECT_NAME": "Vail Homes II",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "80246",
+        "TOTAL_UNITS": 51,
+        "LI_UNITS": 49,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.85643,
+          39.720118
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO21037003",
+        "PROJECT_NAME": "Vail Affordable Apts III",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "80646",
+        "TOTAL_UNITS": 89,
+        "LI_UNITS": 88,
+        "YEAR_ALLOC": 2021,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.873889,
+          39.733173
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07037004",
+        "PROJECT_NAME": "Vail Ridge IV",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "80455",
+        "TOTAL_UNITS": 43,
+        "LI_UNITS": 42,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.823873,
+          39.649137
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO98037005",
+        "PROJECT_NAME": "Vail Housing V",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "81030",
+        "TOTAL_UNITS": 87,
+        "LI_UNITS": 83,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.839366,
+          39.691363
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15037006",
+        "PROJECT_NAME": "Vail Place VI",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "81412",
+        "TOTAL_UNITS": 78,
+        "LI_UNITS": 77,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.810047,
+          39.619784
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO90037007",
+        "PROJECT_NAME": "Vail Homes 7",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "80532",
+        "TOTAL_UNITS": 68,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.857443,
+          39.675012
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO06037008",
+        "PROJECT_NAME": "Vail Court 8",
+        "CITY": "Vail",
+        "COUNTY": "Eagle",
+        "STATE": "CO",
+        "ZIP": "81022",
+        "TOTAL_UNITS": 54,
+        "LI_UNITS": 48,
+        "YEAR_ALLOC": 2006,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.054807,
+          39.537376
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03117001",
+        "PROJECT_NAME": "Breckenridge Heights I",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "81171",
+        "TOTAL_UNITS": 67,
+        "LI_UNITS": 58,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.002892,
+          39.557184
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04117002",
+        "PROJECT_NAME": "Breckenridge Commons II",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "80402",
+        "TOTAL_UNITS": 54,
+        "LI_UNITS": 51,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.985068,
+          39.550049
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99117003",
+        "PROJECT_NAME": "Breckenridge Ridge III",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "81292",
+        "TOTAL_UNITS": 21,
+        "LI_UNITS": 17,
+        "YEAR_ALLOC": 1999,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.106393,
+          39.595988
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO10117004",
+        "PROJECT_NAME": "Breckenridge Ridge IV",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "80203",
+        "TOTAL_UNITS": 58,
+        "LI_UNITS": 49,
+        "YEAR_ALLOC": 2010,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.054919,
+          39.566722
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93117005",
+        "PROJECT_NAME": "Breckenridge Homes V",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "80686",
+        "TOTAL_UNITS": 52,
+        "LI_UNITS": 46,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.06845,
+          39.589782
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO13117006",
+        "PROJECT_NAME": "Breckenridge Crossing VI",
+        "CITY": "Breckenridge",
+        "COUNTY": "Summit",
+        "STATE": "CO",
+        "ZIP": "80844",
+        "TOTAL_UNITS": 91,
+        "LI_UNITS": 82,
+        "YEAR_ALLOC": 2013,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.873359,
+          39.210189
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12097001",
+        "PROJECT_NAME": "Aspen Homes I",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "81599",
+        "TOTAL_UNITS": 93,
+        "LI_UNITS": 85,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.781827,
+          39.221375
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO12097002",
+        "PROJECT_NAME": "Aspen Terrace II",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "80781",
+        "TOTAL_UNITS": 85,
+        "LI_UNITS": 76,
+        "YEAR_ALLOC": 2012,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.813706,
+          39.238237
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08097003",
+        "PROJECT_NAME": "Aspen Point III",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "80691",
+        "TOTAL_UNITS": 100,
+        "LI_UNITS": 99,
+        "YEAR_ALLOC": 2008,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.85514,
+          39.156312
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15097004",
+        "PROJECT_NAME": "Aspen Residences IV",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "80597",
+        "TOTAL_UNITS": 30,
+        "LI_UNITS": 24,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.799969,
+          39.247263
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO15097005",
+        "PROJECT_NAME": "Aspen Gardens V",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "81067",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 72,
+        "YEAR_ALLOC": 2015,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.865668,
+          39.143105
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO16097006",
+        "PROJECT_NAME": "Aspen Place VI",
+        "CITY": "Aspen",
+        "COUNTY": "Pitkin",
+        "STATE": "CO",
+        "ZIP": "80516",
+        "TOTAL_UNITS": 43,
+        "LI_UNITS": 41,
+        "YEAR_ALLOC": 2016,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.770809,
+          40.414907
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO03107001",
+        "PROJECT_NAME": "Steamboat Springs Place I",
+        "CITY": "Steamboat Springs",
+        "COUNTY": "Routt",
+        "STATE": "CO",
+        "ZIP": "81124",
+        "TOTAL_UNITS": 70,
+        "LI_UNITS": 57,
+        "YEAR_ALLOC": 2003,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.869408,
+          40.41802
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO91107002",
+        "PROJECT_NAME": "Steamboat Springs Landing II",
+        "CITY": "Steamboat Springs",
+        "COUNTY": "Routt",
+        "STATE": "CO",
+        "ZIP": "80319",
+        "TOTAL_UNITS": 87,
+        "LI_UNITS": 82,
+        "YEAR_ALLOC": 1991,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.811163,
+          40.450168
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14107003",
+        "PROJECT_NAME": "Steamboat Springs Manor III",
+        "CITY": "Steamboat Springs",
+        "COUNTY": "Routt",
+        "STATE": "CO",
+        "ZIP": "80269",
+        "TOTAL_UNITS": 49,
+        "LI_UNITS": 41,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.859368,
+          40.542359
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00107004",
+        "PROJECT_NAME": "Steamboat Springs Affordable Apts IV",
+        "CITY": "Steamboat Springs",
+        "COUNTY": "Routt",
+        "STATE": "CO",
+        "ZIP": "80976",
+        "TOTAL_UNITS": 24,
+        "LI_UNITS": 22,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.825114,
+          40.556458
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07107005",
+        "PROJECT_NAME": "Steamboat Springs Park V",
+        "CITY": "Steamboat Springs",
+        "COUNTY": "Routt",
+        "STATE": "CO",
+        "ZIP": "81211",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 62,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.838245,
+          37.354989
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO19067001",
+        "PROJECT_NAME": "Durango Square I",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "80712",
+        "TOTAL_UNITS": 75,
+        "LI_UNITS": 67,
+        "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.867802,
+          37.311343
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO04067002",
+        "PROJECT_NAME": "Durango Residences II",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "80022",
+        "TOTAL_UNITS": 76,
+        "LI_UNITS": 65,
+        "YEAR_ALLOC": 2004,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.765648,
+          37.334939
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO23067003",
+        "PROJECT_NAME": "Durango Village III",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "81008",
+        "TOTAL_UNITS": 64,
+        "LI_UNITS": 54,
+        "YEAR_ALLOC": 2023,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.744721,
+          37.346825
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09067004",
+        "PROJECT_NAME": "Durango Affordable Apts IV",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "81123",
+        "TOTAL_UNITS": 75,
+        "LI_UNITS": 71,
+        "YEAR_ALLOC": 2009,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.760432,
+          37.28018
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO02067005",
+        "PROJECT_NAME": "Durango Heights V",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "81323",
+        "TOTAL_UNITS": 91,
+        "LI_UNITS": 80,
+        "YEAR_ALLOC": 2002,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.798511,
+          37.352262
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO14067006",
+        "PROJECT_NAME": "Durango Court VI",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "81639",
+        "TOTAL_UNITS": 53,
+        "LI_UNITS": 43,
+        "YEAR_ALLOC": 2014,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.733831,
+          37.311478
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO07067007",
+        "PROJECT_NAME": "Durango Manor 7",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "80374",
+        "TOTAL_UNITS": 88,
+        "LI_UNITS": 84,
+        "YEAR_ALLOC": 2007,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.778131,
+          37.28445
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO08067008",
+        "PROJECT_NAME": "Durango Commons 8",
+        "CITY": "Durango",
+        "COUNTY": "La Plata",
+        "STATE": "CO",
+        "ZIP": "80385",
+        "TOTAL_UNITS": 78,
         "LI_UNITS": 72,
         "YEAR_ALLOC": 2008,
         "CREDIT_PCT": "9%"
@@ -123,20 +7713,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -104.8214,
-          38.8339
+          -107.812327,
+          38.335741
         ]
       },
       "properties": {
-        "HUD_ID": "COA2010A006",
-        "PROJECT_NAME": "Castle Rock Affordable Homes",
-        "CITY": "Castle Rock",
-        "COUNTY": "Douglas",
+        "HUD_ID": "CO91085001",
+        "PROJECT_NAME": "Montrose Village I",
+        "CITY": "Montrose",
+        "COUNTY": "Montrose",
         "STATE": "CO",
-        "ZIP": "80104",
-        "TOTAL_UNITS": 56,
-        "LI_UNITS": 56,
-        "YEAR_ALLOC": 2010,
+        "ZIP": "80578",
+        "TOTAL_UNITS": 26,
+        "LI_UNITS": 25,
+        "YEAR_ALLOC": 1991,
         "CREDIT_PCT": "9%"
       }
     },
@@ -145,20 +7735,42 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -104.7631,
-          38.8686
+          -107.888927,
+          38.356309
         ]
       },
       "properties": {
-        "HUD_ID": "COA2012A007",
-        "PROJECT_NAME": "Colorado Springs Metro Lofts",
-        "CITY": "Colorado Springs",
-        "COUNTY": "El Paso",
+        "HUD_ID": "CO98085002",
+        "PROJECT_NAME": "Montrose Point II",
+        "CITY": "Montrose",
+        "COUNTY": "Montrose",
         "STATE": "CO",
-        "ZIP": "80903",
-        "TOTAL_UNITS": 144,
-        "LI_UNITS": 130,
-        "YEAR_ALLOC": 2012,
+        "ZIP": "80701",
+        "TOTAL_UNITS": 21,
+        "LI_UNITS": 17,
+        "YEAR_ALLOC": 1998,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.91506,
+          38.458828
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO09085003",
+        "PROJECT_NAME": "Montrose Ridge III",
+        "CITY": "Montrose",
+        "COUNTY": "Montrose",
+        "STATE": "CO",
+        "ZIP": "81538",
+        "TOTAL_UNITS": 67,
+        "LI_UNITS": 59,
+        "YEAR_ALLOC": 2009,
         "CREDIT_PCT": "4%"
       }
     },
@@ -167,20 +7779,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -105.12,
-          39.648
+          -107.937149,
+          38.407423
         ]
       },
       "properties": {
-        "HUD_ID": "COA2015A008",
-        "PROJECT_NAME": "Lakewood Transit Village",
-        "CITY": "Lakewood",
-        "COUNTY": "Jefferson",
+        "HUD_ID": "CO93085004",
+        "PROJECT_NAME": "Montrose Gardens IV",
+        "CITY": "Montrose",
+        "COUNTY": "Montrose",
         "STATE": "CO",
-        "ZIP": "80215",
-        "TOTAL_UNITS": 96,
-        "LI_UNITS": 96,
-        "YEAR_ALLOC": 2015,
+        "ZIP": "80513",
+        "TOTAL_UNITS": 70,
+        "LI_UNITS": 56,
+        "YEAR_ALLOC": 1993,
         "CREDIT_PCT": "9%"
       }
     },
@@ -189,21 +7801,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -104.97,
-          39.71
+          -107.928354,
+          38.488196
         ]
       },
       "properties": {
-        "HUD_ID": "COA2018A009",
-        "PROJECT_NAME": "Sun Valley Redevelopment Phase I",
-        "CITY": "Denver",
-        "COUNTY": "Denver",
+        "HUD_ID": "CO90085005",
+        "PROJECT_NAME": "Montrose Commons V",
+        "CITY": "Montrose",
+        "COUNTY": "Montrose",
         "STATE": "CO",
-        "ZIP": "80204",
-        "TOTAL_UNITS": 150,
-        "LI_UNITS": 150,
-        "YEAR_ALLOC": 2018,
-        "CREDIT_PCT": "9%"
+        "ZIP": "80069",
+        "TOTAL_UNITS": 51,
+        "LI_UNITS": 44,
+        "YEAR_ALLOC": 1990,
+        "CREDIT_PCT": "4%"
       }
     },
     {
@@ -211,64 +7823,108 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -104.6919,
-          40.4233
+          -105.52904,
+          38.346852
         ]
       },
       "properties": {
-        "HUD_ID": "COA2020A010",
-        "PROJECT_NAME": "Greeley Family Village",
-        "CITY": "Greeley",
-        "COUNTY": "Weld",
+        "HUD_ID": "CO19043001",
+        "PROJECT_NAME": "Canon City Commons I",
+        "CITY": "Canon City",
+        "COUNTY": "Fremont",
         "STATE": "CO",
-        "ZIP": "80631",
-        "TOTAL_UNITS": 88,
-        "LI_UNITS": 88,
-        "YEAR_ALLOC": 2020,
-        "CREDIT_PCT": "9%"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -108.5506,
-          39.0639
-        ]
-      },
-      "properties": {
-        "HUD_ID": "COA2016A011",
-        "PROJECT_NAME": "Grand Valley Affordable Homes",
-        "CITY": "Grand Junction",
-        "COUNTY": "Mesa",
-        "STATE": "CO",
-        "ZIP": "81501",
-        "TOTAL_UNITS": 60,
-        "LI_UNITS": 60,
-        "YEAR_ALLOC": 2016,
-        "CREDIT_PCT": "9%"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -107.8801,
-          37.2753
-        ]
-      },
-      "properties": {
-        "HUD_ID": "COA2019A012",
-        "PROJECT_NAME": "Durango Senior Living Community",
-        "CITY": "Durango",
-        "COUNTY": "La Plata",
-        "STATE": "CO",
-        "ZIP": "81301",
-        "TOTAL_UNITS": 48,
-        "LI_UNITS": 48,
+        "ZIP": "80640",
+        "TOTAL_UNITS": 86,
+        "LI_UNITS": 80,
         "YEAR_ALLOC": 2019,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.489137,
+          38.35403
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO00043002",
+        "PROJECT_NAME": "Canon City Housing II",
+        "CITY": "Canon City",
+        "COUNTY": "Fremont",
+        "STATE": "CO",
+        "ZIP": "80407",
+        "TOTAL_UNITS": 90,
+        "LI_UNITS": 81,
+        "YEAR_ALLOC": 2000,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.588889,
+          38.382966
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO93043003",
+        "PROJECT_NAME": "Canon City Homes III",
+        "CITY": "Canon City",
+        "COUNTY": "Fremont",
+        "STATE": "CO",
+        "ZIP": "81627",
+        "TOTAL_UNITS": 34,
+        "LI_UNITS": 28,
+        "YEAR_ALLOC": 1993,
+        "CREDIT_PCT": "9%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.465944,
+          38.320219
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO97043004",
+        "PROJECT_NAME": "Canon City Landing IV",
+        "CITY": "Canon City",
+        "COUNTY": "Fremont",
+        "STATE": "CO",
+        "ZIP": "80974",
+        "TOTAL_UNITS": 51,
+        "LI_UNITS": 40,
+        "YEAR_ALLOC": 1997,
+        "CREDIT_PCT": "4%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.481549,
+          38.393487
+        ]
+      },
+      "properties": {
+        "HUD_ID": "CO99043005",
+        "PROJECT_NAME": "Canon City Crossing V",
+        "CITY": "Canon City",
+        "COUNTY": "Fremont",
+        "STATE": "CO",
+        "ZIP": "80694",
+        "TOTAL_UNITS": 31,
+        "LI_UNITS": 26,
+        "YEAR_ALLOC": 1999,
         "CREDIT_PCT": "9%"
       }
     }

@@ -349,6 +349,123 @@ if (fileExists('css/pages/market-analysis.css')) {
   }
 }
 
+// ─── 15. Data quality & enhancement modules ───────────────────────────────────
+console.log('\n── 15. Data quality & enhancement modules ──');
+
+if (fileExists('js/market-data-quality.js')) {
+  const src = readFile('js/market-data-quality.js');
+  const checks = [
+    { pattern: /validateMarketData/,       label: 'validateMarketData function defined' },
+    { pattern: /calculateDataQuality/,     label: 'calculateDataQuality function defined' },
+    { pattern: /calculateConfidenceScore/, label: 'calculateConfidenceScore function defined' },
+    { pattern: /checkDataFreshness/,       label: 'checkDataFreshness function defined' },
+    { pattern: /PMADataQuality/,           label: 'PMADataQuality exposed on window' },
+  ];
+  checks.forEach(function (c) {
+    if (c.pattern.test(src)) pass(c.label);
+    else fail(c.label + ' — not found in js/market-data-quality.js');
+  });
+} else {
+  fail('js/market-data-quality.js is missing');
+}
+
+if (fileExists('js/market-analysis-enhancements.js')) {
+  const src = readFile('js/market-analysis-enhancements.js');
+  const checks = [
+    { pattern: /benchmarkVsReference/,       label: 'benchmarkVsReference function defined' },
+    { pattern: /analyzeCompetitivePipeline/, label: 'analyzeCompetitivePipeline function defined' },
+    { pattern: /generateScenarios/,          label: 'generateScenarios function defined' },
+    { pattern: /exportWithMetadata/,         label: 'exportWithMetadata function defined' },
+    { pattern: /PMAEnhancements/,            label: 'PMAEnhancements exposed on window' },
+  ];
+  checks.forEach(function (c) {
+    if (c.pattern.test(src)) pass(c.label);
+    else fail(c.label + ' — not found in js/market-analysis-enhancements.js');
+  });
+} else {
+  fail('js/market-analysis-enhancements.js is missing');
+}
+
+// ─── 16. Reference projects data file ─────────────────────────────────────────
+console.log('\n── 16. Reference projects data file ──');
+
+const refPath = 'data/market/reference-projects.json';
+if (fileExists(refPath)) {
+  try {
+    const obj = JSON.parse(readFile(refPath));
+    const count = (obj.projects || []).length;
+    if (count >= 50) {
+      pass('data/market/reference-projects.json has ' + count + ' benchmark projects');
+    } else {
+      fail('data/market/reference-projects.json has only ' + count + ' projects (need ≥50)');
+    }
+    if (obj.meta && obj.meta.generated) {
+      pass('reference-projects.json has meta.generated timestamp');
+    } else {
+      fail('reference-projects.json missing meta.generated');
+    }
+  } catch (e) {
+    fail('data/market/reference-projects.json: invalid JSON — ' + e.message);
+  }
+} else {
+  fail('data/market/reference-projects.json is missing');
+}
+
+// ─── 17. Enhanced HTML elements ───────────────────────────────────────────────
+console.log('\n── 17. Enhanced HTML elements ──');
+
+if (fileExists('market-analysis.html')) {
+  const html = readFile('market-analysis.html');
+  const checks = [
+    { pattern: /pmaDataQualityBanner/,    label: 'Data quality banner element present' },
+    { pattern: /pmaQualityAcs/,           label: 'ACS coverage pill element present' },
+    { pattern: /pmaConfidenceScore/,      label: 'Confidence score element present' },
+    { pattern: /pmaFreshnessIndicator/,   label: 'Freshness indicator element present' },
+    { pattern: /pmaBenchmarkResult/,      label: 'Benchmarking result panel present' },
+    { pattern: /pmaPipelineResult/,       label: 'Pipeline result panel present' },
+    { pattern: /pmaScenarioResult/,       label: 'Scenario analysis panel present' },
+    { pattern: /pmaExportMeta/,           label: 'Export with metadata button present' },
+    { pattern: /market-data-quality\.js/, label: 'HTML loads market-data-quality.js' },
+    { pattern: /market-analysis-enhancements\.js/, label: 'HTML loads market-analysis-enhancements.js' },
+  ];
+  checks.forEach(function (c) {
+    if (c.pattern.test(html)) pass(c.label);
+    else fail(c.label + ' — not found in market-analysis.html');
+  });
+}
+
+// ─── 18. Enhanced data coverage counts ────────────────────────────────────────
+console.log('\n── 18. Data coverage counts ──');
+
+const cenPath = 'data/market/tract_centroids_co.json';
+const acsPath = 'data/market/acs_tract_metrics_co.json';
+const lihtcPath = 'data/market/hud_lihtc_co.geojson';
+
+if (fileExists(cenPath)) {
+  try {
+    const obj = JSON.parse(readFile(cenPath));
+    const n = (obj.tracts || []).length;
+    if (n >= 200) pass('tract_centroids_co.json has ' + n + ' tracts (≥200)');
+    else warn('tract_centroids_co.json has only ' + n + ' tracts — run build workflow to populate');
+  } catch (e) { fail('tract_centroids_co.json: invalid JSON'); }
+}
+if (fileExists(acsPath)) {
+  try {
+    const obj = JSON.parse(readFile(acsPath));
+    const n = (obj.tracts || []).length;
+    if (n >= 200) pass('acs_tract_metrics_co.json has ' + n + ' tracts (≥200)');
+    else warn('acs_tract_metrics_co.json has only ' + n + ' tracts — run build workflow');
+  } catch (e) { fail('acs_tract_metrics_co.json: invalid JSON'); }
+}
+if (fileExists(lihtcPath)) {
+  try {
+    const obj = JSON.parse(readFile(lihtcPath));
+    const n = (obj.features || []).length;
+    if (n >= 100) pass('hud_lihtc_co.geojson has ' + n + ' features (≥100)');
+    else warn('hud_lihtc_co.geojson has only ' + n + ' features — run build workflow');
+  } catch (e) { fail('hud_lihtc_co.geojson: invalid JSON'); }
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 console.log('\n── Summary ──');
 console.log('Passed:   ' + passed);
