@@ -54,6 +54,11 @@
   var lihtcFeatures       = null;
   var lihtcLoadError      = false;  // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
+  var referenceProjects   = null;   // benchmark reference set
+  var lastQuality         = null;   // last data quality assessment
+  var lastBenchmark       = null;   // last benchmark result
+  var lastPipeline        = null;   // last pipeline result
+  var lastScenarios       = null;   // last scenario results
 
   // Overlay layer references
   var countyLayer  = null;
@@ -75,8 +80,9 @@
 
   /* ── Get tracts within buffer ───────────────────────────────────── */
   function tractsInBuffer(lat, lon, miles) {
-    if (!tractCentroids) return [];
-    return tractCentroids.filter(function (t) {
+    var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
+    if (!tracts || !tracts.length) return [];
+    return tracts.filter(function (t) {
       return haversine(lat, lon, t.lat, t.lon) <= miles;
     });
   }
@@ -315,6 +321,9 @@
 
     updateRadarChart(result.dimensions);
     updateSimulator(result);
+    renderBenchmark(result);
+    renderPipeline(result);
+    renderScenarios(result);
   }
 
   /* ── Radar chart ─────────────────────────────────────────────────── */
@@ -398,10 +407,139 @@
       '</div>';
   }
 
+  /* ── Peer Benchmarking render ────────────────────────────────────── */
+  function renderBenchmark(result) {
+    var el2 = el('pmaBenchmarkResult');
+    if (!el2) return;
+    var ENH = window.PMAEnhancements;
+    if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
+
+    var refProjects = referenceProjects && referenceProjects.projects ? referenceProjects.projects : [];
+    var bench = ENH.benchmarkVsReference(result.overall, result, refProjects);
+    lastBenchmark = bench;
+
+    if (!bench.available) {
+      el2.innerHTML = '<div class="pma-empty">' + (bench.reason || 'Reference data unavailable.') + '</div>';
+      return;
+    }
+
+    var tier = bench.tier;
+    var rows = bench.comparable.slice(0, 3).map(function (p) {
+      return '<tr>' +
+        '<td style="padding:0.25rem 0.4rem">' + (p.name || '—') + '</td>' +
+        '<td style="padding:0.25rem 0.4rem;text-align:center">' + (p.city || '—') + '</td>' +
+        '<td style="padding:0.25rem 0.4rem;text-align:center;font-weight:600">' + p.pma_score + '</td>' +
+        '<td style="padding:0.25rem 0.4rem;text-align:center;color:var(--faint)">' + (p.market_type || '—') + '</td>' +
+        '</tr>';
+    }).join('');
+
+    el2.innerHTML =
+      '<div class="pma-benchmark-header">' +
+        '<div class="pma-benchmark-percentile" style="color:' + tier.color + '">' + bench.percentile + '<sup>th</sup></div>' +
+        '<div class="pma-benchmark-label">' +
+          '<div style="font-weight:700;font-size:var(--small)">' + tier.label + ' of ' + bench.referenceCount + ' Colorado projects</div>' +
+          '<div style="font-size:var(--tiny);color:var(--faint)">Median score: ' + bench.median + ' | Mean: ' + bench.mean + ' | Range: ' + bench.min + '–' + bench.max + '</div>' +
+        '</div>' +
+      '</div>' +
+      (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny);margin-top:0.6rem">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Project</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">City</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Score</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Type</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table>' : '');
+  }
+
+  /* ── Competitive Pipeline render ─────────────────────────────────── */
+  function renderPipeline(result) {
+    var el2 = el('pmaPipelineResult');
+    if (!el2) return;
+    var ENH = window.PMAEnhancements;
+    if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
+
+    var pipeline = ENH.analyzeCompetitivePipeline(lihtcFeatures || [], result.lat, result.lon, result.bufferMiles);
+    lastPipeline = pipeline;
+
+    if (!pipeline.available) {
+      el2.innerHTML = '<div class="pma-empty">No LIHTC features available.</div>';
+      return;
+    }
+
+    var stages = ENH.PIPELINE_STAGES;
+    var satClass = pipeline.saturation ? ' pma-flag-warn' : ' pma-flag-ok';
+    var rows = pipeline.projects.slice(0, 5).map(function (p) {
+      return '<tr>' +
+        '<td style="padding:0.2rem 0.4rem">' + p.name + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.dist + ' mi</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.units + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center;color:var(--faint)">' + (p.year || '—') + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)">' + p.stage + '</td>' +
+        '</tr>';
+    }).join('');
+
+    el2.innerHTML =
+      '<div class="pma-stat-grid" style="margin-bottom:0.6rem">' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.total + '</div><div class="pma-stat-label">Total in buffer</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Active / recent</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Active units</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption</div></div>' +
+      '</div>' +
+      (pipeline.saturation ? '<div class="pma-flag pma-flag-warn" style="margin-bottom:0.5rem">⚠ Submarket saturation warning: ' + pipeline.active + ' active projects (threshold: ' + ENH.SATURATION_THRESHOLD + ')</div>' : '') +
+      (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny)">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:0.2rem 0.4rem;color:var(--faint)">Project</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint)">Dist</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint)">Units</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint)">Year</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint)">Stage</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table>' : '');
+  }
+
+  /* ── Scenario Analysis render ─────────────────────────────────────── */
+  function renderScenarios(result) {
+    var el2 = el('pmaScenarioResult');
+    if (!el2) return;
+    var ENH = window.PMAEnhancements;
+    if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
+
+    var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
+    var scenarios = ENH.generateScenarios(
+      result.acs,
+      result.lihtcUnits || 0,
+      ENH.defaultScenarios(proposed)
+    );
+    lastScenarios = scenarios;
+
+    if (!scenarios || !scenarios.length) {
+      el2.innerHTML = '<div class="pma-empty">Could not generate scenarios.</div>';
+      return;
+    }
+
+    var rows = scenarios.map(function (s) {
+      var tier = scoreTier(s.overall);
+      return '<tr>' +
+        '<td style="padding:0.25rem 0.5rem">' + s.label + '</td>' +
+        '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
+        '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
+        '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>' +
+        '</tr>';
+    }).join('');
+
+    el2.innerHTML =
+      '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny)">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
     // Guard: data files missing or empty — give a specific actionable message
-    if (!tractCentroids || tractCentroids.length === 0) {
+    var centroidList = tractCentroids && (tractCentroids.tracts || tractCentroids);
+    if (!centroidList || centroidList.length === 0) {
       showEmpty('pmaScoreWrap',
         'ACS data isn\'t available: tract centroid file is missing or empty. ' +
         'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
@@ -439,7 +577,8 @@
       lat: lat, lon: lon, bufferMiles: bufferMiles,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
-      prop123Count: prop123Count
+      prop123Count: prop123Count,
+      _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
     renderScore(lastResult);
@@ -697,7 +836,7 @@
       ['dim_land_supply', d.landSupply],
       ['dim_workforce', d.workforce]
     ];
-    var csv = rows.map(function (r) { return r.join(','); }).join('\n');
+    var csv = rows.map(function (row) { return row.join(','); }).join('\n');
     var blob = new Blob([csv], { type: 'text/csv' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -705,11 +844,31 @@
     a.click();
   }
 
+  function exportWithFullMetadata() {
+    if (!lastResult) return;
+    var ENH = window.PMAEnhancements;
+    if (!ENH) { exportJson(); return; }
+    var payload = ENH.exportWithMetadata(
+      lastResult,
+      lastQuality,
+      lastScenarios,
+      lastBenchmark,
+      lastPipeline
+    );
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pma-result-full-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+  }
+
   function bindExport() {
     var jsonBtn = el('pmaExportJson');
     var csvBtn  = el('pmaExportCsv');
+    var metaBtn = el('pmaExportMeta');
     if (jsonBtn) jsonBtn.addEventListener('click', exportJson);
     if (csvBtn)  csvBtn.addEventListener('click', exportCsv);
+    if (metaBtn) metaBtn.addEventListener('click', exportWithFullMetadata);
   }
 
   /* ── Data loading ───────────────────────────────────────────────── */
@@ -722,6 +881,11 @@
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
       prop123Jurisdictions = list;
     }).catch(function () { /* optional data — ignore errors */ });
+
+    // Load reference projects for benchmarking (non-fatal)
+    DS.getJSON(DS.baseData('market/reference-projects.json')).then(function (data) {
+      referenceProjects = data || null;
+    }).catch(function () { /* optional — ignore errors */ });
 
     // Load each file individually so we can report specific failures
     var WORKFLOW_HINT = 'Run the "Generate Market Analysis Data" GitHub Actions workflow.';
@@ -743,10 +907,10 @@
       var tractData = results[0];
       if (tractData && tractData._loadError) {
         statusParts.push('Tract centroid data missing — ' + WORKFLOW_HINT);
-        tractCentroids = [];
+        tractCentroids = { tracts: [] };
       } else {
-        tractCentroids = (tractData && tractData.tracts) || [];
-        if (tractCentroids.length === 0) {
+        tractCentroids = tractData || { tracts: [] };
+        if (!(tractCentroids.tracts || []).length) {
           statusParts.push('Tract centroid data is empty — ' + WORKFLOW_HINT);
         }
       }
@@ -774,6 +938,13 @@
 
       dataLoaded = true;
 
+      // Data quality assessment
+      var DQ = window.PMADataQuality;
+      if (DQ) {
+        lastQuality = DQ.calculateDataQuality(acsMetrics, lihtcFeatures, tractCentroids);
+        renderDataQualityBanner(lastQuality, tractData && tractData.meta, lihtcData && lihtcData.meta);
+      }
+
       var hint = el('pmaDataStatus');
       if (statusParts.length > 0) {
         if (hint) hint.textContent = 'Data warning: ' + statusParts.join(' ');
@@ -782,8 +953,74 @@
       }
 
       var tsEl = el('pmaDataTimestamp');
-      if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
+      if (tsEl) {
+        var generated = (tractData && tractData.meta && tractData.meta.generated) || null;
+        if (generated) {
+          tsEl.textContent = 'Data as of ' + generated;
+        } else {
+          tsEl.textContent = 'Data as of ' + new Date().toLocaleDateString();
+        }
+      }
     });
+  }
+
+  /* ── Data quality banner render ──────────────────────────────────── */
+  function renderDataQualityBanner(quality, tractMeta, lihtcMeta) {
+    var DQ = window.PMADataQuality;
+    var banner = el('pmaDataQualityBanner');
+    if (!banner || !DQ || !quality) return;
+
+    // Coverage pills
+    var acsEl    = el('pmaQualityAcs');
+    var lihtcEl  = el('pmaQualityLihtc');
+    var tracksEl = el('pmaQualityTracks');
+    if (acsEl)    acsEl.textContent    = 'ACS ' + quality.counts.acs + '/' + quality.thresholds.acs.target;
+    if (lihtcEl)  lihtcEl.textContent  = 'LIHTC ' + quality.counts.lihtc + '/' + quality.thresholds.lihtc.target;
+    if (tracksEl) tracksEl.textContent = 'Tracts ' + quality.counts.centroids + '/' + quality.thresholds.centroids.target;
+
+    // Color-code coverage pills
+    function coverageColor(actual, minimum, target) {
+      if (actual >= target)   return 'var(--good)';
+      if (actual >= minimum)  return 'var(--warn)';
+      return 'var(--bad)';
+    }
+    if (acsEl)    acsEl.style.color    = coverageColor(quality.counts.acs,       DQ.THRESHOLDS.acs.minimum,       DQ.THRESHOLDS.acs.target);
+    if (lihtcEl)  lihtcEl.style.color  = coverageColor(quality.counts.lihtc,     DQ.THRESHOLDS.lihtc.minimum,     DQ.THRESHOLDS.lihtc.target);
+    if (tracksEl) tracksEl.style.color = coverageColor(quality.counts.centroids, DQ.THRESHOLDS.centroids.minimum, DQ.THRESHOLDS.centroids.target);
+
+    // Confidence badge
+    var confEl = el('pmaConfidenceScore');
+    if (confEl) {
+      var conf = quality.confidence;
+      confEl.textContent = Math.round(conf * 100) + '% — ' + quality.label.text;
+      confEl.style.color = quality.label.color;
+    }
+
+    // Freshness
+    var freshEl = el('pmaFreshnessIndicator');
+    if (freshEl) {
+      var generated = (tractMeta && tractMeta.generated) || null;
+      var freshness = DQ.checkDataFreshness(generated);
+      freshEl.textContent = freshness.text;
+      freshEl.style.color = freshness.color;
+    }
+
+    // Warnings
+    var validation = DQ.validateMarketData(acsMetrics, lihtcFeatures, tractCentroids);
+    var warnEl = el('pmaQualityWarnings');
+    if (warnEl) {
+      var msgs = validation.errors.concat(validation.warnings);
+      if (msgs.length > 0) {
+        warnEl.innerHTML = msgs.map(function (m) {
+          return '<div class="pma-quality-warn-item">⚠ ' + m + '</div>';
+        }).join('');
+        warnEl.style.display = '';
+      } else {
+        warnEl.style.display = 'none';
+      }
+    }
+
+    banner.style.display = '';
   }
 
   /* ── Init ───────────────────────────────────────────────────────── */
@@ -816,7 +1053,12 @@
     RISK:                    RISK,
     OVERLAY_STYLES:          OVERLAY_STYLES,
     _state: {
-      getLihtcLoadError: function () { return lihtcLoadError; }
+      getLihtcLoadError:  function () { return lihtcLoadError; },
+      getLastQuality:     function () { return lastQuality; },
+      getLastBenchmark:   function () { return lastBenchmark; },
+      getLastPipeline:    function () { return lastPipeline; },
+      getLastScenarios:   function () { return lastScenarios; },
+      getReferenceProjects: function () { return referenceProjects; }
     }
   };
 
