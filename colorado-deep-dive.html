@@ -1268,6 +1268,135 @@ h3 { font-size: 1.05rem; font-weight: 700; }
        ═══════════════════════════════════════════════════════════════ -->
   
   <!-- Legacy duplicate modules removed: content is provided within tabs above. -->
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PMA DELINEATION TOOL  (pma-commuting.js, pma-barriers.js, etc.)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="pmaDelineationSection" aria-labelledby="pmaDelineationTitle" style="margin:2.5rem 0;">
+    <h2 id="pmaDelineationTitle" style="margin-bottom:1rem;">Primary Market Area (PMA) Delineation</h2>
+    <p style="color:var(--text-muted,#888);margin-bottom:1rem;">
+      Define the PMA boundary using commuting flows, barriers, school districts, and transit — meeting
+      NH&amp;RA / Novogradac industry standards for LIHTC market studies.
+    </p>
+
+    <!-- Method tabs -->
+    <div role="tablist" class="pma-method-tabs" aria-label="PMA delineation method" style="display:flex;gap:.5rem;margin-bottom:1rem;">
+      <button role="tab" id="pmaTabBuffer"    aria-selected="true"  aria-controls="pmaPanel-buffer"
+              class="pma-tab pma-tab--active"   data-method="buffer">
+        Buffer-based <span style="font-size:.8em;opacity:.7;">(legacy)</span>
+      </button>
+      <button role="tab" id="pmaTabCommuting" aria-selected="false" aria-controls="pmaPanel-commuting"
+              class="pma-tab"                   data-method="commuting">
+        Commuting-based <span style="font-size:.8em;opacity:.7;">(recommended)</span>
+      </button>
+      <button role="tab" id="pmaTabHybrid"    aria-selected="false" aria-controls="pmaPanel-hybrid"
+              class="pma-tab"                   data-method="hybrid">
+        Hybrid <span style="font-size:.8em;opacity:.7;">(smart default)</span>
+      </button>
+    </div>
+
+    <!-- Buffer panel -->
+    <div id="pmaPanel-buffer" role="tabpanel" aria-labelledby="pmaTabBuffer">
+      <label for="pmaBufferMilesSelect" style="display:block;margin-bottom:.5rem;">Buffer radius:</label>
+      <select id="pmaBufferMilesSelect" style="padding:.4rem .8rem;border-radius:4px;border:1px solid var(--border,#444);background:var(--bg-card,#1a1a1a);color:var(--text,#eee);">
+        <option value="3">3 miles</option>
+        <option value="5" selected>5 miles</option>
+        <option value="10">10 miles</option>
+        <option value="15">15 miles</option>
+      </select>
+    </div>
+
+    <!-- Commuting panel (hidden by default) -->
+    <div id="pmaPanel-commuting" role="tabpanel" aria-labelledby="pmaTabCommuting" hidden>
+      <p style="color:var(--text-muted,#888);font-size:.9em;">
+        Generates a PMA polygon from LEHD/LODES commuting flow data, capturing ~75&nbsp;% of likely residents.
+        Search radius: 30&nbsp;miles. LODES vintage: 2021.
+      </p>
+    </div>
+
+    <!-- Hybrid panel (hidden by default) -->
+    <div id="pmaPanel-hybrid" role="tabpanel" aria-labelledby="pmaTabHybrid" hidden>
+      <p style="color:var(--text-muted,#888);font-size:.9em;">
+        Combines commuting flows with school district boundaries and transit catchment areas for a balanced,
+        defensible PMA delineation.
+      </p>
+    </div>
+
+    <!-- Site coordinates input -->
+    <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-end;">
+      <div>
+        <label for="pmaSiteLat" style="display:block;font-size:.85em;margin-bottom:.25rem;">Site latitude</label>
+        <input id="pmaSiteLat" type="number" step="0.0001" placeholder="39.7392"
+               style="width:10rem;padding:.4rem .6rem;border-radius:4px;border:1px solid var(--border,#444);background:var(--bg-card,#1a1a1a);color:var(--text,#eee);" />
+      </div>
+      <div>
+        <label for="pmaSiteLon" style="display:block;font-size:.85em;margin-bottom:.25rem;">Site longitude</label>
+        <input id="pmaSiteLon" type="number" step="0.0001" placeholder="-104.9847"
+               style="width:10rem;padding:.4rem .6rem;border-radius:4px;border:1px solid var(--border,#444);background:var(--bg-card,#1a1a1a);color:var(--text,#eee);" />
+      </div>
+      <button id="pmaRunAnalysis"
+              style="padding:.45rem 1.2rem;background:var(--accent,#096e65);color:#fff;border:none;border-radius:4px;cursor:pointer;min-height:44px;min-width:44px;">
+        Run PMA Analysis
+      </button>
+    </div>
+
+    <!-- SMA toggle -->
+    <div style="margin-top:.75rem;">
+      <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;min-height:44px;">
+        <input id="pmaSMAToggle" type="checkbox" style="width:1rem;height:1rem;" />
+        Show Secondary Market Area (SMA — ~25 mile buffer)
+      </label>
+    </div>
+
+    <!-- Layer picker -->
+    <fieldset id="pmaLayerPicker" style="margin-top:1rem;border:1px solid var(--border,#444);border-radius:6px;padding:.75rem 1rem;">
+      <legend style="font-size:.9em;padding:0 .4rem;">Map layers</legend>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem .75rem;">
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="commuting" checked /> Commuting flows
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="barriers" /> Barriers
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="schools" /> Schools
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment centers
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> Opportunities/OZ
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="infrastructure" /> Infrastructure
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Results area -->
+    <div id="pmaResultsArea" style="margin-top:1rem;display:none;">
+      <h3 style="font-size:1rem;margin-bottom:.5rem;">PMA Justification Narrative</h3>
+      <div id="pmaJustificationNarrative"
+           style="background:var(--bg-card,#1a1a1a);border:1px solid var(--border,#444);border-radius:6px;padding:1rem;white-space:pre-wrap;font-size:.85em;line-height:1.6;max-height:300px;overflow-y:auto;"
+           aria-live="polite" aria-atomic="false"></div>
+      <div style="margin-top:.75rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <button id="pmaExplainScore"
+                style="padding:.4rem 1rem;background:var(--accent,#096e65);color:#fff;border:none;border-radius:4px;cursor:pointer;min-height:44px;min-width:44px;">
+          Explain Score
+        </button>
+        <button id="pmaExportAuditJson"
+                style="padding:.4rem 1rem;background:transparent;color:var(--accent,#096e65);border:1px solid var(--accent,#096e65);border-radius:4px;cursor:pointer;min-height:44px;min-width:44px;">
+          Export Audit Trail (JSON)
+        </button>
+      </div>
+    </div>
+
+    <!-- Status / live region -->
+    <div id="pmaStatusRegion" aria-live="polite" aria-atomic="true" style="margin-top:.5rem;font-size:.85em;color:var(--text-muted,#888);"></div>
+  </section>
 </main>
 
 
@@ -1455,6 +1584,131 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <script src="js/prop123-map.js"></script>
 <script src="js/colorado-deep-dive.js"></script>
 <script src="js/colorado-regional-predictions.js"></script>
+<!-- PMA enhanced delineation modules -->
+<script src="js/pma-commuting.js"></script>
+<script src="js/pma-barriers.js"></script>
+<script src="js/pma-employment-centers.js"></script>
+<script src="js/pma-schools.js"></script>
+<script src="js/pma-transit.js"></script>
+<script src="js/pma-competitive-set.js"></script>
+<script src="js/pma-opportunities.js"></script>
+<script src="js/pma-infrastructure.js"></script>
+<script src="js/pma-justification.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── PMA delineation tab controller ─────────────────────────────── */
+  function initPMADelineation() {
+    var tabs    = document.querySelectorAll('.pma-tab');
+    var panels  = {
+      buffer:    document.getElementById('pmaPanel-buffer'),
+      commuting: document.getElementById('pmaPanel-commuting'),
+      hybrid:    document.getElementById('pmaPanel-hybrid')
+    };
+    var runBtn  = document.getElementById('pmaRunAnalysis');
+    var status  = document.getElementById('pmaStatusRegion');
+    var results = document.getElementById('pmaResultsArea');
+    var narrative = document.getElementById('pmaJustificationNarrative');
+    var explainBtn = document.getElementById('pmaExplainScore');
+    var exportBtn  = document.getElementById('pmaExportAuditJson');
+
+    var currentMethod = 'buffer';
+
+    // Tab switching
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', 'false');
+          t.classList.remove('pma-tab--active');
+        });
+        tab.setAttribute('aria-selected', 'true');
+        tab.classList.add('pma-tab--active');
+        currentMethod = tab.dataset.method;
+        Object.keys(panels).forEach(function (k) {
+          if (panels[k]) panels[k].hidden = (k !== currentMethod);
+        });
+      });
+    });
+
+    // Run analysis
+    if (runBtn) {
+      runBtn.addEventListener('click', function () {
+        var lat = parseFloat(document.getElementById('pmaSiteLat').value) || 39.7392;
+        var lon = parseFloat(document.getElementById('pmaSiteLon').value) || -104.9847;
+        if (status) status.textContent = 'Running PMA analysis (' + currentMethod + ' method)…';
+        if (results) results.style.display = 'none';
+
+        _runPMA(lat, lon, currentMethod).then(function (scoreRun) {
+          var just = window.PMAJustification;
+          var text = just ? just.generateNarrative(scoreRun) : JSON.stringify(scoreRun, null, 2);
+          if (narrative) narrative.textContent = text;
+          if (results)  results.style.display = 'block';
+          if (status)   status.textContent = 'Analysis complete. Run ID: ' + scoreRun.run_id;
+          if (window.__announceUpdate) window.__announceUpdate('PMA analysis complete');
+        }).catch(function (err) {
+          if (status) status.textContent = 'Analysis failed: ' + (err && err.message || 'Unknown error');
+        });
+      });
+    }
+
+    // Explain Score
+    if (explainBtn) {
+      explainBtn.addEventListener('click', function () {
+        var just = window.PMAJustification;
+        if (!just) { alert('PMAJustification module not loaded.'); return; }
+        var trail = just.generateAuditTrail();
+        alert('Audit Trail (Run ID: ' + trail.run_id + ')\n\nData Vintage: ' + trail.data_vintage +
+              '\nQuality: ' + trail.data_quality + '\n\nSee console for full details.');
+        console.log('[PMAJustification] Audit Trail:', trail);
+      });
+    }
+
+    // Export JSON
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        var just = window.PMAJustification;
+        if (!just) { alert('PMAJustification module not loaded.'); return; }
+        var json = just.exportToJSON();
+        var blob = new Blob([json], { type: 'application/json' });
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href   = url;
+        a.download = 'pma-audit-trail.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+  }
+
+  function _runPMA(lat, lon, method) {
+    var just = window.PMAJustification;
+    if (!just) {
+      return Promise.resolve({ run_id: 'no-modules', created_at: new Date().toISOString() });
+    }
+
+    var commuting = window.PMACommuting;
+    if (method === 'buffer' || !commuting) {
+      var scoreRun = just.synthesizePMA({});
+      return Promise.resolve(scoreRun);
+    }
+
+    return commuting.fetchLODESWorkplaces(lat, lon).then(function (lodesData) {
+      var flowResult = commuting.analyzeCommutingFlows(lodesData.workplaces);
+      commuting.generateCommutingBoundary(lat, lon, flowResult);
+      return just.synthesizePMA({});
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPMADelineation);
+  } else {
+    initPMADelineation();
+  }
+}());
+</script>
 <script defer src="js/audit-hook.js"></script>
 
 
