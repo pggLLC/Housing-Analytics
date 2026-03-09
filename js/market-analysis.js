@@ -59,6 +59,10 @@
   var lastBenchmark       = null;   // last benchmark result
   var lastPipeline        = null;   // last pipeline result
   var lastScenarios       = null;   // last scenario results
+  var lastConfidence      = null;   // last heuristic confidence result
+
+  // Workforce dimension data (loaded via data connectors)
+  var workforceDataLoaded = false;
 
   // Overlay layer references
   var countyLayer  = null;
@@ -185,19 +189,83 @@
     return Math.round(score);
   }
 
-  function scoreWorkforce(/* acs */) {
-    // Placeholder — future: LODES workforce data integration
-    return 60;
+  function scoreWorkforce(acs, lat, lon, bufTracts) {
+    // Weighted composite workforce score (0–100) using 5 alternative data sources:
+    //   25% LODES job accessibility
+    //   25% ACS educational attainment + employment (proxied via ACS income/burden)
+    //   20% CDLE vacancy rates (inverse: low vacancy = less workforce risk)
+    //   15% CDE school quality proximity
+    //   15% CDOT traffic connectivity
+    //
+    // Each sub-score falls back to a neutral value when the connector is unavailable.
+
+    var LODES  = window.LodesCommute;
+    var CDLE   = window.CdleJobs;
+    var CDE    = window.CdeSchools;
+    var CDOT   = window.CdotTraffic;
+
+    // ── 1. LODES job accessibility (25%) ────────────────────────────
+    var lodesScore = 50; // neutral fallback
+    if (LODES) {
+      var tractGeoids = (bufTracts || []).map(function (t) { return t.geoid; });
+      var lodesAgg = LODES.aggregateForBuffer(tractGeoids);
+      lodesScore = LODES.scoreJobAccessibility(lodesAgg);
+    }
+
+    // ── 2. ACS-based educational attainment + employment (25%) ──────
+    // Proxy via median HH income relative to area median.
+    // Higher income → skilled workforce in area → better workforce availability.
+    var acsWfScore = 50;
+    if (acs) {
+      var incomeRatio = acs.median_hh_income
+        ? Math.min(2.0, acs.median_hh_income / AREA_MEDIAN_INCOME_CO)
+        : 0.5;
+      // Scale 0–2 → 0–100, centred at 1.0
+      acsWfScore = Math.min(100, Math.max(0, Math.round(incomeRatio * 60)));
+    }
+
+    // ── 3. CDLE vacancy rates (20%) — low vacancy = tight labour = risk ──
+    var cdleScore = 50;
+    if (CDLE && bufTracts && bufTracts.length) {
+      var countyFips = {};
+      bufTracts.forEach(function (t) { countyFips[t.geoid.slice(0, 5)] = true; });
+      var cdleAgg = CDLE.aggregateForCounties(Object.keys(countyFips));
+      cdleScore = CDLE.scoreVacancyRate(cdleAgg);
+    }
+
+    // ── 4. CDE school quality proximity (15%) ───────────────────────
+    var cdeScore = 55;
+    if (CDE && lat != null && lon != null) {
+      var nearest = CDE.getNearestDistrict(lat, lon);
+      cdeScore = CDE.scoreSchoolQuality(nearest ? { avg_quality_score: nearest.composite_quality_score } : null);
+    }
+
+    // ── 5. CDOT traffic connectivity (15%) ──────────────────────────
+    var cdotScore = 40;
+    if (CDOT && lat != null && lon != null) {
+      var trafficAgg = CDOT.aggregateForBuffer(lat, lon, bufferMiles);
+      cdotScore = CDOT.scoreTrafficConnectivity(trafficAgg);
+    }
+
+    var composite = Math.round(
+      lodesScore  * 0.25 +
+      acsWfScore  * 0.25 +
+      cdleScore   * 0.20 +
+      cdeScore    * 0.15 +
+      cdotScore   * 0.15
+    );
+
+    return Math.min(100, Math.max(0, composite));
   }
 
-  function computePma(acs, existingLihtcUnits, proposedUnits) {
+  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts) {
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
     var rentPressureObj    = scoreRentPressure(acs);
     var landSupplyScore    = scoreLandSupply(acs);
-    var workforceScore     = scoreWorkforce(acs);
+    var workforceScore     = scoreWorkforce(acs, lat, lon, bufTracts);
 
     var overall = Math.round(
       demandScore          * WEIGHTS.demand +
@@ -571,13 +639,31 @@
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
-    var pma          = computePma(acs, lihtcUnits, 0);
+    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts);
+
+    // Heuristic confidence score
+    var CONF = window.PMAConfidence;
+    var confidence = null;
+    if (CONF) {
+      var acsVintage = (acsMetrics && acsMetrics.meta && acsMetrics.meta.vintage) ||
+                       (acsMetrics && acsMetrics.meta && acsMetrics.meta.year)    || 2022;
+      confidence = CONF.compute({
+        acsTracts:    (acsMetrics && acsMetrics.tracts) || [],
+        lihtcCount:   (lihtcFeatures || []).length,
+        centroidCount: ((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length,
+        bufferTracts:  bufTracts.length,
+        acsVintage:    acsVintage
+      });
+      lastConfidence = confidence;
+      CONF.renderConfidenceBadge('pmaHeuristicConfidence', confidence);
+    }
 
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: bufferMiles,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
+      confidence: confidence,
       _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
@@ -834,7 +920,14 @@
       ['dim_capture_risk', d.captureRisk],
       ['dim_rent_pressure', d.rentPressure],
       ['dim_land_supply', d.landSupply],
-      ['dim_workforce', d.workforce]
+      ['dim_workforce', d.workforce],
+      ['confidence_score', r.confidence ? r.confidence.score : ''],
+      ['confidence_level', r.confidence ? r.confidence.level : ''],
+      ['confidence_completeness', r.confidence ? r.confidence.factors.completeness : ''],
+      ['confidence_freshness', r.confidence ? r.confidence.factors.freshness : ''],
+      ['confidence_lihtc_coverage', r.confidence ? r.confidence.factors.lihtcCoverage : ''],
+      ['confidence_sample_size', r.confidence ? r.confidence.factors.sampleSize : ''],
+      ['confidence_buffer_depth', r.confidence ? r.confidence.factors.bufferDepth : '']
     ];
     var csv = rows.map(function (row) { return row.join(','); }).join('\n');
     var blob = new Blob([csv], { type: 'text/csv' });
@@ -901,8 +994,7 @@
       fetchFile('market/tract_centroids_co.json'),
       fetchFile('market/acs_tract_metrics_co.json'),
       fetchFile('market/hud_lihtc_co.geojson')
-    ]).then(function (results) {
-      var statusParts = [];
+    ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
       if (tractData && tractData._loadError) {
@@ -937,6 +1029,17 @@
       }
 
       dataLoaded = true;
+
+      // Load workforce data connectors in parallel (non-fatal if any fail)
+      var workforcePromises = [
+        window.LodesCommute  ? window.LodesCommute.loadMetrics().catch(function () {}) : Promise.resolve(),
+        window.CdleJobs      ? window.CdleJobs.loadMetrics().catch(function () {})     : Promise.resolve(),
+        window.CdeSchools    ? window.CdeSchools.loadMetrics().catch(function () {})   : Promise.resolve(),
+        window.CdotTraffic   ? window.CdotTraffic.loadMetrics().catch(function () {})  : Promise.resolve()
+      ];
+      Promise.all(workforcePromises).then(function () {
+        workforceDataLoaded = true;
+      });
 
       // Data quality assessment
       var DQ = window.PMADataQuality;
@@ -1107,15 +1210,17 @@
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
     isInProp123Jurisdiction: isInProp123Jurisdiction,
+    scoreWorkforce:          scoreWorkforce,
     WEIGHTS:                 WEIGHTS,
     RISK:                    RISK,
     OVERLAY_STYLES:          OVERLAY_STYLES,
     _state: {
-      getLihtcLoadError:  function () { return lihtcLoadError; },
-      getLastQuality:     function () { return lastQuality; },
-      getLastBenchmark:   function () { return lastBenchmark; },
-      getLastPipeline:    function () { return lastPipeline; },
-      getLastScenarios:   function () { return lastScenarios; },
+      getLihtcLoadError:    function () { return lihtcLoadError; },
+      getLastQuality:       function () { return lastQuality; },
+      getLastBenchmark:     function () { return lastBenchmark; },
+      getLastPipeline:      function () { return lastPipeline; },
+      getLastScenarios:     function () { return lastScenarios; },
+      getLastConfidence:    function () { return lastConfidence; },
       getReferenceProjects: function () { return referenceProjects; }
     }
   };
