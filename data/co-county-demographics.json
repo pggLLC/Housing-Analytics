@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-08",
+  "updated": "2026-03-09",
   "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates (2022)",
   "source_url": "https://data.census.gov/",
   "note": "County-level fallback data refreshed weekly by CI. Live data fetched directly from Census ACS API at page load.",
