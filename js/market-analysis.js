@@ -678,6 +678,16 @@
 
     map = L.map('pmaMap', { zoomControl: true }).setView([39.5501, -105.7821], 7);
 
+    // Restrict pan/zoom to within ~50 miles of the Colorado state boundary.
+    // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.
+    // 50 mi ≈ 0.72° latitude (1°≈69 mi) and ≈0.93° longitude at 39°N (1°≈54.0 mi/°).
+    var coloradoBounds = L.latLngBounds(
+      L.latLng(36.28, -109.98),  // ~50 mi south-west of CO border
+      L.latLng(41.72, -101.12)   // ~50 mi north-east of CO border
+    );
+    map.setMaxBounds(coloradoBounds);
+    map.setMinZoom(6);
+
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors © CARTO',
       subdomains: 'abcd',
