@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-09T03:52:14.465247Z",
+  "generated": "2026-03-09T04:25:24.440776Z",
   "files": {
     "data/allocations.json": {
       "featureCount": 0,
@@ -1410,6 +1410,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 3566
+    },
+    "data/hna/summary/08.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 968
     },
     "data/hna/summary/08001.json": {
       "featureCount": 0,

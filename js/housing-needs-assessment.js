@@ -4310,10 +4310,7 @@
     let profile=null, s0801=null;
     const cacheFlags = { summary:false, lehd:false, dola:false, projections:false, derived:false };
 
-    // No state-level summary file exists (data/hna/summary/ holds 5-digit county and
-    // 7-digit place GEOIDs only). Skip the fetch for state to avoid a spurious 404.
-    if (geoType !== 'state') {
-      try{
+    try{
         const sum = await loadJson(PATHS.summary(geoid));
         if (sum && sum.acsProfile) {
           profile = sum.acsProfile;
@@ -4337,7 +4334,6 @@
           }
         }
       }catch(_){/* ignore */}
-    }
 
     if (!profile){
       if (!censusKey()) {
