@@ -28,8 +28,9 @@
   <script defer src="js/mobile-menu.js"></script>
 </head>
 <body>
-<div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
+<header id="site-header"></header>
 <main id="main-content" class="page-container content-shell">
 <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
   <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
@@ -364,6 +365,8 @@
       const logicalH = Math.round(width / 1.6);
 
       svg = d3.select(container).append('svg')
+        .attr('role', 'img')
+        .attr('aria-label', 'Interactive US map showing LIHTC state allocation distribution. Use the filters above to change year, map mode, and region.')
         .attr('width', width)
         .attr('height', logicalH)
         .attr('viewBox', `0 0 ${width} ${logicalH}`)
@@ -702,8 +705,12 @@
         els.state.value = 'all';
         els.search.value = '';
         rerender();
+        window.__announceUpdate && window.__announceUpdate('Map updated: year ' + els.year.value);
       });
-      els.mode.addEventListener('change', () => rerender());
+      els.mode.addEventListener('change', () => {
+        rerender();
+        window.__announceUpdate && window.__announceUpdate('Map updated: ' + els.mode.options[els.mode.selectedIndex].text);
+      });
       els.region.addEventListener('change', () => {
         // When a region is selected, restrict the state dropdown to states in that region.
         const dataset = getDatasetForYear(els.year.value);
@@ -711,18 +718,23 @@
         // reset state selection when region changes for clarity
         els.state.value = 'all';
         rerender();
+        window.__announceUpdate && window.__announceUpdate('Map updated: ' + els.region.options[els.region.selectedIndex].text + ' region');
       });
       els.state.addEventListener('change', () => {
         // clear search when explicit state chosen
         if (els.state.value !== 'all') els.search.value = '';
         rerender();
+        window.__announceUpdate && window.__announceUpdate('Map updated: ' + els.state.options[els.state.selectedIndex].text);
       });
 
       els.search.addEventListener('input', () => {
         // if searching, reset explicit state
         els.state.value = 'all';
         clearTimeout(window.__qTimer);
-        window.__qTimer = setTimeout(() => rerender(), 160);
+        window.__qTimer = setTimeout(() => {
+          rerender();
+          window.__announceUpdate && window.__announceUpdate('Map filtered by search: ' + (els.search.value || 'cleared'));
+        }, 160);
       });
 
       window.addEventListener('resize', () => {
@@ -737,6 +749,16 @@
       // initial
       rerender();
     }
+
+    (function () {
+      var el = document.getElementById('aria-live-region');
+      function announce(msg) {
+        if (!el) return;
+        el.textContent = '';
+        setTimeout(function () { el.textContent = msg; }, 50);
+      }
+      window.__announceUpdate = announce;
+    }());
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
