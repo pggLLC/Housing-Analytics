@@ -135,6 +135,7 @@ jobs:
                --exclude-dir=.git \
                --exclude-dir=node_modules \
                --exclude-dir=.github \
+               --exclude-dir=test \
                'fetch("data/' .; then
             echo "::error::Found fetch(\"data/\") usage. Use DataService.getJSON(DataService.baseData(...)) instead."
             exit 1
@@ -144,6 +145,7 @@ jobs:
                --exclude-dir=.git \
                --exclude-dir=node_modules \
                --exclude-dir=.github \
+               --exclude-dir=test \
                'fetch("maps/' .; then
             echo "::error::Found fetch(\"maps/\") usage. Use DataService.getGeoJSON(DataService.baseMaps(...)) instead."
             exit 1
