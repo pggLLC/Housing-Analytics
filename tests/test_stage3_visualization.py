@@ -39,6 +39,7 @@ REGIONAL_HTML     = os.path.join(REPO_ROOT, 'regional.html')
 MARKET_HTML       = os.path.join(REPO_ROOT, 'market-analysis.html')
 MARKET_INT_HTML   = os.path.join(REPO_ROOT, 'market-intelligence.html')
 CO_MARKET_HTML    = os.path.join(REPO_ROOT, 'colorado-market.html')
+LIHTC_DASH_HTML   = os.path.join(REPO_ROOT, 'LIHTC-dashboard.html')
 
 # CSS
 SITE_THEME_CSS    = os.path.join(REPO_ROOT, 'css', 'site-theme.css')
@@ -81,6 +82,12 @@ def chfa_html():
 @pytest.fixture(scope='session')
 def compliance_html():
     with open(COMPLIANCE_HTML, encoding='utf-8') as f:
+        return f.read()
+
+
+@pytest.fixture(scope='session')
+def lihtc_dash_html():
+    with open(LIHTC_DASH_HTML, encoding='utf-8') as f:
         return f.read()
 
 
@@ -137,6 +144,13 @@ class TestChartColors:
         failing = _failing_colors_present(commodities_html)
         assert failing == [], (
             f'construction-commodities.html still contains failing colors: {failing}'
+        )
+
+    def test_no_failing_colors_in_lihtc_dashboard(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must contain no WCAG-failing chart colors."""
+        failing = _failing_colors_present(lihtc_dash_html)
+        assert failing == [], (
+            f'LIHTC-dashboard.html still contains failing colors: {failing}'
         )
 
     def test_cra_uses_wcag_palette(self, cra_html):
@@ -290,6 +304,23 @@ class TestAriaLive:
             'dashboard.html: region-select change handler does not call __announceUpdate'
         )
 
+    def test_lihtc_dashboard_has_live_region(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must have a role=status aria-live=polite region."""
+        self._assert_live_region(lihtc_dash_html, 'LIHTC-dashboard.html')
+
+    def test_lihtc_dashboard_region_is_atomic(self, lihtc_dash_html):
+        """LIHTC-dashboard.html aria-live region must include aria-atomic=true."""
+        assert re.search(
+            r'aria-atomic\s*=\s*["\']true["\']',
+            lihtc_dash_html, re.IGNORECASE,
+        ), 'LIHTC-dashboard.html: aria-live region missing aria-atomic="true"'
+
+    def test_lihtc_dashboard_announce_js_wired(self, lihtc_dash_html):
+        """LIHTC-dashboard.html filter change handlers must call the announce helper."""
+        assert '__announceUpdate' in lihtc_dash_html, (
+            'LIHTC-dashboard.html: filter change handlers do not call __announceUpdate'
+        )
+
 
 # ---------------------------------------------------------------------------
 # Block 4: Landmark Elements (Fix 4)
@@ -350,6 +381,45 @@ class TestLandmarks:
         """cra-expansion-analysis.html must have a skip-to-main-content link."""
         assert re.search(r'class=["\']skip-link["\']', cra_html, re.IGNORECASE), (
             'cra-expansion-analysis.html: missing skip-link anchor'
+        )
+
+    def test_lihtc_dashboard_has_main(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must have a <main id="main-content"> landmark."""
+        assert re.search(r'<main\b', lihtc_dash_html, re.IGNORECASE), (
+            'LIHTC-dashboard.html: missing <main> landmark element'
+        )
+        assert 'id="main-content"' in lihtc_dash_html, (
+            'LIHTC-dashboard.html: <main> must carry id="main-content"'
+        )
+
+    def test_lihtc_dashboard_has_header(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must have a <header> landmark."""
+        assert re.search(r'<header\b', lihtc_dash_html, re.IGNORECASE), (
+            'LIHTC-dashboard.html: missing <header> landmark element'
+        )
+
+    def test_lihtc_dashboard_has_footer(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must have a <footer> landmark."""
+        assert re.search(r'<footer\b', lihtc_dash_html, re.IGNORECASE), (
+            'LIHTC-dashboard.html: missing <footer> landmark element'
+        )
+
+    def test_lihtc_dashboard_has_skip_link(self, lihtc_dash_html):
+        """LIHTC-dashboard.html must have a skip-to-main-content link targeting #main-content."""
+        assert re.search(r'class=["\']skip-link["\']', lihtc_dash_html, re.IGNORECASE), (
+            'LIHTC-dashboard.html: missing skip-link anchor'
+        )
+        assert 'href="#main-content"' in lihtc_dash_html, (
+            'LIHTC-dashboard.html: skip-link must target #main-content'
+        )
+
+    def test_lihtc_dashboard_svg_map_accessible(self, lihtc_dash_html):
+        """LIHTC-dashboard.html SVG map must have role=img and aria-label."""
+        assert re.search(r"\.attr\(['\"]role['\"],\s*['\"]img['\"]", lihtc_dash_html), (
+            'LIHTC-dashboard.html: D3 SVG map missing role="img" attribute'
+        )
+        assert re.search(r"\.attr\(['\"]aria-label['\"]", lihtc_dash_html), (
+            'LIHTC-dashboard.html: D3 SVG map missing aria-label attribute'
         )
 
 
