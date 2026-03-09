@@ -64,6 +64,10 @@
         <span class="pma-quality-label">Freshness:</span>
         <span id="pmaFreshnessIndicator" class="pma-freshness-badge">—</span>
       </div>
+      <div class="pma-quality-row" style="margin-top:0.35rem">
+        <span class="pma-quality-label">Heuristic Confidence:</span>
+        <span id="pmaHeuristicConfidence" class="pma-confidence-badge" title="Click the map to compute heuristic confidence">—</span>
+      </div>
       <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
     </div>
 
@@ -446,6 +450,13 @@
   <script defer src="js/data-connectors/osm-amenities.js"></script>
   <script defer src="js/data-connectors/fema-flood.js"></script>
   <script defer src="js/data-connectors/epa-cleanup.js"></script>
+  <!-- Workforce dimension connectors -->
+  <script defer src="js/data-connectors/lodes-commute.js"></script>
+  <script defer src="js/data-connectors/cdle-jobs.js"></script>
+  <script defer src="js/data-connectors/cde-schools.js"></script>
+  <script defer src="js/data-connectors/cdot-traffic.js"></script>
+  <!-- PMA heuristic confidence module -->
+  <script defer src="js/pma-confidence.js"></script>
   <script defer src="js/market-analysis/market-analysis-controller.js"></script>
   <script defer src="js/market-analysis.js"></script>
   <script defer src="js/deal-calculator.js"></script>
