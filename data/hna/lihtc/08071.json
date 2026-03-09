@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","fetchedAt":"2026-03-09T05:57:49.475Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-103.224077,38.070464]},"properties":{"PROJECT":"SUNSHINE VILLAGE APTS","PROJ_ADD":"121 LOCUST AVE","PROJ_CTY":"LAS ANIMAS","PROJ_ST":"CO","CNTY_NAME":"Las Animas","CNTY_FIPS":"08071","STATEFP":"08","COUNTYFP":"071","N_UNITS":25,"LI_UNITS":25,"YR_PIS":"1997","YR_ALLOC":"1996","CREDIT":"2","NON_PROF":"1","QCT":"2","DDA":null}}]}
+{"type":"FeatureCollection","features":[]}
