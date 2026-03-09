@@ -239,7 +239,11 @@ def build_tract_centroids() -> dict:
                 "county_fips": str(geoid)[:5] if len(str(geoid)) >= 5 else "",
                 "county_name": props.get("NAMELSAD", "").replace(" County", ""),
             })
-        if len(features) < 5000:
+        # ArcGIS signals "more pages available" via exceededTransferLimit.
+        # Stopping on feature count alone (< 5000) fails when the server's
+        # maxRecordCount is lower than the requested limit (e.g. 205 or 1000).
+        # Also stop if features is empty to guard against an infinite loop.
+        if not features or not page.get("exceededTransferLimit"):
             break
         offset += len(features)
 
