@@ -35,7 +35,6 @@ its current status.
 | `data/car-market-report-*.json` | CAR monthly market reports | Colorado Association of Realtors (manual/script) | `car-data-update.yml` (manual) | None | Monthly (manual trigger) | ✅ Feb + Mar 2026 present |
 | `data/prop123_jurisdictions.json` | Colorado Prop 123 jurisdictions | CDOLA commitment-filings portal | None — manually maintained | None | Ad-hoc | ✅ Present (2025-01-15) |
 | `data/kalshi/prediction-market.json` | Kalshi housing prediction markets | Kalshi REST API | `fetch-kalshi.yml` (weekly) | `KALSHI_API_KEY`, `KALSHI_API_SECRET` | Weekly | ✅ Present |
-| `data/kashli-market-data.json` | Kashli market data | Kashli API | `fetch-kashli-data.yml` | `KASHLI_API_KEY` | Weekly | ✅ Present |
 
 ---
 
@@ -63,7 +62,6 @@ page load quickly without hitting live APIs for every page view.
 | `FRED_API_KEY` | `fetch-fred-data.yml` | **Yes** | Free key from fred.stlouisfed.org/docs/api/api_key.html |
 | `KALSHI_API_KEY` | `fetch-kalshi.yml` | No (graceful fallback) | Kalshi access-key ID |
 | `KALSHI_API_SECRET` | `fetch-kalshi.yml` | No (graceful fallback) | RSA private key in PEM format |
-| `KASHLI_API_KEY` | `fetch-kashli-data.yml` | No (graceful fallback) | Kashli market data API key |
 
 > **HUD ArcGIS services** (`services.arcgis.com/VTyQ9soqVukalItT/…`) are **public** — no secret needed for QCT, DDA, or LIHTC overlays.
 
@@ -119,6 +117,5 @@ All front-end data fetches use an `AbortController`-based `fetchWithTimeout()` h
 | Census ACS API | `https://api.census.gov/data/{year}/acs/acs5` | `CENSUS_API_KEY` secret | `build-hna-data.yml`, `fetch-census-acs.yml` |
 | Census TIGERweb | `https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer` | None (public) | `housing-needs-assessment.js` (boundary fetch) |
 | Kalshi Trading API | `https://trading-api.kalshi.com/trade-api/v2` | `KALSHI_API_KEY` + `KALSHI_API_SECRET` | `fetch-kalshi.yml` |
-| Kashli | *(configured in workflow)* | `KASHLI_API_KEY` | `fetch-kashli-data.yml` |
 
 > **Note:** The `QCT_2026` and `DDA_2026` service names in `housing-needs-assessment.js` and the `Qualified_Census_Tracts_2026` / `Difficult_Development_Areas_2026` names in `cache-hud-gis-data.yml` refer to the same HUD datasets.  Update the year suffix annually when HUD publishes the next designation cycle (typically announced ~September/October for the following January effective date).

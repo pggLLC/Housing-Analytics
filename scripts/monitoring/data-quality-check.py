@@ -67,11 +67,6 @@ ARTIFACTS = {
         "type": "any_json",
         "required": False,
     },
-    "kashli-market-data": {
-        "path": "data/kashli-market-data.json",  # 'kashli' is a legacy variant of the Kalshi feed
-        "type": "any_json",
-        "required": False,
-    },
     "manifest": {
         "path": "data/manifest.json",
         "type": "any_json",

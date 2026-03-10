@@ -30,7 +30,6 @@ const ARTIFACTS = [
   { name: 'acs-tract-metrics-co',   path: 'data/market/acs_tract_metrics_co.json', type: 'json_object', required: true },
   { name: 'hud-lihtc-co',           path: 'data/market/hud_lihtc_co.geojson',   type: 'geojson',     minFeatures: 1, required: true  },
   { name: 'kalshi-prediction',      path: 'data/kalshi/prediction-market.json',  type: 'any_json',    required: false },
-  { name: 'kashli-market-data',     path: 'data/kashli-market-data.json',        type: 'any_json',    required: false },  // 'kashli' is a legacy variant of the Kalshi feed
   { name: 'manifest',               path: 'data/manifest.json',                  type: 'any_json',    required: false },
   { name: 'co-county-boundaries',   path: 'data/co-county-boundaries.json',      type: 'any_json',    required: false },
 ];
