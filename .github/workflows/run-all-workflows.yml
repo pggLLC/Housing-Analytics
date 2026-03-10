@@ -36,7 +36,6 @@ jobs:
             "fetch-county-data.yml"
             "fetch-fred-data.yml"
             "fetch-kalshi.yml"
-            "fetch-kashli-data.yml"     # separate script; note: 'kashli' is a legacy typo of 'kalshi'
             "fetch-lihtc-data.yml"
             "generate-housing-data.yml"
             "generate-market-analysis-data.yml"

@@ -106,7 +106,6 @@
 | `data/co-demographics.json` | JSON | Statewide aggregates | Colorado | High-level demographic summary |
 | `data/manifest.json` | JSON | 2 files tracked | — | Tracks `qct-colorado.json` + `dda-colorado.json`; needs expansion |
 | `data/kalshi/prediction-market.json` | JSON | 0 items | — | ⚠️ Credentials not configured; empty |
-| `data/kashli-market-data.json` | JSON | 0 markets | — | ⚠️ Empty (Kashli API not responding) |
 | `data/car-market.json` | JSON | Statewide metrics | Colorado | CAR monthly housing market data |
 | `data/car-market-report-2026-02.json` | JSON | Monthly report | Colorado | February 2026 CAR report |
 | `data/car-market-report-2026-03.json` | JSON | Monthly report | Colorado | March 2026 CAR report |
@@ -251,9 +250,9 @@
 
 **Fix:** When amenity-scoring is added to the PMA tool, run `python scripts/amenities/build_osm_amenities.py` to populate from Overpass API.
 
-### 6.6 Kalshi / Kashli Prediction Market Data — Empty
+### 6.6 Kalshi Prediction Market Data — Empty
 
-**Problem:** `data/kalshi/prediction-market.json` has 0 items (credentials not configured), and `data/kashli-market-data.json` has 0 markets.
+**Problem:** `data/kalshi/prediction-market.json` has 0 items (credentials not configured).
 
 **Impact:** Low — only affects prediction-market display widgets. Pages degrade gracefully.
 
@@ -355,7 +354,6 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 | `build-market-data.yml` | Manual | `data/market/` directory | ⚠️ Placeholder data not yet populated |
 | `generate-market-analysis-data.yml` | Manual | `data/market/` | ⚠️ See §6.4 |
 | `fetch-kalshi.yml` | Daily | `data/kalshi/prediction-market.json` | ⚠️ Credentials missing |
-| `fetch-kashli-data.yml` | Daily | `data/kashli-market-data.json` | ⚠️ API not responding |
 | `car-data-update.yml` | 1st of month 04:00 UTC | `data/car-market-report-*.json` | ✅ Active |
 | `ci-checks.yml` | Every push / PR | Validation only | ✅ Active |
 | `site-audit.yml` | On push + schedule | `audit-report/` (local) | ✅ Active |
