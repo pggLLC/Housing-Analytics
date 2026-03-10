@@ -71,8 +71,9 @@ svg,
   /* Input placeholders */
   ::placeholder { color: var(--faint) !important; opacity: 1; }
 
-  /* Selection highlight — use themed text color against solid accent background */
-  ::selection { background: var(--accent); color: var(--text); }
+  /* Selection highlight — dark text on bright-cyan accent keeps contrast ≥ 6.2:1 */
+  ::selection      { background: var(--accent); color: #0d1f35; }
+  ::-moz-selection { background: var(--accent); color: #0d1f35; }
 }
 
 /* ----------------------------------------------------------------
@@ -91,8 +92,8 @@ html.dark-mode {
   --surface:       #112438;
   --text:          rgba(215,232,248,.93);
   --text-strong:   #e4f0fc;
-  --muted:         rgba(170,200,235,.85);
-  --faint:         rgba(155,185,215,.72);
+  --muted:         rgba(210,225,245,.95);
+  --faint:         rgba(190,210,235,.90);
   --border:        rgba(90,150,210,.11);
   --border-strong: rgba(90,150,210,.22);
   --link:          #5ecbcc;
@@ -134,7 +135,8 @@ html.dark-mode html {
   color: var(--text) !important;
 }
 
-html.dark-mode ::selection { background: var(--accent); color: var(--text); }
+html.dark-mode ::selection      { background: var(--accent); color: #0d1f35; }
+html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 
 /* ----------------------------------------------------------------
    4. DARK MODE TOGGLE BUTTON (optional, injected by dark-mode-toggle.js)
