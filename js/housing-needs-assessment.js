@@ -37,9 +37,9 @@
   }
 
   const DEFAULTS = {
-    geoType: 'county',
-    // Mesa County
-    geoId: '08077',
+    geoType: 'state',
+    // State of Colorado
+    geoId: '08',
   };
 
   const AFFORD = {
@@ -791,12 +791,75 @@
     return { type: 'FeatureCollection', features };
   }
 
-  // Fetch LIHTC projects for a county.
-  // For Colorado (FIPS 08), data/chfa-lihtc.json (the canonical local file, kept current by CI)
+  // Fetch LIHTC projects for a county or for the whole state.
+  // Pass a 5-digit county FIPS (e.g. '08077') for county-level results, or the
+  // 2-digit Colorado state FIPS ('08') to get all statewide LIHTC projects.
+  // For Colorado, data/chfa-lihtc.json (the canonical local file, kept current by CI)
   // is always tried first. Remote ArcGIS APIs (CHFA, then HUD) are only attempted when the
   // local file is absent (HTTP 404). For all other states, HUD ArcGIS is the live source.
   // The returned GeoJSON includes a _source field ('local' | 'CHFA' | 'HUD' | 'fallback').
   async function fetchLihtcProjects(countyFips5){
+    // State-level request for Colorado: return all projects without county filtering.
+    if (countyFips5 === '08') {
+      try {
+        const stateGj = await loadJson('data/chfa-lihtc.json');
+        if (stateGj && Array.isArray(stateGj.features) && stateGj.features.length > 0) {
+          return { ...stateGj, _source: 'local' };
+        }
+      } catch(e) {
+        if (e.httpStatus !== 404) {
+          console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message, '— using embedded fallback.');
+          if (els.lihtcMapStatus) {
+            els.lihtcMapStatus.textContent =
+              'LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).';
+          }
+          return { ...lihtcFallbackForCounty(null), _source: 'fallback' };
+        }
+        console.warn('[HNA] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
+      }
+
+      // Remote fallback: CHFA ArcGIS FeatureServer for all Colorado projects.
+      const chfaParams = new URLSearchParams({
+        where:   `Proj_St='CO'`,
+        outFields: '*',
+        f: 'geojson',
+        outSR: '4326',
+        resultRecordCount: 2000,
+      });
+      const chfaUrl = `${SOURCES.chfaLihtcQuery}/query?${chfaParams}`;
+      try {
+        const r = await fetchWithTimeout(chfaUrl, {}, 15000);
+        if (!r.ok) throw new Error(`CHFA LIHTC HTTP ${r.status}`);
+        const gj = await r.json();
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
+          return { ...gj, _source: 'CHFA' };
+        }
+        console.warn('[HNA] CHFA LIHTC returned no features; falling back to HUD.');
+      } catch(e) {
+        console.warn('[HNA] CHFA LIHTC ArcGIS API unavailable; falling back to HUD.', e.message);
+      }
+
+      // Final fallback: HUD ArcGIS FeatureServer for all Colorado projects.
+      const hudParams = new URLSearchParams({
+        where:   `HUD_ID LIKE '08%' OR STATE='CO' OR STATE='Colorado'`,
+        outFields: '*',
+        f: 'geojson',
+        outSR: '4326',
+        resultRecordCount: 2000,
+      });
+      const hudUrl = `${SOURCES.hudLihtcQuery}/query?${hudParams}`;
+      try {
+        const r = await fetchWithTimeout(hudUrl, {}, 15000);
+        if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
+        const gj = await r.json();
+        if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
+      } catch(e) {
+        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
+      }
+
+      return { ...lihtcFallbackForCounty(null), _source: 'fallback' };
+    }
+
     if (countyFips5 && countyFips5.length === 5) {
       const stateFips  = countyFips5.slice(0, 2);
       const countyFips = countyFips5.slice(2);
@@ -4454,8 +4517,8 @@
       derivedYears: state.derived?.acs5_years || null,
     });
 
-    // LIHTC / QCT / DDA overlays (non-blocking; county context)
-    updateLihtcOverlays(contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+    // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
     // Update data freshness timestamp
     const tsEl = document.getElementById('hnaDataTimestamp');
@@ -4496,9 +4559,10 @@
     els.geoType.value = DEFAULTS.geoType;
     buildSelect();
 
-    // If county list exists, default to Mesa
-    if (els.geoType.value === 'county'){
-      els.geoSelect.value = DEFAULTS.geoId;
+    // For county type, ensure a county is selected (first in list when no match for DEFAULTS.geoId)
+    if (els.geoType.value === 'county' && !els.geoSelect.value){
+      const firstOpt = els.geoSelect.options[0];
+      if (firstOpt) els.geoSelect.value = firstOpt.value;
     }
 
     els.geoType.addEventListener('change', ()=>{
