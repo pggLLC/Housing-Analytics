@@ -758,8 +758,15 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
 def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
     """Fetch ACS S0801 with fallback: ACS1/subject → ACS5/subject."""
     vars_ = [
-        'S0801_C01_001E','S0801_C01_002E','S0801_C01_003E','S0801_C01_004E','S0801_C01_005E','S0801_C01_006E','S0801_C01_007E',
-        'S0801_C01_018E',
+        'S0801_C01_001E',  # Workers 16+ (count)
+        'S0801_C01_002E',  # Car/truck/van total parent (drove-alone + carpooled, %)
+        'S0801_C01_003E',  # Drove alone (%)
+        'S0801_C01_004E',  # Carpooled (%)
+        'S0801_C01_005E',  # Public transit (%)
+        'S0801_C01_006E',  # Walked (%)
+        'S0801_C01_007E',  # Taxicab, motorcycle, bicycle, or other means (%)
+        'S0801_C01_008E',  # Worked at home (%)
+        'S0801_C01_018E',  # Mean travel time to work (minutes)
         'NAME'
     ]
 
