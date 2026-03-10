@@ -1,9 +1,9 @@
-# LIHTC Analytics Hub - Upgrade Implementation Guide
+# COHO Analytics - Upgrade Implementation Guide
 Version: 1.0 - February 14, 2026
 
 ## Overview
 
-This upgrade package fixes three critical issues and adds extensive new features to your LIHTC Analytics Hub website:
+This upgrade package fixes three critical issues and adds extensive new features to your COHO Analytics website:
 
 1. **✓ FIXED**: Dropdown menu not working when browser is resized
 2. **✓ ADDED**: 18 FRED construction commodity price series with live data

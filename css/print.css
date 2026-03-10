@@ -1,5 +1,5 @@
 /* ================================================================
-   print.css — LIHTC Analytics Hub
+   print.css — COHO Analytics
    Print-friendly stylesheet: B&W optimized, URLs shown,
    interactive UI removed.
    ================================================================ */
@@ -213,7 +213,7 @@
      12. BRAND FOOTER FOR PRINT
      ---------------------------------------------------------------- */
   body::after {
-    content: "LIHTC Analytics Hub — lihtc-analytics.com";
+    content: "COHO Analytics — pggllc.github.io/Housing-Analytics";
     display: block;
     text-align: center;
     font-size: 8pt;

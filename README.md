@@ -1,6 +1,6 @@
-# Affordable Housing Intelligence
+# COHO Analytics
 
-> Data-driven market intelligence for affordable housing professionals — policymakers, developers, and researchers tracking the Low-Income Housing Tax Credit (LIHTC) program.
+> COHO Analytics is a data-driven decision-support platform for affordable housing professionals — developers, housing authorities, policymakers, and researchers navigating LIHTC allocations, market feasibility, and housing affordability.
 
 [![Deploy to GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-brightgreen)](https://pggllc.github.io/Housing-Analytics/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -10,7 +10,7 @@
 
 ## Overview
 
-Affordable Housing Intelligence is a static web application providing comprehensive data insights on:
+COHO Analytics is a static web application providing comprehensive data insights on:
 - **State LIHTC Allocations** — IRS per-capita cap data, year-over-year comparisons
 - **Colorado Market Deep Dive** — CHFA priorities, Denver metro trends, AMI gap analysis
 - **Economic Indicators** — Federal Reserve FRED data, construction costs, CPI
@@ -312,6 +312,6 @@ Example: `https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?aud
 
 ## License
 
-MIT © Affordable Housing Intelligence
+MIT © COHO Analytics
 
 This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.

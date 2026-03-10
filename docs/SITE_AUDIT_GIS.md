@@ -8,7 +8,7 @@
 
 | Page | Title | Map? | Primary JS | Local Data Sources | External APIs | Key Failure Modes | Priority |
 |---|---|---|---|---|---|---|---|
-| `index.html` | Affordable Housing Intelligence | — | `main.js`, `navigation.js` | `data/fred-data.json` | FRED | Missing `fred-data.json`, stale cache | High |
+| `index.html` | COHO Analytics | — | `main.js`, `navigation.js` | `data/fred-data.json` | FRED | Missing `fred-data.json`, stale cache | High |
 | `colorado-deep-dive.html` | Colorado Deep Dive | ✅ Leaflet | `co-lihtc-map.js`, `prop123-map.js`, `colorado-deep-dive.js` | `data/chfa-lihtc.json`, `data/qct-colorado.json`, `data/dda-colorado.json`, `data/prop123_jurisdictions.json`, `data/co-county-boundaries.json` | CHFA ArcGIS, HUD ArcGIS, TIGERweb | County boundaries placeholder (0 features); TIGERweb response now cached 24h | **Critical** |
 | `LIHTC-dashboard.html` | LIHTC Allocations Dashboard | ✅ D3 SVG | `state-allocations-2026.js`, `state-allocations-2025.js`, `state-allocations-2024.js`, `lihtc-data-loader.js` | `data/states-10m.json`, `data/allocations.json`, `data/chfa-lihtc.json` | CHFA ArcGIS, HUD ArcGIS | `states-10m.json` fetch error (has CDN fallback) | High |
 | `state-allocation-map.html` | 2026 LIHTC by State | ✅ D3 SVG | `state-allocations-2026.js` | `data/states-10m.json`, `data/allocations.json` | cdn.jsdelivr.net (fallback) | `states-10m.json` missing (CDN fallback in place) | High |
