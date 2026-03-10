@@ -605,6 +605,7 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
+    console.log('[market-analysis] runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi');
     // Guard: data files missing or empty — give a specific actionable message
     var centroidList = tractCentroids && (tractCentroids.tracts || tractCentroids);
     if (!centroidList || centroidList.length === 0) {
@@ -669,6 +670,43 @@
 
     renderScore(lastResult);
     setText('pmaRunBtn', 'Re-run Analysis');
+
+    // ── Delegate to MAController to populate the 8 report sections ──
+    // Normalise the aggregated ACS field names to match what MARenderers
+    // and SiteSelectionScore expect, then push the data into MAState before
+    // calling MAController.runAnalysis() so that _getAcs() / _getLihtc()
+    // can retrieve it through the secondary (MAState) path.
+    console.log('[market-analysis] runAnalysis(): delegating to MAController.runAnalysis()');
+    var MAC = window.MAController;
+    if (MAC && typeof MAC.runAnalysis === 'function') {
+      var MA = window.MAState;
+      if (MA) {
+        var _totalHh = acs.total_hh || 0;
+        MA.setState({
+          acs: {
+            pop:                acs.pop,
+            renter_hh:          acs.renter_hh,
+            owner_hh:           Math.max(0, _totalHh - (acs.renter_hh || 0)),
+            total_hh:           _totalHh,
+            vacant:             acs.vacant,
+            med_gross_rent:     acs.median_gross_rent,
+            med_hh_income:      acs.median_hh_income,
+            cost_burden_rate:   acs.cost_burden_rate,
+            renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
+            vacancy_rate:       acs.vacancy_rate,
+            tract_count:        acs.tract_count,
+            // Fields not in the current ACS extract; renderers handle null gracefully.
+            severe_burden_rate: null,
+            poverty_rate:       null,
+            unemployment_rate:  null
+          },
+          lihtc: nearbyLihtc || []
+        });
+      }
+      MAC.runAnalysis(lat, lon, bufferMiles);
+    } else {
+      console.warn('[market-analysis] MAController not available — report sections will not render.');
+    }
   }
 
   /* ── Map setup ───────────────────────────────────────────────────── */
@@ -978,6 +1016,7 @@
   function loadData() {
     var DS = window.DataService;
     if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
+    console.log('[market-analysis] loadData(): starting data load');
 
     // Load Prop 123 jurisdictions in parallel (non-fatal if unavailable)
     DS.getJSON(DS.baseData('policy/prop123_jurisdictions.json')).then(function (data) {
@@ -1039,6 +1078,11 @@
       }
 
       dataLoaded = true;
+      console.log('[market-analysis] loadData(): complete' +
+        ' — centroids=' + (((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length) +
+        ', acs='        + ((acsMetrics && acsMetrics.tracts) || []).length +
+        ', lihtc='      + (lihtcFeatures || []).length +
+        (statusParts.length ? ', warnings: ' + statusParts.join('; ') : ''));
 
       // Load workforce data connectors in parallel (non-fatal if any fail)
       var workforcePromises = [
@@ -1143,10 +1187,21 @@
     bindRunBtn();
     bindAmiInputs();
     bindExport();
+
+    // Validate required modules are available.
+    ['DataService', 'MAState', 'MARenderers', 'SiteSelectionScore', 'MAController'].forEach(function (name) {
+      if (!window[name]) {
+        console.warn('[market-analysis] module not found: ' + name);
+      } else {
+        console.log('[market-analysis] module ready: ' + name);
+      }
+    });
+
     loadData().then(function () {
       // Load overlay layers after main data is ready (lihtcFeatures now set)
       loadOverlays();
-    }).catch(function () {
+    }).catch(function (err) {
+      console.error('[market-analysis] loadData() failed:', err);
       dataLoaded = true;
       var hint = el('pmaDataStatus');
       if (hint) hint.textContent = 'Warning: data service unavailable.';
