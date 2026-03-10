@@ -15,7 +15,7 @@
     "test:contrast": "node scripts/contrast-audit/run.js",
     "lint:html": "npx htmlhint '*.html'",
     "lint:css": "npx stylelint 'css/*.css'",
-    "audit:contrast": "node scripts/contrast-audit.js",
+    "audit:contrast": "node scripts/contrast-audit/run.js",
     "audit:data": "node scripts/audit/data-inventory.mjs",
     "audit:data:manifest": "node scripts/audit/data-inventory.mjs --json",
     "audit:site": "node scripts/audit/site-audit.mjs",
