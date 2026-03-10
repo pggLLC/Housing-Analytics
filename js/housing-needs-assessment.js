@@ -490,6 +490,8 @@
   // --- Geography helpers ---
   function countyFromGeoid(geoType, geoid){
     if (geoType === 'county') return geoid;
+    // State-level selection has no single county context.
+    if (geoType === 'state') return null;
     // Check all config arrays (featured, places, cdps) for a containingCounty mapping.
     const conf = window.__HNA_GEO_CONFIG;
     const allEntries = [
@@ -2041,16 +2043,21 @@
    * Render a multi-year employment trend line chart with YoY labels.
    * Reads annualEmployment and yoyGrowth from the cached LEHD file.
    *
-   * @param {string} geoid - 5-digit county FIPS (used for data lookup)
+   * @param {string|null} geoid - 5-digit county FIPS (used for data lookup); null for state-level
    */
   function renderEmploymentTrend(geoid) {
     var container = document.getElementById('employmentTrendContainer');
     if (!container) return;
 
+    if (!geoid) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Employment trend data is available at the county level. Select a county to view this chart.</p>';
+      return;
+    }
+
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
-      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
@@ -2126,16 +2133,21 @@
    * Render a dual-axis line chart: nominal wage trend vs. annual housing cost.
    * Reads data from the LEHD wage bands and ACS profile.
    *
-   * @param {string} geoid - 5-digit county FIPS
+   * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
   function renderWageTrend(geoid) {
     var container = document.getElementById('wageTrendContainer');
     if (!container) return;
 
+    if (!geoid) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Wage trend data is available at the county level. Select a county to view this chart.</p>';
+      return;
+    }
+
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
-      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
     if (!lehd || !lehd.annualEmployment) {
@@ -2205,16 +2217,21 @@
    * Render an industry analysis combining a horizontal bar chart and
    * an HHI concentration badge.
    *
-   * @param {string} geoid - 5-digit county FIPS
+   * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
   function renderIndustryAnalysis(geoid) {
     var container = document.getElementById('industryAnalysisContainer');
     if (!container) return;
 
+    if (!geoid) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Industry analysis data is available at the county level. Select a county to view this chart.</p>';
+      return;
+    }
+
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
-      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
     var industries = (lehd && Array.isArray(lehd.industries)) ? lehd.industries.slice(0, 10) : [];
@@ -2298,16 +2315,21 @@
    *   3. CAGR over available years
    *   4. Industry diversity (HHI)
    *
-   * @param {string} geoid - 5-digit county FIPS
+   * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
   function renderEconomicIndicators(geoid) {
     var container = document.getElementById('econIndicatorCards');
     if (!container) return;
 
+    if (!geoid) {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Economic indicator data is available at the county level. Select a county to view employment metrics.</p>';
+      return;
+    }
+
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : '08077';
-      lehd = window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
+      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
     var annualEmp  = (lehd && lehd.annualEmployment) ? lehd.annualEmployment : {};
@@ -3356,6 +3378,21 @@
     }
   }
 
+  /**
+   * Clear projection stat cards and set an informative note for geography types
+   * (such as state-level) where county-based projections do not apply.
+   * @returns {{ ok: boolean }}
+   */
+  function clearProjectionsForStateLevel() {
+    state.lastProj = null;
+    els.statBaseUnits.textContent = '—';
+    els.statTargetVac.textContent = '—';
+    els.statUnitsNeed.textContent = '—';
+    els.statNetMig.textContent = '—';
+    els.needNote.textContent = 'Demographic projections are available at the county level. Select a county to view housing need estimates.';
+    return { ok: false };
+  }
+
   async function renderProjections(countyFips5, selection){
     try{
       const proj = await loadJson(PATHS.projections(countyFips5));
@@ -4205,12 +4242,22 @@
             `<a href="${SOURCES.acsS0801}" target="_blank" rel="noopener">S0801 group</a>.`
     });
 
+    // Helper to generate geography-context note for county-level data sections in methodology.
+    function countyContextNote(stateNote, placeNote) {
+      if (geoType === 'state') return stateNote;
+      if (geoType !== 'county') return placeNote;
+      return '';
+    }
+
     items.push({
       title: 'Commuting flows (LEHD)',
       html: `Inflow/outflow/within are derived from LEHD LODES OD (JT00) aggregated to county. ` +
             `<a href="${SOURCES.lodesRoot}" target="_blank" rel="noopener">LODES downloads</a> and ` +
             `<a href="${SOURCES.lodesTech}" target="_blank" rel="noopener">technical documentation</a>. ` +
-            `${geoType !== 'county' ? `For this selection, flows are shown at the containing county level (${usedCountyForContext}).` : ''}`
+            countyContextNote(
+              'County-level LEHD data is available after selecting a county.',
+              `For this selection, flows are shown at the containing county level (${usedCountyForContext}).`
+            )
     });
 
     items.push({
@@ -4218,7 +4265,10 @@
       html: `Age pyramid and senior pressure use Colorado State Demography Office (DOLA) single-year-of-age county files. ` +
             `<a href="${SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO data downloads</a> and ` +
             `<a href="${SOURCES.sdoPopulation}" target="_blank" rel="noopener">population resources</a>. ` +
-            `${geoType !== 'county' ? `Shown as county context (${usedCountyForContext}).` : ''}`
+            countyContextNote(
+              'Select a county to view county-level age pyramid data.',
+              `Shown as county context (${usedCountyForContext}).`
+            )
     });
 
     items.push({
@@ -4226,7 +4276,10 @@
       html: `Population and net migration use SDO county components-of-change (estimates + forecast), and base-year households/units use SDO county profiles. ` +
             `<a href="${SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO downloads</a>. ` +
             `Housing need is computed by converting population to households using a base-year headship rate, then applying a target vacancy assumption. ` +
-            `${geoType !== 'county' ? `Shown as county context (${usedCountyForContext}).` : ''}`
+            countyContextNote(
+              'Select a county to view county-level projection data.',
+              `Shown as county context (${usedCountyForContext}).`
+            )
     });
 
     if (derivedEntry && derivedEntry.derived){
@@ -4453,27 +4506,34 @@
     // LEHD (cached)
     const contextCounty = countyFromGeoid(geoType, geoid);
     let lehd=null;
-    try{
-      // Prefer county cache for county selections; for places/CDPs use containing county
-      const lehdGeoid = geoType === 'county' ? geoid : contextCounty;
-      lehd = await loadJson(PATHS.lehd(lehdGeoid));
-      cacheFlags.lehd = true;
-    }catch(e){
-      console.warn(e);
-    }
-    if (lehd){
-      renderLehd(lehd, geoType, geoid);
+    if (geoType === 'state'){
+      // State-level LEHD data is not aggregated into a single file.
+      // Individual county data is available after selecting a county.
+      els.lehdNote.textContent = 'LEHD employment data is shown at the county level. Select a county to view detailed employment flows.';
     } else {
-      els.lehdNote.textContent = 'LEHD flow cache not yet available. Run the HNA data build workflow to populate.';
+      try{
+        // Prefer county cache for county selections; for places/CDPs use containing county
+        const lehdGeoid = geoType === 'county' ? geoid : contextCounty;
+        lehd = await loadJson(PATHS.lehd(lehdGeoid));
+        cacheFlags.lehd = true;
+      }catch(e){
+        console.warn(e);
+      }
+      if (lehd){
+        renderLehd(lehd, geoType, geoid);
+      } else {
+        els.lehdNote.textContent = 'LEHD flow cache not yet available. Run the HNA data build workflow to populate.';
+      }
     }
 
     // Labor Market section (uses LEHD + ACS profile)
     renderLaborMarketSection(lehd, profile);
 
     // Economic indicators — trend charts and affordability gap table
+    // For state type contextCounty is null; pass null so render functions show appropriate message.
     const econGeoid = geoType === 'county' ? geoid : contextCounty;
     if (!window.__HNA_LEHD_CACHE) window.__HNA_LEHD_CACHE = {};
-    if (lehd) window.__HNA_LEHD_CACHE[econGeoid] = lehd;
+    if (lehd && econGeoid) window.__HNA_LEHD_CACHE[econGeoid] = lehd;
     renderEconomicIndicators(econGeoid);
     renderEmploymentTrend(econGeoid);
     renderWageTrend(econGeoid);
@@ -4485,23 +4545,30 @@
 
     // DOLA SYA (cached; county context)
     let dola=null;
-    try{
-      dola = await loadJson(PATHS.dolaSya(contextCounty));
-      cacheFlags.dola = true;
-    }catch(e){
-      console.warn(e);
-    }
-    if (dola){
-      renderDolaPyramid(dola);
+    if (geoType === 'state'){
+      // DOLA SYA data is available at the county level only.
+      els.seniorNote.textContent = 'Age distribution data is available at the county level. Select a county to view the age pyramid and senior pressure trend.';
     } else {
-      els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
+      try{
+        dola = await loadJson(PATHS.dolaSya(contextCounty));
+        cacheFlags.dola = true;
+      }catch(e){
+        console.warn(e);
+      }
+      if (dola){
+        renderDolaPyramid(dola);
+      } else {
+        els.seniorNote.textContent = 'DOLA/SDO age data not yet available. Run the HNA data build workflow to populate.';
+      }
     }
 
     // 20-year projections (cached; county context)
     state.current = { geoType, geoid, label, contextCounty, profile };
     // Store profile for next refresh — enables YOY comparison on subsequent updates
     if (profile && geoid) state.prevProfile[geoid] = profile;
-    const projRes = await renderProjections(contextCounty, state.current);
+    const projRes = geoType !== 'state'
+      ? await renderProjections(contextCounty, state.current)
+      : clearProjectionsForStateLevel();
     if (projRes?.ok) cacheFlags.projections = true;
 
     renderLocalResources(geoType, geoid);
