@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-09T11:24:39.092Z",
+  "generated": "2026-03-10T07:42:44.978Z",
   "files": [
     "alerts/.gitkeep",
     "allocations.json",
@@ -839,12 +839,16 @@
     "lihtc-trends-by-county.json",
     "manifest.json",
     "market/acs_tract_metrics_co.json",
+    "market/cde_schools_co.json",
+    "market/cdle_job_postings_co.json",
+    "market/cdot_traffic_co.json",
     "market/hud_lihtc_co.geojson",
+    "market/lodes_co.json",
     "market/reference-projects.json",
     "market/tract_centroids_co.json",
     "policy/prop123_jurisdictions.json",
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 844
+  "file_count": 848
 }
