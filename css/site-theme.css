@@ -764,3 +764,29 @@ span.kicker{display:block;font-size:.75rem;font-weight:700;text-transform:upperc
 .deal-calc-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;background:var(--bg2);border-radius:6px;padding:16px}
 .deal-calc-result-item .label{font-size:.78rem;color:var(--muted);font-weight:600}
 .deal-calc-result-item .value{font-size:1.15rem;font-weight:800;color:var(--text)}
+
+/* ── Data-reliability badge (DataQuality module) ─────────────────────────── */
+.data-reliability-badge,.freshness-badge{
+  display:inline-flex;align-items:center;
+  font-size:.78rem;font-weight:600;line-height:1.2;
+  padding:.25rem .6rem;border-radius:2rem;
+  border:1px solid transparent;
+  white-space:nowrap;cursor:default;
+  transition:background .15s,color .15s;
+}
+.data-reliability-badge.drb--ok,.freshness-badge[data-freshness="now"]{
+  background:var(--good-dim);color:var(--good);border-color:rgba(4,120,87,.25);
+}
+.data-reliability-badge.drb--warn{
+  background:var(--warn-dim);color:var(--warn);border-color:rgba(180,83,9,.25);
+}
+.data-reliability-badge.drb--error{
+  background:var(--bad-dim);color:var(--bad);border-color:rgba(153,27,27,.25);
+}
+/* Default state before DataQuality runs */
+.data-reliability-badge:not(.drb--ok):not(.drb--warn):not(.drb--error){
+  background:var(--bg2);color:var(--muted);border-color:var(--border);
+}
+@media(max-width:480px){
+  .data-reliability-badge,.freshness-badge{font-size:.72rem;padding:.2rem .5rem;}
+}

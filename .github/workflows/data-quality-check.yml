@@ -1,0 +1,176 @@
+name: Data Quality Check
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # Every 6 hours
+  workflow_dispatch:         # Allow manual triggering
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate critical data files
+        id: validate
+        run: node scripts/validate-critical-data.js
+
+      - name: Check county boundaries feature count
+        id: county-check
+        shell: bash
+        run: |
+          set -e
+          FEATURES=$(python3 -c "
+          import json, sys
+          try:
+              with open('data/co-county-boundaries.json') as f:
+                  d = json.load(f)
+              count = len(d.get('features', []))
+              print(count)
+          except Exception as e:
+              print(0)
+              sys.exit(1)
+          ")
+          echo "county_features=$FEATURES" >> "$GITHUB_OUTPUT"
+          if [ "$FEATURES" -lt 60 ]; then
+            echo "::error::County boundaries file has only $FEATURES features (expected >= 60)"
+            exit 1
+          fi
+          echo "✅ County boundaries: $FEATURES features"
+
+      - name: Check FRED series observations
+        id: fred-check
+        shell: bash
+        run: |
+          set -e
+          python3 - << 'EOF'
+          import json, sys
+
+          try:
+              with open('data/fred-data.json') as f:
+                  d = json.load(f)
+          except Exception as e:
+              print(f"::error::Cannot read data/fred-data.json: {e}")
+              sys.exit(1)
+
+          series = d.get('series', {})
+          if not series:
+              print("::error::data/fred-data.json has no 'series' key or it is empty")
+              sys.exit(1)
+
+          # Support both dict and list formats
+          if isinstance(series, dict):
+              items = series.values()
+              total = len(series)
+          else:
+              items = series
+              total = len(series)
+
+          empty = [
+              (getattr(s, 'get', lambda k, d=None: d)('name', str(i)) if hasattr(s, 'get') else str(i))
+              for i, s in enumerate(items)
+              if not (s.get('observations', []) if hasattr(s, 'get') else [])
+          ]
+
+          if empty:
+              print(f"::warning::FRED series with 0 observations: {', '.join(empty[:10])}")
+
+          if len(empty) == total:
+              print("::error::ALL FRED series have 0 observations")
+              sys.exit(1)
+
+          print(f"✅ FRED data: {total} series, {len(empty)} with 0 observations")
+          EOF
+
+      - name: Check CHFA-LIHTC data
+        shell: bash
+        run: |
+          set -e
+          python3 -c "
+          import json, sys
+          with open('data/chfa-lihtc.json') as f:
+              d = json.load(f)
+          features = len(d.get('features', []))
+          if features < 1:
+              print('::error::data/chfa-lihtc.json has no features')
+              sys.exit(1)
+          print(f'✅ CHFA-LIHTC: {features} features')
+          "
+
+      - name: Check AMI gap data
+        shell: bash
+        run: |
+          python3 -c "
+          import json, sys
+          try:
+              with open('data/co_ami_gap_by_county.json') as f:
+                  d = json.load(f)
+              counties = d.get('counties', {})
+              count = len(counties) if isinstance(counties, dict) else 0
+              if count < 64:
+                  print(f'::warning::AMI gap data has {count}/64 counties')
+              else:
+                  print(f'✅ AMI gap: {count} counties')
+          except Exception as e:
+              print(f'::warning::AMI gap data check failed: {e}')
+          " || true
+
+      - name: Open GitHub issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `[Data Quality] Validation failed ${new Date().toISOString().slice(0, 10)}`;
+            const body = [
+              '## ⚠️ Data Quality Check Failed',
+              '',
+              `**Run:** ${context.runId}`,
+              `**Triggered at:** ${new Date().toUTCString()}`,
+              `**Workflow:** [View logs](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
+              '',
+              '### What to check',
+              '- [ ] `data/co-county-boundaries.json` — should have 64 features',
+              '- [ ] `data/fred-data.json` — FRED series should have observations',
+              '- [ ] `data/chfa-lihtc.json` — should have LIHTC features',
+              '',
+              '### Next steps',
+              '1. Review the failed step logs linked above.',
+              '2. Run the relevant data-refresh workflow (`data-refresh.yml`, `fetch-fred-data.yml`, etc.).',
+              '3. Re-run this workflow to confirm the fix.',
+            ].join('\n');
+
+            // Check for existing open issue to avoid duplicates
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'data-quality',
+            });
+
+            const existing = issues.find(i => i.title.startsWith('[Data Quality]'));
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: `🔁 Data quality check failed again at ${new Date().toUTCString()}.\n[View run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['data-quality'],
+              });
+            }
