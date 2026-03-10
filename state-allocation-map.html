@@ -196,7 +196,7 @@
           if (coRow) {
             states['CO'] = { name: 'Colorado', allocation: coRow.allocation, population: coRow.population, perCapita: coRow.perCapita, status: coRow.status };
           }
-          return { source: hist.source, year: yr, states, _historicalNote: 'Historical — Colorado detail only; other states use IRS per-capita estimates.' };
+          return { source: hist.source, year: yr, states, _historicalNote: 'Historical data — Colorado detail available; other states use IRS per-capita estimates.' };
         }
         return window.StateAllocations2026;
       };
@@ -207,7 +207,10 @@
         yearSel.addEventListener('change', () => {
           const yr = yearSel.value;
           const note = document.getElementById('sam-year-note');
-          if (note) note.textContent = (parseInt(yr, 10) <= 2023) ? 'Historical estimate — Colorado detail only' : '';
+          // Use the historical module's year range if available; fall back to 2023.
+          const histYears = window.StateAllocationsHistorical ? window.StateAllocationsHistorical.years() : [];
+          const maxHistYear = histYears.length ? Math.max(...histYears) : 2023;
+          if (note) note.textContent = (parseInt(yr, 10) <= maxHistYear) ? 'Historical estimate — Colorado detail only' : '';
           const ds = getDatasetForYear(yr);
           if (ds && ds.states) init(ds);
         });
