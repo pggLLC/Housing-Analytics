@@ -26,11 +26,13 @@ jobs:
 
       - name: Generate js/config.js from secrets
         run: |
+          DATA_VERSION="$(date -u +%Y-%m-%d)"
           cat > js/config.js << EOF
           window.APP_CONFIG = window.APP_CONFIG || {};
           var _defaults = {
             CENSUS_API_KEY: "${{ secrets.CENSUS_API_KEY }}",
-            FRED_API_KEY:   "${{ secrets.FRED_API_KEY }}"
+            FRED_API_KEY:   "${{ secrets.FRED_API_KEY }}",
+            DATA_VERSION:   "${DATA_VERSION}"
           };
           Object.keys(_defaults).forEach(function (k) {
             if (!Object.prototype.hasOwnProperty.call(window.APP_CONFIG, k)) {

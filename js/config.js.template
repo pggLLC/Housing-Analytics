@@ -4,5 +4,6 @@
 
 window.APP_CONFIG = {
   CENSUS_API_KEY: "",
-  FRED_API_KEY: ""
+  FRED_API_KEY: "",
+  DATA_VERSION: "{{DATA_VERSION}}"
 };
