@@ -147,7 +147,7 @@
    */
   function renderExecutiveSummary(scores, acs) {
     if (!scores) {
-      _render('maExecSummary', _unavailableCard('Executive Summary'));
+      _render('maExecSummaryContent', _unavailableCard('Executive Summary'));
       return;
     }
 
@@ -181,7 +181,7 @@
       '</div>'
     );
 
-    _render('maExecSummary', html);
+    _render('maExecSummaryContent', html);
   }
 
   /**
@@ -206,7 +206,7 @@
    */
   function renderMarketDemand(acs) {
     if (!acs || typeof acs !== 'object') {
-      _render('maMarketDemand', _unavailableCard('Market Demand'));
+      _render('maMarketDemandContent', _unavailableCard('Market Demand'));
       return;
     }
 
@@ -226,7 +226,7 @@
       '</div>'
     );
 
-    _render('maMarketDemand', html);
+    _render('maMarketDemandContent', html);
   }
 
   /** @private */
@@ -243,7 +243,7 @@
    */
   function renderAffordableSupply(lihtcData) {
     if (!lihtcData || !Array.isArray(lihtcData)) {
-      _render('maAffordableSupply', _unavailableCard('Affordable Supply'));
+      _render('maAffordableSupplyContent', _unavailableCard('Affordable Supply'));
       return;
     }
 
@@ -274,7 +274,7 @@
       '</div>'
     );
 
-    _render('maAffordableSupply', html);
+    _render('maAffordableSupplyContent', html);
   }
 
   /** @private Build a compact LIHTC project table. */
@@ -325,7 +325,7 @@
    */
   function renderSubsidyOpportunities(subsidyData) {
     if (!subsidyData || typeof subsidyData !== 'object') {
-      _render('maSubsidyOpp', _unavailableCard('Subsidy Opportunities'));
+      _render('maSubsidyOppContent', _unavailableCard('Subsidy Opportunities'));
       return;
     }
 
@@ -355,7 +355,7 @@
       '</div>'
     );
 
-    _render('maSubsidyOpp', html);
+    _render('maSubsidyOppContent', html);
   }
 
   /**
@@ -364,7 +364,7 @@
    */
   function renderSiteFeasibility(feasibilityData) {
     if (!feasibilityData || typeof feasibilityData !== 'object') {
-      _render('maSiteFeasibility', _unavailableCard('Site Feasibility'));
+      _render('maSiteFeasibilityContent', _unavailableCard('Site Feasibility'));
       return;
     }
 
@@ -390,7 +390,7 @@
       '</div>'
     );
 
-    _render('maSiteFeasibility', html);
+    _render('maSiteFeasibilityContent', html);
   }
 
   /**
@@ -399,7 +399,7 @@
    */
   function renderNeighborhoodAccess(accessData) {
     if (!accessData || typeof accessData !== 'object') {
-      _render('maNeighborhoodAccess', _unavailableCard('Neighborhood Access'));
+      _render('maNeighborhoodAccessContent', _unavailableCard('Neighborhood Access'));
       return;
     }
 
@@ -426,7 +426,7 @@
       '</div>'
     );
 
-    _render('maNeighborhoodAccess', html);
+    _render('maNeighborhoodAccessContent', html);
   }
 
   /**
@@ -435,7 +435,7 @@
    */
   function renderPolicyOverlays(policyData) {
     if (!policyData || typeof policyData !== 'object') {
-      _render('maPolicyOverlays', _unavailableCard('Policy Overlays'));
+      _render('maPolicyOverlaysContent', _unavailableCard('Policy Overlays'));
       return;
     }
 
@@ -467,7 +467,7 @@
       '</div>'
     );
 
-    _render('maPolicyOverlays', html);
+    _render('maPolicyOverlaysContent', html);
   }
 
   /**
@@ -476,14 +476,14 @@
    */
   function renderOpportunities(opportunitiesData) {
     if (!opportunitiesData || typeof opportunitiesData !== 'object') {
-      _render('maOpportunities', _unavailableCard('Opportunities'));
+      _render('maOpportunitiesContent', _unavailableCard('Opportunities'));
       return;
     }
 
     var items = opportunitiesData.items || [];
 
     if (!items.length) {
-      _render('maOpportunities', _unavailableCard('Opportunities'));
+      _render('maOpportunitiesContent', _unavailableCard('Opportunities'));
       return;
     }
 
@@ -508,7 +508,7 @@
       );
     });
 
-    _render('maOpportunities',
+    _render('maOpportunitiesContent',
       '<div style="display:grid;gap:0.75rem;">' +
         _sectionHeading('Strategic Opportunities') +
         cards +

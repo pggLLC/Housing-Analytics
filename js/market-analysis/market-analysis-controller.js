@@ -40,6 +40,16 @@
   }
 
   /**
+   * Log an informational message.
+   * @param {string} msg
+   */
+  function _log(msg) {
+    if (typeof console !== 'undefined') {
+      console.log('[MAController] ' + msg);
+    }
+  }
+
+  /**
    * Log an error without throwing.
    * @param {string} msg
    * @param {*}      [err]
@@ -61,15 +71,18 @@
   }
 
   /* ── Section id map ─────────────────────────────────────────────── */
+  // These IDs target the inner content <div> elements, not the <section>
+  // wrappers, so that loading/error states replace only the content area
+  // and leave the <h2> section headings intact.
   var SECTION_IDS = [
-    'maExecSummary',
-    'maMarketDemand',
-    'maAffordableSupply',
-    'maSubsidyOpp',
-    'maSiteFeasibility',
-    'maNeighborhoodAccess',
-    'maPolicyOverlays',
-    'maOpportunities'
+    'maExecSummaryContent',
+    'maMarketDemandContent',
+    'maAffordableSupplyContent',
+    'maSubsidyOppContent',
+    'maSiteFeasibilityContent',
+    'maNeighborhoodAccessContent',
+    'maPolicyOverlaysContent',
+    'maOpportunitiesContent'
   ];
 
   /* ── Data retrieval helpers ─────────────────────────────────────── */
@@ -170,6 +183,11 @@
     var scr = _scorer();
     var ren = _rend();
 
+    _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
+      ' — MAState=' + (st ? 'ok' : 'missing') +
+      ', SiteSelectionScore=' + (scr ? 'ok' : 'missing') +
+      ', MARenderers=' + (ren ? 'ok' : 'missing'));
+
     // ── 1. Set loading state ────────────────────────────────────────
     if (st) {
       _safe(function () {
@@ -194,6 +212,9 @@
         var acs   = _getAcs();
         var lihtc = _getLihtc();
         var flags = _getDesignationFlags(lat, lon);
+
+        _log('runAnalysis(): acs=' + (acs ? 'ok (tract_count=' + (acs.tract_count || '?') + ')' : 'null') +
+          ', lihtc=' + lihtc.length + ' features');
 
         // Build scoring inputs from available data.
         var inputs = {
@@ -266,10 +287,21 @@
 
         // ── 5. Render sections ───────────────────────────────────────
         if (ren) {
-          _safe(function () { ren.renderExecutiveSummary(scores, acs); });
-          _safe(function () { ren.renderMarketDemand(acs); });
-          _safe(function () { ren.renderAffordableSupply(lihtc); });
+          _log('runAnalysis(): rendering 8 report sections');
           _safe(function () {
+            _log('rendering maExecSummary');
+            ren.renderExecutiveSummary(scores, acs);
+          });
+          _safe(function () {
+            _log('rendering maMarketDemand');
+            ren.renderMarketDemand(acs);
+          });
+          _safe(function () {
+            _log('rendering maAffordableSupply');
+            ren.renderAffordableSupply(lihtc);
+          });
+          _safe(function () {
+            _log('rendering maSubsidyOpp');
             ren.renderSubsidyOpportunities({
               qctFlag:          flags.qctFlag,
               ddaFlag:          flags.ddaFlag,
@@ -279,6 +311,7 @@
             });
           });
           _safe(function () {
+            _log('rendering maSiteFeasibility');
             ren.renderSiteFeasibility({
               floodRisk:         inputs.floodRisk,
               soilScore:         inputs.soilScore,
@@ -287,12 +320,14 @@
             });
           });
           _safe(function () {
+            _log('rendering maNeighborhoodAccess');
             ren.renderNeighborhoodAccess({
               amenities:    inputs.amenities,
               access_score: scores ? scores.access_score : null
             });
           });
           _safe(function () {
+            _log('rendering maPolicyOverlays');
             ren.renderPolicyOverlays({
               zoningCapacity:  inputs.zoningCapacity,
               publicOwnership: inputs.publicOwnership,
@@ -300,7 +335,11 @@
               policy_score:    scores ? scores.policy_score : null
             });
           });
-          _safe(function () { ren.renderOpportunities(_buildOpportunities(scores)); });
+          _safe(function () {
+            _log('rendering maOpportunities');
+            ren.renderOpportunities(_buildOpportunities(scores));
+          });
+          _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
         } else {
           _warn('MARenderers not loaded; skipping section rendering.');
         }
