@@ -15,8 +15,7 @@ The generated `js/config.js` is listed in `.gitignore` and is never committed.
 |---|---|---|---|
 | `CENSUS_API_KEY` | US Census Bureau ACS data | `fetch-census-acs.yml`, `build-hna-data.yml`, `deploy.yml` | Free — https://api.census.gov/data/key_signup.html |
 | `FRED_API_KEY` | Federal Reserve economic data | `fetch-fred-data.yml`, `deploy.yml` | Free — https://research.stlouisfed.org/useraccount/apikey |
-| `KASHLI_API_KEY` | Kashli real estate market data | `fetch-kashli-data.yml` | Paid — https://kashli.com |
-| `KALSHI_API_KEY` | Kalshi prediction market data | `fetch-kalshi.yml` | Paid — https://kalshi.com |
+| `KALSHI_API_KEY` | Kalshi prediction market data | `fetch-kalshi.yml` | Optional — https://kalshi.com |
 | `KALSHI_API_SECRET` | Kalshi API authentication | `fetch-kalshi.yml` | Paid — https://kalshi.com |
 | `KALSHI_API_BASE_URL` | Kalshi API endpoint URL | `fetch-kalshi.yml` | Paid — https://kalshi.com |
 | `ZILLOW_EMAIL` | Zillow account login | `zillow-data-sync.yml` | Zillow account credentials |
@@ -49,7 +48,6 @@ The generated `js/config.js` is listed in `.gitignore` and is never committed.
 | `data/allocations.json` | ~12 KB | Manual / static | Committed to repo | Static | ✅ | LIHTC state allocation data by year; updated manually |
 | `data/co_ami_gap_by_county.json` | ~68 KB | Computed (HUD AMI data) | Committed to repo | Static | ✅ | Colorado AMI gap by county; used by Colorado Deep Dive AMI chart |
 | `data/prop123_jurisdictions.json` | ~24 KB | CDOLA commitment portal | Committed to repo / `fetch-prop123.js` | Manual | ✅ | Prop 123 jurisdiction commitments; refreshed by running `scripts/fetch-prop123.js` |
-| `data/kashli-market-data.json` | ~129 B (empty) | Kashli API | `fetch-kashli-data.yml` | Monday 03:00 UTC | ⚠️ Empty `markets:{}` | Requires valid `KASHLI_API_KEY` secret |
 | `data/car-market-report-2026-02.json` | ~2.3 KB | CAR (Colorado Association of Realtors) | `car-data-update.yml` | Monthly | ✅ | Colorado market report data; month-stamped filenames |
 | `data/car-market-report-2026-03.json` | ~2.3 KB | CAR | `car-data-update.yml` | Monthly | ✅ | |
 | `data/kalshi/prediction-market.json` | — | Kalshi API | `fetch-kalshi.yml` | Monday 03:00 UTC | ✅ (requires Kalshi secrets) | Prediction market contracts related to housing/rates |
@@ -162,7 +160,6 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout — was 10s)
 | `build-hna-data.yml` | Monday 06:30 UTC | `CENSUS_API_KEY` | `data/hna/geo-config.json`, `summary/`, `lehd/`, `dola_sya/`, `projections/`, `derived/` |
 | `fetch-census-acs.yml` | Daily 06:30 UTC | `CENSUS_API_KEY` | `data/census-acs-state.json` |
 | `fetch-fred-data.yml` | Daily 06:00 UTC | `FRED_API_KEY` | `data/fred-data.json` |
-| `fetch-kashli-data.yml` | Monday 03:00 UTC | `KASHLI_API_KEY` | `data/kashli-market-data.json` |
 | `fetch-kalshi.yml` | Monday 03:00 UTC | `KALSHI_API_KEY`, `KALSHI_API_SECRET`, `KALSHI_API_BASE_URL` | `data/kalshi/prediction-market.json` |
 | `zillow-data-sync.yml` | Monday 02:00 UTC | `ZILLOW_EMAIL`, `ZILLOW_PASSWORD` | `data/zillow-*.json` |
 | `car-data-update.yml` | Monthly | None | `data/car-market-report-*.json` |
@@ -176,16 +173,13 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout — was 10s)
    The front-end correctly falls back to the HUD ArcGIS API, then to embedded data (14 projects).
    **Action:** Manually run the `Fetch CHFA LIHTC Data` workflow from the Actions tab to retry.
 
-2. **`data/kashli-market-data.json` is empty** — The Kashli API returned no market data.
-   **Action:** Verify the `KASHLI_API_KEY` secret is valid. Check Kashli API status.
-
-3. **Zillow data** — Uses account credentials (email/password) which may break if Zillow updates
+2. **Zillow data** — Uses account credentials (email/password) which may break if Zillow updates
    their authentication. Consider migrating to a public data API or static dataset.
 
-4. **ArcGIS service URL alignment (fixed)** — `housing-needs-assessment.js` was referencing
+3. **ArcGIS service URL alignment (fixed)** — `housing-needs-assessment.js` was referencing
    `QCT_2026` and `DDA_2026` service names that did not match the CI scripts (`Qualified_Census_Tracts_2026`
    and `Difficult_Development_Areas_2026`). Both now use the correct service names.
 
-5. **Timeout increases applied** — All ArcGIS remote API calls now use 15–20 second timeouts
+4. **Timeout increases applied** — All ArcGIS remote API calls now use 15–20 second timeouts
    (previously 5–10 seconds) to prevent premature failures on slow HUD/Census servers.
    The Prop 123 TIGERweb geometry timeout was increased from 10s to 20s.

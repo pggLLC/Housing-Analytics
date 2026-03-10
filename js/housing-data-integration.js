@@ -8,13 +8,12 @@
  *   Demo     — /api/co-demographics     (weekly serverless cache)
  *   Zillow   — /data/zillow-*.json      (weekly GitHub Actions)
  *   CAR      — /data/car-*.json         (monthly manual workflow)
- *   Kashli   — /data/kashli-market-data.json  (weekly GitHub Actions)
+ *   Kalshi   — /data/kalshi/prediction-market.json  (weekly GitHub Actions)
  *
  * Usage:
  *   const hdi = window.HousingDataIntegration;
  *   const all = await hdi.loadAllData();
  *   const car = hdi.getCachedData('car');
- *   const kashli = hdi.getCachedData('kashli');
  */
 (function (global) {
   "use strict";
@@ -190,43 +189,6 @@
   }
 
   /**
-   * Load Kashli Colorado market data from /data/kashli-market-data.json.
-   */
-  async function loadKashliData() {
-    const cached = _get("kashli");
-    if (cached) return cached;
-
-    try {
-      const data = await _fetchJson("data/kashli-market-data.json");
-      // Treat missing, empty, or error-flagged markets as unavailable:
-      //   - data is falsy (null/undefined) → file was empty or fetch returned nothing.
-      //   - data.error is truthy → the workflow that generated the file reported a failure.
-      if (!data || data.error) {
-        console.warn("[HousingData] Kashli data is unavailable: missing or error response.");
-        return null;
-      }
-      const markets = data.markets;
-      // Treat absent or non-object markets field as unavailable:
-      //   - markets is missing or not a plain object → schema mismatch / empty payload.
-      if (!markets || typeof markets !== 'object') {
-        console.warn("[HousingData] Kashli data is unavailable: markets field missing or invalid.");
-        return null;
-      }
-      // Treat a markets object with no keys as unavailable:
-      //   - empty object → workflow ran but returned no market entries.
-      if (Object.keys(markets).length === 0) {
-        console.warn("[HousingData] Kashli data is unavailable: markets object is empty.");
-        return null;
-      }
-      _set("kashli", data);
-      return data;
-    } catch (err) {
-      console.warn("[HousingData] Kashli load failed:", err.message);
-      return null;
-    }
-  }
-
-  /**
    * Format an ISO date string as dd-mm-yy.
    * @param {string} isoString
    * @returns {string}
@@ -241,26 +203,10 @@
   }
 
   /**
-   * Return attribution metadata for Kashli data (source name, URL, formatted fetch date).
-   * Returns null if Kashli data has not been loaded yet.
-   * @returns {{ source: string, sourceUrl: string, fetchedAt: string, formattedDate: string }|null}
-   */
-  function getKashliAttribution() {
-    const data = _get("kashli");
-    if (!data) return null;
-    return {
-      source:        data.source      || "Kashli API",
-      sourceUrl:     data.sourceUrl   || "https://api.kashli.com",
-      fetchedAt:     data.fetchedAt   || null,
-      formattedDate: data.fetchedAt ? formatDDMMYY(data.fetchedAt) : null,
-    };
-  }
-
-  /**
    * Load all data sources in parallel and return a unified object.
    * Each source gracefully returns null on failure so the rest still load.
    *
-   * @returns {Promise<{census, hud, demographics, zillow, car, kashli, metadata}>}
+   * @returns {Promise<{census, hud, demographics, zillow, car, metadata}>}
    */
   async function loadAllData() {
     const errors = [];
@@ -272,13 +218,12 @@
         return null;
       });
 
-    const [census, hud, demographics, zillow, car, kashli] = await Promise.all([
+    const [census, hud, demographics, zillow, car] = await Promise.all([
       wrap(loadCensusData(),      "census"),
       wrap(loadHUDData(),         "hud"),
       wrap(loadDemographicsData(),"demographics"),
       wrap(loadZillowData(),      "zillow"),
       wrap(loadCARData(),         "car"),
-      wrap(loadKashliData(),      "kashli"),
     ]);
 
     const sources = [];
@@ -287,7 +232,6 @@
     if (demographics) sources.push("CO Demographics");
     if (zillow)       sources.push("Zillow");
     if (car)          sources.push("CAR");
-    if (kashli)       sources.push("Kashli");
 
     const result = {
       census,
@@ -295,7 +239,6 @@
       demographics,
       zillow,
       car,
-      kashli,
       metadata: {
         lastUpdated: new Date(),
         loadTimeMs: Date.now() - startTime,
@@ -328,10 +271,8 @@
     loadDemographicsData,
     loadZillowData,
     loadCARData,
-    loadKashliData,
     loadAllData,
     getCachedData,
     formatDDMMYY,
-    getKashliAttribution,
   };
 })(window);

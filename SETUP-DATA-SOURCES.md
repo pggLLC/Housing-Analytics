@@ -14,7 +14,7 @@ Configure these in **Settings → Secrets and variables → Actions** of the rep
 |---|---|---|---|
 | `CENSUS_API_KEY` | **Required** | `fetch-census-acs.yml`, `build-hna-data.yml`, `data-refresh.yml`, `audit-endpoints.yml` | [api.census.gov/data/key_signup.html](https://api.census.gov/data/key_signup.html) — free, instant |
 | `FRED_API_KEY` | **Required** | `deploy.yml` (injected into `js/config.js`) | [fred.stlouisfed.org/docs/api/api_key.html](https://fred.stlouisfed.org/docs/api/api_key.html) — free, instant |
-| `KALSHI_API_KEY` | Optional | `fetch-kalshi.yml`, `fetch-kashli-data.yml` | [kalshi.com](https://kalshi.com) — requires account |
+| `KALSHI_API_KEY` | Optional | `fetch-kalshi.yml` | [kalshi.com](https://kalshi.com) — requires account |
 | `KALSHI_API_SECRET` | Optional | `fetch-kalshi.yml` | Same account as above |
 | `KALSHI_API_BASE_URL` | Optional | `fetch-kalshi.yml` | Default: `https://trading-api.kalshi.com/trade-api/v2` |
 | `ZILLOW_EMAIL` | Optional | `zillow-data-sync.yml` | Zillow Research account credentials |
@@ -34,7 +34,6 @@ publication cadences.
 |---|---|---|---|
 | Monday 02:00 | Weekly | `zillow-data-sync.yml` | `data/zillow-*.json` |
 | Monday 03:00 | Weekly | `fetch-kalshi.yml` | `data/kalshi/prediction-market.json` |
-| Monday 03:00 | Weekly | `fetch-kashli-data.yml` | `data/kashli-market-data.json` |
 | Monday 04:00 | Weekly | `cache-hud-gis-data.yml` | `data/hud-*` |
 | Monday 05:00 | Weekly | `fetch-chfa-lihtc.yml` | `data/chfa-lihtc.json`, `data/hna/lihtc/*.json` |
 | Monday 06:30 | Weekly | `build-hna-data.yml` | `data/hna/*.json` |
