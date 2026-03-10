@@ -90,7 +90,8 @@ Housing-Analytics/
 │   ├── census-acs-state.json    # ACS state-level data
 │   ├── co_ami_gap_by_county.json # Colorado AMI gap by county
 │   ├── fred-data.json           # Cached FRED economic data
-│   ├── prop123_jurisdictions.json # Prop 123 jurisdiction data
+│   ├── policy/
+│   │   └── prop123_jurisdictions.json # Prop 123 jurisdiction data
 │   └── states-10m.json          # US states TopoJSON
 │
 └── .github/
@@ -269,7 +270,7 @@ The following files in `/data/` are **referenced by the UI but are not included 
 | File | Referenced by | How to supply |
 |------|--------------|--------------|
 | `data/car-market.json` | `colorado-deep-dive.html` CAR market KPI panel | Run `node scripts/fetch-car-data.js` or configure the `FETCH_CAR_DATA` GitHub Actions workflow |
-| `data/prop123_jurisdictions.json` | `colorado-deep-dive.html` Prop 123 commitment table (`js/prop123-map.js`) | Populate from the [CDOLA commitment-filings portal](https://cdola.colorado.gov/commitment-filings) or run `node scripts/fetch-prop123.js` if available |
+| `data/policy/prop123_jurisdictions.json` | `colorado-deep-dive.html` Prop 123 commitment table (`js/prop123-map.js`) | Populate from the [CDOLA commitment-filings portal](https://cdola.colorado.gov/commitment-filings) or run `node scripts/fetch-prop123.js` if available |
 
 Without these files the affected panels display placeholder dashes or an explanatory message rather than crashing. All other panels continue to function normally.
 

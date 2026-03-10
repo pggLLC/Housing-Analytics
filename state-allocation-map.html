@@ -18,6 +18,9 @@
 <script src="js/vendor/d3.v7.min.js"></script>
   <script src="js/vendor/topojson.v3.min.js"></script>
   <script src="js/state-allocations-2026.js"></script>
+  <script src="js/state-allocations-2025.js"></script>
+  <script src="js/state-allocations-2024.js"></script>
+  <script src="js/state-allocations-historical.js"></script>
   <script defer="" src="js/navigation.js"></script>
   <script defer="" src="js/dark-mode-toggle.js"></script>
   <script defer="" src="js/mobile-menu.js"></script>
@@ -59,6 +62,32 @@
         <span class="kicker">2026 Data</span>
         <h1>Federal LIHTC Allocations by State</h1>
         <p class="page-sub">Interactive map showing Low-Income Housing Tax Credit allocations across all 50 states and D.C.</p>
+        <p style="font-size:.9rem;color:var(--muted);margin-top:.5rem;"><strong>Note:</strong> Figures represent <em>allocation authority</em> (the IRS per-capita ceiling each state may award), not units placed in service. A multi-year gap between allocation and project completion is typical. Historical values (2010–2023) are IRS per-capita estimates; confirmed state figures are noted where available.</p>
+        <div style="margin-top:var(--sp3);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+          <label for="sam-year-select" style="font-weight:600;font-size:.9rem;">Year:</label>
+          <select id="sam-year-select" style="padding:.3rem .6rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.9rem;" aria-label="Select allocation year">
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <optgroup label="Historical (2010–2023)">
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+            </optgroup>
+          </select>
+          <span id="sam-year-note" style="font-size:.8rem;color:var(--muted);"></span>
+        </div>
       </div>
 
       <!-- Statistics Cards -->
@@ -153,6 +182,39 @@
         if (tries > 60) { console.error('StateAllocations2026 not found'); return; }
         setTimeout(() => waitForData(tries + 1), 120);
       };
+
+      // Resolve dataset for a given year string using loaded globals + historical module.
+      const getDatasetForYear = (year) => {
+        if (year === '2026') return window.StateAllocations2026;
+        if (year === '2025') return window.StateAllocations2025;
+        if (year === '2024') return window.StateAllocations2024;
+        const yr = parseInt(year, 10);
+        if (window.StateAllocationsHistorical && yr >= 2010 && yr <= 2023) {
+          const hist = window.StateAllocationsHistorical;
+          const coRow = hist.getColorado(yr);
+          const states = {};
+          if (coRow) {
+            states['CO'] = { name: 'Colorado', allocation: coRow.allocation, population: coRow.population, perCapita: coRow.perCapita, status: coRow.status };
+          }
+          return { source: hist.source, year: yr, states, _historicalNote: 'Historical data — Colorado detail available; other states use IRS per-capita estimates.' };
+        }
+        return window.StateAllocations2026;
+      };
+
+      // Wire year selector to re-render
+      const yearSel = document.getElementById('sam-year-select');
+      if (yearSel) {
+        yearSel.addEventListener('change', () => {
+          const yr = yearSel.value;
+          const note = document.getElementById('sam-year-note');
+          // Use the historical module's year range if available; fall back to 2023.
+          const histYears = window.StateAllocationsHistorical ? window.StateAllocationsHistorical.years() : [];
+          const maxHistYear = histYears.length ? Math.max(...histYears) : 2023;
+          if (note) note.textContent = (parseInt(yr, 10) <= maxHistYear) ? 'Historical estimate — Colorado detail only' : '';
+          const ds = getDatasetForYear(yr);
+          if (ds && ds.states) init(ds);
+        });
+      }
 
       const init = (ds) => {
         const rows = Object.entries(ds.states).map(([abbr, s]) => ({ abbr, ...s }));
