@@ -1,5 +1,5 @@
 /* ================================================================
-   pages.css — LIHTC Analytics Hub
+   pages.css — COHO Analytics
    Comprehensive shared component library.
    Load order: site-theme.css → layout.css → pages.css
    ================================================================ */
@@ -812,4 +812,39 @@
   min-height: 360px;
   height: 360px;
   position: relative;
+}
+
+
+/* ── Utility classes ──────────────────────────────────────── */
+/* Shared layout patterns extracted from repeated inline styles */
+
+/* Section with alternate background, bottom border */
+.section-alt {
+  padding-block: var(--sp5);
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Section with standard vertical padding only */
+.section-padded {
+  padding-block: var(--sp5);
+}
+
+/* Narrow reading-width container (for prose/intro sections) */
+.narrow-container {
+  max-width: 900px;
+}
+
+/* Text alignment */
+.text-center {
+  text-align: center;
+}
+
+/* Margin-bottom spacing helpers */
+.mb-4 {
+  margin-bottom: var(--sp4);
+}
+
+.mb-3 {
+  margin-bottom: var(--sp3);
 }

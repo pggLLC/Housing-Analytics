@@ -99,7 +99,7 @@ After GitHub Pages finishes publishing (typically 1–3 minutes):
 
    | URL path | Expected page |
    |----------|---------------|
-   | `/` | LIHTC Analytics Hub home |
+   | `/` | COHO Analytics home |
    | `/dashboard.html` | Main analytics dashboard |
    | `/regional.html` | Regional housing data |
    | `/census-dashboard.html` | Census data dashboard (archived to `_dev/`) |

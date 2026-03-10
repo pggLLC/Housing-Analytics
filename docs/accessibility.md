@@ -1,4 +1,4 @@
-# Accessibility Guide — LIHTC Analytics Hub
+# Accessibility Guide — COHO Analytics
 
 WCAG 2.1 AA compliance reference for developers maintaining this site.
 

@@ -1,4 +1,4 @@
-# Performance Optimization Guide — LIHTC Analytics Hub
+# Performance Optimization Guide — COHO Analytics
 
 Target Lighthouse scores: **≥ 95 desktop / ≥ 90 mobile**.
 
