@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "co_ami_gap_by_county.schema.json",
+  "title": "Colorado AMI Gap by County",
+  "description": "Schema for data/co_ami_gap_by_county.json — AMI affordability gap analysis by county.",
+  "type": "object",
+  "required": ["meta", "bands", "statewide", "counties"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["generated_at"],
+      "description": "Metadata object (sentinel key — must be preserved).",
+      "properties": {
+        "state":                  { "type": "string" },
+        "hud_income_limits_year": { "type": "integer" },
+        "acs_year":               { "type": "integer" },
+        "generated_at": {
+          "type": "string",
+          "description": "ISO-8601 date string of when this file was generated."
+        },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "bands": {
+      "type": "array",
+      "description": "AMI percentage bands used (e.g. [30,40,50,60,70,80,100]).",
+      "items": { "type": "integer", "minimum": 1 },
+      "minItems": 1
+    },
+    "statewide": {
+      "$ref": "#/definitions/geoRecord"
+    },
+    "counties": {
+      "type": "array",
+      "description": "Per-county affordability records. Must cover all 64 Colorado counties (Rule 4).",
+      "minItems": 64,
+      "maxItems": 64,
+      "items": { "$ref": "#/definitions/countyRecord" }
+    }
+  },
+  "definitions": {
+    "bandMap": {
+      "type": "object",
+      "description": "Object keyed by AMI band percentage string (e.g. '30', '50').",
+      "additionalProperties": { "type": ["number", "null"] }
+    },
+    "geoRecord": {
+      "type": "object",
+      "required": ["fips", "ami_4person"],
+      "properties": {
+        "fips":        { "type": "string" },
+        "county_name": { "type": "string" },
+        "ami_4person": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "4-person median income — must not be null (Rule 2)."
+        },
+        "affordable_rent_monthly":              { "$ref": "#/definitions/bandMap" },
+        "households_le_ami_pct":                { "$ref": "#/definitions/bandMap" },
+        "units_priced_affordable_le_ami_pct":   { "$ref": "#/definitions/bandMap" },
+        "gap_units_minus_households_le_ami_pct":{ "$ref": "#/definitions/bandMap" },
+        "coverage_le_ami_pct":                  { "$ref": "#/definitions/bandMap" }
+      },
+      "additionalProperties": true
+    },
+    "countyRecord": {
+      "allOf": [{ "$ref": "#/definitions/geoRecord" }],
+      "required": ["fips"],
+      "properties": {
+        "fips": {
+          "type": "string",
+          "pattern": "^[0-9]{5}$",
+          "description": "5-digit county FIPS code (Rule 1)."
+        }
+      }
+    }
+  }
+}
