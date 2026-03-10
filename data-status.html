@@ -217,9 +217,11 @@
 
       var liveRegion = document.getElementById('aria-live-region');
       if (liveRegion) {
-        liveRegion.textContent = '';
+        // Toggle aria-live off then on to force re-announcement in all AT implementations
+        liveRegion.setAttribute('aria-live', 'off');
+        liveRegion.textContent = summary.textContent;
         requestAnimationFrame(function () {
-          liveRegion.textContent = summary.textContent;
+          liveRegion.setAttribute('aria-live', 'polite');
         });
       }
     });

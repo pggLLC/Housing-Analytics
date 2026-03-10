@@ -231,7 +231,16 @@
 
   function _badgeText(allOk, anyCriticalFail, ageMs) {
     if (anyCriticalFail) return '⚠ Data unavailable';
-    var ageStr = ageMs !== null ? ' · ' + _relTime(ageMs) + ' ago' : '';
+    var ageStr = '';
+    if (ageMs !== null && ageMs !== undefined) {
+      if (ageMs < AGE_FRESH) {
+        ageStr = ' · ' + _relTime(ageMs) + ' ago';
+      } else if (ageMs < AGE_RECENT) {
+        ageStr = ' · cached ' + _relTime(ageMs) + ' ago';
+      } else {
+        ageStr = ' · data may be stale (' + _relTime(ageMs) + ')';
+      }
+    }
     return allOk ? ('✅ Data current' + ageStr) : ('⚠ Some data outdated' + ageStr);
   }
 

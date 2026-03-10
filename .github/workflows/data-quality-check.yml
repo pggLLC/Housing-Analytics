@@ -68,28 +68,23 @@ jobs:
               print("::error::data/fred-data.json has no 'series' key or it is empty")
               sys.exit(1)
 
-          # Support both dict and list formats
+          # Normalise to a list of (name, observations) tuples for both dict/list formats
           if isinstance(series, dict):
-              items = series.values()
-              total = len(series)
+              items = [(k, v.get('observations', [])) for k, v in series.items()]
           else:
-              items = series
-              total = len(series)
+              items = [(s.get('name', str(i)), s.get('observations', [])) for i, s in enumerate(series)]
 
-          empty = [
-              (getattr(s, 'get', lambda k, d=None: d)('name', str(i)) if hasattr(s, 'get') else str(i))
-              for i, s in enumerate(items)
-              if not (s.get('observations', []) if hasattr(s, 'get') else [])
-          ]
+          empty_names = [name for name, obs in items if not obs]
+          total = len(items)
 
-          if empty:
-              print(f"::warning::FRED series with 0 observations: {', '.join(empty[:10])}")
+          if empty_names:
+              print(f"::warning::FRED series with 0 observations: {', '.join(empty_names[:10])}")
 
-          if len(empty) == total:
+          if len(empty_names) == total:
               print("::error::ALL FRED series have 0 observations")
               sys.exit(1)
 
-          print(f"✅ FRED data: {total} series, {len(empty)} with 0 observations")
+          print(f"✅ FRED data: {total} series, {len(empty_names)} with 0 observations")
           EOF
 
       - name: Check CHFA-LIHTC data
