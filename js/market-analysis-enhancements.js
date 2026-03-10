@@ -226,7 +226,7 @@
   function exportWithMetadata(result, quality, scenarios, benchmark, pipeline) {
     return {
       exportedAt:     new Date().toISOString(),
-      tool:           'Colorado Housing Analytics — Public Market Analysis (PMA)',
+      tool:           'COHO Analytics — Public Market Analysis (PMA)',
       version:        '2.0',
       provenance: {
         acsSources:   'US Census Bureau ACS 5-Year Estimates (B01003, B25003, B25004, B25070, B25064)',

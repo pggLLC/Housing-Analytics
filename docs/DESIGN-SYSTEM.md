@@ -1,4 +1,4 @@
-# DESIGN SYSTEM — LIHTC Analytics Hub
+# DESIGN SYSTEM — COHO Analytics
 
 Complete reference for all design tokens, components, typography, spacing, and guidelines.
 

@@ -1,5 +1,5 @@
 /**
- * mobile-menu.js — Affordable Housing Intelligence
+ * mobile-menu.js — COHO Analytics
  *
  * Handles the mobile navigation drawer injected by navigation.js.
  * - Slide-in drawer with backdrop.

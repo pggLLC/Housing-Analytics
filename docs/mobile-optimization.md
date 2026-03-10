@@ -1,4 +1,4 @@
-# Mobile Optimization Guide — LIHTC Analytics Hub
+# Mobile Optimization Guide — COHO Analytics
 
 ---
 

@@ -6,39 +6,34 @@
 (function () {
   const GROUPS = [
     {
-      label: "Analysis",
+      label: "Platform",
       items: [
         { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
         { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
-        { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
         { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail" },
-        { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
-        { label: "Colorado Market", href: "colorado-market.html", desc: "Market conditions" },
+        { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
+        { label: "LIHTC Dashboard", href: "LIHTC-dashboard.html", desc: "Allocation maps" },
       ]
     },
     {
-      label: "Dashboards",
+      label: "Data &amp; Research",
       items: [
-        { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
-        { label: "LIHTC Dashboard", href: "LIHTC-dashboard.html", desc: "Allocation maps" },
-        { label: "Census Dashboard", href: "census-dashboard.html", desc: "ACS data" },
+        { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
+        { label: "State Allocations", href: "state-allocation-map.html", desc: "2026 LIHTC allocations" },
         { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
-        { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
         { label: "Construction Costs", href: "construction-commodities.html", desc: "PPI & commodities" },
-        { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
         { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "All 43+ data sources" },
       ]
     },
     {
-      label: "Intelligence",
+      label: "Policy &amp; Insights",
       items: [
         { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
-        { label: "State Allocations", href: "state-allocation-map.html", desc: "2026 LIHTC allocations" },
         { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
-        { label: "LIHTC Enhancement", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
+        { label: "LIHTC Enhancement (AHCIA)", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
         { label: "Housing Legislation", href: "housing-legislation-2026.html", desc: "2026 bills tracker" },
         { label: "Policy Briefs", href: "policy-briefs.html", desc: "Research summaries" },
-        { label: "Article: Pricing", href: "article-pricing.html", desc: "Pricing dynamics" },
+        { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
       ]
     },
     {
@@ -46,9 +41,12 @@
       items: [
         { label: "Home", href: "index.html", desc: "Platform overview" },
         { label: "About COHO", href: "about.html", desc: "Platform & methodology" },
+        { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
+        { label: "Colorado Market", href: "colorado-market.html", desc: "Market conditions" },
+        { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
         { label: "Sitemap", href: "sitemap.html", desc: "All pages" },
-        { label: "Dashboard (Legacy)", href: "dashboard.html", desc: "Legacy dashboard" },
         { label: "Privacy Policy", href: "privacy-policy.html", desc: "Data & privacy" },
+        { label: "Dashboard (Legacy)", href: "dashboard.html", desc: "Legacy dashboard" },
       ]
     }
   ];
@@ -212,15 +210,15 @@
         </div>
         <div class="footer-col">
           <strong>Platform</strong>
-          <a href="${normalizeHref('about.html')}">About & Methodology</a>
-          <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
-          <a href="${normalizeHref('privacy-policy.html')}">Privacy Policy</a>
+          <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
+          <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
+          <a href="${normalizeHref('colorado-deep-dive.html')}">Colorado Deep Dive</a>
         </div>
         <div class="footer-col">
           <strong>Data</strong>
           <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
           <a href="${normalizeHref('LIHTC-dashboard.html')}">LIHTC Allocations</a>
-          <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
+          <a href="${normalizeHref('market-intelligence.html')}">Market Intelligence</a>
         </div>
         <div class="footer-disclaimer">
           <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
