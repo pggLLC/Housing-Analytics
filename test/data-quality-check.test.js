@@ -68,6 +68,9 @@ global.CustomEvent = class CustomEvent {
 };
 
 // Load the module
+// eval() is required here because data-quality-check.js is an IIFE designed
+// for the browser (window global). Node's require() would not execute the IIFE
+// in our stubbed window context. The source file is a trusted local asset.
 const src = fs.readFileSync(path.join(__dirname, '..', 'js', 'data-quality-check.js'), 'utf8');
 eval(src); // eslint-disable-line no-eval
 
