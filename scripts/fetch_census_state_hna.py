@@ -64,13 +64,14 @@ ACS_PROFILE_VARS = [
 ]
 
 ACS_S0801_VARS = [
-    'S0801_C01_001E',  # Workers 16+
-    'S0801_C01_002E',  # Drove alone (%)
-    'S0801_C01_003E',  # Car/truck/van (%)
+    'S0801_C01_001E',  # Workers 16+ (count)
+    'S0801_C01_002E',  # Car, truck, or van — total parent (drove-alone + carpooled, %)
+    'S0801_C01_003E',  # Drove alone (%)
     'S0801_C01_004E',  # Carpooled (%)
     'S0801_C01_005E',  # Public transit (%)
     'S0801_C01_006E',  # Walked (%)
-    'S0801_C01_007E',  # Other means (%)
+    'S0801_C01_007E',  # Taxicab, motorcycle, bicycle, or other means (%)
+    'S0801_C01_008E',  # Worked at home (%)
     'S0801_C01_018E',  # Mean travel time to work (minutes)
     'NAME',
 ]

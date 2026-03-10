@@ -1613,14 +1613,15 @@
     }
 
     const vars = [
-      'S0801_C01_001E', // total workers 16+
-      'S0801_C01_002E', // car, truck, van - drove alone
-      'S0801_C01_003E', // carpool
-      'S0801_C01_004E', // public transportation
-      'S0801_C01_005E', // walked
-      'S0801_C01_006E', // taxi/motorcycle/bicycle/other
-      'S0801_C01_007E', // worked from home
-      'S0801_C01_018E', // mean travel time (minutes)
+      'S0801_C01_001E', // total workers 16+ (count)
+      'S0801_C01_002E', // car, truck, or van — total (parent; drove-alone + carpooled)
+      'S0801_C01_003E', // drove alone (%)
+      'S0801_C01_004E', // carpooled (%)
+      'S0801_C01_005E', // public transportation (%)
+      'S0801_C01_006E', // walked (%)
+      'S0801_C01_007E', // taxicab, motorcycle, bicycle, or other means (%)
+      'S0801_C01_008E', // worked at home (%)
+      'S0801_C01_018E', // mean travel time to work (minutes)
     ];
 
     const forParam = geoType === 'county'
@@ -3186,47 +3187,40 @@
     const canvas = document.getElementById('chartMode');
     if (!canvas) return;
 
-    // Show placeholder when S0801 data is absent or total is missing
-    if (!s0801 || !s0801.S0801_C01_001E) {
+    const showPlaceholder = (msg) => {
       const box = canvas.parentElement;
       if (box) {
-        box.textContent = 'Data unavailable for this geography (ACS S0801 not reported).';
+        box.textContent = msg || 'Data unavailable for this geography (ACS S0801 not reported).';
         box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem';
       }
-      return;
-    }
+    };
+
+    // Show placeholder when S0801 data is absent or total workers is missing
+    if (!s0801 || !s0801.S0801_C01_001E) { showPlaceholder(); return; }
 
     const t = chartTheme();
-    const total = Number(s0801.S0801_C01_001E);
+    const totalWorkers = Number(s0801.S0801_C01_001E);
+    if (!Number.isFinite(totalWorkers) || totalWorkers <= 0) { showPlaceholder(); return; }
 
-    if (!Number.isFinite(total) || total <= 0) {
-      const box = canvas.parentElement;
-      if (box) {
-        box.textContent = 'Data unavailable for this geography (ACS S0801 not reported).';
-        box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem';
-      }
-      return;
-    }
-
-    const drove   = Number(s0801.S0801_C01_002E);
-    const carpool = Number(s0801.S0801_C01_003E);
-    const transit = Number(s0801.S0801_C01_004E);
-    const walked  = Number(s0801.S0801_C01_005E);
-    const other   = Number(s0801.S0801_C01_006E);
-    const wfh     = Number(s0801.S0801_C01_007E);
-
+    // ACS S0801 C01 column — individual mode shares as percentages of total workers.
+    // 002E is the car/truck/van PARENT total (drove-alone + carpooled); it is not
+    // displayed as its own bar because 003E and 004E already capture each sub-mode.
+    // 008E (worked at home) is present in live Census fetches; gracefully absent from
+    // cached files that pre-date this variable being added to the fetch list.
     // Per Rule 10: colors drawn from var(--chart-*) tokens in chartTheme().chartColors
     const c = t.chartColors;
-    const raw = [
-      { k:'Drove alone',    v:drove,   color:c[0] },
-      { k:'Carpool',        v:carpool, color:c[1] },
-      { k:'Transit',        v:transit, color:c[2] },
-      { k:'Walk',           v:walked,  color:c[4] },
-      { k:'Other',          v:other,   color:c[3] },
-      { k:'Work from home', v:wfh,     color:c[5] },
-    ].filter(d => Number.isFinite(d.v));
+    const items = [
+      { k:'Drove alone',    v: Number(s0801.S0801_C01_003E), color: c[0] },
+      { k:'Carpool',        v: Number(s0801.S0801_C01_004E), color: c[1] },
+      { k:'Transit',        v: Number(s0801.S0801_C01_005E), color: c[2] },
+      { k:'Walk',           v: Number(s0801.S0801_C01_006E), color: c[4] },
+      { k:'Other',          v: Number(s0801.S0801_C01_007E), color: c[3] },
+      { k:'Work from home', v: Number(s0801.S0801_C01_008E), color: c[5] },
+    ].filter(d => Number.isFinite(d.v) && d.v > 0);
 
-    const items = raw.map(d => ({ k:d.k, v:(d.v/total)*100, color:d.color }));
+    if (items.length === 0) { showPlaceholder(); return; }
+
+    const workerLabel = `${fmtNum(totalWorkers)} workers 16+`;
 
     makeChart(canvas.getContext('2d'), {
       type:'bar',
@@ -3243,7 +3237,7 @@
         maintainAspectRatio:false,
         plugins:{
           legend:{ labels:{ color:t.text } },
-          subtitle:{ display:true, text:'Source: Census ACS S0801 (Commuting Characteristics)', color:t.muted, font:{ size:10 }, padding:{ bottom:4 } },
+          subtitle:{ display:true, text:`Source: Census ACS S0801 · ${workerLabel}`, color:t.muted, font:{ size:10 }, padding:{ bottom:4 } },
           tooltip:{
             callbacks:{
               label:(ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
