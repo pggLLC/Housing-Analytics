@@ -4,27 +4,28 @@
 (function(){
   if (!window.fetch) return;
 
-  const originalFetch = window.fetch;
+  var originalFetch = window.fetch;
 
   window.fetch = function(input, init){
     try{
-      let url = (typeof input === "string") ? input : input.url;
+      var url = (typeof input === "string") ? input : input.url;
+      var sep, fredKey, censusKey;
 
       if (window.APP_CONFIG) {
         // FRED
         if ( (url.includes("fred.stlouisfed.org") || url.includes("api.stlouisfed.org"))  && !url.includes("api_key=")) {
-          const fredKey = window.APP_CONFIG.FRED_API_KEY || "";
+          fredKey = window.APP_CONFIG.FRED_API_KEY || "";
           if (fredKey) {
-            const sep = url.includes("?") ? "&" : "?";
+            sep = url.includes("?") ? "&" : "?";
             url = url + sep + "api_key=" + encodeURIComponent(fredKey);
           }
         }
 
         // Census
         if (url.includes("api.census.gov") && !url.includes("key=")) {
-          const censusKey = window.APP_CONFIG.CENSUS_API_KEY || "";
+          censusKey = window.APP_CONFIG.CENSUS_API_KEY || "";
           if (censusKey) {
-            const sep = url.includes("?") ? "&" : "?";
+            sep = url.includes("?") ? "&" : "?";
             url = url + sep + "key=" + encodeURIComponent(censusKey);
           }
         }
