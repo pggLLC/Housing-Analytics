@@ -312,7 +312,6 @@
 .featured-card h3 {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-strong);
   margin: 0;
   line-height: 1.35;
 }
@@ -320,12 +319,10 @@
   flex: 1;
   margin: 0;
   font-size: var(--small);
-  color: var(--muted);
   line-height: 1.65;
 }
 .featured-card .card-meta {
   font-size: var(--tiny);
-  color: var(--faint);
   padding-top: var(--sp2);
   border-top: 1px solid var(--border);
 }
@@ -371,7 +368,6 @@
   font-size: 1.05rem;
   font-weight: 700;
   margin: 0;
-  color: var(--text-strong);
 }
 .journey-card p {
   font-size: var(--small);
