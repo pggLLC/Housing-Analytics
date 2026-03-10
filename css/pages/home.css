@@ -70,8 +70,8 @@
 }
 
 .featured-card {
-  background: var(--card) !important;
-  border: 1px solid var(--border) !important;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--sp4);
   border-top: 3px solid var(--accent);
@@ -103,7 +103,6 @@
 
 .featured-card .card-meta {
   font-size: var(--small);
-  color: var(--faint) !important;
   padding-top: var(--sp2);
   border-top: 1px solid var(--border);
 }
@@ -128,8 +127,8 @@
 }
 
 .journey-card {
-  background: var(--card) !important;
-  border: 1px solid var(--border) !important;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--sp4);
   text-align: center;
