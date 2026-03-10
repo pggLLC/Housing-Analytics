@@ -15,6 +15,7 @@
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
+  <script src="js/data-quality-check.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -47,6 +48,8 @@
 <div class="kicker">Real-time • FRED</div>
 <h1>Economic Dashboard</h1>
 <small id="economicDataTimestamp" class="data-timestamp"></small>
+<span class="data-reliability-badge" aria-live="polite" aria-label="Data status loading" style="margin-left:.5rem;">Checking data…</span>
+<a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.5rem;">View diagnostics</a>
 <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp3);">
         Macro conditions that determine deal outcomes are tracked in real time. Interest rate movements affect equity pricing and permanent debt terms. Construction cost indices influence per-unit budgets and change-order exposure. Labor market tightness impacts contractor bids and development timelines. Housing supply and vacancy data define the market case for new units.
       </p>
