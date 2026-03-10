@@ -64,6 +64,10 @@ const HARD_FAIL_URL_PATTERNS = [
 // TIGERweb requests are intercepted and mocked to avoid CI network failures
 const TIGERWEB_URL_PATTERN = /tigerweb\.geo\.census\.gov/i;
 
+// CHFA LIHTC ArcGIS FeatureServer requests are intercepted and mocked to avoid CI network failures.
+// Matches the org-specific ArcGIS REST endpoint used by co-lihtc-map.js and data-service.js.
+const CHFA_LIHTC_URL_PATTERN = /services\.arcgis\.com\/VTyQ9soqVukalItT\//i;
+
 // Console message types treated as hard failures
 const HARD_FAIL_CONSOLE_LEVELS = ['error'];
 
@@ -132,6 +136,53 @@ function mockTigerwebResponse(url) {
   };
 }
 
+/**
+ * Returns a minimal mock response body for a CHFA LIHTC ArcGIS REST request.
+ * Handles the /layers service-info endpoint as well as /query endpoints in
+ * both GeoJSON (f=geojson) and ArcGIS JSON (f=json) formats.
+ */
+function mockChfaLihtcResponse(url) {
+  // /layers endpoint — return a single-layer service descriptor
+  if (/\/layers(\?|$)/i.test(url)) {
+    return {
+      layers: [{ id: 0, name: 'LIHTC', type: 'Feature Layer' }],
+      tables: [],
+    };
+  }
+
+  const MOCK_POINT = [-104.9903, 39.7392]; // Denver, CO
+
+  // ArcGIS JSON format (f=json)
+  if (/[?&]f=json(&|$)/i.test(url)) {
+    return {
+      features: [{
+        attributes: {
+          OBJECTID: 1,
+          Proj_Name: 'Mock LIHTC Project',
+          Proj_St: 'CO',
+          CNTY_FIPS: '08031',
+        },
+        geometry: { x: MOCK_POINT[0], y: MOCK_POINT[1], spatialReference: { wkid: 4326 } },
+      }],
+      exceededTransferLimit: false,
+    };
+  }
+
+  // Default: GeoJSON FeatureCollection (f=geojson or unspecified)
+  return {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: MOCK_POINT },
+      properties: {
+        Proj_Name: 'Mock LIHTC Project',
+        Proj_St: 'CO',
+        CNTY_FIPS: '08031',
+      },
+    }],
+  };
+}
+
 async function auditPage(browser, pageConfig) {
   const url = BASE_URL + pageConfig.path;
   const result = {
@@ -161,6 +212,24 @@ async function auditPage(browser, pageConfig) {
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify(mockTigerwebResponse(reqUrl)),
+    });
+  });
+
+  // Intercept CHFA LIHTC ArcGIS FeatureServer requests to avoid CI network failures.
+  // The page has local-JSON and embedded fallbacks, but the failed request itself
+  // triggers a hard-failure in the audit before the fallback logic can run.
+  await page.route(CHFA_LIHTC_URL_PATTERN, async (route) => {
+    const reqUrl = route.request().url();
+    console.log(`    [mock] CHFA LIHTC ArcGIS intercepted: ${reqUrl}`);
+    // Rule 9: every ArcGIS FeatureServer /query must include outSR=4326.
+    // The /layers endpoint is metadata-only so the check is skipped for it.
+    if (/\/query(\?|$)/i.test(reqUrl) && !/[?&]outSR=4326(&|$)/i.test(reqUrl)) {
+      console.warn(`    [Rule 9 violation] ArcGIS query is missing outSR=4326: ${reqUrl}`);
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(mockChfaLihtcResponse(reqUrl)),
     });
   });
 
