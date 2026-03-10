@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * validate.js — Affordable Housing Intelligence
+ * validate.js — COHO Analytics
  * Checks that all referenced CSS and JS files exist.
  */
 const fs = require('fs');

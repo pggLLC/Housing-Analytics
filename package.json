@@ -1,8 +1,8 @@
 {
-  "name": "lihtc-analytics-hub",
+  "name": "coho-analytics",
   "version": "2.0.0",
-  "description": "Data-driven insights into LIHTC allocations, affordable housing development, and market dynamics across the United States.",
-  "homepage": "https://github.com/your-org/lihtc-analytics-hub",
+  "description": "COHO Analytics — data-driven decision-support platform for affordable housing professionals: LIHTC allocations, market feasibility, and economic indicators.",
+  "homepage": "https://pggllc.github.io/Housing-Analytics/",
   "license": "MIT",
   "private": true,
   "scripts": {

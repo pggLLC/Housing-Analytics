@@ -1,5 +1,5 @@
-# LIHTC Analytics Hub - Quick Reference
-Version: 1.0 - February 14, 2026
+# COHO Analytics - Quick Reference
+Version: 2.0 - March 2026
 
 ## Installation (3 Steps)
 

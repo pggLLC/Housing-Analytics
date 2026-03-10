@@ -1,4 +1,4 @@
-// Affordable Housing Intelligence - Main JavaScript
+// COHO Analytics - Main JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle

@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## Rebrand: COHO Analytics
+**Date:** March 2026
+
+### Summary
+Rebranded the site from "Affordable Housing Intelligence" to "COHO Analytics" across all pages, navigation, metadata, CSS headers, JS files, docs, and support files. Updated `package.json` name to `coho-analytics` and homepage to the live GitHub Pages URL. Restructured navigation groups to emphasize the core 5-page flagship workflow. Added CSS utility classes for shared layout patterns.
+
+### Changed Files
+
+- `package.json` — Updated `name` to `coho-analytics`, `description`, and `homepage`
+- `README.md` — Updated heading, overview, and license line to "COHO Analytics"
+- `LICENSE` — Updated copyright from "LIHTC Analytics Hub" to "COHO Analytics"
+- `css/print.css` — Updated header comment and `body::after` print footer brand text
+- `css/layout.css`, `css/styles.css`, `css/performance.css`, `css/responsive.css`, `css/dark-mode.css`, `css/pages.css` — Updated header comments
+- `css/pages.css` — Added utility classes: `.section-alt`, `.section-padded`, `.narrow-container`, `.text-center`, `.mb-4`, `.mb-3`
+- `validate.js`, `scripts/validate.js` — Updated comment headers
+- `js/main.js`, `js/mobile-menu.js` — Updated comment headers
+- `js/navigation.js` — Restructured nav groups to Platform / Data & Research / Policy & Insights / About; updated footer flagship links
+- `dashboard-data-quality.html`, `chfa-portfolio.html`, `market-analysis.html`, `market-intelligence.html`, `compliance-dashboard.html`, `dashboard-data-sources-ui.html` — Updated `<title>` and meta description
+- `docs/dark-mode.md`, `docs/performance.md`, `docs/accessibility.md`, `docs/mobile-optimization.md`, `docs/QUICK-REFERENCE.md` — Updated heading brand references
+- `docs/SITE_AUDIT_GIS.md` — Updated brand reference in index table row
+- `index.html`, `housing-needs-assessment.html`, `market-analysis.html`, `colorado-deep-dive.html`, `economic-dashboard.html`, `LIHTC-dashboard.html` — Phase 4 polish: improved intro copy, meta descriptions, data credit lines
+- `CHANGELOG.md` — Created this entry
+
+---
+
 ## Rebrand: Affordable Housing Intelligence
 **Date:** February 2026
 

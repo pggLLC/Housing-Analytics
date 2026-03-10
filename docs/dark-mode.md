@@ -1,4 +1,4 @@
-# Dark Mode Implementation Guide — LIHTC Analytics Hub
+# Dark Mode Implementation Guide — COHO Analytics
 
 ---
 
