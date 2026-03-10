@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chfa-lihtc.schema.json",
+  "title": "CHFA LIHTC GeoJSON FeatureCollection",
+  "description": "Schema for data/chfa-lihtc.json — LIHTC project locations fetched from the CHFA ArcGIS service.",
+  "type": "object",
+  "required": ["type", "fetchedAt", "features"],
+  "additionalProperties": true,
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "FeatureCollection"
+    },
+    "fetchedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp of the fetch (sentinel key — must be preserved)."
+    },
+    "source": {
+      "type": "string",
+      "description": "URL of the originating ArcGIS FeatureServer."
+    },
+    "features": {
+      "type": "array",
+      "description": "Array of GeoJSON Feature objects. Must contain at least one record.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type", "geometry", "properties"],
+        "properties": {
+          "type": { "type": "string", "const": "Feature" },
+          "geometry": {
+            "type": "object",
+            "required": ["type", "coordinates"],
+            "properties": {
+              "type": { "type": "string" },
+              "coordinates": { "type": "array" }
+            }
+          },
+          "properties": {
+            "type": "object",
+            "required": ["N_UNITS", "LI_UNITS", "CNTY_FIPS"],
+            "properties": {
+              "PROJECT":    { "type": ["string", "null"] },
+              "PROJ_ADD":   { "type": ["string", "null"] },
+              "PROJ_CTY":   { "type": ["string", "null"] },
+              "PROJ_ST":    { "type": ["string", "null"] },
+              "CNTY_NAME":  { "type": ["string", "null"] },
+              "CNTY_FIPS": {
+                "type": "string",
+                "pattern": "^[0-9]{5}$",
+                "description": "5-digit county FIPS code (Rule 1)."
+              },
+              "STATEFP":    { "type": ["string", "null"] },
+              "COUNTYFP":   { "type": ["string", "null"] },
+              "N_UNITS": {
+                "type": ["integer", "number"],
+                "minimum": 0,
+                "description": "Total units in project (must not be null — Rule 2)."
+              },
+              "LI_UNITS": {
+                "type": ["integer", "number"],
+                "minimum": 0,
+                "description": "Low-income units (must not be null — Rule 2)."
+              },
+              "YR_PIS":  { "type": ["string", "null"] },
+              "YR_ALLOC":{ "type": ["string", "null"] },
+              "CREDIT":  { "type": ["string", "integer", "number", "null"] },
+              "NON_PROF":{ "type": ["string", "integer", "number", "null"] },
+              "QCT":     { "type": ["string", "integer", "number", "null"] },
+              "DDA":     { "type": ["string", "integer", "number", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
