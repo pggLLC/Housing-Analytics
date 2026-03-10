@@ -611,23 +611,17 @@
   // --- TIGERweb boundary ---
   async function fetchBoundary(geoType, geoid){
     // Use TIGERweb MapServer for geometry as GeoJSON
-    // States:  TIGERweb/State_County MapServer/0
-    // Counties: TIGERweb/State_County MapServer/1
-    // Places: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
-    // CDPs:   TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5
+    // States:    TIGERweb/State_County MapServer/0
+    // Counties:  TIGERweb/State_County MapServer/1
+    // Places:    TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
+    // ConCities: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/3 (consolidated cities fallback)
+    // CDPs:      TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5
 
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
-    let base;
-    if (geoType === 'state') {
-      base = `${countyService}/0`;
-    } else if (geoType === 'county') {
-      base = `${countyService}/1`;
-    } else if (geoType === 'place') {
-      base = `${service}/2`;
-    } else {
-      base = `${service}/5`;
-    }
+    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 2 : 5;
+    const svc   = (geoType === 'county' || geoType === 'state') ? countyService : service;
+    const base  = `${svc}/${layer}`;
 
     const where = `GEOID='${geoid}'`;
     const params = new URLSearchParams({
@@ -641,6 +635,17 @@
     if (!r.ok) throw new Error(`Boundary fetch failed (${r.status})`);
     const gj = await r.json();
     if (!Array.isArray(gj?.features) || gj.features.length === 0) {
+      // For places, fall back to Consolidated Cities layer (layer 3) before giving up.
+      // Some Colorado municipalities (e.g. Broomfield) are classified as consolidated
+      // cities in TIGERweb and are absent from the Incorporated Places layer (layer 2).
+      if (geoType === 'place') {
+        const fallbackUrl = `${service}/3/query?${params.toString()}`;
+        const fallbackResp = await fetchWithTimeout(fallbackUrl, {}, 15000);
+        if (fallbackResp.ok) {
+          const fallbackGj = await fallbackResp.json();
+          if (Array.isArray(fallbackGj?.features) && fallbackGj.features.length > 0) return fallbackGj;
+        }
+      }
       throw new Error(`No boundary found for ${geoType} ${geoid} in TIGERweb`);
     }
     return gj;
@@ -4594,9 +4599,9 @@
     if (tsEl) {
       const generated = window.__dataFreshness && window.__dataFreshness.generated;
       if (generated && typeof window.__formatFreshnessDate === 'function') {
-        tsEl.textContent = 'Data last updated: ' + window.__formatFreshnessDate(generated);
+        tsEl.textContent = 'Data as of ' + window.__formatFreshnessDate(generated);
       } else {
-        tsEl.textContent = 'Data last updated: ' + new Date().toLocaleDateString();
+        tsEl.textContent = 'Data as of ' + new Date().toLocaleDateString();
       }
     }
 
