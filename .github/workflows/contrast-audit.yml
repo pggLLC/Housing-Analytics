@@ -119,18 +119,22 @@ jobs:
             report_file="contrast-reports/${page_name//\//-}.json"
 
             echo "Auditing: $page"
-            url="http://localhost:8080/$page"
 
-            # Run the contrast audit for this page, capture exit code
-            if CONTRAST_BASE_URL="http://localhost:8080" CONTRAST_PAGE="$page" \
-               node scripts/contrast-audit.js "$url" > "$report_file" 2>&1; then
+            # Run the Playwright-based contrast audit for this page.
+            # CONTRAST_FIX=1 applies fixes in-browser and records before/after ratios.
+            # CONTRAST_REPORT_FILE writes the JSON report; exit code reflects pass/fail.
+            if CONTRAST_BASE_URL="http://localhost:8080" \
+               CONTRAST_PAGE="$page" \
+               CONTRAST_FIX=1 \
+               CONTRAST_REPORT_FILE="$report_file" \
+               node scripts/contrast-audit/run.js; then
               status="✅ Pass"
               passed=$((passed + 1))
               issues=0
             else
               status="❌ Fail"
               failed=$((failed + 1))
-              issues=$(jq '[.. | objects | select(has("violations")) | .violations | length] | add // 0' "$report_file" 2>/dev/null || echo "?")
+              issues=$(jq '.summary.violations // 0' "$report_file" 2>/dev/null || echo "?")
             fi
 
             echo "| \`$page\` | $status | $issues |" >> "$summary_file"
