@@ -392,6 +392,24 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .prop123-stat strong { color: var(--text); }
 
 /* ----------------------------------------------------------------
+   DOLA filing deadline badge (rendered by renderDolaFilingStatus)
+   ---------------------------------------------------------------- */
+.dola-filing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: .9rem;
+  font-weight: 500;
+  border: 1px solid currentColor;
+  margin-bottom: 4px;
+}
+.dola-filing-filed   { background: color-mix(in oklab, #22a06b 15%, var(--card) 85%); color: #22a06b; }
+.dola-filing-normal  { background: color-mix(in oklab, var(--accent) 15%, var(--card) 85%); color: var(--accent); }
+.dola-filing-urgent  { background: color-mix(in oklab, #f97316 15%, var(--card) 85%); color: #c2410c; border-color: #f97316; }
+
+/* ----------------------------------------------------------------
    Accordion section (details/summary styled to match existing)
    ---------------------------------------------------------------- */
 .accordion-section { margin-top: 10px; }

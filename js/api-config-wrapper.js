@@ -28,6 +28,7 @@
             url = url + sep + "key=" + encodeURIComponent(censusKey);
           }
         }
+      }
 
       return originalFetch.call(this, url, init);
     } catch(e){
