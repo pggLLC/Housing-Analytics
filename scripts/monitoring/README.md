@@ -107,7 +107,6 @@ The `permissions` block in each workflow includes `issues: write` to allow autom
 | `FRED_API_KEY` | Yes (fetch-fred) | FRED API key |
 | `KALSHI_API_KEY` | Yes (fetch-kalshi) | Kalshi API key |
 | `KALSHI_API_SECRET` | Yes (fetch-kalshi) | Kalshi API secret |
-| `KASHLI_API_KEY` | Yes (fetch-kashli) | Kashli API key (legacy name for the secondary Kalshi feed) |
 | `CENSUS_API_KEY` | Yes (build-hna) | Census API key |
 
 ---

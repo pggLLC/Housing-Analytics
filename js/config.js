@@ -4,6 +4,5 @@
 window.APP_CONFIG = {
   CENSUS_API_KEY: "",
   FRED_API_KEY: "",
-  KASHLI_API_KEY: "",
   DATA_VERSION: "2026-02-27"
 };
