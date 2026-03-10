@@ -186,7 +186,7 @@ function validateCoAmiGap() {
 
   // Sentinel key (Rule 18): meta.generated_at
   assert(data.meta && typeof data.meta === 'object', FILE, '`meta` object is present');
-  assert(data.meta && typeof data.meta.generated_at === 'string' && data.meta.generated_at.length > 0,
+  assert(typeof (data.meta || {}).generated_at === 'string' && (data.meta || {}).generated_at.length > 0,
     FILE, '`meta.generated_at` sentinel key is present (Rule 18)');
 
   // statewide record
