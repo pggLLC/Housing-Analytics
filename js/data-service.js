@@ -238,7 +238,7 @@ class LIHTCDataService {
     // Falls back to HUD LIHTC if the endpoint is unreachable or returns an empty result.
     // Returns { source: 'CHFA' | 'HUD', features: [...] } for caller transparency.
     async fetchCHFALihtcData(params = {}) {
-        const CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0/query';
+        const CHFA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0/query';
         const HUD_URL  = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0/query';
         const cacheKey = `chfa_lihtc_${Object.keys(params).sort().map(k => `${k}=${params[k]}`).join('&')}`;
         const cached = this.getFromCache(cacheKey);

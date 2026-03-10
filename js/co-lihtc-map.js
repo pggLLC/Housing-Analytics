@@ -183,9 +183,15 @@
         if (props.LI_UNITS && Number(props.LI_UNITS) !== Number(props.N_UNITS))
           tooltip += ' (' + props.LI_UNITS + ' low-income)';
         if (props.CREDIT)    tooltip += ' \u2022 ' + props.CREDIT + ' credit';
-        if (props.YR_PIS)    tooltip += ' \u2014 ' + props.YR_PIS;
+        // Skip YR_PIS if it is the HUD sentinel value (8888 = unknown)
+        if (props.YR_PIS && props.YR_PIS !== 8888 && props.YR_PIS !== '8888')
+          tooltip += ' \u2014 ' + props.YR_PIS;
       }
-      var safe = function(v) { return (v == null || v === '') ? '\u2014' : String(v); };
+      var safe = function(v) {
+        // HUD uses 8888 as a sentinel meaning "unknown year placed in service"
+        if (v === 8888 || v === '8888') return '\u2014';
+        return (v == null || v === '') ? '\u2014' : String(v);
+      };
       var popupHtml = '<div style="min-width:200px;font-size:13px">' +
         '<div style="font-weight:700;margin-bottom:4px">' + safe(props.PROJECT) + '</div>' +
         '<table style="width:100%;border-collapse:collapse">' +
