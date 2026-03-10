@@ -152,3 +152,7 @@ jobs:
           fi
 
           echo "✅  No fragile fetch paths found."
+
+      - name: Validate JSON schemas for critical artifacts
+        run: node scripts/validate-schemas.js
+        continue-on-error: true

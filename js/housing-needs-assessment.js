@@ -307,6 +307,8 @@
 
     methodology: document.getElementById('methodology'),
     lehdNote: document.getElementById('lehdNote'),
+    lehdVintageBanner: document.getElementById('lehdVintageBanner'),
+    lehdVintageYear: document.getElementById('lehdVintageYear'),
     seniorNote: document.getElementById('seniorNote'),
 
     statBaseUnits: document.getElementById('statBaseUnits'),
@@ -3288,6 +3290,12 @@
     } else {
       els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for workplaces in ${geoid}, year ${lehd.year}.` : 'LEHD LODES OD summary.';
     }
+
+    // Show prominent vintage banner so users know the data year and publication lag.
+    if (els.lehdVintageBanner && els.lehdVintageYear && lehd?.year) {
+      els.lehdVintageYear.textContent = lehd.year;
+      els.lehdVintageBanner.style.display = '';
+    }
   }
 
   function renderDolaPyramid(dola){
@@ -4520,9 +4528,16 @@
     // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
     updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
-    // Update data freshness timestamp
+    // Update data freshness timestamp from manifest (populated by data-freshness.js)
     const tsEl = document.getElementById('hnaDataTimestamp');
-    if (tsEl) tsEl.textContent = 'Data as of ' + new Date().toLocaleString();
+    if (tsEl) {
+      const generated = window.__dataFreshness && window.__dataFreshness.generated;
+      if (generated && typeof window.__formatFreshnessDate === 'function') {
+        tsEl.textContent = 'Data last updated: ' + window.__formatFreshnessDate(generated);
+      } else {
+        tsEl.textContent = 'Data last updated: ' + new Date().toLocaleDateString();
+      }
+    }
 
     // Announce completion to screen readers (WCAG 4.1.3 / Rule 11)
     if (typeof window.__announceUpdate === 'function') {

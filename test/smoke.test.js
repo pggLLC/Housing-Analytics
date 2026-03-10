@@ -89,6 +89,7 @@ test('required JS files exist', () => {
     'js/fetch-helper.js',
     'js/housing-data-integration.js',
     'js/cache-manager.js',
+    'js/data-freshness.js',
   ];
   jsFiles.forEach(f => {
     assert(fs.existsSync(path.join(ROOT, f)), `${f} exists`);
@@ -172,6 +173,71 @@ test('housing-needs-assessment.css has new section styles', () => {
   assert(css.includes('.prop123-section'),       '.prop123-section CSS defined');
   assert(css.includes('.metric-card'),           '.metric-card CSS defined');
   assert(css.includes('.compliance-status'),     '.compliance-status CSS defined');
+});
+
+test('data-freshness.js is included in all main dashboards', () => {
+  const dashboards = [
+    'dashboard.html',
+    'LIHTC-dashboard.html',
+    'economic-dashboard.html',
+    'colorado-deep-dive.html',
+    'housing-needs-assessment.html',
+  ];
+  dashboards.forEach(page => {
+    const content = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    assert(content.includes('js/data-freshness.js'),
+      `${page} includes js/data-freshness.js`);
+  });
+});
+
+test('data-freshness.js exposes __dataFreshness and __formatFreshnessDate', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js', 'data-freshness.js'), 'utf8');
+  assert(src.includes('window.__dataFreshness'),        'data-freshness.js exposes __dataFreshness');
+  assert(src.includes('window.__formatFreshnessDate'),  'data-freshness.js exposes __formatFreshnessDate');
+  assert(src.includes('data/manifest.json'),            'data-freshness.js references data/manifest.json');
+});
+
+test('housing-needs-assessment.html has LEHD vintage banner elements', () => {
+  const hnaHtml = fs.readFileSync(path.join(ROOT, 'housing-needs-assessment.html'), 'utf8');
+  assert(hnaHtml.includes('id="lehdVintageBanner"'), 'lehdVintageBanner element present');
+  assert(hnaHtml.includes('id="lehdVintageYear"'),   'lehdVintageYear element present');
+});
+
+test('deploy.yml auto-stamps DATA_VERSION at deploy time', () => {
+  const deploy = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'deploy.yml'), 'utf8');
+  assert(deploy.includes('DATA_VERSION'),              'deploy.yml sets DATA_VERSION');
+  assert(deploy.includes('date -u'),                   'deploy.yml uses date command for DATA_VERSION');
+});
+
+test('scripts/validate-schemas.js exists and references critical data files', () => {
+  const scriptPath = path.join(ROOT, 'scripts', 'validate-schemas.js');
+  assert(fs.existsSync(scriptPath), 'scripts/validate-schemas.js exists');
+  const src = fs.readFileSync(scriptPath, 'utf8');
+  assert(src.includes('data/manifest.json'),           'validates manifest.json');
+  assert(src.includes('data/fred-data.json'),          'validates fred-data.json');
+  assert(src.includes('data/chfa-lihtc.json'),         'validates chfa-lihtc.json');
+  assert(src.includes('data/co_ami_gap_by_county.json'), 'validates co_ami_gap_by_county.json');
+});
+
+test('JSON schemas directory contains critical schema files', () => {
+  const schemasDir = path.join(ROOT, 'schemas');
+  assert(fs.existsSync(schemasDir), 'schemas/ directory exists');
+  const schemaFiles = [
+    'schemas/manifest.schema.json',
+    'schemas/fred-data.schema.json',
+    'schemas/chfa-lihtc.schema.json',
+    'schemas/co_ami_gap_by_county.schema.json',
+  ];
+  schemaFiles.forEach(f => {
+    assert(fs.existsSync(path.join(ROOT, f)), `${f} exists`);
+    // Must be valid JSON
+    try {
+      JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+      assert(true, `${f} is valid JSON`);
+    } catch (e) {
+      assert(false, `${f} is valid JSON — parse error: ${e.message}`);
+    }
+  });
 });
 
 // ── Summary ─────────────────────────────────────────────────────────────────

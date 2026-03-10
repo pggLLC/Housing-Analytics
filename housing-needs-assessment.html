@@ -18,6 +18,7 @@
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
@@ -190,10 +191,13 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Commuting: inflow & outflow (LEHD LODES)</h2>
+        <h2>Commuting: inflow &amp; outflow (LEHD LODES)</h2>
         <p>
           Workplace-based flows: <strong>inflow</strong> = jobs located here filled by residents of other counties;
           <strong>outflow</strong> = residents working elsewhere; <strong>within</strong> = live+work here.
+        </p>
+        <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
+          <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
         </p>
         <div class="chart-box"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
