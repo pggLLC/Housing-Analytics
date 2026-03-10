@@ -64,7 +64,7 @@
       return;
     }
 
-    fetch(MANIFEST_PATH, { cache: false })
+    fetch(MANIFEST_PATH, { cache: 'no-store' })
       .then(function (manifest) {
         if (!manifest || !manifest.generated) return;
 
