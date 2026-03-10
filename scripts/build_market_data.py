@@ -328,7 +328,8 @@ def build_lihtc():
         page += 1
         time.sleep(0.5)  # be polite to the service
 
-    # Normalise YR_PIS: replace HUD sentinel 8888 with None
+    # Normalise YR_PIS: replace HUD sentinel 8888 with None (BUG-MAP-04).
+    # Rule 18: preserve all other top-level sentinel metadata keys verbatim.
     for feat in all_features:
         props = feat.get("properties") or {}
         if props.get("YR_PIS") == 8888:
