@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Status | COHO Analytics</title>
+  <meta name="description" content="Live data quality and freshness diagnostics for all COHO Analytics datasets.">
+  <meta property="og:title" content="Data Status | COHO Analytics">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/data-quality-check.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .status-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .status-card__icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+    .status-card__label {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text);
+    }
+    .status-card__detail {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .status-card__age {
+      font-size: .78rem;
+      color: var(--faint);
+      margin-top: .2rem;
+    }
+    .status-card--ok    { border-left: 3px solid var(--good); }
+    .status-card--warn  { border-left: 3px solid var(--warn); }
+    .status-card--error { border-left: 3px solid var(--bad); }
+    .status-card--loading { border-left: 3px solid var(--border-strong); opacity: .7; }
+    #statusSummary {
+      padding: .75rem 1rem;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    #statusSummary.ok    { background: var(--good-dim); color: var(--good); }
+    #statusSummary.warn  { background: var(--warn-dim); color: var(--warn); }
+    #statusSummary.error { background: var(--bad-dim);  color: var(--bad); }
+    #refreshBtn { margin-left: .75rem; }
+    .source-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: .88rem; }
+    .source-table th { text-align: left; padding: .5rem .75rem; border-bottom: 2px solid var(--border); color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+    .source-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .source-table tr:last-child td { border-bottom: none; }
+    .badge-ok    { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--good-dim);color:var(--good);font-size:.78rem;font-weight:700; }
+    .badge-warn  { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--warn-dim);color:var(--warn);font-size:.78rem;font-weight:700; }
+    .badge-error { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bad-dim); color:var(--bad); font-size:.78rem;font-weight:700; }
+    .badge-loading { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bg2);color:var(--muted);font-size:.78rem;font-weight:700; }
+    @media (max-width: 600px) {
+      .status-grid { grid-template-columns: 1fr; }
+      .source-table { display: none; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
+<header id="site-header"></header>
+<main id="main-content" class="page-container content-shell">
+
+<section class="hero">
+  <span class="kicker">Diagnostics</span>
+  <h1>Data Status</h1>
+  <p class="sub">Live quality and freshness check for all critical datasets powering COHO Analytics dashboards.</p>
+  <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
+    <span id="lastCheckedLabel" class="data-timestamp" style="font-size:.82rem;color:var(--muted);">Checking…</span>
+    <button id="refreshBtn" class="btn secondary" type="button" style="font-size:.8rem;padding:.3rem .8rem;">Re-check now</button>
+  </div>
+</section>
+
+<div id="statusSummary" class="ok" role="status" aria-live="polite">⏳ Running data validation…</div>
+
+<div id="statusGrid" class="status-grid" aria-label="Dataset status cards">
+  <!-- Cards injected by JS -->
+  <div class="status-card status-card--loading"><div class="status-card__icon">⏳</div><div class="status-card__label">Loading…</div></div>
+</div>
+
+<section class="card" style="margin-top:1.5rem;">
+  <h2 style="font-size:1rem;margin-bottom:0;">All Data Sources</h2>
+  <table class="source-table" aria-label="Data sources detail">
+    <thead>
+      <tr>
+        <th>Dataset</th>
+        <th>Status</th>
+        <th>Records</th>
+        <th>Cache age</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="sourceTableBody">
+      <tr><td colspan="5" style="color:var(--muted);">Loading…</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+<footer id="site-footer"></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  function relTime(ms) {
+    if (ms === null || ms === undefined) return '—';
+    var s = Math.floor(ms / 1000);
+    if (s < 60)  return s + 's ago';
+    var m = Math.floor(s / 60);
+    if (m < 60)  return m + 'm ago';
+    var h = Math.floor(m / 60);
+    if (h < 24)  return h + 'h ago';
+    return Math.floor(h / 24) + 'd ago';
+  }
+
+  function renderCard(report) {
+    var card = document.createElement('div');
+    var cls  = report.ok ? 'ok' : (report.critical ? 'error' : 'warn');
+    card.className = 'status-card status-card--' + cls;
+    card.innerHTML =
+      '<div class="status-card__icon">' + (report.ok ? '✅' : '⚠️') + '</div>' +
+      '<div class="status-card__label">' + _esc(report.label) + '</div>' +
+      '<div class="status-card__detail">' +
+        (report.featureCount > 0 ? report.featureCount + ' records' : '') +
+        (report.message ? '<br>' + _esc(report.message) : '') +
+      '</div>' +
+      '<div class="status-card__age">' + relTime(report.cacheAge) + '</div>';
+    return card;
+  }
+
+  function renderTableRow(report) {
+    var cls  = report.ok ? 'badge-ok' : (report.critical ? 'badge-error' : 'badge-warn');
+    var lbl  = report.ok ? '✅ OK' : (report.critical ? '⚠ Error' : '⚠ Warn');
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + _esc(report.label) + '</td>' +
+      '<td><span class="' + cls + '">' + lbl + '</span></td>' +
+      '<td>' + (report.featureCount > 0 ? report.featureCount : '—') + '</td>' +
+      '<td>' + relTime(report.cacheAge) + '</td>' +
+      '<td style="color:var(--muted);">' + _esc(report.message || '') + '</td>';
+    return tr;
+  }
+
+  function _esc(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function runCheck() {
+    if (!window.DataQuality) {
+      document.getElementById('statusSummary').textContent = '⚠ DataQuality module not loaded.';
+      return;
+    }
+
+    document.getElementById('statusSummary').className = 'ok';
+    document.getElementById('statusSummary').textContent = '⏳ Running data validation…';
+
+    window.DataQuality.runAll().then(function (reports) {
+      var allOk = reports.every(function (r) { return r.ok; });
+      var anyCritFail = reports.some(function (r) { return !r.ok && r.critical; });
+
+      var summary = document.getElementById('statusSummary');
+      if (anyCritFail) {
+        summary.className = 'error';
+        summary.textContent = '⚠ One or more critical datasets are unavailable.';
+      } else if (!allOk) {
+        summary.className = 'warn';
+        summary.textContent = '⚠ Some datasets have warnings — dashboards may use cached data.';
+      } else {
+        summary.className = 'ok';
+        summary.textContent = '✅ All datasets validated successfully.';
+      }
+
+      var grid = document.getElementById('statusGrid');
+      grid.innerHTML = '';
+      reports.forEach(function (r) { grid.appendChild(renderCard(r)); });
+
+      var tbody = document.getElementById('sourceTableBody');
+      tbody.innerHTML = '';
+      reports.forEach(function (r) { tbody.appendChild(renderTableRow(r)); });
+
+      var lbl = document.getElementById('lastCheckedLabel');
+      lbl.textContent = 'Last checked: ' + new Date().toLocaleTimeString();
+
+      var liveRegion = document.getElementById('aria-live-region');
+      if (liveRegion) {
+        liveRegion.textContent = '';
+        requestAnimationFrame(function () {
+          liveRegion.textContent = summary.textContent;
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    runCheck();
+    var btn = document.getElementById('refreshBtn');
+    if (btn) btn.addEventListener('click', runCheck);
+  });
+}());
+</script>
+</body>
+</html>

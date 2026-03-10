@@ -19,6 +19,7 @@
   <script src="js/state-allocations-2026.js"></script>
   <script src="js/state-allocations-2025.js"></script>
   <script src="js/state-allocations-2024.js"></script>
+  <script src="js/data-quality-check.js"></script>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
@@ -48,7 +49,11 @@
 <h1>LIHTC Allocations</h1>
 <p>One-page workspace combining the Dashboard, Regional Analysis, and State Allocation Map. Each section runs the original page inside an embedded frame to keep all maps, tables, dropdowns, exports, and tooltips working without conflicts.</p>
 <div class="sub">Distribution / allocation of LIHTC by region and state.</div>
+<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
 <small id="lihtcDataTimestamp" class="data-timestamp"></small>
+<span class="data-reliability-badge" aria-live="polite" aria-label="Data status loading">Checking data…</span>
+<a href="data-status.html" style="font-size:.75rem;color:var(--link);">View diagnostics</a>
+</div>
 </section>
 <section class="card">
 <h2>Filters</h2>
