@@ -635,6 +635,183 @@
         </div>
       </section>
 
+      <!-- ── PMA Definition Tool / CHFA Requirements ── -->
+      <section id="pma-methodology-section" class="chart-card span-12 pma-methodology-section">
+        <h2>PMA Definition Tool &amp; CHFA Requirements</h2>
+        <p style="color:var(--muted)">
+          A Primary Market Area (PMA) is the census-tract-based geography from which a proposed
+          development is expected to draw most of its tenants. CHFA requires PMA approval before a
+          market study begins for any LIHTC application in Colorado.
+        </p>
+
+        <!-- Coverage label -->
+        <div id="hnaPmaCoverageBar" class="pma-coverage-bar" aria-live="polite" aria-atomic="true">
+          <span class="pma-coverage-label">Tract data:</span>
+          <span id="hnaPmaCoverageLabel" class="pma-coverage-pill">Loading…</span>
+          <span id="hnaPmaCoverageWarning" class="pma-coverage-warn" style="display:none" role="alert">
+            ⚠ Data coverage is below production scale — results may not represent the full statewide PMA.
+          </span>
+        </div>
+
+        <!-- CHFA Requirements Summary -->
+        <div class="chfa-requirements-panel">
+          <h3>CHFA PMA Requirements Summary</h3>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:.75rem">
+            Per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">Qualified Allocation Plan</a>
+            and <a href="https://developers-guide.chfainfo.com/market-feasibility" target="_blank" rel="noopener">Market Study Guide</a>:
+          </p>
+          <ol class="chfa-req-list">
+            <li><strong>Census-tract geography</strong> — The PMA must be defined as specific census tracts most likely to supply tenants to the proposed project.</li>
+            <li><strong>CHFA pre-approval required</strong> — A CHFA-approved market analyst must consult with CHFA and obtain PMA boundary approval <em>before</em> the market study begins.</li>
+            <li><strong>Engagement letter</strong> — Must include the proposed PMA with a detailed census tract list.</li>
+            <li><strong>Market study must analyze:</strong>
+              <ul>
+                <li>Income-qualified demand and capture rates (should be as low as possible)</li>
+                <li>Evidence the project will not negatively impact existing LIHTC properties in the PMA</li>
+                <li>Achievable rents and realistic absorption projections</li>
+              </ul>
+            </li>
+          </ol>
+          <p class="chfa-req-disclaimer">
+            <strong>Note:</strong> This tool assists with preliminary PMA research and does <em>not</em> replace formal CHFA PMA approval or review by a CHFA-approved market analyst.
+          </p>
+        </div>
+
+        <!-- PMA Workflow diagram -->
+        <div class="pma-workflow">
+          <h3>PMA Definition Workflow</h3>
+          <div class="pma-workflow-steps" role="list" aria-label="PMA definition process steps">
+            <div class="pma-workflow-step" role="listitem">
+              <div class="pma-step-num">1</div>
+              <div class="pma-step-body">
+                <strong>Site Selection</strong>
+                <p>Identify proposed development site and approximate service area.</p>
+              </div>
+            </div>
+            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+            <div class="pma-workflow-step" role="listitem">
+              <div class="pma-step-num">2</div>
+              <div class="pma-step-body">
+                <strong>Engage Analyst</strong>
+                <p>Retain a CHFA-approved market analyst to propose PMA census tracts.</p>
+              </div>
+            </div>
+            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+            <div class="pma-workflow-step" role="listitem">
+              <div class="pma-step-num">3</div>
+              <div class="pma-step-body">
+                <strong>CHFA PMA Approval</strong>
+                <p>Analyst submits proposed census tract list to CHFA for review and approval.</p>
+              </div>
+            </div>
+            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+            <div class="pma-workflow-step" role="listitem">
+              <div class="pma-step-num">4</div>
+              <div class="pma-step-body">
+                <strong>Market Study</strong>
+                <p>Analyst conducts full study within the approved PMA: demand, capture rate, competitive impact, rents, absorption.</p>
+              </div>
+            </div>
+            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+            <div class="pma-workflow-step" role="listitem">
+              <div class="pma-step-num">5</div>
+              <div class="pma-step-body">
+                <strong>Application</strong>
+                <p>Submit LIHTC application with approved PMA, market study, and engagement letter.</p>
+              </div>
+            </div>
+          </div>
+          <p class="pma-workflow-note">
+            <strong>This tool automates:</strong> tract selection by radius or drive-time, demographic scoring, competitive LIHTC overlay, and capture rate estimation.
+            It does <em>not</em> replace CHFA-approved analyst review or formal CHFA PMA approval.
+          </p>
+        </div>
+
+        <!-- CHFA PMA Checklist -->
+        <div class="chfa-checklist-panel">
+          <h3>CHFA PMA Checklist</h3>
+          <p style="color:var(--muted);font-size:.9rem">Track your LIHTC application PMA progress. Check items as you complete them.</p>
+          <div aria-live="polite" aria-atomic="true" id="chfaChecklistAnnouncer" class="sr-only"></div>
+          <ul class="chfa-checklist" id="chfaChecklist">
+            <li class="chfa-checklist-item" id="chfaChkTracts">
+              <input type="checkbox" id="chfaChkTractsInput" aria-label="Census tracts selected and justified">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkTractsInput">Census tracts selected and justified</label>
+                <span class="chfa-checklist-note">Define the specific census tracts that form the PMA boundary.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkAnalyst">
+              <input type="checkbox" id="chfaChkAnalystInput" aria-label="CHFA-approved market analyst engaged">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkAnalystInput">CHFA-approved market analyst engaged</label>
+                <span class="chfa-checklist-note">Retain an analyst from the CHFA-approved list before beginning the study.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkApproval">
+              <input type="checkbox" id="chfaChkApprovalInput" aria-label="PMA boundary approved by CHFA">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkApprovalInput">PMA boundary approved by CHFA</label>
+                <span class="chfa-checklist-note">Analyst submits census tract list to CHFA; receive written approval before study begins.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkDemand">
+              <input type="checkbox" id="chfaChkDemandInput" aria-label="Income-qualified demand analysis complete">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkDemandInput">Income-qualified demand analysis complete</label>
+                <span class="chfa-checklist-note">Document households at each AMI tier within the PMA.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkCapture">
+              <input type="checkbox" id="chfaChkCaptureInput" aria-label="Capture rate calculated">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkCaptureInput">Capture rate calculated
+                  <span id="chfaCaptureRateDisplay" class="chfa-capture-rate-badge" style="display:none"></span>
+                </label>
+                <span class="chfa-checklist-note">Capture rate = proposed units ÷ income-qualified renter households. Should be as low as possible.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkCompetitive">
+              <input type="checkbox" id="chfaChkCompetitiveInput" aria-label="Competitive property impact assessed">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkCompetitiveInput">Competitive property impact assessed</label>
+                <span class="chfa-checklist-note">Evaluate existing LIHTC properties in the PMA — confirm project will not cause material vacancy.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkRents">
+              <input type="checkbox" id="chfaChkRentsInput" aria-label="Achievable rent analysis complete">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkRentsInput">Achievable rent analysis complete</label>
+                <span class="chfa-checklist-note">Document market-achievable rents relative to AMI-restricted rent limits.</span>
+              </div>
+            </li>
+            <li class="chfa-checklist-item" id="chfaChkAbsorption">
+              <input type="checkbox" id="chfaChkAbsorptionInput" aria-label="Absorption projection documented">
+              <div class="chfa-checklist-content">
+                <label for="chfaChkAbsorptionInput">Absorption projection documented</label>
+                <span class="chfa-checklist-note">Provide realistic lease-up timeline based on comparable projects in the market.</span>
+              </div>
+            </li>
+          </ul>
+          <div class="chfa-checklist-progress">
+            <div class="chfa-progress-bar-wrap">
+              <div id="chfaProgressFill" class="chfa-progress-fill" style="width:0%" role="progressbar"
+                   aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="CHFA checklist progress"></div>
+            </div>
+            <span id="chfaProgressLabel" class="chfa-progress-label">0 of 8 complete</span>
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="chfa-resources">
+          <h3>CHFA Resources</h3>
+          <ul>
+            <li><a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">CHFA LIHTC Application Page</a> — QAP, market study requirements, and approved analyst list</li>
+            <li><a href="https://developers-guide.chfainfo.com/market-feasibility" target="_blank" rel="noopener">CHFA Developer's Guide: Market Feasibility</a> — PMA designation guidance</li>
+            <li><a href="market-analysis.html">Market Analysis Tool →</a> — Buffer-based PMA scoring with ACS, LIHTC, and demographic data</li>
+          </ul>
+        </div>
+      </section>
+
       <div class="chart-card span-12 methodology">
         <h2>Methodology & data sources (dynamic)</h2>
         <p style="color:var(--muted)">
@@ -646,5 +823,93 @@
     </section>
   </main>
 <script defer src="js/audit-hook.js"></script>
+<script>
+(function () {
+  'use strict';
+  /* ── CHFA PMA Checklist interactivity ─────────────────────────── */
+  function initChfaChecklist() {
+    var list = document.getElementById('chfaChecklist');
+    if (!list) return;
+    var items = list.querySelectorAll('input[type="checkbox"]');
+    var total = items.length;
+    var announcer = document.getElementById('chfaChecklistAnnouncer');
+
+    function update() {
+      var done = 0;
+      items.forEach(function (cb) {
+        var li = cb.closest('.chfa-checklist-item');
+        if (cb.checked) {
+          done++;
+          if (li) li.classList.add('chfa-checklist-item--done');
+        } else {
+          if (li) li.classList.remove('chfa-checklist-item--done');
+        }
+      });
+      var pct = Math.round((done / total) * 100);
+      var fill = document.getElementById('chfaProgressFill');
+      var label = document.getElementById('chfaProgressLabel');
+      if (fill)  { fill.style.width = pct + '%'; fill.setAttribute('aria-valuenow', String(pct)); }
+      if (label) { label.textContent = done + ' of ' + total + ' complete'; }
+    }
+
+    items.forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var labelEl = cb.closest('.chfa-checklist-content') &&
+                      cb.closest('.chfa-checklist-content').querySelector('label');
+        // Use firstChild text node only to avoid announcing nested badge content
+        var labelText = '';
+        if (labelEl) {
+          var firstNode = labelEl.firstChild;
+          labelText = (firstNode && firstNode.nodeType === 3)
+            ? firstNode.textContent.trim()
+            : labelEl.textContent.trim().split('\n')[0].trim();
+        }
+        var msg = labelText + (cb.checked ? ' — checked' : ' — unchecked');
+        if (announcer) announcer.textContent = msg;
+        update();
+      });
+    });
+
+    update();
+  }
+
+  /* ── Coverage label (populated from PMAEngine if available) ───── */
+  function initCoverageLabel() {
+    var PROD_THRESHOLD_PCT = (window.PMAEngine && window.PMAEngine.COVERAGE_PRODUCTION_THRESHOLD)
+      ? Math.round(window.PMAEngine.COVERAGE_PRODUCTION_THRESHOLD * 100) : 80;
+    var labelEl = document.getElementById('hnaPmaCoverageLabel');
+    var warnEl  = document.getElementById('hnaPmaCoverageWarning');
+    if (!labelEl) return;
+
+    function render(loaded, expected) {
+      var pct = expected > 0 ? Math.round((loaded / expected) * 100) : 0;
+      var isReady = pct >= PROD_THRESHOLD_PCT;
+      labelEl.textContent = 'Coverage: ' + loaded + ' / ' + expected + ' tracts (' + pct + '%)';
+      labelEl.style.color = isReady ? 'var(--good)' : 'var(--warn)';
+      if (warnEl) warnEl.style.display = isReady ? 'none' : '';
+    }
+
+    // If PMAEngine is available (market-analysis.js loaded on same page) use it
+    if (window.PMAEngine && typeof window.PMAEngine.computeCoverage === 'function') {
+      var cov = window.PMAEngine.computeCoverage();
+      render(cov.loaded, cov.expected);
+    } else {
+      // Show a loading placeholder — will be populated if data arrives later
+      labelEl.textContent = 'Coverage: loading…';
+      labelEl.style.color = 'var(--muted)';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initChfaChecklist();
+      initCoverageLabel();
+    });
+  } else {
+    initChfaChecklist();
+    initCoverageLabel();
+  }
+}());
+</script>
 </body>
 </html>

@@ -183,3 +183,44 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout — was 10s)
 4. **Timeout increases applied** — All ArcGIS remote API calls now use 15–20 second timeouts
    (previously 5–10 seconds) to prevent premature failures on slow HUD/Census servers.
    The Prop 123 TIGERweb geometry timeout was increased from 10s to 20s.
+
+---
+
+## Additional Data Sources for PMA Analysis
+
+The following datasets would materially improve PMA analysis quality. They are documented here as
+integration stubs with pipeline targets. Coverage warnings are displayed on `market-analysis.html`
+and `housing-needs-assessment.html` when tract coverage is below 80% of statewide (~1,500 tracts).
+
+### Priority 1 — Income-Qualified Demand (Required for CHFA Capture Rate)
+
+| Dataset | Publisher | API / URL | Integration Status |
+|---|---|---|---|
+| **HUD CHAS** — Comprehensive Housing Affordability Strategy: income-qualified renter households by AMI tier at tract level | HUD / Census | `https://www.huduser.gov/portal/datasets/cp.html` — CSV download; no live API | 🔲 Stub — add `data/market/hud_chas_co.json`, build via `scripts/market/fetch_hud_chas.py` |
+| **ACS B25070** — Gross Rent as % of Income by tract | US Census ACS 5-year | `https://api.census.gov/data/{year}/acs/acs5?get=group(B25070)&for=tract:*&in=state:08` | 🔲 Stub — currently only at county level via GRAPI bins; add tract-level to `acs_tract_metrics_co.json` |
+| **ACS B25063** — Gross Rent by tract (actual rent distributions for capture rate) | US Census ACS 5-year | `https://api.census.gov/data/{year}/acs/acs5?get=group(B25063)&for=tract:*&in=state:08` | 🔲 Stub — add to `acs_tract_metrics_co.json` via `scripts/market/build_public_market_data.py` |
+
+### Priority 2 — Supply Pipeline & Vacancy
+
+| Dataset | Publisher | API / URL | Integration Status |
+|---|---|---|---|
+| **DOLA Building Permit Data** — new construction pipeline by jurisdiction | Colorado DOLA | `https://cdola.colorado.gov/building-permit-data` — Excel download; no live API | 🔲 Stub — add `data/market/dola_permits_co.json`, refresh annually via CI |
+| **USPS Vacancy Data (HUD aggregated)** — quarterly vacancy rates at tract/ZIP level | HUD via USPS | `https://www.huduser.gov/portal/datasets/usps_crosswalk.html` — quarterly data files | 🔲 Stub — add `data/market/usps_vacancy_co.json`, update quarterly via CI |
+
+### Priority 3 — Comparable Rent Survey
+
+| Dataset | Publisher | API / URL | Integration Status |
+|---|---|---|---|
+| **CoStar / REIS Comparable Rent Survey** — competitive set analysis; achievable rents and occupancy for market-rate and affordable projects | CoStar Group | Commercial license required — `https://www.costar.com/` or `https://www.cbre.com/research` | 🔲 Stub — no public API; requires commercial license. Consider NMHC or local PHA survey as alternative. |
+| **CHFA Rent & Income Limits** — AMI-restricted rent limits by bedroom type and county for LIHTC underwriting | CHFA | `https://www.chfainfo.com/rental-housing/housing-credit/income-rent-limits` — PDF/Excel download | 🔲 Stub — add `data/market/chfa_rent_limits.json`, update annually when CHFA publishes new limits |
+
+### Integration Notes
+
+- All new tract-level ACS variables should be added to `scripts/market/build_public_market_data.py`
+  and persisted into `data/market/acs_tract_metrics_co.json` to maintain a single tract metrics file.
+- HUD CHAS data is released approximately 3 years lagged (e.g., 2021 CHAS published in 2024). Use
+  the most recent available vintage for income-qualified demand estimates.
+- The statewide production threshold is **80% of ~1,500 Colorado tracts**. Until all tract-level
+  ACS variables are loaded statewide, the site displays a warning banner on PMA pages.
+- ACS B25070 and B25063 require a Census API key (`CENSUS_API_KEY` secret). Add to
+  `fetch-census-acs.yml` or `build-hna-data.yml` pipeline.

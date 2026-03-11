@@ -1,11 +1,11 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-03-06T00:00:00Z",
+  "generated": "2026-03-11T02:37:58Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
       "file_path": "data/boundaries/counties_co.geojson",
-      "source_name": "US Census Bureau TIGERweb — Colorado County Boundaries",
+      "source_name": "US Census Bureau TIGERweb \u2014 Colorado County Boundaries",
       "source_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer",
       "update_method": "cached",
       "status": "cached",
@@ -25,7 +25,7 @@
     },
     {
       "file_path": "data/market/acs_tract_metrics_co.json",
-      "source_name": "US Census Bureau — American Community Survey (ACS) 5-Year Estimates, 2022",
+      "source_name": "US Census Bureau \u2014 American Community Survey (ACS) 5-Year Estimates, 2022",
       "source_url": "https://api.census.gov/data/2022/acs/acs5",
       "update_method": "manual",
       "status": "cached",
@@ -35,7 +35,7 @@
     },
     {
       "file_path": "data/market/tract_centroids_co.json",
-      "source_name": "US Census Bureau TIGERweb — Colorado Census Tract Centroids",
+      "source_name": "US Census Bureau TIGERweb \u2014 Colorado Census Tract Centroids",
       "source_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer",
       "update_method": "cached",
       "status": "cached",
@@ -45,7 +45,7 @@
     },
     {
       "file_path": "data/amenities/grocery_co.geojson",
-      "source_name": "OpenStreetMap — Overpass API (Grocery/Supermarket nodes)",
+      "source_name": "OpenStreetMap \u2014 Overpass API (Grocery/Supermarket nodes)",
       "source_url": "https://overpass-api.de/api/interpreter",
       "update_method": "cached",
       "status": "seed",
@@ -55,7 +55,7 @@
     },
     {
       "file_path": "data/amenities/healthcare_co.geojson",
-      "source_name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
+      "source_name": "OpenStreetMap \u2014 Overpass API (Healthcare facility nodes)",
       "source_url": "https://overpass-api.de/api/interpreter",
       "update_method": "cached",
       "status": "seed",
@@ -65,7 +65,7 @@
     },
     {
       "file_path": "data/amenities/schools_co.geojson",
-      "source_name": "OpenStreetMap — Overpass API (School nodes)",
+      "source_name": "OpenStreetMap \u2014 Overpass API (School nodes)",
       "source_url": "https://overpass-api.de/api/interpreter",
       "update_method": "cached",
       "status": "seed",
@@ -75,7 +75,7 @@
     },
     {
       "file_path": "data/amenities/retail_nodes_co.geojson",
-      "source_name": "OpenStreetMap — Overpass API (Retail node clusters)",
+      "source_name": "OpenStreetMap \u2014 Overpass API (Retail node clusters)",
       "source_url": "https://overpass-api.de/api/interpreter",
       "update_method": "cached",
       "status": "seed",
@@ -85,7 +85,7 @@
     },
     {
       "file_path": "data/policy/prop123_jurisdictions.json",
-      "source_name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
+      "source_name": "Colorado Proposition 123 \u2014 DOLA Jurisdiction Opt-In Registry",
       "source_url": "https://dola.colorado.gov/prop123",
       "update_method": "manual",
       "status": "cached",
@@ -95,7 +95,7 @@
     },
     {
       "file_path": "data/chfa-lihtc.json",
-      "source_name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
+      "source_name": "Colorado Housing and Finance Authority (CHFA) \u2014 LIHTC Allocation Data",
       "source_url": "https://www.chfainfo.com/arh/lihtc",
       "update_method": "manual",
       "status": "cached",
@@ -105,7 +105,7 @@
     },
     {
       "file_path": "data/fred-data.json",
-      "source_name": "Federal Reserve Bank of St. Louis — FRED Economic Data",
+      "source_name": "Federal Reserve Bank of St. Louis \u2014 FRED Economic Data",
       "source_url": "https://fred.stlouisfed.org/",
       "update_method": "live",
       "status": "live",
@@ -115,7 +115,7 @@
     },
     {
       "file_path": "data/co-county-demographics.json",
-      "source_name": "US Census Bureau — ACS 5-Year County-Level Demographics",
+      "source_name": "US Census Bureau \u2014 ACS 5-Year County-Level Demographics",
       "source_url": "https://api.census.gov/data/2022/acs/acs5",
       "update_method": "cached",
       "status": "cached",
@@ -125,7 +125,7 @@
     },
     {
       "file_path": "data/co-county-economic-indicators.json",
-      "source_name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
+      "source_name": "Bureau of Labor Statistics (BLS) \u2014 Quarterly Census of Employment & Wages (QCEW)",
       "source_url": "https://www.bls.gov/cew/",
       "update_method": "cached",
       "status": "cached",
@@ -135,7 +135,7 @@
     },
     {
       "file_path": "data/dda-colorado.json",
-      "source_name": "HUD — Difficult Development Areas (DDA) Designations",
+      "source_name": "HUD \u2014 Difficult Development Areas (DDA) Designations",
       "source_url": "https://www.huduser.gov/portal/datasets/qct.html",
       "update_method": "manual",
       "status": "cached",
@@ -145,13 +145,73 @@
     },
     {
       "file_path": "data/qct-colorado.json",
-      "source_name": "HUD — Qualified Census Tracts (QCT) Designations",
+      "source_name": "HUD \u2014 Qualified Census Tracts (QCT) Designations",
       "source_url": "https://www.huduser.gov/portal/datasets/qct.html",
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable QCT overlay layer; suppress QCT basis boost indicator",
       "last_update": "2025-01-01T00:00:00Z",
       "description": "HUD-designated Qualified Census Tracts in Colorado where 30% LIHTC basis boost is available due to low-income concentration. Used to flag eligible tracts on the LIHTC dashboard."
+    },
+    {
+      "file_path": "data/market/hud_chas_co.json",
+      "source_name": "HUD CHAS \u2014 Comprehensive Housing Affordability Strategy",
+      "source_url": "https://www.huduser.gov/portal/datasets/cp.html",
+      "update_method": "manual",
+      "status": "stub",
+      "fallback_rule": "Omit income-qualified demand sub-section; display coverage warning",
+      "last_update": null,
+      "description": "Income-qualified renter households by AMI tier (30/50/60/80%) at census tract level. Required for CHFA capture rate calculation. Released ~3 years lagged. Build via scripts/market/fetch_hud_chas.py."
+    },
+    {
+      "file_path": "data/market/acs_b25070_tracts_co.json",
+      "source_name": "ACS B25070 \u2014 Gross Rent as % of Income by Tract",
+      "source_url": "https://api.census.gov/data/{year}/acs/acs5?get=group(B25070)&for=tract:*&in=state:08",
+      "update_method": "ci_workflow",
+      "status": "stub",
+      "fallback_rule": "Use county-level GRAPI bins as proxy; display coverage warning",
+      "last_update": null,
+      "description": "Tract-level rent burden distribution (Gross Rent as % of Income). Currently only available at county level via GRAPI bins. Add to acs_tract_metrics_co.json via build_public_market_data.py. Requires CENSUS_API_KEY."
+    },
+    {
+      "file_path": "data/market/acs_b25063_tracts_co.json",
+      "source_name": "ACS B25063 \u2014 Gross Rent Distribution by Tract",
+      "source_url": "https://api.census.gov/data/{year}/acs/acs5?get=group(B25063)&for=tract:*&in=state:08",
+      "update_method": "ci_workflow",
+      "status": "stub",
+      "fallback_rule": "Omit actual rent distribution from capture rate calculations; use median rent estimate only",
+      "last_update": null,
+      "description": "Actual gross rent distributions by tract for capture rate calculations. Provides rent bands rather than median only, enabling better income-to-rent affordability matching. Requires CENSUS_API_KEY."
+    },
+    {
+      "file_path": "data/market/dola_permits_co.json",
+      "source_name": "DOLA Building Permit Data \u2014 Colorado New Construction Pipeline",
+      "source_url": "https://cdola.colorado.gov/building-permit-data",
+      "update_method": "manual",
+      "status": "stub",
+      "fallback_rule": "Omit supply pipeline section; display placeholder in PMA tool",
+      "last_update": null,
+      "description": "New residential construction permits by jurisdiction (annual). Used to estimate supply pipeline competing with proposed LIHTC project. Excel download \u2014 no live API. Refresh annually."
+    },
+    {
+      "file_path": "data/market/usps_vacancy_co.json",
+      "source_name": "USPS Vacancy Data (HUD aggregated) \u2014 Quarterly Vacancy Rates",
+      "source_url": "https://www.huduser.gov/portal/datasets/usps_crosswalk.html",
+      "update_method": "ci_workflow",
+      "status": "stub",
+      "fallback_rule": "Fall back to ACS vacancy_rate field; display note that USPS vacancy unavailable",
+      "last_update": null,
+      "description": "HUD-aggregated USPS address vacancy data at tract and ZIP code level, updated quarterly. Provides more current vacancy estimates than the 5-year ACS. Used in PMA demand and absorption analysis."
+    },
+    {
+      "file_path": "data/market/chfa_rent_limits.json",
+      "source_name": "CHFA Rent & Income Limits \u2014 LIHTC AMI-Restricted Rent Limits",
+      "source_url": "https://www.chfainfo.com/rental-housing/housing-credit/income-rent-limits",
+      "update_method": "manual",
+      "status": "stub",
+      "fallback_rule": "Use HUD published AMI limits as fallback for capture rate calculation",
+      "last_update": null,
+      "description": "CHFA-published AMI-restricted rent limits by bedroom type and county, updated annually when HUD releases new AMI figures. Required for achievable rent analysis in LIHTC market studies."
     }
   ]
 }

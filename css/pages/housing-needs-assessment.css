@@ -427,3 +427,213 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .hna-waiting-text{color:var(--muted);font-size:.95rem;margin-bottom:8px}
 .hna-waiting-dashes{font-size:1.4rem;color:var(--border);letter-spacing:.2em;animation:hna-pulse 2s ease-in-out infinite}
 @keyframes hna-pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ================================================================
+   PMA Methodology section — coverage labels, CHFA checklist
+   ================================================================ */
+
+/* ── Coverage bar ────────────────────────────────────────────── */
+.pma-coverage-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+  padding: 8px 12px;
+  background: color-mix(in oklab, var(--card) 85%, var(--bg2) 15%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .88rem;
+}
+.pma-coverage-label { color: var(--muted); font-weight: 700; }
+.pma-coverage-pill {
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--card) 60%, var(--bg2) 40%);
+  border: 1px solid var(--border);
+}
+.pma-coverage-warn {
+  color: #b45309;
+  background: color-mix(in oklab, #fbbf24 15%, var(--card) 85%);
+  border: 1px solid #fbbf24;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-weight: 600;
+  font-size: .85rem;
+}
+
+/* ── Coverage warning on market-analysis page ─────────────── */
+.pma-coverage-warning {
+  margin-top: .4rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: color-mix(in oklab, #fbbf24 15%, var(--card) 85%);
+  border: 1px solid #fbbf24;
+  color: #92400e;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+/* ── CHFA Requirements panel ─────────────────────────────── */
+.chfa-requirements-panel {
+  background: color-mix(in oklab, var(--card) 80%, var(--accent) 5%);
+  border: 1px solid color-mix(in oklab, var(--border) 60%, var(--accent) 40%);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.chfa-requirements-panel h3 { margin: 0 0 8px; font-size: 1rem; }
+.chfa-req-list { margin: 0 0 8px; padding: 0 0 0 1.4rem; }
+.chfa-req-list > li { margin: .45rem 0; color: var(--text); font-size: .92rem; }
+.chfa-req-list ul { margin: .25rem 0; padding: 0 0 0 1.2rem; }
+.chfa-req-list ul li { margin: .2rem 0; color: var(--muted); font-size: .88rem; }
+.chfa-req-disclaimer {
+  margin: 8px 0 0;
+  padding: 7px 12px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+  border-radius: 0 6px 6px 0;
+  font-size: .88rem;
+  color: var(--muted);
+}
+
+/* ── PMA Workflow diagram ─────────────────────────────────── */
+.pma-workflow {
+  margin-bottom: 14px;
+}
+.pma-workflow h3 { font-size: 1rem; margin-bottom: 10px; }
+.pma-workflow-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 10px;
+}
+.pma-workflow-step {
+  flex: 1 1 120px;
+  min-width: 100px;
+  background: color-mix(in oklab, var(--card) 82%, var(--bg2) 18%);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.pma-workflow-step strong { display: block; font-size: .9rem; margin-bottom: 4px; }
+.pma-workflow-step p { margin: 0; font-size: .8rem; color: var(--muted); }
+.pma-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 900;
+  font-size: .85rem;
+  margin: 0 auto 6px;
+}
+.pma-workflow-arrow {
+  align-self: center;
+  padding: 0 6px;
+  color: var(--muted);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.pma-workflow-note {
+  margin: 6px 0 0;
+  font-size: .84rem;
+  color: var(--muted);
+  padding: 6px 10px;
+  background: color-mix(in oklab, var(--card) 75%, var(--bg2) 25%);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+@media (max-width: 700px) {
+  .pma-workflow-steps { flex-direction: column; }
+  .pma-workflow-arrow { transform: rotate(90deg); padding: 4px 0; }
+}
+
+/* ── CHFA PMA Checklist ───────────────────────────────────── */
+.chfa-checklist-panel {
+  background: color-mix(in oklab, var(--card) 82%, var(--bg2) 18%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.chfa-checklist-panel h3 { margin: 0 0 6px; font-size: 1rem; }
+.chfa-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+.chfa-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.chfa-checklist-item:last-child { border-bottom: none; }
+.chfa-checklist-item input[type="checkbox"] {
+  margin-top: 3px;
+  min-width: 18px;
+  min-height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.chfa-checklist-content { flex: 1; }
+.chfa-checklist-content label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: .92rem;
+  cursor: pointer;
+  color: var(--text);
+}
+.chfa-checklist-note { display: block; font-size: .8rem; color: var(--muted); margin-top: 2px; }
+.chfa-checklist-item--done .chfa-checklist-content label { text-decoration: line-through; color: var(--muted); }
+.chfa-capture-rate-badge {
+  font-size: .75rem;
+  font-weight: 900;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--accent) 15%, var(--card) 85%);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+/* ── Checklist progress bar ──────────────────────────────── */
+.chfa-checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.chfa-progress-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.chfa-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width .3s ease;
+}
+.chfa-progress-label { font-size: .82rem; color: var(--muted); white-space: nowrap; }
+
+/* ── Resources ───────────────────────────────────────────── */
+.chfa-resources { margin-top: 0; }
+.chfa-resources h3 { font-size: 1rem; margin: 0 0 6px; }
+.chfa-resources ul { margin: 4px 0 0; padding: 0 0 0 1.2rem; }
+.chfa-resources li { margin: .35rem 0; font-size: .9rem; color: var(--muted); }
+.chfa-resources a { color: var(--text); text-decoration: underline; }
+
+/* ── PMA methodology section heading ────────────────────── */
+.pma-methodology-section h2 { margin-bottom: 6px; }
