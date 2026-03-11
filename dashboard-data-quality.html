@@ -28,7 +28,7 @@
       font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 0.75rem;
-      color: var(--text-primary, #1a1a2e);
+      color: var(--text, #1a1a2e);
     }
     .dq-grid {
       display: grid;
@@ -36,7 +36,7 @@
       gap: 1rem;
     }
     .dq-card {
-      background: var(--card-bg, #fff);
+      background: var(--card, #fff);
       border: 1px solid var(--border, #dde3ec);
       border-radius: 8px;
       padding: 1rem 1.25rem;
@@ -44,7 +44,7 @@
     .dq-card-title {
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-secondary, #555);
+      color: var(--muted, #476080);
       text-transform: uppercase;
       letter-spacing: 0.04em;
       margin-bottom: 0.4rem;
@@ -68,7 +68,7 @@
     .dq-dot--pending { background: #546e7a; }
     .dq-detail {
       font-size: 0.78rem;
-      color: var(--text-secondary, #666);
+      color: var(--muted, #476080);
       margin-top: 0.3rem;
     }
     .dq-badge {
@@ -83,12 +83,12 @@
     .dq-badge--missing { background: #ffebee; color: #b71c1c; }
     .dq-badge--pending { background: #eceff1; color: #37474f; }
     .dq-notice {
-      background: var(--card-bg, #fff);
+      background: var(--card, #fff);
       border-left: 4px solid var(--accent, #096e65);
       border-radius: 4px;
       padding: 0.75rem 1rem;
       font-size: 0.85rem;
-      color: var(--text-secondary, #555);
+      color: var(--muted, #476080);
       margin-bottom: 1.5rem;
     }
     .dq-table {
@@ -104,8 +104,8 @@
     }
     .dq-table th {
       font-weight: 600;
-      color: var(--text-secondary, #555);
-      background: var(--bg-muted, #f5f7fa);
+      color: var(--muted, #476080);
+      background: var(--bg2, #e4ecf4);
     }
     @media (max-width: 600px) {
       .dq-grid { grid-template-columns: 1fr; }

@@ -1,8 +1,10 @@
 (function () {
   'use strict';
 
-  // 2024 HUD Colorado AMI gross rent limits (4-person household, monthly)
-  const AMI_LIMITS = { 30: 780, 40: 1040, 50: 1300, 60: 1560 };
+  // 2025 HUD Colorado AMI gross rent limits (Denver-Aurora-Lakewood MSA,
+  // 4-person household, monthly). Based on 4-person AMI = $124,100.
+  // Formula: (AMI × %AMI × 0.30) / 12. May vary by county — verify locally.
+  const AMI_LIMITS = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
   const CREDIT_RATE = 0.09;   // 9% LIHTC (new construction)
   const EQUITY_PRICE = 0.90;  // per dollar of annual credit
   const CREDIT_YEARS = 10;
