@@ -47,9 +47,14 @@
   /**
    * Apply the given scheme to <html>.
    * @param {'dark'|'light'} scheme
+   * @param {boolean} [animate] - Whether to trigger the transition animation (default: false)
    */
-  function applyScheme(scheme) {
+  function applyScheme(scheme, animate) {
     var html = document.documentElement;
+    if (animate) {
+      html.classList.add('theme-transitioning');
+      setTimeout(function () { html.classList.remove('theme-transitioning'); }, 300);
+    }
     if (scheme === 'dark') {
       html.classList.add(CLASS_DARK);
       html.classList.remove(CLASS_LIGHT);
@@ -66,7 +71,7 @@
   function toggle() {
     var html = document.documentElement;
     var next = html.classList.contains(CLASS_DARK) ? 'light' : 'dark';
-    applyScheme(next);
+    applyScheme(next, true);
     savePreference(next);
   }
 
