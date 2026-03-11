@@ -23,10 +23,12 @@
   var CONFIG = {
     // Target data vintage year (ACS 5-Year data); update when Census releases new data
     TARGET_ACS_VINTAGE:       2022,
-    // Target statewide counts
-    TARGET_ACS_TRACTS:        1300,
+    // Target statewide counts — TARGET_ACS_TRACTS matches STATEWIDE_TRACT_COUNT in market-analysis.js
+    TARGET_ACS_TRACTS:        1500,
     TARGET_LIHTC_PROJECTS:    500,
-    TARGET_CENTROIDS:         1000,
+    TARGET_CENTROIDS:         1500,
+    // Production-ready threshold: ≥80% statewide tract coverage
+    PRODUCTION_THRESHOLD:     0.80,
     // Minimum buffer tracts for a reliable aggregate
     MIN_BUFFER_TRACTS:        5,
     TARGET_BUFFER_TRACTS:     20,

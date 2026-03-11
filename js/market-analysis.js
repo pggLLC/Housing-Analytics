@@ -23,6 +23,8 @@
   var AMI_60_PCT       = 0.60;           // default AMI threshold for affordable rent calc
   var AREA_MEDIAN_INCOME_CO = 95000;     // approximate CO statewide AMI ($/yr)
   var MAX_AFFORDABLE_RENT_PCT = 0.30;    // 30% of gross income rule
+  var STATEWIDE_TRACT_COUNT = 1500;      // expected Colorado census tract count (~2020 Census)
+  var COVERAGE_PRODUCTION_THRESHOLD = 0.80; // 80% = production-ready threshold
 
   // PMA dimension weights (must sum to 1.0)
   var WEIGHTS = {
@@ -89,6 +91,24 @@
     return tracts.filter(function (t) {
       return haversine(lat, lon, t.lat, t.lon) <= miles;
     });
+  }
+
+  /* ── Statewide tract coverage utility ──────────────────────────── */
+  /**
+   * Compute statewide tract coverage vs. expected Colorado tract count.
+   * @returns {{ loaded: number, expected: number, pct: number, isProductionReady: boolean, label: string }}
+   */
+  function computeCoverage() {
+    var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
+    var loaded = (tracts && tracts.length) ? tracts.length : 0;
+    var pct    = Math.round((loaded / STATEWIDE_TRACT_COUNT) * 100);
+    return {
+      loaded:            loaded,
+      expected:          STATEWIDE_TRACT_COUNT,
+      pct:               pct,
+      isProductionReady: (loaded / STATEWIDE_TRACT_COUNT) >= COVERAGE_PRODUCTION_THRESHOLD,
+      label:             'Coverage: ' + loaded + ' / ' + STATEWIDE_TRACT_COUNT + ' tracts (' + pct + '%)'
+    };
   }
 
   /* ── Build ACS index by geoid ───────────────────────────────────── */
@@ -1145,6 +1165,26 @@
     if (lihtcEl)  lihtcEl.style.color  = coverageColor(quality.counts.lihtc,     DQ.THRESHOLDS.lihtc.minimum,     DQ.THRESHOLDS.lihtc.target);
     if (tracksEl) tracksEl.style.color = coverageColor(quality.counts.centroids, DQ.THRESHOLDS.centroids.minimum, DQ.THRESHOLDS.centroids.target);
 
+    // Statewide coverage label
+    var cov = computeCoverage();
+    var covEl = el('pmaStatewideCoverage');
+    if (covEl) {
+      covEl.textContent = cov.label;
+      covEl.style.color = cov.isProductionReady ? 'var(--good)' : 'var(--warn)';
+    }
+
+    // Production-readiness warning banner
+    var prodWarnEl = el('pmaCoverageWarning');
+    if (prodWarnEl) {
+      if (!cov.isProductionReady) {
+        prodWarnEl.textContent = '⚠ Data coverage is below production scale (' + cov.pct +
+          '% of ~' + cov.expected + ' statewide tracts) — results may not represent the full PMA.';
+        prodWarnEl.style.display = '';
+      } else {
+        prodWarnEl.style.display = 'none';
+      }
+    }
+
     // Confidence badge
     var confEl = el('pmaConfidenceScore');
     if (confEl) {
@@ -1270,6 +1310,7 @@
   window.PMAEngine = {
     haversine:               haversine,
     computePma:              computePma,
+    computeCoverage:         computeCoverage,
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     scoreTier:               scoreTier,
@@ -1278,6 +1319,8 @@
     scoreWorkforce:          scoreWorkforce,
     WEIGHTS:                 WEIGHTS,
     RISK:                    RISK,
+    STATEWIDE_TRACT_COUNT:   STATEWIDE_TRACT_COUNT,
+    COVERAGE_PRODUCTION_THRESHOLD: COVERAGE_PRODUCTION_THRESHOLD,
     OVERLAY_STYLES:          OVERLAY_STYLES,
     _state: {
       getLihtcLoadError:    function () { return lihtcLoadError; },
