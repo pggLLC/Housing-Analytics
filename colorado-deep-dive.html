@@ -185,6 +185,7 @@
 }
 .kpi-value { font-size: 1.15rem; font-weight: 750; line-height: 1.1; margin-bottom: .25rem; }
 .kpi-label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.kpi-unit { font-size: .68rem; color: var(--faint); margin-top: .15rem; }
 .kpi-source { font-size: .7rem; color: var(--faint); margin-top: .3rem; }
 .kpi-source a { color: var(--faint); }
 
@@ -306,22 +307,30 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <div class="kpi-card">
       <div class="kpi-value">$287M</div>
       <div class="kpi-label">Annual LIHTC Allocation</div>
-      <div class="kpi-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Source</a></div>
+      <div class="kpi-unit">USD · Colorado state total</div>
+      <div class="kpi-delta positive">↑ 4.0% vs prior year</div>
+      <div class="kpi-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value">78</div>
       <div class="kpi-label">HUD LIHTC Properties</div>
-      <div class="kpi-source"><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">Source</a></div>
+      <div class="kpi-unit">active CO properties in pipeline</div>
+      <div class="kpi-delta positive">↑ 6 vs prior year</div>
+      <div class="kpi-source"><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value">7.6%</div>
       <div class="kpi-label">Denver Vacancy Rate (Q4 2025)</div>
-      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
+      <div class="kpi-unit">% of total multifamily units</div>
+      <div class="kpi-delta positive">↑ 1.4 pp vs Q4 2024</div>
+      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily</a></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-value">$169</div>
       <div class="kpi-label">Avg Monthly Concession</div>
-      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">Source</a></div>
+      <div class="kpi-unit">USD · Denver metro per unit</div>
+      <div class="kpi-delta positive">↑ $24 vs Q4 2024</div>
+      <div class="kpi-source"><a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily</a></div>
     </div>
   </div>
 </section>
@@ -539,6 +548,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div style="height: 300px; position: relative;">
 <canvas id="ami-need-chart" role="img" aria-label="Bar chart: Colorado housing need versus available affordable units by AMI level"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
+<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a> · <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS B25063</a> | Units: households &amp; affordable units by AMI band</p>
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
@@ -753,6 +763,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div style="height: 300px; position: relative;">
 <canvas id="concessions-chart" role="img" aria-label="Line chart: Denver Metro average monthly rental concession value 2022–2025"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
+<p class="chart-source">Source: <a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily Outlook 2025</a> | Units: USD/month average concession value</p>
 </div>
 <div class="chart-card">
 <div class="chart-header">
@@ -856,6 +867,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div style="height: 300px; position: relative;">
 <canvas id="foreclosure-chart" role="img" aria-label="Bar chart: Colorado foreclosure filing trends by quarter"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
+<p class="chart-source">Source: <a href="https://www.attomdata.com/solutions/market-trends/foreclosures/" target="_blank" rel="noopener">ATTOM Foreclosure Data</a> | Units: monthly filing count, Colorado statewide</p>
 </div>
 <div class="chart-card">
 <div class="chart-header">
@@ -902,6 +914,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div style="height: 300px; position: relative;">
 <canvas id="confidence-chart" role="img" aria-label="Line chart: NAHB builder confidence index for Colorado housing market"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
+<p class="chart-source">Source: <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index" target="_blank" rel="noopener">NAHB Housing Market Index</a> | Units: index score, 50 = neutral, above = more builders positive than negative</p>
 </div>
 <div class="chart-card">
 <div class="chart-header">

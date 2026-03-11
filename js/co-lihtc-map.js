@@ -848,7 +848,7 @@
     }
 
     try {
-      var map = L.map(mapEl).setView([39.5501, -105.7821], 7);
+      var map = L.map(mapEl, { maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
 
       // Initialize layer groups
       lihtcLayerGroup  = L.layerGroup();
@@ -856,16 +856,31 @@
       qctLayerGroup    = L.layerGroup();
       countyLayerGroup = L.layerGroup();
 
-      // Restrict pan/zoom to Colorado
+      // Restrict pan/zoom to Colorado — tight padding so the map stays on-state
       var coloradoBounds = L.latLngBounds(
         L.latLng(36.8, -109.1),
         L.latLng(41.1, -102.0)
       );
-      map.setMaxBounds(coloradoBounds.pad(0.45));
-      map.setMinZoom(6);
+      map.setMaxBounds(coloradoBounds.pad(0.05));
+      map.setMinZoom(7);
 
       // Apply tile layer from basemap selector (replaces hardcoded OSM)
       wireBasemap(map);
+
+      // ── Leaflet legend control ───────────────────────────────────────────────
+      var legend = L.control({ position: 'bottomright' });
+      legend.onAdd = function () {
+        var div = L.DomUtil.create('div', 'map-legend');
+        div.setAttribute('aria-label', 'Map legend');
+        div.innerHTML =
+          '<strong style="display:block;margin-bottom:6px;font-size:13px;">Map Legend</strong>' +
+          '<div class="row"><span class="swatch-dda"></span><span>DDA — 30% basis boost</span></div>' +
+          '<div class="row"><span class="swatch-qct"></span><span>QCT — 30% basis boost</span></div>' +
+          '<div class="row"><span class="marker-lihtc"></span><span>LIHTC Projects</span></div>' +
+          '<div class="row"><span class="marker-county"></span><span>Counties</span></div>';
+        return div;
+      };
+      legend.addTo(map);
 
       updateStatus('Map ready.');
       console.info('[co-lihtc-map] Map initialized on', mapEl.id || mapEl.tagName);
