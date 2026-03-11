@@ -8,10 +8,12 @@
 
 /* ----------------------------------------------------------------
    1. SMOOTH TRANSITION between light / dark
+      Only active while the theme is being switched (class added/removed
+      by js/dark-mode-toggle.js) to avoid persistent per-element cost.
    ---------------------------------------------------------------- */
-*,
-*::before,
-*::after {
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
   transition:
     background-color 0.25s ease,
     border-color     0.25s ease,
@@ -20,13 +22,15 @@
 }
 
 /* Exempt elements where transitions would hurt UX */
-img,
-video,
-canvas,
-svg,
-.leaflet-container,
-.leaflet-tile,
-[data-no-transition] {
+html.theme-transitioning img,
+html.theme-transitioning video,
+html.theme-transitioning canvas,
+html.theme-transitioning svg,
+html.theme-transitioning table,
+html.theme-transitioning table *,
+html.theme-transitioning .leaflet-container,
+html.theme-transitioning .leaflet-tile,
+html.theme-transitioning [data-no-transition] {
   transition: none !important;
 }
 
