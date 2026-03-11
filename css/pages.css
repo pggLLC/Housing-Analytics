@@ -272,6 +272,30 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+.stat-card .stat-unit {
+  font-size: 0.68rem;
+  color: var(--faint);
+  margin-top: 2px;
+}
+.stat-card .stat-delta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 5px;
+  color: var(--muted);
+}
+.stat-card .stat-delta.positive { color: var(--good); }
+.stat-card .stat-delta.negative { color: var(--bad); }
+.stat-card .stat-delta.flat { color: var(--faint); }
+.stat-card .stat-source {
+  font-size: 0.68rem;
+  color: var(--faint);
+  margin-top: 4px;
+}
+.stat-card .stat-source a {
+  color: var(--faint);
+  text-decoration: none;
+}
+.stat-card .stat-source a:hover { text-decoration: underline; }
 
 /* ================================================================
    FEATURED SECTION
