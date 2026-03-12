@@ -18,14 +18,12 @@ if (!WEBSITE_URL) {
     process.exit(1);
 }
 if (!RECIPIENT_EMAIL) {
-    console.error('ERROR: RECIPIENT_EMAIL environment variable is required.');
-    process.exit(1);
+    console.warn('WARNING: RECIPIENT_EMAIL not set — switching to dry-run mode (no email will be sent).');
+    config.dryRun = true;
 }
 if (!EMAIL_USER || !EMAIL_PASSWORD) {
-    if (!config.dryRun) {
-        console.error('ERROR: EMAIL_USER and EMAIL_PASSWORD environment variables are required.');
-        process.exit(1);
-    }
+    console.warn('WARNING: EMAIL_USER/EMAIL_PASSWORD not set — switching to dry-run mode (no email will be sent).');
+    config.dryRun = true;
 }
 
 const reportsDir = path.join(__dirname, '..', 'monitoring-reports');
