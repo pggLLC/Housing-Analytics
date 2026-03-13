@@ -89,6 +89,24 @@
       tags: ['lihtc', 'county', 'trends'],
       apiEndpoint: null
     },
+    {
+      id: 'co-historical-allocations',
+      name: 'Colorado LIHTC Historical Allocations',
+      category: 'LIHTC / Housing',
+      format: 'JSON',
+      provider: 'HUD / IRS / CHFA / Novogradac',
+      url: 'https://lihtc.huduser.gov/',
+      localFile: 'data/co-historical-allocations.json',
+      lastUpdated: '2026-03-13',
+      updateFrequency: 'Annual',
+      maxAgeDays: 365,
+      geoUnit: 'State',
+      coverage: 'Colorado statewide',
+      features: 37,
+      description: 'Colorado LIHTC allocation history 1988–2024: annual project counts, low-income units, IRS per-capita floor, and state allocation authority. See docs/LIHTC_HISTORICAL_METHODOLOGY.md.',
+      tags: ['lihtc', 'historical', 'allocation', 'colorado', 'irs', 'chfa'],
+      apiEndpoint: null
+    },
     // ── QCT / DDA ────────────────────────────────────────────────
     {
       id: 'qct-colorado',
