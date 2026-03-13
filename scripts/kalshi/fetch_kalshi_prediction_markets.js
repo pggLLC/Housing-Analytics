@@ -313,21 +313,42 @@ function normalizeMarket(cfg, markets) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Guard: if no credentials, write an empty-items file and exit cleanly.
-  // The dashboard will fall back to its built-in mock data.
+  // Guard: if no credentials, preserve any existing seed data and exit cleanly.
+  // This avoids overwriting the illustrative snapshot with an empty-items file
+  // every time the script is run locally without credentials.
   if (!API_KEY || !API_SECRET) {
-    console.warn(
-      'KALSHI_API_KEY and/or KALSHI_API_SECRET are not set.\n' +
-      'Writing empty prediction-market.json — dashboard will use mock data.\n' +
-      'To enable live data, add KALSHI_API_KEY and KALSHI_API_SECRET as\n' +
-      'GitHub Actions secrets (Settings → Secrets and variables → Actions).'
-    );
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify({
-      updated,
-      source: 'kalshi',
-      error:  'Credentials not configured. Set KALSHI_API_KEY and KALSHI_API_SECRET.',
-      items:  [],
-    }, null, 2), 'utf8');
+    const seedExists = fs.existsSync(OUTPUT_FILE);
+    let seedHasItems = false;
+    if (seedExists) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf8'));
+        seedHasItems = Array.isArray(existing.items) && existing.items.length > 0;
+      } catch (parseErr) {
+        console.warn('Could not parse existing prediction-market.json:', parseErr.message);
+      }
+    }
+
+    if (seedHasItems) {
+      console.warn(
+        'KALSHI_API_KEY and/or KALSHI_API_SECRET are not set.\n' +
+        'Preserving existing seed data in ' + OUTPUT_FILE + '.\n' +
+        'To refresh with live data, add KALSHI_API_KEY and KALSHI_API_SECRET as\n' +
+        'GitHub Actions secrets (Settings → Secrets and variables → Actions).'
+      );
+    } else {
+      console.warn(
+        'KALSHI_API_KEY and/or KALSHI_API_SECRET are not set.\n' +
+        'Writing empty-items prediction-market.json — dashboard will use mock data.\n' +
+        'To enable live data, add KALSHI_API_KEY and KALSHI_API_SECRET as\n' +
+        'GitHub Actions secrets (Settings → Secrets and variables → Actions).'
+      );
+      fs.writeFileSync(OUTPUT_FILE, JSON.stringify({
+        updated,
+        source: 'kalshi',
+        error:  'Credentials not configured. Set KALSHI_API_KEY and KALSHI_API_SECRET.',
+        items:  [],
+      }, null, 2), 'utf8');
+    }
     process.exit(0);
   }
 
