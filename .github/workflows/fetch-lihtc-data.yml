@@ -85,8 +85,9 @@ jobs:
 
           fetchAll()
             .then(gj => {
-              fs.writeFileSync(OUT, JSON.stringify(gj));
-              console.log(`QCT: wrote ${gj.features.length} features to ${OUT}`);
+              const out = { ...gj, fetchedAt: new Date().toISOString(), source: 'HUD ArcGIS Qualified_Census_Tracts_2026 FeatureServer — services.arcgis.com' };
+              fs.writeFileSync(OUT, JSON.stringify(out));
+              console.log(`QCT: wrote ${out.features.length} features to ${OUT}`);
             })
             .catch(err => {
               console.error('QCT fetch failed:', err.message);
@@ -136,8 +137,9 @@ jobs:
 
           fetchAll()
             .then(gj => {
-              fs.writeFileSync(OUT, JSON.stringify(gj));
-              console.log(`DDA: wrote ${gj.features.length} features to ${OUT}`);
+              const out = { ...gj, fetchedAt: new Date().toISOString(), source: 'HUD ArcGIS Difficult_Development_Areas_2026 FeatureServer — services.arcgis.com' };
+              fs.writeFileSync(OUT, JSON.stringify(out));
+              console.log(`DDA: wrote ${out.features.length} features to ${OUT}`);
             })
             .catch(err => {
               console.error('DDA fetch failed:', err.message);
