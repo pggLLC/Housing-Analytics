@@ -138,6 +138,54 @@
     return { qctFlag: false, ddaFlag: false };
   }
 
+  /**
+   * Compute the Market Rent / FMR ratio using HudFmr when available.
+   *
+   * Derives the primary county FIPS from PMAEngine's buffered tract geoids
+   * (the first 5 digits of a GEOID are the state+county FIPS).  Falls back
+   * gracefully when HudFmr or the PMAEngine state is not loaded.
+   *
+   * @param {number}      lat  Site latitude.
+   * @param {number}      lon  Site longitude.
+   * @param {Object|null} acs  Aggregated ACS metrics for the buffer.
+   * @returns {number|null}    Market gross rent ÷ 2BR FMR, or null.
+   */
+  function _computeFmrRatio(lat, lon, acs) {
+    var hudFmr = window.HudFmr;
+    if (!hudFmr || !hudFmr.isLoaded()) return null;
+
+    var marketRent = acs && acs.median_gross_rent ? acs.median_gross_rent : null;
+    if (!marketRent) return null;
+
+    // Derive primary county FIPS from PMAEngine buffered tract geoids
+    var countyFips = null;
+    try {
+      var pma = _pma();
+      if (pma && typeof pma.tractsInBuffer === 'function') {
+        var bufTracts = pma.tractsInBuffer(lat, lon, 5);
+        if (bufTracts && bufTracts.length) {
+          var fipsCount = {};
+          for (var i = 0; i < bufTracts.length; i++) {
+            var geoid = String(bufTracts[i].geoid || '');
+            if (geoid.length >= 5) {
+              var f = geoid.slice(0, 5);
+              fipsCount[f] = (fipsCount[f] || 0) + 1;
+            }
+          }
+          var maxCount = 0;
+          Object.keys(fipsCount).forEach(function (f) {
+            if (fipsCount[f] > maxCount) { maxCount = fipsCount[f]; countyFips = f; }
+          });
+        }
+      }
+    } catch (e) {
+      // Fallback: no county FIPS derived — will return null below
+    }
+
+    if (!countyFips) return null;
+    return hudFmr.computeFmrRatio(countyFips, marketRent);
+  }
+
   /* ── Loading / error state helpers ─────────────────────────────── */
 
   /**
@@ -240,7 +288,7 @@
           acs:              acs,
           qctFlag:          flags.qctFlag,
           ddaFlag:          flags.ddaFlag,
-          fmrRatio:         null,    // populated by a data enrichment step if available
+          fmrRatio:         _computeFmrRatio(lat, lon, acs),
           nearbySubsidized: lihtc ? lihtc.length : 0,
           floodRisk:        0,       // default safe value; enriched by overlay data
           soilScore:        50,      // neutral default

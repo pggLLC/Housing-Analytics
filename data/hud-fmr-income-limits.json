@@ -1,0 +1,1806 @@
+{
+  "meta": {
+    "source": "HUD FMR and Income Limits (FY2025)",
+    "url_fmr": "https://www.huduser.gov/portal/datasets/fmr.html",
+    "url_il": "https://www.huduser.gov/portal/datasets/il.html",
+    "fiscal_year": 2025,
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-03-13T00:00:00Z",
+    "note": "FY2025 Fair Market Rents and Income Limits for all 64 Colorado counties. Refresh annually with scripts/fetch_fmr_api.py."
+  },
+  "counties": [
+    {
+      "fips": "08001",
+      "county_name": "Adams County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08003",
+      "county_name": "Alamosa County",
+      "fmr_area_name": "Alamosa County FMR Area",
+      "fmr_area_code": "NCNTY08003CO",
+      "fmr": {
+        "efficiency": 736,
+        "one_br": 754,
+        "two_br": 940,
+        "three_br": 1263,
+        "four_br": 1378
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08005",
+      "county_name": "Arapahoe County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08007",
+      "county_name": "Archuleta County",
+      "fmr_area_name": "Archuleta County FMR Area",
+      "fmr_area_code": "NCNTY08007CO",
+      "fmr": {
+        "efficiency": 975,
+        "one_br": 999,
+        "two_br": 1222,
+        "three_br": 1711,
+        "four_br": 1921
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08009",
+      "county_name": "Baca County",
+      "fmr_area_name": "Baca County FMR Area",
+      "fmr_area_code": "NCNTY08009CO",
+      "fmr": {
+        "efficiency": 585,
+        "one_br": 600,
+        "two_br": 747,
+        "three_br": 1005,
+        "four_br": 1120
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08011",
+      "county_name": "Bent County",
+      "fmr_area_name": "Bent County FMR Area",
+      "fmr_area_code": "NCNTY08011CO",
+      "fmr": {
+        "efficiency": 585,
+        "one_br": 600,
+        "two_br": 747,
+        "three_br": 1005,
+        "four_br": 1120
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08013",
+      "county_name": "Boulder County",
+      "fmr_area_name": "Boulder HUD Metro FMR Area",
+      "fmr_area_code": "METRO14500CO",
+      "fmr": {
+        "efficiency": 1519,
+        "one_br": 1712,
+        "two_br": 2143,
+        "three_br": 2888,
+        "four_br": 3256
+      },
+      "income_limits": {
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
+      }
+    },
+    {
+      "fips": "08014",
+      "county_name": "Broomfield County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08015",
+      "county_name": "Chaffee County",
+      "fmr_area_name": "Chaffee County FMR Area",
+      "fmr_area_code": "NCNTY08015CO",
+      "fmr": {
+        "efficiency": 996,
+        "one_br": 1019,
+        "two_br": 1317,
+        "three_br": 1780,
+        "four_br": 1993
+      },
+      "income_limits": {
+        "ami_4person": 90600,
+        "il30_1person": 19050,
+        "il30_2person": 21750,
+        "il30_3person": 24450,
+        "il30_4person": 27200,
+        "il50_1person": 31700,
+        "il50_2person": 36250,
+        "il50_3person": 40750,
+        "il50_4person": 45300,
+        "il80_1person": 50750,
+        "il80_2person": 58000,
+        "il80_3person": 65250,
+        "il80_4person": 72500
+      }
+    },
+    {
+      "fips": "08017",
+      "county_name": "Cheyenne County",
+      "fmr_area_name": "Cheyenne County FMR Area",
+      "fmr_area_code": "NCNTY08017CO",
+      "fmr": {
+        "efficiency": 619,
+        "one_br": 635,
+        "two_br": 791,
+        "three_br": 1063,
+        "four_br": 1186
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08019",
+      "county_name": "Clear Creek County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08021",
+      "county_name": "Conejos County",
+      "fmr_area_name": "Conejos County FMR Area",
+      "fmr_area_code": "NCNTY08021CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08023",
+      "county_name": "Costilla County",
+      "fmr_area_name": "Costilla County FMR Area",
+      "fmr_area_code": "NCNTY08023CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08025",
+      "county_name": "Crowley County",
+      "fmr_area_name": "Crowley County FMR Area",
+      "fmr_area_code": "NCNTY08025CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08027",
+      "county_name": "Custer County",
+      "fmr_area_name": "Custer County FMR Area",
+      "fmr_area_code": "NCNTY08027CO",
+      "fmr": {
+        "efficiency": 894,
+        "one_br": 916,
+        "two_br": 1187,
+        "three_br": 1596,
+        "four_br": 1782
+      },
+      "income_limits": {
+        "ami_4person": 83400,
+        "il30_1person": 17500,
+        "il30_2person": 20000,
+        "il30_3person": 22500,
+        "il30_4person": 25000,
+        "il50_1person": 29200,
+        "il50_2person": 33350,
+        "il50_3person": 37550,
+        "il50_4person": 41700,
+        "il80_1person": 46700,
+        "il80_2person": 53400,
+        "il80_3person": 60050,
+        "il80_4person": 66700
+      }
+    },
+    {
+      "fips": "08029",
+      "county_name": "Delta County",
+      "fmr_area_name": "Delta County FMR Area",
+      "fmr_area_code": "NCNTY08029CO",
+      "fmr": {
+        "efficiency": 777,
+        "one_br": 796,
+        "two_br": 1003,
+        "three_br": 1379,
+        "four_br": 1539
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08031",
+      "county_name": "Denver County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08033",
+      "county_name": "Dolores County",
+      "fmr_area_name": "Dolores County FMR Area",
+      "fmr_area_code": "NCNTY08033CO",
+      "fmr": {
+        "efficiency": 777,
+        "one_br": 796,
+        "two_br": 1003,
+        "three_br": 1379,
+        "four_br": 1539
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08035",
+      "county_name": "Douglas County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08037",
+      "county_name": "Eagle County",
+      "fmr_area_name": "Edwards HUD Metro FMR Area",
+      "fmr_area_code": "HMFA16620CO",
+      "fmr": {
+        "efficiency": 2056,
+        "one_br": 2196,
+        "two_br": 2724,
+        "three_br": 3625,
+        "four_br": 4117
+      },
+      "income_limits": {
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
+      }
+    },
+    {
+      "fips": "08039",
+      "county_name": "Elbert County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08041",
+      "county_name": "El Paso County",
+      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
+      "fmr_area_code": "METRO17820CO",
+      "fmr": {
+        "efficiency": 1028,
+        "one_br": 1110,
+        "two_br": 1348,
+        "three_br": 1782,
+        "four_br": 2077
+      },
+      "income_limits": {
+        "ami_4person": 111700,
+        "il30_1person": 23450,
+        "il30_2person": 26800,
+        "il30_3person": 30150,
+        "il30_4person": 33500,
+        "il50_1person": 39100,
+        "il50_2person": 44700,
+        "il50_3person": 50250,
+        "il50_4person": 55850,
+        "il80_1person": 62550,
+        "il80_2person": 71500,
+        "il80_3person": 80400,
+        "il80_4person": 89350
+      }
+    },
+    {
+      "fips": "08043",
+      "county_name": "Fremont County",
+      "fmr_area_name": "Fremont County FMR Area",
+      "fmr_area_code": "NCNTY08043CO",
+      "fmr": {
+        "efficiency": 814,
+        "one_br": 834,
+        "two_br": 1049,
+        "three_br": 1406,
+        "four_br": 1567
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08045",
+      "county_name": "Garfield County",
+      "fmr_area_name": "Garfield County FMR Area",
+      "fmr_area_code": "NCNTY08045CO",
+      "fmr": {
+        "efficiency": 1131,
+        "one_br": 1159,
+        "two_br": 1458,
+        "three_br": 1978,
+        "four_br": 2213
+      },
+      "income_limits": {
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
+      }
+    },
+    {
+      "fips": "08047",
+      "county_name": "Gilpin County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08049",
+      "county_name": "Grand County",
+      "fmr_area_name": "Grand County FMR Area",
+      "fmr_area_code": "NCNTY08049CO",
+      "fmr": {
+        "efficiency": 1035,
+        "one_br": 1060,
+        "two_br": 1333,
+        "three_br": 1824,
+        "four_br": 2040
+      },
+      "income_limits": {
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
+      }
+    },
+    {
+      "fips": "08051",
+      "county_name": "Gunnison County",
+      "fmr_area_name": "Gunnison County FMR Area",
+      "fmr_area_code": "NCNTY08051CO",
+      "fmr": {
+        "efficiency": 1053,
+        "one_br": 1080,
+        "two_br": 1348,
+        "three_br": 1820,
+        "four_br": 2034
+      },
+      "income_limits": {
+        "ami_4person": 93400,
+        "il30_1person": 19600,
+        "il30_2person": 22400,
+        "il30_3person": 25200,
+        "il30_4person": 28000,
+        "il50_1person": 32700,
+        "il50_2person": 37350,
+        "il50_3person": 42050,
+        "il50_4person": 46700,
+        "il80_1person": 52300,
+        "il80_2person": 59800,
+        "il80_3person": 67250,
+        "il80_4person": 74700
+      }
+    },
+    {
+      "fips": "08053",
+      "county_name": "Hinsdale County",
+      "fmr_area_name": "Hinsdale County FMR Area",
+      "fmr_area_code": "NCNTY08053CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08055",
+      "county_name": "Huerfano County",
+      "fmr_area_name": "Huerfano County FMR Area",
+      "fmr_area_code": "NCNTY08055CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08057",
+      "county_name": "Jackson County",
+      "fmr_area_name": "Jackson County FMR Area",
+      "fmr_area_code": "NCNTY08057CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08059",
+      "county_name": "Jefferson County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08061",
+      "county_name": "Kiowa County",
+      "fmr_area_name": "Kiowa County FMR Area",
+      "fmr_area_code": "NCNTY08061CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08063",
+      "county_name": "Kit Carson County",
+      "fmr_area_name": "Kit Carson County FMR Area",
+      "fmr_area_code": "NCNTY08063CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08065",
+      "county_name": "Lake County",
+      "fmr_area_name": "Lake County FMR Area",
+      "fmr_area_code": "NCNTY08065CO",
+      "fmr": {
+        "efficiency": 1035,
+        "one_br": 1060,
+        "two_br": 1333,
+        "three_br": 1824,
+        "four_br": 2040
+      },
+      "income_limits": {
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
+      }
+    },
+    {
+      "fips": "08067",
+      "county_name": "La Plata County",
+      "fmr_area_name": "La Plata County FMR Area",
+      "fmr_area_code": "NCNTY08067CO",
+      "fmr": {
+        "efficiency": 1098,
+        "one_br": 1125,
+        "two_br": 1417,
+        "three_br": 1936,
+        "four_br": 2167
+      },
+      "income_limits": {
+        "ami_4person": 103500,
+        "il30_1person": 21750,
+        "il30_2person": 24850,
+        "il30_3person": 27950,
+        "il30_4person": 31050,
+        "il50_1person": 36200,
+        "il50_2person": 41400,
+        "il50_3person": 46600,
+        "il50_4person": 51750,
+        "il80_1person": 57950,
+        "il80_2person": 66250,
+        "il80_3person": 74500,
+        "il80_4person": 82800
+      }
+    },
+    {
+      "fips": "08069",
+      "county_name": "Larimer County",
+      "fmr_area_name": "Fort Collins HUD Metro FMR Area",
+      "fmr_area_code": "METRO22660CO",
+      "fmr": {
+        "efficiency": 1276,
+        "one_br": 1371,
+        "two_br": 1617,
+        "three_br": 2172,
+        "four_br": 2608
+      },
+      "income_limits": {
+        "ami_4person": 120400,
+        "il30_1person": 25300,
+        "il30_2person": 28900,
+        "il30_3person": 32500,
+        "il30_4person": 36100,
+        "il50_1person": 42150,
+        "il50_2person": 48150,
+        "il50_3person": 54200,
+        "il50_4person": 60200,
+        "il80_1person": 67400,
+        "il80_2person": 77050,
+        "il80_3person": 86700,
+        "il80_4person": 96300
+      }
+    },
+    {
+      "fips": "08071",
+      "county_name": "Las Animas County",
+      "fmr_area_name": "Las Animas County FMR Area",
+      "fmr_area_code": "NCNTY08071CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08073",
+      "county_name": "Lincoln County",
+      "fmr_area_name": "Lincoln County FMR Area",
+      "fmr_area_code": "NCNTY08073CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08075",
+      "county_name": "Logan County",
+      "fmr_area_name": "Logan County FMR Area",
+      "fmr_area_code": "NCNTY08075CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 945,
+        "three_br": 1259,
+        "four_br": 1403
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08077",
+      "county_name": "Mesa County",
+      "fmr_area_name": "Mesa County FMR Area",
+      "fmr_area_code": "NCNTY08077CO",
+      "fmr": {
+        "efficiency": 987,
+        "one_br": 1012,
+        "two_br": 1275,
+        "three_br": 1724,
+        "four_br": 1928
+      },
+      "income_limits": {
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
+      }
+    },
+    {
+      "fips": "08079",
+      "county_name": "Mineral County",
+      "fmr_area_name": "Mineral County FMR Area",
+      "fmr_area_code": "NCNTY08079CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08081",
+      "county_name": "Moffat County",
+      "fmr_area_name": "Moffat County FMR Area",
+      "fmr_area_code": "NCNTY08081CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08083",
+      "county_name": "Montezuma County",
+      "fmr_area_name": "Montezuma County FMR Area",
+      "fmr_area_code": "NCNTY08083CO",
+      "fmr": {
+        "efficiency": 833,
+        "one_br": 854,
+        "two_br": 1073,
+        "three_br": 1445,
+        "four_br": 1618
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08085",
+      "county_name": "Montrose County",
+      "fmr_area_name": "Montrose County FMR Area",
+      "fmr_area_code": "NCNTY08085CO",
+      "fmr": {
+        "efficiency": 840,
+        "one_br": 861,
+        "two_br": 1083,
+        "three_br": 1460,
+        "four_br": 1634
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08087",
+      "county_name": "Morgan County",
+      "fmr_area_name": "Morgan County FMR Area",
+      "fmr_area_code": "NCNTY08087CO",
+      "fmr": {
+        "efficiency": 833,
+        "one_br": 854,
+        "two_br": 1073,
+        "three_br": 1445,
+        "four_br": 1618
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08089",
+      "county_name": "Otero County",
+      "fmr_area_name": "Otero County FMR Area",
+      "fmr_area_code": "NCNTY08089CO",
+      "fmr": {
+        "efficiency": 654,
+        "one_br": 671,
+        "two_br": 836,
+        "three_br": 1118,
+        "four_br": 1246
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08091",
+      "county_name": "Ouray County",
+      "fmr_area_name": "Ouray County FMR Area",
+      "fmr_area_code": "NCNTY08091CO",
+      "fmr": {
+        "efficiency": 992,
+        "one_br": 1017,
+        "two_br": 1279,
+        "three_br": 1736,
+        "four_br": 1944
+      },
+      "income_limits": {
+        "ami_4person": 96300,
+        "il30_1person": 20200,
+        "il30_2person": 23100,
+        "il30_3person": 26000,
+        "il30_4person": 28900,
+        "il50_1person": 33700,
+        "il50_2person": 38500,
+        "il50_3person": 43350,
+        "il50_4person": 48150,
+        "il80_1person": 53950,
+        "il80_2person": 61650,
+        "il80_3person": 69350,
+        "il80_4person": 77050
+      }
+    },
+    {
+      "fips": "08093",
+      "county_name": "Park County",
+      "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
+      "fmr_area_code": "METRO19740CO",
+      "fmr": {
+        "efficiency": 1348,
+        "one_br": 1484,
+        "two_br": 1802,
+        "three_br": 2386,
+        "four_br": 2750
+      },
+      "income_limits": {
+        "ami_4person": 124100,
+        "il30_1person": 26050,
+        "il30_2person": 29800,
+        "il30_3person": 33500,
+        "il30_4person": 37250,
+        "il50_1person": 43450,
+        "il50_2person": 49650,
+        "il50_3person": 55850,
+        "il50_4person": 62050,
+        "il80_1person": 69500,
+        "il80_2person": 79400,
+        "il80_3person": 89350,
+        "il80_4person": 99300
+      }
+    },
+    {
+      "fips": "08095",
+      "county_name": "Phillips County",
+      "fmr_area_name": "Phillips County FMR Area",
+      "fmr_area_code": "NCNTY08095CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08097",
+      "county_name": "Pitkin County",
+      "fmr_area_name": "Aspen HUD Metro FMR Area",
+      "fmr_area_code": "HMFA11220CO",
+      "fmr": {
+        "efficiency": 3046,
+        "one_br": 3340,
+        "two_br": 4184,
+        "three_br": 5632,
+        "four_br": 6395
+      },
+      "income_limits": {
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
+      }
+    },
+    {
+      "fips": "08099",
+      "county_name": "Prowers County",
+      "fmr_area_name": "Prowers County FMR Area",
+      "fmr_area_code": "NCNTY08099CO",
+      "fmr": {
+        "efficiency": 654,
+        "one_br": 671,
+        "two_br": 836,
+        "three_br": 1118,
+        "four_br": 1246
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08101",
+      "county_name": "Pueblo County",
+      "fmr_area_name": "Pueblo County FMR Area",
+      "fmr_area_code": "NCNTY08101CO",
+      "fmr": {
+        "efficiency": 835,
+        "one_br": 856,
+        "two_br": 1076,
+        "three_br": 1449,
+        "four_br": 1621
+      },
+      "income_limits": {
+        "ami_4person": 87900,
+        "il30_1person": 18450,
+        "il30_2person": 21100,
+        "il30_3person": 23750,
+        "il30_4person": 26350,
+        "il50_1person": 30750,
+        "il50_2person": 35150,
+        "il50_3person": 39550,
+        "il50_4person": 43950,
+        "il80_1person": 49200,
+        "il80_2person": 56250,
+        "il80_3person": 63300,
+        "il80_4person": 70300
+      }
+    },
+    {
+      "fips": "08103",
+      "county_name": "Rio Blanco County",
+      "fmr_area_name": "Rio Blanco County FMR Area",
+      "fmr_area_code": "NCNTY08103CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08105",
+      "county_name": "Rio Grande County",
+      "fmr_area_name": "Rio Grande County FMR Area",
+      "fmr_area_code": "NCNTY08105CO",
+      "fmr": {
+        "efficiency": 654,
+        "one_br": 671,
+        "two_br": 836,
+        "three_br": 1118,
+        "four_br": 1246
+      },
+      "income_limits": {
+        "ami_4person": 78600,
+        "il30_1person": 16500,
+        "il30_2person": 18850,
+        "il30_3person": 21200,
+        "il30_4person": 23600,
+        "il50_1person": 27500,
+        "il50_2person": 31450,
+        "il50_3person": 35350,
+        "il50_4person": 39300,
+        "il80_1person": 44000,
+        "il80_2person": 50300,
+        "il80_3person": 56600,
+        "il80_4person": 62900
+      }
+    },
+    {
+      "fips": "08107",
+      "county_name": "Routt County",
+      "fmr_area_name": "Routt County FMR Area",
+      "fmr_area_code": "NCNTY08107CO",
+      "fmr": {
+        "efficiency": 1339,
+        "one_br": 1372,
+        "two_br": 1724,
+        "three_br": 2331,
+        "four_br": 2608
+      },
+      "income_limits": {
+        "ami_4person": 115000,
+        "il30_1person": 24150,
+        "il30_2person": 27600,
+        "il30_3person": 31050,
+        "il30_4person": 34500,
+        "il50_1person": 40250,
+        "il50_2person": 46000,
+        "il50_3person": 51750,
+        "il50_4person": 57500,
+        "il80_1person": 64400,
+        "il80_2person": 73600,
+        "il80_3person": 82800,
+        "il80_4person": 92000
+      }
+    },
+    {
+      "fips": "08109",
+      "county_name": "Saguache County",
+      "fmr_area_name": "Saguache County FMR Area",
+      "fmr_area_code": "NCNTY08109CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 75600,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20400,
+        "il30_4person": 22700,
+        "il50_1person": 26450,
+        "il50_2person": 30250,
+        "il50_3person": 34000,
+        "il50_4person": 37800,
+        "il80_1person": 42350,
+        "il80_2person": 48400,
+        "il80_3person": 54450,
+        "il80_4person": 60500
+      }
+    },
+    {
+      "fips": "08111",
+      "county_name": "San Juan County",
+      "fmr_area_name": "San Juan County FMR Area",
+      "fmr_area_code": "NCNTY08111CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08113",
+      "county_name": "San Miguel County",
+      "fmr_area_name": "San Miguel County FMR Area",
+      "fmr_area_code": "NCNTY08113CO",
+      "fmr": {
+        "efficiency": 1035,
+        "one_br": 1060,
+        "two_br": 1333,
+        "three_br": 1824,
+        "four_br": 2040
+      },
+      "income_limits": {
+        "ami_4person": 97600,
+        "il30_1person": 20500,
+        "il30_2person": 23400,
+        "il30_3person": 26350,
+        "il30_4person": 29300,
+        "il50_1person": 34150,
+        "il50_2person": 39050,
+        "il50_3person": 43900,
+        "il50_4person": 48800,
+        "il80_1person": 54650,
+        "il80_2person": 62450,
+        "il80_3person": 70250,
+        "il80_4person": 78100
+      }
+    },
+    {
+      "fips": "08115",
+      "county_name": "Sedgwick County",
+      "fmr_area_name": "Sedgwick County FMR Area",
+      "fmr_area_code": "NCNTY08115CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08117",
+      "county_name": "Summit County",
+      "fmr_area_name": "Summit County HUD Metro FMR Area",
+      "fmr_area_code": "HMFA44700CO",
+      "fmr": {
+        "efficiency": 1955,
+        "one_br": 2143,
+        "two_br": 2684,
+        "three_br": 3635,
+        "four_br": 4125
+      },
+      "income_limits": {
+        "ami_4person": 131900,
+        "il30_1person": 27700,
+        "il30_2person": 31650,
+        "il30_3person": 35600,
+        "il30_4person": 39550,
+        "il50_1person": 46150,
+        "il50_2person": 52750,
+        "il50_3person": 59350,
+        "il50_4person": 65950,
+        "il80_1person": 73850,
+        "il80_2person": 84400,
+        "il80_3person": 94950,
+        "il80_4person": 105500
+      }
+    },
+    {
+      "fips": "08119",
+      "county_name": "Teller County",
+      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
+      "fmr_area_code": "METRO17820CO",
+      "fmr": {
+        "efficiency": 1028,
+        "one_br": 1110,
+        "two_br": 1348,
+        "three_br": 1782,
+        "four_br": 2077
+      },
+      "income_limits": {
+        "ami_4person": 111700,
+        "il30_1person": 23450,
+        "il30_2person": 26800,
+        "il30_3person": 30150,
+        "il30_4person": 33500,
+        "il50_1person": 39100,
+        "il50_2person": 44700,
+        "il50_3person": 50250,
+        "il50_4person": 55850,
+        "il80_1person": 62550,
+        "il80_2person": 71500,
+        "il80_3person": 80400,
+        "il80_4person": 89350
+      }
+    },
+    {
+      "fips": "08121",
+      "county_name": "Washington County",
+      "fmr_area_name": "Washington County FMR Area",
+      "fmr_area_code": "NCNTY08121CO",
+      "fmr": {
+        "efficiency": 636,
+        "one_br": 652,
+        "two_br": 812,
+        "three_br": 1091,
+        "four_br": 1218
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    },
+    {
+      "fips": "08123",
+      "county_name": "Weld County",
+      "fmr_area_name": "Greeley HUD Metro FMR Area",
+      "fmr_area_code": "METRO24540CO",
+      "fmr": {
+        "efficiency": 1087,
+        "one_br": 1108,
+        "two_br": 1438,
+        "three_br": 1892,
+        "four_br": 2139
+      },
+      "income_limits": {
+        "ami_4person": 108200,
+        "il30_1person": 22700,
+        "il30_2person": 25950,
+        "il30_3person": 29200,
+        "il30_4person": 32450,
+        "il50_1person": 37850,
+        "il50_2person": 43300,
+        "il50_3person": 48700,
+        "il50_4person": 54100,
+        "il80_1person": 60600,
+        "il80_2person": 69250,
+        "il80_3person": 77900,
+        "il80_4person": 86550
+      }
+    },
+    {
+      "fips": "08125",
+      "county_name": "Yuma County",
+      "fmr_area_name": "Yuma County FMR Area",
+      "fmr_area_code": "NCNTY08125CO",
+      "fmr": {
+        "efficiency": 714,
+        "one_br": 733,
+        "two_br": 918,
+        "three_br": 1232,
+        "four_br": 1375
+      },
+      "income_limits": {
+        "ami_4person": 84200,
+        "il30_1person": 17700,
+        "il30_2person": 20200,
+        "il30_3person": 22750,
+        "il30_4person": 25250,
+        "il50_1person": 29450,
+        "il50_2person": 33700,
+        "il50_3person": 37900,
+        "il50_4person": 42100,
+        "il80_1person": 47150,
+        "il80_2person": 53900,
+        "il80_3person": 60600,
+        "il80_4person": 67350
+      }
+    }
+  ]
+}
