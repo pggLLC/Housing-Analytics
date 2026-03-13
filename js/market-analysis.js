@@ -1115,6 +1115,20 @@
         workforceDataLoaded = true;
       });
 
+      // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
+      if (window.OsmAmenities && DS) {
+        DS.getJSON(DS.baseData('derived/market-analysis/neighborhood_access.json'))
+          .then(function (data) {
+            var records = data && Array.isArray(data.amenities) ? data.amenities : [];
+            if (records.length > 0) {
+              window.OsmAmenities.loadAmenities(records);
+            }
+          })
+          .catch(function (e) {
+            console.warn('[market-analysis] neighborhood_access.json unavailable:', e && e.message);
+          });
+      }
+
       // Data quality assessment
       var DQ = window.PMADataQuality;
       if (DQ) {
