@@ -335,14 +335,14 @@
       format: 'JSON',
       provider: 'HUD',
       url: 'https://www.huduser.gov/portal/datasets/fmr.html',
-      localFile: 'data/hud-fair-market-rents.json',
+      localFile: 'data/hud-fmr-income-limits.json',
       lastUpdated: '2025-10-01',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'FMR Area / County',
       coverage: 'Colorado statewide',
-      features: 25,
-      description: 'HUD Fair Market Rents by bedroom size for Colorado FMR areas (FY2025).',
+      features: 64,
+      description: 'HUD Fair Market Rents by bedroom size for all 64 Colorado counties (FY2025). Combined with income limits.',
       tags: ['fmr', 'hud', 'rent', 'affordability'],
       apiEndpoint: 'https://www.huduser.gov/hudapi/public/fmr'
     },
@@ -353,16 +353,16 @@
       format: 'JSON',
       provider: 'HUD',
       url: 'https://www.huduser.gov/portal/datasets/il.html',
-      localFile: 'data/hud-income-limits.json',
+      localFile: 'data/hud-fmr-income-limits.json',
       lastUpdated: '2025-04-01',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'County',
       coverage: 'Colorado statewide',
       features: 64,
-      description: 'HUD Area Median Income and income limits (30%, 50%, 60%, 80% AMI) for Colorado counties.',
+      description: 'HUD Area Median Income and income limits (30%, 50%, 80% AMI) for all 64 Colorado counties. Combined with FMR data.',
       tags: ['ami', 'income-limits', 'hud'],
-      apiEndpoint: 'https://www.huduser.gov/hudapi/public/acs'
+      apiEndpoint: 'https://www.huduser.gov/hudapi/public/income'
     },
     // ── Zillow ──────────────────────────────────────────────────
     {

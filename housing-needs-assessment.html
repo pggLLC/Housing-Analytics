@@ -36,6 +36,8 @@
   <script defer src="js/hna-export.js"></script>
   <!-- Compliance checklist persistence and state management -->
   <script defer src="js/compliance-checklist.js"></script>
+  <!-- HUD FMR & Income Limits connector (must load before housing-needs-assessment.js) -->
+  <script defer src="js/data-connectors/hud-fmr.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
@@ -154,6 +156,24 @@
           <div class="stat"><div class="k">DDA status</div><div class="v" id="statDdaStatus">—</div><div class="s" id="statDdaNote">HUD designation</div></div>
         </div>
         <div id="lihtcInfoPanel" style="margin-top:10px"></div>
+      </div>
+
+      <!-- ── HUD FMR & Income Limits panel ─────────────────────── -->
+      <div class="chart-card span-8" id="hudFmrPanel">
+        <h2>HUD Fair Market Rents &amp; Income Limits</h2>
+        <p>FY2025 HUD Fair Market Rents by bedroom size and Income Limits by household size for the selected county. Source: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD User</a>.</p>
+        <div id="hudFmrAreaName" style="margin:6px 0;font-size:var(--small);color:var(--muted)">Select a geography to view FMR data.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp3);margin-top:8px">
+          <div>
+            <div style="font-size:var(--small);font-weight:700;margin-bottom:4px">Fair Market Rents</div>
+            <div id="hudFmrTable">—</div>
+          </div>
+          <div>
+            <div style="font-size:var(--small);font-weight:700;margin-bottom:4px">Income Limits (annual)</div>
+            <div id="hudIncomeLimitsTable">—</div>
+          </div>
+        </div>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
       </div>
 
       <div class="chart-card span-6">
