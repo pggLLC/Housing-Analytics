@@ -842,6 +842,34 @@
     var total = items.length;
     var announcer = document.getElementById('chfaChecklistAnnouncer');
 
+    /* ── localStorage persistence helpers ── */
+    function chfaStorageKey() {
+      var geoEl  = document.getElementById('geoSelect');
+      var geoid  = geoEl ? (geoEl.value || '') : '';
+      return 'hna_chfa_' + geoid;
+    }
+
+    function saveChfaState() {
+      try {
+        var state = {};
+        items.forEach(function (cb) { state[cb.id] = cb.checked; });
+        localStorage.setItem(chfaStorageKey(), JSON.stringify(state));
+      } catch (_) { /* graceful degradation in private-browsing mode */ }
+    }
+
+    function loadChfaState() {
+      try {
+        var raw = localStorage.getItem(chfaStorageKey());
+        if (!raw) return;
+        var state = JSON.parse(raw);
+        items.forEach(function (cb) {
+          if (typeof state[cb.id] === 'boolean') {
+            cb.checked = state[cb.id];
+          }
+        });
+      } catch (_) { /* ignore corrupted entries */ }
+    }
+
     function update() {
       var done = 0;
       items.forEach(function (cb) {
@@ -874,11 +902,23 @@
         }
         var msg = labelText + (cb.checked ? ' — checked' : ' — unchecked');
         if (announcer) announcer.textContent = msg;
+        saveChfaState();
         update();
       });
     });
 
+    // Restore persisted state, then sync visual state
+    loadChfaState();
     update();
+
+    // Re-load persisted state whenever the selected geography changes
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (geoSelectEl) {
+      geoSelectEl.addEventListener('change', function () {
+        loadChfaState();
+        update();
+      });
+    }
   }
 
   /* ── Coverage label (populated from PMAEngine if available) ───── */

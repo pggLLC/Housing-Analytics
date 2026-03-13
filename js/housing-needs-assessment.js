@@ -1911,6 +1911,14 @@
     if (!Number.isFinite(pop) || pop <= 0) {
       return { eligible: null, threshold: null, reason: 'Population data unavailable' };
     }
+    // CDPs are unincorporated areas and are not eligible jurisdictions under HB 22-1093
+    if (geoType === 'cdp') {
+      return {
+        eligible:  false,
+        threshold: null,
+        reason:    'Census-Designated Places (unincorporated areas) are not eligible jurisdictions under HB 22-1093',
+      };
+    }
     const isCounty  = geoType === 'county';
     const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
     const eligible  = pop >= threshold;
@@ -2635,13 +2643,15 @@
 
   function renderChecklist(baselineData, eligibility) {
     const hasBaseline  = !!(baselineData && baselineData.baseline60Ami);
-    const hasGrowth    = !!(baselineData && baselineData.baseline60Ami);
+    const hasGrowth    = false; // growth target adoption is a distinct user action from baseline establishment
     const hasFastTrack = !!(eligibility && eligibility.eligible);
 
     // If the ComplianceChecklist module is loaded, use it for persistence
     if (window.ComplianceChecklist) {
       const geoType = els.geoType ? els.geoType.value : 'county';
-      const geoid   = els.geoSelect ? els.geoSelect.value : '';
+      // Prop 123 applies to individual jurisdictions, not the state as a whole
+      if (geoType === 'state') return;
+      const geoid = els.geoSelect ? els.geoSelect.value : '';
 
       // Load saved state; auto-check items supported by data
       const savedState = window.ComplianceChecklist.initComplianceChecklist(geoType, geoid);
@@ -2940,9 +2950,17 @@
       const histData = tracker.getHistoricalAffordableData(geoType, geoid, baseline);
       const traj     = tracker.calculateComplianceTrajectory(baseline, histData.actuals, currentYear);
 
+      // Determine whether any actual (user-supplied) counts have been recorded.
+      // Check the current year's key directly to avoid scanning all sessionStorage keys.
+      const hasActuals = (typeof sessionStorage !== 'undefined') &&
+        sessionStorage.getItem('prop123_actual_' + geoid + '_' + currentYear) !== null;
+
       const statusEl = document.getElementById('prop123HistoricalStatus');
       if (statusEl) {
-        if (traj.onTrack === null) {
+        if (!hasActuals) {
+          statusEl.textContent = 'Projected baseline only — submit actual unit counts for compliance tracking';
+          statusEl.className   = 'compliance-status status-unknown';
+        } else if (traj.onTrack === null) {
           statusEl.textContent = 'Insufficient data to determine compliance status.';
           statusEl.className   = 'compliance-status status-unknown';
         } else if (traj.onTrack) {

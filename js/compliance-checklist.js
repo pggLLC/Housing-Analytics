@@ -50,7 +50,7 @@
 
   /**
    * Build the localStorage key for a given geography.
-   * @param {string} geoType - 'state' | 'county' | 'municipality'
+   * @param {string} geoType - 'state' | 'county' | 'municipality' | 'place' | 'cdp'
    * @param {string} geoid   - FIPS or place code
    * @returns {string}
    */
@@ -175,7 +175,7 @@
    *   - Reads localStorage.
    *   - Updates DOM checkboxes and CSS classes to match saved state.
    *
-   * @param {string} geoType - 'state' | 'county' | 'municipality'
+   * @param {string} geoType - 'state' | 'county' | 'municipality' | 'place' | 'cdp'
    * @param {string} geoid   - 5-digit FIPS (county/state) or 7-digit place FIPS
    * @returns {object} The current checklist state
    */
