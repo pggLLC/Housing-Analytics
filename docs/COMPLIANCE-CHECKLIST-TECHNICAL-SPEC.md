@@ -46,7 +46,7 @@ Initialize the checklist for a specific geography. Loads any saved localStorage 
 
 | Parameter | Type   | Description                                       |
 |-----------|--------|---------------------------------------------------|
-| `geoType` | string | `'state'` \| `'county'` \| `'municipality'`       |
+| `geoType` | string | `'state'` \| `'county'` \| `'place'` \| `'cdp'` \| `'municipality'` |
 | `geoid`   | string | 5-digit county FIPS or 7-digit place FIPS         |
 
 **Returns:** `{object}` — The full checklist state record.
