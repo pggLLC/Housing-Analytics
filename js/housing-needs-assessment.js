@@ -1911,6 +1911,14 @@
     if (!Number.isFinite(pop) || pop <= 0) {
       return { eligible: null, threshold: null, reason: 'Population data unavailable' };
     }
+    // CDPs are unincorporated areas and not eligible jurisdictions under HB 22-1093
+    if (geoType === 'cdp') {
+      return {
+        eligible:  false,
+        threshold: null,
+        reason:    'Census-Designated Places (unincorporated areas) are not eligible jurisdictions under HB 22-1093',
+      };
+    }
     const isCounty  = geoType === 'county';
     const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
     const eligible  = pop >= threshold;
@@ -2635,13 +2643,15 @@
 
   function renderChecklist(baselineData, eligibility) {
     const hasBaseline  = !!(baselineData && baselineData.baseline60Ami);
-    const hasGrowth    = !!(baselineData && baselineData.baseline60Ami);
+    const hasGrowth    = false; // Growth target adoption is a manual user action, not auto-derived from baseline
     const hasFastTrack = !!(eligibility && eligibility.eligible);
 
     // If the ComplianceChecklist module is loaded, use it for persistence
     if (window.ComplianceChecklist) {
       const geoType = els.geoType ? els.geoType.value : 'county';
-      const geoid   = els.geoSelect ? els.geoSelect.value : '';
+      let   geoid   = els.geoSelect ? els.geoSelect.value : '';
+      // Use Colorado state FIPS as fallback when no specific geoid is selected
+      if (geoType === 'state' && !geoid) geoid = '08';
 
       // Load saved state; auto-check items supported by data
       const savedState = window.ComplianceChecklist.initComplianceChecklist(geoType, geoid);
@@ -2940,10 +2950,13 @@
       const histData = tracker.getHistoricalAffordableData(geoType, geoid, baseline);
       const traj     = tracker.calculateComplianceTrajectory(baseline, histData.actuals, currentYear);
 
+      // Check if any actuals beyond the baseline year have been reported
+      const hasActuals = histData.actuals.slice(1).some(a => a !== null);
+
       const statusEl = document.getElementById('prop123HistoricalStatus');
       if (statusEl) {
-        if (traj.onTrack === null) {
-          statusEl.textContent = 'Insufficient data to determine compliance status.';
+        if (!hasActuals || traj.onTrack === null) {
+          statusEl.textContent = 'Projected baseline only — submit actual unit counts for compliance tracking';
           statusEl.className   = 'compliance-status status-unknown';
         } else if (traj.onTrack) {
           statusEl.textContent = 'On track — meeting 3% annual growth requirement';
