@@ -1,0 +1,414 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "National Housing Preservation Database (NHPD)",
+    "url": "https://preservationdatabase.org/",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-03-13T00:00:00Z",
+    "note": "Stub dataset. Rebuild via scripts/fetch_nhpd.py",
+    "feature_count": 20
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9903, 39.7392] },
+      "properties": {
+        "nhpd_id": "CO-001",
+        "property_name": "Mariposa Apartments",
+        "address": "1650 Fox St",
+        "city": "Denver",
+        "county": "Denver",
+        "county_fips": "08031",
+        "state": "CO",
+        "zip": "80204",
+        "total_units": 210,
+        "assisted_units": 210,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2027-09-30",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9420, 39.7285] },
+      "properties": {
+        "nhpd_id": "CO-002",
+        "property_name": "Capitol Hill Affordable Lofts",
+        "address": "1250 E Colfax Ave",
+        "city": "Denver",
+        "county": "Denver",
+        "county_fips": "08031",
+        "state": "CO",
+        "zip": "80218",
+        "total_units": 84,
+        "assisted_units": 72,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2035-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0844, 39.7511] },
+      "properties": {
+        "nhpd_id": "CO-003",
+        "property_name": "Lamar Station Crossing",
+        "address": "5975 W 13th Ave",
+        "city": "Lakewood",
+        "county": "Jefferson",
+        "county_fips": "08059",
+        "state": "CO",
+        "zip": "80214",
+        "total_units": 195,
+        "assisted_units": 195,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2026-08-31",
+        "owner_type": "for-profit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8214, 38.8339] },
+      "properties": {
+        "nhpd_id": "CO-004",
+        "property_name": "Pikes Peak Terrace",
+        "address": "420 N Cascade Ave",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "county_fips": "08041",
+        "state": "CO",
+        "zip": "80903",
+        "total_units": 120,
+        "assisted_units": 96,
+        "subsidy_type": "HOME",
+        "subsidy_expiration": "2031-06-30",
+        "owner_type": "nonprofit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0844, 40.5508] },
+      "properties": {
+        "nhpd_id": "CO-005",
+        "property_name": "Mountain View Senior Housing",
+        "address": "800 W Drake Rd",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "county_fips": "08069",
+        "state": "CO",
+        "zip": "80526",
+        "total_units": 100,
+        "assisted_units": 100,
+        "subsidy_type": "HUD Section 202",
+        "subsidy_expiration": "2034-03-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.2705, 40.0150] },
+      "properties": {
+        "nhpd_id": "CO-006",
+        "property_name": "Boulder Creek Residences",
+        "address": "1345 28th St",
+        "city": "Boulder",
+        "county": "Boulder",
+        "county_fips": "08013",
+        "state": "CO",
+        "zip": "80303",
+        "total_units": 60,
+        "assisted_units": 48,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2028-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.6091, 38.2544] },
+      "properties": {
+        "nhpd_id": "CO-007",
+        "property_name": "Pueblo Downtown Affordable",
+        "address": "215 S Grand Ave",
+        "city": "Pueblo",
+        "county": "Pueblo",
+        "county_fips": "08101",
+        "state": "CO",
+        "zip": "81003",
+        "total_units": 78,
+        "assisted_units": 78,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2026-12-31",
+        "owner_type": "for-profit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.6764, 40.4233] },
+      "properties": {
+        "nhpd_id": "CO-008",
+        "property_name": "Greeley Family Homes",
+        "address": "820 10th St",
+        "city": "Greeley",
+        "county": "Weld",
+        "county_fips": "08123",
+        "state": "CO",
+        "zip": "80631",
+        "total_units": 144,
+        "assisted_units": 130,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2033-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9714, 39.6461] },
+      "properties": {
+        "nhpd_id": "CO-009",
+        "property_name": "Englewood Heights",
+        "address": "3400 S Acoma St",
+        "city": "Englewood",
+        "county": "Arapahoe",
+        "county_fips": "08005",
+        "state": "CO",
+        "zip": "80110",
+        "total_units": 90,
+        "assisted_units": 90,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2027-04-30",
+        "owner_type": "for-profit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.7606, 38.9039] },
+      "properties": {
+        "nhpd_id": "CO-010",
+        "property_name": "Fountain Senior Community",
+        "address": "201 S Santa Fe Ave",
+        "city": "Fountain",
+        "county": "El Paso",
+        "county_fips": "08041",
+        "state": "CO",
+        "zip": "80817",
+        "total_units": 56,
+        "assisted_units": 56,
+        "subsidy_type": "HUD Section 202",
+        "subsidy_expiration": "2030-09-30",
+        "owner_type": "nonprofit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.3272, 39.9911] },
+      "properties": {
+        "nhpd_id": "CO-011",
+        "property_name": "Westminster Commons",
+        "address": "8600 Sheridan Blvd",
+        "city": "Westminster",
+        "county": "Jefferson",
+        "county_fips": "08059",
+        "state": "CO",
+        "zip": "80003",
+        "total_units": 112,
+        "assisted_units": 100,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2032-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9969, 39.8561] },
+      "properties": {
+        "nhpd_id": "CO-012",
+        "property_name": "Thornton Workforce Housing",
+        "address": "9235 Washington St",
+        "city": "Thornton",
+        "county": "Adams",
+        "county_fips": "08001",
+        "state": "CO",
+        "zip": "80229",
+        "total_units": 176,
+        "assisted_units": 158,
+        "subsidy_type": "HOME",
+        "subsidy_expiration": "2029-06-30",
+        "owner_type": "for-profit",
+        "ami_targeting": "80%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.0169, 39.6144] },
+      "properties": {
+        "nhpd_id": "CO-013",
+        "property_name": "Centennial Senior Flats",
+        "address": "7890 E Arapahoe Rd",
+        "city": "Centennial",
+        "county": "Arapahoe",
+        "county_fips": "08005",
+        "state": "CO",
+        "zip": "80112",
+        "total_units": 68,
+        "assisted_units": 68,
+        "subsidy_type": "HUD Section 202",
+        "subsidy_expiration": "2036-11-30",
+        "owner_type": "nonprofit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.1019, 40.3772] },
+      "properties": {
+        "nhpd_id": "CO-014",
+        "property_name": "Loveland Affordable Flats",
+        "address": "1515 E Eisenhower Blvd",
+        "city": "Loveland",
+        "county": "Larimer",
+        "county_fips": "08069",
+        "state": "CO",
+        "zip": "80537",
+        "total_units": 88,
+        "assisted_units": 80,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2027-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-108.5506, 39.0639] },
+      "properties": {
+        "nhpd_id": "CO-015",
+        "property_name": "Mesa Valley Homes",
+        "address": "785 Ute Ave",
+        "city": "Grand Junction",
+        "county": "Mesa",
+        "county_fips": "08077",
+        "state": "CO",
+        "zip": "81501",
+        "total_units": 64,
+        "assisted_units": 52,
+        "subsidy_type": "HOME",
+        "subsidy_expiration": "2026-09-30",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9219, 39.7528] },
+      "properties": {
+        "nhpd_id": "CO-016",
+        "property_name": "Aurora Gateway Residences",
+        "address": "11400 E Colfax Ave",
+        "city": "Aurora",
+        "county": "Arapahoe",
+        "county_fips": "08005",
+        "state": "CO",
+        "zip": "80010",
+        "total_units": 200,
+        "assisted_units": 180,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2028-06-30",
+        "owner_type": "for-profit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.9858, 39.7684] },
+      "properties": {
+        "nhpd_id": "CO-017",
+        "property_name": "Five Points Preservation",
+        "address": "2500 Welton St",
+        "city": "Denver",
+        "county": "Denver",
+        "county_fips": "08031",
+        "state": "CO",
+        "zip": "80205",
+        "total_units": 48,
+        "assisted_units": 48,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2026-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "50%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-104.8561, 38.8674] },
+      "properties": {
+        "nhpd_id": "CO-018",
+        "property_name": "Northside Family Housing",
+        "address": "2110 N Weber St",
+        "city": "Colorado Springs",
+        "county": "El Paso",
+        "county_fips": "08041",
+        "state": "CO",
+        "zip": "80907",
+        "total_units": 72,
+        "assisted_units": 60,
+        "subsidy_type": "HOME",
+        "subsidy_expiration": "2033-12-31",
+        "owner_type": "for-profit",
+        "ami_targeting": "80%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.1358, 40.5853] },
+      "properties": {
+        "nhpd_id": "CO-019",
+        "property_name": "Fort Collins Harmony Homes",
+        "address": "3220 Harmony Rd",
+        "city": "Fort Collins",
+        "county": "Larimer",
+        "county_fips": "08069",
+        "state": "CO",
+        "zip": "80528",
+        "total_units": 130,
+        "assisted_units": 130,
+        "subsidy_type": "HUD Section 8 PBRA",
+        "subsidy_expiration": "2029-11-30",
+        "owner_type": "for-profit",
+        "ami_targeting": "60%"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-105.2228, 40.1472] },
+      "properties": {
+        "nhpd_id": "CO-020",
+        "property_name": "Longmont Commons",
+        "address": "600 S Pratt Pkwy",
+        "city": "Longmont",
+        "county": "Boulder",
+        "county_fips": "08013",
+        "state": "CO",
+        "zip": "80501",
+        "total_units": 96,
+        "assisted_units": 96,
+        "subsidy_type": "LIHTC",
+        "subsidy_expiration": "2031-12-31",
+        "owner_type": "nonprofit",
+        "ami_targeting": "60%"
+      }
+    }
+  ]
+}

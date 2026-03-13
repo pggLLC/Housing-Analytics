@@ -22,6 +22,7 @@
         { label: "State Allocations", href: "state-allocation-map.html", desc: "2026 LIHTC allocations" },
         { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
         { label: "Construction Costs", href: "construction-commodities.html", desc: "PPI & commodities" },
+        { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
         { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "All 43+ data sources" },
       ]
     },
