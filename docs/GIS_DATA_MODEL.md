@@ -217,10 +217,18 @@ Stores a score calculation result with full explainability.
 
 ### 3.1 LIHTC Inventory
 
-1. **Fetch**: GitHub Actions `fetch-chfa-lihtc.yml` queries CHFA ArcGIS Feature Service (public endpoint) nightly; falls back to HUD LIHTC ArcGIS if CHFA is unavailable
-2. **Transform**: Raw feature records normalized to `Property` schema; coordinates extracted from ArcGIS geometry
-3. **Cache**: Written to `data/chfa-lihtc.json`; in-browser `localStorage` cache with 24-hour TTL
-4. **Serve**: `co-lihtc-map.js` reads local file first; fetches live on stale/miss
+**Canonical fetch script:** `scripts/fetch-chfa-lihtc.js` — run weekly by `.github/workflows/fetch-chfa-lihtc.yml`.
+
+**Update cadence:** Every Monday at 05:00 UTC (offset 1 h after the QCT/DDA cache at 04:00).  Run manually via the GitHub Actions UI ("Fetch CHFA LIHTC Data" → "Run workflow") whenever:
+- The cached file is missing or stale after a fresh clone or branch reset.
+- CHFA releases a new allocation round or updates project records.
+- HUD annual LIHTC database vintage changes (typically Q4).
+
+1. **Fetch**: `fetch-chfa-lihtc.yml` runs `scripts/fetch-chfa-lihtc.js`, which queries the CHFA ArcGIS FeatureServer (CHFA primary → HUD ArcGIS fallback) for all Colorado LIHTC projects.
+2. **Transform**: Raw ArcGIS features normalized to the `Property` schema; FIPS codes zero-padded to 5 digits; `fetchedAt` ISO-8601 UTC timestamp and `source` URL written to the top-level JSON envelope.
+3. **Cache**: Written to `data/chfa-lihtc.json` (GeoJSON FeatureCollection with `fetchedAt` / `source` metadata); also split per-county to `data/hna/lihtc/{fips5}.json` by `scripts/split-lihtc-by-county.js`.
+4. **Serve**: `co-lihtc-map.js` uses a four-tier fallback: CHFA ArcGIS → HUD ArcGIS → `data/chfa-lihtc.json` → embedded JSON. When reading from the local file, the `fetchedAt` date is displayed in the `#map-status` bar (e.g. "Source: local backup (716 projects) · cache: 2025-10-14").
+5. **HNA page**: `housing-needs-assessment.js` also reads `data/chfa-lihtc.json`; the `fetchedAt` date is shown in `#lihtcMapStatus` (e.g. "Source: local · cache: 2025-10-14").
 
 ### 3.2 Prop 123 Jurisdictions
 
@@ -237,9 +245,18 @@ Stores a score calculation result with full explainability.
 
 ### 3.4 DDA / QCT Overlays
 
-1. **Source**: HUD ArcGIS Feature Services (public)
-2. **Fetch**: On-demand from `co-lihtc-map.js` when user enables the overlay
-3. **Cache**: Response cached in `localStorage` for 7 days
+**Canonical fetch workflow:** `.github/workflows/cache-hud-gis-data.yml` (primary, runs Monday 04:00 UTC).  A secondary workflow `fetch-lihtc-data.yml` also writes the same files on Sundays at 07:00 UTC (see Redundancy Analysis in DATA-SOURCES.md).
+
+**Update cadence:** Weekly on Monday at 04:00 UTC.  Run manually via the GitHub Actions UI ("Cache HUD GIS Overlay Data" → "Run workflow") whenever:
+- The cached files are missing or stale after a fresh clone.
+- HUD releases a new QCT or DDA designation vintage (e.g. 2026 → 2027).
+- A new featured geography needs its tracts pre-cached.
+
+1. **Source**: HUD ArcGIS FeatureServers — `Qualified_Census_Tracts_2026` and `Difficult_Development_Areas_2026` (public, no API key).
+2. **Fetch**: `cache-hud-gis-data.yml` queries HUD ArcGIS REST using paginated GeoJSON requests with `outSR=4326`; a `fetchedAt` ISO-8601 UTC timestamp and `source` URL are written to the top-level JSON envelope.
+3. **Transform**: DDA features normalized by `scripts/normalize-dda.js` (maps `DDA_NAME → NAME`, `DDA_CODE → GEOID`, etc.); `fetchedAt` is preserved through normalization.
+4. **Cache**: Written to `data/qct-colorado.json` and `data/dda-colorado.json`.
+5. **Serve**: `co-lihtc-map.js` reads local cache first; falls back to embedded representative polygons. The `fetchedAt` date from the cached files is displayed in `#map-source-date` (e.g. "Data: QCT/DDA cache: 2025-10-14").
 
 ### 3.5 PMA Geometry (Buffer Mode)
 

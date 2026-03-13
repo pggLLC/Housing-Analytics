@@ -813,7 +813,7 @@
       try {
         const stateGj = await loadJson('data/chfa-lihtc.json');
         if (stateGj && Array.isArray(stateGj.features) && stateGj.features.length > 0) {
-          return { ...stateGj, _source: 'local' };
+          return { ...stateGj, _source: 'local', _fetchedAt: stateGj.fetchedAt || null };
         }
       } catch(e) {
         if (e.httpStatus !== 404) {
@@ -890,7 +890,7 @@
               (f.properties && (f.properties.COUNTYFP || '') === countyFips)
             );
             if (features.length > 0) {
-              return { type: 'FeatureCollection', features, _source: 'local' };
+              return { type: 'FeatureCollection', features, _source: 'local', _fetchedAt: stateGj.fetchedAt || null };
             }
             // File loaded but no features for this county — not a deployment error; fall through
             // to remote APIs in case the county has newer projects not yet in the local file.
@@ -1297,7 +1297,12 @@
       renderLihtcLayer(lihtcData);
       if (els.lihtcMapStatus) {
         const src = lihtcData && lihtcData._source;
-        els.lihtcMapStatus.textContent = src ? `Source: ${src}` : '';
+        const fetchedAt = lihtcData && lihtcData._fetchedAt;
+        let dateStr = '';
+        if (fetchedAt) {
+          try { dateStr = ` · cache: ${new Date(fetchedAt).toISOString().slice(0, 10)}`; } catch (_) { /* unparseable */ }
+        }
+        els.lihtcMapStatus.textContent = src ? `Source: ${src}${dateStr}` : '';
       }
     } catch(e) {
       if (requestSeq !== _lihtcRequestSeq) return;
