@@ -842,6 +842,36 @@
     var total = items.length;
     var announcer = document.getElementById('chfaChecklistAnnouncer');
 
+    /** Build a namespaced localStorage key scoped to the current geography. */
+    function storageKey() {
+      var geoSelect = document.getElementById('geoSelect');
+      var geoType   = document.getElementById('geoType');
+      var geoid = (geoSelect && geoSelect.value) ? geoSelect.value : 'default';
+      var type  = (geoType  && geoType.value)  ? geoType.value  : '';
+      return 'hna_chfa_' + (type ? type + '_' : '') + geoid;
+    }
+
+    /** Persist current checkbox states to localStorage. */
+    function saveState() {
+      try {
+        var state = {};
+        items.forEach(function (cb) { state[cb.id] = cb.checked; });
+        localStorage.setItem(storageKey(), JSON.stringify(state));
+      } catch (_) { /* graceful degradation */ }
+    }
+
+    /** Restore checkbox states from localStorage. */
+    function restoreState() {
+      try {
+        var raw = localStorage.getItem(storageKey());
+        if (!raw) return;
+        var state = JSON.parse(raw);
+        items.forEach(function (cb) {
+          if (typeof state[cb.id] === 'boolean') cb.checked = state[cb.id];
+        });
+      } catch (_) { /* graceful degradation */ }
+    }
+
     function update() {
       var done = 0;
       items.forEach(function (cb) {
@@ -874,10 +904,18 @@
         }
         var msg = labelText + (cb.checked ? ' — checked' : ' — unchecked');
         if (announcer) announcer.textContent = msg;
+        saveState();
         update();
       });
     });
 
+    // Re-run restore + update when geography changes so progress is per-jurisdiction
+    var geoSelect = document.getElementById('geoSelect');
+    var geoType   = document.getElementById('geoType');
+    if (geoSelect) geoSelect.addEventListener('change', function () { restoreState(); update(); });
+    if (geoType)   geoType.addEventListener('change',   function () { restoreState(); update(); });
+
+    restoreState();
     update();
   }
 

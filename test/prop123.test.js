@@ -73,6 +73,14 @@ function checkFastTrackEligibility(population, geoType) {
   if (!Number.isFinite(pop) || pop <= 0) {
     return { eligible: null, threshold: null, reason: 'Population data unavailable' };
   }
+  // CDPs are unincorporated areas and not eligible jurisdictions under HB 22-1093
+  if (geoType === 'cdp') {
+    return {
+      eligible:  false,
+      threshold: null,
+      reason:    'Census-Designated Places (unincorporated areas) are not eligible jurisdictions under HB 22-1093',
+    };
+  }
   const isCounty  = geoType === 'county';
   const threshold = isCounty ? PROP123_COUNTY_THRESHOLD : PROP123_MUNICIPALITY_THRESHOLD;
   const eligible  = pop >= threshold;
@@ -204,7 +212,8 @@ test('checkFastTrackEligibility: municipality threshold is 1,000', () => {
   assert(below.eligible === false, 'place 999 is not eligible');
 
   const cdp = checkFastTrackEligibility(2000, 'cdp');
-  assert(cdp.eligible === true, 'CDP 2000 is eligible (non-county threshold)');
+  assert(cdp.eligible === false, 'CDP is never eligible — unincorporated areas excluded by HB 22-1093');
+  assert(cdp.threshold === null, 'CDP has no population threshold');
 });
 
 test('checkFastTrackEligibility: missing population returns null eligible', () => {
