@@ -128,6 +128,42 @@
     }
   }
 
+  /**
+   * Format an ISO-8601 UTC string into a short human-readable date (e.g. "2025-10-14").
+   * Returns an empty string if the input is missing or unparseable.
+   * @param {string} isoString
+   * @returns {string}
+   */
+  function formatShortDate(isoString) {
+    if (!isoString) return '';
+    try {
+      var d = new Date(isoString);
+      if (isNaN(d.getTime())) return '';
+      return d.toISOString().slice(0, 10);
+    } catch (_) { return ''; }
+  }
+
+  /**
+   * Update the #map-source-date element (if present) with a combined source/date note
+   * for the LIHTC, QCT, and DDA layers.  Each argument is a human-readable fragment
+   * such as "LIHTC: 2025-10-14" or an empty string if the date is unknown.
+   *
+   * @param {string} lihtcDate   Date string for LIHTC data, or ''
+   * @param {string} overlayDate Date string for QCT/DDA overlay data, or ''
+   */
+  function updateSourceDate(lihtcDate, overlayDate) {
+    var el = document.getElementById('map-source-date');
+    if (!el) return;
+    var parts = [];
+    if (lihtcDate)  parts.push('LIHTC cache: ' + lihtcDate);
+    if (overlayDate) parts.push('QCT/DDA cache: ' + overlayDate);
+    el.textContent = parts.length ? 'Data: ' + parts.join(' · ') : '';
+  }
+
+  // Shared state so LIHTC and overlay loaders can each update one element.
+  var _srcDateLihtc   = '';
+  var _srcDateOverlay = '';
+
   // ── Fetch with timeout ───────────────────────────────────────────────────────
   function fetchWithTimeout(url, options, timeout) {
     timeout = timeout || 5000;
@@ -626,7 +662,12 @@
       .then(function(gj) {
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
           renderQctLayer(map, gj);
-          console.info('[co-lihtc-map] QCT loaded from local cache (' + gj.features.length + ' features).');
+          var date = formatShortDate(gj.fetchedAt);
+          console.info('[co-lihtc-map] QCT loaded from local cache (' + gj.features.length + ' features)' + (date ? ' · cache: ' + date : '') + '.');
+          if (date && !_srcDateOverlay) {
+            _srcDateOverlay = date;
+            updateSourceDate(_srcDateLihtc, _srcDateOverlay);
+          }
         } else {
           renderQctLayer(map, FALLBACK_QCT);
           console.warn('[co-lihtc-map] Local qct-colorado.json empty; using embedded fallback.');
@@ -646,7 +687,12 @@
       .then(function(gj) {
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
           renderDdaLayer(map, gj);
-          console.info('[co-lihtc-map] DDA loaded from local cache (' + gj.features.length + ' features).');
+          var date = formatShortDate(gj.fetchedAt || gj.normalizedAt);
+          console.info('[co-lihtc-map] DDA loaded from local cache (' + gj.features.length + ' features)' + (date ? ' · cache: ' + date : '') + '.');
+          if (date && !_srcDateOverlay) {
+            _srcDateOverlay = date;
+            updateSourceDate(_srcDateLihtc, _srcDateOverlay);
+          }
         } else {
           renderDdaLayer(map, FALLBACK_DDA);
           console.warn('[co-lihtc-map] Local dda-colorado.json empty; using embedded fallback.');
@@ -730,7 +776,11 @@
           if (validateData(localData)) {
             var n = localData.features.length;
             renderData(map, localData);
-            updateStatus('Source: local backup (' + n + ' projects)');
+            var date = formatShortDate(localData.fetchedAt);
+            var dateSuffix = date ? ' · cache: ' + date : '';
+            updateStatus('Source: local backup (' + n + ' projects)' + dateSuffix);
+            _srcDateLihtc = date;
+            updateSourceDate(_srcDateLihtc, _srcDateOverlay);
           } else {
             console.warn('[co-lihtc-map] Local LIHTC file has no features; using embedded fallback.');
             useEmbedded();

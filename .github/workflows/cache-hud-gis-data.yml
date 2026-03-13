@@ -100,8 +100,9 @@ jobs:
               try {
                 const gj = await fetchAll(where);
                 if (gj.features.length) {
-                  fs.writeFileSync('data/qct-colorado.json', JSON.stringify(gj));
-                  console.log(`Wrote ${gj.features.length} QCT features to data/qct-colorado.json (where: ${where})`);
+                  const out = { ...gj, fetchedAt: new Date().toISOString(), source: 'HUD ArcGIS Qualified_Census_Tracts_2026 FeatureServer — services.arcgis.com' };
+                  fs.writeFileSync('data/qct-colorado.json', JSON.stringify(out));
+                  console.log(`Wrote ${out.features.length} QCT features to data/qct-colorado.json (where: ${where})`);
                   return;
                 }
                 console.warn(`QCT where="${where}" returned 0 features, trying next filter`);
@@ -163,7 +164,7 @@ jobs:
                 // Always apply client-side filter to guarantee only Colorado features are written.
                 const coFeats = gj.features.filter(isColorado);
                 if (coFeats.length) {
-                  const out = { ...gj, features: coFeats };
+                  const out = { ...gj, features: coFeats, fetchedAt: new Date().toISOString(), source: 'HUD ArcGIS Difficult_Development_Areas_2026 FeatureServer — services.arcgis.com' };
                   fs.writeFileSync('data/dda-colorado.json', JSON.stringify(out));
                   console.log(`Wrote ${coFeats.length} Colorado DDA features to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
                   return;
