@@ -42,6 +42,10 @@ SUMMARY_DIR = os.path.join(ROOT, 'data', 'hna', 'summary')
 STATE_FIPS = '08'
 STATE_LABEL = 'Colorado'
 
+# Colorado has exactly 64 counties. Any county-aggregate validation should warn
+# if fewer than this number of county summary files are found. (Rule 4)
+EXPECTED_CO_COUNTY_COUNT = 64
+
 # ---------------------------------------------------------------------------
 # ACS variable lists (mirror county-level build_hna_data.py)
 # ---------------------------------------------------------------------------
@@ -182,6 +186,8 @@ def fetch_acs_s0801(start_year: int, n_fallback: int) -> dict | None:
     """Fetch ACS S0801 (Commuting) variables for Colorado state level.
 
     Tries ACS1/subject → ACS5/subject for each year in descending order.
+    Stores ``_acsYear`` and ``_acsSeries`` in the returned dict so callers can
+    record which vintage and series were actually used (commuting reliability).
     """
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
@@ -194,7 +200,10 @@ def fetch_acs_s0801(start_year: int, n_fallback: int) -> dict | None:
                         f'ℹ ACS S0801: resolved via {series}/subject year={year}',
                         file=sys.stderr,
                     )
-                return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                data['_acsYear'] = year
+                data['_acsSeries'] = series
+                return data
     print(
         f'⚠ Could not fetch ACS S0801 for state:{STATE_FIPS} (tried years {list(years)})',
         file=sys.stderr,
@@ -270,6 +279,11 @@ def validate_against_county_aggregates(
             print(f'  ⚠ Could not load {fp}: {exc}')
 
     print(f'  Loaded {loaded} of {len(county_files)} county files')
+    if loaded < EXPECTED_CO_COUNTY_COUNT:
+        print(
+            f'  ⚠ Only {loaded} county files found; expected {EXPECTED_CO_COUNTY_COUNT}. '
+            'Some counties may be missing from the aggregate.',
+        )
 
     def check(label: str, state_val: object, county_agg: float) -> None:
         sv = _safe_float(state_val)
@@ -331,6 +345,20 @@ def main(validate_counties: bool = False) -> int:
 
     _warn_null_fields(acs_profile, acs_s0801)
 
+    # Derive the actually-used series/year from the metadata embedded in the
+    # returned S0801 dict (commuting reliability: record what was truly used).
+    s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
+    s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+
+    # Count how many county summary files are already on disk for transparency.
+    try:
+        county_file_count = sum(
+            1 for fn in os.listdir(SUMMARY_DIR)
+            if fn.endswith('.json') and len(fn) == 10 and fn.startswith('08') and fn != '08.json'
+        )
+    except OSError:
+        county_file_count = None
+
     payload: dict = {
         'updated': utc_now(),
         'geo': {
@@ -342,7 +370,13 @@ def main(validate_counties: bool = False) -> int:
         'acsS0801': acs_s0801,
         'source': {
             'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
-            'acs_s0801_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/subject',
+            'acs_s0801_endpoint': (
+                f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
+            ),
+            'county_coverage': (
+                f'{county_file_count} of {EXPECTED_CO_COUNTY_COUNT} Colorado counties'
+                if county_file_count is not None else None
+            ),
         },
     }
 

@@ -1659,26 +1659,33 @@
       return `${base}?${qs}`;
     }
 
-    const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/subject');
-    let r = await _fetchCensusUrl(url1, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
+    // ACS 1-year data is not published for geographic units with fewer than
+    // 65,000 residents (CDPs are the main example in Colorado). For CDPs, skip
+    // the ACS1 probe entirely and go directly to ACS 5-year subject tables,
+    // avoiding up to 5 unnecessary failing requests.
+    let r = null;
     let usedYear = ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
-    let url2 = null;
-    if (!r || !r.ok){
-      // Probe vintages newest-first for ACS 1-year
-      r = null;
-      for (const v of ACS_VINTAGES) {
-        const u = buildUrl(v, 'acs/acs1/subject');
-        const resp = await _fetchCensusUrl(u, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+
+    if (geoType !== 'cdp') {
+      const url1 = buildUrl(ACS_YEAR_PRIMARY, 'acs/acs1/subject');
+      r = await _fetchCensusUrl(url1, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
+      if (!r || !r.ok){
+        // Probe vintages newest-first for ACS 1-year
+        r = null;
+        for (const v of ACS_VINTAGES) {
+          const u = buildUrl(v, 'acs/acs1/subject');
+          const resp = await _fetchCensusUrl(u, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + v);
+          if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+        }
       }
     }
     if (!r || !r.ok){
       if (DEBUG_HNA) console.warn('[HNA] fetchAcsS0801: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 subject');
       // Try ACS 5-year vintage probe
       for (const v of ACS_VINTAGES) {
-        url2 = buildUrl(v, 'acs/acs5/subject');
-        const resp = await _fetchCensusUrl(url2, 'ACS5 S0801 ' + geoType + ':' + geoid + ' y=' + v);
+        const u = buildUrl(v, 'acs/acs5/subject');
+        const resp = await _fetchCensusUrl(u, 'ACS5 S0801 ' + geoType + ':' + geoid + ' y=' + v);
         if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
       }
     }
@@ -3086,7 +3093,7 @@
     els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
     const commYr = s0801?._acsYear   || yr;
     const commSr = s0801?._acsSeries || sr;
-    els.statCommuteSrc.innerHTML = srcLink('S0801', commYr, commSr, 'S0801', gt, gid);
+    els.statCommuteSrc.innerHTML = srcLink('S0801 · mean travel time (min)', commYr, commSr, 'S0801', gt, gid);
 
     els.geoContextPill.textContent = geoLabel;
 
@@ -3253,6 +3260,9 @@
     if (items.length === 0) { showPlaceholder(); return; }
 
     const workerLabel = `${fmtNum(totalWorkers)} workers 16+`;
+    const modeYear   = s0801._acsYear   || ACS_YEAR_PRIMARY;
+    const modeSeries = s0801._acsSeries || 'acs1';
+    const seriesLabel = modeSeries === 'acs1' ? 'ACS1' : 'ACS5';
 
     makeChart(canvas.getContext('2d'), {
       type:'bar',
@@ -3269,7 +3279,7 @@
         maintainAspectRatio:false,
         plugins:{
           legend:{ labels:{ color:t.text } },
-          subtitle:{ display:true, text:`Source: Census ACS S0801 · ${workerLabel}`, color:t.muted, font:{ size:10 }, padding:{ bottom:4 } },
+          subtitle:{ display:true, text:`${seriesLabel} ${modeYear} S0801 · mode shares (% of workers 16+) · ${workerLabel}`, color:t.muted, font:{ size:10 }, padding:{ bottom:4 } },
           tooltip:{
             callbacks:{
               label:(ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
@@ -3279,7 +3289,7 @@
         scales:{
           x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
           y:{ ticks:{ color:t.muted, callback:(v)=>v+'%' }, grid:{ color:t.border }, suggestedMax:100,
-              title:{ display:true, text:'Mode Share (%)', color:t.muted, font:{ size:11 } } },
+              title:{ display:true, text:'Mode Share (% of workers)', color:t.muted, font:{ size:11 } } },
         },
       },
     });
