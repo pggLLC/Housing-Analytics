@@ -4380,12 +4380,52 @@
       title: 'Affordability model',
       html: `"Income needed to buy" is a transparent mortgage approximation using ACS median home value, ` +
             `a fixed-rate amortization, and simple tax/insurance/PMI assumptions shown on the page. ` +
-            `This is a screening metric, not an underwriting decision.`
-    });
+    els.methodology.innerHTML = html;
+  }
 
-    items.push({
-      title: 'Commuting (ACS)',
-      html: `Mode shares and mean commute time use ACS Subject Table S0801. ` +
+  // --- HUD FMR & Income Limits panel ---
+  function renderFmrPanel(countyFips5) {
+    var areaEl  = document.getElementById('hudFmrAreaName');
+    var fmrEl   = document.getElementById('hudFmrTable');
+    var ilEl    = document.getElementById('hudIncomeLimitsTable');
+    if (!areaEl && !fmrEl && !ilEl) return;  // panel not present on page
+
+    if (!window.HudFmr || !window.HudFmr.isLoaded()) {
+      // Attempt a load then re-render; show a loading state in the meantime.
+      var loader = window.HudFmr ? window.HudFmr.load() : Promise.resolve();
+      loader.then(function () { renderFmrPanel(countyFips5); });
+      if (fmrEl)  fmrEl.textContent  = 'Loading…';
+      if (ilEl)   ilEl.textContent   = 'Loading…';
+      return;
+    }
+
+    var fips = countyFips5 && String(countyFips5).padStart(5, '0');
+    if (!fips || !fips.startsWith('08')) {
+      // Statewide or non-county — show statewide note
+      if (areaEl) areaEl.textContent = 'Select a county to view county-specific FMR and income limits.';
+      if (fmrEl)  fmrEl.textContent  = '—';
+      if (ilEl)   ilEl.textContent   = '—';
+      return;
+    }
+
+    var summary = window.HudFmr.getSummaryByFips(fips);
+    if (!summary) {
+      if (areaEl) areaEl.textContent = 'FMR data not available for FIPS ' + fips;
+      if (fmrEl)  fmrEl.textContent  = '—';
+      if (ilEl)   ilEl.textContent   = '—';
+      return;
+    }
+
+    var meta = window.HudFmr.getMeta();
+    var fy   = (meta && meta.fiscal_year) ? 'FY' + meta.fiscal_year + ' — ' : '';
+    if (areaEl) areaEl.textContent = fy + summary.fmr_area_name;
+    if (fmrEl)  fmrEl.innerHTML  = window.HudFmr.renderFmrTable(fips);
+    if (ilEl)   ilEl.innerHTML   = window.HudFmr.renderIncomeLimitsTable(fips);
+  }
+
+  // --- Main update ---
+  async function update(){
+    var ws = document.getElementById('hnaWaitingState');
             `<a href="${SOURCES.acsS0801}" target="_blank" rel="noopener">S0801 group</a>.`
     });
 
@@ -4591,12 +4631,15 @@
             const { year, series } = endpointMeta(sum.source.acs_profile_endpoint);
             if (year) profile._acsYear = year;
             profile._acsSeries = series;
-          }
-          if (s0801 && !s0801._acsYear && sum.source?.acs_s0801_endpoint) {
-            const { year, series } = endpointMeta(sum.source.acs_s0801_endpoint);
-            if (year) s0801._acsYear = year;
-            s0801._acsSeries = series;
-          }
+    // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+
+    // HUD FMR & Income Limits panel (non-blocking)
+    renderFmrPanel(geoType === 'county' ? contextCounty : null);
+
+    // Update data freshness timestamp from manifest (populated by data-freshness.js)
+    const tsEl = document.getElementById('hnaDataTimestamp');
+    if (tsEl) {
         }
       }catch(_){/* ignore */}
 
@@ -4726,12 +4769,13 @@
     const projRes = geoType !== 'state'
       ? await renderProjections(contextCounty, state.current)
       : clearProjectionsForStateLevel();
-    if (projRes?.ok) cacheFlags.projections = true;
+  window.__HNA_renderIndustryAnalysis  = renderIndustryAnalysis;
+  window.__HNA_renderEconomicIndicators = renderEconomicIndicators;
+  window.__HNA_renderWageGaps          = renderWageGaps;
+  window.__HNA_renderFmrPanel          = renderFmrPanel;
 
-    renderLocalResources(geoType, geoid);
-
-    const derivedEntry = state.derived?.geos?.[geoid] || null;
-    if (derivedEntry) cacheFlags.derived = true;
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
 
     renderMethodology({
       geoType,
