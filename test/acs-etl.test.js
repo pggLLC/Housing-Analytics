@@ -401,6 +401,114 @@ test('acs_cache.py has 30-day default TTL', () => {
   assert(src.includes('_DEFAULT_TTL_DAYS = 30'), '30-day TTL default');
 });
 
+// ── fetch-county-demographics.js: statewide aggregation & FIPS ──────────────
+
+test('fetch-county-demographics.js: ACS_YEAR updated to 2023', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
+  // Verify the declared ACS year is at least 2023 (updated from 2022)
+  assert(src.includes('ACS_YEAR = 2023') || src.includes('ACS_YEAR = 2024'),
+    'ACS_YEAR is 2023 or later (not 2022)');
+  assert(!src.includes('ACS_YEAR = 2022'), 'ACS_YEAR is not 2022');
+});
+
+test('fetch-county-demographics.js: FIPS code extraction present', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
+  assert(src.includes("headers.indexOf('state')"),  "reads 'state' field from Census API response");
+  assert(src.includes("headers.indexOf('county')"), "reads 'county' field from Census API response");
+  assert(src.includes('padStart(3'),                'zero-pads 3-digit county FIPS (Rule 1)');
+  assert(src.includes("fips:"),                     "includes 'fips' in county record");
+});
+
+test('fetch-county-demographics.js: buildStatewideAggregate function defined', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
+  assert(src.includes('buildStatewideAggregate'), 'buildStatewideAggregate function defined');
+  assert(src.includes("fips: '08'"),              'statewide row uses FIPS "08"');
+  assert(src.includes("counties['Colorado']"),    'statewide row added under "Colorado" key');
+});
+
+test('fetch-county-demographics.js: source label uses ACS_YEAR constant', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
+  // Source string must use the ACS_YEAR constant, not a hardcoded year
+  assert(src.includes('ACS_YEAR'), 'source label references ACS_YEAR constant');
+  assert(!src.includes("Estimates (2022)"), 'source label no longer hardcodes 2022');
+});
+
+test('fetch-county-demographics.js: statewide note mentions aggregate', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
+  assert(src.includes('statewide aggregate'), 'note describes statewide aggregate row');
+  assert(src.includes('weighted'), 'note explains weighting method');
+});
+
+// ── fetch_census_state_hna.py: 64-county coverage check ─────────────────────
+
+test('fetch_census_state_hna.py: EXPECTED_CO_COUNTY_COUNT = 64', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch_census_state_hna.py'), 'utf8');
+  assert(src.includes('EXPECTED_CO_COUNTY_COUNT = 64'), 'EXPECTED_CO_COUNTY_COUNT constant defined as 64');
+});
+
+test('fetch_census_state_hna.py: county coverage warning present', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch_census_state_hna.py'), 'utf8');
+  assert(src.includes('EXPECTED_CO_COUNTY_COUNT'), 'references coverage constant in validation');
+  assert(src.includes('county_coverage'),           'county_coverage field in output payload');
+});
+
+test('fetch_census_state_hna.py: S0801 records _acsYear and _acsSeries', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch_census_state_hna.py'), 'utf8');
+  assert(src.includes("data['_acsYear']"),   'fetch_acs_s0801 stores _acsYear in returned dict');
+  assert(src.includes("data['_acsSeries']"), 'fetch_acs_s0801 stores _acsSeries in returned dict');
+});
+
+test('fetch_census_state_hna.py: acs_s0801_endpoint uses actual series/year', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch_census_state_hna.py'), 'utf8');
+  assert(src.includes('s0801_series') && src.includes('s0801_year'),
+    's0801_series and s0801_year variables derived from returned data');
+  assert(src.includes('acs_s0801_endpoint'), 'acs_s0801_endpoint field present in payload');
+});
+
+// ── build_hna_data.py: S0801 _acsSeries/_acsYear metadata ───────────────────
+
+test('build_hna_data.py: fetch_acs_s0801 records _acsYear and _acsSeries', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/hna/build_hna_data.py'), 'utf8');
+  assert(src.includes("data['_acsYear'] = year"),     'stores _acsYear in S0801 dict');
+  assert(src.includes("data['_acsSeries'] = 'acs1'"), "stores 'acs1' as _acsSeries when ACS1 used");
+  assert(src.includes("data['_acsSeries'] = 'acs5'"), "stores 'acs5' as _acsSeries when ACS5 fallback used");
+});
+
+test('build_hna_data.py: acs_s0801_endpoint uses s0801_year and s0801_series', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'scripts/hna/build_hna_data.py'), 'utf8');
+  assert(src.includes('s0801_year')   && src.includes('s0801_series'),
+    's0801_year and s0801_series variables derived from returned S0801 data');
+  assert(src.includes('acs_s0801_endpoint'), 'acs_s0801_endpoint in source dict');
+});
+
+// ── housing-needs-assessment.js: commuting reliability & source labels ───────
+
+test('housing-needs-assessment.js: S0801 commute source badge includes units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+  assert(src.includes('mean travel time (min)'),
+    'commute source badge includes "mean travel time (min)"');
+});
+
+test('housing-needs-assessment.js: mode share chart subtitle includes year/series/units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+  assert(src.includes('mode shares (% of workers 16+)'),
+    'mode share subtitle contains "mode shares (% of workers 16+)"');
+  assert(src.includes('seriesLabel'), 'seriesLabel variable used in mode share subtitle');
+  assert(src.includes('modeYear'),    'modeYear variable used in mode share subtitle');
+});
+
+test('housing-needs-assessment.js: CDP skips ACS1 S0801 probe', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+  assert(src.includes("geoType !== 'cdp'"),
+    'fetchAcsS0801 skips ACS1 probe for CDPs to avoid unnecessary failed requests');
+});
+
+test('housing-needs-assessment.js: mode share y-axis title includes units', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/housing-needs-assessment.js'), 'utf8');
+  assert(src.includes("'Mode Share (% of workers)'"),
+    'y-axis title clarifies unit as "% of workers"');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
