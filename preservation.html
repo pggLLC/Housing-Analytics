@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preservation Tracking | COHO Analytics</title>
+  <meta name="description" content="NHPD subsidy tracking for Colorado affordable housing. Monitor expiring Section 8, HOME, LIHTC, and Section 202 subsidies to protect long-term affordability.">
+  <meta property="og:title" content="Preservation Tracking | COHO Analytics">
+  <meta property="og:description" content="Track expiring affordable housing subsidies in Colorado using National Housing Preservation Database (NHPD) data.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/cache-manager.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/data-connectors/nhpd.js"></script>
+  <script defer src="js/preservation.js"></script>
+  <style>
+    /* ── Layout ──────────────────────────────────────────────── */
+    .pres-header {
+      padding: var(--sp4) var(--sp3) var(--sp3);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .pres-header .kicker { display: block; margin-bottom: var(--sp1); }
+    .pres-header h1 { margin: 0 0 var(--sp1); }
+    .pres-subtitle {
+      color: var(--muted);
+      font-size: var(--small);
+      margin: 0;
+    }
+    .pres-subtitle a { color: var(--accent); }
+
+    /* ── KPI strip ───────────────────────────────────────────── */
+    .pres-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--sp2);
+      padding: var(--sp3);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .pres-kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp2) var(--sp3);
+      text-align: center;
+    }
+    .pres-kpi-card.pres-kpi-warn {
+      border-top: 3px solid var(--warn, #d97706);
+    }
+    .pres-kpi-value {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--accent);
+    }
+    .pres-kpi-card.pres-kpi-warn .pres-kpi-value {
+      color: var(--warn, #d97706);
+    }
+    .pres-kpi-label {
+      display: block;
+      font-size: var(--tiny);
+      color: var(--muted);
+      margin-top: var(--sp1);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Chart section ───────────────────────────────────────── */
+    .pres-chart-section {
+      padding: var(--sp3);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .pres-chart-section h2 {
+      font-size: 1rem;
+      margin: 0 0 var(--sp2);
+      font-weight: 700;
+    }
+    .pres-chart-wrap {
+      position: relative;
+      height: 260px;
+      max-width: 900px;
+    }
+
+    /* ── Controls ────────────────────────────────────────────── */
+    .pres-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+      padding: var(--sp2) var(--sp3);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+    .pres-filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .pres-select, .pres-search {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.88rem;
+      min-width: 150px;
+      cursor: pointer;
+    }
+    .pres-search { min-width: 200px; }
+    .pres-export-btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+      white-space: nowrap;
+      align-self: flex-end;
+    }
+    .pres-export-btn:hover { opacity: 0.88; }
+
+    /* ── Table ───────────────────────────────────────────────── */
+    .pres-table-wrap {
+      overflow-x: auto;
+      padding: var(--sp3);
+    }
+    .pres-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .pres-th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg2);
+      border-bottom: 2px solid var(--border);
+      font-weight: 700;
+      color: var(--muted);
+      font-size: var(--tiny);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .pres-th.sortable { cursor: pointer; user-select: none; }
+    .pres-th.sortable:hover { color: var(--text); }
+    .sort-icon { margin-left: 0.25rem; opacity: 0.6; }
+    .pres-row td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .pres-row:hover td { background: var(--bg2); }
+    .pres-name { font-weight: 600; }
+    .pres-addr {
+      font-size: var(--tiny);
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .pres-num { text-align: right; }
+
+    /* Expiry status colours */
+    .pres-expiry.pres-exp-expired  { color: #9ca3af; font-style: italic; }
+    .pres-expiry.pres-exp-critical { color: #dc2626; font-weight: 700; }
+    .pres-expiry.pres-exp-warning  { color: #d97706; font-weight: 600; }
+    .pres-expiry.pres-exp-ok       { color: var(--good, #16a34a); }
+    .pres-expiry.pres-exp-unknown  { color: var(--muted); }
+
+    /* Subsidy type tags */
+    .pres-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: var(--tiny);
+      font-weight: 700;
+      white-space: nowrap;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .pres-tag-hud-section-8-pbra { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+    .pres-tag-lihtc               { background: #dcfce7; color: #166534; border-color: #86efac; }
+    .pres-tag-home                { background: #fef9c3; color: #713f12; border-color: #fde047; }
+    .pres-tag-hud-section-202     { background: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
+
+    /* Empty / loading / error states */
+    .pres-loading, .pres-empty, .pres-error {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .pres-error { color: #dc2626; }
+
+    /* Footnote */
+    .pres-footnote {
+      font-size: var(--tiny);
+      color: var(--muted);
+      padding: var(--sp2) var(--sp3) var(--sp4);
+    }
+    .pres-footnote a { color: var(--accent); }
+
+    /* Timestamp */
+    #presDataTimestamp {
+      font-size: var(--tiny);
+      color: var(--muted);
+      display: block;
+      margin-top: var(--sp1);
+    }
+
+    /* Legend */
+    .pres-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0 var(--sp3) var(--sp2);
+      font-size: var(--tiny);
+      color: var(--muted);
+    }
+    .pres-legend-item { display: flex; align-items: center; gap: 0.35rem; }
+    .pres-legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pres-legend-dot-critical { background: #dc2626; }
+    .pres-legend-dot-warning  { background: #d97706; }
+    .pres-legend-dot-ok       { background: #16a34a; }
+    .pres-legend-dot-expired  { background: #9ca3af; }
+
+    @media (max-width: 640px) {
+      .pres-kpi-strip { grid-template-columns: repeat(2, 1fr); }
+      .pres-controls  { flex-direction: column; align-items: stretch; }
+      .pres-search, .pres-select { min-width: 0; width: 100%; }
+      .pres-export-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true"
+       style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
+
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <!-- Page header -->
+    <div class="pres-header">
+      <span class="kicker">Preservation</span>
+      <h1>NHPD Subsidy Tracking</h1>
+      <p class="pres-subtitle">
+        Colorado affordable housing properties with active subsidies — flag expiring contracts before units lose affordability.
+        Data sourced from the <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">National Housing Preservation Database (NHPD)</a>.
+        <span id="presDataTimestamp" aria-live="polite"></span>
+      </p>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="pres-kpi-strip" role="region" aria-label="Preservation summary statistics">
+      <div class="pres-kpi-card">
+        <span class="pres-kpi-value" id="presKpiTotal">—</span>
+        <span class="pres-kpi-label">Subsidized Properties</span>
+      </div>
+      <div class="pres-kpi-card">
+        <span class="pres-kpi-value" id="presKpiUnits">—</span>
+        <span class="pres-kpi-label">Assisted Units</span>
+      </div>
+      <div class="pres-kpi-card pres-kpi-warn">
+        <span class="pres-kpi-value" id="presKpiExpiring">—</span>
+        <span class="pres-kpi-label">Expiring ≤ 3 Years</span>
+      </div>
+      <div class="pres-kpi-card pres-kpi-warn">
+        <span class="pres-kpi-value" id="presKpiExpiringUnits">—</span>
+        <span class="pres-kpi-label">At-Risk Units</span>
+      </div>
+    </div>
+
+    <!-- Expiration timeline chart -->
+    <section class="pres-chart-section" aria-labelledby="presChartHeading">
+      <h2 id="presChartHeading">Subsidy Expiration Timeline</h2>
+      <div class="pres-chart-wrap">
+        <canvas id="presExpiryChart" role="img"
+                aria-label="Bar chart showing number of assisted units and properties with subsidies expiring each year through 2041"></canvas>
+      </div>
+      <p class="sr-only">
+        The chart displays the number of assisted housing units and individual properties
+        whose subsidies expire in each year from the present through approximately 2041.
+        Properties with contracts expiring in the near term are highlighted for preservation action.
+      </p>
+    </section>
+
+    <!-- Filter controls -->
+    <div class="pres-controls" role="search" aria-label="Filter preservation properties">
+      <label class="pres-filter-label">
+        County
+        <select id="presFilterCounty" class="pres-select" aria-label="Filter by county">
+          <option value="">All counties</option>
+        </select>
+      </label>
+      <label class="pres-filter-label">
+        Subsidy Type
+        <select id="presFilterType" class="pres-select" aria-label="Filter by subsidy type">
+          <option value="">All types</option>
+        </select>
+      </label>
+      <label class="pres-filter-label">
+        Expiry Horizon
+        <select id="presFilterHorizon" class="pres-select" aria-label="Filter by expiration horizon">
+          <option value="">All expiry dates</option>
+          <option value="1">Expiring within 1 year</option>
+          <option value="3">Expiring within 3 years</option>
+          <option value="5">Expiring within 5 years</option>
+          <option value="10">Expiring within 10 years</option>
+        </select>
+      </label>
+      <label class="pres-filter-label">
+        Search
+        <input id="presSearch" class="pres-search" type="search"
+               placeholder="Property or city name…" aria-label="Search by property or city name">
+      </label>
+      <button id="presExportBtn" class="pres-export-btn" aria-label="Download filtered results as CSV">
+        ⬇ Download CSV
+      </button>
+    </div>
+
+    <!-- Expiry legend -->
+    <div class="pres-legend" aria-hidden="true">
+      <span class="pres-legend-item">
+        <span class="pres-legend-dot pres-legend-dot-critical"></span>Expiring &lt; 1 year
+      </span>
+      <span class="pres-legend-item">
+        <span class="pres-legend-dot pres-legend-dot-warning"></span>Expiring 1–3 years
+      </span>
+      <span class="pres-legend-item">
+        <span class="pres-legend-dot pres-legend-dot-ok"></span>Expiring 3+ years
+      </span>
+      <span class="pres-legend-item">
+        <span class="pres-legend-dot pres-legend-dot-expired"></span>Already expired
+      </span>
+    </div>
+
+    <!-- Properties table -->
+    <div class="pres-table-wrap" role="region" aria-label="Subsidized property list">
+      <table class="pres-table" id="presTable" aria-label="Colorado NHPD subsidized housing properties">
+        <thead>
+          <tr>
+            <th class="pres-th sortable" data-col="property_name"
+                tabindex="0" role="columnheader" aria-sort="none">
+              Property <span class="sort-icon">↕</span>
+            </th>
+            <th class="pres-th sortable" data-col="city"
+                tabindex="0" role="columnheader" aria-sort="none">
+              City <span class="sort-icon">↕</span>
+            </th>
+            <th class="pres-th sortable" data-col="county"
+                tabindex="0" role="columnheader" aria-sort="none">
+              County <span class="sort-icon">↕</span>
+            </th>
+            <th class="pres-th sortable" data-col="subsidy_type"
+                tabindex="0" role="columnheader" aria-sort="none">
+              Subsidy Type <span class="sort-icon">↕</span>
+            </th>
+            <th class="pres-th sortable" data-col="assisted_units"
+                tabindex="0" role="columnheader" aria-sort="none">
+              Assisted Units <span class="sort-icon">↕</span>
+            </th>
+            <th class="pres-th sortable" data-col="subsidy_expiration"
+                tabindex="0" role="columnheader" aria-sort="ascending">
+              Expiration <span class="sort-icon">↑</span>
+            </th>
+            <th class="pres-th sortable" data-col="owner_type"
+                tabindex="0" role="columnheader" aria-sort="none">
+              Owner Type <span class="sort-icon">↕</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="presTableBody">
+          <tr><td colspan="7" class="pres-loading">Loading NHPD data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pres-footnote">
+      Data sourced from the
+      <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">
+        National Housing Preservation Database (NHPD)
+      </a>,
+      a joint project of the National Low Income Housing Coalition and Public Housing Analytics.
+      Rebuild local data with <code>python3 scripts/fetch_nhpd.py</code>.
+      Expiry horizon warnings flag subsidies expiring within 3 years. ·
+      <a href="compliance-dashboard.html">Prop 123 Compliance →</a> ·
+      <a href="chfa-portfolio.html">CHFA Portfolio →</a>
+    </p>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script>
+  (function () {
+    function announce(msg) {
+      var el = document.getElementById('aria-live-region');
+      if (!el) { return; }
+      el.textContent = '';
+      requestAnimationFrame(function () { el.textContent = msg; });
+    }
+    window.__announceUpdate = announce;
+  })();
+  </script>
+  <script defer src="js/audit-hook.js"></script>
+</body>
+</html>

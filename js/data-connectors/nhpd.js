@@ -161,6 +161,55 @@
   }
 
   /**
+   * Convenience alias used by DataService.fetchHudNhpd.
+   * Identical to getInventoryInBuffer.
+   * @param {number} lat  Center latitude.
+   * @param {number} lon  Center longitude.
+   * @param {number} miles  Search radius in miles.
+   * @returns {Array.<Object>}
+   */
+  function getPropertiesNear(lat, lon, miles) {
+    return getInventoryInBuffer(lat, lon, miles);
+  }
+
+  /**
+   * Loads inventory from a GeoJSON FeatureCollection.
+   * Flattens each Feature's properties and injects lat/lon from the geometry.
+   * @param {Object} geojson  GeoJSON FeatureCollection object.
+   */
+  function loadFromGeoJSON(geojson) {
+    if (!geojson || !Array.isArray(geojson.features)) {
+      console.warn('[Nhpd] loadFromGeoJSON: expected a GeoJSON FeatureCollection');
+      return;
+    }
+
+    var records = [];
+    for (var i = 0; i < geojson.features.length; i++) {
+      var feat = geojson.features[i];
+      if (!feat || feat.type !== 'Feature') { continue; }
+
+      var props = feat.properties || {};
+      var record = {};
+      var key;
+      for (key in props) {
+        if (Object.prototype.hasOwnProperty.call(props, key)) {
+          record[key] = props[key];
+        }
+      }
+
+      // Inject lat/lon from geometry when not already present in properties
+      if (feat.geometry && feat.geometry.type === 'Point' && Array.isArray(feat.geometry.coordinates)) {
+        if (!record.lon && !record.longitude) { record.lon = feat.geometry.coordinates[0]; }
+        if (!record.lat && !record.latitude)  { record.lat = feat.geometry.coordinates[1]; }
+      }
+
+      records.push(record);
+    }
+
+    loadInventory(records);
+  }
+
+  /**
    * Returns whether inventory data has been loaded.
    * @returns {boolean}
    */
@@ -170,7 +219,9 @@
 
   window.Nhpd = {
     loadInventory: loadInventory,
+    loadFromGeoJSON: loadFromGeoJSON,
     getInventoryInBuffer: getInventoryInBuffer,
+    getPropertiesNear: getPropertiesNear,
     getStats: getStats,
     isLoaded: isLoaded
   };
