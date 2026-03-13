@@ -138,8 +138,8 @@
     const PROP123_GROWTH_RATE    = 0.03;
     const PROP123_EFFECTIVE_YEAR = 2023;
 
-    // Colorado jurisdictions with known Prop 123 commitments (sample set).
-    // In production this is loaded from data/policy/prop123_jurisdictions.json.
+    // Colorado jurisdictions with known Prop 123 commitments (fallback sample set — 25 largest).
+    // In production this is loaded from data/policy/prop123_jurisdictions.json (217 jurisdictions).
     const SAMPLE_JURISDICTIONS = [
       { geoid:'08077', name:'Mesa County',         type:'county',  population:155000, baseline:8200 },
       { geoid:'08031', name:'Denver County',        type:'county',  population:715000, baseline:52000 },
@@ -173,25 +173,36 @@
 
     function computeRow(j) {
       const yearsIn  = new Date().getFullYear() - PROP123_EFFECTIVE_YEAR;
-      const target   = Math.round(j.baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn));
-      const stored   = (typeof sessionStorage !== 'undefined')
-        ? sessionStorage.getItem('prop123_actual_' + j.geoid + '_' + new Date().getFullYear())
-        : null;
+      // Support both SAMPLE_JURISDICTIONS format (has baseline) and JSON format (no baseline)
+      const baseline = (j.baseline !== null && j.baseline !== undefined) ? j.baseline : null;
+      const target   = (baseline !== null) ? Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn)) : null;
+      // Derive geo type for HNA deep-link: SAMPLE uses 'county'/'place'; JSON uses kind:'county'/'municipality'
+      const typeForLink = (j.type === 'county' || j.type === 'place') ? j.type
+        : ((j.kind || '').toLowerCase() === 'county' ? 'county' : 'place');
+      const geoid    = (j.geoid && j.geoid.length > 0) ? j.geoid : '';
+      const cacheKey = 'prop123_actual_' + (geoid.length > 0 ? geoid : j.name.replace(/\s+/g,'_')) + '_' + new Date().getFullYear();
+      const stored   = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem(cacheKey) : null;
       const current  = stored !== null ? Number(stored) : null;
-      const pct      = (current !== null && target > 0) ? Math.round((current / target) * 100) : null;
+      const pct      = (current !== null && target !== null && target > 0) ? Math.round((current / target) * 100) : null;
 
       let status;
-      if (current === null) {
-        status = 'no-data';
-      } else if (current >= target) {
+      // Honour "Commitment Met" from DOLA filing data
+      if ((j.status || '').toLowerCase() === 'commitment met') {
         status = 'on-track';
-      } else if (current >= target * 0.90) {
+      } else if (current === null) {
+        status = 'no-data';
+      } else if (target !== null && current >= target) {
+        status = 'on-track';
+      } else if (target !== null && current >= target * 0.90) {
         status = 'at-risk';
       } else {
         status = 'off-track';
       }
 
-      return Object.assign({}, j, { target, current, pctComplete: pct, status, lastFiled: null });
+      // Use filing_date from JSON as lastFiled when present
+      const lastFiled = j.lastFiled || j.filing_date || null;
+
+      return Object.assign({}, j, { baseline, target, current, pctComplete: pct, status, lastFiled, typeForLink, geoid });
     }
 
     function statusIcon(s) {
@@ -213,11 +224,14 @@
       rows.forEach(function (r) {
         const tr = document.createElement('tr');
         tr.className = 'cd-row cd-status-' + r.status;
+        const nameCell = r.geoid
+          ? '<a href="housing-needs-assessment.html?geoType=' + r.typeForLink + '&geoid=' + r.geoid + '">' + r.name + '</a>'
+          : r.name;
         tr.innerHTML =
-          '<td class="cd-name"><a href="housing-needs-assessment.html?geoType=' + r.type + '&geoid=' + r.geoid + '">' + r.name + '</a></td>' +
-          '<td class="cd-type">' + (r.type === 'county' ? 'County' : 'Municipality') + '</td>' +
-          '<td class="cd-num">' + r.baseline.toLocaleString() + '</td>' +
-          '<td class="cd-num">' + r.target.toLocaleString() + '</td>' +
+          '<td class="cd-name">' + nameCell + '</td>' +
+          '<td class="cd-type">' + (r.typeForLink === 'county' ? 'County' : 'Municipality') + '</td>' +
+          '<td class="cd-num">' + (r.baseline !== null ? r.baseline.toLocaleString() : '—') + '</td>' +
+          '<td class="cd-num">' + (r.target !== null ? r.target.toLocaleString() : '—') + '</td>' +
           '<td class="cd-num">' + (r.current !== null ? r.current.toLocaleString() : '<em class="cd-muted">Not reported</em>') + '</td>' +
           '<td class="cd-num">' + (r.pctComplete !== null ? r.pctComplete + '%' : '—') + '</td>' +
           '<td class="cd-status"><span class="cd-badge cd-badge-' + r.status + '">' + statusIcon(r.status) + ' ' + statusLabel(r.status) + '</span></td>' +
