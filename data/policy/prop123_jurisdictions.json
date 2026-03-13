@@ -1,7 +1,10 @@
 {
-  "updated": "2025-01-15",
+  "updated": "2026-01-15",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
-  "note": "Local government Proposition 123 affordable housing commitments filed with DOLA. Verify current status at source_url.",
+  "note": "Local government Proposition 123 affordable housing commitments filed with DOLA. 217 jurisdictions have filed commitments projecting 22,988 new affordable units by end of 2026. The Town of Silverton became the first jurisdiction to fully meet its commitment. Verify current status at source_url.",
+  "total_projected_units": 22988,
+  "fast_track_count": 91,
+  "commitment_met_count": 1,
   "jurisdictions": [
     {
       "name": "City and County of Denver",
@@ -10,7 +13,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-04-15",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Aurora",
@@ -19,7 +23,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-05-02",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Lakewood",
@@ -28,7 +33,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-06-14",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Arvada",
@@ -37,7 +43,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-07-11",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Westminster",
@@ -46,7 +53,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-08-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Thornton",
@@ -55,7 +63,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-09-05",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Englewood",
@@ -64,7 +73,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-10-18",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Centennial",
@@ -73,7 +83,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2024-01-09",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Littleton",
@@ -82,7 +93,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2024-02-14",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Highlands Ranch",
@@ -91,7 +103,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2024-03-07",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Commerce City",
@@ -99,8 +112,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-04-02",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-04-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Brighton",
@@ -108,8 +122,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-05-21",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-05-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Broomfield",
@@ -117,8 +132,9 @@
       "type": "City/County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-11-30",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-06-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Northglenn",
@@ -126,26 +142,29 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-06-11",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-07-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Parker",
       "kind": "municipality",
-      "type": "Town",
+      "type": "Municipality",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-07-16",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-08-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Castle Rock",
       "kind": "municipality",
-      "type": "Town",
+      "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-08-01",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-09-04",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Boulder County",
@@ -154,7 +173,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-04-28",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Boulder",
@@ -163,7 +183,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-05-16",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Longmont",
@@ -171,8 +192,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-27",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-22",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Louisville",
@@ -180,8 +202,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-08",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-08-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Lafayette",
@@ -189,17 +212,19 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-09-19",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-09-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
-      "name": "City of Erie",
+      "name": "Town of Erie",
       "kind": "municipality",
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-24",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-10-31",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Larimer County",
@@ -207,8 +232,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-03",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Fort Collins",
@@ -216,8 +242,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-05-30",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Loveland",
@@ -225,17 +252,19 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-25",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
-      "name": "City of Estes Park",
+      "name": "Town of Estes Park",
       "kind": "municipality",
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-02-06",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-11-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Jefferson County",
@@ -243,8 +272,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-06",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Adams County",
@@ -252,8 +282,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-20",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Arapahoe County",
@@ -261,8 +292,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-17",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-07-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Douglas County",
@@ -270,8 +302,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-09-12",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-09-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "El Paso County",
@@ -279,8 +312,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-14",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-04-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Colorado Springs",
@@ -288,8 +322,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-01",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Fountain",
@@ -297,8 +332,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-03-18",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-01-24",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Pueblo",
@@ -306,8 +342,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-10-09",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-07-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Pueblo County",
@@ -315,8 +352,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-11-01",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-08-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Weld County",
@@ -324,8 +362,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-29",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Greeley",
@@ -333,8 +372,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-07",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-07-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Evans",
@@ -342,17 +382,19 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-30",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-02-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
-      "name": "City of Windsor",
+      "name": "Town of Windsor",
       "kind": "municipality",
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-04-15",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-03-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Eagle County",
@@ -360,8 +402,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-05-08",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Vail",
@@ -369,8 +412,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-21",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Avon",
@@ -378,8 +422,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-03",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-07-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Town of Eagle",
@@ -387,8 +432,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-02-19",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-04-02",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Summit County",
@@ -396,8 +442,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-05-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Breckenridge",
@@ -405,8 +452,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-12",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Frisco",
@@ -414,8 +462,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-09-04",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-08-23",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Town of Silverthorne",
@@ -423,8 +472,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-08",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-09-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Pitkin County",
@@ -432,8 +482,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-05-15",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-04-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Aspen",
@@ -441,17 +492,19 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-05-30",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Basalt",
       "kind": "municipality",
-      "type": "Town",
+      "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2023-10-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Garfield County",
@@ -459,8 +512,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-07-31",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Glenwood Springs",
@@ -468,8 +522,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-09-14",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-07-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Rifle",
@@ -477,8 +532,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-03-25",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-01-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Routt County",
@@ -486,8 +542,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-17",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-09-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Steamboat Springs",
@@ -495,8 +552,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-08-28",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-09-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "San Miguel County",
@@ -504,8 +562,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-09",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-05-23",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Telluride",
@@ -513,8 +572,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-06-27",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-06-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Grand County",
@@ -522,8 +582,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-10-03",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-10-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Town of Granby",
@@ -531,8 +592,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-04-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-05-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Town of Winter Park",
@@ -540,8 +602,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-05-07",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-06-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Mesa County",
@@ -549,8 +612,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-11-13",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-08-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Grand Junction",
@@ -558,8 +622,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-10-31",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-08-21",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Fruita",
@@ -567,8 +632,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-06-03",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-07-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Montrose County",
@@ -576,8 +642,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-16",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-11-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Montrose",
@@ -585,8 +652,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-02-27",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-12-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Delta County",
@@ -594,8 +662,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-03-11",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-02-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Alamosa County",
@@ -603,8 +672,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-12-05",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-01-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Alamosa",
@@ -612,8 +682,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-02-22",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "La Plata County",
@@ -621,8 +692,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-09-26",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-10-04",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "City of Durango",
@@ -630,8 +702,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-10-17",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-10-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Archuleta County",
@@ -639,8 +712,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-05-29",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-04-29",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Town of Pagosa Springs",
@@ -648,8 +722,9 @@
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-07-08",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-05-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Fremont County",
@@ -657,17 +732,19 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-02-12",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-03-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
-      "name": "City of Ca\u00f1on City",
+      "name": "City of Canon City",
       "kind": "municipality",
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-03-04",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-04-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
     },
     {
       "name": "Huerfano County",
@@ -675,8 +752,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-06-17",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-06-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Las Animas County",
@@ -685,7 +763,8 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
       "filing_date": "2024-07-22",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Trinidad",
@@ -693,8 +772,9 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-08-14",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-08-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "Chaffee County",
@@ -702,8 +782,9 @@
       "type": "County",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2023-11-20",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-11-29",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Salida",
@@ -711,17 +792,1389 @@
       "type": "City",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-01-31",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2023-12-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     },
     {
       "name": "City of Buena Vista",
       "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Teller County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Woodland Park",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Cripple Creek",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Clear Creek County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-23",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Idaho Springs",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Georgetown",
+      "kind": "municipality",
       "type": "Town",
       "required_commitment": "3% annual affordable housing unit increase",
       "status": "Committed",
-      "filing_date": "2024-04-09",
-      "source_url": "https://cdola.colorado.gov/commitment-filings"
+      "filing_date": "2024-05-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Gilpin County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-27",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Black Hawk",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Central City",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Park County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Fairplay",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Lake County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Leadville",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Gunnison County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2023-11-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Gunnison",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2023-11-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Crested Butte",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2023-12-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Mt. Crested Butte",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Ouray County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Ouray",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Ridgway",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "San Juan County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-22",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Silverton",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Commitment Met",
+      "filing_date": "2023-09-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Montezuma County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-27",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Cortez",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Dolores",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Dolores County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Rio Grande County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Monte Vista",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-02",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Del Norte",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Saguache County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Saguache",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-24",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Conejos County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Antonito",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Costilla County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Mineral County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Creede",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Hinsdale County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Lake City",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Moffat County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Craig",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Rio Blanco County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Meeker",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Rangely",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Jackson County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Logan County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Sterling",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-02",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Morgan County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-29",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Fort Morgan",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-24",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Elbert County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Elizabeth",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Otero County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of La Junta",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Rocky Ford",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Bent County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Las Animas",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Prowers County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-23",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Lamar",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Crowley County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Ordway",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Kiowa County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Lincoln County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Limon",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Firestone",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Frederick",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Johnstown",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Milliken",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-21",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Severance",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Timnath",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-22",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Mead",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-16",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Dacono",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-21",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Fort Lupton",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-04",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Platteville",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-18",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Keenesburg",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-02",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Eaton",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Berthoud",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-25",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Wellington",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Superior",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Lyons",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Nederland",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Monument",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-23",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Palmer Lake",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Manitou Springs",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Carbondale",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of New Castle",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-13",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Silt",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Parachute",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-16",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Hayden",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-03",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Oak Creek",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Bayfield",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Ignacio",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-06",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Delta",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-04",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Hotchkiss",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-16",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Paonia",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-28",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Cedaredge",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-26",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Dillon",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Blue River",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-26",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Minturn",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-24",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Red Cliff",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-15",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Poncha Springs",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-02-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Florence",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-02",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Penrose",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Bennett",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-27",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Lochbuie",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-29",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Lone Tree",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-05-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Larkspur",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-06-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Olathe",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-04-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Palisade",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-08-29",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of De Beque",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Yuma County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Yuma",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Washington County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-01",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Kit Carson County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Burlington",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Phillips County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Sedgwick County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Baca County",
+      "kind": "county",
+      "type": "County",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-13",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Walsenburg",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-07-31",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Golden",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2023-11-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Morrison",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-22",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Glendale",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-01-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "City of Sheridan",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-03-07",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    {
+      "name": "Town of Blanca",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-30",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Mancos",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-09-20",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Naturita",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-10-17",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Norwood",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-11-21",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Nucla",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-05",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Rico",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2024-12-19",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "City of Center",
+      "kind": "municipality",
+      "type": "City",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-08",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Alma",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-09",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Gilman",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-10",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Ophir",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Aguilar",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-11",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of La Veta",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Hartman",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-12",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Wiley",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-13",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Springfield",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
+    },
+    {
+      "name": "Town of Yampa",
+      "kind": "municipality",
+      "type": "Town",
+      "required_commitment": "3% annual affordable housing unit increase",
+      "status": "Committed",
+      "filing_date": "2025-01-14",
+      "source_url": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": false
     }
   ]
 }
