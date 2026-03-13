@@ -216,6 +216,25 @@
         _log('runAnalysis(): acs=' + (acs ? 'ok (tract_count=' + (acs.tract_count || '?') + ')' : 'null') +
           ', lihtc=' + lihtc.length + ' features');
 
+        // Enrich amenity distances using OsmAmenities when loaded.
+        var amenityInputs = null;
+        var osmA = window.OsmAmenities;
+        if (osmA && osmA.isLoaded()) {
+          var accessResult = _safe(function () { return osmA.getAccessScore(lat, lon); }, null);
+          if (accessResult) {
+            // scoreAccess() and renderNeighborhoodAccess() both expect plain
+            // distance-in-miles numbers, not the {name, distanceMiles, score}
+            // objects returned by getAccessScore().
+            amenityInputs = {
+              grocery:    accessResult.grocery    != null ? accessResult.grocery.distanceMiles    : null,
+              transit:    accessResult.transit    != null ? accessResult.transit.distanceMiles    : null,
+              parks:      accessResult.parks      != null ? accessResult.parks.distanceMiles      : null,
+              healthcare: accessResult.healthcare != null ? accessResult.healthcare.distanceMiles : null,
+              schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null
+            };
+          }
+        }
+
         // Build scoring inputs from available data.
         var inputs = {
           acs:              acs,
@@ -226,7 +245,7 @@
           floodRisk:        0,       // default safe value; enriched by overlay data
           soilScore:        50,      // neutral default
           cleanupFlag:      false,
-          amenities:        null,    // enriched by accessibility data when available
+          amenities:        amenityInputs,
           zoningCapacity:   0,
           publicOwnership:  false,
           overlayCount:     0,
