@@ -465,6 +465,140 @@ test('HNA JS: __announceUpdate is wired up in init() and called in update()', ()
     'window.__announceUpdate is called inside update()');
 });
 
+// ── CHAS Affordability Gap ───────────────────────────────────────────────────
+
+const CHAS_GAP_FILE = path.join(ROOT, 'data', 'hna', 'chas_affordability_gap.json');
+const FETCH_CHAS_PY = path.join(ROOT, 'scripts', 'fetch_chas.py');
+const CHAS_WORKFLOW = path.join(ROOT, '.github', 'workflows', 'fetch-chas-data.yml');
+
+const chasGapData = fs.existsSync(CHAS_GAP_FILE)
+  ? JSON.parse(fs.readFileSync(CHAS_GAP_FILE, 'utf8'))
+  : null;
+
+test('CHAS affordability gap data file exists and is valid JSON', () => {
+  assert(fs.existsSync(CHAS_GAP_FILE), 'data/hna/chas_affordability_gap.json exists');
+  assert(chasGapData !== null, 'file parses as valid JSON');
+  assert(typeof chasGapData === 'object', 'top-level value is an object');
+});
+
+test('CHAS gap file has required top-level sentinel keys (Rule 18)', () => {
+  assert(chasGapData && 'meta' in chasGapData, 'has meta key');
+  assert(chasGapData && 'state' in chasGapData, 'has state key');
+  assert(chasGapData && 'counties' in chasGapData, 'has counties key');
+  const meta = chasGapData && chasGapData.meta;
+  assert(meta && meta.generated, 'meta.generated timestamp present');
+  assert(meta && meta.source, 'meta.source present');
+  assert(meta && meta.vintage, 'meta.vintage present');
+});
+
+test('CHAS gap file counties use 5-digit FIPS codes (Rule 1)', () => {
+  if (!chasGapData) { assert(false, 'data file not available'); return; }
+  const counties = chasGapData.counties || {};
+  const allFips = Object.keys(counties);
+  assert(allFips.length === 64, `exactly 64 Colorado counties present (found ${allFips.length})`);
+  const badFips = allFips.filter(k => k.length !== 5 || !k.startsWith('08'));
+  assert(badFips.length === 0, `all county FIPS are 5-digit CO codes (bad: ${badFips.join(', ') || 'none'})`);
+  // Rule 1: Ouray (08091) must be present with correct 5-digit key
+  assert('08091' in counties, 'Ouray County (08091) present with correct 5-digit FIPS');
+});
+
+test('CHAS gap county records have required renter_hh_by_ami structure', () => {
+  if (!chasGapData) { assert(false, 'data file not available'); return; }
+  const sample = chasGapData.counties['08031']; // Denver
+  assert(sample, 'Denver county (08031) record exists');
+  assert(sample && sample.renter_hh_by_ami, 'renter_hh_by_ami field present');
+  const tiers = ['lte30', '31to50', '51to80', '81to100'];
+  const ami = sample && sample.renter_hh_by_ami;
+  tiers.forEach(tier => {
+    assert(ami && tier in ami, `tier ${tier} present`);
+    assert(ami && typeof ami[tier].total === 'number', `${tier}.total is a number`);
+    assert(ami && typeof ami[tier].cost_burdened === 'number', `${tier}.cost_burdened is a number`);
+    assert(ami && typeof ami[tier].severely_burdened === 'number', `${tier}.severely_burdened is a number`);
+    // Severely burdened cannot exceed cost burdened
+    assert(
+      ami && ami[tier].severely_burdened <= ami[tier].cost_burdened,
+      `${tier}: severely_burdened ≤ cost_burdened`
+    );
+    // Cost burdened cannot exceed total
+    assert(
+      ami && ami[tier].cost_burdened <= ami[tier].total,
+      `${tier}: cost_burdened ≤ total`
+    );
+  });
+});
+
+test('CHAS gap file: meta.ami_tiers matches expected order', () => {
+  if (!chasGapData) { assert(false, 'data file not available'); return; }
+  const meta = chasGapData.meta;
+  const tiers = meta && meta.ami_tiers;
+  assert(Array.isArray(tiers), 'meta.ami_tiers is an array');
+  assert(tiers && tiers.length === 4, 'meta.ami_tiers has 4 entries');
+  assert(tiers && tiers[0] === 'lte30', 'first tier is lte30');
+  assert(tiers && tiers[3] === '81to100', 'last tier is 81to100');
+});
+
+test('fetch_chas.py exists and references the gap output file', () => {
+  assert(fs.existsSync(FETCH_CHAS_PY), 'scripts/fetch_chas.py exists');
+  const pySrc = fs.readFileSync(FETCH_CHAS_PY, 'utf8');
+  assert(pySrc.includes('chas_affordability_gap.json'), 'script references gap output path');
+  assert(pySrc.includes('RENTER_AMI_COLS'), 'script defines RENTER_AMI_COLS column mapping');
+  assert(pySrc.includes('aggregate_to_counties'), 'script has county aggregation function');
+  assert(pySrc.includes('build_county_fips'), 'script has FIPS extraction helper');
+});
+
+test('fetch-chas-data.yml workflow exists with correct schedule', () => {
+  assert(fs.existsSync(CHAS_WORKFLOW), '.github/workflows/fetch-chas-data.yml exists');
+  const wfSrc = fs.readFileSync(CHAS_WORKFLOW, 'utf8');
+  assert(wfSrc.includes("fetch_chas.py"), 'workflow runs fetch_chas.py');
+  assert(wfSrc.includes('chas_affordability_gap.json'), 'workflow stages gap file for commit');
+  assert(wfSrc.includes('workflow_dispatch'), 'workflow supports manual trigger');
+  assert(wfSrc.includes('contents: write'), 'workflow has write permission for git push');
+});
+
+test('HNA JS: PATHS includes chasCostBurden path', () => {
+  assert(hnaSrc.includes("chasCostBurden: 'data/hna/chas_affordability_gap.json'"),
+    "PATHS.chasCostBurden points to data/hna/chas_affordability_gap.json");
+});
+
+test('HNA JS: renderChasAffordabilityGap function exists and is exported', () => {
+  assert(hnaSrc.includes('function renderChasAffordabilityGap('),
+    'renderChasAffordabilityGap function defined');
+  assert(hnaSrc.includes('window.__HNA_renderChasAffordabilityGap'),
+    'renderChasAffordabilityGap exported on window');
+  assert(hnaSrc.includes('chartChasGap'),
+    'function references chartChasGap canvas element');
+  assert(hnaSrc.includes('chasGapStatus'),
+    'function references chasGapStatus status element');
+});
+
+test('HNA JS: renderChasAffordabilityGap is called from update()', () => {
+  const updateStart = hnaSrc.indexOf('async function update()');
+  const updateEnd   = hnaSrc.indexOf('async function init()', updateStart);
+  const updateBody  = hnaSrc.slice(updateStart, updateEnd);
+  assert(updateBody.includes('renderChasAffordabilityGap('),
+    'renderChasAffordabilityGap called inside update()');
+  assert(updateBody.includes('state.chasData'),
+    'update() caches CHAS data on state.chasData');
+  assert(updateBody.includes('PATHS.chasCostBurden'),
+    'update() loads CHAS data via PATHS.chasCostBurden');
+});
+
+test('HTML: chartChasGap canvas has role="img" and aria-label (Rule 15)', () => {
+  assert(hnaHtml.includes('id="chartChasGap"'), 'chartChasGap canvas present in HTML');
+  const canvasIdx = hnaHtml.indexOf('id="chartChasGap"');
+  const tagStart  = hnaHtml.lastIndexOf('<', canvasIdx);
+  const tagEnd    = hnaHtml.indexOf('>', canvasIdx);
+  const tag       = hnaHtml.slice(tagStart, tagEnd + 1);
+  assert(tag.includes('role="img"'), 'chartChasGap canvas has role="img"');
+  assert(tag.includes('aria-label'), 'chartChasGap canvas has aria-label');
+  assert(hnaHtml.includes('id="chasGapStatus"'), 'chasGapStatus status element present');
+});
+
+test('HTML: CHAS chart section has sr-only companion description (Rule 15)', () => {
+  assert(hnaHtml.includes('class="sr-only"') && hnaHtml.includes('AMI income tier'),
+    'sr-only description paragraph present near chartChasGap');
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
