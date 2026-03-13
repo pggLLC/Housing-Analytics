@@ -90,6 +90,7 @@
     derived: 'data/hna/derived/geo-derived.json',
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
+    chasCostBurden: 'data/hna/chas_affordability_gap.json',
   };
 
   const SOURCES = {
@@ -347,7 +348,7 @@
   let lihtcDataSource = 'HUD';
   let _lihtcRequestSeq = 0;  // incremented on each county change to cancel stale async results
 
-  const state = { current:null, lastProj:null, trendCache:{}, derived:null, prevProfile:{} };
+  const state = { current:null, lastProj:null, trendCache:{}, derived:null, prevProfile:{}, chasData:null };
 
   function fmtNum(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
@@ -3210,6 +3211,119 @@
     });
   }
 
+  /**
+   * renderChasAffordabilityGap — render a stacked bar chart showing renter
+   * cost burden by AMI tier from HUD CHAS data for the selected county.
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS (e.g. '08031') or null for statewide
+   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json, or null to skip
+   */
+  function renderChasAffordabilityGap(countyFips5, chasData) {
+    const canvas = document.getElementById('chartChasGap');
+    const statusEl = document.getElementById('chasGapStatus');
+    if (!canvas) return;
+
+    const t = chartTheme();
+
+    const showPlaceholder = (msg) => {
+      const box = canvas.parentElement;
+      if (box) {
+        box.textContent = msg || 'CHAS data unavailable. Run the fetch-chas-data workflow to populate.';
+        box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem;min-height:160px';
+      }
+      if (statusEl) statusEl.textContent = msg || '';
+    };
+
+    if (!chasData) { showPlaceholder(); return; }
+
+    // Find the record for the selected geography
+    let geoRecord = null;
+    if (countyFips5 && chasData.counties) {
+      const fips5 = String(countyFips5).padStart(5, '0');
+      geoRecord = chasData.counties[fips5] || null;
+    }
+    if (!geoRecord && chasData.state) {
+      geoRecord = chasData.state;  // fall back to statewide
+    }
+    if (!geoRecord) { showPlaceholder(); return; }
+
+    const tierLabels = (chasData.meta && chasData.meta.tier_labels) || {
+      lte30: '\u226430% AMI', '31to50': '31\u201350% AMI',
+      '51to80': '51\u201380% AMI', '81to100': '81\u2013100% AMI',
+    };
+    const AMI_ORDER = ['lte30', '31to50', '51to80', '81to100'];
+    const byAmi = geoRecord.renter_hh_by_ami || {};
+
+    const labels = AMI_ORDER.map(k => tierLabels[k] || k);
+    const totals           = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].total)              || 0);
+    const costBurdened     = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].cost_burdened)       || 0);
+    const severelyBurdened = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].severely_burdened)   || 0);
+    // Moderately burdened = cost_burdened minus severely_burdened
+    const modBurdened      = costBurdened.map((cb, i) => Math.max(0, cb - severelyBurdened[i]));
+    const notBurdened      = totals.map((tot, i) => Math.max(0, tot - costBurdened[i]));
+
+    const vintage = (chasData.meta && chasData.meta.vintage) || '';
+    const isStub  = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+    const geoName = geoRecord.name || 'Selected area';
+    if (statusEl) {
+      statusEl.textContent = isStub
+        ? `Estimated from ACS data (actual CHAS ${vintage} figures load via weekly workflow)`
+        : `HUD CHAS ${vintage} data · ${geoName}`;
+    }
+
+    const c = t.chartColors;
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Not burdened',
+            data: notBurdened,
+            backgroundColor: c[3],
+          },
+          {
+            label: 'Moderately burdened (30\u201350%)',
+            data: modBurdened,
+            backgroundColor: c[2],
+          },
+          {
+            label: 'Severely burdened (>50%)',
+            data: severelyBurdened,
+            backgroundColor: c[0],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: t.text } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const val = ctx.parsed.y;
+                const tier = AMI_ORDER[ctx.dataIndex];
+                const tot  = (byAmi[tier] && byAmi[tier].total) || 0;
+                const pct  = tot > 0 ? ((val / tot) * 100).toFixed(1) : '—';
+                return `${ctx.dataset.label}: ${fmtNum(val)} (${pct}% of tier)`;
+              },
+            },
+          },
+        },
+        scales: {
+          x: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
+          y: {
+            stacked: true,
+            ticks: { color: t.muted, callback: (v) => fmtNum(v) },
+            grid: { color: t.border },
+            title: { display: true, text: 'Renter households', color: t.muted },
+          },
+        },
+      },
+    });
+  }
+
   function renderModeShare(s0801){
     const canvas = document.getElementById('chartMode');
     if (!canvas) return;
@@ -4545,6 +4659,16 @@
     renderIndustryAnalysis(econGeoid);
     renderWageGaps(econGeoid, profile);
 
+    // CHAS affordability gap (county context; loaded once and cached on state object)
+    if (!state.chasData) {
+      try {
+        state.chasData = await loadJson(PATHS.chasCostBurden);
+      } catch (_) {
+        state.chasData = null;
+      }
+    }
+    renderChasAffordabilityGap(contextCounty, state.chasData);
+
     // Prop 123 compliance section (uses ACS profile + geoType)
     renderProp123Section(profile, geoType);
 
@@ -4729,6 +4853,7 @@
   window.__HNA_renderIndustryAnalysis  = renderIndustryAnalysis;
   window.__HNA_renderEconomicIndicators = renderEconomicIndicators;
   window.__HNA_renderWageGaps          = renderWageGaps;
+  window.__HNA_renderChasAffordabilityGap = renderChasAffordabilityGap;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);

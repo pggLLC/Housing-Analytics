@@ -1,0 +1,77 @@
+name: Fetch HUD CHAS Affordability Data
+
+# Downloads HUD CHAS 2016-2020 cost-burden cross-tabulations for Colorado,
+# aggregates to county level, and writes:
+#   data/market/chas_co.json              — raw Colorado CHAS records
+#   data/hna/chas_affordability_gap.json  — county-level affordability gap for HNA dashboard
+#
+# If the HUD download fails the existing stub files are preserved unchanged.
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC (before other HNA fetches)
+  workflow_dispatch:        # Allow manual triggering from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-chas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch and process HUD CHAS data
+        run: python3 scripts/fetch_chas.py
+
+      - name: Validate output files
+        run: |
+          echo "── Validating output files ──"
+          for f in data/market/chas_co.json data/hna/chas_affordability_gap.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing output file: $f"
+              exit 1
+            fi
+            size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
+            echo "  $f: ${size} bytes"
+            python3 -c "
+import json, sys
+with open('$f') as fh:
+    d = json.load(fh)
+print('  JSON valid ✅')
+if 'meta' in d:
+    print('  meta.generated:', d['meta'].get('generated', 'missing'))
+" || { echo "::error::$f is not valid JSON"; exit 1; }
+          done
+          # Verify FIPS codes are 5-digit (Rule 1)
+          python3 -c "
+import json, sys
+with open('data/hna/chas_affordability_gap.json') as f:
+    d = json.load(f)
+counties = d.get('counties', {})
+bad = [k for k in counties if len(str(k)) != 5]
+if bad:
+    print(f'::error::Non 5-digit county FIPS found: {bad}', file=sys.stderr)
+    sys.exit(1)
+print(f'  FIPS validation passed ({len(counties)} counties) ✅')
+"
+
+      - name: Commit and push data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/chas_co.json data/hna/chas_affordability_gap.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update HUD CHAS affordability gap data [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash origin main
+            git push
+          fi
