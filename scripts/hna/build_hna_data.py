@@ -800,13 +800,20 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         if result and len(result) > 1:
             if year != start_year:
                 print(f"ℹ Using ACS1/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
-            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            # Record which vintage and series were actually used (commuting reliability).
+            data['_acsYear'] = year
+            data['_acsSeries'] = 'acs1'
+            return data
 
         url = build_url(year, 'subject', 'acs5')
         print(f"ℹ Falling back to ACS5/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
         result = http_get_json(url)
         if result and len(result) > 1:
-            return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            data['_acsYear'] = year
+            data['_acsSeries'] = 'acs5'
+            return data
 
     print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
     return None
@@ -953,6 +960,10 @@ def build_summary_cache():
                 print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
             if acs_s0801 is None:
                 print(f"⚠ summary {geo_type}:{geoid}: ACS S0801 missing; writing partial summary", file=sys.stderr)
+            # Derive actually-used series/year for source endpoint accuracy
+            # (commuting reliability: the endpoint should reflect the data truly used).
+            s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
+            s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
             payload = {
                 'updated': utc_now_z(),
                 'geo': g,
@@ -961,7 +972,9 @@ def build_summary_cache():
                 'acsB08301': acs_b08301,
                 'source': {
                     'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
-                    'acs_s0801_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/subject',
+                    'acs_s0801_endpoint': (
+                        f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
+                    ),
                     'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
                 }
             }
