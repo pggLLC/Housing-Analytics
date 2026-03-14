@@ -49,6 +49,10 @@
 
     /* Stats grid */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp3); margin-bottom: var(--sp4); }
+    .stat-unit  { font-size: var(--tiny, 0.72rem); color: var(--muted); margin-top: 0.15rem; }
+    .stat-source { font-size: var(--tiny, 0.72rem); margin-top: 0.25rem; }
+    .stat-source a { color: var(--link, var(--accent)); text-decoration: none; }
+    .stat-source a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -92,10 +96,30 @@
 
       <!-- Statistics Cards -->
       <div class="stats-grid" id="statistics">
-        <div class="stat-card"><div class="stat-value" id="total-allocation">—</div><div class="stat-label">Total Allocation</div></div>
-        <div class="stat-card"><div class="stat-value" id="confirmed-states">—</div><div class="stat-label">Confirmed States</div></div>
-        <div class="stat-card"><div class="stat-value" id="avg-per-capita">—</div><div class="stat-label">Average Per Capita</div></div>
-        <div class="stat-card"><div class="stat-value" id="largest-state">—</div><div class="stat-label" id="largest-amount">Largest Allocation</div></div>
+        <div class="stat-card">
+          <div class="stat-value" id="total-allocation">—</div>
+          <div class="stat-label">Total Allocation</div>
+          <div class="stat-unit">USD · national program total</div>
+          <div class="stat-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac / IRS §42</a></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="confirmed-states">—</div>
+          <div class="stat-label">Reporting Jurisdictions</div>
+          <div class="stat-unit">states + DC with allocations</div>
+          <div class="stat-source"><a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="avg-per-capita">—</div>
+          <div class="stat-label">Average Per Capita</div>
+          <div class="stat-unit">USD · IRS floor per person</div>
+          <div class="stat-source"><a href="https://www.irs.gov/credits-deductions/businesses/low-income-housing-credit" target="_blank" rel="noopener">IRS Section 42</a></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="largest-state">—</div>
+          <div class="stat-label" id="largest-amount">Largest Allocation</div>
+          <div class="stat-unit">USD · single-state ceiling</div>
+          <div class="stat-source"><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" target="_blank" rel="noopener">Novogradac 2026</a></div>
+        </div>
       </div>
 
       <!-- Map -->
@@ -191,12 +215,13 @@
         const yr = parseInt(year, 10);
         if (window.StateAllocationsHistorical && yr >= 2010 && yr <= 2023) {
           const hist = window.StateAllocationsHistorical;
-          const coRow = hist.getColorado(yr);
-          const states = {};
-          if (coRow) {
-            states['CO'] = { name: 'Colorado', allocation: coRow.allocation, population: coRow.population, perCapita: coRow.perCapita, status: coRow.status };
-          }
-          return { source: hist.source, year: yr, states, _historicalNote: 'Historical data — Colorado detail available; other states use IRS per-capita estimates.' };
+          const states = hist.getAllStates(yr) || {};
+          return {
+            source: hist.source,
+            year: yr,
+            states,
+            _historicalNote: 'All-state estimates use IRS per-capita floor × 2020 Census population. Colorado uses confirmed CHFA/HUD figures where available.',
+          };
         }
         return window.StateAllocations2026;
       };
@@ -207,10 +232,9 @@
         yearSel.addEventListener('change', () => {
           const yr = yearSel.value;
           const note = document.getElementById('sam-year-note');
-          // Use the historical module's year range if available; fall back to 2023.
           const histYears = window.StateAllocationsHistorical ? window.StateAllocationsHistorical.years() : [];
           const maxHistYear = histYears.length ? Math.max(...histYears) : 2023;
-          if (note) note.textContent = (parseInt(yr, 10) <= maxHistYear) ? 'Historical estimate — Colorado detail only' : '';
+          if (note) note.textContent = (parseInt(yr, 10) <= maxHistYear) ? 'All-state estimates · IRS per-capita × 2020 Census pop · CO uses confirmed data' : '';
           const ds = getDatasetForYear(yr);
           if (ds && ds.states) init(ds);
         });
