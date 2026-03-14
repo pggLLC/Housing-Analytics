@@ -358,6 +358,96 @@ canvas { width: 100% !important; }
   max-width: 100%;
 }
 
+/* ----------------------------------------------------------------
+   Chart loading / empty / error states (Recommendation 3.1)
+   ---------------------------------------------------------------- */
+.chart-state-wrap {
+  position: relative;
+}
+
+/* Loading overlay */
+.chart-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp2);
+  background: var(--card);
+  border-radius: var(--radius);
+  z-index: 2;
+  transition: opacity 0.25s;
+}
+
+.chart-loading[hidden] {
+  display: none;
+}
+
+/* Spinner */
+.chart-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: chart-spin 0.75s linear infinite;
+}
+
+@keyframes chart-spin {
+  to { transform: rotate(360deg); }
+}
+
+.chart-loading-label {
+  font-size: var(--small);
+  color: var(--muted);
+}
+
+/* Empty state */
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp2);
+  min-height: 140px;
+  padding: var(--sp4);
+  color: var(--muted);
+  font-size: var(--small);
+  text-align: center;
+}
+
+.chart-empty[hidden] {
+  display: none;
+}
+
+.chart-empty-icon {
+  font-size: 1.8rem;
+  opacity: 0.45;
+  line-height: 1;
+}
+
+/* Error state */
+.chart-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp2);
+  min-height: 140px;
+  padding: var(--sp4);
+  color: var(--bad);
+  font-size: var(--small);
+  text-align: center;
+  background: var(--bad-dim);
+  border-radius: var(--radius);
+  border: 1px solid var(--bad);
+}
+
+.chart-error[hidden] {
+  display: none;
+}
+
 /* ================================================================
    10. TABLES
    ================================================================ */
