@@ -734,17 +734,33 @@
     var L = window.L;
     if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
 
-    map = L.map('pmaMap', { zoomControl: true }).setView([39.5501, -105.7821], 7);
+    map = L.map('pmaMap', { zoomControl: true, maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
 
-    // Restrict pan/zoom to within ~50 miles of the Colorado state boundary.
+    // Restrict pan/zoom tightly to Colorado state boundary + minimal padding.
     // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.
-    // 50 mi ≈ 0.72° latitude (1°≈69 mi) and ≈0.93° longitude at 39°N (1°≈54.0 mi/°).
     var coloradoBounds = L.latLngBounds(
-      L.latLng(36.28, -109.98),  // ~50 mi south-west of CO border
-      L.latLng(41.72, -101.12)   // ~50 mi north-east of CO border
+      L.latLng(37.0, -109.05),
+      L.latLng(41.0, -102.05)
     );
-    map.setMaxBounds(coloradoBounds);
-    map.setMinZoom(6);
+    map.setMaxBounds(coloradoBounds.pad(0.05));
+    map.setMinZoom(7);
+
+    // Add a loading overlay that disappears once data is ready.
+    var mapEl = document.getElementById('pmaMap');
+    if (mapEl) {
+      var loadDiv = document.createElement('div');
+      loadDiv.id = 'pmaMapLoadingOverlay';
+      loadDiv.style.cssText = [
+        'position:absolute;inset:0;z-index:1000;display:flex;',
+        'align-items:center;justify-content:center;',
+        'background:rgba(var(--card-rgb,255,255,255),.82);',
+        'font-size:.9rem;font-weight:600;color:var(--muted);',
+        'pointer-events:none;border-radius:inherit;',
+      ].join('');
+      loadDiv.textContent = 'Loading map data…';
+      mapEl.style.position = 'relative';
+      mapEl.appendChild(loadDiv);
+    }
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors © CARTO',
@@ -1098,6 +1114,9 @@
       }
 
       dataLoaded = true;
+      // Hide the map loading overlay now that data is ready.
+      var mapOverlay = document.getElementById('pmaMapLoadingOverlay');
+      if (mapOverlay) mapOverlay.style.display = 'none';
       console.log('[market-analysis] loadData(): complete' +
         ' — centroids=' + (((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length) +
         ', acs='        + ((acsMetrics && acsMetrics.tracts) || []).length +
@@ -1257,6 +1276,8 @@
     }).catch(function (err) {
       console.error('[market-analysis] loadData() failed:', err);
       dataLoaded = true;
+      var mapOverlay = document.getElementById('pmaMapLoadingOverlay');
+      if (mapOverlay) { mapOverlay.textContent = 'Data service unavailable — click to place a site.'; }
       var hint = el('pmaDataStatus');
       if (hint) hint.textContent = 'Warning: data service unavailable.';
       loadOverlays();
