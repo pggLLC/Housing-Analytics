@@ -119,6 +119,51 @@
 }
 
 /* ----------------------------------------------------------------
+   Responsive table wrapper — prevents horizontal overflow on mobile
+   ---------------------------------------------------------------- */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: var(--sp4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  /* Right-side gradient hint indicating scrollable content */
+  background: linear-gradient(to right, var(--card) 70%, transparent) center right / 2rem 100% no-repeat,
+              var(--card);
+}
+
+.table-scroll table {
+  min-width: 560px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-scroll table th,
+.table-scroll table td {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-size: var(--small);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table-scroll table th {
+  font-weight: 600;
+  background: var(--bg2);
+  color: var(--text-strong);
+  position: sticky;
+  top: 0;
+}
+
+.table-scroll table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-scroll table tbody tr:hover td {
+  background: var(--accent-dim);
+}
+
+/* ----------------------------------------------------------------
    Page header block (used on inner pages)
    ---------------------------------------------------------------- */
 .page-header {
