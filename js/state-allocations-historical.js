@@ -67,12 +67,50 @@
     { year: 2023, allocation: 16200000, population: 5877610, perCapita: 2.76, status: 'estimated', notes: 'Final figure pending HUD annual report' },
   ];
 
+  /**
+   * 2020 Census population by state abbreviation (50 states + DC).
+   * Source: U.S. Census Bureau 2020 Decennial Census (P1 table).
+   * Used to generate per-state IRS per-capita allocation estimates for
+   * historical years where confirmed state figures are unavailable.
+   */
+  var STATE_POPULATIONS_2020 = {
+    AL:  5024279, AK:   733583, AZ:  7151502, AR:  3011524, CA: 39538223,
+    CO:  5773714, CT:  3605944, DE:   989948, DC:   689545, FL: 21538187,
+    GA: 10711908, HI:  1455271, ID:  1839106, IL: 12812508, IN:  6785528,
+    IA:  3190369, KS:  2937880, KY:  4505836, LA:  4657757, ME:  1362359,
+    MD:  6177224, MA:  7029917, MI: 10077331, MN:  5706494, MS:  2961279,
+    MO:  6154913, MT:  1084225, NE:  1961504, NV:  3104614, NH:  1377529,
+    NJ:  9288994, NM:  2117522, NY: 20201249, NC: 10439388, ND:   779094,
+    OH: 11799448, OK:  3959353, OR:  4237256, PA: 13002700, RI:  1097379,
+    SC:  5118425, SD:   886667, TN:  6910840, TX: 29145505, UT:  3271616,
+    VT:   643077, VA:  8631393, WA:  7705281, WV:  1793716, WI:  5893718,
+    WY:   576851
+  };
+
+  /**
+   * Full name lookup for state abbreviations.
+   */
+  var STATE_NAMES = {
+    AL:'Alabama', AK:'Alaska', AZ:'Arizona', AR:'Arkansas', CA:'California',
+    CO:'Colorado', CT:'Connecticut', DE:'Delaware', DC:'District of Columbia',
+    FL:'Florida', GA:'Georgia', HI:'Hawaii', ID:'Idaho', IL:'Illinois',
+    IN:'Indiana', IA:'Iowa', KS:'Kansas', KY:'Kentucky', LA:'Louisiana',
+    ME:'Maine', MD:'Maryland', MA:'Massachusetts', MI:'Michigan', MN:'Minnesota',
+    MS:'Mississippi', MO:'Missouri', MT:'Montana', NE:'Nebraska', NV:'Nevada',
+    NH:'New Hampshire', NJ:'New Jersey', NM:'New Mexico', NY:'New York',
+    NC:'North Carolina', ND:'North Dakota', OH:'Ohio', OK:'Oklahoma',
+    OR:'Oregon', PA:'Pennsylvania', RI:'Rhode Island', SC:'South Carolina',
+    SD:'South Dakota', TN:'Tennessee', TX:'Texas', UT:'Utah', VT:'Vermont',
+    VA:'Virginia', WA:'Washington', WV:'West Virginia', WI:'Wisconsin',
+    WY:'Wyoming'
+  };
+
   window.StateAllocationsHistorical = {
     source: {
       name: 'HUD LIHTC Database / IRS Section 42 / Novogradac',
       url: 'https://lihtc.huduser.gov/',
-      note: 'Allocation authority totals. Estimated values use national per-capita × state population. ' +
-            'Allocation authority ≠ units placed in service.',
+      note: 'Allocation authority totals. Estimated values use IRS per-capita floor × 2020 Census state population. ' +
+            'Confirmed CO values from CHFA/HUD annual reports. Allocation authority ≠ units placed in service.',
       lastUpdated: '2024',
     },
     national: NATIONAL_BY_YEAR,
@@ -89,6 +127,44 @@
      */
     years: function () {
       return COLORADO_BY_YEAR.map(function (d) { return d.year; });
+    },
+    /**
+     * Return a full 51-jurisdiction states object for the given year (2010–2023).
+     * All non-CO values are IRS per-capita estimates; CO uses confirmed data where
+     * available.  Returns null if the year is outside 2010–2023.
+     *
+     * @param {number} year
+     * @returns {{ [abbr: string]: { name, allocation, population, perCapita, status } } | null}
+     */
+    getAllStates: function (year) {
+      var natRow = NATIONAL_BY_YEAR.find(function (d) { return d.year === year; });
+      if (!natRow) return null;
+      var irsPerCap = natRow.irsPerCapita;
+      var coRow     = COLORADO_BY_YEAR.find(function (d) { return d.year === year; });
+      var states    = {};
+      Object.keys(STATE_POPULATIONS_2020).forEach(function (abbr) {
+        var pop  = STATE_POPULATIONS_2020[abbr];
+        var alloc = Math.round(irsPerCap * pop);
+        var pc    = Math.round((alloc / pop) * 100) / 100;
+        states[abbr] = {
+          name:       STATE_NAMES[abbr] || abbr,
+          allocation: alloc,
+          population: pop,
+          perCapita:  pc,
+          status:     'estimated',
+        };
+      });
+      // Override Colorado with confirmed / better-sourced figures when available.
+      if (coRow) {
+        states['CO'] = {
+          name:       'Colorado',
+          allocation: coRow.allocation,
+          population: coRow.population,
+          perCapita:  coRow.perCapita,
+          status:     coRow.status,
+        };
+      }
+      return states;
     },
   };
 })();
