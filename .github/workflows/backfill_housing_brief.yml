@@ -1,0 +1,53 @@
+name: Backfill Housing Brief (GDELT)
+
+on:
+  workflow_dispatch:
+    inputs:
+      weeks:
+        description: 'Number of past weeks to backfill'
+        required: false
+        default: '156'
+        type: string
+      maxrecords:
+        description: 'Max articles per GDELT query'
+        required: false
+        default: '75'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run GDELT backfill
+        run: |
+          python private/weekly-brief/scripts/backfill_gdelt.py \
+            --weeks "${{ inputs.weeks }}" \
+            --maxrecords "${{ inputs.maxrecords }}"
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add private/weekly-brief/
+          git add robots.txt || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: GDELT backfill ${{ inputs.weeks }} weeks $(date -u '+%Y-%m-%d')"
+            git push
+          fi
