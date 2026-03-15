@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","fetchedAt":"2026-03-15T02:53:58.188Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-105.453296,38.133533]},"properties":{"PROJECT":"SILVERCLIFFS","PROJ_ADD":"115 FIRST ST","PROJ_CTY":"SILVER CLIFF","PROJ_ST":"CO","CNTY_NAME":"Custer","CNTY_FIPS":"08027","STATEFP":"08","COUNTYFP":"027","N_UNITS":16,"LI_UNITS":null,"YR_PIS":"2010","YR_ALLOC":"8888","CREDIT":"4","NON_PROF":null,"QCT":"2","DDA":null}}]}
+{"type":"FeatureCollection","features":[]}
