@@ -1,3 +1,5 @@
+> **Note:** For the authoritative and most current data source audit, see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).
+
 # Data Sources Audit
 
 **Repository:** pggLLC/Housing-Analytics  

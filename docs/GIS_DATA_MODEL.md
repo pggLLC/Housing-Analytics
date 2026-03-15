@@ -6,34 +6,43 @@
 
 ## 1. Data Folder Structure
 
+> This reflects the current repository layout as of March 2026.
+
 ```
 data/
-├── core/                          # Shared base geography
-│   ├── states-10m.json            # TopoJSON — US states (10m resolution)
-│   └── co-county-boundaries.json  # GeoJSON — Colorado county boundaries
+├── chfa-lihtc.json                  # CHFA LIHTC project list (716 features; fetched by CI)
+├── fred-data.json                   # FRED economic series (45 series; daily CI update)
+├── states-10m.json                  # TopoJSON — US states (10m resolution)
+├── co-county-boundaries.json        # GeoJSON — Colorado county boundaries
+├── allocations.json                 # LIHTC state allocation history
+├── qct-colorado.json                # Qualified Census Tracts — Colorado (224 features)
+├── dda-colorado.json                # Difficult Development Areas — Colorado (10 county-level)
+├── prop123_jurisdictions.json       # Prop 123 commitment list (municipalities + counties)
+├── co-county-demographics.json      # County-level ACS demographic variables
+├── co-county-economic-indicators.json # County-level economic indicators
+├── co_ami_gap_by_county.json        # AMI gap calculations — 64 CO counties
+├── car-market.json                  # CAR market KPIs (median price, DOM, etc.)
 │
-├── housing/                       # LIHTC & affordable housing inventory
-│   ├── chfa-lihtc.json            # CHFA LIHTC project list (fetched by CI)
-│   └── hna/                       # Housing Needs Assessment projections
-│       └── co-hna-2025.json
+├── hna/                             # Housing Needs Assessment projections & cache
+│   ├── geo-config.json              # Featured geographies (counties, places, CDPs)
+│   ├── local-resources.json         # Local housing authority / advocacy links
+│   ├── summary/{geoid}.json         # ACS profile + commuting cache per geography
+│   ├── lehd/{countyFips5}.json      # LEHD LODES inflow/outflow/employment data
+│   ├── dola_sya/{fips5}.json        # DOLA/SDO single-year-of-age pyramids
+│   ├── projections/{fips5}.json     # DOLA/SDO 20-year population projections
+│   ├── derived/geo-derived.json     # ETL-computed inputs for municipal scaling
+│   ├── lihtc/{countyFips5}.json     # Per-county LIHTC features (64 files)
+│   └── municipal/                   # Municipal analysis config and growth rates
 │
-├── demographics/                  # ACS population & household data
-│   ├── census-acs-state.json      # ACS 5-year state-level estimates
-│   └── co-demographics.json       # County-level ACS variables (B25070, B11001…)
+├── market/                          # Market analysis artifacts
+│   ├── tract_centroids_co.json      # Colorado census tract centroids
+│   ├── acs_tract_metrics_co.json    # ACS 5-year tract-level metrics
+│   ├── hud_lihtc_co.geojson         # HUD LIHTC Colorado properties
+│   ├── reference-projects.json      # 50 CO benchmark projects for PMA
+│   └── nhpd_co.geojson              # NHPD preservation tracking
 │
-├── amenities/                     # Points of interest for PMA scoring
-│   └── (generated on demand from OpenStreetMap Overpass API)
-│
-├── policy/                        # Policy & eligibility layers
-│   ├── prop123_jurisdictions.json # Prop 123 commitment list (municipalities + counties)
-│   ├── dda-colorado.json          # Difficult Development Areas — Colorado
-│   └── qct-colorado.json          # Qualified Census Tracts — Colorado
-│
-└── market/                        # Market signals & economic indicators
-    ├── fred-data.json             # FRED series (vacancy, permits, HPI…)
-    ├── car-market.json            # CAR market KPIs (median price, DOM…)
-    ├── co_ami_gap_by_county.json  # AMI gap calculations by county
-    └── allocations.json           # State LIHTC allocation history
+└── policy/                          # Policy & eligibility layers
+    └── prop123_jurisdictions.json   # Prop 123 commitment filings
 ```
 
 ---

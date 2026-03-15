@@ -1,6 +1,8 @@
 # Data Sources — Status & Metadata
 
-Last updated: 2026-03-02
+Last updated: 2026-03-15
+
+> For the complete GIS reliability audit, see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).
 
 This document describes every data file used by the site, where it comes
 from, which CI workflow maintains it, whether it requires an API secret, and
@@ -12,14 +14,14 @@ its current status.
 
 | File | Records | Source API / Service | CI Workflow | Secret Required | Fallback Strategy | Status |
 |------|---------|----------------------|-------------|-----------------|-------------------|--------|
-| `data/chfa-lihtc.json` | **0 (empty — CI not yet run)** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Mon 05:00 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ⚠️ Empty — triggers remote API fallback on page load |
+| `data/chfa-lihtc.json` | **716** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Mon 05:00 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ✅ 716 features |
 | `data/qct-colorado.json` | **224** | HUD ArcGIS `Qualified_Census_Tracts_2026` (public) | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 27 embedded polygons | ✅ Populated |
 | `data/dda-colorado.json` | **10** (Colorado county-level DDAs) | HUD ArcGIS `Difficult_Development_Areas_2026` (public), normalised by `scripts/normalize-dda.js` | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 10 embedded polygons | ✅ Populated |
 | `data/hna/lihtc/*.json` | 64 files (one per CO county) | HUD ArcGIS `LIHTC_Properties` (public) | `generate-housing-data.yml` (Mon 06:00 UTC) | None — public API | County file → statewide `chfa-lihtc.json` → CHFA ArcGIS → HUD ArcGIS → embedded | ✅ 64 county files present |
 
 ### Notes on Map Overlay APIs
 - All three HUD/CHFA ArcGIS FeatureServer endpoints are **publicly accessible** — no API key or auth header required.
-- The `data/chfa-lihtc.json` file is currently empty because the CI workflow has not yet run after the latest branch push.  When a user loads the Colorado Deep Dive map, the front-end automatically falls back to the CHFA ArcGIS API (15 s timeout), then HUD ArcGIS, and finally the 14 embedded sample projects.
+- `data/chfa-lihtc.json` now contains **716 features** (fixed March 2026; see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for details).
 - `data/dda-colorado.json` contains only **county-level** DDAs (`DDA_CODE` starts with `NCNTY08`).  Metro-area DDAs (Denver-Aurora, Colorado Springs, etc.) are designated at the HUD Metro FMR Area level and are **not** represented as polygons in this file; the `CO_DDA` static lookup in `housing-needs-assessment.js` covers those counties with a status badge but no polygon overlay.
 
 ---
@@ -73,7 +75,7 @@ page load quickly without hitting live APIs for every page view.
 
 | Data File | Local Creation Working? | Redundancy / Notes |
 |-----------|------------------------|--------------------|
-| `data/chfa-lihtc.json` | ⚠️ **Partially** — created by CI, currently empty | Script is correct but CI hasn't populated it yet. Front-end automatically falls back to live CHFA/HUD ArcGIS APIs and then 14 embedded projects. The `fetch-chfa-lihtc.js` now preserves a non-empty existing file if the live API returns 0 features. |
+| `data/chfa-lihtc.json` | ✅ **Working** — 716 features | Fixed March 2026. Front-end loads local file first; falls back to CHFA/HUD ArcGIS APIs then 14 embedded projects. |
 | `data/qct-colorado.json` | ✅ **Working** — 224 features | Created weekly by `cache-hud-gis-data.yml`. Front-end loads local file first; falls back to live HUD ArcGIS API. |
 | `data/dda-colorado.json` | ✅ **Working** — 10 county-level features | Created weekly by `cache-hud-gis-data.yml` + `normalize-dda.js`. Metro DDAs not represented as polygons; handled by static `CO_DDA` lookup. |
 | `data/fred-data.json` | ✅ **Working** — requires `FRED_API_KEY` secret | 45 macro/housing FRED series; updated daily. |

@@ -24,7 +24,8 @@
     "validate:data": "node scripts/validate-critical-data.js",
     "monitor:report": "node scripts/monitoring/generate-report.js",
     "monitor:report:json": "node scripts/monitoring/generate-report.js --json",
-    "monitor:check": "python3 scripts/monitoring/data-quality-check.py"
+    "monitor:check": "python3 scripts/monitoring/data-quality-check.py",
+    "docs:sync": "node scripts/sync-docs.mjs"
   },
   "dependencies": {},
   "devDependencies": {
