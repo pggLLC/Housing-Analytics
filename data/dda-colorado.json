@@ -14724,5 +14724,7 @@
       }
     }
   ],
-  "normalizedAt": "2026-03-09T05:22:33.702Z"
+  "fetchedAt": "2026-03-15T02:53:52.243Z",
+  "source": "HUD ArcGIS Difficult_Development_Areas_2026 FeatureServer — services.arcgis.com",
+  "normalizedAt": "2026-03-15T02:53:52.286Z"
 }
