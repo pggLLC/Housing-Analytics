@@ -19,13 +19,17 @@ css/responsive-nav.css
 <script src="js/fred-commodities.js"></script>
 ```
 
-### 3. Configure FRED API Key
-```javascript
-// In js/fred-commodities.js line 7:
-apiKey: 'YOUR_KEY_HERE'
+### 3. Configure API Keys
+API keys are managed through GitHub Actions secrets and injected into `js/config.js` during CI builds.
+For local development, create `js/config.local.js` (gitignored) with your keys:
+```js
+window.CONFIG = {
+  FRED_API_KEY: 'your-key-here',
+  // ... other keys
+};
 ```
 
-Get key at: https://research.stlouisfed.org/useraccount/register
+Get a free FRED key at: https://research.stlouisfed.org/useraccount/register
 
 ---
 

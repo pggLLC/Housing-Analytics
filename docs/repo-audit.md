@@ -1,3 +1,5 @@
+> **📁 Archived (2026-03-15):** This audit was generated on 2026-02-26. Most findings have been addressed. Retained for historical reference. See [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the current authoritative audit.
+
 # Repository audit (HNA + general cleanup)
 
 Generated: 2026-02-26
