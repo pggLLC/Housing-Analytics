@@ -30,7 +30,7 @@ This document inventories every external data source referenced in the codebase,
 
 | URL | Files | What it provides |
 |---|---|---|
-| `services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer` | `js/co-lihtc-map.js`, `js/data-service.js`, `scripts/fetch-lihtc-data.js`, `scripts/build_market_data.py` | HUD LIHTC project locations for Colorado |
+| `services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer` | `js/co-lihtc-map.js`, `js/data-service.js`, `scripts/build_market_data.py` | HUD LIHTC project locations for Colorado |
 | `services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer` | `js/co-lihtc-map.js`, `js/data-service.js` | CHFA LIHTC FeatureServer (all layers) |
 | `hudgis.hud.opendata.arcgis.com/…/QCT` | `js/housing-needs-assessment.js`, `js/co-lihtc-map.js` | Qualified Census Tracts |
 | `hudgis.hud.opendata.arcgis.com/…/DDA` | `js/housing-needs-assessment.js`, `js/co-lihtc-map.js` | Difficult Development Areas |
