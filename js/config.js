@@ -4,5 +4,5 @@
 window.APP_CONFIG = {
   CENSUS_API_KEY: "",
   FRED_API_KEY: "",
-  DATA_VERSION: "2026-03-10"
+  DATA_VERSION: "2026-03-15"
 };
