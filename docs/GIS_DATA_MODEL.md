@@ -6,34 +6,58 @@
 
 ## 1. Data Folder Structure
 
+> *This reflects the current repository layout as of March 2026.*
+
 ```
 data/
-├── core/                          # Shared base geography
-│   ├── states-10m.json            # TopoJSON — US states (10m resolution)
-│   └── co-county-boundaries.json  # GeoJSON — Colorado county boundaries
-│
-├── housing/                       # LIHTC & affordable housing inventory
-│   ├── chfa-lihtc.json            # CHFA LIHTC project list (fetched by CI)
-│   └── hna/                       # Housing Needs Assessment projections
-│       └── co-hna-2025.json
-│
-├── demographics/                  # ACS population & household data
-│   ├── census-acs-state.json      # ACS 5-year state-level estimates
-│   └── co-demographics.json       # County-level ACS variables (B25070, B11001…)
+├── allocations.json               # LIHTC state allocation history
+├── census-acs-state.json          # ACS 5-year state-level estimates
+├── chfa-lihtc.json                # CHFA LIHTC project list (fetched by CI; 716 features)
+├── co_ami_gap_by_county.json      # AMI gap calculations by county
+├── co-county-boundaries.json      # GeoJSON — Colorado county boundaries
+├── co-county-demographics.json    # County-level ACS demographic variables
+├── co-county-economic-indicators.json # County-level economic indicator data
+├── co-demographics.json           # Statewide ACS variables (B25070, B11001…)
+├── co-historical-allocations.json # Historical Colorado LIHTC allocation data
+├── dda-colorado.json              # Difficult Development Areas — Colorado
+├── fred-data.json                 # FRED series (vacancy, permits, HPI…)
+├── hud-fmr-income-limits.json     # HUD Fair Market Rents / Income Limits (FY2025)
+├── lihtc-trends-by-county.json    # LIHTC unit trend data (64 counties)
+├── manifest.json                  # Feature counts and timestamps for CI-built files
+├── qct-colorado.json              # Qualified Census Tracts — Colorado
+├── states-10m.json                # TopoJSON — US states (10m resolution)
 │
 ├── amenities/                     # Points of interest for PMA scoring
 │   └── (generated on demand from OpenStreetMap Overpass API)
 │
-├── policy/                        # Policy & eligibility layers
-│   ├── prop123_jurisdictions.json # Prop 123 commitment list (municipalities + counties)
-│   ├── dda-colorado.json          # Difficult Development Areas — Colorado
-│   └── qct-colorado.json          # Qualified Census Tracts — Colorado
+├── boundaries/                    # Additional boundary geometries
 │
-└── market/                        # Market signals & economic indicators
-    ├── fred-data.json             # FRED series (vacancy, permits, HPI…)
-    ├── car-market.json            # CAR market KPIs (median price, DOM…)
-    ├── co_ami_gap_by_county.json  # AMI gap calculations by county
-    └── allocations.json           # State LIHTC allocation history
+├── derived/                       # ETL-computed derived datasets
+│
+├── hna/                           # Housing Needs Assessment data
+│   ├── geo-config.json            # Featured geographies (counties, places, CDPs)
+│   ├── local-resources.json       # Curated local housing authority / advocacy links
+│   ├── chas_affordability_gap.json # CHAS-derived affordability gap estimates
+│   ├── summary/{geoid}.json       # ACS profile + S0801 commuting cache per geography
+│   ├── lehd/{countyFips5}.json    # LEHD LODES inflow/outflow; employment by industry
+│   ├── dola_sya/{fips5}.json      # DOLA/SDO single-year-of-age pyramid
+│   ├── projections/{fips5}.json   # DOLA/SDO 20-year population + housing-need model
+│   ├── lihtc/{countyFips5}.json   # Per-county LIHTC features (64 files)
+│   └── derived/geo-derived.json   # ETL-computed inputs for municipal scaling
+│
+├── kalshi/                        # Kalshi prediction market data
+│   └── prediction-market.json
+│
+├── market/                        # Market signals & comparable data
+│   ├── acs_tract_metrics_co.json  # ACS 5-year tract-level metrics
+│   ├── hud_lihtc_co.geojson       # HUD LIHTC Colorado properties
+│   ├── lodes_co.json              # LEHD LODES employment data
+│   ├── nhpd_co.geojson            # NHPD preservation-at-risk properties
+│   ├── reference-projects.json    # 50 CO benchmark comparable projects
+│   └── tract_centroids_co.json    # Colorado census tract centroids
+│
+└── policy/                        # Policy & eligibility layers
+    └── prop123_jurisdictions.json # Prop 123 commitment list (municipalities + counties)
 ```
 
 ---

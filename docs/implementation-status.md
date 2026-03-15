@@ -1,3 +1,5 @@
+> **⚠️ Deprecated:** This implementation status matrix has been superseded by [`docs/FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md). Retained for historical reference.
+
 # COHO Analytics — Implementation Status Matrix
 
 **Generated:** 2026-03-10  

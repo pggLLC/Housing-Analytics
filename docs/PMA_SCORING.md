@@ -59,7 +59,7 @@ rentRatio      = median_gross_rent / affordableRent
 rentScore      = max(0, min(100, (rentRatio − 0.70) / (1.50 − 0.70) × 100))
 ```
 
-Where `AMI` = Colorado statewide Area Median Income (~$95,000/year in 2022).
+Where `AMI` = Colorado statewide Area Median Income (use the latest HUD-published AMI figure for the current data vintage; approximately $95,000/year as of 2022 — update annually when HUD releases new income limits at https://www.huduser.gov/portal/datasets/il.html).
 
 ### 4. Land / Supply (15%)
 

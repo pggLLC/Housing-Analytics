@@ -1,3 +1,5 @@
+> **⚠️ Deprecated:** This document is no longer maintained. See [`docs/SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the authoritative data source catalog.
+
 # Data Architecture
 
 This document describes the data pipeline, APIs, build scripts, cached JSON files, and visualization layer for the Housing Analytics platform.

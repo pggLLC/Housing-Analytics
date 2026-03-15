@@ -1,3 +1,5 @@
+> **⚠️ Deprecated:** This document is no longer maintained. See [`docs/SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the authoritative data source catalog.
+
 # Data Sources Audit
 
 **Repository:** pggLLC/Housing-Analytics  

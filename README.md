@@ -22,22 +22,29 @@ COHO Analytics is a static web application providing comprehensive data insights
 | Page | Description |
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
-| `economic-dashboard.html` | FRED-powered economic indicators dashboard (housing predictions moved to Colorado Deep Dive) |
+| `economic-dashboard.html` | FRED-powered economic indicators dashboard |
 | `LIHTC-dashboard.html` | State LIHTC allocation maps and data |
 | `state-allocation-map.html` | D3 choropleth map of federal allocations |
 | `regional.html` | Regional housing market analysis |
-| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps, regional housing predictions for 5 CO regions) |
-| `colorado-market.html` | Colorado market overview and forecast |
-| `_dev/construction-commodities.html` | Construction cost commodity tracking (archived to `_dev/`) |
-| `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
+| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps, QCT/DDA overlays, Prop 123) |
+| `colorado-market.html` | Colorado market overview and AMI gap analysis |
+| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) |
+| `market-analysis.html` | PMA scoring tool — site selection and market feasibility |
+| `market-intelligence.html` | Market intelligence overview with ACS and FRED indicators |
+| `compliance-dashboard.html` | Prop 123 / HB 22-1093 compliance tracking |
+| `chfa-portfolio.html` | CHFA multifamily portfolio browser |
+| `dashboard.html` | LIHTC analytics dashboard |
+| `dashboard-data-quality.html` | Data quality monitoring dashboard |
+| `dashboard-data-sources-ui.html` | Interactive data sources browser |
+| `census-dashboard.html` | U.S. Census data integration |
+| `construction-commodities.html` | Construction cost commodity tracking |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
 | `insights.html` | Market insights and research articles |
 | `article-pricing.html` | Housing pricing analysis article |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide for developers, housing authorities, and investors |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `_dev/census-dashboard.html` | U.S. Census data integration (archived to `_dev/`) |
-| `dashboard.html` | Analytics dashboard |
+| `privacy-policy.html` | Privacy policy |
 | `about.html` | About the project and methodology |
 
 ## Project Structure
@@ -45,7 +52,7 @@ COHO Analytics is a static web application providing comprehensive data insights
 ```
 Housing-Analytics/
 ├── index.html                   # Entry point
-├── *.html                       # 17 page files
+├── *.html                       # 25 page files
 │
 ├── css/
 │   ├── site-theme.css           # Design tokens, dark/light mode, typography
@@ -132,13 +139,16 @@ Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` and
 
 ## API Configuration
 
-Some dashboards use live API data. Create `js/config.local.js` (gitignored) with your API keys:
+`js/config.js` is committed with empty placeholder API keys. Local overrides go in `js/config.local.js` (gitignored). In CI, secrets are injected via GitHub Actions.
+
+For local development, create `js/config.local.js` (gitignored) with your API keys:
 
 ```js
 // js/config.local.js — NOT committed to git
-window.LIHTC_CONFIG = {
+window.APP_CONFIG = {
   FRED_API_KEY: 'your-fred-api-key-here',
-  CENSUS_API_KEY: 'your-census-api-key-here'
+  CENSUS_API_KEY: 'your-census-api-key-here',
+  // ... other keys
 };
 ```
 

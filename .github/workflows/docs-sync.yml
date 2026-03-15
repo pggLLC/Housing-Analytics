@@ -1,0 +1,41 @@
+name: Docs Sync — Auto-update inventory
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 6 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run docs sync
+        run: node scripts/sync-docs.mjs
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet docs/GENERATED-INVENTORY.md && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create PR if changed
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'docs: auto-update generated inventory'
+          title: 'docs: auto-update generated inventory'
+          body: 'Automated update from `scripts/sync-docs.mjs`. Review the changes to `docs/GENERATED-INVENTORY.md`.'
+          branch: docs/auto-sync-inventory
+          labels: documentation
