@@ -1,0 +1,19 @@
+{
+  "week_start": "2026-03-09",
+  "generated_at": "2026-03-09T00:00:00Z",
+  "total_articles": 0,
+  "sections": {
+    "Colorado": [],
+    "Western Slope": [],
+    "National": []
+  },
+  "signals": {
+    "Financing / Rates": { "count": 0, "top_terms": [] },
+    "LIHTC / Tax Credit": { "count": 0, "top_terms": [] },
+    "Supply / Pipeline": { "count": 0, "top_terms": [] },
+    "Costs / Insurance": { "count": 0, "top_terms": [] },
+    "Rent Pressure / Homelessness": { "count": 0, "top_terms": [] },
+    "Policy / Zoning": { "count": 0, "top_terms": [] }
+  },
+  "signals_explain": "Signal counts are keyword-based and measured across all fetched articles for this week."
+}

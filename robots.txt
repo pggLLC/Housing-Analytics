@@ -7,5 +7,6 @@ Disallow: /serverless/
 Disallow: /cloudflare-worker/
 Disallow: /test/
 Disallow: /tools/
+Disallow: /Housing-Analytics/private/
 
 Sitemap: https://housinganalytics.pgg.llc/sitemap.xml
