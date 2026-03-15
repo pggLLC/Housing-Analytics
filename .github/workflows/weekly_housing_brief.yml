@@ -1,0 +1,41 @@
+name: Weekly Housing Intelligence Brief
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-weekly-brief:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build weekly brief
+        run: python private/weekly-brief/scripts/build_weekly_brief.py
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add private/weekly-brief/
+          git add robots.txt || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: weekly housing brief update $(date -u '+%Y-%m-%d')"
+            git push
+          fi
