@@ -1,5 +1,132 @@
 # CHANGELOG
 
+## Documentation Refresh — All Markdown Files Current
+**Date:** March 2026
+
+### Summary
+Updated all stale markdown files to reflect the current state of the repository as of March 2026. Fixed incorrect `js/config.js` claims across `README.md`, `DATA-SOURCES.md`, and `SETUP-DATA-SOURCES.md` (config.js IS committed with empty placeholders; local overrides use `js/config.local.js`). Updated Live Pages table in `README.md` to 29 pages. Fixed `chfa-lihtc.json` status to 716 features ✅. Replaced idealized folder tree in `docs/GIS_DATA_MODEL.md` §1 with actual flat layout. Removed stale hardcoded AMI figure from `docs/PMA_SCORING.md`. Fixed API key security issue in `docs/QUICK-REFERENCE.md`. Added archive/deprecation notices to `docs/repo-audit.md` and `docs/implementation-status.md`. Added cross-reference notes to `docs/data-sources-audit.md` and `docs/data-architecture.md`. Created `scripts/sync-docs.mjs` and `.github/workflows/docs-sync.yml` for automated inventory.
+
+### Changed Files
+
+- `README.md` — Fixed config.js claims; updated Live Pages table (17 → 29 pages)
+- `DATA-SOURCES.md` — Fixed config.js claims; updated `chfa-lihtc.json` to 716 features ✅; added cross-reference to `SITE_AUDIT_GIS.md`
+- `SETUP-DATA-SOURCES.md` — Fixed config.js model in FRED section
+- `docs/GIS_DATA_MODEL.md` — Replaced §1 folder tree with actual flat `data/` layout
+- `docs/PMA_SCORING.md` — Removed stale "$95K/2022" AMI figure; linked to HUD Income Limits
+- `docs/QUICK-REFERENCE.md` — Security fix: removed hardcoded API key instruction; replaced with `config.local.js` pattern
+- `docs/DATA_SOURCES_TABLE.md` — Refreshed table; added cross-reference to `SITE_AUDIT_GIS.md`
+- `docs/repo-audit.md` — Added archive notice (generated 2026-02-26; findings addressed)
+- `docs/implementation-status.md` — Added deprecation notice (superseded by `FEATURE_COMPLETE.md`)
+- `docs/data-sources-audit.md` — Added cross-reference to `SITE_AUDIT_GIS.md`
+- `docs/data-architecture.md` — Added cross-reference to `GIS_DATA_MODEL.md` and `SITE_AUDIT_GIS.md`
+- `scripts/sync-docs.mjs` — New: automated inventory generator
+- `.github/workflows/docs-sync.yml` — New: weekly docs sync workflow (Monday 06:00 UTC)
+- `CHANGELOG.md` — Added this entry
+
+---
+
+## Site Design Audit Added
+**Date:** March 2026
+
+### Summary
+Added `docs/SITE-DESIGN-AUDIT.md` — a comprehensive UX/design audit with 28 actionable recommendations across 9 sections: navigation architecture, visual hierarchy, charts and visualization, mobile and responsive design, accessibility, performance, and content architecture. Includes a priority matrix (top 10 by effort/impact) and a "Do Not Change" list of design strengths.
+
+### Changed Files
+
+- `docs/SITE-DESIGN-AUDIT.md` — Created
+
+---
+
+## GIS Data Fixes — chfa-lihtc.json 716 Features, County Boundaries
+**Date:** March 2026
+
+### Summary
+Fixed `data/chfa-lihtc.json` — CI workflow now returns 716 CHFA LIHTC features (previously returning 0 due to ArcGIS query parameter error). Fixed Colorado county boundary data. Updated `docs/SITE_AUDIT_GIS.md` to reflect current data status. All GIS layers now load correctly.
+
+### Changed Files
+
+- `data/chfa-lihtc.json` — Now populated with 716 features
+- `scripts/fetch-chfa-lihtc.js` — Fixed ArcGIS query to include `outSR=4326`
+- `docs/SITE_AUDIT_GIS.md` — Updated status for CHFA LIHTC and county boundaries
+
+---
+
+## CHFA Portfolio Page
+**Date:** March 2026
+
+### Summary
+Added `chfa-portfolio.html` — a dedicated page showing the Colorado LIHTC project portfolio sourced from CHFA ArcGIS FeatureServer. Displays an interactive Leaflet map and tabular list of LIHTC properties with filtering by county, year placed in service, and project type.
+
+### Changed Files
+
+- `chfa-portfolio.html` — Created
+
+---
+
+## Prop 123 Compliance Dashboard
+**Date:** March 2026
+
+### Summary
+Added `compliance-dashboard.html` — a Prop 123 / HB 22-1093 compliance dashboard showing which Colorado jurisdictions have filed land-use commitments and their status. Includes a choropleth county map, commitment timeline, and jurisdiction search.
+
+### Changed Files
+
+- `compliance-dashboard.html` — Created
+- `data/policy/prop123_jurisdictions.json` — Updated with 2025-2026 filings
+
+---
+
+## Market Intelligence Feature Complete
+**Date:** March 2026
+
+### Summary
+Completed `market-intelligence.html` — a Market Intelligence dashboard integrating CAR monthly market reports, FRED economic series, rental market metrics, and construction cost trends. Provides county-level filtering and time-series chart comparisons.
+
+### Changed Files
+
+- `market-intelligence.html` — Feature complete
+- `docs/MARKET_INTELLIGENCE_METHOD.md` — Created methodology documentation
+- `data/car-market-report-2026-02.json` — Added
+- `data/car-market-report-2026-03.json` — Added
+
+---
+
+## Market Analysis (PMA) Feature Complete
+**Date:** March 2026
+
+### Summary
+Completed `market-analysis.html` — the Primary Market Analysis (PMA) tool with full 9-module analysis pipeline: commuting shed, barriers, employment centers, schools, transit, competitive set, opportunities, infrastructure, and justification narrative generator. Added data quality scoring, confidence intervals, and benchmark comparisons.
+
+### Changed Files
+
+- `market-analysis.html` — Feature complete
+- `js/pma-analysis-runner.js` — 9-step event-emitter pipeline
+- `js/pma-ui-controller.js` — Progress bar, results panel
+- `js/market-data-quality.js` — PMADataQuality API
+- `js/market-analysis-enhancements.js` — PMAEnhancements API
+- `data/market/reference-projects.json` — 50 CO benchmark projects
+- `docs/MARKET_ANALYSIS_METHOD.md` — Created methodology documentation
+
+---
+
+## Housing Needs Assessment (HNA) Tool Launch
+**Date:** February 2026
+
+### Summary
+Launched the Housing Needs Assessment tool at `housing-needs-assessment.html`. Provides county and municipality-level housing needs analysis using Census ACS, LEHD/LODES, DOLA SDO single-year-of-age data, and HUD AMI data. Includes demographic pyramids, 20-year projections, AMI gap charts, LIHTC supply maps, and PDF/CSV/JSON export.
+
+### Changed Files
+
+- `housing-needs-assessment.html` — Launched
+- `js/housing-needs-assessment.js` — Full implementation
+- `js/hna-export.js` — PDF/CSV/JSON export utilities
+- `js/municipal-analysis.js` — Municipal scaling module
+- `scripts/hna/build_hna_data.py` — ETL pipeline
+- `data/hna/` — All HNA cache files
+- `HOUSING-NEEDS-ASSESSMENT-USER-GUIDE.md` — Created user guide
+
+---
+
 ## Rebrand: COHO Analytics
 **Date:** March 2026
 

@@ -110,8 +110,7 @@ publication cadences.
 
 ### FRED (Federal Reserve Economic Data)
 - **Secret**: `FRED_API_KEY`
-- **Used in**: `deploy.yml` — injected into `js/config.js` at build time so browser-side charts
-  can call the FRED API directly.
+- **Used in**: `deploy.yml` — injected into `js/config.js` at build time. `js/config.js` is committed with empty placeholder API keys; CI replaces the placeholders with real secrets. For local development, create `js/config.local.js` (gitignored) with your keys.
 - **How to obtain**: Free registration at [fred.stlouisfed.org](https://fred.stlouisfed.org).
 
 ### HUD GIS Data
