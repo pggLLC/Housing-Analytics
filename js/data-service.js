@@ -44,17 +44,24 @@ class LIHTCDataService {
 
     // Fetch all data sources
     async fetchAllData() {
-        try {
-            await Promise.all([
-                this.fetchHUDData(),
-                this.fetchNovocoPricing(),
-                this.fetchCensusData(),
-                this.fetchStateHFAData(),
-                this.fetchCoordinatorData()
-            ]);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        const sources = [
+            { label: 'HUD',            promise: this.fetchHUDData() },
+            { label: 'Novoco Pricing', promise: this.fetchNovocoPricing() },
+            { label: 'Census',         promise: this.fetchCensusData() },
+            { label: 'State HFA',      promise: this.fetchStateHFAData() },
+            { label: 'Coordinator',    promise: this.fetchCoordinatorData() },
+        ];
+
+        const results = await Promise.allSettled(sources.map(s => s.promise));
+
+        results.forEach((result, i) => {
+            if (result.status === 'rejected') {
+                console.error(
+                    '[data-service] Source failed:', sources[i].label,
+                    result.reason
+                );
+            }
+        });
     }
 
     // HUD LIHTC Database Integration
@@ -64,6 +71,7 @@ class LIHTCDataService {
         
         if (cached) return cached;
 
+        // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
         try {
             // HUD provides downloadable datasets
             // In production, you would parse their Excel/CSV files
@@ -144,6 +152,7 @@ class LIHTCDataService {
         
         if (cached) return cached;
 
+        // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
         try {
             // Novoco provides market pricing updates
             // Contact them for API access or parse their market reports
@@ -193,6 +202,7 @@ class LIHTCDataService {
         
         if (cached) return cached;
 
+        // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
         try {
             // Census API: https://api.census.gov/data/timeseries/eits/resconst
             // Requires API key (free from census.gov)
@@ -316,6 +326,7 @@ class LIHTCDataService {
         
         if (cached) return cached;
 
+        // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
         try {
             // Colorado Housing and Finance Authority (CHFA)
             // URL: https://www.chfainfo.com/
@@ -379,6 +390,7 @@ class LIHTCDataService {
         
         if (cached) return cached;
 
+        // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
         try {
             const data = {
                 foreclosureRates: {
