@@ -28,16 +28,27 @@ COHO Analytics is a static web application providing comprehensive data insights
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps, regional housing predictions for 5 CO regions) |
 | `colorado-market.html` | Colorado market overview and forecast |
-| `_dev/construction-commodities.html` | Construction cost commodity tracking (archived to `_dev/`) |
+| `construction-commodities.html` | Construction cost commodity tracking |
 | `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
+| `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand |
+| `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
+| `compliance-dashboard.html` | Prop 123 Compliance Dashboard — jurisdiction commitments map |
+| `chfa-portfolio.html` | CHFA Portfolio — Colorado LIHTC project map and list |
 | `insights.html` | Market insights and research articles |
 | `article-pricing.html` | Housing pricing analysis article |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide for developers, housing authorities, and investors |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `_dev/census-dashboard.html` | U.S. Census data integration (archived to `_dev/`) |
 | `dashboard.html` | Analytics dashboard |
+| `dashboard-data-quality.html` | Data quality monitoring dashboard |
+| `dashboard-data-sources-ui.html` | Data sources status UI |
+| `census-dashboard.html` | U.S. Census data integration |
+| `colorado-elections.html` | Colorado elections and housing ballot measures |
+| `preservation.html` | Affordable housing preservation tracker (NHPD) |
+| `privacy-policy.html` | Privacy policy |
+| `data-status.html` | Live data pipeline status |
+| `sitemap.html` | Site map |
 | `about.html` | About the project and methodology |
 
 ## Project Structure
@@ -45,7 +56,7 @@ COHO Analytics is a static web application providing comprehensive data insights
 ```
 Housing-Analytics/
 ├── index.html                   # Entry point
-├── *.html                       # 17 page files
+├── *.html                       # 29 page files
 │
 ├── css/
 │   ├── site-theme.css           # Design tokens, dark/light mode, typography
@@ -132,11 +143,13 @@ Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` and
 
 ## API Configuration
 
-Some dashboards use live API data. Create `js/config.local.js` (gitignored) with your API keys:
+`js/config.js` is committed to the repository with empty placeholder API keys. In CI, secrets are
+injected via GitHub Actions. For local development, create `js/config.local.js` (gitignored) with
+your API keys:
 
 ```js
 // js/config.local.js — NOT committed to git
-window.LIHTC_CONFIG = {
+window.CONFIG = {
   FRED_API_KEY: 'your-fred-api-key-here',
   CENSUS_API_KEY: 'your-census-api-key-here'
 };

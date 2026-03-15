@@ -1,0 +1,58 @@
+name: Docs Sync — Generate Inventory
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run docs sync
+        run: node scripts/sync-docs.mjs
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet docs/GENERATED-INVENTORY.md || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and open PR
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="docs/generated-inventory-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          git add docs/GENERATED-INVENTORY.md
+          git commit -m "docs: regenerate GENERATED-INVENTORY.md [$(date +%Y-%m-%d)]"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "docs: regenerate GENERATED-INVENTORY.md [$(date +%Y-%m-%d)]" \
+            --body "Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status." \
+            --base main \
+            --head "$BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
