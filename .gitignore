@@ -20,3 +20,6 @@ audit-report/
 .DS_Store
 __MACOSX/
 ._*
+
+# Quarantine folder — moved here for review before permanent deletion
+_tobedeleted/

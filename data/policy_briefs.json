@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "generated": "2026-03-15T00:00:00Z",
+    "brief_count": 0,
+    "source_alerts": 0,
+    "methodology": "Policy briefs are generated from aggregated RSS feed alerts. LLM-assisted summaries use GPT-4o-mini when OPENAI_API_KEY is set; otherwise rule-based summaries are produced from headline aggregation."
+  },
+  "briefs": []
+}

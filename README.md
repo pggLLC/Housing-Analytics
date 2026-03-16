@@ -74,7 +74,7 @@ Housing-Analytics/
 │   ├── api-config-wrapper.js    # API key wrapper/guard
 │   ├── contrast-guard.js        # Accessibility contrast checking
 │   ├── citations.js             # Data source citation tooltips
-│   ├── data-service.js          # Data fetching utilities
+│   ├── data-service-portable.js # Data fetching utilities (portable, no external deps)
 │   ├── fred-cards.js            # Federal Reserve FRED KPI cards
 │   ├── fred-commodities.js      # Commodity price charts
 │   ├── housing-data-integration.js # Housing market data integration

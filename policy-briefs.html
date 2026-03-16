@@ -237,14 +237,14 @@
             : (data && Array.isArray(data.briefs) ? data.briefs : []);
           briefs = list;
           if (!list.length) {
-            statusEl.textContent = 'No policy briefs are available yet. Run scripts/generate_policy_briefs.py to generate them.';
+            statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
             return;
           }
           populateFilters(list);
           renderBriefs(list);
         })
         .catch(function (err) {
-          statusEl.textContent = 'Policy briefs are not yet available. Run scripts/generate_policy_briefs.py to generate them.';
+          statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
           console.warn('[policy-briefs] Could not load briefs:', err.message);
         });
     }

@@ -16,7 +16,7 @@ Housing-Analytics/
 │   ├── styles.css           # Base styles
 │   ├── site-theme.css       # Color theme and typography
 │   ├── unified-theme.css    # Unified dark/light theme variables
-│   ├── responsive-nav.css   # Responsive navigation
+│   ├── mobile-nav.css       # Mobile navigation styles
 │   └── predictions-dashboard.css
 ├── js/                      # Site-wide JavaScript
 │   ├── main.js              # Entry point
