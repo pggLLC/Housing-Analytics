@@ -1,6 +1,11 @@
+<!-- sync-banner:start -->
+> **⚠️ Superseded** — See [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the current platform audit.  
+> *Auto-synced 2026-03-16 by `scripts/sync-docs.mjs` · 31 pages · 840 data files · 30 workflows*
+<!-- sync-banner:end -->
+
 # COHO Analytics — Site Design & Functionality Audit
 
-**Prepared:** March 2026  
+**Prepared:** March 2026 — *Updated March 16, 2026 to reflect fixes*  
 **Scope:** Full audit of the COHO Analytics platform (https://pggllc.github.io/Housing-Analytics)  
 **Perspective:** GUI designer + computer scientist  
 **Audience:** Developers, product owners, and stakeholders
@@ -12,6 +17,8 @@
 COHO Analytics is a mature, data-rich platform built for affordable housing professionals. It integrates multiple authoritative federal and state data sources, renders interactive maps and charts, and provides sophisticated demographic projection and market analysis tools. The codebase is well-structured with a coherent design token system, dark-mode support, and WCAG 2.1 AA accessibility features.
 
 The audit identified **five categories of improvement**: navigation architecture, visual hierarchy and information density, mobile responsiveness, interactive component feedback, and documentation discoverability. Each category includes ranked, actionable recommendations.
+
+**Update (March 2026):** Several items from the original audit have been resolved. Resolved items are marked ✅ **Fixed** inline. Open items retain their original recommendation text.
 
 ---
 
@@ -30,15 +37,19 @@ The current nav groups (Tools, Data, Policy, About) do not map to the three dist
 
 **Recommendation:** Add a "Start Here" onboarding flow on the homepage that asks "What are you trying to do?" and routes each persona to their primary tools. Consider renaming top-level nav items to reflect outcomes rather than data types (e.g., "Analyze a Site" instead of "Market Tools").
 
-**1.2 — Orphaned pages**  
-Four pages (`census-dashboard.html`, `construction-commodities.html`, `lihtc-guide-for-stakeholders.html`, `docs/EXAMPLE-USAGE.html`) are not linked from `navigation.js` and are not discoverable from normal browsing.
+**1.2 — Orphaned pages** ✅ **Partially Fixed**  
+~~Four pages (`census-dashboard.html`, `construction-commodities.html`, `lihtc-guide-for-stakeholders.html`, `docs/EXAMPLE-USAGE.html`) are not linked from `navigation.js` and are not discoverable from normal browsing.~~
 
-**Recommendation:** Either add these pages to the navigation or move them to a clearly labeled section (e.g., "Resources" or a developer-only area). Do not leave pages silently accessible only by direct URL.
+`construction-commodities.html` and `lihtc-guide-for-stakeholders.html` are now linked from `js/navigation.js`. **Still outstanding:** `census-dashboard.html` remains unlinked; it should either be added to a "Resources" or "Legacy" nav group or clearly marked as archived.
 
-**1.3 — Breadcrumbs absent on deep pages**  
-Analysis pages (e.g., Market Analysis, HNA, Compliance Dashboard) do not show breadcrumbs or contextual location cues. Users who arrive via direct link have no visual indication of where they are in the site structure.
+**Recommendation:** Add `census-dashboard.html` to the navigation or create a `/legacy` landing page that lists deprecated pages for reference.
 
-**Recommendation:** Add a two-level breadcrumb (`Home > Tool Name`) to all analysis pages.
+**1.3 — Breadcrumbs absent on deep pages** ✅ **Partially Fixed**  
+~~Analysis pages (e.g., Market Analysis, HNA, Compliance Dashboard) do not show breadcrumbs or contextual location cues.~~
+
+Breadcrumbs are now present on `about.html`, `article-pricing.html`, `colorado-deep-dive.html`, `colorado-market.html`, and several other pages. **Still outstanding:** `market-analysis.html`, `housing-needs-assessment.html`, `compliance-dashboard.html`, and `regional.html` still lack breadcrumbs.
+
+**Recommendation:** Add a two-level breadcrumb (`Home > Tool Name`) to the four remaining analysis pages.
 
 **1.4 — No persistent state between pages**  
 If a user selects "Denver County" on the Housing Needs Assessment page and then navigates to the Market Intelligence page, their geography selection is lost.
@@ -92,10 +103,12 @@ All charts use Chart.js. Color tokens `--chart-1` through `--chart-7` are define
 
 ### Issues Found
 
-**3.1 — Charts do not have loading or empty states**  
-When a chart's data is still being fetched (or fails to load), the `<canvas>` element renders blank. There is no spinner, skeleton screen, or error message.
+**3.1 — Charts do not have loading or empty states** ✅ **Partially Fixed**  
+~~When a chart's data is still being fetched (or fails to load), the `<canvas>` element renders blank. There is no spinner, skeleton screen, or error message.~~
 
-**Recommendation:** Add a loading overlay inside each chart container that shows a spinner while `state.loading = true` and an error state when the fetch fails. This can be implemented with a `<div class="chart-loading">` overlay and toggled with CSS `visibility`.
+The `.chart-loading` CSS class and its `[hidden]` variant are now defined in `css/site-theme.css`. **Still outstanding:** the class is not yet wired into any page-level JavaScript. Chart containers still render blank on slow connections.
+
+**Recommendation:** In each page's data-fetch callback, toggle `chartLoadingEl.hidden = false` before the fetch and `hidden = true` after. The CSS is ready; only JS wiring remains.
 
 **3.2 — Trend charts lack annotation markers**  
 Time-series charts (FRED indicators, LIHTC historical allocations) do not annotate significant events (e.g., COVID-19 impact in 2020, AHCIA expansion proposals in 2023).
@@ -131,10 +144,10 @@ The Leaflet.js map on the Colorado Deep Dive page and the HNA boundary map are c
 
 **Recommendation:** Add `map.touchZoom.enable()` with `tap: false` on small viewports. Provide a "Focus on Colorado" reset button that snaps the map back to the state bounding box. Consider providing a non-map fallback view (e.g., a county selector dropdown) for screens narrower than 480px.
 
-**4.2 — Data tables overflow on mobile**  
-Several pages render `<table>` elements that overflow horizontally on screens narrower than 768px. The overflow is clipped without a horizontal scroll indicator.
+**4.2 — Data tables overflow on mobile** ✅ **Fixed**  
+~~Several pages render `<table>` elements that overflow horizontally on screens narrower than 768px. The overflow is clipped without a horizontal scroll indicator.~~
 
-**Recommendation:** Wrap all `<table>` elements in `<div class="table-scroll">` with `overflow-x: auto` and a subtle right-side fade gradient to indicate scrollability. Add the `.table-scroll` CSS class to `css/layout.css`.
+`.table-scroll` with `overflow-x: auto` is now defined in `css/layout.css` and applied to data tables across the site.
 
 **4.3 — Filter panels are hard to use on touch**  
 The Market Analysis filter panel (buffers, unit count, AMI targets) renders as a horizontal inline form on desktop. On mobile, this becomes a narrow, crowded column with small tap targets.
@@ -165,10 +178,10 @@ When a user enters an invalid buffer radius or site address in the Market Analys
 
 **Recommendation:** Associate error messages with their input using `aria-describedby`. Set `aria-invalid="true"` on the input when validation fails. Clear both attributes on correction.
 
-**5.3 — Progress indicators on long operations**  
-The PMA analysis pipeline has 9 steps (commuting, barriers, employment centers, schools, transit, competitive set, opportunities, infrastructure, justification). The progress bar (`#pmaProgressFill`) exists but its `aria-valuenow` attribute is not updated dynamically.
+**5.3 — Progress indicators on long operations** ✅ **Fixed**  
+~~The PMA analysis pipeline has 9 steps (commuting, barriers, employment centers, schools, transit, competitive set, opportunities, infrastructure, justification). The progress bar (`#pmaProgressFill`) exists but its `aria-valuenow` attribute is not updated dynamically.~~
 
-**Recommendation:** In `pma-analysis-runner.js`, update `#pmaProgressBar`'s `aria-valuenow` attribute at each step completion. This ensures assistive technology announces progress percentage.
+`pma-ui-controller.js` now calls `bar.setAttribute('aria-valuenow', String(step.pct))` at each step and sets it to `'100'` on completion. Assistive technology correctly announces progress.
 
 **5.4 — Data freshness is not communicated**  
 Users have no clear indication of how old the data on each page is. The `data-freshness.js` module exists but its output (a small "Last updated" label) is positioned at the bottom of the page and easy to miss.
