@@ -329,3 +329,18 @@ Example: `https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?aud
 MIT © COHO Analytics
 
 This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.
+
+## Actionable Recommendations
+
+- Archived file: `_audit/js/colorado-interactive-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/js/national-regional-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/acs_debug_tools.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/diagnose.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/test-connectivity.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/market/test_tiger_api.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/pre_commit_check.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/qa_stage1.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/validate_map_bugs.py` — review and remove fully if unneeded.
+- Docs and site-audit pipeline are automatically updated after every merge.
+
+## 

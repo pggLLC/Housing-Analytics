@@ -36,23 +36,23 @@
 
 ---
 
-## Quarantine Actions (→ `_tobedeleted/`)
+## Quarantine Actions (→ `_audit/`)
 
 | Source | Destination | Reason |
 |--------|-------------|--------|
-| `js/app.js` | `_tobedeleted/js/app.js` | Dead ES module chain |
-| `js/data.js` | `_tobedeleted/js/data.js` | Dead ES module chain |
-| `js/metrics.js` | `_tobedeleted/js/metrics.js` | Dead ES module chain |
-| `js/data-service.js` | `_tobedeleted/js/data-service.js` | Orphaned — no active page loads it |
-| `js/dashboard.js` | `_tobedeleted/js/dashboard.js` | Orphaned — dashboard.html uses inline script |
-| `js/responsive-nav.js` | `_tobedeleted/js/responsive-nav.js` | Superseded by mobile-menu.js |
-| `css/responsive-nav.css` | `_tobedeleted/css/responsive-nav.css` | Superseded by mobile-nav.css |
-| `.env` | `_tobedeleted/root/.env` | Committed with personal email address |
-| `CHANGED_FILES.txt` | `_tobedeleted/root/CHANGED_FILES.txt` | Build artifact — redundant with implementation-status.md |
-| `DEPLOYMENT-GUIDE.txt` | `_tobedeleted/root/DEPLOYMENT-GUIDE.txt` | Superseded by docs/DEPLOYMENT_GUIDE.md |
-| `DATA-SOURCES.md` | `_tobedeleted/root/DATA-SOURCES.md` | Superseded by docs/data-sources-audit.md + docs/DATA_SOURCES_TABLE.md |
+| `js/app.js` | `_audit/js/app.js` | Dead ES module chain |
+| `js/data.js` | `_audit/js/data.js` | Dead ES module chain |
+| `js/metrics.js` | `_audit/js/metrics.js` | Dead ES module chain |
+| `js/data-service.js` | `_audit/js/data-service.js` | Orphaned — no active page loads it |
+| `js/dashboard.js` | `_audit/js/dashboard.js` | Orphaned — dashboard.html uses inline script |
+| `js/responsive-nav.js` | `_audit/js/responsive-nav.js` | Superseded by mobile-menu.js |
+| `css/responsive-nav.css` | `_audit/css/responsive-nav.css` | Superseded by mobile-nav.css |
+| `.env` | `_audit/root/.env` | Committed with personal email address |
+| `CHANGED_FILES.txt` | `_audit/root/CHANGED_FILES.txt` | Build artifact — redundant with implementation-status.md |
+| `DEPLOYMENT-GUIDE.txt` | `_audit/root/DEPLOYMENT-GUIDE.txt` | Superseded by docs/DEPLOYMENT_GUIDE.md |
+| `DATA-SOURCES.md` | `_audit/root/DATA-SOURCES.md` | Superseded by docs/data-sources-audit.md + docs/DATA_SOURCES_TABLE.md |
 
-The `_tobedeleted/` folder is excluded by `.gitignore` and will not be deployed to GitHub Pages.
+The `_audit/` folder is excluded by `.gitignore` and will not be deployed to GitHub Pages.
 
 ---
 
@@ -122,7 +122,7 @@ RECIPIENT_EMAIL="communityplanner@gmail.com"
 ```
 
 **Actions taken:**
-1. Moved to `_tobedeleted/root/.env` (excluded from tracking by `.gitignore`)
+1. Moved to `_audit/root/.env` (excluded from tracking by `.gitignore`)
 2. `.gitignore` already covered `.env` before this was committed
 
 **Recommendation:** The email address remains in git history. If considered sensitive,
@@ -149,3 +149,18 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
    `housing-needs-assessment.html`, `LIHTC-dashboard.html`
 5. **Verify fix scripts** — Run fix scripts marked as "Keep" in `docs/fix-scripts-audit.md`
    to confirm their target data is correct
+
+## Actionable Recommendations
+
+- Archived file: `_audit/js/colorado-interactive-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/js/national-regional-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/acs_debug_tools.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/diagnose.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/test-connectivity.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/market/test_tiger_api.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/pre_commit_check.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/qa_stage1.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/validate_map_bugs.py` — review and remove fully if unneeded.
+- Docs and site-audit pipeline are automatically updated after every merge.
+
+## 

@@ -5,7 +5,7 @@ Version: 2.0 - March 2026
 
 ### 1. Upload Files
 ```
-js/mobile-menu.js   (replaces js/responsive-nav.js — archived to _tobedeleted/)
+js/mobile-menu.js   (replaces js/responsive-nav.js — archived to _audit/)
 js/state-allocations-2026.js
 js/fred-commodities.js
 ```
@@ -16,7 +16,7 @@ js/fred-commodities.js
 <script src="js/state-allocations-2026.js"></script>
 <script src="js/fred-commodities.js"></script>
 ```
-> **Note:** `css/responsive-nav.css` and `js/responsive-nav.js` have been archived to `_tobedeleted/`.
+> **Note:** `css/responsive-nav.css` and `js/responsive-nav.js` have been archived to `_audit/`.
 > The site now uses `js/mobile-menu.js` for navigation.
 
 ### 3. Configure API Keys

@@ -8,7 +8,7 @@ maintainers know whether each script is still needed at runtime or can be archiv
 
 ## Audit Criteria
 
-A fix script can be moved to `_tobedeleted/scripts/` when ALL of the following are true:
+A fix script can be moved to `_audit/scripts/` when ALL of the following are true:
 
 1. **Idempotent** — running it twice produces the same result (no side effects on already-fixed data)
 2. **Fix already applied** — the target data/HTML file has been corrected
@@ -47,12 +47,12 @@ When uncertain about any criterion, the script is left in place.
 
 ## Actions Taken in This PR
 
-**Archived to `_tobedeleted/scripts/`:** None in this PR — the audit above shows most fixes
+**Archived to `_audit/scripts/`:** None in this PR — the audit above shows most fixes
 have already been applied, but full verification of target data files was not completed.
 
 **Recommended next step:** Run each "Archive" candidate script against its target file in a
 clean environment and confirm no changes are made (idempotency check). If the script exits
-cleanly with no modifications, it is safe to move to `_tobedeleted/scripts/`.
+cleanly with no modifications, it is safe to move to `_audit/scripts/`.
 
 **Flagged for manual review (Keep):**
 - `fix_amenity_stubs.py` — stub file content needs verification
