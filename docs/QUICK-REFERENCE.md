@@ -5,19 +5,19 @@ Version: 2.0 - March 2026
 
 ### 1. Upload Files
 ```
-js/responsive-nav.js
+js/mobile-menu.js   (replaces js/responsive-nav.js — archived to _tobedeleted/)
 js/state-allocations-2026.js
 js/fred-commodities.js
-css/responsive-nav.css
 ```
 
 ### 2. Add to HTML (before </body>)
 ```html
-<link rel="stylesheet" href="css/responsive-nav.css">
-<script src="js/responsive-nav.js"></script>
+<script defer src="js/mobile-menu.js"></script>
 <script src="js/state-allocations-2026.js"></script>
 <script src="js/fred-commodities.js"></script>
 ```
+> **Note:** `css/responsive-nav.css` and `js/responsive-nav.js` have been archived to `_tobedeleted/`.
+> The site now uses `js/mobile-menu.js` for navigation.
 
 ### 3. Configure API Keys
 API keys are managed through GitHub Actions secrets and injected into `js/config.js` during CI builds.
@@ -150,11 +150,9 @@ const impacts = FREDCommodities.calculateProjectImpact(data, 25000000);
 
 ## File Sizes
 
-- responsive-nav.js: 2.1 KB
+- mobile-menu.js (navigation): ~3.5 KB
 - state-allocations-2026.js: 14.8 KB
 - fred-commodities.js: 6.2 KB
-- responsive-nav.css: 3.4 KB
-**Total: 26.5 KB**
 
 ---
 

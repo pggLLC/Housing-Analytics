@@ -16,24 +16,25 @@ This upgrade package fixes three critical issues and adds extensive new features
 
 ### Step 1: Add JavaScript Files
 
-Upload the following 3 new JavaScript files to your `js/` directory:
-- `js/responsive-nav.js` - Fixes dropdown menu on resize
+Upload the following JavaScript files to your `js/` directory:
+- `js/mobile-menu.js` - Mobile navigation (replaces the archived `responsive-nav.js`)
 - `js/state-allocations-2026.js` - Complete state data from CSV
 - `js/fred-commodities.js` - FRED construction commodities integration
 
-### Step 2: Add CSS File
+> **Note:** `js/responsive-nav.js` and `css/responsive-nav.css` have been superseded by
+> `js/mobile-menu.js` and archived to `_tobedeleted/`. Do not re-add them.
 
-Upload this new CSS file to your `css/` directory:
-- `css/responsive-nav.css` - Responsive navigation styles
+### Step 2: No Additional CSS Required
+
+Mobile navigation styles are now included in `css/mobile-nav.css` (already loaded site-wide).
 
 ### Step 3: Update HTML Files
 
 Add to **ALL HTML pages** (index.html, dashboard.html, etc.) before closing `</body>` tag:
 
 ```html
-<!-- Responsive Navigation Fix -->
-<link rel="stylesheet" href="css/responsive-nav.css">
-<script src="js/responsive-nav.js"></script>
+<!-- Mobile Navigation -->
+<script defer src="js/mobile-menu.js"></script>
 
 <!-- State Allocations 2026 Data -->
 <script src="js/state-allocations-2026.js"></script>
@@ -50,7 +51,7 @@ Add to **ALL HTML pages** (index.html, dashboard.html, etc.) before closing `</b
 
 **Problem**: The mobile menu doesn't properly reset when you resize the browser window from mobile to desktop view. Dropdown menus get stuck or don't work correctly.
 
-**Solution**: The new `responsive-nav.js` file adds:
+**Solution**: `js/mobile-menu.js` (loaded with `defer` on all HTML pages) adds:
 - Automatic detection of window resize events
 - Proper state reset when crossing the mobile/desktop breakpoint (768px)
 - Debounced resize handling for performance
@@ -320,7 +321,7 @@ All features tested and working on:
 ### Dropdown Menu Still Not Working After Resize
 
 1. Check browser console for JavaScript errors
-2. Verify `responsive-nav.js` is loaded (check Network tab)
+2. Verify `mobile-menu.js` is loaded (check Network tab)
 3. Make sure CSS file is loaded after other stylesheets
 4. Clear browser cache and hard refresh (Ctrl+Shift+R)
 5. Check for conflicting CSS that might use `!important` on nav styles
@@ -351,12 +352,17 @@ All features tested and working on:
 
 ## File Summary
 
-### New Files Added (4 files)
+### Active Files
 ```
-/js/responsive-nav.js          - 2.1 KB - Responsive menu fix
+/js/mobile-menu.js             - Mobile navigation (replaces archived responsive-nav.js)
 /js/state-allocations-2026.js  - 14.8 KB - Complete state data
 /js/fred-commodities.js        - 6.2 KB - FRED integration
-/css/responsive-nav.css        - 3.4 KB - Responsive styles
+```
+
+### Archived Files (moved to _tobedeleted/)
+```
+/js/responsive-nav.js          - Superseded by mobile-menu.js
+/css/responsive-nav.css        - Superseded by mobile-nav.css
 ```
 
 ### Files to Update

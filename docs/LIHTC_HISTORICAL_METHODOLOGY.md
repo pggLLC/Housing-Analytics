@@ -176,14 +176,41 @@ available separately in `data/lihtc-trends-by-county.json` (2015–2025, using
 
 | File | Description |
 |------|-------------|
-| `data/co-historical-allocations.json` | **This dataset** — state-level annual summary |
+| `data/co-historical-allocations.json` | **Canonical source** — state-level annual summary (CO) |
 | `data/chfa-lihtc.json` | Project-level GeoJSON (HUD LIHTC database, CO only) |
 | `data/lihtc-trends-by-county.json` | County project counts by year placed in service (2015–2025) |
 | `data/hna/lihtc/{fips}.json` | Per-county LIHTC GeoJSON stubs |
 | `data/market/hud_lihtc_co.geojson` | HUD LIHTC CO GeoJSON (market analysis layer) |
 | `data/allocations.json` | Current-year (2026) all-states allocation data |
-| `js/state-allocations-historical.js` | JS module — national and CO allocation authority (2010–2023) |
+| `js/state-allocations-2026.js` | Current-year national allocation data (all states) |
+| `js/state-allocations-2026-actual.js` | Current-year actual allocation data (confirmed awards) |
+| `js/state-allocations-historical.js` | JS rendering/helper layer — national and CO authority (2010–2023) |
+| `js/state-allocations-2025.js` | **Placeholder alias** — copies 2026 data until real 2025 values obtained |
+| `js/state-allocations-2024.js` | **Placeholder alias** — copies 2026 data until real 2024 values obtained |
 | `LIHTC-dashboard.html` | Interactive dashboard using this data |
+
+---
+
+## National Allocation JS File Architecture
+
+The Year dropdown on `dashboard.html` and `state-allocation-map.html` relies on these JS files:
+
+| File | Status | Notes |
+|------|--------|-------|
+| `js/state-allocations-2026.js` | ✅ Real data | Current-year national allocations from Novogradac |
+| `js/state-allocations-2026-actual.js` | ✅ Real data | Confirmed actual awards for 2026 |
+| `js/state-allocations-2025.js` | ⚠️ Alias stub | Copies `window.StateAllocations2026` — replace when 2025 data is available |
+| `js/state-allocations-2024.js` | ⚠️ Alias stub | Copies `window.StateAllocations2026` — replace when 2024 data is available |
+| `js/state-allocations-historical.js` | ✅ Active | Rendering/helper layer for all years |
+
+**Why alias stubs?** Novogradac's per-state allocation pages require a paid subscription when
+fetched programmatically (HTTP 402). The stubs prevent the Year dropdown from breaking while
+preserving the architecture for future data additions.
+
+**Adding a new year:** Either:
+1. Create `js/state-allocations-YYYY.js` with real data in the same format as `2026.js`, or
+2. Use the alias pattern: `if (window.StateAllocations2026) window.StateAllocationsYYYY = window.StateAllocations2026;`
+   until real data is obtained.
 
 ---
 
