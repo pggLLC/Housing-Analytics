@@ -171,9 +171,9 @@ If a pull request changes any of the following files, open the corresponding pag
 This section documents what changed in the archive-aligned cleanup pull request so that
 non-technical reviewers can understand what was done and why.
 
-### What moved to `_tobedeleted/`
+### What moved to `_audit/`
 
-The folder `_tobedeleted/` is a quarantine area — files are moved there rather than permanently
+The folder `_audit/` is a quarantine area — files are moved there rather than permanently
 deleted so they can be recovered if needed. This folder is excluded from the live website.
 
 | File | Why it was moved |
