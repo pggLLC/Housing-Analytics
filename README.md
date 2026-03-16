@@ -343,3 +343,4 @@ This tool is provided for educational and research purposes. All economic data i
 - Archived file: `_audit/scripts/validate_map_bugs.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
+## 
