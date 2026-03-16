@@ -1,9 +1,10 @@
 # Data Sources Setup Guide
 
-> **📁 This file has moved.** The canonical version is at [`docs/SETUP-DATA-SOURCES.md`](docs/SETUP-DATA-SOURCES.md).
-> This stub is retained at the root for backwards compatibility.
+> **📋 Note:** For the authoritative GIS reliability audit and data catalog, see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).
 
----
+This document describes the external data sources used by Housing Analytics, the GitHub Secrets
+required to activate each automated workflow, and the fallback behaviour when a source is
+unavailable.
 
 ---
 
