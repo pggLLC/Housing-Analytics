@@ -22,7 +22,7 @@ Upload the following JavaScript files to your `js/` directory:
 - `js/fred-commodities.js` - FRED construction commodities integration
 
 > **Note:** `js/responsive-nav.js` and `css/responsive-nav.css` have been superseded by
-> `js/mobile-menu.js` and archived to `_tobedeleted/`. Do not re-add them.
+> `js/mobile-menu.js` and archived to `_audit/`. Do not re-add them.
 
 ### Step 2: No Additional CSS Required
 
@@ -359,7 +359,7 @@ All features tested and working on:
 /js/fred-commodities.js        - 6.2 KB - FRED integration
 ```
 
-### Archived Files (moved to _tobedeleted/)
+### Archived Files (moved to _audit/)
 ```
 /js/responsive-nav.js          - Superseded by mobile-menu.js
 /css/responsive-nav.css        - Superseded by mobile-nav.css
