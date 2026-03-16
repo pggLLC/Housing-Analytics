@@ -2,7 +2,7 @@
 """
 pre_commit_check.py — Fast pre-commit governance guard for Housing Analytics.
 
-Rejects 12 regression patterns derived from 30 confirmed production bugs
+Rejects 13 regression patterns derived from 30 confirmed production bugs
 fixed in Stages 1–3 of the Solutions Architecture audit.  Target runtime:
 < 5 seconds on the full repository.
 
@@ -57,7 +57,8 @@ for fpath in fips_files:
         with open(fpath) as f:
             raw = f.read()
         # Quick pre-filter: only files that mention fips/FIPS
-        if 'fips' not in raw.lower() and 'FIPS' not in raw and 'county_fips' not in raw.lower():
+        raw_lower = raw.lower()
+        if 'fips' not in raw_lower and 'county_fips' not in raw_lower:
             continue
         data = json.loads(raw)
     except Exception:
@@ -136,7 +137,8 @@ for fpath in html_files:
     fname = os.path.basename(fpath)
     with open(fpath, encoding='utf-8', errors='replace') as f:
         content = f.read()
-    found = [c for c in FAILING_COLORS if re.search(re.escape(c), content, re.IGNORECASE)]
+    content_lower = content.lower()
+    found = [c for c in FAILING_COLORS if c in content_lower]
     if found:
         color_violations.append(f'{fname}: {found}')
 
