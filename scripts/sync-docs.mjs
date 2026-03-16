@@ -203,12 +203,12 @@ function quarantineDeadFiles(dir, exts, docRefDirs) {
   const quarantine = [];
   for (const f of files) {
     if (f.includes('_audit')) continue;
-    // If not referenced in HTML, JS, CSS, or MD files:
+    // Check if the file is referenced in HTML, JS, CSS, MD, YML, or Python files:
     const basename_ = basename(f);
     let referenced = false;
     for (const d of docRefDirs) {
       if (!existsSync(d)) continue;
-      for (const test of findFiles(d, ['.html', '.js', '.css', '.md'])) {
+      for (const test of findFiles(d, ['.html', '.js', '.css', '.md', '.yml', '.yaml', '.py'])) {
         if (readFileSync(test, 'utf8').includes(basename_)) {
           referenced = true;
           break;
@@ -376,9 +376,10 @@ function syncDeprecatedBanners(stats) {
 
 async function main() {
   // 1. Quarantine & fix references before inventory:
-  quarantineDeadFiles(JS_DIR, ['.js'], [DOCS_DIR, ROOT, join(ROOT, 'test')]);
-  quarantineDeadFiles(CSS_DIR, ['.css'], [DOCS_DIR, ROOT, join(ROOT, 'test')]);
-  quarantineDeadFiles(SCRIPTS_DIR, ['.py'], [DOCS_DIR, ROOT, join(ROOT, 'test')]);
+  const refDirs = [DOCS_DIR, ROOT, join(ROOT, 'test'), join(ROOT, 'tests'), join(ROOT, '.github')];
+  quarantineDeadFiles(JS_DIR, ['.js'], refDirs);
+  quarantineDeadFiles(CSS_DIR, ['.css'], refDirs);
+  quarantineDeadFiles(SCRIPTS_DIR, ['.py'], refDirs);
   rewriteReferences([ROOT, JS_DIR, CSS_DIR, SCRIPTS_DIR, DOCS_DIR, join(ROOT, '.github'), join(ROOT, 'test')]);
 
   // 2. Docs actionable recommendation auto-update:
