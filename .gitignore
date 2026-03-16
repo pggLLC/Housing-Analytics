@@ -21,5 +21,6 @@ audit-report/
 __MACOSX/
 ._*
 
-# Quarantine folder — moved here for review before permanent deletion
+# Quarantine folders — moved here for review before permanent deletion
 _tobedeleted/
+_audit/
