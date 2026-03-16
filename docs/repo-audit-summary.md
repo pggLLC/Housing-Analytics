@@ -154,13 +154,6 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 - Archived file: `_audit/js/colorado-interactive-map.js` — review and remove fully if unneeded.
 - Archived file: `_audit/js/national-regional-map.js` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/hna/acs_debug_tools.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/hna/diagnose.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/hna/test-connectivity.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/market/test_tiger_api.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/pre_commit_check.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/qa_stage1.py` — review and remove fully if unneeded.
-- Archived file: `_audit/scripts/validate_map_bugs.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 

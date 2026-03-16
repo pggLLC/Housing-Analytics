@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-16T19:48:26.828Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-16T22:29:37.169Z. Do not edit by hand.
 
 ---
 
@@ -895,7 +895,7 @@
 
 ## Test Files
 
-58 test files found.
+63 test files found.
 
 | File | Size |
 |------|------|
@@ -952,6 +952,11 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 990 B |
 | `test/website-monitor.test.js` | 7.4 KB |
+| `tests/__pycache__/conftest.cpython-312-pytest-9.0.2.pyc` | 1.7 KB |
+| `tests/__pycache__/test_governance_stress.cpython-312-pytest-9.0.2.pyc` | 73.3 KB |
+| `tests/__pycache__/test_stage2_temporal.cpython-312-pytest-9.0.2.pyc` | 75.0 KB |
+| `tests/__pycache__/test_stage3_accessibility.cpython-312-pytest-9.0.2.pyc` | 47.1 KB |
+| `tests/__pycache__/test_stage3_visualization.cpython-312-pytest-9.0.2.pyc` | 67.6 KB |
 | `tests/conftest.py` | 1.0 KB |
 | `tests/test_governance_stress.py` | 30.2 KB |
 | `tests/test_stage2_temporal.py` | 26.5 KB |
