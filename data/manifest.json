@@ -19,6 +19,9 @@
     "co-demographics.json",
     "co-historical-allocations.json",
     "co_ami_gap_by_county.json",
+    "data/chfa-lihtc.json",
+    "data/co_ami_gap_by_county.json",
+    "data/fred-data.json",
     "dda-colorado.json",
     "derived/market-analysis/README.md",
     "derived/market-analysis/market_demand.json",
@@ -854,5 +857,5 @@
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 852
+  "file_count": 855
 }
