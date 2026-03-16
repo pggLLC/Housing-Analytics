@@ -8,6 +8,11 @@
  *   - .github/workflows/ directory
  *   - .gitignore completeness check
  *
+ * Also refreshes the auto-sync banner in every deprecated/superseded doc so
+ * they always show the current date and live repo stats rather than going stale.
+ * Banner blocks are delimited by HTML comments:
+ *   <!-- sync-banner:start --> … <!-- sync-banner:end -->
+ *
  * Usage: node scripts/sync-docs.mjs
  * npm script: "docs:sync"
  */
@@ -77,7 +82,7 @@ async function scanHtmlPages() {
     const size = fmtSize(statSync(fullPath).size);
     rows.push(`| \`${f}\` | ${title} | ${size} |`);
   }
-  return [
+  const markdown = [
     '## Root HTML Pages',
     '',
     `${files.length} pages found.`,
@@ -86,6 +91,7 @@ async function scanHtmlPages() {
     '|------|-------|------|',
     ...rows,
   ].join('\n');
+  return { markdown, count: files.length };
 }
 
 async function scanDataFiles() {
@@ -101,7 +107,7 @@ async function scanDataFiles() {
     const features = fc !== null ? `${fc} features` : (ok ? '—' : 'invalid JSON');
     rows.push(`| \`${f}\` | ${size} | ${validJson} | ${features} |`);
   }
-  return [
+  const markdown = [
     '## Data Files (`data/**/*.json`)',
     '',
     `${files.length} JSON files found.`,
@@ -110,6 +116,7 @@ async function scanDataFiles() {
     '|------|------|-----------|-------|',
     ...rows,
   ].join('\n');
+  return { markdown, count: files.length };
 }
 
 async function scanTestFiles() {
@@ -141,7 +148,7 @@ async function scanTestFiles() {
 async function scanWorkflows() {
   const dir = join(ROOT, '.github', 'workflows');
   if (!existsSync(dir)) {
-    return '## GitHub Actions Workflows\n\n_No `.github/workflows/` directory found._';
+    return { markdown: '## GitHub Actions Workflows\n\n_No `.github/workflows/` directory found._', count: 0 };
   }
   const files = await glob('.github/workflows/*.yml', { cwd: ROOT, absolute: false });
   files.sort();
@@ -149,7 +156,7 @@ async function scanWorkflows() {
     const size = fmtSize(statSync(join(ROOT, f)).size);
     return `| \`${f}\` | ${size} |`;
   });
-  return [
+  const markdown = [
     '## GitHub Actions Workflows',
     '',
     `${files.length} workflow files found.`,
@@ -158,6 +165,7 @@ async function scanWorkflows() {
     '|------|------|',
     ...rows,
   ].join('\n');
+  return { markdown, count: files.length };
 }
 
 function gitignoreSection() {
@@ -178,15 +186,128 @@ function gitignoreSection() {
 }
 
 // ---------------------------------------------------------------------------
+// Deprecated-doc banner refresh
+// ---------------------------------------------------------------------------
+
+const BANNER_START = '<!-- sync-banner:start -->';
+const BANNER_END   = '<!-- sync-banner:end -->';
+
+/**
+ * Docs that carry a "superseded" notice.  Each entry describes the file,
+ * which canonical doc to point to, and optional secondary references.
+ */
+const DEPRECATED_DOCS = [
+  {
+    path: 'docs/DATA_SOURCES_TABLE.md',
+    canonical: 'SITE_AUDIT_GIS.md',
+    reason: 'authoritative data source catalog',
+  },
+  {
+    path: 'docs/data-sources-audit.md',
+    canonical: 'SITE_AUDIT_GIS.md',
+    reason: 'authoritative data source audit',
+  },
+  {
+    path: 'docs/data-architecture.md',
+    canonical: 'GIS_DATA_MODEL.md',
+    reason: 'authoritative data architecture reference',
+    also: 'SITE_AUDIT_GIS.md',
+  },
+  {
+    path: 'docs/implementation-status.md',
+    canonical: 'FEATURE_COMPLETE.md',
+    reason: 'current feature status matrix',
+  },
+  {
+    path: 'docs/SITE-DESIGN-AUDIT.md',
+    canonical: 'SITE_AUDIT_GIS.md',
+    reason: 'current platform audit',
+  },
+];
+
+/**
+ * Build the blockquote banner text for a deprecated doc.
+ * @param {{ canonical: string, reason: string, also?: string }} entry
+ * @param {{ date: string, htmlCount: number, dataFileCount: number, workflowCount: number }} stats
+ */
+function makeBanner(entry, stats) {
+  const statsLine = `${stats.htmlCount} pages · ${stats.dataFileCount} data files · ${stats.workflowCount} workflows`;
+  const alsoNote  = entry.also
+    ? ` Also see [\`${entry.also}\`](${entry.also}).`
+    : '';
+
+  return [
+    BANNER_START,
+    `> **⚠️ Superseded** — See [\`${entry.canonical}\`](${entry.canonical}) for the ${entry.reason}.${alsoNote}  `,
+    `> *Auto-synced ${stats.date} by \`scripts/sync-docs.mjs\` · ${statsLine}*`,
+    BANNER_END,
+  ].join('\n');
+}
+
+/**
+ * Read each deprecated doc, replace (or insert) the sync-banner block, and
+ * write it back.  Returns the number of files updated.
+ */
+function syncDeprecatedBanners(stats) {
+  let updated = 0;
+  for (const entry of DEPRECATED_DOCS) {
+    const filePath = join(ROOT, entry.path);
+    if (!existsSync(filePath)) {
+      console.warn(`  ⚠️  ${entry.path} not found — skipping banner sync`);
+      continue;
+    }
+
+    let content = readFileSync(filePath, 'utf8');
+    const newBanner = makeBanner(entry, stats);
+
+    if (content.includes(BANNER_START)) {
+      const startIdx = content.indexOf(BANNER_START);
+      const endIdx   = content.indexOf(BANNER_END, startIdx);
+      if (endIdx === -1) {
+        console.warn(`  ⚠️  ${entry.path}: sync-banner:start found but no end marker — skipping`);
+        continue;
+      }
+      content =
+        content.slice(0, startIdx) +
+        newBanner +
+        content.slice(endIdx + BANNER_END.length);
+    } else {
+      // No marker yet — prepend banner before the first heading or content
+      content = newBanner + '\n\n' + content;
+    }
+
+    writeFileSync(filePath, content, 'utf8');
+    updated++;
+    console.log(`  ↻  Refreshed banner in ${entry.path}`);
+  }
+  return updated;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const html = await scanHtmlPages();
-  const data = await scanDataFiles();
-  const tests = await scanTestFiles();
-  const workflows = await scanWorkflows();
-  const gitignore = gitignoreSection();
+  // Run scans once — each returns { markdown, count } so we can build
+  // the stats object without duplicate glob calls.
+  const htmlResult = await scanHtmlPages();
+  const dataResult = await scanDataFiles();
+  const testsResult = await scanTestFiles();
+  const wfResult   = await scanWorkflows();
+  const gitignore  = gitignoreSection();
+
+  const stats = {
+    date: now.slice(0, 10),                // YYYY-MM-DD  (now is module-scope)
+    htmlCount: htmlResult.count,
+    dataFileCount: dataResult.count,
+    workflowCount: wfResult.count,
+  };
+
+  // Refresh deprecated-doc banners first so the counts are consistent with
+  // what we're about to write into GENERATED-INVENTORY.md.
+  console.log('Refreshing deprecated-doc banners…');
+  const refreshed = syncDeprecatedBanners(stats);
+  console.log(`  ${refreshed} banner(s) refreshed\n`);
 
   const content = [
     '# GENERATED-INVENTORY.md',
@@ -195,19 +316,19 @@ async function main() {
     '',
     '---',
     '',
-    html,
+    htmlResult.markdown,
     '',
     '---',
     '',
-    data,
+    dataResult.markdown,
     '',
     '---',
     '',
-    tests,
+    testsResult,
     '',
     '---',
     '',
-    workflows,
+    wfResult.markdown,
     '',
     '---',
     '',

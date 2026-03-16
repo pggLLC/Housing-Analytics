@@ -35,7 +35,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet docs/GENERATED-INVENTORY.md || echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --quiet docs/ || echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Commit and open PR
         if: steps.changes.outputs.changed == 'true'
@@ -45,13 +45,13 @@ jobs:
 
           BRANCH="docs/generated-inventory-$(date +%Y%m%d)"
           git checkout -b "$BRANCH"
-          git add docs/GENERATED-INVENTORY.md
-          git commit -m "docs: regenerate GENERATED-INVENTORY.md [$(date +%Y-%m-%d)]"
+          git add docs/
+          git commit -m "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
           git push origin "$BRANCH"
 
           gh pr create \
-            --title "docs: regenerate GENERATED-INVENTORY.md [$(date +%Y-%m-%d)]" \
-            --body "Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status." \
+            --title "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]" \
+            --body "Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status. Also refreshes the auto-sync banners in all superseded/deprecated docs so their notices always reflect live repo stats." \
             --base main \
             --head "$BRANCH"
         env:
