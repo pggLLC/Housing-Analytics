@@ -121,7 +121,7 @@
 | `css/styles.css` | 📦 Legacy | Original stylesheet; now theme-aware via CSS vars. Candidate for merge into pages.css |
 | `css/accessibility.css` | ✅ Implemented | WCAG 2.1 AA: focus states, skip links, SR utilities, high contrast, reduced motion |
 | `css/responsive.css` | ✅ Implemented | Mobile-first breakpoints, touch targets (44×44px), typography scaling |
-| `css/responsive-nav.css` | ✅ Implemented | Navigation responsive fixes, dropdown menus, mobile hamburger |
+| `css/responsive-nav.css` | 🗃 Archived | Superseded by `js/mobile-menu.js` — moved to `_tobedeleted/css/` |
 | `css/performance.css` | ✅ Implemented | GPU hints, will-change, contain, lazy-load placeholders, critical-path notes |
 | `css/footer-theme.css` | ✅ Implemented | Footer-specific dark/light variables |
 | `css/data-dashboard.css` | ✅ Implemented | Data sources dashboard grid, tabs, toolbar styles |

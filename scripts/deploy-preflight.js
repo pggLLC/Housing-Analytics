@@ -81,8 +81,6 @@ console.log('\n--- JavaScript assets ---');
 const JS_FILES = [
     'js/config.js.template',
     'js/housing-needs-assessment.js',
-    'js/app.js',
-    'js/dashboard.js',
     'js/main.js',
     'js/path-resolver.js',
     'js/fetch-helper.js',
