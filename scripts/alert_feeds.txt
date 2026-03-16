@@ -1,0 +1,14 @@
+# RSS feed URLs for housing news alerts (one per line)
+# Uncomment and replace with real Google Alerts RSS URLs or other housing news feeds
+#
+# Example Google Alerts RSS:
+# https://www.google.com/alerts/feeds/XXXXXXX/YYYYYYY
+#
+# Example Colorado housing news:
+# https://www.google.com/alerts/feeds/your-alert-id/your-feed-id
+#
+# To generate a Google Alert RSS feed:
+# 1. Go to https://www.google.com/alerts
+# 2. Create an alert (e.g., "Colorado affordable housing")
+# 3. Set delivery to "RSS feed"
+# 4. Copy the feed URL and paste it here

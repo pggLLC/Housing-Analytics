@@ -163,3 +163,47 @@ If a pull request changes any of the following files, open the corresponding pag
 | NHPD | National Housing Preservation Database |
 | PR | Pull Request — a proposed set of code changes on GitHub |
 | WCAG AA | Web Content Accessibility Guidelines level AA — minimum accessibility standard |
+
+---
+
+## 8. PR: Archive-Aligned Cleanup (March 2026)
+
+This section documents what changed in the archive-aligned cleanup pull request so that
+non-technical reviewers can understand what was done and why.
+
+### What moved to `_tobedeleted/`
+
+The folder `_tobedeleted/` is a quarantine area — files are moved there rather than permanently
+deleted so they can be recovered if needed. This folder is excluded from the live website.
+
+| File | Why it was moved |
+|------|-----------------|
+| `js/app.js`, `js/data.js`, `js/metrics.js` | No page on the site loads these files. They had a code error and referenced files that don't exist. |
+| `js/data-service.js` | Was loaded by one page but not actually used by that page. |
+| `js/dashboard.js` | Was never loaded by dashboard.html, which uses its own built-in script. |
+| `js/responsive-nav.js`, `css/responsive-nav.css` | Replaced by `js/mobile-menu.js`, which is already on all pages. |
+| `.env` | Contained a personal email address. Should never have been committed. |
+| `CHANGED_FILES.txt`, `DEPLOYMENT-GUIDE.txt`, `DATA-SOURCES.md` | Redundant with docs/ equivalents. |
+
+### What was created
+
+| File | Purpose |
+|------|---------|
+| `scripts/alert_feeds.txt` | Template for adding Google Alerts RSS feeds. Edit this to activate the alerts pipeline. |
+| `data/alerts/alerts_archive.json` | Starting file for the alerts pipeline. Will be updated automatically once feeds are configured. |
+| `data/policy_briefs.json` | Starting file for the policy briefs pipeline. Updated automatically after alerts flow. |
+| `docs/fix-scripts-audit.md` | Documents the status of all fix_*.py scripts. |
+| `docs/repo-audit-summary.md` | High-level summary of all cleanup actions taken. |
+
+### Pages you can preview
+
+All existing pages continue to work. No pages were removed or renamed. Improvements were made to:
+
+- `policy-briefs.html` — better empty-state message when no briefs exist yet
+- `colorado-elections.html` — added link to the 2026 Housing Legislation Tracker
+
+### Acceptable warnings
+
+- The policy briefs and alerts pages will show "no data yet" messages until RSS feeds are configured.
+- This is expected and not a defect.
+
