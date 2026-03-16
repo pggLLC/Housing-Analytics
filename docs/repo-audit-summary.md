@@ -154,6 +154,7 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 - Archived file: `_audit/js/colorado-interactive-map.js` — review and remove fully if unneeded.
 - Archived file: `_audit/js/national-regional-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/acs_debug_tools.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 
