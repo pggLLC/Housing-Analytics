@@ -1,8 +1,9 @@
 # Data Sources Setup Guide
 
-This document describes the external data sources used by Housing Analytics, the GitHub Secrets
-required to activate each automated workflow, and the fallback behaviour when a source is
-unavailable.
+> **📁 This file has moved.** The canonical version is at [`docs/SETUP-DATA-SOURCES.md`](docs/SETUP-DATA-SOURCES.md).
+> This stub is retained at the root for backwards compatibility.
+
+---
 
 ---
 
