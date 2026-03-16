@@ -385,3 +385,17 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 10. **Retire or wire `js/data.js` and `js/app.js`**: These ES modules are not referenced by any HTML page but reference the missing `maps/us-states.geojson`. Either integrate them into a page or remove them to avoid confusion.
 11. **Add amenity scoring to PMA**: The `data/amenities/` files are ready-to-populate stubs. Run `build_osm_amenities.py` and integrate grocery/school/healthcare proximity into the PMA score.
 12. **Link validation in CI**: Run `node test/validate-links.js` in `ci-checks.yml` to catch broken internal hrefs before deploy.
+
+## Actionable Recommendations
+
+- Archived file: `_audit/js/colorado-interactive-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/js/national-regional-map.js` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/acs_debug_tools.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/diagnose.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/hna/test-connectivity.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/market/test_tiger_api.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/pre_commit_check.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/qa_stage1.py` — review and remove fully if unneeded.
+- Archived file: `_audit/scripts/validate_map_bugs.py` — review and remove fully if unneeded.
+- Docs and site-audit pipeline are automatically updated after every merge.
+
