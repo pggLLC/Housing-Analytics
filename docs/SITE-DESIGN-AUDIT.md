@@ -1,3 +1,5 @@
+> **⚠️ Deprecated:** This design audit has been superseded by [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md), which is the current authoritative audit. Retained for historical reference.
+
 # COHO Analytics — Site Design & Functionality Audit
 
 **Prepared:** March 2026  
