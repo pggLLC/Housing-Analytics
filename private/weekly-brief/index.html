@@ -75,11 +75,42 @@
       padding: 1.5rem 1rem 3rem;
     }
 
+    /* ── Signal banner ─────────────────────────────────────── */
+    .total-signals-banner {
+      background: #096e65;
+      color: #fff;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .total-signals-banner .ts-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      min-width: 4rem;
+      text-align: center;
+    }
+    .total-signals-banner .ts-text { flex: 1; }
+    .total-signals-banner .ts-label {
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+    .total-signals-banner .ts-sub {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 0.15rem;
+    }
+
+    /* ── Pills ─────────────────────────────────────────────── */
     .pills {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
     .pill {
       display: inline-flex;
@@ -93,6 +124,40 @@
     .pill-muted  { background: #e4ecf4; color: #476080; }
     .pill-info   { background: #dbeafe; color: #1e40af; }
 
+    /* ── Sort bar ──────────────────────────────────────────── */
+    .sort-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .sort-bar-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #476080;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sort-btn {
+      background: #fff;
+      border: 1px solid rgba(13,31,53,.14);
+      border-radius: 99px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #476080;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .sort-btn:hover { background: #e4ecf4; }
+    .sort-btn.is-active {
+      background: #096e65;
+      color: #fff;
+      border-color: #096e65;
+    }
+
+    /* ── Section cards ─────────────────────────────────────── */
     .section-card {
       background: #fff;
       border-radius: 10px;
@@ -118,13 +183,23 @@
       color: #476080;
       margin-left: auto;
     }
+    .section-summary {
+      padding: 0.6rem 1rem 0.4rem;
+      font-size: 0.8rem;
+      color: #476080;
+      line-height: 1.55;
+      border-bottom: 1px solid rgba(13,31,53,.06);
+      background: #f7fafd;
+    }
+
+    /* ── Article list ──────────────────────────────────────── */
     .article-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
     .article-list li {
-      padding: 0.65rem 1rem;
+      padding: 0.7rem 1rem;
       border-bottom: 1px solid rgba(13,31,53,.06);
     }
     .article-list li:last-child { border-bottom: none; }
@@ -135,22 +210,70 @@
       font-weight: 500;
     }
     .article-list a:hover { text-decoration: underline; }
+    .article-overflow { display: none; }
     .article-meta {
       font-size: 0.72rem;
       color: #476080;
       margin-top: 0.15rem;
     }
+    .article-summary {
+      font-size: 0.78rem;
+      color: #476080;
+      line-height: 1.5;
+      margin-top: 0.2rem;
+    }
+    .article-signals {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+    .signal-tag {
+      display: inline-block;
+      background: #e4ecf4;
+      color: #476080;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.1rem 0.5rem;
+      border-radius: 99px;
+    }
+    .show-more-row {
+      padding: 0.5rem 1rem;
+      border-top: 1px solid rgba(13,31,53,.06);
+    }
+    .show-more-btn {
+      background: none;
+      border: 1px solid #096e65;
+      color: #096e65;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .show-more-btn:hover { background: #096e65; color: #fff; }
+
     .empty-state {
       padding: 1.5rem 1rem;
       color: #476080;
       font-size: 0.85rem;
     }
 
+    /* ── Signals section ───────────────────────────────────── */
     .signals-section { margin-bottom: 1.5rem; }
-    .signals-section h2 {
+    .signals-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.25rem;
+    }
+    .signals-section-header h2 {
       font-size: 1rem;
       font-weight: 700;
-      margin: 0 0 0.25rem;
+      margin: 0;
       color: #0d1f35;
     }
     .signals-note {
@@ -168,6 +291,14 @@
       border-radius: 10px;
       padding: 0.875rem 1rem;
       box-shadow: 0 2px 8px rgba(13,31,53,.06), 0 0 0 1px rgba(13,31,53,.07);
+      cursor: pointer;
+      transition: box-shadow .15s;
+    }
+    .signal-card:hover {
+      box-shadow: 0 4px 16px rgba(9,110,101,.15), 0 0 0 1px rgba(9,110,101,.25);
+    }
+    .signal-card.is-selected {
+      box-shadow: 0 0 0 2px #096e65;
     }
     .signal-card h3 {
       font-size: 0.72rem;
@@ -189,6 +320,7 @@
       margin-top: 0.35rem;
     }
 
+    /* ── Archive ───────────────────────────────────────────── */
     .archive-section { margin-top: 2rem; }
     .archive-section h2 {
       font-size: 1rem;
@@ -261,6 +393,8 @@
       header { flex-wrap: wrap; }
       header h1 { font-size: 0.95rem; }
       .signal-grid { grid-template-columns: 1fr 1fr; }
+      .total-signals-banner { gap: 0.75rem; }
+      .total-signals-banner .ts-num { font-size: 2rem; }
     }
   </style>
 </head>
@@ -271,29 +405,53 @@
 <header>
   <span class="brand">COHO Analytics</span>
   <h1>Weekly Housing Intelligence Brief</h1>
-  <span class="header-meta" id="headerMeta">Loading…</span>
+  <span class="header-meta" id="headerMeta">Loading&hellip;</span>
 </header>
 
 <main id="main-content">
-  <div id="loadingState">Loading latest brief…</div>
+  <div id="loadingState">Loading latest brief&hellip;</div>
   <div id="errorState" role="alert"></div>
   <div id="briefContent" style="display:none;">
+
+    <!-- Total signal count banner (top) -->
+    <div class="total-signals-banner" id="totalSignalsBanner" aria-label="Total signal count this week">
+      <div class="ts-num" id="totalSignalsNum">—</div>
+      <div class="ts-text">
+        <div class="ts-label">total signals detected across all articles this week</div>
+        <div class="ts-sub" id="totalSignalsSub"></div>
+      </div>
+    </div>
+
+    <!-- Meta pills -->
     <div class="pills" id="pillsRow"></div>
 
-    <div id="sectionsContainer"></div>
-
+    <!-- Signal counts with sort-by capability -->
     <div class="signals-section">
-      <h2>Signal Counts</h2>
+      <div class="signals-section-header">
+        <h2>Signal Counts</h2>
+        <div class="sort-bar" role="group" aria-label="Sort articles by signal">
+          <span class="sort-bar-label">Sort by:</span>
+          <button class="sort-btn is-active" data-sort="default" aria-pressed="true">Default</button>
+          <button class="sort-btn" data-sort="signals" aria-pressed="false">Most Signals</button>
+          <button class="sort-btn" data-sort="date" aria-pressed="false">Date</button>
+          <button class="sort-btn" data-sort="source" aria-pressed="false">Source</button>
+        </div>
+      </div>
       <p class="signals-note" id="signalsNote"></p>
       <div class="signal-grid" id="signalGrid"></div>
     </div>
 
+    <!-- Article sections -->
+    <div id="sectionsContainer"></div>
+
+    <!-- Archive -->
     <div class="archive-section">
       <h2>Archive</h2>
       <div id="archiveContainer">
-        <p style="font-size:.85rem;color:#476080;">Loading archive…</p>
+        <p style="font-size:.85rem;color:#476080;">Loading archive&hellip;</p>
       </div>
     </div>
+
   </div>
 </main>
 
@@ -306,20 +464,22 @@
 (function () {
   'use strict';
 
-  const BASE = (function () {
-    // Resolve base path relative to this page's location
-    const s = document.currentScript || {};
-    return './';
-  })();
+  const BASE = './';
+  const VISIBLE_PER_SECTION = 5;
+
+  // Current sort order applied to all sections
+  let currentSort = 'default';
+  // Raw payload cached for re-renders
+  let briefPayload = null;
 
   function announce(msg) {
-    const el = document.getElementById('aria-live-region');
+    var el = document.getElementById('aria-live-region');
     if (el) el.textContent = msg;
   }
 
   function showError(msg) {
-    const err = document.getElementById('errorState');
-    const loading = document.getElementById('loadingState');
+    var err = document.getElementById('errorState');
+    var loading = document.getElementById('loadingState');
     if (loading) loading.style.display = 'none';
     if (err) {
       err.style.display = 'block';
@@ -329,22 +489,69 @@
   }
 
   function fetchJSON(url) {
-    return fetch(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
-        return r.json();
-      });
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
+      return r.json();
+    });
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
   function fmtDate(iso) {
     if (!iso) return '';
+    // Handle ISO-8601, RFC-2822, or date-only strings
+    var clean = iso.trim();
     try {
-      return new Date(iso).toLocaleDateString('en-US', {
-        month: 'short', day: 'numeric', year: 'numeric'
-      });
-    } catch (e) { return iso.slice(0, 10); }
+      var d = new Date(clean);
+      if (isNaN(d.getTime())) return clean.slice(0, 10);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch (e) { return clean.slice(0, 10); }
   }
 
+  // ── Sort helpers ────────────────────────────────────────────
+  function sortArticles(articles, order) {
+    var copy = articles.slice();
+    if (order === 'signals') {
+      copy.sort(function (a, b) { return (b.signal_count || 0) - (a.signal_count || 0); });
+    } else if (order === 'date') {
+      copy.sort(function (a, b) {
+        var da = a.published ? new Date(a.published).getTime() : 0;
+        var db = b.published ? new Date(b.published).getTime() : 0;
+        return db - da;  // newest first
+      });
+    } else if (order === 'source') {
+      copy.sort(function (a, b) {
+        return (a.source || '').localeCompare(b.source || '');
+      });
+    }
+    // 'default' leaves original order
+    return copy;
+  }
+
+  // ── Render total signal banner ───────────────────────────────
+  function renderTotalSignals(payload) {
+    var numEl = document.getElementById('totalSignalsNum');
+    var subEl = document.getElementById('totalSignalsSub');
+    var total = payload.total_signal_count || 0;
+    if (numEl) numEl.textContent = total;
+    if (subEl) {
+      var parts = [];
+      var signals = payload.signals || {};
+      Object.keys(signals).forEach(function (bucket) {
+        var c = (signals[bucket] || {}).count || 0;
+        if (c > 0) parts.push(bucket + ': ' + c);
+      });
+      subEl.textContent = parts.join(' · ') || '';
+    }
+  }
+
+  // ── Render pills ────────────────────────────────────────────
   function renderPills(payload) {
     var row = document.getElementById('pillsRow');
     if (!row) return;
@@ -359,39 +566,100 @@
     row.innerHTML = pills;
   }
 
+  // ── Render one article item ──────────────────────────────────
+  function renderArticleItem(art, hidden) {
+    var meta = [
+      art.source ? esc(art.source) : '',
+      art.published ? esc(fmtDate(art.published)) : '',
+    ].filter(Boolean).join(' &middot; ');
+
+    var summaryHtml = art.summary
+      ? '<div class="article-summary">' + esc(art.summary) + '</div>'
+      : '';
+
+    var signalTagsHtml = '';
+    if (Array.isArray(art.signals) && art.signals.length) {
+      signalTagsHtml = '<div class="article-signals">' +
+        art.signals.map(function (s) {
+          return '<span class="signal-tag">' + esc(s) + '</span>';
+        }).join('') +
+        '</div>';
+    }
+
+    return (
+      '<li' + (hidden ? ' class="article-overflow"' : '') + '>' +
+      '<a href="' + esc(art.link || '#') + '" target="_blank" rel="noopener noreferrer">' +
+      esc(art.title || '(no title)') +
+      '</a>' +
+      (meta ? '<div class="article-meta">' + meta + '</div>' : '') +
+      summaryHtml +
+      signalTagsHtml +
+      '</li>'
+    );
+  }
+
+  // ── Render sections ─────────────────────────────────────────
   function renderSections(payload) {
     var container = document.getElementById('sectionsContainer');
     if (!container) return;
     var regions = ['Colorado', 'Western Slope', 'National'];
+    var sectionSummaries = payload.section_summaries || {};
     var html = '';
+
     regions.forEach(function (region) {
-      var articles = (payload.sections || {})[region] || [];
-      html += '<div class="section-card">';
+      var allArticles = (payload.sections || {})[region] || [];
+      var articles = sortArticles(allArticles, currentSort);
+      var sectionSummary = sectionSummaries[region] || '';
+
+      html += '<div class="section-card" data-region="' + esc(region) + '">';
       html += '<div class="section-header">';
       html += '<h2>' + esc(region) + '</h2>';
-      html += '<span class="section-count">' + articles.length + ' articles</span>';
+      html += '<span class="section-count">' + articles.length + ' article' + (articles.length !== 1 ? 's' : '') + '</span>';
       html += '</div>';
+
+      if (sectionSummary) {
+        html += '<div class="section-summary">' + esc(sectionSummary) + '</div>';
+      }
+
       if (articles.length === 0) {
         html += '<div class="empty-state">No articles this week.</div>';
       } else {
         html += '<ul class="article-list" aria-label="' + esc(region) + ' articles">';
-        articles.forEach(function (art) {
-          var meta = [art.source, art.published ? art.published.slice(0, 16) : '']
-            .filter(Boolean).join(' · ');
-          html += '<li>';
-          html += '<a href="' + esc(art.link || '#') + '" target="_blank" rel="noopener noreferrer">';
-          html += esc(art.title || '(no title)');
-          html += '</a>';
-          if (meta) html += '<div class="article-meta">' + esc(meta) + '</div>';
-          html += '</li>';
+        articles.forEach(function (art, i) {
+          html += renderArticleItem(art, i >= VISIBLE_PER_SECTION);
         });
         html += '</ul>';
+
+        var overflow = articles.length - VISIBLE_PER_SECTION;
+        if (overflow > 0) {
+          html += '<div class="show-more-row">';
+          html += '<button class="show-more-btn" type="button" data-region="' + esc(region) + '">' +
+            'Show ' + overflow + ' more article' + (overflow !== 1 ? 's' : '') + ' &#9660;' +
+            '</button>';
+          html += '</div>';
+        }
       }
+
       html += '</div>';
     });
+
     container.innerHTML = html;
+
+    // Wire up "show more" buttons
+    container.querySelectorAll('.show-more-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.section-card');
+        if (!card) return;
+        card.querySelectorAll('.article-list li.article-overflow').forEach(function (li) {
+          li.classList.remove('article-overflow');
+        });
+        btn.closest('.show-more-row').style.display = 'none';
+        announce('Showing all articles for ' + (btn.dataset.region || 'section'));
+      });
+    });
   }
 
+  // ── Render signals ──────────────────────────────────────────
   function renderSignals(payload) {
     var grid = document.getElementById('signalGrid');
     var note = document.getElementById('signalsNote');
@@ -399,19 +667,25 @@
     if (note) note.textContent = payload.signals_explain || '';
     var signals = payload.signals || {};
     var html = '';
-    Object.keys(signals).forEach(function (bucket) {
+    // Sort buckets by count descending for display
+    var buckets = Object.keys(signals).sort(function (a, b) {
+      return (signals[b].count || 0) - (signals[a].count || 0);
+    });
+    buckets.forEach(function (bucket) {
       var data = signals[bucket] || {};
       var count = data.count || 0;
       var terms = (data.top_terms || []).join(', ') || '—';
-      html += '<div class="signal-card">';
+      html += '<div class="signal-card" data-bucket="' + esc(bucket) + '" tabindex="0" role="button" aria-label="' +
+        esc(bucket) + ' signal count: ' + count + '">';
       html += '<h3>' + esc(bucket) + '</h3>';
-      html += '<div class="signal-count" aria-label="' + esc(bucket) + ' signal count: ' + count + '">' + count + '</div>';
+      html += '<div class="signal-count">' + count + '</div>';
       html += '<div class="signal-terms">' + esc(terms) + '</div>';
       html += '</div>';
     });
     grid.innerHTML = html || '<p style="color:#476080;font-size:.85rem;">No signal data.</p>';
   }
 
+  // ── Render archive ──────────────────────────────────────────
   function renderArchive(index) {
     var container = document.getElementById('archiveContainer');
     if (!container) return;
@@ -435,17 +709,36 @@
       '</table>';
   }
 
-  function esc(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  // ── Sort bar interaction ────────────────────────────────────
+  function initSortBar() {
+    document.querySelectorAll('.sort-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var order = btn.dataset.sort || 'default';
+        if (order === currentSort) return;
+        currentSort = order;
+
+        document.querySelectorAll('.sort-btn').forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        if (briefPayload) {
+          renderSections(briefPayload);
+          announce('Articles sorted by ' + order);
+        }
+      });
+    });
   }
 
+  // ── Init ────────────────────────────────────────────────────
   function init() {
+    initSortBar();
+
     fetchJSON(BASE + 'data/latest.json')
       .then(function (payload) {
+        briefPayload = payload;
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('briefContent').style.display = '';
 
@@ -456,20 +749,18 @@
             : '';
         }
 
+        renderTotalSignals(payload);
         renderPills(payload);
-        renderSections(payload);
         renderSignals(payload);
+        renderSections(payload);
 
-        announce('Weekly brief loaded: ' + (payload.total_articles || 0) + ' articles for week of ' + (payload.week_start || ''));
+        announce('Weekly brief loaded: ' + (payload.total_articles || 0) +
+          ' articles, ' + (payload.total_signal_count || 0) + ' signals for week of ' +
+          (payload.week_start || ''));
 
-        // Load archive index
         return fetchJSON(BASE + 'data/archive-index.json')
-          .then(function (index) {
-            renderArchive(index);
-          })
-          .catch(function () {
-            renderArchive(null);
-          });
+          .then(function (index) { renderArchive(index); })
+          .catch(function () { renderArchive(null); });
       })
       .catch(function (err) {
         showError(err.message || 'Could not load latest.json');

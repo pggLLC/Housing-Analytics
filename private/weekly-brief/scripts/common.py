@@ -13,6 +13,23 @@ from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 # ---------------------------------------------------------------------------
+# HTML-stripping helper
+# ---------------------------------------------------------------------------
+_HTML_TAG = re.compile(r'<[^>]+>')
+_WHITESPACE = re.compile(r'\s+')
+
+def _strip_html(text: str, max_len: int = 300) -> str:
+    """Strip HTML tags from text, unescape entities, and truncate gracefully."""
+    if not text:
+        return ""
+    text = html.unescape(text)
+    text = _HTML_TAG.sub(' ', text)
+    text = _WHITESPACE.sub(' ', text).strip()
+    if len(text) > max_len:
+        text = text[:max_len].rsplit(' ', 1)[0] + '\u2026'
+    return text
+
+# ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 BRIEF_ROOT = Path(__file__).resolve().parent.parent
@@ -80,16 +97,34 @@ SIGNAL_KEYWORDS = {
     ],
 }
 
+def _article_combined(article: dict) -> str:
+    """Return a lower-cased text blob for signal matching (title + source + summary)."""
+    return (
+        (article.get("title") or "") + " " +
+        (article.get("source") or "") + " " +
+        (article.get("summary") or "")
+    ).lower()
+
+
+def article_matched_signals(article: dict) -> list[str]:
+    """Return the list of signal bucket names this article matches."""
+    combined = _article_combined(article)
+    matched = []
+    for bucket, keywords in SIGNAL_KEYWORDS.items():
+        for kw in keywords:
+            if kw in combined:
+                matched.append(bucket)
+                break
+    return matched
+
+
 def extract_signals(articles: list[dict]) -> dict:
     """Count signal bucket hits and extract top terms from all articles."""
     signals = {k: {"count": 0, "top_terms": []} for k in SIGNAL_KEYWORDS}
     term_hits: dict[str, dict[str, int]] = {k: {} for k in SIGNAL_KEYWORDS}
 
     for article in articles:
-        combined = (
-            (article.get("title") or "") + " " +
-            (article.get("source") or "")
-        ).lower()
+        combined = _article_combined(article)
 
         for bucket, keywords in SIGNAL_KEYWORDS.items():
             for kw in keywords:
@@ -174,6 +209,12 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
         link_el = item.find("link")
         pub_el = item.find("pubDate") or item.find("published")
         source_el = item.find("source")
+        desc_el = (
+            item.find("description")
+            or item.find("summary")
+            or item.find("{http://www.w3.org/2005/Atom}summary")
+            or item.find("{http://www.w3.org/2005/Atom}content")
+        )
 
         # Atom link is an attribute
         if link_el is None:
@@ -186,6 +227,8 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
         raw_title = html.unescape((title_el.text or "") if title_el is not None else "")
         link = canonicalize_url(raw_link)
         pub = (pub_el.text or "").strip() if pub_el is not None else ""
+        raw_desc = (desc_el.text or "") if desc_el is not None else ""
+        summary = _strip_html(raw_desc)
 
         # Source domain as fallback for source name
         source_name = ""
@@ -214,6 +257,7 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
             "link": link,
             "source": source_name,
             "published": pub,
+            "summary": summary,
             "region": region,
         })
 
@@ -256,6 +300,9 @@ def fetch_gdelt_articles(
             "link": canonicalize_url(art.get("url") or ""),
             "source": art.get("domain") or "",
             "published": art.get("seendate") or "",
+            # GDELT DOC API does not return article body text; summary is left blank
+            # and will be populated by the RSS description when available.
+            "summary": "",
         })
     return articles
 
@@ -281,6 +328,68 @@ def iso(d: date) -> str:
 # ---------------------------------------------------------------------------
 SECTIONS = ["Colorado", "Western Slope", "National"]
 
+# Static context sentence per section — explains the affordable-housing angle.
+_SECTION_CONTEXT = {
+    "Colorado": (
+        "These Colorado stories track LIHTC award cycles, municipal affordability "
+        "ordinances, and local housing developments that directly shape supply and "
+        "cost-burden for Colorado renters and buyers."
+    ),
+    "Western Slope": (
+        "Western Slope coverage highlights workforce-housing shortages, resort-market "
+        "price pressures, and rural development challenges that make affordability "
+        "especially acute in mountain communities."
+    ),
+    "National": (
+        "National coverage monitors federal housing-finance policy, LIHTC program "
+        "updates, construction-cost trends, and macroeconomic signals — interest rates, "
+        "insurance premiums, and supply-chain pressures — that ripple through every "
+        "local affordable housing market."
+    ),
+}
+
+# Human-readable signal labels used in section summaries
+_SIGNAL_SHORT = {
+    "Financing / Rates": "financing & rates",
+    "LIHTC / Tax Credit": "LIHTC/tax credits",
+    "Supply / Pipeline": "supply pipeline",
+    "Costs / Insurance": "costs & insurance",
+    "Rent Pressure / Homelessness": "rent pressure",
+    "Policy / Zoning": "policy & zoning",
+}
+
+
+def _build_section_summary(region: str, articles: list[dict]) -> str:
+    """Generate a dynamic summary for a section based on its top signals."""
+    if not articles:
+        return _SECTION_CONTEXT.get(region, "")
+
+    # Count signal buckets across this section's articles
+    bucket_counts: dict[str, int] = {}
+    for art in articles:
+        for sig in article_matched_signals(art):
+            bucket_counts[sig] = bucket_counts.get(sig, 0) + 1
+
+    # Pick top 3 buckets by article count
+    top_buckets = sorted(bucket_counts.items(), key=lambda x: -x[1])[:3]
+    if not top_buckets:
+        return _SECTION_CONTEXT.get(region, "")
+
+    top_labels = [_SIGNAL_SHORT.get(b, b) for b, _ in top_buckets]
+    if len(top_labels) == 1:
+        signal_phrase = top_labels[0]
+    elif len(top_labels) == 2:
+        signal_phrase = f"{top_labels[0]} and {top_labels[1]}"
+    else:
+        signal_phrase = f"{top_labels[0]}, {top_labels[1]}, and {top_labels[2]}"
+
+    context = _SECTION_CONTEXT.get(region, "")
+    return (
+        f"This week\u2019s {len(articles)} {region} articles are concentrated in "
+        f"{signal_phrase}. {context}"
+    )
+
+
 def build_payload(week_start: date, articles: list[dict]) -> dict:
     """Assemble the JSON payload for a week from a flat article list."""
     sections: dict[str, list] = {s: [] for s in SECTIONS}
@@ -288,15 +397,27 @@ def build_payload(week_start: date, articles: list[dict]) -> dict:
         region = art.get("region", "National")
         if region not in sections:
             region = "National"
-        entry = {k: art[k] for k in ("title", "link", "source", "published") if k in art}
+        matched = article_matched_signals(art)
+        entry = {k: art[k] for k in ("title", "link", "source", "published", "summary") if k in art}
+        entry["signal_count"] = len(matched)
+        entry["signals"] = matched
         sections[region].append(entry)
 
     signals = extract_signals(articles)
+    total_signal_count = sum(v.get("count", 0) for v in signals.values())
+
+    section_summaries = {
+        region: _build_section_summary(region, sections[region])
+        for region in SECTIONS
+    }
+
     return {
         "week_start": iso(week_start),
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "total_articles": len(articles),
+        "total_signal_count": total_signal_count,
         "sections": sections,
+        "section_summaries": section_summaries,
         "signals": signals,
         "signals_explain": (
             "Signal counts are keyword-based and measured across all fetched "
@@ -380,12 +501,20 @@ HTML_TEMPLATE = """\
     .pill{{display:inline-block;padding:.2rem .7rem;border-radius:99px;font-size:.75rem;font-weight:600;margin:.15rem;}}
     .pill-accent{{background:#096e65;color:#fff;}}
     .pill-muted{{background:#e4ecf4;color:#476080;}}
+    .total-signals-banner{{background:#096e65;color:#fff;border-radius:10px;padding:.75rem 1.25rem;margin:.75rem 0 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    .total-signals-banner .ts-num{{font-size:2rem;font-weight:800;line-height:1;}}
+    .total-signals-banner .ts-label{{font-size:.85rem;opacity:.9;}}
     h2{{font-size:1rem;margin:1.5rem 0 .5rem;color:#096e65;}}
     ul{{list-style:none;padding:0;margin:0;}}
     li{{border-bottom:1px solid rgba(13,31,53,.08);padding:.5rem 0;font-size:.875rem;}}
+    li:last-child{{border-bottom:none;}}
     li a{{color:#005a9c;text-decoration:none;}}
     li a:hover{{text-decoration:underline;}}
-    .meta{{font-size:.75rem;color:#476080;}}
+    .meta{{font-size:.72rem;color:#476080;margin-top:.1rem;}}
+    .art-summary{{font-size:.78rem;color:#476080;margin-top:.15rem;line-height:1.5;}}
+    .show-more-li{{border-bottom:none!important;padding:.4rem 0;}}
+    .show-more-btn{{background:none;border:1px solid #096e65;color:#096e65;border-radius:99px;font-size:.8rem;padding:.3rem .9rem;cursor:pointer;font-weight:600;}}
+    .show-more-btn:hover{{background:#096e65;color:#fff;}}
     .signal-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem;margin-top:.5rem;}}
     .signal-card{{background:#fff;border-radius:10px;padding:.75rem 1rem;box-shadow:0 1px 3px rgba(13,31,53,.07);}}
     .signal-card h3{{font-size:.8rem;margin:0 0 .25rem;color:#476080;text-transform:uppercase;letter-spacing:.04em;}}
@@ -404,45 +533,63 @@ HTML_TEMPLATE = """\
   <span class="pill pill-muted">{total_articles} articles</span>
   <span class="pill pill-muted">Generated {generated_at_short}</span>
 </div>
-{sections_html}
+<div class="total-signals-banner" aria-label="Total signal count">
+  <span class="ts-num">{total_signal_count}</span>
+  <span class="ts-label">total signals detected across all articles this week</span>
+</div>
 <h2>Signal Counts</h2>
 <p style="font-size:.75rem;color:#476080;">{signals_explain}</p>
 <div class="signal-grid">{signals_html}</div>
+{sections_html}
 <footer>COHO Analytics — Weekly Housing Intelligence Brief — {week_start}<br>
 This page is not indexed by search engines and is not linked from site navigation.</footer>
 </body>
 </html>
 """
 
-def _render_section(name: str, articles: list) -> str:
+def _render_section(name: str, articles: list, summary: str = "") -> str:
     if not articles:
         return (
             f"<h2>{name}</h2>"
             f'<p style="font-size:.85rem;color:#476080;">No articles this week.</p>'
         )
+    summary_html = (
+        f'<p style="font-size:.8rem;color:#476080;margin:.25rem 0 .75rem;">'
+        f'{html.escape(summary)}</p>'
+    ) if summary else ""
     items = ""
     for art in articles:
         title = html.escape(art.get("title", ""))
         link = html.escape(art.get("link", "#"))
         source = html.escape(art.get("source", ""))
         pub = html.escape(art.get("published", ""))
+        art_summary = html.escape(art.get("summary", ""))
         meta = " · ".join(filter(None, [source, pub[:16] if pub else ""]))
         items += (
-            f"<li><a href=\"{link}\" target=\"_blank\" rel=\"noopener\">{title}</a>"
-            f"<br><span class=\"meta\">{meta}</span></li>"
+            f'<li>'
+            f'<a href="{link}" target="_blank" rel="noopener">{title}</a>'
+            f'<br><span class="meta">{meta}</span>'
+            + (f'<br><span class="art-summary">{art_summary}</span>' if art_summary else "")
+            + '</li>'
         )
-    return f"<h2>{name} ({len(articles)})</h2><ul>{items}</ul>"
+    return (
+        f"<h2>{name} ({len(articles)})</h2>"
+        f"{summary_html}"
+        f"<ul>{items}</ul>"
+    )
 
 def generate_archive_html(payload: dict) -> str:
     """Return HTML string for an archive page."""
     week_start = payload["week_start"]
     total = payload["total_articles"]
+    total_signal_count = payload.get("total_signal_count", 0)
     generated_at = payload.get("generated_at", "")
     generated_at_short = generated_at[:10] if generated_at else ""
     signals_explain = html.escape(payload.get("signals_explain", ""))
+    section_summaries = payload.get("section_summaries", {})
 
     sections_html = "".join(
-        _render_section(name, payload["sections"].get(name, []))
+        _render_section(name, payload["sections"].get(name, []), section_summaries.get(name, ""))
         for name in SECTIONS
     )
 
@@ -461,6 +608,7 @@ def generate_archive_html(payload: dict) -> str:
     return HTML_TEMPLATE.format(
         week_start=week_start,
         total_articles=total,
+        total_signal_count=total_signal_count,
         generated_at_short=generated_at_short,
         sections_html=sections_html,
         signals_html=signals_html,
