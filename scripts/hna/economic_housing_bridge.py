@@ -6,10 +6,16 @@ Connects labour-market wage data with housing cost data to surface:
   - Sectors where wages are insufficient to afford local housing
   - A detailed affordability analysis broken down by industry / wage tier
 
+Also exposes :func:`compute_ownership_affordability` which implements a full
+PITI (Principal + Interest + Taxes + Insurance) mortgage underwriting model
+that accounts for down payment, interest rate, property taxes, homeowner
+insurance, PMI, HOA fees, and DTI ratio.
+
 Usage
 -----
     from scripts.hna.economic_housing_bridge import (
         WageAffordabilityGap,
+        compute_ownership_affordability,
         identify_sector_mismatches,
         affordability_by_industry,
     )
@@ -17,6 +23,9 @@ Usage
     gap = WageAffordabilityGap(median_annual_wage=46000, median_annual_rent=18000)
     result = gap.compute()
     # result["gap_dollars"], result["affordable"], result["rent_burden_pct"], …
+
+    own = compute_ownership_affordability(median_price=575000, median_income=86000)
+    # own["monthly_payment"], own["required_annual_income"], own["affordability_gap_percent"], …
 """
 
 from __future__ import annotations
@@ -287,3 +296,154 @@ def affordability_by_industry(
 
     results.sort(key=lambda x: x["employment"], reverse=True)
     return results
+
+
+# ---------------------------------------------------------------------------
+# Full PITI ownership affordability model
+# ---------------------------------------------------------------------------
+
+# Colorado county-level property tax rates (effective rate as decimal).
+# Source: Colorado Division of Property Taxation annual report (approximate FY2024 rates).
+# Review and update these annually when the Division publishes new certified levies:
+#   https://cdola.colorado.gov/property-taxation
+# Keys are 5-digit FIPS codes; fallback to CO_PROPERTY_TAX_DEFAULT if missing.
+CO_PROPERTY_TAX_DEFAULT = 0.0065  # 0.65% statewide average
+
+_COUNTY_TAX_RATES: dict[str, float] = {
+    "08001": 0.0059,  # Adams
+    "08005": 0.0055,  # Arapahoe
+    "08013": 0.0047,  # Boulder
+    "08014": 0.0052,  # Broomfield
+    "08031": 0.0054,  # Denver
+    "08035": 0.0052,  # Douglas
+    "08041": 0.0063,  # El Paso
+    "08059": 0.0048,  # Jefferson
+    "08069": 0.0060,  # Larimer
+    "08077": 0.0064,  # Mesa
+    "08101": 0.0067,  # Pueblo
+    "08123": 0.0058,  # Weld
+}
+
+
+def _monthly_pi(price: float, down_pct: float, annual_rate: float) -> float:
+    """Compute monthly principal-and-interest payment for a 30-year fixed mortgage."""
+    loan = price * (1.0 - down_pct)
+    r = annual_rate / 12.0
+    n = 360
+    if r == 0:
+        return loan / n
+    return loan * (r * (1 + r) ** n) / ((1 + r) ** n - 1)
+
+
+def _compute_scenario(
+    median_price: float,
+    down_pct: float,
+    annual_rate: float,
+    monthly_tax: float,
+    monthly_insurance: float,
+    monthly_hoa: float,
+    max_dti: float,
+) -> dict[str, Any]:
+    pi = _monthly_pi(median_price, down_pct, annual_rate)
+    pmi = (median_price * 0.0085 / 12.0) if down_pct < 0.20 else 0.0
+    total_monthly = pi + monthly_tax + monthly_insurance + pmi + monthly_hoa
+    required_annual = (total_monthly / max_dti) * 12.0
+    return {
+        "down_payment_pct": down_pct,
+        "monthly_payment": round(total_monthly, 2),
+        "breakdown": {
+            "principal_interest": round(pi, 2),
+            "property_taxes": round(monthly_tax, 2),
+            "insurance": round(monthly_insurance, 2),
+            "pmi": round(pmi, 2),
+            "hoa": round(monthly_hoa, 2),
+        },
+        "required_annual_income": round(required_annual, 2),
+    }
+
+
+def compute_ownership_affordability(
+    median_price: float,
+    median_income: float,
+    down_payment_pct: float = 0.20,
+    interest_rate: float = 0.065,
+    county_fips: str | None = None,
+    insurance_rate: float = 0.0085,
+    hoa_monthly: float = 0.0,
+    max_dti_ratio: float = 0.43,
+) -> dict[str, Any]:
+    """Calculate realistic ownership affordability using full PITI underwriting.
+
+    Parameters
+    ----------
+    median_price : float
+        Median home sale price for the area.
+    median_income : float
+        Median household annual income.
+    down_payment_pct : float
+        Down payment as a fraction of purchase price (default 0.20 = 20%).
+    interest_rate : float
+        Annual mortgage interest rate as a decimal (default 0.065 = 6.5%).
+    county_fips : str | None
+        5-digit FIPS code used for county-specific property tax lookup.
+        Falls back to Colorado statewide average when None or unknown.
+    insurance_rate : float
+        Annual homeowner insurance as a fraction of home value (default 0.85%).
+    hoa_monthly : float
+        Monthly HOA fee in dollars (default 0).
+    max_dti_ratio : float
+        Maximum total debt-to-income ratio for qualification (default 0.43).
+
+    Returns
+    -------
+    dict with keys:
+        monthly_payment            : float  (primary scenario total PITI + HOA)
+        required_annual_income     : float  (income needed to qualify at max_dti)
+        affordability_gap_percent  : float  (gap as % of median_income; negative = surplus)
+        affordable                 : bool
+        breakdown                  : dict   (PI, taxes, insurance, PMI, HOA)
+        scenarios                  : dict   (standard_20pct_down, first_time_buyer_5pct_down)
+        assumptions                : dict   (all input parameters used)
+    """
+    if median_price <= 0:
+        raise ValueError("median_price must be positive")
+    if median_income < 0:
+        raise ValueError("median_income must be non-negative")
+
+    tax_rate = _COUNTY_TAX_RATES.get(county_fips or "", CO_PROPERTY_TAX_DEFAULT)
+    monthly_tax = (median_price * tax_rate) / 12.0
+    monthly_insurance = (median_price * insurance_rate) / 12.0
+
+    primary = _compute_scenario(
+        median_price, down_payment_pct, interest_rate,
+        monthly_tax, monthly_insurance, hoa_monthly, max_dti_ratio,
+    )
+    ftb = _compute_scenario(
+        median_price, 0.05, interest_rate,
+        monthly_tax, monthly_insurance, hoa_monthly, max_dti_ratio,
+    )
+
+    gap_pct = ((primary["required_annual_income"] - median_income) / median_income * 100.0
+               if median_income > 0 else None)
+
+    return {
+        "monthly_payment": primary["monthly_payment"],
+        "required_annual_income": primary["required_annual_income"],
+        "affordability_gap_percent": round(gap_pct, 1) if gap_pct is not None else None,
+        "affordable": median_income >= primary["required_annual_income"],
+        "breakdown": primary["breakdown"],
+        "scenarios": {
+            "standard_20pct_down": primary,
+            "first_time_buyer_5pct_down": ftb,
+        },
+        "assumptions": {
+            "interest_rate": interest_rate,
+            "down_payment_pct": down_payment_pct,
+            "property_tax_rate": tax_rate,
+            "insurance_rate": insurance_rate,
+            "hoa_monthly": hoa_monthly,
+            "max_dti_ratio": max_dti_ratio,
+            "term_years": 30,
+            "county_fips": county_fips,
+        },
+    }

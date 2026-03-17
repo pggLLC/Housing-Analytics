@@ -35,6 +35,10 @@
         <p class="hero-sub" style="max-width:700px;margin-bottom:var(--sp4);">Decision-support tools for affordable housing professionals — start with a Housing Needs Assessment, evaluate market feasibility, then track economic conditions and LIHTC allocations to close the deal.</p>
         <div class="hero-actions">
           <a href="housing-needs-assessment.html" class="btn">Start Assessment</a>
+          <button class="btn btn-outline" id="btnOpenWizard" aria-haspopup="dialog"
+                  onclick="document.getElementById('onboardingModal').removeAttribute('hidden');document.getElementById('onboardingModal').focus();">
+            Where Do I Start?
+          </button>
           <a href="economic-dashboard.html" class="btn btn-outline">Economic Dashboard</a>
           <a href="LIHTC-dashboard.html" class="btn btn-outline">Allocation Maps</a>
         </div>
@@ -184,6 +188,54 @@
     </section>
 
   </main>
+
+  <!-- Onboarding Wizard Modal -->
+  <div id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="wizardTitle"
+       hidden tabindex="-1"
+       style="position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:1rem;">
+    <div style="background:var(--bg,#fff);border-radius:12px;padding:2rem;max-width:560px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.25);position:relative;">
+      <button aria-label="Close wizard" onclick="closeOnboardingModal();"
+              style="position:absolute;top:.75rem;right:.75rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-muted,#555);">&#x2715;</button>
+      <h2 id="wizardTitle" style="margin-top:0;font-size:1.4rem;">Where would you like to start?</h2>
+      <p style="color:var(--text-muted,#555);margin-bottom:1.5rem;">COHO Analytics supports every stage of affordable-housing analysis. Choose a path below.</p>
+      <div style="display:grid;gap:.75rem;">
+        <a href="housing-needs-assessment.html"
+           style="display:block;padding:1rem 1.25rem;border:2px solid var(--accent,#096e65);border-radius:8px;text-decoration:none;color:inherit;">
+          <strong>&#x1F4CA; Understand Housing Needs</strong><br>
+          <small style="color:var(--text-muted,#555);">Assess community affordability gaps, household projections, and supply/demand balance.</small>
+        </a>
+        <a href="market-analysis.html"
+           style="display:block;padding:1rem 1.25rem;border:2px solid var(--border,#d0d7de);border-radius:8px;text-decoration:none;color:inherit;">
+          <strong>&#x1F3D7;&#xFE0F; Evaluate a Development Site</strong><br>
+          <small style="color:var(--text-muted,#555);">Market feasibility scoring, demand analysis, and site suitability for affordable housing.</small>
+        </a>
+        <a href="economic-dashboard.html"
+           style="display:block;padding:1rem 1.25rem;border:2px solid var(--border,#d0d7de);border-radius:8px;text-decoration:none;color:inherit;">
+          <strong>&#x1F4B0; Track Economic Conditions</strong><br>
+          <small style="color:var(--text-muted,#555);">Real-time interest rates, employment, rent trends, and policy updates.</small>
+        </a>
+        <a href="LIHTC-dashboard.html"
+           style="display:block;padding:1rem 1.25rem;border:2px solid var(--border,#d0d7de);border-radius:8px;text-decoration:none;color:inherit;">
+          <strong>&#x1F4A1; Explore LIHTC Allocations</strong><br>
+          <small style="color:var(--text-muted,#555);">Historical trends, geographic distribution, and allocation forecasts.</small>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script>
+    function closeOnboardingModal() {
+      var m = document.getElementById('onboardingModal');
+      if (m) m.setAttribute('hidden', '');
+      var btn = document.getElementById('btnOpenWizard');
+      if (btn) btn.focus();
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var m = document.getElementById('onboardingModal');
+        if (m && !m.hasAttribute('hidden')) closeOnboardingModal();
+      }
+    });
+  </script>
 
 
 </body></html>
