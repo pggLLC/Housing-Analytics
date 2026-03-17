@@ -14,6 +14,7 @@ Designed to run in GitHub Actions. All sources are public.
 from __future__ import annotations
 
 import csv
+import glob
 import gzip
 import io
 import json
@@ -1706,9 +1707,7 @@ def _build_state_projection_aggregate():
     This file is required by the HNA dashboard when the user selects the
     Colorado statewide geography (geoType='state', geoid='08').
     """
-    import glob as _glob
-
-    county_files = sorted(_glob.glob(os.path.join(OUT['proj_dir'], '08???.json')))
+    county_files = sorted(glob.glob(os.path.join(OUT['proj_dir'], '08???.json')))
     if not county_files:
         print('⚠ No county projection files found; skipping statewide aggregate', file=sys.stderr)
         return
@@ -1751,9 +1750,12 @@ def _build_state_projection_aggregate():
             result.append(round(total, 2))
         return result
 
-    total_base_pop = sum(d['base']['population'] for d in county_data if d.get('base') and d['base'].get('population'))
-    total_base_hh = sum(d['base']['households'] for d in county_data if d.get('base') and d['base'].get('households'))
-    total_base_units = sum(d['base']['housing_units'] for d in county_data if d.get('base') and d['base'].get('housing_units'))
+    def _sum_base_field(key):
+        return sum(d['base'][key] for d in county_data if d.get('base') and d['base'].get(key))
+
+    total_base_pop = _sum_base_field('population')
+    total_base_hh = _sum_base_field('households')
+    total_base_units = _sum_base_field('housing_units')
     base_headship = (total_base_hh / total_base_pop) if total_base_pop else 0
 
     weighted_cagr = sum(
@@ -1775,7 +1777,7 @@ def _build_state_projection_aggregate():
         'countyFips': STATE_FIPS_CO,
         'stateFips': STATE_FIPS_CO,
         'label': 'Colorado (statewide)',
-        'baseYear': county_data[0].get('baseYear', 2024),
+        'baseYear': 2024,
         'years': years,
         'population_dola': _sum_series('population_dola'),
         'population_trend': _sum_series('population_trend'),
