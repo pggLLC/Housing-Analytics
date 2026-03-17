@@ -235,19 +235,85 @@ class DataAPIIntegrations {
         }
     }
 
-    // Affordability Gap Calculator
-    calculateAffordabilityGap(medianIncome, medianHomePrice) {
-        const affordablePrice = medianIncome * 3; // 3x income rule
-        const gap = ((medianHomePrice - affordablePrice) / affordablePrice) * 100;
-        const incomeNeeded = medianHomePrice / 3;
-        const incomeIncrease = ((incomeNeeded - medianIncome) / medianIncome) * 100;
-        
+    // Affordability Gap Calculator — realistic mortgage underwriting model
+    // Accounts for down payment, interest rate, property taxes, insurance, PMI, and DTI.
+    calculateAffordabilityGap(medianIncome, medianHomePrice, options = {}) {
+        const {
+            // Default interest rate last validated: Q1 2026 (Freddie Mac PMMS ~6.5%).
+            // Update this default when the FRED MORTGAGE30US series shows a sustained shift.
+            interestRate = 0.065,      // 6.5% annual (30-yr fixed)
+            downPaymentPct = 0.20,     // 20% standard
+            propertyTaxRate = 0.0065,  // 0.65% of value/yr (Colorado average)
+            insuranceRate = 0.0085,    // 0.85% of value/yr
+            hoaMonthly = 0,            // HOA fees (vary by property)
+            maxDtiRatio = 0.43,        // 43% back-end DTI maximum (standard underwriting)
+        } = options;
+
+        const _monthlyPI = (price, downPct, annualRate) => {
+            const loan = price * (1 - downPct);
+            const r = annualRate / 12;
+            if (r === 0) return loan / 360;
+            return loan * (r * Math.pow(1 + r, 360)) / (Math.pow(1 + r, 360) - 1);
+        };
+
+        const _computeScenario = (downPct) => {
+            const pi = _monthlyPI(medianHomePrice, downPct, interestRate);
+            const taxes = (medianHomePrice * propertyTaxRate) / 12;
+            const insurance = (medianHomePrice * insuranceRate) / 12;
+            const pmi = downPct < 0.20 ? (medianHomePrice * 0.0085) / 12 : 0;
+            const totalMonthly = pi + taxes + insurance + pmi + hoaMonthly;
+            // Income required so that PITI ≤ maxDtiRatio of gross monthly income
+            const requiredAnnualIncome = (totalMonthly / maxDtiRatio) * 12;
+            const affordabilityGapPct = ((requiredAnnualIncome - medianIncome) / medianIncome) * 100;
+            return {
+                downPaymentPct: downPct,
+                monthlyPayment: Math.round(totalMonthly),
+                breakdown: {
+                    principalInterest: Math.round(pi),
+                    propertyTaxes: Math.round(taxes),
+                    insurance: Math.round(insurance),
+                    pmi: Math.round(pmi),
+                    hoa: Math.round(hoaMonthly),
+                },
+                requiredAnnualIncome: Math.round(requiredAnnualIncome),
+                affordabilityGapPct: affordabilityGapPct.toFixed(1),
+                affordable: medianIncome >= requiredAnnualIncome,
+            };
+        };
+
+        const standard = _computeScenario(downPaymentPct);
+        const firstTimeBuyer = _computeScenario(0.05);
+
+        // Legacy-compatible fields (primary scenario uses standard 20% down)
+        const incomeIncrease = ((standard.requiredAnnualIncome - medianIncome) / medianIncome) * 100;
+        // "Affordable price" = max purchase price a buyer at medianIncome can support
+        const maxMonthlyPITI = (medianIncome / 12) * maxDtiRatio;
+        const maxMonthlyRecurring = (medianHomePrice * (propertyTaxRate + insuranceRate)) / 12 + hoaMonthly;
+        const maxPI = maxMonthlyPITI - maxMonthlyRecurring;
+        const r = interestRate / 12;
+        const affordablePrice = maxPI > 0
+            ? (maxPI * (Math.pow(1 + r, 360) - 1)) / (r * Math.pow(1 + r, 360)) / (1 - downPaymentPct)
+            : 0;
+
         return {
-            affordablePrice,
+            affordablePrice: Math.round(affordablePrice),
             actualPrice: medianHomePrice,
-            gap: gap.toFixed(1),
-            incomeNeeded,
-            incomeIncrease: incomeIncrease.toFixed(1)
+            gap: standard.affordabilityGapPct,
+            incomeNeeded: standard.requiredAnnualIncome,
+            incomeIncrease: incomeIncrease.toFixed(1),
+            scenarios: {
+                standard_20pct_down: standard,
+                first_time_buyer_5pct_down: firstTimeBuyer,
+            },
+            assumptions: {
+                interestRate,
+                downPaymentPct,
+                propertyTaxRate,
+                insuranceRate,
+                hoaMonthly,
+                maxDtiRatio,
+                termYears: 30,
+            },
         };
     }
 
