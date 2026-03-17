@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T10:27:46.160Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T10:59:02.382Z. Do not edit by hand.
 
 ---
 
@@ -28,7 +28,7 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 35.9 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 57.3 KB |
-| `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 15.7 KB |
+| `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 19.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
@@ -46,7 +46,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-840 JSON files found.
+843 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -71,6 +71,7 @@
 | `data/fred-data.json` | 1.78 MB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
+| `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08003.json` | 3.2 KB | ✅ | — |
 | `data/hna/dola_sya/08005.json` | 3.5 KB | ✅ | — |
@@ -136,6 +137,7 @@
 | `data/hna/dola_sya/08123.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 3.1 KB | ✅ | — |
 | `data/hna/geo-config.json` | 29.7 KB | ✅ | — |
+| `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08005.json` | 2.7 KB | ✅ | — |
@@ -266,6 +268,7 @@
 | `data/hna/lihtc/08125.json` | 448 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 61.5 KB | ✅ | — |
+| `data/hna/projections/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 3.5 KB | ✅ | — |
 | `data/hna/projections/08005.json` | 3.6 KB | ✅ | — |
