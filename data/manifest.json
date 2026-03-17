@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-17T10:19:27.190078Z",
+  "generated": "2026-03-17T11:13:31.781444Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -119,7 +119,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 425827
+      "bytes": 1864606
     },
     "data/hna/chas_affordability_gap.json": {
       "featureCount": 64,
@@ -130,6 +130,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 6329
+    },
+    "data/hna/dola_sya/08.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3753
     },
     "data/hna/dola_sya/08001.json": {
       "featureCount": 0,
@@ -455,6 +460,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 30426
+    },
+    "data/hna/lehd/08.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2173
     },
     "data/hna/lehd/08001.json": {
       "featureCount": 0,
@@ -1105,6 +1115,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 62975
+    },
+    "data/hna/projections/08.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2450
     },
     "data/hna/projections/08001.json": {
       "featureCount": 0,
