@@ -348,6 +348,7 @@ canvas { width: 100% !important; }
 .card .chart-box,
 .chart-card .chart-box,
 .panel .chart-box {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
