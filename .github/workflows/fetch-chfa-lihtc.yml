@@ -21,8 +21,59 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Environment diagnostics
+        run: |
+          echo "── Node.js version ──"
+          node --version
+          echo "── npm version ──"
+          npm --version
+          echo "── Run context ──"
+          echo "  Repository : $GITHUB_REPOSITORY"
+          echo "  Run ID     : $GITHUB_RUN_ID"
+          echo "  Actor      : $GITHUB_ACTOR"
+          echo "  Ref        : $GITHUB_REF"
+          echo "── Endpoint config ──"
+          node -e "const c=require('./scripts/lihtc-co-query.json'); console.log('  Host:', c.host); console.log('  BasePath:', c.basePath); console.log('  WHERE:', c.where);"
+
       - name: Fetch CHFA LIHTC data
-        run: node scripts/fetch-chfa-lihtc.js
+        id: fetch
+        run: |
+          echo "── Starting CHFA LIHTC fetch at $(date -u) ──"
+          node scripts/fetch-chfa-lihtc.js
+          echo "── Fetch completed at $(date -u) ──"
+
+      - name: Validate output and report feature count
+        id: validate
+        run: |
+          OUT="data/chfa-lihtc.json"
+          echo "── Validating $OUT ──"
+          if [ ! -f "$OUT" ]; then
+            echo "::error::Output file not found: $OUT"
+            exit 1
+          fi
+          size=$(stat -c%s "$OUT" 2>/dev/null || stat -f%z "$OUT" 2>/dev/null || echo 0)
+          echo "  File size: ${size} bytes"
+          if [ "$size" -eq 0 ]; then
+            echo "::error::Output file is empty (0 bytes)"
+            exit 1
+          fi
+          python3 - <<'EOF'
+import json, sys
+with open("data/chfa-lihtc.json") as f:
+    d = json.load(f)
+features = d.get("features", [])
+with_geom = [ft for ft in features if ft.get("geometry") and ft["geometry"].get("coordinates")]
+print(f"  Total features     : {len(features)}")
+print(f"  With valid geometry: {len(with_geom)}")
+print(f"  fetchedAt          : {d.get('fetchedAt','(missing)')}")
+if len(features) == 0:
+    print("::warning::CHFA LIHTC output has 0 features — map will fall back to HUD data or cached file.")
+    sys.exit(0)  # not a hard failure; cached file may have been preserved
+elif len(with_geom) == 0:
+    print("::warning::CHFA LIHTC features all lack valid geometry — map markers will not render.")
+else:
+    print("  Validation passed ✅")
+EOF
 
       - name: Split LIHTC data by county
         run: node scripts/split-lihtc-by-county.js

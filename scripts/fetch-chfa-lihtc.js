@@ -67,6 +67,11 @@ const CHFA_LAYERS_PATH = QUERY_CONFIG.layersPath + '?f=json';
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
 const OUTPUT_FILE = path.join(__dirname, '..', QUERY_CONFIG.outputFile);
 
+/** Fallback WHERE clauses to probe when the primary clause returns 0 features. */
+const WHERE_ALTERNATIVES = Array.isArray(QUERY_CONFIG.whereAlternatives)
+  ? QUERY_CONFIG.whereAlternatives
+  : [];
+
 /**
  * Maximum records to include per page query.
  */
@@ -351,7 +356,7 @@ function httpsGet(host, pathAndQuery, retries = 3) {
  * Uses the /layers endpoint so that every layer (point, polygon, etc.)
  * is included rather than hard-coding layer 0.
  *
- * @returns {Promise<number[]>}  Array of integer layer IDs.
+ * @returns {Promise<{ids: number[], meta: object[]}>}  Layer IDs and metadata.
  */
 async function fetchLayerIds() {
   console.log(`Fetching layer list from ${CHFA_LAYERS_PATH}…`);
@@ -364,13 +369,18 @@ async function fetchLayerIds() {
     Array.isArray(parsed.tables) ? parsed.tables : []
   );
   if (!layers.length) {
-    // Fall back to layer 0 if the service doesn't advertise layers
-    console.warn('  No layers returned — defaulting to layer 0.');
-    return [0];
+    // Fall back to layer 0 if the service doesn't advertise layers.
+    // Layer 0 may not exist; a subsequent query failure will identify this.
+    console.warn('  No layers returned — defaulting to layer 0 (may not exist).');
+    return { ids: [0], meta: [] };
   }
   const ids = layers.map((l) => l.id);
+  // Log layer metadata for diagnostics
+  layers.forEach((l) => {
+    console.log(`  Layer ${l.id}: "${l.name || '(unnamed)'}" type=${l.type || '?'} geometryType=${l.geometryType || '?'}`);
+  });
   console.log(`  Found layer(s): ${ids.join(', ')}`);
-  return ids;
+  return { ids, meta: layers };
 }
 
 /**
@@ -381,10 +391,11 @@ async function fetchLayerIds() {
  * objectIds parameter approach that causes HTTP 400 errors when passing large
  * ID arrays to the ArcGIS FeatureServer.
  *
- * @param {number} layerId  ArcGIS FeatureServer layer ID.
+ * @param {number} layerId    ArcGIS FeatureServer layer ID.
+ * @param {string} [where]    WHERE clause override; defaults to WHERE_CLAUSE.
  * @returns {Promise<object[]>}  Array of raw ArcGIS feature objects.
  */
-async function fetchRecordsFromLayer(layerId) {
+async function fetchRecordsFromLayer(layerId, where = WHERE_CLAUSE) {
   const queryPath = `${CHFA_BASE}/${layerId}/query`;
   const allFeatures = [];
   let offset = 0;
@@ -394,7 +405,7 @@ async function fetchRecordsFromLayer(layerId) {
     page++;
     process.stdout.write(`  Layer ${layerId} — page ${page} (offset ${offset})… `);
     const params = new URLSearchParams({
-      where: WHERE_CLAUSE,
+      where,
       outFields: OUT_FIELDS,
       f: 'json',
       outSR: '4326',
@@ -421,18 +432,83 @@ async function fetchRecordsFromLayer(layerId) {
 }
 
 /**
+ * Probe a layer with alternative WHERE clauses to diagnose field-name changes.
+ * Returns details about which clause worked (or none), to aid in fixing the
+ * primary WHERE clause.  Uses resultRecordCount=1 to avoid pulling large sets.
+ *
+ * @param {number} layerId
+ * @returns {Promise<void>}
+ */
+async function diagnoseLayerWhereClause(layerId) {
+  const queryPath = `${CHFA_BASE}/${layerId}/query`;
+  console.log(`\n  [DIAGNOSTIC] Probing layer ${layerId} with alternative WHERE clauses…`);
+
+  // First check if the layer has any records at all (1=1)
+  try {
+    const params = new URLSearchParams({
+      where: '1=1',
+      outFields: 'OBJECTID',
+      returnCountOnly: 'true',
+      f: 'json',
+    });
+    const body = await httpsGet(CHFA_HOST, `${queryPath}?${params.toString()}`, 1);
+    const parsed = JSON.parse(body);
+    if (parsed.error) {
+      console.warn(`  [DIAGNOSTIC] Layer ${layerId} count query error: ${parsed.error.message}`);
+    } else {
+      const total = parsed.count != null ? parsed.count : '(count not returned)';
+      console.log(`  [DIAGNOSTIC] Layer ${layerId} total record count (1=1): ${total}`);
+      if (total === 0) {
+        console.warn(`  [DIAGNOSTIC] Layer ${layerId} is EMPTY — service may be deprecated or unreachable.`);
+        return;
+      }
+    }
+  } catch (err) {
+    console.warn(`  [DIAGNOSTIC] Layer ${layerId} count probe failed: ${err.message}`);
+  }
+
+  // Probe each alternative WHERE clause
+  for (const altWhere of WHERE_ALTERNATIVES) {
+    try {
+      const params = new URLSearchParams({
+        where: altWhere,
+        outFields: 'OBJECTID',
+        returnCountOnly: 'true',
+        f: 'json',
+      });
+      const body = await httpsGet(CHFA_HOST, `${queryPath}?${params.toString()}`, 1);
+      const parsed = JSON.parse(body);
+      if (parsed.error) {
+        console.log(`  [DIAGNOSTIC]   WHERE "${altWhere}" → error: ${parsed.error.message}`);
+      } else {
+        const count = parsed.count != null ? parsed.count : '?';
+        const symbol = count > 0 ? '✓' : '✗';
+        console.log(`  [DIAGNOSTIC]   WHERE "${altWhere}" → ${symbol} ${count} record(s)`);
+        if (count > 0) {
+          console.warn(
+            `  [DIAGNOSTIC] ⚠️  WHERE clause "${altWhere}" returns ${count} records — consider updating lihtc-co-query.json.`
+          );
+        }
+      }
+    } catch (err) {
+      console.log(`  [DIAGNOSTIC]   WHERE "${altWhere}" → fetch error: ${err.message}`);
+    }
+  }
+}
+
+/**
  * Fetch all Colorado LIHTC records from every layer of the FeatureServer.
  *
- * @returns {Promise<object[]>}  Combined array of raw ArcGIS feature objects.
+ * @returns {Promise<{features: object[], layerIds: number[]}>}  Combined raw features and IDs.
  */
 async function fetchAllRecords() {
-  const layerIds = await fetchLayerIds();
+  const { ids: layerIds } = await fetchLayerIds();
   const allFeatures = [];
   for (const id of layerIds) {
     const features = await fetchRecordsFromLayer(id);
     allFeatures.push(...features);
   }
-  return allFeatures;
+  return { features: allFeatures, layerIds };
 }
 
 /**
@@ -562,10 +638,28 @@ function toGeoJsonFeature(esriFeature) {
   }
 
   console.log('Fetching CHFA LIHTC data from ArcGIS FeatureServer…');
+  console.log(`  Host:     ${CHFA_HOST}`);
+  console.log(`  BasePath: ${CHFA_BASE}`);
+  console.log(`  WHERE:    ${WHERE_CLAUSE}`);
 
-  const rawFeatures = await fetchAllRecords();
+  const { features: rawFeatures, layerIds } = await fetchAllRecords();
   const allFeatures = rawFeatures.map(toGeoJsonFeature).filter(Boolean);
+  const withGeom = allFeatures.filter((f) => f.geometry && f.geometry.coordinates);
   console.log(`\n${allFeatures.length} feature(s) converted from ${rawFeatures.length} record(s).`);
+  console.log(`  Features with valid geometry: ${withGeom.length}`);
+
+  // Diagnose 0-feature result: try alternative WHERE clauses to surface field-name changes.
+  // Reuse the layerIds from the initial fetch to avoid a redundant network call.
+  if (allFeatures.length === 0) {
+    console.warn('\n::warning::CHFA LIHTC fetch returned 0 features — running diagnostic probes.');
+    try {
+      for (const id of layerIds) {
+        await diagnoseLayerWhereClause(id);
+      }
+    } catch (diagErr) {
+      console.warn(`  [DIAGNOSTIC] Probe failed: ${diagErr.message}`);
+    }
+  }
 
   const geojson = {
     type: 'FeatureCollection',
@@ -582,13 +676,19 @@ function toGeoJsonFeature(esriFeature) {
     const existingCount = (existing.features || []).length;
     if (existingCount > 0) {
       console.warn(`\nFetch returned 0 features but ${OUTPUT_FILE} already has ${existingCount} features — preserving existing file.`);
+      console.warn(`::warning::CHFA endpoint returned 0 features; preserved cached file with ${existingCount} feature(s). Investigate WHERE clause or endpoint availability.`);
       process.exit(0);
     }
   }
 
+  // Warn if no valid geometry found (all features missing coordinates).
+  if (allFeatures.length > 0 && withGeom.length === 0) {
+    console.warn('::warning::All CHFA features are missing valid geometry — map markers will not render.');
+  }
+
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(geojson), 'utf8');
-  console.log(`\nWrote ${OUTPUT_FILE} (${allFeatures.length} feature(s)).`);
+  console.log(`\nWrote ${OUTPUT_FILE} (${allFeatures.length} feature(s), ${withGeom.length} with geometry).`);
 })().catch((err) => {
-  console.error('ERROR:', err.message);
+  console.error('::error::CHFA LIHTC fetch failed:', err.message);
   process.exit(1);
 });
