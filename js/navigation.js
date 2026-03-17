@@ -30,6 +30,7 @@
       label: "Policy &amp; Insights",
       items: [
         { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
+        { label: "Weekly Housing Brief", href: "private/weekly-brief/index.html", desc: "Weekly intelligence brief" },
         { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
         { label: "LIHTC Enhancement (AHCIA)", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
         { label: "Housing Legislation", href: "housing-legislation-2026.html", desc: "2026 bills tracker" },
