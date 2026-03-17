@@ -52,6 +52,9 @@
 
   /**
    * Fetch observations from the FRED API.
+   * LIVE: Makes a real network request to api.stlouisfed.org.
+   * Requires APP_CONFIG.FRED_API_KEY; logs and re-throws on failure so callers
+   * (e.g. Promise.allSettled wrappers) can handle individual source failures.
    * @param {string} seriesId   - FRED series ID (e.g. "CPIAUCSL")
    * @param {object} [params]   - Additional query params (units, limit, sort_order, etc.)
    * @returns {Promise<object>} - Parsed FRED response
@@ -73,12 +76,17 @@
     return fetch(url).then(function (r) {
       if (!r.ok) throw new Error('FRED ' + seriesId + ' HTTP ' + r.status);
       return r.json();
+    }).catch(function (err) {
+      console.error('[DataService] FRED series "' + seriesId + '" fetch failed:', (err && err.message) || String(err));
+      throw err;
     });
   }
 
   /**
    * Make a Census Bureau API call.
+   * LIVE: Makes a real network request to api.census.gov.
    * If the URL already contains "&key=" the key is not appended again.
+   * Logs and re-throws on failure so callers can handle source failures gracefully.
    * @param {string} url - Full Census API URL (key may or may not be present)
    * @returns {Promise<any>}
    */
@@ -93,6 +101,9 @@
     return fetch(fullUrl).then(function (r) {
       if (!r.ok) throw new Error('Census API HTTP ' + r.status + ' for ' + url);
       return r.json();
+    }).catch(function (err) {
+      console.error('[DataService] Census API fetch failed:', (err && err.message) || String(err));
+      throw err;
     });
   }
 
@@ -186,6 +197,8 @@
   /**
    * Fetch NLCD land cover classification summary for a bounding box.
    * Uses the MRLC WMS/WCS service.
+   * STUB: NLCD data is raster and requires server-side processing; returns empty
+   * arrays until a raster-processing proxy is configured.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{landCover: Array, classifications: Array}>}
    */
@@ -253,6 +266,8 @@
 
   /**
    * Fetch National Transit Database (NTD) transit route and service data.
+   * STUB: NTD data is an annual bulk download; no live spatial query API exists.
+   * Returns empty stub until a server-side proxy ingesting the bulk data is available.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{transitRoutes: Array, serviceMetrics: object}>}
    */
@@ -317,6 +332,8 @@
 
   /**
    * Fetch HUD Opportunity Atlas economic mobility data.
+   * STUB: No public real-time API; returns neutral defaults until HUD bulk data
+   * is ingested and a server-side proxy is configured.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{mobilityIndex: number, percentiles: Array}>}
    */
@@ -327,6 +344,8 @@
 
   /**
    * Fetch HUD AFFH fair housing opportunity index data.
+   * STUB: No public real-time API; returns neutral defaults until HUD bulk data
+   * is ingested and a server-side proxy is configured.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{opportunityIndex: number, segregationMetrics: object}>}
    */
@@ -386,7 +405,8 @@
 
   /**
    * Fetch local utility infrastructure capacity data.
-   * No public national API exists; returns configurable stub.
+   * STUB: No public national API exists; returns a configurable 50 % headroom
+   * default until jurisdiction-specific GIS data is available.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @param {string} [jurisdiction]
    * @returns {Promise<{sewerHeadroom: number, waterCapacity: number}>}
@@ -398,6 +418,8 @@
 
   /**
    * Fetch USDA Food Access Atlas data for a bounding box.
+   * STUB: USDA Food Access Atlas is a static dataset; returns empty stub until
+   * bulk data is ingested and a server-side spatial query is available.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{foodDeserts: Array, proximityIndex: number}>}
    */
