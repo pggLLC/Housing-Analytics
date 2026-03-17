@@ -14,6 +14,7 @@ Designed to run in GitHub Actions. All sources are public.
 from __future__ import annotations
 
 import csv
+import glob
 import gzip
 import io
 import json
@@ -1695,6 +1696,123 @@ def build_dola_projections_by_county():
         _log_file_written(os.path.join(OUT['proj_dir'], f"{cf}.json"), f"projections:{cf}")
 
     print(f"✓ DOLA projections written: {len(county_ids)}")
+
+    # Build statewide aggregate (08.json) immediately after all county files exist.
+    _build_state_projection_aggregate()
+
+
+def _build_state_projection_aggregate():
+    """Aggregate all 64 county projection files into a single statewide 08.json.
+
+    This file is required by the HNA dashboard when the user selects the
+    Colorado statewide geography (geoType='state', geoid='08').
+    """
+    county_files = sorted(glob.glob(os.path.join(OUT['proj_dir'], '08???.json')))
+    if not county_files:
+        print('⚠ No county projection files found; skipping statewide aggregate', file=sys.stderr)
+        return
+
+    county_data = []
+    for path in county_files:
+        try:
+            with open(path, encoding='utf-8') as f:
+                county_data.append(json.load(f))
+        except Exception as e:
+            print(f'⚠ Could not read {path}: {e}', file=sys.stderr)
+
+    if not county_data:
+        return
+
+    years = county_data[0].get('years', [])
+    n = len(years)
+
+    def _sum_series(key):
+        result = []
+        for i in range(n):
+            total = sum(
+                d[key][i]
+                for d in county_data
+                if d.get(key) and len(d[key]) > i and d[key][i] is not None
+            )
+            result.append(round(total, 2))
+        return result
+
+    def _sum_housing_series(key):
+        result = []
+        for i in range(n):
+            total = sum(
+                d['housing_need'][key][i]
+                for d in county_data
+                if d.get('housing_need') and d['housing_need'].get(key)
+                and len(d['housing_need'][key]) > i
+                and d['housing_need'][key][i] is not None
+            )
+            result.append(round(total, 2))
+        return result
+
+    def _sum_base_field(key):
+        return sum(d['base'][key] for d in county_data if d.get('base') and d['base'].get(key))
+
+    total_base_pop = _sum_base_field('population')
+    total_base_hh = _sum_base_field('households')
+    total_base_units = _sum_base_field('housing_units')
+    base_headship = (total_base_hh / total_base_pop) if total_base_pop else 0
+
+    weighted_cagr = sum(
+        d.get('historic_cagr_10y', 0) * d['base'].get('population', 0)
+        for d in county_data if d.get('base') and d['base'].get('population')
+    )
+    state_cagr = weighted_cagr / total_base_pop if total_base_pop else 0
+
+    total_nm_20y = sum(d.get('net_migration_20y', 0) for d in county_data)
+
+    weighted_vac = sum(
+        d['housing_need'].get('target_vacancy', 0.05) * d['base'].get('housing_units', 0)
+        for d in county_data if d.get('housing_need') and d.get('base')
+    )
+    state_target_vac = weighted_vac / total_base_units if total_base_units else 0.05
+
+    payload = {
+        'updated': utc_now_z(),
+        'countyFips': STATE_FIPS_CO,
+        'stateFips': STATE_FIPS_CO,
+        'label': 'Colorado (statewide)',
+        'baseYear': 2024,
+        'years': years,
+        'population_dola': _sum_series('population_dola'),
+        'population_trend': _sum_series('population_trend'),
+        'historic_cagr_10y': state_cagr,
+        'net_migration': _sum_series('net_migration'),
+        'net_migration_20y': round(total_nm_20y, 2),
+        'base': {
+            'population': round(total_base_pop, 2),
+            'households': round(total_base_hh, 2),
+            'housing_units': round(total_base_units, 2),
+            'headship_rate': base_headship,
+        },
+        'housing_need': {
+            'target_vacancy': state_target_vac,
+            'households_dola': _sum_housing_series('households_dola'),
+            'units_needed_dola': _sum_housing_series('units_needed_dola'),
+            'incremental_units_needed_dola': _sum_housing_series('incremental_units_needed_dola'),
+        },
+        'source': {
+            'components_change_url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
+            'profiles_url': 'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
+            'notes': (
+                'Colorado statewide aggregate: sum of all 64 county projections. '
+                'Population and net migration from county components-of-change; '
+                'households/units/vacancy from county profiles; '
+                'housing need uses a constant base-year headship rate.'
+            ),
+        },
+    }
+
+    out_path = os.path.join(OUT['proj_dir'], f"{STATE_FIPS_CO}.json")
+    with open(out_path, 'w', encoding='utf-8') as f:
+        json.dump(payload, f)
+    _log_file_written(out_path, f"projections:{STATE_FIPS_CO}")
+    print(f"✓ DOLA statewide projection written: {out_path}")
 
 
 def build_geo_derived_inputs():
