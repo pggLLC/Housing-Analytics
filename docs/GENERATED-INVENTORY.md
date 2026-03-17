@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T12:33:07.214Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T15:16:29.414Z. Do not edit by hand.
 
 ---
 
@@ -985,10 +985,10 @@
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
 | `.github/workflows/fetch-chas-data.yml` | 2.5 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 1.1 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 3.2 KB |
 | `.github/workflows/fetch-county-data.yml` | 1.9 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.3 KB |
-| `.github/workflows/fetch-kalshi.yml` | 3.8 KB |
+| `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
 | `.github/workflows/generate-market-analysis-data.yml` | 10.7 KB |
