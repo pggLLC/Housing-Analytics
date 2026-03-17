@@ -33,6 +33,45 @@
     setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
   }
 
+  /**
+   * Show a brief success toast and announce to the #hnaLiveRegion (Recommendation 5.1).
+   * Auto-dismisses after 4 seconds.
+   *
+   * @param {string} message - Human-readable confirmation, e.g. "PDF downloaded ✓"
+   */
+  function _showExportToast(message) {
+    // Announce to screen readers via aria-live region
+    var liveRegion = document.getElementById('hnaLiveRegion');
+    if (liveRegion) {
+      liveRegion.textContent = '';
+      requestAnimationFrame(function () { liveRegion.textContent = message; });
+    }
+
+    // Visual toast for sighted users
+    var existing = document.getElementById('hna-export-toast');
+    if (existing) { existing.remove(); }
+
+    var toast = document.createElement('div');
+    toast.id = 'hna-export-toast';
+    toast.setAttribute('role', 'status');
+    toast.style.cssText = [
+      'position:fixed', 'bottom:1.25rem', 'left:50%', 'transform:translateX(-50%)',
+      'background:var(--good,#047857)', 'color:#fff',
+      'padding:.55rem 1.25rem', 'border-radius:8px', 'font-size:.875rem',
+      'box-shadow:0 4px 18px rgba(0,0,0,.22)', 'z-index:9500',
+      'max-width:90vw', 'text-align:center', 'pointer-events:none',
+      'transition:opacity .3s'
+    ].join(';');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Auto-dismiss after 4 seconds
+    setTimeout(function () {
+      toast.style.opacity = '0';
+      setTimeout(function () { if (toast.parentNode) { toast.remove(); } }, 350);
+    }, 4000);
+  }
+
   /** Safely read visible text from a DOM element, returning '' on miss. */
   function _elText(id) {
     var el = document.getElementById(id);
@@ -148,6 +187,7 @@
       }
 
       pdf.save(outFile);
+      _showExportToast('PDF downloaded \u2713');
     } catch (e) {
       console.warn('[HNA] PDF export failed; falling back to print()', e);
       window.print();
@@ -202,6 +242,7 @@
     var csv  = _toCsv(rows);
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     _triggerDownload(blob, outFile);
+    _showExportToast('CSV downloaded \u2713');
   }
 
   // ---------------------------------------------------------------------------
@@ -224,6 +265,7 @@
       { type: 'application/json' }
     );
     _triggerDownload(blob, outFile);
+    _showExportToast('JSON downloaded \u2713');
   }
 
   // ---------------------------------------------------------------------------
