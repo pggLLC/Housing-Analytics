@@ -519,6 +519,7 @@
       opt.textContent = 'State of Colorado';
       opt.selected = true;
       els.geoSelect.appendChild(opt);
+      _announceGeoOptions(1, 'state');
       return;
     }
 
@@ -531,6 +532,7 @@
         if (c.geoid === DEFAULTS.geoId) opt.selected = true;
         els.geoSelect.appendChild(opt);
       }
+      _announceGeoOptions(cfg.counties.length, 'county');
       return;
     }
 
@@ -542,6 +544,7 @@
         els.geoSelect.appendChild(opt);
       }
       if (!els.geoSelect.value && cfg.places[0]) els.geoSelect.value = cfg.places[0].geoid;
+      _announceGeoOptions(cfg.places.length, 'municipality');
       return;
     }
 
@@ -553,6 +556,7 @@
         els.geoSelect.appendChild(opt);
       }
       if (!els.geoSelect.value && cfg.cdps[0]) els.geoSelect.value = cfg.cdps[0].geoid;
+      _announceGeoOptions(cfg.cdps.length, 'census-designated place');
       return;
     }
 
@@ -568,6 +572,18 @@
 
     // Ensure something selected
     if (!els.geoSelect.value && list[0]) els.geoSelect.value = list[0].geoid;
+    _announceGeoOptions(list.length, type);
+  }
+
+  /**
+   * Update the #geoSelectHint element so screen readers know how many options
+   * are available after the geography type changes (Recommendation 5.5).
+   */
+  function _announceGeoOptions(count, typeName) {
+    var hint = document.getElementById('geoSelectHint');
+    if (hint) {
+      hint.textContent = count + ' ' + typeName + (count === 1 ? '' : 's') + ' available';
+    }
   }
 
   async function fetchCoCountiesList(){
@@ -4565,10 +4581,59 @@
     if (ilEl)   ilEl.innerHTML   = window.HudFmr.renderIncomeLimitsTable(fips);
   }
 
+  // --- Chart loading state helpers (Recommendation 3.1) ---
+
+  /** Show a loading overlay inside a .chart-box container for the given canvas ID. */
+  function showChartLoading(canvasId) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var box = canvas.closest('.chart-box');
+    if (!box) return;
+    var overlay = box.querySelector('.chart-loading');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'chart-loading';
+      overlay.setAttribute('aria-hidden', 'true');
+      var spinner = document.createElement('div');
+      spinner.className = 'chart-spinner';
+      var label = document.createElement('span');
+      label.className = 'chart-loading-label';
+      label.textContent = 'Loading\u2026';
+      overlay.appendChild(spinner);
+      overlay.appendChild(label);
+      box.appendChild(overlay);
+    }
+    overlay.removeAttribute('hidden');
+  }
+
+  /** Hide the loading overlay for the given canvas ID (or all overlays if no id given). */
+  function hideChartLoading(canvasId) {
+    if (canvasId) {
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      var box = canvas.closest('.chart-box');
+      if (!box) return;
+      var overlay = box.querySelector('.chart-loading');
+      if (overlay) overlay.setAttribute('hidden', '');
+    } else {
+      document.querySelectorAll('.chart-box .chart-loading').forEach(function(ov) {
+        ov.setAttribute('hidden', '');
+      });
+    }
+  }
+
+  /** Show loading overlays on all chart canvases currently in the DOM. */
+  function showAllChartsLoading() {
+    document.querySelectorAll('.chart-box canvas').forEach(function(canvas) {
+      if (canvas.id) showChartLoading(canvas.id);
+    });
+  }
+
   // --- Main update ---
   async function update(){
     var ws = document.getElementById('hnaWaitingState');
     if (ws) ws.style.display = 'none';
+    showAllChartsLoading();
     const geoType = els.geoType.value;
     const geoid = els.geoSelect.value;
 
@@ -4804,6 +4869,9 @@
     if (typeof window.__announceUpdate === 'function') {
       window.__announceUpdate(`Data loaded for ${label}`);
     }
+
+    // Hide all chart loading overlays now that rendering is complete (Recommendation 3.1)
+    hideChartLoading();
   }
 
   async function init(){

@@ -80,7 +80,8 @@
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
-          <select id="geoSelect"></select>
+          <select id="geoSelect" aria-describedby="geoSelectHint"></select>
+          <span id="geoSelectHint" class="sr-only"></span>
 
           <button id="btnRefresh" type="button">Refresh</button>
           <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
