@@ -79,7 +79,9 @@ def lihtc():
 
 @pytest.fixture(scope='session')
 def projection_files():
-    return sorted(glob.glob(os.path.join(PROJ_DIR, '*.json')))
+    # Match only county-level files (5-digit FIPS: 08XXX.json).
+    # The statewide aggregate (08.json) is excluded intentionally.
+    return sorted(glob.glob(os.path.join(PROJ_DIR, '08???.json')))
 
 
 @pytest.fixture(scope='session')
