@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T15:16:29.414Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T19:37:05.738Z. Do not edit by hand.
 
 ---
 
@@ -46,7 +46,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-842 JSON files found.
+843 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -268,6 +268,7 @@
 | `data/hna/lihtc/08125.json` | 448 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 61.5 KB | ✅ | — |
+| `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 3.5 KB | ✅ | — |
 | `data/hna/projections/08005.json` | 3.6 KB | ✅ | — |
