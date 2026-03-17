@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T11:09:48.082Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T11:20:32.900Z. Do not edit by hand.
 
 ---
 
@@ -46,7 +46,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-842 JSON files found.
+843 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -268,6 +268,7 @@
 | `data/hna/lihtc/08125.json` | 448 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 61.5 KB | ✅ | — |
+| `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 3.5 KB | ✅ | — |
 | `data/hna/projections/08005.json` | 3.6 KB | ✅ | — |
@@ -880,7 +881,7 @@
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 97.9 KB | ✅ | — |
+| `data/manifest.json` | 98.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 398.9 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
