@@ -1,56 +1,67 @@
 // test/verify-script-loads.js
+//
+// Verifies that every <script src="..."> referenced in colorado-deep-dive.html
+// exists on disk.  Runs in plain Node.js — no browser APIs required.
+//
+// Usage:
+//   node test/verify-script-loads.js
+//
+// Exit code 0 = all scripts present; non-zero = one or more missing.
 
-async function verifyScriptLoads() {
-    const scripts = [];
+'use strict';
+
+const fs   = require('fs');
+const path = require('path');
+const { performance } = require('perf_hooks');
+
+const ROOT     = path.resolve(__dirname, '..');
+const HTML_FILE = path.join(ROOT, 'colorado-deep-dive.html');
+
+function verifyScriptLoads() {
     const loadResults = [];
 
-    // Fetch the colorado-deep-dive.html file
-    const response = await fetch('colorado-deep-dive.html');
-    const htmlText = await response.text();
+    // Read the HTML file from disk
+    const htmlText = fs.readFileSync(HTML_FILE, 'utf8');
 
-    // Create a DOM parser to extract script tags
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-    const scriptTags = doc.querySelectorAll('script[src]');
+    // Extract all <script src="..."> values with a simple regex
+    const scriptSrcRe = /<script[^>]+\bsrc=["']([^"']+)["']/gi;
+    let match;
+    while ((match = scriptSrcRe.exec(htmlText)) !== null) {
+        const scriptSrc = match[1];
+        // Skip absolute URLs (http/https) — only local paths are verifiable
+        if (/^https?:\/\//i.test(scriptSrc)) {
+            continue;
+        }
 
-    for (const script of scriptTags) {
-        const scriptUrl = script.src;
-        const startTime = performance.now();
+        const scriptPath = path.join(ROOT, scriptSrc);
+        const startTime  = performance.now();
+        const exists     = fs.existsSync(scriptPath);
+        const checkTime  = (performance.now() - startTime).toFixed(2) + ' ms';
 
-        try {
-            const loadResponse = await fetch(scriptUrl);
-            const endTime = performance.now();
-            const loadTime = endTime - startTime;
-
-            if (loadResponse.ok) {
-                loadResults.push({
-                    url: scriptUrl,
-                    status: loadResponse.status,
-                    loadTime: loadTime.toFixed(2) + ' ms'
-                });
-            } else {
-                loadResults.push({
-                    url: scriptUrl,
-                    status: loadResponse.status,
-                    error: 'Failed to load'
-                });
-            }
-        } catch (error) {
-            loadResults.push({
-                url: scriptUrl,
-                error: 'Loading error'
-            });
+        if (exists) {
+            loadResults.push({ url: scriptSrc, status: 'found', checkTime });
+        } else {
+            loadResults.push({ url: scriptSrc, status: 'missing', checkTime, error: 'File not found on disk' });
         }
     }
 
     return loadResults;
 }
 
-verifyScriptLoads().then(results => {
-    console.table(results);
-    results.forEach(result => {
-        if (result.error) {
-            alert(`Error loading ${result.url}: ${result.error}`);
-        }
-    });
+const results = verifyScriptLoads();
+console.table(results);
+
+let failed = 0;
+results.forEach(result => {
+    if (result.error) {
+        console.error(`❌ MISSING: ${result.url} — ${result.error}`);
+        failed++;
+    }
 });
+
+if (failed > 0) {
+    console.error(`\n${failed} script(s) referenced in colorado-deep-dive.html are missing from disk.`);
+    process.exitCode = 1;
+} else {
+    console.log(`\nAll ${results.length} scripts verified ✅`);
+}
