@@ -41,27 +41,10 @@ jobs:
             fi
             size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
             echo "  $f: ${size} bytes"
-            python3 -c "
-import json, sys
-with open('$f') as fh:
-    d = json.load(fh)
-print('  JSON valid ✅')
-if 'meta' in d:
-    print('  meta.generated:', d['meta'].get('generated', 'missing'))
-" || { echo "::error::$f is not valid JSON"; exit 1; }
+            python3 -c "import json; d=json.load(open('$f')); print('  JSON valid'); print('  meta.generated:', d['meta'].get('generated','missing')) if 'meta' in d else None" || { echo "::error::$f is not valid JSON"; exit 1; }
           done
           # Verify FIPS codes are 5-digit (Rule 1)
-          python3 -c "
-import json, sys
-with open('data/hna/chas_affordability_gap.json') as f:
-    d = json.load(f)
-counties = d.get('counties', {})
-bad = [k for k in counties if len(str(k)) != 5]
-if bad:
-    print(f'::error::Non 5-digit county FIPS found: {bad}', file=sys.stderr)
-    sys.exit(1)
-print(f'  FIPS validation passed ({len(counties)} counties) ✅')
-"
+          python3 -c "import json,sys; d=json.load(open('data/hna/chas_affordability_gap.json')); counties=d.get('counties',{}); bad=[k for k in counties if len(str(k))!=5]; [print(f'::error::Non 5-digit county FIPS found: {bad}',file=sys.stderr),sys.exit(1)] if bad else print(f'  FIPS validation passed ({len(counties)} counties)')"
 
       - name: Commit and push data files
         run: |
