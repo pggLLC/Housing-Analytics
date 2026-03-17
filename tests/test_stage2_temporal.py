@@ -446,6 +446,20 @@ class TestProjectionBaseYear:
             f'expected {expected_units}'
         )
 
+    def test_statewide_aggregate_has_vacancy_rate(self):
+        """Statewide 08.json must have vacancy_rate in base and satisfy the formula."""
+        state_file = os.path.join(PROJ_DIR, '08.json')
+        with open(state_file) as f:
+            proj = json.load(f)
+        base = proj['base']
+        assert 'vacancy_rate' in base, 'Statewide 08.json is missing vacancy_rate in base'
+        vacancy = base['vacancy_rate'] / 100.0
+        expected_units = base['households'] / (1 - vacancy)
+        assert abs(base['housing_units'] - expected_units) < 1.0, (
+            f'Statewide housing_units {base["housing_units"]} != '
+            f'expected {expected_units} (vacancy_rate={base["vacancy_rate"]})'
+        )
+
     def test_years_array_includes_2024(self, sample_projection):
         """Projection years array must include 2024."""
         years = sample_projection['years']
