@@ -48,7 +48,9 @@ class DataAPIIntegrations {
             //     headers: { 'Authorization': `Bearer ${this.apis.hud.token}` }
             // });
             
-            // Sample data structure for demonstration
+            // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
+            // To enable live data, register at huduser.gov, obtain a token, and replace
+            // the sample block below with the commented-out fetch call above.
             const data = {
                 denver: {
                     '1person': { '30': 26100, '50': 43450, '60': 52140, '80': 66300, '100': 86870 },
@@ -84,7 +86,9 @@ class DataAPIIntegrations {
             //     `${this.apis.fred.baseUrl}/series/observations?series_id=${seriesId}&api_key=${this.apis.fred.apiKey}&file_type=json&observation_start=${startDate}`
             // );
             
-            // Sample data for demonstration
+            // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
+            // To enable live data, obtain a free FRED API key at research.stlouisfed.org
+            // and replace the sample datasets block below with the commented-out fetch call above.
             const datasets = {
                 CORVAC: [ // Colorado Rental Vacancy
                     { date: '2023-Q1', value: 5.2 },
@@ -126,7 +130,9 @@ class DataAPIIntegrations {
             //     `${this.apis.census.baseUrl}/2022/acs/acs5?get=NAME,${varString}&for=${geoLevel}:*&in=state:${state}&key=${this.apis.census.apiKey}`
             // );
             
-            // Sample data structure
+            // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
+            // To enable live data, register for a free Census API key at api.census.gov and
+            // replace the sample block below with the commented-out fetch call above.
             const data = {
                 denver: {
                     vacancy: 7.6,
@@ -163,6 +169,9 @@ class DataAPIIntegrations {
             // Colorado SDO provides custom datasets
             // Would integrate their Excel/CSV exports programmatically
             
+            // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
+            // Colorado SDO does not publish a real-time JSON API; data is sourced from
+            // manually downloaded Excel/CSV exports at demography.dola.colorado.gov.
             const data = {
                 migration: {
                     denver: { netMigration2024: 12500, percentChange: 1.2 },
@@ -199,6 +208,9 @@ class DataAPIIntegrations {
             // HUD provides downloadable datasets
             // Would parse their CSV/Excel programmatically
             
+            // NOTE: Currently returns hardcoded sample/demo data, not a live API response.
+            // HUD LIHTC data is distributed as annual CSV/Excel bulk downloads at
+            // huduser.gov/portal/datasets/lihtc.html; no real-time API is available.
             const data = {
                 totalProjects: 1248,
                 totalUnits: 47832,
