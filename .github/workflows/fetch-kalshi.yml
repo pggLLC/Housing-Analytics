@@ -35,14 +35,23 @@ jobs:
           echo "  Run ID     : $GITHUB_RUN_ID"
           echo "  Actor      : $GITHUB_ACTOR"
           echo "  Ref        : $GITHUB_REF"
-          echo "── API key check ──"
+          echo "── API credential check ──"
           if [ -n "$KALSHI_API_KEY" ]; then
             echo "  KALSHI_API_KEY: set (${#KALSHI_API_KEY} chars)"
           else
             echo "  KALSHI_API_KEY: NOT SET ⚠️"
+            echo "::warning::KALSHI_API_KEY is not configured. Set it in Settings → Secrets and variables → Actions."
           fi
+          if [ -n "$KALSHI_API_SECRET" ]; then
+            echo "  KALSHI_API_SECRET: set (${#KALSHI_API_SECRET} chars)"
+          else
+            echo "  KALSHI_API_SECRET: NOT SET ⚠️"
+            echo "::warning::KALSHI_API_SECRET is not configured. Set it in Settings → Secrets and variables → Actions."
+          fi
+          echo "  Obtain credentials at: https://kalshi.com/account/api"
         env:
           KALSHI_API_KEY: ${{ secrets.KALSHI_API_KEY }}
+          KALSHI_API_SECRET: ${{ secrets.KALSHI_API_SECRET }}
 
       - name: Fetch Kalshi prediction market data
         id: fetch

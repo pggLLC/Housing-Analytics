@@ -58,7 +58,9 @@ const MARKET_CONFIG = [
     metric:       'home_price_growth',
     label:        'National Home Price Growth (YoY)',
     horizon:      'year_end',
-    seriesTicker: null,           // Fill in once ticker is confirmed, e.g. "KXHOMEPRICE"
+    // Known Kalshi series: "KXHOMEPRICE" tracks national home price indices.
+    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
+    seriesTicker: 'KXHOMEPRICE',
     eventTicker:  null,
     keywords:     ['home price', 'house price', 'HPI', 'Case-Shiller'],
   },
@@ -66,7 +68,9 @@ const MARKET_CONFIG = [
     metric:       '30yr_mortgage_rate',
     label:        '30-Year Mortgage Rate',
     horizon:      'year_end',
-    seriesTicker: null,           // Fill in once ticker is confirmed, e.g. "KXMORTGAGE30"
+    // Known Kalshi series: "KXMORTGAGE30" tracks the 30-year fixed mortgage rate.
+    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
+    seriesTicker: 'KXMORTGAGE30',
     eventTicker:  null,
     keywords:     ['mortgage rate', '30-year mortgage', '30yr mortgage'],
   },
@@ -74,7 +78,9 @@ const MARKET_CONFIG = [
     metric:       'housing_starts',
     label:        'Total Housing Starts (Annualized)',
     horizon:      'year_end',
-    seriesTicker: null,
+    // Known Kalshi series: "KXHOUSINGSTART" tracks annualized housing starts.
+    // Verify at https://kalshi.com/markets/ and update if the ticker changes.
+    seriesTicker: 'KXHOUSINGSTART',
     eventTicker:  null,
     keywords:     ['housing starts', 'new home construction'],
   },
@@ -82,6 +88,8 @@ const MARKET_CONFIG = [
     metric:       'rent_growth',
     label:        'National Rent Growth (YoY)',
     horizon:      'year_end',
+    // No confirmed Kalshi series ticker for rent growth as of 2025.
+    // Set seriesTicker once a confirmed ticker is identified.
     seriesTicker: null,
     eventTicker:  null,
     keywords:     ['rent growth', 'rental price', 'rent index'],
@@ -90,6 +98,8 @@ const MARKET_CONFIG = [
     metric:       'multifamily_permits',
     label:        'Multifamily Permits / Starts',
     horizon:      'year_end',
+    // No confirmed Kalshi series ticker for multifamily permits as of 2025.
+    // Set seriesTicker once a confirmed ticker is identified.
     seriesTicker: null,
     eventTicker:  null,
     keywords:     ['multifamily', 'apartment starts', 'building permits'],
@@ -173,6 +183,12 @@ function httpGet(url, extraHeaders = {}) {
       res.on('data', c => chunks.push(c));
       res.on('end', () => {
         const body = Buffer.concat(chunks).toString('utf8');
+        if (res.statusCode === 401) {
+          return reject(new Error(`HTTP 401 Unauthorized — check KALSHI_API_KEY and KALSHI_API_SECRET. Body: ${body.slice(0, 200)}`));
+        }
+        if (res.statusCode === 403) {
+          return reject(new Error(`HTTP 403 Forbidden — API key may lack required permissions. Body: ${body.slice(0, 200)}`));
+        }
         if (res.statusCode >= 400) {
           return reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0, 200)}`));
         }
@@ -317,6 +333,16 @@ function normalizeMarket(cfg, markets) {
   // This avoids overwriting the illustrative snapshot with an empty-items file
   // every time the script is run locally without credentials.
   if (!API_KEY || !API_SECRET) {
+    const missingVars = [];
+    if (!API_KEY)    missingVars.push('KALSHI_API_KEY');
+    if (!API_SECRET) missingVars.push('KALSHI_API_SECRET');
+    console.warn(`::warning::Kalshi credentials not configured: ${missingVars.join(', ')} are empty.`);
+    console.warn('To enable live Kalshi data, add the following GitHub Actions secrets:');
+    console.warn('  Settings → Secrets and variables → Actions → New repository secret');
+    console.warn('  KALSHI_API_KEY    — your Kalshi access key ID');
+    console.warn('  KALSHI_API_SECRET — your RSA private key in PEM format');
+    console.warn('  Obtain credentials at: https://kalshi.com/account/api');
+
     const seedExists = fs.existsSync(OUTPUT_FILE);
     let seedHasItems = false;
     if (seedExists) {
@@ -330,17 +356,12 @@ function normalizeMarket(cfg, markets) {
 
     if (seedHasItems) {
       console.warn(
-        'KALSHI_API_KEY and/or KALSHI_API_SECRET are not set.\n' +
         'Preserving existing seed data in ' + OUTPUT_FILE + '.\n' +
-        'To refresh with live data, add KALSHI_API_KEY and KALSHI_API_SECRET as\n' +
-        'GitHub Actions secrets (Settings → Secrets and variables → Actions).'
+        'Dashboard will display previously fetched market data.'
       );
     } else {
       console.warn(
-        'KALSHI_API_KEY and/or KALSHI_API_SECRET are not set.\n' +
-        'Writing empty-items prediction-market.json — dashboard will use mock data.\n' +
-        'To enable live data, add KALSHI_API_KEY and KALSHI_API_SECRET as\n' +
-        'GitHub Actions secrets (Settings → Secrets and variables → Actions).'
+        'Writing empty-items prediction-market.json — dashboard will use mock data.'
       );
       fs.writeFileSync(OUTPUT_FILE, JSON.stringify({
         updated,
