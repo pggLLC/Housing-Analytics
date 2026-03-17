@@ -2098,7 +2098,7 @@
 
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      var lehdGeoid = (typeof geoid === 'string' && (geoid.length === 5 || geoid === '08')) ? geoid : null;
       lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
@@ -2188,7 +2188,7 @@
 
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      var lehdGeoid = (typeof geoid === 'string' && (geoid.length === 5 || geoid === '08')) ? geoid : null;
       lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
@@ -2272,7 +2272,7 @@
 
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      var lehdGeoid = (typeof geoid === 'string' && (geoid.length === 5 || geoid === '08')) ? geoid : null;
       lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
@@ -2370,7 +2370,7 @@
 
     var lehd = null;
     try {
-      var lehdGeoid = (typeof geoid === 'string' && geoid.length === 5) ? geoid : null;
+      var lehdGeoid = (typeof geoid === 'string' && (geoid.length === 5 || geoid === '08')) ? geoid : null;
       lehd = lehdGeoid && window.__HNA_LEHD_CACHE && window.__HNA_LEHD_CACHE[lehdGeoid];
     } catch (_) {}
 
@@ -3464,7 +3464,9 @@
       }
     });
 
-    if (geoType !== 'county'){
+    if (geoType === 'state'){
+      els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for Colorado statewide, year ${lehd.year}.` : 'LEHD LODES OD summary — Colorado statewide aggregate.';
+    } else if (geoType !== 'county'){
       els.lehdNote.textContent = `Note: LEHD inflow/outflow is currently shown at the containing county level (${countyFromGeoid(geoType, geoid)}). Place/CDP crosswalk can be added to refine this.`;
     } else {
       els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for workplaces in ${geoid}, year ${lehd.year}.` : 'LEHD LODES OD summary.';
@@ -3535,7 +3537,8 @@
         }
       });
 
-      els.seniorNote.textContent = `Senior pressure uses county single-year-of-age totals. Pyramid year: ${year || '—'}.`;
+      const geoLabel = dola.stateFips ? 'Colorado statewide' : 'county';
+      els.seniorNote.textContent = `Senior pressure uses ${geoLabel} single-year-of-age totals. Pyramid year: ${year || '—'}.`;
     } else {
       els.seniorNote.textContent = 'Senior pressure data not available yet.';
     }
@@ -3657,7 +3660,8 @@
     let headshipSlope = 0; // annual delta, used in "trend"
 
     // If selection is a place/CDP, scale projections from containing county.
-    if (selection && selection.geoType !== 'county'){
+    // State-level: projections are loaded directly for '08', no scaling needed.
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state'){
       const placePopNow = safeNum(selection.profile?.DP05_0001E);
       const placeHhNow = safeNum(selection.profile?.DP02_0001E);
       const placeUnitsNow = safeNum(selection.profile?.DP04_0001E);
@@ -4759,9 +4763,18 @@
     const contextCounty = countyFromGeoid(geoType, geoid);
     let lehd=null;
     if (geoType === 'state'){
-      // State-level LEHD data is not aggregated into a single file.
-      // Individual county data is available after selecting a county.
-      els.lehdNote.textContent = 'LEHD employment data is shown at the county level. Select a county to view detailed employment flows.';
+      // Load state-level aggregate LEHD file
+      try{
+        lehd = await loadJson(PATHS.lehd('08'));
+        cacheFlags.lehd = true;
+      }catch(e){
+        console.warn(e);
+      }
+      if (lehd){
+        renderLehd(lehd, geoType, geoid);
+      } else {
+        els.lehdNote.textContent = 'LEHD state aggregate not yet available. Run the HNA data build workflow to populate.';
+      }
     } else {
       try{
         // Prefer county cache for county selections; for places/CDPs use containing county
@@ -4782,8 +4795,8 @@
     renderLaborMarketSection(lehd, profile);
 
     // Economic indicators — trend charts and affordability gap table
-    // For state type contextCounty is null; pass null so render functions show appropriate message.
-    const econGeoid = geoType === 'county' ? geoid : contextCounty;
+    // For state type use '08'; for county use geoid; for places use contextCounty.
+    const econGeoid = geoType === 'state' ? '08' : (geoType === 'county' ? geoid : contextCounty);
     if (!window.__HNA_LEHD_CACHE) window.__HNA_LEHD_CACHE = {};
     if (lehd && econGeoid) window.__HNA_LEHD_CACHE[econGeoid] = lehd;
     renderEconomicIndicators(econGeoid);
@@ -4808,8 +4821,18 @@
     // DOLA SYA (cached; county context)
     let dola=null;
     if (geoType === 'state'){
-      // DOLA SYA data is available at the county level only.
-      els.seniorNote.textContent = 'Age distribution data is available at the county level. Select a county to view the age pyramid and senior pressure trend.';
+      // Load state-level aggregate DOLA SYA file
+      try{
+        dola = await loadJson(PATHS.dolaSya('08'));
+        cacheFlags.dola = true;
+      }catch(e){
+        console.warn(e);
+      }
+      if (dola){
+        renderDolaPyramid(dola);
+      } else {
+        els.seniorNote.textContent = 'DOLA/SDO state aggregate not yet available. Run the HNA data build workflow to populate.';
+      }
     } else {
       try{
         dola = await loadJson(PATHS.dolaSya(contextCounty));
@@ -4824,12 +4847,13 @@
       }
     }
 
-    // 20-year projections (cached; county context)
+    // 20-year projections (cached; county context or state '08')
     state.current = { geoType, geoid, label, contextCounty, profile };
     // Store profile for next refresh — enables YOY comparison on subsequent updates
     if (profile && geoid) state.prevProfile[geoid] = profile;
-    const projRes = geoType !== 'state'
-      ? await renderProjections(contextCounty, state.current)
+    const projFips = geoType === 'state' ? '08' : contextCounty;
+    const projRes = projFips
+      ? await renderProjections(projFips, state.current)
       : clearProjectionsForStateLevel();
     if (projRes?.ok) cacheFlags.projections = true;
 
