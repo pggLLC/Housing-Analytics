@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T04:28:44.724Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-17T10:07:43.334Z. Do not edit by hand.
 
 ---
 
@@ -68,7 +68,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/fred-data.json` | 1.79 MB | ✅ | — |
+| `data/fred-data.json` | 938.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 3.5 KB | ✅ | — |
@@ -878,7 +878,7 @@
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 26.3 KB | ✅ | — |
+| `data/manifest.json` | 26.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 398.9 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
@@ -946,7 +946,7 @@
 | `test/unit/pma-schools.test.js` | 4.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/validate-site.js` | 8.6 KB |
-| `test/verify-script-loads.js` | 1.6 KB |
+| `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
 | `test/website-monitor-utils.js` | 3.6 KB |
