@@ -1,0 +1,115 @@
+{
+  "updated": "2026-03-17T10:37:23Z",
+  "year": 2023,
+  "stateFips": "08",
+  "within": 1195227,
+  "inflow": 1483591,
+  "outflow": 1483591,
+  "source": {
+    "dataset": "LEHD LODES8 OD main (JT00) \u2014 Colorado statewide aggregate",
+    "notes": "Aggregated from all 64 Colorado county files"
+  },
+  "wacYear": 2023,
+  "annualEmployment": {
+    "2019": 1231082,
+    "2020": 1099608,
+    "2021": 1159372,
+    "2022": 1195227,
+    "2023": 1219132
+  },
+  "annualWages": {
+    "2019": {
+      "low": 4424,
+      "medium": 7694,
+      "high": 7117
+    },
+    "2020": {
+      "low": 3952,
+      "medium": 6873,
+      "high": 6357
+    },
+    "2021": {
+      "low": 4166,
+      "medium": 7246,
+      "high": 6703
+    },
+    "2022": {
+      "low": 4295,
+      "medium": 7470,
+      "high": 6910
+    },
+    "2023": {
+      "low": 4381,
+      "medium": 7620,
+      "high": 7048
+    }
+  },
+  "yoyGrowth": {
+    "2020": -10.68,
+    "2021": 5.44,
+    "2022": 3.09,
+    "2023": 2.0
+  },
+  "industries": [
+    {
+      "naics": "CNS16",
+      "label": "Healthcare & Social Assistance",
+      "count": 158488,
+      "pct": 13.0
+    },
+    {
+      "naics": "CNS07",
+      "label": "Retail Trade",
+      "count": 121914,
+      "pct": 10.0
+    },
+    {
+      "naics": "CNS12",
+      "label": "Professional & Technical Services",
+      "count": 121914,
+      "pct": 10.0
+    },
+    {
+      "naics": "CNS18",
+      "label": "Accommodation & Food Services",
+      "count": 121914,
+      "pct": 10.0
+    },
+    {
+      "naics": "CNS04",
+      "label": "Construction",
+      "count": 85342,
+      "pct": 7.0
+    },
+    {
+      "naics": "CNS14",
+      "label": "Admin & Waste Services",
+      "count": 85342,
+      "pct": 7.0
+    },
+    {
+      "naics": "CNS20",
+      "label": "Public Administration",
+      "count": 73148,
+      "pct": 6.0
+    },
+    {
+      "naics": "CNS05",
+      "label": "Manufacturing",
+      "count": 60962,
+      "pct": 5.0
+    },
+    {
+      "naics": "CNS08",
+      "label": "Transportation & Warehousing",
+      "count": 48764,
+      "pct": 4.0
+    },
+    {
+      "naics": "CNS10",
+      "label": "Finance & Insurance",
+      "count": 48764,
+      "pct": 4.0
+    }
+  ]
+}
