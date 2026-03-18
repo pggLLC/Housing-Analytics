@@ -248,7 +248,8 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
             title_norm = re.sub(r'\s+', ' ', raw_title).strip().lower()
             summary_norm = re.sub(r'\s+', ' ', summary).strip().lower()
             # Drop if the summary starts with the normalised title (allowing for source appended)
-            if summary_norm.startswith(title_norm[:40].lower()):
+            prefix_len = min(40, len(title_norm))
+            if summary_norm.startswith(title_norm[:prefix_len]):
                 summary = ""
 
         if not raw_title or not link:
