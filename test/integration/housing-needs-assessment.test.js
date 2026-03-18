@@ -410,6 +410,19 @@ test('update(): clears stale boundary when fetchBoundary fails', () => {
     'stale-boundary clear passes empty features array');
 });
 
+test('update(): tracks boundaryFailed and downgrade banner after data loads', () => {
+  const updateIdx = hnaSrc.indexOf('async function update()');
+  assert(hnaSrc.indexOf('boundaryFailed', updateIdx) !== -1,
+    'update() declares a boundaryFailed flag to track whether boundary fetch threw');
+  assert(hnaSrc.includes('Map boundary unavailable'),
+    'update() replaces alarming warn banner with informational message after data loads');
+  // The banner downgrade must come AFTER the completion announcement
+  const announceIdx = hnaSrc.indexOf('Data loaded for', updateIdx);
+  const downgradeIdx = hnaSrc.indexOf('Map boundary unavailable', updateIdx);
+  assert(announceIdx !== -1 && downgradeIdx !== -1 && downgradeIdx > announceIdx,
+    'banner downgrade follows the aria-live completion announcement');
+});
+
 test('FEATURED list: four required Colorado cities have correct 7-digit GEOIDs', () => {
   // Verify the specific cities from the requirements
   const cities = [
