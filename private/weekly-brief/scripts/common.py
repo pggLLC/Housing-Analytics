@@ -207,14 +207,17 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
     for item in items:
         title_el = item.find("title")
         link_el = item.find("link")
-        pub_el = item.find("pubDate") or item.find("published")
+        pub_el = item.find("pubDate")
+        if pub_el is None:
+            pub_el = item.find("published")
         source_el = item.find("source")
-        desc_el = (
-            item.find("description")
-            or item.find("summary")
-            or item.find("{http://www.w3.org/2005/Atom}summary")
-            or item.find("{http://www.w3.org/2005/Atom}content")
-        )
+        desc_el = item.find("description")
+        if desc_el is None:
+            desc_el = item.find("summary")
+        if desc_el is None:
+            desc_el = item.find("{http://www.w3.org/2005/Atom}summary")
+        if desc_el is None:
+            desc_el = item.find("{http://www.w3.org/2005/Atom}content")
 
         # Atom link is an attribute
         if link_el is None:
@@ -547,6 +550,35 @@ This page is not indexed by search engines and is not linked from site navigatio
 </html>
 """
 
+def _parse_pub_date(pub: str) -> datetime:
+    """Parse a publication date string to a datetime for sorting. Returns epoch on failure."""
+    if not pub:
+        return datetime(1970, 1, 1, tzinfo=timezone.utc)
+    # GDELT seendate: 20260316T100000Z
+    m = re.match(r"^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z?$", pub.strip())
+    if m:
+        try:
+            return datetime(
+                int(m.group(1)), int(m.group(2)), int(m.group(3)),
+                int(m.group(4)), int(m.group(5)), int(m.group(6)),
+                tzinfo=timezone.utc,
+            )
+        except ValueError:
+            return datetime(1970, 1, 1, tzinfo=timezone.utc)
+    # RFC-2822 and ISO-8601 via email.utils / dateutil-free parsing
+    try:
+        from email.utils import parsedate_to_datetime
+        return parsedate_to_datetime(pub)
+    except Exception:
+        pass
+    # ISO-8601 date-only fallback
+    try:
+        d = datetime.fromisoformat(pub.strip().replace("Z", "+00:00"))
+        return d
+    except Exception:
+        return datetime(1970, 1, 1, tzinfo=timezone.utc)
+
+
 def _render_section(name: str, articles: list, summary: str = "") -> str:
     if not articles:
         return (
@@ -557,14 +589,23 @@ def _render_section(name: str, articles: list, summary: str = "") -> str:
         f'<p style="font-size:.8rem;color:#476080;margin:.25rem 0 .75rem;">'
         f'{html.escape(summary)}</p>'
     ) if summary else ""
+    # Sort newest first; articles without a date fall to the bottom
+    sorted_articles = sorted(articles, key=lambda a: _parse_pub_date(a.get("published", "")), reverse=True)
     items = ""
-    for art in articles:
+    for art in sorted_articles:
         title = html.escape(art.get("title", ""))
         link = html.escape(art.get("link", "#"))
         source = html.escape(art.get("source", ""))
-        pub = html.escape(art.get("published", ""))
+        pub_raw = art.get("published", "")
+        # Format the date nicely from the raw value (cross-platform, no %-d)
+        try:
+            pub_dt = _parse_pub_date(pub_raw)
+            pub_display = f"{pub_dt.day} {pub_dt.strftime('%b %Y')}" if pub_dt.year != 1970 else ""
+        except Exception:
+            pub_display = pub_raw[:16] if pub_raw else ""
         art_summary = html.escape(art.get("summary", ""))
-        meta = " · ".join(filter(None, [source, pub[:16] if pub else ""]))
+        # meta is assembled from already-escaped `source` and plain-text `pub_display`
+        meta = source + (" · " + html.escape(pub_display) if pub_display else "")
         items += (
             f'<li>'
             f'<a href="{link}" target="_blank" rel="noopener">{title}</a>'
