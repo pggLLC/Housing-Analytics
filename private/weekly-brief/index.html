@@ -410,10 +410,11 @@
         <h2>Signal Counts</h2>
         <div class="sort-bar" role="group" aria-label="Sort articles by signal">
           <span class="sort-bar-label">Sort by:</span>
-          <button class="sort-btn" data-sort="default" aria-pressed="false">Feed Order</button>
+          <button class="sort-btn is-active" data-sort="hero" aria-pressed="true">Hero Signal</button>
           <button class="sort-btn" data-sort="signals" aria-pressed="false">Most Signals</button>
-          <button class="sort-btn is-active" data-sort="date" aria-pressed="true">Newest First</button>
+          <button class="sort-btn" data-sort="date" aria-pressed="false">Newest First</button>
           <button class="sort-btn" data-sort="source" aria-pressed="false">Source</button>
+          <button class="sort-btn" data-sort="default" aria-pressed="false">Feed Order</button>
         </div>
       </div>
       <p class="signals-note" id="signalsNote"></p>
@@ -442,7 +443,7 @@
   const VISIBLE_PER_SECTION = 5;
 
   // Current sort order applied to all sections
-  let currentSort = 'date';
+  let currentSort = 'hero';
   // Raw payload cached for re-renders
   let briefPayload = null;
 
@@ -496,8 +497,32 @@
   // ── Sort helpers ────────────────────────────────────────────
   function sortArticles(articles, order) {
     var copy = articles.slice();
-    if (order === 'signals') {
-      copy.sort(function (a, b) { return (b.signal_count || 0) - (a.signal_count || 0); });
+    if (order === 'hero') {
+      copy.sort(function (a, b) {
+        // Primary: hero signal (first matched signal bucket), no-signal → bottom
+        var ha = (a.signals && a.signals.length) ? a.signals[0] : '\uffff';
+        var hb = (b.signals && b.signals.length) ? b.signals[0] : '\uffff';
+        var cmp = ha.localeCompare(hb);
+        if (cmp !== 0) return cmp;
+        // Secondary: source
+        cmp = (a.source || '').localeCompare(b.source || '');
+        if (cmp !== 0) return cmp;
+        // Tertiary: date newest first
+        var da = a.published ? new Date(a.published).getTime() : 0;
+        var db = b.published ? new Date(b.published).getTime() : 0;
+        return db - da;
+      });
+    } else if (order === 'signals') {
+      copy.sort(function (a, b) {
+        var cmp = (b.signal_count || 0) - (a.signal_count || 0);
+        if (cmp !== 0) return cmp;
+        // Secondary: source, tertiary: date newest first
+        cmp = (a.source || '').localeCompare(b.source || '');
+        if (cmp !== 0) return cmp;
+        var da = a.published ? new Date(a.published).getTime() : 0;
+        var db = b.published ? new Date(b.published).getTime() : 0;
+        return db - da;
+      });
     } else if (order === 'date') {
       copy.sort(function (a, b) {
         var da = a.published ? new Date(a.published).getTime() : 0;
@@ -506,7 +531,12 @@
       });
     } else if (order === 'source') {
       copy.sort(function (a, b) {
-        return (a.source || '').localeCompare(b.source || '');
+        var cmp = (a.source || '').localeCompare(b.source || '');
+        if (cmp !== 0) return cmp;
+        // Secondary: date newest first
+        var da = a.published ? new Date(a.published).getTime() : 0;
+        var db = b.published ? new Date(b.published).getTime() : 0;
+        return db - da;
       });
     }
     // 'default' leaves original order
