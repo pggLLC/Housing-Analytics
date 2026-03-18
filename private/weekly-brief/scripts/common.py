@@ -242,6 +242,15 @@ def parse_rss(data: bytes, region_hint: str, week_start: str, seen: set[str]) ->
             if m:
                 source_name = re.sub(r"^www\.", "", m.group(1))
 
+        # Discard summary when it merely repeats the article title (e.g. Google News RSS
+        # where the <description> is just "Title Source Name" with no real content).
+        if summary and raw_title:
+            title_norm = re.sub(r'\s+', ' ', raw_title).strip().lower()
+            summary_norm = re.sub(r'\s+', ' ', summary).strip().lower()
+            # Drop if the summary starts with the normalised title (allowing for source appended)
+            if summary_norm.startswith(title_norm[:40].lower()):
+                summary = ""
+
         if not raw_title or not link:
             continue
 
