@@ -632,13 +632,13 @@
     // Use TIGERweb MapServer for geometry as GeoJSON
     // States:    TIGERweb/State_County MapServer/0
     // Counties:  TIGERweb/State_County MapServer/1
-    // Places:    TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
+    // Places:    TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/4 (2025 vintage; was layer 2 pre-2025)
     // ConCities: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/3 (consolidated cities fallback)
-    // CDPs:      TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/4
+    // CDPs:      TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5 (2025 vintage; was layer 4 pre-2025)
 
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
-    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 2 : geoType === 'cdp' ? 4 : 2;
+    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 4 : geoType === 'cdp' ? 5 : 4;
     const svc   = (geoType === 'county' || geoType === 'state') ? countyService : service;
     const base  = `${svc}/${layer}`;
 
@@ -656,7 +656,7 @@
     if (!Array.isArray(gj?.features) || gj.features.length === 0) {
       // For places, fall back to Consolidated Cities layer (layer 3) before giving up.
       // Some Colorado municipalities (e.g. Broomfield) are classified as consolidated
-      // cities in TIGERweb and are absent from the Incorporated Places layer (layer 2).
+      // cities in TIGERweb and are absent from the Incorporated Places layer (layer 4).
       if (geoType === 'place') {
         const fallbackUrl = `${service}/3/query?${params.toString()}`;
         const fallbackResp = await fetchWithTimeout(fallbackUrl, {}, 15000);
@@ -665,10 +665,10 @@
           if (Array.isArray(fallbackGj?.features) && fallbackGj.features.length > 0) return fallbackGj;
         }
       }
-      // For CDPs, fall back to Incorporated Places layer (layer 2) in case the
+      // For CDPs, fall back to Incorporated Places layer (layer 4) in case the
       // CDP GEOID also appears there (e.g. reclassification between Census vintages).
       if (geoType === 'cdp') {
-        const fallbackUrl = `${service}/2/query?${params.toString()}`;
+        const fallbackUrl = `${service}/4/query?${params.toString()}`;
         const fallbackResp = await fetchWithTimeout(fallbackUrl, {}, 15000);
         if (fallbackResp.ok) {
           const fallbackGj = await fallbackResp.json();
