@@ -150,8 +150,8 @@
     const statusEl = document.getElementById('prop123Status');
 
     // TIGERweb layers:
-    // Places (incorporated places) layer:
-    const TIGER_PLACES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/2';
+    // Places (incorporated places) layer (2025 vintage — layer 4):
+    const TIGER_PLACES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4';
     // Counties layer:
     const TIGER_COUNTIES = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1';
 

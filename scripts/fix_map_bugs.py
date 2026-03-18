@@ -9,8 +9,8 @@ Bugs addressed
 BUG-01  js/co-lihtc-map.js         – ArcGIS LIHTC URL /ArcGIS/ → /arcgis/
 BUG-02  data/hna/lihtc/*.json       – Populate per-county files from chfa-lihtc.json
 BUG-03  js/housing-needs-assessment.js – ArcGIS LIHTC URL /ArcGIS/ → /arcgis/
-BUG-04  js/prop123-map.js           – TIGERweb Places MapServer/4 → MapServer/2
-BUG-05  js/housing-needs-assessment.js – TIGERweb Places layer 4 → 2
+BUG-04  js/prop123-map.js           – TIGERweb Places MapServer/2 → MapServer/4 (2025 vintage)
+BUG-05  js/housing-needs-assessment.js – TIGERweb Places layer 2→4; CDPs layer 4→5 (2025 vintage)
 BUG-07  data/chfa-lihtc.json        – Null YR_PIS="8888" sentinels; add _metadata
 BUG-08  data/prop123_jurisdictions.json – Remove root duplicate; update JS refs
 BUG-09  js/path-resolver.js         – Replace indexOf('.') with file-extension regex
@@ -125,33 +125,41 @@ def fix_bug_03(dry_run):
 
 
 def fix_bug_04(dry_run):
-    """BUG-04: prop123-map.js — TIGERweb MapServer/4 → MapServer/2."""
+    """BUG-04: prop123-map.js — TIGERweb MapServer/2 → MapServer/4 (2025 vintage).
+
+    The 2025 TIGERweb vintage renumbered Incorporated Places from layer 2 to layer 4.
+    """
     path = 'js/prop123-map.js'
-    old = 'Places_CouSub_ConCity_SubMCD/MapServer/4'
-    new = 'Places_CouSub_ConCity_SubMCD/MapServer/2'
+    old = 'Places_CouSub_ConCity_SubMCD/MapServer/2'
+    new = 'Places_CouSub_ConCity_SubMCD/MapServer/4'
     try:
         content = read_text(path)
         if old in content:
             write_text(path, content.replace(old, new), dry_run)
-            result("BUG-04", "FIXED", f"MapServer/4 → MapServer/2 in {path}")
+            result("BUG-04", "FIXED", f"MapServer/2 → MapServer/4 (2025 vintage) in {path}")
         else:
-            result("BUG-04", "ALREADY", f"{path} already uses MapServer/2")
+            result("BUG-04", "ALREADY", f"{path} already uses MapServer/4 (2025 vintage)")
     except Exception as exc:
         result("BUG-04", "FAIL", str(exc))
 
 
 def fix_bug_05(dry_run):
-    """BUG-05: housing-needs-assessment.js — TIGERweb Places layer 4 → 2."""
+    """BUG-05: housing-needs-assessment.js — TIGERweb Places layer 2→4, CDPs 4→5 (2025 vintage).
+
+    The 2025 TIGERweb vintage renumbered layers:
+      Incorporated Places: 2 → 4
+      Census Designated Places: 4 → 5
+    """
     path = 'js/housing-needs-assessment.js'
-    old = "geoType === 'place' ? 4 : 5"
-    new = "geoType === 'place' ? 2 : 5"
+    old = "geoType === 'place' ? 2 : geoType === 'cdp' ? 4 : 2"
+    new = "geoType === 'place' ? 4 : geoType === 'cdp' ? 5 : 4"
     try:
         content = read_text(path)
         if old in content:
             write_text(path, content.replace(old, new), dry_run)
-            result("BUG-05", "FIXED", f"TIGERweb layer 4 → 2 in {path}")
+            result("BUG-05", "FIXED", f"TIGERweb Places layer 2→4, CDPs 4→5 (2025 vintage) in {path}")
         else:
-            result("BUG-05", "ALREADY", f"{path} already uses TIGERweb layer 2")
+            result("BUG-05", "ALREADY", f"{path} already uses 2025-vintage TIGERweb layer numbers")
     except Exception as exc:
         result("BUG-05", "FAIL", str(exc))
 
