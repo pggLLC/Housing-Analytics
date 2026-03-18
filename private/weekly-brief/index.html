@@ -7,6 +7,8 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Weekly Housing Intelligence Brief | COHO Analytics</title>
+  <link rel="stylesheet" href="../../css/site-theme.css">
+  <script defer src="../../js/navigation.js"></script>
   <style>
     /* Scoped styles for the hidden weekly brief page */
     *, *::before, *::after { box-sizing: border-box; }
@@ -42,30 +44,18 @@
       text-decoration: none;
     }
 
-    header {
-      background: #fff;
-      border-bottom: 1px solid rgba(13,31,53,.11);
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    /* ── Page title block ──────────────────────────────────── */
+    .page-title-block {
+      margin-bottom: 1.25rem;
     }
-    header .brand {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #096e65;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    header h1 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0;
+    .page-title-block h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin: 0 0 0.25rem;
       color: #0d1f35;
     }
-    header .header-meta {
-      margin-left: auto;
-      font-size: 0.75rem;
+    .page-title-meta {
+      font-size: 0.8rem;
       color: #476080;
     }
 
@@ -370,15 +360,6 @@
       display: none;
     }
 
-    footer {
-      background: #fff;
-      border-top: 1px solid rgba(13,31,53,.08);
-      padding: 1rem 1.5rem;
-      font-size: 0.75rem;
-      color: #476080;
-      text-align: center;
-    }
-
     #aria-live-region {
       position: absolute;
       width: 1px; height: 1px;
@@ -390,8 +371,6 @@
     }
 
     @media (max-width: 600px) {
-      header { flex-wrap: wrap; }
-      header h1 { font-size: 0.95rem; }
       .signal-grid { grid-template-columns: 1fr 1fr; }
       .total-signals-banner { gap: 0.75rem; }
       .total-signals-banner .ts-num { font-size: 2rem; }
@@ -402,13 +381,13 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true"></div>
 
-<header>
-  <span class="brand">COHO Analytics</span>
-  <h1>Weekly Housing Intelligence Brief</h1>
-  <span class="header-meta" id="headerMeta">Loading&hellip;</span>
-</header>
-
 <main id="main-content">
+  <!-- Page title (always visible) -->
+  <div class="page-title-block">
+    <h1>Weekly Housing Intelligence Brief</h1>
+    <p class="page-title-meta" id="headerMeta" aria-live="polite"></p>
+  </div>
+
   <div id="loadingState">Loading latest brief&hellip;</div>
   <div id="errorState" role="alert"></div>
   <div id="briefContent" style="display:none;">
@@ -454,11 +433,6 @@
 
   </div>
 </main>
-
-<footer>
-  COHO Analytics — Weekly Housing Intelligence Brief &mdash;
-  This page is not indexed by search engines and is not linked from site navigation.
-</footer>
 
 <script>
 (function () {
