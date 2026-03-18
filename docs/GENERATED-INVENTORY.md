@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-18T12:19:34.360Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-18T14:31:05.262Z. Do not edit by hand.
 
 ---
 
@@ -136,7 +136,7 @@
 | `data/hna/dola_sya/08121.json` | 3.1 KB | ✅ | — |
 | `data/hna/dola_sya/08123.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 3.1 KB | ✅ | — |
-| `data/hna/geo-config.json` | 29.7 KB | ✅ | — |
+| `data/hna/geo-config.json` | 24.1 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
@@ -919,7 +919,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
-| `test/integration/housing-needs-assessment.test.js` | 31.2 KB |
+| `test/integration/housing-needs-assessment.test.js` | 32.9 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 12.5 KB |
 | `test/lighthouse-audit.js` | 953 B |
