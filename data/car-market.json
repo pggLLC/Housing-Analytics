@@ -10,7 +10,7 @@
   "median_sale_price": 575000,
   "median_days_on_market": 34,
   "median_price_per_sqft": 272,
-  "median_price": 575000,
-  "median_dom": 34,
-  "price_per_sqft": 272
+  "_legacy_median_price": 575000,
+  "_legacy_median_dom": 34,
+  "_legacy_price_per_sqft": 272
 }
