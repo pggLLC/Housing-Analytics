@@ -1,11 +1,15 @@
 {
   "type": "FeatureCollection",
-  "meta": {
+  "fetchedAt": "2026-03-18T00:00:00Z",
+  "_metadata": {
     "source": "HUD LIHTC Database (public)",
+    "source_url": "https://www.huduser.gov/portal/datasets/lihtc.html",
     "state": "Colorado",
     "state_fips": "08",
     "generated": "2026-03-08",
-    "note": "Rebuild via scripts/market/build_public_market_data.py"
+    "fetchedAt": "2026-03-18T00:00:00Z",
+    "coverage_note": "360 representative LIHTC projects derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; rebuilt by scripts/market/build_public_market_data.py.",
+    "fallback": "Dashboards fall back to data/chfa-lihtc.json (CHFA-only subset) when this file is unavailable."
   },
   "features": [
     {

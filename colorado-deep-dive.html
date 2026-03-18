@@ -961,6 +961,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         Source: <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a> •
         Units (LI_UNITS) allocated per year based on YEAR_ALLOC field.
       </p>
+      <p id="lihtcTimelineSourceNote" style="display:none;font-size:.75rem;color:var(--muted);margin-top:.25rem;font-style:italic;"></p>
     </section>
 
     <!-- Regional Housing Predictions -->
@@ -1559,10 +1560,43 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
       function init() {
         var fetcher = window.fetchWithTimeout || fetch;
+        var CHFA_URL = (typeof window.resolveAssetUrl === 'function')
+          ? window.resolveAssetUrl('data/chfa-lihtc.json')
+          : 'data/chfa-lihtc.json';
         fetcher(LIHTC_URL, {}, 15000)
           .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
           .then(function (d) { renderLihtcTimeline(Array.isArray(d.features) ? d.features : []); })
-          .catch(function (e) { console.warn('[lihtcTimeline] Could not load LIHTC data', e); });
+          .catch(function (e) {
+            console.warn('[lihtcTimeline] HUD LIHTC data unavailable, falling back to CHFA data:', e);
+            // Fallback: use chfa-lihtc.json (CHFA Colorado subset)
+            fetcher(CHFA_URL, {}, 15000)
+              .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+              .then(function (d) {
+                var features = Array.isArray(d.features) ? d.features : [];
+                // Remap CHFA field names to HUD field names used by renderLihtcTimeline
+                features = features.map(function (f) {
+                  if (!f || !f.properties) { return f; }
+                  var p = f.properties;
+                  return {
+                    type: f.type,
+                    geometry: f.geometry,
+                    properties: {
+                      // Prefer HUD field names (YEAR_ALLOC, LI_UNITS) then CHFA aliases (YR_PIS, N_UNITS)
+                      YEAR_ALLOC: p.YEAR_ALLOC || p.YR_PIS || p.yr_pis || p.allocYear,
+                      LI_UNITS: p.LI_UNITS || p.li_units || p.N_UNITS || p.n_units || 0,
+                      PROJECT_NAME: p.PROJECT_NAME || p.PROJECT || p.project_name
+                    }
+                  };
+                });
+                renderLihtcTimeline(features);
+                var srcNote = document.getElementById('lihtcTimelineSourceNote');
+                if (srcNote) {
+                  srcNote.textContent = 'Displaying CHFA properties (subset of HUD LIHTC \u2014 full HUD file unavailable)';
+                  srcNote.style.display = '';
+                }
+              })
+              .catch(function (e2) { console.warn('[lihtcTimeline] Could not load fallback CHFA data', e2); });
+          });
       }
 
       if (document.readyState === 'loading') {
