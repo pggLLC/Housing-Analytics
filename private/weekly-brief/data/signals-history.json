@@ -2,40 +2,40 @@
   "history": [
     {
       "week_start": "2026-03-16",
-      "total_articles": 325,
+      "total_articles": 331,
       "signals": {
         "Financing / Rates": {
-          "count": 18,
+          "count": 19,
           "top_terms": [
             "interest rate",
-            "mortgage rate",
             "yield",
+            "mortgage rate",
             "bond",
             "federal reserve"
           ]
         },
         "LIHTC / Tax Credit": {
-          "count": 29,
+          "count": 31,
           "top_terms": [
             "lihtc",
             "tax credit",
-            "housing credit",
             "low-income housing tax credit",
+            "housing credit",
             "hfa"
           ]
         },
         "Supply / Pipeline": {
-          "count": 23,
+          "count": 27,
           "top_terms": [
             "development",
             "housing start",
+            "building permit",
             "groundbreaking",
-            "housing production",
-            "apartment construction"
+            "housing production"
           ]
         },
         "Costs / Insurance": {
-          "count": 3,
+          "count": 5,
           "top_terms": [
             "lumber",
             "inflation",
@@ -43,22 +43,22 @@
           ]
         },
         "Rent Pressure / Homelessness": {
-          "count": 47,
+          "count": 45,
           "top_terms": [
             "homelessness",
-            "voucher"
+            "voucher",
+            "eviction"
           ]
         },
         "Policy / Zoning": {
-          "count": 42,
+          "count": 47,
           "top_terms": [
             "zoning",
-            "housing legislation",
-            "housing bill"
+            "housing legislation"
           ]
         }
       }
     }
   ],
-  "updated": "2026-03-16T09:04:32.955942+00:00"
+  "updated": "2026-03-18T18:10:31.819490+00:00"
 }
