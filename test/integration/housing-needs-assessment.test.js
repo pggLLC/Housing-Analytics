@@ -322,11 +322,13 @@ test('fetchBoundary: uses Places MapServer for place/CDP geography types', () =>
   // Must use State_County MapServer for counties
   assert(fnBody.includes('State_County'),
     'fetchBoundary references TIGERweb State_County MapServer for counties');
-  // Layer selection: county=1, place=2, cdp=5
+  // Layer selection: county=1, place=2, cdp=4
   assert(fnBody.includes("geoType === 'county' ? 1"),
     'fetchBoundary selects layer 1 for counties');
   assert(fnBody.includes("geoType === 'place' ? 2"),
     'fetchBoundary selects layer 2 for places');
+  assert(fnBody.includes("geoType === 'cdp' ? 4"),
+    'fetchBoundary selects layer 4 for CDPs (Census Designated Places layer in TIGERweb)');
   // Validates that features were actually returned (not silently empty)
   assert(fnBody.includes('features.length === 0') || fnBody.includes('!Array.isArray(gj?.features)'),
     'fetchBoundary validates that TIGERweb returned at least one feature');
@@ -339,6 +341,22 @@ test('fetchBoundary: throws informative error when TIGERweb returns no features'
   // Must throw (not silently succeed) when 0 features returned so callers know to clear the boundary
   assert(hnaSrc.includes('No boundary found for'),
     'fetchBoundary throws when TIGERweb returns no features');
+});
+
+test('fetchBoundary: CDP fallback tries incorporated places layer after CDP layer', () => {
+  const fnStart = hnaSrc.indexOf('async function fetchBoundary(');
+  const fnEnd   = hnaSrc.indexOf('\n  }', fnStart + 1);
+  const fnBody  = hnaSrc.slice(fnStart, fnEnd + 4);
+  // CDPs have a fallback from layer 4 to layer 2 in case of vintage reclassification
+  assert(fnBody.includes("geoType === 'cdp'") && fnBody.indexOf('/2/query') !== -1,
+    'fetchBoundary includes a fallback for CDPs to the incorporated places layer');
+});
+
+test('FEATURED list: Highlands Ranch CDP has correct GEOID (0836410 not 0836000)', () => {
+  assert(hnaSrc.includes("geoid: '0836410'"),
+    'Highlands Ranch CDP uses correct GEOID 0836410 in FEATURED');
+  assert(!hnaSrc.includes("geoid: '0836000'"),
+    'Old incorrect GEOID 0836000 is not present in FEATURED');
 });
 
 test('renderBoundary: clears old layer before rendering new one', () => {
