@@ -413,10 +413,12 @@
     if (!msg){
       els.banner.classList.remove('show');
       els.banner.textContent='';
+      els.banner.removeAttribute('data-kind');
       return;
     }
     els.banner.classList.add('show');
     els.banner.textContent = msg;
+    els.banner.setAttribute('data-kind', kind);
   }
 
   // Reset all stat cards to placeholder state before fetching new geography data.
@@ -4680,11 +4682,13 @@
     }
 
     // Load boundary
+    let boundaryFailed = false;
     try{
       const gj = await fetchBoundary(geoType, geoid);
       renderBoundary(gj, geoType);
     }catch(e){
       console.warn(e);
+      boundaryFailed = true;
       // Clear any stale boundary from a previous geography selection
       renderBoundary({ type: 'FeatureCollection', features: [] }, geoType);
       setBanner('Boundary failed to load (TIGERweb). The rest of the page may still populate.', 'warn');
@@ -4902,6 +4906,12 @@
     // Announce completion to screen readers (WCAG 4.1.3 / Rule 11)
     if (typeof window.__announceUpdate === 'function') {
       window.__announceUpdate(`Data loaded for ${label}`);
+    }
+
+    // If boundary failed but data loaded successfully, downgrade the banner to a
+    // non-alarming informational note (the data is ready; only the map outline is missing).
+    if (boundaryFailed) {
+      setBanner(`Map boundary unavailable — data for ${label} is shown below.`, 'info');
     }
 
     // Hide all chart loading overlays now that rendering is complete (Recommendation 3.1)
