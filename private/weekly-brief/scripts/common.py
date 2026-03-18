@@ -344,17 +344,17 @@ SECTIONS = ["Colorado", "Western Slope", "National"]
 # Static context sentence per section — explains the affordable-housing angle.
 _SECTION_CONTEXT = {
     "Colorado": (
-        "These Colorado stories track LIHTC award cycles, municipal affordability "
+        "These stories track LIHTC award cycles, municipal affordability "
         "ordinances, and local housing developments that directly shape supply and "
         "cost-burden for Colorado renters and buyers."
     ),
     "Western Slope": (
-        "Western Slope coverage highlights workforce-housing shortages, resort-market "
+        "Coverage highlights workforce-housing shortages, resort-market "
         "price pressures, and rural development challenges that make affordability "
         "especially acute in mountain communities."
     ),
     "National": (
-        "National coverage monitors federal housing-finance policy, LIHTC program "
+        "Coverage monitors federal housing-finance policy, LIHTC program "
         "updates, construction-cost trends, and macroeconomic signals — interest rates, "
         "insurance premiums, and supply-chain pressures — that ripple through every "
         "local affordable housing market."
@@ -398,7 +398,7 @@ def _build_section_summary(region: str, articles: list[dict]) -> str:
 
     context = _SECTION_CONTEXT.get(region, "")
     return (
-        f"This week\u2019s {len(articles)} {region} articles are concentrated in "
+        f"This week\u2019s {len(articles)} articles focus on "
         f"{signal_phrase}. {context}"
     )
 
@@ -599,8 +599,14 @@ def _render_section(name: str, articles: list, summary: str = "") -> str:
         f'<p style="font-size:.8rem;color:#476080;margin:.25rem 0 .75rem;">'
         f'{html.escape(summary)}</p>'
     ) if summary else ""
-    # Sort newest first; articles without a date fall to the bottom
-    sorted_articles = sorted(articles, key=lambda a: _parse_pub_date(a.get("published", "")), reverse=True)
+    # Sort by hero signal (first matched signal), then source, then newest-first date
+    def _hero_key(a: dict):
+        signals = a.get("signals") or []
+        hero = signals[0] if signals else "\uffff"
+        source = a.get("source", "")
+        pub_ts = _parse_pub_date(a.get("published", "")).timestamp()
+        return (hero, source, -pub_ts)
+    sorted_articles = sorted(articles, key=_hero_key)
     items = ""
     for art in sorted_articles:
         title = html.escape(art.get("title", ""))
