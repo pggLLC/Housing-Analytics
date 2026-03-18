@@ -1,6 +1,6 @@
 {
   "updated": "2026-02-01",
-  "source": "Colorado Association of REALTORS\u00ae",
+  "source": "Colorado Association of REALTORS®",
   "source_url": "https://coloradorealtors.com/market-statistics/",
   "active_listings": 18200,
   "closed_sales": 5840,
@@ -8,9 +8,9 @@
   "months_of_supply": 3.1,
   "list_to_sale_ratio": 0.98,
   "median_sale_price": 575000,
-  "_legacy_median_price": 575000,
   "median_days_on_market": 34,
-  "_legacy_median_dom": 34,
   "median_price_per_sqft": 272,
-  "_legacy_price_per_sqft": 272
+  "median_price": 575000,
+  "median_dom": 34,
+  "price_per_sqft": 272
 }
