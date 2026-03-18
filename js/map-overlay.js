@@ -1,6 +1,6 @@
 /**
  * map-overlay.js — Colorado Deep Dive map layer toggle management
- * Depends on: js/vendor/leaflet.js and the map being initialized (window.coLihtcMap).
+ * Depends on: js/vendor/leaflet.js and the map being initialized (window.ColoradoDeepDiveMap).
  * Works with the inline map IIFE already present in colorado-deep-dive.html.
  */
 (function () {
@@ -30,7 +30,7 @@
 
   // Safely get the Leaflet map (may be set after DOM ready by inline IIFE)
   function getMap() {
-    return window.coLihtcMap || null;
+    return window.ColoradoDeepDiveMap || null;
   }
 
   // Show/hide a Leaflet layer with error handling
