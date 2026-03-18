@@ -431,9 +431,9 @@
         <h2>Signal Counts</h2>
         <div class="sort-bar" role="group" aria-label="Sort articles by signal">
           <span class="sort-bar-label">Sort by:</span>
-          <button class="sort-btn is-active" data-sort="default" aria-pressed="true">Default</button>
+          <button class="sort-btn" data-sort="default" aria-pressed="false">Feed Order</button>
           <button class="sort-btn" data-sort="signals" aria-pressed="false">Most Signals</button>
-          <button class="sort-btn" data-sort="date" aria-pressed="false">Date</button>
+          <button class="sort-btn is-active" data-sort="date" aria-pressed="true">Newest First</button>
           <button class="sort-btn" data-sort="source" aria-pressed="false">Source</button>
         </div>
       </div>
@@ -468,7 +468,7 @@
   const VISIBLE_PER_SECTION = 5;
 
   // Current sort order applied to all sections
-  let currentSort = 'default';
+  let currentSort = 'date';
   // Raw payload cached for re-renders
   let briefPayload = null;
 
@@ -505,13 +505,18 @@
 
   function fmtDate(iso) {
     if (!iso) return '';
-    // Handle ISO-8601, RFC-2822, or date-only strings
+    // Handle ISO-8601, RFC-2822, date-only, or GDELT seendate (YYYYMMDDTHHMMSSZ) strings
     var clean = iso.trim();
+    // Normalise GDELT seendate: 20260316T100000Z → 2026-03-16T10:00:00Z
+    if (/^\d{8}T\d{6}Z?$/.test(clean)) {
+      clean = clean.slice(0, 4) + '-' + clean.slice(4, 6) + '-' + clean.slice(6, 8) +
+              'T' + clean.slice(9, 11) + ':' + clean.slice(11, 13) + ':' + clean.slice(13, 15) + 'Z';
+    }
     try {
       var d = new Date(clean);
-      if (isNaN(d.getTime())) return clean.slice(0, 10);
+      if (isNaN(d.getTime())) return iso.trim().slice(0, 10);
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    } catch (e) { return clean.slice(0, 10); }
+    } catch (e) { return iso.trim().slice(0, 10); }
   }
 
   // ── Sort helpers ────────────────────────────────────────────
