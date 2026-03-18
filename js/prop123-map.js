@@ -263,23 +263,23 @@
     const toggle = document.getElementById('layerProp123');
     if (!toggle) return;
 
-    // Retry up to 10 times over ~2 seconds waiting for co-lihtc-map.js to expose coLihtcMap
+    // Retry up to 10 times over ~2 seconds waiting for co-lihtc-map.js to expose ColoradoDeepDiveMap
     const MAX_RETRIES = 10;
     const RETRY_INTERVAL_MS = 200;
     const MAX_WAIT_MS = MAX_RETRIES * RETRY_INTERVAL_MS;
-    let map = window.coLihtcMap;
+    let map = window.ColoradoDeepDiveMap;
     if (!map) {
       await new Promise(function (resolve) {
         let attempts = 0;
         const interval = setInterval(function () {
           attempts++;
-          if (window.coLihtcMap) {
+          if (window.ColoradoDeepDiveMap) {
             clearInterval(interval);
-            map = window.coLihtcMap;
+            map = window.ColoradoDeepDiveMap;
             resolve();
           } else if (attempts >= MAX_RETRIES) {
             clearInterval(interval);
-            console.warn('[prop123-map] coLihtcMap not available after ' + MAX_WAIT_MS + 'ms; Prop 123 overlay skipped.');
+            console.warn('[prop123-map] ColoradoDeepDiveMap not available after ' + MAX_WAIT_MS + 'ms; Prop 123 overlay skipped.');
             resolve();
           }
         }, RETRY_INTERVAL_MS);
