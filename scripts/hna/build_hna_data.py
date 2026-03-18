@@ -1772,6 +1772,11 @@ def _build_state_projection_aggregate():
     )
     state_target_vac = weighted_vac / total_base_units if total_base_units else 0.05
 
+    # Derived statewide vacancy rate: percentage of units that are vacant.
+    state_vacancy_rate = round(
+        (1 - total_base_hh / total_base_units) * 100, 4
+    ) if total_base_units else 0.0
+
     payload = {
         'updated': utc_now_z(),
         'countyFips': STATE_FIPS_CO,
@@ -1788,6 +1793,7 @@ def _build_state_projection_aggregate():
             'population': round(total_base_pop, 2),
             'households': round(total_base_hh, 2),
             'housing_units': round(total_base_units, 2),
+            'vacancy_rate': state_vacancy_rate,
             'headship_rate': base_headship,
         },
         'housing_need': {
