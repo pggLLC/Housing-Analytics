@@ -205,11 +205,11 @@
 
     DataService.getJSON(url).then(function (d) {
       // Expected schema example:
-      // { updated: "YYYY-MM-DD", median_price: 0, active_listings: 0, median_dom: 0, price_per_sqft: 0 }
-      var mp  = d.median_price ?? d.medianPrice;
+      // { updated: "YYYY-MM-DD", median_sale_price: 0, active_listings: 0, median_days_on_market: 0, median_price_per_sqft: 0 }
+      var mp  = d.median_sale_price ?? d._legacy_median_price ?? d.medianPrice;
       var inv = d.active_listings ?? d.inventory;
-      var dom = d.median_dom ?? d.days_on_market;
-      var ppsf = d.price_per_sqft ?? d.pricePerSqFt;
+      var dom = d.median_days_on_market ?? d._legacy_median_dom ?? d.days_on_market;
+      var ppsf = d.median_price_per_sqft ?? d._legacy_price_per_sqft ?? d.pricePerSqFt;
 
       setText('carMedianPrice', formatCurrency(mp));
       setText('carInventory', formatNumber(inv));
