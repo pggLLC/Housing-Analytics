@@ -54,9 +54,8 @@
   ];
 
   function relToRoot() {
-    // If a page lives in a subfolder (e.g., /docs/), back out.
-    const depth = location.pathname.split('/').filter(Boolean).length;
-    // GitHub pages includes repo name; keep it simple: if current path includes '/docs/', go up one.
+    // If a page lives in a subfolder, back out to the repo root.
+    if (location.pathname.includes('/private/weekly-brief/')) return '../../';
     if (location.pathname.includes('/docs/')) return '../';
     return '';
   }
