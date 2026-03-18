@@ -21,7 +21,7 @@
       "status": "seed",
       "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
       "last_update": "2026-03-06T00:00:00Z",
-      "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. Seed data for 12 representative projects across 8 counties."
+      "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. 360 representative projects across Colorado counties derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; this file is rebuilt by scripts/market/build_public_market_data.py. Dashboards fall back to data/chfa-lihtc.json if this file is unavailable."
     },
     {
       "file_path": "data/market/acs_tract_metrics_co.json",
