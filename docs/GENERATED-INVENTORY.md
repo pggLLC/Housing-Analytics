@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-18T16:14:22.033Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-18T16:43:52.461Z. Do not edit by hand.
 
 ---
 
@@ -56,7 +56,7 @@
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 268.5 KB | ✅ | 716 features |
+| `data/chfa-lihtc.json` | 268.7 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.8 KB | ✅ | — |
@@ -919,7 +919,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
-| `test/integration/housing-needs-assessment.test.js` | 32.9 KB |
+| `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 12.5 KB |
 | `test/lighthouse-audit.js` | 953 B |
