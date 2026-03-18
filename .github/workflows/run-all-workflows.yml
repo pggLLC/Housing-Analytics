@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Trigger all data workflows
         env:
@@ -180,7 +180,7 @@ jobs:
 
       - name: Alert on workflow failures
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
