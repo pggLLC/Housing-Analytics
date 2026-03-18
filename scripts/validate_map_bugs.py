@@ -9,8 +9,8 @@ Checks
 BUG-01  js/co-lihtc-map.js         – LIHTC_BASE URL uses lowercase /arcgis/
 BUG-02  data/hna/lihtc/*.json       – Per-county files are non-empty stubs (≥1 feature in ≥1 file)
 BUG-03  js/housing-needs-assessment.js – chfaLihtcQuery URL uses lowercase /arcgis/
-BUG-04  js/prop123-map.js           – TIGER_PLACES uses MapServer/2
-BUG-05  js/housing-needs-assessment.js – TIGERweb Places uses layer 2
+BUG-04  js/prop123-map.js           – TIGER_PLACES uses MapServer/4 (2025 TIGERweb vintage)
+BUG-05  js/housing-needs-assessment.js – TIGERweb Places uses layer 4; CDPs layer 5 (2025 vintage)
 BUG-06  data/market/               – ACS + centroid files have ≥ 100 tract records (WARN if sparse)
 BUG-07  data/chfa-lihtc.json        – No YR_PIS=8888 sentinels; _metadata present
 BUG-08a data/prop123_jurisdictions.json – Root duplicate absent
@@ -110,12 +110,13 @@ def validate_bug_03():
 # ─── BUG-04 ──────────────────────────────────────────────────────────────────
 
 def validate_bug_04():
+    # 2025 TIGERweb vintage: Incorporated Places moved to MapServer/4 (was /2 pre-2025).
     path = 'js/prop123-map.js'
     try:
         content = read_text(path)
-        bad = 'Places_CouSub_ConCity_SubMCD/MapServer/4' in content
-        good = 'Places_CouSub_ConCity_SubMCD/MapServer/2' in content
-        check("BUG-04", good and not bad, f"{path} TIGER_PLACES uses MapServer/2")
+        bad = 'Places_CouSub_ConCity_SubMCD/MapServer/2' in content
+        good = 'Places_CouSub_ConCity_SubMCD/MapServer/4' in content
+        check("BUG-04", good and not bad, f"{path} TIGER_PLACES uses MapServer/4 (2025 vintage)")
     except FileNotFoundError:
         check("BUG-04", False, f"{path} not found")
 
@@ -123,12 +124,15 @@ def validate_bug_04():
 # ─── BUG-05 ──────────────────────────────────────────────────────────────────
 
 def validate_bug_05():
+    # 2025 TIGERweb vintage: Incorporated Places=layer 4, CDPs=layer 5 (pre-2025: 2 and 4).
     path = 'js/housing-needs-assessment.js'
     try:
         content = read_text(path)
-        bad = "geoType === 'place' ? 4 : 5" in content
-        good = "geoType === 'place' ? 2 : 5" in content
-        check("BUG-05", good and not bad, f"{path} TIGERweb Places uses layer 2")
+        bad = "geoType === 'place' ? 2" in content
+        good = "geoType === 'place' ? 4" in content and "geoType === 'cdp' ? 5" in content
+        check("BUG-05", good and not bad,
+              f"{path} TIGERweb Places uses layer 4 (Incorporated Places, 2025 vintage) "
+              f"and CDPs layer 5 (Census Designated Places, 2025 vintage)")
     except FileNotFoundError:
         check("BUG-05", False, f"{path} not found")
 
