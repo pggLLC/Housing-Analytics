@@ -316,10 +316,11 @@ function initPolicyPanel(panelId) {
       var activePanel = document.getElementById(panelId);
       if (activePanel && activePanel.querySelector && activePanel.querySelector('#coMap')) {
         requestAnimationFrame(function () {
-          if (window.coLihtcMap && typeof window.coLihtcMap.invalidateSize === 'function') {
-            window.coLihtcMap.invalidateSize(true);
-          } else if (window.CODeepDiveMap && window.CODeepDiveMap.map && typeof window.CODeepDiveMap.map.invalidateSize === 'function') {
-            window.CODeepDiveMap.map.invalidateSize(true);
+          var _leafletMap = window.ColoradoDeepDiveMap;
+          if (_leafletMap && typeof _leafletMap.invalidateSize === 'function') {
+            _leafletMap.invalidateSize(true);
+          } else {
+            console.warn('[colorado-deep-dive] Map object (window.ColoradoDeepDiveMap) not available for resize.');
           }
         });
       }

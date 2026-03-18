@@ -1,7 +1,7 @@
 /**
  * geo-search.js — Nominatim geocoding helper for the Colorado Deep Dive map.
  * Wires the #geoSearchForm / #geoSearchInput search box to the Leaflet map
- * instance exposed on window.coLihtcMap.
+ * instance exposed on window.ColoradoDeepDiveMap.
  *
  * No API key required. Uses OSM Nominatim (rate-limited; ~5-10 req/s max).
  */
@@ -50,7 +50,7 @@
       e.preventDefault();
       var q = input.value.trim();
       if (!q) return;
-      var map = window.coLihtcMap;
+      var map = window.ColoradoDeepDiveMap;
       if (!map) { console.warn('[geo-search] Map not ready yet.'); return; }
       geocodeAndZoom(q, map);
     });

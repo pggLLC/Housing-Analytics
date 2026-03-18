@@ -1,7 +1,8 @@
 /**
  * co-lihtc-map.js — Colorado Deep Dive Leaflet map (standalone, no bundler required)
  * Depends on: js/vendor/leaflet.js loaded before this script.
- * Exports: window.coLihtcMap — the Leaflet map instance (set after initialization).
+ * Exports: window.ColoradoDeepDiveMap — the Leaflet map instance (set after initialization).
+ *          window.coLihtcMap — legacy alias kept for backward compatibility.
  */
 (function () {
   'use strict';
@@ -936,7 +937,8 @@
       console.info('[co-lihtc-map] Map initialized on', mapEl.id || mapEl.tagName);
 
       // Expose map globally so map-overlay.js and other scripts can use it
-      window.coLihtcMap = map;
+      window.ColoradoDeepDiveMap = map;
+      window.coLihtcMap = map; // legacy alias
 
       fetchData(map);
       loadLocalOverlays(map);
