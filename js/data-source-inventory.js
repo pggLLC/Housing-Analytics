@@ -491,7 +491,7 @@
       features: 272,
       description: 'Census TIGER incorporated places for Colorado. Fetched at runtime for Prop 123 overlay.',
       tags: ['tiger', 'places', 'municipalities', 'gis'],
-      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/2'
+      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4'
     },
     // ── Projections ──────────────────────────────────────────────
     {
