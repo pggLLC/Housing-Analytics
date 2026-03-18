@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-03-11T02:37:58Z",
+  "generated": "2026-03-18T16:56:18Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -154,64 +154,164 @@
       "description": "HUD-designated Qualified Census Tracts in Colorado where 30% LIHTC basis boost is available due to low-income concentration. Used to flag eligible tracts on the LIHTC dashboard."
     },
     {
-      "file_path": "data/market/hud_chas_co.json",
-      "source_name": "HUD CHAS \u2014 Comprehensive Housing Affordability Strategy",
+      "file_path": "data/co-county-boundaries.json",
+      "source_name": "US Census Bureau TIGERweb \u2014 Colorado County Boundaries (Primary Cache)",
+      "source_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Render map without county boundary overlay; log warning to console",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Cached GeoJSON polygon boundaries for all 64 Colorado counties. Primary boundary layer used by co-lihtc-map.js, market-analysis.js, and the data quality checker. Sourced from Census TIGERweb ArcGIS REST service."
+    },
+    {
+      "file_path": "data/car-market.json",
+      "source_name": "Colorado Association of Realtors (CAR) \u2014 Statewide Market Summary",
+      "source_url": "https://coloradorealtors.com/market-trends/",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Display static placeholder KPIs; suppress live market trend charts",
+      "last_update": "2026-03-01T00:00:00Z",
+      "description": "Statewide Colorado residential real estate market summary including active listings, closed sales, median sale price, days on market, and list-to-sale price ratio. Used as the primary data source for the Market Analysis KPI cards."
+    },
+    {
+      "file_path": "data/car-market-report-2026-02.json",
+      "source_name": "Colorado Association of Realtors (CAR) \u2014 Monthly Market Report (Feb 2026)",
+      "source_url": "https://coloradorealtors.com/market-trends/",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
+      "last_update": "2026-02-01T00:00:00Z",
+      "description": "Colorado monthly residential real estate market report for February 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
+    },
+    {
+      "file_path": "data/car-market-report-2026-03.json",
+      "source_name": "Colorado Association of Realtors (CAR) \u2014 Monthly Market Report (Mar 2026)",
+      "source_url": "https://coloradorealtors.com/market-trends/",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
+      "last_update": "2026-03-01T00:00:00Z",
+      "description": "Colorado monthly residential real estate market report for March 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
+    },
+    {
+      "file_path": "data/census-acs-state.json",
+      "source_name": "US Census Bureau \u2014 ACS 5-Year State-Level Estimates",
+      "source_url": "https://api.census.gov/data/2022/acs/acs5",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Display static Colorado state summary; disable dynamic ACS metric cards",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Statewide Colorado housing and demographic statistics from the ACS 5-year estimates, including total housing units, owner/renter split, median gross rent, median household income, and cost burden rate."
+    },
+    {
+      "file_path": "data/co_ami_gap_by_county.json",
+      "source_name": "CHFA / HUD \u2014 Colorado AMI Gap Analysis by County",
+      "source_url": "https://www.chfainfo.com/arh/ami",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Display statewide AMI gap only; disable county-level choropleth",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "County-level AMI gap data showing the difference between area median income (AMI) and the income required to afford median-priced housing in each of Colorado's 64 counties. Used in the Colorado Deep Dive AMI Gap tab."
+    },
+    {
+      "file_path": "data/co-demographics.json",
+      "source_name": "US Census Bureau \u2014 Colorado Statewide Demographics",
+      "source_url": "https://api.census.gov/data/2022/acs/acs5",
+      "update_method": "cached",
+      "status": "cached",
+      "fallback_rule": "Hide demographic breakdown charts; display static summary",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Colorado statewide demographic data including population by age cohort, race/ethnicity, household type, and tenure. Used for population pyramid and demographic trend charts in the Housing Needs Assessment."
+    },
+    {
+      "file_path": "data/co-historical-allocations.json",
+      "source_name": "CHFA \u2014 Colorado LIHTC Historical Allocation History",
+      "source_url": "https://www.chfainfo.com/arh/lihtc",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide historical allocation trend chart; display current year totals only",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Historical LIHTC allocation data for Colorado going back to program inception, including annual award amounts, unit counts, and project counts. Used to populate multi-year trend charts in the LIHTC dashboard."
+    },
+    {
+      "file_path": "data/allocations.json",
+      "source_name": "CHFA \u2014 Colorado LIHTC Allocation Ledger",
+      "source_url": "https://www.chfainfo.com/arh/lihtc",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide allocation table; display summary totals from chfa-lihtc.json",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Detailed LIHTC project allocation records for Colorado including project name, county, award year, credit amount, unit count, and affordability levels. Used in the LIHTC compliance dashboard allocation table."
+    },
+    {
+      "file_path": "data/hud-fmr-income-limits.json",
+      "source_name": "HUD \u2014 FY2025 Fair Market Rents & Income Limits",
+      "source_url": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Use statewide median as proxy; disable per-county AMI limit display",
+      "last_update": "2025-04-01T00:00:00Z",
+      "description": "HUD Fair Market Rents (FMR) and income limits for all 64 Colorado counties for FY2025. Includes FMR by bedroom size (0\u20134BR) and income limits at 30/50/60/80% AMI tiers. Fetched via scripts/fetch_fmr_api.py."
+    },
+    {
+      "file_path": "data/lihtc-trends-by-county.json",
+      "source_name": "CHFA \u2014 Colorado LIHTC Allocation Trends by County",
+      "source_url": "https://www.chfainfo.com/arh/lihtc",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide county sparkline charts; display statewide total only",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Annual LIHTC allocation trend data for all 64 Colorado counties, enabling sparkline trend charts in the LIHTC dashboard county table. Each county entry contains year-by-year unit totals."
+    },
+    {
+      "file_path": "data/states-10m.json",
+      "source_name": "Natural Earth / US Atlas \u2014 US State Boundaries (10m)",
+      "source_url": "https://github.com/topojson/us-atlas",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide US state context layer on regional comparison maps",
+      "last_update": "2024-01-01T00:00:00Z",
+      "description": "TopoJSON US state boundaries at 10-meter resolution from the US Atlas project. Used as the national context layer in regional comparison maps and state-level housing indicator charts."
+    },
+    {
+      "file_path": "data/market/nhpd_co.geojson",
+      "source_name": "National Housing Preservation Database (NHPD) \u2014 Colorado Assisted Housing",
+      "source_url": "https://preservationdatabase.org/",
+      "update_method": "manual",
+      "status": "seed",
+      "fallback_rule": "Hide NHPD preservation layer; suppress at-risk unit count metrics",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Point features for federally assisted rental housing properties in Colorado from the National Housing Preservation Database, including property name, subsidy program, expiration date, and unit count. Used in the Preservation dashboard."
+    },
+    {
+      "file_path": "data/market/reference-projects.json",
+      "source_name": "CHFA / Internal \u2014 Colorado Benchmark Reference Projects",
+      "source_url": null,
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Disable comparable project analysis in PMA tool; use regional averages only",
+      "last_update": "2026-01-01T00:00:00Z",
+      "description": "Curated dataset of 50 benchmark Colorado LIHTC projects with detailed metrics including unit mix, rents, construction costs, and absorption rates. Used as comparable set in the Primary Market Area (PMA) analysis tool."
+    },
+    {
+      "file_path": "data/hna/chas_affordability_gap.json",
+      "source_name": "HUD CHAS \u2014 Colorado Affordability Gap Analysis (Derived)",
       "source_url": "https://www.huduser.gov/portal/datasets/cp.html",
-      "update_method": "manual",
-      "status": "stub",
-      "fallback_rule": "Omit income-qualified demand sub-section; display coverage warning",
-      "last_update": null,
-      "description": "Income-qualified renter households by AMI tier (30/50/60/80%) at census tract level. Required for CHFA capture rate calculation. Released ~3 years lagged. Build via scripts/market/fetch_hud_chas.py."
-    },
-    {
-      "file_path": "data/market/acs_b25070_tracts_co.json",
-      "source_name": "ACS B25070 \u2014 Gross Rent as % of Income by Tract",
-      "source_url": "https://api.census.gov/data/{year}/acs/acs5?get=group(B25070)&for=tract:*&in=state:08",
       "update_method": "ci_workflow",
-      "status": "stub",
-      "fallback_rule": "Use county-level GRAPI bins as proxy; display coverage warning",
-      "last_update": null,
-      "description": "Tract-level rent burden distribution (Gross Rent as % of Income). Currently only available at county level via GRAPI bins. Add to acs_tract_metrics_co.json via build_public_market_data.py. Requires CENSUS_API_KEY."
+      "status": "cached",
+      "fallback_rule": "Omit CHAS affordability gap chart; display cost burden summary from ACS only",
+      "last_update": "2025-01-01T00:00:00Z",
+      "description": "Derived affordability gap metrics for Colorado counties from HUD CHAS data, showing the gap between income-qualified renter households and affordable units available at each AMI tier. Built by scripts/fetch_chas.py."
     },
     {
-      "file_path": "data/market/acs_b25063_tracts_co.json",
-      "source_name": "ACS B25063 \u2014 Gross Rent Distribution by Tract",
-      "source_url": "https://api.census.gov/data/{year}/acs/acs5?get=group(B25063)&for=tract:*&in=state:08",
+      "file_path": "data/manifest.json",
+      "source_name": "Internal \u2014 Auto-Generated Data File Inventory",
+      "source_url": null,
       "update_method": "ci_workflow",
-      "status": "stub",
-      "fallback_rule": "Omit actual rent distribution from capture rate calculations; use median rent estimate only",
-      "last_update": null,
-      "description": "Actual gross rent distributions by tract for capture rate calculations. Provides rent bands rather than median only, enabling better income-to-rent affordability matching. Requires CENSUS_API_KEY."
-    },
-    {
-      "file_path": "data/market/dola_permits_co.json",
-      "source_name": "DOLA Building Permit Data \u2014 Colorado New Construction Pipeline",
-      "source_url": "https://cdola.colorado.gov/building-permit-data",
-      "update_method": "manual",
-      "status": "stub",
-      "fallback_rule": "Omit supply pipeline section; display placeholder in PMA tool",
-      "last_update": null,
-      "description": "New residential construction permits by jurisdiction (annual). Used to estimate supply pipeline competing with proposed LIHTC project. Excel download \u2014 no live API. Refresh annually."
-    },
-    {
-      "file_path": "data/market/usps_vacancy_co.json",
-      "source_name": "USPS Vacancy Data (HUD aggregated) \u2014 Quarterly Vacancy Rates",
-      "source_url": "https://www.huduser.gov/portal/datasets/usps_crosswalk.html",
-      "update_method": "ci_workflow",
-      "status": "stub",
-      "fallback_rule": "Fall back to ACS vacancy_rate field; display note that USPS vacancy unavailable",
-      "last_update": null,
-      "description": "HUD-aggregated USPS address vacancy data at tract and ZIP code level, updated quarterly. Provides more current vacancy estimates than the 5-year ACS. Used in PMA demand and absorption analysis."
-    },
-    {
-      "file_path": "data/market/chfa_rent_limits.json",
-      "source_name": "CHFA Rent & Income Limits \u2014 LIHTC AMI-Restricted Rent Limits",
-      "source_url": "https://www.chfainfo.com/rental-housing/housing-credit/income-rent-limits",
-      "update_method": "manual",
-      "status": "stub",
-      "fallback_rule": "Use HUD published AMI limits as fallback for capture rate calculation",
-      "last_update": null,
-      "description": "CHFA-published AMI-restricted rent limits by bedroom type and county, updated annually when HUD releases new AMI figures. Required for achievable rent analysis in LIHTC market studies."
+      "status": "live",
+      "fallback_rule": "Data freshness indicator shows \u2014; continue loading from known file paths",
+      "last_update": "2026-03-18T00:00:00Z",
+      "description": "Auto-generated inventory of all data files in the repository with file sizes, feature counts, and placeholder flags. Regenerated by scripts/rebuild_manifest.py and read by js/data-freshness.js for the \u2018Data last updated\u2019 badge."
     }
   ]
 }

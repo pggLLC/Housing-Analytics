@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-18T12:12:22.360218Z",
+  "generated": "2026-03-18T16:56:23.558432Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/chfa-lihtc.json": {
       "featureCount": 716,
       "placeholder": false,
-      "bytes": 274900
+      "bytes": 275184
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -119,7 +119,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 961795
+      "bytes": 1883748
     },
     "data/hna/chas_affordability_gap.json": {
       "featureCount": 64,
@@ -459,7 +459,7 @@
     "data/hna/geo-config.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 30426
+      "bytes": 24669
     },
     "data/hna/lehd/08.json": {
       "featureCount": 0,
