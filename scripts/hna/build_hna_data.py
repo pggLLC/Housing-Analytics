@@ -477,7 +477,7 @@ def fetch_places(counties: list[dict] | None = None,
         if any(label_lower.endswith(s) for s in cdp_suffixes) or 'cdp' in label_lower.split():
             continue
         geoid = build_place_geoid(place_code)
-        entry: dict = {'geoid': geoid, 'label': label}
+        entry: dict = {'type': 'place', 'geoid': geoid, 'label': label}
         county_fips = place_county.get(geoid)
         if county_fips:
             entry['containingCounty'] = county_fips
@@ -534,7 +534,7 @@ def fetch_cdps(counties: list[dict] | None = None,
                 label = label[:-len(suffix)].strip() + ' (CDP)'
                 break
         geoid = build_place_geoid(place_code)
-        entry: dict = {'geoid': geoid, 'label': label}
+        entry: dict = {'type': 'cdp', 'geoid': geoid, 'label': label}
         county_fips = place_county.get(geoid)
         if county_fips:
             entry['containingCounty'] = county_fips

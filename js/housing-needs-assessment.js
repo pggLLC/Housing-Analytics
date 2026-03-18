@@ -75,7 +75,7 @@
     { type: 'place', geoid: '0873220', label: 'Steamboat Springs (city)', containingCounty: '08107' },
     { type: 'place', geoid: '0823680', label: 'Durango (city)',          containingCounty: '08067' },
     // CDPs
-    { type: 'cdp',   geoid: '0836000', label: 'Highlands Ranch (CDP)',  containingCounty: '08035' },
+    { type: 'cdp',   geoid: '0836410', label: 'Highlands Ranch (CDP)',  containingCounty: '08035' },
     { type: 'cdp',   geoid: '0815165', label: 'Clifton (CDP)',          containingCounty: '08077' },
   ];
 
@@ -632,11 +632,11 @@
     // Counties:  TIGERweb/State_County MapServer/1
     // Places:    TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/2
     // ConCities: TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/3 (consolidated cities fallback)
-    // CDPs:      TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/5
+    // CDPs:      TIGERweb/Places_CouSub_ConCity_SubMCD MapServer/4
 
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
-    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 2 : 5;
+    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 2 : geoType === 'cdp' ? 4 : 2;
     const svc   = (geoType === 'county' || geoType === 'state') ? countyService : service;
     const base  = `${svc}/${layer}`;
 
@@ -657,6 +657,16 @@
       // cities in TIGERweb and are absent from the Incorporated Places layer (layer 2).
       if (geoType === 'place') {
         const fallbackUrl = `${service}/3/query?${params.toString()}`;
+        const fallbackResp = await fetchWithTimeout(fallbackUrl, {}, 15000);
+        if (fallbackResp.ok) {
+          const fallbackGj = await fallbackResp.json();
+          if (Array.isArray(fallbackGj?.features) && fallbackGj.features.length > 0) return fallbackGj;
+        }
+      }
+      // For CDPs, fall back to Incorporated Places layer (layer 2) in case the
+      // CDP GEOID also appears there (e.g. reclassification between Census vintages).
+      if (geoType === 'cdp') {
+        const fallbackUrl = `${service}/2/query?${params.toString()}`;
         const fallbackResp = await fetchWithTimeout(fallbackUrl, {}, 15000);
         if (fallbackResp.ok) {
           const fallbackGj = await fallbackResp.json();
