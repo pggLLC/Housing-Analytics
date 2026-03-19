@@ -164,6 +164,47 @@ def compute_centroid(geometry: dict) -> Optional[tuple]:
         return None
 
 
+def compute_bbox(geometry: dict) -> Optional[list]:
+    """Return the polygon bounding box as [min_lon, min_lat, max_lon, max_lat].
+
+    Used to enable circle-bbox intersection testing in the PMA engine, which
+    includes tracts that straddle the buffer boundary even when their centroid
+    lies outside the radius.  Returns None when geometry is unavailable.
+    """
+    try:
+        rings = (
+            geometry.get("rings")
+            or geometry.get("coordinates")
+        )
+        if not rings:
+            return None
+
+        all_x: list = []
+        all_y: list = []
+
+        if isinstance(rings[0][0], (int, float)):
+            for i in range(0, len(rings[0]), 2):
+                all_x.append(rings[0][i])
+                all_y.append(rings[0][i + 1])
+        elif isinstance(rings[0][0], (list, tuple)):
+            for ring in rings:
+                for coord in ring:
+                    all_x.append(coord[0])
+                    all_y.append(coord[1])
+
+        if not all_x:
+            return None
+
+        return [
+            round(min(all_x), 6),
+            round(min(all_y), 6),
+            round(max(all_x), 6),
+            round(max(all_y), 6),
+        ]
+    except Exception:
+        return None
+
+
 def sqm_to_sqmiles(sqm: float) -> float:
     """Convert square metres to square miles."""
     return sqm / 2_589_988.0
@@ -203,7 +244,7 @@ def build() -> int:
         return 1
     print(f"   Total features fetched: {len(features)}")
 
-    print("\n2. Computing centroids…")
+    print("\n2. Computing centroids and bounding boxes…")
     tracts_phase3: list = []   # Phase 3 format (data/tract-centroids.json)
     tracts_market: list = []   # PMA engine format (data/market/tract_centroids_co.json)
     errors_total  = 0
@@ -233,6 +274,7 @@ def build() -> int:
             continue
 
         lat, lon = centroid
+        bbox = compute_bbox(geom) if geom else None
 
         tract_p3 = {
             "geoid":         geoid,
@@ -242,6 +284,9 @@ def build() -> int:
             "lon":           round(lon, 4),
             "area_sqmiles":  round(sqm_to_sqmiles(area_sqm), 2),
         }
+        if bbox:
+            tract_p3["bbox"] = bbox
+
         tract_mkt = {
             "geoid":        geoid,
             "lat":          round(lat, 4),
@@ -249,6 +294,8 @@ def build() -> int:
             "county_fips":  county_fips,
             "county_name":  county_fips,  # updated below if possible
         }
+        if bbox:
+            tract_mkt["bbox"] = bbox
 
         errs = validate_tract(tract_p3)
         if errs:
