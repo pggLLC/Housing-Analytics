@@ -6,9 +6,21 @@
   // Formula: (AMI × %AMI × 0.30) / 12
   var _amiLimits = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
-  const CREDIT_RATE = 0.09;   // 9% LIHTC (new construction)
-  const EQUITY_PRICE = 0.90;  // per dollar of annual credit
+  var _creditRate = 0.09;   // current credit rate — updated by scenario toggle
+  const EQUITY_PRICE_DEFAULT = 0.90;  // per dollar of annual credit (default)
   const CREDIT_YEARS = 10;
+
+  // -------------------------------------------------------------------
+  // Mortgage constant helper
+  // Annual mortgage constant for a fully-amortising loan.
+  // -------------------------------------------------------------------
+  function mortgageConstant(annualRate, termYears) {
+    var monthlyRate = annualRate / 12;
+    var totalMonths = termYears * 12;
+    if (monthlyRate <= 0 || totalMonths <= 0) return 0;
+    var factor = Math.pow(1 + monthlyRate, totalMonths);
+    return (monthlyRate * factor / (factor - 1)) * 12;
+  }
 
   /**
    * Update _amiLimits from HudFmr for the given county FIPS.
@@ -57,17 +69,38 @@
     mount.innerHTML = `
 <section class="chart-card" style="margin-top:2rem;" aria-labelledby="dealCalcTitle">
   <h2 id="dealCalcTitle" style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">
-    Preliminary LIHTC Feasibility Calculator
+    LIHTC Feasibility Calculator
   </h2>
   <p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">
-    Preliminary estimates only. Not a substitute for a full pro forma.
+    Planning-level estimates only. Not a substitute for a full pro forma.
   </p>
+
+  <!-- Credit Rate Scenario Toggle -->
+  <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);margin-bottom:var(--sp3);">
+    <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Credit Rate Scenario</legend>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--sp3);align-items:center;">
+      <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;font-size:var(--small);">
+        <input id="dc-rate-9" type="radio" name="dc-credit-rate" value="0.09" checked
+          style="width:16px;height:16px;flex-shrink:0;">
+        <span><strong>9% — Competitive / New Construction</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;font-size:var(--small);">
+        <input id="dc-rate-4" type="radio" name="dc-credit-rate" value="0.04"
+          style="width:16px;height:16px;flex-shrink:0;">
+        <span><strong>4% — Bond-Financed</strong></span>
+      </label>
+    </div>
+    <p id="dc-rate-pab-note" style="display:none;font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0;">
+      4% deals require a Private Activity Bond (PAB) volume cap allocation in addition to
+      the 4% credit allocation.
+    </p>
+  </fieldset>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp3);">
 
     <!-- Inputs column -->
     <div>
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Project Inputs</legend>
 
         <label style="display:block;margin-bottom:var(--sp2);">
@@ -101,13 +134,9 @@
           <span style="font-size:var(--small);color:var(--muted);">
             Eligible Basis %: <strong id="dc-basis-pct-label">80</strong>%
           </span>
-          <input id="dc-basis-pct" type="range" min="50" max="100" step="1" value="80"
+          <input id="dc-basis-pct" type="range" min="50" max="130" step="1" value="80"
             style="display:block;width:100%;margin-top:0.25rem;">
         </label>
-
-        <div style="font-size:var(--small);color:var(--muted);">
-          Credit Rate: <strong>9% (new construction)</strong>
-        </div>
 
         <div style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
           <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
@@ -136,12 +165,45 @@
           Gross rent limits: 30% AMI = $930 &bull; 40% = $1,240 &bull; 50% = $1,550 &bull; 60% = $1,860
         </div>
       </fieldset>
+
+      <!-- Debt / Mortgage Inputs -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing Inputs</legend>
+
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Estimated Net Operating Income (NOI) ($/year)</span>
+          <input id="dc-noi" type="number" min="0" step="1000" value="0"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+        </label>
+
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
+          <input id="dc-dcr" type="number" min="1" step="0.05" value="1.20"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+        </label>
+
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
+          <input id="dc-rate" type="number" min="0" max="30" step="0.1" value="6.5"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+        </label>
+
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
+          <input id="dc-term" type="number" min="1" max="50" step="1" value="35"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+        </label>
+
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0;">
+          This is a planning-level estimate. Actual terms depend on lender underwriting.
+        </p>
+      </fieldset>
     </div>
 
     <!-- Outputs column -->
     <div>
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Estimated Results</legend>
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates</legend>
         <dl id="dc-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);">Eligible Basis</dt>
           <dd id="dc-r-basis" style="font-weight:700;text-align:right;">—</dd>
@@ -152,25 +214,137 @@
           <dt style="color:var(--muted);">10-Year Credit Equity</dt>
           <dd id="dc-r-equity" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">Estimated Gap (TDC − Equity)</dt>
-          <dd id="dc-r-gap" style="font-weight:700;text-align:right;">—</dd>
-
           <dt style="color:var(--muted);">Est. Annual Gross Rents</dt>
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
       </fieldset>
+
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Supportable First Mortgage (estimate)</legend>
+        <dl id="dc-mortgage-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
+          <dt style="color:var(--muted);">Mortgage Constant (annual)</dt>
+          <dd id="dc-r-mc" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Supportable First Mortgage</dt>
+          <dd id="dc-r-mortgage" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
+        </dl>
+      </fieldset>
+
+      <!-- Sources & Uses Panel -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources &amp; Uses Summary</legend>
+        <table id="dc-su-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <thead>
+            <tr>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Item</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Amount</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">% of TDC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--bg2);">
+              <td colspan="3" style="padding:0.3rem 0.25rem;font-weight:700;color:var(--muted);font-size:var(--tiny);text-transform:uppercase;letter-spacing:0.04em;">SOURCES</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">LIHTC Equity</td>
+              <td id="dc-su-equity" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-equity-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">Supportable First Mortgage</td>
+              <td id="dc-su-mortgage" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-mortgage-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;color:var(--muted);">Gap / Subordinate Debt / Grants Needed</td>
+              <td id="dc-su-gap" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-gap-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr style="background:var(--bg2);">
+              <td colspan="3" style="padding:0.3rem 0.25rem;font-weight:700;color:var(--muted);font-size:var(--tiny);text-transform:uppercase;letter-spacing:0.04em;">USES</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">Total Development Cost (TDC)</td>
+              <td id="dc-su-tdc" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </fieldset>
     </div>
   </div>
+
+  <!-- Collapsible Assumptions Panel -->
+  <details style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);">
+    <summary style="font-size:var(--small);font-weight:700;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:0.4rem;">
+      <span>&#9660;</span> Assumptions
+    </summary>
+    <div style="margin-top:var(--sp2);font-size:var(--small);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp2) var(--sp3);">
+        <label style="display:block;">
+          <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
+          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.90"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+        </label>
+        <div>
+          <span style="color:var(--muted);display:block;margin-bottom:0.25rem;">Debt Coverage Ratio (DCR)</span>
+          <span id="dc-assump-dcr" style="font-weight:700;">1.20</span>
+          <span style="color:var(--muted);"> (edit in Debt Sizing Inputs)</span>
+        </div>
+        <div>
+          <span style="color:var(--muted);display:block;margin-bottom:0.25rem;">Interest Rate</span>
+          <span id="dc-assump-rate" style="font-weight:700;">6.5%</span>
+          <span style="color:var(--muted);"> (edit in Debt Sizing Inputs)</span>
+        </div>
+        <div>
+          <span style="color:var(--muted);display:block;margin-bottom:0.25rem;">Loan Term</span>
+          <span id="dc-assump-term" style="font-weight:700;">35 years</span>
+          <span style="color:var(--muted);"> (edit in Debt Sizing Inputs)</span>
+        </div>
+      </div>
+      <div id="dc-assump-qct" style="margin-top:var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);background:var(--bg2);font-size:var(--tiny);color:var(--muted);">
+        QCT/DDA basis boost: <strong id="dc-assump-qct-status">not indicated</strong>
+      </div>
+      <p style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);">
+        All values are planning-level and not a substitute for lender or investor underwriting.
+        Credit pricing, DCR, interest rate, and term vary by market, lender, and project type.
+      </p>
+    </div>
+  </details>
+
+  <!-- Planning-Level Disclaimer -->
+  <div style="margin-top:var(--sp3);padding:var(--sp2) var(--sp3);border-left:3px solid var(--border);background:var(--bg2);border-radius:0 var(--radius) var(--radius) 0;">
+    <p style="font-size:var(--tiny);color:var(--muted);margin:0;">
+      <em>This calculator produces planning-level estimates only. It is not a substitute for
+      lender underwriting, investor pricing, or legal/tax advice. Assumptions vary significantly
+      by market, lender, and project type.</em>
+    </p>
+  </div>
+
 </section>`;
 
     // Attach event listeners
     const ids = ['dc-tdc', 'dc-units', 'dc-basis-pct',
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
-      'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60'];
+      'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
+      'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
+    });
+
+    // Credit rate scenario toggle
+    ['dc-rate-9', 'dc-rate-4'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('change', function () {
+          _creditRate = parseFloat(this.value);
+          var pabNote = document.getElementById('dc-rate-pab-note');
+          if (pabNote) pabNote.style.display = (this.value === '0.04') ? 'block' : 'none';
+          recalculate();
+        });
+      }
     });
 
     // Toggle the QCT/DDA note when the checkbox changes
@@ -179,6 +353,9 @@
     if (qctDdaChk && qctDdaNote) {
       qctDdaChk.addEventListener('change', function () {
         qctDdaNote.style.display = qctDdaChk.checked ? 'block' : 'none';
+        var qctStatus = document.getElementById('dc-assump-qct-status');
+        if (qctStatus) qctStatus.textContent = qctDdaChk.checked ? 'indicated ✓' : 'not indicated';
+        recalculate();
       });
     }
 
@@ -191,6 +368,23 @@
       });
     }
 
+    // Sync assumptions display when debt inputs change
+    ['dc-dcr', 'dc-rate', 'dc-term'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function () {
+        var dcrEl = document.getElementById('dc-dcr');
+        var rateEl = document.getElementById('dc-rate');
+        var termEl = document.getElementById('dc-term');
+        var assumDcr = document.getElementById('dc-assump-dcr');
+        var assumRate = document.getElementById('dc-assump-rate');
+        var assumTerm = document.getElementById('dc-assump-term');
+        if (assumDcr && dcrEl) assumDcr.textContent = parseFloat(dcrEl.value).toFixed(2);
+        if (assumRate && rateEl) assumRate.textContent = parseFloat(rateEl.value).toFixed(1) + '%';
+        if (assumTerm && termEl) assumTerm.textContent = parseInt(termEl.value, 10) + ' years';
+      });
+    });
+
     recalculate();
   }
 
@@ -198,14 +392,31 @@
   // Core calculation
   // -------------------------------------------------------------------
   function recalculate() {
-    var tdc = parseFloat(document.getElementById('dc-tdc').value) || 0;
-    var basisPct = parseFloat(document.getElementById('dc-basis-pct').value) / 100;
+    function fmt(n) {
+      if (!isFinite(n)) return '—';
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    function fmtPct(n) {
+      if (!isFinite(n) || n === 0) return '—';
+      return (n * 100).toFixed(1) + '%';
+    }
+    function safeVal(id) {
+      var el = document.getElementById(id);
+      if (!el) return NaN;
+      return parseFloat(el.value);
+    }
 
+    var tdc = safeVal('dc-tdc') || 0;
+    var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
+    var equityPrice = safeVal('dc-equity-price');
+    if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
+
+    // LIHTC credit calculations
     var eligibleBasis = tdc * basisPct;
-    var annualCredits = eligibleBasis * CREDIT_RATE;
-    var equity = annualCredits * CREDIT_YEARS * EQUITY_PRICE;
-    var gap = tdc - equity;
+    var annualCredits = eligibleBasis * _creditRate;
+    var equity = annualCredits * CREDIT_YEARS * equityPrice;
 
+    // Rent income
     var annualRents = 0;
     [30, 40, 50, 60].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
@@ -216,23 +427,66 @@
       }
     });
 
-    function fmt(n) {
-      return '$' + Math.round(n).toLocaleString('en-US');
-    }
+    // Supportable first mortgage
+    var noi = safeVal('dc-noi') || 0;
+    var dcr = safeVal('dc-dcr');
+    if (!isFinite(dcr) || dcr <= 0) dcr = 1.20;
+    var interestRate = safeVal('dc-rate');
+    if (!isFinite(interestRate) || interestRate <= 0) interestRate = 6.5;
+    var term = safeVal('dc-term');
+    if (!isFinite(term) || term <= 0) term = 35;
 
-    document.getElementById('dc-r-basis').textContent = fmt(eligibleBasis);
-    document.getElementById('dc-r-credits').textContent = fmt(annualCredits);
-    document.getElementById('dc-r-equity').textContent = fmt(equity);
-    document.getElementById('dc-r-gap').textContent = fmt(gap);
+    var mc = mortgageConstant(interestRate / 100, term);
+    var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
+
+    // Sources & uses
+    var gap = tdc - equity - mortgage;
+
+    // Update LIHTC results
+    document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
+    document.getElementById('dc-r-credits').textContent = tdc > 0 ? fmt(annualCredits) : '—';
+    document.getElementById('dc-r-equity').textContent = tdc > 0 ? fmt(equity) : '—';
     document.getElementById('dc-r-rents').textContent = fmt(annualRents);
 
+    // Update mortgage results
+    document.getElementById('dc-r-mc').textContent = mc > 0 ? (mc * 100).toFixed(4) + '%' : '—';
+    document.getElementById('dc-r-mortgage').textContent = noi > 0 ? fmt(mortgage) : '—';
+
+    // Update gap note (legacy)
     var note = document.getElementById('dc-gap-note');
-    if (gap > 0) {
-      note.textContent = 'Gap of ' + fmt(gap) + ' would require additional debt, grants, or deferred developer fee.';
-      note.style.display = 'block';
-    } else {
-      note.textContent = 'Equity exceeds TDC — verify basis and credit rate inputs.';
-      note.style.display = 'block';
+    if (note) {
+      if (tdc > 0 && equity > 0) {
+        var simpleGap = tdc - equity;
+        if (simpleGap > 0) {
+          note.textContent = 'Equity covers ' + fmtPct(equity / tdc) + ' of TDC.';
+        } else {
+          note.textContent = 'Equity exceeds TDC — verify basis and credit rate inputs.';
+        }
+        note.style.display = 'block';
+      } else {
+        note.style.display = 'none';
+      }
+    }
+
+    // Update Sources & Uses table
+    var su = {
+      equity:      { amt: equity,   id: 'dc-su-equity' },
+      mortgage:    { amt: mortgage,  id: 'dc-su-mortgage' },
+      gap:         { amt: gap,       id: 'dc-su-gap' },
+      tdc:         { amt: tdc,       id: 'dc-su-tdc' }
+    };
+    ['equity', 'mortgage', 'gap', 'tdc'].forEach(function (key) {
+      var row = su[key];
+      var amtEl = document.getElementById(row.id);
+      var pctEl = document.getElementById(row.id + '-pct');
+      if (amtEl) amtEl.textContent = tdc > 0 ? fmt(row.amt) : '—';
+      if (pctEl) pctEl.textContent = tdc > 0 ? fmtPct(row.amt / tdc) : '—';
+    });
+
+    // Color the gap cell: red if positive (funding needed), green if zero
+    var gapAmtEl = document.getElementById('dc-su-gap');
+    if (gapAmtEl && tdc > 0) {
+      gapAmtEl.style.color = gap > 0 ? 'var(--chart-7)' : 'var(--accent)';
     }
   }
 
