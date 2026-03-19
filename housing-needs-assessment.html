@@ -37,12 +37,16 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
-  <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA main script -->
-  <script defer src="js/hna-export.js"></script>
+  <!-- HNA modules (split from housing-needs-assessment.js) -->
+  <script defer src="js/hna/hna-utils.js"></script>
+  <script defer src="js/hna/hna-narratives.js"></script>
+  <script defer src="js/hna/hna-renderers.js"></script>
+  <script defer src="js/hna/hna-export.js"></script>
   <!-- Compliance checklist persistence and state management -->
   <script defer src="js/compliance-checklist.js"></script>
-  <!-- HUD FMR & Income Limits connector (must load before housing-needs-assessment.js) -->
+  <!-- HUD FMR & Income Limits connector (must load before hna-controller.js) -->
   <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
