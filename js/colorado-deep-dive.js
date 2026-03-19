@@ -84,6 +84,9 @@
       case 'tab-policy-simulator':
         initPolicyPanel(panelId);
         break;
+      case 'tab-affordability-geo':
+        initAffordabilityGeoPanel(panelId);
+        break;
     }
   }
 
@@ -267,6 +270,177 @@ function initPolicyPanel(panelId) {
     }
   }
 
+  /* ── Affordability Geography panel ────────────────────────────── */
+  var _affGeoInit = false;
+  var _affGeoMaps = [];   /* Leaflet map instances for invalidateSize on tab re-show */
+
+  function initAffordabilityGeoPanel(panelId) {
+    if (_affGeoInit) return;
+    _affGeoInit = true;
+    showLoadingState(panelId);
+
+    /* Helper: tile layer URL (CARTO dark, matching site theme) */
+    var TILE_URL  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+    var TILE_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>';
+
+    function makeMap(elId) {
+      if (!window.L || !document.getElementById(elId)) return null;
+      var m = L.map(elId, { scrollWheelZoom: false, zoomControl: true })
+               .setView([39.0, -105.5], 6);
+      _affGeoMaps.push(m);
+      return m;
+    }
+
+    function addTiles(map) {
+      L.tileLayer(TILE_URL, { maxZoom: 19, attribution: TILE_ATTR }).addTo(map);
+    }
+
+    /* ─ Section A: Affordability Ratio dot map ─ */
+    function renderRatioMap() {
+      var map = makeMap('affRatioMap');
+      if (!map) return;
+      addTiles(map);
+
+      function ratioColor(pct) {
+        if (pct <  25) return '#2ca25f';
+        if (pct <  35) return '#f0ab00';
+        if (pct <  50) return '#e07b00';
+        return '#c0392b';
+      }
+
+      Promise.all([
+        DataService.getJSON('data/market/acs_tract_metrics_co.json'),
+        DataService.getJSON('data/market/tract_centroids_co.json')
+      ]).then(function (res) {
+        var tracts    = (res[0].tracts || []);
+        var centroids = (res[1].tracts || []);
+        var centMap   = {};
+        centroids.forEach(function (c) { centMap[c.geoid] = c; });
+
+        var rendered = 0;
+        tracts.forEach(function (t) {
+          var c = centMap[t.geoid];
+          if (!c) return;
+          var rent = t.median_gross_rent, inc = t.median_hh_income;
+          if (!rent || !inc || inc <= 0) return;
+          var pct = (rent * 12 / inc) * 100;   /* annualised rent ÷ annual income × 100 */
+          L.circleMarker([c.lat, c.lon], {
+            radius: 5, fillColor: ratioColor(pct),
+            color: 'transparent', fillOpacity: 0.72
+          }).bindTooltip(
+            '<strong>' + escapeHtml(c.county_name) + ' Tract ' + t.geoid.slice(-6) + '</strong>' +
+            '<br>Rent/Income: ' + pct.toFixed(1) + '%'
+          ).addTo(map);
+          rendered++;
+        });
+
+        var st = document.getElementById('affRatioMapStatus');
+        if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+      }).catch(function () {
+        var st = document.getElementById('affRatioMapStatus');
+        if (st) st.textContent = 'Affordability ratio data currently unavailable.';
+      });
+    }
+
+    /* ─ Section B: Cost Burden county choropleth ─ */
+    function renderBurdenMap() {
+      var map = makeMap('affBurdenMap');
+      if (!map) return;
+      addTiles(map);
+
+      function burdenColor(rate) {
+        if (rate < 0.40) return '#c6dbef';
+        if (rate < 0.50) return '#6baed6';
+        if (rate < 0.60) return '#2171b5';
+        return '#084594';
+      }
+
+      /* Helper: look up cost-burden rate for a county using its 5-digit FIPS code */
+      function getCountyBurdenRate(fips, data) {
+        var county = data[fips];
+        if (!county || !county.renter_hh_by_ami) return { rate: 0, name: null };
+        var ami = county.renter_hh_by_ami;
+        var totR = 0, totB = 0;
+        Object.values(ami).forEach(function (t) { totR += t.total || 0; totB += t.cost_burdened || 0; });
+        return { rate: totR > 0 ? totB / totR : 0, name: county.name };
+      }
+
+      Promise.all([
+        DataService.getJSON('data/co-county-boundaries.json'),
+        DataService.getJSON('data/hna/chas_affordability_gap.json')
+      ]).then(function (res) {
+        var geojson  = res[0];
+        var chasData = res[1].counties || {};
+
+        L.geoJSON(geojson, {
+          style: function (feat) {
+            var fips = feat.properties.GEOID;
+            var info = getCountyBurdenRate(fips, chasData);
+            return { fillColor: burdenColor(info.rate), weight: 1, color: '#555', fillOpacity: 0.75 };
+          },
+          onEachFeature: function (feat, layer) {
+            var fips = feat.properties.GEOID;
+            var info = getCountyBurdenRate(fips, chasData);
+            var name = info.name || feat.properties.NAME || fips;
+            layer.bindTooltip('<strong>' + escapeHtml(name) + ' County</strong><br>Cost-burdened renters: ' +
+              (info.rate * 100).toFixed(1) + '%');
+          }
+        }).addTo(map);
+
+        var st = document.getElementById('affBurdenMapStatus');
+        if (st) st.textContent = 'County-level data · HUD CHAS 2016–2020 5-year estimates';
+      }).catch(function () {
+        var st = document.getElementById('affBurdenMapStatus');
+        if (st) st.textContent = 'Cost burden data currently unavailable.';
+      });
+    }
+
+    /* ─ Section C: AMI Gap table ─ */
+    function renderGapTable() {
+      var tbody = document.getElementById('affGapTableBody');
+      if (!tbody) return;
+      DataService.getJSON('data/co_ami_gap_by_county.json').then(function (d) {
+        var counties = (d.counties || []).slice();
+        counties.sort(function (a, b) {
+          var ga = (a.gap_units_minus_households_le_ami_pct || {})['50'] || 0;
+          var gb = (b.gap_units_minus_households_le_ami_pct || {})['50'] || 0;
+          return ga - gb;   /* most negative (largest gap) first */
+        });
+
+        /* Methodology vintage */
+        var vintage = document.getElementById('affGeoDataVintage');
+        if (vintage && d.meta) {
+          var gen = d.meta.generated_at || '';   /* co_ami_gap_by_county.json uses generated_at */
+          vintage.textContent = gen ? 'Data generated: ' + gen : '';
+        }
+
+        tbody.innerHTML = '';
+        counties.slice(0, 10).forEach(function (c) {
+          var gap      = (c.gap_units_minus_households_le_ami_pct || {})['50'] || 0;
+          var coverage = (c.coverage_le_ami_pct || {})['50'] || 0;
+          var supplyPct = (coverage * 100).toFixed(1);
+          var tr = document.createElement('tr');
+          tr.innerHTML = '<td>' + escapeHtml(c.county_name) + '</td>' +
+            '<td style="color:#c0392b;font-variant-numeric:tabular-nums;">' + gap.toLocaleString() + '</td>' +
+            '<td>' + supplyPct + '%</td>' +
+            '<td style="color:var(--muted);">50% AMI tier</td>';
+          tbody.appendChild(tr);
+        });
+      }).catch(function () {
+        var tbody2 = document.getElementById('affGapTableBody');
+        if (tbody2) tbody2.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">AMI gap data currently unavailable.</td></tr>';
+      });
+    }
+
+    /* Boot all three sections */
+    requestAnimationFrame(function () {
+      try { renderRatioMap();  } catch (e) { handleDataError('aff-ratio-map', e); }
+      try { renderBurdenMap(); } catch (e) { handleDataError('aff-burden-map', e); }
+      try { renderGapTable();  } catch (e) { handleDataError('aff-gap-table', e); }
+      clearLoadingState(panelId);
+    });
+  }
+
   /* ── Tab activation ────────────────────────────────────────────── */
   function activateTab(panelId, opts) {
     opts = opts || {};
@@ -314,15 +488,25 @@ function initPolicyPanel(panelId) {
     /* Leaflet maps in hidden panels need a size refresh after becoming visible */
     try {
       var activePanel = document.getElementById(panelId);
-      if (activePanel && activePanel.querySelector && activePanel.querySelector('#coMap')) {
-        requestAnimationFrame(function () {
-          var _leafletMap = window.ColoradoDeepDiveMap;
-          if (_leafletMap && typeof _leafletMap.invalidateSize === 'function') {
-            _leafletMap.invalidateSize(true);
-          } else {
-            console.warn('[colorado-deep-dive] Map object (window.ColoradoDeepDiveMap) not available for resize.');
-          }
-        });
+      if (activePanel && activePanel.querySelector) {
+        if (activePanel.querySelector('#coMap')) {
+          requestAnimationFrame(function () {
+            var _leafletMap = window.ColoradoDeepDiveMap;
+            if (_leafletMap && typeof _leafletMap.invalidateSize === 'function') {
+              _leafletMap.invalidateSize(true);
+            } else {
+              console.warn('[colorado-deep-dive] Map object (window.ColoradoDeepDiveMap) not available for resize.');
+            }
+          });
+        }
+        /* Affordability Geography maps */
+        if (panelId === 'tab-affordability-geo') {
+          requestAnimationFrame(function () {
+            _affGeoMaps.forEach(function (m) {
+              try { m.invalidateSize(true); } catch (_e) { /* ignore */ }
+            });
+          });
+        }
       }
     } catch (e) { /* ignore */ }
   }
