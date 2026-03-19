@@ -109,6 +109,22 @@
           Credit Rate: <strong>9% (new construction)</strong>
         </div>
 
+        <div style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
+            <input id="dc-qct-dda" type="checkbox"
+              style="width:16px;height:16px;flex-shrink:0;">
+            <span style="font-size:var(--small);font-weight:600;">QCT/DDA site (may increase eligible basis)</span>
+          </label>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
+            QCT and DDA sites may qualify for up to <strong>130% eligible basis</strong>
+            under IRC&nbsp;§42(d)(5)(B). Adjust the Eligible Basis&nbsp;% slider above
+            to reflect the boost — this checkbox is for reference only.
+          </p>
+          <p id="dc-qct-dda-note" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0 1.6rem;font-weight:600;">
+            ✓ Site marked as QCT/DDA — consider setting Eligible Basis to 100%+ to model the boost.
+          </p>
+        </div>
+
         <label style="display:block;margin-bottom:var(--sp2);margin-top:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">County (sets HUD FMR gross rent limits)</span>
           <select id="dc-county-select"
@@ -156,6 +172,15 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
+
+    // Toggle the QCT/DDA note when the checkbox changes
+    var qctDdaChk = document.getElementById('dc-qct-dda');
+    var qctDdaNote = document.getElementById('dc-qct-dda-note');
+    if (qctDdaChk && qctDdaNote) {
+      qctDdaChk.addEventListener('change', function () {
+        qctDdaNote.style.display = qctDdaChk.checked ? 'block' : 'none';
+      });
+    }
 
     // Sync slider label
     var basisSlider = document.getElementById('dc-basis-pct');

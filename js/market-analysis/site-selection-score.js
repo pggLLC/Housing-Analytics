@@ -96,20 +96,41 @@
   /**
    * Score the subsidy eligibility and market positioning.
    *
-   * @param {boolean|number} qctFlag          - Site is in a QCT (1=yes).
-   * @param {boolean|number} ddaFlag          - Site is in a DDA (1=yes).
-   * @param {number}         fmrRatio         - Market rent ÷ FMR (Fair Market Rent).
-   * @param {number}         nearbySubsidized - Count of subsidised units within buffer.
+   * IRC §42(d)(5)(B) allows projects in QCTs or DDAs to qualify for a basis
+   * boost up to 130% of eligible basis, materially increasing annual credits.
+   * When basis_boost_eligible is provided and true, a unified bonus is awarded.
+   * Otherwise, individual qctFlag / ddaFlag are used for backward compatibility.
+   *
+   * @param {boolean|number} qctFlag             - Site is in a QCT (1=yes).
+   * @param {boolean|number} ddaFlag             - Site is in a DDA (1=yes).
+   * @param {number}         fmrRatio            - Market rent ÷ FMR (Fair Market Rent).
+   * @param {number}         nearbySubsidized    - Count of subsidised units within buffer.
+   * @param {boolean}        basis_boost_eligible - Site qualifies for IRC §42(d)(5)(B) basis boost.
    * @returns {number} 0–100
    */
-  function scoreSubsidy(qctFlag, ddaFlag, fmrRatio, nearbySubsidized) {
+  function scoreSubsidy(qctFlag, ddaFlag, fmrRatio, nearbySubsidized, basis_boost_eligible) {
     var score = 0;
 
-    // QCT designation adds 30 pts (basis-boost eligibility).
-    if (qctFlag) score += 30;
+    // IRC §42(d)(5)(B) basis boost: sites in QCTs or DDAs may reach 130% eligible basis.
+    // When basis_boost_eligible is provided and true, award a unified bonus (QCT + DDA
+    // combined). Fall back to individual flags when the parameter is absent so that
+    // callers that do not yet pass basis_boost_eligible continue to work correctly.
+    //
+    // NOTE: The unified bonus is intentionally 40 pts rather than 50 (the arithmetic
+    // sum of 30+20). The IRC §42(d)(5)(B) basis boost is a single election — you
+    // qualify or you don't — regardless of whether the site is in a QCT, a DDA, or
+    // both. A site in both still gets only one basis boost. The 40-pt score reflects
+    // that unified eligibility; individual flags are checked in the fallback branch only
+    // to support callers that lack the combined flag.
+    if (typeof basis_boost_eligible !== 'undefined' && basis_boost_eligible) {
+      score += 40; // Unified QCT/DDA basis boost bonus (single IRC §42(d)(5)(B) election)
+    } else {
+      // QCT designation adds 30 pts (basis-boost eligibility).
+      if (qctFlag) score += 30;
 
-    // DDA designation adds 20 pts (additional basis boost).
-    if (ddaFlag) score += 20;
+      // DDA designation adds 20 pts (additional basis boost).
+      if (ddaFlag) score += 20;
+    }
 
     // FMR ratio: a ratio ≥ 1.10 (market rents above FMR) signals subsidy gap.
     // Scale from 0 at 0.80 to 30 pts at 1.20+.
@@ -271,7 +292,7 @@
     var i = inputs || {};
 
     var demand_score      = Math.round(scoreDemand(i.acs));
-    var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized));
+    var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basisBoostEligible));
     var feasibility_score = Math.round(scoreFeasibility(i.floodRisk, i.soilScore, i.cleanupFlag));
     var access_score      = Math.round(scoreAccess(i.amenities));
     var policy_score      = Math.round(scorePolicy(i.zoningCapacity, i.publicOwnership, i.overlayCount));
