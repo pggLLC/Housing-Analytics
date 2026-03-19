@@ -142,7 +142,7 @@
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>` : '<p>No LIHTC projects visible in current S().map area.</p>';
+      </div>` : '<p>No LIHTC projects visible in current map area.</p>';
   }
 
   // Render LIHTC project markers on the S().map
