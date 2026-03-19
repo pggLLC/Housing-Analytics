@@ -85,7 +85,7 @@ Standard project README. Required at repository root.
 | `CHANGELOG.md` | ✅ Kept | Standard changelog location |
 | `README.md` | ✅ Kept | Required README |
 
-No root files were moved to `_tobedeleted/` because none were determined to be
+No root files were moved to `_audit/` because none were determined to be
 clearly redundant or superseded. Earlier cleanup (prior PR) already moved the
 truly redundant root files (`CHANGED_FILES.txt`, `DEPLOYMENT-GUIDE.txt`,
 `DATA-SOURCES.md`) to `_audit/`.

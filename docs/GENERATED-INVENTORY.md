@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-18T19:53:33.218Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T02:59:59.973Z. Do not edit by hand.
 
 ---
 
@@ -56,7 +56,7 @@
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 268.7 KB | ✅ | 716 features |
+| `data/chfa-lihtc.json` | 449.2 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.8 KB | ✅ | — |

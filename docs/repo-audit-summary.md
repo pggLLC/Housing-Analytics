@@ -154,8 +154,6 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 - Docs and site-audit pipeline are automatically updated after every merge.
 
----
-
 ## PR: Implementation Script Review (March 2026)
 
 **Branch:** `copilot/review-implementation-script`  
