@@ -281,7 +281,32 @@
     }
   }
 
-  window.__DealCalc = { init: init, recalculate: recalculate };
+  // -------------------------------------------------------------------
+  // Designation context — called by the market-analysis pipeline after
+  // a site has been checked against QCT/DDA overlay polygons.
+  // -------------------------------------------------------------------
+
+  /**
+   * Update the QCT/DDA indicator in the deal calculator UI.
+   * Called by the market-analysis controller once checkDesignation() resolves.
+   *
+   * When basis_boost_eligible is true the checkbox is pre-checked and the
+   * note is shown so the user is aware of the designation.  The basis %
+   * slider is intentionally NOT auto-adjusted — the user retains full
+   * manual control per the principle that the designation does not
+   * automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
+   *
+   * @param {boolean} basisBoostEligible - True when site is in a QCT or DDA.
+   */
+  function setDesignationContext(basisBoostEligible) {
+    var chk  = document.getElementById('dc-qct-dda');
+    var note = document.getElementById('dc-qct-dda-note');
+    if (!chk || !note) return; // calculator not yet mounted — intentional no-op
+    chk.checked        = !!basisBoostEligible;
+    note.style.display = basisBoostEligible ? 'block' : 'none';
+  }
+
+  window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
