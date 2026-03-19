@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T16:37:09.707Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T16:48:07.843Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 35.9 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 57.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 57.5 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 19.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
@@ -915,7 +915,7 @@
 | `test/economic_indicators_test.py` | 24.3 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/hna-functionality-check.js` | 42.9 KB |
+| `test/hna-functionality-check.js` | 44.1 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
@@ -930,7 +930,7 @@
 | `test/preservation.test.js` | 16.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
-| `test/prop123.test.js` | 13.6 KB |
+| `test/prop123.test.js` | 14.0 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
