@@ -1,17 +1,28 @@
 /**
- * js/hna/hna-export.js
- * Responsibility: PDF/CSV/JSON export logic — thin re-export of js/hna-export.js.
- * Dependencies: window.__HNA_exportPdf, window.__HNA_exportCsv, window.__HNA_exportJson,
- *               window.__HNA_buildReportData (set by js/hna-export.js)
- * Exposes: nothing new — js/hna-export.js already exposes the window.__HNA_export* API.
- *
- * NOTE: The canonical implementation lives in js/hna-export.js and is loaded separately
- * by housing-needs-assessment.html before the hna/* modules. This file exists solely to
- * satisfy the module-directory contract defined in the problem statement; it has no code
- * of its own because the host page already loads the real implementation.
+ * hna-export.js
+ * Responsibility: Export logic (PDF, CSV, JSON) for Housing Needs Assessment.
+ * Dependencies: window.__HNA_exportPdf, window.__HNA_exportCsv, window.__HNA_exportJson, window.__HNA_buildReportData
+ * Exposes: window.HNAExport
  */
 (function () {
   'use strict';
-  // No-op: js/hna-export.js is loaded directly by the HTML before this module runs,
-  // so window.__HNA_exportPdf / exportCsv / exportJson / buildReportData are already set.
+
+  window.HNAExport = {
+    exportPdf: function (filename) {
+      if (window.__HNA_exportPdf) return window.__HNA_exportPdf(filename);
+      window.print();
+    },
+    exportCsv: function (reportData, filename) {
+      if (window.__HNA_exportCsv) return window.__HNA_exportCsv(reportData, filename);
+      console.warn('[HNAExport] exportCsv: window.__HNA_exportCsv is not loaded.');
+    },
+    exportJson: function (reportData, filename) {
+      if (window.__HNA_exportJson) return window.__HNA_exportJson(reportData, filename);
+      console.warn('[HNAExport] exportJson: window.__HNA_exportJson is not loaded.');
+    },
+    buildReportData: function () {
+      if (window.__HNA_buildReportData) return window.__HNA_buildReportData();
+      return null;
+    },
+  };
 })();
