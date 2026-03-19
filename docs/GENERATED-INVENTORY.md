@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T16:12:26.840Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T16:37:09.707Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 26.4 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 18.8 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 10.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.3 KB |
@@ -926,7 +926,7 @@
 | `test/lighthouse-audit.js` | 953 B |
 | `test/pages-availability-check.js` | 9.4 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 7.6 KB |
+| `test/pma-scoring.test.js` | 11.7 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
@@ -988,7 +988,7 @@
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
 | `.github/workflows/fetch-chas-data.yml` | 2.5 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 2.5 KB |
-| `.github/workflows/fetch-county-data.yml` | 1.9 KB |
+| `.github/workflows/fetch-county-data.yml` | 3.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
