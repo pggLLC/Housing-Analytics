@@ -3,6 +3,8 @@ name: Fetch County Demographics and Economic Data
 # Refreshes county-level ACS demographic fallback data weekly so the
 # market-intelligence page always has a local JSON file to fall back to
 # when the Census API is slow or unavailable.
+# Also refreshes the Economic Health KPIs (co-county-economic-indicators.json)
+# using BLS LAUS, BLS QCEW, and ACS 5-year data.
 #
 # Schedule: every Monday at 06:00 UTC
 # Manual: workflow_dispatch
@@ -28,6 +30,11 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: npm install --omit=dev node-fetch@2
 
@@ -35,7 +42,7 @@ jobs:
         run: node scripts/fetch-county-demographics.js
         continue-on-error: true   # Non-fatal: retain existing file if Census API is down
 
-      - name: Validate output
+      - name: Validate demographics output
         run: |
           if jq -e '.counties | type == "object"' data/co-county-demographics.json > /dev/null; then
             echo "✅ co-county-demographics.json is valid"
@@ -46,15 +53,34 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Commit and push updated data file
+      - name: Fetch county economic indicators (BLS LAUS + QCEW + ACS)
+        env:
+          BLS_API_KEY:    ${{ secrets.BLS_API_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python3 scripts/fetch_county_economic_indicators.py
+        continue-on-error: true   # Non-fatal: retain existing file if APIs are down
+
+      - name: Validate economic indicators output
+        run: |
+          if jq -e '.counties | type == "object"' data/co-county-economic-indicators.json > /dev/null; then
+            echo "✅ co-county-economic-indicators.json is valid"
+            echo "   Counties: $(jq '.counties | keys | length' data/co-county-economic-indicators.json)"
+            echo "   Updated:  $(jq -r '.updated' data/co-county-economic-indicators.json)"
+          else
+            echo "❌ co-county-economic-indicators.json invalid"
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Commit and push updated data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/co-county-demographics.json
+          git add data/co-county-demographics.json data/co-county-economic-indicators.json
           if git diff --cached --quiet; then
-            echo "No changes to county demographics data"
+            echo "No changes to county data files"
           else
-            git commit -m "chore: refresh county ACS demographics [$(date -u '+%Y-%m-%d')]"
+            git commit -m "chore: refresh county demographics and economic indicators [$(date -u '+%Y-%m-%d')]"
             git pull --rebase origin main
             git push
           fi
