@@ -154,4 +154,41 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 - Docs and site-audit pipeline are automatically updated after every merge.
 
+---
+
+## PR: Implementation Script Review (March 2026)
+
+**Branch:** `copilot/review-implementation-script`  
+**Scope:** Schema validation fixes, data quality backfill, pipeline documentation
+
+### Data Quality Fixes Applied
+
+| Action | Detail |
+|--------|--------|
+| Ran `scripts/fix_chfa_nulls.py` | Backfilled 78 null `LI_UNITS`, 78 null `CREDIT`, 78 null `NON_PROF`, 431 null `DDA` fields in `data/chfa-lihtc.json` per Rule 2 |
+| Fixed `scripts/validate-schemas.js` | Updated manifest validator to accept `files` as either an array or an object (dict), matching the actual output of `scripts/rebuild_manifest.py` |
+| Updated `schemas/manifest.schema.json` | Expanded schema to support the current dict-keyed file inventory format |
+
+### Documentation Added
+
+| Document | Purpose |
+|----------|---------|
+| `docs/alerts-pipeline.md` | Full operational guide: how to configure feeds, run scripts, understand empty-state behavior, policy brief schema |
+| `docs/root-file-cleanup.md` | Audit of root-level guide/checklist files — decision and rationale for each |
+
+### Pipeline Status (Current)
+
+| Pipeline | Status |
+|----------|--------|
+| Alerts (`fetch_google_alerts.py`) | Implemented · Seeded · No live feeds configured yet |
+| Policy briefs (`generate_policy_briefs.py`) | Implemented · Seeded · Awaits alerts pipeline data |
+| GitHub Actions automation | Not present for alerts/briefs — manual scripts only |
+
+### Remaining Manual QA
+
+1. **Add real RSS feeds** to `scripts/alert_feeds.txt` and run `fetch_google_alerts.py`
+2. **Run `generate_policy_briefs.py`** once alerts are flowing to populate `data/policy_briefs.json`
+3. **Browser smoke tests** on key pages — no console errors expected
+4. **Preview `policy-briefs.html`** to confirm empty-state message appears correctly
+
 ## 

@@ -73,8 +73,11 @@ function validateManifest() {
   assert(typeof data.generated === 'string' && data.generated.length > 0,
     FILE, '`generated` is a non-empty string (sentinel key)');
 
-  assert(Array.isArray(data.files) && data.files.length > 0,
-    FILE, '`files` is a non-empty array');
+  // files may be a dict (path → metadata) or a legacy array of path strings
+  const filesOk = (Array.isArray(data.files) && data.files.length > 0) ||
+    (data.files && typeof data.files === 'object' && !Array.isArray(data.files) &&
+     Object.keys(data.files).length > 0);
+  assert(filesOk, FILE, '`files` is a non-empty array or object');
 
   // generated must be a parseable date
   const d = new Date(data.generated);
