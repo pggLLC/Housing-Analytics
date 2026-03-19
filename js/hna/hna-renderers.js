@@ -1,30 +1,30 @@
 /**
- * js/hna/hna-renderers.js
- * Responsibility: All DOM rendering functions — stat cards, tables, charts, and scenario controls.
- * Dependencies: window.__HNA_STATE (_S), window.__HNA_UTILS (_U), window.__HNA_NARRATIVES (_N),
- *               window.Chart (Chart.js), window.L (Leaflet — for LIHTC info panel)
- * Exposes: window.__HNA_RENDERERS
+ * hna-renderers.js
+ * Responsibility: DOM render functions for Housing Needs Assessment.
+ * Dependencies: window.HNAState, window.HNAUtils
+ * Exposes: window.HNARenderers
  */
 (function () {
   'use strict';
-  var _S = window.__HNA_STATE;
-  var _U = window.__HNA_UTILS;
-  var _N = window.__HNA_NARRATIVES;
+
+  function S() { return window.HNAState; }
+  function U() { return window.HNAUtils; }
 
   function setBanner(msg, kind='info'){
     if (!msg){
-      _S.els.banner.classList.remove('show');
-      _S.els.banner.textContent='';
-      _S.els.banner.removeAttribute('data-kind');
+      S().els.banner.classList.remove('show');
+      S().els.banner.textContent='';
+      S().els.banner.removeAttribute('data-kind');
       return;
     }
-    _S.els.banner.classList.add('show');
-    _S.els.banner.textContent = msg;
-    _S.els.banner.setAttribute('data-kind', kind);
+    S().els.banner.classList.add('show');
+    S().els.banner.textContent = msg;
+    S().els.banner.setAttribute('data-kind', kind);
   }
 
   // Reset all stat cards to placeholder state before fetching new geography data.
   // Prevents stale values from a previous geography persisting while new data loads.
+
   function clearStats(){
     const DASH = '—';
     const statTextEls = [
@@ -33,12 +33,12 @@
       'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
     ];
     statTextEls.forEach(function(id){
-      const el = _S.els[id];
+      const el = els[id];
       if (el) el.textContent = DASH;
     });
     const yoyEls = ['statPopYoy','statMhiYoy','statHomeValueYoy','statRentYoy'];
     yoyEls.forEach(function(id){
-      const el = _S.els[id];
+      const el = els[id];
       if (el){ el.textContent = ''; el.className = 'yoy'; }
     });
     const srcEls = [
@@ -46,146 +46,68 @@
       'statTenureSrc','statRentBurdenSrc','statCommuteSrc','statBaseUnitsSrc',
     ];
     srcEls.forEach(function(id){
-      const el = _S.els[id];
+      const el = els[id];
       if (el) el.innerHTML = '';
     });
-    if (_S.els.statIncomeNeedNote) _S.els.statIncomeNeedNote.textContent = '';
-    if (_S.els.execNarrative) _S.els.execNarrative.textContent = '';
-    if (_S.els.needNote) _S.els.needNote.textContent = '';
+    if (S().els.statIncomeNeedNote) S().els.statIncomeNeedNote.textContent = '';
+    if (S().els.execNarrative) S().els.execNarrative.textContent = '';
+    if (S().els.needNote) S().els.needNote.textContent = '';
   }
+
+
+  function chartTheme(){
+    const style = getComputedStyle(document.documentElement);
+    const text = style.getPropertyValue('--text').trim() || '#111';
+    const muted = style.getPropertyValue('--muted').trim() || '#555';
+    const border = style.getPropertyValue('--border').trim() || '#ddd';
+    // Chart palette tokens (var(--chart-1) … var(--chart-7), Rule 10)
+    const chartColors = [1,2,3,4,5,6,7].map(n =>
+      style.getPropertyValue(`--chart-${n}`).trim() || ['#1e5799','#0369a1','#096e65','#7c3d00','#166534','#92400e','#991b1b'][n-1]
+    );
+    return { text, muted, border, chartColors };
+  }
+
+
   function makeChart(ctx, config){
     // Destroy existing
     const id = ctx.canvas.id;
-    if (_S.charts[id]) _S.charts[id].destroy();
+    if (S().charts[id]) S().charts[id].destroy();
     // Apply consistent font size for legibility
     if (window.Chart && Chart.defaults) {
       Chart.defaults.font = Chart.defaults.font || {};
       Chart.defaults.font.size = 12;
     }
-    _S.charts[id] = new Chart(ctx, config);
+    S().charts[id] = new Chart(ctx, config);
   }
 
-  function buildSelect(){
-    const type = _S.els.geoType.value;
-    _S.els.geoSelect.innerHTML='';
-    const cfg = window.__HNA_GEO_CONFIG;
 
-    // State of Colorado — single fixed option
-    if (type === 'state') {
-      const opt = document.createElement('option');
-      opt.value = '08';
-      opt.textContent = 'State of Colorado';
-      opt.selected = true;
-      _S.els.geoSelect.appendChild(opt);
-      _announceGeoOptions(1, 'state');
-      return;
+  function renderBoundary(geojson, geoType){
+    ensureMap();
+    if (S().boundaryLayer) {
+      S().boundaryLayer.remove();
+      S().boundaryLayer = null;
     }
-
-    // Prefer full list from config for each type; fall back to featured items
-    if (type === 'county' && Array.isArray(cfg?.counties) && cfg.counties.length){
-      for (const c of cfg.counties){
-        const opt = document.createElement('option');
-        opt.value = c.geoid;
-        opt.textContent = c.label;
-        if (c.geoid === _S.DEFAULTS.geoId) opt.selected = true;
-        _S.els.geoSelect.appendChild(opt);
-      }
-      _announceGeoOptions(cfg.counties.length, 'county');
-      return;
-    }
-
-    if (type === 'place' && Array.isArray(cfg?.places) && cfg.places.length){
-      for (const p of cfg.places){
-        const opt = document.createElement('option');
-        opt.value = p.geoid;
-        opt.textContent = p.label;
-        _S.els.geoSelect.appendChild(opt);
-      }
-      if (!_S.els.geoSelect.value && cfg.places[0]) _S.els.geoSelect.value = cfg.places[0].geoid;
-      _announceGeoOptions(cfg.places.length, 'municipality');
-      return;
-    }
-
-    if (type === 'cdp' && Array.isArray(cfg?.cdps) && cfg.cdps.length){
-      for (const c of cfg.cdps){
-        const opt = document.createElement('option');
-        opt.value = c.geoid;
-        opt.textContent = c.label;
-        _S.els.geoSelect.appendChild(opt);
-      }
-      if (!_S.els.geoSelect.value && cfg.cdps[0]) _S.els.geoSelect.value = cfg.cdps[0].geoid;
-      _announceGeoOptions(cfg.cdps.length, 'census-designated place');
-      return;
-    }
-
-    // Fall back to featured items filtered by type
-    const list = (cfg?.featured || _S.FEATURED).filter(x => x.type === type);
-    for (const g of list){
-      const opt = document.createElement('option');
-      opt.value = g.geoid;
-      opt.textContent = g.label;
-      if (g.geoid === _S.DEFAULTS.geoId) opt.selected = true;
-      _S.els.geoSelect.appendChild(opt);
-    }
-
-    // Ensure something selected
-    if (!_S.els.geoSelect.value && list[0]) _S.els.geoSelect.value = list[0].geoid;
-    _announceGeoOptions(list.length, type);
-  }
-
-  /**
-   * Update the #geoSelectHint element so screen readers know how many options
-   * are available after the geography type changes (Recommendation 5.5).
-   */
-  function _announceGeoOptions(count, typeName) {
-    var hint = document.getElementById('geoSelectHint');
-    if (hint) {
-      hint.textContent = count + ' ' + typeName + (count === 1 ? '' : 's') + ' available';
+    const features = Array.isArray(geojson?.features) ? geojson.features : [];
+    if (!features.length) return;
+    const style = U().BOUNDARY_STYLES[geoType] || U().BOUNDARY_STYLES.county;
+    S().boundaryLayer = L.geoJSON(geojson, { style }).addTo(S().map);
+    try{
+      S().map.fitBounds(S().boundaryLayer.getBounds(), {padding:[16,16]});
+    }catch(e){
+      // ignore
     }
   }
 
-  function lihtcSourceInfo(source) {
-    if (source === 'CHFA')  return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
-    if (source === 'local') return { label: 'Local CHFA data (chfa-lihtc.json)', color: '#16a34a' };
-    if (source === 'HUD')   return { label: 'HUD LIHTC Database', color: '#6366f1' };
-    return                         { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
-  }
+  // --- LIHTC / QCT / DDA helpers ---
 
-  // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)
-  // source: 'CHFA' | 'HUD' | 'fallback' — indicates which data source provided this record
-  function lihtcPopupHtml(p, source) {
-    const safe = v => (v == null || v === '') ? '—' : String(v);
-    const yn   = v => (v === 1 || v === '1' || v === 'Y' || v === true)
-      ? '<span style="color:#34d399">Yes</span>'
-      : '<span style="color:#94a3b8">No</span>';
-    const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
-      .filter(Boolean).join(', ');
-    const { label: srcLabel } = lihtcSourceInfo(source);
-    return `<div style="min-width:220px;max-width:280px;font-size:13px">
-      <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
-      ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
-      <table style="width:100%;border-collapse:collapse">
-        <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${safe(p.CREDIT)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
-        <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
-        ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
-      </table>
-      <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
-    </div>`;
-  }
+  // Return LIHTC fallback features filtered to a county FIPS (or all if none specified)
 
-  // Build (or rebuild) the "LIHTC projects in area (top 10 by units)" info panel
-  // using features that fall within the current map viewport bounds.
   function updateLihtcInfoPanel() {
-    if (!_S.els.lihtcInfoPanel || !_S.allLihtcFeatures.length) return;
-    const bounds = map && map.getBounds ? map.getBounds() : null;
-    let visible = _S.allLihtcFeatures;
+    if (!S().els.lihtcInfoPanel || !S().allLihtcFeatures.length) return;
+    const bounds = S().map && S().map.getBounds ? S().map.getBounds() : null;
+    let visible = S().allLihtcFeatures;
     if (bounds) {
-      visible = _S.allLihtcFeatures.filter(f => {
+      visible = S().allLihtcFeatures.filter(f => {
         if (!f.geometry || f.geometry.type !== 'Point') return false;
         const [lng, lat] = f.geometry.coordinates;
         return bounds.contains([lat, lng]);
@@ -205,8 +127,8 @@
         <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
       </tr>`;
     }).join('');
-    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(_S.lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${_S.lihtcDataSource}</span>`;
-    _S.els.lihtcInfoPanel.innerHTML = rows ? `
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${S().lihtcDataSource}</span>`;
+    S().els.lihtcInfoPanel.innerHTML = rows ? `
       <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
         <table style="width:100%;border-collapse:collapse;font-size:.83rem">
@@ -223,7 +145,111 @@
       </div>` : '<p>No LIHTC projects visible in current map area.</p>';
   }
 
-  // Render LIHTC project markers on the map
+  // Render LIHTC project markers on the S().map
+
+  function renderLihtcLayer(geojson){
+    ensureMap();
+    if (S().lihtcLayer) { S().lihtcLayer.remove(); S().lihtcLayer = null; }
+    if (!geojson || !geojson.features || !geojson.features.length) {
+      if (S().els.statLihtcCount) S().els.statLihtcCount.textContent = '0';
+      if (S().els.statLihtcUnits) S().els.statLihtcUnits.textContent = '0';
+      S().allLihtcFeatures = [];
+      return;
+    }
+
+    const dataSource = geojson._source || 'HUD';
+    S().allLihtcFeatures = geojson.features;
+    S().lihtcDataSource = dataSource;
+
+    const lihtcIcon = L.divIcon({
+      html: '<div style="width:11px;height:11px;border-radius:50%;background:#e84545;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>',
+      className: '',
+      iconSize: [11, 11],
+      iconAnchor: [5, 5],
+    });
+
+    S().lihtcLayer = L.geoJSON(geojson, {
+      pointToLayer: (f, latlng) => L.marker(latlng, { icon: lihtcIcon }),
+      onEachFeature: (f, layer) => {
+        const p = f.properties || {};
+        layer.bindPopup(U().lihtcPopupHtml(p, dataSource));
+        layer.bindTooltip(p.PROJECT || p.PROJ_NM || 'LIHTC Project');
+      },
+    }).addTo(S().map);
+
+    // Visibility toggle
+    if (S().els.layerLihtc && !S().els.layerLihtc.checked) S().lihtcLayer.remove();
+
+    // Update stats
+    const count = geojson.features.length;
+    const units = geojson.features.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
+    if (S().els.statLihtcCount) S().els.statLihtcCount.textContent = count.toLocaleString();
+    if (S().els.statLihtcUnits) S().els.statLihtcUnits.textContent = units.toLocaleString();
+
+    // Build the info panel for the current viewport
+    updateLihtcInfoPanel();
+  }
+
+  // Render QCT tract overlay on the S().map
+
+  function renderQctLayer(geojson){
+    ensureMap();
+    if (S().qctLayer) { S().qctLayer.remove(); S().qctLayer = null; }
+    if (!geojson || !geojson.features || !geojson.features.length) {
+      if (S().els.statQctCount) S().els.statQctCount.textContent = '0';
+      return;
+    }
+    S().qctLayer = L.geoJSON(geojson, {
+      style: {
+        weight: 2,
+        color: '#388e3c',
+        fillColor: '#4caf50',
+        fillOpacity: 0.18,
+      },
+      onEachFeature: (f, layer) => {
+        const p = f.properties || {};
+        layer.bindTooltip(`QCT Tract: ${p.NAME || p.GEOID || p.TRACTCE || '—'}`);
+      },
+    }).addTo(S().map);
+
+    if (S().els.layerQct && !S().els.layerQct.checked) S().qctLayer.remove();
+    if (S().els.statQctCount) S().els.statQctCount.textContent = geojson.features.length.toLocaleString();
+  }
+
+  // Render DDA overlay on the map (polygon if available) and info badge
+
+  function renderDdaLayer(countyFips5, ddaGeojson){
+    ensureMap();
+    if (S().ddaLayer) { S().ddaLayer.remove(); S().ddaLayer = null; }
+
+    const ddaInfo = CO_DDA[countyFips5] || null;
+
+    if (ddaGeojson && ddaGeojson.features && ddaGeojson.features.length) {
+      S().ddaLayer = L.geoJSON(ddaGeojson, {
+        style: {
+          weight: 2,
+          color: '#ff6f00',
+          fillColor: '#ff9800',
+          fillOpacity: 0.17,
+          dashArray: '6 4',
+        },
+        onEachFeature: (f, layer) => {
+          const p = f.properties || {};
+          layer.bindTooltip(`DDA: ${p.DDA_NAME || 'Difficult Development Area'}`);
+        },
+      }).addTo(S().map);
+      if (S().els.layerDda && !S().els.layerDda.checked) S().ddaLayer.remove();
+    }
+
+    // Always show DDA status from static lookup or fetched data
+    const isDda = !!(ddaInfo?.status || (ddaGeojson?.features?.length));
+    const areaName = ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '';
+    if (S().els.statDdaStatus) S().els.statDdaStatus.textContent = isDda ? 'Yes ✓' : 'No';
+    if (S().els.statDdaNote) S().els.statDdaNote.textContent = isDda ? (areaName || 'HUD DDA') : 'Not designated';
+  }
+
+  // Wire layer visibility toggles
+
   function renderJobMetrics(container, metrics) {
     if (!container) return;
     if (!metrics || metrics.jobs === null) {
@@ -248,6 +274,7 @@
     }).join('');
   }
 
+
   function renderWageChart(container, dist) {
     if (!container) return;
     if (!dist) {
@@ -255,7 +282,7 @@
       return;
     }
     container.innerHTML = '<div class="chart-box"><canvas id="chartWage"></canvas></div>';
-    const t = _U.chartTheme();
+    const t = chartTheme();
     makeChart(document.getElementById('chartWage').getContext('2d'), {
       type: 'bar',
       data: {
@@ -278,6 +305,7 @@
     });
   }
 
+
   function renderIndustryChart(container, industries) {
     if (!container) return;
     if (!industries || !industries.length) {
@@ -285,7 +313,7 @@
       return;
     }
     container.innerHTML = '<div class="chart-box"><canvas id="chartIndustry"></canvas></div>';
-    const t = _U.chartTheme();
+    const t = chartTheme();
     makeChart(document.getElementById('chartIndustry').getContext('2d'), {
       type: 'bar',
       data: {
@@ -308,6 +336,7 @@
       }
     });
   }
+
 
   function renderCommutingFlows(container, metrics) {
     if (!container) return;
@@ -332,10 +361,11 @@
    * @param {object|null} lehd
    * @param {object|null} profile
    */
+
   function renderLaborMarketSection(lehd, profile) {
-    const metrics     = _U.calculateJobMetrics(lehd, profile);
-    const wageDist    = _U.calculateWageDistribution(lehd);
-    const industries  = _U.parseIndustries(lehd, 5);
+    const metrics     = U().calculateJobMetrics(lehd, profile);
+    const wageDist    = U().calculateWageDistribution(lehd);
+    const industries  = U().parseIndustries(lehd, 5);
 
     renderJobMetrics(document.getElementById('jobMetrics'), metrics);
 
@@ -359,6 +389,8 @@
    * Reads annualEmployment and yoyGrowth from the cached LEHD file.
    *
    * @param {string|null} geoid - 5-digit county FIPS (used for data lookup); null for state-level
+   */
+
   function renderEmploymentTrend(geoid) {
     var container = document.getElementById('employmentTrendContainer');
     if (!container) return;
@@ -384,7 +416,7 @@
     var yoy    = lehd.yoyGrowth || {};
 
     container.innerHTML = '<div class="chart-box"><canvas id="chartEmploymentTrend"></canvas></div>';
-    var t = _U.chartTheme();
+    var t = chartTheme();
     makeChart(document.getElementById('chartEmploymentTrend').getContext('2d'), {
       type: 'line',
       data: {
@@ -449,6 +481,7 @@
    *
    * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
+
   function renderWageTrend(geoid) {
     var container = document.getElementById('wageTrendContainer');
     if (!container) return;
@@ -480,15 +513,15 @@
       if (!total) return null;
       // Weighted average using band midpoints
       var weighted = (
-        (w.low    || 0) * _S.WAGE_BAND_ANNUAL.low    +
-        (w.medium || 0) * _S.WAGE_BAND_ANNUAL.medium  +
-        (w.high   || 0) * _S.WAGE_BAND_ANNUAL.high
+        (w.low    || 0) * U().WAGE_BAND_ANNUAL.low    +
+        (w.medium || 0) * U().WAGE_BAND_ANNUAL.medium  +
+        (w.high   || 0) * U().WAGE_BAND_ANNUAL.high
       ) / total;
       return Math.round(weighted);
     });
 
     container.innerHTML = '<div class="chart-box"><canvas id="chartWageTrend"></canvas></div>';
-    var t = _U.chartTheme();
+    var t = chartTheme();
     makeChart(document.getElementById('chartWageTrend').getContext('2d'), {
       type: 'line',
       data: {
@@ -533,6 +566,7 @@
    *
    * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
+
   function renderIndustryAnalysis(geoid) {
     var container = document.getElementById('industryAnalysisContainer');
     if (!container) return;
@@ -575,7 +609,7 @@
       '</div>' +
       '<div class="chart-box"><canvas id="chartIndustryAnalysis"></canvas></div>';
 
-    var t = _U.chartTheme();
+    var t = chartTheme();
     var colors = industries.map(function(_, i) {
       var palette = [
         'rgba(59,130,246,.75)', 'rgba(34,163,111,.75)', 'rgba(251,191,36,.75)',
@@ -631,6 +665,7 @@
    *
    * @param {string|null} geoid - 5-digit county FIPS; null for state-level
    */
+
   function renderEconomicIndicators(geoid) {
     var container = document.getElementById('econIndicatorCards');
     if (!container) return;
@@ -708,7 +743,7 @@
       },
       {
         label: 'YoY Growth',
-        value: _U.fmtPct(latestYoy),
+        value: U().fmtPct(latestYoy),
         sub: (latestYr && years[years.length - 2])
           ? years[years.length - 2] + ' → ' + latestYr
           : 'Year-over-year change',
@@ -716,7 +751,7 @@
       },
       {
         label: 'CAGR',
-        value: _U.fmtPct(cagr),
+        value: U().fmtPct(cagr),
         sub: firstYr && latestYr ? firstYr + ' → ' + latestYr + ' compound annual growth' : 'Compound annual growth rate',
         color: cagr !== null ? (Number(cagr) > 0 ? '#22a36f' : (Number(cagr) < 0 ? '#ef4444' : '')) : '',
       },
@@ -744,6 +779,7 @@
    * @param {string} geoid   - 5-digit county FIPS
    * @param {object} profile - ACS profile (for median rent DP04_0134E)
    */
+
   function renderWageGaps(geoid, profile) {
     var container = document.getElementById('wageGapsContainer');
     if (!container) return;
@@ -755,9 +791,9 @@
     }
 
     var WAGE_TIERS = [
-      { label: 'Low wage (CE01)',    annualWage: _S.WAGE_BAND_ANNUAL.low,    desc: '≤ $1,250/mo LEHD' },
-      { label: 'Medium wage (CE02)', annualWage: _S.WAGE_BAND_ANNUAL.medium, desc: '$1,251–$3,333/mo LEHD' },
-      { label: 'High wage (CE03)',   annualWage: _S.WAGE_BAND_ANNUAL.high,   desc: '> $3,333/mo LEHD' },
+      { label: 'Low wage (CE01)',    annualWage: U().WAGE_BAND_ANNUAL.low,    desc: '≤ $1,250/mo LEHD' },
+      { label: 'Medium wage (CE02)', annualWage: U().WAGE_BAND_ANNUAL.medium, desc: '$1,251–$3,333/mo LEHD' },
+      { label: 'High wage (CE03)',   annualWage: U().WAGE_BAND_ANNUAL.high,   desc: '> $3,333/mo LEHD' },
     ];
 
     var rows = WAGE_TIERS.map(function(tier) {
@@ -817,6 +853,7 @@
   // Prop 123 renderers
   // ---------------------------------------------------------------
 
+
   function renderBaselineCard(container, baselineData) {
     if (!container) return;
     if (!baselineData) {
@@ -836,7 +873,7 @@
       '<div class="prop123-stat-row">' +
         '<div class="prop123-stat"><strong>' + fmt(baseline60Ami) + '</strong> est. 60% AMI rental units</div>' +
         '<div class="prop123-stat"><strong>' + fmt(totalRentals) + '</strong> total rental units</div>' +
-        '<div class="prop123-stat"><strong>' + _U.fmtPct(pctOfStock) + '</strong> of rental stock</div>' +
+        '<div class="prop123-stat"><strong>' + U().fmtPct(pctOfStock) + '</strong> of rental stock</div>' +
       '</div>' +
       '<div><span class="compliance-status ' + statusClass + '">' + statusText + '</span></div>' +
       '<p style="margin:8px 0 0;color:var(--muted);font-size:.82rem">' +
@@ -844,6 +881,7 @@
         'For a certified baseline, jurisdictions should conduct a formal housing needs assessment.' +
       '</p>';
   }
+
 
   function renderGrowthChart(baselineData) {
     const canvas = document.getElementById('chartProp123Growth');
@@ -856,11 +894,11 @@
     const b = baselineData.baseline60Ami;
 
     const targetData = years.map(function(yr) {
-      return _U.calculateGrowthTarget(b, yr - currentYear + 1);
+      return U().calculateGrowthTarget(b, yr - currentYear + 1);
     });
     const baselineData_flat = years.map(function() { return b; });
 
-    const t = _U.chartTheme();
+    const t = chartTheme();
     makeChart(canvas.getContext('2d'), {
       type: 'line',
       data: {
@@ -897,13 +935,14 @@
       }
     });
 
-    const nextTarget = _U.calculateGrowthTarget(b, 1);
+    const nextTarget = U().calculateGrowthTarget(b, 1);
     const p = document.createElement('p');
     p.style.cssText = 'margin:8px 0 0;color:var(--muted);font-size:.82rem';
     p.textContent = 'Baseline: ' + b.toLocaleString() + ' units. ' +
       'One-year target (' + currentYear + '): ' + nextTarget.toLocaleString() + ' units (+3%).';
     contentDiv.appendChild(p);
   }
+
 
   function renderFastTrackCard(container, eligibility) {
     if (!container) return;
@@ -929,6 +968,7 @@
       ) : '');
   }
 
+
   function renderChecklist(baselineData, eligibility) {
     const hasBaseline  = !!(baselineData && baselineData.baseline60Ami);
     const hasGrowth    = false; // Growth target adoption is a manual user action, not auto-derived from baseline
@@ -936,8 +976,8 @@
 
     // If the ComplianceChecklist module is loaded, use it for persistence
     if (window.ComplianceChecklist) {
-      const geoType = _S.els.geoType ? _S.els.geoType.value : 'county';
-      let   geoid   = _S.els.geoSelect ? _S.els.geoSelect.value : '';
+      const geoType = S().els.geoType ? S().els.geoType.value : 'county';
+      let   geoid   = S().els.geoSelect ? S().els.geoSelect.value : '';
       // Use Colorado state FIPS as fallback when no specific geoid is selected
       if (geoType === 'state' && !geoid) geoid = '08';
 
@@ -994,10 +1034,11 @@
    * @param {object|null} profile - ACS profile data
    * @param {string} geoType
    */
+
   function renderProp123Section(profile, geoType) {
-    const baselineData = _U.calculateBaseline(profile);
+    const baselineData = U().calculateBaseline(profile);
     const population   = profile ? Number(profile.DP05_0001E) : null;
-    const eligibility  = _U.checkFastTrackEligibility(population, geoType);
+    const eligibility  = U().checkFastTrackEligibility(population, geoType);
 
     renderBaselineCard(document.getElementById('prop123BaselineContent'), baselineData);
     renderFastTrackCard(document.getElementById('prop123FastTrackContent'), eligibility);
@@ -1034,6 +1075,8 @@
    *   eligible: boolean,
    *   conditions: string[]
    * }}
+   */
+
   function renderFastTrackCalculatorSection() {
     const container = document.getElementById('fastTrackCalculator');
     if (!container) return;
@@ -1049,7 +1092,7 @@
     const ami     = amiEl   ? Number(amiEl.value)   : 60;
     const geoType = geoEl   ? geoEl.value           : 'place';
 
-    const result  = _N.calculateFastTrackTimeline(units, ami, geoType);
+    const result  = U().calculateFastTrackTimeline(units, ami, geoType);
 
     outEl.innerHTML = '';
 
@@ -1081,10 +1124,11 @@
   /**
    * Render the historical compliance section using Prop123Tracker (if loaded).
    *
-   * @param {object|null} baselineData - from _U.calculateBaseline()
+   * @param {object|null} baselineData - from U().calculateBaseline()
    * @param {string}      geoType
    * @param {string}      geoid
    */
+
   function renderHistoricalSection(baselineData, geoType, geoid) {
     const container = document.getElementById('prop123HistoricalContent');
     if (!container) return;
@@ -1144,6 +1188,7 @@
   /**
    * Render the multi-year compliance table.
    */
+
   function renderComplianceTable(histData, traj, baseline, container) {
     const { years, actuals } = histData;
     const { targets }        = traj;
@@ -1176,6 +1221,8 @@
     container.innerHTML = '';
     container.appendChild(table);
   }
+
+
   function renderSnapshot(profile, s0801, geoLabel, prevProfile){
     const pop = profile?.DP05_0001E;
     const mhi = profile?.DP03_0062E;
@@ -1199,62 +1246,63 @@
       el.className = 'yoy ' + (pct >= 0 ? 'pos' : 'neg');
     }
 
-    _S.els.statPop.textContent = _U.fmtNum(pop);
-    _S.els.statPopSrc.innerHTML = _U.srcLink('DP05', yr, sr, 'DP05', gt, gid);
-    setYoy(_S.els.statPopYoy, pop, prevProfile?.DP05_0001E);
-    _S.els.statMhi.textContent = _U.fmtMoney(mhi);
-    _S.els.statMhiSrc.innerHTML = _U.srcLink('DP03', yr, sr, 'DP03', gt, gid);
-    setYoy(_S.els.statMhiYoy, mhi, prevProfile?.DP03_0062E);
-    _S.els.statHomeValue.textContent = _U.fmtMoney(homeValue);
-    _S.els.statHomeValueSrc.innerHTML = _U.srcLink('DP04', yr, sr, 'DP04', gt, gid);
-    setYoy(_S.els.statHomeValueYoy, homeValue, prevProfile?.DP04_0089E);
-    _S.els.statRent.textContent = _U.fmtMoney(rent);
-    _S.els.statRentSrc.innerHTML = _U.srcLink('DP04', yr, sr, 'DP04', gt, gid);
-    setYoy(_S.els.statRentYoy, rent, prevProfile?.DP04_0134E);
+    S().els.statPop.textContent = U().fmtNum(pop);
+    S().els.statPopSrc.innerHTML = U().srcLink('DP05', yr, sr, 'DP05', gt, gid);
+    setYoy(S().els.statPopYoy, pop, prevProfile?.DP05_0001E);
+    S().els.statMhi.textContent = U().fmtMoney(mhi);
+    S().els.statMhiSrc.innerHTML = U().srcLink('DP03', yr, sr, 'DP03', gt, gid);
+    setYoy(S().els.statMhiYoy, mhi, prevProfile?.DP03_0062E);
+    S().els.statHomeValue.textContent = U().fmtMoney(homeValue);
+    S().els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    setYoy(S().els.statHomeValueYoy, homeValue, prevProfile?.DP04_0089E);
+    S().els.statRent.textContent = U().fmtMoney(rent);
+    S().els.statRentSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    setYoy(S().els.statRentYoy, rent, prevProfile?.DP04_0134E);
 
     const owner = Number(profile?.DP04_0047PE);
     const renter = Number(profile?.DP04_0046PE);
-    _S.els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
-    _S.els.statTenureSrc.innerHTML = _U.srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    S().els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
+    S().els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
-    const rb = _U.rentBurden30Plus(profile || {});
-    _S.els.statRentBurden.textContent = rb === null ? '—' : _U.fmtPct(rb);
-    _S.els.statRentBurdenSrc.innerHTML = _U.srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    const rb = U().rentBurden30Plus(profile || {});
+    S().els.statRentBurden.textContent = rb === null ? '—' : U().fmtPct(rb);
+    S().els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
-    const incomeNeed = _U.computeIncomeNeeded(homeValue);
-    _S.els.statIncomeNeed.textContent = incomeNeed ? _U.fmtMoney(incomeNeed.annualIncome) : '—';
-    _S.els.statIncomeNeedNote.textContent = incomeNeed ? `Assumes ${Math.round(_S.AFFORD.rateAnnual*1000)/10}% rate, ${Math.round(_S.AFFORD.downPaymentPct*100)}% down` : '30% of income rule';
+    const incomeNeed = U().computeIncomeNeeded(homeValue);
+    S().els.statIncomeNeed.textContent = incomeNeed ? U().fmtMoney(incomeNeed.annualIncome) : '—';
+    S().els.statIncomeNeedNote.textContent = incomeNeed ? `Assumes ${Math.round(U().AFFORD.rateAnnual*1000)/10}% rate, ${Math.round(U().AFFORD.downPaymentPct*100)}% down` : '30% of income rule';
 
     const mean = Number(s0801?.S0801_C01_018E);
-    _S.els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
+    S().els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
     const commYr = s0801?._acsYear   || yr;
     const commSr = s0801?._acsSeries || sr;
-    _S.els.statCommuteSrc.innerHTML = _U.srcLink('S0801 · mean travel time (min)', commYr, commSr, 'S0801', gt, gid);
+    S().els.statCommuteSrc.innerHTML = U().srcLink('S0801 · mean travel time (min)', commYr, commSr, 'S0801', gt, gid);
 
-    _S.els.geoContextPill.textContent = geoLabel;
+    S().els.geoContextPill.textContent = geoLabel;
 
     const narrativeParts = [];
-    if (pop) narrativeParts.push(`${geoLabel} has an estimated population of ${_U.fmtNum(pop)}.`);
-    if (mhi) narrativeParts.push(`Median household income is about ${_U.fmtMoney(mhi)}.`);
-    if (homeValue) narrativeParts.push(`Typical owner-occupied home value is around ${_U.fmtMoney(homeValue)}.`);
-    if (rent) narrativeParts.push(`Median gross rent is around ${_U.fmtMoney(rent)}.`);
-    if (rb !== null) narrativeParts.push(`About ${_U.fmtPct(rb)} of renter households are cost-burdened (≥30% of income).`);
-    if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${_U.fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
-    _S.els.execNarrative.textContent = narrativeParts.join(' ');
+    if (pop) narrativeParts.push(`${geoLabel} has an estimated population of ${U().fmtNum(pop)}.`);
+    if (mhi) narrativeParts.push(`Median household income is about ${U().fmtMoney(mhi)}.`);
+    if (homeValue) narrativeParts.push(`Typical owner-occupied home value is around ${U().fmtMoney(homeValue)}.`);
+    if (rent) narrativeParts.push(`Median gross rent is around ${U().fmtMoney(rent)}.`);
+    if (rb !== null) narrativeParts.push(`About ${U().fmtPct(rb)} of renter households are cost-burdened (≥30% of income).`);
+    if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${U().fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
+    S().els.execNarrative.textContent = narrativeParts.join(' ');
 
     // Afford assumptions
-    _S.els.affordAssumptions.innerHTML = `
+    S().els.affordAssumptions.innerHTML = `
       <ul>
-        <li>Interest rate: <strong>${(_S.AFFORD.rateAnnual*100).toFixed(2)}%</strong> (fixed), term: <strong>${_S.AFFORD.termYears}</strong> years</li>
-        <li>Down payment: <strong>${Math.round(_S.AFFORD.downPaymentPct*100)}%</strong>; PMI: <strong>${(_S.AFFORD.pmiPctAnnual*100).toFixed(2)}%</strong> on loan when down &lt; 20%</li>
-        <li>Property tax: <strong>${(_S.AFFORD.propertyTaxPctAnnual*100).toFixed(2)}%</strong> of value per year; insurance: <strong>${(_S.AFFORD.insurancePctAnnual*100).toFixed(2)}%</strong> of value per year</li>
-        <li>Affordability rule: housing costs ≈ <strong>${Math.round(_S.AFFORD.paymentToIncome*100)}%</strong> of gross income (rule of thumb)</li>
+        <li>Interest rate: <strong>${(U().AFFORD.rateAnnual*100).toFixed(2)}%</strong> (fixed), term: <strong>${U().AFFORD.termYears}</strong> years</li>
+        <li>Down payment: <strong>${Math.round(U().AFFORD.downPaymentPct*100)}%</strong>; PMI: <strong>${(U().AFFORD.pmiPctAnnual*100).toFixed(2)}%</strong> on loan when down &lt; 20%</li>
+        <li>Property tax: <strong>${(U().AFFORD.propertyTaxPctAnnual*100).toFixed(2)}%</strong> of value per year; insurance: <strong>${(U().AFFORD.insurancePctAnnual*100).toFixed(2)}%</strong> of value per year</li>
+        <li>Affordability rule: housing costs ≈ <strong>${Math.round(U().AFFORD.paymentToIncome*100)}%</strong> of gross income (rule of thumb)</li>
       </ul>
     `;
   }
 
+
   function renderHousingCharts(profile){
-    const t = _U.chartTheme();
+    const t = chartTheme();
 
     // Stock by structure (counts)
     const stock = [
@@ -1306,11 +1354,12 @@
     });
   }
 
+
   function renderAffordChart(profile){
-    const t = _U.chartTheme();
+    const t = chartTheme();
     const hv = Number(profile?.DP04_0089E);
     const mhi = Number(profile?.DP03_0062E);
-    const calc = _U.computeIncomeNeeded(hv);
+    const calc = U().computeIncomeNeeded(hv);
 
     const needed = calc?.annualIncome ?? null;
     const data = [
@@ -1333,8 +1382,9 @@
     });
   }
 
+
   function renderRentBurdenBins(profile){
-    const t = _U.chartTheme();
+    const t = chartTheme();
     const bins = [
       { k:'<20%', v:Number(profile?.DP04_0142PE) },
       { k:'20–24.9%', v:Number(profile?.DP04_0143PE) },
@@ -1365,12 +1415,13 @@
    * @param {string} countyFips5 - 5-digit county FIPS (e.g. '08031') or null for statewide
    * @param {object|null} chasData - pre-loaded chas_affordability_gap.json, or null to skip
    */
+
   function renderChasAffordabilityGap(countyFips5, chasData) {
     const canvas = document.getElementById('chartChasGap');
     const statusEl = document.getElementById('chasGapStatus');
     if (!canvas) return;
 
-    const t = _U.chartTheme();
+    const t = chartTheme();
 
     const showPlaceholder = (msg) => {
       const box = canvas.parentElement;
@@ -1453,7 +1504,7 @@
                 const tier = AMI_ORDER[ctx.dataIndex];
                 const tot  = (byAmi[tier] && byAmi[tier].total) || 0;
                 const pct  = tot > 0 ? ((val / tot) * 100).toFixed(1) : '—';
-                return `${ctx.dataset.label}: ${_U.fmtNum(val)} (${pct}% of tier)`;
+                return `${ctx.dataset.label}: ${U().fmtNum(val)} (${pct}% of tier)`;
               },
             },
           },
@@ -1462,7 +1513,7 @@
           x: { stacked: true, ticks: { color: t.muted }, grid: { color: t.border } },
           y: {
             stacked: true,
-            ticks: { color: t.muted, callback: (v) => _U.fmtNum(v) },
+            ticks: { color: t.muted, callback: (v) => U().fmtNum(v) },
             grid: { color: t.border },
             title: { display: true, text: 'Renter households', color: t.muted },
           },
@@ -1470,6 +1521,7 @@
       },
     });
   }
+
 
   function renderModeShare(s0801){
     const canvas = document.getElementById('chartMode');
@@ -1486,7 +1538,7 @@
     // Show placeholder when S0801 data is absent or total workers is missing
     if (!s0801 || !s0801.S0801_C01_001E) { showPlaceholder(); return; }
 
-    const t = _U.chartTheme();
+    const t = chartTheme();
     const totalWorkers = Number(s0801.S0801_C01_001E);
     if (!Number.isFinite(totalWorkers) || totalWorkers <= 0) { showPlaceholder(); return; }
 
@@ -1495,7 +1547,7 @@
     // displayed as its own bar because 003E and 004E already capture each sub-mode.
     // 008E (worked at home) is present in live Census fetches; gracefully absent from
     // cached files that pre-date this variable being added to the fetch list.
-    // Per Rule 10: colors drawn from var(--chart-*) tokens in _U.chartTheme().chartColors
+    // Per Rule 10: colors drawn from var(--chart-*) tokens in chartTheme().chartColors
     const c = t.chartColors;
     const items = [
       { k:'Drove alone',    v: Number(s0801.S0801_C01_003E), color: c[0] },
@@ -1508,8 +1560,8 @@
 
     if (items.length === 0) { showPlaceholder(); return; }
 
-    const workerLabel = `${_U.fmtNum(totalWorkers)} workers 16+`;
-    const modeYear   = s0801._acsYear   || _S.ACS_YEAR_PRIMARY;
+    const workerLabel = `${U().fmtNum(totalWorkers)} workers 16+`;
+    const modeYear   = s0801._acsYear   || ACS_YEAR_PRIMARY;
     const modeSeries = s0801._acsSeries || 'acs1';
     const seriesLabel = modeSeries === 'acs1' ? 'ACS1' : 'ACS5';
 
@@ -1544,8 +1596,9 @@
     });
   }
 
+
   function renderLehd(lehd, geoType, geoid){
-    const t = _U.chartTheme();
+    const t = chartTheme();
     const inflow = Number(lehd?.inflow);
     const outflow = Number(lehd?.outflow);
     const within = Number(lehd?.within);
@@ -1571,22 +1624,23 @@
     });
 
     if (geoType === 'state'){
-      _S.els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for Colorado statewide, year ${lehd.year}.` : 'LEHD LODES OD summary — Colorado statewide aggregate.';
+      S().els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for Colorado statewide, year ${lehd.year}.` : 'LEHD LODES OD summary — Colorado statewide aggregate.';
     } else if (geoType !== 'county'){
-      _S.els.lehdNote.textContent = `Note: LEHD inflow/outflow is currently shown at the containing county level (${_U.countyFromGeoid(geoType, geoid)}). Place/CDP crosswalk can be added to refine this.`;
+      S().els.lehdNote.textContent = `Note: LEHD inflow/outflow is currently shown at the containing county level (${U().countyFromGeoid(geoType, geoid)}). Place/CDP crosswalk can be added to refine this.`;
     } else {
-      _S.els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for workplaces in ${geoid}, year ${lehd.year}.` : 'LEHD LODES OD summary.';
+      S().els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for workplaces in ${geoid}, year ${lehd.year}.` : 'LEHD LODES OD summary.';
     }
 
     // Show prominent vintage banner so users know the data year and publication lag.
-    if (_S.els.lehdVintageBanner && _S.els.lehdVintageYear && lehd?.year) {
-      _S.els.lehdVintageYear.textContent = lehd.year;
-      _S.els.lehdVintageBanner.style.display = '';
+    if (S().els.lehdVintageBanner && S().els.lehdVintageYear && lehd?.year) {
+      S().els.lehdVintageYear.textContent = lehd.year;
+      S().els.lehdVintageBanner.style.display = '';
     }
   }
 
+
   function renderDolaPyramid(dola){
-    const t = _U.chartTheme();
+    const t = chartTheme();
 
     const year = dola?.pyramidYear;
     const male = dola?.male || [];
@@ -1612,10 +1666,10 @@
         maintainAspectRatio:false,
         plugins:{
           legend:{ labels:{ color:t.text } },
-          tooltip:{ callbacks:{ label:(ctx)=> `${ctx.dataset.label}: ${_U.fmtNum(Math.abs(ctx.raw))}` } }
+          tooltip:{ callbacks:{ label:(ctx)=> `${ctx.dataset.label}: ${U().fmtNum(Math.abs(ctx.raw))}` } }
         },
         scales:{
-          x:{ ticks:{ color:t.muted, callback:(v)=>_U.fmtNum(Math.abs(v)) }, grid:{ color:t.border } },
+          x:{ ticks:{ color:t.muted, callback:(v)=>U().fmtNum(Math.abs(v)) }, grid:{ color:t.border } },
           y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
         }
       }
@@ -1644,9 +1698,9 @@
       });
 
       const geoLabel = dola.stateFips ? 'Colorado statewide' : 'county';
-      _S.els.seniorNote.textContent = `Senior pressure uses ${geoLabel} single-year-of-age totals. Pyramid year: ${year || '—'}.`;
+      S().els.seniorNote.textContent = `Senior pressure uses ${geoLabel} single-year-of-age totals. Pyramid year: ${year || '—'}.`;
     } else {
-      _S.els.seniorNote.textContent = 'Senior pressure data not available yet.';
+      S().els.seniorNote.textContent = 'Senior pressure data not available yet.';
     }
   }
 
@@ -1654,210 +1708,28 @@
    * Clear projection stat cards and set an informative note for geography types
    * (such as state-level) where county-based projections do not apply.
    * @returns {{ ok: boolean }}
+   */
+
   function clearProjectionsForStateLevel() {
-    _S.state.lastProj = null;
-    _S.els.statBaseUnits.textContent = '—';
-    _S.els.statTargetVac.textContent = '—';
-    _S.els.statUnitsNeed.textContent = '—';
-    _S.els.statNetMig.textContent = '—';
-    _S.els.needNote.textContent = 'Demographic projections are available at the county level. Select a county to view housing need estimates.';
+    S().state.lastProj = null;
+    S().els.statBaseUnits.textContent = '—';
+    S().els.statTargetVac.textContent = '—';
+    S().els.statUnitsNeed.textContent = '—';
+    S().els.statNetMig.textContent = '—';
+    S().els.needNote.textContent = 'Demographic projections are available at the county level. Select a county to view housing need estimates.';
     return { ok: false };
   }
 
-  async function renderProjections(countyFips5, selection){
-    try{
-      const proj = await _U.loadJson(_S.PATHS.projections(countyFips5));
-      _S.state.lastProj = proj;
 
-      // Initialize vacancy slider from projection default if user hasn't touched it yet
-      const defaultVac = _U.safeNum(proj?.housing_need?.target_vacancy);
-      if (_S.els.assumpVacancy && defaultVac !== null){
-        const cur = Number(_S.els.assumpVacancy.value);
-        if (!Number.isFinite(cur) || cur === 5){
-          _S.els.assumpVacancy.value = String(Math.round(defaultVac*1000)/10);
-          _S.els.assumpVacancyVal.textContent = `${Number(_S.els.assumpVacancy.value).toFixed(1)}%`;
-        }
-      }
-      if (_S.els.assumpVacancyVal){
-        _S.els.assumpVacancyVal.textContent = `${Number(_S.els.assumpVacancy?.value || 5).toFixed(1)}%`;
-      }
-
-      await applyAssumptions(proj, selection);
-
-      return { ok:true, proj };
-    }catch(e){
-      _S.state.lastProj = null;
-      // Clear outputs gracefully
-      _S.els.statBaseUnits.textContent = '—';
-      _S.els.statBaseUnitsSrc.textContent = '—';
-      _S.els.statTargetVac.textContent = '—';
-      _S.els.statUnitsNeed.textContent = '—';
-      _S.els.statNetMig.textContent = '—';
-      _S.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
-      return { ok:false, err:String(e) };
-    }
+  function getAssumptions(){
+    const horizon = Number(S().els.assumpHorizon?.value || 20);
+    const vacPct = Number(S().els.assumpVacancy?.value || 5);
+    const targetVac = vacPct/100.0;
+    const headshipMode = (document.getElementById('assumpHeadship')?.value || document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
+    return { horizon, targetVac, headshipMode };
   }
 
 
-
-  async function applyAssumptions(proj, selection){
-    if (!proj) return;
-
-    const countyFips5 = proj?.countyFips || selection?.contextCounty || (selection?.geoType==='county' ? selection?.geoid : null);
-
-    const years = proj?.years || [];
-    const popCounty = (proj?.population_dola || []).map(_U.safeNum);
-    const popCountyTrend = (proj?.population_trend || []).map(_U.safeNum);
-    const baseYear = proj?.baseYear;
-    const baseCountyPop = _U.safeNum(proj?.base?.population);
-
-    const { horizon, targetVac, headshipMode } = _U.getAssumptions();
-
-    // Determine selected-geo population series
-    let popSel = popCounty;
-    let popSelTrend = popCountyTrend;
-    let baseUnits = _U.safeNum(proj?.base?.housing_units);
-    let baseHouseholds = _U.safeNum(proj?.base?.households);
-    let basePop = baseCountyPop;
-
-    let headship0 = (baseHouseholds && basePop) ? (baseHouseholds/basePop) : null;
-    let headshipSlope = 0; // annual delta, used in "trend"
-
-    // If selection is a place/CDP, scale projections from containing county.
-    // State-level: projections are loaded directly for '08', no scaling needed.
-    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state'){
-      const placePopNow = _U.safeNum(selection.profile?.DP05_0001E);
-      const placeHhNow = _U.safeNum(selection.profile?.DP02_0001E);
-      const placeUnitsNow = _U.safeNum(selection.profile?.DP04_0001E);
-
-      if (baseCountyPop && placePopNow){
-        // Prefer ETL-derived inputs (transparent and repeatable). Fall back to simple share if missing.
-        const d = _S.state.derived?.geos?.[selection.geoid]?.derived || null;
-        const dAcs = _S.state.derived?.geos?.[selection.geoid]?.acs5 || null;
-
-        const share0Raw = (d && typeof d.share0 === 'number') ? d.share0 : (placePopNow / baseCountyPop);
-        const share0 = Math.min(0.98, Math.max(0.02, share0Raw));
-
-        // relative_pop_cagr is an annual *rate*. Convert to log-diff so we can exponentiate over time.
-        const relRate = (d && typeof d.relative_pop_cagr === 'number') ? d.relative_pop_cagr : 0;
-        const diffLog = (relRate && Number.isFinite(relRate)) ? Math.log(1 + relRate) : 0;
-
-        // Headship (households/pop) base + slope (optional) from ETL
-        if (d && typeof d.headship_base === 'number' && Number.isFinite(d.headship_base)){
-          headship0 = d.headship_base;
-        } else {
-          headship0 = (placeHhNow && placePopNow) ? (placeHhNow/placePopNow) : headship0;
-        }
-        headshipSlope = (d && typeof d.headship_slope_per_year === 'number' && Number.isFinite(d.headship_slope_per_year))
-          ? d.headship_slope_per_year
-          : 0;
-
-        popSel = popCounty.map((p,i)=>{
-          if (p===null) return null;
-          const shareT = Math.min(0.98, Math.max(0.02, share0 * Math.exp(diffLog * i)));
-          const v = p * shareT;
-          return Math.min(v, p); // never exceed county
-        });
-        popSelTrend = popCountyTrend.map((p,i)=>{
-          if (p===null) return null;
-          const shareT = Math.min(0.98, Math.max(0.02, share0 * Math.exp(diffLog * i)));
-          const v = p * shareT;
-          return Math.min(v, p);
-        });
-
-        baseUnits = placeUnitsNow;
-        baseHouseholds = placeHhNow;
-        basePop = placePopNow;
-        headship0 = (baseHouseholds && basePop) ? (baseHouseholds/basePop) : headship0;
-      }
-    } else {
-      // County headship slope (optional)
-      try{
-        const geoId = selection?.geoid || countyFips5;
-        const d = geoId ? _S.state.derived?.geos?.[geoId]?.derived : null;
-        if (d && typeof d.headship_slope_per_year === 'number' && Number.isFinite(d.headship_slope_per_year)){
-          headshipSlope = d.headship_slope_per_year;
-        } else {
-          headshipSlope = 0;
-        }
-      }catch(_){ headshipSlope = 0; }
-    }
-
-    // Compute need at horizon
-    const idx = years.findIndex(y => y === baseYear + horizon);
-    const i = (idx>=0) ? idx : (years.length ? years.length-1 : -1);
-
-    function headshipAt(step){
-      if (headship0 === null) return null;
-      if (headshipMode === 'trend'){
-        const hs = headship0 + headshipSlope * step;
-        return Math.max(0.05, Math.min(0.95, hs));
-      }
-      return headship0;
-    }
-
-    const popH = (i>=0) ? popSel[i] : null;
-    const hsH = (i>=0) ? headshipAt(i) : null;
-    const hhH = (popH!==null && hsH!==null) ? (popH * hsH) : null;
-    const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
-    const incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
-
-    // Net migration scaled for places (share of county base)
-    let net20 = _U.safeNum(proj?.net_migration_20y);
-    if (selection && selection.geoType !== 'county' && baseCountyPop && basePop){
-      const d = _S.state.derived?.geos?.[selection.geoid]?.derived || null;
-      const share0 = Math.min(0.98, Math.max(0.02, (d && typeof d.share0 === 'number') ? d.share0 : (basePop / baseCountyPop)));
-      net20 = (net20!==null) ? (net20 * share0) : null;
-    }
-
-    // Update cards
-    _S.els.statBaseUnits.textContent = baseUnits !== null ? _U.fmtNum(baseUnits) : '—';
-    _S.els.statBaseUnitsSrc.textContent = baseYear ? `Base (est.)` : 'Base';
-    _S.els.statTargetVac.textContent = _U.fmtPct(targetVac * 100);
-    _S.els.statUnitsNeed.textContent = incUnits !== null ? _U.fmtNum(Math.round(incUnits)) : '—';
-    _S.els.statNetMig.textContent = net20 !== null ? _U.fmtNum(Math.round(net20)) : '—';
-
-    const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
-    _S.els.needNote.textContent = (incUnits !== null)
-      ? `Planning estimate: additional units needed by ${endYear} (horizon ${horizon}y), headship=${headshipMode}, vacancy target ${_U.fmtPct(targetVac*100)}.`
-      : 'Projections loaded, but could not compute housing need (missing households/headship).';
-
-    // Update projection chart for selected geography
-    const t = _U.chartTheme();
-    const labelPrefix = (selection && selection.geoType !== 'county') ? 'Population (scaled ' : 'Population (';
-    makeChart(document.getElementById('chartPopProj').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: years,
-        datasets: [
-          { label: `${labelPrefix}DOLA forecast)`, data: popSel, borderWidth: 2, pointRadius: 0, tension: 0.25 },
-          { label: `${labelPrefix}historic-trend sensitivity)`, data: popSelTrend, borderWidth: 2, pointRadius: 0, borderDash:[6,4], tension: 0.25 },
-        ]
-      },
-      options: {
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{ labels:{ color:t.text } },
-          tooltip:{ callbacks:{ label:(ctx)=> `${ctx.dataset.label}: ${_U.fmtNum(ctx.parsed.y)}` } }
-        },
-        scales:{
-          x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-          y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-        }
-      }
-    });
-
-    // ---- Scenario comparison charts (5–10 year horizon section) ----
-    _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t);
-  }
-
-  /**
-   * _renderScenarioSection — populate the three scenario-based projection charts
-   * (population comparison, single-scenario detail, household projection, and
-   * housing-demand-by-AMI-tier).  Called from applyAssumptions so all four
-   * canvases update whenever the geography or assumptions change.
-   */
   function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
     const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
 
@@ -1899,7 +1771,7 @@
     // The effective growth multiplier is a weighted combination of the three
     // demographic rate overrides: migration (60% weight), fertility (30%), mortality (10%).
     // The baseline annual net migration of 500 is the median of the three built-in scenarios.
-    if (_S.PROJECTION_SCENARIOS['custom']){
+    if (U().PROJECTION_SCENARIOS['custom']){
       const overrides = getScenarioRateOverrides();
       const BASELINE_NET_MIGRATION = 500; // persons/year — median across the three built-in scenarios
       // Weights: migration dominates CO county growth (60%), fertility secondary (30%), mortality minor (10%)
@@ -1956,8 +1828,8 @@
           datasets: [{
             label: 'Households (DOLA forecast)',
             data:  hhSeries.map(d => d.households),
-            borderColor: _S.PROJECTION_SCENARIOS.baseline.color,
-            backgroundColor: _S.PROJECTION_SCENARIOS.baseline.color + '22',
+            borderColor: U().PROJECTION_SCENARIOS.baseline.color,
+            backgroundColor: U().PROJECTION_SCENARIOS.baseline.color + '22',
             borderWidth: 2,
             pointRadius: 2,
             tension: 0.25,
@@ -1969,7 +1841,7 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { labels: { color: t.text } },
-            tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${_U.fmtNum(ctx.parsed.y)}` } },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${U().fmtNum(ctx.parsed.y)}` } },
           },
           scales: {
             x: { ticks: { color: t.muted }, grid: { color: t.border } },
@@ -2007,7 +1879,7 @@
         demandSeries.push({ year_offset: dsCount, demand_by_ami });
         dsCount++;
       }
-      renderHouseholdDemand(geoid || '', sc, Object.keys(_S.AMI_TIER_LABELS), {
+      renderHouseholdDemand(geoid || '', sc, Object.keys(U().AMI_TIER_LABELS), {
         canvas: demandCanvas,
         demandSeries,
         tenure: 'renter',
@@ -2020,11 +1892,13 @@
   // Demographic / scenario projection visualization helpers
   // ---------------------------------------------------------------------------
 
+  // Scenario metadata loaded once from the embedded JSON (avoids a network request).
+
   function renderProjectionChart(geoid, scenario, years, opts){
     if (!opts || !opts.canvas) return;
     const ctx = opts.canvas.getContext('2d');
-    const scenarioMeta = _S.PROJECTION_SCENARIOS[scenario] || _S.PROJECTION_SCENARIOS.baseline;
-    const t = _U.chartTheme();
+    const scenarioMeta = U().PROJECTION_SCENARIOS[scenario] || U().PROJECTION_SCENARIOS.baseline;
+    const t = chartTheme();
 
     // Build a synthetic forward series from the basePopSeries if provided,
     // or fall back to a placeholder so the chart always renders.
@@ -2069,7 +1943,7 @@
           legend: { labels: { color: t.text } },
           tooltip: {
             callbacks: {
-              label: (ctx) => `${ctx.dataset.label}: ${_U.fmtNum(ctx.parsed.y)}`,
+              label: (ctx) => `${ctx.dataset.label}: ${U().fmtNum(ctx.parsed.y)}`,
             },
           },
         },
@@ -2092,10 +1966,11 @@
    * @param {Object}   opts.seriesByScenario - {scenarioKey: [{year, population}, ...], ...}
    * @param {number}   [opts.years=10]   - projection horizon
    */
+
   function renderScenarioComparison(geoid, scenario_names, opts){
     if (!opts || !opts.canvas) return;
     const ctx  = opts.canvas.getContext('2d');
-    const t    = _U.chartTheme();
+    const t    = chartTheme();
     const years = opts.years || 10;
     const seriesByScenario = opts.seriesByScenario || {};
 
@@ -2110,7 +1985,7 @@
     const labels = Array.from(allYears).sort((a,b) => a-b);
 
     const datasets = scenario_names.map(sc => {
-      const meta   = _S.PROJECTION_SCENARIOS[sc] || _S.PROJECTION_SCENARIOS.baseline;
+      const meta   = U().PROJECTION_SCENARIOS[sc] || U().PROJECTION_SCENARIOS.baseline;
       const series = seriesByScenario[sc] || [];
       const byYear = {};
       series.forEach(pt => { byYear[Number(pt.year)] = Number(pt.population) || null; });
@@ -2136,7 +2011,7 @@
           legend: { labels: { color: t.text } },
           tooltip: {
             callbacks: {
-              label: (ctx) => `${ctx.dataset.label}: ${_U.fmtNum(ctx.parsed.y)}`,
+              label: (ctx) => `${ctx.dataset.label}: ${U().fmtNum(ctx.parsed.y)}`,
             },
           },
         },
@@ -2161,16 +2036,17 @@
    *                                          [{year_offset, demand_by_ami: {owner: {...}, renter: {...}}}, ...]
    * @param {string}   [opts.tenure='renter'] - 'owner' | 'renter' | 'both'
    */
+
   function renderHouseholdDemand(geoid, scenario, affordability_tiers, opts){
     if (!opts || !opts.canvas) return;
     const ctx    = opts.canvas.getContext('2d');
-    const t      = _U.chartTheme();
+    const t      = chartTheme();
     const tenure = opts.tenure || 'renter';
     const demandSeries = opts.demandSeries || [];
 
     const tiers  = Array.isArray(affordability_tiers) && affordability_tiers.length
       ? affordability_tiers
-      : Object.keys(_S.AMI_TIER_LABELS);
+      : Object.keys(U().AMI_TIER_LABELS);
 
     const labels   = demandSeries.map(d => `Year +${d.year_offset}`);
     const datasets = tiers.map(tier => {
@@ -2183,9 +2059,9 @@
         return (d.demand_by_ami[tenure] || {})[tier] || 0;
       });
       return {
-        label: _S.AMI_TIER_LABELS[tier] || tier,
+        label: U().AMI_TIER_LABELS[tier] || tier,
         data,
-        backgroundColor: _S.AMI_TIER_COLORS[tier] || '#999',
+        backgroundColor: U().AMI_TIER_COLORS[tier] || '#999',
       };
     });
 
@@ -2199,7 +2075,7 @@
           legend: { labels: { color: t.text } },
           tooltip: {
             callbacks: {
-              label: (ctx) => `${ctx.dataset.label}: ${_U.fmtNum(Math.round(ctx.parsed.y))}`,
+              label: (ctx) => `${ctx.dataset.label}: ${U().fmtNum(Math.round(ctx.parsed.y))}`,
             },
           },
         },
@@ -2217,132 +2093,16 @@
 
   // Scenario selector state
 
-  function getSelectedScenario(){
-    const el = document.getElementById('projScenario');
-    return el ? el.value : 'baseline';
-  }
-
-  function getScenarioRateOverrides(){
-    const fertility  = parseFloat((document.getElementById('scenFertility')  || {}).value);
-    const migration  = parseFloat((document.getElementById('scenMigration')  || {}).value);
-    const mortality  = parseFloat((document.getElementById('scenMortality')  || {}).value);
-    return {
-      fertilityMultiplier: Number.isFinite(fertility)  ? fertility  : 1.0,
-      netMigrationAnnual:  Number.isFinite(migration)  ? migration  : 500,
-      mortalityMultiplier: Number.isFinite(mortality)  ? mortality  : 1.0,
-    };
-  }
-
-  function updateScenarioDescription(){
-    const sc   = getSelectedScenario();
-    const meta = _S.PROJECTION_SCENARIOS[sc];
-    const el   = document.getElementById('scenarioDescription');
-    if (el && meta) el.textContent = meta.description;
-  }
-
-  function wireScenarioControls(){
-    const scenarioSel = document.getElementById('projScenario');
-    if (scenarioSel){
-      scenarioSel.addEventListener('change', () => {
-        const sc   = scenarioSel.value;
-        const meta = _S.PROJECTION_SCENARIOS[sc];
-        if (!meta) return;
-        // Pre-populate sliders with scenario defaults
-        const defaults = {
-          baseline:   { fertility: 1.0,  migration: 500,  mortality: 1.0  },
-          low_growth: { fertility: 0.90, migration: 250,  mortality: 1.02 },
-          high_growth:{ fertility: 1.05, migration: 1000, mortality: 0.98 },
-        };
-        const d = defaults[sc] || defaults.baseline;
-        const fEl = document.getElementById('scenFertility');
-        const mEl = document.getElementById('scenMigration');
-        const rEl = document.getElementById('scenMortality');
-        if (fEl){ fEl.value = d.fertility;  _updateSliderLabel('scenFertilityVal',  d.fertility.toFixed(2)); }
-        if (mEl){ mEl.value = d.migration;  _updateSliderLabel('scenMigrationVal',  Math.round(d.migration)); }
-        if (rEl){ rEl.value = d.mortality;  _updateSliderLabel('scenMortalityVal',  d.mortality.toFixed(2)); }
-        updateScenarioDescription();
-        // Re-render the projection charts if data is loaded
-        if (_S.state.lastProj && _S.state.current){ applyAssumptions(_S.state.lastProj, _S.state.current); }
-      });
-    }
-
-    // Slider live-update labels
-    [
-      ['scenFertility', 'scenFertilityVal', v => Number(v).toFixed(2)],
-      ['scenMigration', 'scenMigrationVal', v => Math.round(Number(v)).toLocaleString()],
-      ['scenMortality', 'scenMortalityVal', v => Number(v).toFixed(2)],
-    ].forEach(([sliderId, labelId, fmt]) => {
-      const slider = document.getElementById(sliderId);
-      if (slider){
-        slider.addEventListener('input', () => {
-          _updateSliderLabel(labelId, fmt(slider.value));
-          // Re-render after slider change
-          if (_S.state.lastProj && _S.state.current){ applyAssumptions(_S.state.lastProj, _S.state.current); }
-        });
-      }
-    });
-
-    // Save custom scenario button
-    const saveBtn = document.getElementById('btnSaveCustomScenario');
-    if (saveBtn){
-      saveBtn.addEventListener('click', () => {
-        const overrides = getScenarioRateOverrides();
-        const name = 'Custom: f×' + overrides.fertilityMultiplier.toFixed(2) +
-                     ' mig ' + Math.round(overrides.netMigrationAnnual) +
-                     ' mort×' + overrides.mortalityMultiplier.toFixed(2);
-        _S.PROJECTION_SCENARIOS['custom'] = {
-          label:       'Custom',
-          description: name,
-          color:       '#9c27b0',
-        };
-        const sel = document.getElementById('projScenario');
-        if (sel){
-          // Add custom option if not already present
-          if (!sel.querySelector('option[value="custom"]')){
-            const opt = document.createElement('option');
-            opt.value = 'custom';
-            opt.textContent = 'Custom';
-            sel.appendChild(opt);
-          }
-          sel.value = 'custom';
-        }
-        updateScenarioDescription();
-        if (_S.state.lastProj && _S.state.current){ applyAssumptions(_S.state.lastProj, _S.state.current); }
-      });
-    }
-
-    // View toggle (population / household / housing demand)
-    const viewToggle = document.querySelectorAll('input[name="projViewToggle"]');
-    viewToggle.forEach(r => r.addEventListener('change', () => {
-      const val = r.value;
-      ['projViewPop', 'projViewHH', 'projViewDemand'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.hidden = true;
-      });
-      const showId = val === 'population' ? 'projViewPop'
-                   : val === 'household'  ? 'projViewHH'
-                   : 'projViewDemand';
-      const showEl = document.getElementById(showId);
-      if (showEl) showEl.hidden = false;
-    }));
-  }
-
-  function _updateSliderLabel(labelId, text){
-    const el = document.getElementById(labelId);
-    if (el) el.textContent = text;
-  }
-
-  // ---------------------------------------------------------------------------
   function renderLocalResources(geoType, geoid){
     const data = window.__HNA_LOCAL_RESOURCES || {};
     const key = `${geoType}:${geoid}`;
     const r = data[key];
 
     if (!r){
-      _S.els.localResources.innerHTML = `
+      S().els.localResources.innerHTML = `
         <p>No curated resources yet for this geography.</p>
         <ul>
-          <li><a href="${_S.SOURCES.prop123Commitments}" target="_blank" rel="noopener">Prop 123 commitment filings (DOLA)</a></li>
+          <li><a href="${U().SOURCES.prop123Commitments}" target="_blank" rel="noopener">Prop 123 commitment filings (DOLA)</a></li>
           <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">Proposition 123 overview (DOLA)</a></li>
         </ul>
       `;
@@ -2379,8 +2139,9 @@
       parts.push(`<p><strong>Housing contact (if published):</strong> <a href="${r.housingLead.url}" target="_blank" rel="noopener">${r.housingLead.name}</a></p>`);
     }
 
-    _S.els.localResources.innerHTML = parts.join('\n');
+    S().els.localResources.innerHTML = parts.join('\n');
   }
+
 
   function renderMethodology(state){
     const { geoType, geoid, geoLabel, usedCountyForContext, cacheFlags, derivedEntry } = state;
@@ -2388,15 +2149,15 @@
     const items = [];
 
     items.push({
-      title: 'Geography & map boundary',
+      title: 'Geography & S().map boundary',
       html: `Boundary geometry is retrieved from Census TIGERweb and rendered with Leaflet. ` +
-            `<a href="${_S.SOURCES.tigerweb}" target="_blank" rel="noopener">TIGERweb docs</a>.`
+            `<a href="${U().SOURCES.tigerweb}" target="_blank" rel="noopener">TIGERweb docs</a>.`
     });
 
     items.push({
       title: 'Housing stock, tenure, income, rents',
       html: `Baseline indicators use Census ACS Profile tables (DP03/DP04/DP05). ` +
-            `<a href="${_S.SOURCES.acsProfile}" target="_blank" rel="noopener">ACS profile groups</a>.`
+            `<a href="${U().SOURCES.acsProfile}" target="_blank" rel="noopener">ACS profile groups</a>.`
     });
 
     items.push({
@@ -2415,7 +2176,7 @@
     items.push({
       title: 'Commuting (ACS)',
       html: `Mode shares and mean commute time use ACS Subject Table S0801. ` +
-            `<a href="${_S.SOURCES.acsS0801}" target="_blank" rel="noopener">S0801 group</a>.`
+            `<a href="${U().SOURCES.acsS0801}" target="_blank" rel="noopener">S0801 group</a>.`
     });
 
     // Helper to generate geography-context note for county-level data sections in methodology.
@@ -2428,8 +2189,8 @@
     items.push({
       title: 'Commuting flows (LEHD)',
       html: `Inflow/outflow/within are derived from LEHD LODES OD (JT00) aggregated to county. ` +
-            `<a href="${_S.SOURCES.lodesRoot}" target="_blank" rel="noopener">LODES downloads</a> and ` +
-            `<a href="${_S.SOURCES.lodesTech}" target="_blank" rel="noopener">technical documentation</a>. ` +
+            `<a href="${U().SOURCES.lodesRoot}" target="_blank" rel="noopener">LODES downloads</a> and ` +
+            `<a href="${U().SOURCES.lodesTech}" target="_blank" rel="noopener">technical documentation</a>. ` +
             countyContextNote(
               'County-level LEHD data is available after selecting a county.',
               `For this selection, flows are shown at the containing county level (${usedCountyForContext}).`
@@ -2439,8 +2200,8 @@
     items.push({
       title: 'Demographic projections (DOLA/SDO)',
       html: `Age pyramid and senior pressure use Colorado State Demography Office (DOLA) single-year-of-age county files. ` +
-            `<a href="${_S.SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO data downloads</a> and ` +
-            `<a href="${_S.SOURCES.sdoPopulation}" target="_blank" rel="noopener">population resources</a>. ` +
+            `<a href="${U().SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO data downloads</a> and ` +
+            `<a href="${U().SOURCES.sdoPopulation}" target="_blank" rel="noopener">population resources</a>. ` +
             countyContextNote(
               'Select a county to view county-level age pyramid data.',
               `Shown as county context (${usedCountyForContext}).`
@@ -2450,7 +2211,7 @@
     items.push({
       title: '20-year outlook (population, migration, housing need)',
       html: `Population and net migration use SDO county components-of-change (estimates + forecast), and base-year households/units use SDO county profiles. ` +
-            `<a href="${_S.SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO downloads</a>. ` +
+            `<a href="${U().SOURCES.sdoDownloads}" target="_blank" rel="noopener">SDO downloads</a>. ` +
             `Housing need is computed by converting population to households using a base-year headship rate, then applying a target vacancy assumption. ` +
             countyContextNote(
               'Select a county to view county-level projection data.',
@@ -2461,13 +2222,13 @@
     if (derivedEntry && derivedEntry.derived){
       const d = derivedEntry.derived;
       const s = derivedEntry.sources || {};
-      const yrs = _S.state.derivedYears || null;
+      const yrs = state.derivedYears || null;
 
       const rows = [
-        ['Population share of county (share0)', (typeof d.share0==='number') ? _U.fmtPct(d.share0*100) : '—'],
-        ['Pop growth (annual, ACS5)', (typeof d.pop_cagr==='number') ? _U.fmtPct(d.pop_cagr*100) : '—'],
-        ['County pop growth (annual, ACS5)', (typeof d.county_pop_cagr==='number') ? _U.fmtPct(d.county_pop_cagr*100) : '—'],
-        ['Relative growth (place − county)', (typeof d.relative_pop_cagr==='number') ? _U.fmtPct(d.relative_pop_cagr*100) : '—'],
+        ['Population share of county (share0)', (typeof d.share0==='number') ? U().fmtPct(d.share0*100) : '—'],
+        ['Pop growth (annual, ACS5)', (typeof d.pop_cagr==='number') ? U().fmtPct(d.pop_cagr*100) : '—'],
+        ['County pop growth (annual, ACS5)', (typeof d.county_pop_cagr==='number') ? U().fmtPct(d.county_pop_cagr*100) : '—'],
+        ['Relative growth (place − county)', (typeof d.relative_pop_cagr==='number') ? U().fmtPct(d.relative_pop_cagr*100) : '—'],
         ['Headship base (households ÷ pop)', (typeof d.headship_base==='number') ? (d.headship_base.toFixed(4)) : '—'],
         ['Headship slope (per year)', (typeof d.headship_slope_per_year==='number') ? (d.headship_slope_per_year.toFixed(6)) : '—'],
       ];
@@ -2510,8 +2271,8 @@
             `For all other states, HUD ArcGIS is the live source. ` +
             `An embedded Colorado fallback dataset is used when all other sources are unavailable. ` +
             `The active data source is displayed as a badge on the LIHTC project list and in each project popup. ` +
-            `Red circle markers on the map indicate LIHTC-funded properties. ` +
-            `<a href="${_S.SOURCES.lihtcDb}" target="_blank" rel="noopener">HUD LIHTC database</a>.`
+            `Red circle markers on the S().map indicate LIHTC-funded properties. ` +
+            `<a href="${U().SOURCES.lihtcDb}" target="_blank" rel="noopener">HUD LIHTC database</a>.`
     });
 
     items.push({
@@ -2519,8 +2280,8 @@
       html: `Qualified Census Tracts are census tracts where ≥50% of households have incomes below 60% of Area ` +
             `Median Income, or the poverty rate is ≥25%. HUD designates QCTs annually; LIHTC projects in QCTs ` +
             `may receive a 30% basis boost. QCT tract boundaries are fetched from the HUD ArcGIS REST service ` +
-            `and shown as orange overlays on the map. ` +
-            `<a href="${_S.SOURCES.hudQct}" target="_blank" rel="noopener">HUD QCT dataset</a>.`
+            `and shown as orange overlays on the S().map. ` +
+            `<a href="${U().SOURCES.hudQct}" target="_blank" rel="noopener">HUD QCT dataset</a>.`
     });
 
     items.push({
@@ -2529,7 +2290,7 @@
             `and utility costs relative to income. LIHTC projects in DDAs may receive a 30% basis boost. ` +
             `DDA boundaries are fetched from the HUD ArcGIS REST service (purple dashed overlay); county DDA ` +
             `status is also cross-checked against HUD's published 2025 DDA list for Colorado. ` +
-            `<a href="${_S.SOURCES.hudDda}" target="_blank" rel="noopener">HUD DDA dataset</a>.`
+            `<a href="${U().SOURCES.hudDda}" target="_blank" rel="noopener">HUD DDA dataset</a>.`
     });
 
     const cacheHtml = cacheBits.length ?
@@ -2551,8 +2312,10 @@
       </div>
     `;
 
-    _S.els.methodology.innerHTML = html;
+    S().els.methodology.innerHTML = html;
   }
+
+  // --- HUD FMR & Income Limits panel ---
 
   function renderFmrPanel(countyFips5) {
     var areaEl  = document.getElementById('hudFmrAreaName');
@@ -2596,6 +2359,7 @@
   // --- Chart loading state helpers (Recommendation 3.1) ---
 
   /** Show a loading overlay inside a .chart-box container for the given canvas ID. */
+
   function showChartLoading(canvasId) {
     var canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -2619,6 +2383,7 @@
   }
 
   /** Hide the loading overlay for the given canvas ID (or all overlays if no id given). */
+
   function hideChartLoading(canvasId) {
     if (canvasId) {
       var canvas = document.getElementById(canvasId);
@@ -2635,6 +2400,7 @@
   }
 
   /** Show loading overlays on all chart canvases currently in the DOM. */
+
   function showAllChartsLoading() {
     document.querySelectorAll('.chart-box canvas').forEach(function(canvas) {
       if (canvas.id) showChartLoading(canvas.id);
@@ -2643,55 +2409,20 @@
 
   // --- Main update ---
 
-  window.__HNA_RENDERERS = {
-    setBanner: setBanner,
-    clearStats: clearStats,
-    makeChart: makeChart,
-    buildSelect: buildSelect,
-    lihtcSourceInfo: lihtcSourceInfo,
-    lihtcPopupHtml: lihtcPopupHtml,
-    updateLihtcInfoPanel: updateLihtcInfoPanel,
-    renderJobMetrics: renderJobMetrics,
-    renderWageChart: renderWageChart,
-    renderIndustryChart: renderIndustryChart,
-    renderCommutingFlows: renderCommutingFlows,
-    renderLaborMarketSection: renderLaborMarketSection,
-    renderEmploymentTrend: renderEmploymentTrend,
-    renderWageTrend: renderWageTrend,
-    renderIndustryAnalysis: renderIndustryAnalysis,
-    renderEconomicIndicators: renderEconomicIndicators,
-    renderWageGaps: renderWageGaps,
-    renderBaselineCard: renderBaselineCard,
-    renderGrowthChart: renderGrowthChart,
-    renderFastTrackCard: renderFastTrackCard,
-    renderChecklist: renderChecklist,
-    renderProp123Section: renderProp123Section,
-    renderFastTrackCalculatorSection: renderFastTrackCalculatorSection,
-    renderHistoricalSection: renderHistoricalSection,
-    renderComplianceTable: renderComplianceTable,
-    renderSnapshot: renderSnapshot,
-    renderHousingCharts: renderHousingCharts,
-    renderAffordChart: renderAffordChart,
-    renderRentBurdenBins: renderRentBurdenBins,
-    renderChasAffordabilityGap: renderChasAffordabilityGap,
-    renderModeShare: renderModeShare,
-    renderLehd: renderLehd,
-    renderDolaPyramid: renderDolaPyramid,
-    clearProjectionsForStateLevel: clearProjectionsForStateLevel,
-    renderProjections: renderProjections,
-    applyAssumptions: applyAssumptions,
-    renderProjectionChart: renderProjectionChart,
-    renderScenarioComparison: renderScenarioComparison,
-    renderHouseholdDemand: renderHouseholdDemand,
-    getSelectedScenario: getSelectedScenario,
-    getScenarioRateOverrides: getScenarioRateOverrides,
-    updateScenarioDescription: updateScenarioDescription,
-    wireScenarioControls: wireScenarioControls,
-    renderLocalResources: renderLocalResources,
-    renderMethodology: renderMethodology,
-    renderFmrPanel: renderFmrPanel,
-    showChartLoading: showChartLoading,
-    hideChartLoading: hideChartLoading,
-    showAllChartsLoading: showAllChartsLoading,
+
+  window.HNARenderers = {
+    setBanner, clearStats, chartTheme, makeChart, renderBoundary,
+    updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
+    renderJobMetrics, renderWageChart, renderIndustryChart, renderCommutingFlows,
+    renderLaborMarketSection, renderEmploymentTrend, renderWageTrend,
+    renderIndustryAnalysis, renderEconomicIndicators, renderWageGaps,
+    renderBaselineCard, renderGrowthChart, renderFastTrackCard, renderChecklist,
+    renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection,
+    renderComplianceTable, renderSnapshot, renderHousingCharts, renderAffordChart,
+    renderRentBurdenBins, renderChasAffordabilityGap, renderModeShare, renderLehd,
+    renderDolaPyramid, clearProjectionsForStateLevel, _renderScenarioSection,
+    renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
+    renderLocalResources, renderMethodology, renderFmrPanel,
+    showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
   };
 })();

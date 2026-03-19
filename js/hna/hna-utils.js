@@ -1,8 +1,8 @@
 /**
- * js/hna/hna-utils.js
- * Responsibility: Pure utility functions, constants, Census API helpers, and shared-state initialisation.
- * Dependencies: window.fetchWithTimeout (js/fetch-helper.js), window.resolveAssetUrl (js/path-resolver.js)
- * Exposes: window.__HNA_STATE (shared mutable state), window.__HNA_UTILS (utility function object)
+ * hna-utils.js
+ * Responsibility: Pure helpers, constants, formatting, and calculation utilities.
+ * Dependencies: window.__HNA_GEO_CONFIG, window.APP_CONFIG
+ * Exposes: window.HNAUtils
  */
 (function () {
   'use strict';
@@ -11,32 +11,18 @@
 
   // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
   // Alias it locally so in-file calls work without modification.
-  var fetchWithTimeout = window.fetchWithTimeout || function (url, options, timeoutMs) {
-    // Minimal inline fallback in case fetch-helper.js is not loaded first.
-    // Uses the same 15s default as the shared implementation in fetch-helper.js.
-    timeoutMs = timeoutMs || 15000;
-    var ctrl = new AbortController();
-    var timer = setTimeout(function () { ctrl.abort(); }, timeoutMs);
-    var merged = Object.assign({}, options || {}, { signal: ctrl.signal });
-    return fetch(url, merged).then(function (res) {
-      clearTimeout(timer);
-      return res;
-    }, function (err) {
-      clearTimeout(timer);
-      throw err;
-    });
-  };
 
-  // Probe vintages newest-first to always surface the most recent data available.
   const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
   // Keep named constants so existing checks and references still work.
   const ACS_YEAR_PRIMARY  = ACS_VINTAGES[0];
   const ACS_YEAR_FALLBACK = ACS_VINTAGES[1];
   const DEBUG_HNA = new URLSearchParams(location.search).has('debug');
 
+
   function redactKey(url){
     return url.replace(/([?&]key=)[^&]*/g, '$1REDACTED');
   }
+
 
   const DEFAULTS = {
     geoType: 'state',
@@ -82,6 +68,7 @@
   ];
 
   // Cached resource files (curated for featured geos; can be expanded by ETL)
+
   const PATHS = {
     geoConfig: 'data/hna/geo-config.json',
     localResources: 'data/hna/local-resources.json',
@@ -116,7 +103,6 @@
   // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
   // local /data/ files are unavailable. Files are updated by the CI workflow on each
   // successful run of scripts/fetch-chfa-lihtc.js (and equivalent scripts).
-
   const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
 
   // Colorado LIHTC fallback data (representative projects; source: HUD LIHTC database)
@@ -335,24 +321,13 @@
     return `ACS${yearStr} ${tableLabel}${link}`;
   }
 
-  function chartTheme(){
-    const style = getComputedStyle(document.documentElement);
-    const text = style.getPropertyValue('--text').trim() || '#111';
-    const muted = style.getPropertyValue('--muted').trim() || '#555';
-    const border = style.getPropertyValue('--border').trim() || '#ddd';
-    // Chart palette tokens (var(--chart-1) … var(--chart-7), Rule 10)
-    const chartColors = [1,2,3,4,5,6,7].map(n =>
-      style.getPropertyValue(`--chart-${n}`).trim() || ['#1e5799','#0369a1','#096e65','#7c3d00','#166534','#92400e','#991b1b'][n-1]
-    );
-    return { text, muted, border, chartColors };
-  }
 
   function safeNum(v){
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
   }
 
-  // --- Geography helpers ---
+
   function countyFromGeoid(geoType, geoid){
     if (geoType === 'county') return geoid;
     // State-level selection has no single county context.
@@ -371,46 +346,15 @@
     return '08077';
   }
 
-  async function fetchCoCountiesList(){
-    // TIGERweb county layer (State_County MapServer/1)
-    const base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
-    const params = new URLSearchParams({
-      where: `STATEFP='${STATE_FIPS_CO}'`,
-      outFields: 'NAME,GEOID',
-      f: 'json',
-      returnGeometry: 'false',
-      orderByFields: 'NAME'
-    });
-    const url = `${base}?${params.toString()}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('Failed to fetch county list');
-    const d = await r.json();
-    const counties = (d.features || []).map(f => {
-        const name = f.attributes.NAME || '';
-        const label = name.toLowerCase().endsWith('county') ? name : `${name} County`;
-        return { geoid: f.attributes.GEOID, label };
-      });
-    return counties;
-  }
 
-  async function loadJson(url){
-    // Resolve local paths through APP_BASE_PATH so they work on GitHub Pages sub-paths
-    // (e.g. /Housing-Analytics/data/...) and on custom domains (/).
-    const resolvedUrl = (!/^https?:\/\//i.test(url) && typeof window.resolveAssetUrl === 'function')
-      ? window.resolveAssetUrl(url)
-      : url;
-    const r = await fetchWithTimeout(resolvedUrl, {cache:'no-cache'}, 20000);
-    if (!r.ok) {
-      const err = new Error(`HTTP ${r.status} ${resolvedUrl}`);
-      err.httpStatus = r.status;
-      throw err;
-    }
-    const text = await r.text();
-    if (!text.trim()) throw new Error(`Empty response: ${resolvedUrl}`);
-    return JSON.parse(text);
-  }
+  const BOUNDARY_STYLES = {
+    county: { weight: 2,   color: '#2b6cb0', fillOpacity: 0.06 },
+    place:  { weight: 3,   color: '#096e65', fillOpacity: 0.10 },
+    cdp:    { weight: 3,   color: '#7c3d00', fillOpacity: 0.10 },
+    state:  { weight: 1.5, color: '#2b6cb0', fillOpacity: 0.04 },
+  };
 
-  // Return LIHTC fallback features filtered to a county FIPS (or all if none specified)
+
   function lihtcFallbackForCounty(countyFips5){
     const features = LIHTC_FALLBACK_CO.features.filter(f =>
       !countyFips5 || (f.properties.CNTY_FIPS || '') === countyFips5
@@ -418,376 +362,57 @@
     return { type: 'FeatureCollection', features };
   }
 
+  // Fetch LIHTC projects for a county or for the whole state.
+  // Pass a 5-digit county FIPS (e.g. '08077') for county-level results, or the
+  // 2-digit Colorado state FIPS ('08') to get all statewide LIHTC projects.
+  // For Colorado, data/chfa-lihtc.json (the canonical local file, kept current by CI)
+  // is always tried first. Remote ArcGIS APIs (CHFA, then HUD) are only attempted when the
+  // local file is absent (HTTP 404). For all other states, HUD ArcGIS is the live source.
+  // The returned GeoJSON includes a _source field ('local' | 'CHFA' | 'HUD' | 'fallback').
+
+  function lihtcSourceInfo(source) {
+    if (source === 'CHFA')  return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
+    if (source === 'local') return { label: 'Local CHFA data (chfa-lihtc.json)', color: '#16a34a' };
+    if (source === 'HUD')   return { label: 'HUD LIHTC Database', color: '#6366f1' };
+    return                         { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
+  }
+
+  // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)
+  // source: 'CHFA' | 'HUD' | 'fallback' — indicates which data source provided this record
+  function lihtcPopupHtml(p, source) {
+    const safe = v => (v == null || v === '') ? '—' : String(v);
+    const yn   = v => (v === 1 || v === '1' || v === 'Y' || v === true)
+      ? '<span style="color:#34d399">Yes</span>'
+      : '<span style="color:#94a3b8">No</span>';
+    const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
+      .filter(Boolean).join(', ');
+    const { label: srcLabel } = lihtcSourceInfo(source);
+    return `<div style="min-width:220px;max-width:280px;font-size:13px">
+      <div style="font-weight:800;font-size:14px;margin-bottom:4px;line-height:1.3">${safe(p.PROJECT || p.PROJ_NM) || 'LIHTC Project'}</div>
+      ${addr ? `<div style="margin-bottom:6px;opacity:.8">${addr}</div>` : ''}
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${safe(p.CREDIT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">QCT</td><td style="text-align:right">${yn(p.QCT)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">DDA</td><td style="text-align:right">${yn(p.DDA)}</td></tr>
+        <tr><td style="padding:2px 0;opacity:.7">County</td><td style="text-align:right">${safe(p.CNTY_NAME || p.PROJ_CTY)}</td></tr>
+        ${p.HUD_ID ? `<tr><td style="padding:2px 0;opacity:.7">HUD ID</td><td style="text-align:right;font-size:11px">${safe(p.HUD_ID)}</td></tr>` : ''}
+      </table>
+      <div style="margin-top:6px;font-size:11px;opacity:.55">Source: ${srcLabel}</div>
+    </div>`;
+  }
+
+  // Build (or rebuild) the "LIHTC projects in area (top 10 by units)" info panel
+  // using features that fall within the current map viewport bounds.
+
   function censusKey(){
     return (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : '';
   }
 
   // Warn once per page load when CENSUS_API_KEY is absent so developers can
   // diagnose 400/403 failures without digging through network traffic.
-  let _censusApiWarnDone = false;
-  function _censusApiWarn() {
-    if (!_censusApiWarnDone && !censusKey()) {
-      _censusApiWarnDone = true;
-      console.warn('[HNA] CENSUS_API_KEY is not configured — Census profile and subject ' +
-        'table requests may be rate-limited or rejected for some geographies. ' +
-        'Set window.APP_CONFIG.CENSUS_API_KEY or add it to js/config.js. ' +
-        'Free key signup: https://api.census.gov/data/key_signup.html');
-    }
-  }
-
-  // Fetch a Census API URL with timeout/retry (via fetchWithTimeout) and
-  // detailed error logging.  Handles transient HTTP errors (408, 429, 5xx)
-  // by waiting and retrying once.  Returns the Response object on any HTTP
-  // reply (callers check resp.ok), or null on unrecoverable network failure.
-  async function _fetchCensusUrl(url, contextLabel) {
-    const safeUrl = redactKey(url);
-    const label = contextLabel || 'Census API';
-    const TRANSIENT = new Set([408, 429, 500, 502, 503, 504]);
-
-    async function tryFetch(retries) {
-      try {
-        return await fetchWithTimeout(url, {}, 15000, retries);
-      } catch (e) {
-        console.warn('[HNA] ' + label + ' network error (' + safeUrl + '): ' + e.message);
-        return null;
-      }
-    }
-
-    let resp = await tryFetch(2);
-    if (!resp) return null;
-
-    // One additional retry on transient HTTP status codes
-    if (!resp.ok && TRANSIENT.has(resp.status)) {
-      const backoffMs = resp.status === 429 ? 3000 : 1000;
-      if (DEBUG_HNA) {
-        console.warn('[HNA] ' + label + ' HTTP ' + resp.status + ' (transient); retrying in ' + backoffMs + 'ms (' + safeUrl + ')');
-      }
-      await new Promise(function (res) { setTimeout(res, backoffMs); });
-      const retried = await tryFetch(1);
-      if (retried) resp = retried;
-    }
-
-    if (!resp.ok) {
-      let bodyExcerpt = '';
-      try { bodyExcerpt = (await resp.text()).slice(0, 500); } catch (e) {
-        console.warn('[HNA] ' + label + ' failed to read error response body: ' + e.message);
-      }
-      console.warn('[HNA] ' + label + ' HTTP ' + resp.status + ' for ' + safeUrl +
-        (bodyExcerpt ? ': ' + bodyExcerpt : ''));
-    }
-
-    return resp;
-  }
-
-  async function fetchAcsProfile(geoType, geoid){
-    // Use ACS 1-year profile tables for a fast report-like snapshot.
-    // Falls back to ACS 5-year if the primary year is unavailable.
-
-    _censusApiWarn();
-
-    // Validate GEOID format before building Census API URLs.
-    if (geoType === 'county' && !/^\d{5}$/.test(geoid)) {
-      console.warn('[HNA] fetchAcsProfile: county GEOID "' + geoid + '" is not 5 digits; Census API call may fail.');
-    }
-    if ((geoType === 'place' || geoType === 'cdp') && !/^\d{7}$/.test(geoid)) {
-      console.warn('[HNA] fetchAcsProfile: place GEOID "' + geoid + '" is not 7 digits; Census API call may fail.');
-    }
-
-    // Variables
-    const vars = [
-      // DP05 population
-      'DP05_0001E',
-      // DP02 households
-      'DP02_0001E',
-      // DP03 income
-      'DP03_0062E',
-      // DP04 housing
-      'DP04_0001E', // housing units
-      'DP04_0047PE', // owner-occupied %
-      'DP04_0046PE', // renter-occupied %
-      'DP04_0089E',  // median value (owner-occupied)
-      'DP04_0134E',  // median gross rent
-      // Structure
-      'DP04_0003E', // 1-unit detached
-      'DP04_0004E', // 1-unit attached
-      'DP04_0005E', // 2 units
-      'DP04_0006E', // 3-4 units
-      'DP04_0007E', // 5-9 units
-      'DP04_0008E', // 10-19
-      'DP04_0009E', // 20+ units
-      'DP04_0010E', // mobile home
-      // Rent burden bins (GRAPI) — only DP04_0142PE and DP04_0143PE exist in
-      // ACS 1-year profile across vintages 2020-2024.  The 25-29.9%, 30-34.9%,
-      // and 35%+ bins (formerly DP04_0144PE through DP04_0146PE) were removed
-      // from the DP04 profile table and are no longer valid ACS variables;
-      // those values are derived from the B25070 B-series fallback instead.
-      'DP04_0142PE', // <20%
-      'DP04_0143PE', // 20-24.9%
-    ];
-
-    const forParam = geoType === 'county'
-      ? `county:${geoid.slice(2,5)}`
-      : geoType === 'state'
-        ? `state:${STATE_FIPS_CO}`
-        : geoType === 'place'
-          ? `place:${geoid.slice(2)}`
-          : `place:${geoid.slice(2)}`;
-
-    const inParam = geoType === 'state' ? null : `state:${STATE_FIPS_CO}`;
-    const key = censusKey();
-
-    function buildUrl(year, dataset){
-      const base = `https://api.census.gov/data/${year}/${dataset}`;
-      // Build query string manually to keep literal colons in the Census API
-      // geography parameters (for= and in=). URLSearchParams encodes ':' as
-      // '%3A', which the Census API does not decode, causing it to report
-      // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
-      if (inParam) qs += `&in=${inParam}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      return `${base}?${qs}`;
-    }
-
-    const url1 = buildUrl(ACS_YEAR_PRIMARY,  'acs/acs1/profile');
-    let r = await _fetchCensusUrl(url1, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
-    let usedYear = ACS_YEAR_PRIMARY;
-    let usedSeries = 'acs1';
-    let url2 = null;
-    if (!r || !r.ok){
-      // Probe vintages newest-first for ACS 1-year
-      r = null;
-      for (const v of ACS_VINTAGES) {
-        const u = buildUrl(v, 'acs/acs1/profile');
-        const resp = await _fetchCensusUrl(u, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
-      }
-    }
-    if (!r || !r.ok){
-      if (DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 profile');
-      // Try ACS 5-year vintage probe
-      for (const v of ACS_VINTAGES) {
-        url2 = buildUrl(v, 'acs/acs5/profile');
-        const resp = await _fetchCensusUrl(url2, 'ACS5 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
-      }
-    }
-    if (!r || !r.ok){
-      if (DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS5 profile exhausted for ' + geoType + ':' + geoid + '; falling back to B-series');
-      // ACS profile/subject tables may not support this geography or these
-      // variable codes for the requested year.  Fall back to ACS 5-year
-      // B-series which covers all geography types (county, place, CDP) and
-      // uses stable variable codes.
-      return await fetchAcs5BSeries(geoType, geoid);
-    }
-    const arr = await r.json();
-    const header = arr[0];
-    const row = arr[1];
-    const out = {};
-    header.forEach((h,i)=>{out[h]=row[i];});
-    out._acsYear = usedYear;
-    out._acsSeries = usedSeries;
-    return out;
-  }
-
-  async function fetchAcs5BSeries(geoType, geoid){
-    // ACS 5-year B-series fallback for all geography types (county, place, CDP, state).
-    // Profile (DP) and subject (S) tables may fail due to geography constraints
-    // or variable numbering changes across ACS releases.  The B-series detailed
-    // tables cover all geography types and use stable variable codes.
-    // Maps B-series codes to DP-series names for UI compatibility.
-    const isState = geoType === 'state';
-    const forParam = geoType === 'county'
-      ? `county:${geoid.slice(-3)}`
-      : isState
-        ? `state:${STATE_FIPS_CO}`
-        : `place:${geoid.slice(2)}`;
-    const key = censusKey();
-    const bVars = [
-      'B01003_001E', // total population        → DP05_0001E
-      'B11001_001E', // total households         → DP02_0001E
-      'B19013_001E', // median household income  → DP03_0062E
-      'B25001_001E', // total housing units      → DP04_0001E
-      'B25003_001E', // occupied housing units
-      'B25003_002E', // owner-occupied
-      'B25003_003E', // renter-occupied
-      'B25077_001E', // median home value        → DP04_0089E
-      'B25064_001E', // median gross rent        → DP04_0134E
-      'B25024_002E', 'B25024_003E', 'B25024_004E', 'B25024_005E',
-      'B25024_006E', 'B25024_007E', 'B25024_008E', 'B25024_009E',
-      'B25024_010E', // housing structure types  → DP04_0003E–0010E
-      'B25070_001E', // renter-occupied paying rent (GRAPI denominator)
-      'B25070_006E', // 25–29.9%
-      'B25070_007E', // 30–34.9%                → DP04_0145PE
-      'B25070_008E', // 35–39.9%
-      'B25070_009E', // 40–49.9%
-      'B25070_010E', // 50%+
-    ];
-
-    // Probe vintages newest-first for ACS 5-year B-series
-    let bResp = null;
-    let bYear = ACS_YEAR_FALLBACK;
-    for (const v of ACS_VINTAGES) {
-      const base = `https://api.census.gov/data/${v}/acs/acs5`;
-      // Build query string manually to keep literal colons in the Census API
-      // geography parameters (for= and in=). URLSearchParams encodes ':' as
-      // '%3A', which the Census API does not decode, causing it to report
-      // "ambiguous geography" errors for county-level queries.
-      // For state-level queries omit the &in= parameter (it is not needed).
-      let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}`;
-      if (!isState) qs += `&in=state:${STATE_FIPS_CO}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      const u = `${base}?${qs}`;
-      const resp = await _fetchCensusUrl(u, 'ACS5 B-series ' + geoType + ':' + geoid + ' y=' + v);
-      if (resp && resp.ok){ bResp = resp; bYear = v; break; }
-    }
-    if (!bResp){
-      throw new Error(`ACS profile unavailable for this geography`);
-    }
-    const arr = await bResp.json();
-    const header = arr[0];
-    const row = arr[1] || [];
-    const raw = {};
-    header.forEach((h,i)=>{ raw[h]=row[i]; });
-
-    const si = v => { const n=parseInt(v,10); return Number.isFinite(n) && n>=0 ? n : null; };
-    const occ = si(raw.B25003_001E);
-    const owner = si(raw.B25003_002E);
-    const renter = si(raw.B25003_003E);
-    const grapiTot = si(raw.B25070_001E);
-    const pct = (n) => (grapiTot && n!==null) ? String(Math.round(n/grapiTot*10000)/100) : null;
-    const b35 = [raw.B25070_008E,raw.B25070_009E,raw.B25070_010E].map(si).filter(n=>n!==null);
-    const burden35 = b35.length ? b35.reduce((a,b)=>a+b,0) : null;
-    const s20_49 = si(raw.B25024_008E);
-    const s50p = si(raw.B25024_009E);
-    const units20p = (s20_49!==null||s50p!==null) ? (s20_49||0)+(s50p||0) : null;
-
-    return {
-      DP05_0001E: raw.B01003_001E,
-      DP02_0001E: raw.B11001_001E,
-      DP03_0062E: raw.B19013_001E,
-      DP04_0001E: raw.B25001_001E,
-      DP04_0047PE: (occ && owner!==null) ? String(Math.round(owner/occ*1000)/10) : null,
-      DP04_0046PE: (occ && renter!==null) ? String(Math.round(renter/occ*1000)/10) : null,
-      DP04_0089E:  raw.B25077_001E,
-      DP04_0134E:  raw.B25064_001E,
-      DP04_0003E:  raw.B25024_002E,
-      DP04_0004E:  raw.B25024_003E,
-      DP04_0005E:  raw.B25024_004E,
-      DP04_0006E:  raw.B25024_005E,
-      DP04_0007E:  raw.B25024_006E,
-      DP04_0008E:  raw.B25024_007E,
-      DP04_0009E:  units20p!==null ? String(units20p) : null,
-      DP04_0010E:  raw.B25024_010E,
-      DP04_0142PE: null,
-      DP04_0143PE: null,
-      DP04_0144PE: pct(si(raw.B25070_006E)),
-      DP04_0145PE: pct(si(raw.B25070_007E)),
-      DP04_0146PE: pct(burden35),
-      NAME: raw.NAME,
-      _acsYear: bYear,
-      _acsSeries: 'acs5',
-    };
-  }
-
-  async function fetchAcsS0801(geoType, geoid){
-    // Subject table S0801: commuting characteristics
-
-    _censusApiWarn();
-
-    // Validate GEOID format before building Census API URLs.
-    if (geoType === 'county' && !/^\d{5}$/.test(geoid)) {
-      console.warn('[HNA] fetchAcsS0801: county GEOID "' + geoid + '" is not 5 digits; Census API call may fail.');
-    }
-    if ((geoType === 'place' || geoType === 'cdp') && !/^\d{7}$/.test(geoid)) {
-      console.warn('[HNA] fetchAcsS0801: place GEOID "' + geoid + '" is not 7 digits; Census API call may fail.');
-    }
-
-    const vars = [
-      'S0801_C01_001E', // total workers 16+ (count)
-      'S0801_C01_002E', // car, truck, or van — total (parent; drove-alone + carpooled)
-      'S0801_C01_003E', // drove alone (%)
-      'S0801_C01_004E', // carpooled (%)
-      'S0801_C01_005E', // public transportation (%)
-      'S0801_C01_006E', // walked (%)
-      'S0801_C01_007E', // taxicab, motorcycle, bicycle, or other means (%)
-      'S0801_C01_008E', // worked at home (%)
-      'S0801_C01_018E', // mean travel time to work (minutes)
-    ];
-
-    const forParam = geoType === 'county'
-      ? `county:${geoid.slice(2,5)}`
-      : geoType === 'state'
-        ? `state:${STATE_FIPS_CO}`
-        : geoType === 'place'
-          ? `place:${geoid.slice(2)}`
-          : `place:${geoid.slice(2)}`;
-
-    const inParam = geoType === 'state' ? null : `state:${STATE_FIPS_CO}`;
-    const key = censusKey();
-
-    function buildUrl(year, dataset){
-      const base = `https://api.census.gov/data/${year}/${dataset}`;
-      // Build query string manually to keep literal colons in the Census API
-      // geography parameters (for= and in=). URLSearchParams encodes ':' as
-      // '%3A', which the Census API does not decode, causing it to report
-      // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
-      if (inParam) qs += `&in=${inParam}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      return `${base}?${qs}`;
-    }
-
-    // ACS 1-year data is not published for geographic units with fewer than
-    // 65,000 residents (CDPs are the main example in Colorado). For CDPs, skip
-    // the ACS1 probe entirely and go directly to ACS 5-year subject tables,
-    // avoiding up to 5 unnecessary failing requests.
-    let r = null;
-    let usedYear = ACS_YEAR_PRIMARY;
-    let usedSeries = 'acs1';
-
-    if (geoType !== 'cdp') {
-      const url1 = buildUrl(ACS_YEAR_PRIMARY, 'acs/acs1/subject');
-      r = await _fetchCensusUrl(url1, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + ACS_YEAR_PRIMARY);
-      if (!r || !r.ok){
-        // Probe vintages newest-first for ACS 1-year
-        r = null;
-        for (const v of ACS_VINTAGES) {
-          const u = buildUrl(v, 'acs/acs1/subject');
-          const resp = await _fetchCensusUrl(u, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + v);
-          if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
-        }
-      }
-    }
-    if (!r || !r.ok){
-      if (DEBUG_HNA) console.warn('[HNA] fetchAcsS0801: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 subject');
-      // Try ACS 5-year vintage probe
-      for (const v of ACS_VINTAGES) {
-        const u = buildUrl(v, 'acs/acs5/subject');
-        const resp = await _fetchCensusUrl(u, 'ACS5 S0801 ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
-      }
-    }
-    if (!r || !r.ok){
-      const msg = 'ACS S0801 failed for ' + geoType + ':' + geoid + ' (tried ACS1 and ACS5 across all vintages)';
-      throw new Error(msg);
-    }
-    const arr = await r.json();
-    const header = arr[0];
-    const row = arr[1];
-    const out = {};
-    header.forEach((h,i)=>{out[h]=row[i];});
-    out._acsYear = usedYear;
-    out._acsSeries = usedSeries;
-    return out;
-  }
-
-  // --- Computations ---
-
-  // ---------------------------------------------------------------
-  // Labor Market helpers
-  // ---------------------------------------------------------------
-
-  // NAICS 2-digit sector labels (LEHD WAC CNS01-CNS20)
 
   const NAICS_LABELS = {
     CNS01: 'Agriculture & Forestry',
@@ -824,7 +449,7 @@
    * @param {object} lehd - LEHD JSON object
    * @param {object|null} profile - ACS profile for population (J:W ratio denominator)
    * @returns {object} metrics object
-
+   */
   function calculateJobMetrics(lehd, profile) {
     if (!lehd) return null;
     const totalJobs = Number(lehd.C000) || null;  // WAC total jobs field
@@ -894,11 +519,11 @@
   // ---------------------------------------------------------------
 
   // Population thresholds for eligibility (per HB 22-1093)
+
   const PROP123_MUNICIPALITY_THRESHOLD = 1000;
   const PROP123_COUNTY_THRESHOLD       = 5000;
   // Required annual growth rate (3%)
   const PROP123_GROWTH_RATE = 0.03;
-
 
   /**
    * Estimate count of 60% AMI rental units from ACS profile data.
@@ -919,6 +544,7 @@
    * @param {object} profile - ACS profile (DP04 fields)
    * @returns {{baseline60Ami, totalRentals, pctOfStock, method}|null}
    */
+
   function calculateBaseline(profile) {
     if (!profile) return null;
 
@@ -1010,6 +636,141 @@
     };
   }
 
+  // ---------------------------------------------------------------
+  // Labor Market renderers
+  // ---------------------------------------------------------------
+
+
+  function calculateFastTrackTimeline(projectUnits, ami_pct, jurisdiction_type) {
+    const units  = Number(projectUnits);
+    const ami    = Number(ami_pct);
+
+    // Standard local review cycle (per HB 22-1093 legislative findings, 180–365 days)
+    const standardDays  = 270;  // median estimate
+    // HB 22-1093 expedited timeline (45–90 days)
+    const fastTrackDays = 60;   // typical with complete application
+
+    const conditions = [];
+    let eligible = true;
+
+    if (!Number.isFinite(ami) || ami > 60) {
+      eligible = false;
+      conditions.push('Project must serve households at 60% AMI or below');
+    } else {
+      conditions.push('✅ 60% AMI or below — meets income targeting requirement');
+    }
+
+    if (!Number.isFinite(units) || units < 1) {
+      eligible = false;
+      conditions.push('At least 1 affordable unit required');
+    } else {
+      conditions.push(`✅ ${units} unit(s) proposed`);
+    }
+
+    // Only counties/municipalities that have filed a Prop 123 commitment are eligible
+    const eligibleTypes = ['county', 'place'];
+    if (!eligibleTypes.includes(jurisdiction_type)) {
+      eligible = false;
+      conditions.push('Jurisdiction must be a county or incorporated municipality with a filed commitment');
+    } else {
+      conditions.push('✅ Eligible jurisdiction type (' + jurisdiction_type + ')');
+    }
+
+    conditions.push('Must provide proper advance notice to DOLA (per statute)');
+    conditions.push('Must comply with DOLA expedited process guidance');
+
+    const savedDays   = standardDays - fastTrackDays;
+    const savedMonths = Math.round(savedDays / 30);
+    const savings     = savedMonths + ' month' + (savedMonths !== 1 ? 's' : '');
+
+    return { standardDays, fastTrackDays, timelineSavings: savings, eligible, conditions };
+  }
+
+  /**
+   * Get jurisdiction-level compliance status (single geography).
+   * Delegates to Prop123Tracker if loaded, otherwise computes inline.
+   *
+   * @param {string} geoid
+   * @param {string} geoType
+   * @param {object|null} profile - ACS profile
+   * @returns {{
+   *   baseline: number|null,
+   *   current: number|null,
+   *   target: number|null,
+   *   pctComplete: number|null,
+   *   status: string,
+   *   lastFiled: string|null
+   * }}
+   */
+
+  function getJurisdictionComplianceStatus(geoid, geoType, profile) {
+    const baselineData = calculateBaseline(profile);
+    if (!baselineData) {
+      return { baseline: null, current: null, target: null, pctComplete: null, status: 'no-data', lastFiled: null };
+    }
+
+    const baseline    = baselineData.baseline60Ami;
+    const currentYear = new Date().getFullYear();
+    const yearsIn     = currentYear - 2023;
+    const target      = Math.round(baseline * Math.pow(1 + PROP123_GROWTH_RATE, yearsIn));
+
+    // Check for user-supplied actuals in sessionStorage
+    const storedKey = 'prop123_actual_' + geoid + '_' + currentYear;
+    const stored    = (typeof sessionStorage !== 'undefined')
+      ? sessionStorage.getItem(storedKey)
+      : null;
+    const current   = stored !== null ? Number(stored) : baseline; // fallback: assume at baseline
+    const pct       = target > 0 ? Math.round((current / target) * 100) : null;
+
+    let status;
+    if (pct === null) {
+      status = 'no-data';
+    } else if (current >= target) {
+      status = 'on-track';
+    } else if (current >= target * 0.90) {
+      status = 'at-risk';
+    } else {
+      status = 'off-track';
+    }
+
+    return { baseline, current, target, pctComplete: pct, status, lastFiled: null };
+  }
+
+  /**
+   * Generate a CSV string for compliance report across a list of jurisdiction objects.
+   * Each item: { geoid, name, population, baseline, current, target, status, lastFiled }
+   *
+   * @param {object[]} rows
+   * @returns {string} CSV content
+   */
+
+  function generateComplianceReport(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) return '';
+
+    const headers = ['geoid', 'name', 'population', 'baseline', 'current', 'target', 'pct_complete', 'status', 'last_filed'];
+    const escape  = (v) => {
+      const s = String(v == null ? '' : v);
+      return s.includes(',') || s.includes('"') || s.includes('\n')
+        ? '"' + s.replace(/"/g, '""') + '"'
+        : s;
+    };
+
+    const lines = [headers.join(',')];
+    rows.forEach((r) => {
+      lines.push([
+        r.geoid, r.name, r.population,
+        r.baseline, r.current, r.target,
+        r.pctComplete, r.status, r.lastFiled,
+      ].map(escape).join(','));
+    });
+    return lines.join('\n');
+  }
+
+  /**
+   * Render the fast-track timeline calculator card.
+   * Wires up form controls inside the #fastTrackCalculator container.
+   */
+
   function computeIncomeNeeded(homeValue){
     const V = Number(homeValue);
     if (!Number.isFinite(V) || V <= 0) return null;
@@ -1046,49 +807,7 @@
     return a + b;
   }
 
-  async function fetchAcs5Trend(year, geoType, geoid){
-    // Minimal ACS5 profile pull used for trend estimates (population + households).
-    // This is only used for municipal scaling and headship trend when user selects "Trend".
-    const vars = ['DP05_0001E','DP02_0001E'].join(',');
-    const key = censusKey();
-    const stateF = geoid.slice(0,2);
-    const code = geoid.slice(2);
-
-    const dataset = `https://api.census.gov/data/${year}/acs/acs5/profile`;
-    const forPart = (geoType==='county') ? `county:${code}` : `place:${code}`;
-    const inPart = `state:${stateF}`;
-
-    const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
-    const r = await fetch(url);
-    if (!r.ok){
-      // For CDPs, ACS5 profile may not support CDP geography; fall back to B-series.
-      if (geoType === 'cdp'){
-        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=${encodeURIComponent(`place:${code}`)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
-        const rb = await fetch(bUrl);
-        if (!rb.ok) throw new Error(`ACS5 trend HTTP ${rb.status}`);
-        const jb = await rb.json();
-        const hb = jb[0], rowb = jb[1] || [];
-        const ob = {};
-        hb.forEach((k,i)=> ob[k]=rowb[i]);
-        return { pop: safeNum(ob.B01003_001E), hh: safeNum(ob.B11001_001E), year };
-      }
-      throw new Error(`ACS5 trend HTTP ${r.status}`);
-    }
-    const j = await r.json();
-    const h = j[0], row = j[1] || [];
-    const out = {};
-    h.forEach((k,i)=> out[k]=row[i]);
-    return { pop: safeNum(out.DP05_0001E), hh: safeNum(out.DP02_0001E), year };
-  }
-
-  function getAssumptions(){
-    const _els = window.__HNA_STATE.els;
-    const horizon = Number(_els && _els.assumpHorizon ? _els.assumpHorizon.value : 20);
-    const vacPct = Number(_els && _els.assumpVacancy ? _els.assumpVacancy.value : 5);
-    const targetVac = vacPct/100.0;
-    const headshipMode = (document.getElementById('assumpHeadship')?.value || document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
-    return { horizon, targetVac, headshipMode };
-  }
+  // --- Renderers ---
 
   const PROJECTION_SCENARIOS = {
     baseline: {
@@ -1127,78 +846,68 @@
     'above_120_ami':'#7b1fa2',
   };
 
-  // ---------------------------------------------------------------------------
-  // Shared state initialisation
-  // ---------------------------------------------------------------------------
+  /**
+   * renderProjectionChart — draw a line chart of projected population for one
+   * scenario over a custom year range.
+   *
+   * @param {string}   geoid    - 5-digit county FIPS (or place FIPS)
+   * @param {string}   scenario - 'baseline' | 'low_growth' | 'high_growth'
+   * @param {number}   years    - projection horizon (e.g. 10)
+   * @param {Object}   opts
+   * @param {Element}  opts.canvas  - <canvas> element to draw on
+   * @param {Array}    opts.basePopSeries  - [{year, population}, ...] from loaded projections
+   */
 
-  window.__HNA_STATE = {
-    // Constants (set once by hna-utils.js)
-    STATE_FIPS_CO: STATE_FIPS_CO,
-    ACS_VINTAGES: ACS_VINTAGES,
-    ACS_YEAR_PRIMARY: ACS_YEAR_PRIMARY,
-    ACS_YEAR_FALLBACK: ACS_YEAR_FALLBACK,
-    DEBUG_HNA: DEBUG_HNA,
-    DEFAULTS: DEFAULTS,
-    AFFORD: AFFORD,
-    FEATURED: FEATURED,
-    PATHS: PATHS,
-    SOURCES: SOURCES,
-    GITHUB_PAGES_BASE: GITHUB_PAGES_BASE,
-    LIHTC_FALLBACK_CO: LIHTC_FALLBACK_CO,
-    QCT_FALLBACK_CO: QCT_FALLBACK_CO,
-    DDA_FALLBACK_CO: DDA_FALLBACK_CO,
-    CO_DDA: CO_DDA,
-    NAICS_LABELS: NAICS_LABELS,
-    WAGE_BAND_ANNUAL: WAGE_BAND_ANNUAL,
-    PROP123_MUNICIPALITY_THRESHOLD: PROP123_MUNICIPALITY_THRESHOLD,
-    PROP123_COUNTY_THRESHOLD: PROP123_COUNTY_THRESHOLD,
-    PROP123_GROWTH_RATE: PROP123_GROWTH_RATE,
-    PROJECTION_SCENARIOS: PROJECTION_SCENARIOS,
-    AMI_TIER_LABELS: AMI_TIER_LABELS,
-    AMI_TIER_COLORS: AMI_TIER_COLORS,
-    // Mutable runtime state
-    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null },
-    els: null,
-    charts: {},
-    map: null,
-    boundaryLayer: null,
-    lihtcLayer: null,
-    qctLayer: null,
-    ddaLayer: null,
-    allLihtcFeatures: [],
-    lihtcDataSource: 'HUD',
-    _lihtcRequestSeq: 0,
-    scenarioState: { current: 'baseline' },
-    fetchWithTimeout: fetchWithTimeout,
+
+  window.HNAUtils = {
+    // constants
+    STATE_FIPS_CO,
+    ACS_VINTAGES,
+    ACS_YEAR_PRIMARY,
+    ACS_YEAR_FALLBACK,
+    DEBUG_HNA,
+    DEFAULTS,
+    AFFORD,
+    FEATURED,
+    PATHS,
+    SOURCES,
+    GITHUB_PAGES_BASE,
+    NAICS_LABELS,
+    WAGE_BAND_ANNUAL,
+    PROP123_MUNICIPALITY_THRESHOLD,
+    PROP123_COUNTY_THRESHOLD,
+    PROP123_GROWTH_RATE,
+    LIHTC_FALLBACK_CO,
+    QCT_FALLBACK_CO,
+    DDA_FALLBACK_CO,
+    CO_DDA,
+    BOUNDARY_STYLES,
+    PROJECTION_SCENARIOS,
+    AMI_TIER_LABELS,
+    AMI_TIER_COLORS,
+    // functions
+    redactKey,
+    fmtNum,
+    fmtMoney,
+    fmtPct,
+    censusSourceUrl,
+    srcLink,
+    safeNum,
+    computeIncomeNeeded,
+    rentBurden30Plus,
+    calculateJobMetrics,
+    parseIndustries,
+    calculateWageDistribution,
+    calculateBaseline,
+    calculateGrowthTarget,
+    checkFastTrackEligibility,
+    calculateFastTrackTimeline,
+    getJurisdictionComplianceStatus,
+    generateComplianceReport,
+    lihtcSourceInfo,
+    lihtcPopupHtml,
+    countyFromGeoid,
+    censusKey,
+    lihtcFallbackForCounty,
   };
-
-  window.__HNA_UTILS = {
-    redactKey: redactKey,
-    fmtNum: fmtNum,
-    fmtMoney: fmtMoney,
-    fmtPct: fmtPct,
-    safeNum: safeNum,
-    censusSourceUrl: censusSourceUrl,
-    srcLink: srcLink,
-    countyFromGeoid: countyFromGeoid,
-    loadJson: loadJson,
-    fetchCoCountiesList: fetchCoCountiesList,
-    lihtcFallbackForCounty: lihtcFallbackForCounty,
-    censusKey: censusKey,
-    fetchAcsProfile: fetchAcsProfile,
-    fetchAcs5BSeries: fetchAcs5BSeries,
-    fetchAcsS0801: fetchAcsS0801,
-    fetchAcs5Trend: fetchAcs5Trend,
-    calculateJobMetrics: calculateJobMetrics,
-    parseIndustries: parseIndustries,
-    calculateWageDistribution: calculateWageDistribution,
-    calculateBaseline: calculateBaseline,
-    calculateGrowthTarget: calculateGrowthTarget,
-    checkFastTrackEligibility: checkFastTrackEligibility,
-    computeIncomeNeeded: computeIncomeNeeded,
-    rentBurden30Plus: rentBurden30Plus,
-    getAssumptions: getAssumptions,
-    chartTheme: chartTheme,
-  };
-
 })();

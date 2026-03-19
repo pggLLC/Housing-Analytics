@@ -157,8 +157,15 @@ function calculateWageDistribution(lehd) {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-test('js/housing-needs-assessment.js contains Prop 123 functions', () => {
-  const src = fs.readFileSync(path.join(ROOT, 'js', 'housing-needs-assessment.js'), 'utf8');
+test('js/housing-needs-assessment.js (or hna modules) contains Prop 123 functions', () => {
+  // After the HNA module refactor, functions live in js/hna/*.js — concatenate all modules
+  const hnaDirs = [
+    path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+  ];
+  const src = hnaDirs.map(f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '').join('\n')
+            + fs.readFileSync(path.join(ROOT, 'js', 'housing-needs-assessment.js'), 'utf8');
   assert(src.includes('calculateBaseline'),           'calculateBaseline defined');
   assert(src.includes('calculateGrowthTarget'),       'calculateGrowthTarget defined');
   assert(src.includes('checkFastTrackEligibility'),   'checkFastTrackEligibility defined');
