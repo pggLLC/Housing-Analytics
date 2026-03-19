@@ -193,6 +193,104 @@ test('guard clause: market-analysis.js blocks scoring when lihtcLoadError is set
     'lihtcLoadError check appears before computePma call (prevents false scores)');
 });
 
+// ── Inline tractInBuffer for bbox-intersection testing ─────────────────────
+
+var EARTH_RADIUS_MI = 3958.8;
+function haversineTest(lat1, lon1, lat2, lon2) {
+  var dL = (lat2 - lat1) * Math.PI / 180;
+  var dO = (lon2 - lon1) * Math.PI / 180;
+  var a  = Math.sin(dL / 2) * Math.sin(dL / 2) +
+           Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+           Math.sin(dO / 2) * Math.sin(dO / 2);
+  return EARTH_RADIUS_MI * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function tractInBufferTest(tract, lat, lon, miles) {
+  if (tract.bbox) {
+    var nearestLat = Math.max(tract.bbox[1], Math.min(lat, tract.bbox[3]));
+    var nearestLon = Math.max(tract.bbox[0], Math.min(lon, tract.bbox[2]));
+    return haversineTest(lat, lon, nearestLat, nearestLon) <= miles;
+  }
+  return haversineTest(lat, lon, tract.lat, tract.lon) <= miles;
+}
+
+test('tractInBuffer: bbox-based inclusion catches tracts whose centroid is outside buffer', () => {
+  // Denver downtown ~ 39.7392, -104.9903
+  var siteLat = 39.7392;
+  var siteLon = -104.9903;
+  var miles   = 3;
+
+  // Tract whose centroid is 3.2 mi from site (just outside 3-mi buffer) but
+  // whose bbox extends to within 2.8 mi of the site.
+  var tractCentroidOnly = { geoid: 'TEST01', lat: 39.76, lon: -105.04 };
+  var tractWithBbox = {
+    geoid: 'TEST01',
+    lat: 39.76, lon: -105.04,
+    // bbox extends 0.4° W and 0.1° S — right edge is close to the site
+    bbox: [-105.04, 39.70, -104.95, 39.80]
+  };
+
+  var centroidDist = haversineTest(siteLat, siteLon, tractCentroidOnly.lat, tractCentroidOnly.lon);
+  assert(centroidDist > miles,
+    `centroid distance (${centroidDist.toFixed(2)} mi) exceeds buffer radius (${miles} mi)`);
+  assert(!tractInBufferTest(tractCentroidOnly, siteLat, siteLon, miles),
+    'centroid-only: tract correctly excluded when centroid is outside buffer');
+  assert(tractInBufferTest(tractWithBbox, siteLat, siteLon, miles),
+    'bbox-based: tract correctly included when bbox edge is inside buffer');
+});
+
+test('tractInBuffer: bbox-based test excludes tracts that are truly outside buffer', () => {
+  var siteLat = 39.7392;
+  var siteLon = -104.9903;
+  var miles   = 3;
+
+  // Tract far from the site (Pueblo area, ~100 mi away)
+  var farTract = {
+    geoid: 'TEST02',
+    lat: 38.27, lon: -104.61,
+    bbox: [-104.70, 38.20, -104.55, 38.34]
+  };
+  assert(!tractInBufferTest(farTract, siteLat, siteLon, miles),
+    'bbox-based: far tract correctly excluded');
+});
+
+test('tractInBuffer: falls back to centroid when bbox is absent', () => {
+  var siteLat = 39.7392;
+  var siteLon = -104.9903;
+  var miles   = 5;
+
+  var nearTract  = { geoid: 'TEST03', lat: 39.7392, lon: -104.9903 }; // on top of site
+  var farTract   = { geoid: 'TEST04', lat: 38.27, lon: -104.61 };
+
+  assert(tractInBufferTest(nearTract, siteLat, siteLon, miles),
+    'centroid fallback: near tract included');
+  assert(!tractInBufferTest(farTract, siteLat, siteLon, miles),
+    'centroid fallback: far tract excluded');
+});
+
+test('market-analysis.js: tractInBuffer source uses bbox clamp logic', () => {
+  const src = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  assert(src.includes('tractInBuffer'),   'tractInBuffer function exists');
+  assert(src.includes('t.bbox'),          'bbox branch is present');
+  assert(src.includes('nearestLat'),      'nearestLat clamping exists');
+  assert(src.includes('nearestLon'),      'nearestLon clamping exists');
+});
+
+test('build_public_market_data.py: _bbox function exists', () => {
+  const src = fs.readFileSync(
+    path.resolve(__dirname, '..', 'scripts', 'market', 'build_public_market_data.py'), 'utf8');
+  assert(src.includes('def _bbox('), '_bbox() function defined');
+  assert(src.includes('"bbox"'),     'bbox key written to tract record');
+});
+
+test('generate_tract_centroids.py: compute_bbox function exists', () => {
+  const src = fs.readFileSync(
+    path.resolve(__dirname, '..', 'scripts', 'generate_tract_centroids.py'), 'utf8');
+  assert(src.includes('def compute_bbox('), 'compute_bbox() function defined');
+  assert(src.includes('"bbox"'),            'bbox key written to tract record');
+});
+
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
