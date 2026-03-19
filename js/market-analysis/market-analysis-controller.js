@@ -283,6 +283,15 @@
         var lihtc = _getLihtc();
         var flags = _getDesignationFlags(lat, lon);
 
+        // Notify the deal calculator of the designation result so the UI can
+        // pre-check the QCT/DDA checkbox when the site qualifies for a basis boost.
+        // setDesignationContext is a no-op when the deal calculator is not mounted.
+        _safe(function () {
+          if (window.__DealCalc && typeof window.__DealCalc.setDesignationContext === 'function') {
+            window.__DealCalc.setDesignationContext(flags.basisBoostEligible);
+          }
+        });
+
         _log('runAnalysis(): acs=' + (acs ? 'ok (tract_count=' + (acs.tract_count || '?') + ')' : 'null') +
           ', lihtc=' + lihtc.length + ' features');
 
