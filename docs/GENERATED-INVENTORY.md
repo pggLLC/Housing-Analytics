@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T04:43:01.319Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-19T05:30:15.608Z. Do not edit by hand.
 
 ---
 
@@ -898,7 +898,7 @@
 
 ## Test Files
 
-58 test files found.
+59 test files found.
 
 | File | Size |
 |------|------|
@@ -916,6 +916,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hna-functionality-check.js` | 42.9 KB |
+| `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
@@ -933,7 +934,7 @@
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
-| `test/smoke-market-analysis.js` | 26.4 KB |
+| `test/smoke-market-analysis.js` | 29.7 KB |
 | `test/smoke.test.js` | 9.8 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
