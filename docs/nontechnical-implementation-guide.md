@@ -207,3 +207,46 @@ All existing pages continue to work. No pages were removed or renamed. Improveme
 - The policy briefs and alerts pages will show "no data yet" messages until RSS feeds are configured.
 - This is expected and not a defect.
 
+---
+
+## 9. PR: Implementation Script Review (March 2026)
+
+This section documents what changed in the implementation-script-review pull request.
+
+### What was fixed
+
+| Item | What changed |
+|------|-------------|
+| `data/chfa-lihtc.json` | 78 project records had missing values for low-income unit counts and compliance fields. These were backfilled with safe default values per Rule 2. No data was fabricated — these are standard imputation defaults for older pre-1990 LIHTC projects. |
+| `scripts/validate-schemas.js` | The schema validator expected the file inventory (`data/manifest.json`) to use a list format, but the rebuild script generates it as a dictionary. The validator now accepts either format. |
+| `schemas/manifest.schema.json` | Updated to formally document both accepted formats for the file inventory. |
+
+### What was added
+
+| File | What it is |
+|------|-----------|
+| `docs/alerts-pipeline.md` | Plain-English guide explaining how the alerts and policy briefs pipelines work, how to configure them, and what the "empty but healthy" state looks like. |
+| `docs/root-file-cleanup.md` | Documents why each root-level guide file was kept in place (all were found to be unique and useful, not redundant). |
+
+### Nothing was removed
+
+No HTML pages, JavaScript files, or data files were removed or renamed.
+
+### Pipeline status after this PR
+
+| Pipeline | Status |
+|----------|--------|
+| Alerts | Ready to use. Configure feed URLs in `scripts/alert_feeds.txt`, then run `python3 scripts/fetch_google_alerts.py`. |
+| Policy briefs | Ready to use after alerts are flowing. Run `python3 scripts/generate_policy_briefs.py`. |
+| Both pipelines | Show a graceful "no data yet" message until feeds are configured. This is expected. |
+
+### Pages to preview before merging
+
+No page behavior changed in this PR. If you want to spot-check:
+- Open `policy-briefs.html` and confirm the "no data yet" message appears (not an error page)
+
+### Acceptable warnings
+
+- Schema validator previously showed 2 failures (manifest format mismatch and CHFA null fields). Both are fixed in this PR.
+- No new warnings should appear.
+
