@@ -84,12 +84,35 @@
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
+  /* ── Check if a circular buffer intersects a tract ─────────────── */
+  /**
+   * Returns true when the circular buffer (centre lat/lon, radius in miles)
+   * overlaps the tract.  When the tract carries a bounding-box derived from
+   * the original polygon geometry we use a circle-bbox intersection test,
+   * which correctly captures tracts that straddle the buffer boundary even
+   * when their centroid lies just outside the radius.  Without a bbox we
+   * fall back to the legacy centroid-distance check.
+   *
+   * bbox format: [minLon, minLat, maxLon, maxLat]
+   */
+  function tractInBuffer(t, lat, lon, miles) {
+    if (t.bbox) {
+      // Circle-bbox intersection: clamp site coordinates to the bbox extents,
+      // then measure the Haversine distance to that nearest boundary point.
+      var nearestLat = Math.max(t.bbox[1], Math.min(lat, t.bbox[3]));
+      var nearestLon = Math.max(t.bbox[0], Math.min(lon, t.bbox[2]));
+      return haversine(lat, lon, nearestLat, nearestLon) <= miles;
+    }
+    // Fallback: centroid distance (legacy behaviour)
+    return haversine(lat, lon, t.lat, t.lon) <= miles;
+  }
+
   /* ── Get tracts within buffer ───────────────────────────────────── */
   function tractsInBuffer(lat, lon, miles) {
     var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
     if (!tracts || !tracts.length) return [];
     return tracts.filter(function (t) {
-      return haversine(lat, lon, t.lat, t.lon) <= miles;
+      return tractInBuffer(t, lat, lon, miles);
     });
   }
 
@@ -645,12 +668,34 @@
     var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
+    // If no ACS matches in this buffer, try expanding to the next available radius.
+    var effectiveBuffer = bufferMiles;
+    if (!acs && bufTracts.length > 0) {
+      var fallbackSizes = BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; });
+      for (var fi = 0; fi < fallbackSizes.length; fi++) {
+        var fallbackMiles = fallbackSizes[fi];
+        var fallbackTracts = tractsInBuffer(lat, lon, fallbackMiles);
+        var fallbackAcs = aggregateAcs(fallbackTracts, acsIdx);
+        if (fallbackAcs) {
+          acs = fallbackAcs;
+          bufTracts = fallbackTracts;
+          effectiveBuffer = fallbackMiles;
+          console.warn('[market-analysis] ACS data not found at ' + bufferMiles + 'mi; expanded to ' + fallbackMiles + 'mi');
+          break;
+        }
+      }
+    }
+
     if (!acs) {
+      if (bufTracts.length > 0) {
+        console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
+          [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
+      }
       showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
       return;
     }
 
-    var nearbyLihtc  = lihtcInBuffer(lat, lon, bufferMiles);
+    var nearbyLihtc  = lihtcInBuffer(lat, lon, effectiveBuffer);
     if (lihtcLoadError) {
       showEmpty('pmaScoreWrap',
         'LIHTC data is unavailable — PMA score cannot be computed. ' +
@@ -680,7 +725,7 @@
     }
 
     lastResult = Object.assign({}, pma, {
-      lat: lat, lon: lon, bufferMiles: bufferMiles,
+      lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
@@ -1344,6 +1389,7 @@
   // Expose for testing
   window.PMAEngine = {
     haversine:               haversine,
+    tractInBuffer:           tractInBuffer,
     computePma:              computePma,
     computeCoverage:         computeCoverage,
     generatePmaPolygon:      generatePmaPolygon,

@@ -43,7 +43,7 @@ CACHE_TTL_HOURS = 24
 TIGERWEB_TRACTS = (
     "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer/0"
 )
-ACS_BASE = "https://api.census.gov/data/2022/acs/acs5"
+ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
     "8c3c3b26-38f1-4e06-a8f7-a0f2a60cc4d2_0.geojson"
@@ -227,18 +227,22 @@ def build_tract_centroids() -> dict:
             # ArcGIS native JSON (f=json) uses "attributes"; GeoJSON uses "properties"
             props = f.get("attributes") or f.get("properties") or {}
             geoid = props.get("GEOID") or props.get("GEOID10") or props.get("AFFGEOID", "")
-            # Compute centroid from bbox or geometry
+            # Compute centroid and bounding box from polygon geometry
             geom = f.get("geometry")
             lat, lon = _centroid(geom)
             if lat is None:
                 continue
-            tracts.append({
+            bbox = _bbox(geom)
+            tract = {
                 "geoid": str(geoid),
                 "lat": round(lat, 6),
                 "lon": round(lon, 6),
                 "county_fips": str(geoid)[:5] if len(str(geoid)) >= 5 else "",
                 "county_name": props.get("NAMELSAD", "").replace(" County", ""),
-            })
+            }
+            if bbox:
+                tract["bbox"] = bbox
+            tracts.append(tract)
         # ArcGIS signals "more pages available" via exceededTransferLimit.
         # Stopping on feature count alone (< 5000) fails when the server's
         # maxRecordCount is lower than the requested limit (e.g. 205 or 1000).
@@ -294,6 +298,48 @@ def _centroid(geom: dict | None) -> tuple[float | None, float | None]:
         lats = [c[1] for c in flat]
         return sum(lats) / len(lats), sum(lons) / len(lons)
     return None, None
+
+
+def _bbox(geom: dict | None) -> list[float] | None:
+    """Return the polygon bounding box as [min_lon, min_lat, max_lon, max_lat].
+
+    Used to enable circle-bbox intersection testing in the PMA engine, which
+    includes tracts that straddle the buffer boundary even when their centroid
+    lies outside the radius.  Returns None when geometry is unavailable.
+    """
+    if not geom:
+        return None
+    all_lons: list[float] = []
+    all_lats: list[float] = []
+    # ArcGIS native JSON (rings)
+    if "rings" in geom:
+        for ring in geom["rings"]:
+            for coord in ring:
+                all_lons.append(coord[0])
+                all_lats.append(coord[1])
+    elif "x" in geom and "y" in geom:
+        # Point geometry — bbox degenerates to a single point
+        return [geom["x"], geom["y"], geom["x"], geom["y"]]
+    else:
+        gtype = geom.get("type", "")
+        coords = geom.get("coordinates")
+        if not coords:
+            return None
+        if gtype == "Point":
+            return [coords[0], coords[1], coords[0], coords[1]]
+        if gtype in ("Polygon", "MultiPolygon"):
+            flat = _flatten_coords(coords, gtype)
+            for coord in flat:
+                all_lons.append(coord[0])
+                all_lats.append(coord[1])
+    if not all_lons:
+        return None
+    return [
+        round(min(all_lons), 6),
+        round(min(all_lats), 6),
+        round(max(all_lons), 6),
+        round(max(all_lats), 6),
+    ]
 
 
 def _flatten_coords(coords, gtype):
@@ -393,7 +439,7 @@ def build_acs_metrics(centroids: dict) -> dict:
 def _acs_meta() -> dict:
     return {
         "source": "US Census ACS 5-Year Estimates (public)",
-        "vintage": "2022",
+        "vintage": "2023",
         "state": "Colorado",
         "state_fips": STATE_FIPS,
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),

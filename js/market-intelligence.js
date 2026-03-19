@@ -517,6 +517,15 @@
     return fetchJSON(resolveData('co-county-economic-indicators.json')).then(function (data) {
       currentData.econIndicators = data;
       renderEconomicKpis(data, selectedCounty);
+      // Show data vintage in the note
+      var vintageEl = document.getElementById('econDataVintage');
+      if (vintageEl && data) {
+        var updated = data.updated || '';
+        var src = data.source || '';
+        if (updated) {
+          vintageEl.textContent = 'Data as of: ' + updated + (src ? ' · ' + src : '') + '.';
+        }
+      }
     });
   }
 
