@@ -475,6 +475,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">Colorado vs National</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Market Conditions</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-market-trends" id="tab-btn-market-trends">Market Trends</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-affordability-geo" id="tab-btn-affordability-geo">Affordability Geography</button>
   </div>
 
   <!-- Tab 1: AMI Gap Analysis -->
@@ -1435,6 +1436,103 @@ h3 { font-size: 1.05rem; font-weight: 700; }
     <!-- Status / live region -->
     <div id="pmaStatusRegion" aria-live="polite" aria-atomic="true" style="margin-top:.5rem;font-size:.85em;color:var(--text-muted,#888);"></div>
   </section>
+
+  <!-- Tab 5: Affordability Geography -->
+  <div class="tab-panel" id="tab-affordability-geo" role="tabpanel" aria-labelledby="tab-btn-affordability-geo">
+    <h2>Geography of Housing Affordability</h2>
+    <p style="color:var(--muted);font-size:.93rem;margin:.25rem 0 1.75rem;">
+      Statewide context for where affordability pressures are most acute — from tract-level rent burdens to county-level housing gaps.
+    </p>
+
+    <!-- Section A: Affordability Ratio Map -->
+    <section class="chart-card" style="margin-bottom:2rem;" aria-label="Affordability Ratio Map">
+      <div class="chart-header">
+        <h3 class="chart-title">Affordability Ratio Map — Gross Rent as % of Income</h3>
+        <p class="chart-subtitle">
+          Each dot represents a Colorado census tract, colored by how much of median household income goes to gross rent.
+          Tracts in red spend more than half their income on housing — a signal of severe affordability stress.
+        </p>
+      </div>
+      <div id="affRatioMapWrap" style="position:relative;">
+        <div id="affRatioMap" role="img" aria-label="Dot map showing median gross rent as percent of household income by census tract" style="height:400px;border-radius:6px;overflow:hidden;background:var(--card);"></div>
+        <div id="affRatioMapStatus" style="padding:.5rem 0;font-size:.85rem;color:var(--muted);"></div>
+        <!-- Legend -->
+        <div id="affRatioLegend" style="display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 0;font-size:.82rem;color:var(--text);">
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#2ca25f;margin-right:4px;vertical-align:middle;"></span>&lt;25% — Affordable</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f0ab00;margin-right:4px;vertical-align:middle;"></span>25–35% — Stressed</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e07b00;margin-right:4px;vertical-align:middle;"></span>35–50% — Burdened</span>
+          <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#c0392b;margin-right:4px;vertical-align:middle;"></span>&gt;50% — Severely Burdened</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section B: Cost Burden Map -->
+    <section class="chart-card" style="margin-bottom:2rem;" aria-label="Cost Burden Map">
+      <div class="chart-header">
+        <h3 class="chart-title">Cost Burden Map — Share of Renters Paying &gt;30% of Income</h3>
+        <p class="chart-subtitle">
+          County-level map showing the proportion of renter households spending more than 30% of income on housing costs.
+          Counties shaded darker have a higher share of cost-burdened renters, indicating a greater need for affordable units.
+        </p>
+      </div>
+      <div id="affBurdenMap" role="img" aria-label="Choropleth county map: share of renter households paying more than 30 percent of income on housing" style="height:400px;border-radius:6px;overflow:hidden;background:var(--card);"></div>
+      <div id="affBurdenMapStatus" style="padding:.5rem 0;font-size:.85rem;color:var(--muted);"></div>
+      <!-- Legend -->
+      <div id="affBurdenLegend" style="display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 0;font-size:.82rem;color:var(--text);">
+        <span><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#c6dbef;margin-right:4px;vertical-align:middle;"></span>&lt;40%</span>
+        <span><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#6baed6;margin-right:4px;vertical-align:middle;"></span>40–50%</span>
+        <span><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#2171b5;margin-right:4px;vertical-align:middle;"></span>50–60%</span>
+        <span><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#084594;margin-right:4px;vertical-align:middle;"></span>&gt;60%</span>
+        <span style="color:var(--muted);">Source: HUD CHAS (county level)</span>
+      </div>
+    </section>
+
+    <!-- Section C: AMI Gap Summary Panel -->
+    <section class="chart-card" style="margin-bottom:2rem;" aria-label="AMI Gap Summary">
+      <div class="chart-header">
+        <h3 class="chart-title">AMI Gap — Top 10 Counties by Unmet Affordable Housing Need</h3>
+        <p class="chart-subtitle">
+          Counties ranked by the gap between renter households earning at or below 50% AMI and the number of units priced
+          affordable at that level. A negative gap means supply falls short of demand — larger negative numbers indicate greater need.
+        </p>
+      </div>
+      <div style="padding:0 1.25rem 1.25rem;">
+        <div id="affGapTableWrap" class="data-table" style="overflow-x:auto;">
+          <table aria-label="Top 10 counties by AMI gap at 50% AMI" style="width:100%;">
+            <thead>
+              <tr>
+                <th>County</th>
+                <th>Gap (units)</th>
+                <th>Supply coverage</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="affGapTableBody">
+              <tr><td colspan="4" style="color:var(--muted);">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section D: Methodology Note -->
+    <section style="margin-bottom:2rem;">
+      <details style="border:1px solid var(--border);border-radius:6px;padding:.75rem 1.25rem;">
+        <summary style="cursor:pointer;font-weight:600;color:var(--text);font-size:.95rem;">Data Sources &amp; Methodology</summary>
+        <div style="padding:.75rem 0 .25rem;font-size:.88rem;color:var(--muted);line-height:1.7;">
+          <ul style="margin:.5rem 0;padding-left:1.4rem;">
+            <li><strong>ACS 5-year tract-level estimates</strong> — American Community Survey (U.S. Census Bureau), 2023 5-year estimates. Fields used: median gross rent, median household income, cost burden rate. 1,447 Colorado census tracts.</li>
+            <li><strong>CHAS data (HUD)</strong> — HUD Comprehensive Housing Affordability Strategy, 2016–2020 5-year estimates. County-level counts of renter households by AMI tier and cost-burden status.</li>
+            <li><strong>AMI gap calculations</strong> — Derived from HUD Fair Market Rents (FY2025) and Area Median Income income limits, compared against ACS-estimated household income distributions. Gap = affordable units supply minus households at each AMI threshold.</li>
+            <li><strong>County boundaries</strong> — U.S. Census Bureau TIGER/Line 2024 county boundary files for Colorado.</li>
+          </ul>
+          <p id="affGeoDataVintage" style="margin:.5rem 0 0;"></p>
+        </div>
+      </details>
+    </section>
+
+    <div aria-live="polite" aria-atomic="true" id="affGeoAnnounce" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"></div>
+  </div><!-- /tab-affordability-geo -->
 </main>
 
 
