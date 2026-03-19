@@ -43,6 +43,17 @@ function test(name, fn) {
 // ---------------------------------------------------------------------------
 // Load source files
 // ---------------------------------------------------------------------------
+// After the HNA module refactor, the logic lives in js/hna/*.js.
+// The js variable is built by concatenating all module files so that existing
+// string-search assertions continue to find the code they expect.
+const HNA_MODULES = [
+    path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-narratives.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-export.js'),
+    path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+];
+
 let html = '';
 let js   = '';
 
@@ -50,9 +61,15 @@ test('Source files exist and are readable', () => {
     assert(fs.existsSync(HTML), 'housing-needs-assessment.html exists');
     assert(fs.existsSync(JS),   'js/housing-needs-assessment.js exists');
     html = fs.readFileSync(HTML, 'utf8');
-    js   = fs.readFileSync(JS,   'utf8');
+    // Build combined source from all HNA modules (refactored split of original monolith)
+    const moduleParts = [];
+    for (const modPath of HNA_MODULES) {
+        assert(fs.existsSync(modPath), `${path.relative(ROOT, modPath)} exists`);
+        moduleParts.push(fs.readFileSync(modPath, 'utf8'));
+    }
+    js = moduleParts.join('\n');
     assert(html.length > 100, 'HTML file is non-empty');
-    assert(js.length   > 100, 'JS file is non-empty');
+    assert(js.length   > 100, 'JS modules combined are non-empty');
 });
 
 // ---------------------------------------------------------------------------
@@ -386,9 +403,9 @@ test('JS: exportPdf delegates to window.__HNA_exportPdf', () => {
 // JS: LIHTC / QCT / DDA map overlays
 // ---------------------------------------------------------------------------
 test('JS: LIHTC layer variables and fallback data are defined', () => {
-    assert(js.includes('let lihtcLayer'),          'lihtcLayer variable is declared');
-    assert(js.includes('let qctLayer'),            'qctLayer variable is declared');
-    assert(js.includes('let ddaLayer'),            'ddaLayer variable is declared');
+    assert(js.includes('HNAState.lihtcLayer'), 'lihtcLayer referenced via HNAState');
+    assert(js.includes('HNAState.qctLayer'),   'qctLayer referenced via HNAState');
+    assert(js.includes('HNAState.ddaLayer'),   'ddaLayer referenced via HNAState');
     assert(js.includes('LIHTC_FALLBACK_CO'),       'LIHTC_FALLBACK_CO fallback dataset is defined');
     assert(js.includes('CO_DDA'),                  'CO_DDA static DDA lookup is defined');
 });
@@ -437,14 +454,18 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
-    assert(js.includes('Source: ${lihtcDataSource}'), 'source label is displayed in updateLihtcInfoPanel');
+    assert(js.includes('lihtcDataSource') && (js.includes('Source: ${lihtcDataSource}') || js.includes('Source: ${S().lihtcDataSource}')), 'source label is displayed in updateLihtcInfoPanel');
     assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
 
 test('JS: LIHTC info panel updates dynamically with map viewport (moveend)', () => {
     assert(js.includes('function updateLihtcInfoPanel'),  'updateLihtcInfoPanel function is defined');
     assert(js.includes('allLihtcFeatures'),               'all loaded features stored for viewport filtering');
-    assert(js.includes("map.on('moveend', updateLihtcInfoPanel)"), 'moveend listener registered to update panel on zoom/pan');
+    assert(
+        js.includes("map.on('moveend', updateLihtcInfoPanel)") ||
+        js.includes("map.on('moveend', window.HNARenderers.updateLihtcInfoPanel)"),
+        'moveend listener registered to update panel on zoom/pan'
+    );
     assert(js.includes('bounds.contains'),                'visible features filtered by map bounds');
     assert(js.includes('No LIHTC projects visible in current map area'), 'empty-viewport message is shown when no projects in view');
 });
@@ -665,7 +686,11 @@ test('JS: ACS_YEAR_PRIMARY and ACS_YEAR_FALLBACK constants are retained', () => 
 });
 
 test('JS: fetchAcsProfile probes vintages newest-first for both acs1 and acs5', () => {
-    assert(js.includes('for (const v of ACS_VINTAGES)'), 'ACS_VINTAGES loop is present in fetch logic');
+    assert(
+        js.includes('for (const v of ACS_VINTAGES)') ||
+        js.includes('for (const v of window.HNAUtils.ACS_VINTAGES)'),
+        'ACS_VINTAGES loop is present in fetch logic'
+    );
     assert(js.includes("'acs/acs1/profile'"), 'ACS1 profile endpoint is targeted');
     assert(js.includes("'acs/acs5/profile'"), 'ACS5 profile fallback endpoint is present');
 });
@@ -759,7 +784,8 @@ test('census-stats.js: each SERIES entry has a table code for source links', () 
 // ---------------------------------------------------------------------------
 test('JS: fetchCoCountiesList uses STATEFP (not STATE) for TIGERweb county query', () => {
     assert(
-        js.includes("STATEFP='${STATE_FIPS_CO}'") || js.includes("STATEFP='08'"),
+        js.includes("STATEFP='${STATE_FIPS_CO}'") || js.includes("STATEFP='08'") ||
+        js.includes("STATEFP='${window.HNAUtils.STATE_FIPS_CO}'"),
         'fetchCoCountiesList queries TIGERweb with STATEFP field'
     );
     assert(
