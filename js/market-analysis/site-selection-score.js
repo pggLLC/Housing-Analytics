@@ -96,20 +96,39 @@
   /**
    * Score the subsidy eligibility and market positioning.
    *
-   * @param {boolean|number} qctFlag          - Site is in a QCT (1=yes).
-   * @param {boolean|number} ddaFlag          - Site is in a DDA (1=yes).
-   * @param {number}         fmrRatio         - Market rent ÷ FMR (Fair Market Rent).
-   * @param {number}         nearbySubsidized - Count of subsidised units within buffer.
+   * When `basis_boost_eligible` is provided (from a real QCT/DDA point-in-
+   * polygon check via HudEgis.checkDesignation), it is used as the
+   * authoritative combined designation signal.  If absent, the function falls
+   * back to the individual `qctFlag` and `ddaFlag` parameters so that callers
+   * that don't yet pass the new field continue to work unchanged.
+   *
+   * QCT and DDA sites may qualify for up to 130% eligible basis under
+   * IRC §42(d)(5)(B), effectively increasing annual LIHTC by up to 30%.
+   *
+   * @param {boolean|number} qctFlag            - Site is in a QCT (1=yes). Used when
+   *                                              basis_boost_eligible is not supplied.
+   * @param {boolean|number} ddaFlag            - Site is in a DDA (1=yes). Used when
+   *                                              basis_boost_eligible is not supplied.
+   * @param {number}         fmrRatio           - Market rent ÷ FMR (Fair Market Rent).
+   * @param {number}         nearbySubsidized   - Count of subsidised units within buffer.
+   * @param {boolean|null}   basis_boost_eligible - Authoritative combined QCT/DDA flag from
+   *                                              overlay check; null/undefined = use fallback.
    * @returns {number} 0–100
    */
-  function scoreSubsidy(qctFlag, ddaFlag, fmrRatio, nearbySubsidized) {
+  function scoreSubsidy(qctFlag, ddaFlag, fmrRatio, nearbySubsidized, basis_boost_eligible) {
     var score = 0;
 
-    // QCT designation adds 30 pts (basis-boost eligibility).
-    if (qctFlag) score += 30;
-
-    // DDA designation adds 20 pts (additional basis boost).
-    if (ddaFlag) score += 20;
+    // When basis_boost_eligible is provided (from a real point-in-polygon check),
+    // treat it as the combined QCT-or-DDA signal and add the full 50-pt boost.
+    // Otherwise fall back to individual designation flags for backward compatibility.
+    if (basis_boost_eligible != null) {
+      // Authoritative designation result from HudEgis.checkDesignation()
+      if (basis_boost_eligible) score += 50;
+    } else {
+      // Fallback: use individual flags (may come from manual input or legacy path)
+      if (qctFlag) score += 30; // QCT adds 30 pts (basis-boost eligibility)
+      if (ddaFlag) score += 20; // DDA adds 20 pts (additional basis boost)
+    }
 
     // FMR ratio: a ratio ≥ 1.10 (market rents above FMR) signals subsidy gap.
     // Scale from 0 at 0.80 to 30 pts at 1.20+.
@@ -239,8 +258,11 @@
    *
    * @param {object} inputs
    * @param {object}  inputs.acs               - ACS aggregate (see scoreDemand).
-   * @param {boolean} inputs.qctFlag            - QCT designation.
-   * @param {boolean} inputs.ddaFlag            - DDA designation.
+   * @param {boolean} inputs.qctFlag            - QCT designation (fallback; prefer basis_boost_eligible).
+   * @param {boolean} inputs.ddaFlag            - DDA designation (fallback; prefer basis_boost_eligible).
+   * @param {boolean} [inputs.basis_boost_eligible] - Authoritative combined QCT/DDA flag from
+   *                                              HudEgis.checkDesignation(); takes precedence over
+   *                                              qctFlag/ddaFlag when present.
    * @param {number}  inputs.fmrRatio           - Market rent / FMR.
    * @param {number}  inputs.nearbySubsidized   - Subsidised units in buffer.
    * @param {number}  inputs.floodRisk          - 0–3 flood risk level.
@@ -271,7 +293,7 @@
     var i = inputs || {};
 
     var demand_score      = Math.round(scoreDemand(i.acs));
-    var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized));
+    var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basis_boost_eligible));
     var feasibility_score = Math.round(scoreFeasibility(i.floodRisk, i.soilScore, i.cleanupFlag));
     var access_score      = Math.round(scoreAccess(i.amenities));
     var policy_score      = Math.round(scorePolicy(i.zoningCapacity, i.publicOwnership, i.overlayCount));

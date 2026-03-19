@@ -109,6 +109,27 @@
           Credit Rate: <strong>9% (new construction)</strong>
         </div>
 
+        <!-- QCT / DDA Basis Boost
+             QCT = Qualified Census Tract: census tract with high poverty / low income.
+             DDA = Difficult Development Area: area with high construction / land costs.
+             Both designations allow up to 130% eligible basis under IRC §42(d)(5)(B). -->
+        <div id="dc-qct-dda-section" style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <div id="dc-qct-dda-indicator" style="display:none;margin-bottom:0.4rem;font-size:var(--small);color:var(--accent);font-weight:700;">
+            ✓ Site is in a QCT/DDA — eligible basis boost may apply
+          </div>
+          <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;min-width:44px;font-size:var(--small);cursor:pointer;">
+            <input id="dc-qct-dda-chk" type="checkbox"
+              style="width:16px;height:16px;flex-shrink:0;"
+              aria-label="QCT/DDA site &#x2013; may qualify for basis boost">
+            QCT/DDA site (may increase eligible basis)
+          </label>
+          <p style="margin:0.25rem 0 0;font-size:var(--tiny);color:var(--muted);">
+            QCT and DDA sites may qualify for up to 130% eligible basis under
+            <abbr title="Internal Revenue Code §42(d)(5)(B) — basis boost for qualified census tracts and difficult development areas">IRC §42(d)(5)(B)</abbr>.
+            The slider above controls basis %; the designation does not auto-apply.
+          </p>
+        </div>
+
         <label style="display:block;margin-bottom:var(--sp2);margin-top:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">County (sets HUD FMR gross rent limits)</span>
           <select id="dc-county-select"
@@ -156,6 +177,17 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
+
+    // Wire up QCT/DDA checkbox — shows a note but does not auto-adjust the slider.
+    // The user retains full manual control of the basis % to avoid unintended changes.
+    var qctDdaChk = document.getElementById('dc-qct-dda-chk');
+    var qctDdaInd = document.getElementById('dc-qct-dda-indicator');
+    if (qctDdaChk && qctDdaInd) {
+      qctDdaChk.addEventListener('change', function () {
+        // Show or hide the indicator note based on checkbox state.
+        qctDdaInd.style.display = this.checked ? 'block' : 'none';
+      });
+    }
 
     // Sync slider label
     var basisSlider = document.getElementById('dc-basis-pct');
@@ -212,6 +244,30 @@
   }
 
   // -------------------------------------------------------------------
+  // Designation context — called by market-analysis pipeline when a site
+  // has been checked against QCT/DDA overlay polygons.
+  // -------------------------------------------------------------------
+
+  /**
+   * Update the QCT/DDA designation indicator in the deal calculator UI.
+   * Called by the market-analysis controller after checkDesignation() resolves.
+   *
+   * When basis_boost_eligible is true the indicator banner is shown and the
+   * checkbox is pre-checked so the user is aware of the designation.  The
+   * basis % slider is NOT changed — the user retains full manual control.
+   *
+   * @param {boolean} basisBoostEligible - True when site is in a QCT or DDA.
+   */
+  function setDesignationContext(basisBoostEligible) {
+    var chk = document.getElementById('dc-qct-dda-chk');
+    var ind = document.getElementById('dc-qct-dda-indicator');
+    if (!chk || !ind) return; // calculator may not be mounted yet
+
+    chk.checked = !!basisBoostEligible;
+    ind.style.display = basisBoostEligible ? 'block' : 'none';
+  }
+
+  // -------------------------------------------------------------------
   // Public API
   // -------------------------------------------------------------------
   function init() {
@@ -256,7 +312,7 @@
     }
   }
 
-  window.__DealCalc = { init: init, recalculate: recalculate };
+  window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

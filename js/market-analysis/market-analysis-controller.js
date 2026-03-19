@@ -125,17 +125,45 @@
   }
 
   /**
-   * Pull QCT / DDA designation flags from PMAEngine overlays.
-   * Returns { qctFlag: false, ddaFlag: false } as a safe default.
+   * Pull QCT / DDA designation flags for the given coordinates by delegating
+   * to HudEgis.checkDesignation(), which performs an async point-in-polygon
+   * test against the locally cached GeoJSON overlay files.
+   *
+   * Returns a Promise that resolves to:
+   *   { qctFlag: boolean, ddaFlag: boolean, basis_boost_eligible: boolean }
+   *
+   * The basis_boost_eligible flag is true when the site falls within either a
+   * Qualified Census Tract (QCT) or a Difficult Development Area (DDA), which
+   * may allow up to 130% eligible basis under IRC §42(d)(5)(B).
+   *
+   * Falls back gracefully to all-false when HudEgis is unavailable or data
+   * cannot be loaded; logs a clear warning rather than throwing.
+   *
    * @param {number} lat
    * @param {number} lon
-   * @returns {{ qctFlag: boolean, ddaFlag: boolean }}
+   * @returns {Promise<{ qctFlag: boolean, ddaFlag: boolean, basis_boost_eligible: boolean }>}
    */
   function _getDesignationFlags(lat, lon) {
-    // PMAEngine exposes isInProp123Jurisdiction and similar; designations
-    // would come from the QCT/DDA overlay layers in a full implementation.
-    // For now, return safe defaults; the scoring model handles nullish inputs.
-    return { qctFlag: false, ddaFlag: false };
+    var SAFE = { qctFlag: false, ddaFlag: false, basis_boost_eligible: false };
+
+    var egis = window.HudEgis;
+    if (!egis || typeof egis.checkDesignation !== 'function') {
+      _warn('HudEgis.checkDesignation not available — using safe designation defaults');
+      return Promise.resolve(SAFE);
+    }
+
+    return egis.checkDesignation(lat, lon)
+      .then(function (result) {
+        return {
+          qctFlag:             result.in_qct,
+          ddaFlag:             result.in_dda,
+          basis_boost_eligible: result.basis_boost_eligible
+        };
+      })
+      .catch(function (err) {
+        _warn('_getDesignationFlags error — using safe defaults: ' + (err && err.message));
+        return SAFE;
+      });
   }
 
   /**
@@ -254,171 +282,186 @@
     // main thread is occupied.  requestAnimationFrame is not available in
     // all environments targeted by this ES5 module, so setTimeout(fn, 0)
     // is used as the equivalent portable deferral mechanism.
+    //
+    // Designation check is async (loads GeoJSON on first call), so we resolve
+    // it inside the deferred callback and chain the rest of the pipeline in
+    // the Promise's .then() handler.
     setTimeout(function () {
-      try {
-        // ── 2. Gather data ───────────────────────────────────────────
-        var acs   = _getAcs();
-        var lihtc = _getLihtc();
-        var flags = _getDesignationFlags(lat, lon);
+      // ── 2. Gather synchronous data ───────────────────────────────────
+      var acs   = _getAcs();
+      var lihtc = _getLihtc();
 
-        _log('runAnalysis(): acs=' + (acs ? 'ok (tract_count=' + (acs.tract_count || '?') + ')' : 'null') +
-          ', lihtc=' + lihtc.length + ' features');
+      _log('runAnalysis(): acs=' + (acs ? 'ok (tract_count=' + (acs.tract_count || '?') + ')' : 'null') +
+        ', lihtc=' + lihtc.length + ' features');
 
-        // Enrich amenity distances using OsmAmenities when loaded.
-        var amenityInputs = null;
-        var osmA = window.OsmAmenities;
-        if (osmA && osmA.isLoaded()) {
-          var accessResult = _safe(function () { return osmA.getAccessScore(lat, lon); }, null);
-          if (accessResult) {
-            // scoreAccess() and renderNeighborhoodAccess() both expect plain
-            // distance-in-miles numbers, not the {name, distanceMiles, score}
-            // objects returned by getAccessScore().
-            amenityInputs = {
-              grocery:    accessResult.grocery    != null ? accessResult.grocery.distanceMiles    : null,
-              transit:    accessResult.transit    != null ? accessResult.transit.distanceMiles    : null,
-              parks:      accessResult.parks      != null ? accessResult.parks.distanceMiles      : null,
-              healthcare: accessResult.healthcare != null ? accessResult.healthcare.distanceMiles : null,
-              schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null
-            };
-          }
+      // Enrich amenity distances using OsmAmenities when loaded.
+      var amenityInputs = null;
+      var osmA = window.OsmAmenities;
+      if (osmA && osmA.isLoaded()) {
+        var accessResult = _safe(function () { return osmA.getAccessScore(lat, lon); }, null);
+        if (accessResult) {
+          // scoreAccess() and renderNeighborhoodAccess() both expect plain
+          // distance-in-miles numbers, not the {name, distanceMiles, score}
+          // objects returned by getAccessScore().
+          amenityInputs = {
+            grocery:    accessResult.grocery    != null ? accessResult.grocery.distanceMiles    : null,
+            transit:    accessResult.transit    != null ? accessResult.transit.distanceMiles    : null,
+            parks:      accessResult.parks      != null ? accessResult.parks.distanceMiles      : null,
+            healthcare: accessResult.healthcare != null ? accessResult.healthcare.distanceMiles : null,
+            schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null
+          };
         }
-
-        // Build scoring inputs from available data.
-        var inputs = {
-          acs:              acs,
-          qctFlag:          flags.qctFlag,
-          ddaFlag:          flags.ddaFlag,
-          fmrRatio:         _computeFmrRatio(lat, lon, acs),
-          nearbySubsidized: lihtc ? lihtc.length : 0,
-          floodRisk:        0,       // default safe value; enriched by overlay data
-          soilScore:        50,      // neutral default
-          cleanupFlag:      false,
-          amenities:        amenityInputs,
-          zoningCapacity:   0,
-          publicOwnership:  false,
-          overlayCount:     0,
-          rentTrend:        0,
-          jobTrend:         0,
-          concentration:    0.5,
-          serviceStrength:  0.25
-        };
-
-        // ── 3. Compute scores ────────────────────────────────────────
-        var scores = null;
-        if (scr && typeof scr.computeScore === 'function') {
-          scores = _safe(function () { return scr.computeScore(inputs); }, null);
-        } else {
-          _warn('SiteSelectionScore not loaded; scores will be null.');
-        }
-
-        // ── 4. Update state ──────────────────────────────────────────
-        if (st) {
-          _safe(function () {
-            st.setState({
-              acs:       acs,
-              lihtc:     lihtc,
-              scores:    scores,
-              loading:   false,
-              dataReady: true,
-              sections: {
-                demand:        acs,
-                supply:        { lihtcFeatures: lihtc },
-                subsidy: {
-                  qctFlag:          flags.qctFlag,
-                  ddaFlag:          flags.ddaFlag,
-                  fmrRatio:         inputs.fmrRatio,
-                  nearbySubsidized: inputs.nearbySubsidized,
-                  subsidy_score:    scores ? scores.subsidy_score : null
-                },
-                feasibility: {
-                  floodRisk:         inputs.floodRisk,
-                  soilScore:         inputs.soilScore,
-                  cleanupFlag:       inputs.cleanupFlag,
-                  feasibility_score: scores ? scores.feasibility_score : null
-                },
-                access: {
-                  amenities:    inputs.amenities,
-                  access_score: scores ? scores.access_score : null
-                },
-                policy: {
-                  zoningCapacity:  inputs.zoningCapacity,
-                  publicOwnership: inputs.publicOwnership,
-                  overlayCount:    inputs.overlayCount,
-                  policy_score:    scores ? scores.policy_score : null
-                },
-                opportunities: _buildOpportunities(scores)
-              }
-            });
-          });
-        }
-
-        // ── 5. Render sections ───────────────────────────────────────
-        if (ren) {
-          _log('runAnalysis(): rendering 8 report sections');
-          _safe(function () {
-            _log('rendering maExecSummary');
-            ren.renderExecutiveSummary(scores, acs);
-          });
-          _safe(function () {
-            _log('rendering maMarketDemand');
-            ren.renderMarketDemand(acs);
-          });
-          _safe(function () {
-            _log('rendering maAffordableSupply');
-            ren.renderAffordableSupply(lihtc);
-          });
-          _safe(function () {
-            _log('rendering maSubsidyOpp');
-            ren.renderSubsidyOpportunities({
-              qctFlag:          flags.qctFlag,
-              ddaFlag:          flags.ddaFlag,
-              fmrRatio:         inputs.fmrRatio,
-              nearbySubsidized: inputs.nearbySubsidized,
-              subsidy_score:    scores ? scores.subsidy_score : null
-            });
-          });
-          _safe(function () {
-            _log('rendering maSiteFeasibility');
-            ren.renderSiteFeasibility({
-              floodRisk:         inputs.floodRisk,
-              soilScore:         inputs.soilScore,
-              cleanupFlag:       inputs.cleanupFlag,
-              feasibility_score: scores ? scores.feasibility_score : null
-            });
-          });
-          _safe(function () {
-            _log('rendering maNeighborhoodAccess');
-            ren.renderNeighborhoodAccess({
-              amenities:    inputs.amenities,
-              access_score: scores ? scores.access_score : null
-            });
-          });
-          _safe(function () {
-            _log('rendering maPolicyOverlays');
-            ren.renderPolicyOverlays({
-              zoningCapacity:  inputs.zoningCapacity,
-              publicOwnership: inputs.publicOwnership,
-              overlayCount:    inputs.overlayCount,
-              policy_score:    scores ? scores.policy_score : null
-            });
-          });
-          _safe(function () {
-            _log('rendering maOpportunities');
-            ren.renderOpportunities(_buildOpportunities(scores));
-          });
-          _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
-        } else {
-          _warn('MARenderers not loaded; skipping section rendering.');
-        }
-
-      } catch (e) {
-        _err('runAnalysis failed', e);
-        var errMsg = (e && e.message) ? e.message : 'An unexpected error occurred.';
-        if (st) {
-          _safe(function () { st.setState({ loading: false, error: errMsg }); });
-        }
-        _showAllError(errMsg);
       }
+
+      // ── 3. Async designation check (QCT / DDA) then score ───────────
+      // _getDesignationFlags returns a Promise; chain all downstream work.
+      _getDesignationFlags(lat, lon)
+        .then(function (flags) {
+          _log('runAnalysis(): designation flags — qct=' + flags.qctFlag +
+            ', dda=' + flags.ddaFlag +
+            ', basis_boost_eligible=' + flags.basis_boost_eligible);
+
+          // Build scoring inputs from available data.
+          var inputs = {
+            acs:                  acs,
+            qctFlag:              flags.qctFlag,
+            ddaFlag:              flags.ddaFlag,
+            // basis_boost_eligible is the authoritative combined signal from the
+            // QCT/DDA overlay check; scoreSubsidy() prefers it when present.
+            basis_boost_eligible: flags.basis_boost_eligible,
+            fmrRatio:             _computeFmrRatio(lat, lon, acs),
+            nearbySubsidized:     lihtc ? lihtc.length : 0,
+            floodRisk:            0,       // default safe value; enriched by overlay data
+            soilScore:            50,      // neutral default
+            cleanupFlag:          false,
+            amenities:            amenityInputs,
+            zoningCapacity:       0,
+            publicOwnership:      false,
+            overlayCount:         0,
+            rentTrend:            0,
+            jobTrend:             0,
+            concentration:        0.5,
+            serviceStrength:      0.25
+          };
+
+          // ── 4. Compute scores ────────────────────────────────────────
+          var scores = null;
+          if (scr && typeof scr.computeScore === 'function') {
+            scores = _safe(function () { return scr.computeScore(inputs); }, null);
+          } else {
+            _warn('SiteSelectionScore not loaded; scores will be null.');
+          }
+
+          // ── 5. Update state ──────────────────────────────────────────
+          if (st) {
+            _safe(function () {
+              st.setState({
+                acs:       acs,
+                lihtc:     lihtc,
+                scores:    scores,
+                loading:   false,
+                dataReady: true,
+                sections: {
+                  demand:        acs,
+                  supply:        { lihtcFeatures: lihtc },
+                  subsidy: {
+                    qctFlag:              flags.qctFlag,
+                    ddaFlag:              flags.ddaFlag,
+                    basis_boost_eligible: flags.basis_boost_eligible,
+                    fmrRatio:             inputs.fmrRatio,
+                    nearbySubsidized:     inputs.nearbySubsidized,
+                    subsidy_score:        scores ? scores.subsidy_score : null
+                  },
+                  feasibility: {
+                    floodRisk:         inputs.floodRisk,
+                    soilScore:         inputs.soilScore,
+                    cleanupFlag:       inputs.cleanupFlag,
+                    feasibility_score: scores ? scores.feasibility_score : null
+                  },
+                  access: {
+                    amenities:    inputs.amenities,
+                    access_score: scores ? scores.access_score : null
+                  },
+                  policy: {
+                    zoningCapacity:  inputs.zoningCapacity,
+                    publicOwnership: inputs.publicOwnership,
+                    overlayCount:    inputs.overlayCount,
+                    policy_score:    scores ? scores.policy_score : null
+                  },
+                  opportunities: _buildOpportunities(scores)
+                }
+              });
+            });
+          }
+
+          // ── 6. Render sections ───────────────────────────────────────
+          if (ren) {
+            _log('runAnalysis(): rendering 8 report sections');
+            _safe(function () {
+              _log('rendering maExecSummary');
+              ren.renderExecutiveSummary(scores, acs);
+            });
+            _safe(function () {
+              _log('rendering maMarketDemand');
+              ren.renderMarketDemand(acs);
+            });
+            _safe(function () {
+              _log('rendering maAffordableSupply');
+              ren.renderAffordableSupply(lihtc);
+            });
+            _safe(function () {
+              _log('rendering maSubsidyOpp');
+              ren.renderSubsidyOpportunities({
+                qctFlag:              flags.qctFlag,
+                ddaFlag:              flags.ddaFlag,
+                basis_boost_eligible: flags.basis_boost_eligible,
+                fmrRatio:             inputs.fmrRatio,
+                nearbySubsidized:     inputs.nearbySubsidized,
+                subsidy_score:        scores ? scores.subsidy_score : null
+              });
+            });
+            _safe(function () {
+              _log('rendering maSiteFeasibility');
+              ren.renderSiteFeasibility({
+                floodRisk:         inputs.floodRisk,
+                soilScore:         inputs.soilScore,
+                cleanupFlag:       inputs.cleanupFlag,
+                feasibility_score: scores ? scores.feasibility_score : null
+              });
+            });
+            _safe(function () {
+              _log('rendering maNeighborhoodAccess');
+              ren.renderNeighborhoodAccess({
+                amenities:    inputs.amenities,
+                access_score: scores ? scores.access_score : null
+              });
+            });
+            _safe(function () {
+              _log('rendering maPolicyOverlays');
+              ren.renderPolicyOverlays({
+                zoningCapacity:  inputs.zoningCapacity,
+                publicOwnership: inputs.publicOwnership,
+                overlayCount:    inputs.overlayCount,
+                policy_score:    scores ? scores.policy_score : null
+              });
+            });
+            _safe(function () {
+              _log('rendering maOpportunities');
+              ren.renderOpportunities(_buildOpportunities(scores));
+            });
+            _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
+          } else {
+            _warn('MARenderers not loaded; skipping section rendering.');
+          }
+        })
+        .catch(function (e) {
+          _err('runAnalysis failed', e);
+          var errMsg = (e && e.message) ? e.message : 'An unexpected error occurred.';
+          if (st) {
+            _safe(function () { st.setState({ loading: false, error: errMsg }); });
+          }
+          _showAllError(errMsg);
+        });
     }, 0);
   }
 
