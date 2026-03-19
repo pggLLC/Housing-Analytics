@@ -52,7 +52,7 @@
       div.setAttribute('role', 'alert');
       div.style.cssText = [
         'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:99999',
-        'background:#c0392b', 'color:#fff', 'padding:10px 16px',
+        'background:#991b1b', 'color:#fff', 'padding:10px 16px',
         'font:bold 14px/1.4 sans-serif', 'text-align:center'
       ].join(';');
       div.textContent = '⚠ Data load error: ' + message +
