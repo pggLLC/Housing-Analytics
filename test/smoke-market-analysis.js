@@ -558,6 +558,70 @@ if (fileExists('data/derived/market-analysis/README.md')) {
   fail('data/derived/market-analysis/README.md is missing');
 }
 
+// ─── 20. QCT/DDA designation wiring ──────────────────────────────────────────
+console.log('\n── 20. QCT/DDA designation wiring ──');
+
+// hud-egis.js — public API and algorithm presence
+if (fileExists('js/data-connectors/hud-egis.js')) {
+  var hudSrc = readFile('js/data-connectors/hud-egis.js');
+  var hudChecks = [
+    { pattern: /checkDesignation/,     label: 'checkDesignation() function in hud-egis.js' },
+    { pattern: /_pointInRing/,          label: 'Ray-casting _pointInRing() in hud-egis.js' },
+    { pattern: /_isInCollection/,       label: '_isInCollection() in hud-egis.js' },
+    { pattern: /basis_boost_eligible/,  label: 'basis_boost_eligible returned by checkDesignation()' },
+    { pattern: /in_qct/,               label: 'in_qct returned by checkDesignation()' },
+    { pattern: /in_dda/,               label: 'in_dda returned by checkDesignation()' },
+    { pattern: /_loadAttempted/,        label: 'In-memory caching (_loadAttempted) in hud-egis.js' },
+  ];
+  hudChecks.forEach(function(c) {
+    if (c.pattern.test(hudSrc)) pass(c.label);
+    else fail(c.label + ' — not found in hud-egis.js');
+  });
+}
+
+// market-analysis-controller.js — designation flags integration
+if (fileExists('js/market-analysis/market-analysis-controller.js')) {
+  var ctrlSrc = readFile('js/market-analysis/market-analysis-controller.js');
+  var ctrlChecks = [
+    { pattern: /_getDesignationFlags/,               label: '_getDesignationFlags() helper in controller' },
+    { pattern: /HudEgis.*checkDesignation|checkDesignation.*HudEgis/, label: 'Calls HudEgis.checkDesignation()' },
+    { pattern: /basisBoostEligible/,                 label: 'basisBoostEligible in scoring inputs' },
+  ];
+  ctrlChecks.forEach(function(c) {
+    if (c.pattern.test(ctrlSrc)) pass(c.label);
+    else fail(c.label + ' — not found in market-analysis-controller.js');
+  });
+}
+
+// site-selection-score.js — basis_boost_eligible scoring
+if (fileExists('js/market-analysis/site-selection-score.js')) {
+  var scoreSrc = readFile('js/market-analysis/site-selection-score.js');
+  var scoreChecks = [
+    { pattern: /basis_boost_eligible/,       label: 'basis_boost_eligible parameter in scoreSubsidy()' },
+    { pattern: /scoreSubsidy/,               label: 'scoreSubsidy() function present in site-selection-score.js' },
+    { pattern: /basisBoostEligible/,         label: 'basisBoostEligible passed into scoreSubsidy() from computeScore()' },
+  ];
+  scoreChecks.forEach(function(c) {
+    if (c.pattern.test(scoreSrc)) pass(c.label);
+    else fail(c.label + ' — not found in site-selection-score.js');
+  });
+}
+
+// deal-calculator.js — QCT/DDA checkbox and explanatory note
+if (fileExists('js/deal-calculator.js')) {
+  var calcSrc = readFile('js/deal-calculator.js');
+  var calcChecks = [
+    { pattern: /dc-qct-dda/,          label: 'QCT/DDA checkbox (id="dc-qct-dda") in deal-calculator.js' },
+    { pattern: /dc-qct-dda-note/,      label: 'QCT/DDA note (id="dc-qct-dda-note") in deal-calculator.js' },
+    { pattern: /130%/,                 label: '130% eligible basis boost text in deal-calculator.js' },
+    { pattern: /IRC.*42|42.*IRC/,      label: 'IRC §42 reference in deal-calculator.js' },
+  ];
+  calcChecks.forEach(function(c) {
+    if (c.pattern.test(calcSrc)) pass(c.label);
+    else fail(c.label + ' — not found in deal-calculator.js');
+  });
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 console.log('\n── Summary ──');
 console.log('Passed:   ' + passed);
