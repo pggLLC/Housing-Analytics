@@ -288,7 +288,6 @@
    * @param {string|null} geoid   - FIPS geoid (5-digit county or 7-digit place)
    * @returns {string|null}
    */
-
   function censusSourceUrl(year, series, table, geoType, geoid){
     if (!year || !table) return null;
     const seriesCode = (series === 'acs1') ? '1Y' : '5Y';
@@ -451,7 +450,6 @@
    * @param {object|null} profile - ACS profile for population (J:W ratio denominator)
    * @returns {object} metrics object
    */
-
   function calculateJobMetrics(lehd, profile) {
     if (!lehd) return null;
     const totalJobs = Number(lehd.C000) || null;  // WAC total jobs field
