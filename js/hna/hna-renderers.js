@@ -33,12 +33,12 @@
       'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
     ];
     statTextEls.forEach(function(id){
-      const el = els[id];
+      const el = _S.els[id];
       if (el) el.textContent = DASH;
     });
     const yoyEls = ['statPopYoy','statMhiYoy','statHomeValueYoy','statRentYoy'];
     yoyEls.forEach(function(id){
-      const el = els[id];
+      const el = _S.els[id];
       if (el){ el.textContent = ''; el.className = 'yoy'; }
     });
     const srcEls = [
@@ -46,7 +46,7 @@
       'statTenureSrc','statRentBurdenSrc','statCommuteSrc','statBaseUnitsSrc',
     ];
     srcEls.forEach(function(id){
-      const el = els[id];
+      const el = _S.els[id];
       if (el) el.innerHTML = '';
     });
     if (_S.els.statIncomeNeedNote) _S.els.statIncomeNeedNote.textContent = '';
@@ -181,11 +181,11 @@
   // Build (or rebuild) the "LIHTC projects in area (top 10 by units)" info panel
   // using features that fall within the current map viewport bounds.
   function updateLihtcInfoPanel() {
-    if (!_S.els.lihtcInfoPanel || !allLihtcFeatures.length) return;
+    if (!_S.els.lihtcInfoPanel || !_S.allLihtcFeatures.length) return;
     const bounds = map && map.getBounds ? map.getBounds() : null;
-    let visible = allLihtcFeatures;
+    let visible = _S.allLihtcFeatures;
     if (bounds) {
-      visible = allLihtcFeatures.filter(f => {
+      visible = _S.allLihtcFeatures.filter(f => {
         if (!f.geometry || f.geometry.type !== 'Point') return false;
         const [lng, lat] = f.geometry.coordinates;
         return bounds.contains([lat, lng]);
@@ -205,7 +205,7 @@
         <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
       </tr>`;
     }).join('');
-    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${lihtcDataSource}</span>`;
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${lihtcSourceInfo(_S.lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${_S.lihtcDataSource}</span>`;
     _S.els.lihtcInfoPanel.innerHTML = rows ? `
       <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
@@ -355,7 +355,7 @@
   // ---------------------------------------------------------------
 
   /**
-   * Render a multi-year employment trend line chart with YoY lab_S.els.
+   * Render a multi-year employment trend line chart with YoY labels.
    * Reads annualEmployment and yoyGrowth from the cached LEHD file.
    *
    * @param {string|null} geoid - 5-digit county FIPS (used for data lookup); null for state-level
@@ -1509,7 +1509,7 @@
     if (items.length === 0) { showPlaceholder(); return; }
 
     const workerLabel = `${_U.fmtNum(totalWorkers)} workers 16+`;
-    const modeYear   = s0801._acsYear   || ACS_YEAR_PRIMARY;
+    const modeYear   = s0801._acsYear   || _S.ACS_YEAR_PRIMARY;
     const modeSeries = s0801._acsSeries || 'acs1';
     const seriesLabel = modeSeries === 'acs1' ? 'ACS1' : 'ACS5';
 
@@ -1698,48 +1698,7 @@
     }
   }
 
-  async function _U.fetchAcs5Trend(year, geoType, geoid){
-    // Minimal ACS5 profile pull used for trend estimates (population + households).
-    // This is only used for municipal scaling and headship trend when user selects "Trend".
-    const vars = ['DP05_0001E','DP02_0001E'].join(',');
-    const key = censusKey();
-    const stateF = geoid.slice(0,2);
-    const code = geoid.slice(2);
 
-    const dataset = `https://api.census.gov/data/${year}/acs/acs5/profile`;
-    const forPart = (geoType==='county') ? `county:${code}` : `place:${code}`;
-    const inPart = `state:${stateF}`;
-
-    const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
-    const r = await fetch(url);
-    if (!r.ok){
-      // For CDPs, ACS5 profile may not support CDP geography; fall back to B-series.
-      if (geoType === 'cdp'){
-        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=${encodeURIComponent(`place:${code}`)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
-        const rb = await fetch(bUrl);
-        if (!rb.ok) throw new Error(`ACS5 trend HTTP ${rb.status}`);
-        const jb = await rb.json();
-        const hb = jb[0], rowb = jb[1] || [];
-        const ob = {};
-        hb.forEach((k,i)=> ob[k]=rowb[i]);
-        return { pop: _U.safeNum(ob.B01003_001E), hh: _U.safeNum(ob.B11001_001E), year };
-      }
-      throw new Error(`ACS5 trend HTTP ${r.status}`);
-    }
-    const j = await r.json();
-    const h = j[0], row = j[1] || [];
-    const out = {};
-    h.forEach((k,i)=> out[k]=row[i]);
-    return { pop: _U.safeNum(out.DP05_0001E), hh: _U.safeNum(out.DP02_0001E), year };
-  }
-
-  function _U.getAssumptions(){
-    const horizon = Number(_S.els.assumpHorizon?.value || 20);
-    const vacPct = Number(_S.els.assumpVacancy?.value || 5);
-    const targetVac = vacPct/100.0;
-    const headshipMode = (document.getElementById('assumpHeadship')?.value || document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
-    return { horizon, targetVac, headshipMode };
-  }
 
   async function applyAssumptions(proj, selection){
     if (!proj) return;
@@ -1747,8 +1706,8 @@
     const countyFips5 = proj?.countyFips || selection?.contextCounty || (selection?.geoType==='county' ? selection?.geoid : null);
 
     const years = proj?.years || [];
-    const popCounty = (proj?.population_dola || []).map(safeNum);
-    const popCountyTrend = (proj?.population_trend || []).map(safeNum);
+    const popCounty = (proj?.population_dola || []).map(_U.safeNum);
+    const popCountyTrend = (proj?.population_trend || []).map(_U.safeNum);
     const baseYear = proj?.baseYear;
     const baseCountyPop = _U.safeNum(proj?.base?.population);
 
@@ -1940,7 +1899,7 @@
     // The effective growth multiplier is a weighted combination of the three
     // demographic rate overrides: migration (60% weight), fertility (30%), mortality (10%).
     // The baseline annual net migration of 500 is the median of the three built-in scenarios.
-    if (_S._S.PROJECTION_SCENARIOS['custom']){
+    if (_S.PROJECTION_SCENARIOS['custom']){
       const overrides = getScenarioRateOverrides();
       const BASELINE_NET_MIGRATION = 500; // persons/year — median across the three built-in scenarios
       // Weights: migration dominates CO county growth (60%), fertility secondary (30%), mortality minor (10%)
@@ -2084,7 +2043,7 @@
     basePopSeries.forEach(pt => { dataByYear[Number(pt.year)] = Number(pt.population) || null; });
 
     for (let y = baseYear; y <= baseYear + years; y++){
-      lab_S.els.push(y);
+      labels.push(y);
       values.push(dataByYear[y] !== undefined ? dataByYear[y] : null);
     }
 
@@ -2155,7 +2114,7 @@
       const series = seriesByScenario[sc] || [];
       const byYear = {};
       series.forEach(pt => { byYear[Number(pt.year)] = Number(pt.population) || null; });
-      const data = lab_S.els.map(y => byYear[y] !== undefined ? byYear[y] : null);
+      const data = labels.map(y => byYear[y] !== undefined ? byYear[y] : null);
       return {
         label: meta.label,
         data,
@@ -2331,7 +2290,7 @@
         const name = 'Custom: f×' + overrides.fertilityMultiplier.toFixed(2) +
                      ' mig ' + Math.round(overrides.netMigrationAnnual) +
                      ' mort×' + overrides.mortalityMultiplier.toFixed(2);
-        _S._S.PROJECTION_SCENARIOS['custom'] = {
+        _S.PROJECTION_SCENARIOS['custom'] = {
           label:       'Custom',
           description: name,
           color:       '#9c27b0',
