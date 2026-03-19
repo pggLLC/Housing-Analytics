@@ -403,9 +403,9 @@ test('JS: exportPdf delegates to window.__HNA_exportPdf', () => {
 // JS: LIHTC / QCT / DDA map overlays
 // ---------------------------------------------------------------------------
 test('JS: LIHTC layer variables and fallback data are defined', () => {
-    assert(js.includes('lihtcLayer'),          'lihtcLayer variable is referenced');
-    assert(js.includes('qctLayer'),            'qctLayer variable is referenced');
-    assert(js.includes('ddaLayer'),            'ddaLayer variable is referenced');
+    assert(js.includes('HNAState.lihtcLayer'), 'lihtcLayer referenced via HNAState');
+    assert(js.includes('HNAState.qctLayer'),   'qctLayer referenced via HNAState');
+    assert(js.includes('HNAState.ddaLayer'),   'ddaLayer referenced via HNAState');
     assert(js.includes('LIHTC_FALLBACK_CO'),       'LIHTC_FALLBACK_CO fallback dataset is defined');
     assert(js.includes('CO_DDA'),                  'CO_DDA static DDA lookup is defined');
 });
@@ -454,14 +454,18 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
-    assert(js.includes('lihtcDataSource') && js.includes("Source: ${"), 'source label is displayed in updateLihtcInfoPanel');
+    assert(js.includes('lihtcDataSource') && (js.includes('Source: ${lihtcDataSource}') || js.includes('Source: ${S().lihtcDataSource}')), 'source label is displayed in updateLihtcInfoPanel');
     assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
 
 test('JS: LIHTC info panel updates dynamically with map viewport (moveend)', () => {
     assert(js.includes('function updateLihtcInfoPanel'),  'updateLihtcInfoPanel function is defined');
     assert(js.includes('allLihtcFeatures'),               'all loaded features stored for viewport filtering');
-    assert(js.includes("'moveend'") && js.includes('updateLihtcInfoPanel'), 'moveend listener registered to update panel on zoom/pan');
+    assert(
+        js.includes("map.on('moveend', updateLihtcInfoPanel)") ||
+        js.includes("map.on('moveend', window.HNARenderers.updateLihtcInfoPanel)"),
+        'moveend listener registered to update panel on zoom/pan'
+    );
     assert(js.includes('bounds.contains'),                'visible features filtered by map bounds');
     assert(js.includes('No LIHTC projects visible in current map area'), 'empty-viewport message is shown when no projects in view');
 });
@@ -682,7 +686,11 @@ test('JS: ACS_YEAR_PRIMARY and ACS_YEAR_FALLBACK constants are retained', () => 
 });
 
 test('JS: fetchAcsProfile probes vintages newest-first for both acs1 and acs5', () => {
-    assert(js.includes('for (const v of') && js.includes('ACS_VINTAGES'), 'ACS_VINTAGES loop is present in fetch logic');
+    assert(
+        js.includes('for (const v of ACS_VINTAGES)') ||
+        js.includes('for (const v of window.HNAUtils.ACS_VINTAGES)'),
+        'ACS_VINTAGES loop is present in fetch logic'
+    );
     assert(js.includes("'acs/acs1/profile'"), 'ACS1 profile endpoint is targeted');
     assert(js.includes("'acs/acs5/profile'"), 'ACS5 profile fallback endpoint is present');
 });
