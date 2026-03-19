@@ -125,17 +125,39 @@
   }
 
   /**
-   * Pull QCT / DDA designation flags from PMAEngine overlays.
-   * Returns { qctFlag: false, ddaFlag: false } as a safe default.
+   * Pull QCT / DDA designation flags from local overlay data using HudEgis.
+   * Checks whether the given lat/lon falls within a QCT or DDA polygon using
+   * a ray-casting point-in-polygon algorithm (see hud-egis.js for details).
+   *
+   * QCT = Qualified Census Tract (high poverty / low-income area; IRC §42(d)(5)(B)(ii))
+   * DDA = Difficult Development Area (high construction costs; IRC §42(d)(5)(B)(iii))
+   * Either designation qualifies the project for up to 130% eligible basis boost.
+   *
+   * Returns safe defaults when HudEgis is unavailable or data has not yet loaded.
+   *
    * @param {number} lat
    * @param {number} lon
-   * @returns {{ qctFlag: boolean, ddaFlag: boolean }}
+   * @returns {{ qctFlag: boolean, ddaFlag: boolean, basisBoostEligible: boolean }}
    */
   function _getDesignationFlags(lat, lon) {
-    // PMAEngine exposes isInProp123Jurisdiction and similar; designations
-    // would come from the QCT/DDA overlay layers in a full implementation.
-    // For now, return safe defaults; the scoring model handles nullish inputs.
-    return { qctFlag: false, ddaFlag: false };
+    var hudEgis = window.HudEgis;
+    if (hudEgis && typeof hudEgis.checkDesignation === 'function') {
+      try {
+        var result = hudEgis.checkDesignation(lat, lon);
+        _log('_getDesignationFlags(): QCT=' + result.in_qct + ', DDA=' + result.in_dda +
+          ', basisBoostEligible=' + result.basis_boost_eligible);
+        return {
+          qctFlag:          result.in_qct,
+          ddaFlag:          result.in_dda,
+          basisBoostEligible: result.basis_boost_eligible
+        };
+      } catch (e) {
+        _err('_getDesignationFlags() — HudEgis.checkDesignation() failed', e);
+      }
+    }
+    // Fallback: HudEgis not available or checkDesignation() not found
+    _log('_getDesignationFlags(): HudEgis unavailable — using safe defaults (all false)');
+    return { qctFlag: false, ddaFlag: false, basisBoostEligible: false };
   }
 
   /**
@@ -300,7 +322,8 @@
           rentTrend:        0,
           jobTrend:         0,
           concentration:    0.5,
-          serviceStrength:  0.25
+          serviceStrength:  0.25,
+          basisBoostEligible: flags.basisBoostEligible
         };
 
         // ── 3. Compute scores ────────────────────────────────────────
@@ -324,11 +347,12 @@
                 demand:        acs,
                 supply:        { lihtcFeatures: lihtc },
                 subsidy: {
-                  qctFlag:          flags.qctFlag,
-                  ddaFlag:          flags.ddaFlag,
-                  fmrRatio:         inputs.fmrRatio,
-                  nearbySubsidized: inputs.nearbySubsidized,
-                  subsidy_score:    scores ? scores.subsidy_score : null
+                  qctFlag:            flags.qctFlag,
+                  ddaFlag:            flags.ddaFlag,
+                  basisBoostEligible: flags.basisBoostEligible,
+                  fmrRatio:           inputs.fmrRatio,
+                  nearbySubsidized:   inputs.nearbySubsidized,
+                  subsidy_score:      scores ? scores.subsidy_score : null
                 },
                 feasibility: {
                   floodRisk:         inputs.floodRisk,
@@ -370,11 +394,12 @@
           _safe(function () {
             _log('rendering maSubsidyOpp');
             ren.renderSubsidyOpportunities({
-              qctFlag:          flags.qctFlag,
-              ddaFlag:          flags.ddaFlag,
-              fmrRatio:         inputs.fmrRatio,
-              nearbySubsidized: inputs.nearbySubsidized,
-              subsidy_score:    scores ? scores.subsidy_score : null
+              qctFlag:            flags.qctFlag,
+              ddaFlag:            flags.ddaFlag,
+              basisBoostEligible: flags.basisBoostEligible,
+              fmrRatio:           inputs.fmrRatio,
+              nearbySubsidized:   inputs.nearbySubsidized,
+              subsidy_score:      scores ? scores.subsidy_score : null
             });
           });
           _safe(function () {
