@@ -1,10 +1,24 @@
 /*
-  Housing Needs Assessment (HNA)
-  - Uses cached JSON when available (data/hna/...), with live Census API fallbacks.
-  - Keeps assumptions transparent and methodology links dynamic.
+  Housing Needs Assessment (HNA) — FALLBACK STUB
+  -----------------------------------------------
+  The canonical implementation has been refactored into js/hna/ modules:
+    js/hna/hna-utils.js       — constants, utilities, Census API helpers
+    js/hna/hna-narratives.js  — compliance/timeline text generation
+    js/hna/hna-renderers.js   — DOM/chart rendering functions
+    js/hna/hna-controller.js  — init, update, map/LIHTC management
+
+  This file is kept as a fallback: it initialises the application only when
+  window.__HNA_STATE has NOT been set (i.e., the new modules failed to load).
+  When the new modules ARE present this entire IIFE exits immediately.
+
+  Do NOT delete this file until the new modules are confirmed working in all
+  environments.
 */
 
 (function(){
+  // Guard: if hna-utils.js already ran, the new modules are active — skip this stub.
+  if (window.__HNA_STATE) { return; }
+
   const STATE_FIPS_CO = '08';
 
   // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
