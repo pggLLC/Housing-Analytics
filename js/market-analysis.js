@@ -645,12 +645,30 @@
     var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
+    // If no ACS matches in this buffer, try expanding to the next available radius.
+    var effectiveBuffer = bufferMiles;
+    if (!acs && bufTracts.length > 0) {
+      var fallbackSizes = BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; });
+      for (var fi = 0; fi < fallbackSizes.length; fi++) {
+        var fallbackMiles = fallbackSizes[fi];
+        var fallbackTracts = tractsInBuffer(lat, lon, fallbackMiles);
+        var fallbackAcs = aggregateAcs(fallbackTracts, acsIdx);
+        if (fallbackAcs) {
+          acs = fallbackAcs;
+          bufTracts = fallbackTracts;
+          effectiveBuffer = fallbackMiles;
+          console.warn('[market-analysis] ACS data not found at ' + bufferMiles + 'mi; expanded to ' + fallbackMiles + 'mi');
+          break;
+        }
+      }
+    }
+
     if (!acs) {
       showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
       return;
     }
 
-    var nearbyLihtc  = lihtcInBuffer(lat, lon, bufferMiles);
+    var nearbyLihtc  = lihtcInBuffer(lat, lon, effectiveBuffer);
     if (lihtcLoadError) {
       showEmpty('pmaScoreWrap',
         'LIHTC data is unavailable — PMA score cannot be computed. ' +
@@ -680,7 +698,7 @@
     }
 
     lastResult = Object.assign({}, pma, {
-      lat: lat, lon: lon, bufferMiles: bufferMiles,
+      lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,

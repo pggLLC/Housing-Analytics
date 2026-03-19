@@ -43,7 +43,7 @@ CACHE_TTL_HOURS = 24
 TIGERWEB_TRACTS = (
     "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer/0"
 )
-ACS_BASE = "https://api.census.gov/data/2022/acs/acs5"
+ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
     "8c3c3b26-38f1-4e06-a8f7-a0f2a60cc4d2_0.geojson"
@@ -393,7 +393,7 @@ def build_acs_metrics(centroids: dict) -> dict:
 def _acs_meta() -> dict:
     return {
         "source": "US Census ACS 5-Year Estimates (public)",
-        "vintage": "2022",
+        "vintage": "2023",
         "state": "Colorado",
         "state_fips": STATE_FIPS,
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
