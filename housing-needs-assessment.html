@@ -37,12 +37,19 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
-  <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA main script -->
+  <!-- Export utilities (PDF, CSV, JSON) — must load before the HNA modules -->
   <script defer src="js/hna-export.js"></script>
   <!-- Compliance checklist persistence and state management -->
   <script defer src="js/compliance-checklist.js"></script>
-  <!-- HUD FMR & Income Limits connector (must load before housing-needs-assessment.js) -->
+  <!-- HUD FMR & Income Limits connector (must load before HNA modules) -->
   <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <!-- HNA modules (dependency order: utils → narratives → renderers → controller) -->
+  <script defer src="js/hna/hna-utils.js"></script>
+  <script defer src="js/hna/hna-narratives.js"></script>
+  <script defer src="js/hna/hna-renderers.js"></script>
+  <script defer src="js/hna/hna-export.js"></script>
+  <script defer src="js/hna/hna-controller.js"></script>
+  <!-- Original monolith kept as fallback stub (no-op when new modules are loaded) -->
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
 <body>
