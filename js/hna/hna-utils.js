@@ -1082,8 +1082,9 @@
   }
 
   function getAssumptions(){
-    const horizon = Number(els.assumpHorizon?.value || 20);
-    const vacPct = Number(els.assumpVacancy?.value || 5);
+    const _els = window.__HNA_STATE.els;
+    const horizon = Number(_els && _els.assumpHorizon ? _els.assumpHorizon.value : 20);
+    const vacPct = Number(_els && _els.assumpVacancy ? _els.assumpVacancy.value : 5);
     const targetVac = vacPct/100.0;
     const headshipMode = (document.getElementById('assumpHeadship')?.value || document.querySelector('input[name="assumpHeadship"]:checked')?.value || 'hold');
     return { horizon, targetVac, headshipMode };
