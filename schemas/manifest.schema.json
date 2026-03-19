@@ -13,10 +13,26 @@
       "description": "ISO-8601 UTC timestamp of when this manifest was last regenerated."
     },
     "files": {
-      "type": "array",
-      "description": "List of relative data file paths included in the build.",
-      "items": { "type": "string", "minLength": 1 },
-      "minItems": 1
+      "description": "Index of data files. May be an array of path strings (legacy) or an object keyed by relative path with per-file metadata (current format).",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "featureCount": { "type": "integer", "minimum": 0 },
+              "placeholder": { "type": "boolean" },
+              "bytes": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      ]
     },
     "file_count": {
       "type": "integer",
