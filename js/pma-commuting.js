@@ -29,6 +29,7 @@
   var lastBoundary      = null;
   var lastCaptureRate   = 0;
   var lastOriginZones   = [];
+  var lastDataCoverage  = 'fallback'; // tracks whether real LODES data was used
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toRad(deg) { return deg * Math.PI / 180; }
@@ -109,12 +110,46 @@
     radiusMiles = radiusMiles || DEFAULT_RADIUS_MILES;
     vintage     = vintage     || '2021';
 
-    var ds = (typeof window !== 'undefined') ? window.DataService : null;
+    var ds        = (typeof window !== 'undefined') ? window.DataService    : null;
+    var lodesConn = (typeof window !== 'undefined') ? window.LodesCommute   : null;
+
+    // Prefer DataService live API when available
     if (ds && typeof ds.fetchLODES === 'function') {
+      lastDataCoverage = 'full';
       return ds.fetchLODES(lat, lon, radiusMiles, vintage);
     }
 
-    // Graceful degradation — return synthetic stub data
+    // Fall back to local LodesCommute connector (data/market/lodes_co.json)
+    if (lodesConn && typeof lodesConn.loadMetrics === 'function') {
+      return lodesConn.loadMetrics().then(function (raw) {
+        // Adapt LodesCommute tract records into the workplace format expected by
+        // analyzeCommutingFlows: { lat, lon, jobCount, tractId }
+        var tracts = (raw && raw.tracts) ? raw.tracts : (Array.isArray(raw) ? raw : []);
+        var workplaces = tracts.map(function (t) {
+          return {
+            id:       t.geoid,
+            lat:      toNum(t.lat),
+            lon:      toNum(t.lon),
+            jobCount: toNum(t.work_workers != null ? t.work_workers : (t.home_workers != null ? t.home_workers : 0)),
+            tractId:  t.geoid
+          };
+        }).filter(function (w) { return w.lat !== 0 || w.lon !== 0; });
+
+        lastDataCoverage = workplaces.length > 0 ? 'partial' : 'fallback';
+        return { workplaces: workplaces, commutingFlows: [] };
+      }).catch(function () {
+        // FALLBACK: lodes_co.json failed to load. Using synthetic workplace data.
+        lastDataCoverage = 'fallback';
+        return {
+          workplaces: _buildSyntheticWorkplaces(lat, lon, radiusMiles),
+          commutingFlows: []
+        };
+      });
+    }
+
+    // FALLBACK: Neither DataService.fetchLODES nor window.LodesCommute is available.
+    // Using synthetic stub data until lodes-commute.js is loaded.
+    lastDataCoverage = 'fallback';
     return Promise.resolve({
       workplaces: _buildSyntheticWorkplaces(lat, lon, radiusMiles),
       commutingFlows: []
@@ -287,7 +322,8 @@
       residentOriginZones: lastOriginZones.slice(),
       captureRate:        lastCaptureRate,
       totalFlowZones:     lastFlows.length,
-      boundary:           lastBoundary
+      boundary:           lastBoundary,
+      dataCoverage:       lastDataCoverage
     };
   }
 
