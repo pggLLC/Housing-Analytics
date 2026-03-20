@@ -555,6 +555,8 @@ test('Python: build_hna_data.py fetch_places populates containingCounty', () => 
 // ---------------------------------------------------------------------------
 // Deploy workflow: key configuration checks
 // ---------------------------------------------------------------------------
+// NOTE: This test may fail in archive/zip contexts because macOS strips .github/ from zips.
+// These failures are expected and do not indicate a real problem when running in the live repo.
 test('Deploy workflow: workflow_dispatch is enabled', () => {
     const deployYml = path.join(ROOT, '.github', 'workflows', 'deploy.yml');
     assert(fs.existsSync(deployYml), 'deploy.yml exists');
