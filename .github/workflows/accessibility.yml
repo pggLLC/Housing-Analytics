@@ -1,0 +1,153 @@
+name: Accessibility Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'css/**'
+      - '*.html'
+      - '.contrast-check-config.json'
+      - 'tools/contrast-checker.js'
+  push:
+    branches: [ main ]
+    paths:
+      - 'css/**'
+      - '.contrast-check-config.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  contrast-check:
+    name: WCAG AA Contrast Token Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Light mode contrast check
+        id: light
+        run: |
+          node tools/contrast-checker.js --json > /tmp/contrast-light.json
+          exit_code=$?
+          cat /tmp/contrast-light.json || true
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Dark mode contrast check
+        id: dark
+        if: always()
+        run: |
+          node tools/contrast-checker.js --dark --json > /tmp/contrast-dark.json
+          exit_code=$?
+          cat /tmp/contrast-dark.json || true
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: WCAG accessibility tests (pytest)
+        id: pytest
+        if: always()
+        run: |
+          pip install pytest --quiet
+          pytest tests/test_stage3_accessibility.py -v --tb=short 2>&1 | tee /tmp/wcag-pytest.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Build PR comment
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+
+            function loadJson(p) {
+              try { return JSON.parse(fs.readFileSync(p, 'utf8')); }
+              catch { return null; }
+            }
+
+            function renderTable(data, mode) {
+              if (!data || !data.results) return `_No ${mode} mode results._\n`;
+              const rows = data.results.map(r => {
+                const icon  = r.pass ? '✅' : '❌';
+                const ratio = r.ratio !== null ? `${r.ratio}:1` : 'N/A';
+                const req   = `${r.required}:1${r.large ? ' (large)' : ''}`;
+                return `| ${icon} | ${r.label} | ${ratio} | ${req} |`;
+              }).join('\n');
+              const passed = data.results.filter(r => r.pass).length;
+              return `**${passed}/${data.results.length} pairs pass**\n\n| | Pair | Ratio | Required |\n|---|---|---|---|\n${rows}\n`;
+            }
+
+            const light = loadJson('/tmp/contrast-light.json');
+            const dark  = loadJson('/tmp/contrast-dark.json');
+            const pytest = fs.existsSync('/tmp/wcag-pytest.txt')
+              ? fs.readFileSync('/tmp/wcag-pytest.txt', 'utf8')
+              : null;
+
+            const lightOk = light && light.results.every(r => r.pass);
+            const darkOk  = dark  && dark.results.every(r => r.pass);
+            const pytestOk = pytest && pytest.includes('passed') && !pytest.includes('failed');
+
+            const status = (lightOk && darkOk && pytestOk) ? '✅ All checks pass' : '❌ Violations found';
+
+            let body = `## ${status} — WCAG AA Accessibility Gate\n\n`;
+            body += `### 🌞 Light Mode — CSS Contrast Tokens\n${renderTable(light, 'light')}\n`;
+            body += `### 🌙 Dark Mode — CSS Contrast Tokens\n${renderTable(dark, 'dark')}\n`;
+
+            if (pytest) {
+              const scoreMatch = pytest.match(/WCAG COMPLIANCE SCORE: (\d+%)/);
+              const passMatch  = pytest.match(/(\d+) passed/);
+              body += `### 🧪 WCAG Pytest Gate\n`;
+              body += scoreMatch ? `- **Score:** ${scoreMatch[1]}\n` : '';
+              body += passMatch  ? `- **Tests:** ${passMatch[1]} passed\n` : '';
+            }
+
+            body += `\n_Commit: ${context.sha.slice(0, 7)}_`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+      - name: Fail if any violations detected
+        if: always()
+        run: |
+          light_ok=true
+          dark_ok=true
+          pytest_ok=true
+
+          if node tools/contrast-checker.js --json > /dev/null 2>&1; then
+            echo "✅ Light mode contrast: PASS"
+          else
+            echo "❌ Light mode contrast: FAIL"
+            light_ok=false
+          fi
+
+          if node tools/contrast-checker.js --dark --json > /dev/null 2>&1; then
+            echo "✅ Dark mode contrast: PASS"
+          else
+            echo "❌ Dark mode contrast: FAIL"
+            dark_ok=false
+          fi
+
+          if [ -f /tmp/wcag-pytest.txt ] && grep -q "passed" /tmp/wcag-pytest.txt && ! grep -q "failed" /tmp/wcag-pytest.txt; then
+            echo "✅ WCAG pytest: PASS"
+          else
+            echo "❌ WCAG pytest: FAIL (or not run)"
+            pytest_ok=false
+          fi
+
+          if [ "$light_ok" = "false" ] || [ "$dark_ok" = "false" ] || [ "$pytest_ok" = "false" ]; then
+            echo ""
+            echo "One or more accessibility checks failed. See output above."
+            exit 1
+          fi
+
+          echo "All accessibility checks passed."

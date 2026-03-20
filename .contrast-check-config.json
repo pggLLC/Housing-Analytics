@@ -1,0 +1,116 @@
+{
+  "_comment": "WCAG 2.1 AA contrast thresholds and token pairs for COHO Analytics.",
+  "thresholds": {
+    "normal": 4.5,
+    "large":  3.0
+  },
+  "pairs": [
+    {
+      "label": "Primary text on page background",
+      "fg": "--text",
+      "bg": "--bg"
+    },
+    {
+      "label": "Primary text on secondary background",
+      "fg": "--text",
+      "bg": "--bg2"
+    },
+    {
+      "label": "Primary text on card surface",
+      "fg": "--text",
+      "bg": "--card"
+    },
+    {
+      "label": "Muted text on page background",
+      "fg": "--muted",
+      "bg": "--bg"
+    },
+    {
+      "label": "Muted text on secondary background",
+      "fg": "--muted",
+      "bg": "--bg2"
+    },
+    {
+      "label": "Muted text on card surface",
+      "fg": "--muted",
+      "bg": "--card"
+    },
+    {
+      "label": "Muted text on tertiary background",
+      "fg": "--muted",
+      "bg": "--bg3"
+    },
+    {
+      "label": "Faint text on page background",
+      "fg": "--faint",
+      "bg": "--bg"
+    },
+    {
+      "label": "Faint text on secondary background",
+      "fg": "--faint",
+      "bg": "--bg2"
+    },
+    {
+      "label": "Faint text on card surface",
+      "fg": "--faint",
+      "bg": "--card"
+    },
+    {
+      "label": "Faint text on tertiary background",
+      "fg": "--faint",
+      "bg": "--bg3"
+    },
+    {
+      "label": "Strong text on page background",
+      "fg": "--text-strong",
+      "bg": "--bg"
+    },
+    {
+      "label": "Strong text on card surface",
+      "fg": "--text-strong",
+      "bg": "--card"
+    },
+    {
+      "label": "Accent color on page background (large/heading text)",
+      "fg": "--accent",
+      "bg": "--bg",
+      "large": true
+    },
+    {
+      "label": "Accent color on card surface (large/heading text)",
+      "fg": "--accent",
+      "bg": "--card",
+      "large": true
+    },
+    {
+      "label": "Good (success) color on good-dim background",
+      "fg": "--good",
+      "bg": "--card"
+    },
+    {
+      "label": "Warn (warning) color on card surface",
+      "fg": "--warn",
+      "bg": "--card"
+    },
+    {
+      "label": "Bad (error) color on card surface",
+      "fg": "--bad",
+      "bg": "--card"
+    },
+    {
+      "label": "Info color on card surface",
+      "fg": "--info",
+      "bg": "--card"
+    },
+    {
+      "label": "Link color on page background",
+      "fg": "--link",
+      "bg": "--bg"
+    },
+    {
+      "label": "Link color on card surface",
+      "fg": "--link",
+      "bg": "--card"
+    }
+  ]
+}
