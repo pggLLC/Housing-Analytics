@@ -365,11 +365,13 @@ function getKey(){ return CONFIG_KEY || ""; }
     const idSafe = ind.id.replace(/[^a-zA-Z0-9_-]/g,"_");
     const wrap = document.createElement("div");
     wrap.className = "card metric";
+    wrap.setAttribute("data-currency", "");
     wrap.innerHTML = `
       <h3><a href="https://fred.stlouisfed.org/series/${encodeURIComponent(ind.id)}" target="_blank" rel="noopener">${ind.title}</a></h3>
       <p class="value" id="val-${idSafe}">Loading…</p>
       <div class="meta">
         <span id="date-${idSafe}">—</span>
+        <span class="meta-currency" id="currency-${idSafe}" aria-label="Data currency">—</span>
         <span class="delta flat" id="delta-${idSafe}">—</span>
       </div>
       <div class="chart-wrap">
@@ -591,6 +593,11 @@ function getKey(){ return CONFIG_KEY || ""; }
         const last = series[series.length-1];
         valEl.textContent = fmtValue(last.value, ind.fmt);
         dateEl.textContent = monthLabel(last.date);
+
+        // Populate data-currency attribute and "As of [date]" display
+        const currencyEl = document.getElementById(`currency-${idSafe}`);
+        if (card) card.setAttribute("data-currency", last.date);
+        if (currencyEl) currencyEl.textContent = `As of ${last.date}`;
 
         const change = pickChange(series);
         const cls = deltaClass(change.delta);

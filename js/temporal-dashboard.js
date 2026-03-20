@@ -176,13 +176,49 @@
   }
 
   // ── Public API ───────────────────────────────────────────────────
+  // ── Data Currency Display ──────────────────────────────────────
+  /**
+   * Formats an ISO date string as a human-readable "As of [date]" label.
+   * Returns "As of [Month DD, YYYY]" or "—" if the date is invalid.
+   * @param {string} isoDate - ISO-8601 date string (e.g. "2026-02-01")
+   * @returns {string}
+   */
+  function formatCurrencyLabel(isoDate) {
+    if (!isoDate) return '—';
+    var d = new Date(isoDate + 'T00:00:00');
+    if (isNaN(d.getTime())) return '—';
+    return 'As of ' + d.toLocaleDateString(undefined, {
+      year: 'numeric', month: 'short', day: 'numeric'
+    });
+  }
+
+  /**
+   * Updates all elements with class "meta-currency" inside a container,
+   * setting their text to "As of [latestDate]" and adding the
+   * data-currency attribute to the container.
+   *
+   * @param {Element} containerEl - The card/section element wrapping the chart
+   * @param {string} latestDate   - ISO date of the most recent observation
+   */
+  function applyCurrencyLabel(containerEl, latestDate) {
+    if (!containerEl || !latestDate) return;
+    containerEl.setAttribute('data-currency', latestDate);
+    var spans = containerEl.querySelectorAll('.meta-currency');
+    var label = formatCurrencyLabel(latestDate);
+    for (var i = 0; i < spans.length; i++) {
+      spans[i].textContent = label;
+    }
+  }
+
   window.TemporalDashboard = {
     renderTimeline: renderTimeline,
     renderUpdateSchedule: renderUpdateSchedule,
     renderActivityFeed: renderActivityFeed,
     renderFreshnessOverview: renderFreshnessOverview,
     badgeHtml: badgeHtml,
-    gaugeHtml: gaugeHtml
+    gaugeHtml: gaugeHtml,
+    formatCurrencyLabel: formatCurrencyLabel,
+    applyCurrencyLabel: applyCurrencyLabel
   };
 
 })();
