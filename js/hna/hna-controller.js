@@ -705,7 +705,7 @@
 
   // Load and render all LIHTC/QCT/DDA overlays for the selected geography
 
-  async function updateLihtcOverlays(countyFips5){
+  async function updateLihtcOverlays(countyFips5, geoType){
     // Increment the sequence counter. Any in-flight request for an older county
     // will see that its requestSeq no longer matches and will discard its result.
     const requestSeq = ++window.HNAState._lihtcRequestSeq;
@@ -729,7 +729,10 @@
         if (fetchedAt) {
           try { dateStr = ` · cache: ${new Date(fetchedAt).toISOString().slice(0, 10)}`; } catch (_) { /* unparseable */ }
         }
-        window.HNAState.els.lihtcMapStatus.textContent = src ? `Source: ${src}${dateStr}` : '';
+        // For place/CDP, note that LIHTC counts are for the containing county
+        const scopeNote = (geoType === 'place' || geoType === 'cdp')
+          ? ' · Counts reflect containing county; map shows projects in the current view.' : '';
+        window.HNAState.els.lihtcMapStatus.textContent = src ? `Source: ${src}${dateStr}${scopeNote}` : '';
       }
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
@@ -1654,7 +1657,7 @@
     }
 
     // Labor Market section (uses LEHD + ACS profile)
-    window.HNARenderers.renderLaborMarketSection(lehd, profile);
+    window.HNARenderers.renderLaborMarketSection(lehd, profile, geoType);
 
     // Economic indicators — trend charts and affordability gap table
     // For state type use '08'; for county use geoid; for places use contextCounty.
@@ -1735,10 +1738,11 @@
     });
 
     // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
-    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
     // HUD FMR & Income Limits panel (non-blocking)
-    window.HNARenderers.renderFmrPanel(geoType === 'county' ? contextCounty : null);
+    // For county, place, and CDP show county-level FMR; for state-level show a prompt.
+    window.HNARenderers.renderFmrPanel(geoType !== 'state' ? contextCounty : null);
 
     // Update data freshness timestamp from manifest (populated by data-freshness.js)
     const tsEl = document.getElementById('hnaDataTimestamp');

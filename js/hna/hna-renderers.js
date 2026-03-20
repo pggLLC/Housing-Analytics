@@ -250,7 +250,7 @@
 
   // Wire layer visibility toggles
 
-  function renderJobMetrics(container, metrics) {
+  function renderJobMetrics(container, metrics, geoType) {
     if (!container) return;
     if (!metrics || metrics.jobs === null) {
       container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">LEHD WAC job totals not yet cached. Run the HNA data build workflow to populate.</p>';
@@ -258,13 +258,14 @@
     }
     const fmt   = function(v){ return v !== null && Number.isFinite(v) ? v.toLocaleString() : '—'; };
     const fmtR  = function(v){ return v !== null && Number.isFinite(v) ? v.toFixed(2) : '—'; };
+    const isState = geoType === 'state';
     const cards = [
       { label: 'Total Jobs', value: fmt(metrics.jobs),   sub: 'LEHD LODES workplace-based' },
       { label: 'Jobs-to-Workers Ratio', value: fmtR(metrics.jwRatio), sub: 'Jobs ÷ estimated workers' },
-      { label: 'In-Commuters', value: fmt(metrics.inflow > 0 ? metrics.inflow : null),   sub: 'Work here, live elsewhere' },
-      { label: 'Out-Commuters', value: fmt(metrics.outflow > 0 ? metrics.outflow : null), sub: 'Live here, work elsewhere' },
-      { label: 'Live & Work Here', value: fmt(metrics.within > 0 ? metrics.within : null), sub: 'Contained workforce' },
-    ];
+      !isState && { label: 'In-Commuters', value: fmt(metrics.inflow > 0 ? metrics.inflow : null),   sub: 'Work here, live elsewhere' },
+      !isState && { label: 'Out-Commuters', value: fmt(metrics.outflow > 0 ? metrics.outflow : null), sub: 'Live here, work elsewhere' },
+      { label: 'Live & Work Here', value: fmt(metrics.within > 0 ? metrics.within : null), sub: isState ? 'Residents who live and work in CO' : 'Contained workforce' },
+    ].filter(Boolean);
     container.innerHTML = cards.map(function(c) {
       return '<div class="metric-card">' +
                '<div class="mc-label">' + c.label + '</div>' +
@@ -338,8 +339,12 @@
   }
 
 
-  function renderCommutingFlows(container, metrics) {
+  function renderCommutingFlows(container, metrics, geoType) {
     if (!container) return;
+    if (geoType === 'state') {
+      container.innerHTML = '<p style="color:var(--muted);font-size:.87rem">Statewide inflow/outflow values are omitted here because they aggregate all 64 county OD files and overcount internal (inter-county) commuting. Select a county to see accurate commuting flows.</p>';
+      return;
+    }
     if (!metrics || (metrics.inflow === 0 && metrics.outflow === 0 && metrics.within === 0)) {
       container.innerHTML = '<p style="color:var(--muted)">No commuting data available.</p>';
       return;
@@ -362,12 +367,12 @@
    * @param {object|null} profile
    */
 
-  function renderLaborMarketSection(lehd, profile) {
+  function renderLaborMarketSection(lehd, profile, geoType) {
     const metrics     = U().calculateJobMetrics(lehd, profile);
     const wageDist    = U().calculateWageDistribution(lehd);
     const industries  = U().parseIndustries(lehd, 5);
 
-    renderJobMetrics(document.getElementById('jobMetrics'), metrics);
+    renderJobMetrics(document.getElementById('jobMetrics'), metrics, geoType);
 
     const wageContainer = document.getElementById('wageChartContainer');
     if (wageContainer) renderWageChart(wageContainer, wageDist);
@@ -376,7 +381,7 @@
     if (industryContainer) renderIndustryChart(industryContainer, industries);
 
     const commutingContainer = document.getElementById('commutingFlowsContainer');
-    if (commutingContainer) renderCommutingFlows(commutingContainer, metrics);
+    if (commutingContainer) renderCommutingFlows(commutingContainer, metrics, geoType);
   }
 
   // ---------------------------------------------------------------
@@ -1603,11 +1608,19 @@
     const outflow = Number(lehd?.outflow);
     const within = Number(lehd?.within);
 
-    const items = [
-      { k:'Inflow (work here, live elsewhere)', v: inflow },
-      { k:'Outflow (live here, work elsewhere)', v: outflow },
-      { k:'Within (live & work here)', v: within },
-    ].filter(d=>Number.isFinite(d.v));
+    // For state-level data the inflow/outflow fields are aggregated from county OD files and
+    // overcount internal (inter-county) commuting. Only show cross-state commuting note.
+    const isState = geoType === 'state';
+
+    const items = isState
+      ? [
+          { k:'Live & work in Colorado', v: within },
+        ].filter(d=>Number.isFinite(d.v))
+      : [
+          { k:'Inflow (work here, live elsewhere)', v: inflow },
+          { k:'Outflow (live here, work elsewhere)', v: outflow },
+          { k:'Within (live & work here)', v: within },
+        ].filter(d=>Number.isFinite(d.v));
 
     makeChart(document.getElementById('chartLehd').getContext('2d'), {
       type:'bar',
@@ -1623,8 +1636,12 @@
       }
     });
 
-    if (geoType === 'state'){
-      S().els.lehdNote.textContent = lehd?.year ? `LEHD LODES OD summary (JT00) for Colorado statewide, year ${lehd.year}.` : 'LEHD LODES OD summary — Colorado statewide aggregate.';
+    if (isState){
+      S().els.lehdNote.textContent = (lehd?.year
+        ? `LEHD LODES OD summary (JT00) for Colorado statewide, year ${lehd.year}. `
+        : 'LEHD LODES OD summary — Colorado statewide aggregate. ') +
+        'At the state level, inflow/outflow figures reflect inter-county commuting aggregated from county files and are not shown here to avoid double-counting. ' +
+        'Select a county to see accurate commuting flows.';
     } else if (geoType !== 'county'){
       S().els.lehdNote.textContent = `Note: LEHD inflow/outflow is currently shown at the containing county level (${U().countyFromGeoid(geoType, geoid)}). Place/CDP crosswalk can be added to refine this.`;
     } else {
@@ -1682,8 +1699,23 @@
         data:{
           labels: s.years,
           datasets:[
-            { label:'Age 65+ (count)', data: s.pop65plus },
-            { label:'Share 65+ (%)', data: s.share65plus },
+            {
+              label:'Age 65+ (count)',
+              data: s.pop65plus,
+              yAxisID: 'yCount',
+              borderColor: t.chartColors[0] || '#1e5799',
+              backgroundColor: 'transparent',
+              tension: 0.3,
+            },
+            {
+              label:'Share 65+ (%)',
+              data: s.share65plus,
+              yAxisID: 'yPct',
+              borderColor: t.chartColors[2] || '#096e65',
+              backgroundColor: 'transparent',
+              borderDash: [4, 3],
+              tension: 0.3,
+            },
           ]
         },
         options:{
@@ -1692,13 +1724,37 @@
           plugins:{ legend:{ labels:{ color:t.text } } },
           scales:{
             x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-            y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
+            yCount:{
+              type:'linear',
+              position:'left',
+              ticks:{ color:t.muted, callback:(v)=>U().fmtNum(v) },
+              grid:{ color:t.border },
+              title:{ display:true, text:'Count', color:t.muted },
+            },
+            yPct:{
+              type:'linear',
+              position:'right',
+              ticks:{ color:t.muted, callback:(v)=>v.toFixed(1)+'%' },
+              grid:{ drawOnChartArea:false },
+              title:{ display:true, text:'Share (%)', color:t.muted },
+            },
           }
         }
       });
 
       const geoLabel = dola.stateFips ? 'Colorado statewide' : 'county';
-      S().els.seniorNote.textContent = `Senior pressure uses ${geoLabel} single-year-of-age totals. Pyramid year: ${year || '—'}.`;
+      // Calculate the growth in senior share between first and last available years
+      const firstShare = Array.isArray(s.share65plus) ? s.share65plus[0] : null;
+      const lastShare  = Array.isArray(s.share65plus) ? s.share65plus[s.share65plus.length - 1] : null;
+      const shareChangePts = (firstShare !== null && lastShare !== null && Number.isFinite(firstShare) && Number.isFinite(lastShare))
+        ? parseFloat((lastShare - firstShare).toFixed(1)) : null;
+      let changeNote = '';
+      if (shareChangePts !== null && shareChangePts !== 0) {
+        changeNote = ` The 65+ share ${shareChangePts > 0 ? 'increased' : 'decreased'} by ${Math.abs(shareChangePts)} percentage points over the projection period.`;
+      } else if (shareChangePts === 0) {
+        changeNote = ' The 65+ share is projected to remain stable over the projection period.';
+      }
+      S().els.seniorNote.textContent = `Senior pressure uses ${geoLabel} single-year-of-age totals. Pyramid year: ${year || '—'}.${changeNote}`;
     } else {
       S().els.seniorNote.textContent = 'Senior pressure data not available yet.';
     }
@@ -2334,8 +2390,8 @@
 
     var fips = countyFips5 && String(countyFips5).padStart(5, '0');
     if (!fips || !fips.startsWith('08')) {
-      // Statewide or non-county — show statewide note
-      if (areaEl) areaEl.textContent = 'Select a county to view county-specific FMR and income limits.';
+      // Statewide — prompt user to select a county for specific data
+      if (areaEl) areaEl.textContent = 'Select a county, municipality, or CDP to view county-specific FMR and income limits.';
       if (fmrEl)  fmrEl.textContent  = '—';
       if (ilEl)   ilEl.textContent   = '—';
       return;
