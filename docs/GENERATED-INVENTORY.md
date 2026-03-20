@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T09:01:17.168Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T09:26:43.595Z. Do not edit by hand.
 
 ---
 
@@ -19,13 +19,13 @@
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
 | `colorado-market.html` | Colorado LIHTC Market Analysis | COHO Analytics | 10.1 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.8 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 12.8 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 33.4 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 35.9 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 62.3 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
@@ -68,7 +68,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/fred-data.json` | 940.0 KB | ✅ | — |
+| `data/fred-data.json` | 1.76 MB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -957,8 +957,8 @@
 | `test/website-monitor.js` | 990 B |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `tests/conftest.py` | 1.0 KB |
-| `tests/test_governance_stress.py` | 30.2 KB |
-| `tests/test_stage2_temporal.py` | 27.3 KB |
+| `tests/test_governance_stress.py` | 30.3 KB |
+| `tests/test_stage2_temporal.py` | 31.6 KB |
 | `tests/test_stage3_accessibility.py` | 15.9 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 
