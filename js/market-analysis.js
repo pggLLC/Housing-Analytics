@@ -96,7 +96,7 @@
    * bbox format: [minLon, minLat, maxLon, maxLat]
    */
   function tractInBuffer(t, lat, lon, miles) {
-    if (t.bbox) {
+    if (t.bbox && t.bbox.length === 4) {
       // Circle-bbox intersection: clamp site coordinates to the bbox extents,
       // then measure the Haversine distance to that nearest boundary point.
       var nearestLat = Math.max(t.bbox[1], Math.min(lat, t.bbox[3]));
@@ -111,9 +111,21 @@
   function tractsInBuffer(lat, lon, miles) {
     var tracts = tractCentroids && (tractCentroids.tracts || tractCentroids);
     if (!tracts || !tracts.length) return [];
-    return tracts.filter(function (t) {
-      return tractInBuffer(t, lat, lon, miles);
+    var bboxCount     = 0;
+    var centroidCount = 0;
+    var included = tracts.filter(function (t) {
+      var inBuf = tractInBuffer(t, lat, lon, miles);
+      if (inBuf) { (t.bbox && t.bbox.length === 4) ? bboxCount++ : centroidCount++; }
+      return inBuf;
     });
+    // Diagnostic: log method breakdown so operators can confirm bbox data is
+    // being used (bbox=0 means all tracts are falling back to centroid distance).
+    console.log(
+      '[market-analysis] tractsInBuffer(' + miles + 'mi): ' +
+      included.length + ' tracts included ' +
+      '(bbox=' + bboxCount + ', centroid-fallback=' + centroidCount + ')'
+    );
+    return included;
   }
 
   /* ── Statewide tract coverage utility ──────────────────────────── */
