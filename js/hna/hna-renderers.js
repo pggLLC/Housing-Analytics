@@ -222,7 +222,7 @@
     window.HNAController.ensureMap();
     if (S().ddaLayer) { S().ddaLayer.remove(); S().ddaLayer = null; }
 
-    const ddaInfo = CO_DDA[countyFips5] || null;
+    const ddaInfo = U().CO_DDA[countyFips5] || null;
 
     if (ddaGeojson && ddaGeojson.features && ddaGeojson.features.length) {
       S().ddaLayer = L.geoJSON(ddaGeojson, {
