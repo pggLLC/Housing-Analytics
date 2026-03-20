@@ -19,8 +19,8 @@
   --surface:      #ffffff;
   --text:         #0d1f35;
   --text-strong:  #060f1d;
-  --muted:        #476080;
-  --faint:        #4d6882;
+  --muted:        #374151;
+  --faint:        #4b5563;
   --border:       rgba(13,31,53,.11);
   --border-strong:rgba(13,31,53,.20);
   --link:         #005a9c;
@@ -695,8 +695,8 @@ html.light-mode {
   --surface:       #ffffff;
   --text:          #0d1f35;
   --text-strong:   #060f1d;
-  --muted:         #476080;
-  --faint:         #4d6882;
+  --muted:         #374151;
+  --faint:         #4b5563;
   --border:        rgba(13,31,53,.11);
   --border-strong: rgba(13,31,53,.20);
   --link:          #005a9c;

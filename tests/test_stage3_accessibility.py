@@ -373,3 +373,136 @@ class TestCSSSemanticColors:
         """--color-primary must alias --accent for legacy component support."""
         assert '--color-primary:' in site_theme, \
             '--color-primary alias missing from site-theme.css'
+
+
+# ===========================================================================
+# Block 9: WCAG AA Color Contrast Tokens (8 checks)
+# ===========================================================================
+
+class TestWCAGContrastTokens:
+    """Verify light-mode CSS token values meet WCAG 2.1 AA minimum contrast ratios.
+
+    Thresholds: 4.5:1 for normal text, 3.0:1 for large text.
+    Reference backgrounds used: #ffffff (card), #eef2f7 (--bg), #e4ecf4 (--bg2).
+    """
+
+    # ── Color math helpers ──────────────────────────────────────────────────
+
+    @staticmethod
+    def _srgb_to_linear(c: int) -> float:
+        s = c / 255
+        return s / 12.92 if s <= 0.04045 else ((s + 0.055) / 1.055) ** 2.4
+
+    @classmethod
+    def _luminance(cls, r: int, g: int, b: int) -> float:
+        return (
+            0.2126 * cls._srgb_to_linear(r)
+            + 0.7152 * cls._srgb_to_linear(g)
+            + 0.0722 * cls._srgb_to_linear(b)
+        )
+
+    @classmethod
+    def _contrast(cls, fg_rgb, bg_rgb) -> float:
+        l1 = cls._luminance(*fg_rgb)
+        l2 = cls._luminance(*bg_rgb)
+        lighter, darker = max(l1, l2), min(l1, l2)
+        return (lighter + 0.05) / (darker + 0.05)
+
+    @staticmethod
+    def _hex(h: str):
+        h = h.lstrip('#')
+        return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+    # ── Light mode token values ──────────────────────────────────────────────
+
+    MUTED_LIGHT  = '#374151'   # updated from #476080
+    FAINT_LIGHT  = '#4b5563'   # updated from #4d6882
+    TEXT_LIGHT   = '#0d1f35'
+    ACCENT_LIGHT = '#096e65'
+
+    BG           = '#eef2f7'
+    BG2          = '#e4ecf4'
+    BG3          = '#dae4f0'
+    CARD         = '#ffffff'
+
+    NORMAL_THRESHOLD = 4.5
+    LARGE_THRESHOLD  = 3.0
+
+    # ── Muted token tests ────────────────────────────────────────────────────
+
+    def test_muted_light_token_value(self, site_theme):
+        """--muted in light mode must be #374151 (10.3:1 on white)."""
+        assert '--muted:        #374151' in site_theme or '--muted:         #374151' in site_theme, \
+            f'Light mode --muted should be #374151; found unexpected value in site-theme.css'
+
+    def test_muted_on_card_passes_normal(self):
+        """--muted (#374151) on --card (#ffffff) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.MUTED_LIGHT), self._hex(self.CARD))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--muted on --card: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    def test_muted_on_bg_passes_normal(self):
+        """--muted (#374151) on --bg (#eef2f7) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.MUTED_LIGHT), self._hex(self.BG))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--muted on --bg: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    def test_muted_on_bg2_passes_normal(self):
+        """--muted (#374151) on --bg2 (#e4ecf4) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.MUTED_LIGHT), self._hex(self.BG2))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--muted on --bg2: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    # ── Faint token tests ────────────────────────────────────────────────────
+
+    def test_faint_light_token_value(self, site_theme):
+        """--faint in light mode must be #4b5563 (7.6:1 on white)."""
+        assert '--faint:        #4b5563' in site_theme or '--faint:         #4b5563' in site_theme, \
+            f'Light mode --faint should be #4b5563; found unexpected value in site-theme.css'
+
+    def test_faint_on_card_passes_normal(self):
+        """--faint (#4b5563) on --card (#ffffff) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.FAINT_LIGHT), self._hex(self.CARD))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--faint on --card: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    def test_faint_on_bg_passes_normal(self):
+        """--faint (#4b5563) on --bg (#eef2f7) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.FAINT_LIGHT), self._hex(self.BG))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--faint on --bg: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    def test_faint_on_bg3_passes_normal(self):
+        """--faint (#4b5563) on --bg3 (#dae4f0) must achieve ≥ 4.5:1 (hardest pairing)."""
+        ratio = self._contrast(self._hex(self.FAINT_LIGHT), self._hex(self.BG3))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--faint on --bg3: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    # ── Primary text token ────────────────────────────────────────────────────
+
+    def test_text_on_card_passes_normal(self):
+        """--text (#0d1f35) on --card (#ffffff) must achieve ≥ 4.5:1."""
+        ratio = self._contrast(self._hex(self.TEXT_LIGHT), self._hex(self.CARD))
+        assert ratio >= self.NORMAL_THRESHOLD, \
+            f'--text on --card: {ratio:.2f}:1 < {self.NORMAL_THRESHOLD}:1'
+
+    # ── Accent token ─────────────────────────────────────────────────────────
+
+    def test_accent_on_card_passes_large(self):
+        """--accent (#096e65) on --card must achieve ≥ 3:1 (large/heading text)."""
+        ratio = self._contrast(self._hex(self.ACCENT_LIGHT), self._hex(self.CARD))
+        assert ratio >= self.LARGE_THRESHOLD, \
+            f'--accent on --card: {ratio:.2f}:1 < {self.LARGE_THRESHOLD}:1 (large text)'
+
+    # ── Prohibited hex codes ──────────────────────────────────────────────────
+
+    PROHIBITED = [
+        '#6c7a89', '#3498db', '#27ae60', '#d4a574',
+        '#e4b584', '#2ecc71', '#f39c12', '#c0392b',
+    ]
+
+    def test_no_prohibited_hex_in_css(self, site_theme):
+        """site-theme.css must not contain known WCAG-failing hex color codes."""
+        found = [h for h in self.PROHIBITED if h in site_theme.lower()]
+        assert found == [], \
+            f'site-theme.css contains prohibited low-contrast hex code(s): {found}'
