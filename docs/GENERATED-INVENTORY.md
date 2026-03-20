@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T03:26:53.237Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T03:42:57.252Z. Do not edit by hand.
 
 ---
 
@@ -915,7 +915,7 @@
 | `test/economic_indicators_test.py` | 24.3 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/hna-functionality-check.js` | 44.1 KB |
+| `test/hna-functionality-check.js` | 44.2 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
