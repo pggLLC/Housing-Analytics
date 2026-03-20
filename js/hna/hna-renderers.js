@@ -33,12 +33,12 @@
       'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
     ];
     statTextEls.forEach(function(id){
-      const el = els[id];
+      const el = S().els[id];
       if (el) el.textContent = DASH;
     });
     const yoyEls = ['statPopYoy','statMhiYoy','statHomeValueYoy','statRentYoy'];
     yoyEls.forEach(function(id){
-      const el = els[id];
+      const el = S().els[id];
       if (el){ el.textContent = ''; el.className = 'yoy'; }
     });
     const srcEls = [
@@ -46,7 +46,7 @@
       'statTenureSrc','statRentBurdenSrc','statCommuteSrc','statBaseUnitsSrc',
     ];
     srcEls.forEach(function(id){
-      const el = els[id];
+      const el = S().els[id];
       if (el) el.innerHTML = '';
     });
     if (S().els.statIncomeNeedNote) S().els.statIncomeNeedNote.textContent = '';
