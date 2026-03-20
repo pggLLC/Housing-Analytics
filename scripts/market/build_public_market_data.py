@@ -518,8 +518,28 @@ def _empty_lihtc_geojson() -> dict:
 
 def validate(centroids, acs, lihtc) -> list[str]:
     errors = []
-    if not centroids.get("tracts"):
+    tracts = centroids.get("tracts", [])
+    if not tracts:
         errors.append("tract_centroids_co.json has no tracts")
+    else:
+        # Flag tracts missing bbox — the PMA engine falls back to centroid-only
+        # distance for these, which can miss edge tracts that straddle the buffer
+        # boundary.  Re-running build_public_market_data.py (or
+        # generate_tract_centroids.py) against TIGERweb will populate the field.
+        missing_iter = (t.get("geoid", "<unknown>") for t in tracts if not t.get("bbox"))
+        sample: list[str] = []
+        total_missing = 0
+        for geoid in missing_iter:
+            total_missing += 1
+            if len(sample) < 5:
+                sample.append(geoid)
+        if total_missing:
+            log(
+                f"[validate] {total_missing} tract(s) missing 'bbox' field "
+                f"(e.g. {sample}). These will use centroid-only distance fallback. "
+                "Rebuild data to enable polygon-aware buffer intersection.",
+                level="WARN",
+            )
     n_acs = len(acs.get("tracts", []))
     if n_acs == 0:
         errors.append("acs_tract_metrics_co.json has no tracts (may be empty in offline mode)")
