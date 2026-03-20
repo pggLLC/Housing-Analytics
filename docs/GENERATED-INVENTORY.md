@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T04:35:04.006Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T04:49:03.209Z. Do not edit by hand.
 
 ---
 
@@ -882,7 +882,7 @@
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
 | `data/manifest.json` | 26.4 KB | ✅ | — |
-| `data/market/acs_tract_metrics_co.json` | 398.9 KB | ✅ | — |
+| `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
