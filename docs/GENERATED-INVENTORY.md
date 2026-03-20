@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T17:53:04.097Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T17:58:18.442Z. Do not edit by hand.
 
 ---
 
@@ -922,7 +922,7 @@
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
 | `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
-| `test/integration/projections.test.js` | 12.5 KB |
+| `test/integration/projections.test.js` | 13.0 KB |
 | `test/lighthouse-audit.js` | 953 B |
 | `test/pages-availability-check.js` | 9.4 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
