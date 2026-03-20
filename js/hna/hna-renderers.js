@@ -82,7 +82,7 @@
 
 
   function renderBoundary(geojson, geoType){
-    ensureMap();
+    window.HNAController.ensureMap();
     if (S().boundaryLayer) {
       S().boundaryLayer.remove();
       S().boundaryLayer = null;
@@ -148,7 +148,7 @@
   // Render LIHTC project markers on the S().map
 
   function renderLihtcLayer(geojson){
-    ensureMap();
+    window.HNAController.ensureMap();
     if (S().lihtcLayer) { S().lihtcLayer.remove(); S().lihtcLayer = null; }
     if (!geojson || !geojson.features || !geojson.features.length) {
       if (S().els.statLihtcCount) S().els.statLihtcCount.textContent = '0';
@@ -193,7 +193,7 @@
   // Render QCT tract overlay on the S().map
 
   function renderQctLayer(geojson){
-    ensureMap();
+    window.HNAController.ensureMap();
     if (S().qctLayer) { S().qctLayer.remove(); S().qctLayer = null; }
     if (!geojson || !geojson.features || !geojson.features.length) {
       if (S().els.statQctCount) S().els.statQctCount.textContent = '0';
@@ -219,7 +219,7 @@
   // Render DDA overlay on the map (polygon if available) and info badge
 
   function renderDdaLayer(countyFips5, ddaGeojson){
-    ensureMap();
+    window.HNAController.ensureMap();
     if (S().ddaLayer) { S().ddaLayer.remove(); S().ddaLayer = null; }
 
     const ddaInfo = CO_DDA[countyFips5] || null;
