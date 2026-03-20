@@ -232,62 +232,84 @@
     return Math.round(score);
   }
 
-  function scoreWorkforce(acs, lat, lon, bufTracts) {
+  /**
+   * Internal workforce scorer that also returns data-coverage metadata.
+   * @private
+   */
+  function _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts) {
     // Weighted composite workforce score (0–100) using 5 alternative data sources:
     //   25% LODES job accessibility
     //   25% ACS educational attainment + employment (proxied via ACS income/burden)
     //   20% CDLE vacancy rates (inverse: low vacancy = less workforce risk)
     //   15% CDE school quality proximity
     //   15% CDOT traffic connectivity
-    //
-    // Each sub-score falls back to a neutral value when the connector is unavailable.
 
     var LODES  = window.LodesCommute;
     var CDLE   = window.CdleJobs;
     var CDE    = window.CdeSchools;
     var CDOT   = window.CdotTraffic;
 
+    var realSources  = 0;
+    var totalSources = 5;
+    var reasons      = [];
+
     // ── 1. LODES job accessibility (25%) ────────────────────────────
-    var lodesScore = 50; // neutral fallback
+    var lodesScore = 50; // FALLBACK: window.LodesCommute unavailable. Using neutral value 50 until data/market/lodes_co.json is loaded via lodes-commute.js.
     if (LODES) {
       var tractGeoids = (bufTracts || []).map(function (t) { return t.geoid; });
       var lodesAgg = LODES.aggregateForBuffer(tractGeoids);
       lodesScore = LODES.scoreJobAccessibility(lodesAgg);
+      if (lodesAgg !== null && lodesAgg !== undefined) { realSources++; } else { reasons.push('LODES: no tract overlap found'); }
+    } else {
+      reasons.push('LODES: window.LodesCommute not loaded (data/market/lodes_co.json)');
     }
 
     // ── 2. ACS-based educational attainment + employment (25%) ──────
     // Proxy via median HH income relative to area median.
     // Higher income → skilled workforce in area → better workforce availability.
-    var acsWfScore = 50;
-    if (acs) {
-      var incomeRatio = acs.median_hh_income
-        ? Math.min(2.0, acs.median_hh_income / AREA_MEDIAN_INCOME_CO)
-        : 0.5;
-      // Scale 0–2 → 0–100, centred at 1.0
-      acsWfScore = Math.min(100, Math.max(0, Math.round(incomeRatio * 60)));
+    var acsWfScore = 50; // FALLBACK: acs.median_hh_income absent. Using neutral value 50 until ACS tract metrics are aggregated.
+    var incomeRatio = 0.5; // neutral default when ACS income is unavailable
+    if (acs && acs.median_hh_income) {
+      incomeRatio = Math.min(2.0, acs.median_hh_income / AREA_MEDIAN_INCOME_CO);
+      realSources++;
+    } else if (acs) {
+      reasons.push('ACS workforce proxy: median_hh_income absent, used 0.5 ratio');
+    } else {
+      reasons.push('ACS workforce proxy: no ACS data (data/market/acs_tract_metrics_co.json)');
     }
+    // Scale 0–2 → 0–100, centred at 1.0
+    acsWfScore = Math.min(100, Math.max(0, Math.round(incomeRatio * 60)));
 
     // ── 3. CDLE vacancy rates (20%) — low vacancy = tight labour = risk ──
-    var cdleScore = 50;
+    var cdleScore = 50; // FALLBACK: window.CdleJobs unavailable. Using neutral value 50 until data/market/cdle_job_postings_co.json is loaded.
     if (CDLE && bufTracts && bufTracts.length) {
       var countyFips = {};
       bufTracts.forEach(function (t) { countyFips[t.geoid.slice(0, 5)] = true; });
       var cdleAgg = CDLE.aggregateForCounties(Object.keys(countyFips));
       cdleScore = CDLE.scoreVacancyRate(cdleAgg);
+      realSources++;
+    } else {
+      reasons.push('CDLE: window.CdleJobs not loaded (data/market/cdle_job_postings_co.json)');
     }
 
     // ── 4. CDE school quality proximity (15%) ───────────────────────
-    var cdeScore = 55;
+    var cdeScore = 55; // FALLBACK: window.CdeSchools unavailable. Using neutral value 55 until data/market/cde_schools_co.json is loaded.
     if (CDE && lat != null && lon != null) {
       var nearest = CDE.getNearestDistrict(lat, lon);
       cdeScore = CDE.scoreSchoolQuality(nearest ? { avg_quality_score: nearest.composite_quality_score } : null);
+      realSources++;
+    } else {
+      reasons.push('CDE: window.CdeSchools not loaded (data/market/cde_schools_co.json)');
     }
 
     // ── 5. CDOT traffic connectivity (15%) ──────────────────────────
-    var cdotScore = 40;
+    var cdotScore = 40; // FALLBACK: window.CdotTraffic unavailable. Using neutral value 40 until data/market/cdot_traffic_co.json is loaded.
     if (CDOT && lat != null && lon != null) {
       var trafficAgg = CDOT.aggregateForBuffer(lat, lon, bufferMiles);
       cdotScore = CDOT.scoreTrafficConnectivity(trafficAgg);
+      realSources++;
+    } else {
+      reasons.push('CDOT: window.CdotTraffic not loaded (data/market/cdot_traffic_co.json)');
     }
 
     var composite = Math.round(
@@ -298,7 +320,16 @@
       cdotScore   * 0.15
     );
 
-    return Math.min(100, Math.max(0, composite));
+    var score = Math.min(100, Math.max(0, composite));
+    var coverageLevel = realSources === totalSources ? 'full'
+      : realSources > 0 ? 'partial'
+      : 'fallback';
+
+    return { score: score, coverageLevel: coverageLevel, reasons: reasons };
+  }
+
+  function scoreWorkforce(acs, lat, lon, bufTracts) {
+    return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts).score;
   }
 
   function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts) {
@@ -308,7 +339,8 @@
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
     var rentPressureObj    = scoreRentPressure(acs);
     var landSupplyScore    = scoreLandSupply(acs);
-    var workforceScore     = scoreWorkforce(acs, lat, lon, bufTracts);
+    var wfResult           = _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts);
+    var workforceScore     = wfResult.score;
 
     var overall = Math.round(
       demandScore          * WEIGHTS.demand +
@@ -332,6 +364,55 @@
       flags.push({ level: 'ok', text: 'No critical risk flags detected' });
     }
 
+    // ── Build data coverage diagnostic ────────────────────────────────
+    var fallbackReasons = {};
+    if (wfResult.reasons.length) fallbackReasons.workforce = wfResult.reasons.join('; ');
+
+    var demandCoverage;
+    if (!acs) {
+      demandCoverage = 'fallback';
+      fallbackReasons.demand = 'No ACS data available (data/market/acs_tract_metrics_co.json)';
+    } else if (acs.cost_burden_rate != null && acs.renter_hh != null && acs.total_hh != null) {
+      demandCoverage = 'full';
+    } else {
+      demandCoverage = 'partial';
+      fallbackReasons.demand = 'ACS present but missing cost_burden_rate or renter_hh/total_hh fields';
+    }
+
+    var captureRiskCoverage;
+    if (!acs || acs.renter_hh == null) {
+      captureRiskCoverage = 'fallback';
+      fallbackReasons.capture_risk = 'ACS renter_hh missing; capture denominator defaulted to 1';
+    } else {
+      captureRiskCoverage = 'full';
+    }
+
+    var rentPressureCoverage;
+    if (!acs || acs.median_gross_rent == null) {
+      rentPressureCoverage = 'fallback';
+      fallbackReasons.rent_pressure = 'ACS median_gross_rent missing; rent ratio defaulted to 0';
+    } else {
+      rentPressureCoverage = 'full';
+    }
+
+    var landSupplyCoverage;
+    if (!acs || acs.vacancy_rate == null) {
+      landSupplyCoverage = 'fallback';
+      fallbackReasons.land_supply = 'ACS vacancy_rate missing; defaulted to 0 (max land-supply score)';
+    } else {
+      landSupplyCoverage = 'full';
+    }
+
+    var pmaDataCoverage = {
+      demand:       demandCoverage,
+      capture_risk: captureRiskCoverage,
+      rent_pressure: rentPressureCoverage,
+      land_supply:   landSupplyCoverage,
+      workforce:     wfResult.coverageLevel
+    };
+
+    console.log('[pma-runner] Data coverage:', JSON.stringify({ pma_data_coverage: pmaDataCoverage, fallback_reasons: fallbackReasons }));
+
     return {
       overall:       Math.min(100, Math.max(0, overall)),
       dimensions: {
@@ -343,7 +424,9 @@
       },
       capture:         captureObj.capture,
       rentRatio:       rentPressureObj.ratio,
-      flags:           flags
+      flags:           flags,
+      pma_data_coverage: pmaDataCoverage,
+      fallback_reasons:  fallbackReasons
     };
   }
 
@@ -430,11 +513,56 @@
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
+    renderDataCoverage(result);
     updateRadarChart(result.dimensions);
     updateSimulator(result);
     renderBenchmark(result);
     renderPipeline(result);
     renderScenarios(result);
+  }
+
+  /* ── Data Coverage panel ────────────────────────────────────────── */
+  function renderDataCoverage(result) {
+    var coverageEl = el('pmaDataCoverage');
+    if (!coverageEl) return;
+
+    var cov     = result.pma_data_coverage;
+    var reasons = result.fallback_reasons || {};
+    if (!cov) {
+      coverageEl.innerHTML = '<div class="pma-empty">Coverage data not available.</div>';
+      return;
+    }
+
+    var COLOR = { full: 'var(--good)', partial: 'var(--warn)', fallback: 'var(--bad)' };
+    var ICON  = { full: '✓', partial: '~', fallback: '✕' };
+
+    var dims = [
+      { key: 'demand',       label: 'Demand' },
+      { key: 'capture_risk', label: 'Capture Risk' },
+      { key: 'rent_pressure',label: 'Rent Pressure' },
+      { key: 'land_supply',  label: 'Land / Supply' },
+      { key: 'workforce',    label: 'Workforce' }
+    ];
+
+    var rows = dims.map(function (d) {
+      var level  = cov[d.key] || 'fallback';
+      var reason = reasons[d.key] ? ' — ' + reasons[d.key] : '';
+      return '<tr>' +
+        '<td style="padding:.15rem .4rem;color:var(--faint)">' + d.label + '</td>' +
+        '<td style="padding:.15rem .4rem;font-weight:600;color:' + (COLOR[level] || '') + '">' + ICON[level] + ' ' + level + '</td>' +
+        '<td style="padding:.15rem .4rem;font-size:.78em;color:var(--faint)">' + reason + '</td>' +
+      '</tr>';
+    }).join('');
+
+    coverageEl.innerHTML =
+      '<table style="width:100%;border-collapse:collapse;font-size:.82em">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:.15rem .4rem;color:var(--faint);font-weight:400">Dimension</th>' +
+          '<th style="text-align:left;padding:.15rem .4rem;color:var(--faint);font-weight:400">Coverage</th>' +
+          '<th style="text-align:left;padding:.15rem .4rem;color:var(--faint);font-weight:400">Notes</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+      '</table>';
   }
 
   /* ── Radar chart ─────────────────────────────────────────────────── */

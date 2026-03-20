@@ -77,6 +77,7 @@
     if (ds && typeof ds.fetchEPASmartLocation === 'function') {
       return ds.fetchEPASmartLocation(boundingBox);
     }
+    // FALLBACK: DataService.fetchEPASmartLocation unavailable. Using neutral values 50 until EPA Smart Location data is wired.
     return Promise.resolve({ transitAccessibility: 50, walkScore: 50 });
   }
 
