@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T04:31:07.836Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T04:35:04.006Z. Do not edit by hand.
 
 ---
 
@@ -926,7 +926,7 @@
 | `test/lighthouse-audit.js` | 953 B |
 | `test/pages-availability-check.js` | 9.4 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 11.7 KB |
+| `test/pma-scoring.test.js` | 11.8 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 17.8 KB |
