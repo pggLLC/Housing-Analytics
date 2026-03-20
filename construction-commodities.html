@@ -92,16 +92,19 @@
             const yoyChange = parseFloat(commodity.yoyChange) || 0;
             const trendClass = yoyChange > 0 ? 'trend-up' : 'trend-down';
             const trendIcon = yoyChange > 0 ? '↑' : '↓';
+            const asOfDate = commodity.date || '';
             
             return `
-                <div class="price-card">
+                <div class="price-card" data-currency="${asOfDate}">
                     <div class="price-card-header">
                         <span class="price-card-title">${commodity.name}</span>
                         <span class="price-trend ${trendClass}">${trendIcon} ${Math.abs(yoyChange).toFixed(1)}%</span>
                     </div>
                     <div class="price-current">${commodity.current ? commodity.current.toFixed(2) : 'N/A'}</div>
                     <div class="price-change">YoY Change: ${yoyChange.toFixed(1)}%</div>
-                    <div class="price-change" style="margin-top: 0.5rem;">Updated: ${commodity.date || 'N/A'}</div>
+                    <div class="price-change" style="margin-top: 0.5rem;">
+                        <span class="meta-currency">As of ${asOfDate || 'N/A'}</span>
+                    </div>
                 </div>
             `;
         }
