@@ -31,10 +31,10 @@
 
   /* ── Internal state ───────────────────────────────────────────────── */
   var lastFloodRiskPct      = 0;
-  var lastClimateScore      = 50;
-  var lastUtilityScore      = 50;
-  var lastFoodAccessScore   = 50;
-  var lastCompositeScore    = 50;
+  var lastClimateScore      = 50; // FALLBACK: neutral value until NOAA climate data is loaded
+  var lastUtilityScore      = 50; // FALLBACK: neutral value until utility capacity data is loaded
+  var lastFoodAccessScore   = 50; // FALLBACK: neutral value until USDA food access data is loaded
+  var lastCompositeScore    = 50; // FALLBACK: neutral value until buildInfrastructureScorecard runs
   var lastSewerAdequate     = true;
   var lastScorecard         = null;
 
@@ -77,6 +77,7 @@
     if (ds && typeof ds.fetchNOAAClimateData === 'function') {
       return ds.fetchNOAAClimateData(location, climateVariable || 'all');
     }
+    // FALLBACK: DataService.fetchNOAAClimateData unavailable. Using neutral resilienceScore 50 until a live NOAA or cached climate endpoint is wired.
     return Promise.resolve({ normals: {}, extremes: {}, resilienceScore: 50 });
   }
 
@@ -91,6 +92,7 @@
     if (ds && typeof ds.fetchUtilityCapacity === 'function') {
       return ds.fetchUtilityCapacity(boundingBox, jurisdiction || '');
     }
+    // FALLBACK: DataService.fetchUtilityCapacity unavailable. Using neutral fractions 0.5 (50% headroom) until a utility-capacity data source is wired.
     return Promise.resolve({ sewerHeadroom: 0.5, waterCapacity: 0.5 });
   }
 
@@ -104,6 +106,7 @@
     if (ds && typeof ds.fetchFoodAccessAtlas === 'function') {
       return ds.fetchFoodAccessAtlas(boundingBox);
     }
+    // FALLBACK: DataService.fetchFoodAccessAtlas unavailable. Using neutral proximityIndex 50 until USDA Food Access Atlas data is wired.
     return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
   }
 
@@ -174,6 +177,7 @@
    * @returns {number}
    */
   function getInfrastructureScore() {
+    // FALLBACK: returns neutral 50 until buildInfrastructureScorecard() has been called with real data.
     return lastScorecard ? clamp(lastScorecard.compositeScore, 0, 100) : 50;
   }
 

@@ -340,6 +340,46 @@
       }
 
       scoreRun._analysisResults = results;
+
+      /* ── Aggregate data coverage diagnostics ────────────────────── */
+      var pmaEngine = (typeof window !== 'undefined') ? window.PMAEngine : null;
+      var pmaDataCoverage = null;
+      var fallbackReasons = {};
+
+      // If PMAEngine ran computePma, coverage is already on scoreRun.pma
+      var pmaResult = scoreRun.pma || (scoreRun._analysisResults && scoreRun._analysisResults.pma);
+      if (pmaResult && pmaResult.pma_data_coverage) {
+        pmaDataCoverage    = pmaResult.pma_data_coverage;
+        fallbackReasons    = pmaResult.fallback_reasons || {};
+      } else {
+        // Derive coverage from pipeline results when PMAEngine result is unavailable
+        var hasLodesData   = results.commuting && results.commuting.lodesWorkplaces > 0;
+        var hasTransit     = results.transit    && Object.keys(results.transit).length > 0;
+        var hasInfra       = results.infrastructure && Object.keys(results.infrastructure).length > 0;
+        var hasCompetitive = results.competitiveSet  && Object.keys(results.competitiveSet).length > 0;
+
+        pmaDataCoverage = {
+          demand:       'fallback',
+          capture_risk: hasCompetitive ? 'full' : 'fallback',
+          rent_pressure: 'fallback',
+          land_supply:   'fallback',
+          workforce:     hasLodesData ? 'partial' : 'fallback'
+        };
+
+        if (!hasLodesData) fallbackReasons.workforce    = 'No LODES workplace data loaded in commuting pipeline';
+        if (!hasTransit)   fallbackReasons.transit      = 'Transit module data unavailable';
+        if (!hasInfra)     fallbackReasons.infrastructure = 'Infrastructure module data unavailable';
+        if (!hasCompetitive) fallbackReasons.capture_risk = 'Competitive set module data unavailable';
+      }
+
+      var coverageDiagnostic = {
+        pma_data_coverage: pmaDataCoverage,
+        fallback_reasons:  fallbackReasons
+      };
+      scoreRun.pma_data_coverage = pmaDataCoverage;
+      scoreRun.fallback_reasons  = fallbackReasons;
+      console.log('[pma-runner] Data coverage:', JSON.stringify(coverageDiagnostic));
+
       progress('narrative', 'Generating justification narrative…');
 
       return scoreRun;
