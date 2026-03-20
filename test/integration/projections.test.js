@@ -50,6 +50,17 @@ function test(name, fn) {
 const HNA_JS   = path.join(ROOT, 'js',   'housing-needs-assessment.js');
 const HNA_HTML = path.join(ROOT, 'housing-needs-assessment.html');
 
+// After the HNA module refactor, the logic lives in js/hna/*.js.
+// Build a combined source string so that string-search assertions continue
+// to find the code in the correct module files (same pattern as hna-functionality-check.js).
+const HNA_MODULES = [
+  path.join(ROOT, 'js', 'hna', 'hna-utils.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-narratives.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-renderers.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-export.js'),
+  path.join(ROOT, 'js', 'hna', 'hna-controller.js'),
+];
+
 const DEMO_PY  = path.join(ROOT, 'scripts', 'hna', 'demographic_projections.py');
 const HH_PY    = path.join(ROOT, 'scripts', 'hna', 'household_projections.py');
 const HDP_PY   = path.join(ROOT, 'scripts', 'hna', 'housing_demand_projections.py');
@@ -58,7 +69,7 @@ const SCENARIOS_JSON = path.join(ROOT, 'scripts', 'hna', 'projection_scenarios.j
 const SNAPSHOT_DIR = path.join(ROOT, 'test', 'projection-snapshots');
 const BASELINE_SNAP = path.join(SNAPSHOT_DIR, 'baseline.json');
 
-const hnaSrc  = fs.readFileSync(HNA_JS,   'utf8');
+const hnaSrc  = HNA_MODULES.map(p => fs.readFileSync(p, 'utf8')).join('\n');
 const hnaHtml = fs.readFileSync(HNA_HTML, 'utf8');
 
 // ── Tests ───────────────────────────────────────────────────────────────────
@@ -147,17 +158,17 @@ test('projection_scenarios.json: low_growth has less migration than baseline', (
 
 test('HNA JS: renderProjectionChart function defined', () => {
   assert(hnaSrc.includes('function renderProjectionChart'),
-    'renderProjectionChart is defined in housing-needs-assessment.js');
+    'renderProjectionChart is defined in HNA modules');
 });
 
 test('HNA JS: renderScenarioComparison function defined', () => {
   assert(hnaSrc.includes('function renderScenarioComparison'),
-    'renderScenarioComparison is defined in housing-needs-assessment.js');
+    'renderScenarioComparison is defined in HNA modules');
 });
 
 test('HNA JS: renderHouseholdDemand function defined', () => {
   assert(hnaSrc.includes('function renderHouseholdDemand'),
-    'renderHouseholdDemand is defined in housing-needs-assessment.js');
+    'renderHouseholdDemand is defined in HNA modules');
 });
 
 test('HNA JS: PROJECTION_SCENARIOS constant defined', () => {
