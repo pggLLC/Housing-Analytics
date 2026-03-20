@@ -286,6 +286,65 @@
       });
     });
 
+    // Hamburger menu open / close
+    function openDrawer() {
+      drawer.removeAttribute('hidden');
+      requestAnimationFrame(function() {
+        drawer.setAttribute('data-open', 'true');
+      });
+      var toggleBtn = document.getElementById('mobileNavToggle');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        toggleBtn.setAttribute('aria-label', 'Close navigation menu');
+      }
+      if (!document.getElementById('mobileNavBackdrop')) {
+        var bd = document.createElement('div');
+        bd.id = 'mobileNavBackdrop';
+        bd.className = 'mobile-nav-backdrop';
+        document.body.appendChild(bd);
+        bd.addEventListener('click', closeDrawer);
+      }
+      document.body.style.overflow = 'hidden';
+      var firstFocusable = drawer.querySelector('button, a');
+      if (firstFocusable) firstFocusable.focus();
+    }
+
+    function closeDrawer() {
+      drawer.removeAttribute('data-open');
+      var toggleBtn = document.getElementById('mobileNavToggle');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.setAttribute('aria-label', 'Open navigation menu');
+        toggleBtn.focus();
+      }
+      var bd = document.getElementById('mobileNavBackdrop');
+      if (bd) bd.remove();
+      document.body.style.overflow = '';
+      // Delay matches the CSS transition duration on .mobile-nav-drawer (180ms)
+      var DRAWER_TRANSITION_MS = 200;
+      setTimeout(function() {
+        if (drawer.getAttribute('data-open') !== 'true') {
+          drawer.setAttribute('hidden', '');
+        }
+      }, DRAWER_TRANSITION_MS);
+    }
+
+    var mobileToggle = document.getElementById('mobileNavToggle');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', openDrawer);
+    }
+
+    var mobileClose = document.getElementById('mobileNavClose');
+    if (mobileClose) {
+      mobileClose.addEventListener('click', closeDrawer);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.getAttribute('data-open') === 'true') {
+        closeDrawer();
+      }
+    });
+
     // Inject a site-wide #statusPanel after the header if one doesn't already exist
     if (!document.getElementById('statusPanel')) {
       const sp = document.createElement('div');
