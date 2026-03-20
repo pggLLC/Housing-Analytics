@@ -586,15 +586,19 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   accent-color: var(--accent);
   cursor: pointer;
 }
-.chfa-checklist-content { flex: 1; }
+.chfa-checklist-content { flex: 1; min-width: 0; }
 .chfa-checklist-content label {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-weight: 700;
   font-size: .92rem;
   cursor: pointer;
   color: var(--text);
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .chfa-checklist-note { display: block; font-size: .8rem; color: var(--muted); margin-top: 2px; }
 .chfa-checklist-item--done .chfa-checklist-content label { text-decoration: line-through; color: var(--muted); }
