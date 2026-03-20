@@ -154,6 +154,7 @@
             <option value="stale">Stale</option>
           </select>
           <button class="dd-btn dd-btn--primary" id="ddExportTableCsv">⬇ CSV</button>
+          <button class="dd-btn" id="ddViewOnMap" style="display:inline-flex;align-items:center;gap:.3rem">🗺️ View on Map</button>
           <span id="ddTableCount" style="font-size:.8rem;color:var(--text-secondary,#888);align-self:center"></span>
         </div>
         <div class="dd-table-wrap">
@@ -269,7 +270,7 @@
   var filteredSources = [];
   var sortCol = 'lastUpdated';
   var sortDir = 'desc';
-  var activeFilters = { status: 'all', format: 'all', freq: 'all' };
+  var activeFilters = { status: 'all', format: 'all', freq: 'all', category: 'all' };
   var expandedId = null;
 
   // ── Init ─────────────────────────────────────────────────────────
@@ -399,23 +400,6 @@
     tbody.innerHTML = html;
     announce(filteredSources.length + ' sources displayed.');
 
-    // Wire expand/action buttons
-    tbody.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-action]');
-      if (!btn) return;
-      var action = btn.dataset.action;
-      var id = btn.dataset.id;
-      if (action === 'expand') {
-        expandedId = expandedId === id ? null : id;
-        renderTable();
-      } else if (action === 'check-api') {
-        var src = allSources.find(function (s) { return s.id === id; });
-        if (src && src.apiEndpoint) {
-          window.open(src.apiEndpoint, '_blank', 'noopener,noreferrer');
-        }
-      }
-    });
-
     // Wire sort headers
     var ths = document.querySelectorAll('#ddSourcesTable th[data-col]');
     ths.forEach(function (th) {
@@ -434,6 +418,26 @@
         if (sortCol === col) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
         else { sortCol = col; sortDir = 'asc'; }
         renderTable();
+      });
+    }
+
+    // Wire expand/action buttons once via event delegation on tbody
+    var tbody = document.getElementById('ddTableBody');
+    if (tbody) {
+      tbody.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        var action = btn.dataset.action;
+        var id = btn.dataset.id;
+        if (action === 'expand') {
+          expandedId = expandedId === id ? null : id;
+          renderTable();
+        } else if (action === 'check-api') {
+          var src = allSources.find(function (s) { return s.id === id; });
+          if (src && src.apiEndpoint) {
+            window.open(src.apiEndpoint, '_blank', 'noopener,noreferrer');
+          }
+        }
       });
     }
 
@@ -456,6 +460,7 @@
         if (cat && s.category !== cat) return false;
         if (st && s.status !== st) return false;
         // Sidebar filters
+        if (activeFilters.category !== 'all' && s.category !== activeFilters.category) return false;
         if (activeFilters.status !== 'all' && s.status !== activeFilters.status) return false;
         if (activeFilters.format !== 'all' && !s.format.toLowerCase().includes(activeFilters.format)) return false;
         if (activeFilters.freq !== 'all' && !(s.updateFrequency || '').toLowerCase().includes(activeFilters.freq)) return false;
@@ -467,6 +472,11 @@
     if (search) search.addEventListener('input', applyFilters);
     if (catFilter) catFilter.addEventListener('change', applyFilters);
     if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+
+    var viewOnMapBtn = document.getElementById('ddViewOnMap');
+    if (viewOnMapBtn) {
+      viewOnMapBtn.addEventListener('click', function () { activateTab('panel-geographic'); });
+    }
 
     // Store applyFilters for sidebar to call
     window.__ddApplyFilters = applyFilters;
@@ -507,9 +517,11 @@
       btn.addEventListener('click', function () {
         el.querySelectorAll('.dd-filter-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
+        var val = btn.dataset.value;
+        activeFilters.category = val || 'all';
         var catFilter = document.getElementById('ddCatFilter');
         if (catFilter) {
-          catFilter.value = btn.dataset.value === 'all' ? '' : btn.dataset.value;
+          catFilter.value = val === 'all' ? '' : val;
         }
         if (window.__ddApplyFilters) window.__ddApplyFilters();
         // Switch to sources tab
