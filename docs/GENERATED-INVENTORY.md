@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T10:04:21.301Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T14:55:58.235Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 34.0 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 34.2 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
