@@ -1871,6 +1871,7 @@
     update,
     renderProjections,
     applyAssumptions,
+    ensureMap,
   };
 
   window.__HNA_renderFastTrack = window.HNARenderers.renderFastTrackCalculatorSection;
