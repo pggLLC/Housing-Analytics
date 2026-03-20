@@ -77,10 +77,10 @@
         <div class="hna-controls" style="margin-top:var(--sp3);">
           <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
           <select id="geoType">
-            <option value="county">County</option>
-            <option value="place">Municipality</option>
-            <option value="cdp">Census-Designated Place (CDP)</option>
             <option value="state" selected>State of Colorado</option>
+            <option value="county">County</option>
+            <option value="place">Municipality (Incorporated Place)</option>
+            <option value="cdp">Census-Designated Place (CDP)</option>
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
@@ -210,7 +210,10 @@
 
       <div class="chart-card span-6">
         <h2>Rent burden distribution</h2>
-        <p>Share of renter households by gross rent as a percent of income (ACS DP04 / GRAPI bins).</p>
+        <p>Share of renter households by gross rent as a percent of income (ACS DP04 / GRAPI bins).
+          Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
+          <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
+        </p>
         <div class="chart-box"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
@@ -231,8 +234,9 @@
       <div class="chart-card span-6">
         <h2>Commuting: inflow &amp; outflow (LEHD LODES)</h2>
         <p>
-          Workplace-based flows: <strong>inflow</strong> = jobs located here filled by residents of other counties;
+          Workplace-based flows: <strong>inflow</strong> = jobs located here filled by residents of other areas;
           <strong>outflow</strong> = residents working elsewhere; <strong>within</strong> = live+work here.
+          <span style="font-size:var(--tiny);color:var(--muted)">At the statewide level, inflow/outflow values are suppressed because summing all county OD files double-counts inter-county commuters. Select a county for accurate commuting flows.</span>
         </p>
         <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
           <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
@@ -614,13 +618,23 @@
         <!-- Compliance checklist -->
         <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Compliance Checklist</h3>
+          <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
+            Track your jurisdiction's Prop 123 (HB 22-1093) compliance steps. Check off each item as completed — progress is saved locally.
+            <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
+          </p>
           <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
           <ul class="compliance-checklist" id="prop123Checklist">
             <li class="checklist-item pending" id="checkItemBaseline" data-storage-key="baseline">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkBaseline">Establish baseline (60% AMI rentals documented)</label>
+                <label for="chkBaseline"><strong>Establish baseline</strong> — document the number of affordable rentals at 60% AMI or below</label>
+                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                  <em>Why it matters:</em> The baseline establishes the starting inventory from which the 3% annual growth target is measured.
+                  Accurate baseline data is required before a jurisdiction can commit to Prop 123.
+                  Source: ACS DP04 data shown in the Prop 123 panel above; verify against
+                  <a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Gap Map</a>.
+                </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
@@ -628,7 +642,13 @@
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkGrowth">Adopt 3% annual growth target</label>
+                <label for="chkGrowth"><strong>Adopt 3% annual growth target</strong> — formally commit to growing affordable stock by ≥3% each year</label>
+                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                  <em>Why it matters:</em> The 3% annual growth commitment is a core Prop 123 requirement.
+                  Adoption signals to DOLA, CHFA, and developers that the jurisdiction supports affordable housing creation.
+                  Without adoption, the jurisdiction is ineligible for Prop 123 land grant and workforce housing funds.
+                  Reference: <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093, Section 3(1)(b)</a>.
+                </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
@@ -636,7 +656,12 @@
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkFastTrack">Document fast-track approval process</label>
+                <label for="chkFastTrack"><strong>Establish fast-track approval process</strong> — adopt a streamlined permitting path for qualifying affordable developments</label>
+                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                  <em>Why it matters:</em> A documented fast-track process is required for jurisdictions with populations ≥ 1,000 (municipalities) or ≥ 5,000 (counties).
+                  Fast-tracking reduces permitting delays by 50%+ and is a prerequisite to access DOLA land grant funds.
+                  See <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 FAQ</a> for approved process templates.
+                </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
@@ -644,7 +669,12 @@
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkDola">File notice with DOLA (annual deadline: January 31)</label>
+                <label for="chkDola"><strong>File commitment notice with DOLA</strong> — annual deadline: <strong>January 31</strong></label>
+                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                  <em>Why it matters:</em> The annual DOLA notice is the formal on-record commitment that preserves eligibility for the current funding cycle.
+                  Missing the January 31 deadline disqualifies the jurisdiction from Prop 123 land grant and CDOH workforce housing funds for that year.
+                  File at the <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a>.
+                </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
@@ -652,7 +682,13 @@
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
               <input type="checkbox" id="chkReport" aria-label="Annual reporting filed" aria-checked="false">
               <div class="checklist-item-content">
-                <label for="chkReport">Annual reporting filed with DOLA</label>
+                <label for="chkReport"><strong>Annual progress report filed with DOLA</strong> — documents units added toward the 3% growth target</label>
+                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                  <em>Why it matters:</em> Annual reporting demonstrates accountability and validates the jurisdiction's progress.
+                  Failure to report may result in clawback of Prop 123 funds received and suspension of eligibility.
+                  Cross-reference with <a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a>
+                  for LIHTC project timelines that count toward the growth target.
+                </p>
                 <time class="checklist-date-completed" style="display:none;"></time>
               </div>
             </li>
@@ -661,14 +697,16 @@
 
         <!-- Resources -->
         <div class="resources-section chart-card" style="margin-top:14px;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
-          <h3>Resources &amp; Deadlines</h3>
+          <h3>Resources &amp; Guidance</h3>
           <ul>
-            <li><strong>Annual filing deadline:</strong> January 31 each year — File commitment notice with DOLA</li>
-            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Guidance, FAQ, and forms</li>
-            <li><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a> — Submit and track your commitment</li>
+            <li><strong>Annual filing deadline:</strong> January 31 each year — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">File commitment notice with DOLA</a></li>
+            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Official guidance, FAQ, and forms</li>
+            <li><a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA State Demography Office</a> — Population forecasts and Regional Data Explorer used in projections above</li>
+            <li><a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">CDOH (Colorado Division of Housing)</a> — State housing programs, vouchers, and funding streams</li>
+            <li><a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Housing Affordability Gap Map</a> — County-level gap analysis aligned with Prop 123 baseline</li>
+            <li><a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a> — Developer guides, LIHTC program resources, and QAP</li>
             <li><a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093 Full Text</a> — Colorado General Assembly</li>
             <li><strong>Eligible jurisdictions:</strong> Municipalities ≥ 1,000 population &amp; counties ≥ 5,000 population (per HB 22-1093)</li>
-            <li><strong>Questions?</strong> Contact DOLA Division of Housing: <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">cdola.colorado.gov/housing</a></li>
           </ul>
         </div>
       </section>
