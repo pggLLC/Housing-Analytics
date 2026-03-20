@@ -212,6 +212,10 @@
       line-height: 1.5;
       margin-top: 0.2rem;
     }
+    .article-summary--placeholder {
+      font-style: italic;
+      color: #8fa8c0;
+    }
     .article-signals {
       display: flex;
       flex-wrap: wrap;
@@ -582,9 +586,22 @@
       art.published ? esc(fmtDate(art.published)) : '',
     ].filter(Boolean).join(' &middot; ');
 
-    var summaryHtml = art.summary
-      ? '<div class="article-summary">' + esc(art.summary) + '</div>'
-      : '';
+    // Detect when the summary merely echoes the article title (e.g. Google News
+    // RSS where <description> contains just "Title Source Name" with no real
+    // content).  Discard such summaries and show the fallback placeholder.
+    // The 40-char prefix matches the threshold used in common.py's parse_rss().
+    var TITLE_PREFIX_MATCH_LENGTH = 40;
+    var rawSummary = art.summary || '';
+    if (rawSummary && art.title) {
+      var tNorm = art.title.toLowerCase().replace(/\s+/g, ' ').trim().slice(0, TITLE_PREFIX_MATCH_LENGTH);
+      if (rawSummary.toLowerCase().replace(/\s+/g, ' ').trim().startsWith(tNorm)) {
+        rawSummary = '';
+      }
+    }
+
+    var summaryHtml = rawSummary
+      ? '<div class="article-summary">' + esc(rawSummary) + '</div>'
+      : '<div class="article-summary article-summary--placeholder">No summary available — see full article for details.</div>';
 
     var signalTagsHtml = '';
     if (Array.isArray(art.signals) && art.signals.length) {
