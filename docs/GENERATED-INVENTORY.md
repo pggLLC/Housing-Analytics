@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T09:48:11.975Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-20T10:04:21.301Z. Do not edit by hand.
 
 ---
 
@@ -959,17 +959,18 @@
 | `tests/conftest.py` | 1.0 KB |
 | `tests/test_governance_stress.py` | 30.3 KB |
 | `tests/test_stage2_temporal.py` | 31.6 KB |
-| `tests/test_stage3_accessibility.py` | 15.9 KB |
+| `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 
 ---
 
 ## GitHub Actions Workflows
 
-30 workflow files found.
+31 workflow files found.
 
 | File | Size |
 |------|------|
+| `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 6.7 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
