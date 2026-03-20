@@ -206,7 +206,7 @@ function haversineTest(lat1, lon1, lat2, lon2) {
 }
 
 function tractInBufferTest(tract, lat, lon, miles) {
-  if (tract.bbox) {
+  if (tract.bbox && tract.bbox.length === 4) {
     var nearestLat = Math.max(tract.bbox[1], Math.min(lat, tract.bbox[3]));
     var nearestLon = Math.max(tract.bbox[0], Math.min(lon, tract.bbox[2]));
     return haversineTest(lat, lon, nearestLat, nearestLon) <= miles;
@@ -270,10 +270,11 @@ test('tractInBuffer: falls back to centroid when bbox is absent', () => {
 
 test('market-analysis.js: tractInBuffer source uses bbox clamp logic', () => {
   const src = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
-  assert(src.includes('tractInBuffer'),   'tractInBuffer function exists');
-  assert(src.includes('t.bbox'),          'bbox branch is present');
-  assert(src.includes('nearestLat'),      'nearestLat clamping exists');
-  assert(src.includes('nearestLon'),      'nearestLon clamping exists');
+  assert(src.includes('tractInBuffer'),         'tractInBuffer function exists');
+  assert(src.includes('t.bbox'),                'bbox branch is present');
+  assert(src.includes('t.bbox.length === 4'),   'bbox length guard is present');
+  assert(src.includes('nearestLat'),            'nearestLat clamping exists');
+  assert(src.includes('nearestLon'),            'nearestLon clamping exists');
 });
 
 test('build_public_market_data.py: _bbox function exists', () => {
