@@ -3,9 +3,10 @@
 scripts/market/build_public_market_data.py
 
 Fetches and assembles public market data artifacts for the PMA scoring engine:
-  - data/market/tract_centroids_co.json   (TIGERweb ArcGIS REST)
-  - data/market/acs_tract_metrics_co.json  (Census ACS 5-Year API)
-  - data/market/hud_lihtc_co.geojson      (HUD LIHTC public dataset)
+  - data/market/tract_centroids_co.json      (TIGERweb ArcGIS REST)
+  - data/market/acs_tract_metrics_co.json    (Census ACS 5-Year API)
+  - data/market/hud_lihtc_co.geojson        (HUD LIHTC public dataset)
+  - data/market/tract_boundaries_co.geojson  (TIGERweb ArcGIS REST)
 
 Usage:
     python scripts/market/build_public_market_data.py
@@ -354,6 +355,99 @@ def _flatten_coords(coords, gtype):
     return []
 
 
+def _rings_to_geojson_geometry(rings: list) -> dict | None:
+    """Convert ArcGIS native JSON rings to a GeoJSON geometry dict.
+
+    ArcGIS uses a flat list of rings where the first ring is the exterior
+    boundary and any additional rings are interior holes or disconnected parts.
+    For census tracts (which rarely have interior holes), we treat each ring
+    as a separate exterior polygon element:
+      - Single ring  → GeoJSON Polygon
+      - Multiple rings → GeoJSON MultiPolygon (each ring becomes a polygon)
+
+    All coordinates are assumed to be in WGS84 [lon, lat] order, which is
+    correct when the ArcGIS query includes outSR=4326.
+    """
+    if not rings:
+        return None
+    if len(rings) == 1:
+        return {"type": "Polygon", "coordinates": rings}
+    return {"type": "MultiPolygon", "coordinates": [[ring] for ring in rings]}
+
+
+# ── Tract boundary GeoJSON ─────────────────────────────────────────────────────
+
+def build_tract_boundaries() -> dict:
+    """Fetch Colorado tract polygon geometries from TIGERweb and return a
+    GeoJSON FeatureCollection suitable for choropleth rendering.
+
+    Each feature carries the following properties:
+      GEOID       — 11-digit census tract GEOID (e.g. "08031001301")
+      geoid       — same value, lowercase key for JS convenience
+      NAME        — human-readable tract label from NAMELSAD
+      county_fips — 5-digit county FIPS (e.g. "08031"), zero-padded per Rule 1
+    """
+    log("\n[4/4] Building tract boundary GeoJSON from TIGERweb…")
+    features: list[dict] = []
+    offset = 0
+    page_num = 0
+    while True:
+        page_num += 1
+        try:
+            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+        except RuntimeError as e:
+            log(
+                f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
+                "  → Recovery suggestion: check TIGERweb service status at "
+                "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
+                level="ERROR",
+            )
+            raise
+        raw_features = page.get("features", [])
+        log(f"[arcgis] Boundaries page {page_num}: received {len(raw_features)} features "
+            f"(offset={offset})")
+        for f in raw_features:
+            props = f.get("attributes") or f.get("properties") or {}
+            geoid = str(props.get("GEOID") or props.get("GEOID10") or props.get("AFFGEOID", ""))
+            geom = f.get("geometry")
+            if not geom:
+                continue
+            rings = geom.get("rings")
+            if not rings:
+                continue
+            geojson_geom = _rings_to_geojson_geometry(rings)
+            if not geojson_geom:
+                continue
+            # Enforce 5-digit county FIPS (Rule 1)
+            county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
+            features.append({
+                "type": "Feature",
+                "geometry": geojson_geom,
+                "properties": {
+                    "GEOID": geoid,
+                    "geoid": geoid,
+                    "NAME": props.get("NAMELSAD", f"Tract {geoid[-6:]}"),
+                    "county_fips": county_fips,
+                },
+            })
+        if not raw_features or not page.get("exceededTransferLimit"):
+            break
+        offset += len(raw_features)
+
+    log(f"[arcgis] {len(features)} tract boundary features built")
+    return {
+        "type": "FeatureCollection",
+        "meta": {
+            "source": "US Census TIGERweb ArcGIS REST (public)",
+            "state": "Colorado",
+            "state_fips": STATE_FIPS,
+            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "note": "Rebuild via scripts/market/build_public_market_data.py",
+        },
+        "features": features,
+    }
+
+
 # ── ACS tract metrics ──────────────────────────────────────────────────────────
 
 ACS_VARIABLES = [
@@ -516,7 +610,7 @@ def _empty_lihtc_geojson() -> dict:
 
 # ── Validation ─────────────────────────────────────────────────────────────────
 
-def validate(centroids, acs, lihtc) -> list[str]:
+def validate(centroids, acs, lihtc, boundaries) -> list[str]:
     errors = []
     tracts = centroids.get("tracts", [])
     if not tracts:
@@ -550,6 +644,14 @@ def validate(centroids, acs, lihtc) -> list[str]:
         )
     if not isinstance(lihtc.get("features"), list):
         errors.append("hud_lihtc_co.geojson has no features array")
+    n_bounds = len(boundaries.get("features", []))
+    if n_bounds == 0:
+        errors.append("tract_boundaries_co.geojson has no features (may be empty in offline mode)")
+    elif n_bounds < 100:
+        errors.append(
+            f"tract_boundaries_co.geojson: only {n_bounds} features (minimum 100) — "
+            "check TIGERweb availability"
+        )
     return errors
 
 
@@ -616,14 +718,30 @@ def main():
                 lihtc = saved
                 log("[fallback] Using existing hud_lihtc_co.geojson")
 
+    # 4. Tract boundary GeoJSON (for choropleth map)
+    try:
+        boundaries = build_tract_boundaries()
+    except Exception as e:
+        log(f"Tract boundaries failed: {e}", level="ERROR")
+        boundaries = {"type": "FeatureCollection", "meta": {}, "features": []}
+    # Fall back to existing file if fetch returned no features
+    if not boundaries.get("features"):
+        existing = OUT_DIR / "tract_boundaries_co.geojson"
+        if existing.exists():
+            saved = json.loads(existing.read_text())
+            if saved.get("features"):
+                boundaries = saved
+                log("[fallback] Using existing tract_boundaries_co.geojson")
+
     # Write artifacts
     log("[Write] Saving artifacts…")
     write_json(OUT_DIR / "tract_centroids_co.json", centroids)
     write_json(OUT_DIR / "acs_tract_metrics_co.json", acs)
     write_json(OUT_DIR / "hud_lihtc_co.geojson", lihtc)
+    write_json(OUT_DIR / "tract_boundaries_co.geojson", boundaries)
 
     # Validate
-    errors = validate(centroids, acs, lihtc)
+    errors = validate(centroids, acs, lihtc, boundaries)
     if errors:
         print("\n[VALIDATION ERRORS]")
         for e in errors:
@@ -631,9 +749,10 @@ def main():
         sys.exit(1)
     else:
         print("\n✓ All artifacts validated successfully.")
-        print(f"  Tracts:         {len(centroids.get('tracts', []))}")
-        print(f"  ACS records:    {len(acs.get('tracts', []))}")
-        print(f"  LIHTC projects: {len(lihtc.get('features', []))}")
+        print(f"  Tracts:            {len(centroids.get('tracts', []))}")
+        print(f"  ACS records:       {len(acs.get('tracts', []))}")
+        print(f"  LIHTC projects:    {len(lihtc.get('features', []))}")
+        print(f"  Boundary features: {len(boundaries.get('features', []))}")
 
 
 if __name__ == "__main__":
