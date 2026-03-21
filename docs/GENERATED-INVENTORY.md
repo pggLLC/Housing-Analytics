@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T12:37:28.928Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T12:49:14.900Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 64.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 59.3 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 19.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
@@ -898,7 +898,7 @@
 
 ## Test Files
 
-59 test files found.
+60 test files found.
 
 | File | Size |
 |------|------|
@@ -907,6 +907,7 @@
 | `test/analytics.test.js` | 18.2 KB |
 | `test/build_counties_co_test.py` | 11.4 KB |
 | `test/caching.test.js` | 7.3 KB |
+| `test/chfa-pma-checklist.test.js` | 13.1 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
