@@ -1277,7 +1277,8 @@
         baseUnits = placeUnitsNow;
         baseHouseholds = placeHhNow;
         basePop = placePopNow;
-        headship0 = (baseHouseholds && basePop) ? (baseHouseholds/basePop) : headship0;
+        // headship0 was already set from derived data (lines above) — do not overwrite
+        // with the simple ACS ratio here; that would discard the ETL-computed headship_base.
       }
     } else {
       // County headship slope (optional)
@@ -1311,9 +1312,10 @@
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
     const incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
 
-    // Net migration scaled for places (share of county base)
+    // Net migration scaled for places/CDPs (share of county base).
+    // State-level projections are loaded directly for '08' — no scaling needed.
     let net20 = window.HNAUtils.safeNum(proj?.net_migration_20y);
-    if (selection && selection.geoType !== 'county' && baseCountyPop && basePop){
+    if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && baseCountyPop && basePop){
       const d = window.HNAState.state.derived?.geos?.[selection.geoid]?.derived || null;
       const share0 = Math.min(0.98, Math.max(0.02, (d && typeof d.share0 === 'number') ? d.share0 : (basePop / baseCountyPop)));
       net20 = (net20!==null) ? (net20 * share0) : null;
@@ -1333,7 +1335,18 @@
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
-    const labelPrefix = (selection && selection.geoType !== 'county') ? 'Population (scaled ' : 'Population (';
+    // Label prefix differs by jurisdiction type:
+    //   county → "Population (DOLA forecast)"
+    //   state  → "Population (statewide DOLA forecast)"
+    //   place/CDP → "Population (scaled from county DOLA forecast)"
+    let labelPrefix;
+    if (!selection || selection.geoType === 'county') {
+      labelPrefix = 'Population (';
+    } else if (selection.geoType === 'state') {
+      labelPrefix = 'Population (statewide ';
+    } else {
+      labelPrefix = 'Population (scaled from county ';
+    }
     window.HNARenderers.makeChart(document.getElementById('chartPopProj').getContext('2d'), {
       type: 'line',
       data: {
