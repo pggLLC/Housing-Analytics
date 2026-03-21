@@ -1501,8 +1501,22 @@
     var ws = document.getElementById('hnaWaitingState');
     if (ws) ws.style.display = 'none';
     window.HNARenderers.showAllChartsLoading();
+
+    // Save CHFA checklist state for the current (old) geography before switching.
+    if (window.ChfaPmaChecklist && window.HNAState.state.current) {
+      window.ChfaPmaChecklist.saveState(
+        window.HNAState.state.current.geoType,
+        window.HNAState.state.current.geoid
+      );
+    }
+
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
+
+    // Initialise CHFA checklist for the new geography (restores saved state or defaults).
+    if (window.ChfaPmaChecklist) {
+      window.ChfaPmaChecklist.initChfaChecklist(geoType, geoid);
+    }
 
     const label = (()=>{
       if (geoType === 'state') return 'State of Colorado';
