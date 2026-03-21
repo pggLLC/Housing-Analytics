@@ -282,7 +282,7 @@
       container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Wage distribution requires LEHD WAC data (CE01–CE03). Cache not yet populated.</p>';
       return;
     }
-    container.innerHTML = '<div class="chart-box"><canvas id="chartWage"></canvas></div>';
+    container.innerHTML = '<div class="chart-box"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>';
     const t = chartTheme();
     makeChart(document.getElementById('chartWage').getContext('2d'), {
       type: 'bar',
@@ -313,7 +313,7 @@
       container.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Industry breakdown requires LEHD WAC data (CNS fields). Cache not yet populated.</p>';
       return;
     }
-    container.innerHTML = '<div class="chart-box"><canvas id="chartIndustry"></canvas></div>';
+    container.innerHTML = '<div class="chart-box"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>';
     const t = chartTheme();
     makeChart(document.getElementById('chartIndustry').getContext('2d'), {
       type: 'bar',
@@ -986,28 +986,47 @@
       // Use Colorado state FIPS as fallback when no specific geoid is selected
       if (geoType === 'state' && !geoid) geoid = '08';
 
-      // Load saved state; auto-check items supported by data
+      // Load saved state for this geography
       const savedState = window.ComplianceChecklist.initComplianceChecklist(geoType, geoid);
 
-      // Helper: returns true if the item has already been checked in saved state
-      const isItemChecked = (id) => !!(savedState.items[id] && savedState.items[id].checked);
+      // Determine if any prior state has been saved for this geography.
+      // Only auto-check data-driven items on the first visit (no existing state).
+      // If a saved state exists (updatedAt differs from createdAt, or items exist),
+      // respect the user's manual choices entirely.
+      const hasPriorState = !!(
+        savedState &&
+        savedState.items &&
+        savedState.updatedAt &&
+        savedState.createdAt &&
+        savedState.updatedAt !== savedState.createdAt
+      );
 
-      // Auto-check data-driven items only if not already checked in saved state
-      if (hasBaseline && !isItemChecked('baseline')) {
-        window.ComplianceChecklist.updateChecklistItem('baseline', true, {
-          value: baselineData.baseline60Ami,
-          date:  new Date().toISOString(),
-        });
+      if (!hasPriorState) {
+        // First visit for this geography: auto-check data-driven items
+        if (hasBaseline) {
+          window.ComplianceChecklist.updateChecklistItem('baseline', true, {
+            value: baselineData.baseline60Ami,
+            date:  new Date().toISOString(),
+          });
+        }
+        if (hasGrowth) {
+          window.ComplianceChecklist.updateChecklistItem('growth', true, {
+            date: new Date().toISOString(),
+          });
+        }
+        if (hasFastTrack) {
+          window.ComplianceChecklist.updateChecklistItem('fasttrack', true, {
+            date: new Date().toISOString(),
+          });
+        }
       }
-      if (hasGrowth && !isItemChecked('growth')) {
-        window.ComplianceChecklist.updateChecklistItem('growth', true, {
-          date: new Date().toISOString(),
-        });
-      }
-      if (hasFastTrack && !isItemChecked('fasttrack')) {
-        window.ComplianceChecklist.updateChecklistItem('fasttrack', true, {
-          date: new Date().toISOString(),
-        });
+
+      // Update visible completion indicator
+      const completionEl = document.getElementById('checklistCompletionStatus');
+      if (completionEl) {
+        const allDone = window.ComplianceChecklist.isChecklistComplete(geoType, geoid);
+        completionEl.textContent = allDone ? 'All items complete! ✅' : '';
+        completionEl.style.display = allDone ? '' : 'none';
       }
 
       // Announce the next action to screen readers
@@ -1797,6 +1816,23 @@
     // Guard: skip all scenario chart rendering if no valid base population exists
     if (basePop0 === null || basePop0 === 0) return;
 
+    // Pre-compute a share factor array so household/demand charts scale with
+    // the selected geography when it is a place or CDP (where popSel has already
+    // been scaled from the county DOLA baseline by applyAssumptions).
+    // For county or state selections, popCounty === popSel so share is always 1.
+    const popCounty = (proj?.population_dola || []).map(v => (v !== null && v !== undefined) ? Number(v) : null);
+    const shareFactors = years.map((_, i) => {
+      const sel = popSel[i];
+      const cty = popCounty[i];
+      if (sel !== null && cty && Number.isFinite(sel) && Number.isFinite(cty) && cty > 0) {
+        // Clamp to [0, 1]: sel should never exceed cty (a place cannot be larger than
+        // its containing county), but floating-point rounding in applyAssumptions can
+        // produce values marginally above 1. The clamp prevents demand overestimates.
+        return Math.min(1, Math.max(0, sel / cty));
+      }
+      return 1; // fallback: no scaling (county/state)
+    });
+
     // Growth multipliers per scenario: applied to the *delta* from the base year
     // so low/high scenarios diverge progressively from the same starting point.
     const GROWTH_MULT = { baseline: 1.0, low_growth: 0.55, high_growth: 1.5 };
@@ -1864,7 +1900,10 @@
       });
     }
 
-    // chartProjectedHH — household projection (uses DOLA households_dola series)
+    // chartProjectedHH — household projection.
+    // For place/CDP selections the county households_dola series is scaled by
+    // the same share factor used for the population series so that the chart
+    // represents the selected geography, not the containing county.
     const hhCanvas = document.getElementById('chartProjectedHH');
     if (hhCanvas){
       const hhDola = proj?.housing_need?.households_dola || [];
@@ -1874,7 +1913,10 @@
         if (years[i] < baseYear) continue;
         if (hhCount > SCENARIO_HORIZON) break;
         const v = hhDola[i] !== undefined ? Number(hhDola[i]) : null;
-        hhSeries.push({ year: years[i], households: Number.isFinite(v) ? Math.round(v) : null });
+        const scaledV = (Number.isFinite(v) && shareFactors[i] !== undefined)
+          ? Math.round(v * shareFactors[i])
+          : null;
+        hhSeries.push({ year: years[i], households: scaledV });
         hhCount++;
       }
       makeChart(hhCanvas.getContext('2d'), {
@@ -1907,8 +1949,10 @@
       });
     }
 
-    // chartHouseholdDemand — housing demand by AMI tier
+    // chartHouseholdDemand — housing demand by AMI tier.
     // Synthesise demand series from households * fixed AMI-tier income shares.
+    // For place/CDP selections the county households_dola series is scaled
+    // using the same share factor computed above.
     // These statewide CO defaults (from ACS CHAS approximations) are used when
     // county-specific ETL data is not available; county-level data from
     // data/hna/derived/geo-derived.json takes precedence when present.
@@ -1926,8 +1970,11 @@
         if (years[i] < baseYear) continue;
         if (dsCount > SCENARIO_HORIZON) break;
         const hh = hhDola[i] !== undefined ? Number(hhDola[i]) : null;
-        if (!Number.isFinite(hh)){ dsCount++; continue; }
-        const renters = hh * RENTER_SHARE;
+        const scaledHH = (Number.isFinite(hh) && shareFactors[i] !== undefined)
+          ? hh * shareFactors[i]
+          : hh;
+        if (!Number.isFinite(scaledHH)){ dsCount++; continue; }
+        const renters = scaledHH * RENTER_SHARE;
         const demand_by_ami = { renter: {} };
         Object.keys(tierShares).forEach(tier => {
           demand_by_ami.renter[tier] = Math.round(renters * tierShares[tier]);
