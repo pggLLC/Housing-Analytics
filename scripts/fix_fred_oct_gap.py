@@ -50,6 +50,11 @@ def interpolate_oct_gap(data_file: str = DATA_FILE) -> None:
         oct_obs = {
             'date': OCT_DATE,
             'value': str(round(oct_val, 3)),
+            'interpolated': True,
+            'note': (
+                'Linear interpolation between 2025-09-01 and 2025-11-01 '
+                '(official Oct 2025 data pending from BLS/FRED)'
+            ),
         }
         # Find insertion point
         insert_idx = next(
