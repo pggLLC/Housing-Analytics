@@ -1,5 +1,5 @@
 // js/data-source-inventory.js
-// Complete registry of 43+ data sources used by Housing Analytics.
+// Complete registry of 54+ data sources used by Housing Analytics.
 // Exposed as window.DataSourceInventory.
 
 (function () {
@@ -51,7 +51,12 @@
       features: 2800,
       description: 'HUD LIHTC project-level GeoJSON for Colorado. Includes project location, unit counts, credit year, QCT/DDA status.',
       tags: ['lihtc', 'affordable-housing', 'colorado'],
-      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Low_Income_Housing_Tax_Credit/FeatureServer/0'
+      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Low_Income_Housing_Tax_Credit/FeatureServer/0',
+      alternatives: [
+        { title: 'HUD LIHTC Database', description: 'Download full national LIHTC dataset from HUD', url: 'https://lihtc.huduser.gov/' },
+        { title: 'HUD EGIS Open Data', description: 'HUD geospatial open data portal with LIHTC layers', url: 'https://hudgis-hud.opendata.arcgis.com/' },
+        { title: 'Novogradac LIHTC Mapping Tool', description: 'Interactive LIHTC project map from Novogradac', url: 'https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool' }
+      ]
     },
     {
       id: 'chfa-lihtc',
@@ -180,7 +185,12 @@
       features: 30,
       description: '30+ FRED economic series: CPI, unemployment, wage indices, housing starts, mortgage rates (2014–present).',
       tags: ['fred', 'economic', 'cpi', 'unemployment'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations',
+      alternatives: [
+        { title: 'FRED Website', description: 'Browse and download any economic series from the St. Louis Fed', url: 'https://fred.stlouisfed.org/' },
+        { title: 'BLS Data Tools', description: 'Bureau of Labor Statistics direct data access', url: 'https://www.bls.gov/data/' },
+        { title: 'FRED API Docs', description: 'Full API documentation for custom series queries', url: 'https://fred.stlouisfed.org/docs/api/fred/' }
+      ]
     },
     {
       id: 'economic-indicators',
@@ -235,7 +245,11 @@
       features: 1,
       description: 'ACS 5-year estimates for Colorado: housing units, tenure, income, age demographics.',
       tags: ['acs', 'census', 'demographics'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5'
+      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      alternatives: [
+        { title: 'Census Bureau Data Explorer', description: 'Interactive census data tables', url: 'https://data.census.gov/' },
+        { title: 'IPUMS USA', description: 'Integrated Public Use Microdata Series from University of Minnesota', url: 'https://usa.ipums.org/usa/' }
+      ]
     },
     {
       id: 'co-demographics',
@@ -253,7 +267,11 @@
       features: 64,
       description: 'ACS 5-year county-level demographic estimates for all 64 Colorado counties.',
       tags: ['acs', 'county', 'demographics'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5'
+      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      alternatives: [
+        { title: 'DOLA State Demography Office', description: 'Colorado-specific demographic data and projections', url: 'https://demography.dola.colorado.gov/' },
+        { title: 'Census Bureau Quick Facts', description: 'Easy access to county-level census data', url: 'https://www.census.gov/quickfacts/CO' }
+      ]
     },
     {
       id: 'acs-tract-metrics',
@@ -271,7 +289,12 @@
       features: 1300,
       description: 'Census tract-level ACS metrics: income, rent burden, housing units, tenure for Colorado.',
       tags: ['acs', 'tract', 'income', 'rent-burden'],
-      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5'
+      apiEndpoint: 'https://api.census.gov/data/2023/acs/acs5',
+      alternatives: [
+        { title: 'Census Bureau API', description: 'Direct 5-year ACS estimates via Census API', url: 'https://api.census.gov/data/2023/acs/acs5' },
+        { title: 'PolicyMap', description: 'Tract-level demographic and housing data explorer', url: 'https://www.policymap.com/' },
+        { title: 'NHGIS', description: 'National Historical GIS tract-level data with boundaries', url: 'https://www.nhgis.org/' }
+      ]
     },
     {
       id: 'dola-sya',
@@ -311,6 +334,91 @@
       apiEndpoint: null
     },
     {
+      id: 'lodes-co',
+      name: 'LODES Origin-Destination Data CO',
+      category: 'Market / GIS',
+      format: 'JSON',
+      provider: 'Census LEHD',
+      url: 'https://lehd.ces.census.gov/',
+      localFile: 'data/market/lodes_co.json',
+      lastUpdated: '2024-06-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Census Tract',
+      coverage: 'Colorado statewide',
+      features: 1447,
+      description: 'LEHD Origin-Destination Employment Statistics for Colorado. Used for commute pattern analysis and PMA employment scoring.',
+      tags: ['lodes', 'commute', 'employment', 'gis'],
+      apiEndpoint: 'https://lehd.ces.census.gov/data/',
+      alternatives: [
+        { title: 'OnTheMap Tool', description: 'Census Bureau interactive LODES visualization', url: 'https://onthemap.ces.census.gov/' }
+      ]
+    },
+    {
+      id: 'cde-schools-co',
+      name: 'CDE Schools Data CO',
+      category: 'Market / GIS',
+      format: 'JSON',
+      provider: 'Colorado Department of Education',
+      url: 'https://www.cde.state.co.us/',
+      localFile: 'data/market/cde_schools_co.json',
+      lastUpdated: '2025-01-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 30,
+      description: 'CDE school performance and location data for Colorado. Used for PMA school quality scoring.',
+      tags: ['cde', 'schools', 'education', 'market-analysis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'CDE School Report Cards', description: 'Colorado school performance data from CDE', url: 'https://www.cde.state.co.us/accountability/school-report-cards' }
+      ]
+    },
+    {
+      id: 'cdle-job-postings-co',
+      name: 'CDLE Job Postings CO',
+      category: 'Market / GIS',
+      format: 'JSON',
+      provider: 'Colorado Department of Labor & Employment',
+      url: 'https://www.colmigateway.com/',
+      localFile: 'data/market/cdle_job_postings_co.json',
+      lastUpdated: '2025-06-01',
+      updateFrequency: 'Quarterly',
+      maxAgeDays: 120,
+      geoUnit: 'County / Region',
+      coverage: 'Colorado statewide',
+      features: 62,
+      description: 'CDLE labor market job postings and employment projections for Colorado. Used for PMA demand-driver analysis.',
+      tags: ['cdle', 'jobs', 'labor-market', 'employment'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'CDLE COLMI Gateway', description: 'Colorado Labor Market Information gateway', url: 'https://www.colmigateway.com/' },
+        { title: 'BLS Occupational Outlook', description: 'National occupational employment projections', url: 'https://www.bls.gov/emp/' }
+      ]
+    },
+    {
+      id: 'cdot-traffic-co',
+      name: 'CDOT Traffic Counts CO',
+      category: 'Market / GIS',
+      format: 'JSON',
+      provider: 'Colorado Department of Transportation',
+      url: 'https://www.codot.gov/',
+      localFile: 'data/market/cdot_traffic_co.json',
+      lastUpdated: '2024-06-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Road Segment',
+      coverage: 'Colorado statewide',
+      features: 40,
+      description: 'CDOT annual average daily traffic (AADT) counts for Colorado road segments. Used for PMA transit and access scoring.',
+      tags: ['cdot', 'traffic', 'transportation', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'CDOT Data Portal', description: 'Colorado transportation open data', url: 'https://data.cdot.colorado.gov/' }
+      ]
+    },
+    {
       id: 'car-market-report',
       name: 'CAR Market Report',
       category: 'Market',
@@ -344,7 +452,11 @@
       features: 64,
       description: 'HUD Fair Market Rents by bedroom size for all 64 Colorado counties (FY2025). Combined with income limits.',
       tags: ['fmr', 'hud', 'rent', 'affordability'],
-      apiEndpoint: 'https://www.huduser.gov/hudapi/public/fmr'
+      apiEndpoint: 'https://www.huduser.gov/hudapi/public/fmr',
+      alternatives: [
+        { title: 'HUD FMR Dataset', description: 'Annual Fair Market Rents download from HUD User', url: 'https://www.huduser.gov/portal/datasets/fmr.html' },
+        { title: 'HUD Income Limits Dataset', description: 'Annual income limits by county from HUD User', url: 'https://www.huduser.gov/portal/datasets/il.html' }
+      ]
     },
     {
       id: 'hud-fair-market-rents',
@@ -366,6 +478,7 @@
     },
     // ── Zillow ──────────────────────────────────────────────────
     {
+      id: 'hud-income-limits',
       name: 'HUD Income Limits',
       category: 'Affordability',
       format: 'JSON',
@@ -473,7 +586,29 @@
       features: 64,
       description: 'Census TIGER county boundary polygons for Colorado. EPSG:4326.',
       tags: ['tiger', 'county', 'boundaries', 'gis'],
-      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1'
+      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1',
+      alternatives: [
+        { title: 'Colorado Open Data Portal', description: 'County boundaries from DOLA/CO GIS', url: 'https://data.colorado.gov/dataset/Colorado-County-Boundaries/4kn3-rjsc' },
+        { title: 'Census Bureau TIGER Download', description: 'Direct shapefile download from Census', url: 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html' }
+      ]
+    },
+    {
+      id: 'counties-co-geojson',
+      name: 'Colorado County Boundaries (Local)',
+      category: 'GIS / Boundaries',
+      format: 'GeoJSON',
+      provider: 'Census TIGER / Internal',
+      url: null,
+      localFile: 'data/boundaries/counties_co.geojson',
+      lastUpdated: '2024-01-01',
+      updateFrequency: 'Decennial',
+      maxAgeDays: 3650,
+      geoUnit: 'County',
+      coverage: 'Colorado — 64 counties',
+      features: 64,
+      description: 'Local cached GeoJSON of Colorado county boundaries used for choropleth overlays.',
+      tags: ['county', 'boundaries', 'gis', 'local'],
+      apiEndpoint: null
     },
     {
       id: 'tiger-places-co',
@@ -491,7 +626,119 @@
       features: 272,
       description: 'Census TIGER incorporated places for Colorado. Fetched at runtime for Prop 123 overlay.',
       tags: ['tiger', 'places', 'municipalities', 'gis'],
-      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4'
+      apiEndpoint: 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4',
+      alternatives: [
+        { title: 'Colorado Municipal League', description: 'Directory of Colorado municipalities', url: 'https://www.cml.org/' }
+      ]
+    },
+    // ── GIS / Amenities ──────────────────────────────────────────
+    {
+      id: 'amenities-retail-nodes',
+      name: 'Retail Nodes CO',
+      category: 'GIS / Amenities',
+      format: 'GeoJSON',
+      provider: 'Internal / OSM',
+      url: null,
+      localFile: 'data/amenities/retail_nodes_co.geojson',
+      lastUpdated: '2024-06-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 13,
+      description: 'Retail node locations in Colorado for PMA amenity scoring. Derived from OpenStreetMap.',
+      tags: ['amenities', 'retail', 'pma', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'OpenStreetMap Overpass API', description: 'Live query retail POIs from OSM', url: 'https://overpass-turbo.eu/' }
+      ]
+    },
+    {
+      id: 'amenities-schools-co',
+      name: 'Schools CO',
+      category: 'GIS / Amenities',
+      format: 'GeoJSON',
+      provider: 'CDE / Internal',
+      url: 'https://www.cde.state.co.us/',
+      localFile: 'data/amenities/schools_co.geojson',
+      lastUpdated: '2025-01-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 16,
+      description: 'Colorado public school locations from CDE for PMA amenity scoring.',
+      tags: ['amenities', 'schools', 'cde', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'CDE School Directory', description: 'Colorado Department of Education school locator', url: 'https://www.cde.state.co.us/schoolsearch/' },
+        { title: 'NCES School Finder', description: 'National Center for Education Statistics', url: 'https://nces.ed.gov/globallocator/' }
+      ]
+    },
+    {
+      id: 'amenities-grocery-co',
+      name: 'Grocery Stores CO',
+      category: 'GIS / Amenities',
+      format: 'GeoJSON',
+      provider: 'Internal / OSM',
+      url: null,
+      localFile: 'data/amenities/grocery_co.geojson',
+      lastUpdated: '2024-06-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 20,
+      description: 'Grocery store locations in Colorado for PMA food-access scoring. Derived from OpenStreetMap.',
+      tags: ['amenities', 'grocery', 'food-access', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'USDA Food Access Research Atlas', description: 'USDA food desert and grocery access data', url: 'https://www.ers.usda.gov/data-products/food-access-research-atlas/' }
+      ]
+    },
+    {
+      id: 'amenities-healthcare-co',
+      name: 'Healthcare Facilities CO',
+      category: 'GIS / Amenities',
+      format: 'GeoJSON',
+      provider: 'Internal / HCAD',
+      url: null,
+      localFile: 'data/amenities/healthcare_co.geojson',
+      lastUpdated: '2024-06-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 400,
+      geoUnit: 'Point',
+      coverage: 'Colorado statewide',
+      features: 12,
+      description: 'Hospitals, clinics, and healthcare facility locations in Colorado for PMA health-access scoring.',
+      tags: ['amenities', 'healthcare', 'hospitals', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'HIFLD Healthcare Facilities', description: 'DHS Homeland Infrastructure Foundation-Level Data', url: 'https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals/' }
+      ]
+    },
+    // ── NHPD ─────────────────────────────────────────────────────
+    {
+      id: 'nhpd-co',
+      name: 'NHPD Preservation Tracking CO',
+      category: 'LIHTC / Housing',
+      format: 'GeoJSON',
+      provider: 'National Housing Preservation Database',
+      url: 'https://preservationdatabase.org/',
+      localFile: 'data/market/nhpd_co.geojson',
+      lastUpdated: '2025-06-01',
+      updateFrequency: 'Semi-annual',
+      maxAgeDays: 180,
+      geoUnit: 'Project',
+      coverage: 'Colorado statewide',
+      features: 20,
+      description: 'NHPD federally-assisted housing inventory for Colorado: project-level subsidy status, expiration dates, affordability risk.',
+      tags: ['nhpd', 'preservation', 'affordable-housing', 'gis'],
+      apiEndpoint: null,
+      alternatives: [
+        { title: 'NHPD Public API', description: 'National Housing Preservation Database API', url: 'https://preservationdatabase.org/data/' },
+        { title: 'HUD Multifamily Housing', description: 'HUD Section 8 and assisted housing inventory', url: 'https://www.hud.gov/program_offices/housing/mfh/exp/mfhdiscl' }
+      ]
     },
     // ── Projections ──────────────────────────────────────────────
     {
