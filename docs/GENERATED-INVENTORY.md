@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T06:47:30.038Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T07:26:36.887Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 34.2 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.7 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
@@ -68,7 +68,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/fred-data.json` | 1.76 MB | ✅ | — |
+| `data/fred-data.json` | 940.3 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
