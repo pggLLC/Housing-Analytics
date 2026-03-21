@@ -295,7 +295,7 @@ function initPolicyPanel(panelId) {
       L.tileLayer(TILE_URL, { maxZoom: 19, attribution: TILE_ATTR }).addTo(map);
     }
 
-    /* ─ Section A: Affordability Ratio dot map ─ */
+    /* ─ Section A: Affordability Ratio choropleth map ─ */
     function renderRatioMap() {
       var map = makeMap('affRatioMap');
       if (!map) return;
@@ -308,34 +308,79 @@ function initPolicyPanel(panelId) {
         return '#c0392b';
       }
 
+      /* Build a lookup map from GEOID → ACS metrics, then render either a
+         polygon choropleth (preferred) or centroid circle markers (fallback). */
       Promise.all([
         DataService.getJSON('data/market/acs_tract_metrics_co.json'),
-        DataService.getJSON('data/market/tract_centroids_co.json')
+        DataService.getJSON('data/market/tract_boundaries_co.geojson').catch(function () { return null; })
       ]).then(function (res) {
-        var tracts    = (res[0].tracts || []);
-        var centroids = (res[1].tracts || []);
-        var centMap   = {};
-        centroids.forEach(function (c) { centMap[c.geoid] = c; });
+        var tracts     = (res[0].tracts || []);
+        var boundaries = res[1];
+        var metricsMap = {};
+        tracts.forEach(function (t) { metricsMap[t.geoid] = t; });
 
-        var rendered = 0;
-        tracts.forEach(function (t) {
-          var c = centMap[t.geoid];
-          if (!c) return;
-          var rent = t.median_gross_rent, inc = t.median_hh_income;
-          if (!rent || !inc || inc <= 0) return;
-          var pct = (rent * 12 / inc) * 100;   /* annualised rent ÷ annual income × 100 */
-          L.circleMarker([c.lat, c.lon], {
-            radius: 5, fillColor: ratioColor(pct),
-            color: 'transparent', fillOpacity: 0.72
-          }).bindTooltip(
-            '<strong>' + escapeHtml(c.county_name) + ' Tract ' + t.geoid.slice(-6) + '</strong>' +
-            '<br>Rent/Income: ' + pct.toFixed(1) + '%'
-          ).addTo(map);
-          rendered++;
-        });
+        if (boundaries && boundaries.features && boundaries.features.length) {
+          /* ── Choropleth: filled polygons colored by affordability ratio ── */
+          var rendered = 0;
+          L.geoJSON(boundaries, {
+            style: function (feat) {
+              var geoid = feat.properties.GEOID || feat.properties.geoid || '';
+              var t = metricsMap[geoid];
+              if (!t || !t.median_gross_rent || !t.median_hh_income || t.median_hh_income <= 0) {
+                return { fillColor: '#555', weight: 0.5, color: '#333', fillOpacity: 0.4 };
+              }
+              var pct = (t.median_gross_rent * 12 / t.median_hh_income) * 100;
+              return { fillColor: ratioColor(pct), weight: 0.5, color: '#333', fillOpacity: 0.72 };
+            },
+            onEachFeature: function (feat, layer) {
+              var geoid = feat.properties.GEOID || feat.properties.geoid || '';
+              var t = metricsMap[geoid];
+              var name = feat.properties.NAME || ('Tract ' + geoid.slice(-6));
+              if (t && t.median_gross_rent && t.median_hh_income && t.median_hh_income > 0) {
+                var pct = (t.median_gross_rent * 12 / t.median_hh_income) * 100;
+                layer.bindTooltip(
+                  '<strong>' + escapeHtml(name) + '</strong>' +
+                  '<br>Rent/Income: ' + pct.toFixed(1) + '%'
+                );
+                rendered++;
+              } else {
+                layer.bindTooltip('<strong>' + escapeHtml(name) + '</strong><br>Data unavailable');
+              }
+            }
+          }).addTo(map);
+          var st = document.getElementById('affRatioMapStatus');
+          if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+        } else {
+          /* ── Fallback: centroid circle markers ── */
+          DataService.getJSON('data/market/tract_centroids_co.json').then(function (centData) {
+            var centroids = (centData.tracts || []);
+            var centMap   = {};
+            centroids.forEach(function (c) { centMap[c.geoid] = c; });
 
-        var st = document.getElementById('affRatioMapStatus');
-        if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+            var rendered = 0;
+            tracts.forEach(function (t) {
+              var c = centMap[t.geoid];
+              if (!c) return;
+              var rent = t.median_gross_rent, inc = t.median_hh_income;
+              if (!rent || !inc || inc <= 0) return;
+              var pct = (rent * 12 / inc) * 100;
+              L.circleMarker([c.lat, c.lon], {
+                radius: 5, fillColor: ratioColor(pct),
+                color: 'transparent', fillOpacity: 0.72
+              }).bindTooltip(
+                '<strong>' + escapeHtml(c.county_name) + ' Tract ' + t.geoid.slice(-6) + '</strong>' +
+                '<br>Rent/Income: ' + pct.toFixed(1) + '%'
+              ).addTo(map);
+              rendered++;
+            });
+
+            var st = document.getElementById('affRatioMapStatus');
+            if (st) st.textContent = rendered + ' tracts rendered · ACS 2023 5-year estimates';
+          }).catch(function () {
+            var st = document.getElementById('affRatioMapStatus');
+            if (st) st.textContent = 'Affordability ratio data currently unavailable.';
+          });
+        }
       }).catch(function () {
         var st = document.getElementById('affRatioMapStatus');
         if (st) st.textContent = 'Affordability ratio data currently unavailable.';
