@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T07:26:36.887Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T07:34:07.397Z. Do not edit by hand.
 
 ---
 
@@ -68,7 +68,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/fred-data.json` | 940.3 KB | ✅ | — |
+| `data/fred-data.json` | 1.76 MB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -956,7 +956,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 990 B |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `tests/conftest.py` | 1.0 KB |
+| `tests/conftest.py` | 3.0 KB |
 | `tests/test_governance_stress.py` | 30.3 KB |
 | `tests/test_stage2_temporal.py` | 31.6 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
