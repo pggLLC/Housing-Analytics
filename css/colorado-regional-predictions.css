@@ -60,7 +60,7 @@
 
 @supports not (background: color-mix(in srgb, red 10%, transparent)) {
   .crp-disclaimer {
-    background: #fff3e0;
+    background: var(--warn-dim, rgba(180,83,9,.10));
   }
 }
 
