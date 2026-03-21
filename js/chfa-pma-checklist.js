@@ -10,7 +10,14 @@
     saveChfaState(geoType, geoid)            — Persist current DOM state for a geography
     getChfaState(geoType, geoid)             — Retrieve full saved state
     isChfaChecklistComplete(geoType, geoid)  — All 8 items checked?
+    updateItem(itemId, checked)              — Update a single item and persist
+    getChecklistItems()                      — Return ordered list of all item IDs
     updateProgress()                         — Refresh progress bar and completion badge
+
+  Spec-matching aliases (interoperability):
+    saveState(geoType, geoid)    → saveChfaState
+    getState(geoType, geoid)     → getChfaState
+    isComplete(geoType, geoid)   → isChfaChecklistComplete
 
   Usage:
     ChfaPmaChecklist.initChfaChecklist('county', '08031');
@@ -275,6 +282,35 @@
     });
   }
 
+  /**
+   * Update a single checklist item programmatically, apply to DOM, and persist.
+   *
+   * @param {string}  itemId  - One of the ITEM_IDS values
+   * @param {boolean} checked - New checked state
+   */
+  function updateItem(itemId, checked) {
+    if (ITEM_IDS.indexOf(itemId) === -1) {
+      console.warn('[ChfaPmaChecklist] updateItem: unknown itemId "' + itemId + '"');
+      return;
+    }
+    var chkEl = document.getElementById(CHK_DOM_MAP[itemId]);
+    if (chkEl) chkEl.checked = !!checked;
+
+    var liEl = document.getElementById(ITEM_DOM_MAP[itemId]);
+    if (liEl) liEl.classList.toggle('chfa-checklist-item--done', !!checked);
+
+    saveChfaState(_activeGeoType, _activeGeoid);
+    _updateProgress();
+  }
+
+  /**
+   * Return a shallow copy of the ordered list of all CHFA checklist item IDs.
+   * @returns {string[]}
+   */
+  function getChecklistItems() {
+    return ITEM_IDS.slice();
+  }
+
   // ── Checkbox event wiring ──────────────────────────────────────────────────
 
   /**
@@ -337,6 +373,13 @@
     getChfaState:            getChfaState,
     isChfaChecklistComplete: isChfaChecklistComplete,
     updateProgress:          _updateProgress,
+    updateItem:              updateItem,
+    getChecklistItems:       getChecklistItems,
+
+    // Spec-matching aliases for interoperability
+    saveState:  saveChfaState,
+    getState:   getChfaState,
+    isComplete: isChfaChecklistComplete,
 
     // Expose internals for testing
     _storageKey:       storageKey,
