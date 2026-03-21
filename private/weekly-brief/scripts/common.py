@@ -507,35 +507,67 @@ HTML_TEMPLATE = """\
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Weekly Brief {week_start} | COHO Analytics</title>
   <style>
-    body{{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#0d1f35;background:#eef2f7;}}
-    h1{{font-size:1.4rem;margin-bottom:.25rem;}}
+    :root{{
+      --bg:#eef2f7;--card:#fff;--card2:#f7fafd;--bg2:#e4ecf4;
+      --text:#0d1f35;--muted:#476080;--faint:#8fa8c0;
+      --accent:#096e65;--link:#005a9c;
+      --border:rgba(13,31,53,.09);--shadow-card:0 2px 8px rgba(13,31,53,.06),0 0 0 1px rgba(13,31,53,.07);
+    }}
+    @media(prefers-color-scheme:dark){{
+      :root{{
+        --bg:#08121e;--card:#0d1e30;--card2:#102234;--bg2:#0c1928;
+        --text:rgba(215,232,248,.93);--muted:rgba(210,225,245,.95);--faint:rgba(190,210,235,.90);
+        --accent:#0fd4cf;--link:#5ecbcc;
+        --border:rgba(90,150,210,.11);--shadow-card:0 2px 8px rgba(0,0,0,.35),0 0 0 1px rgba(90,150,210,.10);
+      }}
+    }}
+    html.light-mode{{
+      --bg:#eef2f7;--card:#fff;--card2:#f7fafd;--bg2:#e4ecf4;
+      --text:#0d1f35;--muted:#476080;--faint:#8fa8c0;
+      --accent:#096e65;--link:#005a9c;
+      --border:rgba(13,31,53,.09);--shadow-card:0 2px 8px rgba(13,31,53,.06),0 0 0 1px rgba(13,31,53,.07);
+    }}
+    html.dark-mode{{
+      --bg:#08121e;--card:#0d1e30;--card2:#102234;--bg2:#0c1928;
+      --text:rgba(215,232,248,.93);--muted:rgba(210,225,245,.95);--faint:rgba(190,210,235,.90);
+      --accent:#0fd4cf;--link:#5ecbcc;
+      --border:rgba(90,150,210,.11);--shadow-card:0 2px 8px rgba(0,0,0,.35),0 0 0 1px rgba(90,150,210,.10);
+    }}
+    *,*::before,*::after{{box-sizing:border-box;}}
+    body{{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:var(--text);background:var(--bg);transition:background .25s,color .25s;}}
+    h1{{font-size:1.4rem;margin-bottom:.25rem;color:var(--text);}}
     .pill{{display:inline-block;padding:.2rem .7rem;border-radius:99px;font-size:.75rem;font-weight:600;margin:.15rem;}}
-    .pill-accent{{background:#096e65;color:#fff;}}
-    .pill-muted{{background:#e4ecf4;color:#476080;}}
-    .total-signals-banner{{background:#096e65;color:#fff;border-radius:10px;padding:.75rem 1.25rem;margin:.75rem 0 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    .pill-accent{{background:var(--accent);color:#fff;}}
+    .pill-muted{{background:var(--bg2);color:var(--muted);}}
+    .total-signals-banner{{background:var(--accent);color:#fff;border-radius:10px;padding:.75rem 1.25rem;margin:.75rem 0 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
     .total-signals-banner .ts-num{{font-size:2rem;font-weight:800;line-height:1;}}
     .total-signals-banner .ts-label{{font-size:.85rem;opacity:.9;}}
-    h2{{font-size:1rem;margin:1.5rem 0 .5rem;color:#096e65;}}
+    h2{{font-size:1rem;margin:1.5rem 0 .5rem;color:var(--accent);}}
     ul{{list-style:none;padding:0;margin:0;}}
-    li{{border-bottom:1px solid rgba(13,31,53,.08);padding:.5rem 0;font-size:.875rem;}}
+    li{{border-bottom:1px solid var(--border);padding:.5rem 0;font-size:.875rem;}}
     li:last-child{{border-bottom:none;}}
-    li a{{color:#005a9c;text-decoration:none;}}
+    li a{{color:var(--link);text-decoration:none;}}
     li a:hover{{text-decoration:underline;}}
-    .meta{{font-size:.72rem;color:#476080;margin-top:.1rem;}}
-    .art-summary{{font-size:.78rem;color:#476080;margin-top:.15rem;line-height:1.5;}}
+    .meta{{font-size:.72rem;color:var(--muted);margin-top:.1rem;}}
+    .art-summary{{font-size:.78rem;color:var(--muted);margin-top:.15rem;line-height:1.5;}}
     .show-more-li{{border-bottom:none!important;padding:.4rem 0;}}
-    .show-more-btn{{background:none;border:1px solid #096e65;color:#096e65;border-radius:99px;font-size:.8rem;padding:.3rem .9rem;cursor:pointer;font-weight:600;}}
-    .show-more-btn:hover{{background:#096e65;color:#fff;}}
+    .show-more-btn{{background:none;border:1px solid var(--accent);color:var(--accent);border-radius:99px;font-size:.8rem;padding:.3rem .9rem;cursor:pointer;font-weight:600;}}
+    .show-more-btn:hover{{background:var(--accent);color:#fff;}}
     .signal-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem;margin-top:.5rem;}}
-    .signal-card{{background:#fff;border-radius:10px;padding:.75rem 1rem;box-shadow:0 1px 3px rgba(13,31,53,.07);}}
-    .signal-card h3{{font-size:.8rem;margin:0 0 .25rem;color:#476080;text-transform:uppercase;letter-spacing:.04em;}}
-    .signal-card .count{{font-size:1.5rem;font-weight:700;color:#0d1f35;}}
-    .signal-card .terms{{font-size:.7rem;color:#476080;margin-top:.25rem;}}
+    .signal-card{{background:var(--card);border-radius:10px;padding:.75rem 1rem;box-shadow:var(--shadow-card);}}
+    .signal-card h3{{font-size:.8rem;margin:0 0 .25rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}}
+    .signal-card .count{{font-size:1.5rem;font-weight:700;color:var(--text);}}
+    .signal-card .terms{{font-size:.7rem;color:var(--muted);margin-top:.25rem;}}
     .back{{font-size:.8rem;margin-bottom:1.5rem;}}
-    .back a{{color:#005a9c;}}
-    footer{{margin-top:2rem;font-size:.75rem;color:#476080;border-top:1px solid rgba(13,31,53,.1);padding-top:1rem;}}
+    .back a{{color:var(--link);}}
+    footer{{margin-top:2rem;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:1rem;}}
+    .theme-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:9999;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:var(--shadow-card);transition:background .2s;}}
+    .theme-toggle:hover{{background:var(--bg2);}}
+    .theme-toggle:focus-visible{{outline:2px solid var(--accent);outline-offset:2px;}}
   </style>
 </head>
 <body>
@@ -551,11 +583,35 @@ HTML_TEMPLATE = """\
   <span class="ts-label">total signals detected across all articles this week</span>
 </div>
 <h2>Signal Counts</h2>
-<p style="font-size:.75rem;color:#476080;">{signals_explain}</p>
+<p style="font-size:.75rem;color:var(--muted);">{signals_explain}</p>
 <div class="signal-grid">{signals_html}</div>
 {sections_html}
 <footer>COHO Analytics — Weekly Housing Intelligence Brief — {week_start}<br>
 This page is not indexed by search engines and is not linked from site navigation.</footer>
+<button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">🌙</button>
+<script>
+(function(){{
+  var KEY='coho-analytics-scheme';
+  var html=document.documentElement;
+  var btn=document.querySelector('.theme-toggle');
+  function apply(s,save){{
+    if(s==='dark'){{html.classList.add('dark-mode');html.classList.remove('light-mode');}}
+    else{{html.classList.add('light-mode');html.classList.remove('dark-mode');}}
+    if(btn){{btn.textContent=s==='dark'?'☀':'🌙';btn.setAttribute('aria-label',s==='dark'?'Switch to light mode':'Switch to dark mode');btn.setAttribute('aria-pressed',String(s==='dark'));}}
+    if(save){{try{{localStorage.setItem(KEY,s);}}catch(e){{}}}}
+  }}
+  var stored=null;try{{stored=localStorage.getItem(KEY);}}catch(e){{}}
+  var initial=stored||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  apply(initial,false);
+  if(btn){{btn.addEventListener('click',function(){{
+    var next=html.classList.contains('dark-mode')?'light':'dark';
+    apply(next,true);
+  }});}}
+  if(window.matchMedia){{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){{
+    if(!stored)apply(e.matches?'dark':'light',false);
+  }});}}
+}})();
+</script>
 </body>
 </html>
 """
@@ -593,10 +649,10 @@ def _render_section(name: str, articles: list, summary: str = "") -> str:
     if not articles:
         return (
             f"<h2>{name}</h2>"
-            f'<p style="font-size:.85rem;color:#476080;">No articles this week.</p>'
+            f'<p style="font-size:.85rem;color:var(--muted);">No articles this week.</p>'
         )
     summary_html = (
-        f'<p style="font-size:.8rem;color:#476080;margin:.25rem 0 .75rem;">'
+        f'<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0 .75rem;">'
         f'{html.escape(summary)}</p>'
     ) if summary else ""
     # Sort by hero signal (first matched signal), then source, then newest-first date

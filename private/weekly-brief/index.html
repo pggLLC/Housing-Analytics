@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Weekly Housing Intelligence Brief | COHO Analytics</title>
   <link rel="stylesheet" href="../../css/site-theme.css">
+  <script src="../../js/dark-mode-toggle.js"></script>
   <script defer src="../../js/navigation.js"></script>
   <style>
     /* Scoped styles for the hidden weekly brief page */
@@ -15,8 +16,8 @@
 
     body {
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      background: #eef2f7;
-      color: #0d1f35;
+      background: var(--bg);
+      color: var(--text);
       margin: 0;
       padding: 0;
       font-size: 0.938rem;
@@ -37,7 +38,7 @@
       width: auto;
       height: auto;
       padding: 0.5rem 1rem;
-      background: #096e65;
+      background: var(--accent);
       color: #fff;
       border-radius: 6px;
       z-index: 9999;
@@ -52,11 +53,11 @@
       font-size: 1.35rem;
       font-weight: 800;
       margin: 0 0 0.25rem;
-      color: #0d1f35;
+      color: var(--text);
     }
     .page-title-meta {
       font-size: 0.8rem;
-      color: #476080;
+      color: var(--muted);
     }
 
     main {
@@ -67,7 +68,7 @@
 
     /* ── Signal banner ─────────────────────────────────────── */
     .total-signals-banner {
-      background: #096e65;
+      background: var(--accent);
       color: #fff;
       border-radius: 10px;
       padding: 1rem 1.5rem;
@@ -110,9 +111,9 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    .pill-accent { background: #096e65; color: #fff; }
-    .pill-muted  { background: #e4ecf4; color: #476080; }
-    .pill-info   { background: #dbeafe; color: #1e40af; }
+    .pill-accent { background: var(--accent); color: #fff; }
+    .pill-muted  { background: var(--bg2); color: var(--muted); }
+    .pill-info   { background: var(--info-dim); color: var(--info); }
 
     /* ── Sort bar ──────────────────────────────────────────── */
     .sort-bar {
@@ -125,39 +126,39 @@
     .sort-bar-label {
       font-size: 0.78rem;
       font-weight: 700;
-      color: #476080;
+      color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
     .sort-btn {
-      background: #fff;
-      border: 1px solid rgba(13,31,53,.14);
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 99px;
       padding: 0.3rem 0.85rem;
       font-size: 0.8rem;
       font-weight: 600;
-      color: #476080;
+      color: var(--muted);
       cursor: pointer;
       transition: background .15s, color .15s;
     }
-    .sort-btn:hover { background: #e4ecf4; }
+    .sort-btn:hover { background: var(--bg2); }
     .sort-btn.is-active {
-      background: #096e65;
+      background: var(--accent);
       color: #fff;
-      border-color: #096e65;
+      border-color: var(--accent);
     }
 
     /* ── Section cards ─────────────────────────────────────── */
     .section-card {
-      background: #fff;
+      background: var(--card);
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(13,31,53,.06), 0 0 0 1px rgba(13,31,53,.07);
+      box-shadow: var(--shadow-card);
       margin-bottom: 1.25rem;
       overflow: hidden;
     }
     .section-header {
       padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgba(13,31,53,.08);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -166,20 +167,20 @@
       font-size: 1rem;
       font-weight: 700;
       margin: 0;
-      color: #0d1f35;
+      color: var(--text);
     }
     .section-count {
       font-size: 0.75rem;
-      color: #476080;
+      color: var(--muted);
       margin-left: auto;
     }
     .section-summary {
       padding: 0.6rem 1rem 0.4rem;
       font-size: 0.8rem;
-      color: #476080;
+      color: var(--muted);
       line-height: 1.55;
-      border-bottom: 1px solid rgba(13,31,53,.06);
-      background: #f7fafd;
+      border-bottom: 1px solid var(--border);
+      background: var(--card2);
     }
 
     /* ── Article list ──────────────────────────────────────── */
@@ -190,11 +191,11 @@
     }
     .article-list li {
       padding: 0.7rem 1rem;
-      border-bottom: 1px solid rgba(13,31,53,.06);
+      border-bottom: 1px solid var(--border);
     }
     .article-list li:last-child { border-bottom: none; }
     .article-list a {
-      color: #005a9c;
+      color: var(--link);
       text-decoration: none;
       font-size: 0.875rem;
       font-weight: 500;
@@ -203,18 +204,18 @@
     .article-overflow { display: none; }
     .article-meta {
       font-size: 0.72rem;
-      color: #476080;
+      color: var(--muted);
       margin-top: 0.15rem;
     }
     .article-summary {
       font-size: 0.78rem;
-      color: #476080;
+      color: var(--muted);
       line-height: 1.5;
       margin-top: 0.2rem;
     }
     .article-summary--placeholder {
       font-style: italic;
-      color: #8fa8c0;
+      color: var(--faint);
     }
     .article-signals {
       display: flex;
@@ -224,8 +225,8 @@
     }
     .signal-tag {
       display: inline-block;
-      background: #e4ecf4;
-      color: #476080;
+      background: var(--bg2);
+      color: var(--muted);
       font-size: 0.65rem;
       font-weight: 600;
       padding: 0.1rem 0.5rem;
@@ -233,12 +234,12 @@
     }
     .show-more-row {
       padding: 0.5rem 1rem;
-      border-top: 1px solid rgba(13,31,53,.06);
+      border-top: 1px solid var(--border);
     }
     .show-more-btn {
       background: none;
-      border: 1px solid #096e65;
-      color: #096e65;
+      border: 1px solid var(--accent);
+      color: var(--accent);
       border-radius: 99px;
       font-size: 0.8rem;
       font-weight: 600;
@@ -246,11 +247,11 @@
       cursor: pointer;
       transition: background .15s, color .15s;
     }
-    .show-more-btn:hover { background: #096e65; color: #fff; }
+    .show-more-btn:hover { background: var(--accent); color: #fff; }
 
     .empty-state {
       padding: 1.5rem 1rem;
-      color: #476080;
+      color: var(--muted);
       font-size: 0.85rem;
     }
 
@@ -268,11 +269,11 @@
       font-size: 1rem;
       font-weight: 700;
       margin: 0;
-      color: #0d1f35;
+      color: var(--text);
     }
     .signals-note {
       font-size: 0.75rem;
-      color: #476080;
+      color: var(--muted);
       margin-bottom: 0.75rem;
     }
     .signal-grid {
@@ -281,10 +282,10 @@
       gap: 0.75rem;
     }
     .signal-card {
-      background: #fff;
+      background: var(--card);
       border-radius: 10px;
       padding: 0.875rem 1rem;
-      box-shadow: 0 2px 8px rgba(13,31,53,.06), 0 0 0 1px rgba(13,31,53,.07);
+      box-shadow: var(--shadow-card);
       cursor: pointer;
       transition: box-shadow .15s;
     }
@@ -292,12 +293,12 @@
       box-shadow: 0 4px 16px rgba(9,110,101,.15), 0 0 0 1px rgba(9,110,101,.25);
     }
     .signal-card.is-selected {
-      box-shadow: 0 0 0 2px #096e65;
+      box-shadow: 0 0 0 2px var(--accent);
     }
     .signal-card h3 {
       font-size: 0.72rem;
       font-weight: 700;
-      color: #476080;
+      color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
       margin: 0 0 0.35rem;
@@ -305,12 +306,12 @@
     .signal-count {
       font-size: 1.75rem;
       font-weight: 800;
-      color: #0d1f35;
+      color: var(--text);
       line-height: 1;
     }
     .signal-terms {
       font-size: 0.7rem;
-      color: #476080;
+      color: var(--muted);
       margin-top: 0.35rem;
     }
 
@@ -319,48 +320,48 @@
     .archive-section h2 {
       font-size: 1rem;
       font-weight: 700;
-      color: #0d1f35;
+      color: var(--text);
       margin: 0 0 0.75rem;
     }
     .archive-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.85rem;
-      background: #fff;
+      background: var(--card);
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(13,31,53,.06), 0 0 0 1px rgba(13,31,53,.07);
+      box-shadow: var(--shadow-card);
     }
     .archive-table th {
       text-align: left;
       padding: 0.6rem 1rem;
-      background: #f7fafd;
-      color: #476080;
+      background: var(--card2);
+      color: var(--muted);
       font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      border-bottom: 1px solid rgba(13,31,53,.08);
+      border-bottom: 1px solid var(--border);
     }
     .archive-table td {
       padding: 0.6rem 1rem;
-      border-bottom: 1px solid rgba(13,31,53,.06);
+      border-bottom: 1px solid var(--border);
     }
     .archive-table tr:last-child td { border-bottom: none; }
-    .archive-table a { color: #005a9c; text-decoration: none; }
+    .archive-table a { color: var(--link); text-decoration: none; }
     .archive-table a:hover { text-decoration: underline; }
 
     #loadingState {
       text-align: center;
       padding: 3rem;
-      color: #476080;
+      color: var(--muted);
     }
     #errorState {
-      background: #fef2f2;
-      border: 1px solid rgba(153,27,27,.2);
+      background: var(--bad-dim);
+      border: 1px solid var(--bad);
       border-radius: 10px;
       padding: 1.25rem;
-      color: #991b1b;
+      color: var(--bad);
       display: none;
     }
 
@@ -432,7 +433,7 @@
     <div class="archive-section">
       <h2>Archive</h2>
       <div id="archiveContainer">
-        <p style="font-size:.85rem;color:#476080;">Loading archive&hellip;</p>
+        <p style="font-size:.85rem;color:var(--muted);">Loading archive&hellip;</p>
       </div>
     </div>
 
@@ -708,7 +709,7 @@
       html += '<div class="signal-terms">' + esc(terms) + '</div>';
       html += '</div>';
     });
-    grid.innerHTML = html || '<p style="color:#476080;font-size:.85rem;">No signal data.</p>';
+    grid.innerHTML = html || '<p style="color:var(--muted);font-size:.85rem;">No signal data.</p>';
   }
 
   // ── Render archive ──────────────────────────────────────────
@@ -717,7 +718,7 @@
     if (!container) return;
     var entries = (index && index.entries) || [];
     if (entries.length === 0) {
-      container.innerHTML = '<p style="font-size:.85rem;color:#476080;">No archived briefs yet.</p>';
+      container.innerHTML = '<p style="font-size:.85rem;color:var(--muted);">No archived briefs yet.</p>';
       return;
     }
     var rows = '';
