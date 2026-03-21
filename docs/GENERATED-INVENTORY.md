@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T07:34:07.397Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T12:08:35.763Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 62.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 64.5 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 19.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
