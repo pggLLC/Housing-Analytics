@@ -623,6 +623,7 @@
             <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
           </p>
           <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
+          <div id="checklistCompletionStatus" style="display:none;color:var(--good);font-weight:700;margin-bottom:8px;font-size:.95rem" role="status" aria-live="polite"></div>
           <ul class="compliance-checklist" id="prop123Checklist">
             <li class="checklist-item pending" id="checkItemBaseline" data-storage-key="baseline">
               <span class="checklist-status-icon" aria-hidden="true">⏳</span>
@@ -868,6 +869,7 @@
               </div>
             </li>
           </ul>
+          <div id="chfaChecklistCompletionStatus" style="display:none;color:var(--good);font-weight:700;margin-bottom:8px;font-size:.95rem" role="status" aria-live="polite"></div>
           <div class="chfa-checklist-progress">
             <div class="chfa-progress-bar-wrap">
               <div id="chfaProgressFill" class="chfa-progress-fill" style="width:0%" role="progressbar"
@@ -910,28 +912,31 @@
     var total = items.length;
     var announcer = document.getElementById('chfaChecklistAnnouncer');
 
-    /** Build a namespaced localStorage key scoped to the current geography. */
-    function storageKey() {
-      var geoSelect = document.getElementById('geoSelect');
-      var geoType   = document.getElementById('geoType');
-      var geoid = (geoSelect && geoSelect.value) ? geoSelect.value : 'default';
-      var type  = (geoType  && geoType.value)  ? geoType.value  : '';
+    /** Build a namespaced localStorage key scoped to the current geography.
+     *  Accepts an optional explicit geoid/type to avoid stale DOM reads during
+     *  geography-change events (when the DOM selects may be mid-transition). */
+    function storageKey(explicitType, explicitGeoid) {
+      var type  = explicitType  || (document.getElementById('geoType')   && document.getElementById('geoType').value)   || '';
+      var geoid = explicitGeoid || (document.getElementById('geoSelect') && document.getElementById('geoSelect').value) || 'default';
       return 'hna_chfa_' + (type ? type + '_' : '') + geoid;
     }
 
-    /** Persist current checkbox states to localStorage. */
-    function saveState() {
+    /** Persist current checkbox states to localStorage under a specific key. */
+    function saveState(key) {
       try {
         var state = {};
         items.forEach(function (cb) { state[cb.id] = cb.checked; });
-        localStorage.setItem(storageKey(), JSON.stringify(state));
+        localStorage.setItem(key || storageKey(), JSON.stringify(state));
       } catch (_) { /* graceful degradation */ }
     }
 
-    /** Restore checkbox states from localStorage. */
-    function restoreState() {
+    /** Restore checkbox states from localStorage for a specific key.
+     *  Unchecks all items first so stale checked state is always cleared. */
+    function restoreState(key) {
+      // Always reset to unchecked before applying saved state
+      items.forEach(function (cb) { cb.checked = false; });
       try {
-        var raw = localStorage.getItem(storageKey());
+        var raw = localStorage.getItem(key || storageKey());
         if (!raw) return;
         var state = JSON.parse(raw);
         items.forEach(function (cb) {
@@ -952,10 +957,17 @@
         }
       });
       var pct = Math.round((done / total) * 100);
-      var fill = document.getElementById('chfaProgressFill');
+      var fill  = document.getElementById('chfaProgressFill');
       var label = document.getElementById('chfaProgressLabel');
       if (fill)  { fill.style.width = pct + '%'; fill.setAttribute('aria-valuenow', String(pct)); }
       if (label) { label.textContent = done + ' of ' + total + ' complete'; }
+      // Visible completion status
+      var completionEl = document.getElementById('chfaChecklistCompletionStatus');
+      if (completionEl) {
+        var allDone = done === total;
+        completionEl.textContent = allDone ? 'All items complete! ✅' : '';
+        completionEl.style.display = allDone ? '' : 'none';
+      }
     }
 
     items.forEach(function (cb) {
@@ -977,11 +989,44 @@
       });
     });
 
-    // Re-run restore + update when geography changes so progress is per-jurisdiction
+    /** Handle geography changes: save current state for old geography, then
+     *  restore state for the new one.  The explicitType/Geoid parameters allow
+     *  callers to pass the new values directly so storageKey() isn't called
+     *  with a stale DOM read. */
+    function onGeoChange(newType, newGeoid) {
+      var key = storageKey(newType, newGeoid);
+      restoreState(key);
+      update();
+    }
+
+    // Re-run restore + update when geography changes so progress is per-jurisdiction.
+    // When geoType changes, buildSelect() (in hna-controller.js) runs first and
+    // sets geoSelect to the first option for the new type.  We defer our read with
+    // a cancellable timeout so rapid type changes only trigger one restore, using
+    // the final settled geoSelect value.
     var geoSelect = document.getElementById('geoSelect');
     var geoType   = document.getElementById('geoType');
-    if (geoSelect) geoSelect.addEventListener('change', function () { restoreState(); update(); });
-    if (geoType)   geoType.addEventListener('change',   function () { restoreState(); update(); });
+    var _geoChangeTimer = null;
+    if (geoSelect) {
+      geoSelect.addEventListener('change', function () {
+        onGeoChange(
+          geoType ? geoType.value : '',
+          geoSelect.value
+        );
+      });
+    }
+    if (geoType) {
+      geoType.addEventListener('change', function () {
+        if (_geoChangeTimer !== null) { clearTimeout(_geoChangeTimer); }
+        _geoChangeTimer = setTimeout(function () {
+          _geoChangeTimer = null;
+          onGeoChange(
+            geoType.value,
+            geoSelect ? geoSelect.value : 'default'
+          );
+        }, 0);
+      });
+    }
 
     restoreState();
     update();

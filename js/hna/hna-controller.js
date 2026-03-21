@@ -1842,11 +1842,18 @@
         window.ComplianceChecklist.updateChecklistItem(itemId, chk.checked, {
           date: new Date().toISOString(),
         });
+        // Update visible completion indicator
+        const geoType = window.HNAState.els.geoType ? window.HNAState.els.geoType.value : 'county';
+        const geoid   = window.HNAState.els.geoSelect ? window.HNAState.els.geoSelect.value : '';
+        const completionEl = document.getElementById('checklistCompletionStatus');
+        if (completionEl) {
+          const allDone = window.ComplianceChecklist.isChecklistComplete(geoType, geoid);
+          completionEl.textContent = allDone ? 'All items complete! ✅' : '';
+          completionEl.style.display = allDone ? '' : 'none';
+        }
         // Announce change to screen readers
         const announcer = document.getElementById('checklistAnnouncer');
         if (announcer) {
-          const geoType = window.HNAState.els.geoType ? window.HNAState.els.geoType.value : 'county';
-          const geoid   = window.HNAState.els.geoSelect ? window.HNAState.els.geoSelect.value : '';
           announcer.textContent = window.ComplianceChecklist.getNextAction(geoType, geoid);
         }
       });
