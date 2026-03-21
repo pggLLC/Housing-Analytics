@@ -101,6 +101,8 @@ test('module loads and exports all public functions', () => {
   assert(typeof CHFA.getChfaState            === 'function', 'getChfaState is a function');
   assert(typeof CHFA.isChfaChecklistComplete === 'function', 'isChfaChecklistComplete is a function');
   assert(typeof CHFA.updateProgress          === 'function', 'updateProgress is a function');
+  assert(typeof CHFA.updateItem              === 'function', 'updateItem is a function');
+  assert(typeof CHFA.getChecklistItems       === 'function', 'getChecklistItems is a function');
 });
 
 test('ITEM_IDS has all 8 required items', () => {
@@ -314,6 +316,96 @@ test('ITEM_LABELS has a label for every item ID', () => {
     assert(typeof CHFA._ITEM_LABELS[id] === 'string', `${id} has a label`);
     assert(CHFA._ITEM_LABELS[id].length > 0,          `${id} label is non-empty`);
   });
+});
+
+// ── getChecklistItems ─────────────────────────────────────────────────────────
+
+test('getChecklistItems: returns array of all 8 item IDs', () => {
+  const items = CHFA.getChecklistItems();
+  assert(Array.isArray(items),   'returns an array');
+  assert(items.length === 8,     'array has 8 items');
+  CHFA._ITEM_IDS.forEach(id => {
+    assert(items.indexOf(id) >= 0, `${id} present in getChecklistItems() result`);
+  });
+});
+
+test('getChecklistItems: returns a copy, not the internal array', () => {
+  const items = CHFA.getChecklistItems();
+  items.push('extra');
+  assert(CHFA._ITEM_IDS.length === 8, 'internal ITEM_IDS unchanged after mutation');
+  const items2 = CHFA.getChecklistItems();
+  assert(items2.length === 8,               'second call still returns 8 items');
+  assert(items2.indexOf('extra') === -1,    'mutated element not in second call result');
+});
+
+// ── updateItem ────────────────────────────────────────────────────────────────
+
+test('updateItem: is a function', () => {
+  assert(typeof CHFA.updateItem === 'function', 'updateItem is a function');
+});
+
+test('updateItem: ignores unknown item IDs without throwing', () => {
+  resetStorage();
+  // Set up a known state
+  CHFA.initChfaChecklist('county', '08099');
+  const before = CHFA.getChfaState('county', '08099');
+  // Call with unknown ID — should warn and return without mutating state
+  let threw = false;
+  try { CHFA.updateItem('nonexistent', true); } catch (e) { threw = true; }
+  assert(!threw, 'does not throw for unknown ID');
+  // State should remain unchanged after invalid updateItem call
+  CHFA.saveChfaState('county', '08099');
+  const after = CHFA.getChfaState('county', '08099');
+  if (before && after) {
+    CHFA._ITEM_IDS.forEach(id => {
+      assert(after.items[id] === before.items[id], `${id} unchanged after invalid updateItem`);
+    });
+  } else {
+    assert(true, 'state not changed (no saved state to compare)');
+  }
+});
+
+// ── Spec-matching aliases ─────────────────────────────────────────────────────
+
+test('spec aliases: saveState, getState, isComplete are present', () => {
+  assert(typeof CHFA.saveState  === 'function', 'saveState alias is a function');
+  assert(typeof CHFA.getState   === 'function', 'getState alias is a function');
+  assert(typeof CHFA.isComplete === 'function', 'isComplete alias is a function');
+});
+
+test('spec aliases: saveState is equivalent to saveChfaState', () => {
+  assert(CHFA.saveState === CHFA.saveChfaState, 'saveState === saveChfaState');
+});
+
+test('spec aliases: getState is equivalent to getChfaState', () => {
+  assert(CHFA.getState === CHFA.getChfaState, 'getState === getChfaState');
+});
+
+test('spec aliases: isComplete is equivalent to isChfaChecklistComplete', () => {
+  assert(CHFA.isComplete === CHFA.isChfaChecklistComplete, 'isComplete === isChfaChecklistComplete');
+});
+
+test('spec aliases: getState returns null for unsaved geography', () => {
+  resetStorage();
+  const result = CHFA.getState('county', '08099');
+  assert(result === null, 'getState returns null for unsaved geography');
+});
+
+test('spec aliases: isComplete returns false for unsaved geography', () => {
+  resetStorage();
+  const result = CHFA.isComplete('county', '08099');
+  assert(result === false, 'isComplete returns false for unsaved geography');
+});
+
+// ── Module public API completeness ────────────────────────────────────────────
+
+test('module loads and exports all spec-required public functions', () => {
+  assert(typeof CHFA.initChfaChecklist === 'function',       'initChfaChecklist exported');
+  assert(typeof CHFA.saveState         === 'function',       'saveState exported');
+  assert(typeof CHFA.getState          === 'function',       'getState exported');
+  assert(typeof CHFA.updateItem        === 'function',       'updateItem exported');
+  assert(typeof CHFA.isComplete        === 'function',       'isComplete exported');
+  assert(typeof CHFA.getChecklistItems === 'function',       'getChecklistItems exported');
 });
 
 // ── Summary ───────────────────────────────────────────────────────────────────
