@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T13:59:30.288Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T14:05:31.846Z. Do not edit by hand.
 
 ---
 
@@ -1000,7 +1000,7 @@
 | `.github/workflows/run-all-workflows.yml` | 8.8 KB |
 | `.github/workflows/site-audit.yml` | 1.2 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 1.0 KB |
-| `.github/workflows/workflow-comment-trigger.yml` | 1.5 KB |
+| `.github/workflows/workflow-comment-trigger.yml` | 2.7 KB |
 | `.github/workflows/zillow-data-sync.yml` | 1.4 KB |
 
 ---
