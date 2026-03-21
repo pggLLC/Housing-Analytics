@@ -1504,6 +1504,12 @@
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
 
+    // Sync CHFA PMA checklist state: saves old geography's state and restores
+    // saved state for the new geography (or defaults to all-unchecked).
+    if (window.ChfaPmaChecklist) {
+      window.ChfaPmaChecklist.initChfaChecklist(geoType, geoid);
+    }
+
     const label = (()=>{
       if (geoType === 'state') return 'State of Colorado';
       const conf = window.__HNA_GEO_CONFIG;

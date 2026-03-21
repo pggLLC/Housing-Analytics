@@ -45,6 +45,7 @@
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
+  <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
@@ -904,134 +905,6 @@
 <script>
 (function () {
   'use strict';
-  /* ── CHFA PMA Checklist interactivity ─────────────────────────── */
-  function initChfaChecklist() {
-    var list = document.getElementById('chfaChecklist');
-    if (!list) return;
-    var items = list.querySelectorAll('input[type="checkbox"]');
-    var total = items.length;
-    var announcer = document.getElementById('chfaChecklistAnnouncer');
-
-    /** Build a namespaced localStorage key scoped to the current geography.
-     *  Accepts an optional explicit geoid/type to avoid stale DOM reads during
-     *  geography-change events (when the DOM selects may be mid-transition). */
-    function storageKey(explicitType, explicitGeoid) {
-      var type  = explicitType  || (document.getElementById('geoType')   && document.getElementById('geoType').value)   || '';
-      var geoid = explicitGeoid || (document.getElementById('geoSelect') && document.getElementById('geoSelect').value) || 'default';
-      return 'hna_chfa_' + (type ? type + '_' : '') + geoid;
-    }
-
-    /** Persist current checkbox states to localStorage under a specific key. */
-    function saveState(key) {
-      try {
-        var state = {};
-        items.forEach(function (cb) { state[cb.id] = cb.checked; });
-        localStorage.setItem(key || storageKey(), JSON.stringify(state));
-      } catch (_) { /* graceful degradation */ }
-    }
-
-    /** Restore checkbox states from localStorage for a specific key.
-     *  Unchecks all items first so stale checked state is always cleared. */
-    function restoreState(key) {
-      // Always reset to unchecked before applying saved state
-      items.forEach(function (cb) { cb.checked = false; });
-      try {
-        var raw = localStorage.getItem(key || storageKey());
-        if (!raw) return;
-        var state = JSON.parse(raw);
-        items.forEach(function (cb) {
-          if (typeof state[cb.id] === 'boolean') cb.checked = state[cb.id];
-        });
-      } catch (_) { /* graceful degradation */ }
-    }
-
-    function update() {
-      var done = 0;
-      items.forEach(function (cb) {
-        var li = cb.closest('.chfa-checklist-item');
-        if (cb.checked) {
-          done++;
-          if (li) li.classList.add('chfa-checklist-item--done');
-        } else {
-          if (li) li.classList.remove('chfa-checklist-item--done');
-        }
-      });
-      var pct = Math.round((done / total) * 100);
-      var fill  = document.getElementById('chfaProgressFill');
-      var label = document.getElementById('chfaProgressLabel');
-      if (fill)  { fill.style.width = pct + '%'; fill.setAttribute('aria-valuenow', String(pct)); }
-      if (label) { label.textContent = done + ' of ' + total + ' complete'; }
-      // Visible completion status
-      var completionEl = document.getElementById('chfaChecklistCompletionStatus');
-      if (completionEl) {
-        var allDone = done === total;
-        completionEl.textContent = allDone ? 'All items complete! ✅' : '';
-        completionEl.style.display = allDone ? '' : 'none';
-      }
-    }
-
-    items.forEach(function (cb) {
-      cb.addEventListener('change', function () {
-        var labelEl = cb.closest('.chfa-checklist-content') &&
-                      cb.closest('.chfa-checklist-content').querySelector('label');
-        // Use firstChild text node only to avoid announcing nested badge content
-        var labelText = '';
-        if (labelEl) {
-          var firstNode = labelEl.firstChild;
-          labelText = (firstNode && firstNode.nodeType === 3)
-            ? firstNode.textContent.trim()
-            : labelEl.textContent.trim().split('\n')[0].trim();
-        }
-        var msg = labelText + (cb.checked ? ' — checked' : ' — unchecked');
-        if (announcer) announcer.textContent = msg;
-        saveState();
-        update();
-      });
-    });
-
-    /** Handle geography changes: save current state for old geography, then
-     *  restore state for the new one.  The explicitType/Geoid parameters allow
-     *  callers to pass the new values directly so storageKey() isn't called
-     *  with a stale DOM read. */
-    function onGeoChange(newType, newGeoid) {
-      var key = storageKey(newType, newGeoid);
-      restoreState(key);
-      update();
-    }
-
-    // Re-run restore + update when geography changes so progress is per-jurisdiction.
-    // When geoType changes, buildSelect() (in hna-controller.js) runs first and
-    // sets geoSelect to the first option for the new type.  We defer our read with
-    // a cancellable timeout so rapid type changes only trigger one restore, using
-    // the final settled geoSelect value.
-    var geoSelect = document.getElementById('geoSelect');
-    var geoType   = document.getElementById('geoType');
-    var _geoChangeTimer = null;
-    if (geoSelect) {
-      geoSelect.addEventListener('change', function () {
-        onGeoChange(
-          geoType ? geoType.value : '',
-          geoSelect.value
-        );
-      });
-    }
-    if (geoType) {
-      geoType.addEventListener('change', function () {
-        if (_geoChangeTimer !== null) { clearTimeout(_geoChangeTimer); }
-        _geoChangeTimer = setTimeout(function () {
-          _geoChangeTimer = null;
-          onGeoChange(
-            geoType.value,
-            geoSelect ? geoSelect.value : 'default'
-          );
-        }, 0);
-      });
-    }
-
-    restoreState();
-    update();
-  }
-
   /* ── Coverage label (populated from PMAEngine if available) ───── */
   function initCoverageLabel() {
     var PROD_THRESHOLD_PCT = (window.PMAEngine && window.PMAEngine.COVERAGE_PRODUCTION_THRESHOLD)
@@ -1060,12 +933,8 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initChfaChecklist();
-      initCoverageLabel();
-    });
+    document.addEventListener('DOMContentLoaded', initCoverageLabel);
   } else {
-    initChfaChecklist();
     initCoverageLabel();
   }
 }());
