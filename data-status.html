@@ -129,6 +129,25 @@
   </table>
 </section>
 
+<!-- Content Freshness Indicators -->
+<section class="card" style="margin-top:1.5rem;" aria-labelledby="contentStatusHeading">
+  <h2 id="contentStatusHeading" style="font-size:1rem;margin-bottom:.75rem;">Content Freshness</h2>
+  <div class="status-grid" id="contentStatusGrid">
+    <div class="status-card status-card--loading" id="trendsStatusCard">
+      <div class="status-card__icon">⏳</div>
+      <div class="status-card__label">Key Market Trends</div>
+      <div class="status-card__detail">Checking verification date…</div>
+      <div class="status-card__age"></div>
+    </div>
+    <div class="status-card status-card--loading" id="alertPipelineCard">
+      <div class="status-card__icon">⏳</div>
+      <div class="status-card__label">Alert Pipeline</div>
+      <div class="status-card__detail">Checking feed status…</div>
+      <div class="status-card__age"></div>
+    </div>
+  </div>
+</section>
+
 </main>
 <footer id="site-footer"></footer>
 
@@ -145,6 +164,10 @@
     var h = Math.floor(m / 60);
     if (h < 24)  return h + 'h ago';
     return Math.floor(h / 24) + 'd ago';
+  }
+
+  function daysSince(dateObj) {
+    return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
   }
 
   function renderCard(report) {
@@ -235,7 +258,104 @@
     runCheck();
     var btn = document.getElementById('refreshBtn');
     if (btn) btn.addEventListener('click', runCheck);
+    loadContentStatus();
   });
+
+  // ── Content freshness checks ─────────────────────────────────────────────────
+
+  var STALE_TRENDS_DAYS   = 30;   // warn if Key Market Trends not verified in 30d
+  var STALE_PIPELINE_DAYS = 7;    // warn if alert pipeline hasn't run in 7d
+
+  function resolvePath(p) {
+    return (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl(p) : p;
+  }
+
+  function loadContentStatus() {
+    // Key Market Trends verification status
+    fetch(resolvePath('data/insights-meta.json'))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (meta) { renderTrendsCard(meta); })
+      .catch(function () { renderTrendsCard(null); });
+
+    // Alert pipeline status
+    fetch(resolvePath('data/policy_briefs.json'))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) { renderPipelineCard(data && data.meta ? data.meta : null); })
+      .catch(function () { renderPipelineCard(null); });
+  }
+
+  function renderTrendsCard(meta) {
+    var card = document.getElementById('trendsStatusCard');
+    if (!card) return;
+    if (!meta || !meta.lastVerified) {
+      card.className = 'status-card status-card--warn';
+      card.innerHTML =
+        '<div class="status-card__icon">⚠️</div>' +
+        '<div class="status-card__label">Key Market Trends</div>' +
+        '<div class="status-card__detail">Verification date unavailable</div>' +
+        '<div class="status-card__age"><a href="docs/MARKET_TRENDS_UPDATE_PROTOCOL.md">View protocol →</a></div>';
+      return;
+    }
+    var verified = new Date(meta.lastVerified);
+    var ageDays  = daysSince(verified);
+    var dateStr  = verified.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var isStale  = ageDays > STALE_TRENDS_DAYS;
+    card.className = 'status-card status-card--' + (isStale ? 'warn' : 'ok');
+    card.innerHTML =
+      '<div class="status-card__icon">' + (isStale ? '⚠️' : '✅') + '</div>' +
+      '<div class="status-card__label">Key Market Trends</div>' +
+      '<div class="status-card__detail">Last verified: ' + _esc(dateStr) +
+        (meta.verifiedBy ? ' by ' + _esc(meta.verifiedBy) : '') + '</div>' +
+      '<div class="status-card__age">' + ageDays + 'd ago' +
+        (isStale ? ' — <strong style="color:var(--warn);">review recommended</strong>' : '') +
+      '</div>';
+  }
+
+  function renderPipelineCard(meta) {
+    var card = document.getElementById('alertPipelineCard');
+    if (!card) return;
+    if (!meta) {
+      card.className = 'status-card status-card--warn';
+      card.innerHTML =
+        '<div class="status-card__icon">⚠️</div>' +
+        '<div class="status-card__label">Alert Pipeline</div>' +
+        '<div class="status-card__detail">Status unavailable</div>' +
+        '<div class="status-card__age"><a href="docs/alerts-pipeline.md">View docs →</a></div>';
+      return;
+    }
+    var generated  = meta.generated ? new Date(meta.generated) : null;
+    var feedCount  = meta.feed_count || 0;
+    var alertCount = meta.source_alerts || meta.alert_count || 0;
+    var briefCount = meta.brief_count || 0;
+    var ageDays    = generated ? daysSince(generated) : null;
+    var dateStr    = generated
+      ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : '—';
+    var isActive = feedCount > 0 || alertCount > 0;
+    var isStale  = ageDays !== null && ageDays > STALE_PIPELINE_DAYS;
+    var cls, icon, action;
+    if (!isActive) {
+      cls = 'warn'; icon = '⚠️';
+      action = '<div class="status-card__age">Configure feeds — see <a href="docs/alerts-pipeline.md">alerts-pipeline.md</a></div>';
+    } else if (isStale) {
+      cls = 'warn'; icon = '⚠️';
+      action = '<div class="status-card__age">' + ageDays + 'd since last fetch — pipeline may be stalled</div>';
+    } else {
+      cls = 'ok'; icon = '✅';
+      action = '<div class="status-card__age">Last fetch: ' + _esc(dateStr) + (ageDays !== null ? ' (' + ageDays + 'd ago)' : '') + '</div>';
+    }
+    card.className = 'status-card status-card--' + cls;
+    card.innerHTML =
+      '<div class="status-card__icon">' + icon + '</div>' +
+      '<div class="status-card__label">Alert Pipeline</div>' +
+      '<div class="status-card__detail">' +
+        feedCount + ' feed' + (feedCount === 1 ? '' : 's') + ' · ' +
+        alertCount + ' alert' + (alertCount === 1 ? '' : 's') + ' · ' +
+        briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
+      '</div>' +
+      action;
+  }
+
 }());
 </script>
 </body>

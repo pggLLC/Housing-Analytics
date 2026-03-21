@@ -1,14 +1,28 @@
 # RSS feed URLs for housing news alerts (one per line)
-# Uncomment and replace with real Google Alerts RSS URLs or other housing news feeds
+# Lines starting with # are comments and are ignored by fetch_google_alerts.py
 #
-# Example Google Alerts RSS:
-# https://www.google.com/alerts/feeds/XXXXXXX/YYYYYYY
+# ── Google News: Colorado affordable housing topics ──────────────────────────
+# Public Google News RSS feeds (no authentication required)
+https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=colorado+zoning+land+use+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
 #
-# Example Colorado housing news:
-# https://www.google.com/alerts/feeds/your-alert-id/your-feed-id
+# ── NCSHA: National Council of State Housing Agencies ────────────────────────
+https://www.ncsha.org/feed/
 #
-# To generate a Google Alert RSS feed:
+# ── Novogradac: LIHTC & affordable housing news ──────────────────────────────
+https://www.novoco.com/rss.xml
+#
+# ── HUD Exchange: program updates ────────────────────────────────────────────
+https://www.hudexchange.info/feed/
+#
+# ── Colorado General Assembly: legislation tracking ──────────────────────────
+https://leg.colorado.gov/rss.xml
+#
+# To add a Google Alerts personal RSS feed:
 # 1. Go to https://www.google.com/alerts
 # 2. Create an alert (e.g., "Colorado affordable housing")
 # 3. Set delivery to "RSS feed"
-# 4. Copy the feed URL and paste it here
+# 4. Copy the feed URL and add it below
