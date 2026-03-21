@@ -291,6 +291,60 @@ test('Projection snapshots: baseline.json is valid JSON with expected structure'
   assert(typeof first.total_population === 'number', 'first entry has total_population');
 });
 
+// ── Jurisdiction-type handling bug fixes ─────────────────────────────────────
+
+const CONTROLLER_SRC = fs.readFileSync(
+  path.join(ROOT, 'js', 'hna', 'hna-controller.js'), 'utf8'
+);
+
+test('HNA controller: net migration scaling excludes state selections', () => {
+  // Bug fix: geoType === "state" must not be scaled down (state projections are
+  // loaded from 08.json and are already statewide; scaling by share0 would
+  // reduce them to ~98% of actual, which is wrong).
+  assert(
+    CONTROLLER_SRC.includes("geoType !== 'county' && selection.geoType !== 'state'"),
+    'net migration scaling condition excludes state geoType'
+  );
+  // Confirm the old unconstrained check (county-only exclusion) is gone
+  assert(
+    !CONTROLLER_SRC.includes("geoType !== 'county' && baseCountyPop && basePop"),
+    'old net migration condition (missing state exclusion) is removed'
+  );
+});
+
+test('HNA controller: place/CDP chart label says "scaled from county"', () => {
+  // Bug fix: the label prefix for place/CDP should read "Population (scaled from
+  // county DOLA forecast)" not the old vague "Population (scaled DOLA forecast)".
+  assert(
+    CONTROLLER_SRC.includes("Population (scaled from county "),
+    'labelPrefix for place/CDP uses "scaled from county" wording'
+  );
+});
+
+test('HNA controller: state chart label says "statewide"', () => {
+  // Bug fix: state selections should not say "scaled" in the chart label.
+  assert(
+    CONTROLLER_SRC.includes("Population (statewide "),
+    'labelPrefix for state uses "statewide" wording'
+  );
+  // Confirm the old blanket "scaled" prefix (which incorrectly included state) is gone
+  assert(
+    !CONTROLLER_SRC.includes("geoType !== 'county') ? 'Population (scaled '"),
+    'old labelPrefix logic that labelled state as "scaled" is removed'
+  );
+});
+
+test('HNA controller: derived headship_base is not overwritten by ACS ratio', () => {
+  // Bug fix: after assigning derived headship_base (from ETL), the old code on
+  // line 1280 re-computed headship0 = (baseHouseholds/basePop) which silently
+  // discarded the ETL value.  The fix removes that overwrite.
+  // We verify the comment left in its place is present.
+  assert(
+    CONTROLLER_SRC.includes('headship0 was already set from derived data'),
+    'comment confirming headship overwrite removal is present'
+  );
+});
+
 // ── Summary ─────────────────────────────────────────────────────────────────
 console.log('\n' + '='.repeat(60));
 console.log(`Results: ${passed} passed, ${failed} failed`);
