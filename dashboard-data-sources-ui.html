@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Data Sources Dashboard | COHO Analytics</title>
-  <meta name="description" content="Interactive inventory of all 43+ data sources with real-time status, temporal visualizations, and geographic coverage for COHO Analytics.">
+  <meta name="description" content="Interactive inventory of all 54+ data sources with real-time status, temporal visualizations, and geographic coverage for COHO Analytics.">
   <meta property="og:title" content="Data Sources Dashboard | COHO Analytics">
   <meta property="og:description" content="Interactive data source inventory with status badges, freshness scores, and geographic coverage.">
   <meta property="og:type" content="website">
@@ -395,6 +395,19 @@
                 (s.localFile ? '<div class="dd-expand-field"><div class="dd-expand-label">Local File</div><div class="dd-expand-val"><code style="font-size:.77rem">' + esc(s.localFile) + '</code></div></div>' : '') +
                 (s.tags && s.tags.length ? '<div class="dd-expand-field"><div class="dd-expand-label">Tags</div><div class="dd-expand-val">' + s.tags.map(function (t) { return '<span style="background:var(--accent-light,#e6f0ef);color:var(--accent,#096e65);border-radius:4px;padding:.1rem .4rem;font-size:.72rem;margin-right:.2rem">' + esc(t) + '</span>'; }).join('') + '</div></div>' : '') +
               '</div>' +
+              (s.alternatives && s.alternatives.length ? (
+                '<div style="margin-top:.75rem;border-top:1px solid var(--border,#dde3ec);padding-top:.6rem">' +
+                '<div style="font-size:.78rem;font-weight:600;color:var(--text-secondary,#666);margin-bottom:.4rem">Alternative Resources</div>' +
+                '<div style="display:flex;flex-direction:column;gap:.4rem">' +
+                s.alternatives.map(function (alt) {
+                  return '<div style="background:var(--bg-alt,#f8f9fb);border-radius:4px;padding:.4rem .6rem;font-size:.8rem">' +
+                    '<strong>' + esc(alt.title) + '</strong>' +
+                    (alt.description ? ' — ' + esc(alt.description) : '') +
+                    (alt.url ? ' <a href="' + esc(alt.url) + '" target="_blank" rel="noopener" style="color:var(--accent,#096e65)">→ Visit</a>' : '') +
+                    '</div>';
+                }).join('') +
+                '</div></div>'
+              ) : '') +
             '</div>' +
           '</td>' +
         '</tr>';
@@ -450,19 +463,14 @@
 
     function applyFilters() {
       var q = (search ? search.value.toLowerCase() : '');
-      var cat = catFilter ? catFilter.value : '';
-      var st = statusFilter ? statusFilter.value : '';
       filteredSources = allSources.filter(function (s) {
         if (q && !(
           s.name.toLowerCase().includes(q) ||
           s.category.toLowerCase().includes(q) ||
           (s.provider || '').toLowerCase().includes(q) ||
           (s.description || '').toLowerCase().includes(q) ||
-          (s.tags || []).some(function (t) { return t.includes(q); })
+          (s.tags || []).some(function (t) { return t.toLowerCase().includes(q); })
         )) return false;
-        if (cat && s.category !== cat) return false;
-        if (st && s.status !== st) return false;
-        // Sidebar filters
         if (activeFilters.category !== 'all' && s.category !== activeFilters.category) return false;
         if (activeFilters.status !== 'all' && s.status !== activeFilters.status) return false;
         if (activeFilters.format !== 'all' && !s.format.toLowerCase().includes(activeFilters.format)) return false;
@@ -470,11 +478,24 @@
         return true;
       });
       renderTable();
+      updateCategoryButtonCounts();
     }
 
     if (search) search.addEventListener('input', applyFilters);
-    if (catFilter) catFilter.addEventListener('change', applyFilters);
-    if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+    if (catFilter) catFilter.addEventListener('change', function () {
+      activeFilters.category = catFilter.value || 'all';
+      document.querySelectorAll('.dd-filter-btn[data-filter="category"]').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.value === activeFilters.category);
+      });
+      applyFilters();
+    });
+    if (statusFilter) statusFilter.addEventListener('change', function () {
+      activeFilters.status = statusFilter.value || 'all';
+      document.querySelectorAll('.dd-filter-btn[data-filter="status"]').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.value === activeFilters.status);
+      });
+      applyFilters();
+    });
 
     var viewOnMapBtn = document.getElementById('ddViewOnMap');
     if (viewOnMapBtn) {
@@ -497,6 +518,15 @@
         });
         btn.classList.add('active');
         activeFilters[filterType] = value;
+        // Sync corresponding toolbar dropdowns to keep filter state consistent
+        if (filterType === 'status') {
+          var sf = document.getElementById('ddStatusFilter');
+          if (sf) sf.value = value === 'all' ? '' : value;
+        }
+        if (filterType === 'category') {
+          var cf = document.getElementById('ddCatFilter');
+          if (cf) cf.value = value === 'all' ? '' : value;
+        }
         if (window.__ddApplyFilters) window.__ddApplyFilters();
       });
     });
@@ -508,7 +538,8 @@
     allSources.forEach(function (s) { cats[s.category] = (cats[s.category] || 0) + 1; });
     var el = document.getElementById('ddCategoryFilters');
     if (!el) return;
-    var html = '<button class="dd-filter-btn active" data-filter="category" data-value="all">All</button>';
+    var total = allSources.length;
+    var html = '<button class="dd-filter-btn active" data-filter="category" data-value="all">All <span style="opacity:.6;font-size:.7rem">(' + total + ')</span></button>';
     Object.keys(cats).sort().forEach(function (cat) {
       html += '<button class="dd-filter-btn" data-filter="category" data-value="' + esc(cat) + '">' +
         esc(cat) + ' <span style="opacity:.6;font-size:.7rem">(' + cats[cat] + ')</span></button>';
@@ -543,6 +574,37 @@
       opt.value = cat;
       opt.textContent = cat;
       select.appendChild(opt);
+    });
+  }
+
+  // ── Dynamic Sidebar Counts ────────────────────────────────────────
+  function updateCategoryButtonCounts() {
+    var searchEl = document.getElementById('ddSearch');
+    var q = searchEl ? searchEl.value.toLowerCase() : '';
+    var counts = {};
+    var total = 0;
+    allSources.forEach(function (s) {
+      if (q && !(
+        s.name.toLowerCase().includes(q) ||
+        s.category.toLowerCase().includes(q) ||
+        (s.provider || '').toLowerCase().includes(q) ||
+        (s.description || '').toLowerCase().includes(q) ||
+        (s.tags || []).some(function (t) { return t.toLowerCase().includes(q); })
+      )) return;
+      if (activeFilters.status !== 'all' && s.status !== activeFilters.status) return;
+      if (activeFilters.format !== 'all' && !s.format.toLowerCase().includes(activeFilters.format)) return;
+      if (activeFilters.freq !== 'all' && !(s.updateFrequency || '').toLowerCase().includes(activeFilters.freq)) return;
+      counts[s.category] = (counts[s.category] || 0) + 1;
+      total++;
+    });
+    var el = document.getElementById('ddCategoryFilters');
+    if (!el) return;
+    el.querySelectorAll('.dd-filter-btn[data-filter="category"]').forEach(function (btn) {
+      var val = btn.dataset.value;
+      var span = btn.querySelector('span');
+      if (span) {
+        span.textContent = '(' + (val === 'all' ? total : (counts[val] || 0)) + ')';
+      }
     });
   }
 
@@ -607,7 +669,7 @@
     if (panelId === 'panel-timeline' && !document.getElementById('ddTimeline').children.length) {
       renderTimeline();
     }
-    if (panelId === 'panel-geographic' && !document.getElementById('ddCoverageMatrix').children.length) {
+    if (panelId === 'panel-geographic' && !document.getElementById('ddCoverageSummary').children.length) {
       renderGeographic();
     }
     if (panelId === 'panel-sources' && !document.getElementById('ddTableBody').querySelector('tr td')) {
@@ -634,17 +696,25 @@
   }
 
   // ── Geographic Panel ─────────────────────────────────────────────
+  var _geoRendered = false;
   function renderGeographic() {
     var GD = window.GeographicDashboard;
     if (!GD) return;
-    GD.initCoverageMap('ddCoverageMap', allSources);
+    if (!_geoRendered) {
+      GD.initCoverageMap('ddCoverageMap', allSources);
+      _geoRendered = true;
+    }
     GD.renderCoverageSummary(document.getElementById('ddCoverageSummary'), allSources);
     GD.renderCoverageMatrix(document.getElementById('ddCoverageMatrix'), allSources, 'County');
 
-    var geoFilter = document.getElementById('geoUnitFilter');
-    if (geoFilter) {
-      geoFilter.addEventListener('change', function () {
-        GD.renderCoverageMatrix(document.getElementById('ddCoverageMatrix'), allSources, geoFilter.value);
+    // Use event delegation on container so the listener persists across matrix re-renders
+    var matrixEl = document.getElementById('ddCoverageMatrix');
+    if (matrixEl && !matrixEl.dataset.geoListenerAttached) {
+      matrixEl.dataset.geoListenerAttached = '1';
+      matrixEl.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'geoUnitFilter') {
+          GD.renderCoverageMatrix(matrixEl, allSources, e.target.value);
+        }
       });
     }
   }
