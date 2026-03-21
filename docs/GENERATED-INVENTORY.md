@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T14:05:31.846Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-21T14:13:41.743Z. Do not edit by hand.
 
 ---
 
@@ -24,18 +24,18 @@
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.7 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
-| `data-status.html` | Data Status | COHO Analytics | 9.8 KB |
+| `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 59.3 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
-| `insights.html` | Market Insights | COHO Analytics | 19.7 KB |
+| `insights.html` | Market Insights | COHO Analytics | 21.5 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 26.8 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
-| `policy-briefs.html` | Policy Briefs | COHO Analytics | 10.9 KB |
+| `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.3 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
@@ -46,7 +46,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-843 JSON files found.
+844 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -879,6 +879,7 @@
 | `data/hna/summary/0886475.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 1.0 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 47.4 KB | ✅ | — |
+| `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
 | `data/manifest.json` | 26.3 KB | ✅ | — |
@@ -967,7 +968,7 @@
 
 ## GitHub Actions Workflows
 
-31 workflow files found.
+32 workflow files found.
 
 | File | Size |
 |------|------|
@@ -980,6 +981,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
 | `.github/workflows/ci-checks.yml` | 5.8 KB |
+| `.github/workflows/configure-alerts-feeds.yml` | 5.1 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/daily-monitoring.yml` | 1.6 KB |
 | `.github/workflows/daily_website_monitoring.yml` | 350 B |
