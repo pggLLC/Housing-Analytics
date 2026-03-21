@@ -1,0 +1,132 @@
+name: Configure Alerts & Generate Policy Briefs
+
+# Runs weekly on Monday at 01:00 UTC — before the HNA build (06:30 UTC)
+# Can also be triggered manually from GitHub Actions.
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # Every Monday at 01:00 UTC
+  workflow_dispatch:
+    inputs:
+      max_age_days:
+        description: 'Maximum age (days) for alerts to keep'
+        required: false
+        default: '90'
+      briefs_max:
+        description: 'Maximum number of policy briefs to generate'
+        required: false
+        default: '20'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-alerts-and-generate-briefs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          # feedparser is the only non-stdlib dependency used by the scripts
+          pip install feedparser
+
+      - name: Populate alert_feeds.txt with production URLs
+        # Writes production RSS feed URLs into scripts/alert_feeds.txt.
+        # Google News RSS feeds are publicly available without authentication.
+        # NCSHA and Novogradac feeds are public blog/news RSS endpoints.
+        # The file is written fresh each run so URLs stay current.
+        run: |
+          cat > scripts/alert_feeds.txt << 'FEEDS'
+          # RSS feed URLs for housing news alerts (one per line)
+          # Auto-populated by configure-alerts-feeds.yml — do not edit manually
+          # Last updated: by GitHub Actions on $(date -u '+%Y-%m-%d')
+
+          # ── Google News: Colorado affordable housing topics ──
+          https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+zoning+land+use+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
+
+          # ── NCSHA: National Council of State Housing Agencies ──
+          https://www.ncsha.org/feed/
+
+          # ── Novogradac: LIHTC & affordable housing news ──
+          https://www.novoco.com/rss.xml
+
+          # ── HUD: Exchange news and updates ──
+          https://www.hudexchange.info/feed/
+
+          # ── Colorado General Assembly: legislation tracking ──
+          https://leg.colorado.gov/rss.xml
+          FEEDS
+          echo "alert_feeds.txt written:"
+          cat scripts/alert_feeds.txt
+
+      - name: Fetch RSS alerts
+        id: fetch_alerts
+        env:
+          ALERT_FEEDS_FILE: scripts/alert_feeds.txt
+          ALERTS_MAX_AGE_DAYS: ${{ github.event.inputs.max_age_days || '90' }}
+        run: |
+          echo "── Fetching alerts at $(date -u) ──"
+          python3 scripts/fetch_google_alerts.py
+          echo "── Alert fetch complete ──"
+          python3 - <<'PY'
+          import json
+          with open("data/alerts/alerts_archive.json") as f:
+              d = json.load(f)
+          meta = d.get("meta", {})
+          alerts = d.get("alerts", [])
+          print(f"  Feed count  : {meta.get('feed_count', 0)}")
+          print(f"  Alert count : {meta.get('alert_count', 0)}")
+          print(f"  Generated   : {meta.get('generated', 'unknown')}")
+          PY
+
+      - name: Generate policy briefs
+        id: generate_briefs
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BRIEFS_MAX: ${{ github.event.inputs.briefs_max || '20' }}
+        run: |
+          echo "── Generating policy briefs at $(date -u) ──"
+          python3 scripts/generate_policy_briefs.py
+          echo "── Brief generation complete ──"
+          python3 - <<'PY'
+          import json
+          with open("data/policy_briefs.json") as f:
+              d = json.load(f)
+          meta = d.get("meta", {})
+          briefs = d.get("briefs", [])
+          print(f"  Brief count    : {meta.get('brief_count', 0)}")
+          print(f"  Source alerts  : {meta.get('source_alerts', 0)}")
+          print(f"  Generated      : {meta.get('generated', 'unknown')}")
+          mode = "LLM-assisted" if "openai" in meta.get("methodology", "").lower() else "Rule-based"
+          print(f"  Mode           : {mode}")
+          PY
+
+      - name: Commit and push updated data
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add scripts/alert_feeds.txt
+          git add data/alerts/alerts_archive.json
+          git add data/policy_briefs.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update alerts and policy briefs $(date -u '+%Y-%m-%d')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
