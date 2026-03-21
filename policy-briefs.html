@@ -88,6 +88,9 @@
           AI-assisted summaries of affordable housing news and policy trends in Colorado.
           Briefs are generated from curated RSS alerts and linked to relevant datasets.
         </p>
+        <div id="alertPipelineStatus" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .65rem;" aria-live="polite" aria-atomic="true">
+          ⏳ Checking pipeline status…
+        </div>
       </div>
     </section>
 
@@ -134,6 +137,10 @@
     var gridEl = document.getElementById('briefsGrid');
     var countEl = document.getElementById('briefsCount');
     var liveEl = document.getElementById('briefsLiveRegion');
+
+    function daysSince(dateObj) {
+      return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
+    }
 
     function escapeHtml(s) {
       return String(s || '')
@@ -236,6 +243,41 @@
           var list = Array.isArray(data) ? data
             : (data && Array.isArray(data.briefs) ? data.briefs : []);
           briefs = list;
+
+          // Update pipeline status badge from metadata
+          var pipelineEl = document.getElementById('alertPipelineStatus');
+          if (pipelineEl && data && data.meta) {
+            var meta = data.meta;
+            var generated  = meta.generated ? new Date(meta.generated) : null;
+            var feedCount  = meta.feed_count || 0;
+            var alertCount = meta.source_alerts || meta.alert_count || 0;
+            var briefCount = meta.brief_count || list.length;
+            var ageDays    = generated ? daysSince(generated) : null;
+            var dateStr = generated
+              ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+              : '—';
+
+            var isActive = feedCount > 0 || alertCount > 0;
+            var isStale = ageDays !== null && ageDays > 30;
+
+            if (isActive && !isStale) {
+              pipelineEl.textContent = '✓ Pipeline active · ' + feedCount + ' feed' + (feedCount === 1 ? '' : 's') +
+                ' · ' + alertCount + ' alert' + (alertCount === 1 ? '' : 's') +
+                ' · ' + briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
+                ' · Last fetch: ' + dateStr;
+              pipelineEl.style.borderColor = 'var(--good)';
+              pipelineEl.style.color = 'var(--good)';
+            } else if (isStale) {
+              pipelineEl.textContent = '⚠ Pipeline stale · Last fetch: ' + dateStr + ' (' + ageDays + 'd ago)';
+              pipelineEl.style.borderColor = 'var(--warn)';
+              pipelineEl.style.color = 'var(--warn)';
+            } else {
+              pipelineEl.textContent = '○ Pipeline not yet active · No feeds configured — see docs/alerts-pipeline.md';
+              pipelineEl.style.borderColor = 'var(--border-strong)';
+              pipelineEl.style.color = 'var(--muted)';
+            }
+          }
+
           if (!list.length) {
             statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
             return;
@@ -246,6 +288,8 @@
         .catch(function (err) {
           statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
           console.warn('[policy-briefs] Could not load briefs:', err.message);
+          var pipelineEl = document.getElementById('alertPipelineStatus');
+          if (pipelineEl) pipelineEl.textContent = '— Pipeline status unavailable';
         });
     }
 
