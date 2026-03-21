@@ -1,0 +1,31 @@
+{
+  "lastVerified": "2026-03-17",
+  "verifiedBy": "COHO Analytics team",
+  "notes": "Initial verification — all four trends confirmed current as of Q1 2026 sources.",
+  "trends": {
+    "rising-investor-demand": {
+      "source": "Novogradac investor surveys",
+      "sourceDate": "Q4 2025",
+      "lastChecked": "2026-03-17",
+      "staleThresholdDays": 90
+    },
+    "construction-cost-pressures": {
+      "source": "AGC Construction Cost Reports, BLS Producer Price Index",
+      "sourceDate": "2026-02",
+      "lastChecked": "2026-03-17",
+      "staleThresholdDays": 35
+    },
+    "qap-evolution": {
+      "source": "NCSHA QAP analysis, State HFA policy announcements",
+      "sourceDate": "2026-Q1",
+      "lastChecked": "2026-03-17",
+      "staleThresholdDays": 90
+    },
+    "mixed-income-models": {
+      "source": "HUD LIHTC Database project analysis",
+      "sourceDate": "2025",
+      "lastChecked": "2026-03-17",
+      "staleThresholdDays": 180
+    }
+  }
+}

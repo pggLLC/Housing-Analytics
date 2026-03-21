@@ -131,8 +131,15 @@
       <!-- Key Market Trends -->
       <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="trends-heading">
         <div class="chart-header">
-          <h3 class="chart-title" id="trends-heading">Key Market Trends — 2026</h3>
-          <p class="chart-subtitle">What's shaping the LIHTC landscape</p>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--sp2);">
+            <div>
+              <h3 class="chart-title" id="trends-heading">Key Market Trends — 2026</h3>
+              <p class="chart-subtitle">What's shaping the LIHTC landscape</p>
+            </div>
+            <div id="trendsVerifiedBadge" style="font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .6rem;white-space:nowrap;align-self:flex-start;" aria-live="polite" aria-atomic="true">
+              Checking…
+            </div>
+          </div>
         </div>
         <div class="trend-list" style="padding-top:var(--sp2);">
           <div class="trend-item">
@@ -313,5 +320,38 @@
   </main>
 
   <script src="js/contrast-guard.js"></script>
-</body>
-</html>
+  <script>
+  (function () {
+    'use strict';
+    var STALE_DAYS = 30;
+    var META_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/insights-meta.json')
+      : 'data/insights-meta.json';
+    var badge = document.getElementById('trendsVerifiedBadge');
+    if (!badge) return;
+
+    function daysSince(dateObj) {
+      return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
+    }
+
+    fetch(META_URL)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (meta) {
+        var d = meta.lastVerified;
+        if (!d) { badge.textContent = 'Unverified'; return; }
+        var verified = new Date(d);
+        var ageDays = daysSince(verified);
+        var fmt = verified.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        if (ageDays > STALE_DAYS) {
+          badge.textContent = '⚠ Last verified: ' + fmt + ' (' + ageDays + 'd ago — review recommended)';
+          badge.style.borderColor = 'var(--warn)';
+          badge.style.color = 'var(--warn)';
+        } else {
+          badge.textContent = '✓ Last verified: ' + fmt;
+          badge.style.borderColor = 'var(--good)';
+          badge.style.color = 'var(--good)';
+        }
+      })
+      .catch(function () { badge.textContent = 'Verification status unavailable'; });
+  }());
+  </script>
