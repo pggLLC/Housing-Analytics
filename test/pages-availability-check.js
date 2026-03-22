@@ -68,12 +68,13 @@ const HTML_PAGES = [
     'index.html',
     'housing-needs-assessment.html',
     'economic-dashboard.html',
-    'LIHTC-dashboard.html',
+    'LIHTC-dashboard.html',           // redirect stub → lihtc-allocations.html
+    'lihtc-allocations.html',          // consolidated LIHTC page (PR 2.1)
     'colorado-deep-dive.html',
     'lihtc-guide-for-stakeholders.html',
     'dashboard.html',
     'regional.html',
-    'state-allocation-map.html',
+    'state-allocation-map.html',       // redirect stub → lihtc-allocations.html
     'housing-legislation-2026.html',
     'about.html',
     'insights.html',
@@ -105,6 +106,9 @@ const JS_FILES = [
     'js/data-service-portable.js',
     'js/dark-mode-toggle.js',
     'js/navigation.js',
+    'js/glossary.js',                  // PR 1.2 — global glossary modal
+    'js/help-modal.js',                // PR 2.2 — "How to use" help modals
+    'js/data-status-footer.js',        // PR 2.3 — data status injection
     'js/vendor/chart.umd.min.js',
     'js/vendor/d3.v7.min.js',
     'js/vendor/leaflet.js',
@@ -135,6 +139,7 @@ const DATA_FILES = [
     'data/co_ami_gap_by_county.json',
     'data/fred-data.json',
     'data/states-10m.json',
+    'data/glossary.json',              // PR 1.2 — acronym definitions
     'data/hna/geo-config.json',
     'data/hna/local-resources.json',
     'data/hna/summary',
@@ -202,6 +207,7 @@ test('CSS directory: css/ directory is present and contains stylesheets', () => 
     assert(fileExists('css'), 'css/ directory exists');
     const cssFiles = fs.readdirSync(path.join(ROOT, 'css')).filter(f => f.endsWith('.css'));
     assert(cssFiles.length > 0, `css/ contains ${cssFiles.length} stylesheet(s)`);
+    assert(fileExists('css/help-modal.css'), 'css/help-modal.css exists (PR 2.2)');
 });
 
 // ---------------------------------------------------------------------------
