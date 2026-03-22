@@ -1804,6 +1804,23 @@
     return { horizon, targetVac, headshipMode };
   }
 
+  // Returns the currently selected scenario key from the projScenario dropdown.
+  function getSelectedScenario(){
+    const el = document.getElementById('projScenario');
+    return el ? el.value : 'baseline';
+  }
+
+  // Returns the current slider override values for the demographic rate assumptions.
+  function getScenarioRateOverrides(){
+    const fertility = parseFloat((document.getElementById('scenFertility') || {}).value);
+    const migration = parseFloat((document.getElementById('scenMigration') || {}).value);
+    const mortality = parseFloat((document.getElementById('scenMortality') || {}).value);
+    return {
+      fertilityMultiplier: Number.isFinite(fertility) ? fertility : 1.0,
+      netMigrationAnnual:  Number.isFinite(migration) ? migration : 500,
+      mortalityMultiplier: Number.isFinite(mortality) ? mortality : 1.0,
+    };
+  }
 
   function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
     const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
@@ -1880,10 +1897,14 @@
       seriesByScenario['custom'] = buildScenarioSeries(effectiveMult);
     }
 
-    // chartScenarioComparison — all three base scenarios on one axis
+    // chartScenarioComparison — base scenarios + custom if saved
     const scenCompCanvas = document.getElementById('chartScenarioComparison');
     if (scenCompCanvas){
-      renderScenarioComparison(geoid || '', ['baseline', 'low_growth', 'high_growth'], {
+      const compScenarios = ['baseline', 'low_growth', 'high_growth'];
+      if (U().PROJECTION_SCENARIOS['custom'] && seriesByScenario['custom']){
+        compScenarios.push('custom');
+      }
+      renderScenarioComparison(geoid || '', compScenarios, {
         canvas: scenCompCanvas,
         seriesByScenario,
         years: SCENARIO_HORIZON,
