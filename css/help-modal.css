@@ -1,0 +1,224 @@
+/* ================================================================
+   HELP MODAL — js/help-modal.js
+   Reusable "How to Use This Page" modal component.
+   ================================================================ */
+
+/* Trigger button — "?" icon in page header */
+.help-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+}
+.help-trigger:hover,
+.help-trigger:focus-visible {
+  background: var(--accent);
+  color: #fff;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Backdrop */
+.help-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: hmBackdropIn 0.2s ease;
+}
+@keyframes hmBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Modal panel */
+.help-modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: hmSlideIn 0.22s ease;
+  position: relative;
+}
+@keyframes hmSlideIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.help-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.75rem;
+}
+.help-modal-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.help-modal-close {
+  width: 32px;
+  height: 32px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.help-modal-close:hover,
+.help-modal-close:focus-visible {
+  background: var(--bad-dim, #fee2e2);
+  color: var(--bad, #dc2626);
+  outline: 2px solid var(--bad, #dc2626);
+  outline-offset: 2px;
+}
+
+/* Body */
+.help-modal-body {
+  padding: 1.2rem 1.4rem 1.5rem;
+}
+
+/* Description */
+.help-modal-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+/* Steps list */
+.help-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+  counter-reset: help-step;
+}
+.help-step {
+  counter-increment: help-step;
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.help-step:last-child {
+  border-bottom: none;
+}
+.help-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15rem;
+}
+.help-step-content {
+  flex: 1;
+}
+.help-step-label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text);
+  margin: 0 0 0.2rem;
+}
+.help-step-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Tips section */
+.help-tips-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+.help-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.help-tips li {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.5;
+  padding-left: 1.1rem;
+  position: relative;
+}
+.help-tips li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Footer */
+.help-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Dark mode adjustments are inherited via CSS variables */
+@media (max-width: 640px) {
+  .help-modal {
+    max-width: 100%;
+    border-radius: var(--radius);
+  }
+  .help-modal-header,
+  .help-modal-body,
+  .help-modal-footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

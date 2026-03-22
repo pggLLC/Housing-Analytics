@@ -31,7 +31,10 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
 </head>
-<body class="no-shell" data-page="economic-dashboard.html">
+<body class="no-shell" data-page="economic-dashboard.html"
+      data-page-update-key="fred"
+      data-page-source="FRED · Federal Reserve Bank of St. Louis"
+      data-page-last-updated="2026-03-22">
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <!-- Navigation (mimics HousingMetrics style) -->
@@ -45,7 +48,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <span class="workflow-step workflow-step--active">4. Economic Dashboard</span>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+  <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
 
 <section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
@@ -661,6 +664,25 @@ function getKey(){ return CONFIG_KEY || ""; }
 <script defer src="js/housing-predictions.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
+<script src="js/help-modal.js"></script>
+<script src="js/data-status-footer.js"></script>
+<script>
+  CohoHelp.init({
+    title: 'How to Use the Economic Dashboard',
+    description: 'This dashboard displays real-time economic indicators sourced from the Federal Reserve (FRED) that directly affect affordable housing development outcomes.',
+    steps: [
+      { label: 'View key indicators', desc: 'The top KPI strip shows the most critical numbers at a glance: CPI inflation, unemployment rate, mortgage rate, and housing starts.' },
+      { label: 'Explore indicator sections', desc: 'Expand each section (Interest Rates, Construction Costs, Labor Market, etc.) to see charts and trend data for individual FRED series.' },
+      { label: 'Check data freshness', desc: 'The "Last updated" label and data status bar show when each series was last refreshed from FRED. Click "View diagnostics" for a full health report.' },
+      { label: 'Use in underwriting', desc: 'Reference these numbers when sizing construction loans, pricing tax credit equity, or projecting operating expenses in a LIHTC pro forma.' },
+    ],
+    tips: [
+      'Indicators are color-coded: green = favorable, amber = watch, red = adverse for affordable housing deals.',
+      'Use the Refresh button to pull the latest FRED data if your connection is active.',
+      'Construction PPI data is especially useful for change-order exposure analysis.',
+    ]
+  });
+</script>
 
 <footer id="site-footer"></footer>
 </body>

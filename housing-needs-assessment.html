@@ -50,7 +50,8 @@
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
 </head>
-<body>
+<body data-page-last-updated="2026-03-22"
+      data-page-source="Census ACS · HUD · DOLA · LEHD">
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
     <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
@@ -62,7 +63,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+  <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
@@ -938,6 +939,26 @@
     initCoverageLabel();
   }
 }());
+</script>
+<script src="js/help-modal.js"></script>
+<script src="js/data-status-footer.js"></script>
+<script>
+  CohoHelp.init({
+    title: 'How to Use the Housing Needs Assessment',
+    description: 'This tool helps you quantify housing needs for any Colorado county or municipality using public data sources (Census ACS, DOLA, LEHD, and HUD).',
+    steps: [
+      { label: 'Select a geography', desc: 'Choose a county or municipality from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
+      { label: 'Review demographic data', desc: 'Explore the population trends, age distribution, household formation rates, and income breakdowns to understand who needs housing.' },
+      { label: 'Examine housing supply & affordability', desc: 'Review the AMI gap analysis, cost-burden rates (households spending >30% or >50% of income on housing), and existing stock by tenure.' },
+      { label: 'Analyze economic indicators', desc: 'Check employment trends, wage levels, and job growth — these drive future housing demand projections.' },
+      { label: 'Export your summary', desc: 'Use the PDF, CSV, or JSON export buttons to download data for use in LIHTC applications, grant proposals, or planning documents.' },
+    ],
+    tips: [
+      'Start with a county before drilling into a municipality — county data is more complete.',
+      'The CHAS affordability gap chart shows how many households are cost-burdened at each income tier.',
+      'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
+    ]
+  });
 </script>
 </body>
 </html>

@@ -490,11 +490,13 @@ function initPolicyPanel(panelId) {
   function activateTab(panelId, opts) {
     opts = opts || {};
     var updateHash = opts.updateHash !== false;
-    var tabList = document.querySelector('[role="tablist"]');
+    /* Scope to .tab-nav to avoid picking up the outer page-level tablist
+       (.page-tabs) added for the Deep Dive / Market Overview toggle. */
+    var tabList = document.querySelector('[role="tablist"].tab-nav');
     if (!tabList) return;
 
     var buttons = tabList.querySelectorAll('[role="tab"]');
-    var panels  = document.querySelectorAll('[role="tabpanel"]');
+    var panels  = document.querySelectorAll('.tab-panel');
 
     /* If no panel with this id exists, fall back to first tab */
     if (!document.getElementById(panelId)) {
@@ -558,7 +560,9 @@ function initPolicyPanel(panelId) {
 
   /* ── Tab setup ─────────────────────────────────────────────────── */
   function setupTabs() {
-    var tabList = document.querySelector('[role="tablist"]');
+    /* Scope to .tab-nav (inner analysis tabs) — the outer .page-tabs tablist
+       is handled by a separate inline script in the HTML. */
+    var tabList = document.querySelector('[role="tablist"].tab-nav');
     if (!tabList) return;
 
     var buttons = tabList.querySelectorAll('[role="tab"]');
@@ -601,11 +605,11 @@ function initPolicyPanel(panelId) {
     var hashPanel = hash && document.getElementById(hash);
     var startPanel;
 
-    if (hashPanel && hashPanel.getAttribute('role') === 'tabpanel') {
+    if (hashPanel && hashPanel.classList.contains('tab-panel')) {
       startPanel = hash;
     } else {
       /* Default: use first tab that already has is-active, or just first tab */
-      var activePanelEl = document.querySelector('[role="tabpanel"].is-active');
+      var activePanelEl = document.querySelector('.tab-panel.is-active');
       startPanel = activePanelEl
         ? activePanelEl.id
         : (buttons[0] ? buttons[0].getAttribute('aria-controls') : null);

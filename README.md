@@ -22,14 +22,11 @@ COHO Analytics is a static web application providing comprehensive data insights
 | Page | Description |
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
-| `economic-dashboard.html` | FRED-powered economic indicators dashboard (housing predictions moved to Colorado Deep Dive) |
-| `LIHTC-dashboard.html` | State LIHTC allocation maps and data |
-| `state-allocation-map.html` | D3 choropleth map of federal allocations |
+| `economic-dashboard.html` | FRED-powered economic indicators dashboard |
+| `lihtc-allocations.html` | LIHTC state allocation maps and data — consolidated from former LIHTC-dashboard + state-allocation-map pages |
 | `regional.html` | Regional housing market analysis |
-| `colorado-deep-dive.html` | Colorado LIHTC market deep dive (Leaflet maps, regional housing predictions for 5 CO regions) |
-| `colorado-market.html` | Colorado market overview and forecast |
-| `construction-commodities.html` | Construction cost commodity tracking |
-| `housing-needs-assessment.html` | Housing Needs Assessment starter (Colorado-focused; Census + LEHD + DOLA/SDO) |
+| `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
+| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
@@ -40,16 +37,25 @@ COHO Analytics is a static web application providing comprehensive data insights
 | `article-pricing.html` | Housing pricing analysis article |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide for developers, housing authorities, and investors |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `dashboard.html` | Analytics dashboard |
-| `dashboard-data-quality.html` | Data quality monitoring dashboard |
-| `dashboard-data-sources-ui.html` | Data sources status UI |
-| `census-dashboard.html` | U.S. Census data integration |
 | `colorado-elections.html` | Colorado elections and housing ballot measures |
 | `preservation.html` | Affordable housing preservation tracker (NHPD) |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide county needs ranking |
 | `privacy-policy.html` | Privacy policy |
-| `data-status.html` | Live data pipeline status |
-| `sitemap.html` | Site map |
+| `data-status.html` | Live data pipeline status and freshness report |
+| `sitemap.html` | Site directory |
 | `about.html` | About the project and methodology |
+
+### Archived Pages
+
+The following pages have been moved to `archive/` and are no longer linked in the main navigation:
+
+| Page | Reason |
+|------|--------|
+| `archive/dashboard.html` | Superseded by specialized dashboard pages |
+| `archive/dashboard-data-quality.html` | Internal QA tool, not user-facing |
+| `archive/dashboard-data-sources-ui.html` | Replaced by `data-status.html` |
+| `archive/census-dashboard.html` | Subsumed by Housing Needs Assessment tool |
+| `archive/construction-commodities.html` | Incomplete; data available in Economic Dashboard |
 
 ## Project Structure
 

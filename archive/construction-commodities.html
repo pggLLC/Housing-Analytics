@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Construction Commodities Forecast | COHO Analytics</title>
+  <meta name="description" content="Lumber, steel, copper and materials cost forecasts impacting affordable housing development.">
+  <meta property="og:title" content="Construction Costs | COHO Analytics">
+  <meta property="og:description" content="Construction commodity prices and PPI trends for affordable housing development.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+    <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+<script src="js/vendor/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+</head>
+<body>
+<div style="background:#92400e;color:#fef3c7;padding:.75rem 1.25rem;font-family:system-ui,sans-serif;font-size:.9rem;display:flex;align-items:center;gap:.75rem;"><span style="font-size:1.2rem;">📦</span><div><strong>Archived Page</strong> — This page is no longer maintained. <a href="../sitemap.html" style="color:#fde68a;text-decoration:underline;">Go to active pages →</a></div></div>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
+<main id="main-content">
+<div class="container">
+<div class="page-header">
+<span class="kicker">Data</span>
+<h1 class="page-title">Construction Commodities Forecast</h1>
+<p class="page-subtitle">Real-time price tracking and forecasting for key construction materials from FRED data</p>
+</div>
+<!-- Price Cards -->
+<div class="price-cards" id="price-cards-container">
+<div class="loading-message">Loading commodity prices...</div>
+</div>
+<!-- Steel Chart -->
+<div class="chart-section">
+<h2 class="chart-title">Steel &amp; Metal Products</h2>
+<div class="chart-container">
+<canvas id="steel-chart" role="img" aria-label="Line chart: Steel and Metal Products Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+</div>
+</div>
+<!-- Lumber Chart -->
+<div class="chart-section">
+<h2 class="chart-title">Lumber &amp; Wood Products</h2>
+<div class="chart-container">
+<canvas id="lumber-chart" role="img" aria-label="Line chart: Lumber and Wood Products Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+</div>
+</div>
+<!-- Concrete Chart -->
+<div class="chart-section">
+<h2 class="chart-title">Concrete &amp; Cement</h2>
+<div class="chart-container">
+<canvas id="concrete-chart" role="img" aria-label="Line chart: Concrete and Cement Producer Price Index trend over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+</div>
+</div>
+<!-- Composite Index -->
+<div class="chart-section">
+<h2 class="chart-title">Construction Materials Input PPI (Composite)</h2>
+<div class="chart-container">
+<canvas id="composite-chart" role="img" aria-label="Line chart: Construction Materials Input PPI composite index over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+</div>
+</div>
+<!-- Data Source -->
+<div class="content-section" style="margin-top: 2rem;">
+<div class="sources-box">
+  <h3>Data Sources</h3>
+  <ul>
+    <li><strong>Steel &amp; Metal Products</strong> — <a href="https://fred.stlouisfed.org/series/WPU10170503" target="_blank" rel="noopener">WPU10170503: Steel Reinforcing Bar</a>, <a href="https://fred.stlouisfed.org/series/PCU331111331111" target="_blank" rel="noopener">PCU331111331111: Iron and Steel Mills PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU3313153313153" target="_blank" rel="noopener">PCU3313153313153: Aluminum PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
+    <li><strong>Lumber &amp; Wood Products</strong> — <a href="https://fred.stlouisfed.org/series/WPU0811" target="_blank" rel="noopener">WPU0811: Lumber PPI</a>, <a href="https://fred.stlouisfed.org/series/WPU0812" target="_blank" rel="noopener">WPU0812: Plywood PPI</a>, <a href="https://fred.stlouisfed.org/series/WPUSI012011" target="_blank" rel="noopener">WPUSI012011: Lumber &amp; Wood Products PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
+    <li><strong>Concrete &amp; Cement</strong> — <a href="https://fred.stlouisfed.org/series/WPU13310101" target="_blank" rel="noopener">WPU13310101: Portland Cement PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU32731327313" target="_blank" rel="noopener">PCU32731327313: Cement &amp; Concrete Products PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
+    <li><strong>Composite Index</strong> — <a href="https://fred.stlouisfed.org/series/WPUFD49207" target="_blank" rel="noopener">WPUFD49207: PPI Inputs to Construction</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
+  </ul>
+  <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 0;">All series from <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve Economic Data (FRED)</a>, Federal Reserve Bank of St. Louis. Data updates monthly.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- FRED Commodities Integration -->
+<script src="js/fred-commodities.js"></script>
+<!-- Commodity Charts Logic -->
+<script>
+        // Create price card HTML
+        function createPriceCard(key, commodity) {
+            const yoyChange = parseFloat(commodity.yoyChange) || 0;
+            const trendClass = yoyChange > 0 ? 'trend-up' : 'trend-down';
+            const trendIcon = yoyChange > 0 ? '↑' : '↓';
+            const asOfDate = commodity.date || '';
+            
+            return `
+                <div class="price-card" data-currency="${asOfDate}">
+                    <div class="price-card-header">
+                        <span class="price-card-title">${commodity.name}</span>
+                        <span class="price-trend ${trendClass}">${trendIcon} ${Math.abs(yoyChange).toFixed(1)}%</span>
+                    </div>
+                    <div class="price-current">${commodity.current ? commodity.current.toFixed(2) : 'N/A'}</div>
+                    <div class="price-change">YoY Change: ${yoyChange.toFixed(1)}%</div>
+                    <div class="price-change" style="margin-top: 0.5rem;">
+                        <span class="meta-currency">As of ${asOfDate || 'N/A'}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Create line chart
+        function createPriceChart(canvasId, commodities, title) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const datasets = commodities.map((commodity, index) => {
+                const colors = ['#7c3d00', '#991b1b', '#0369a1', '#166534', '#92400e'];
+                return {
+                    label: commodity.name,
+                    data: commodity.history
+                        ? commodity.history.filter(h => h && h.value != null).map(h => parseFloat(h.value))
+                        : [],
+                    borderColor: colors[index % colors.length],
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.4
+                };
+            });
+
+            const labels = (commodities[0] && commodities[0].history)
+                ? commodities[0].history.filter(h => h && h.date).map(h => h.date)
+                : [];
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'category',
+                            ticks: { color: '#e8dcc4', maxTicksLimit: 8 },
+                            grid: { color: 'rgba(232, 220, 196, 0.1)' }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            ticks: { color: '#e8dcc4' },
+                            grid: { color: 'rgba(232, 220, 196, 0.1)' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e8dcc4' }
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize commodity dashboard
+        async function initializeCommodities() {
+            try {
+                console.log('Loading FRED commodity data...');
+                const data = await FREDCommodities.getAllCommodities();
+                
+                if (!data || Object.keys(data).length === 0) {
+                    console.error('No commodity data received');
+                    return;
+                }
+                
+                console.log('Loaded', Object.keys(data).length, 'commodities');
+                
+                // Create price cards for key commodities
+                const keyCommod = ['steelMillProducts', 'softwoodLumber', 'concreteProducts', 'gypsumDrywall', 'copperWireCable', 'aluminumProducts'];
+                const cardsHTML = keyCommod
+                    .filter(key => data[key])
+                    .map(key => createPriceCard(key, data[key]))
+                    .join('');
+                
+                window.__announceUpdate && window.__announceUpdate(\'Commodity price data loaded\'); document.getElementById('price-cards-container').innerHTML = cardsHTML;
+                
+                // Create charts
+                // Steel & Metal
+                const steelCommod = [data.steelMillProducts, data.steelRebar, data.copperWireCable].filter(Boolean);
+                if (steelCommod.length > 0) {
+                    createPriceChart('steel-chart', steelCommod, 'Steel & Metal Products');
+                }
+                
+                // Lumber & Wood
+                const lumberCommod = [data.softwoodLumber, data.framingLumber, data.plywoodSheathing].filter(Boolean);
+                if (lumberCommod.length > 0) {
+                    createPriceChart('lumber-chart', lumberCommod, 'Lumber & Wood Products');
+                }
+                
+                // Concrete
+                const concreteCommod = [data.concreteProducts, data.portlandCement, data.readyMixConcrete].filter(Boolean);
+                if (concreteCommod.length > 0) {
+                    createPriceChart('concrete-chart', concreteCommod, 'Concrete & Cement');
+                }
+                
+                // Composite
+                if (data.constructionMaterialsInput) {
+                    createPriceChart('composite-chart', [data.constructionMaterialsInput], 'Construction Materials Input PPI');
+                }
+                
+            } catch (error) {
+                console.error('Error loading commodity data:', error);
+                document.getElementById('price-cards-container').innerHTML = 
+                    '<div class="loading-message">Error loading commodity data. Please refresh the page.</div>';
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeCommodities);
+    </script>
+<!-- Navigation -->
+
+  <script src="js/contrast-guard.js"></script>
+<script>
+// Accessibility: announce dynamic content changes to screen readers
+(function () {
+  function announce(msg) {
+    var el = document.getElementById('aria-live-region');
+    if (!el) return;
+    el.textContent = '';                        // force re-announcement
+    requestAnimationFrame(function () { el.textContent = msg; });
+  }
+  window.__announceUpdate = announce;
+})();
+</script>
+
+<footer id="site-footer"></footer>
+</body>
+</html>
