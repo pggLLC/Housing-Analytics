@@ -1,0 +1,105 @@
+{
+  "updated": "2026-03-22T13:26:15Z",
+  "terms": [
+    {
+      "term": "LIHTC",
+      "full": "Low-Income Housing Tax Credit",
+      "definition": "A dollar-for-dollar federal tax credit used to finance the construction and rehabilitation of affordable rental housing. Administered by state housing agencies, LIHTC is the nation's primary tool for encouraging private investment in affordable housing. Developers apply for credits, which are then sold to investors (usually banks) to raise equity capital for projects."
+    },
+    {
+      "term": "QCT",
+      "full": "Qualified Census Tract",
+      "definition": "A census tract where at least 50% of households have incomes below 60% of Area Median Income (AMI), or where the poverty rate is at least 25%. LIHTC projects in QCTs are eligible for a 30% basis boost, allowing developers to receive more tax credits per dollar of project cost."
+    },
+    {
+      "term": "DDA",
+      "full": "Difficult Development Area",
+      "definition": "An area designated by HUD where high construction, land, and utility costs make it harder to develop affordable housing. Like QCTs, LIHTC projects in DDAs qualify for a 30% basis boost to help offset higher costs. Designations are updated annually."
+    },
+    {
+      "term": "CHFA",
+      "full": "Colorado Housing and Finance Authority",
+      "definition": "Colorado's state housing finance agency, responsible for allocating federal LIHTC credits, issuing tax-exempt bonds, and providing below-market loans for affordable housing development. CHFA evaluates developer applications through a competitive Qualified Allocation Plan (QAP) process."
+    },
+    {
+      "term": "AMI",
+      "full": "Area Median Income",
+      "definition": "The midpoint of the income distribution for a given metropolitan area or county, as calculated by HUD annually. Affordable housing programs use AMI percentages (e.g., 30%, 50%, 60%, 80%) to set rent limits and tenant income eligibility thresholds. A household earning 60% of AMI qualifies for most LIHTC units."
+    },
+    {
+      "term": "PMA",
+      "full": "Primary Market Area",
+      "definition": "The geographic area from which a housing development is expected to draw its tenants. PMA analysis evaluates demand, competition, rent levels, demographics, and other factors to determine whether a proposed development is financially feasible and will achieve stabilized occupancy. Required for LIHTC applications."
+    },
+    {
+      "term": "HNA",
+      "full": "Housing Needs Assessment",
+      "definition": "A study that quantifies the gap between existing housing supply and the current and future housing needs of a community. HNAs examine population growth, household formation, income distribution, existing housing stock, and affordability gaps to inform planning and investment decisions."
+    },
+    {
+      "term": "HUD",
+      "full": "U.S. Department of Housing and Urban Development",
+      "definition": "The federal agency responsible for national housing policy, including administering LIHTC income limits, Fair Market Rents, QCT/DDA designations, and the CDBG and HOME grant programs. HUD publishes key data used to underwrite and evaluate affordable housing developments."
+    },
+    {
+      "term": "FRED",
+      "full": "Federal Reserve Economic Data",
+      "definition": "A free public database of over 800,000 economic time series published by the Federal Reserve Bank of St. Louis. Widely used in housing finance for tracking interest rates, inflation (CPI), unemployment, construction costs, and housing market conditions."
+    },
+    {
+      "term": "CPI",
+      "full": "Consumer Price Index",
+      "definition": "A measure of the average change over time in the prices paid by urban consumers for a basket of goods and services, including housing costs. CPI trends affect rent restriction growth rates, operating expense projections, and the real value of tax credit equity in LIHTC deals."
+    },
+    {
+      "term": "FMR",
+      "full": "Fair Market Rent",
+      "definition": "HUD's estimate of the gross rent (including utilities) that a typical household would need to pay to rent a modest unit in a given area. FMRs are used to set payment standards for the Housing Choice Voucher (Section 8) program and as a benchmark in housing market studies."
+    },
+    {
+      "term": "CRA",
+      "full": "Community Reinvestment Act",
+      "definition": "A federal law that encourages banks and other depository institutions to meet the credit needs of the communities they serve, including low- and moderate-income neighborhoods. CRA activity often drives bank investment in LIHTC tax credit equity and affordable housing loans."
+    },
+    {
+      "term": "AHCIA",
+      "full": "Affordable Housing Credit Improvement Act",
+      "definition": "Proposed federal legislation that would expand the LIHTC program, including increasing credit allocations to states, lowering the bond-financed project threshold, and creating permanent income-averaging provisions. Has been introduced in multiple congressional sessions."
+    },
+    {
+      "term": "DOLA",
+      "full": "Colorado Department of Local Affairs",
+      "definition": "The Colorado state agency that provides financial and technical assistance to local governments and communities, including housing programs. DOLA administers state housing grants, publishes population projections, and supports community planning and development."
+    },
+    {
+      "term": "NHPD",
+      "full": "National Housing Preservation Database",
+      "definition": "A database tracking federally subsidized housing properties across the United States, including properties with LIHTC, Section 8, and other subsidy programs. The NHPD is used to monitor expiring subsidies and identify preservation opportunities for affordable housing."
+    },
+    {
+      "term": "SYA",
+      "full": "Single Year of Age",
+      "definition": "Population data reported for each individual year of age, as opposed to age groups. SYA data from DOLA and the Census Bureau is used to build age pyramids and project future housing demand by household type."
+    },
+    {
+      "term": "SOFR",
+      "full": "Secured Overnight Financing Rate",
+      "definition": "The benchmark interest rate for dollar-denominated derivatives and loans, replacing LIBOR. SOFR affects the cost of variable-rate construction loans and bridge financing in affordable housing development."
+    },
+    {
+      "term": "ACS",
+      "full": "American Community Survey",
+      "definition": "An ongoing Census Bureau survey that produces detailed demographic, social, economic, and housing estimates for communities across the United States. ACS data is the primary source for housing needs assessments, including income distribution, tenure, cost burden, and household size."
+    },
+    {
+      "term": "CHAS",
+      "full": "Comprehensive Housing Affordability Strategy",
+      "definition": "A HUD dataset derived from Census ACS data that measures housing problems (overcrowding, cost burden, inadequate conditions) by income level. CHAS data is used to document local housing needs and required for HUD grant applications such as CDBG and HOME."
+    },
+    {
+      "term": "PPI",
+      "full": "Producer Price Index",
+      "definition": "A family of indexes that measures the average change over time in the selling prices received by domestic producers for their output. In housing finance, construction PPIs (for lumber, steel, concrete, etc.) are tracked to forecast development cost trends and change-order exposure."
+    }
+  ]
+}

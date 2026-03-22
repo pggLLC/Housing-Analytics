@@ -11,20 +11,18 @@
         { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
         { label: "HNA Comparative Ranking", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking" },
         { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
-        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail" },
+        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
         { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
-        { label: "LIHTC Dashboard", href: "LIHTC-dashboard.html", desc: "Allocation maps" },
+        { label: "LIHTC Allocations", href: "lihtc-allocations.html", desc: "State allocation maps & data" },
       ]
     },
     {
       label: "Data &amp; Research",
       items: [
         { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
-        { label: "State Allocations", href: "state-allocation-map.html", desc: "2026 LIHTC allocations" },
         { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
-        { label: "Construction Costs", href: "construction-commodities.html", desc: "PPI & commodities" },
         { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
-        { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "All 43+ data sources" },
+        { label: "Data Health", href: "data-status.html", desc: "Pipeline & data freshness" },
       ]
     },
     {
@@ -45,11 +43,9 @@
         { label: "Home", href: "index.html", desc: "Platform overview" },
         { label: "About COHO", href: "about.html", desc: "Platform & methodology" },
         { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
-        { label: "Colorado Market", href: "colorado-market.html", desc: "Market conditions" },
         { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
         { label: "Sitemap", href: "sitemap.html", desc: "All pages" },
         { label: "Privacy Policy", href: "privacy-policy.html", desc: "Data & privacy" },
-        { label: "Dashboard (Legacy)", href: "dashboard.html", desc: "Legacy dashboard" },
       ]
     }
   ];
@@ -137,6 +133,14 @@
       link.rel = 'stylesheet';
       link.href = relToRoot() + 'css/mobile-nav.css';
       document.head.appendChild(link);
+    }
+
+    // Inject glossary.js once (provides modal + auto-tooltips for acronyms)
+    if (!document.getElementById('glossary-script')) {
+      const gs = document.createElement('script');
+      gs.id = 'glossary-script';
+      gs.src = relToRoot() + 'js/glossary.js';
+      document.body.appendChild(gs);
     }
 
     // Header
