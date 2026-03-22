@@ -33,8 +33,8 @@
   <script defer src="js/market-data-quality.js"></script>
   <script defer src="js/market-analysis-enhancements.js"></script>
 </head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+<body data-page-last-updated="2026-03-22"
+      data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">  <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
     <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
   <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
@@ -45,7 +45,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="LIHTC-dashboard.html">5. LIHTC Dashboard</a>
+  <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
     <div style="padding:1rem 0 0.5rem">
@@ -490,6 +490,28 @@
   <script defer src="js/pma-justification.js"></script>
   <script defer src="js/pma-analysis-runner.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
+
+<script src="js/help-modal.js"></script>
+<script src="js/data-status-footer.js"></script>
+<script>
+  CohoHelp.init({
+    title: 'How to Use the Market Analysis Tool',
+    description: 'This tool performs a Primary Market Area (PMA) analysis for LIHTC site selection. It scores your proposed development site across demand, competition, rent, and supply factors using free public data.',
+    steps: [
+      { label: 'Enter a location', desc: 'Type an address, city, or county in the search box. The tool geocodes your input and defines a PMA radius around the site.' },
+      { label: 'Review the PMA boundary', desc: 'The map shows your Primary Market Area. You can adjust the radius if the auto-delineated area doesn\'t match the competitive landscape.' },
+      { label: 'Run the analysis', desc: 'Click "Run Analysis" to score the site. The tool pulls Census, HUD, and FRED data to calculate demand, capture rate, rent pressure, and supply scores.' },
+      { label: 'Interpret the scorecard', desc: 'The radar chart and score cards show how your site performs across all PMA dimensions. Scores above 70 are generally favorable for LIHTC.' },
+      { label: 'Review comparable projects', desc: 'The competitive set section lists nearby LIHTC developments with occupancy benchmarks and rent comparables.' },
+      { label: 'Export your PMA report', desc: 'Download the analysis as a PDF or JSON for use in your CHFA application or investor underwriting package.' },
+    ],
+    tips: [
+      'LIHTC applications to CHFA require a PMA study — this tool helps you prepare the data.',
+      'QCT and DDA designations are automatically detected and noted in the report — they affect your eligible basis.',
+      'A high capture rate (>35%) is a red flag — it suggests the market may already be saturated with affordable units.',
+    ]
+  });
+</script>
 
 <footer id="site-footer"></footer>
 </body>
