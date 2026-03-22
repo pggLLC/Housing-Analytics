@@ -54,6 +54,69 @@ Dark mode uses light text on dark surfaces. All light mode token values are over
 
 ---
 
+## Emphasis and Highlight Colors
+
+### When Emphasis Backgrounds Are Used
+
+The design system provides a set of **dim** tokens — `--accent-dim`, `--good-dim`, `--warn-dim`, `--bad-dim`, and `--info-dim` — for subtle tinted backgrounds used in:
+
+- Table row hover and selected states
+- Status badges (success, warning, error, info)
+- Alert / callout boxes
+- Active navigation links and checkboxes
+
+Each dim token is a semi-transparent version of its corresponding semantic color at **10 % opacity on white** (e.g. `--warn-dim: rgba(168,70,8,.10)`), producing a nearly-white tinted surface.
+
+### Choosing the Right Text Color
+
+| Background | Preferred text color | Why |
+|------------|---------------------|-----|
+| `--accent-dim` | `--text`, `--muted` | Dark text has ≥ 8:1 on near-white tint |
+| `--good-dim` | `--text`, `--good` | `--text` ≥ 14:1; `--good` ≥ 4.78:1 |
+| `--warn-dim` | `--text`, `--warn` | `--text` ≥ 14:1; `--warn` ≥ 5.13:1 |
+| `--bad-dim` | `--text`, `--bad` | `--text` ≥ 13:1; `--bad` ≥ 6.96:1 |
+| `--info-dim` | `--text`, `--info` | `--text` ≥ 14:1; `--info` ≥ 5.83:1 |
+
+**Never** place muted or faint text on a dim background using the semantic status color — use `--text` or `--muted` instead.
+
+### Adding a New Emphasis Style
+
+Before shipping any new badge, alert, or highlighted region:
+
+1. **Identify the text/background pair** — e.g. `--warn` text on `--warn-dim` background.
+2. **Add the pair to `.contrast-check-config.json`** with `"lightOnly": true` (dim backgrounds are rgba and cannot be blended correctly in the dark-mode model):
+   ```json
+   {
+     "label": "Warn status text on warn-dim badge background",
+     "fg": "--warn",
+     "bg": "--warn-dim",
+     "lightOnly": true
+   }
+   ```
+3. **Run the light-mode check** to confirm ≥ 4.5:1:
+   ```bash
+   node tools/contrast-checker.js
+   ```
+4. **Manually verify dark mode** — open a page in dark mode and visually inspect the element. The automated tool blends rgba colors on white and cannot correctly model dark card backgrounds, so dark mode requires manual verification.
+5. **Do not hardcode hex values** in inline styles or `backgroundColor` arrays; always use `var(--xxx-dim)`.
+
+### Selection / Highlight
+
+`::selection` uses `var(--accent)` as background with white text in light mode (6.12:1 ✅) and dark navy text (`#0d1f35`) in dark mode (8.97:1 ✅). Do not override `::selection` background without re-verifying contrast.
+
+### Prohibited Inline Patterns
+
+The following patterns have been found to fail WCAG in alert boxes and must **not** be used:
+
+| Pattern | Problem |
+|---------|---------|
+| `background: rgba(192, 57, 43, …)` | Base `#c0392b` fails (3.4:1 on white) |
+| `background: rgba(198, 40, 40, …)` | Use `rgba(169, 50, 38, …)` (`#a93226`, 5.4:1) |
+
+Always use `var(--bad-dim)` or `var(--accent-dim)` CSS tokens instead of rgba literals derived from failing base colors.
+
+---
+
 ## Automated Contrast Testing
 
 ### Local Check
@@ -87,10 +150,18 @@ Token pairs and thresholds are configured in `.contrast-check-config.json`. Add 
       "fg": "--my-text-token",
       "bg": "--my-bg-token",
       "large": false
+    },
+    {
+      "label": "Status text on dim badge background (light mode only)",
+      "fg": "--warn",
+      "bg": "--warn-dim",
+      "lightOnly": true
     }
   ]
 }
 ```
+
+**`"lightOnly": true`** — Add this flag for any pair whose background is a semi-transparent `rgba()` token (e.g. `--warn-dim`). The checker always blends rgba on white, which correctly models light-mode near-white surfaces but gives misleading results for dark mode (where the real backdrop is a dark card). Such pairs are skipped when running `node tools/contrast-checker.js --dark`. Always **verify dark mode manually**.
 
 ### CI/CD Integration
 
@@ -106,6 +177,8 @@ Before merging any UI changes, verify:
 
 - [ ] All new text uses `--text`, `--muted`, or `--faint` tokens (never hardcoded hex)
 - [ ] Any non-token color has been verified with `tools/contrast-checker.js` or an online tool
+- [ ] New emphasis backgrounds (alerts, badges, highlights) use `--xxx-dim` tokens and the pair has been added to `.contrast-check-config.json` with `"lightOnly": true`
+- [ ] Dark mode emphasis backgrounds verified manually (the automated checker cannot model rgba backgrounds on dark cards)
 - [ ] `<canvas>` elements have `role="img"` and a descriptive `aria-label`
 - [ ] Interactive controls that update chart data call `window.__announceUpdate(message)` in their handler and the page has an `aria-live="polite"` region
 - [ ] All pages include `<header>`, `<main id="main-content">`, and `<footer>` landmarks

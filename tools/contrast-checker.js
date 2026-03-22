@@ -12,6 +12,13 @@
  * Usage:
  *   node tools/contrast-checker.js [--config <path>] [--css <path>] [--json] [--dark]
  *
+ * Notes:
+ *   - Pairs with "lightOnly": true in the config are skipped in --dark mode.
+ *     This covers emphasis/dim backgrounds (--accent-dim, --good-dim, etc.) whose
+ *     rgba values cannot be blended correctly against dark page backgrounds by this
+ *     tool. Always verify dim-background pairs manually in dark mode.
+ *     See docs/ACCESSIBILITY.md §"Emphasis and Highlight Colors".
+ *
  * Exit codes:
  *   0  All pairs pass
  *   1  One or more pairs fail
@@ -214,6 +221,13 @@ function main() {
   let anyFail = false;
 
   for (const pair of config.pairs) {
+    // Skip pairs flagged as light-mode only when running in dark mode.
+    // This is necessary for pairs whose background is a semi-transparent rgba()
+    // token (e.g. --good-dim, --warn-dim). The checker always blends rgba on white,
+    // which correctly models light mode (near-white page) but gives misleading
+    // near-white backgrounds in dark mode where the real backdrop is dark.
+    // Dark mode coverage for these pairs is verified manually per ACCESSIBILITY.md.
+    if (pair.lightOnly && DARK_MODE) continue;
     // pair.fg / pair.bg are token names like "--muted"; look them up first.
     const fgRaw = resolveToken(tokens.get(pair.fg) || pair.fg, tokens);
     const bgRaw = resolveToken(tokens.get(pair.bg) || pair.bg, tokens);

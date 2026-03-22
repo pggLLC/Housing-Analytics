@@ -33,8 +33,8 @@
   --accent2-dim:  rgba(200,111,13,.10);
   --good:         #047857;
   --good-dim:     rgba(4,120,87,.10);
-  --warn:         #b45309;
-  --warn-dim:     rgba(180,83,9,.10);
+  --warn:         #a84608;
+  --warn-dim:     rgba(168,70,8,.10);
   --bad:          #991b1b;
   --bad-dim:      rgba(153,27,27,.10);
   --info:         #1d4ed8;
@@ -707,8 +707,8 @@ html.light-mode {
   --accent2-dim:   rgba(200,111,13,.10);
   --good:          #047857;
   --good-dim:      rgba(4,120,87,.10);
-  --warn:          #b45309;
-  --warn-dim:      rgba(180,83,9,.10);
+  --warn:          #a84608;
+  --warn-dim:      rgba(168,70,8,.10);
   --bad:           #991b1b;
   --bad-dim:       rgba(153,27,27,.10);
   --info:          #1d4ed8;

@@ -111,6 +111,66 @@
       "label": "Link color on card surface",
       "fg": "--link",
       "bg": "--card"
+    },
+    {
+      "label": "Primary text on accent-dim background (table hover, active states)",
+      "fg": "--text",
+      "bg": "--accent-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Primary text on good-dim background (success alerts/badges)",
+      "fg": "--text",
+      "bg": "--good-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Primary text on warn-dim background (warning alerts/badges)",
+      "fg": "--text",
+      "bg": "--warn-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Primary text on bad-dim background (error alerts/badges)",
+      "fg": "--text",
+      "bg": "--bad-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Primary text on info-dim background (info alerts/badges)",
+      "fg": "--text",
+      "bg": "--info-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Muted text on accent-dim background (table hover labels)",
+      "fg": "--muted",
+      "bg": "--accent-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Good (success) status text on good-dim badge background",
+      "fg": "--good",
+      "bg": "--good-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Warn (warning) status text on warn-dim badge background",
+      "fg": "--warn",
+      "bg": "--warn-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Bad (error) status text on bad-dim badge background",
+      "fg": "--bad",
+      "bg": "--bad-dim",
+      "lightOnly": true
+    },
+    {
+      "label": "Info status text on info-dim badge background",
+      "fg": "--info",
+      "bg": "--info-dim",
+      "lightOnly": true
     }
   ]
 }
