@@ -196,7 +196,7 @@
     ];
     const thMetrics = METRIC_COLUMNS.map(col => ({
       id: col.id,
-      label: col.label.replace('\n', ' '),
+      label: col.label.replace(/\n/g, ' '),
       sortable: true,
     }));
     const thLink = { id: 'link', label: '', sortable: false };
