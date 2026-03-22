@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-21T07:34:56.280Z",
+  "generated": "2026-03-22T07:39:49.683Z",
   "files": [
     "alerts/alerts_archive.json",
     "allocations.json",
@@ -840,6 +840,7 @@
     "hna/summary/0886475.json",
     "hna/summary/0886750.json",
     "hud-fmr-income-limits.json",
+    "insights-meta.json",
     "kalshi/prediction-market.json",
     "lihtc-trends-by-county.json",
     "manifest.json",
@@ -857,5 +858,5 @@
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 855
+  "file_count": 856
 }
