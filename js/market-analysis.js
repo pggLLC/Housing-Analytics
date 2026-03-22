@@ -493,6 +493,22 @@
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
 
+    // Show a data-quality notice when ACS or LIHTC data is unavailable
+    var noticeEl = el('pmaDataNotice');
+    if (noticeEl) {
+      var notices = [];
+      if (result.acsUnavailable) {
+        notices.push('⚠ No ACS tract data found in this buffer — all dimension scores use fallback values. Try a larger radius or run the "Generate Market Analysis Data" workflow.');
+      }
+      if (result.lihtcUnavailable) {
+        notices.push('⚠ LIHTC data unavailable — capture risk uses 0 existing units.');
+      }
+      noticeEl.innerHTML = notices.length
+        ? notices.map(function (n) { return '<div class="pma-flag pma-flag-warn">' + n + '</div>'; }).join('')
+        : '';
+      noticeEl.style.display = notices.length ? '' : 'none';
+    }
+
     var dims = result.dimensions;
     var dimNames = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
     var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
@@ -522,7 +538,7 @@
     setText('pmaLihtcCount', result.lihtcCount);
     setText('pmaLihtcUnits', result.lihtcUnits);
     setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
-    setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
+    setText('pmaRenterHh', ((result.acs && result.acs.renter_hh) || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
     renderDataCoverage(result);
@@ -826,21 +842,17 @@
       }
     }
 
-    if (!acs) {
-      if (bufTracts.length > 0) {
-        console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
-          [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
-      }
-      showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
-      return;
+    var acsUnavailable = !acs;
+    if (acsUnavailable) {
+      console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
+        [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)' +
+        ' — proceeding with fallback scores (all dimensions will show ✕ fallback).');
     }
 
     var nearbyLihtc  = lihtcInBuffer(lat, lon, effectiveBuffer);
     if (lihtcLoadError) {
-      showEmpty('pmaScoreWrap',
-        'LIHTC data is unavailable — PMA score cannot be computed. ' +
-        'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
-      return;
+      console.warn('[market-analysis] LIHTC data is unavailable — LIHTC counts will be 0 in score.');
+      nearbyLihtc = [];
     }
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
@@ -866,10 +878,12 @@
 
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
-      tractCount: bufTracts.length, acs: acs,
+      tractCount: bufTracts.length, acs: acs || {},
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
       confidence: confidence,
+      acsUnavailable: acsUnavailable,
+      lihtcUnavailable: !!lihtcLoadError,
       _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
@@ -886,20 +900,21 @@
     if (MAC && typeof MAC.runAnalysis === 'function') {
       var MA = window.MAState;
       if (MA) {
-        var _totalHh = acs.total_hh || 0;
+        var _safeAcs = acs || {};
+        var _totalHh = _safeAcs.total_hh || 0;
         MA.setState({
           acs: {
-            pop:                acs.pop,
-            renter_hh:          acs.renter_hh,
-            owner_hh:           Math.max(0, _totalHh - (acs.renter_hh || 0)),
+            pop:                _safeAcs.pop,
+            renter_hh:          _safeAcs.renter_hh,
+            owner_hh:           Math.max(0, _totalHh - (_safeAcs.renter_hh || 0)),
             total_hh:           _totalHh,
-            vacant:             acs.vacant,
-            med_gross_rent:     acs.median_gross_rent,
-            med_hh_income:      acs.median_hh_income,
-            cost_burden_rate:   acs.cost_burden_rate,
-            renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
-            vacancy_rate:       acs.vacancy_rate,
-            tract_count:        acs.tract_count,
+            vacant:             _safeAcs.vacant,
+            med_gross_rent:     _safeAcs.median_gross_rent,
+            med_hh_income:      _safeAcs.median_hh_income,
+            cost_burden_rate:   _safeAcs.cost_burden_rate,
+            renter_share:       (_totalHh > 0 && _safeAcs.renter_hh != null) ? _safeAcs.renter_hh / _totalHh : null,
+            vacancy_rate:       _safeAcs.vacancy_rate,
+            tract_count:        _safeAcs.tract_count,
             // Fields not in the current ACS extract; renderers handle null gracefully.
             severe_burden_rate: null,
             poverty_rate:       null,
