@@ -1,0 +1,420 @@
+/* ================================================================
+   css/pages/hna-comparative-analysis.css
+   HNA Comparative Ranking Page styles
+   Depends on: css/site-theme.css, css/layout.css
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Page layout
+   ---------------------------------------------------------------- */
+.hca-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.25rem var(--sp4, 1rem) 3rem;
+}
+
+/* ----------------------------------------------------------------
+   Hero / header
+   ---------------------------------------------------------------- */
+.hca-hero {
+  margin-bottom: 1.5rem;
+}
+.hca-hero h1 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+  margin: 0 0 0.35rem;
+  color: var(--text-strong, var(--text));
+}
+.hca-hero-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  max-width: 720px;
+  line-height: 1.55;
+}
+.hca-hero-sub a { color: var(--accent); text-decoration: none; }
+.hca-hero-sub a:hover { text-decoration: underline; }
+
+/* ----------------------------------------------------------------
+   KPI strip
+   ---------------------------------------------------------------- */
+.hca-kpi-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.hca-kpi-card {
+  flex: 1 1 120px;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.hca-kpi-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-strong, var(--text));
+  line-height: 1;
+}
+.hca-kpi-label {
+  font-size: 0.77rem;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   Quick-access selector panel
+   ---------------------------------------------------------------- */
+.hca-quick-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+.hca-quick-btn {
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.hca-quick-btn:hover,
+.hca-quick-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------
+   Controls bar
+   ---------------------------------------------------------------- */
+.hca-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.hca-filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.hca-select,
+.hca-search {
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.88rem;
+  min-width: 130px;
+}
+.hca-search { min-width: 200px; flex: 1; max-width: 320px; }
+.hca-select:focus,
+.hca-search:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-color: var(--accent);
+}
+.hca-export-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.hca-export-btn:hover { opacity: 0.88; }
+
+/* ----------------------------------------------------------------
+   Table wrapper
+   ---------------------------------------------------------------- */
+.hca-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.hca-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.hca-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--card);
+}
+.hca-th {
+  padding: 9px 10px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+  user-select: none;
+}
+.hca-th.sortable {
+  cursor: pointer;
+}
+.hca-th.sortable:hover { color: var(--accent); }
+.hca-th.sort-asc  .sort-icon::after { content: " ↑"; }
+.hca-th.sort-desc .sort-icon::after { content: " ↓"; }
+.hca-th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: " ↕"; opacity: 0.45; }
+
+.hca-tr { border-bottom: 1px solid var(--border); }
+.hca-tr:last-child { border-bottom: none; }
+.hca-tr:hover { background: var(--bg); }
+.hca-tr.highlighted {
+  background: var(--accent-dim) !important;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.hca-td {
+  padding: 8px 10px;
+  vertical-align: middle;
+  color: var(--text);
+}
+.hca-td-name {
+  font-weight: 600;
+  color: var(--text-strong, var(--text));
+  white-space: nowrap;
+}
+.hca-td-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* Rank badge */
+.hca-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--bg2);
+  color: var(--muted);
+}
+.hca-rank.top20  { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.hca-rank.top40  { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.hca-rank.top60  { background: #fefce8; color: #a16207; border: 1px solid #fde68a; }
+.hca-rank.top80  { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.hca-rank.bot20  { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+/* Type badge */
+.hca-type-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hca-type-county { background: var(--info-dim); color: var(--info); }
+.hca-type-place  { background: var(--accent-dim); color: var(--accent); }
+.hca-type-cdp    { background: var(--accent2-dim); color: var(--accent2); }
+
+/* HNA link */
+.hca-hna-link {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.hca-hna-link:hover { text-decoration: underline; }
+
+/* Loading/empty states */
+.hca-loading, .hca-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ----------------------------------------------------------------
+   Detail panel (hover/select context card)
+   ---------------------------------------------------------------- */
+.hca-detail-panel {
+  display: none;
+  padding: 12px 16px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+}
+.hca-detail-panel.visible { display: block; }
+.hca-detail-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-strong, var(--text));
+  margin-bottom: 0.5rem;
+}
+.hca-detail-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.hca-detail-stat {
+  display: flex;
+  flex-direction: column;
+}
+.hca-detail-stat-val {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-strong, var(--text));
+}
+.hca-detail-stat-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.hca-detail-link {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 0.83rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.hca-detail-link:hover { text-decoration: underline; }
+.hca-detail-close {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--muted);
+  line-height: 1;
+  padding: 2px 4px;
+}
+.hca-detail-close:hover { color: var(--text); }
+
+/* Percentile bar */
+.hca-pct-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.hca-pct-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.hca-pct-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* ----------------------------------------------------------------
+   Results count
+   ---------------------------------------------------------------- */
+.hca-results-count {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+/* ----------------------------------------------------------------
+   Footer note
+   ---------------------------------------------------------------- */
+.hca-footnote {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+.hca-footnote a { color: var(--accent); }
+
+/* ----------------------------------------------------------------
+   Dark-mode overrides
+   ---------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  .hca-rank.top20 { background: rgba(220,38,38,.15); }
+  .hca-rank.top40 { background: rgba(194,65,12,.15); }
+  .hca-rank.top60 { background: rgba(161,98,7,.15); }
+  .hca-rank.top80 { background: rgba(21,128,61,.15); }
+  .hca-rank.bot20 { background: rgba(29,78,216,.15); }
+}
+[data-theme="dark"] .hca-rank.top20 { background: rgba(220,38,38,.15); }
+[data-theme="dark"] .hca-rank.top40 { background: rgba(194,65,12,.15); }
+[data-theme="dark"] .hca-rank.top60 { background: rgba(161,98,7,.15); }
+[data-theme="dark"] .hca-rank.top80 { background: rgba(21,128,61,.15); }
+[data-theme="dark"] .hca-rank.bot20 { background: rgba(29,78,216,.15); }
+
+/* ----------------------------------------------------------------
+   Responsive / mobile card view
+   ---------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hca-table-wrap { max-height: none; overflow-x: auto; }
+  .hca-table thead { display: none; }
+  .hca-tr {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hca-td {
+    padding: 2px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hca-td::before {
+    content: attr(data-label);
+    font-size: 0.73rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .hca-td-num { text-align: right; }
+  .hca-search { max-width: none; width: 100%; }
+}
+
+/* touch target compliance */
+.hca-quick-btn,
+.hca-export-btn,
+.hca-detail-close {
+  min-height: 44px;
+  min-width: 44px;
+}

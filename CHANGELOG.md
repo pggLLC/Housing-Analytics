@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## Comparative HNA Needs Ranking Page
+**Date:** March 2026
+
+### Summary
+Created a new statewide **Comparative HNA Needs Ranking Page** (`hna-comparative-analysis.html`) that aggregates all 544 Colorado geographies (64 counties, 272 municipalities, 208 CDPs) and ranks them by housing need metrics. Includes a Python build script, JavaScript ranking module with sort/filter/search/CSV-export, and a full integration test suite.
+
+### New Files
+- `hna-comparative-analysis.html` — Comparative ranking page with sortable table, quick filters, detail panel, and CSV export
+- `js/hna/hna-ranking-index.js` — JavaScript module for data loading, sort, filter, fuzzy search, and CSV export
+- `css/pages/hna-comparative-analysis.css` — Page styles (responsive, dark-mode-aware, WCAG AA)
+- `scripts/hna/build_ranking_index.py` — ETL script: aggregates ACS, DOLA projections, CHAS, and AMI gap data into `data/hna/ranking-index.json`
+- `data/hna/ranking-index.json` — Generated ranking data for all 544 Colorado geographies
+- `test/integration/hna-ranking.test.js` — 50-check integration test suite
+
+### Modified Files
+- `js/navigation.js` — Added "HNA Comparative Ranking" to Platform nav group
+- `CHANGELOG.md` — This entry
+
+### Key Features
+- Ranks all counties, municipalities, and CDPs by: housing unit gap at 30% AMI, % rent-burdened households, population, median income, 20-year population projection, and % renters
+- Quick-access preset buttons (Top Need, Counties Only, Front Range, Mountains, Western Slope)
+- Search by name or GEOID; filter by geography type and region
+- Detail context panel showing statewide rank, percentile, and key metrics for selected geography
+- One-click link from ranking row to full individual HNA
+- CSV export of filtered results
+- WCAG 2.1 AA compliant (aria-live, landmarks, skip link, touch targets ≥ 44px)
+- Responsive design with mobile card view
+
+---
+
 ## Documentation Refresh — All Markdown Files Current
 **Date:** March 2026
 

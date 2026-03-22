@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>HNA Comparative Ranking | COHO Analytics</title>
+  <meta name="description" content="Statewide comparative ranking of Housing Needs Assessments for all Colorado counties, municipalities, and CDPs — sorted by housing gap, affordability, and growth metrics." />
+  <meta property="og:title" content="HNA Comparative Ranking | COHO Analytics">
+  <meta property="og:description" content="Rank all Colorado counties, municipalities, and CDPs by housing need metrics.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/pages/hna-comparative-analysis.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/hna/hna-ranking-index.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="hcaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <main id="main-content" class="hca-main">
+
+    <!-- Workflow breadcrumb -->
+    <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
+      <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
+      <span class="workflow-step-arrow" aria-hidden="true">→</span>
+      <span class="workflow-step workflow-step--active">2. Comparative Ranking</span>
+      <span class="workflow-step-arrow" aria-hidden="true">→</span>
+      <a class="workflow-step" href="market-analysis.html">3. Market Analysis</a>
+      <span class="workflow-step-arrow" aria-hidden="true">→</span>
+      <a class="workflow-step" href="colorado-deep-dive.html">4. Deep Dive</a>
+    </div>
+
+    <!-- Hero -->
+    <div class="hca-hero">
+      <div class="kicker">Colorado • Statewide Context</div>
+      <h1>HNA Comparative Needs Ranking</h1>
+      <p class="hca-hero-sub">
+        Rank all Colorado counties, municipalities, and Census-Designated Places by housing need metrics.
+        Select any geography to see its statewide position and link directly to its full
+        <a href="housing-needs-assessment.html">Housing Needs Assessment</a>.
+        Rankings update automatically each Monday when HNA data refreshes.
+      </p>
+      <small id="hcaDataTimestamp" class="data-timestamp"></small>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="hca-kpi-strip" aria-label="Coverage statistics">
+      <div class="hca-kpi-card">
+        <span class="hca-kpi-value" id="hcaKpiTotal">—</span>
+        <span class="hca-kpi-label">Total Geographies</span>
+      </div>
+      <div class="hca-kpi-card">
+        <span class="hca-kpi-value" id="hcaKpiCounties">—</span>
+        <span class="hca-kpi-label">Counties</span>
+      </div>
+      <div class="hca-kpi-card">
+        <span class="hca-kpi-value" id="hcaKpiPlaces">—</span>
+        <span class="hca-kpi-label">Municipalities</span>
+      </div>
+      <div class="hca-kpi-card">
+        <span class="hca-kpi-value" id="hcaKpiCDPs">—</span>
+        <span class="hca-kpi-label">CDPs</span>
+      </div>
+    </div>
+
+    <!-- Quick-access preset buttons -->
+    <div class="hca-quick-bar" role="toolbar" aria-label="Quick filters">
+      <button class="hca-quick-btn active" data-preset="all"         type="button">All Geographies</button>
+      <button class="hca-quick-btn"        data-preset="top10"       type="button">Top Need</button>
+      <button class="hca-quick-btn"        data-preset="counties"    type="button">Counties Only</button>
+      <button class="hca-quick-btn"        data-preset="places"      type="button">Municipalities Only</button>
+      <button class="hca-quick-btn"        data-preset="cdps"        type="button">CDPs Only</button>
+      <button class="hca-quick-btn"        data-preset="frontRange"  type="button">Front Range</button>
+      <button class="hca-quick-btn"        data-preset="mountains"   type="button">Mountains</button>
+      <button class="hca-quick-btn"        data-preset="westernSlope"type="button">Western Slope</button>
+    </div>
+
+    <!-- Search & filter controls -->
+    <div class="hca-controls" role="search" aria-label="Search and filter controls">
+      <input
+        id="hcaSearch"
+        class="hca-search"
+        type="search"
+        placeholder="Search geography name or GEOID…"
+        aria-label="Search geography"
+        autocomplete="off"
+      >
+
+      <label class="hca-filter-label">
+        Geography type
+        <select id="hcaFilterType" class="hca-select" aria-label="Filter by geography type">
+          <option value="">All types</option>
+          <option value="county">County</option>
+          <option value="place">Municipality</option>
+          <option value="cdp">CDP</option>
+        </select>
+      </label>
+
+      <label class="hca-filter-label">
+        Region
+        <select id="hcaFilterRegion" class="hca-select" aria-label="Filter by region">
+          <option value="">All regions</option>
+          <option value="Front Range">Front Range</option>
+          <option value="Mountains">Mountains</option>
+          <option value="Western Slope">Western Slope</option>
+          <option value="Eastern Plains">Eastern Plains</option>
+          <option value="San Luis Valley">San Luis Valley</option>
+          <option value="Southwest">Southwest</option>
+        </select>
+      </label>
+
+      <label class="hca-filter-label">
+        Sort by
+        <select id="hcaSortMetric" class="hca-select" aria-label="Sort by metric">
+          <option value="housing_gap_units">Units Needed (30% AMI)</option>
+          <option value="pct_cost_burdened">% Rent Burdened</option>
+          <option value="population">Population</option>
+          <option value="median_hh_income">Median HH Income</option>
+          <option value="population_projection_20yr">Population Projection (20 yr)</option>
+          <option value="pct_renters">% Renters</option>
+        </select>
+      </label>
+
+      <button id="hcaExportBtn" class="hca-export-btn" type="button" aria-label="Export filtered results as CSV">
+        ⬇ Export CSV
+      </button>
+    </div>
+
+    <!-- Detail context panel -->
+    <div id="hcaDetailPanel" class="hca-detail-panel" role="region" aria-label="Selected geography detail" aria-live="polite"></div>
+
+    <!-- Results count -->
+    <p class="hca-results-count" id="hcaResultsCount" aria-live="polite"></p>
+
+    <!-- Ranking table -->
+    <div class="hca-table-wrap" id="hcaTableWrap" role="region" aria-label="HNA Comparative Ranking Table">
+      <table class="hca-table" id="hcaTable" aria-label="Housing Needs Assessment comparative ranking for Colorado geographies">
+        <thead id="hcaTableHead">
+          <tr>
+            <th class="hca-th" scope="col">Rank</th>
+            <th class="hca-th" scope="col">Geography</th>
+            <th class="hca-th" scope="col">Type</th>
+            <th class="hca-th" scope="col">Region</th>
+            <th class="hca-th sortable" scope="col" data-metric="housing_gap_units" tabindex="0" role="columnheader" aria-sort="descending">
+              Units Needed (30% AMI)<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th sortable" scope="col" data-metric="pct_cost_burdened" tabindex="0" role="columnheader" aria-sort="none">
+              % Rent Burdened<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th sortable" scope="col" data-metric="population" tabindex="0" role="columnheader" aria-sort="none">
+              Population<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th sortable" scope="col" data-metric="median_hh_income" tabindex="0" role="columnheader" aria-sort="none">
+              Median HH Income<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th sortable" scope="col" data-metric="population_projection_20yr" tabindex="0" role="columnheader" aria-sort="none">
+              Pop. Projection (20 yr)<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th sortable" scope="col" data-metric="pct_renters" tabindex="0" role="columnheader" aria-sort="none">
+              % Renters<span class="sort-icon" aria-hidden="true"></span>
+            </th>
+            <th class="hca-th" scope="col">Full HNA</th>
+          </tr>
+        </thead>
+        <tbody id="hcaTableBody" role="rowgroup">
+          <tr><td colspan="11" class="hca-loading" aria-live="polite">Loading ranking data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="hca-footnote">
+      Rankings derived from ACS 5-year estimates, DOLA county population projections,
+      HUD CHAS cost-burden data, and AMI gap modeling.
+      Affordability gaps reflect 30% Area Median Income unit deficits per county;
+      municipal values are scaled by population share.
+      Data refreshes automatically each Monday 06:30 UTC via GitHub Actions.
+      · <a href="housing-needs-assessment.html">Run individual HNA →</a>
+      · <a href="data-status.html">Data freshness →</a>
+    </p>
+
+  </main>
+</body>
+</html>
