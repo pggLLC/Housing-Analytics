@@ -1,53 +1,54 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-22T13:20:53.016Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-22T14:20:36.066Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-32 pages found.
+33 pages found.
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations Dashboard | COHO Analytics | 32.3 KB |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 438 B |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.4 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 103.3 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.3 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
-| `colorado-market.html` | Colorado LIHTC Market Analysis | COHO Analytics | 10.1 KB |
-| `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.8 KB |
+| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 444 B |
+| `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.9 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.7 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 37.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 9.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 59.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 60.9 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 21.5 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 26.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 28.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 16.3 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 16.4 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 9.3 KB |
-| `state-allocation-map.html` | 2026 Federal LIHTC Information by State | COHO Analytics | 18.1 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
+| `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 438 B |
 
 ---
 
 ## Data Files (`data/**/*.json`)
 
-845 JSON files found.
+846 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -70,6 +71,7 @@
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/fred-data.json` | 1.46 MB | ✅ | — |
+| `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -929,7 +931,7 @@
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 953 B |
-| `test/pages-availability-check.js` | 9.4 KB |
+| `test/pages-availability-check.js` | 10.0 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 11.8 KB |
 | `test/preservation.test.js` | 16.7 KB |
