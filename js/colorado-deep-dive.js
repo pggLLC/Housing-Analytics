@@ -490,6 +490,8 @@ function initPolicyPanel(panelId) {
   function activateTab(panelId, opts) {
     opts = opts || {};
     var updateHash = opts.updateHash !== false;
+    /* Scope to .tab-nav to avoid picking up the outer page-level tablist
+       (.page-tabs) added for the Deep Dive / Market Overview toggle. */
     var tabList = document.querySelector('[role="tablist"].tab-nav');
     if (!tabList) return;
 
@@ -558,6 +560,8 @@ function initPolicyPanel(panelId) {
 
   /* ── Tab setup ─────────────────────────────────────────────────── */
   function setupTabs() {
+    /* Scope to .tab-nav (inner analysis tabs) — the outer .page-tabs tablist
+       is handled by a separate inline script in the HTML. */
     var tabList = document.querySelector('[role="tablist"].tab-nav');
     if (!tabList) return;
 
