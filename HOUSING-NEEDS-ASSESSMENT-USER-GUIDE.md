@@ -23,9 +23,10 @@
 4. [How to Use Scenario Projections](#4-how-to-use-scenario-projections)
 5. [Prop 123 Compliance Tracking Workflow](#5-prop-123-compliance-tracking-workflow)
 6. [Municipal-Level Assessments](#6-municipal-level-assessments)
-7. [Data Update Frequency & Reliability](#7-data-update-frequency--reliability)
-8. [Troubleshooting Guide](#8-troubleshooting-guide)
-9. [FAQ](#9-faq)
+7. [Using the Comparative Ranking Page](#7-using-the-comparative-ranking-page)
+8. [Data Update Frequency & Reliability](#8-data-update-frequency--reliability)
+9. [Troubleshooting Guide](#9-troubleshooting-guide)
+10. [FAQ](#10-faq)
 
 ---
 
@@ -389,7 +390,51 @@ If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, thos
 
 ---
 
-## 7. Data Update Frequency & Reliability
+## 7. Using the Comparative Ranking Page
+
+The **HNA Comparative Ranking Page** (`hna-comparative-analysis.html`) places any individual geography in statewide context by ranking all 544 Colorado geographies side-by-side.
+
+### 7.1 What the Ranking Page Shows
+
+| Metric | Source | Description |
+|--------|--------|-------------|
+| **Units Needed (30% AMI)** | AMI gap model | Deficit of affordable units at 30% Area Median Income |
+| **% Rent-Burdened Households** | HUD CHAS | Share of renters paying ≥30% of income on housing |
+| **Population** | ACS 5-year | Current total population estimate |
+| **Median HH Income** | ACS 5-year | Inflation-adjusted median household income |
+| **Population Projection (20 yr)** | DOLA SYA | Projected population approximately 20 years from base year |
+| **% Renters** | ACS 5-year | Share of occupied units that are renter-occupied |
+
+### 7.2 How to Use the Ranking Page
+
+1. **Start at the ranking page** — Navigate to `hna-comparative-analysis.html` from the top navigation under "Platform → HNA Comparative Ranking."
+2. **Apply quick filters** — Click preset buttons to filter to counties only, municipalities only, CDPs, or a specific region (Front Range, Mountains, Western Slope).
+3. **Search for a specific geography** — Type a name or GEOID in the search box. Results filter instantly.
+4. **Sort by any metric** — Click a column header to sort ascending or descending. Use the "Sort by" dropdown for a persistent sort.
+5. **Select a geography** — Click any row to open the detail panel, which shows:
+   - Statewide rank and percentile
+   - Key metrics at a glance
+   - A need-intensity bar
+   - Direct link to the full HNA for that geography
+6. **Open the full HNA** — Click "Open HNA →" in any row or in the detail panel to jump directly to `housing-needs-assessment.html` pre-loaded with that geography.
+7. **Export results** — Click "Export CSV" to download the current filtered and sorted list as a CSV file.
+
+### 7.3 Ranking Methodology
+
+- **Housing gap** is derived from the AMI gap model (`data/co_ami_gap_by_county.json`). County values use the 30% AMI unit deficit directly. Municipal and CDP values are scaled by population share within their containing county.
+- **Cost burden** (% rent-burdened) comes from HUD CHAS data for counties; municipalities inherit their county rate.
+- **Population projections** use DOLA/SDO 20-year county forecasts. Municipalities are scaled by their current share of county population.
+- **Percentile rank** is computed across all 544 geographies. A 99th percentile indicates the highest housing need relative to all other Colorado geographies.
+
+### 7.4 Navigating Between Individual HNA and Ranking
+
+- From any individual HNA, look for the **workflow breadcrumb** at the top of the page for a direct link to the ranking page.
+- From the ranking page, click any geography row to go directly to its full HNA.
+- Both pages share the same data pipeline and refresh on the same Monday 06:30 UTC schedule.
+
+---
+
+## 8. Data Update Frequency & Reliability
 
 | Data source | Update frequency | Lag | Reliability |
 |-------------|-----------------|-----|-------------|
@@ -409,7 +454,7 @@ If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, thos
 
 ---
 
-## 8. Troubleshooting Guide
+## 9. Troubleshooting Guide
 
 ### Charts show "—" or don't render
 
@@ -472,7 +517,7 @@ If ETL-derived inputs are available in `data/hna/derived/geo-derived.json`, thos
 
 ---
 
-## 9. FAQ
+## 10. FAQ
 
 **Q: How accurate are the municipal-level projections?**
 
