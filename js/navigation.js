@@ -135,14 +135,6 @@
       document.head.appendChild(link);
     }
 
-    // Inject glossary.js once (provides modal + auto-tooltips for acronyms)
-    if (!document.getElementById('glossary-script')) {
-      const gs = document.createElement('script');
-      gs.id = 'glossary-script';
-      gs.src = relToRoot() + 'js/glossary.js';
-      document.body.appendChild(gs);
-    }
-
     // Header
     const header = document.createElement('header');
     header.className = 'site-header';
@@ -223,7 +215,7 @@
         <div class="footer-col">
           <strong>Data</strong>
           <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
-          <a href="${normalizeHref('LIHTC-dashboard.html')}">LIHTC Allocations</a>
+          <a href="${normalizeHref('lihtc-allocations.html')}">LIHTC Allocations</a>
           <a href="${normalizeHref('market-intelligence.html')}">Market Intelligence</a>
         </div>
         <div class="footer-disclaimer">
@@ -251,6 +243,16 @@
 
     // Inject drawer into body
     document.body.appendChild(drawer);
+
+    // Inject glossary.js once — after header is in the DOM so the glossary
+    // button injection can find nav.site-nav immediately, or falls back to
+    // the 'nav:rendered' event dispatched at the end of this function.
+    if (!document.getElementById('glossary-script')) {
+      const gs = document.createElement('script');
+      gs.id = 'glossary-script';
+      gs.src = relToRoot() + 'js/glossary.js';
+      document.body.appendChild(gs);
+    }
 
     // Desktop dropdown toggle
     header.querySelectorAll('.nav-group-btn').forEach(function(btn) {
