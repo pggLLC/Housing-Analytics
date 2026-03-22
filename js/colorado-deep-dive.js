@@ -305,7 +305,7 @@ function initPolicyPanel(panelId) {
         if (pct <  25) return '#2ca25f';
         if (pct <  35) return '#f0ab00';
         if (pct <  50) return '#e07b00';
-        return '#c0392b';
+        return '#991b1b';
       }
 
       /* Build a lookup map from GEOID → ACS metrics, then render either a
@@ -466,7 +466,7 @@ function initPolicyPanel(panelId) {
           var supplyPct = (coverage * 100).toFixed(1);
           var tr = document.createElement('tr');
           tr.innerHTML = '<td>' + escapeHtml(c.county_name) + '</td>' +
-            '<td style="color:#c0392b;font-variant-numeric:tabular-nums;">' + gap.toLocaleString() + '</td>' +
+            '<td style="color:#991b1b;font-variant-numeric:tabular-nums;">' + gap.toLocaleString() + '</td>' +
             '<td>' + supplyPct + '%</td>' +
             '<td style="color:var(--muted);">50% AMI tier</td>';
           tbody.appendChild(tr);
