@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-22T12:39:12.403Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-22T12:48:48.480Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-31 pages found.
+32 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -26,6 +26,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 36.3 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 9.8 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 59.3 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
@@ -46,7 +47,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-844 JSON files found.
+845 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -333,6 +334,7 @@
 | `data/hna/projections/08121.json` | 3.5 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 3.5 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 279.1 KB | ✅ | — |
 | `data/hna/summary/08.json` | 968 B | ✅ | — |
 | `data/hna/summary/08001.json` | 1.1 KB | ✅ | — |
 | `data/hna/summary/08003.json` | 1.0 KB | ✅ | — |
@@ -899,7 +901,7 @@
 
 ## Test Files
 
-60 test files found.
+61 test files found.
 
 | File | Size |
 |------|------|
@@ -922,6 +924,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
+| `test/integration/hna-ranking.test.js` | 10.7 KB |
 | `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
