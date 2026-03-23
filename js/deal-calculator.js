@@ -562,6 +562,10 @@
     note.style.display = basisBoostEligible ? 'block' : 'none';
   }
 
+  // TODO (Future PR): integrate full 4%/9% deal-predictor module
+  //   (js/lihtc-deal-predictor.js) with CHFA QAP scoring, soft-debt layering,
+  //   and investor pricing.  This calculator is intentionally scoped to
+  //   early-stage feasibility sizing only and is not a final underwriting tool.
   window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };
 
   if (document.readyState === 'loading') {
