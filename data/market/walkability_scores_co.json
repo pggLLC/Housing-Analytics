@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "source": "EPA Smart Location Database v3.0",
+    "url": "https://www.epa.gov/smartgrowth/smart-location-mapping",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2021",
+    "generated": "2026-03-23T00:00:00Z",
+    "tract_count": 0,
+    "coverage_pct": 0.0,
+    "score_scale": "NatWalkInd: 0-20 (higher = more walkable)",
+    "note": "Stub — rebuild via scripts/market/fetch_walkability.py"
+  },
+  "tracts": []
+}

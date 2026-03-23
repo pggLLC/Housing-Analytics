@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "source": "NOAA CDO + EPA EJI + CWCB + Colorado State Forest Service",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2022-2024",
+    "generated": "2026-03-23T00:00:00Z",
+    "eji_tract_count": 0,
+    "noaa_station_count": 0,
+    "coverage_pct": 0.0,
+    "note": "Stub — rebuild via scripts/market/fetch_climate_and_environment.py"
+  },
+  "hazard_summary": {
+    "drought_risk": {
+      "level": "high",
+      "description": "Colorado faces persistent drought; Western Slope most affected",
+      "source": "NOAA/NIDIS Colorado Drought Monitor"
+    },
+    "wildfire_risk": {
+      "level": "very_high",
+      "description": "Increasing wildfire risk across Front Range foothills and mountain counties",
+      "source": "Colorado State Forest Service — 2024 State Forest Report"
+    },
+    "flooding_risk": {
+      "level": "moderate",
+      "description": "Flash flooding along Front Range drainages and river corridors",
+      "source": "CWCB Colorado Hazard Mapping Program"
+    },
+    "hail_risk": {
+      "level": "high",
+      "description": "Colorado Front Range in 'hail alley'; significant insurance implications",
+      "source": "NOAA Storm Prediction Center"
+    },
+    "extreme_heat": {
+      "level": "moderate",
+      "description": "Denver metro 30-40 days >90°F annually; increasing trend",
+      "source": "NOAA Climate Normals 1991-2020"
+    }
+  },
+  "noaa_summary": {
+    "station_count": 0,
+    "stations_sample": []
+  },
+  "eji_tracts": []
+}

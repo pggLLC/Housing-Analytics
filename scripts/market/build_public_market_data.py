@@ -671,95 +671,216 @@ def write_json(path: Path, obj: dict):
     log(f"wrote {path.relative_to(ROOT)} ({size:,} bytes)")
 
 
+# ── Orchestration helpers ──────────────────────────────────────────────────────
+
+# Map of supplemental data source scripts to their output files.
+# Each entry: (script_path, output_file, phase)
+# Phases: 1=critical, 2=high-priority, 3=policy-overlays
+SUPPLEMENTAL_SOURCES = [
+    # Phase 1
+    ("scripts/market/fetch_schools.py",            "schools_co.geojson",              1),
+    ("scripts/market/fetch_opportunity_zones.py",  "opportunity_zones_co.geojson",    1),
+    ("scripts/market/fetch_parcel_data.py",        "parcel_aggregates_co.json",       1),
+    # Phase 2
+    ("scripts/market/fetch_gtfs_transit.py",       "transit_routes_co.geojson",       2),
+    ("scripts/market/fetch_walkability.py",         "walkability_scores_co.json",      2),
+    ("scripts/market/fetch_flood_zones.py",         "flood_zones_co.geojson",          2),
+    ("scripts/market/fetch_food_access.py",         "food_access_co.json",             2),
+    ("scripts/market/fetch_qct_dda.py",             "qct_dda_designations_co.json",    2),
+    ("scripts/market/fetch_utility_capacity.py",    "utility_capacity_co.geojson",     2),
+    ("scripts/market/fetch_zoning.py",              "zoning_compat_index_co.json",     2),
+    # Phase 3
+    ("scripts/market/fetch_chfa_programs.py",       "chfa_programs_co.json",           3),
+    ("scripts/market/fetch_inclusionary_zoning.py", "inclusionary_zoning_co.json",     3),
+    ("scripts/market/fetch_climate_and_environment.py",
+                                                    "climate_hazards_co.json",         3),
+]
+
+
+def run_supplemental_sources(phase: int | None = None, dry_run: bool = False) -> list[str]:
+    """Invoke supplemental data source scripts as subprocesses.
+
+    Parameters
+    ----------
+    phase:    If set, only run scripts for this phase (1, 2, or 3).
+              If None, run all phases.
+    dry_run:  If True, log which scripts would run without executing them.
+
+    Returns a list of scripts that failed (empty = all OK).
+    """
+    import subprocess
+
+    failed = []
+    for script_rel, output_file, script_phase in SUPPLEMENTAL_SOURCES:
+        if phase is not None and script_phase != phase:
+            continue
+        script_path = ROOT / script_rel
+        if not script_path.exists():
+            log(f"[supplemental] Script not found: {script_rel}", level="WARN")
+            continue
+        output_path = OUT_DIR / output_file
+        if dry_run:
+            log(f"[dry-run] Would run: {script_rel} → {output_file}")
+            continue
+        log(f"[supplemental] Running phase {script_phase}: {script_rel}")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script_path)],
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
+            if result.returncode == 0:
+                n_bytes = output_path.stat().st_size if output_path.exists() else 0
+                log(f"  ✓ {output_file} ({n_bytes:,} bytes)")
+            else:
+                log(f"  ✗ {script_rel} exited {result.returncode}: "
+                    f"{result.stderr.strip()[-200:]}", level="WARN")
+                failed.append(script_rel)
+        except Exception as exc:
+            log(f"  ✗ {script_rel} exception: {exc}", level="WARN")
+            failed.append(script_rel)
+
+    return failed
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="PMA Market Data Builder")
+    parser.add_argument(
+        "--phase", type=int, choices=[1, 2, 3], default=None,
+        help="Run supplemental sources for a specific phase only (1/2/3)",
+    )
+    parser.add_argument(
+        "--supplemental-only", action="store_true",
+        help="Skip core TIGERweb/ACS/LIHTC build; only run supplemental sources",
+    )
+    parser.add_argument(
+        "--supplemental", action="store_true",
+        help="Also run supplemental data source scripts after core build",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true",
+        help="Log what would run without executing supplemental scripts",
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print(f"PMA Market Data Builder — {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC")
     print("=" * 60)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 1. Tract centroids
-    try:
-        centroids = build_tract_centroids()
-    except Exception as e:
-        log(f"Tract centroids failed: {e}", level="ERROR")
-        centroids = {"meta": {}, "tracts": []}
-    # Fall back to existing file if fetch returned no tracts
-    if not centroids.get("tracts"):
-        existing = OUT_DIR / "tract_centroids_co.json"
-        if existing.exists():
-            saved = json.loads(existing.read_text())
-            if saved.get("tracts"):
-                centroids = saved
-                log("[fallback] Using existing tract_centroids_co.json")
+    if not args.supplemental_only:
+        # 1. Tract centroids
+        try:
+            centroids = build_tract_centroids()
+        except Exception as e:
+            log(f"Tract centroids failed: {e}", level="ERROR")
+            centroids = {"meta": {}, "tracts": []}
+        # Fall back to existing file if fetch returned no tracts
+        if not centroids.get("tracts"):
+            existing = OUT_DIR / "tract_centroids_co.json"
+            if existing.exists():
+                saved = json.loads(existing.read_text())
+                if saved.get("tracts"):
+                    centroids = saved
+                    log("[fallback] Using existing tract_centroids_co.json")
 
-    # 2. ACS metrics
-    try:
-        acs = build_acs_metrics(centroids)
-    except Exception as e:
-        log(f"ACS metrics failed: {e}", level="ERROR")
-        acs = {"meta": {}, "tracts": []}
-    # Fall back to existing file if fetch returned too few tracts (< 1000 means partial/failed fetch)
-    if len(acs.get("tracts", [])) < 1000:
-        existing = OUT_DIR / "acs_tract_metrics_co.json"
-        if existing.exists():
-            saved = json.loads(existing.read_text())
-            if len(saved.get("tracts", [])) >= 1000:
-                acs = saved
-                log("[fallback] Using existing acs_tract_metrics_co.json")
+        # 2. ACS metrics
+        try:
+            acs = build_acs_metrics(centroids)
+        except Exception as e:
+            log(f"ACS metrics failed: {e}", level="ERROR")
+            acs = {"meta": {}, "tracts": []}
+        # Fall back to existing file if fetch returned too few tracts (< 1000 means partial/failed fetch)
+        if len(acs.get("tracts", [])) < 1000:
+            existing = OUT_DIR / "acs_tract_metrics_co.json"
+            if existing.exists():
+                saved = json.loads(existing.read_text())
+                if len(saved.get("tracts", [])) >= 1000:
+                    acs = saved
+                    log("[fallback] Using existing acs_tract_metrics_co.json")
 
-    # 3. HUD LIHTC
-    try:
-        lihtc = build_hud_lihtc()
-    except Exception as e:
-        log(f"HUD LIHTC failed: {e}", level="ERROR")
-        lihtc = _empty_lihtc_geojson()
-    # Fall back to existing file if fetch returned no features
-    if not lihtc.get("features"):
-        existing = OUT_DIR / "hud_lihtc_co.geojson"
-        if existing.exists():
-            saved = json.loads(existing.read_text())
-            if saved.get("features"):
-                lihtc = saved
-                log("[fallback] Using existing hud_lihtc_co.geojson")
+        # 3. HUD LIHTC
+        try:
+            lihtc = build_hud_lihtc()
+        except Exception as e:
+            log(f"HUD LIHTC failed: {e}", level="ERROR")
+            lihtc = _empty_lihtc_geojson()
+        # Fall back to existing file if fetch returned no features
+        if not lihtc.get("features"):
+            existing = OUT_DIR / "hud_lihtc_co.geojson"
+            if existing.exists():
+                saved = json.loads(existing.read_text())
+                if saved.get("features"):
+                    lihtc = saved
+                    log("[fallback] Using existing hud_lihtc_co.geojson")
 
-    # 4. Tract boundary GeoJSON (for choropleth map)
-    try:
-        boundaries = build_tract_boundaries()
-    except Exception as e:
-        log(f"Tract boundaries failed: {e}", level="ERROR")
-        boundaries = {"type": "FeatureCollection", "meta": {}, "features": []}
-    # Fall back to existing file if fetch returned no features
-    if not boundaries.get("features"):
-        existing = OUT_DIR / "tract_boundaries_co.geojson"
-        if existing.exists():
-            saved = json.loads(existing.read_text())
-            if saved.get("features"):
-                boundaries = saved
-                log("[fallback] Using existing tract_boundaries_co.geojson")
+        # 4. Tract boundary GeoJSON (for choropleth map)
+        try:
+            boundaries = build_tract_boundaries()
+        except Exception as e:
+            log(f"Tract boundaries failed: {e}", level="ERROR")
+            boundaries = {"type": "FeatureCollection", "meta": {}, "features": []}
+        # Fall back to existing file if fetch returned no features
+        if not boundaries.get("features"):
+            existing = OUT_DIR / "tract_boundaries_co.geojson"
+            if existing.exists():
+                saved = json.loads(existing.read_text())
+                if saved.get("features"):
+                    boundaries = saved
+                    log("[fallback] Using existing tract_boundaries_co.geojson")
 
-    # Write artifacts
-    log("[Write] Saving artifacts…")
-    write_json(OUT_DIR / "tract_centroids_co.json", centroids)
-    write_json(OUT_DIR / "acs_tract_metrics_co.json", acs)
-    write_json(OUT_DIR / "hud_lihtc_co.geojson", lihtc)
-    write_json(OUT_DIR / "tract_boundaries_co.geojson", boundaries)
+        # Write artifacts
+        log("[Write] Saving artifacts…")
+        write_json(OUT_DIR / "tract_centroids_co.json", centroids)
+        write_json(OUT_DIR / "acs_tract_metrics_co.json", acs)
+        write_json(OUT_DIR / "hud_lihtc_co.geojson", lihtc)
+        write_json(OUT_DIR / "tract_boundaries_co.geojson", boundaries)
 
-    # Validate
-    errors = validate(centroids, acs, lihtc, boundaries)
-    if errors:
-        print("\n[VALIDATION ERRORS]")
-        for e in errors:
-            print(f"  ✗ {e}")
-        sys.exit(1)
-    else:
-        print("\n✓ All artifacts validated successfully.")
-        print(f"  Tracts:            {len(centroids.get('tracts', []))}")
-        print(f"  ACS records:       {len(acs.get('tracts', []))}")
-        print(f"  LIHTC projects:    {len(lihtc.get('features', []))}")
-        print(f"  Boundary features: {len(boundaries.get('features', []))}")
+        # Validate
+        errors = validate(centroids, acs, lihtc, boundaries)
+        if errors:
+            print("\n[VALIDATION ERRORS]")
+            for e in errors:
+                print(f"  ✗ {e}")
+            if not (args.supplemental or args.supplemental_only):
+                sys.exit(1)
+        else:
+            print("\n✓ All core artifacts validated successfully.")
+            print(f"  Tracts:            {len(centroids.get('tracts', []))}")
+            print(f"  ACS records:       {len(acs.get('tracts', []))}")
+            print(f"  LIHTC projects:    {len(lihtc.get('features', []))}")
+            print(f"  Boundary features: {len(boundaries.get('features', []))}")
+
+    # ── Supplemental sources ──────────────────────────────────────────────────
+    if args.supplemental or args.supplemental_only:
+        print(f"\n{'=' * 60}")
+        phase_label = f"phase {args.phase}" if args.phase else "all phases"
+        print(f"[Supplemental] Running {phase_label} data sources…")
+        print("=" * 60)
+        failed = run_supplemental_sources(phase=args.phase, dry_run=args.dry_run)
+
+        if failed:
+            log(f"[Supplemental] {len(failed)} script(s) failed: {failed}", level="WARN")
+        else:
+            log(f"[Supplemental] All supplemental scripts completed successfully")
+
+        # Run data quality validator
+        if not args.dry_run:
+            validator = ROOT / "scripts" / "market" / "data_quality_validator.py"
+            if validator.exists():
+                import subprocess
+                log("[Supplemental] Running data quality validator…")
+                subprocess.run(
+                    [sys.executable, str(validator), "--warn-only"],
+                    capture_output=False,
+                    timeout=60,
+                )
+
 
 
 if __name__ == "__main__":
