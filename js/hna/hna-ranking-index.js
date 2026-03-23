@@ -180,9 +180,13 @@
     const badgeClass = rankBadgeClass(entry.rank, total);
     const typeClass  = `hca-type-${entry.type}`;
 
+    const dqBadge = entry.hasIncompleteData
+      ? `<span class="hca-dq-badge" title="This geography has incomplete data for some metrics (${entry.nullCriticalMetrics} of 5 critical fields missing)" aria-label="Incomplete data">⚠️</span>`
+      : '';
+
     tr.innerHTML = [
       `<td class="hca-td hca-td-num" data-label="Rank"><span class="hca-rank ${badgeClass}">#${entry.rank}</span></td>`,
-      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a></td>`,
+      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}</td>`,
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
       ...METRIC_COLUMNS.map(col => {

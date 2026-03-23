@@ -25,3 +25,5 @@ __MACOSX/
 _tobedeleted/
 _audit/
 .pytest_cache/
+*.egg-info/
+.venv/

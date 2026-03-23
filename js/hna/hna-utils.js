@@ -265,16 +265,19 @@
   function fmtNum(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
     const v = Number(n);
+    if (v === -666666666) return '—';
     return v.toLocaleString(undefined,{maximumFractionDigits:0});
   }
   function fmtMoney(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
     const v = Number(n);
+    if (v === -666666666) return '—';
     return v.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
   }
   function fmtPct(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
     const v = Number(n);
+    if (v === -666666666) return '—';
     return `${v.toFixed(1)}%`;
   }
 
