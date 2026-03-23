@@ -31,8 +31,6 @@ _ROOT   = Path(os.path.dirname(os.path.dirname(_HERE)))
 sys.path.insert(0, str(_ROOT))
 try:
     from scripts.hna.demographic_projections import CohortComponentModel, AGE_GROUPS, N_COHORTS
-    from scripts.hna.household_projections import HeadshipRateModel
-    from scripts.hna.housing_demand_projections import HousingDemandProjector
 except ImportError as e:
     print(f"ERROR: Could not import projection modules: {e}", file=sys.stderr)
     sys.exit(1)

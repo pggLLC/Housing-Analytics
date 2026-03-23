@@ -6,7 +6,6 @@
  *
  * Dependencies:
  *   - js/comparative-analysis/data-service.js
- *   - js/i18n/i18n-manager.js (optional)
  *   - Chart.js (CDN)
  *
  * Exposes: window.BenchmarkUI
