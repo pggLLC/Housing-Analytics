@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "Colorado CDSS / DWR / DOLA utility service areas (public)",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2026-03-23",
+    "generated": "2026-03-23T00:00:00Z",
+    "feature_count": 0,
+    "sources_successful": [],
+    "coverage_pct": 0.0,
+    "note": "Stub — rebuild via scripts/market/fetch_utility_capacity.py"
+  },
+  "features": []
+}

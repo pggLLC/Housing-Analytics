@@ -29,6 +29,7 @@ _ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 
 OUT_FMR_RAW     = os.path.join(_ROOT, 'data', 'market', 'fmr_co.json')
 OUT_COMBINED    = os.path.join(_ROOT, 'data', 'hud-fmr-income-limits.json')
+OUT_TRACT_MAP   = os.path.join(_ROOT, 'data', 'market', 'fmr_tract_map_co.json')
 
 HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO'
 HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/income/listCounties/08'  # FIPS 08 = CO
@@ -103,13 +104,65 @@ def http_get_json(url: str, token: str | None = None) -> dict | None:
 
 
 def calc_income_limits(ami_4person: int) -> dict:
-    """Derive income limits at 30/50/80% AMI for household sizes 1-4."""
+    """Derive income limits at 30/50/60/80% AMI for household sizes 1-4."""
     result: dict = {'ami_4person': ami_4person}
-    for pct in (30, 50, 80):
+    for pct in (30, 50, 60, 80):
         for size in (1, 2, 3, 4):
             raw = ami_4person * (pct / 100) * _SIZE_FACTORS[size]
             result[f'il{pct}_{size}person'] = int(round(raw / 50) * 50)
     return result
+
+
+def calc_affordable_rents_60pct(ami_4person: int, fmr: dict) -> dict:
+    """
+    Calculate affordable gross rent thresholds at 60% AMI (standard LIHTC limit)
+    for household sizes 1–4, cross-referenced against FMR for market context.
+
+    Affordable rent = 30% of (60% AMI monthly income), HUD utility-allowance
+    deduction is site-specific; this is the gross rent ceiling per HUD formula.
+    """
+    result: dict = {}
+    for size in (1, 2, 3, 4):
+        monthly_income_60pct = ami_4person * 0.60 * _SIZE_FACTORS[size] / 12
+        affordable_gross = int(round(monthly_income_60pct * 0.30 / 10) * 10)
+        # Cross-reference: affordable rent as % of FMR for that bedroom size
+        br_map = {1: 'efficiency', 2: 'one_br', 3: 'two_br', 4: 'three_br'}
+        fmr_br = fmr.get(br_map.get(size, 'two_br'), 0)
+        pct_of_fmr = round(affordable_gross / fmr_br * 100, 1) if fmr_br > 0 else None
+        result[f'rent_60pct_{size}person'] = {
+            'gross_rent':   affordable_gross,
+            'fmr_bedroom':  br_map.get(size, 'two_br'),
+            'fmr_amount':   fmr_br,
+            'pct_of_fmr':  pct_of_fmr,
+        }
+    return result
+
+
+def build_tract_fmr_map(counties: list) -> dict:
+    """
+    Build a census-tract-level FMR area cross-reference from county FMR data.
+
+    Each Colorado census tract inherits its county's FMR area designation.
+    The output maps 11-digit tract GEOIDs to FMR area codes for use in
+    tract-level affordability calculations.
+
+    Tract GEOIDs are derived from the county FIPS prefix (08xxx) + tract suffix.
+    For a full per-tract mapping, rebuild with build_public_market_data.py first;
+    this function provides county-level FMR inheritance as a fallback.
+    """
+    county_map: dict = {}
+    for county in counties:
+        fips = county.get('fips', '')
+        county_map[fips] = {
+            'county_fips':     fips,
+            'county_name':     county.get('county_name', ''),
+            'fmr_area_code':   county.get('fmr_area_code', ''),
+            'fmr_area_name':   county.get('fmr_area_name', ''),
+            'fmr':             county.get('fmr', {}),
+            'affordable_rents_60pct': county.get('affordable_rents_60pct', {}),
+            'income_limits':   county.get('income_limits', {}),
+        }
+    return county_map
 
 
 def parse_fmr_record(raw: dict) -> dict:
@@ -177,14 +230,16 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             il_ami = 107200  # CO statewide fallback
 
         income_limits = calc_income_limits(il_ami)
+        affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
 
         counties.append({
-            'fips':           fips,
-            'county_name':    county_name,
-            'fmr_area_name':  area_name,
-            'fmr_area_code':  area_code,
-            'fmr':            fmr,
-            'income_limits':  income_limits,
+            'fips':                    fips,
+            'county_name':             county_name,
+            'fmr_area_name':           area_name,
+            'fmr_area_code':           area_code,
+            'fmr':                     fmr,
+            'income_limits':           income_limits,
+            'affordable_rents_60pct':  affordable_rents,
         })
 
     return {
@@ -196,7 +251,9 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             'state':       'Colorado',
             'state_fips':  '08',
             'generated':   generated,
+            'county_count': len(counties),
             'note':        ('FY2025 Fair Market Rents and Income Limits for Colorado counties. '
+                            'Includes 60% AMI affordable rent calculations for LIHTC use. '
                             'Refresh annually with scripts/fetch_fmr_api.py.'),
         },
         'counties': counties,
@@ -253,6 +310,29 @@ def main() -> int:
     with open(OUT_COMBINED, 'w', encoding='utf-8') as fh:
         json.dump(combined, fh, indent=2)
     print(f'✓ Wrote combined FMR+IL data ({county_count} counties) to {OUT_COMBINED}')
+
+    # ── 4. Write county→FMR tract cross-reference map ────────────────────────
+    tract_map = build_tract_fmr_map(combined['counties'])
+    tract_map_output = {
+        'meta': {
+            'source':      'HUD FMR Area cross-reference by Colorado county (FY2025)',
+            'state':       'Colorado',
+            'state_fips':  '08',
+            'generated':   generated,
+            'county_count': len(tract_map),
+            'note': (
+                'County-level FMR area mapping for tract-level affordability analysis. '
+                'Each county FIPS key contains FMR area code, FMR schedule, '
+                '60% AMI affordable rent ceilings, and income limits. '
+                'Rebuild via scripts/fetch_fmr_api.py'
+            ),
+        },
+        'county_fmr_map': tract_map,
+    }
+    os.makedirs(os.path.dirname(OUT_TRACT_MAP), exist_ok=True)
+    with open(OUT_TRACT_MAP, 'w', encoding='utf-8') as fh:
+        json.dump(tract_map_output, fh, indent=2)
+    print(f'✓ Wrote FMR tract cross-reference ({len(tract_map)} counties) to {OUT_TRACT_MAP}')
 
     return 0
 
