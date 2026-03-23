@@ -155,7 +155,7 @@ def build_opportunity_zones() -> dict:
             continue
 
         # Enforce 5-digit county FIPS from 11-digit tract GEOID (Rule 1)
-        county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
+        county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else geoid.zfill(5)
 
         co_features.append({
             "type": "Feature",
