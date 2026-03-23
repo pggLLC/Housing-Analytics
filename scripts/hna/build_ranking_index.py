@@ -52,12 +52,27 @@ def utc_now_z() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+# ACS API sentinel: any value at or below this threshold is treated as
+# "data not available" and collapsed to the caller-supplied default.
+_ACS_SENTINEL_THRESHOLD: float = -1_000_000.0
+
+
 def safe_float(val, default: float = 0.0) -> float:
-    """Convert value to float, returning default on failure."""
+    """Convert value to float, returning *default* on failure or sentinel.
+
+    ACS API responses include -666666666 for variables that are "not
+    available" for a geography.  Passing this value through to ranking
+    calculations produces wildly incorrect sort results, so any numeric
+    value ≤ ``_ACS_SENTINEL_THRESHOLD`` is treated as missing and mapped
+    to *default*.
+    """
     if val is None:
         return default
     try:
-        return float(val)
+        f = float(val)
+        if f <= _ACS_SENTINEL_THRESHOLD:
+            return default
+        return f
     except (TypeError, ValueError):
         return default
 

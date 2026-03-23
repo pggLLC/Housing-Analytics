@@ -298,6 +298,71 @@ def ensure_dirs():
     os.makedirs(OUT['cache_dir'], exist_ok=True)
 
 
+import math as _math
+
+# ACS API returns -666666666 for "not available" variables (suppressed data,
+# small-population geographies, or questions not asked for a survey type).
+# Any value at or below this threshold is treated as a sentinel and normalized
+# to None so it cannot corrupt downstream calculations or UI displays.
+ACS_SENTINEL_THRESHOLD = -1_000_000
+
+
+def normalize_acs_value(val):
+    """Normalize ACS API sentinel values to None (Python / JSON null).
+
+    The Census ACS API returns -666666666 for variables that are "not
+    available" for a given geography.  Downstream code must never store or
+    display this value; it should always be represented as null/None.
+
+    Handles int, float, and string representations of the sentinel.
+    Also converts empty strings, "NA", "null", and "None" to None, and
+    treats any numeric value ≤ ACS_SENTINEL_THRESHOLD as a sentinel.
+
+    Args:
+        val: Raw value from an ACS API response dict.
+
+    Returns:
+        None if the value is a sentinel or unrepresentable; otherwise the
+        original numeric value (preserving int vs float where possible).
+    """
+    if val is None:
+        return None
+    try:
+        s = str(val).strip()
+        if s in ('', 'NA', 'null', 'None', '-'):
+            return None
+        f = float(s)
+        if not _math.isfinite(f):
+            return None
+        if f <= ACS_SENTINEL_THRESHOLD:
+            return None
+        # Preserve integer type for whole-number values.
+        if '.' not in s:
+            return int(f)
+        return f
+    except (ValueError, OverflowError):
+        return None
+
+
+def normalize_acs_dict(d):
+    """Normalize all ACS sentinel values in a dict, returning a new dict.
+
+    Applies :func:`normalize_acs_value` to every value in *d*.  Keys are
+    preserved unchanged.  Values that are themselves dicts or lists are not
+    recursed into; only the top-level values are processed.
+
+    Args:
+        d: A dict of raw ACS variable names → raw Census API values.
+
+    Returns:
+        A new dict with the same keys and sentinel values replaced by None.
+        Returns *d* unchanged if it is not a dict.
+    """
+    if not isinstance(d, dict):
+        return d
+    return {k: normalize_acs_value(v) for k, v in d.items()}
+
+
 def safe_float(v):
     try:
         if v is None:
@@ -305,7 +370,10 @@ def safe_float(v):
         s = str(v).strip()
         if s in ('', 'NA', 'null', 'None'):
             return None
-        return float(s)
+        f = float(s)
+        if not _math.isfinite(f) or f <= ACS_SENTINEL_THRESHOLD:
+            return None
+        return f
     except Exception:
         return None
 

@@ -1,0 +1,79 @@
+name: Test — Sentinel Normalization
+
+on:
+  push:
+    paths:
+      - 'scripts/hna/build_hna_data.py'
+      - 'scripts/hna/build_ranking_index.py'
+      - 'tests/test_sentinel_normalization.py'
+      - 'scripts/validate_production_json.py'
+      - 'scripts/validate_hna_pages.js'
+      - 'data/hna/**'
+  pull_request:
+    paths:
+      - 'scripts/hna/build_hna_data.py'
+      - 'scripts/hna/build_ranking_index.py'
+      - 'tests/test_sentinel_normalization.py'
+      - 'scripts/validate_production_json.py'
+      - 'scripts/validate_hna_pages.js'
+      - 'data/hna/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sentinel-unit-tests:
+    name: Sentinel normalization unit tests (Python)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Python test dependencies
+        run: pip install pytest python-dateutil
+
+      - name: Run sentinel normalization unit tests
+        run: pytest tests/test_sentinel_normalization.py -v --tb=short
+
+  sentinel-production-scan:
+    name: Production JSON sentinel scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Scan production HNA JSON for sentinel leakage
+        run: python scripts/validate_production_json.py data/hna/
+
+  hna-static-smoke:
+    name: HNA page static smoke tests (Node.js)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run HNA page static smoke tests
+        run: node scripts/validate_hna_pages.js
