@@ -3,6 +3,9 @@ name: Workflow Comment Trigger
 on:
   issue_comment:
     types: [created]
+  workflow_run:
+    workflows: ["Daily Website Monitoring"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -13,15 +16,20 @@ jobs:
   rebuild-market-data:
     # React to the exact trigger phrase from repository collaborators/members/owners,
     # or from the chatgpt-codex-connector[bot] account.
+    # Also fires automatically when the Daily Website Monitoring workflow completes.
     if: |
-      contains(github.event.comment.body, '@github-actions rebuild-market-data') &&
+      github.event_name == 'workflow_run' ||
       (
-        contains(fromJSON('["MEMBER", "COLLABORATOR", "OWNER"]'), github.event.comment.author_association) ||
-        github.event.comment.user.login == 'chatgpt-codex-connector[bot]'
+        contains(github.event.comment.body, '@github-actions rebuild-market-data') &&
+        (
+          contains(fromJSON('["MEMBER", "COLLABORATOR", "OWNER"]'), github.event.comment.author_association) ||
+          github.event.comment.user.login == 'chatgpt-codex-connector[bot]'
+        )
       )
     runs-on: ubuntu-latest
     steps:
       - name: Acknowledge trigger
+        if: github.event_name == 'issue_comment'
         uses: actions/github-script@v8
         with:
           script: |
@@ -47,7 +55,7 @@ jobs:
           echo "build-market-data.yml dispatched ✅"
 
       - name: Notify on dispatch failure
-        if: failure()
+        if: failure() && github.event_name == 'issue_comment'
         uses: actions/github-script@v8
         with:
           script: |
