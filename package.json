@@ -29,14 +29,13 @@
     "_comment_test_ci": "CI entry point: runs asset validation (31 HTML pages), data threshold checks, fetch-helper tests (19/19), HNA functionality (647/651 pass), and site validation.",
     "test:ci": "npm run validate && npm run validate:data && npm run test:fetch-helper && npm run test:hna && npm run test:validate"
   },
-  "dependencies": {},
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "color": "^4.2.3",
     "glob": "^10.3.3",
     "jsdom": "^24.1.3",
     "node-fetch": "^2.7.0",
-    "nodemailer": "^8.0.2",
+    "nodemailer": "^8.0.3",
     "playwright": "^1.58.2",
     "wcag-contrast": "^3.0.0"
   },

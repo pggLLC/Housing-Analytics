@@ -15,6 +15,7 @@ node_modules/
 
 # Audit reports (generated locally; uploaded as CI artifacts)
 audit-report/
+monitoring-reports/
 
 # macOS packaging artifacts
 .DS_Store
