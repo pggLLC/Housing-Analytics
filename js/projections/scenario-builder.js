@@ -8,7 +8,6 @@
  * Dependencies (must be loaded before this script):
  *   - js/projections/cohort-component-model.js
  *   - js/projections/scenario-storage.js
- *   - js/i18n/i18n-manager.js (optional, degrades gracefully)
  *   - Chart.js (CDN)
  *   - js/fetch-helper.js
  *

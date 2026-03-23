@@ -160,12 +160,6 @@
               </div>
             </div>
           `).join('')}
-          <button id="navLangToggle" class="lang-toggle" type="button"
-            aria-label="Switch language / Cambiar idioma"
-            title="Switch language / Cambiar idioma">
-            <span class="lang-toggle__icon" aria-hidden="true">🌐</span>
-            <span class="lang-toggle__label" id="navLangLabel">Español</span>
-          </button>
         </nav>
         <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
           aria-label="Open navigation menu"
@@ -395,44 +389,6 @@
       var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
       window.__navShowError(msg);
     });
-
-    // Inject i18n.css once for language toggle styling
-    if (!document.getElementById('i18n-styles-link')) {
-      const i18nLink = document.createElement('link');
-      i18nLink.id = 'i18n-styles-link';
-      i18nLink.rel = 'stylesheet';
-      i18nLink.href = relToRoot() + 'css/i18n.css';
-      document.head.appendChild(i18nLink);
-    }
-
-    // Wire up language toggle
-    const langToggleBtn = header.querySelector('#navLangToggle');
-    const langLabel     = header.querySelector('#navLangLabel');
-    if (langToggleBtn) {
-      // Update label to reflect active language from i18n if available
-      function _updateLangLabel() {
-        if (window.i18n) {
-          const cur = window.i18n.getLang();
-          if (langLabel) langLabel.textContent = cur === 'es' ? 'English' : 'Español';
-          langToggleBtn.setAttribute('aria-pressed', cur === 'es' ? 'true' : 'false');
-        }
-      }
-      _updateLangLabel();
-
-      langToggleBtn.addEventListener('click', function () {
-        if (!window.i18n) return;
-        const next = window.i18n.getLang() === 'es' ? 'en' : 'es';
-        window.i18n.setLang(next).then(function () {
-          _updateLangLabel();
-          // Announce to screen readers
-          const live = document.getElementById('sbLiveRegion') || document.getElementById('hnaLiveRegion');
-          if (live) live.textContent = next === 'es' ? 'Idioma cambiado a Español' : 'Language changed to English';
-        });
-      });
-
-      // Keep label in sync when i18n fires change events
-      document.addEventListener('i18nchange', _updateLangLabel);
-    }
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }
