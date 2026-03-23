@@ -1,0 +1,27 @@
+{
+  "id": "high-growth",
+  "name": "High Growth",
+  "description": "High-growth scenario: accelerated in-migration driven by economic expansion, slightly above-trend fertility, and continued mortality improvements. Reflects a strong regional economy drawing working-age households.",
+  "source": "DOLA State Demography Office (2024) with FRED unemployment adjustment",
+  "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "fredSeriesRef": "UNRATE",
+  "createdAt": "2026-03-23T04:48:07Z",
+  "vintage": 2024,
+  "assumptions": {
+    "fertility": "5% above baseline",
+    "migration": "2× baseline net in-migration",
+    "mortality": "Slightly lower (0.98× baseline mortality rate, reflecting health improvements)"
+  },
+  "parameters": {
+    "fertility_multiplier": 1.05,
+    "mortality_multiplier": 0.98,
+    "net_migration_annual": 1000
+  },
+  "projectionHorizon": {
+    "baseYear": 2024,
+    "targetYear": 2050,
+    "steps": 26
+  },
+  "attributionNote": "High-growth scenario doubles baseline migration and raises fertility 5%, reflecting Colorado's historically strong economic in-migration documented in FRED labor market data. Mortality improvements (2% below baseline) reflect nationwide longevity trends.",
+  "methodologyRef": "docs/PROJECTION-METHODOLOGY.md"
+}

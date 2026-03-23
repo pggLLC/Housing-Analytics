@@ -1,0 +1,27 @@
+{
+  "id": "baseline",
+  "name": "Baseline (Moderate Growth)",
+  "description": "Baseline scenario: moderate growth following recent historical trends. Fertility rates hold steady at recent levels; net migration reflects the 2018–2023 average; mortality follows current life-table patterns.",
+  "source": "DOLA State Demography Office — Components of Change (2024 vintage)",
+  "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "fredSeriesRef": null,
+  "createdAt": "2026-03-23T04:48:07Z",
+  "vintage": 2024,
+  "assumptions": {
+    "fertility": "Hold at recent ACS-derived rates",
+    "migration": "County average 2018–2023 net in-migration",
+    "mortality": "Standard US life-table survival rates"
+  },
+  "parameters": {
+    "fertility_multiplier": 1.0,
+    "mortality_multiplier": 1.0,
+    "net_migration_annual": 500
+  },
+  "projectionHorizon": {
+    "baseYear": 2024,
+    "targetYear": 2050,
+    "steps": 26
+  },
+  "attributionNote": "Projections use the DOLA cohort-component model with 2024-vintage single-year-of-age data as the base population. Net migration is the 2018–2023 average county-level flow from DOLA Components of Change. Fertility rates are derived from ACS 5-year estimates.",
+  "methodologyRef": "docs/PROJECTION-METHODOLOGY.md"
+}

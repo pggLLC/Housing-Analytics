@@ -1,0 +1,194 @@
+{
+  "lang": "es",
+  "nav": {
+    "platform": "Plataforma",
+    "dataResearch": "Datos e Investigación",
+    "policyInsights": "Política e Información",
+    "about": "Acerca de",
+    "hna": "Evaluación de Necesidades de Vivienda",
+    "hnaRanking": "Clasificación Comparativa HNA",
+    "hnaScenarios": "Escenarios de Proyección",
+    "marketAnalysis": "Análisis de Mercado",
+    "deepDive": "Análisis Profundo de Colorado",
+    "economicDashboard": "Panel Económico",
+    "lihtcAllocations": "Asignaciones LIHTC",
+    "languageToggle": "English"
+  },
+  "hna": {
+    "title": "Evaluación de Necesidades de Vivienda",
+    "subtitle": "Herramienta HNA para Condados y Municipios",
+    "selectGeography": "Seleccionar Área Geográfica",
+    "geoType": "Tipo de Área Geográfica",
+    "county": "Condado",
+    "municipality": "Municipio",
+    "cdp": "Lugar Designado por el Censo",
+    "state": "Todo el Estado",
+    "refresh": "Actualizar",
+    "exportPdf": "Exportar PDF",
+    "exportCsv": "Exportar CSV",
+    "exportJson": "Exportar JSON",
+    "projections": {
+      "title": "Proyección a 20 Años",
+      "subtitle": "Necesidades de vivienda hasta 2050 basadas en el modelo demográfico de componentes por cohortes",
+      "scenarioLabel": "Escenario",
+      "baseline": "Línea Base (Crecimiento Moderado)",
+      "lowGrowth": "Crecimiento Bajo",
+      "highGrowth": "Crecimiento Alto",
+      "custom": "Escenario Personalizado",
+      "baseYear": "Año Base",
+      "targetYear": "Año Objetivo",
+      "baseUnits": "Unidades del Año Base",
+      "targetVacancy": "Tasa de Vacantes Objetivo",
+      "unitsNeeded": "Unidades Necesarias",
+      "netMigration": "Migración Neta (Anual)",
+      "fertilityRate": "Multiplicador de Tasa de Fecundidad",
+      "mortalityRate": "Multiplicador de Tasa de Mortalidad",
+      "dataSource": "Fuente de Datos",
+      "methodology": "Metodología",
+      "downloadProjections": "Descargar Proyecciones",
+      "formulaNote": "Fórmula: Unidades Necesarias = (Hogares Proyectados − Unidades Existentes) + (Unidades Existentes × Tasa de Vacantes Objetivo)",
+      "dolaBaseline": "Línea Base DOLA",
+      "fredHistorical": "Histórico FRED",
+      "customScenario": "Personalizado"
+    },
+    "summary": {
+      "title": "Resumen de Necesidades de Vivienda",
+      "population": "Población",
+      "medianIncome": "Ingreso Familiar Medio",
+      "medianHomeValue": "Valor Medio de Vivienda",
+      "medianRent": "Renta Bruta Mediana",
+      "ownerRate": "Tasa de Propiedad de Vivienda",
+      "rentBurden": "Tasa de Carga de Renta",
+      "incomeNeeded": "Ingreso Necesario para Costear",
+      "commute": "Tiempo Medio de Desplazamiento"
+    },
+    "comparative": {
+      "title": "Análisis Comparativo",
+      "subtitle": "Comparar con jurisdicciones similares",
+      "selectJurisdictions": "Seleccionar Jurisdicciones a Comparar",
+      "countyAverage": "Promedio del Condado",
+      "stateAverage": "Promedio Estatal",
+      "population": "Población",
+      "housingGap": "Brecha de Vivienda",
+      "affordabilityScore": "Puntuación de Asequibilidad",
+      "growthRate": "Tasa de Crecimiento",
+      "addJurisdiction": "Agregar Jurisdicción",
+      "clearAll": "Limpiar Todo",
+      "export": "Exportar Comparación"
+    }
+  },
+  "scenarios": {
+    "title": "Constructor de Escenarios de Proyección",
+    "subtitle": "Crear y comparar escenarios de crecimiento demográfico",
+    "baseline": {
+      "name": "Línea Base (Crecimiento Moderado)",
+      "description": "Crecimiento moderado siguiendo tendencias históricas recientes. La fecundidad se mantiene estable; la migración neta refleja el promedio 2018–2023."
+    },
+    "lowGrowth": {
+      "name": "Crecimiento Bajo",
+      "description": "Migración entrante más lenta, leve disminución de fecundidad, mortalidad ligeramente mayor. Refleja dificultades por migración impulsada por la asequibilidad."
+    },
+    "highGrowth": {
+      "name": "Crecimiento Alto",
+      "description": "Migración acelerada impulsada por expansión económica, fecundidad por encima de la tendencia, mejoras continuas en mortalidad."
+    },
+    "custom": {
+      "name": "Escenario Personalizado",
+      "description": "Defina sus propios supuestos demográficos utilizando los controles deslizantes a continuación."
+    },
+    "sliders": {
+      "fertilityMultiplier": "Multiplicador de Tasa de Fecundidad",
+      "fertilityHelp": "Ajustar la fecundidad relativa a la línea base (1.0 = tasa base)",
+      "migrationAnnual": "Migración Neta Anual",
+      "migrationHelp": "Personas netas que migran al área por año",
+      "mortalityMultiplier": "Multiplicador de Tasa de Mortalidad",
+      "mortalityHelp": "Ajustar la mortalidad relativa a la línea base (1.0 = tasa base; mayor = más muertes)"
+    },
+    "saveScenario": "Guardar como Escenario Personalizado",
+    "loadScenario": "Cargar Escenario Guardado",
+    "deleteScenario": "Eliminar",
+    "scenarioName": "Nombre del Escenario",
+    "scenarioNamePlaceholder": "P. ej. Alta Fecundidad 2026",
+    "savedScenarios": "Escenarios Guardados",
+    "noSavedScenarios": "Aún no hay escenarios guardados. Configure los controles deslizantes arriba y haga clic en Guardar.",
+    "compareScenarios": "Comparar Escenarios",
+    "runProjection": "Ejecutar Proyección",
+    "clearResults": "Limpiar Resultados",
+    "results": {
+      "title": "Resultados de la Proyección",
+      "year": "Año",
+      "population": "Población",
+      "households": "Hogares",
+      "housingUnitsNeeded": "Unidades de Vivienda Necesarias",
+      "cumulativeNeed": "Necesidad Acumulada"
+    },
+    "attribution": {
+      "dola": "Oficina Estatal de Demografía DOLA — Componentes de Cambio",
+      "fred": "Banco de la Reserva Federal de St. Louis (FRED) — Indicadores Económicos",
+      "acs": "Oficina del Censo de EE. UU. — Encuesta sobre la Comunidad Estadounidense",
+      "methodology": "Modelo de Componentes por Cohortes"
+    }
+  },
+  "comparative": {
+    "title": "Análisis Comparativo",
+    "subtitle": "Referencia de jurisdicciones en Colorado",
+    "selectCounty": "Seleccionar Condado",
+    "selectMunicipality": "Seleccionar Municipio",
+    "addToComparison": "Agregar a Comparación",
+    "clearComparison": "Limpiar Comparación",
+    "metrics": {
+      "population": "Población",
+      "populationGrowth": "Tasa de Crecimiento Poblacional",
+      "medianIncome": "Ingreso Familiar Medio",
+      "medianRent": "Renta Bruta Mediana",
+      "rentBurden": "Carga de Renta",
+      "vacancyRate": "Tasa de Vacantes",
+      "unitsNeeded": "Unidades Estimadas Necesarias",
+      "housingGap": "Brecha de Asequibilidad"
+    },
+    "charts": {
+      "populationTrend": "Tendencia de Población 2020–2050",
+      "housingNeeds": "Trayectoria de Necesidades de Vivienda",
+      "affordability": "Comparación de Asequibilidad",
+      "migrationFlow": "Flujo de Migración Neta"
+    },
+    "noData": "No hay datos disponibles para esta jurisdicción.",
+    "loadingData": "Cargando datos de comparación…",
+    "exportComparison": "Exportar Datos de Comparación"
+  },
+  "dataAttribution": {
+    "title": "Fuentes de Datos",
+    "dola": "Oficina Estatal de Demografía DOLA (2024)",
+    "fred": "Datos Económicos FRED — Banco de la Reserva Federal de St. Louis",
+    "acs": "Encuesta sobre la Comunidad Estadounidense — Oficina del Censo de EE. UU.",
+    "hud": "Límites de Ingresos HUD y Rentas de Mercado Justas",
+    "lihtc": "Base de Datos LIHTC del HUD",
+    "methodologyLink": "Ver Documentación de Metodología",
+    "lastUpdated": "Última actualización"
+  },
+  "common": {
+    "loading": "Cargando…",
+    "error": "Ocurrió un error. Por favor intente de nuevo.",
+    "noData": "No hay datos disponibles.",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "download": "Descargar",
+    "share": "Compartir",
+    "print": "Imprimir",
+    "help": "Ayuda",
+    "source": "Fuente",
+    "updated": "Actualizado",
+    "county": "Condado",
+    "municipality": "Municipio",
+    "state": "Estado",
+    "year": "Año",
+    "units": "Unidades",
+    "percent": "Porcentaje",
+    "annual": "Anual",
+    "total": "Total",
+    "average": "Promedio",
+    "minimum": "Mínimo",
+    "maximum": "Máximo"
+  }
+}

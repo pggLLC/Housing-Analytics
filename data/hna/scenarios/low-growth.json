@@ -1,0 +1,27 @@
+{
+  "id": "low-growth",
+  "name": "Low Growth",
+  "description": "Low-growth scenario: slowing in-migration, modest fertility decline, and slightly elevated mortality (aging population effect). Reflects headwinds such as affordability-driven out-migration.",
+  "source": "DOLA State Demography Office (2024) with FRED CPI shelter adjustment",
+  "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
+  "fredSeriesRef": "CUUR0000SAH1",
+  "createdAt": "2026-03-23T04:48:07Z",
+  "vintage": 2024,
+  "assumptions": {
+    "fertility": "10% below baseline (declining household formation among young adults)",
+    "migration": "50% of baseline net in-migration",
+    "mortality": "Slightly higher (1.02× baseline mortality rate)"
+  },
+  "parameters": {
+    "fertility_multiplier": 0.9,
+    "mortality_multiplier": 1.02,
+    "net_migration_annual": 250
+  },
+  "projectionHorizon": {
+    "baseYear": 2024,
+    "targetYear": 2050,
+    "steps": 26
+  },
+  "attributionNote": "Low-growth scenario reduces baseline migration by 50% and fertility by 10%, reflecting affordability headwinds documented in FRED CPI shelter index. Mortality is elevated 2% above the life-table baseline to capture aging-population effects.",
+  "methodologyRef": "docs/PROJECTION-METHODOLOGY.md"
+}
