@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the authoritative data source audit.  
-> *Auto-synced 2026-03-23 by `scripts/sync-docs.mjs` · 34 pages · 861 data files · 32 workflows*
+> *Auto-synced 2026-03-23 by `scripts/sync-docs.mjs` · 34 pages · 862 data files · 32 workflows*
 <!-- sync-banner:end -->
 
 > **Note:** For the authoritative and most current data source audit, see [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md).
