@@ -86,6 +86,8 @@ def check_tracts_layer() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No features returned — service may be down or query is incorrect",
                 level="WARN")
@@ -120,6 +122,8 @@ def check_counties_layer() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No features returned — service may be down or query is incorrect",
                 level="WARN")
@@ -161,6 +165,8 @@ def check_tracts_geojson() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | GeoJSON features: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No GeoJSON features returned", level="WARN")
             return False
