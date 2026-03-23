@@ -382,6 +382,68 @@
 
       progress('narrative', 'Generating justification narrative…');
 
+      /* ── Build PMA Support Summary ───────────────────────────────── */
+      var sources = {
+        commuting:      (results.commuting && results.commuting.lodesWorkplaces > 0) ? 'live' : 'fallback',
+        barriers:       (results.barriers && Object.keys(results.barriers).length > 0) ? 'live' : 'fallback',
+        amenities:      (results.opportunities && Object.keys(results.opportunities).length > 0) ? 'live' : 'synthetic',
+        infrastructure: (results.infrastructure && Object.keys(results.infrastructure).length > 0) ? 'live' : 'fallback'
+      };
+
+      var fallbackModes = Object.keys(fallbackReasons).map(function (k) {
+        return k + ': ' + fallbackReasons[k];
+      });
+
+      var dataFieldsPresent = [
+        sources.commuting !== 'fallback',
+        sources.barriers  !== 'fallback',
+        results.schools   && Object.keys(results.schools).length > 0,
+        results.transit   && Object.keys(results.transit).length > 0,
+        results.competitiveSet && Object.keys(results.competitiveSet).length > 0,
+        sources.amenities !== 'fallback',
+        sources.infrastructure !== 'fallback'
+      ].filter(Boolean).length;
+
+      var dataCompleteness  = parseFloat((dataFieldsPresent / 7).toFixed(2));
+      var lihtcCoverage     = (results.competitiveSet && Object.keys(results.competitiveSet).length > 0) ? 0.95 : 0.40;
+      var sampleAdequacy    = (results.commuting && results.commuting.lodesWorkplaces > 5) ? 0.85 : 0.55;
+      var bufferProximity   = Math.min(1, bufferMiles / 10);
+      var temporalFreshness = 0.90;
+
+      var confidenceScore = (dataCompleteness * 0.40) +
+                            (lihtcCoverage    * 0.25) +
+                            (sampleAdequacy   * 0.20) +
+                            (temporalFreshness * 0.15);
+      var overallConfidence = confidenceScore >= 0.75 ? 'high' : confidenceScore >= 0.50 ? 'medium' : 'low';
+      var confidenceBadge   = { high: '🟢', medium: '🟡', low: '🔴' }[overallConfidence];
+
+      var pmaSupportSummary = {
+        runId:              'pma-run-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 15),
+        method:             method,
+        bufferMiles:        bufferMiles,
+        sourceMode:         'live',
+        sources:            sources,
+        dataCompleteness:   dataCompleteness,
+        temporalFreshness:  temporalFreshness,
+        lihtcCoverage:      lihtcCoverage,
+        sampleAdequacy:     sampleAdequacy,
+        bufferProximity:    parseFloat(bufferProximity.toFixed(2)),
+        overallConfidence:  overallConfidence,
+        confidenceBadge:    confidenceBadge,
+        commuteSupport:     sources.commuting !== 'fallback' ? 0.80 : 0.30,
+        rentContextCoverage: lihtcCoverage,
+        jobAccessCoverage:  (results.employmentCenters && results.employmentCenters.length > 0) ? 0.88 : 0.40,
+        fallbackModes:      fallbackModes
+      };
+
+      scoreRun.pmaSupportSummary = pmaSupportSummary;
+      console.log('[pma-runner] PMA Support Summary:', JSON.stringify({
+        runId:             pmaSupportSummary.runId,
+        method:            pmaSupportSummary.method,
+        overallConfidence: pmaSupportSummary.overallConfidence,
+        dataCompleteness:  pmaSupportSummary.dataCompleteness
+      }));
+
       return scoreRun;
     });
   }
@@ -396,6 +458,4 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = { run: run, STEPS: STEPS };
-  }
-
-}());
+  }}());
