@@ -317,17 +317,14 @@ def normalize_acs_value(val):
             return None
         try:
             as_float = float(stripped)
-            if int(as_float) == _ACS_SENTINEL:
+            if as_float == _ACS_SENTINEL:
                 return None
         except (ValueError, OverflowError):
             pass
         return val
     if isinstance(val, (int, float)):
-        try:
-            if int(val) == _ACS_SENTINEL:
-                return None
-        except (ValueError, OverflowError):
-            pass
+        if val == _ACS_SENTINEL:
+            return None
     return val
 
 
@@ -346,7 +343,7 @@ def safe_float(v):
         if s in ('', 'NA', 'null', 'None'):
             return None
         f = float(s)
-        if int(f) == _ACS_SENTINEL:
+        if f == _ACS_SENTINEL:
             return None
         return f
     except Exception:
