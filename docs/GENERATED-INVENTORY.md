@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T04:14:56.901Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T05:16:00.612Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-33 pages found.
+34 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -27,6 +27,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 37.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 9.8 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 60.9 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
@@ -48,7 +49,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-857 JSON files found.
+860 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -72,7 +73,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/fred-data.json` | 1.46 MB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
-| `data/hna/chas_affordability_gap.json` | 27.9 KB | ✅ | — |
+| `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 3.5 KB | ✅ | — |
@@ -337,6 +338,9 @@
 | `data/hna/projections/08123.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 3.5 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 279.1 KB | ✅ | — |
+| `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
+| `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
+| `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/summary/08.json` | 968 B | ✅ | — |
 | `data/hna/summary/08001.json` | 1.1 KB | ✅ | — |
 | `data/hna/summary/08003.json` | 1.0 KB | ✅ | — |
@@ -891,7 +895,7 @@
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
-| `data/market/chas_co.json` | 369 B | ✅ | — |
+| `data/market/chas_co.json` | 273 B | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 1.5 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
@@ -992,7 +996,7 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 6.7 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 5.0 KB |
+| `.github/workflows/build-hna-data.yml` | 5.5 KB |
 | `.github/workflows/build-market-data.yml` | 7.9 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
