@@ -4,6 +4,7 @@
  *
  * Exposes: window.HNARanking
  * Dependencies: js/fetch-helper.js (window.fetchWithTimeout or fetch)
+ *              js/utils/data-quality.js (window.DataQuality)
  */
 (function () {
   'use strict';
@@ -59,8 +60,10 @@
 
   function sortEntries(entries, metric, dir) {
     return [...entries].sort((a, b) => {
-      const av = a.metrics[metric] ?? -Infinity;
-      const bv = b.metrics[metric] ?? -Infinity;
+      // Use DataQuality.sanitizeNumber to normalise sentinels before comparing.
+      const _sanitize = (_dq && _dq.sanitizeNumber) || (v => (v === null || v === undefined ? null : +v));
+      const av = _sanitize(a.metrics[metric]) ?? -Infinity;
+      const bv = _sanitize(b.metrics[metric]) ?? -Infinity;
       return dir === 'asc' ? av - bv : bv - av;
     });
   }
@@ -110,7 +113,14 @@
   // Formatting helpers
   // -------------------------------------------------------------------------
 
+  // Use shared DataQuality utility when available; otherwise fall back to
+  // the inline guard so the page works even if the utility script is absent.
+  const _dq = (typeof window !== 'undefined' && window.DataQuality) || null;
+
   function fmt(val, unit) {
+    // Delegate to DataQuality.formatMetric when available (handles sentinel
+    // values such as -666666666 in addition to null/undefined/NaN).
+    if (_dq) return _dq.formatMetric(val, unit === 'percent' ? 'percent' : unit === 'dollars' ? 'dollars' : 'integer');
     if (val === null || val === undefined) return '—';
     if (unit === 'percent') return `${(+val).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
     if (unit === 'dollars') return `$${(+val).toLocaleString('en-US')}`;
