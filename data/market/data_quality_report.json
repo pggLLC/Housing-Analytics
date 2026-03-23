@@ -1,0 +1,373 @@
+{
+  "meta": {
+    "generated": "2026-03-23T03:17:02Z",
+    "validator": "scripts/market/data_quality_validator.py",
+    "market_dir": "data/market",
+    "sources_checked": 21
+  },
+  "summary": {
+    "total_sources": 21,
+    "ok": 6,
+    "warn": 13,
+    "missing": 2,
+    "error": 0,
+    "completeness_pct": 28.6,
+    "total_records": 3432,
+    "total_bytes": 847515,
+    "avg_coverage_pct": 14.3,
+    "stale_files": [],
+    "below_threshold": [
+      "tract_boundaries_co.geojson",
+      "schools_co.geojson",
+      "opportunity_zones_co.geojson",
+      "parcel_aggregates_co.json",
+      "transit_routes_co.geojson",
+      "walkability_scores_co.json",
+      "flood_zones_co.geojson",
+      "food_access_co.json",
+      "qct_dda_designations_co.json",
+      "utility_capacity_co.geojson",
+      "zoning_compat_index_co.json",
+      "chfa_programs_co.json",
+      "inclusionary_zoning_co.json"
+    ]
+  },
+  "sources": [
+    {
+      "file": "tract_centroids_co.json",
+      "description": "Census tract centroids (TIGERweb)",
+      "rebuild_script": "scripts/market/build_public_market_data.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 241844,
+      "record_count": 1605,
+      "min_required": 1000,
+      "coverage_pct": null,
+      "generated": "2026-03-09",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "acs_tract_metrics_co.json",
+      "description": "ACS 5-year tract metrics",
+      "rebuild_script": "scripts/market/build_public_market_data.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 408674,
+      "record_count": 1447,
+      "min_required": 1000,
+      "coverage_pct": null,
+      "generated": "2026-03-23",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "hud_lihtc_co.geojson",
+      "description": "HUD LIHTC project locations",
+      "rebuild_script": "scripts/market/build_public_market_data.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 177280,
+      "record_count": 360,
+      "min_required": 50,
+      "coverage_pct": null,
+      "generated": null,
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "tract_boundaries_co.geojson",
+      "description": "Census tract polygon boundaries",
+      "rebuild_script": "scripts/market/build_public_market_data.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 65,
+      "record_count": 0,
+      "min_required": 1000,
+      "coverage_pct": null,
+      "generated": null,
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1000",
+        "File appears to be a stub (65 bytes)"
+      ]
+    },
+    {
+      "file": "nhpd_co.geojson",
+      "description": "NHPD preservation database",
+      "rebuild_script": "scripts/fetch_nhpd.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 12489,
+      "record_count": 20,
+      "min_required": 1,
+      "coverage_pct": null,
+      "generated": "2026-03-13T00:00:00Z",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "schools_co.geojson",
+      "description": "Colorado K-12 school locations (NCES)",
+      "rebuild_script": "scripts/market/fetch_schools.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 429,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (429 bytes)"
+      ]
+    },
+    {
+      "file": "opportunity_zones_co.geojson",
+      "description": "HUD CDFI Opportunity Zones",
+      "rebuild_script": "scripts/market/fetch_opportunity_zones.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 443,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (443 bytes)"
+      ]
+    },
+    {
+      "file": "parcel_aggregates_co.json",
+      "description": "County assessor parcel aggregates",
+      "rebuild_script": "scripts/market/fetch_parcel_data.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 370,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (370 bytes)"
+      ]
+    },
+    {
+      "file": "transit_routes_co.geojson",
+      "description": "Colorado GTFS transit routes",
+      "rebuild_script": "scripts/market/fetch_gtfs_transit.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 390,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (390 bytes)"
+      ]
+    },
+    {
+      "file": "walkability_scores_co.json",
+      "description": "EPA Smart Location walkability scores",
+      "rebuild_script": "scripts/market/fetch_walkability.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 450,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (450 bytes)"
+      ]
+    },
+    {
+      "file": "flood_zones_co.geojson",
+      "description": "FEMA NFHL flood zone designations",
+      "rebuild_script": "scripts/market/fetch_flood_zones.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 419,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (419 bytes)"
+      ]
+    },
+    {
+      "file": "food_access_co.json",
+      "description": "USDA Food Access Research Atlas",
+      "rebuild_script": "scripts/market/fetch_food_access.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 397,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (397 bytes)"
+      ]
+    },
+    {
+      "file": "qct_dda_designations_co.json",
+      "description": "HUD QCT/DDA designations",
+      "rebuild_script": "scripts/market/fetch_qct_dda.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 481,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (481 bytes)"
+      ]
+    },
+    {
+      "file": "utility_capacity_co.geojson",
+      "description": "Colorado utility service areas",
+      "rebuild_script": "scripts/market/fetch_utility_capacity.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 418,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (418 bytes)"
+      ]
+    },
+    {
+      "file": "zoning_compat_index_co.json",
+      "description": "Municipal zoning compatibility index",
+      "rebuild_script": "scripts/market/fetch_zoning.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 472,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (472 bytes)"
+      ]
+    },
+    {
+      "file": "chfa_programs_co.json",
+      "description": "CHFA subsidy programs + LIHTC pipeline",
+      "rebuild_script": "scripts/market/fetch_chfa_programs.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 424,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 100.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1",
+        "File appears to be a stub (424 bytes)"
+      ]
+    },
+    {
+      "file": "inclusionary_zoning_co.json",
+      "description": "Colorado IZ ordinance database",
+      "rebuild_script": "scripts/market/fetch_inclusionary_zoning.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 532,
+      "record_count": 0,
+      "min_required": 1,
+      "coverage_pct": 100.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "warn",
+      "issues": [
+        "Record count 0 below minimum 1"
+      ]
+    },
+    {
+      "file": "climate_hazards_co.json",
+      "description": "Climate hazards + EPA EJI data",
+      "rebuild_script": "scripts/market/fetch_climate_and_environment.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 1502,
+      "record_count": 0,
+      "min_required": 0,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "environmental_constraints_co.geojson",
+      "description": "CPW protected lands constraints",
+      "rebuild_script": "scripts/market/fetch_climate_and_environment.py",
+      "exists": true,
+      "age_days": 0.0,
+      "size_bytes": 436,
+      "record_count": 0,
+      "min_required": 0,
+      "coverage_pct": 0.0,
+      "generated": "2026-03-23T00:00:00Z",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "file": "fmr_co.json",
+      "description": "HUD Fair Market Rents (raw)",
+      "rebuild_script": "scripts/fetch_fmr_api.py",
+      "exists": false,
+      "age_days": 0,
+      "size_bytes": 0,
+      "record_count": 0,
+      "min_required": 0,
+      "coverage_pct": null,
+      "generated": null,
+      "status": "missing",
+      "issues": [
+        "File not found: /home/runner/work/Housing-Analytics/Housing-Analytics/data/market/fmr_co.json"
+      ]
+    },
+    {
+      "file": "chas_co.json",
+      "description": "HUD CHAS affordability data",
+      "rebuild_script": "scripts/fetch_chas.py",
+      "exists": false,
+      "age_days": 0,
+      "size_bytes": 0,
+      "record_count": 0,
+      "min_required": 0,
+      "coverage_pct": null,
+      "generated": null,
+      "status": "missing",
+      "issues": [
+        "File not found: /home/runner/work/Housing-Analytics/Housing-Analytics/data/market/chas_co.json"
+      ]
+    }
+  ]
+}

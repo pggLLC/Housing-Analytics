@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "source": "CHFA Program Inventory + HUD LIHTC Database",
+    "url": "https://www.chfainfo.com",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2025",
+    "generated": "2026-03-23T03:17:41Z",
+    "program_count": 8,
+    "lihtc_projects": 0,
+    "coverage_pct": 100.0,
+    "note": "Static program definitions updated annually from CHFA QAP. Rebuild via scripts/market/fetch_chfa_programs.py"
+  },
+  "programs": [
+    {
+      "program_id": "9PCT_LIHTC",
+      "name": "9% Low Income Housing Tax Credit",
+      "type": "tax_credit",
+      "credit_type": "9%",
+      "basis_boost": false,
+      "max_credit_per_unit": 15000,
+      "ami_targeting": "60% AMI",
+      "typical_subsidy_per_unit": 95000,
+      "active": true,
+      "annual_allocation_limit": 13000000,
+      "notes": "Competitive annual LIHTC from CHFA; statewide basis allocation"
+    },
+    {
+      "program_id": "4PCT_LIHTC",
+      "name": "4% Low Income Housing Tax Credit + Bonds",
+      "type": "tax_credit",
+      "credit_type": "4%",
+      "basis_boost": true,
+      "max_credit_per_unit": 8000,
+      "ami_targeting": "60% AMI",
+      "typical_subsidy_per_unit": 45000,
+      "active": true,
+      "annual_allocation_limit": null,
+      "notes": "Non-competitive; paired with tax-exempt bonds; QCT/DDA boost to 30%"
+    },
+    {
+      "program_id": "CHFA_HOME",
+      "name": "CHFA HOME Investment Partnerships",
+      "type": "grant_loan",
+      "credit_type": null,
+      "basis_boost": false,
+      "max_grant_per_unit": 50000,
+      "ami_targeting": "80% AMI",
+      "typical_subsidy_per_unit": 30000,
+      "active": true,
+      "annual_allocation_limit": 5000000,
+      "notes": "Federal HOME funds administered by CHFA; rental housing"
+    },
+    {
+      "program_id": "CHFA_CDBG",
+      "name": "Community Development Block Grant (CDBG)",
+      "type": "grant",
+      "credit_type": null,
+      "basis_boost": false,
+      "max_grant_per_unit": 30000,
+      "ami_targeting": "80% AMI",
+      "typical_subsidy_per_unit": 20000,
+      "active": true,
+      "annual_allocation_limit": 3000000,
+      "notes": "Via DOLA for small cities and rural areas; housing rehabilitation"
+    },
+    {
+      "program_id": "CHFA_TOD",
+      "name": "Transit-Oriented Development (TOD) Fund",
+      "type": "loan",
+      "credit_type": null,
+      "basis_boost": false,
+      "max_loan_per_unit": 75000,
+      "ami_targeting": "60–80% AMI",
+      "typical_subsidy_per_unit": 50000,
+      "active": true,
+      "annual_allocation_limit": null,
+      "notes": "Preservation and new construction near transit; Denver metro focus"
+    },
+    {
+      "program_id": "CHFA_HTF",
+      "name": "National Housing Trust Fund (HTF)",
+      "type": "grant",
+      "credit_type": null,
+      "basis_boost": false,
+      "max_grant_per_unit": 75000,
+      "ami_targeting": "30% AMI",
+      "typical_subsidy_per_unit": 55000,
+      "active": true,
+      "annual_allocation_limit": 4000000,
+      "notes": "Targets extremely low income; paired with 9% LIHTC"
+    },
+    {
+      "program_id": "CHFA_AFFORDABLE_LOAN",
+      "name": "CHFA Affordable Housing Loan",
+      "type": "loan",
+      "credit_type": null,
+      "basis_boost": false,
+      "max_loan_amount": 20000000,
+      "ami_targeting": "60–80% AMI",
+      "typical_subsidy_per_unit": 35000,
+      "active": true,
+      "annual_allocation_limit": null,
+      "notes": "Below-market permanent financing; paired with LIHTC projects"
+    },
+    {
+      "program_id": "CHFA_RAD",
+      "name": "Rental Assistance Demonstration (RAD)",
+      "type": "preservation",
+      "credit_type": null,
+      "basis_boost": false,
+      "ami_targeting": "30–50% AMI",
+      "typical_subsidy_per_unit": 80000,
+      "active": true,
+      "annual_allocation_limit": null,
+      "notes": "HUD-driven conversion of public housing to Section 8 project-based"
+    }
+  ],
+  "lihtc_pipeline": []
+}

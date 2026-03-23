@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "source": "HUD Fair Market Rents API",
+    "url": "https://www.huduser.gov/portal/datasets/fmr.html",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-03-23T00:00:00Z",
+    "note": "Stub — rebuild via scripts/fetch_fmr_api.py"
+  },
+  "data": {}
+}
