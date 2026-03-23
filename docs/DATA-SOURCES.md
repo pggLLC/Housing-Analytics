@@ -163,3 +163,47 @@ Geometry: Census TIGERweb ArcGIS (public; 20s timeout)
 | `zillow-data-sync.yml` | Monday 02:00 UTC | `ZILLOW_EMAIL`, `ZILLOW_PASSWORD` | `data/zillow-*.json` |
 | `car-data-update.yml` | Monthly | None | `data/car-market-report-*.json` |
 | `daily-monitoring.yml` | Daily | `EMAIL_USER`, `EMAIL_PASSWORD`, `WEBSITE_URL` | Email alerts only |
+
+---
+
+## DOLA and FRED Data — Scenario Projection Context
+
+### DOLA (Colorado Department of Local Affairs — State Demography Office)
+
+DOLA provides the foundation for all demographic projections in COHO Analytics.
+
+| Resource | URL | Used For |
+|----------|-----|----------|
+| Single-Year-of-Age (SYA) county data | https://demography.dola.colorado.gov/population/population-totals-colorado-counties/ | Base population for cohort-component model |
+| Components of Change | https://demography.dola.colorado.gov/population/population-change-components/ | Net migration baseline (2018–2023 average) |
+| Population projections | https://demography.dola.colorado.gov/population/population-totals-colorado-counties/#population-projections | Validation benchmark |
+
+**Local files:**
+- `data/hna/dola_sya/{fips5}.json` — per-county population pyramid (64 files)
+- `data/hna/projections/{fips5}.json` — 20-year projection outputs
+- `data/hna/scenarios/baseline.json` — baseline scenario metadata
+
+### FRED (Federal Reserve Bank of St. Louis)
+
+FRED series are used to contextualize alternative scenarios:
+
+| Series | Description | Used In Scenario |
+|--------|-------------|-----------------|
+| `CUUR0000SAH1` | CPI — Shelter component | Low-growth (affordability headwind) |
+| `UNRATE` | US Unemployment Rate | High-growth (economic expansion) |
+| `CIVPART` | Civilian Labor Force Participation Rate | Employment projections |
+| `WPUFD4` | PPI — Building materials | Construction cost context |
+
+**Local file:** `data/fred-data.json`  
+**Required sentinel key:** `updated` (ISO-8601 UTC timestamp — must not be removed)
+
+### Scenario Attribution Footer
+
+Every projection view in the application displays a data attribution footer:
+
+```
+Data Source: DOLA (2024) | Historical Trend: FRED CPI | Methodology: Cohort-Component
+[Link to docs/PROJECTION-METHODOLOGY.md]
+```
+
+See [PROJECTION-METHODOLOGY.md](PROJECTION-METHODOLOGY.md) for full formula documentation.

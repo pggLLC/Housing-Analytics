@@ -1,0 +1,300 @@
+/* ================================================================
+   comparative-analysis.css — COHO Analytics
+   Multi-jurisdiction benchmark comparison UI.
+   ================================================================ */
+
+/* ---------------------------------------------------------------------------
+   Page layout
+   --------------------------------------------------------------------------- */
+.bm-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp4) var(--sp3);
+}
+
+.bm-hero {
+  margin-bottom: var(--sp5);
+}
+
+.bm-hero h1 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--text-strong);
+  margin-bottom: var(--sp2);
+}
+
+.bm-hero-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------------------
+   Jurisdiction picker
+   --------------------------------------------------------------------------- */
+.bm-picker {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--sp4);
+}
+
+.bm-picker-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: var(--sp3);
+}
+
+.bm-picker-form {
+  display: flex;
+  gap: var(--sp2);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.bm-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bm-select-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.bm-select {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: 400 0.9rem var(--font-sans);
+  min-height: 44px;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.bm-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ---------------------------------------------------------------------------
+   Selected jurisdictions chips
+   --------------------------------------------------------------------------- */
+.bm-selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp1);
+  margin-top: var(--sp2);
+}
+
+.bm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent 70%);
+  color: var(--accent);
+  font: 700 0.82rem var(--font-sans);
+}
+
+.bm-chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent);
+  padding: 0;
+  line-height: 1;
+  font-size: 1rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.bm-chip-remove:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------------
+   Comparison panel
+   --------------------------------------------------------------------------- */
+.bm-comparison-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-card);
+  min-height: 200px;
+}
+
+.bm-empty,
+.bm-loading,
+.bm-error {
+  padding: var(--sp4);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.bm-error {
+  color: var(--bad);
+}
+
+/* ---------------------------------------------------------------------------
+   Comparison table
+   --------------------------------------------------------------------------- */
+.bm-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  margin-bottom: var(--sp4);
+}
+
+.bm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.bm-table th {
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--bg2);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.bm-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bm-table tr:hover td {
+  background: var(--bg2);
+}
+
+/* Aggregate rows (county/state averages) */
+.bm-row-aggregate td {
+  background: color-mix(in oklab, var(--bg2) 70%, var(--accent-dim) 30%);
+  font-style: italic;
+  color: var(--muted);
+}
+
+.bm-row-aggregate:hover td {
+  background: color-mix(in oklab, var(--bg2) 50%, var(--accent-dim) 50%);
+}
+
+/* ---------------------------------------------------------------------------
+   Chart panel
+   --------------------------------------------------------------------------- */
+.bm-chart-wrap {
+  position: relative;
+  min-height: 300px;
+}
+
+/* ---------------------------------------------------------------------------
+   Controls row
+   --------------------------------------------------------------------------- */
+.bm-controls-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp2);
+  margin-bottom: var(--sp3);
+}
+
+/* ---------------------------------------------------------------------------
+   KPI strip
+   --------------------------------------------------------------------------- */
+.bm-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--sp3);
+  margin-bottom: var(--sp4);
+}
+
+.bm-kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp3);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.bm-kpi-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.bm-kpi-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Attribution
+   --------------------------------------------------------------------------- */
+.bm-attribution {
+  margin-top: var(--sp4);
+  padding: var(--sp3);
+  background: var(--bg2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.bm-attribution strong {
+  color: var(--text);
+}
+
+.bm-attribution a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .bm-picker-form {
+    flex-direction: column;
+  }
+  .bm-select {
+    min-width: 100%;
+  }
+}
