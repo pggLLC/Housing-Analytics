@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-22T14:20:36.066Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T03:31:47.047Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 438 B |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 766 B |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
