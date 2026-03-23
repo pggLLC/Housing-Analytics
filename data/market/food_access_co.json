@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "source": "USDA Food Access Research Atlas",
+    "url": "https://www.ers.usda.gov/data-products/food-access-research-atlas/",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2019",
+    "generated": "2026-03-23T00:00:00Z",
+    "tract_count": 0,
+    "coverage_pct": 0.0,
+    "note": "Stub — rebuild via scripts/market/fetch_food_access.py"
+  },
+  "tracts": []
+}
