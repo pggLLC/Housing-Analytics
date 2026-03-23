@@ -298,6 +298,43 @@ def ensure_dirs():
     os.makedirs(OUT['cache_dir'], exist_ok=True)
 
 
+_ACS_SENTINEL = -666666666
+
+
+def normalize_acs_value(val):
+    """Normalize ACS API sentinel values to None (JSON null).
+
+    The Census ACS API returns -666666666 (int or float or string) to indicate
+    "not available".  It may also return the string "None" for derived fields.
+    Both representations are converted to Python None so they are written as
+    JSON null rather than leaking into production data files.
+    """
+    if val is None:
+        return None
+    if isinstance(val, str):
+        stripped = val.strip()
+        if stripped in ('None', 'null', 'NA', ''):
+            return None
+        try:
+            as_float = float(stripped)
+            if as_float == _ACS_SENTINEL:
+                return None
+        except (ValueError, OverflowError):
+            pass
+        return val
+    if isinstance(val, (int, float)):
+        if val == _ACS_SENTINEL:
+            return None
+    return val
+
+
+def normalize_acs_dict(d: dict | None) -> dict | None:
+    """Apply normalize_acs_value to every value in an ACS response dict."""
+    if d is None:
+        return None
+    return {k: normalize_acs_value(v) for k, v in d.items()}
+
+
 def safe_float(v):
     try:
         if v is None:
@@ -305,7 +342,10 @@ def safe_float(v):
         s = str(v).strip()
         if s in ('', 'NA', 'null', 'None'):
             return None
-        return float(s)
+        f = float(s)
+        if f == _ACS_SENTINEL:
+            return None
+        return f
     except Exception:
         return None
 
@@ -968,9 +1008,9 @@ def build_summary_cache():
             payload = {
                 'updated': utc_now_z(),
                 'geo': g,
-                'acsProfile': acs_profile,
-                'acsS0801': acs_s0801,
-                'acsB08301': acs_b08301,
+                'acsProfile': normalize_acs_dict(acs_profile),
+                'acsS0801': normalize_acs_dict(acs_s0801),
+                'acsB08301': normalize_acs_dict(acs_b08301),
                 'source': {
                     'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
                     'acs_s0801_endpoint': (
