@@ -464,6 +464,11 @@
   /* ── UI helpers ─────────────────────────────────────────────────── */
   function el(id) { return document.getElementById(id); }
 
+  function _cap(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   function setHtml(id, html) {
     var e = el(id);
     if (e) e.innerHTML = html;
@@ -875,6 +880,53 @@
 
     renderScore(lastResult);
     setText('pmaRunBtn', 'Re-run Analysis');
+
+    // ── Trigger concept recommendation for buffer mode ───────────────
+    (function () {
+      var predictor = window.LIHTCDealPredictor;
+      var bridge    = window.HNAMarketBridge;
+      var card      = document.getElementById('lihtcConceptCard');
+      if (!predictor || !card) return;
+
+      var dealInputs = {
+        pmaScore:           pma.pma_score || null,
+        proposedUnits:      parseInt((document.getElementById('pmaProposedUnits') || {}).value || '60', 10) || 60,
+        competitiveSetSize: lihtcCount || 0,
+        marketVacancy:      acs.vacancy_rate || null
+      };
+
+      if (bridge) {
+        var hnaState = window.HNAState;
+        var hnaData  = hnaState ? (hnaState.chasData || hnaState.affordabilityGap || null) : null;
+        if (hnaData) {
+          var needProfile = bridge.buildNeedProfile(hnaData, { score: dealInputs.pmaScore, method: 'buffer' });
+          dealInputs = bridge.toDealInputs(needProfile, dealInputs);
+        }
+      }
+
+      var rec = predictor.predictConcept(dealInputs);
+
+      // Minimal render for buffer mode (full render done by pma-ui-controller in enhanced mode)
+      var liveRegion = document.getElementById('lihtcConceptLiveRegion');
+      card.hidden = false;
+      if (liveRegion) {
+        liveRegion.textContent = 'Concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing, ' + rec.confidence + ' confidence.';
+      }
+      if (window.__announceUpdate) {
+        window.__announceUpdate('LIHTC concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing.');
+      }
+      // Let pma-ui-controller handle full card rendering if available
+      if (window.PMAUIController && typeof window.PMAUIController._drawCard === 'function') return;
+
+      // Fallback: simple summary
+      var badge = rec.confidenceBadge || '';
+      card.innerHTML = '<p style="margin:0;"><strong>' + badge + ' ' +
+        rec.recommendedExecution + ' ' + _cap(rec.conceptType) + ' Housing</strong> — ' +
+        rec.confidence + ' confidence</p>' +
+        '<p style="margin:.4rem 0 0;font-size:.85rem;">' +
+        (rec.keyRationale[0] ? rec.keyRationale[0] : '') + '</p>' +
+        '<p style="margin:.4rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);">Run Commuting or Hybrid mode for full recommendation details.</p>';
+    }());
 
     // ── Delegate to MAController to populate the 8 report sections ──
     // Normalise the aggregated ACS field names to match what MARenderers
