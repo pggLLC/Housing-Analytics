@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T05:16:00.612Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T06:47:31.000Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.1 KB |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
@@ -49,7 +49,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-860 JSON files found.
+861 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -141,6 +141,7 @@
 | `data/hna/dola_sya/08123.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 3.1 KB | ✅ | — |
 | `data/hna/geo-config.json` | 24.1 KB | ✅ | — |
+| `data/hna/geography-registry.json` | 68.4 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
@@ -337,7 +338,7 @@
 | `data/hna/projections/08121.json` | 3.5 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 3.5 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 279.1 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 186.3 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -918,7 +919,7 @@
 
 ## Test Files
 
-61 test files found.
+64 test files found.
 
 | File | Size |
 |------|------|
@@ -980,6 +981,9 @@
 | `test/website-monitor.test.js` | 7.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/test_governance_stress.py` | 30.3 KB |
+| `tests/test_hna_geography_coverage.py` | 8.1 KB |
+| `tests/test_pma_provenance.py` | 6.7 KB |
+| `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_stage2_temporal.py` | 31.6 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
