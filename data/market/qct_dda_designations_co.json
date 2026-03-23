@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "source": "HUD QCT/DDA Designations (HUD GIS Open Data)",
+    "url": "https://www.hud.gov/program_offices/housing/mfh/lihtc/qcts",
+    "state": "Colorado",
+    "state_fips": "08",
+    "designation_year": 2025,
+    "vintage": "2025",
+    "generated": "2026-03-23T00:00:00Z",
+    "qct_count": 0,
+    "dda_count": 0,
+    "total_designations": 0,
+    "coverage_pct": 0.0,
+    "note": "Stub — rebuild via scripts/market/fetch_qct_dda.py"
+  },
+  "designations": []
+}

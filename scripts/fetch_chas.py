@@ -72,6 +72,37 @@ RENTER_AMI_COLS = {
     },
 }
 
+# CHAS Table 1 owner-occupied household columns by AMI tier
+# Source: HUD CHAS 2016-2020 data dictionary (Table 1, owner section)
+# Columns T1_est51–T1_est75 cover owner-occupied income/cost-burden cross-tabs.
+OWNER_TOTAL_COL = 'T1_est51'
+OWNER_AMI_COLS = {
+    'lte30': {
+        'total':             'T1_est52',
+        'not_burdened':      'T1_est53',
+        'mod_burdened':      'T1_est54',
+        'severely_burdened': 'T1_est55',
+    },
+    '31to50': {
+        'total':             'T1_est57',
+        'not_burdened':      'T1_est58',
+        'mod_burdened':      'T1_est59',
+        'severely_burdened': 'T1_est60',
+    },
+    '51to80': {
+        'total':             'T1_est62',
+        'not_burdened':      'T1_est63',
+        'mod_burdened':      'T1_est64',
+        'severely_burdened': 'T1_est65',
+    },
+    '81to100': {
+        'total':             'T1_est67',
+        'not_burdened':      'T1_est68',
+        'mod_burdened':      'T1_est69',
+        'severely_burdened': 'T1_est70',
+    },
+}
+
 # Colorado county FIPS → name mapping (Rule 1: always 5-digit strings)
 CO_COUNTY_NAMES = {
     '08001': 'Adams', '08003': 'Alamosa', '08005': 'Arapahoe', '08007': 'Archuleta',
@@ -150,17 +181,25 @@ def build_county_fips(row: dict) -> str:
 
 
 def aggregate_to_counties(records: list) -> dict:
-    """Aggregate tract/sub-county CHAS records to county-level cost-burden summaries."""
+    """Aggregate tract/sub-county CHAS records to county-level cost-burden summaries.
+
+    Returns a dict keyed by 5-digit county FIPS with renter and owner sub-dicts.
+    """
+    def _empty_tier():
+        return {k: 0 for k in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened')}
+
     accum = defaultdict(lambda: {
-        tier: {k: 0 for k in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened')}
-        for tier in AMI_TIERS
+        'renter': {tier: _empty_tier() for tier in AMI_TIERS},
+        'owner':  {tier: _empty_tier() for tier in AMI_TIERS},
     })
 
-    col_present = None  # lazily check whether expected columns exist
+    renter_col_present = None
+    owner_col_present = None
     for row in records:
-        if col_present is None:
-            col_present = RENTER_TOTAL_COL in row
-            if not col_present:
+        if renter_col_present is None:
+            renter_col_present = RENTER_TOTAL_COL in row
+            owner_col_present = OWNER_TOTAL_COL in row
+            if not renter_col_present:
                 print(
                     f'⚠ CHAS Table 1 column {RENTER_TOTAL_COL!r} not found in CSV. '
                     'County gap data will not be updated.',
@@ -172,33 +211,88 @@ def aggregate_to_counties(records: list) -> dict:
         if not fips5 or len(fips5) != 5:
             continue
 
+        # Accumulate renter data
         for tier, cols in RENTER_AMI_COLS.items():
             for metric, col in cols.items():
-                accum[fips5][tier][metric] += _int(row.get(col, 0))
+                accum[fips5]['renter'][tier][metric] += _int(row.get(col, 0))
+
+        # Accumulate owner data (if columns present in this vintage)
+        if owner_col_present:
+            for tier, cols in OWNER_AMI_COLS.items():
+                for metric, col in cols.items():
+                    accum[fips5]['owner'][tier][metric] += _int(row.get(col, 0))
 
     return dict(accum)
 
 
+def _burden_tier_record(tier_data: dict) -> dict:
+    """Convert accumulated tier counts to burden metrics including 30% and 50% thresholds."""
+    total      = tier_data.get('total', 0)
+    mod_cb     = tier_data.get('mod_burdened', 0)    # 30–50% of income
+    scb        = tier_data.get('severely_burdened', 0)  # >50% of income
+    cb_30plus  = mod_cb + scb                           # ≥30% cost burden
+    pct_cb_30  = round(cb_30plus / total, 4) if total > 0 else 0.0
+    pct_cb_50  = round(scb / total, 4) if total > 0 else 0.0
+    return {
+        'total':                 total,
+        'cost_burdened_30pct':   cb_30plus,    # paying ≥30% of income
+        'cost_burdened_50pct':   scb,           # paying ≥50% of income (severe)
+        'pct_cost_burdened_30':  pct_cb_30,
+        'pct_cost_burdened_50':  pct_cb_50,
+        # Legacy keys for backward compatibility
+        'cost_burdened':         cb_30plus,
+        'severely_burdened':     scb,
+        'pct_cost_burdened':     pct_cb_30,
+    }
+
+
 def finalize_county_record(fips5: str, tier_data: dict) -> dict:
-    """Convert accumulated integer counts to the output record shape."""
+    """Convert accumulated integer counts to the output record shape.
+
+    Accepts both old-format (dict of tier → metrics) and new-format
+    (dict with 'renter' / 'owner' sub-dicts) for backward compatibility.
+    """
+    # Detect new vs old format
+    if 'renter' in tier_data:
+        renter_tiers = tier_data['renter']
+        owner_tiers  = tier_data['owner']
+    else:
+        renter_tiers = tier_data
+        owner_tiers  = {}
+
     renter_hh_by_ami = {}
     for tier in AMI_TIERS:
-        td = tier_data.get(tier, {})
-        total      = td.get('total', 0)
-        mod_cb     = td.get('mod_burdened', 0)   # 30–50% of income
-        scb        = td.get('severely_burdened', 0)  # >50% of income
-        cb         = mod_cb + scb                 # total cost burdened ≥30%
-        pct_cb     = round(cb / total, 4) if total > 0 else 0.0
-        renter_hh_by_ami[tier] = {
-            'total':              total,
-            'cost_burdened':      cb,
-            'severely_burdened':  scb,
-            'pct_cost_burdened':  pct_cb,
-        }
+        renter_hh_by_ami[tier] = _burden_tier_record(renter_tiers.get(tier, {}))
+
+    owner_hh_by_ami = {}
+    for tier in AMI_TIERS:
+        owner_hh_by_ami[tier] = _burden_tier_record(owner_tiers.get(tier, {}))
+
+    # Cross-tenure totals
+    total_renter = sum(renter_hh_by_ami[t]['total'] for t in AMI_TIERS)
+    total_owner  = sum(owner_hh_by_ami[t]['total'] for t in AMI_TIERS)
+    cb30_renter  = sum(renter_hh_by_ami[t]['cost_burdened_30pct'] for t in AMI_TIERS)
+    cb50_renter  = sum(renter_hh_by_ami[t]['cost_burdened_50pct'] for t in AMI_TIERS)
+    cb30_owner   = sum(owner_hh_by_ami[t]['cost_burdened_30pct'] for t in AMI_TIERS)
+    cb50_owner   = sum(owner_hh_by_ami[t]['cost_burdened_50pct'] for t in AMI_TIERS)
+
     return {
         'fips': fips5,
         'name': CO_COUNTY_NAMES.get(fips5, fips5),
         'renter_hh_by_ami': renter_hh_by_ami,
+        'owner_hh_by_ami':  owner_hh_by_ami,
+        'summary': {
+            'total_renter_hh':        total_renter,
+            'total_owner_hh':         total_owner,
+            'renter_cb30_count':      cb30_renter,
+            'renter_cb50_count':      cb50_renter,
+            'owner_cb30_count':       cb30_owner,
+            'owner_cb50_count':       cb50_owner,
+            'pct_renter_cb30':        round(cb30_renter / total_renter, 4) if total_renter else 0.0,
+            'pct_renter_cb50':        round(cb50_renter / total_renter, 4) if total_renter else 0.0,
+            'pct_owner_cb30':         round(cb30_owner / total_owner, 4) if total_owner else 0.0,
+            'pct_owner_cb50':         round(cb50_owner / total_owner, 4) if total_owner else 0.0,
+        },
     }
 
 
@@ -209,14 +303,26 @@ def build_gap_output(county_map: dict, generated: str) -> dict:
     for fips5, tier_data in sorted(county_map.items()):
         counties_out[fips5] = finalize_county_record(fips5, tier_data)
 
-    # Compute state aggregate
-    state_tier_data = defaultdict(lambda: {k: 0 for k in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened')})
-    for tier_data in county_map.values():
+    # Compute state aggregate — handle both new (renter/owner) and old format
+    def _empty_tenure_tiers():
+        return {tier: {k: 0 for k in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened')}
+                for tier in AMI_TIERS}
+
+    state_accum = {'renter': _empty_tenure_tiers(), 'owner': _empty_tenure_tiers()}
+    for td in county_map.values():
+        if 'renter' in td:
+            renter_tiers = td['renter']
+            owner_tiers  = td['owner']
+        else:
+            renter_tiers = td
+            owner_tiers  = {}
         for tier in AMI_TIERS:
             for metric in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened'):
-                state_tier_data[tier][metric] += tier_data.get(tier, {}).get(metric, 0)
+                state_accum['renter'][tier][metric] += renter_tiers.get(tier, {}).get(metric, 0)
+                if owner_tiers:
+                    state_accum['owner'][tier][metric] += owner_tiers.get(tier, {}).get(metric, 0)
 
-    state_entry = finalize_county_record('08', dict(state_tier_data))
+    state_entry = finalize_county_record('08', state_accum)
     state_entry['fips'] = '08'
     state_entry['name'] = 'Colorado'
 
@@ -231,9 +337,12 @@ def build_gap_output(county_map: dict, generated: str) -> dict:
             'county_count': len(counties_out),
             'ami_tiers': AMI_TIERS,
             'tier_labels': AMI_TIER_LABELS,
-            'cost_burden_def': (
-                'Households paying >30% of gross income on housing costs (rent + utilities)'
-            ),
+            'cost_burden_thresholds': {
+                '30pct': 'Households paying ≥30% of gross income on housing costs (moderately + severely burdened)',
+                '50pct': 'Households paying ≥50% of gross income on housing costs (severely burdened)',
+            },
+            'tenure_breakdown': 'Separate renter and owner cost burden metrics included per county',
+            'note': 'Rebuild via scripts/fetch_chas.py',
         },
         'state': state_entry,
         'counties': counties_out,

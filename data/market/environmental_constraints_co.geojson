@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "Colorado Parks & Wildlife — Protected Lands",
+    "url": "https://cpw.state.co.us/learn/Pages/GIS.aspx",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2024",
+    "generated": "2026-03-23T00:00:00Z",
+    "feature_count": 0,
+    "coverage_pct": 0.0,
+    "note": "Stub — rebuild via scripts/market/fetch_climate_and_environment.py"
+  },
+  "features": []
+}
