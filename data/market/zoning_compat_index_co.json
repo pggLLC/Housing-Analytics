@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "source": "County/Municipal Planning GIS — Zoning Districts (public)",
+    "state": "Colorado",
+    "state_fips": "08",
+    "vintage": "2026-03-23",
+    "generated": "2026-03-23T00:00:00Z",
+    "jurisdictions_attempted": 8,
+    "jurisdictions_successful": 0,
+    "coverage_pct": 0.0,
+    "compat_score_scale": "0-2.5 (2.5 = fully MF/mixed-use compatible)",
+    "note": "Stub — rebuild via scripts/market/fetch_zoning.py"
+  },
+  "jurisdictions": []
+}
