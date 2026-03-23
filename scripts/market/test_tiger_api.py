@@ -76,8 +76,8 @@ def check_tracts_layer() -> bool:
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_TRACTS,
-            where=f"STATEFP='{STATE_FIPS}'",
-            limit=5,
+            where=f'STATEFP="{STATE_FIPS}"',
+            limit=10000,
         )
         if "error" in data:
             code = data["error"].get("code", "?")
@@ -86,6 +86,8 @@ def check_tracts_layer() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No features returned — service may be down or query is incorrect",
                 level="WARN")
@@ -106,9 +108,9 @@ def check_counties_layer() -> bool:
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_COUNTIES,
-            where=f"STATEFP='{STATE_FIPS}'",
+            where=f'STATEFP="{STATE_FIPS}"',
             out_fields="STATEFP,COUNTYFP,NAME,NAMELSAD",
-            limit=5,
+            limit=10000,
         )
         if "error" in data:
             code = data["error"].get("code", "?")
@@ -117,6 +119,8 @@ def check_counties_layer() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No features returned — service may be down or query is incorrect",
                 level="WARN")
@@ -138,11 +142,11 @@ def check_tracts_geojson() -> bool:
     """Verify GeoJSON output format works for the tracts layer."""
     log("── Check 3: Tracts layer GeoJSON output (f=geojson) ──")
     params = urllib.parse.urlencode({
-        "where": f"STATEFP='{STATE_FIPS}'",
+        "where": f'STATEFP="{STATE_FIPS}"',
         "outFields": "GEOID,STATEFP,NAMELSAD",
         "returnGeometry": "false",
         "f": "geojson",
-        "resultRecordCount": "3",
+        "resultRecordCount": "10000",
     })
     url = f"{TIGERWEB_TRACTS}/query?{params}"
     log(f"GET {url[:120]}")
@@ -155,6 +159,8 @@ def check_tracts_geojson() -> bool:
             return False
         features = data.get("features", [])
         log(f"Response time: {elapsed:.2f}s | GeoJSON features: {len(features)}")
+        if data.get("exceededTransferLimit"):
+            log(f"⚠️  Results were truncated — more records exist beyond {len(features)}", level="WARN")
         if not features:
             log("No GeoJSON features returned", level="WARN")
             return False

@@ -222,7 +222,7 @@ def build_tract_centroids():
     _log("  Fetching tract internal-points from Census TIGERweb …")
     tiger_url = (
         "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2022/MapServer/14/query"
-        "?where=STATE%3D%2708%27"
+        "?where=STATE%3D%2208%22"
         "&outFields=GEOID,CENTLAT,CENTLON,NAME"
         "&f=json"
         "&outSR=4326"
@@ -233,6 +233,11 @@ def build_tract_centroids():
     try:
         raw = _fetch_url(tiger_url)
         tj = json.loads(raw)
+        if "error" in tj:
+            err = tj["error"]
+            raise RuntimeError(
+                f"ArcGIS error (code {err.get('code', '?')}): {err.get('message', str(err))}"
+            )
         features = tj.get("features", [])
         for feat in features:
             attrs = feat.get("attributes", {})
@@ -292,7 +297,7 @@ def build_lihtc():
         "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services"
         "/LIHTC_Properties/FeatureServer/0/query"
     )
-    where = "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'"
+    where = 'Proj_St="CO" OR Proj_St="08" OR Proj_St="Colorado"'
     params = (
         f"?where={urllib.request.quote(where)}"
         "&outFields=*"
@@ -310,6 +315,11 @@ def build_lihtc():
         try:
             raw = _fetch_url(paged_url)
             gj = json.loads(raw)
+            if "error" in gj:
+                err = gj["error"]
+                raise RuntimeError(
+                    f"ArcGIS error (code {err.get('code', '?')}): {err.get('message', str(err))}"
+                )
         except Exception as exc:
             if page == 0:
                 _error(f"HUD LIHTC fetch failed: {exc}")
