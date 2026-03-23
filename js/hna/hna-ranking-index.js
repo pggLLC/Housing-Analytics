@@ -60,7 +60,9 @@
 
   function sortEntries(entries, metric, dir) {
     return [...entries].sort((a, b) => {
-      // Use DataQuality.sanitizeNumber to normalise sentinels before comparing.
+      // Sentinel values (-666666666, NaN, Infinity) are normalized to null
+      // by DataQuality.sanitizeNumber and rendered as '—' in the UI table.
+      // Null entries sort to the bottom regardless of sort direction.
       const _sanitize = (_dq && _dq.sanitizeNumber) || (v => (v === null || v === undefined ? null : +v));
       const av = _sanitize(a.metrics[metric]) ?? -Infinity;
       const bv = _sanitize(b.metrics[metric]) ?? -Infinity;
