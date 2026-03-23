@@ -317,6 +317,16 @@ def build_lihtc():
             _warn(f"LIHTC page {page} fetch failed: {exc}; using {len(all_features)} features so far")
             break
 
+        if "error" in gj:
+            err = gj["error"]
+            code = err.get("code", "?")
+            msg = err.get("message", str(err))
+            if page == 0:
+                _error(f"HUD LIHTC ArcGIS error (code {code}): {msg}")
+                return False
+            _warn(f"LIHTC page {page} ArcGIS error (code {code}): {msg}; using {len(all_features)} features so far")
+            break
+
         batch = gj.get("features", [])
         all_features.extend(batch)
         _log(f"  Page {page}: {len(batch)} features (total {len(all_features)})")
