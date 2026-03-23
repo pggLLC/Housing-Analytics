@@ -439,6 +439,17 @@
     <!-- LIHTC Deal Calculator -->
     <div id="dealCalcMount" class="container" style="padding-bottom:0;"></div>
 
+    <!-- LIHTC Concept Recommendation Card -->
+    <section class="ma-report-section" id="lihtcConceptSection" aria-labelledby="lihtcConceptHeading" style="margin-top:1.5rem;">
+      <h2 id="lihtcConceptHeading">LIHTC Concept Recommendation</h2>
+      <div aria-live="polite" aria-atomic="true" id="lihtcConceptLiveRegion" class="sr-only"></div>
+      <div id="lihtcConceptCard" hidden
+           role="region" aria-label="LIHTC deal concept recommendation"
+           style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+        <div class="ma-section-placeholder">Run an enhanced PMA analysis (Commuting or Hybrid mode) to generate a concept recommendation.</div>
+      </div>
+    </section>
+
     <!-- Methodology note -->
     <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
       <h2 style="font-size:var(--small);font-weight:700;margin-bottom:0.4rem">Methodology &amp; Data Sources</h2>
@@ -489,6 +500,8 @@
   <script defer src="js/pma-infrastructure.js"></script>
   <script defer src="js/pma-justification.js"></script>
   <script defer src="js/pma-analysis-runner.js"></script>
+  <script defer src="js/hna/hna-market-bridge.js"></script>
+  <script defer src="js/lihtc-deal-predictor.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
 
 <script src="js/help-modal.js"></script>

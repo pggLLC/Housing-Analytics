@@ -84,6 +84,171 @@
     setTimeout(_progressHide, 1500);
   }
 
+  /* ── Render LIHTC concept card ───────────────────────────────────── */
+  function _renderConceptCard(scoreRun) {
+    var card = $id('lihtcConceptCard');
+    if (!card) return;
+
+    var predictor = (typeof window !== 'undefined') ? window.LIHTCDealPredictor : null;
+    var bridge    = (typeof window !== 'undefined') ? window.HNAMarketBridge    : null;
+    if (!predictor) { card.hidden = true; return; }
+
+    // Build need profile if bridge available
+    var needProfile = null;
+    var hnaState    = (typeof window !== 'undefined' && window.HNAState) ? window.HNAState : null;
+    var hnaData     = hnaState ? (hnaState.chasData || hnaState.affordabilityGap || null) : null;
+    if (bridge && hnaData) {
+      needProfile = bridge.buildNeedProfile(hnaData, scoreRun && scoreRun.pma);
+    }
+
+    // Assemble deal inputs
+    var pmaScore    = null;
+    var pmaResult   = scoreRun && (scoreRun.pma || scoreRun._analysisResults);
+    if (pmaResult)  pmaScore = pmaResult.pma_score || pmaResult.score || null;
+
+    var dealInputs = {
+      pmaScore:           pmaScore,
+      proposedUnits:      parseInt(($id('pmaProposedUnits') || {}).value || '60', 10) || 60,
+      competitiveSetSize: scoreRun && scoreRun.competitiveSet
+        ? (scoreRun.competitiveSet.competitiveSetSize || 0) : 0
+    };
+
+    if (needProfile && bridge) {
+      dealInputs = bridge.toDealInputs(needProfile, dealInputs);
+    }
+
+    // Extract QCT/DDA from justification
+    if (scoreRun && scoreRun.opportunities) {
+      var elig = scoreRun.opportunities.incentiveEligibility || {};
+      if (elig.qct !== undefined) dealInputs.isQct = !!elig.qct;
+      if (elig.dda !== undefined) dealInputs.isDda = !!elig.dda;
+    }
+
+    var rec = predictor.predictConcept(dealInputs);
+    _drawConceptCard(card, rec);
+  }
+
+  function _drawConceptCard(card, rec) {
+    var badge    = _esc(rec.confidenceBadge || '');
+    var conf     = _esc(rec.confidence     || '');
+    var exec     = _esc(rec.recommendedExecution || '');
+    var concept  = _esc(rec.conceptType   || '');
+    var headline = exec + ' ' + _capitalise(concept) + ' Housing';
+
+    var unitMix = rec.suggestedUnitMix || {};
+    var amiMix  = rec.suggestedAMIMix  || {};
+    var stack   = rec.indicativeCapitalStack || {};
+
+    function _row(label, value) {
+      return '<tr><td style="padding:.25rem .5rem;color:var(--text-muted,#aaa);">' + _esc(label) + '</td>' +
+             '<td style="padding:.25rem .5rem;font-weight:600;">' + _esc(String(value)) + '</td></tr>';
+    }
+
+    card.innerHTML = [
+      '<h3 style="margin:0 0 .5rem;font-size:1.1rem;">',
+        badge + ' Recommended Concept: <strong>' + headline + '</strong>',
+        ' <span style="font-size:.75em;font-weight:400;color:var(--text-muted,#aaa);">' + conf + ' confidence</span>',
+      '</h3>',
+
+      '<section aria-label="Why this fits">',
+        '<h4 style="margin:.75rem 0 .25rem;font-size:.9rem;">Why This Fits</h4>',
+        '<ul style="margin:0;padding-left:1.25rem;">',
+          (rec.keyRationale || []).map(function (r) { return '<li>' + _esc(r) + '</li>'; }).join(''),
+        '</ul>',
+      '</section>',
+
+      '<section aria-label="Suggested mixes" style="display:flex;gap:1.5rem;flex-wrap:wrap;margin:.75rem 0;">',
+        '<div>',
+          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Unit Mix</h4>',
+          '<table style="font-size:.82rem;border-collapse:collapse;">',
+            _row('Studio',  unitMix.studio   || 0),
+            _row('1-BR',    unitMix.oneBR    || 0),
+            _row('2-BR',    unitMix.twoBR    || 0),
+            _row('3-BR',    unitMix.threeBR  || 0),
+          '</table>',
+        '</div>',
+        '<div>',
+          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">AMI Mix</h4>',
+          '<table style="font-size:.82rem;border-collapse:collapse;">',
+            _row('30% AMI', amiMix.ami30 || 0),
+            _row('40% AMI', amiMix.ami40 || 0),
+            _row('50% AMI', amiMix.ami50 || 0),
+            _row('60% AMI', amiMix.ami60 || 0),
+          '</table>',
+        '</div>',
+        '<div>',
+          '<h4 style="margin:0 0 .25rem;font-size:.85rem;">Capital Stack (indicative)</h4>',
+          '<table style="font-size:.82rem;border-collapse:collapse;">',
+            _row('Total Cost',    _fmtM(stack.totalDevelopmentCost)),
+            _row('Equity',        _fmtM(stack.equity)),
+            _row('1st Mortgage',  _fmtM(stack.firstMortgage)),
+            _row('Local Soft',    _fmtM(stack.localSoft)),
+            _row('Deferred Fee',  _fmtM(stack.deferredFee)),
+            (stack.gap > 0 ? _row('Gap',    _fmtM(stack.gap)) : ''),
+          '</table>',
+        '</div>',
+      '</section>',
+
+      (rec.keyRisks && rec.keyRisks.length > 0 ? [
+        '<section aria-label="Key risks">',
+          '<h4 style="margin:.75rem 0 .25rem;font-size:.9rem;color:var(--warning,#c0392b);">⚠ Key Risks</h4>',
+          '<ul style="margin:0;padding-left:1.25rem;color:var(--warning,#c0392b);">',
+            rec.keyRisks.map(function (r) { return '<li>' + _esc(r) + '</li>'; }).join(''),
+          '</ul>',
+        '</section>'
+      ].join('') : ''),
+
+      (rec.alternativePath ? [
+        '<p style="margin:.75rem 0 0;font-size:.85rem;font-style:italic;">',
+          '<strong>Alternative path:</strong> ' + _esc(rec.alternativePath),
+        '</p>'
+      ].join('') : ''),
+
+      '<p style="margin:.75rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);border-top:1px solid var(--border,#333);padding-top:.5rem;">',
+        _esc(rec.caveats && rec.caveats[0] ? rec.caveats[0] : ''),
+      '</p>',
+
+      '<div style="margin-top:.75rem;display:flex;gap:.5rem;">',
+        '<button id="lihtcExportConceptBtn" type="button" ',
+          'style="padding:.35rem .9rem;font-size:.82rem;background:var(--accent,#096e65);color:#fff;',
+          'border:none;border-radius:4px;cursor:pointer;">Export Concept</button>',
+      '</div>'
+    ].join('');
+
+    card.hidden = false;
+
+    var exportBtn = $id('lihtcExportConceptBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        var blob = new Blob([JSON.stringify(rec, null, 2)], { type: 'application/json' });
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'lihtc-concept-recommendation.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    if (window.__announceUpdate) {
+      window.__announceUpdate('LIHTC concept recommendation updated: ' + headline + ', ' + conf + ' confidence.');
+    }
+  }
+
+  function _capitalise(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function _fmtM(n) {
+    n = parseFloat(n) || 0;
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000)    return '$' + Math.round(n / 1000) + 'K';
+    return '$' + Math.round(n);
+  }
+
   /* ── Render justification card ───────────────────────────────────── */
   function _renderJustification(scoreRun) {
     var card = $id('pmaJustificationCard');
@@ -162,6 +327,7 @@
       _running = false;
       _progressComplete();
       _renderJustification(scoreRun);
+      _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
     })
     .on('error', function (err) {

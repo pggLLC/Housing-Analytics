@@ -1,0 +1,108 @@
+{
+  "version": "2026-Q1",
+  "lastUpdated": "2026-03-20",
+  "equityPricing": {
+    "default9Pct": 0.87,
+    "default4Pct": 0.85,
+    "range": [0.75, 1.05],
+    "source": "CHFA syndication market, March 2026"
+  },
+  "hardCostPerUnit": {
+    "family": 275000,
+    "seniors": 260000,
+    "mixedUse": 310000,
+    "supportive": 295000,
+    "source": "Colorado construction cost survey, Q4 2025"
+  },
+  "softCostPct": 0.22,
+  "devFeePct": 0.15,
+  "debtServiceCoverageRatio": 1.20,
+  "permanentDebtRate": 0.065,
+  "permanentDebtAmortYears": 35,
+  "operatingExpensePerUnit": 8500,
+  "softFundingByGeography": {
+    "08001": { "county": "Adams",        "annual": 1500000 },
+    "08005": { "county": "Arapahoe",     "annual": 1200000 },
+    "08013": { "county": "Boulder",      "annual": 2500000 },
+    "08014": { "county": "Broomfield",   "annual": 600000  },
+    "08031": { "county": "Denver",       "annual": 8000000 },
+    "08035": { "county": "Douglas",      "annual": 800000  },
+    "08039": { "county": "Elbert",       "annual": 200000  },
+    "08041": { "county": "El Paso",      "annual": 2000000 },
+    "08059": { "county": "Jefferson",    "annual": 1800000 },
+    "08069": { "county": "Larimer",      "annual": 1500000 },
+    "08077": { "county": "Mesa",         "annual": 700000  },
+    "08101": { "county": "Pueblo",       "annual": 900000  },
+    "08123": { "county": "Weld",         "annual": 1100000 },
+    "default": 500000
+  },
+  "conceptTypicalMixes": {
+    "family": {
+      "units": 60,
+      "ami30": 10,
+      "ami40": 5,
+      "ami50": 20,
+      "ami60": 25,
+      "unitMix": { "studio": 4, "oneBR": 16, "twoBR": 28, "threeBR": 12, "fourBRPlus": 0 }
+    },
+    "seniors": {
+      "units": 50,
+      "ami30": 10,
+      "ami40": 15,
+      "ami50": 15,
+      "ami60": 10,
+      "unitMix": { "studio": 10, "oneBR": 30, "twoBR": 10, "threeBR": 0, "fourBRPlus": 0 }
+    },
+    "mixed-use": {
+      "units": 80,
+      "ami30": 15,
+      "ami40": 5,
+      "ami50": 30,
+      "ami60": 30,
+      "unitMix": { "studio": 8, "oneBR": 24, "twoBR": 32, "threeBR": 16, "fourBRPlus": 0 }
+    },
+    "supportive": {
+      "units": 40,
+      "ami30": 20,
+      "ami40": 10,
+      "ami50": 10,
+      "ami60": 0,
+      "unitMix": { "studio": 20, "oneBR": 16, "twoBR": 4, "threeBR": 0, "fourBRPlus": 0 }
+    }
+  },
+  "competitiveSaturation": {
+    "lowThreshold": 1,
+    "mediumThreshold": 3,
+    "highThreshold": 5
+  },
+  "creditTypeThresholds": {
+    "preferNinePct": {
+      "maxUnits": 99,
+      "maxDebtCoverageRatio": 0.55,
+      "minDeepAffordabilityPct": 0.25
+    },
+    "preferFourPct": {
+      "minUnits": 100,
+      "minDebtCoverageRatio": 0.50,
+      "requiresBondCap": true
+    }
+  },
+  "basisBoost": {
+    "qct": 0.30,
+    "dda": 0.30,
+    "combined": 0.30
+  },
+  "pmaScoreThresholds": {
+    "strong":   70,
+    "moderate": 50,
+    "weak":     30
+  },
+  "confidenceWeights": {
+    "hasPmaScore":        0.25,
+    "hasAffordabilityGap": 0.20,
+    "hasCompetitiveData": 0.15,
+    "hasQctDdaFlags":     0.10,
+    "hasSoftFundingData": 0.10,
+    "hasRentComps":       0.20
+  }
+}
