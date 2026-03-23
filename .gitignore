@@ -24,3 +24,4 @@ __MACOSX/
 # Quarantine folders — moved here for review before permanent deletion
 _tobedeleted/
 _audit/
+.pytest_cache/

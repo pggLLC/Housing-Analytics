@@ -72,7 +72,9 @@
     LIHTC Feasibility Calculator
   </h2>
   <p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">
-    Planning-level estimates only. Not a substitute for a full pro forma.
+    Early-stage feasibility sizing tool. Not a final underwriting or award prediction model.
+    Outputs depend on assumptions and local soft-funding availability.
+    See <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">methodology notes</a> for scope and limitations.
   </p>
 
   <!-- Credit Rate Scenario Toggle -->
