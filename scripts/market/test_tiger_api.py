@@ -72,11 +72,11 @@ def arcgis_get(layer_url: str, where: str, out_fields: str = "*",
 
 def check_tracts_layer() -> bool:
     """Verify the Tracts_Blocks layer responds and has Colorado tracts."""
-    log("── Check 1: Tracts_Blocks layer (Colorado STATEFP='08') ──")
+    log('── Check 1: Tracts_Blocks layer (Colorado STATEFP="08") ──')
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_TRACTS,
-            where=f"STATEFP='{STATE_FIPS}'",
+            where=f'STATEFP="{STATE_FIPS}"',
             limit=5,
         )
         if "error" in data:
@@ -102,11 +102,11 @@ def check_tracts_layer() -> bool:
 
 def check_counties_layer() -> bool:
     """Verify the State_County layer responds and has Colorado counties."""
-    log("── Check 2: State_County layer (Colorado STATEFP='08') ──")
+    log('── Check 2: State_County layer (Colorado STATEFP="08") ──')
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_COUNTIES,
-            where=f"STATEFP='{STATE_FIPS}'",
+            where=f'STATEFP="{STATE_FIPS}"',
             out_fields="STATEFP,COUNTYFP,NAME,NAMELSAD",
             limit=5,
         )
@@ -138,7 +138,7 @@ def check_tracts_geojson() -> bool:
     """Verify GeoJSON output format works for the tracts layer."""
     log("── Check 3: Tracts layer GeoJSON output (f=geojson) ──")
     params = urllib.parse.urlencode({
-        "where": f"STATEFP='{STATE_FIPS}'",
+        "where": f'STATEFP="{STATE_FIPS}"',
         "outFields": "GEOID,STATEFP,NAMELSAD",
         "returnGeometry": "false",
         "f": "geojson",
