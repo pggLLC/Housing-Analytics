@@ -221,5 +221,5 @@
 
   window.CohortComponentModel = CohortComponentModel;
   window.CohortComponentModel.AGE_GROUPS     = AGE_GROUPS;
-  window.CohortComponentModel.DEFAULT_SURVEY = DEFAULT_SURVIVAL;
+  window.CohortComponentModel.DEFAULT_SURVIVAL = DEFAULT_SURVIVAL;
 })();
