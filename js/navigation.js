@@ -10,6 +10,7 @@
       items: [
         { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
         { label: "HNA Comparative Ranking", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking" },
+        { label: "Projection Scenarios", href: "hna-scenario-builder.html", desc: "20-year demographic scenario builder" },
         { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
         { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
         { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
