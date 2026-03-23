@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T03:35:33.066Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T04:14:56.901Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 766 B |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.1 KB |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
@@ -48,11 +48,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-846 JSON files found.
+857 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/alerts/alerts_archive.json` | 143 B | ✅ | — |
+| `data/alerts/alerts_archive.json` | 53.6 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -891,11 +891,22 @@
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
+| `data/market/chas_co.json` | 369 B | ✅ | — |
+| `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
+| `data/market/climate_hazards_co.json` | 1.5 KB | ✅ | — |
+| `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
+| `data/market/fmr_co.json` | 289 B | ✅ | — |
+| `data/market/food_access_co.json` | 396 B | ✅ | — |
+| `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lodes_co.json` | 242.5 KB | ✅ | — |
+| `data/market/parcel_aggregates_co.json` | 369 B | ✅ | — |
+| `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 236.2 KB | ✅ | — |
+| `data/market/walkability_scores_co.json` | 449 B | ✅ | — |
+| `data/market/zoning_compat_index_co.json` | 476 B | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 343 B | ✅ | — |
+| `data/policy_briefs.json` | 5.5 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
