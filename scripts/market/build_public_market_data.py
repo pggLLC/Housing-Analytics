@@ -213,7 +213,7 @@ def build_tract_centroids() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
@@ -394,7 +394,7 @@ def build_tract_boundaries() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
@@ -664,14 +664,115 @@ def write_json(path: Path, obj: dict):
     log(f"wrote {path.relative_to(ROOT)} ({path.stat().st_size:,} bytes)")
 
 
+# ── Phase runner helpers ───────────────────────────────────────────────────────
+
+def _run_phase_script(script_name: str) -> bool:
+    """Run a phase fetch script as a subprocess.  Returns True on success."""
+    import subprocess
+    script_path = Path(__file__).parent / script_name
+    if not script_path.exists():
+        log(f"[phase] Script not found: {script_path}", level="WARN")
+        return False
+    env = os.environ.copy()
+    log(f"[phase] Running {script_name}…")
+    result = subprocess.run(
+        [sys.executable, str(script_path)],
+        env=env,
+        timeout=300,
+    )
+    if result.returncode != 0:
+        log(f"[phase] {script_name} exited with code {result.returncode}", level="WARN")
+        return False
+    log(f"[phase] {script_name} completed")
+    return True
+
+
+def run_phase_1() -> list[str]:
+    """Phase 1: Critical data sources for core PMA accuracy."""
+    log("\n══ PHASE 1: Critical Data Sources ══")
+    phase_scripts = [
+        "fetch_lehd_commuting.py",
+        "fetch_school_data.py",
+        "fetch_opportunity_zones.py",
+        "fetch_county_assessor_data.py",
+        "fetch_chas_data.py",
+    ]
+    warnings = []
+    for script in phase_scripts:
+        if not _run_phase_script(script):
+            warnings.append(f"Phase 1 script {script} did not complete successfully")
+    return warnings
+
+
+def run_phase_2() -> list[str]:
+    """Phase 2: High-priority enhancement sources."""
+    log("\n══ PHASE 2: Enhancement Data Sources ══")
+    phase_scripts = [
+        "fetch_gtfs_transit.py",
+        "fetch_epa_walkability.py",
+        "fetch_fema_flood_data.py",
+        "fetch_food_access.py",
+        "fetch_qct_dda_designations.py",
+        "fetch_nhpd_preservation.py",
+        "fetch_utility_capacity.py",
+        "fetch_zoning_data.py",
+    ]
+    warnings = []
+    for script in phase_scripts:
+        if not _run_phase_script(script):
+            warnings.append(f"Phase 2 script {script} did not complete successfully")
+    return warnings
+
+
+def run_phase_3() -> list[str]:
+    """Phase 3: Policy overlays and subsidy programs."""
+    log("\n══ PHASE 3: Policy Overlays & Subsidy Programs ══")
+    phase_scripts = [
+        "fetch_chfa_subsidies.py",
+        "fetch_inclusionary_zoning.py",
+        "fetch_climate_hazards.py",
+        "fetch_environmental_constraints.py",
+        "fetch_healthcare_access.py",
+        "fetch_diversity_metrics.py",
+    ]
+    warnings = []
+    for script in phase_scripts:
+        if not _run_phase_script(script):
+            warnings.append(f"Phase 3 script {script} did not complete successfully")
+    return warnings
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="PMA Market Data Builder — fetches and assembles all public data artifacts"
+    )
+    parser.add_argument(
+        "--phase",
+        choices=["1", "2", "3", "all"],
+        default="all",
+        help=(
+            "Which phase to run: "
+            "1=Critical, 2=Enhancement, 3=Policy, all=all phases (default: all)"
+        ),
+    )
+    parser.add_argument(
+        "--core-only",
+        action="store_true",
+        help="Run only the core build (tract centroids, ACS, LIHTC, boundaries) — skip phases",
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print(f"PMA Market Data Builder — {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC")
     print("=" * 60)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # ── Core build (always runs) ────────────────────────────────────────────────
 
     # 1. Tract centroids
     try:
@@ -733,26 +834,83 @@ def main():
                 boundaries = saved
                 log("[fallback] Using existing tract_boundaries_co.geojson")
 
-    # Write artifacts
-    log("[Write] Saving artifacts…")
+    # Write core artifacts
+    log("[Write] Saving core artifacts…")
     write_json(OUT_DIR / "tract_centroids_co.json", centroids)
     write_json(OUT_DIR / "acs_tract_metrics_co.json", acs)
     write_json(OUT_DIR / "hud_lihtc_co.geojson", lihtc)
     write_json(OUT_DIR / "tract_boundaries_co.geojson", boundaries)
 
-    # Validate
+    # Validate core
     errors = validate(centroids, acs, lihtc, boundaries)
     if errors:
         print("\n[VALIDATION ERRORS]")
         for e in errors:
             print(f"  ✗ {e}")
         sys.exit(1)
-    else:
-        print("\n✓ All artifacts validated successfully.")
-        print(f"  Tracts:            {len(centroids.get('tracts', []))}")
-        print(f"  ACS records:       {len(acs.get('tracts', []))}")
-        print(f"  LIHTC projects:    {len(lihtc.get('features', []))}")
-        print(f"  Boundary features: {len(boundaries.get('features', []))}")
+
+    print("\n✓ Core artifacts validated successfully.")
+    print(f"  Tracts:            {len(centroids.get('tracts', []))}")
+    print(f"  ACS records:       {len(acs.get('tracts', []))}")
+    print(f"  LIHTC projects:    {len(lihtc.get('features', []))}")
+    print(f"  Boundary features: {len(boundaries.get('features', []))}")
+
+    if args.core_only:
+        log("--core-only flag set; skipping phase data builds")
+        return
+
+    # ── Phase builds ────────────────────────────────────────────────────────────
+    all_warnings: list[str] = []
+
+    if args.phase in ("1", "all"):
+        all_warnings.extend(run_phase_1())
+
+    if args.phase in ("2", "all"):
+        all_warnings.extend(run_phase_2())
+
+    if args.phase in ("3", "all"):
+        all_warnings.extend(run_phase_3())
+
+    # Summary
+    print("\n── Phase Build Summary ──")
+    phase_outputs = [
+        # Phase 1
+        ("commuting_shed_co.geojson", "Commuting shed"),
+        ("schools_co.geojson", "Schools"),
+        ("opportunity_zones_co.geojson", "Opportunity zones"),
+        ("parcel_aggregates_co.json", "Parcel aggregates"),
+        ("chas_co.json", "CHAS affordability"),
+        # Phase 2
+        ("transit_routes_co.geojson", "Transit routes"),
+        ("walkability_scores_co.json", "Walkability scores"),
+        ("flood_zones_co.geojson", "Flood zones"),
+        ("food_access_co.json", "Food access"),
+        ("qct_dda_designations_co.json", "QCT/DDA designations"),
+        ("nhpd_preservation_co.geojson", "NHPD preservation"),
+        ("utility_capacity_co.geojson", "Utility capacity"),
+        ("zoning_compat_index_co.json", "Zoning compatibility"),
+        # Phase 3
+        ("chfa_programs_co.json", "CHFA programs"),
+        ("inclusionary_zoning_co.json", "Inclusionary zoning"),
+        ("climate_hazards_co.json", "Climate hazards"),
+        ("environmental_constraints_co.geojson", "Environmental constraints"),
+        ("healthcare_access_co.json", "Healthcare access"),
+        ("diversity_metrics_co.json", "Diversity metrics"),
+    ]
+    for filename, label in phase_outputs:
+        path = OUT_DIR / filename
+        if path.exists():
+            size = path.stat().st_size
+            print(f"  ✓ {label:<35} {size:>10,} bytes  {filename}")
+        else:
+            print(f"  · {label:<35} {'(not built)':>10}  {filename}")
+
+    if all_warnings:
+        print(f"\n⚠ {len(all_warnings)} phase warning(s):")
+        for w in all_warnings:
+            print(f"  - {w}")
+
+    print("\n✓ Build complete.")
 
 
 if __name__ == "__main__":

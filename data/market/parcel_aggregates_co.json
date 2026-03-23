@@ -1,0 +1,984 @@
+{
+  "meta": {
+    "source": "Colorado DOLA Parcel Viewer + county assessor estimates (public)",
+    "vintage": "2024",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-03-23T03:15:45Z",
+    "coverage_pct": 0.0,
+    "fields": {
+      "county_fips": "5-digit county FIPS code",
+      "county_name": "County name",
+      "parcel_count": "Total parcel count (null = API unavailable)",
+      "avg_land_value_per_acre": "Estimated average land value per acre ($)",
+      "vacant_parcel_count": "Vacant parcel count (null = not yet fetched)",
+      "residential_parcel_pct": "Pct of parcels classified residential",
+      "commercial_parcel_pct": "Pct of parcels classified commercial",
+      "parcel_size_distribution": "Size distribution breakdown",
+      "data_source": "dola_api | estimate"
+    },
+    "note": "Rebuild via scripts/market/fetch_county_assessor_data.py"
+  },
+  "counties": [
+    {
+      "county_fips": "08001",
+      "county_name": "Adams",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 750000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08003",
+      "county_name": "Alamosa",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08005",
+      "county_name": "Arapahoe",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 850000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08007",
+      "county_name": "Archuleta",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08009",
+      "county_name": "Baca",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08011",
+      "county_name": "Bent",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08013",
+      "county_name": "Boulder",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 950000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08014",
+      "county_name": "Broomfield",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 900000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08015",
+      "county_name": "Chaffee",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08017",
+      "county_name": "Cheyenne",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08019",
+      "county_name": "Clear Creek",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08021",
+      "county_name": "Conejos",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08023",
+      "county_name": "Costilla",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08025",
+      "county_name": "Crowley",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08027",
+      "county_name": "Custer",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08029",
+      "county_name": "Delta",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08031",
+      "county_name": "Denver",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 2500000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08033",
+      "county_name": "Dolores",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08035",
+      "county_name": "Douglas",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 700000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08037",
+      "county_name": "Eagle",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08039",
+      "county_name": "Elbert",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08041",
+      "county_name": "El Paso",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 350000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08043",
+      "county_name": "Fremont",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08045",
+      "county_name": "Garfield",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08047",
+      "county_name": "Gilpin",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08049",
+      "county_name": "Grand",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08051",
+      "county_name": "Gunnison",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08053",
+      "county_name": "Hinsdale",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08055",
+      "county_name": "Huerfano",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08057",
+      "county_name": "Jackson",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08059",
+      "county_name": "Jefferson",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 800000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08061",
+      "county_name": "Kiowa",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08063",
+      "county_name": "Kit Carson",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08065",
+      "county_name": "Lake",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08067",
+      "county_name": "La Plata",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08069",
+      "county_name": "Larimer",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 300000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08071",
+      "county_name": "Las Animas",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08073",
+      "county_name": "Lincoln",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08075",
+      "county_name": "Logan",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08077",
+      "county_name": "Mesa",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08079",
+      "county_name": "Mineral",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08081",
+      "county_name": "Moffat",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08083",
+      "county_name": "Montezuma",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08085",
+      "county_name": "Montrose",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08087",
+      "county_name": "Morgan",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08089",
+      "county_name": "Otero",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08091",
+      "county_name": "Ouray",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08093",
+      "county_name": "Park",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08095",
+      "county_name": "Phillips",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08097",
+      "county_name": "Pitkin",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08099",
+      "county_name": "Prowers",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08101",
+      "county_name": "Pueblo",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 180000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08103",
+      "county_name": "Rio Blanco",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08105",
+      "county_name": "Rio Grande",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08107",
+      "county_name": "Routt",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08109",
+      "county_name": "Saguache",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08111",
+      "county_name": "San Juan",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08113",
+      "county_name": "San Miguel",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08115",
+      "county_name": "Sedgwick",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08117",
+      "county_name": "Summit",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08119",
+      "county_name": "Teller",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08121",
+      "county_name": "Washington",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08123",
+      "county_name": "Weld",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 250000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    },
+    {
+      "county_fips": "08125",
+      "county_name": "Yuma",
+      "parcel_count": null,
+      "avg_land_value_per_acre": 50000,
+      "data_source": "estimate",
+      "vacant_parcel_count": null,
+      "residential_parcel_pct": null,
+      "commercial_parcel_pct": null,
+      "parcel_size_distribution": {
+        "lt_half_acre_pct": null,
+        "half_to_2_acre_pct": null,
+        "gt_2_acre_pct": null
+      }
+    }
+  ]
+}
