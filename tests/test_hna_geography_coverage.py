@@ -24,7 +24,7 @@ REGISTRY_PATH   = os.path.join(DATA_HNA, 'geography-registry.json')
 RANKING_PATH    = os.path.join(DATA_HNA, 'ranking-index.json')
 SUMMARY_DIR     = os.path.join(DATA_HNA, 'summary')
 
-ALLOWED_TYPES  = {'county', 'place', 'cdp', 'state'}
+ALLOWED_TYPES  = {'county', 'place', 'cdp'}
 REQUIRED_COUNTY_COUNT = 64
 
 
