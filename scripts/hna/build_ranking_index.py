@@ -48,17 +48,24 @@ for _region, _fips_list in REGIONS.items():
         COUNTY_REGION[_fips] = _region
 
 
+_ACS_SENTINEL = -666666666
+
+
 def utc_now_z() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def safe_float(val, default: float = 0.0) -> float:
-    """Convert value to float, returning default on failure."""
+    """Convert value to float, returning default on failure or for ACS sentinel."""
     if val is None:
         return default
     try:
-        return float(val)
-    except (TypeError, ValueError):
+        f = float(val)
+        # Treat the ACS "not available" sentinel as missing data
+        if int(f) == _ACS_SENTINEL:
+            return default
+        return f
+    except (TypeError, ValueError, OverflowError):
         return default
 
 
@@ -143,6 +150,19 @@ def compute_metrics(
     geoid: str = geo.get("geoid", "")
 
     acs = summary.get("acsProfile", {})
+
+    # Track which critical ACS fields are null/missing for data quality reporting.
+    # After ETL normalization, sentinel values are already stored as null (None).
+    CRITICAL_ACS_FIELDS = [
+        "DP05_0001E",   # population
+        "DP03_0062E",   # median household income
+        "DP04_0089E",   # median home value (used by HNA display only)
+        "DP04_0134E",   # median gross rent
+        "DP04_0047PE",  # % renter-occupied
+    ]
+    null_critical_count = sum(
+        1 for f in CRITICAL_ACS_FIELDS if acs.get(f) is None
+    )
 
     population = int(safe_float(acs.get("DP05_0001E")))
     households = int(safe_float(acs.get("DP02_0001E")))
@@ -247,6 +267,7 @@ def compute_metrics(
         "vacancy_rate": vacancy_rate,
         "pct_renters": round(pct_renter, 1),
         "gross_rent_median": gross_rent,
+        "_null_critical_count": null_critical_count,
     }
 
 
@@ -329,7 +350,13 @@ def build() -> None:
                 "vacancy_rate": 0.0,
                 "pct_renters": 0.0,
                 "gross_rent_median": 0,
+                "_null_critical_count": 0,
             }
+
+        # Extract data-quality flag and remove private key from public metrics dict.
+        null_critical_count = metrics.pop("_null_critical_count", 0)
+        total_critical = 5  # number of CRITICAL_ACS_FIELDS checked in compute_metrics
+        has_incomplete_data = null_critical_count > 0 and (null_critical_count / total_critical) > 0.2
 
         entry = {
             "geoid": geoid,
@@ -337,6 +364,8 @@ def build() -> None:
             "type": geo_type,
             "region": region,
             "metrics": metrics,
+            "hasIncompleteData": has_incomplete_data,
+            "nullCriticalMetrics": null_critical_count,
             "percentileRank": 0,  # filled in after sorting
             "medianComparison": 1.0,
         }
