@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T16:11:52.341Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T16:30:10.512Z. Do not edit by hand.
 
 ---
 
@@ -919,7 +919,7 @@
 
 ## Test Files
 
-70 test files found.
+71 test files found.
 
 | File | Size |
 |------|------|
@@ -990,6 +990,7 @@
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
+| `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 31.6 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
@@ -998,7 +999,7 @@
 
 ## GitHub Actions Workflows
 
-31 workflow files found.
+32 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1030,6 +1031,7 @@
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 8.8 KB |
 | `.github/workflows/site-audit.yml` | 1.2 KB |
+| `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 1.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 1.4 KB |
