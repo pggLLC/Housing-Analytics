@@ -27,6 +27,9 @@
     TARGET_ACS_TRACTS:        1500,
     TARGET_LIHTC_PROJECTS:    500,
     TARGET_CENTROIDS:         1500,
+    // Confidence level thresholds (score out of 100)
+    HIGH_THRESHOLD:           80,
+    MEDIUM_THRESHOLD:         60,
     // Production-ready threshold: ≥80% statewide tract coverage
     PRODUCTION_THRESHOLD:     0.80,
     // Minimum buffer tracts for a reliable aggregate
@@ -165,9 +168,9 @@
     score = Math.min(100, Math.max(0, score));
 
     var level, color;
-    if (score >= 80) {
+    if (score >= CONFIG.HIGH_THRESHOLD) {
       level = 'High';    color = 'var(--good)';
-    } else if (score >= 60) {
+    } else if (score >= CONFIG.MEDIUM_THRESHOLD) {
       level = 'Medium';  color = 'var(--warn)';
     } else {
       level = 'Low';     color = 'var(--bad)';
@@ -185,9 +188,19 @@
   function renderConfidenceBadge(elementId, result) {
     var el = document.getElementById(elementId);
     if (!el) return;
-    var emoji = result.score >= 80 ? '🟢' : (result.score >= 60 ? '🟡' : '🔴');
-    el.textContent = emoji + ' ' + result.score + '% — ' + result.level;
-    el.style.color = result.color;
+    var emoji = result.score >= CONFIG.HIGH_THRESHOLD ? '🟢' : (result.score >= CONFIG.MEDIUM_THRESHOLD ? '🟡' : '🔴');
+    el.textContent = emoji + '\u00a0' + result.score + '% — ' + result.level;
+    // Remove any previous level class and apply the current one
+    el.classList.remove('confidence-high', 'confidence-medium', 'confidence-low');
+    if (result.score >= CONFIG.HIGH_THRESHOLD) {
+      el.classList.add('confidence-high');
+    } else if (result.score >= CONFIG.MEDIUM_THRESHOLD) {
+      el.classList.add('confidence-medium');
+    } else {
+      el.classList.add('confidence-low');
+    }
+    // Clear inline color so CSS classes take precedence
+    el.style.color = '';
     el.setAttribute('title',
       'Completeness: ' + result.factors.completeness + '%' +
       '  |  Freshness: ' + result.factors.freshness + '%' +

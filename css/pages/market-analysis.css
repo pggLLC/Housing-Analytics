@@ -394,9 +394,21 @@
 }
 
 .pma-confidence-badge {
+  display: inline-flex;
+  align-items: center;
   font-weight: 700;
   white-space: nowrap;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: var(--tiny);
+  cursor: help;
+  transition: opacity 0.15s;
 }
+.pma-confidence-badge:hover { opacity: 0.85; }
+.pma-confidence-badge.confidence-high   { background: var(--good-dim); color: var(--good); }
+.pma-confidence-badge.confidence-medium { background: var(--warn-dim); color: var(--warn); }
+.pma-confidence-badge.confidence-low    { background: var(--bad-dim);  color: var(--bad);  }
 
 .pma-freshness-badge {
   font-weight: 600;
