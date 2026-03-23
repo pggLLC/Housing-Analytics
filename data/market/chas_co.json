@@ -1,13 +1,1 @@
-{
-  "meta": {
-    "source": "HUD CHAS (Comprehensive Housing Affordability Strategy)",
-    "url": "https://www.huduser.gov/portal/datasets/cp.html",
-    "state": "Colorado",
-    "state_fips": "08",
-    "vintage": "2016-2020",
-    "generated": "2026-03-23T00:00:00Z",
-    "record_count": 0,
-    "note": "Stub — rebuild via scripts/fetch_chas.py"
-  },
-  "records": []
-}
+{"meta": {"source": "HUD CHAS (Comprehensive Housing Affordability Strategy)", "url": "https://www.huduser.gov/portal/datasets/cp.html", "state": "Colorado", "state_fips": "08", "vintage": "2016-2020", "generated": "2026-03-23T04:57:19Z", "record_count": 0}, "records": []}
