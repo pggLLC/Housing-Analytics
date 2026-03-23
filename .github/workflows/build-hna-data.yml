@@ -78,6 +78,16 @@ jobs:
           fi
           python3 scripts/generate_tract_centroids.py 2>&1 || echo "::warning::Tract centroid generation failed (non-critical; using existing file)"
 
+      - name: Phase 4 — Generate scenario data files (baseline / low / high growth)
+        run: |
+          echo "── Building scenario JSON files ──"
+          python3 scripts/hna/build_scenarios.py 2>&1 || echo "::warning::Scenario build failed (non-critical; existing files will be used)"
+
+      - name: Phase 5 — Validate DOLA and FRED data quality
+        run: |
+          echo "── Validating DOLA SYA and FRED data ──"
+          python3 scripts/hna/validate_dola_fred_data.py 2>&1 || echo "::warning::Data validation warnings found — see output above"
+
       - name: Post-build verification
         id: verify
         run: |
@@ -130,6 +140,6 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/hna data/market/tract_centroids_co.json data/tract-centroids.json 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "chore: build HNA cache + Phase 3 data $(date -u +'%Y-%m-%d')"
+          git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push

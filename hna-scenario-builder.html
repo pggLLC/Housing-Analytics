@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Projection Scenario Builder | COHO Analytics</title>
+  <meta name="description" content="Interactive 20-year demographic and housing projection tool with scenario comparison for Colorado counties and municipalities." />
+  <meta property="og:title" content="Projection Scenario Builder | COHO Analytics">
+  <meta property="og:description" content="Build and compare baseline, low-growth, and high-growth housing projection scenarios for Colorado.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/scenario-builder.css">
+  <link rel="stylesheet" href="css/i18n.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script src="js/i18n/i18n-manager.js"></script>
+  <script src="js/projections/cohort-component-model.js"></script>
+  <script src="js/projections/scenario-storage.js"></script>
+  <script defer src="js/projections/scenario-builder.js"></script>
+</head>
+<body>
+  <!-- Accessibility -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="sbLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <main id="main-content" class="sb-main">
+
+    <!-- Breadcrumb -->
+    <nav class="workflow-steps" aria-label="Analysis workflow">
+      <a class="workflow-step" href="housing-needs-assessment.html" data-i18n="nav.hna">Housing Needs Assessment</a>
+      <span class="workflow-step-arrow" aria-hidden="true">→</span>
+      <a class="workflow-step" href="hna-comparative-analysis.html" data-i18n="nav.hnaRanking">Comparative Ranking</a>
+      <span class="workflow-step-arrow" aria-hidden="true">→</span>
+      <span class="workflow-step workflow-step--active" data-i18n="nav.hnaScenarios">Projection Scenarios</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="sb-hero">
+      <div class="kicker">Colorado • Demographic Projections</div>
+      <h1 data-i18n="scenarios.title">Projection Scenario Builder</h1>
+      <p class="sb-hero-sub" data-i18n="scenarios.subtitle">
+        Create and compare demographic growth scenarios through 2050 using the cohort-component model.
+        Adjust fertility, migration, and mortality assumptions — then save custom scenarios for later comparison.
+      </p>
+    </div>
+
+    <!-- Geography selector -->
+    <section class="card" style="margin-bottom:var(--sp4);padding:var(--sp4);" aria-label="Geography selection">
+      <div class="sb-section-title">Select Geography</div>
+      <div style="display:flex;gap:var(--sp2);flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <label for="sbCountySelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County</label>
+          <select id="sbCountySelect" class="bm-select" aria-label="Select Colorado county">
+            <option value="">— Select County —</option>
+            <option value="08001">Adams County</option>
+            <option value="08003">Alamosa County</option>
+            <option value="08005">Arapahoe County</option>
+            <option value="08007">Archuleta County</option>
+            <option value="08009">Baca County</option>
+            <option value="08011">Bent County</option>
+            <option value="08013">Boulder County</option>
+            <option value="08014">Broomfield County</option>
+            <option value="08015">Chaffee County</option>
+            <option value="08017">Cheyenne County</option>
+            <option value="08019">Clear Creek County</option>
+            <option value="08021">Conejos County</option>
+            <option value="08023">Costilla County</option>
+            <option value="08025">Crowley County</option>
+            <option value="08027">Custer County</option>
+            <option value="08029">Delta County</option>
+            <option value="08031">Denver County</option>
+            <option value="08033">Dolores County</option>
+            <option value="08035">Douglas County</option>
+            <option value="08037">Eagle County</option>
+            <option value="08039">Elbert County</option>
+            <option value="08041">El Paso County</option>
+            <option value="08043">Fremont County</option>
+            <option value="08045">Garfield County</option>
+            <option value="08047">Gilpin County</option>
+            <option value="08049">Grand County</option>
+            <option value="08051">Gunnison County</option>
+            <option value="08053">Hinsdale County</option>
+            <option value="08055">Huerfano County</option>
+            <option value="08057">Jackson County</option>
+            <option value="08059">Jefferson County</option>
+            <option value="08061">Kiowa County</option>
+            <option value="08063">Kit Carson County</option>
+            <option value="08065">Lake County</option>
+            <option value="08067">La Plata County</option>
+            <option value="08069">Larimer County</option>
+            <option value="08071">Las Animas County</option>
+            <option value="08073">Lincoln County</option>
+            <option value="08075">Logan County</option>
+            <option value="08077">Mesa County</option>
+            <option value="08079">Mineral County</option>
+            <option value="08081">Moffat County</option>
+            <option value="08083">Montezuma County</option>
+            <option value="08085">Montrose County</option>
+            <option value="08087">Morgan County</option>
+            <option value="08089">Otero County</option>
+            <option value="08091">Ouray County</option>
+            <option value="08093">Park County</option>
+            <option value="08095">Phillips County</option>
+            <option value="08097">Pitkin County</option>
+            <option value="08099">Prowers County</option>
+            <option value="08101">Pueblo County</option>
+            <option value="08103">Rio Blanco County</option>
+            <option value="08105">Rio Grande County</option>
+            <option value="08107">Routt County</option>
+            <option value="08109">Saguache County</option>
+            <option value="08111">San Juan County</option>
+            <option value="08113">San Miguel County</option>
+            <option value="08115">Sedgwick County</option>
+            <option value="08117">Summit County</option>
+            <option value="08119">Teller County</option>
+            <option value="08121">Washington County</option>
+            <option value="08123">Weld County</option>
+            <option value="08125">Yuma County</option>
+          </select>
+        </div>
+        <button id="sbLoadCounty" class="btn" type="button" style="min-height:44px;">Load Geography Data</button>
+      </div>
+      <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
+    </section>
+
+    <!-- Main layout -->
+    <div class="sb-layout">
+
+      <!-- Controls panel -->
+      <aside class="sb-controls" aria-label="Scenario controls">
+
+        <!-- Scenario presets -->
+        <div class="sb-section-title" data-i18n="hna.projections.scenarioLabel">Scenario</div>
+        <div id="sbScenarioButtons" class="sb-scenario-buttons">
+          <button class="sb-scenario-btn active" data-scenario="baseline" type="button">
+            <span data-i18n="scenarios.baseline.name">Baseline (Moderate Growth)</span>
+            <small data-i18n="hna.projections.dolaBaseline">DOLA Baseline</small>
+          </button>
+          <button class="sb-scenario-btn" data-scenario="low-growth" type="button">
+            <span data-i18n="scenarios.lowGrowth.name">Low Growth</span>
+            <small data-i18n="scenarios.attribution.fred">FRED Historical</small>
+          </button>
+          <button class="sb-scenario-btn" data-scenario="high-growth" type="button">
+            <span data-i18n="scenarios.highGrowth.name">High Growth</span>
+            <small data-i18n="scenarios.attribution.dola">DOLA + Economic Projection</small>
+          </button>
+        </div>
+
+        <!-- Custom sliders -->
+        <div class="sb-section-title" style="margin-top:var(--sp4);">Custom Assumptions</div>
+
+        <div class="sb-sliders">
+          <!-- Fertility -->
+          <div class="sb-slider-group">
+            <div class="sb-slider-label">
+              <span data-i18n="scenarios.sliders.fertilityMultiplier">Fertility Rate Multiplier</span>
+              <span class="sb-slider-value" id="sbFertMultVal">1.00</span>
+            </div>
+            <input type="range" id="sbFertMult" class="sb-slider"
+              min="0.5" max="1.5" step="0.01" value="1.0"
+              aria-label="Fertility rate multiplier"
+              data-i18n-aria-label="scenarios.sliders.fertilityMultiplier">
+            <p class="sb-slider-help" data-i18n="scenarios.sliders.fertilityHelp">
+              1.0 = baseline fertility rate
+            </p>
+          </div>
+
+          <!-- Net Migration -->
+          <div class="sb-slider-group">
+            <div class="sb-slider-label">
+              <span data-i18n="scenarios.sliders.migrationAnnual">Net Annual Migration</span>
+              <span class="sb-slider-value" id="sbMigAnnualVal">500</span>
+            </div>
+            <input type="range" id="sbMigAnnual" class="sb-slider"
+              min="-500" max="2000" step="50" value="500"
+              aria-label="Net annual migration"
+              data-i18n-aria-label="scenarios.sliders.migrationAnnual">
+            <p class="sb-slider-help" data-i18n="scenarios.sliders.migrationHelp">
+              Persons migrating net into the area per year
+            </p>
+          </div>
+
+          <!-- Mortality -->
+          <div class="sb-slider-group">
+            <div class="sb-slider-label">
+              <span data-i18n="scenarios.sliders.mortalityMultiplier">Mortality Rate Multiplier</span>
+              <span class="sb-slider-value" id="sbMortMultVal">1.00</span>
+            </div>
+            <input type="range" id="sbMortMult" class="sb-slider"
+              min="0.8" max="1.2" step="0.01" value="1.0"
+              aria-label="Mortality rate multiplier"
+              data-i18n-aria-label="scenarios.sliders.mortalityMultiplier">
+            <p class="sb-slider-help" data-i18n="scenarios.sliders.mortalityHelp">
+              1.0 = baseline life-table rates; higher = more deaths
+            </p>
+          </div>
+        </div>
+
+        <!-- Save scenario -->
+        <div class="sb-section-title" style="margin-top:var(--sp4);" data-i18n="scenarios.savedScenarios">Saved Scenarios</div>
+        <div class="sb-save-row">
+          <input
+            type="text"
+            id="sbScenarioName"
+            class="sb-scenario-name-input"
+            placeholder="Scenario name…"
+            data-i18n-placeholder="scenarios.scenarioNamePlaceholder"
+            aria-label="Scenario name"
+            maxlength="80"
+          >
+          <button id="sbSaveScenario" class="btn" type="button" style="white-space:nowrap;" data-i18n="scenarios.saveScenario">
+            Save
+          </button>
+        </div>
+
+        <!-- Saved list -->
+        <div id="sbSavedScenarios" class="sb-saved-list"></div>
+
+        <!-- Action buttons -->
+        <div style="display:flex;gap:var(--sp2);margin-top:var(--sp3);flex-wrap:wrap;">
+          <button id="sbExportScenarios" class="btn btn-outline" type="button">Export Scenarios</button>
+          <button id="sbClearResults"    class="btn btn-outline" type="button" data-i18n="scenarios.clearResults">Reset</button>
+        </div>
+      </aside>
+
+      <!-- Chart & results panel -->
+      <div>
+        <!-- Formula note -->
+        <div class="sb-formula-note" role="note">
+          <strong>Formula:</strong>
+          Units Needed = (Projected Households ÷ (1 − Vacancy Target))
+          &nbsp;|&nbsp;
+          Households = Population × Headship Rate (0.38)
+          &nbsp;|&nbsp;
+          <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology →</a>
+        </div>
+
+        <!-- Chart panel -->
+        <div class="sb-chart-panel">
+          <h2 class="sb-chart-title" data-i18n="scenarios.results.title">Projection Results: Housing Units Needed (2024–2050)</h2>
+          <div class="sb-chart-wrap">
+            <canvas id="sbProjectionChart"
+              role="img"
+              aria-label="Line chart showing projected housing units needed under baseline, low-growth, high-growth, and custom scenarios from 2024 to 2050">
+            </canvas>
+          </div>
+        </div>
+
+        <!-- Results table -->
+        <div class="sb-results" style="margin-top:var(--sp4);">
+          <h2 class="sb-chart-title" data-i18n="scenarios.results.title">Detailed Annual Projections</h2>
+          <div class="sb-table-wrap">
+            <table class="sb-table" aria-label="Annual projection data table">
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="scenarios.results.year">Year</th>
+                  <th scope="col" data-i18n="scenarios.results.population">Population</th>
+                  <th scope="col" data-i18n="scenarios.results.households">Households</th>
+                  <th scope="col" data-i18n="scenarios.results.housingUnitsNeeded">Units Needed (Baseline)</th>
+                  <th scope="col">Units Needed (Low)</th>
+                  <th scope="col">Units Needed (High)</th>
+                  <th scope="col">Units Needed (Custom)</th>
+                </tr>
+              </thead>
+              <tbody id="sbResultsBody">
+                <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:var(--sp3);">Loading projections…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data attribution -->
+    <div class="sb-attribution" role="contentinfo" aria-label="Data attribution">
+      <strong data-i18n="dataAttribution.title">Data Sources:</strong>
+      <span data-i18n="scenarios.attribution.dola">DOLA State Demography Office — Components of Change (2024 vintage)</span> |
+      <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener" data-i18n="scenarios.attribution.fred">FRED Economic Data</a> |
+      <a href="https://api.census.gov/" target="_blank" rel="noopener" data-i18n="scenarios.attribution.acs">US Census ACS</a> |
+      <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology Documentation</a>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <!-- Injected by navigation.js -->
+  </footer>
+
+  <script>
+    // Initialize scenario builder after DOM and Chart.js are ready
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initialize i18n
+      if (window.i18n) {
+        window.i18n.init().catch(function (e) { console.warn('i18n init failed:', e); });
+      }
+
+      // Load county data when requested
+      document.getElementById('sbLoadCounty')?.addEventListener('click', function () {
+        const select = document.getElementById('sbCountySelect');
+        const fips   = select?.value;
+        if (!fips) {
+          document.getElementById('sbGeoStatus').textContent = 'Please select a county first.';
+          return;
+        }
+
+        const statusEl = document.getElementById('sbGeoStatus');
+        statusEl.textContent = 'Loading DOLA data…';
+
+        const root = (window.__REPO_ROOT || '');
+        fetch(root + 'data/hna/dola_sya/' + fips + '.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error('Not found');
+            return r.json();
+          })
+          .then(function (dolaData) {
+            statusEl.textContent = 'Data loaded for ' + (select.options[select.selectedIndex]?.text || fips);
+            if (window.ScenarioBuilder) {
+              window.ScenarioBuilder.init({ dolaData: dolaData });
+            }
+          })
+          .catch(function () {
+            statusEl.textContent = 'DOLA data not available — using statewide defaults.';
+            if (window.ScenarioBuilder) {
+              window.ScenarioBuilder.init({});
+            }
+          });
+      });
+
+      // Initialize with defaults (no county data)
+      if (window.ScenarioBuilder) {
+        window.ScenarioBuilder.init({});
+      }
+    });
+  </script>
+</body>
+</html>

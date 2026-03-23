@@ -1,0 +1,100 @@
+/* ================================================================
+   i18n.css — COHO Analytics
+   Language toggle and internationalization UI styling.
+   ================================================================ */
+
+/* ---------------------------------------------------------------------------
+   Language Toggle Button
+   --------------------------------------------------------------------------- */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: 700 0.88rem var(--font-sans);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  min-width: 44px;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  background: color-mix(in oklab, var(--card) 70%, var(--accent) 30%);
+  border-color: var(--accent);
+  outline: none;
+}
+
+.lang-toggle:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.lang-toggle__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.lang-toggle__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Active language indicator */
+.lang-toggle[aria-pressed="true"] {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Language Badge (shows active language)
+   --------------------------------------------------------------------------- */
+.lang-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font: 700 0.78rem var(--font-sans);
+  letter-spacing: 0.3px;
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent 70%);
+}
+
+/* ---------------------------------------------------------------------------
+   Translation note (visible when page is partially translated)
+   --------------------------------------------------------------------------- */
+.i18n-partial-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding: 6px 12px;
+  border-left: 3px solid var(--accent-dim);
+  background: var(--bg2);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-block: var(--sp2);
+}
+
+/* ---------------------------------------------------------------------------
+   RTL support (future)
+   --------------------------------------------------------------------------- */
+[dir="rtl"] .lang-toggle__icon {
+  order: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .lang-toggle {
+    padding: 7px 10px;
+  }
+  .lang-toggle__label {
+    display: none;
+  }
+}

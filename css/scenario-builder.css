@@ -1,0 +1,357 @@
+/* ================================================================
+   scenario-builder.css — COHO Analytics
+   Interactive projection scenario builder UI.
+   ================================================================ */
+
+/* ---------------------------------------------------------------------------
+   Page layout
+   --------------------------------------------------------------------------- */
+.sb-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp4) var(--sp3);
+}
+
+.sb-hero {
+  margin-bottom: var(--sp5);
+}
+
+.sb-hero h1 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: var(--sp2);
+  color: var(--text-strong);
+}
+
+.sb-hero-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------------------
+   Two-column layout (controls | chart)
+   --------------------------------------------------------------------------- */
+.sb-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--sp4);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .sb-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Control panel
+   --------------------------------------------------------------------------- */
+.sb-controls {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-card);
+}
+
+.sb-section-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: var(--sp3);
+  padding-bottom: var(--sp2);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+   Scenario preset buttons
+   --------------------------------------------------------------------------- */
+.sb-scenario-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp2);
+  margin-bottom: var(--sp4);
+}
+
+.sb-scenario-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text);
+  font: 600 0.9rem var(--font-sans);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  min-height: 44px;
+}
+
+.sb-scenario-btn:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+
+.sb-scenario-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sb-scenario-btn small {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Sliders
+   --------------------------------------------------------------------------- */
+.sb-sliders {
+  margin-bottom: var(--sp4);
+}
+
+.sb-slider-group {
+  margin-bottom: var(--sp3);
+}
+
+.sb-slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.sb-slider-value {
+  font: 700 0.9rem var(--font-mono, 'DM Mono', monospace);
+  color: var(--accent);
+  min-width: 48px;
+  text-align: right;
+}
+
+.sb-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.sb-slider-help {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   Save / Load
+   --------------------------------------------------------------------------- */
+.sb-save-row {
+  display: flex;
+  gap: var(--sp2);
+  margin-bottom: var(--sp3);
+}
+
+.sb-scenario-name-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: 400 0.9rem var(--font-sans);
+  min-height: 44px;
+}
+
+.sb-scenario-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ---------------------------------------------------------------------------
+   Saved scenarios list
+   --------------------------------------------------------------------------- */
+.sb-saved-list {
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg2);
+}
+
+.sb-no-scenarios {
+  padding: var(--sp3);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.sb-saved-item {
+  padding: var(--sp2) var(--sp3);
+  border-bottom: 1px solid var(--border);
+}
+
+.sb-saved-item:last-child {
+  border-bottom: none;
+}
+
+.sb-saved-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.sb-saved-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.sb-saved-actions {
+  display: flex;
+  gap: var(--sp1);
+  margin-top: var(--sp1);
+}
+
+/* ---------------------------------------------------------------------------
+   Chart panel
+   --------------------------------------------------------------------------- */
+.sb-chart-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-card);
+}
+
+.sb-chart-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: var(--sp3);
+}
+
+.sb-chart-wrap {
+  position: relative;
+  min-height: 300px;
+}
+
+/* ---------------------------------------------------------------------------
+   Results table
+   --------------------------------------------------------------------------- */
+.sb-results {
+  margin-top: var(--sp4);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp4);
+  box-shadow: var(--shadow-card);
+}
+
+.sb-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+}
+
+.sb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.sb-table th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg2);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.sb-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.sb-table tr:last-child td {
+  border-bottom: none;
+}
+
+.sb-table tr:hover td {
+  background: var(--bg2);
+}
+
+/* ---------------------------------------------------------------------------
+   Attribution footer
+   --------------------------------------------------------------------------- */
+.sb-attribution {
+  margin-top: var(--sp4);
+  padding: var(--sp3);
+  background: var(--bg2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.sb-attribution strong {
+  color: var(--text);
+}
+
+.sb-attribution a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+   Formula note
+   --------------------------------------------------------------------------- */
+.sb-formula-note {
+  padding: var(--sp2) var(--sp3);
+  background: var(--accent-dim);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.82rem;
+  color: var(--text);
+  margin-bottom: var(--sp3);
+  font-family: var(--font-mono, 'DM Mono', monospace);
+}
+
+/* ---------------------------------------------------------------------------
+   Danger button variant
+   --------------------------------------------------------------------------- */
+.btn-danger {
+  background: var(--bad-dim);
+  color: var(--bad);
+  border-color: color-mix(in oklab, var(--bad) 30%, transparent 70%);
+}
+
+.btn-danger:hover {
+  background: var(--bad);
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  min-height: 32px;
+}
