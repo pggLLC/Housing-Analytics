@@ -211,6 +211,15 @@
       'Run ID: ' + scoreRun.run_id + '.'
     );
 
+    // Optional confidence disclosure (populated when PMAProvenance is loaded)
+    // Integration point for future PMA confidence badge UI.
+    if (typeof window !== 'undefined' && window.PMAProvenance && scoreRun.run_id) {
+      var provenanceRecord = window.PMAProvenance.getRecord(scoreRun.run_id);
+      if (provenanceRecord && provenanceRecord.confidence !== 'high') {
+        parts.push(window.PMAProvenance.getDisclosureNote(provenanceRecord));
+      }
+    }
+
     lastNarrative = parts.join('\n\n');
     return lastNarrative;
   }
