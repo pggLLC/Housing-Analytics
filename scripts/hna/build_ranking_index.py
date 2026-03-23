@@ -48,7 +48,10 @@ for _region, _fips_list in REGIONS.items():
         COUNTY_REGION[_fips] = _region
 
 
-_ACS_SENTINEL = -666666666
+_ACS_SENTINEL = -666666666.0  # Census ACS "not available" float sentinel
+# Geographies where more than this fraction of critical metrics are null
+# are flagged with hasIncompleteData: true in the ranking output.
+_INCOMPLETE_DATA_THRESHOLD = 0.2
 
 
 def utc_now_z() -> str:
@@ -62,7 +65,7 @@ def safe_float(val, default: float = 0.0) -> float:
     try:
         f = float(val)
         # Treat the ACS "not available" sentinel as missing data
-        if int(f) == _ACS_SENTINEL:
+        if f == _ACS_SENTINEL:
             return default
         return f
     except (TypeError, ValueError, OverflowError):
@@ -356,7 +359,7 @@ def build() -> None:
         # Extract data-quality flag and remove private key from public metrics dict.
         null_critical_count = metrics.pop("_null_critical_count", 0)
         total_critical = 5  # number of CRITICAL_ACS_FIELDS checked in compute_metrics
-        has_incomplete_data = null_critical_count > 0 and (null_critical_count / total_critical) > 0.2
+        has_incomplete_data = null_critical_count > 0 and (null_critical_count / total_critical) > _INCOMPLETE_DATA_THRESHOLD
 
         entry = {
             "geoid": geoid,
