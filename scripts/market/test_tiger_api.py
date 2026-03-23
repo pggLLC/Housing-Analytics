@@ -72,12 +72,12 @@ def arcgis_get(layer_url: str, where: str, out_fields: str = "*",
 
 def check_tracts_layer() -> bool:
     """Verify the Tracts_Blocks layer responds and has Colorado tracts."""
-    log("── Check 1: Tracts_Blocks layer (Colorado STATEFP='08') ──")
+    log("── Check 1: Tracts_Blocks layer (Colorado STATEFP=\"08\") ──")
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_TRACTS,
-            where=f"STATEFP='{STATE_FIPS}'",
-            limit=5,
+            where=f'STATEFP="{STATE_FIPS}"',
+            limit=10000,
         )
         if "error" in data:
             code = data["error"].get("code", "?")
@@ -90,6 +90,9 @@ def check_tracts_layer() -> bool:
             log("No features returned — service may be down or query is incorrect",
                 level="WARN")
             return False
+        if data.get("exceededTransferLimit"):
+            log("⚠ exceededTransferLimit=true — results were truncated; pagination required",
+                level="WARN")
         log("✓ Tracts layer OK", level="INFO")
         return True
     except urllib.error.HTTPError as e:
@@ -102,13 +105,13 @@ def check_tracts_layer() -> bool:
 
 def check_counties_layer() -> bool:
     """Verify the State_County layer responds and has Colorado counties."""
-    log("── Check 2: State_County layer (Colorado STATEFP='08') ──")
+    log("── Check 2: State_County layer (Colorado STATEFP=\"08\") ──")
     try:
         data, elapsed = arcgis_get(
             TIGERWEB_COUNTIES,
-            where=f"STATEFP='{STATE_FIPS}'",
+            where=f'STATEFP="{STATE_FIPS}"',
             out_fields="STATEFP,COUNTYFP,NAME,NAMELSAD",
-            limit=5,
+            limit=10000,
         )
         if "error" in data:
             code = data["error"].get("code", "?")
@@ -124,6 +127,9 @@ def check_counties_layer() -> bool:
         # Show a sample county name to aid debugging
         sample = (features[0].get("attributes") or {}).get("NAME", "<unknown>")
         log(f"Sample county: {sample}")
+        if data.get("exceededTransferLimit"):
+            log("⚠ exceededTransferLimit=true — results were truncated; pagination required",
+                level="WARN")
         log("✓ Counties layer OK")
         return True
     except urllib.error.HTTPError as e:
@@ -138,11 +144,11 @@ def check_tracts_geojson() -> bool:
     """Verify GeoJSON output format works for the tracts layer."""
     log("── Check 3: Tracts layer GeoJSON output (f=geojson) ──")
     params = urllib.parse.urlencode({
-        "where": f"STATEFP='{STATE_FIPS}'",
+        "where": f'STATEFP="{STATE_FIPS}"',
         "outFields": "GEOID,STATEFP,NAMELSAD",
         "returnGeometry": "false",
         "f": "geojson",
-        "resultRecordCount": "3",
+        "resultRecordCount": "10000",
     })
     url = f"{TIGERWEB_TRACTS}/query?{params}"
     log(f"GET {url[:120]}")
@@ -160,6 +166,9 @@ def check_tracts_geojson() -> bool:
             return False
         geoid = (features[0].get("properties") or {}).get("GEOID", "<none>")
         log(f"Sample GEOID: {geoid}")
+        if data.get("exceededTransferLimit"):
+            log("⚠ exceededTransferLimit=true — results were truncated; pagination required",
+                level="WARN")
         log("✓ GeoJSON format OK")
         return True
     except Exception as e:

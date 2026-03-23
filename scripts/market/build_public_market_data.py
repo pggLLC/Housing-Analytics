@@ -213,7 +213,7 @@ def build_tract_centroids() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
@@ -394,7 +394,7 @@ def build_tract_boundaries() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
