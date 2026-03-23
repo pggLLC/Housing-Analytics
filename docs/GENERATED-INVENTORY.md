@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T14:36:28.561Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T16:00:38.097Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 9.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 60.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 61.0 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 21.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
@@ -71,7 +71,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/fred-data.json` | 940.3 KB | ✅ | — |
+| `data/fred-data.json` | 1.76 MB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
