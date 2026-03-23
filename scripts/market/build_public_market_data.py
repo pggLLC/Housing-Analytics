@@ -213,7 +213,7 @@ def build_tract_centroids() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
@@ -258,7 +258,7 @@ def build_tract_centroids() -> dict:
             "source": "US Census TIGERweb ArcGIS REST (public)",
             "state": "Colorado",
             "state_fips": STATE_FIPS,
-            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "note": "Rebuild via scripts/market/build_public_market_data.py",
         },
         "tracts": tracts,
@@ -394,7 +394,7 @@ def build_tract_boundaries() -> dict:
     while True:
         page_num += 1
         try:
-            page = arcgis_query(TIGERWEB_TRACTS, where=f"STATEFP='{STATE_FIPS}'", offset=offset)
+            page = arcgis_query(TIGERWEB_TRACTS, where=f'STATEFP="{STATE_FIPS}"', offset=offset)
         except RuntimeError as e:
             log(
                 f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
@@ -441,7 +441,7 @@ def build_tract_boundaries() -> dict:
             "source": "US Census TIGERweb ArcGIS REST (public)",
             "state": "Colorado",
             "state_fips": STATE_FIPS,
-            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "note": "Rebuild via scripts/market/build_public_market_data.py",
         },
         "features": features,
@@ -536,7 +536,7 @@ def _acs_meta() -> dict:
         "vintage": "2023",
         "state": "Colorado",
         "state_fips": STATE_FIPS,
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "generated": datetime.now(timezone.utc).isoformat(),
         "fields": {
             "pop":               "B01003_001E — Total population",
             "renter_hh":         "B25003_003E — Renter-occupied housing units",
@@ -567,7 +567,8 @@ def build_hud_lihtc() -> dict:
     co_features = []
     for f in features:
         props = f.get("properties") or {}
-        state = (props.get("STATE") or props.get("hud_state_code") or "").strip().upper()
+        state_fields = ["STATE", "hud_state_code", "Proj_St", "STATE_ABBR", "state"]
+        state = next((props.get(fld) for fld in state_fields if props.get(fld)), "").strip().upper()
         if state != STATE_ABBR:
             continue
         # Ensure TOTAL_UNITS is present
@@ -587,7 +588,7 @@ def build_hud_lihtc() -> dict:
             "source": "HUD LIHTC Database (public)",
             "state": "Colorado",
             "state_fips": STATE_FIPS,
-            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "note": "Rebuild via scripts/market/build_public_market_data.py",
         },
         "features": co_features,
@@ -601,7 +602,7 @@ def _empty_lihtc_geojson() -> dict:
             "source": "HUD LIHTC Database (public)",
             "state": "Colorado",
             "state_fips": STATE_FIPS,
-            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "note": "Rebuild via scripts/market/build_public_market_data.py",
         },
         "features": [],
@@ -637,9 +638,9 @@ def validate(centroids, acs, lihtc, boundaries) -> list[str]:
     n_acs = len(acs.get("tracts", []))
     if n_acs == 0:
         errors.append("acs_tract_metrics_co.json has no tracts (may be empty in offline mode)")
-    elif n_acs < 100:
+    elif n_acs < 1000:
         errors.append(
-            f"acs_tract_metrics_co.json: only {n_acs} tracts (minimum 100) — "
+            f"acs_tract_metrics_co.json: only {n_acs} tracts (minimum 1000) — "
             "check Census API key and build script"
         )
     if not isinstance(lihtc.get("features"), list):
@@ -647,9 +648,9 @@ def validate(centroids, acs, lihtc, boundaries) -> list[str]:
     n_bounds = len(boundaries.get("features", []))
     if n_bounds == 0:
         errors.append("tract_boundaries_co.geojson has no features (may be empty in offline mode)")
-    elif n_bounds < 100:
+    elif n_bounds < 1000:
         errors.append(
-            f"tract_boundaries_co.geojson: only {n_bounds} features (minimum 100) — "
+            f"tract_boundaries_co.geojson: only {n_bounds} features (minimum 1000) — "
             "check TIGERweb availability"
         )
     return errors
@@ -661,7 +662,13 @@ def write_json(path: Path, obj: dict):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(obj, fh, indent=2, ensure_ascii=False)
-    log(f"wrote {path.relative_to(ROOT)} ({path.stat().st_size:,} bytes)")
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size == 0:
+        raise RuntimeError(f"Failed to write {path}: file is missing or empty after write")
+    log(f"wrote {path.relative_to(ROOT)} ({size:,} bytes)")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
@@ -694,12 +701,12 @@ def main():
     except Exception as e:
         log(f"ACS metrics failed: {e}", level="ERROR")
         acs = {"meta": {}, "tracts": []}
-    # Fall back to existing file if fetch returned too few tracts (< 100 means partial/failed fetch)
-    if len(acs.get("tracts", [])) < 100:
+    # Fall back to existing file if fetch returned too few tracts (< 1000 means partial/failed fetch)
+    if len(acs.get("tracts", [])) < 1000:
         existing = OUT_DIR / "acs_tract_metrics_co.json"
         if existing.exists():
             saved = json.loads(existing.read_text())
-            if len(saved.get("tracts", [])) >= 100:
+            if len(saved.get("tracts", [])) >= 1000:
                 acs = saved
                 log("[fallback] Using existing acs_tract_metrics_co.json")
 
