@@ -48,7 +48,7 @@ for _region, _fips_list in REGIONS.items():
         COUNTY_REGION[_fips] = _region
 
 
-_ACS_SENTINEL = -666666666.0  # Census ACS "not available" float sentinel
+_ACS_SENTINEL_THRESHOLD: float = -1_000_000.0
 # Geographies where more than this fraction of critical metrics are null
 # are flagged with hasIncompleteData: true in the ranking output.
 _INCOMPLETE_DATA_THRESHOLD = 0.2
@@ -59,13 +59,19 @@ def utc_now_z() -> str:
 
 
 def safe_float(val, default: float = 0.0) -> float:
-    """Convert value to float, returning default on failure or for ACS sentinel."""
+    """Convert value to float, returning *default* on failure or sentinel.
+
+    ACS API responses include -666666666 for variables that are "not
+    available" for a geography.  Passing this value through to ranking
+    calculations produces wildly incorrect sort results, so any numeric
+    value ≤ ``_ACS_SENTINEL_THRESHOLD`` is treated as missing and mapped
+    to *default*.
+    """
     if val is None:
         return default
     try:
         f = float(val)
-        # Treat the ACS "not available" sentinel as missing data
-        if f == _ACS_SENTINEL:
+        if f <= _ACS_SENTINEL_THRESHOLD:
             return default
         return f
     except (TypeError, ValueError, OverflowError):
