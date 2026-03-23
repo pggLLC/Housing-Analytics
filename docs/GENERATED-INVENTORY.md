@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T17:01:46.235Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T18:44:53.622Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 28.7 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 29.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
@@ -49,7 +49,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-861 JSON files found.
+862 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -910,6 +910,7 @@
 | `data/market/tract_centroids_co.json` | 236.2 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 449 B | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 476 B | ✅ | — |
+| `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 5.5 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
@@ -919,7 +920,7 @@
 
 ## Test Files
 
-71 test files found.
+73 test files found.
 
 | File | Size |
 |------|------|
@@ -969,6 +970,8 @@
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
+| `test/test_hna_market_bridge.js` | 14.6 KB |
+| `test/test_lihtc_deal_predictor.js` | 15.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 4.5 KB |
