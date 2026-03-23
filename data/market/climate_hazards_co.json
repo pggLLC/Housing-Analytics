@@ -33,7 +33,7 @@
     },
     "extreme_heat": {
       "level": "moderate",
-      "description": "Denver metro 30-40 days >90F annually; increasing trend",
+      "description": "Denver metro 30-40 days >90°F annually; increasing trend",
       "source": "NOAA Climate Normals 1991-2020"
     }
   },
