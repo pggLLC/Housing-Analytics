@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T14:35:45.995Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T14:36:28.561Z. Do not edit by hand.
 
 ---
 
@@ -919,19 +919,25 @@
 
 ## Test Files
 
-64 test files found.
+70 test files found.
 
 | File | Size |
 |------|------|
 | `test/acs-etl.test.js` | 25.3 KB |
 | `test/acs-integration.test.js` | 14.6 KB |
 | `test/analytics.test.js` | 18.2 KB |
+| `test/audit-modules/audit-history.js` | 5.5 KB |
+| `test/audit-modules/data-integrity.js` | 16.6 KB |
+| `test/audit-modules/logic-validation.js` | 11.2 KB |
+| `test/audit-modules/report-generator.js` | 13.7 KB |
+| `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/build_counties_co_test.py` | 11.4 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
+| `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/demographic_projections_test.py` | 19.3 KB |
 | `test/economic_indicators_test.py` | 24.3 KB |
@@ -992,7 +998,7 @@
 
 ## GitHub Actions Workflows
 
-32 workflow files found.
+31 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1007,8 +1013,7 @@
 | `.github/workflows/ci-checks.yml` | 5.8 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.1 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
-| `.github/workflows/daily-monitoring.yml` | 1.6 KB |
-| `.github/workflows/daily_website_monitoring.yml` | 350 B |
+| `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-quality-check.yml` | 6.0 KB |
 | `.github/workflows/data-refresh.yml` | 3.2 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
