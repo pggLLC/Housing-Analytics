@@ -102,13 +102,14 @@
     }
 
     // Assemble deal inputs
+    var proposedUnits = parseInt(($id('pmaProposedUnits') || {}).value || '60', 10) || 60;
     var pmaScore    = null;
     var pmaResult   = scoreRun && (scoreRun.pma || scoreRun._analysisResults);
     if (pmaResult)  pmaScore = pmaResult.pma_score || pmaResult.score || null;
 
     var dealInputs = {
       pmaScore:           pmaScore,
-      proposedUnits:      parseInt(($id('pmaProposedUnits') || {}).value || '60', 10) || 60,
+      proposedUnits:      proposedUnits,
       competitiveSetSize: scoreRun && scoreRun.competitiveSet
         ? (scoreRun.competitiveSet.competitiveSetSize || 0) : 0
     };
@@ -125,10 +126,26 @@
     }
 
     var rec = predictor.predictConcept(dealInputs);
-    _drawConceptCard(card, rec);
+
+    // Compute housing needs fit when HNA data is available
+    var hnsFit = null;
+    var hnaFitAnalyzer = window.HousingNeedsFitAnalyzer;
+    if (hnaFitAnalyzer && needProfile) {
+      hnsFit = hnaFitAnalyzer.analyzeHousingNeedsFit(needProfile, rec, { proposedUnits: proposedUnits });
+    }
+
+    // Use the full renderer when available (preferred)
+    var renderer = window.LIHTCConceptCardRenderer;
+    if (renderer && typeof renderer.render === 'function') {
+      renderer.render(card, rec, hnsFit);
+      return;
+    }
+
+    // Fallback: inline renderer (kept in sync with LIHTCConceptCardRenderer)
+    _drawConceptCard(card, rec, hnsFit);
   }
 
-  function _drawConceptCard(card, rec) {
+  function _drawConceptCard(card, rec, hnsFit) {
     var badge    = _esc(rec.confidenceBadge || '');
     var conf     = _esc(rec.confidence     || '');
     var exec     = _esc(rec.recommendedExecution || '');
@@ -142,6 +159,26 @@
     function _row(label, value) {
       return '<tr><td style="padding:.25rem .5rem;color:var(--text-muted,#aaa);">' + _esc(label) + '</td>' +
              '<td style="padding:.25rem .5rem;font-weight:600;">' + _esc(String(value)) + '</td></tr>';
+    }
+
+    // Housing Needs Fit section
+    var hnaHtml = '';
+    if (hnsFit && hnsFit.alignmentPoints && hnsFit.alignmentPoints.length > 0) {
+      var alignEmoji = { strong: '🟢', partial: '🟡', weak: '🔴' }[hnsFit.alignment] || '🔴';
+      hnaHtml = [
+        '<section aria-label="Housing needs fit" style="margin:.75rem 0 0;padding:.5rem .75rem;',
+          'background:var(--card-alt,rgba(9,110,101,.08));border-left:3px solid var(--accent,#096e65);">',
+          '<h4 style="margin:0 0 .35rem;font-size:.85rem;color:var(--accent,#096e65);">',
+            '🏘 Housing Needs Fit — ' + _esc(hnsFit.geography) + '</h4>',
+          '<p style="margin:0 0 .25rem;font-size:.82rem;">',
+            'Alignment: <strong>' + alignEmoji + ' ' + _esc(_capitalise(hnsFit.alignment)) + '</strong> · ',
+            'Coverage: <strong>' + hnsFit.needCoverage.total + '%</strong>',
+          '</p>',
+          '<ul style="margin:.25rem 0;padding-left:1.25rem;font-size:.82rem;">',
+            hnsFit.alignmentPoints.map(function (p) { return '<li>' + _esc(p) + '</li>'; }).join(''),
+          '</ul>',
+        '</section>'
+      ].join('');
     }
 
     card.innerHTML = [
@@ -204,6 +241,8 @@
         '</p>'
       ].join('') : ''),
 
+      hnaHtml,
+
       '<p style="margin:.75rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);border-top:1px solid var(--border,#333);padding-top:.5rem;">',
         _esc(rec.caveats && rec.caveats[0] ? rec.caveats[0] : ''),
       '</p>',
@@ -220,7 +259,8 @@
     var exportBtn = $id('lihtcExportConceptBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', function () {
-        var blob = new Blob([JSON.stringify(rec, null, 2)], { type: 'application/json' });
+        var payload = { recommendation: rec, housingNeedsFit: hnsFit || null };
+        var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         var url  = URL.createObjectURL(blob);
         var a    = document.createElement('a');
         a.href     = url;

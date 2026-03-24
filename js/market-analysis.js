@@ -794,6 +794,24 @@
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
     console.log('[market-analysis] runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi');
+
+    // ── Recover from global cache if module-level variables are stale ──
+    // This fixes the "No ACS data" error on the second (and subsequent) map
+    // clicks where the reference could become stale between analysis runs.
+    var _cache = window.PMADataCache;
+    if (_cache) {
+      if ((!tractCentroids || !(tractCentroids.tracts || tractCentroids).length) &&
+          _cache.has('tractCentroids')) {
+        tractCentroids = _cache.get('tractCentroids');
+        console.log('[market-analysis] runAnalysis(): restored tractCentroids from PMADataCache');
+      }
+      if ((!acsMetrics || !(acsMetrics.tracts || []).length) &&
+          _cache.has('acsMetrics')) {
+        acsMetrics = _cache.get('acsMetrics');
+        console.log('[market-analysis] runAnalysis(): restored acsMetrics from PMADataCache (cache: ' + _cache.debugSummary() + ')');
+      }
+    }
+
     // Guard: data files missing or empty — give a specific actionable message
     var centroidList = tractCentroids && (tractCentroids.tracts || tractCentroids);
     if (!centroidList || centroidList.length === 0) {
@@ -888,44 +906,52 @@
       var card      = document.getElementById('lihtcConceptCard');
       if (!predictor || !card) return;
 
+      var proposedUnits = parseInt((document.getElementById('pmaProposedUnits') || {}).value || '60', 10) || 60;
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
-        proposedUnits:      parseInt((document.getElementById('pmaProposedUnits') || {}).value || '60', 10) || 60,
+        proposedUnits:      proposedUnits,
         competitiveSetSize: lihtcCount || 0,
         marketVacancy:      acs.vacancy_rate || null
       };
 
+      var needProfile = null;
       if (bridge) {
         var hnaState = window.HNAState;
         var hnaData  = hnaState ? (hnaState.chasData || hnaState.affordabilityGap || null) : null;
         if (hnaData) {
-          var needProfile = bridge.buildNeedProfile(hnaData, { score: dealInputs.pmaScore, method: 'buffer' });
-          dealInputs = bridge.toDealInputs(needProfile, dealInputs);
+          needProfile = bridge.buildNeedProfile(hnaData, { score: dealInputs.pmaScore, method: 'buffer' });
+          dealInputs  = bridge.toDealInputs(needProfile, dealInputs);
         }
       }
 
       var rec = predictor.predictConcept(dealInputs);
 
-      // Minimal render for buffer mode (full render done by pma-ui-controller in enhanced mode)
-      var liveRegion = document.getElementById('lihtcConceptLiveRegion');
-      card.hidden = false;
-      if (liveRegion) {
-        liveRegion.textContent = 'Concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing, ' + rec.confidence + ' confidence.';
+      // Compute housing needs fit when HNA data is available
+      var hnsFit = null;
+      var hnaFitAnalyzer = window.HousingNeedsFitAnalyzer;
+      if (hnaFitAnalyzer && needProfile) {
+        hnsFit = hnaFitAnalyzer.analyzeHousingNeedsFit(needProfile, rec, { proposedUnits: proposedUnits });
       }
-      if (window.__announceUpdate) {
-        window.__announceUpdate('LIHTC concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing.');
-      }
-      // Let pma-ui-controller handle full card rendering if available
-      if (window.PMAUIController && typeof window.PMAUIController._drawCard === 'function') return;
 
-      // Fallback: simple summary
+      // Use the full renderer when available (preferred path)
+      var renderer = window.LIHTCConceptCardRenderer;
+      if (renderer && typeof renderer.render === 'function') {
+        renderer.render(card, rec, hnsFit);
+        return;
+      }
+
+      // Fallback: simple summary (shown only when the renderer script has not loaded)
       var badge = rec.confidenceBadge || '';
+      card.hidden = false;
       card.innerHTML = '<p style="margin:0;"><strong>' + badge + ' ' +
         rec.recommendedExecution + ' ' + _cap(rec.conceptType) + ' Housing</strong> — ' +
         rec.confidence + ' confidence</p>' +
         '<p style="margin:.4rem 0 0;font-size:.85rem;">' +
-        (rec.keyRationale[0] ? rec.keyRationale[0] : '') + '</p>' +
-        '<p style="margin:.4rem 0 0;font-size:.78rem;color:var(--text-muted,#aaa);">Run Commuting or Hybrid mode for full recommendation details.</p>';
+        (rec.keyRationale[0] ? rec.keyRationale[0] : '') + '</p>';
+      var liveRegion = document.getElementById('lihtcConceptLiveRegion');
+      if (liveRegion) {
+        liveRegion.textContent = 'Concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing, ' + rec.confidence + ' confidence.';
+      }
     }());
 
     // ── Delegate to MAController to populate the 8 report sections ──
@@ -1337,6 +1363,11 @@
         acsMetrics = acsData || { tracts: [] };
         if (!(acsMetrics.tracts || []).length) {
           statusParts.push('ACS tract metrics empty — ' + WORKFLOW_HINT + ' ' + KEY_HINT);
+        } else if (window.PMADataCache) {
+          // Persist the successfully loaded ACS data globally so subsequent
+          // runAnalysis() calls can recover it if the module variable is stale.
+          window.PMADataCache.set('acsMetrics', acsMetrics);
+          window.PMADataCache.set('tractCentroids', tractData || tractCentroids);
         }
       }
 

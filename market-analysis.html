@@ -486,6 +486,8 @@
   <script defer src="js/data-connectors/cdot-traffic.js"></script>
   <!-- PMA heuristic confidence module -->
   <script defer src="js/pma-confidence.js"></script>
+  <!-- ACS cache persistence fix — must load before market-analysis.js -->
+  <script defer src="js/market-analysis-cache-fix.js"></script>
   <script defer src="js/market-analysis/market-analysis-controller.js"></script>
   <script defer src="js/market-analysis.js"></script>
   <script defer src="js/deal-calculator.js"></script>
@@ -502,6 +504,9 @@
   <script defer src="js/pma-analysis-runner.js"></script>
   <script defer src="js/hna/hna-market-bridge.js"></script>
   <script defer src="js/lihtc-deal-predictor.js"></script>
+  <!-- HNA-to-concept bridge and full card renderer -->
+  <script defer src="js/market-analysis/housing-needs-fit-analyzer.js"></script>
+  <script defer src="js/lihtc-concept-card-renderer.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
 
 <script src="js/help-modal.js"></script>
