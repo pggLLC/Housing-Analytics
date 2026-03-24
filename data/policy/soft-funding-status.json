@@ -1,0 +1,99 @@
+{
+  "lastUpdated": "2026-03-24",
+  "vintage": "2026-Q1",
+  "note": "Updated quarterly by admin. Contact CHFA or county housing offices to verify availability before advising clients.",
+  "programs": {
+    "CHFA-HTF": {
+      "name": "CHFA Housing Trust Fund",
+      "county": "All",
+      "available": 2500000,
+      "awarded": 1200000,
+      "capacity": 5000000,
+      "deadline": "2026-09-30",
+      "competitiveness": "high",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 750000,
+      "description": "CHFA HTF provides gap financing for affordable multifamily projects. Funds are competitive statewide.",
+      "contactUrl": "https://www.chfainfo.com/"
+    },
+    "CHFA-CCLA": {
+      "name": "CHFA Construction/Permanent Loan Advantage",
+      "county": "All",
+      "available": 8000000,
+      "awarded": 4500000,
+      "capacity": 15000000,
+      "deadline": "2026-12-31",
+      "competitiveness": "moderate",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 3000000,
+      "description": "Below-market first mortgage financing for affordable housing. Available year-round with rolling applications.",
+      "contactUrl": "https://www.chfainfo.com/"
+    },
+    "DOLA-HTF": {
+      "name": "Colorado DOLA Housing Trust Fund",
+      "county": "All",
+      "available": 1800000,
+      "awarded": 900000,
+      "capacity": 3000000,
+      "deadline": "2026-06-30",
+      "competitiveness": "high",
+      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "maxPerProject": 500000,
+      "description": "State housing trust fund administered by DOLA. Rural areas receive priority weighting.",
+      "contactUrl": "https://cdola.colorado.gov/"
+    },
+    "CDBG-DR": {
+      "name": "CDBG Disaster Recovery (DOLA)",
+      "county": "Selected",
+      "available": 0,
+      "awarded": 0,
+      "capacity": 0,
+      "deadline": null,
+      "competitiveness": "low",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 0,
+      "description": "Not currently available. Previous round closed. Watch for new HUD allocations.",
+      "contactUrl": "https://cdola.colorado.gov/",
+      "warning": "No active round — funds exhausted from 2024 disaster declaration."
+    },
+    "Denver-AHTF": {
+      "name": "Denver Affordable Housing Trust Fund",
+      "county": "08031",
+      "available": 6000000,
+      "awarded": 2500000,
+      "capacity": 12000000,
+      "deadline": "2026-09-15",
+      "competitiveness": "high",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 1500000,
+      "description": "City of Denver AHTF — largest local fund in state. Strong preference for deep affordability (30% AMI).",
+      "contactUrl": "https://www.denver.gov/housing"
+    },
+    "Boulder-HTF": {
+      "name": "Boulder County Housing Trust Fund",
+      "county": "08013",
+      "available": 2200000,
+      "awarded": 800000,
+      "capacity": 3500000,
+      "deadline": "2026-07-31",
+      "competitiveness": "high",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 600000,
+      "description": "Boulder County HTF — strong local funding base. Priority: workforce and deep affordability.",
+      "contactUrl": "https://www.bouldercounty.org/housing/"
+    },
+    "HOME-CO": {
+      "name": "HOME Investment Partnerships (State)",
+      "county": "All",
+      "available": 3200000,
+      "awarded": 1600000,
+      "capacity": 6000000,
+      "deadline": "2026-11-30",
+      "competitiveness": "moderate",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 800000,
+      "description": "Federal HOME funds administered by DOLA. Typically layered with LIHTC. Annual allocations.",
+      "contactUrl": "https://cdola.colorado.gov/"
+    }
+  }
+}
