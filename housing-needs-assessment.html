@@ -334,6 +334,49 @@
         </div>
       </div>
 
+      <!-- ── Extended HNA Analysis ── -->
+      <!-- Income Distribution -->
+      <div class="chart-card span-6">
+        <h2>Household Income Distribution</h2>
+        <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
+        <div class="chart-box"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
+      </div>
+
+      <!-- Age of Housing Stock -->
+      <div class="chart-card span-6">
+        <h2>Age of Housing Stock</h2>
+        <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
+        <div class="chart-box"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
+      </div>
+
+      <!-- Bedroom Mix -->
+      <div class="chart-card span-4">
+        <h2>Bedroom Mix</h2>
+        <p>Unit mix by bedroom count — key indicator of whether existing stock meets household composition needs. Source: ACS DP04.</p>
+        <div class="chart-box"><canvas id="chartBedroomMix" role="img" aria-label="Housing units by bedroom count chart"></canvas></div>
+      </div>
+
+      <!-- Owner Cost Burden -->
+      <div class="chart-card span-8">
+        <h2>Owner Housing Cost Burden</h2>
+        <p>Owner households by monthly housing costs as a percentage of household income. Costs exceeding 30% indicate a cost burden. Source: ACS DP04.</p>
+        <div class="chart-box"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
+      </div>
+
+      <!-- Housing Gap Summary -->
+      <div class="chart-card span-12">
+        <h2>Housing Gap &amp; Affordability Analysis</h2>
+        <p>Estimated number of households by income tier and cost burden — the foundation of any housing needs assessment. Identifies the gap between affordable units needed and those available.</p>
+        <div id="housingGapSummary"><p style="color:var(--muted)">Select a geography to view housing gap analysis.</p></div>
+      </div>
+
+      <!-- Special Needs Housing -->
+      <div class="chart-card span-12">
+        <h2>Special Needs Housing Analysis</h2>
+        <p>Population segments with specific housing needs: seniors, persons with disabilities, families with children, and single-parent households. These groups are disproportionately represented among cost-burdened households. Source: ACS DP02/DP05.</p>
+        <div id="specialNeedsPanel"><p style="color:var(--muted)">Select a geography to view special needs analysis.</p></div>
+      </div>
+
       <!-- Scenario-based demographic projections -->
       <div class="chart-card span-12" id="scenario-projections-section">
         <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
@@ -893,6 +936,109 @@
         </div>
       </section>
 
+      <!-- ── Housing Action Plan ── -->
+      <section id="housing-action-plan" class="chart-card span-12">
+        <h2>Housing Action Plan Checklist</h2>
+        <p style="color:var(--muted)">
+          Strategic actions for addressing housing needs based on HNA findings. Check items as your jurisdiction completes them. Progress is saved locally by geography.
+        </p>
+        <div id="actionPlanAnnouncer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+          <!-- Column 1: Supply-side actions -->
+          <div>
+            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">📦 Housing Supply Actions</h3>
+            <ul class="compliance-checklist" id="actionPlanSupply">
+              <li class="checklist-item pending" id="actionZoning" data-storage-key="action_zoning">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionZoning" aria-label="Review and update zoning to allow diverse housing types">
+                <div class="checklist-item-content">
+                  <label for="chkActionZoning"><strong>Update zoning for housing diversity</strong> — allow ADUs, duplexes, and missing-middle housing types</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionFastTrack" data-storage-key="action_fasttrack">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionFastTrack" aria-label="Implement expedited permitting for affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionFastTrack"><strong>Implement affordable housing fast-track permitting</strong> — streamline approvals for qualifying projects</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionLandBank" data-storage-key="action_landbank">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionLandBank" aria-label="Create or join a land bank for affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionLandBank"><strong>Establish land bank or land trust</strong> — secure sites for long-term affordable housing development</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionIZ" data-storage-key="action_iz">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionIZ" aria-label="Adopt inclusionary zoning policy">
+                <div class="checklist-item-content">
+                  <label for="chkActionIZ"><strong>Adopt inclusionary zoning</strong> — require affordable units in new market-rate developments</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Affordability and demand actions -->
+          <div>
+            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">💰 Affordability &amp; Demand Actions</h3>
+            <ul class="compliance-checklist" id="actionPlanDemand">
+              <li class="checklist-item pending" id="actionLIHTC" data-storage-key="action_lihtc">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionLIHTC" aria-label="Submit or support LIHTC applications for new affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionLIHTC"><strong>Support LIHTC applications</strong> — work with developers to secure Low Income Housing Tax Credits for new affordable units</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionVouchers" data-storage-key="action_vouchers">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionVouchers" aria-label="Partner with housing authority to expand voucher program">
+                <div class="checklist-item-content">
+                  <label for="chkActionVouchers"><strong>Expand rental assistance</strong> — partner with housing authorities to increase Housing Choice Vouchers and rental subsidies</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionSenior" data-storage-key="action_senior">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionSenior" aria-label="Plan for senior housing needs including assisted living">
+                <div class="checklist-item-content">
+                  <label for="chkActionSenior"><strong>Address senior housing gap</strong> — plan for aging-in-place, assisted living, and senior affordable units</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionHomeless" data-storage-key="action_homeless">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionHomeless" aria-label="Develop homelessness prevention and rapid rehousing strategy">
+                <div class="checklist-item-content">
+                  <label for="chkActionHomeless"><strong>Homelessness prevention strategy</strong> — implement rapid rehousing, prevention funds, and supportive services</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding:12px;background:color-mix(in oklab,var(--card) 80%,var(--bg2) 20%);border-radius:10px;border:1px solid var(--border)">
+          <strong>Progress: </strong>
+          <span id="actionPlanProgress">0 of 8 actions initiated</span>
+          <div style="height:6px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden">
+            <div id="actionPlanProgressBar" style="height:100%;background:var(--accent);border-radius:3px;width:0%;transition:width .3s"></div>
+          </div>
+        </div>
+
+        <p style="font-size:.82rem;color:var(--muted);margin-top:10px">
+          This action plan is based on best practices from Colorado housing needs assessments including those from the Colorado Division of Housing and CHFA.
+          Progress is saved locally to your browser by geography. Consult your local planning department and
+          <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> for implementation guidance.
+        </p>
+      </section>
+
       <div class="chart-card span-12 methodology">
         <h2>Methodology & data sources (dynamic)</h2>
         <p style="color:var(--muted)">
@@ -960,6 +1106,158 @@
       'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
     ]
   });
+</script>
+<script>
+(function(){
+  'use strict';
+  // Inline fallback: ensure compliance checklist items update their visual state immediately
+  // This runs alongside the module-based handler in hna-controller.js
+  var cl = document.getElementById('prop123Checklist');
+  if (!cl) return;
+  cl.addEventListener('change', function(e) {
+    var chk = e.target;
+    if (chk.type !== 'checkbox') return;
+    var li = chk.closest('.checklist-item');
+    if (!li) return;
+    var icon = li.querySelector('.checklist-status-icon');
+    var dateEl = li.querySelector('.checklist-date-completed');
+    li.classList.toggle('done', chk.checked);
+    li.classList.toggle('pending', !chk.checked);
+    if (icon) icon.textContent = chk.checked ? '✓' : '⏳';
+    if (dateEl) {
+      if (chk.checked) {
+        var now = new Date();
+        dateEl.textContent = 'Completed ' + now.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+        dateEl.style.display = '';
+      } else {
+        dateEl.textContent = '';
+        dateEl.style.display = 'none';
+      }
+    }
+  });
+}());
+</script>
+<script>
+(function() {
+  'use strict';
+  var PREFIX = 'hna_action_';
+  var ITEMS = ['action_zoning','action_fasttrack','action_landbank','action_iz','action_lihtc','action_vouchers','action_senior','action_homeless'];
+
+  function storageKey(geoType, geoid) {
+    return PREFIX + (geoType || 'county') + '_' + (geoid || '');
+  }
+
+  function loadState(geoType, geoid) {
+    try {
+      var raw = localStorage.getItem(storageKey(geoType, geoid));
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  }
+
+  function saveState(geoType, geoid, state) {
+    try { localStorage.setItem(storageKey(geoType, geoid), JSON.stringify(state)); } catch(e) {}
+  }
+
+  function getCurrentGeo() {
+    var gtEl = document.getElementById('geoType');
+    var gsEl = document.getElementById('geoSelect');
+    return {
+      geoType: (gtEl && gtEl.value) || 'county',
+      geoid: (gsEl && gsEl.value) || ''
+    };
+  }
+
+  function updateProgress() {
+    var total = ITEMS.length;
+    var done = 0;
+    ITEMS.forEach(function(key) {
+      var li = document.querySelector('[data-storage-key="' + key + '"]');
+      var chk = li && li.querySelector('input[type="checkbox"]');
+      if (chk && chk.checked) done++;
+    });
+    var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    var lbl = document.getElementById('actionPlanProgress');
+    var bar = document.getElementById('actionPlanProgressBar');
+    if (lbl) lbl.textContent = done + ' of ' + total + ' actions initiated';
+    if (bar) bar.style.width = pct + '%';
+  }
+
+  function applyState(state) {
+    ITEMS.forEach(function(key) {
+      var li = document.querySelector('[data-storage-key="' + key + '"]');
+      if (!li) return;
+      var chk = li.querySelector('input[type="checkbox"]');
+      var icon = li.querySelector('.checklist-status-icon');
+      var dateEl = li.querySelector('.checklist-date-completed');
+      var checked = !!(state && state[key] && state[key].checked);
+      if (chk) chk.checked = checked;
+      li.classList.toggle('done', checked);
+      li.classList.toggle('pending', !checked);
+      if (icon) icon.textContent = checked ? '✓' : '⏳';
+      if (dateEl) {
+        if (checked && state[key] && state[key].date) {
+          var d = new Date(state[key].date);
+          dateEl.textContent = 'Initiated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+          dateEl.style.display = '';
+        } else {
+          dateEl.textContent = '';
+          dateEl.style.display = 'none';
+        }
+      }
+    });
+    updateProgress();
+  }
+
+  function initActionPlan(geoType, geoid) {
+    applyState(loadState(geoType, geoid));
+  }
+
+  function wireChecklists() {
+    ['actionPlanSupply','actionPlanDemand'].forEach(function(listId) {
+      var list = document.getElementById(listId);
+      if (!list) return;
+      list.addEventListener('change', function(e) {
+        var chk = e.target;
+        if (chk.type !== 'checkbox') return;
+        var li = chk.closest('[data-storage-key]');
+        if (!li) return;
+        var key = li.getAttribute('data-storage-key');
+        var geo = getCurrentGeo();
+        var state = loadState(geo.geoType, geo.geoid);
+        state[key] = { checked: chk.checked, date: chk.checked ? new Date().toISOString() : null };
+        saveState(geo.geoType, geo.geoid, state);
+        applyState(state);
+      });
+    });
+  }
+
+  function watchGeoChange() {
+    var gtEl = document.getElementById('geoType');
+    var gsEl = document.getElementById('geoSelect');
+    if (gtEl) gtEl.addEventListener('change', function() {
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+    if (gsEl) gsEl.addEventListener('change', function() {
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      wireChecklists();
+      watchGeoChange();
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+  } else {
+    wireChecklists();
+    watchGeoChange();
+    var geo = getCurrentGeo();
+    initActionPlan(geo.geoType, geo.geoid);
+  }
+}());
 </script>
 </body>
 </html>
