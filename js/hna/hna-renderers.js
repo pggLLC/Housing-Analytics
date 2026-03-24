@@ -2553,7 +2553,7 @@
       { label: '$200k+',    v: Number(profile.DP03_0060E) },
     ].filter(b => b.v > 0);
     if (!brackets.length) return;
-    const colors = brackets.map((_, i) => `var(--chart-${(i % 7) + 1}, hsl(${160 + i * 18},55%,48%))`);
+    const colors = brackets.map((_, i) => `var(--chart-${(i % 7) + 1})`);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -2654,7 +2654,7 @@
       { label: '35%+',   v: Number(profile.DP04_0115PE) },
     ].filter(b => b.v > 0);
     if (!bins.length) return;
-    const colors = bins.map(b => b.label.includes('30') || b.label.includes('35') ? 'var(--bad, #ef4444)' : 'var(--good, #10b981)');
+    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? 'var(--bad, #ef4444)' : 'var(--good, #10b981)');
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -2685,11 +2685,16 @@
     if (!el || !profile) return;
 
     const rentVac      = Number(profile.DP04_0005PE) || 0;
-    const rentBurden30 = Number(profile.DP04_0141PE) || Number(profile.DP04_0136PE) || 0;
-    const rentBurden50 = Number(profile.DP04_0146PE) || Number(profile.DP04_0141PE) || 0;
+    // ACS DP04 rent burden fields:
+    // DP04_0136PE = gross rent ≥30% of income (cost-burdened, includes severely burdened)
+    // DP04_0141PE = gross rent ≥50% of income (severely burdened)
+    const rentBurden30 = Number(profile.DP04_0136PE) || 0; // ≥30% (cost-burdened)
+    const rentBurden50 = Number(profile.DP04_0141PE) || 0; // ≥50% (severely burdened)
     const renterHH     = Number(profile.DP04_0047E)  || 0;
 
-    // Estimate households at each AMI tier using income brackets
+    // Estimate households at each AMI tier using ACS income brackets.
+    // These are rough approximations: actual AMI thresholds vary by county and are
+    // published by HUD annually. Cross-reference with HUD Income Limits for precise values.
     const hh30ami = Number(profile.DP03_0052E) || 0;
     const hh50ami = (Number(profile.DP03_0053E) || 0) + (Number(profile.DP03_0054E) || 0);
     const hh80ami = (Number(profile.DP03_0055E) || 0) + (Number(profile.DP03_0056E) || 0);
