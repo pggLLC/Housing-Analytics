@@ -85,7 +85,16 @@ def arcgis_error_handler(data: dict, url: str) -> None:
 # ── HTTP helper ────────────────────────────────────────────────────────────────
 
 # Codes that indicate a transient server-side problem worth retrying.
-_TRANSIENT_HTTP_CODES = {429, 500, 502, 503, 504}
+# 400: TIGERweb/ArcGIS is known to return spurious Bad Request responses when
+#      its tile cache or query planner is under load, even for syntactically
+#      correct queries.  The response body typically contains
+#      "Failed to execute query" without any client-side fix possible.  Retry
+#      with backoff; the service usually recovers within a few seconds.
+# 403: HUD OpenData (hudgis-hud.opendata.arcgis.com) occasionally returns a
+#      temporary 403 Forbidden during high-traffic periods or brief maintenance
+#      windows — not a permanent credential requirement.  Retry with backoff
+#      before treating the failure as permanent.
+_TRANSIENT_HTTP_CODES = {400, 403, 429, 500, 502, 503, 504}
 
 
 def fetch_url(
@@ -138,17 +147,36 @@ def fetch_url(
             last_err = e
             http_code = e.code
             if http_code not in _TRANSIENT_HTTP_CODES:
+                if http_code == 401:
+                    detail = "authentication required — check credentials"
+                elif http_code == 404:
+                    detail = "URL not found — endpoint may have moved or been removed"
+                else:
+                    detail = e.reason
                 log(
-                    f"[fetch] Non-retryable HTTP {http_code} for {url[:100]}",
+                    f"[fetch] Non-retryable HTTP {http_code} for {url[:100]} — {detail}",
                     level="ERROR",
                 )
                 raise RuntimeError(
-                    f"HTTP {http_code} (non-retryable) fetching {url[:120]}: {e.reason}"
+                    f"HTTP {http_code} (non-retryable) fetching {url[:120]}: {detail}"
                 ) from e
             if attempt < retries - 1:
                 wait = _next_wait(attempt)
+                if http_code == 400:
+                    # Log the response body so operators can confirm the error
+                    # is the known TIGERweb "Failed to execute query" transient,
+                    # not a permanently malformed URL.
+                    try:
+                        body_snippet = e.read(300).decode(errors="replace").strip()
+                    except Exception:
+                        body_snippet = "<unreadable>"
+                    note = f" (transient ArcGIS/TIGERweb Bad Request — body: {body_snippet!r})"
+                elif http_code == 403:
+                    note = " (temporary access denial — will retry with backoff)"
+                else:
+                    note = ""
                 log(
-                    f"[retry {attempt + 1}/{retries - 1}] HTTP {http_code} — "
+                    f"[retry {attempt + 1}/{retries - 1}] HTTP {http_code}{note} — "
                     f"waiting {wait:.1f}s before next attempt",
                     level="WARN",
                 )
@@ -557,7 +585,7 @@ def _acs_meta() -> dict:
 def build_hud_lihtc() -> dict:
     log("\n[3/3] Fetching HUD LIHTC public dataset…")
     try:
-        raw = fetch_url(HUD_LIHTC_URL, retries=3, timeout=120)
+        raw = fetch_url(HUD_LIHTC_URL, retries=6, timeout=120, backoff_base=10.0)
         data = json.loads(raw)
     except Exception as e:
         log(f"HUD LIHTC fetch failed: {e}. Returning empty GeoJSON.", level="WARN")
@@ -611,8 +639,20 @@ def _empty_lihtc_geojson() -> dict:
 
 # ── Validation ─────────────────────────────────────────────────────────────────
 
-def validate(centroids, acs, lihtc, boundaries) -> list[str]:
-    errors = []
+def validate(centroids, acs, lihtc, boundaries) -> tuple[list[str], list[str]]:
+    """Validate build artifacts.
+
+    Returns a tuple of ``(critical_errors, warnings)``.
+
+    ``critical_errors`` — failures in core data that always cause a non-zero
+        exit code regardless of ``--allow-partial`` (e.g. no tract centroids).
+
+    ``warnings`` — degraded-but-recoverable conditions (e.g. empty boundary
+        file because TIGERweb is temporarily unavailable).  With
+        ``--allow-partial`` these do not cause exit code 1.
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
     tracts = centroids.get("tracts", [])
     if not tracts:
         errors.append("tract_centroids_co.json has no tracts")
@@ -644,16 +684,19 @@ def validate(centroids, acs, lihtc, boundaries) -> list[str]:
             "check Census API key and build script"
         )
     if not isinstance(lihtc.get("features"), list):
-        errors.append("hud_lihtc_co.geojson has no features array")
+        warnings.append("hud_lihtc_co.geojson has no features array")
     n_bounds = len(boundaries.get("features", []))
     if n_bounds == 0:
-        errors.append("tract_boundaries_co.geojson has no features (may be empty in offline mode)")
+        warnings.append(
+            "tract_boundaries_co.geojson has no features (TIGERweb may be temporarily "
+            "unavailable - choropleth rendering will be degraded)"
+        )
     elif n_bounds < 1000:
-        errors.append(
+        warnings.append(
             f"tract_boundaries_co.geojson: only {n_bounds} features (minimum 1000) — "
             "check TIGERweb availability"
         )
-    return errors
+    return errors, warnings
 
 
 # ── Write helpers ──────────────────────────────────────────────────────────────
@@ -765,6 +808,14 @@ def main():
         "--dry-run", action="store_true",
         help="Log what would run without executing supplemental scripts",
     )
+    parser.add_argument(
+        "--allow-partial", action="store_true",
+        help=(
+            "Allow build to exit 0 even when non-core sources (TIGERweb boundaries, "
+            "HUD LIHTC) are unavailable.  Critical failures (empty centroids or ACS) "
+            "still cause exit code 1."
+        ),
+    )
     args = parser.parse_args()
 
     print("=" * 60)
@@ -842,13 +893,24 @@ def main():
         write_json(OUT_DIR / "tract_boundaries_co.geojson", boundaries)
 
         # Validate
-        errors = validate(centroids, acs, lihtc, boundaries)
+        errors, warnings = validate(centroids, acs, lihtc, boundaries)
+        if warnings:
+            print("\n[VALIDATION WARNINGS]")
+            for w in warnings:
+                print(f"  ⚠ {w}")
         if errors:
             print("\n[VALIDATION ERRORS]")
             for e in errors:
                 print(f"  ✗ {e}")
             if not (args.supplemental or args.supplemental_only):
                 sys.exit(1)
+        elif warnings and not args.allow_partial and not (args.supplemental or args.supplemental_only):
+            print(
+                "\n[PARTIAL BUILD] Some non-core data is unavailable (see warnings above)."
+                "\n  Re-run with --allow-partial to suppress this exit code, or"
+                "\n  wait for external services to recover and rebuild."
+            )
+            sys.exit(1)
         else:
             print("\n✓ All core artifacts validated successfully.")
             print(f"  Tracts:            {len(centroids.get('tracts', []))}")
