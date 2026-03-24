@@ -27,7 +27,7 @@ COHO Analytics is a static web application providing comprehensive data insights
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
 | `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) |
-| `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand |
+| `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
 | `housing-legislation-2026.html` | 2026 housing legislation tracker |
@@ -114,6 +114,42 @@ Housing-Analytics/
 └── .github/
     └── workflows/
         └── deploy.yml           # Auto-deploy to GitHub Pages
+```
+
+## Market Analysis Tool — Phase 2
+
+The PMA (Primary Market Analysis) tool on `market-analysis.html` includes a full Phase 2 LIHTC concept recommendation engine:
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **ACS Cache Persistence** | `js/market-analysis-cache-fix.js` — persists ACS tract data globally so the second (and subsequent) map clicks work without "No ACS data" errors |
+| **LIHTC Concept Recommendation** | `js/lihtc-deal-predictor.js` — recommends 4% vs 9% execution, concept type, unit mix, AMI mix, capital stack, risks, and caveats |
+| **Full Concept Card** | `js/lihtc-concept-card-renderer.js` — renders the complete recommendation card for both buffer and enhanced (commuting/hybrid) analysis modes |
+| **Housing Needs Fit** | `js/market-analysis/housing-needs-fit-analyzer.js` — bridges local HNA data with the concept recommendation, showing AMI tier coverage %, alignment rating, and un-addressed gaps |
+| **HNA-PMA Bridge** | `js/hna/hna-market-bridge.js` — converts HNA affordability gap and demand signals into deal predictor inputs |
+
+### Concept Card Sections
+
+- 🟢/🟡/🔴 Confidence badge + recommended execution (4% or 9%)
+- Concept type and total unit count
+- Unit mix breakdown (studio, 1-BR, 2-BR, 3-BR+)
+- AMI mix breakdown (30%, 50%, 60%)
+- Why this fits — rationale bullets
+- ⚠ Key risks — warning flags
+- Alternative path
+- Indicative capital stack (collapsible)
+- Important caveats (yellow warning box)
+- 🏘 Housing Needs Fit — AMI tier coverage bars, alignment rating, and gap analysis grounded in local HNA data
+
+### Testing
+
+```bash
+node test/test_lihtc_deal_predictor.js          # 68 tests
+node test/test_hna_market_bridge.js             # 68 tests
+node test/test_housing_needs_fit_analyzer.js    # 55 tests
+node test/smoke-market-analysis.js              # 185 smoke checks
 ```
 
 ## CSS Architecture
