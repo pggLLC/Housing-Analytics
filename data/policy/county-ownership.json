@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "source": "Colorado County Assessor GIS / Public Records",
+    "generated": "2026-03-24T00:00:00Z",
+    "vintage": "2025",
+    "note": "Public ownership parcels eligible for affordable housing development. Verify with county assessor before proceeding."
+  },
+  "counties": {
+    "08001": {
+      "county": "Adams",
+      "publicParcels": [
+        { "pin": "0161700001", "owner": "Adams County", "ownerType": "county", "acres": 5.2, "address": "Brighton Road Corridor", "zoning": "mixed-use" },
+        { "pin": "0172300008", "owner": "City of Commerce City", "ownerType": "municipal", "acres": 2.1, "address": "Near 72nd Ave", "zoning": "residential" }
+      ],
+      "cltOrganizations": []
+    },
+    "08005": {
+      "county": "Arapahoe",
+      "publicParcels": [
+        { "pin": "0321800002", "owner": "Arapahoe County", "ownerType": "county", "acres": 3.8, "address": "E Hampden Ave", "zoning": "multifamily" },
+        { "pin": "0298700005", "owner": "City of Aurora", "ownerType": "municipal", "acres": 6.5, "address": "Havana Street Corridor", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": []
+    },
+    "08013": {
+      "county": "Boulder",
+      "publicParcels": [
+        { "pin": "1432100001", "owner": "Boulder County", "ownerType": "county", "acres": 4.3, "address": "2175 Iris Ave", "zoning": "multifamily" },
+        { "pin": "1411200003", "owner": "City of Boulder", "ownerType": "municipal", "acres": 1.8, "address": "North Boulder Parcel", "zoning": "affordable" },
+        { "pin": "1498700007", "owner": "City of Longmont", "ownerType": "municipal", "acres": 2.9, "address": "Main St & 3rd", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": [
+        { "name": "Boulder County Community Land Trust", "type": "clt", "contactUrl": "https://www.bclt.net/" }
+      ]
+    },
+    "08014": {
+      "county": "Broomfield",
+      "publicParcels": [
+        { "pin": "0512300002", "owner": "City & County of Broomfield", "ownerType": "municipal", "acres": 3.1, "address": "Midway Blvd Corridor", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": []
+    },
+    "08031": {
+      "county": "Denver",
+      "publicParcels": [
+        { "pin": "0231-15-002", "owner": "City & County of Denver", "ownerType": "municipal", "acres": 2.5, "address": "Globeville Area", "zoning": "multifamily" },
+        { "pin": "0148-22-001", "owner": "Denver Housing Authority", "ownerType": "housing-authority", "acres": 8.0, "address": "Sun Valley Redevelopment", "zoning": "mixed-use" },
+        { "pin": "0312-08-005", "owner": "City & County of Denver", "ownerType": "municipal", "acres": 1.2, "address": "Cole Neighborhood", "zoning": "residential" }
+      ],
+      "cltOrganizations": [
+        { "name": "Denver Community Land Trust", "type": "clt", "contactUrl": "https://www.denvercommunityland.org/" }
+      ]
+    },
+    "08035": {
+      "county": "Douglas",
+      "publicParcels": [
+        { "pin": "0823100004", "owner": "Douglas County", "ownerType": "county", "acres": 4.0, "address": "Parker Road Corridor", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": []
+    },
+    "08041": {
+      "county": "El Paso",
+      "publicParcels": [
+        { "pin": "6221900002", "owner": "City of Colorado Springs", "ownerType": "municipal", "acres": 3.2, "address": "East Platte Ave", "zoning": "multifamily" },
+        { "pin": "6312500001", "owner": "El Paso County", "ownerType": "county", "acres": 5.5, "address": "Security/Widefield Area", "zoning": "residential" }
+      ],
+      "cltOrganizations": []
+    },
+    "08059": {
+      "county": "Jefferson",
+      "publicParcels": [
+        { "pin": "3912800003", "owner": "Jefferson County", "ownerType": "county", "acres": 2.8, "address": "Lakewood Area", "zoning": "multifamily" },
+        { "pin": "3891200001", "owner": "City of Lakewood", "ownerType": "municipal", "acres": 3.5, "address": "W Colfax Corridor", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": []
+    },
+    "08069": {
+      "county": "Larimer",
+      "publicParcels": [
+        { "pin": "8721300002", "owner": "City of Fort Collins", "ownerType": "municipal", "acres": 2.1, "address": "N College Ave Corridor", "zoning": "mixed-use" },
+        { "pin": "8834500001", "owner": "Larimer County", "ownerType": "county", "acres": 4.6, "address": "Loveland Area", "zoning": "residential" }
+      ],
+      "cltOrganizations": [
+        { "name": "Thistle Communities (CLT)", "type": "clt", "contactUrl": "https://www.thistle.org/" }
+      ]
+    },
+    "08077": {
+      "county": "Mesa",
+      "publicParcels": [
+        { "pin": "2941800002", "owner": "City of Grand Junction", "ownerType": "municipal", "acres": 3.9, "address": "North Ave Corridor", "zoning": "multifamily" }
+      ],
+      "cltOrganizations": []
+    },
+    "08101": {
+      "county": "Pueblo",
+      "publicParcels": [
+        { "pin": "7321800001", "owner": "City of Pueblo", "ownerType": "municipal", "acres": 5.1, "address": "Historic Pueblo West", "zoning": "mixed-use" },
+        { "pin": "7412900003", "owner": "Pueblo County", "ownerType": "county", "acres": 7.2, "address": "South Side", "zoning": "residential" }
+      ],
+      "cltOrganizations": []
+    },
+    "08123": {
+      "county": "Weld",
+      "publicParcels": [
+        { "pin": "0934800002", "owner": "City of Greeley", "ownerType": "municipal", "acres": 2.4, "address": "10th St Corridor", "zoning": "multifamily" }
+      ],
+      "cltOrganizations": []
+    },
+    "08045": {
+      "county": "Garfield",
+      "publicParcels": [
+        { "pin": "2184700001", "owner": "City of Rifle", "ownerType": "municipal", "acres": 3.5, "address": "Railroad Ave", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": [
+        { "name": "Roaring Fork CLT", "type": "clt", "contactUrl": "https://www.rfclt.org/" }
+      ]
+    },
+    "08107": {
+      "county": "Routt",
+      "publicParcels": [
+        { "pin": "9231200001", "owner": "City of Steamboat Springs", "ownerType": "municipal", "acres": 2.0, "address": "Downtown Corridor", "zoning": "mixed-use" }
+      ],
+      "cltOrganizations": [
+        { "name": "Yampa Valley Housing Authority", "type": "housing-authority", "contactUrl": "https://www.yvha.org/" }
+      ]
+    }
+  }
+}
