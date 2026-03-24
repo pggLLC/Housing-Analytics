@@ -1495,7 +1495,16 @@
                    : val === 'household'  ? 'projViewHH'
                    : 'projViewDemand';
       const showEl = document.getElementById(showId);
-      if (showEl) showEl.hidden = false;
+      if (showEl) {
+        showEl.hidden = false;
+        // Resize Chart.js charts that were rendered while container was hidden
+        showEl.querySelectorAll('canvas').forEach(canvas => {
+          if (typeof Chart !== 'undefined') {
+            const ch = Chart.getChart(canvas);
+            if (ch) { ch.resize(); ch.update(); }
+          }
+        });
+      }
     }));
   }
 
@@ -1637,6 +1646,9 @@
       window.HNARenderers.renderHousingCharts(profile);
       window.HNARenderers.renderAffordChart(profile);
       window.HNARenderers.renderRentBurdenBins(profile);
+      if (window.HNARenderers.renderExtendedAnalysis) {
+        window.HNARenderers.renderExtendedAnalysis(profile, geoType);
+      }
     }
 
     if (s0801){

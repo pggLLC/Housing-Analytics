@@ -2534,6 +2534,282 @@
   // --- Main update ---
 
 
+  /**
+   * renderIncomeDistribution — Household income distribution chart (DP03 income brackets)
+   */
+  function renderIncomeDistribution(profile) {
+    const canvas = document.getElementById('chartIncomeDistribution');
+    if (!canvas || !profile) return;
+    const t = chartTheme();
+    const brackets = [
+      { label: '<$15k',     v: Number(profile.DP03_0052E) },
+      { label: '$15–25k',   v: Number(profile.DP03_0053E) },
+      { label: '$25–35k',   v: Number(profile.DP03_0054E) },
+      { label: '$35–50k',   v: Number(profile.DP03_0055E) },
+      { label: '$50–75k',   v: Number(profile.DP03_0056E) },
+      { label: '$75–100k',  v: Number(profile.DP03_0057E) },
+      { label: '$100–150k', v: Number(profile.DP03_0058E) },
+      { label: '$150–200k', v: Number(profile.DP03_0059E) },
+      { label: '$200k+',    v: Number(profile.DP03_0060E) },
+    ].filter(b => b.v > 0);
+    if (!brackets.length) return;
+    const colors = brackets.map((_, i) => `var(--chart-${(i % 7) + 1})`);
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: brackets.map(b => b.label),
+        datasets: [{ label: 'Households', data: brackets.map(b => b.v), backgroundColor: colors }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Household Income Distribution (ACS DP03)', color: t.text, font: { size: 12 } },
+          tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' households' } },
+        },
+        scales: { y: { ticks: { color: t.muted }, grid: { color: t.grid } }, x: { ticks: { color: t.muted } } },
+      },
+    });
+  }
+
+  /**
+   * renderHousingAgeChart — Age of housing stock (DP04 year built)
+   */
+  function renderHousingAgeChart(profile) {
+    const canvas = document.getElementById('chartHousingAge');
+    if (!canvas || !profile) return;
+    const t = chartTheme();
+    const eras = [
+      { label: 'Pre-1940',  v: Number(profile.DP04_0026E) },
+      { label: '1940–1959', v: Number(profile.DP04_0027E) },
+      { label: '1960–1979', v: Number(profile.DP04_0028E) },
+      { label: '1980–1999', v: Number(profile.DP04_0029E) },
+      { label: '2000–2009', v: Number(profile.DP04_0030E) },
+      { label: '2010–2019', v: Number(profile.DP04_0031E) },
+      { label: '2020+',     v: Number(profile.DP04_0032E) },
+    ].filter(e => e.v > 0);
+    if (!eras.length) return;
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: eras.map(e => e.label),
+        datasets: [{ label: 'Units', data: eras.map(e => e.v), backgroundColor: 'var(--chart-3, #0891b2)' }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Age of Housing Stock (ACS DP04)', color: t.text, font: { size: 12 } },
+          tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' units' } },
+        },
+        scales: { y: { ticks: { color: t.muted }, grid: { color: t.grid } }, x: { ticks: { color: t.muted } } },
+      },
+    });
+  }
+
+  /**
+   * renderBedroomMixChart — Bedroom mix (DP04 bedrooms)
+   */
+  function renderBedroomMixChart(profile) {
+    const canvas = document.getElementById('chartBedroomMix');
+    if (!canvas || !profile) return;
+    const t = chartTheme();
+    const mix = [
+      { label: 'No bedroom', v: Number(profile.DP04_0042E) },
+      { label: '1 bedroom',  v: Number(profile.DP04_0043E) },
+      { label: '2 bedrooms', v: Number(profile.DP04_0044E) },
+      { label: '3 bedrooms', v: Number(profile.DP04_0045E) },
+      { label: '4+ bedrooms',v: Number(profile.DP04_0046E) },
+    ].filter(m => m.v > 0);
+    if (!mix.length) return;
+    makeChart(canvas.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: mix.map(m => m.label),
+        datasets: [{ data: mix.map(m => m.v), backgroundColor: ['var(--chart-1)','var(--chart-2)','var(--chart-3)','var(--chart-4)','var(--chart-5)'] }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { color: t.text, font: { size: 11 } } },
+          title: { display: true, text: 'Housing Units by Bedroom Count (ACS DP04)', color: t.text, font: { size: 12 } },
+          tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toLocaleString() + ' units' } },
+        },
+      },
+    });
+  }
+
+  /**
+   * renderOwnerCostBurdenChart — Owner housing cost burden (DP04 selected monthly costs as % of income)
+   */
+  function renderOwnerCostBurdenChart(profile) {
+    const canvas = document.getElementById('chartOwnerCostBurden');
+    if (!canvas || !profile) return;
+    const t = chartTheme();
+    const bins = [
+      { label: '<20%',   v: Number(profile.DP04_0111PE) },
+      { label: '20–25%', v: Number(profile.DP04_0112PE) },
+      { label: '25–30%', v: Number(profile.DP04_0113PE) },
+      { label: '30–35%', v: Number(profile.DP04_0114PE) },
+      { label: '35%+',   v: Number(profile.DP04_0115PE) },
+    ].filter(b => b.v > 0);
+    if (!bins.length) return;
+    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? 'var(--bad, #ef4444)' : 'var(--good, #10b981)');
+    makeChart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: bins.map(b => b.label),
+        datasets: [{ label: '% of owner households', data: bins.map(b => b.v), backgroundColor: colors }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Owner Cost Burden (% of income, ACS DP04)', color: t.text, font: { size: 12 } },
+          tooltip: { callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + '% of owners' } },
+        },
+        scales: {
+          y: { ticks: { color: t.muted, callback: v => v + '%' }, grid: { color: t.grid }, max: 100 },
+          x: { ticks: { color: t.muted } },
+        },
+      },
+    });
+  }
+
+  /**
+   * renderHousingGapSummary — Render housing gap stats panel.
+   * Shows estimated housing gap at each AMI tier based on profile data.
+   */
+  function renderHousingGapSummary(profile, geoType) {
+    const el = document.getElementById('housingGapSummary');
+    if (!el || !profile) return;
+
+    const rentVac      = Number(profile.DP04_0005PE) || 0;
+    // ACS DP04 rent burden fields:
+    // DP04_0136PE = gross rent ≥30% of income (cost-burdened, includes severely burdened)
+    // DP04_0141PE = gross rent ≥50% of income (severely burdened)
+    const rentBurden30 = Number(profile.DP04_0136PE) || 0; // ≥30% (cost-burdened)
+    const rentBurden50 = Number(profile.DP04_0141PE) || 0; // ≥50% (severely burdened)
+    const renterHH     = Number(profile.DP04_0047E)  || 0;
+
+    // Estimate households at each AMI tier using ACS income brackets.
+    // These are rough approximations: actual AMI thresholds vary by county and are
+    // published by HUD annually. Cross-reference with HUD Income Limits for precise values.
+    const hh30ami = Number(profile.DP03_0052E) || 0;
+    const hh50ami = (Number(profile.DP03_0053E) || 0) + (Number(profile.DP03_0054E) || 0);
+    const hh80ami = (Number(profile.DP03_0055E) || 0) + (Number(profile.DP03_0056E) || 0);
+
+    const sevBurdened = renterHH > 0 ? Math.round(renterHH * (rentBurden50 / 100)) : 0;
+    const modRate = Math.max(0, rentBurden30 - rentBurden50);
+    const modBurdened = renterHH > 0 ? Math.round(renterHH * (modRate / 100)) : 0;
+
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat">
+          <div class="k">Severely burdened renters (≥50%)</div>
+          <div class="v" style="color:var(--bad,#ef4444)">${sevBurdened > 0 ? sevBurdened.toLocaleString() : '—'}</div>
+          <div class="s">Est. households</div>
+        </div>
+        <div class="stat">
+          <div class="k">Moderately burdened renters (30–50%)</div>
+          <div class="v" style="color:var(--warn,#d97706)">${modBurdened > 0 ? modBurdened.toLocaleString() : '—'}</div>
+          <div class="s">Est. households</div>
+        </div>
+        <div class="stat">
+          <div class="k">HH at ≤30% AMI</div>
+          <div class="v">${hh30ami > 0 ? hh30ami.toLocaleString() : '—'}</div>
+          <div class="s">Income &lt;$15k (est.)</div>
+        </div>
+        <div class="stat">
+          <div class="k">HH at 31–50% AMI</div>
+          <div class="v">${hh50ami > 0 ? hh50ami.toLocaleString() : '—'}</div>
+          <div class="s">$15–35k income (est.)</div>
+        </div>
+        <div class="stat">
+          <div class="k">HH at 51–80% AMI</div>
+          <div class="v">${hh80ami > 0 ? hh80ami.toLocaleString() : '—'}</div>
+          <div class="s">$35–75k income (est.)</div>
+        </div>
+        <div class="stat">
+          <div class="k">Renter vacancy rate</div>
+          <div class="v">${rentVac > 0 ? rentVac.toFixed(1) + '%' : '—'}</div>
+          <div class="s">ACS DP04</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">
+        AMI tier estimates based on household income brackets from ACS DP03.
+        Severely burdened = renter households spending ≥50% of income on housing (ACS GRAPI).
+      </p>
+    `;
+  }
+
+  /**
+   * renderSpecialNeedsPanel — Senior and disability housing analysis
+   */
+  function renderSpecialNeedsPanel(profile) {
+    const el = document.getElementById('specialNeedsPanel');
+    if (!el || !profile) return;
+
+    const totalPop    = Number(profile.DP05_0001E) || 0;
+    const pop65plus   = Number(profile.DP05_0029E) || Number(profile.DP05_0030E) || 0;
+    const pop75plus   = Number(profile.DP05_0031E) || 0;
+    const disabledPop = Number(profile.DP02_0072E) || 0;
+    const childrenU18 = Number(profile.DP05_0019E) || 0;
+    const familyHH    = Number(profile.DP02_0003E) || 0;
+    const totalHH     = Number(profile.DP02_0001E) || 0;
+    const singleParent = (Number(profile.DP02_0009E) || 0) + (Number(profile.DP02_0013E) || 0);
+
+    const pct65  = totalPop > 0 && pop65plus  > 0 ? ((pop65plus  / totalPop) * 100).toFixed(1) : '—';
+    const pctDis = totalPop > 0 && disabledPop > 0 ? ((disabledPop / totalPop) * 100).toFixed(1) : '—';
+
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat">
+          <div class="k">Population 65+</div>
+          <div class="v">${pop65plus > 0 ? pop65plus.toLocaleString() : '—'}</div>
+          <div class="s">${pct65 !== '—' ? pct65 + '% of total' : 'ACS DP05'}</div>
+        </div>
+        <div class="stat">
+          <div class="k">Population 75+</div>
+          <div class="v">${pop75plus > 0 ? pop75plus.toLocaleString() : '—'}</div>
+          <div class="s">Highest care needs</div>
+        </div>
+        <div class="stat">
+          <div class="k">With a disability</div>
+          <div class="v">${disabledPop > 0 ? disabledPop.toLocaleString() : '—'}</div>
+          <div class="s">${pctDis !== '—' ? pctDis + '% of pop.' : 'ACS DP02'}</div>
+        </div>
+        <div class="stat">
+          <div class="k">Children under 18</div>
+          <div class="v">${childrenU18 > 0 ? childrenU18.toLocaleString() : '—'}</div>
+          <div class="s">Family housing need</div>
+        </div>
+        <div class="stat">
+          <div class="k">Single-parent households</div>
+          <div class="v">${singleParent > 0 ? singleParent.toLocaleString() : '—'}</div>
+          <div class="s">Affordable housing priority</div>
+        </div>
+        <div class="stat">
+          <div class="k">Family households</div>
+          <div class="v">${familyHH > 0 ? familyHH.toLocaleString() : '—'}</div>
+          <div class="s">${totalHH > 0 && familyHH > 0 ? ((familyHH / totalHH) * 100).toFixed(0) + '% of HH' : 'ACS DP02'}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * renderExtendedAnalysis — Orchestrates all extended HNA section renders.
+   */
+  function renderExtendedAnalysis(profile, geoType) {
+    renderIncomeDistribution(profile);
+    renderHousingAgeChart(profile);
+    renderBedroomMixChart(profile);
+    renderOwnerCostBurdenChart(profile);
+    renderHousingGapSummary(profile, geoType);
+    renderSpecialNeedsPanel(profile);
+  }
+
   window.HNARenderers = {
     setBanner, clearStats, chartTheme, makeChart, renderBoundary,
     updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
@@ -2548,5 +2824,6 @@
     renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
     renderLocalResources, renderMethodology, renderFmrPanel,
     showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
+    renderExtendedAnalysis,
   };
 })();
