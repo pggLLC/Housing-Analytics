@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-23T23:34:24.418Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-24T01:24:58.241Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 29.6 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 29.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
@@ -920,7 +920,7 @@
 
 ## Test Files
 
-73 test files found.
+74 test files found.
 
 | File | Size |
 |------|------|
@@ -964,13 +964,14 @@
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
-| `test/smoke-market-analysis.js` | 29.7 KB |
+| `test/smoke-market-analysis.js` | 34.3 KB |
 | `test/smoke.test.js` | 9.8 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
+| `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_lihtc_deal_predictor.js` | 15.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
