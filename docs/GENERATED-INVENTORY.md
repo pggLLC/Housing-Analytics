@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-24T08:37:13.054Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-24T12:43:05.558Z. Do not edit by hand.
 
 ---
 
@@ -10,14 +10,14 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.2 KB |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.3 KB |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.3 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
-| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 444 B |
+| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 474 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.9 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
@@ -43,7 +43,7 @@
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
-| `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 438 B |
+| `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 467 B |
 
 ---
 
@@ -990,7 +990,7 @@
 | `test/unit/pma-opportunities.test.js` | 4.9 KB |
 | `test/unit/pma-schools.test.js` | 4.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
-| `test/validate-site.js` | 8.6 KB |
+| `test/validate-site.js` | 9.1 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
