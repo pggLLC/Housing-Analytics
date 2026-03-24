@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "source": "EPA Superfund & Brownfield Inventory",
+    "state": "Colorado",
+    "generated": "2026-03-24T00:00:00Z",
+    "vintage": "2024",
+    "note": "Representative subset — update from https://www.epa.gov/enviro/web-services/"
+  },
+  "superfundSites": [
+    {
+      "id": "COD980715864",
+      "name": "California Gulch",
+      "county_fips": "08065",
+      "county": "Lake",
+      "lat": 39.2506,
+      "lon": -106.3092,
+      "status": "final",
+      "riskLevel": "high",
+      "npl": true
+    },
+    {
+      "id": "COD980717589",
+      "name": "Smuggler Mountain",
+      "county_fips": "08097",
+      "county": "Pitkin",
+      "lat": 39.1839,
+      "lon": -106.8175,
+      "status": "final",
+      "riskLevel": "high",
+      "npl": true
+    },
+    {
+      "id": "COD000636324",
+      "name": "Rocky Mountain Arsenal",
+      "county_fips": "08001",
+      "county": "Adams",
+      "lat": 39.8353,
+      "lon": -104.8533,
+      "status": "deleted",
+      "riskLevel": "moderate",
+      "npl": false
+    },
+    {
+      "id": "COD980624942",
+      "name": "Leadville Mine Drainage Tunnel",
+      "county_fips": "08065",
+      "county": "Lake",
+      "lat": 39.2506,
+      "lon": -106.3000,
+      "status": "final",
+      "riskLevel": "high",
+      "npl": true
+    },
+    {
+      "id": "COD980501006",
+      "name": "Lincoln Park/Cotter Mill",
+      "county_fips": "08025",
+      "county": "Fremont",
+      "lat": 38.4339,
+      "lon": -105.2397,
+      "status": "final",
+      "riskLevel": "high",
+      "npl": true
+    }
+  ],
+  "brownfieldSites": [
+    {
+      "id": "BF-CO-001",
+      "name": "Former Smelter Site – Globeville",
+      "county_fips": "08031",
+      "county": "Denver",
+      "lat": 39.7892,
+      "lon": -104.9753,
+      "status": "assessment",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "BF-CO-002",
+      "name": "Midtown Industrial Corridor",
+      "county_fips": "08031",
+      "county": "Denver",
+      "lat": 39.7750,
+      "lon": -104.9900,
+      "status": "cleanup",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "BF-CO-003",
+      "name": "Former Gas Works – Pueblo",
+      "county_fips": "08101",
+      "county": "Pueblo",
+      "lat": 38.2544,
+      "lon": -104.6091,
+      "status": "ready-for-reuse",
+      "riskLevel": "low"
+    },
+    {
+      "id": "BF-CO-004",
+      "name": "Railroad Yard – Colorado Springs",
+      "county_fips": "08041",
+      "county": "El Paso",
+      "lat": 38.8500,
+      "lon": -104.8300,
+      "status": "assessment",
+      "riskLevel": "low"
+    },
+    {
+      "id": "BF-CO-005",
+      "name": "Former Dry Cleaner – Ft. Collins",
+      "county_fips": "08069",
+      "county": "Larimer",
+      "lat": 40.5853,
+      "lon": -105.0844,
+      "status": "cleanup",
+      "riskLevel": "moderate"
+    }
+  ]
+}

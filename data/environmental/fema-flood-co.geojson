@@ -1,0 +1,102 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "FEMA National Flood Hazard Layer (NFHL)",
+    "state": "Colorado",
+    "generated": "2026-03-24T00:00:00Z",
+    "vintage": "2024",
+    "note": "Representative sample — update quarterly from https://hazards.fema.gov/gis/nfhl/"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FLD_ZONE": "AE",
+        "ZONE_SUBTY": "100-YEAR",
+        "SFHA_TF": "T",
+        "county_fips": "08031",
+        "county": "Denver"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-104.9903, 39.7392], [-104.9800, 39.7392],
+          [-104.9800, 39.7450], [-104.9903, 39.7450],
+          [-104.9903, 39.7392]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FLD_ZONE": "X",
+        "ZONE_SUBTY": "0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+        "SFHA_TF": "F",
+        "county_fips": "08013",
+        "county": "Boulder"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-105.2705, 40.0150], [-105.2600, 40.0150],
+          [-105.2600, 40.0210], [-105.2705, 40.0210],
+          [-105.2705, 40.0150]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FLD_ZONE": "AO",
+        "ZONE_SUBTY": "1-FOOT DEPTH",
+        "SFHA_TF": "T",
+        "county_fips": "08041",
+        "county": "El Paso"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-104.8214, 38.8339], [-104.8100, 38.8339],
+          [-104.8100, 38.8400], [-104.8214, 38.8400],
+          [-104.8214, 38.8339]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FLD_ZONE": "AE",
+        "ZONE_SUBTY": "100-YEAR",
+        "SFHA_TF": "T",
+        "county_fips": "08013",
+        "county": "Boulder"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-105.1011, 40.1672], [-105.0900, 40.1672],
+          [-105.0900, 40.1730], [-105.1011, 40.1730],
+          [-105.1011, 40.1672]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FLD_ZONE": "VE",
+        "ZONE_SUBTY": "COASTAL HIGH HAZARD AREA",
+        "SFHA_TF": "T",
+        "county_fips": "08059",
+        "county": "Jefferson"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-105.1547, 39.7285], [-105.1400, 39.7285],
+          [-105.1400, 39.7340], [-105.1547, 39.7340],
+          [-105.1547, 39.7285]
+        ]]
+      }
+    }
+  ]
+}

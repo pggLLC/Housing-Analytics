@@ -933,10 +933,51 @@
         hnsFit = hnaFitAnalyzer.analyzeHousingNeedsFit(needProfile, rec, { proposedUnits: proposedUnits });
       }
 
+      // ── Phase 2.1: Constraint screening ─────────────────────────
+      var constraints = {};
+
+      // Environmental screening
+      var envScreening = window.EnvironmentalScreening;
+      if (envScreening && typeof envScreening.assess === 'function') {
+        constraints.environmental = envScreening.assess(lat, lon, 1.0);
+      }
+
+      // Public land overlay
+      var landOverlay = window.PublicLandOverlay;
+      if (landOverlay && typeof landOverlay.assess === 'function') {
+        var geoid = (pma && pma.geoid) || (dealInputs && dealInputs.geoid) || null;
+        var countyFips = geoid ? String(geoid).substring(0, 5) : null;
+        constraints.publicLand = landOverlay.assess(lat, lon, countyFips);
+      }
+
+      // Soft funding tracker
+      var fundTracker = window.SoftFundingTracker;
+      if (fundTracker && typeof fundTracker.check === 'function') {
+        var fundFips = (dealInputs && dealInputs.geoid) || null;
+        var fundYear = new Date().getFullYear();
+        constraints.softFunding = fundTracker.check(fundFips, fundYear);
+      }
+
+      // CHFA award predictor
+      var chfaPredictor = window.CHFAAwardPredictor;
+      if (chfaPredictor && typeof chfaPredictor.predict === 'function') {
+        var siteContext = {
+          pmaScore:            pma && pma.pma_score,
+          isQct:               dealInputs.isQct || false,
+          isDda:               dealInputs.isDda || false,
+          totalUndersupply:    dealInputs.totalUndersupply || 0,
+          ami30UnitsNeeded:    dealInputs.ami30UnitsNeeded || 0,
+          localSoftFunding:    dealInputs.softFundingAvailable || 0,
+          hasHnaData:          !!needProfile,
+          publicLandOpportunity: constraints.publicLand ? constraints.publicLand.opportunity : 'none'
+        };
+        constraints.chfaCompetitiveness = chfaPredictor.predict(rec, siteContext);
+      }
+
       // Use the full renderer when available (preferred path)
       var renderer = window.LIHTCConceptCardRenderer;
       if (renderer && typeof renderer.render === 'function') {
-        renderer.render(card, rec, hnsFit);
+        renderer.render(card, rec, hnsFit, constraints);
         return;
       }
 
@@ -1169,9 +1210,40 @@
     return Promise.all([
       DS.getJSON(DS.baseData('co-county-boundaries.json')).catch(function () { return null; }),
       DS.getJSON(DS.baseData('qct-colorado.json')).catch(function () { return null; }),
-      DS.getJSON(DS.baseData('dda-colorado.json')).catch(function () { return null; })
+      DS.getJSON(DS.baseData('dda-colorado.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('environmental/epa-superfund-co.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('policy/soft-funding-status.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('policy/chfa-awards-historical.json')).catch(function () { return null; }),
+      DS.getJSON(DS.baseData('policy/county-ownership.json')).catch(function () { return null; })
     ]).then(function (results) {
       initOverlayLayers(results[0], results[1], results[2]);
+
+      // Load constraint module data (Phase 2.1)
+      var envScreening = window.EnvironmentalScreening;
+      if (envScreening && typeof envScreening.load === 'function') {
+        // Load FEMA flood zones via raw fetch (GeoJSON extension)
+        fetch(DS.baseData('environmental/fema-flood-co.geojson'))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .catch(function () { return null; })
+          .then(function (floodGeoJSON) {
+            envScreening.load(floodGeoJSON, results[3]);
+          });
+      }
+
+      var fundTracker = window.SoftFundingTracker;
+      if (fundTracker && typeof fundTracker.load === 'function' && results[4]) {
+        fundTracker.load(results[4]);
+      }
+
+      var chfaPredictor = window.CHFAAwardPredictor;
+      if (chfaPredictor && typeof chfaPredictor.load === 'function' && results[5]) {
+        chfaPredictor.load(results[5]);
+      }
+
+      var landOverlay = window.PublicLandOverlay;
+      if (landOverlay && typeof landOverlay.load === 'function' && results[6]) {
+        landOverlay.load(results[6]);
+      }
     }).catch(function (e) {
       console.warn('[market-analysis] Overlay load failed:', e);
     });
