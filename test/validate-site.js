@@ -40,7 +40,6 @@ function readFile(rel) {
 // ─── 1. Required JSON data files ──────────────────────────────────────────────
 console.log('\n── 1. Required JSON data files ──');
 const REQUIRED_JSON = [
-  'data/prop123_jurisdictions.json',
   'data/policy/prop123_jurisdictions.json',
   'data/chfa-lihtc.json',
   'data/fred-data.json',
@@ -73,8 +72,16 @@ var jsVoidHrefs = 0;
 
 htmlFiles.forEach(function (htmlFile) {
   var content = readFile(htmlFile);
-  var emptyMatches = (content.match(/href=["']\s*["']/g) || []).length;
-  var jsVoidMatches = (content.match(/href=["']javascript:void/g) || []).length;
+  // Strip <script>...</script> blocks to avoid false positives from JS template strings.
+  // Split on <script tag boundary so we never need to regex-parse the closing tag.
+  var htmlOnly = content.split('<script').map(function (chunk, i) {
+    if (i === 0) return chunk;
+    // Everything before the next </script is script content — drop it.
+    var closeIdx = chunk.toLowerCase().indexOf('</script');
+    return closeIdx >= 0 ? chunk.slice(closeIdx + '</script'.length) : '';
+  }).join('');
+  var emptyMatches = (htmlOnly.match(/href=(["'])\s*\1/g) || []).length;
+  var jsVoidMatches = (htmlOnly.match(/href=["']javascript:void/g) || []).length;
   emptyHrefs += emptyMatches;
   jsVoidHrefs += jsVoidMatches;
   if (emptyMatches > 0) warn(htmlFile + ': ' + emptyMatches + ' empty href(s)');
