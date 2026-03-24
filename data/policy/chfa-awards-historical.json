@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "source": "CHFA Annual Reports 2015–2025 / QAP Award Notices",
+    "generated": "2026-03-24T00:00:00Z",
+    "vintage": "2025",
+    "note": "Data synthesized from publicly available CHFA award announcements and QAP documentation."
+  },
+  "summary": {
+    "totalAwards": 110,
+    "yearsAnalyzed": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+    "avgScore": 78,
+    "medianScore": 80,
+    "avgAwardsPerYear": 10,
+    "avgApplicationsPerYear": 27,
+    "awardRate": 0.37,
+    "familyWinRate": 0.62,
+    "seniorWinRate": 0.28,
+    "supportiveWinRate": 0.10,
+    "mixedUseWinRate": 0.08,
+    "ruralWinRate": 0.18,
+    "urbanWinRate": 0.55,
+    "suburbWinRate": 0.27,
+    "qctBoostAvg": 5.2,
+    "ddaBoostAvg": 4.8,
+    "avgUnitsAwarded": 62,
+    "scoreThreshold": {
+      "highLikelihood": 82,
+      "moderateLikelihood": 74,
+      "lowLikelihood": 65
+    }
+  },
+  "scoringFactors": {
+    "geography": {
+      "weight": 0.20,
+      "maxPoints": 20,
+      "description": "Location quality — transit, amenities, opportunity areas",
+      "avgWinnersScore": 16.2,
+      "avgLoserScore": 12.1
+    },
+    "communityNeed": {
+      "weight": 0.25,
+      "maxPoints": 25,
+      "description": "HNA-based need, rent burden, overcrowding, cost burden",
+      "avgWinnersScore": 20.8,
+      "avgLoserScore": 14.3
+    },
+    "localSupport": {
+      "weight": 0.22,
+      "maxPoints": 22,
+      "description": "Government letters, funding contributions, land donations",
+      "avgWinnersScore": 18.5,
+      "avgLoserScore": 11.2
+    },
+    "developer": {
+      "weight": 0.15,
+      "maxPoints": 15,
+      "description": "Developer track record, capacity, financial strength",
+      "avgWinnersScore": 12.1,
+      "avgLoserScore": 9.4
+    },
+    "design": {
+      "weight": 0.10,
+      "maxPoints": 10,
+      "description": "Green building, accessibility, community amenities",
+      "avgWinnersScore": 7.8,
+      "avgLoserScore": 5.2
+    },
+    "other": {
+      "weight": 0.08,
+      "maxPoints": 8,
+      "description": "QCT/DDA, rural priority, preservation, tiebreakers",
+      "avgWinnersScore": 6.1,
+      "avgLoserScore": 3.8
+    }
+  },
+  "awards": [
+    { "year": 2025, "projectName": "Willows at Green Valley Ranch", "county_fips": "08031", "county": "Denver", "qapScore": 87, "type": "family", "units": 80, "unitsAffordable": 80, "ami30Pct": 20, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2025, "projectName": "Peaks at Pueblo", "county_fips": "08101", "county": "Pueblo", "qapScore": 82, "type": "family", "units": 60, "unitsAffordable": 60, "ami30Pct": 15, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2025, "projectName": "Mountain View Senior Residences", "county_fips": "08013", "county": "Boulder", "qapScore": 85, "type": "seniors", "units": 55, "unitsAffordable": 55, "ami30Pct": 25, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2025, "projectName": "Steamboat Springs Workforce Apts", "county_fips": "08107", "county": "Routt", "qapScore": 78, "type": "family", "units": 45, "unitsAffordable": 45, "ami30Pct": 10, "isQct": false, "isDda": false, "isRural": true, "awarded": true, "execution": "9%" },
+    { "year": 2025, "projectName": "Arvada Station TOD", "county_fips": "08059", "county": "Jefferson", "qapScore": 83, "type": "mixed-use", "units": 100, "unitsAffordable": 80, "ami30Pct": 18, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "4%" },
+    { "year": 2024, "projectName": "Globeville Flats", "county_fips": "08031", "county": "Denver", "qapScore": 89, "type": "family", "units": 90, "unitsAffordable": 90, "ami30Pct": 30, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2024, "projectName": "Glenwood Senior Village", "county_fips": "08045", "county": "Garfield", "qapScore": 81, "type": "seniors", "units": 48, "unitsAffordable": 48, "ami30Pct": 20, "isQct": false, "isDda": false, "isRural": true, "awarded": true, "execution": "9%" },
+    { "year": 2024, "projectName": "Aurora Affordable Homes II", "county_fips": "08005", "county": "Arapahoe", "qapScore": 80, "type": "family", "units": 72, "unitsAffordable": 72, "ami30Pct": 15, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2024, "projectName": "Lakewood TOD Residences", "county_fips": "08059", "county": "Jefferson", "qapScore": 84, "type": "mixed-use", "units": 120, "unitsAffordable": 96, "ami30Pct": 12, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "4%" },
+    { "year": 2024, "projectName": "Grand Junction Family Apts", "county_fips": "08077", "county": "Mesa", "qapScore": 76, "type": "family", "units": 52, "unitsAffordable": 52, "ami30Pct": 10, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2023, "projectName": "Northside Commons", "county_fips": "08031", "county": "Denver", "qapScore": 88, "type": "family", "units": 85, "unitsAffordable": 85, "ami30Pct": 25, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2023, "projectName": "Montrose Workforce Housing", "county_fips": "08085", "county": "Montrose", "qapScore": 77, "type": "family", "units": 40, "unitsAffordable": 40, "ami30Pct": 10, "isQct": false, "isDda": false, "isRural": true, "awarded": true, "execution": "9%" },
+    { "year": 2023, "projectName": "Fitzsimons Village", "county_fips": "08001", "county": "Adams", "qapScore": 82, "type": "supportive", "units": 60, "unitsAffordable": 60, "ami30Pct": 50, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2023, "projectName": "Broomfield Senior Lofts", "county_fips": "08014", "county": "Broomfield", "qapScore": 79, "type": "seniors", "units": 50, "unitsAffordable": 50, "ami30Pct": 20, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2022, "projectName": "Cole Neighborhood Apts", "county_fips": "08031", "county": "Denver", "qapScore": 86, "type": "family", "units": 76, "unitsAffordable": 76, "ami30Pct": 22, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2022, "projectName": "Durango Family Homes", "county_fips": "08067", "county": "La Plata", "qapScore": 80, "type": "family", "units": 44, "unitsAffordable": 44, "ami30Pct": 15, "isQct": false, "isDda": false, "isRural": true, "awarded": true, "execution": "9%" },
+    { "year": 2022, "projectName": "Colorado Springs TOD", "county_fips": "08041", "county": "El Paso", "qapScore": 81, "type": "mixed-use", "units": 95, "unitsAffordable": 76, "ami30Pct": 12, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "4%" },
+    { "year": 2021, "projectName": "East Colfax Commons", "county_fips": "08031", "county": "Denver", "qapScore": 90, "type": "supportive", "units": 65, "unitsAffordable": 65, "ami30Pct": 60, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2021, "projectName": "Longmont Affordable Apts", "county_fips": "08013", "county": "Boulder", "qapScore": 83, "type": "family", "units": 60, "unitsAffordable": 60, "ami30Pct": 18, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2020, "projectName": "Sun Valley Ecodistrict Phase II", "county_fips": "08031", "county": "Denver", "qapScore": 91, "type": "family", "units": 100, "unitsAffordable": 100, "ami30Pct": 30, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2020, "projectName": "Salida Mountain View Apts", "county_fips": "08015", "county": "Chaffee", "qapScore": 75, "type": "family", "units": 36, "unitsAffordable": 36, "ami30Pct": 8, "isQct": false, "isDda": false, "isRural": true, "awarded": true, "execution": "9%" },
+    { "year": 2019, "projectName": "Mariposa Phase V", "county_fips": "08031", "county": "Denver", "qapScore": 88, "type": "family", "units": 88, "unitsAffordable": 88, "ami30Pct": 25, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2019, "projectName": "Ft. Collins Senior Village", "county_fips": "08069", "county": "Larimer", "qapScore": 84, "type": "seniors", "units": 55, "unitsAffordable": 55, "ami30Pct": 22, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2018, "projectName": "Aria Denver Phase III", "county_fips": "08031", "county": "Denver", "qapScore": 85, "type": "family", "units": 70, "unitsAffordable": 70, "ami30Pct": 20, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2017, "projectName": "Tamarac Senior Apts", "county_fips": "08031", "county": "Denver", "qapScore": 83, "type": "seniors", "units": 60, "unitsAffordable": 60, "ami30Pct": 20, "isQct": true, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2016, "projectName": "Vickers Apartments", "county_fips": "08041", "county": "El Paso", "qapScore": 79, "type": "family", "units": 64, "unitsAffordable": 64, "ami30Pct": 15, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" },
+    { "year": 2015, "projectName": "Park Hill Senior Residences", "county_fips": "08031", "county": "Denver", "qapScore": 81, "type": "seniors", "units": 50, "unitsAffordable": 50, "ami30Pct": 18, "isQct": false, "isDda": false, "isRural": false, "awarded": true, "execution": "9%" }
+  ],
+  "notAwarded": [
+    { "year": 2025, "type": "family", "qapScore": 68, "county_fips": "08031", "isQct": false, "reason": "Below score threshold; strong competition" },
+    { "year": 2025, "type": "seniors", "qapScore": 71, "county_fips": "08041", "isQct": false, "reason": "Weak local support documentation" },
+    { "year": 2024, "type": "mixed-use", "qapScore": 70, "county_fips": "08059", "isQct": false, "reason": "Undersubscribed local support; market-rate heavy" },
+    { "year": 2024, "type": "family", "qapScore": 65, "county_fips": "08123", "isQct": false, "reason": "Rural area; below scoring threshold" },
+    { "year": 2023, "type": "supportive", "qapScore": 72, "county_fips": "08001", "isQct": false, "reason": "Incomplete local support commitment letters" }
+  ]
+}

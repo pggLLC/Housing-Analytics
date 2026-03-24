@@ -78,6 +78,17 @@
       '.lihtc-cc-badge-strong{color:#096e65;}',
       '.lihtc-cc-badge-partial{color:#f39c12;}',
       '.lihtc-cc-badge-weak{color:#c0392b;}',
+      /* Constraint sections */
+      '.lihtc-cc-constraint{margin:.75rem 0 0;padding:.5rem .75rem;',
+      '  border:1px solid var(--border,#333);border-radius:4px;font-size:.84rem;}',
+      '.lihtc-cc-constraint h4{margin:.15rem 0 .4rem;font-size:.84rem;display:flex;',
+      '  align-items:center;gap:.4rem;cursor:pointer;}',
+      '.lihtc-cc-constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem;',
+      '  margin:.35rem 0;font-size:.81rem;}',
+      '.lihtc-cc-constraint-grid dt{color:var(--text-muted,#aaa);margin:0;}',
+      '.lihtc-cc-constraint-grid dd{margin:0;font-weight:600;}',
+      '.lihtc-cc-constraint-narrative{margin:.35rem 0 0;font-size:.8rem;',
+      '  color:var(--text-muted,#aaa);font-style:italic;}',
       /* Actions */
       '.lihtc-cc-actions{margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap;}',
       '.lihtc-cc-btn{padding:.35rem .9rem;font-size:.82rem;border:none;',
@@ -192,16 +203,124 @@
     ].join('');
   }
 
+  /* ── Constraint sections builder ────────────────────────────────── */
+
+  function _buildConstraintSections(constraints) {
+    if (!constraints || typeof constraints !== 'object') return '';
+    var sections = [];
+
+    /* Environmental */
+    var env = constraints.environmental;
+    if (env && typeof env === 'object') {
+      var flood = env.floodZone || {};
+      var soil  = env.soil || {};
+      var haz   = env.hazmat || {};
+      sections.push([
+        '<details class="lihtc-cc-constraint">',
+          '<summary role="button"><h4>🌍 Environmental Fit ' + _esc(env.riskBadge || '') + '</h4></summary>',
+          '<dl class="lihtc-cc-constraint-grid">',
+            '<dt>Flood Risk</dt><dd>' + _esc(_cap(flood.riskLevel || 'unknown')) + ' (Zone ' + _esc(flood.zone || '?') + ')</dd>',
+            '<dt>Soil Stability</dt><dd>' + _esc(_cap(soil.stability || 'unknown')) + '</dd>',
+            '<dt>Hazmat Proximity</dt>',
+            '<dd>' + (haz.superfundSites > 0
+              ? '🔴 ' + haz.superfundSites + ' Superfund site' + (haz.superfundSites > 1 ? 's' : '')
+              : haz.brownfieldSites > 0
+                ? '🟡 ' + haz.brownfieldSites + ' brownfield site' + (haz.brownfieldSites > 1 ? 's' : '')
+                : '🟢 Clear') + '</dd>',
+            '<dt>Overall Risk</dt><dd>' + _esc(env.riskBadge || '') + '</dd>',
+          '</dl>',
+          env.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(env.narrative) + '</p>' : '',
+        '</details>'
+      ].join(''));
+    }
+
+    /* Public Land */
+    var land = constraints.publicLand;
+    if (land && typeof land === 'object') {
+      var oppBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', none: '🔴 None' }[land.opportunity] || land.opportunity;
+      sections.push([
+        '<details class="lihtc-cc-constraint">',
+          '<summary role="button"><h4>🏛️ Public Ownership &amp; CLT ' + _esc(oppBadge) + '</h4></summary>',
+          '<dl class="lihtc-cc-constraint-grid">',
+            '<dt>Owner</dt><dd>' + _esc(land.ownership || 'Unknown') + '</dd>',
+            '<dt>Owner Type</dt><dd>' + _esc(_cap(land.ownerType || 'private')) + '</dd>',
+            '<dt>CLT Present</dt><dd>' + (land.isCLT ? '✅ ' + _esc(land.cltName || 'Yes') : '—') + '</dd>',
+            '<dt>Opportunity</dt><dd>' + _esc(oppBadge) + '</dd>',
+          '</dl>',
+          land.financialBenefit && land.financialBenefit.subsidy > 0 ? [
+            '<p style="margin:.35rem 0 0;font-size:.81rem;">',
+              '<strong>Est. subsidy advantage:</strong> ' +
+              _esc(_fmtM(land.financialBenefit.subsidy)),
+            '</p>',
+            land.financialBenefit.explanation
+              ? '<p class="lihtc-cc-constraint-narrative">' + _esc(land.financialBenefit.explanation) + '</p>'
+              : ''
+          ].join('') : '',
+          land.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(land.narrative) + '</p>' : '',
+        '</details>'
+      ].join(''));
+    }
+
+    /* Soft Funding */
+    var fund = constraints.softFunding;
+    if (fund && typeof fund === 'object') {
+      var compBadge = { high: '🟡 High competition', moderate: '🟢 Moderate competition', low: '🟢 Low competition' }[fund.competitiveness]
+        || _cap(fund.competitiveness || '');
+      sections.push([
+        '<details class="lihtc-cc-constraint">',
+          '<summary role="button"><h4>💰 Soft Funding Status</h4></summary>',
+          '<dl class="lihtc-cc-constraint-grid">',
+            '<dt>Program</dt><dd>' + _esc(fund.program || '—') + '</dd>',
+            '<dt>Available</dt><dd>' + _esc(_fmtM(fund.available || 0)) + '</dd>',
+            '<dt>Deadline</dt><dd>' + (fund.deadline
+              ? _esc(fund.deadline) + (fund.daysRemaining !== null ? ' (' + fund.daysRemaining + ' days)' : '')
+              : '—') + '</dd>',
+            '<dt>Competition</dt><dd>' + _esc(compBadge) + '</dd>',
+          '</dl>',
+          fund.warning ? '<p style="margin:.35rem 0 0;font-size:.8rem;color:var(--warning,#c0392b);">⚠ ' + _esc(fund.warning) + '</p>' : '',
+          fund.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(fund.narrative) + '</p>' : '',
+          fund.lastUpdated ? '<p class="lihtc-cc-constraint-narrative">Last updated: ' + _esc(fund.lastUpdated) + '</p>' : '',
+        '</details>'
+      ].join(''));
+    }
+
+    /* CHFA Competitiveness */
+    var award = constraints.chfaCompetitiveness;
+    if (award && typeof award === 'object') {
+      var pct  = Math.round((award.awardLikelihood || 0) * 100);
+      var band = award.competitiveBand || 'unknown';
+      var bandBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', weak: '🔴 Weak' }[band] || _cap(band);
+      sections.push([
+        '<details class="lihtc-cc-constraint">',
+          '<summary role="button"><h4>🏆 CHFA Competitiveness ' + _esc(bandBadge) + '</h4></summary>',
+          '<dl class="lihtc-cc-constraint-grid">',
+            '<dt>Award Likelihood</dt><dd>' + _esc(bandBadge) + ' (' + pct + '%)</dd>',
+            '<dt>Est. QAP Score</dt><dd>' + _esc(String(award.scoreEstimate || '—')) + ' / 100</dd>',
+            '<dt>Applications</dt><dd>~' + _esc(String((award.competitiveContext || {}).applicationsExpected || '—')) + ' expected</dd>',
+            '<dt>Funded</dt><dd>~' + _esc(String((award.competitiveContext || {}).fundingAvailable || '—')) + ' funded</dd>',
+          '</dl>',
+          award.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(award.narrative) + '</p>' : '',
+          award.caveats && award.caveats.length > 0
+            ? '<p class="lihtc-cc-constraint-narrative">⚡ ' + _esc(award.caveats[0]) + '</p>'
+            : '',
+        '</details>'
+      ].join(''));
+    }
+
+    return sections.join('');
+  }
+
   /* ── Main render ─────────────────────────────────────────────────── */
 
   /**
    * Renders the full concept card into `container`.
    *
-   * @param {HTMLElement}  container  - Target DOM element (e.g. #lihtcConceptCard).
-   * @param {Object}       rec        - DealRecommendation from LIHTCDealPredictor.predictConcept().
-   * @param {Object|null}  [hnsFit]   - Optional HNSFit from HousingNeedsFitAnalyzer.analyzeHousingNeedsFit().
+   * @param {HTMLElement}  container    - Target DOM element (e.g. #lihtcConceptCard).
+   * @param {Object}       rec          - DealRecommendation from LIHTCDealPredictor.predictConcept().
+   * @param {Object|null}  [hnsFit]     - Optional HNSFit from HousingNeedsFitAnalyzer.analyzeHousingNeedsFit().
+   * @param {Object|null}  [constraints] - Optional constraint data { environmental, publicLand, softFunding, chfaCompetitiveness }
    */
-  function render(container, rec, hnsFit) {
+  function render(container, rec, hnsFit, constraints) {
     if (!container || !rec) return;
     _injectStyle();
 
@@ -277,6 +396,9 @@
       ].join('');
     }
 
+    /* ── Constraint sections ─────────────────────────────────────── */
+    var constraintSections = _buildConstraintSections(constraints || null);
+
     /* ── Assemble ────────────────────────────────────────────────── */
     container.innerHTML = [
       '<div class="lihtc-cc">',
@@ -325,6 +447,9 @@
         /* HNA section */
         hnaSection,
 
+        /* Constraint sections (environmental, public land, soft funding, CHFA) */
+        constraintSections,
+
         /* Caveats */
         caveatsHtml,
 
@@ -343,7 +468,7 @@
     var exportBtn = document.getElementById('lihtcExportConceptBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', function () {
-        var payload = { recommendation: rec, housingNeedsFit: hnsFit || null };
+        var payload = { recommendation: rec, housingNeedsFit: hnsFit || null, constraints: constraints || null };
         var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         var url  = URL.createObjectURL(blob);
         var a    = document.createElement('a');
