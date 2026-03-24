@@ -1,6 +1,41 @@
 # CHANGELOG
 
-## Comparative HNA Needs Ranking Page
+## Phase 2: PMA Concept Card — ACS Cache Fix, Full Card Renderer, HNA Integration
+**Date:** March 2026
+
+### Summary
+Fixed the "No ACS data" error on second map clicks (Issue 1), upgraded the LIHTC concept card from a minimal stub to a full-featured recommendation card (Issue 2), and integrated local Housing Needs Assessment data directly into the concept card to show AMI tier alignment and coverage (Issue 3).
+
+### New Files
+- `js/market-analysis-cache-fix.js` — Persists ACS tract metrics and centroid data globally after the first successful load. Subsequent `runAnalysis()` calls restore from the cache when module-level variables are stale, eliminating the "No ACS data" error on the second (and subsequent) map clicks. Exposes `window.PMADataCache`.
+- `js/lihtc-concept-card-renderer.js` — Full-featured concept card renderer. Replaces the minimal one-line stub shown in buffer mode with a complete card including: confidence badge, execution recommendation, unit mix table, AMI mix table, rationale bullets, risk flags, alternative path, collapsible capital stack, multi-caveat warning box, and HNA Housing Needs Fit section. Exposes `window.LIHTCConceptCardRenderer`.
+- `js/market-analysis/housing-needs-fit-analyzer.js` — HNA-to-concept bridge. Analyzes how the recommended concept covers the county or municipal housing need profile: priority AMI segments targeted, % of unmet need covered per tier, overall alignment rating (strong/partial/weak), and un-addressed gaps. Exposes `window.HousingNeedsFitAnalyzer`.
+- `test/test_housing_needs_fit_analyzer.js` — 55 unit tests for the HNA fit analyzer covering schema validation, coverage calculation, gap detection, alignment logic, and null/empty input handling.
+
+### Modified Files
+- `js/market-analysis.js` — (a) Saves ACS data to `PMADataCache` after successful load; (b) Restores from cache at the start of `runAnalysis()` if the module-level variable is stale; (c) Replaces the minimal stub concept card block with calls to `LIHTCConceptCardRenderer` and `HousingNeedsFitAnalyzer`.
+- `js/pma-ui-controller.js` — Updated `_renderConceptCard()` to compute housing needs fit via `HousingNeedsFitAnalyzer`, then delegate rendering to `LIHTCConceptCardRenderer` when available (with the existing inline renderer as a fallback). Updated `_drawConceptCard()` to accept and display an `hnsFit` parameter with a Housing Needs Fit section.
+- `market-analysis.html` — Added three new `<script defer>` tags: `market-analysis-cache-fix.js` (before `market-analysis.js`), `housing-needs-fit-analyzer.js`, and `lihtc-concept-card-renderer.js`.
+- `test/smoke-market-analysis.js` — Added section 21 with 28 new smoke checks verifying the three new files exist, expose the correct APIs, and are correctly wired in `market-analysis.html` and `market-analysis.js`.
+- `README.md` — Added "Market Analysis Tool — Phase 2" section documenting all Phase 2 features, concept card sections, and test commands.
+
+### Bug Fixes
+1. **"No ACS data" on second map click** — ACS metrics and tract centroids now saved to `window.PMADataCache` after first successful load; `runAnalysis()` restores from cache when module variables are stale.
+2. **Minimal concept card in buffer mode** — Removed the incorrect `window.PMAUIController._drawCard` check (that function was never exposed publicly). All analysis modes now use `LIHTCConceptCardRenderer` for the full card.
+3. **Export button included HNA data** — Export JSON now includes both `recommendation` and `housingNeedsFit` fields.
+
+### Test Results
+```
+node test/test_lihtc_deal_predictor.js       → 68 passed, 0 failed
+node test/test_hna_market_bridge.js          → 68 passed, 0 failed
+node test/test_housing_needs_fit_analyzer.js → 55 passed, 0 failed
+node test/smoke-market-analysis.js           → 185 passed, 0 failed, 1 warning
+npm run test:ci                              → 28 passed, 0 failed, 6 warnings
+```
+
+---
+
+
 **Date:** March 2026
 
 ### Summary

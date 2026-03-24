@@ -622,6 +622,97 @@ if (fileExists('js/deal-calculator.js')) {
   });
 }
 
+// ─── 21. Phase 2: ACS cache, concept card renderer, HNA fit analyzer ─────────
+console.log('\n── 21. Phase 2: ACS cache, concept card renderer, HNA fit analyzer ──');
+
+// ACS cache fix
+if (fileExists('js/market-analysis-cache-fix.js')) {
+  pass('js/market-analysis-cache-fix.js exists');
+  var cacheSrc = readFile('js/market-analysis-cache-fix.js');
+  [
+    { pattern: /PMADataCache/,          label: 'Exposes window.PMADataCache' },
+    { pattern: /function set\(/,        label: 'set() function present' },
+    { pattern: /function get\(/,        label: 'get() function present' },
+    { pattern: /function has\(/,        label: 'has() function present' },
+    { pattern: /debugSummary/,          label: 'debugSummary() function present' },
+  ].forEach(function(c) {
+    if (c.pattern.test(cacheSrc)) pass(c.label);
+    else fail(c.label + ' — not found in market-analysis-cache-fix.js');
+  });
+} else {
+  fail('js/market-analysis-cache-fix.js missing');
+}
+
+// Concept card renderer
+if (fileExists('js/lihtc-concept-card-renderer.js')) {
+  pass('js/lihtc-concept-card-renderer.js exists');
+  var rendSrc = readFile('js/lihtc-concept-card-renderer.js');
+  [
+    { pattern: /LIHTCConceptCardRenderer/,   label: 'Exposes window.LIHTCConceptCardRenderer' },
+    { pattern: /function render\(/,           label: 'render() function present' },
+    { pattern: /suggestedUnitMix|unitMix/,    label: 'Unit mix rendering' },
+    { pattern: /suggestedAMIMix|amiMix/,      label: 'AMI mix rendering' },
+    { pattern: /indicativeCapitalStack|stack/, label: 'Capital stack rendering' },
+    { pattern: /keyRisks/,                    label: 'Key risks rendering' },
+    { pattern: /keyRationale/,                label: 'Rationale bullets rendering' },
+    { pattern: /Housing Needs Fit/,           label: 'Housing Needs Fit section' },
+    { pattern: /aria-label/,                  label: 'Accessible aria-label attributes present' },
+    { pattern: /lihtcExportConceptBtn/,       label: 'Export button present' },
+  ].forEach(function(c) {
+    if (c.pattern.test(rendSrc)) pass(c.label);
+    else fail(c.label + ' — not found in lihtc-concept-card-renderer.js');
+  });
+} else {
+  fail('js/lihtc-concept-card-renderer.js missing');
+}
+
+// Housing needs fit analyzer
+if (fileExists('js/market-analysis/housing-needs-fit-analyzer.js')) {
+  pass('js/market-analysis/housing-needs-fit-analyzer.js exists');
+  var hnsSrc = readFile('js/market-analysis/housing-needs-fit-analyzer.js');
+  [
+    { pattern: /HousingNeedsFitAnalyzer/,        label: 'Exposes window.HousingNeedsFitAnalyzer' },
+    { pattern: /analyzeHousingNeedsFit/,          label: 'analyzeHousingNeedsFit() function present' },
+    { pattern: /prioritySegments/,               label: 'prioritySegments output present' },
+    { pattern: /needCoverage/,                   label: 'needCoverage output present' },
+    { pattern: /alignment/,                      label: 'alignment output present' },
+    { pattern: /alignmentPoints/,                label: 'alignmentPoints output present' },
+    { pattern: /coveragePct/,                    label: 'coveragePct output present' },
+  ].forEach(function(c) {
+    if (c.pattern.test(hnsSrc)) pass(c.label);
+    else fail(c.label + ' — not found in housing-needs-fit-analyzer.js');
+  });
+} else {
+  fail('js/market-analysis/housing-needs-fit-analyzer.js missing');
+}
+
+// HTML integration
+{
+  var htmlSrc2 = readFile('market-analysis.html');
+  [
+    { pattern: /market-analysis-cache-fix\.js/,    label: 'HTML loads market-analysis-cache-fix.js' },
+    { pattern: /housing-needs-fit-analyzer\.js/,   label: 'HTML loads housing-needs-fit-analyzer.js' },
+    { pattern: /lihtc-concept-card-renderer\.js/,  label: 'HTML loads lihtc-concept-card-renderer.js' },
+  ].forEach(function(c) {
+    if (c.pattern.test(htmlSrc2)) pass(c.label);
+    else fail(c.label + ' — not found in market-analysis.html');
+  });
+}
+
+// market-analysis.js integration
+if (fileExists('js/market-analysis.js')) {
+  var maSrc2 = readFile('js/market-analysis.js');
+  [
+    { pattern: /PMADataCache/,                     label: 'market-analysis.js references PMADataCache' },
+    { pattern: /LIHTCConceptCardRenderer/,          label: 'market-analysis.js references LIHTCConceptCardRenderer' },
+    { pattern: /HousingNeedsFitAnalyzer/,           label: 'market-analysis.js references HousingNeedsFitAnalyzer' },
+    { pattern: /restored.*from PMADataCache|PMADataCache.*restored/i, label: 'ACS cache restore log message present' },
+  ].forEach(function(c) {
+    if (c.pattern.test(maSrc2)) pass(c.label);
+    else fail(c.label + ' — not found in js/market-analysis.js');
+  });
+}
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 console.log('\n── Summary ──');
 console.log('Passed:   ' + passed);
