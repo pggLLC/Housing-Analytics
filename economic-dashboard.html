@@ -30,6 +30,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/site-state.js"></script>
+  <script defer src="js/chart-fix.js"></script>
 </head>
 <body class="no-shell" data-page="economic-dashboard.html"
       data-page-update-key="fred"
@@ -50,6 +52,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
+<div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
 
 <section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
 <div style="padding:0 var(--sp4) var(--sp4);">

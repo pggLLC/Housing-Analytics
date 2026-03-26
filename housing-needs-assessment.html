@@ -36,6 +36,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/site-state.js"></script>
+  <script defer src="js/chart-fix.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- HNA export utilities (provides window.__HNA_exportPdf/Csv/Json) -->
   <script defer src="js/hna-export.js"></script>
@@ -66,6 +68,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
+    <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
@@ -1256,6 +1259,46 @@
     watchGeoChange();
     var geo = getCurrentGeo();
     initActionPlan(geo.geoType, geo.geoid);
+  }
+}());
+</script>
+<script>
+/* ── SiteState integration: persist selected county/geography on this page ── */
+(function () {
+  function persistState() {
+    if (typeof window.SiteState === 'undefined') return;
+    var gtEl = document.getElementById('geoType');
+    var gsEl = document.getElementById('geoSelect');
+    if (!gtEl || !gsEl) return;
+
+    function save() {
+      var geoType = gtEl.value;
+      var geoid   = gsEl.value;
+      var label   = gsEl.options[gsEl.selectedIndex]
+                      ? gsEl.options[gsEl.selectedIndex].text : geoid;
+      if (geoType === 'county') {
+        window.SiteState.setCounty(geoid, label);
+      } else {
+        /* Determine parent county FIPS from geoid prefix for sub-county types */
+        var countyFips = (geoid && geoid.length >= 5) ? geoid.slice(0, 5) : null;
+        var countyLabel = countyFips
+          ? (document.querySelector('#countySelect option[value="' + countyFips + '"]') || {}).text || ''
+          : '';
+        if (countyFips) window.SiteState.setCounty(countyFips, countyLabel);
+        window.SiteState.setGeography(geoid, label, geoType);
+      }
+    }
+
+    gtEl.addEventListener('change', save);
+    gsEl.addEventListener('change', save);
+    save(); /* persist current selection on load */
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', persistState);
+  } else {
+    /* Defer so HNA modules have time to initialise first */
+    setTimeout(persistState, 500);
   }
 }());
 </script>
