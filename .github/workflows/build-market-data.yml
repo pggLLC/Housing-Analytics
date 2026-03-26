@@ -61,7 +61,7 @@ jobs:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           echo "── Starting market data build at $(date -u) ──"
-          python scripts/market/build_public_market_data.py
+          python scripts/market/build_public_market_data.py --allow-partial
           echo "── Build completed at $(date -u) ──"
         timeout-minutes: 15
 
@@ -73,7 +73,9 @@ jobs:
           from pathlib import Path
 
           ROOT = Path(".")
-          MIN_TRACTS = 100   # Colorado has ~1,300 census tracts; fewer than 100 means placeholder data
+          # Colorado has ~1,300 census tracts (stable across decennial census cycles).
+          # 1200 = ~92% of actual count; fewer means placeholder/corrupt data.
+          MIN_TRACTS = 1200
           MIN_LIHTC  = 50    # Colorado has hundreds of LIHTC properties; fewer than 50 is placeholder data
 
           artifacts = [
@@ -81,6 +83,7 @@ jobs:
             ("data/market/acs_tract_metrics_co.json", "tracts",   MIN_TRACTS),
             ("data/market/hud_lihtc_co.geojson",     "features",  MIN_LIHTC),
           ]
+          degraded = []  # non-critical artifacts that are below threshold
           errors = []
           summary_rows = []
 
@@ -109,11 +112,22 @@ jobs:
             count = len(records)
             print(f"  {a}: {count} {array_key}")
             if count < min_count:
-              errors.append(
-                f"{a}: only {count} {array_key} (minimum {min_count}). "
-                f"Placeholder data detected — check Census API key and build script."
-              )
-              summary_rows.append(f"| `{a}` | ❌ sparse ({count}) | {size} B | {min_count} |")
+              # LIHTC (hud_lihtc_co.geojson) is non-core: HUD API outages are transient
+              # and the build falls back to cached data.  Centroids and ACS are core and
+              # must meet the threshold for the build to be considered valid.
+              is_critical = "lihtc" not in a.lower()
+              if is_critical:
+                errors.append(
+                  f"{a}: only {count} {array_key} (minimum {min_count}). "
+                  f"Placeholder data detected — check Census API key and build script."
+                )
+                summary_rows.append(f"| `{a}` | ❌ sparse ({count}) | {size} B | {min_count} |")
+              else:
+                degraded.append(
+                  f"{a}: only {count} {array_key} (minimum {min_count}) — "
+                  f"API may be temporarily unavailable; cached data will be used."
+                )
+                summary_rows.append(f"| `{a}` | ⚠️ degraded ({count}) | {size} B | {min_count} |")
             else:
               summary_rows.append(f"| `{a}` | ✅ {count} records | {size} B | {min_count} |")
 
@@ -126,16 +140,23 @@ jobs:
               fh.write("|------|--------|------|-------------|\n")
               fh.write("\n".join(summary_rows) + "\n\n")
               if errors:
-                fh.write("### ❌ Errors\n\n")
+                fh.write("### ❌ Errors (critical — core data missing)\n\n")
                 for e in errors:
                   fh.write(f"- {e}\n")
-              else:
+              if degraded:
+                fh.write("### ⚠️ Degraded (non-core sources unavailable — cached data in use)\n\n")
+                for d in degraded:
+                  fh.write(f"- {d}\n")
+              if not errors and not degraded:
                 fh.write("All artifacts meet minimum data thresholds ✅\n")
 
           if errors:
             for e in errors:
               print(f"::error::{e}")
             sys.exit(1)
+          if degraded:
+            for d in degraded:
+              print(f"::warning::{d}")
           print("All artifacts valid ✅")
           EOF
 
@@ -149,7 +170,7 @@ jobs:
             const { execSync } = require('child_process');
             try {
               execSync(
-                `node scripts/monitoring/alert.js --mode failure --workflow build-market-data.yml --run-id ${context.runId} --step "Build or Validate" --details "Market data build or artifact validation failed. Check Census API key and build script logs."`,
+                `node scripts/monitoring/alert.js --mode failure --workflow build-market-data.yml --run-id ${context.runId} --step "Build or Validate" --details "Market data build or artifact validation failed — core data (centroids/ACS) is missing. Check Census API key and build script logs."`,
                 { stdio: 'inherit', env: { ...process.env } }
               );
             } catch (e) {
@@ -160,10 +181,14 @@ jobs:
             const body = [
               `The **Build Market Data** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
               '',
+              '> **Note:** Transient API failures (TIGERweb, HUD LIHTC) are handled gracefully via',
+              '> cached fallback data and `--allow-partial` mode. A build failure here means **core**',
+              '> data (tract centroids or ACS metrics) could not be fetched or loaded from cache.',
+              '',
               '### Common causes',
               '- `CENSUS_API_KEY` secret is missing or expired → [verify in Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions)',
-              '- Census API is temporarily unavailable — re-run the workflow to retry',
-              '- TIGERweb ArcGIS REST service is down — check https://tigerweb.geo.census.gov',
+              '- Census ACS API is temporarily unavailable — re-run the workflow to retry',
+              '- TIGERweb ArcGIS REST service is down for an extended period — check https://tigerweb.geo.census.gov',
               '',
               '### How to manually rebuild',
               '```bash',
