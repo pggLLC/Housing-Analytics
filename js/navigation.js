@@ -2,6 +2,21 @@
  * navigation.js — COHO Analytics
  * Injects a consistent header + footer across pages.
  * Uses site-theme.css variables.
+ *
+ * Information Architecture:
+ * ─────────────────────────────────────────────────────────────────────────
+ * PRIMARY WORKFLOW (Platform group):
+ *   Home → Housing Needs Assessment → Market Analysis → Colorado Deep Dive
+ *   → Economic Dashboard → LIHTC Allocations
+ *
+ * SECONDARY / DATA PAGES (Data & Research group):
+ *   Market Intelligence, CHFA Portfolio, Preservation Tracking, Data Health
+ *
+ * ARCHIVED / STUB PAGES (not in primary nav):
+ *   colorado-market.html — stub (redirect to colorado-deep-dive.html)
+ *   census-dashboard.html — secondary reference page
+ *   dashboard.html — superseded by Economic Dashboard
+ * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
   const GROUPS = [
