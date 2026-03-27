@@ -571,7 +571,7 @@
     if (_missing(inputs.ami30UnitsNeeded)) {
       caveats.push('HNA affordability gap data not provided — AMI mix uses county-level defaults.');
     }
-    if (_missing(inputs.pabCapAvailable) && !_missing(inputs.proposedUnits) && _num(inputs.proposedUnits, 0) >= DEFAULT_ASSUMPTIONS.fourPctMinUnits) {
+    if (_missing(inputs.pabCapAvailable) && _num(inputs.proposedUnits, 0) >= DEFAULT_ASSUMPTIONS.fourPctMinUnits) {
       caveats.push('PAB volume cap status not provided — 4% feasibility cannot be fully assessed.');
     }
 
