@@ -73,9 +73,8 @@ except ImportError:  # pragma: no cover
 
 try:
     import geopandas as gpd  # type: ignore
-    HAS_GEOPANDAS = True
 except ImportError:  # pragma: no cover
-    HAS_GEOPANDAS = False
+    pass
 
 try:
     import folium  # type: ignore
