@@ -97,6 +97,13 @@ jobs:
             
             "WPU057303": "PPI: Diesel Fuel",
             "CES2000000003": "Construction Avg Hourly Earnings",
+            # Colorado-specific series
+            "COUR08000000000000006": "CO Unemployment Rate (BLS)",
+            "COCONS": "CO Construction Employment",
+            "COPOP": "CO Population",
+            "MEHOUCO": "CO Median Household Income",
+            "COAHOMIDX": "CO Home Price Index (FHFA)",
+            "COBP": "CO Building Permits",
           }
 
           def fetch_observations(series_id: str):

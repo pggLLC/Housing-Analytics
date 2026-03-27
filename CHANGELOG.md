@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## Phase 3: Site Architecture, State Management & Data Pipeline
+**Date:** March 2026
+
+### New Files
+
+- `js/site-state.js` — Shared site state manager with localStorage persistence, subscribe/event pattern, and DOM auto-wiring via `[data-state-key]`
+- `js/chart-fix.js` — Sitewide chart lifecycle manager using IntersectionObserver, ResizeObserver, and `<details>` toggle handling; eliminates blank/hidden chart rendering issues
+- `scripts/market/normalize_qct_dda_co.py` — Normalize QCT/DDA designations into map-ready county/tract format
+- `scripts/market/validate_qct_dda_co.py` — Schema validation for normalized QCT/DDA output
+- `data/market/qct_dda_designations_co_normalized.json` — Normalized QCT/DDA output (stub; rebuild after PR #422 firewall fix)
+- `COPILOT_IMPLEMENTATION_PLAN.md` — Strategic roadmap for Phases 3–5
+- `docs/PMA_DATA_SOURCES_COMPLETE.md` — Comprehensive Phase 3 data source reference
+- `docs/SITE_STATE_USAGE.md` — Developer guide for SiteState API
+- `docs/CHART_FIX_USAGE.md` — Developer guide for chart lifecycle manager with migration path
+
+### Changed Files
+
+- `.github/workflows/fetch-fred-data.yml` — Added 6 Colorado-specific FRED series (`COUR08000000000000006`, `COCONS`, `COPOP`, `MEHOUCO`, `COAHOMIDX`, `COBP`)
+- `economic-dashboard.html` — Added `site-state.js` + `chart-fix.js`; added context banner element
+- `market-analysis.html` — Added `site-state.js` + `chart-fix.js`; added context banner; added SiteState integration script for county readback
+- `housing-needs-assessment.html` — Added `site-state.js` + `chart-fix.js`; added context banner; added SiteState integration script to persist county/geography on change
+- `colorado-deep-dive.html` — Added `site-state.js` + `chart-fix.js`
+- `market-intelligence.html` — Added `site-state.js`
+- `js/navigation.js` — Added information architecture documentation comments; documented stub/primary page hierarchy
+
+---
+
 ## Phase 2: PMA Concept Card — ACS Cache Fix, Full Card Renderer, HNA Integration
 **Date:** March 2026
 

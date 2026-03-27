@@ -30,6 +30,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/site-state.js"></script>
+  <script defer src="js/chart-fix.js"></script>
   <script defer src="js/market-data-quality.js"></script>
   <script defer src="js/market-analysis-enhancements.js"></script>
 </head>
@@ -47,6 +49,7 @@
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
+    <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
     <div style="padding:1rem 0 0.5rem">
       <span class="kicker">Analysis</span>
@@ -537,5 +540,25 @@
 </script>
 
 <footer id="site-footer"></footer>
-</body>
+<script>
+/* ── SiteState integration: show persisted county context on Market Analysis ── */
+(function () {
+  function showCountyContext() {
+    if (typeof window.SiteState === 'undefined') return;
+    var county = window.SiteState.getCounty();
+    if (!county || !county.name) return;
+    /* Pre-populate #maLiveRegion with county context for screen readers */
+    var liveRegion = document.getElementById('maLiveRegion');
+    if (liveRegion) {
+      liveRegion.textContent = 'Context: ' + county.name;
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showCountyContext);
+  } else {
+    showCountyContext();
+  }
+}());
+</script>
 </html>
