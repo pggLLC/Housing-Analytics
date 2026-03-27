@@ -1,0 +1,228 @@
+name: Create Phase 3 Sub-Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not create issues, just print what would be created)'
+        required: false
+        default: 'false'
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create-sub-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create Phase 3 Sub-Issues
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const dryRun = '${{ github.event.inputs.dry_run }}' === 'true';
+
+            const subIssues = [
+              // ── Epic #444: Legislative & CRA Expansion Tracker ──────────────
+              {
+                title: 'Implement bill status dashboard with real-time legislative updates',
+                body: `## Overview\nDevelop an interactive dashboard component to track status of key affordable housing bills and CRA modernization efforts (e.g. H.R. 6644/AHCIA/CRA) in real time.\n\n## Features\n- Visually display current bill status, progress through legislative stages, and expected timelines\n- Enable real-time data feeds or regular sync with authoritative legislative data sources\n- Provide summary and detail views for priority legislation\n\n## Acceptance Criteria\n- Dashboard shows up-to-date status for target bills\n- Real-time or regularly refreshed data feeds populate the UI\n- Timeline estimates and annotations are visible for each bill tracked\n\n## References\n- \`js/legislative-tracker.js\` — bill status engine (created in PR #460)\n- \`housing-legislation-2026.html\` — existing bill detail page\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+              {
+                title: 'Integrate legislative database/API sources for live bill tracking',
+                body: `## Overview\nConnect the legislative tracker to authoritative data sources (Congress.gov API, GovTrack, or similar) for automated bill status updates.\n\n## Features\n- Automated bill status polling (daily or weekly)\n- GitHub Actions workflow for data refresh\n- Fallback to static data when API is unavailable\n\n## Acceptance Criteria\n- Bill status auto-refreshes from live source\n- Workflow runs on schedule and on demand\n- Alert on data fetch failure\n\n## References\n- \`js/legislative-tracker.js\` — tracker module\n- \`.github/workflows/\` — existing workflow patterns\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+              {
+                title: 'Build impact assessment logic for LIHTC demand and investor base',
+                body: `## Overview\nImplement quantitative impact scoring for each bill's effect on LIHTC credit demand, equity pricing, and CRA investor participation.\n\n## Features\n- Impact score 0–10 per bill for LIHTC and CRA separately\n- Weighted aggregate market impact summary\n- Scenario modeling: if bill passes vs. fails\n\n## Acceptance Criteria\n- Impact scores computed per bill with passage probability weighting\n- \`getMarketImpactSummary()\` returns reliable aggregate\n- Integration with deal predictor for scenario analysis\n\n## References\n- \`js/legislative-tracker.js\` — \`getMarketImpactSummary()\` (implemented)\n- \`js/lihtc-deal-predictor.js\` — deal prediction module\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+              {
+                title: 'Develop UI for updating and annotating legislative timelines',
+                body: `## Overview\nBuild an interactive timeline UI component that displays legislative milestones and allows annotation of key events.\n\n## Features\n- Visual timeline with stage indicators\n- Projected vs actual event differentiation\n- Annotation capability for deal-specific notes\n\n## Acceptance Criteria\n- Timeline renders correctly on \`housing-legislation-2026.html\`\n- Projected events visually distinguished from completed events\n- Accessible (WCAG 2.1 AA): keyboard navigable, screen-reader compatible\n\n## References\n- \`housing-legislation-2026.html\` — target page\n- \`js/legislative-tracker.js\` — \`getLegislativeTimeline()\`\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+              {
+                title: 'Integrate CRA targeting with census tract data',
+                body: `## Overview\nConnect CRA tract targeting analysis to the census tract data layer for automatic classification of sites as LMI, distressed, rural, etc.\n\n## Features\n- Auto-classify selected census tract from TIGERweb/ACS data\n- Display CRA weight and LIHTC synergy for selected site\n- Integration with PMA and HNA tools\n\n## Acceptance Criteria\n- Given a census tract GEOID, return CRA targeting classification\n- Classification shown in deal predictor and PMA outputs\n- Data sourced from ACS or FFIEC LMI tract list\n\n## References\n- \`js/legislative-tracker.js\` — \`getCraTractTargeting()\`\n- \`js/census-stats.js\` — census data layer\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+              {
+                title: 'Write tests and integration with market analysis tools for legislative tracker',
+                body: `## Overview\nExpand test coverage for the legislative tracker module and integrate it with the market analysis pipeline.\n\n## Features\n- Unit tests for all tracker functions\n- Integration test: tracker data flows into deal predictor\n- Smoke test: tracker loads on \`housing-legislation-2026.html\`\n\n## Acceptance Criteria\n- All tracker unit tests pass (148+ tests)\n- Integration test validates bill impact modifies deal prediction outputs\n- No console errors on page load\n\n## References\n- \`test/test_legislative_tracker.js\` — 148 tests (created in PR #460)\n\n_Parent epic: #444_`,
+                labels: ['enhancement'],
+                parentEpic: 444
+              },
+
+              // ── Epic #445: Enhanced LIHTC Deal Prediction Module ─────────────
+              {
+                title: 'Integrate demand scores and affordability gap analysis into LIHTC predictor',
+                body: `## Overview\nEnhance the LIHTC deal prediction module with PMA demand scores and county-level affordability gap metrics for more accurate recommendations.\n\n## Features\n- Pull PMA demand scores directly from market analysis pipeline\n- Incorporate county affordability gap score (0–100) into confidence scoring\n- Display demand/gap context in prediction output\n\n## Acceptance Criteria\n- \`countyAffordabilityGap\` input used in confidence and risk calculations\n- Predictor output reflects demand/gap when data is provided\n- Unit tests cover gap score influence on recommendations\n\n## References\n- \`js/lihtc-deal-predictor.js\` — \`countyAffordabilityGap\` input (added in PR #460)\n- \`data/hna/chas_affordability_gap.json\` — affordability gap data\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+              {
+                title: 'Connect HUD FMR/AMI data and implement QCT/DDA basis boost logic',
+                body: `## Overview\nConnect the deal predictor to HUD Fair Market Rent (FMR) data for rent feasibility analysis and refine QCT/DDA basis boost calculations.\n\n## Features\n- \`fmrData\` input: bedroom-level FMR from HUD FMR connector\n- \`fmrAlignment\` output: max rents at 30/50/60% AMI vs. FMR\n- QCT/DDA 30% basis boost in capital stack\n\n## Acceptance Criteria\n- FMR alignment computed for 1BR, 2BR, 3BR units when \`fmrData\` provided\n- \`fmrAlignment\` null when \`fmrData\` not provided (no regression)\n- QCT/DDA basis boost applied in capital stack calculation\n\n## References\n- \`js/lihtc-deal-predictor.js\` — \`fmrData\` / \`_computeFmrAlignment()\` (added in PR #460)\n- \`js/data-connectors/hud-fmr.js\` — HUD FMR connector\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+              {
+                title: 'Expand 4% vs 9% LIHTC analysis (PAB cap, scenarios)',
+                body: `## Overview\nEnhance the 4% vs 9% execution decision with Private Activity Bond (PAB) volume cap awareness and scenario comparison.\n\n## Features\n- \`pabCapAvailable\` input: shifts 4% recommendation to Either when cap unavailable\n- \`pabCapNote\` output: actionable guidance on PAB status\n- Scenario comparison table: 4% vs 9% side-by-side\n\n## Acceptance Criteria\n- \`pabCapAvailable=false\` prevents 4% recommendation for large-scale projects\n- \`pabCapNote\` string provided for 4% paths; null for 9% paths\n- Caveat added when large project and PAB status unknown\n\n## References\n- \`js/lihtc-deal-predictor.js\` — \`pabCapAvailable\` / \`_pabCapNote()\` (added in PR #460)\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+              {
+                title: 'Develop risk modeling and scenario sensitivity tools for LIHTC predictor',
+                body: `## Overview\nAdd scenario sensitivity analysis to understand how changes in equity pricing, demand, and market saturation affect deal feasibility.\n\n## Features\n- Equity pricing range (±3¢ from base price)\n- Demand signal range (PMA score ±10 points)\n- Market saturation range (competitive set ±2 projects)\n\n## Acceptance Criteria\n- \`scenarioSensitivity\` object returned for all recommendation paths\n- Ranges computed based on actual input values\n- UI component shows sensitivity ranges with explanation\n\n## References\n- \`js/lihtc-deal-predictor.js\` — \`_computeScenarioSensitivity()\` (added in PR #460)\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+              {
+                title: 'Analyze and visualize CHFA historical awards for prediction context',
+                body: `## Overview\nIntegrate CHFA historical award data to provide context on county-level award patterns and QAP competitiveness signals.\n\n## Features\n- \`chfaHistoricalAwards\` input: awards in county (last 5 years)\n- \`chfaAwardContext\` output: award signal (low/moderate/high), QAP note\n- UI component showing county award history\n\n## Acceptance Criteria\n- Award signal correct: 0=low, 1-2=moderate, 3+=high\n- QAP note included for 9% paths with award data\n- \`chfaAwardContext\` null when no award data provided\n\n## References\n- \`js/lihtc-deal-predictor.js\` — \`_computeChfaAwardContext()\` (added in PR #460)\n- \`data/policy/chfa-awards-historical.json\` — historical award data\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+              {
+                title: 'Build and validate all LIHTC predictor logic branches with tests',
+                body: `## Overview\nExpand the LIHTC deal predictor test suite to cover all Phase 3 logic branches, including PAB cap, FMR alignment, scenario sensitivity, and CHFA award context.\n\n## Acceptance Criteria\n- 110+ unit tests passing for \`lihtc-deal-predictor.js\`\n- All Phase 3 new inputs/outputs covered\n- Edge cases handled: null inputs, NaN, zero units\n- Legacy \`predict()\` backward compatibility verified\n\n## References\n- \`test/test_lihtc_deal_predictor.js\` — 110 tests (updated in PR #460)\n\n_Parent epic: #445_`,
+                labels: ['enhancement'],
+                parentEpic: 445
+              },
+
+              // ── Epic #446: Documentation, Testing, and Implementation Guidance ─
+              {
+                title: 'Update and expand implementation guides for Phase 3 features',
+                body: `## Overview\nCreate comprehensive implementation guides for all Phase 3 modules covering usage, integration patterns, and configuration.\n\n## Acceptance Criteria\n- \`docs/PHASE3_PLAN.md\` — Phase 3 breakdown with sub-issue tracking\n- \`docs/PHASE3_IMPLEMENTATION_GUIDE.md\` — usage guide for all Phase 3 modules\n- Each module has API reference with examples\n- CI/workflow failure resolution documented\n\n## References\n- \`docs/PHASE3_PLAN.md\` — created in PR #460\n- \`docs/PHASE3_IMPLEMENTATION_GUIDE.md\` — created in PR #460\n\n_Parent epic: #446_`,
+                labels: ['enhancement'],
+                parentEpic: 446
+              },
+              {
+                title: 'Set up auto-generation for API/code documentation',
+                body: `## Overview\nConfigure automated documentation generation for Phase 3 JavaScript modules using JSDoc or similar tooling.\n\n## Features\n- JSDoc comments on all public API functions\n- Automated HTML doc generation via CI\n- Docs deployed alongside site\n\n## Acceptance Criteria\n- \`docs-sync.yml\` workflow generates docs on push to main\n- All Phase 3 module functions have JSDoc comments\n- Generated docs accessible at known URL\n\n## References\n- \`.github/workflows/docs-sync.yml\` — existing docs sync workflow\n\n_Parent epic: #446_`,
+                labels: ['enhancement'],
+                parentEpic: 446
+              },
+              {
+                title: 'Expand unit, integration, and smoke tests for all new Phase 3 modules',
+                body: `## Overview\nEnsure all Phase 3 code has comprehensive test coverage across unit, integration, and smoke test layers.\n\n## Acceptance Criteria\n- 110+ unit tests for \`lihtc-deal-predictor.js\` ✅\n- 148+ unit tests for \`legislative-tracker.js\` ✅\n- Integration tests: tracker data flows into predictor\n- Smoke test: all Phase 3 scripts load without errors on relevant HTML pages\n\n## References\n- \`test/test_lihtc_deal_predictor.js\` ✅\n- \`test/test_legislative_tracker.js\` ✅\n- \`test/smoke.test.js\` — smoke test suite\n\n_Parent epic: #446_`,
+                labels: ['enhancement'],
+                parentEpic: 446
+              },
+              {
+                title: 'Configure CI workflow for docs sync and coverage tracking',
+                body: `## Overview\nSet up CI automation for documentation synchronization and test coverage reporting.\n\n## Features\n- Docs sync workflow triggered on push to main\n- Coverage report generated after test run\n- Badge in README showing coverage %\n\n## Acceptance Criteria\n- \`docs-sync.yml\` runs automatically on main branch push\n- Coverage report posted as PR comment\n- Coverage threshold enforced (e.g., >80%)\n\n## References\n- \`.github/workflows/docs-sync.yml\`\n- \`.github/workflows/ci-checks.yml\`\n\n_Parent epic: #446_`,
+                labels: ['enhancement'],
+                parentEpic: 446
+              },
+
+              // ── Epic #447: Data Quality, Monitoring & Infrastructure ──────────
+              {
+                title: 'Expand GitHub Actions monitoring and endpoint audits',
+                body: `## Overview\nEnhance the monitoring workflows to provide comprehensive coverage of all data refresh jobs and critical endpoints.\n\n## Features\n- Daily audit of all critical endpoints (Census, HUD, FRED, TIGERweb)\n- Alert on endpoint downtime or data freshness failures\n- Weekly summary report\n\n## Acceptance Criteria\n- \`daily-audit-system.yml\` covers all critical data endpoints\n- Alerts created as GitHub issues on failure\n- No endpoint failures go undetected for >24 hours\n\n## References\n- \`.github/workflows/daily-audit-system.yml\`\n- \`.github/workflows/audit-endpoints.yml\`\n\n_Parent epic: #447_`,
+                labels: ['enhancement'],
+                parentEpic: 447
+              },
+              {
+                title: 'Enhance ETL/API data validations and error reporting',
+                body: `## Overview\nStrengthen data validation in all ETL scripts and API fetch processes to detect and report data quality issues.\n\n## Features\n- Schema validation for all ETL outputs (FIPS codes, required fields, nulls)\n- Error reporting with actionable messages\n- Pre-commit check enforcement for data files\n\n## Acceptance Criteria\n- All FIPS codes validated as 5-digit strings (Rule 1)\n- Required numeric fields validated against null (Rule 2)\n- ETL scripts fail loudly (non-zero exit) on validation error\n\n## References\n- \`scripts/pre_commit_check.py\`\n- \`scripts/validate-critical-data.js\`\n\n_Parent epic: #447_`,
+                labels: ['enhancement'],
+                parentEpic: 447
+              },
+              {
+                title: 'Run accessibility audits and implement WCAG 2.1 AA compliance',
+                body: `## Overview\nEnsure all Phase 3 HTML pages and interactive components meet WCAG 2.1 AA accessibility standards.\n\n## Features\n- Automated WCAG audit in CI\n- aria-live regions for dynamic content updates\n- canvas elements with role="img" and aria-label\n- Skip navigation and landmark structure\n\n## Acceptance Criteria\n- All 46 WCAG checks pass in \`tests/test_stage3_accessibility.py\`\n- Contrast audit passes for all new components\n- New Phase 3 pages (legislative tracker UI) pass audit\n\n## References\n- \`tests/test_stage3_accessibility.py\`\n- \`.github/workflows/contrast-audit.yml\`\n- \`css/site-theme.css\` — --accent: #096e65 (WCAG AA compliant)\n\n_Parent epic: #447_`,
+                labels: ['enhancement'],
+                parentEpic: 447
+              },
+              {
+                title: 'Implement real-time health/quality UI indicators',
+                body: `## Overview\nAdd visual health and data quality indicators across all dashboards to surface data freshness and system status in real time.\n\n## Features\n- Data freshness badges on all chart cards\n- Workflow status indicators (pass/fail/stale)\n- Quality score display in data-status footer\n\n## Acceptance Criteria\n- All dashboard pages show data freshness indicator\n- Staleness threshold configurable (e.g., >7 days = stale)\n- Indicators accessible (aria-label on status icons)\n\n## References\n- \`js/data-freshness.js\`\n- \`js/data-status-footer.js\`\n- \`data-status.html\`\n\n_Parent epic: #447_`,
+                labels: ['enhancement'],
+                parentEpic: 447
+              },
+              {
+                title: 'Automated tests for all new and updated GitHub Actions workflows',
+                body: `## Overview\nCreate automated tests that validate GitHub Actions workflow files and verify workflow behavior on known inputs.\n\n## Features\n- Workflow YAML schema validation\n- Workflow smoke tests: confirm jobs run and produce expected artifacts\n- Integration with CI checks\n\n## Acceptance Criteria\n- All new Phase 3 workflows pass schema validation\n- Smoke test for \`build-market-data.yml\` with mock Census API response\n- Workflow failures auto-create GitHub issues (existing pattern)\n\n## References\n- \`.github/workflows/ci-checks.yml\`\n- \`test/daily-audit-system.js\`\n\n_Parent epic: #447_`,
+                labels: ['enhancement'],
+                parentEpic: 447
+              }
+            ];
+
+            const epicLinks = {
+              444: 'https://github.com/pggLLC/Housing-Analytics/issues/444',
+              445: 'https://github.com/pggLLC/Housing-Analytics/issues/445',
+              446: 'https://github.com/pggLLC/Housing-Analytics/issues/446',
+              447: 'https://github.com/pggLLC/Housing-Analytics/issues/447'
+            };
+
+            const created = [];
+            for (const sub of subIssues) {
+              console.log(`Creating: ${sub.title.substring(0, 60)}...`);
+              if (dryRun) {
+                console.log(`  [DRY RUN] Would create issue under Epic #${sub.parentEpic}`);
+                created.push({ title: sub.title, parentEpic: sub.parentEpic, number: 'N/A (dry run)' });
+                continue;
+              }
+              try {
+                const response = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo:  context.repo.repo,
+                  title: sub.title,
+                  body:  sub.body,
+                  labels: sub.labels
+                });
+                created.push({
+                  title: sub.title,
+                  parentEpic: sub.parentEpic,
+                  number: response.data.number,
+                  url: response.data.html_url
+                });
+                console.log(`  ✅ Created #${response.data.number}: ${sub.title.substring(0, 50)}`);
+                // Small delay to avoid rate limiting
+                await new Promise(r => setTimeout(r, 500));
+              } catch (err) {
+                console.error(`  ❌ Failed to create issue: ${err.message}`);
+              }
+            }
+
+            // Write summary
+            let summary = '## Phase 3 Sub-Issues Created\n\n';
+            const epics = [444, 445, 446, 447];
+            const epicNames = {
+              444: 'Legislative & CRA Expansion Tracker',
+              445: 'Enhanced LIHTC Deal Prediction Module',
+              446: 'Documentation, Testing, and Implementation Guidance',
+              447: 'Data Quality, Monitoring & Infrastructure Enhancements'
+            };
+            for (const epicNum of epics) {
+              summary += `\n### Epic #${epicNum}: ${epicNames[epicNum]}\n\n`;
+              const epicIssues = created.filter(i => i.parentEpic === epicNum);
+              for (const issue of epicIssues) {
+                const link = issue.url ? `[#${issue.number}](${issue.url})` : `#${issue.number}`;
+                summary += `- ${link}: ${issue.title}\n`;
+              }
+            }
+
+            const summaryFile = process.env.GITHUB_STEP_SUMMARY;
+            if (summaryFile) {
+              const fs = require('fs');
+              try {
+                fs.appendFileSync(summaryFile, summary);
+              } catch (err) {
+                console.error('Warning: could not write to GITHUB_STEP_SUMMARY:', err.message);
+              }
+            }
+            console.log('\n' + summary);
