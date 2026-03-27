@@ -2019,10 +2019,11 @@
       const lowPop = (seriesByScenario.low_growth || [])[endIdx]?.population;
       const highPop = (seriesByScenario.high_growth || [])[endIdx]?.population;
       const fmt = U().fmtNum;
+      const vintage = baseYear || new Date().getFullYear();
       const parts = [`By ${endYear}: Baseline population ${fmt(baselinePop)}`];
       if (lowPop !== undefined) parts.push(`Low growth ${fmt(lowPop)}`);
       if (highPop !== undefined) parts.push(`High growth ${fmt(highPop)}`);
-      summaryEl.textContent = parts.join(' · ') + '. Source: DOLA SDO 2024 vintage, cohort-component model.';
+      summaryEl.textContent = parts.join(' · ') + `. Source: DOLA SDO ${vintage} vintage, cohort-component model.`;
       summaryEl.style.display = '';
     }
   }
