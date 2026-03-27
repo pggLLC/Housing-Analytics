@@ -1121,7 +1121,6 @@ def generate_maps(
 
     # Building permits per capita map
     if bps is not None and not bps.empty and acs_df is not None and not acs_df.empty:
-        latest_year = max(cfg.ACS_COHORTS)
         bps_agg = (
             bps.groupby("county_fips")["total_units"]
             .mean()
