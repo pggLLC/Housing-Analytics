@@ -98,7 +98,7 @@ except ImportError:  # pragma: no cover
     HAS_SKLEARN = False
 
 try:
-    import pyarrow  # type: ignore  # noqa: F401
+    __import__("pyarrow")  # type: ignore
     HAS_PYARROW = True
 except ImportError:  # pragma: no cover
     HAS_PYARROW = False
