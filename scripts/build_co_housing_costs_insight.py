@@ -820,15 +820,6 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
 
     df = pd.DataFrame(rows)
 
-    # 5-year average permits per county
-    pop_col = "total_units"
-    avg_permits = (
-        df.groupby("county_fips")[pop_col]
-        .mean()
-        .reset_index()
-        .rename(columns={pop_col: "avg_annual_units_5y"})
-    )
-
     # Merge with ACS population for per-capita (will be done in model stage)
     if HAS_PYARROW:
         df.to_parquet(cache_path, index=False)
