@@ -104,9 +104,8 @@ except ImportError:  # pragma: no cover
 
 # Prevent unused-variable warnings for optional dependency flags in tools like CodeQL.
 # This does not affect runtime behavior but documents their intended presence.
-_OPTIONAL_DEPENDENCY_FLAGS = (
+_ = (
     HAS_PANDAS,
-    HAS_GEOPANDAS,
     HAS_FOLIUM,
     HAS_MATPLOTLIB,
     HAS_SKLEARN,
