@@ -1,17 +1,18 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-27T14:17:25.654Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-27T15:37:21.168Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-34 pages found.
+35 pages found.
 
 | File | Title | Size |
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.3 KB |
 | `about.html` | About | COHO Analytics | 15.1 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 26.6 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
@@ -31,7 +32,7 @@
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 78.7 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
-| `insights.html` | Market Insights | COHO Analytics | 21.5 KB |
+| `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
@@ -1013,7 +1014,7 @@
 
 ## GitHub Actions Workflows
 
-33 workflow files found.
+34 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1047,6 +1048,7 @@
 | `.github/workflows/run-all-workflows.yml` | 8.8 KB |
 | `.github/workflows/site-audit.yml` | 1.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 1.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 1.4 KB |
