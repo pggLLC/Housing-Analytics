@@ -1947,8 +1947,8 @@
           datasets: [{
             label: 'Households (DOLA forecast)',
             data:  hhSeries.map(d => d.households),
-            borderColor: U().PROJECTION_SCENARIOS.baseline.color,
-            backgroundColor: U().PROJECTION_SCENARIOS.baseline.color + '22',
+            borderColor: t.chartColors[0],
+            backgroundColor: t.chartColors[0] + '22',
             borderWidth: 2,
             pointRadius: 2,
             tension: 0.25,
@@ -1980,6 +1980,21 @@
     const demandCanvas = document.getElementById('chartHouseholdDemand');
     if (demandCanvas){
       const hhDola = proj?.housing_need?.households_dola || [];
+      // Scale household projections by the selected scenario's growth multiplier so
+      // the demand chart responds when the user switches between baseline/low/high.
+      const GROWTH_MULT_HH = { baseline: 1.0, low_growth: 0.55, high_growth: 1.5 };
+      const scenMultHH = seriesByScenario[sc] && seriesByScenario[sc].length > 1
+        ? (() => {
+            // Derive the effective multiplier from the scenario population series
+            // relative to the baseline series at the last available year.
+            const base  = seriesByScenario.baseline;
+            const scSer = seriesByScenario[sc];
+            if (!base || !base.length || !scSer || !scSer.length) return 1;
+            const lastBase = base[base.length - 1].population;
+            const lastSc   = scSer[scSer.length - 1].population;
+            return lastBase > 0 ? lastSc / lastBase : 1;
+          })()
+        : (GROWTH_MULT_HH[sc] || 1);
       // Statewide CO renter share (ACS 5-year): ~35% of households rent
       const RENTER_SHARE = 0.35;
       // Statewide income-tier distribution for renter households (ACS CHAS CO defaults)
@@ -1992,7 +2007,7 @@
         if (dsCount > SCENARIO_HORIZON) break;
         const hh = hhDola[i] !== undefined ? Number(hhDola[i]) : null;
         const scaledHH = (Number.isFinite(hh) && shareFactors[i] !== undefined)
-          ? hh * shareFactors[i]
+          ? hh * shareFactors[i] * scenMultHH
           : hh;
         if (!Number.isFinite(scaledHH)){ dsCount++; continue; }
         const renters = scaledHH * RENTER_SHARE;
@@ -2023,6 +2038,7 @@
     const ctx = opts.canvas.getContext('2d');
     const scenarioMeta = U().PROJECTION_SCENARIOS[scenario] || U().PROJECTION_SCENARIOS.baseline;
     const t = chartTheme();
+    const color = t.chartColors[typeof scenarioMeta.colorIdx === 'number' ? scenarioMeta.colorIdx : 0];
 
     // Build a synthetic forward series from the basePopSeries if provided,
     // or fall back to a placeholder so the chart always renders.
@@ -2052,8 +2068,8 @@
         datasets: [{
           label: `Population — ${scenarioMeta.label}`,
           data:   values,
-          borderColor: scenarioMeta.color,
-          backgroundColor: scenarioMeta.color + '22',
+          borderColor: color,
+          backgroundColor: color + '22',
           borderWidth: 2,
           pointRadius: 2,
           tension: 0.25,
@@ -2108,16 +2124,17 @@
     }
     const labels = Array.from(allYears).sort((a,b) => a-b);
 
-    const datasets = scenario_names.map(sc => {
+    const datasets = scenario_names.map((sc, idx) => {
       const meta   = U().PROJECTION_SCENARIOS[sc] || U().PROJECTION_SCENARIOS.baseline;
       const series = seriesByScenario[sc] || [];
       const byYear = {};
       series.forEach(pt => { byYear[Number(pt.year)] = Number(pt.population) || null; });
       const data = labels.map(y => byYear[y] !== undefined ? byYear[y] : null);
+      const color = t.chartColors[typeof meta.colorIdx === 'number' ? meta.colorIdx : idx % t.chartColors.length];
       return {
         label: meta.label,
         data,
-        borderColor: meta.color,
+        borderColor: color,
         borderWidth: 2,
         pointRadius: 2,
         tension: 0.25,
@@ -2173,7 +2190,7 @@
       : Object.keys(U().AMI_TIER_LABELS);
 
     const labels   = demandSeries.map(d => `Year +${d.year_offset}`);
-    const datasets = tiers.map(tier => {
+    const datasets = tiers.map((tier, i) => {
       const data = demandSeries.map(d => {
         if (!d.demand_by_ami) return 0;
         if (tenure === 'both'){
@@ -2182,10 +2199,13 @@
         }
         return (d.demand_by_ami[tenure] || {})[tier] || 0;
       });
+      const colorIdx = U().AMI_TIER_COLOR_IDX
+        ? (U().AMI_TIER_COLOR_IDX[tier] !== undefined ? U().AMI_TIER_COLOR_IDX[tier] : i % t.chartColors.length)
+        : i % t.chartColors.length;
       return {
         label: U().AMI_TIER_LABELS[tier] || tier,
         data,
-        backgroundColor: U().AMI_TIER_COLORS[tier] || '#999',
+        backgroundColor: t.chartColors[colorIdx] || t.chartColors[i % t.chartColors.length],
       };
     });
 
@@ -2799,6 +2819,63 @@
   }
 
   /**
+   * renderDisplacementRisk — populate the displacement risk metric cards from
+   * the ACS profile data already loaded for the selected geography.
+   * Uses the same ACS DP04 field mappings as renderRentBurdenBins and renderSnapshot.
+   */
+  function renderDisplacementRisk(profile) {
+    if (!profile) return;
+
+    const rentBurdenEl   = document.getElementById('drRentBurden');
+    const severeBurdenEl = document.getElementById('drSevereBurden');
+    const renterShareEl  = document.getElementById('drRenterShare');
+    const rentIncomeEl   = document.getElementById('drRentIncomeGap');
+
+    // Rent burden ≥30%: use existing rentBurden30Plus util (DP04_0145PE + DP04_0146PE)
+    const rb30 = U().rentBurden30Plus(profile || {});
+    const burden30Str = rb30 !== null ? U().fmtPct(rb30) : '—';
+
+    // Severe rent burden ≥50%: DP04_0141PE
+    const rb50 = U().safeNum(profile.DP04_0141PE);
+    const burden50Str = rb50 !== null ? U().fmtPct(rb50) : '—';
+
+    // Renter share: DP04_0046PE (renter-occupied % of occupied units)
+    const renterPct = U().safeNum(profile.DP04_0046PE);
+    const renterStr = renterPct !== null ? U().fmtPct(renterPct) : '—';
+
+    // Rent-to-income gap: annual income needed to afford median gross rent at 30% rule
+    const medRent   = U().safeNum(profile.DP04_0134E);
+    const incNeeded = medRent !== null ? U().fmtMoney(medRent * 12 / 0.30) : '—';
+
+    if (rentBurdenEl)   rentBurdenEl.textContent   = burden30Str;
+    if (severeBurdenEl) severeBurdenEl.textContent  = burden50Str;
+    if (renterShareEl)  renterShareEl.textContent   = renterStr;
+    if (rentIncomeEl)   rentIncomeEl.textContent    = incNeeded;
+
+    // Colour-code rent-burden card based on DLG thresholds
+    const burdenNum = rb30 !== null ? rb30 : NaN;
+    if (rentBurdenEl) {
+      const card = rentBurdenEl.closest('.displacement-risk-card');
+      if (card) {
+        card.classList.remove('risk-high', 'risk-moderate', 'risk-low');
+        if (burdenNum >= 45)      card.classList.add('risk-high');
+        else if (burdenNum >= 30) card.classList.add('risk-moderate');
+        else if (!isNaN(burdenNum)) card.classList.add('risk-low');
+      }
+    }
+    const severeNum = rb50 !== null ? rb50 : NaN;
+    if (severeBurdenEl) {
+      const card = severeBurdenEl.closest('.displacement-risk-card');
+      if (card) {
+        card.classList.remove('risk-high', 'risk-moderate', 'risk-low');
+        if (severeNum >= 20)      card.classList.add('risk-high');
+        else if (severeNum >= 12) card.classList.add('risk-moderate');
+        else if (!isNaN(severeNum)) card.classList.add('risk-low');
+      }
+    }
+  }
+
+  /**
    * renderExtendedAnalysis — Orchestrates all extended HNA section renders.
    */
   function renderExtendedAnalysis(profile, geoType) {
@@ -2808,6 +2885,7 @@
     renderOwnerCostBurdenChart(profile);
     renderHousingGapSummary(profile, geoType);
     renderSpecialNeedsPanel(profile);
+    renderDisplacementRisk(profile);
   }
 
   window.HNARenderers = {
@@ -2824,6 +2902,6 @@
     renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
     renderLocalResources, renderMethodology, renderFmrPanel,
     showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
-    renderExtendedAnalysis,
+    renderExtendedAnalysis, renderDisplacementRisk,
   };
 })();

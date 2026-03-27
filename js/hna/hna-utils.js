@@ -816,17 +816,17 @@
     baseline: {
       label: 'Baseline',
       description: 'Moderate growth following recent historical trends. Fertility holds steady; migration reflects the 2018–2023 average.',
-      color: '#4a90d9',
+      colorIdx: 0, // resolves to var(--chart-1) at render time
     },
     low_growth: {
       label: 'Low growth',
       description: 'Slowing in-migration, modest fertility decline, slightly elevated mortality. Reflects affordability-driven headwinds.',
-      color: '#e07b39',
+      colorIdx: 5, // resolves to var(--chart-6) at render time
     },
     high_growth: {
       label: 'High growth',
       description: 'Accelerated in-migration driven by economic expansion, slightly above-trend fertility, continued mortality improvement.',
-      color: '#4caf50',
+      colorIdx: 4, // resolves to var(--chart-5) at render time
     },
   };
 
@@ -840,14 +840,18 @@
     'above_120_ami':'Above 120% AMI',
   };
 
-  const AMI_TIER_COLORS = {
-    '30_ami':       '#d32f2f',
-    '50_ami':       '#f57c00',
-    '80_ami':       '#fbc02d',
-    '100_ami':      '#388e3c',
-    '120_ami':      '#1976d2',
-    'above_120_ami':'#7b1fa2',
+  // AMI tier color indices — resolved to var(--chart-N) tokens at render time (Rule 10)
+  const AMI_TIER_COLOR_IDX = {
+    '30_ami':        6, // var(--chart-7)
+    '50_ami':        5, // var(--chart-6)
+    '80_ami':        3, // var(--chart-4)
+    '100_ami':       4, // var(--chart-5)
+    '120_ami':       1, // var(--chart-2)
+    'above_120_ami': 2, // var(--chart-3)
   };
+
+  // Legacy alias kept for external callers; resolved at render time via chartTheme().
+  const AMI_TIER_COLORS = AMI_TIER_COLOR_IDX;
 
   /**
    * renderProjectionChart — draw a line chart of projected population for one
@@ -888,6 +892,7 @@
     PROJECTION_SCENARIOS,
     AMI_TIER_LABELS,
     AMI_TIER_COLORS,
+    AMI_TIER_COLOR_IDX,
     // functions
     redactKey,
     fmtNum,
