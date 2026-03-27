@@ -102,7 +102,7 @@
 
   const QUICK_PRESETS = {
     all:         () => { _filterType = ''; _filterRegion = ''; _searchText = ''; },
-    top10:       () => { _filterType = ''; _filterRegion = ''; _searchText = ''; _sortMetric = 'housing_gap_units'; _sortDir = 'desc'; },
+    top10:       () => { _filterType = ''; _filterRegion = ''; _searchText = ''; _sortMetric = 'overall_need_score'; _sortDir = 'desc'; },
     counties:    () => { _filterType = 'county'; },
     places:      () => { _filterType = 'place'; },
     cdps:        () => { _filterType = 'cdp'; },
