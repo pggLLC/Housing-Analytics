@@ -119,6 +119,29 @@ def load_chas() -> dict[str, dict]:
     return {}
 
 
+def load_lehd_index() -> dict[str, dict]:
+    """Return dict keyed by 5-digit county FIPS with LEHD commuting data.
+
+    Only county-level LEHD files (8-digit filenames like '08001.json') are
+    loaded; place/CDP files are excluded because they roll up to county.
+    """
+    lehd_dir = os.path.join(ROOT, "data", "hna", "lehd")
+    result: dict[str, dict] = {}
+    if not os.path.isdir(lehd_dir):
+        return result
+    for fname in os.listdir(lehd_dir):
+        if not fname.endswith(".json"):
+            continue
+        fips = fname[:-5].zfill(5)
+        # Only 5-digit county FIPS files (e.g. 08001.json)
+        if len(fips) != 5:
+            continue
+        data = _load_json(os.path.join(lehd_dir, fname))
+        if data and isinstance(data, dict):
+            result[fips] = data
+    return result
+
+
 def load_projection(county_fips5: str) -> dict | None:
     """Load DOLA population projection for a county."""
     path = os.path.join(ROOT, "data", "hna", "projections", f"{county_fips5}.json")
@@ -141,13 +164,21 @@ def compute_metrics(
     summary: dict,
     ami_gap_by_county: dict[str, dict],
     chas_by_county: dict[str, dict],
+    lehd_by_county: dict[str, dict],
 ) -> dict:
     """Derive ranking metrics from a summary record.
 
     Returns a metrics dict with:
       housing_gap_units          int   — gap at 30% AMI (county-only; place: scaled by pop share)
+      ami_gap_50pct              int   — unit deficit at 50% AMI (additional beyond 30%)
+      ami_gap_60pct              int   — unit deficit at 60% AMI (additional beyond 50%)
       pct_cost_burdened          float — % renters paying ≥30% of income (CHAS or ACS fallback)
-      ami_gap_30pct              int   — units gap at 30% AMI (same as housing_gap_units)
+      pct_burdened_lte30         float — CHAS: % of ≤30% AMI renters that are cost-burdened
+      pct_burdened_31to50        float — CHAS: % of 31–50% AMI renters that are cost-burdened
+      pct_burdened_51to80        float — CHAS: % of 51–80% AMI renters that are cost-burdened
+      missing_ami_tiers          list  — AMI bands with coverage < 75% and deficit > 100 units
+      in_commuters               int   — LEHD inflow (workers coming in from other counties)
+      commute_ratio              float — inflow / (inflow + within), 0–100 pct
       population_projection_20yr int   — projected population 20 years out
       population                 int   — current ACS population
       median_hh_income           int   — ACS median household income
@@ -202,41 +233,89 @@ def compute_metrics(
     # --- AMI gap at 30% AMI (housing unit deficit) ---
     housing_gap_units = 0
     ami_gap_30 = 0
+    ami_gap_50 = 0
+    ami_gap_60 = 0
+    missing_ami_tiers: list[str] = []
     if county_fips5 and county_fips5 in ami_gap_by_county:
         county_data = ami_gap_by_county[county_fips5]
         gap_dict = county_data.get("gap_units_minus_households_le_ami_pct", {})
-        raw_gap = safe_float(gap_dict.get("30", 0))
-        # gap is negative (deficit), convert to positive "units needed"
-        county_gap = int(abs(raw_gap))
+        coverage_dict = county_data.get("coverage_le_ami_pct", {})
+
+        def _county_gap_abs(band: str) -> int:
+            return int(abs(safe_float(gap_dict.get(band, 0))))
+
+        county_gap_30 = _county_gap_abs("30")
+        county_gap_50 = _county_gap_abs("50")
+        county_gap_60 = _county_gap_abs("60")
+
         if geo_type == "county":
-            housing_gap_units = county_gap
+            housing_gap_units = county_gap_30
+            ami_gap_50 = county_gap_50
+            ami_gap_60 = county_gap_60
         else:
             # Scale by population share within county
-            county_pop = safe_float(
-                ami_gap_by_county[county_fips5].get("households_le_ami_pct", {}).get("100", 0)
-            )
-            # fallback: use county summary data pop to scale
             county_pop_fallback = safe_float(
                 county_data.get("households_le_ami_pct", {}).get("100", households or 1)
             )
             place_pop = population or 0
             county_total = county_pop_fallback or 1
             share = min(place_pop / county_total, 1.0) if county_total else 0.0
-            housing_gap_units = int(county_gap * share)
+            housing_gap_units = int(county_gap_30 * share)
+            ami_gap_50 = int(county_gap_50 * share)
+            ami_gap_60 = int(county_gap_60 * share)
         ami_gap_30 = housing_gap_units
 
-    # --- CHAS cost-burden override (county only) ---
-    if geo_type == "county" and county_fips5 in chas_by_county:
+        # Identify missing AMI tiers: coverage < 75% and absolute deficit > 100 units
+        for band, label in [("30", "30%"), ("40", "40%"), ("50", "50%"),
+                            ("60", "60%"), ("70", "70%"), ("80", "80%")]:
+            cov = safe_float(coverage_dict.get(band, 1.0))
+            raw_deficit = int(abs(safe_float(gap_dict.get(band, 0))))
+            # Scale deficit to place/CDP size if needed
+            deficit = raw_deficit if geo_type == "county" else int(
+                raw_deficit * (min(population / max(county_pop_fallback, 1), 1.0) if county_pop_fallback else 0.0)
+            )
+            if cov < 0.75 and deficit > 100:
+                missing_ami_tiers.append(label)
+
+    # --- CHAS cost-burden override and demographic stratification (county only) ---
+    pct_burdened_lte30 = 0.0
+    pct_burdened_31to50 = 0.0
+    pct_burdened_51to80 = 0.0
+    if county_fips5 in chas_by_county:
         chas_county = chas_by_county[county_fips5]
         renter_data = chas_county.get("renter_hh_by_ami", {})
-        # Aggregate: total cost-burdened / total renter households across all tiers
-        total_renter_hh = 0
-        total_burdened = 0
-        for _tier, tier_data in renter_data.items():
-            total_renter_hh += safe_float(tier_data.get("total", 0))
-            total_burdened += safe_float(tier_data.get("cost_burdened", 0))
-        if total_renter_hh > 0:
-            pct_cost_burdened = round((total_burdened / total_renter_hh) * 100, 1)
+
+        def _tier_pct(key: str) -> float:
+            td = renter_data.get(key, {})
+            total = safe_float(td.get("total", 0))
+            burdened = safe_float(td.get("cost_burdened", 0))
+            return round((burdened / total) * 100, 1) if total > 0 else 0.0
+
+        pct_burdened_lte30   = _tier_pct("lte30")
+        pct_burdened_31to50  = _tier_pct("31to50")
+        pct_burdened_51to80  = _tier_pct("51to80")
+
+        if geo_type == "county":
+            # Aggregate overall cost burden from CHAS (more precise than ACS)
+            total_renter_hh = 0
+            total_burdened = 0
+            for _tier, tier_data in renter_data.items():
+                total_renter_hh += safe_float(tier_data.get("total", 0))
+                total_burdened += safe_float(tier_data.get("cost_burdened", 0))
+            if total_renter_hh > 0:
+                pct_cost_burdened = round((total_burdened / total_renter_hh) * 100, 1)
+
+    # --- LEHD in-commuting stats (county level; places inherit containing county) ---
+    in_commuters = 0
+    commute_ratio = 0.0
+    if county_fips5 and county_fips5 in lehd_by_county:
+        lehd = lehd_by_county[county_fips5]
+        raw_inflow  = int(safe_float(lehd.get("inflow",  0)))
+        raw_within  = int(safe_float(lehd.get("within",  0)))
+        in_commuters = raw_inflow
+        total_employed = raw_inflow + raw_within
+        if total_employed > 0:
+            commute_ratio = round((raw_inflow / total_employed) * 100, 1)
 
     # --- 20-year population projection ---
     population_projection_20yr = 0
@@ -270,6 +349,14 @@ def compute_metrics(
         "housing_gap_units": housing_gap_units,
         "pct_cost_burdened": round(pct_cost_burdened, 1),
         "ami_gap_30pct": ami_gap_30,
+        "ami_gap_50pct": ami_gap_50,
+        "ami_gap_60pct": ami_gap_60,
+        "pct_burdened_lte30": pct_burdened_lte30,
+        "pct_burdened_31to50": pct_burdened_31to50,
+        "pct_burdened_51to80": pct_burdened_51to80,
+        "missing_ami_tiers": missing_ami_tiers,
+        "in_commuters": in_commuters,
+        "commute_ratio": commute_ratio,
         "population_projection_20yr": population_projection_20yr,
         "population": population,
         "median_hh_income": median_income,
@@ -310,8 +397,10 @@ def build() -> None:
     print("Loading cross-reference datasets…", file=sys.stderr)
     ami_gap = load_ami_gap()
     chas = load_chas()
+    lehd = load_lehd_index()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
+    print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
 
     # Load all summary files
     all_files = sorted(glob.glob(os.path.join(summary_dir, "*.json")))
@@ -346,13 +435,21 @@ def build() -> None:
         region = COUNTY_REGION.get(county_fips5, "Other")
 
         try:
-            metrics = compute_metrics(summary, ami_gap, chas)
+            metrics = compute_metrics(summary, ami_gap, chas, lehd)
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
             metrics = {
                 "housing_gap_units": 0,
                 "pct_cost_burdened": 0.0,
                 "ami_gap_30pct": 0,
+                "ami_gap_50pct": 0,
+                "ami_gap_60pct": 0,
+                "pct_burdened_lte30": 0.0,
+                "pct_burdened_31to50": 0.0,
+                "pct_burdened_51to80": 0.0,
+                "missing_ami_tiers": [],
+                "in_commuters": 0,
+                "commute_ratio": 0.0,
                 "population_projection_20yr": 0,
                 "population": 0,
                 "median_hh_income": 0,
@@ -390,8 +487,27 @@ def build() -> None:
     print(f"Processed: {county_count} counties, {place_count} places, {cdp_count} CDPs",
           file=sys.stderr)
 
+    # Compute percentile ranks for the three components of overall_need_score
+    pct_gap   = compute_percentile_ranks(entries, "housing_gap_units")
+    pct_cb    = compute_percentile_ranks(entries, "pct_cost_burdened")
+    pct_in    = compute_percentile_ranks(entries, "in_commuters")
+
+    # overall_need_score: weighted composite (0–100) — higher = greater housing need
+    #   50% weight on absolute unit gap at 30% AMI (primary affordability crisis indicator)
+    #   30% weight on cost-burden rate (breadth of affordability stress)
+    #   20% weight on in-commuter pressure (workforce demand without local housing)
+    for e in entries:
+        gid = e["geoid"]
+        score = round(
+            0.50 * pct_gap.get(gid, 0.0)
+            + 0.30 * pct_cb.get(gid, 0.0)
+            + 0.20 * pct_in.get(gid, 0.0),
+            1,
+        )
+        e["metrics"]["overall_need_score"] = score
+
     # Compute percentile ranks for primary metric (housing_gap_units) across all entries
-    pct_ranks = compute_percentile_ranks(entries, "housing_gap_units")
+    pct_ranks = pct_gap  # already computed above
     for e in entries:
         e["percentileRank"] = pct_ranks.get(e["geoid"], 0.0)
 
@@ -408,13 +524,24 @@ def build() -> None:
     else:
         median_gap = 0
 
-    # Sort by housing_gap_units descending and assign rank
-    entries.sort(key=lambda e: e["metrics"]["housing_gap_units"], reverse=True)
+    # Sort by overall_need_score descending, then assign rank
+    entries.sort(key=lambda e: e["metrics"]["overall_need_score"], reverse=True)
     for rank_idx, e in enumerate(entries):
         e["rank"] = rank_idx + 1
 
     # Build output
     metrics_meta = [
+        {
+            "id": "overall_need_score",
+            "label": "Overall Housing Need Score",
+            "description": (
+                "Composite need index (0–100) combining unit gap at 30% AMI (50%), "
+                "cost-burden rate (30%), and in-commuter pressure (20%). "
+                "Higher scores indicate greater overall housing need."
+            ),
+            "unit": "score",
+            "sortOrder": "descending",
+        },
         {
             "id": "housing_gap_units",
             "label": "Housing Units Needed (30% AMI)",
@@ -434,6 +561,55 @@ def build() -> None:
             "label": "Units Needed at 30% AMI",
             "description": "Unit deficit at 30% of Area Median Income",
             "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "ami_gap_50pct",
+            "label": "Units Needed at 50% AMI",
+            "description": "Unit deficit at 50% of Area Median Income",
+            "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "ami_gap_60pct",
+            "label": "Units Needed at 60% AMI",
+            "description": "Unit deficit at 60% of Area Median Income (primary LIHTC tier)",
+            "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "pct_burdened_lte30",
+            "label": "% Burdened at ≤30% AMI",
+            "description": "CHAS: percentage of renter households at or below 30% AMI that are cost-burdened",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "pct_burdened_31to50",
+            "label": "% Burdened at 31–50% AMI",
+            "description": "CHAS: percentage of renter households at 31–50% AMI that are cost-burdened",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "pct_burdened_51to80",
+            "label": "% Burdened at 51–80% AMI",
+            "description": "CHAS: percentage of renter households at 51–80% AMI that are cost-burdened",
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "in_commuters",
+            "label": "In-Commuters (LEHD)",
+            "description": "Workers employed in this county who live in another county (LEHD LODES OD)",
+            "unit": "persons",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "commute_ratio",
+            "label": "In-Commute Ratio",
+            "description": "Share of local jobs filled by workers living outside the county (%)",
+            "unit": "percent",
             "sortOrder": "descending",
         },
         {
@@ -484,7 +660,9 @@ def build() -> None:
             "medianHousingGap": int(median_gap),
             "note": (
                 "Rankings derived from ACS 5-year estimates, DOLA population projections, "
-                "HUD CHAS cost-burden data, and AMI gap modeling. "
+                "HUD CHAS cost-burden data, LEHD LODES commuting flows, and AMI gap modeling. "
+                "Overall need score weights: 50% unit gap (30% AMI), 30% cost-burden rate, "
+                "20% in-commuter pressure. "
                 "Generated by scripts/hna/build_ranking_index.py."
             ),
         },
