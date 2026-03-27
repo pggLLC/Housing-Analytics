@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-24T12:43:05.558Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-27T11:31:57.472Z. Do not edit by hand.
 
 ---
 
@@ -15,7 +15,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.3 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.4 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 474 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.9 KB |
@@ -25,17 +25,17 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.7 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 37.9 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 38.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 9.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 76.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 78.0 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 21.5 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 30.2 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 31.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
@@ -49,7 +49,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-866 JSON files found.
+867 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -72,7 +72,7 @@
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 940.5 KB | ✅ | — |
+| `data/fred-data.json` | 941.4 KB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -907,6 +907,7 @@
 | `data/market/lodes_co.json` | 242.5 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 369 B | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
+| `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 236.2 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 449 B | ✅ | — |
@@ -1035,7 +1036,7 @@
 | `.github/workflows/fetch-chas-data.yml` | 2.5 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 2.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 3.2 KB |
-| `.github/workflows/fetch-fred-data.yml` | 8.3 KB |
+| `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
