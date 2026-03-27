@@ -16,7 +16,7 @@
   const DATA_PATH = 'data/hna/ranking-index.json';
   const HNA_PAGE  = 'housing-needs-assessment.html';
 
-  const DEFAULT_METRIC = 'housing_gap_units';
+  const DEFAULT_METRIC = 'overall_need_score';
   const DEFAULT_SORT_DIR = 'desc';
   const PAGE_SIZE = 100; // rows rendered per batch
 
@@ -102,7 +102,7 @@
 
   const QUICK_PRESETS = {
     all:         () => { _filterType = ''; _filterRegion = ''; _searchText = ''; },
-    top10:       () => { _filterType = ''; _filterRegion = ''; _searchText = ''; _sortMetric = 'housing_gap_units'; _sortDir = 'desc'; },
+    top10:       () => { _filterType = ''; _filterRegion = ''; _searchText = ''; _sortMetric = 'overall_need_score'; _sortDir = 'desc'; },
     counties:    () => { _filterType = 'county'; },
     places:      () => { _filterType = 'place'; },
     cdps:        () => { _filterType = 'cdp'; },
@@ -126,6 +126,7 @@
     if (val === null || val === undefined) return '—';
     if (unit === 'percent') return `${(+val).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
     if (unit === 'dollars') return `$${(+val).toLocaleString('en-US')}`;
+    if (unit === 'score') return `${(+val).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
     return (+val).toLocaleString('en-US');
   }
 
@@ -161,11 +162,12 @@
   // -------------------------------------------------------------------------
 
   const METRIC_COLUMNS = [
+    { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score' },
     { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed' },
     { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened' },
+    { id: 'in_commuters',               label: 'In-Commuters',              mobileLabel: 'In-Commuters' },
     { id: 'population',                 label: 'Population',                mobileLabel: 'Population' },
     { id: 'median_hh_income',           label: 'Median HH\nIncome',         mobileLabel: 'Median Income' },
-    { id: 'population_projection_20yr', label: 'Pop. Projection\n(20 yr)',  mobileLabel: 'Pop. Projection' },
     { id: 'pct_renters',                label: '% Renters',                 mobileLabel: '% Renters' },
   ];
 
@@ -255,7 +257,7 @@
     const filtered = _filteredEntries.length;
 
     if (filtered === 0) {
-      tbody.innerHTML = '<tr><td colspan="11" class="hca-empty">No results match your filters. Try broadening your search.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="12" class="hca-empty">No results match your filters. Try broadening your search.</td></tr>';
     } else {
       renderRows(tbody, total);
     }
@@ -299,6 +301,40 @@
     const total = _allEntries.length;
     const metrics = entry.metrics;
 
+    // Build missing AMI tiers display
+    const missingTiers = Array.isArray(metrics.missing_ami_tiers) ? metrics.missing_ami_tiers : [];
+    const missingTiersHtml = missingTiers.length > 0
+      ? missingTiers.map(t => `<span class="hca-ami-missing-badge">${t}</span>`).join(' ')
+      : '<span style="color:var(--muted);font-size:.83rem">None — market coverage adequate across tiers</span>';
+
+    // Demographic cost-burden stratification (CHAS)
+    const hasDemog = metrics.pct_burdened_lte30 > 0 || metrics.pct_burdened_31to50 > 0 || metrics.pct_burdened_51to80 > 0;
+    const demogHtml = hasDemog ? `
+      <div class="hca-detail-demog">
+        <div class="hca-detail-demog-label">Cost-burden by AMI tier (CHAS)</div>
+        <div class="hca-detail-demog-row">
+          <span class="hca-detail-demog-tier">≤30% AMI</span>
+          <div class="hca-detail-demog-bar-wrap" aria-label="${fmt(metrics.pct_burdened_lte30,'percent')} of renters at ≤30% AMI are cost-burdened">
+            <div class="hca-detail-demog-bar" style="width:${Math.min(metrics.pct_burdened_lte30,100)}%;background:var(--bad,#ef4444)"></div>
+          </div>
+          <span class="hca-detail-demog-val">${fmt(metrics.pct_burdened_lte30,'percent')}</span>
+        </div>
+        <div class="hca-detail-demog-row">
+          <span class="hca-detail-demog-tier">31–50% AMI</span>
+          <div class="hca-detail-demog-bar-wrap" aria-label="${fmt(metrics.pct_burdened_31to50,'percent')} of renters at 31–50% AMI are cost-burdened">
+            <div class="hca-detail-demog-bar" style="width:${Math.min(metrics.pct_burdened_31to50,100)}%;background:var(--warn,#d97706)"></div>
+          </div>
+          <span class="hca-detail-demog-val">${fmt(metrics.pct_burdened_31to50,'percent')}</span>
+        </div>
+        <div class="hca-detail-demog-row">
+          <span class="hca-detail-demog-tier">51–80% AMI</span>
+          <div class="hca-detail-demog-bar-wrap" aria-label="${fmt(metrics.pct_burdened_51to80,'percent')} of renters at 51–80% AMI are cost-burdened">
+            <div class="hca-detail-demog-bar" style="width:${Math.min(metrics.pct_burdened_51to80,100)}%;background:var(--chart-3,#f59e0b)"></div>
+          </div>
+          <span class="hca-detail-demog-val">${fmt(metrics.pct_burdened_51to80,'percent')}</span>
+        </div>
+      </div>` : '';
+
     panel.innerHTML = `
       <button class="hca-detail-close" id="hcaDetailClose" aria-label="Close detail panel">✕</button>
       <div class="hca-detail-title">${entry.name} <span class="hca-type-badge hca-type-${entry.type}" style="vertical-align:middle;">${typeLabel(entry.type)}</span></div>
@@ -308,31 +344,44 @@
           <span class="hca-detail-stat-label">Statewide Rank</span>
         </div>
         <div class="hca-detail-stat">
-          <span class="hca-detail-stat-val">${entry.percentileRank.toFixed(0)}th</span>
-          <span class="hca-detail-stat-label">Percentile (need)</span>
+          <span class="hca-detail-stat-val">${fmt(metrics.overall_need_score,'score')}</span>
+          <span class="hca-detail-stat-label">Overall Need Score</span>
         </div>
         <div class="hca-detail-stat">
           <span class="hca-detail-stat-val">${fmt(metrics.housing_gap_units, 'units')}</span>
           <span class="hca-detail-stat-label">Units Needed (30% AMI)</span>
         </div>
         <div class="hca-detail-stat">
+          <span class="hca-detail-stat-val">${fmt(metrics.ami_gap_50pct, 'units')}</span>
+          <span class="hca-detail-stat-label">Units Needed (50% AMI)</span>
+        </div>
+        <div class="hca-detail-stat">
+          <span class="hca-detail-stat-val">${fmt(metrics.ami_gap_60pct, 'units')}</span>
+          <span class="hca-detail-stat-label">Units Needed (60% AMI)</span>
+        </div>
+        <div class="hca-detail-stat">
           <span class="hca-detail-stat-val">${fmt(metrics.pct_cost_burdened, 'percent')}</span>
           <span class="hca-detail-stat-label">% Rent Burdened</span>
         </div>
         <div class="hca-detail-stat">
-          <span class="hca-detail-stat-val">${fmt(metrics.median_hh_income, 'dollars')}</span>
-          <span class="hca-detail-stat-label">Median HH Income</span>
+          <span class="hca-detail-stat-val">${fmt(metrics.in_commuters, 'units')}</span>
+          <span class="hca-detail-stat-label">In-Commuters</span>
         </div>
         <div class="hca-detail-stat">
-          <span class="hca-detail-stat-val">${fmt(metrics.population, 'units')}</span>
-          <span class="hca-detail-stat-label">Population</span>
+          <span class="hca-detail-stat-val">${fmt(metrics.commute_ratio, 'percent')}</span>
+          <span class="hca-detail-stat-label">In-Commute Ratio</span>
         </div>
       </div>
       <div class="hca-pct-bar-wrap">
-        <span>Need intensity</span>
+        <span>Overall need intensity</span>
         <div class="hca-pct-bar"><div class="hca-pct-fill" style="width:${entry.percentileRank}%"></div></div>
-        <span>${entry.percentileRank.toFixed(0)}%</span>
+        <span>${entry.percentileRank.toFixed(0)}th pctile</span>
       </div>
+      <div class="hca-detail-missing-ami">
+        <div class="hca-detail-missing-label">Underserved rental AMI tiers (coverage &lt;75%)</div>
+        <div class="hca-detail-missing-tiers">${missingTiersHtml}</div>
+      </div>
+      ${demogHtml}
       <a class="hca-detail-link" href="${hnaLink(entry)}">Open full HNA for ${entry.name} →</a>
     `;
     panel.classList.add('visible');
@@ -383,9 +432,17 @@
   function exportCSV() {
     const headers = [
       'Rank', 'GEOID', 'Name', 'Type', 'Region',
+      'Overall Need Score',
       'Housing Gap Units (30% AMI)',
+      'Units Needed (50% AMI)',
+      'Units Needed (60% AMI)',
       'Pct Cost Burdened',
-      'AMI Gap 30%',
+      'Pct Burdened (<=30% AMI)',
+      'Pct Burdened (31-50% AMI)',
+      'Pct Burdened (51-80% AMI)',
+      'Missing AMI Tiers',
+      'In-Commuters',
+      'In-Commute Ratio (%)',
       'Population',
       'Median HH Income',
       'Population Projection 20yr',
@@ -401,9 +458,17 @@
       e.name,
       e.type,
       e.region,
+      e.metrics.overall_need_score,
       e.metrics.housing_gap_units,
+      e.metrics.ami_gap_50pct,
+      e.metrics.ami_gap_60pct,
       e.metrics.pct_cost_burdened,
-      e.metrics.ami_gap_30pct,
+      e.metrics.pct_burdened_lte30,
+      e.metrics.pct_burdened_31to50,
+      e.metrics.pct_burdened_51to80,
+      Array.isArray(e.metrics.missing_ami_tiers) ? e.metrics.missing_ami_tiers.join('; ') : '',
+      e.metrics.in_commuters,
+      e.metrics.commute_ratio,
       e.metrics.population,
       e.metrics.median_hh_income,
       e.metrics.population_projection_20yr,
@@ -565,7 +630,7 @@
     } catch (err) {
       console.error('[HNARanking] Failed to load ranking data:', err);
       if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="11" class="hca-empty">
+        tbody.innerHTML = `<tr><td colspan="12" class="hca-empty">
           Unable to load ranking data. <a href="${DATA_PATH}">Try loading directly</a>.
         </td></tr>`;
       }
