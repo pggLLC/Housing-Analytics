@@ -39,6 +39,10 @@
  * @property {boolean}  [seniorsDemand]        — senior housing demand signal
  * @property {boolean}  [supportiveNeed]       — supportive housing need signal
  * @property {string}   [dataVintage]          — ISO date of source data
+ * @property {boolean}  [pabCapAvailable]      — PAB volume cap pre-allocated for 4% execution
+ * @property {Object}   [fmrData]              — HUD FMR data { oneBedroomFMR, twoBedroomFMR, threeBedroomFMR }
+ * @property {number}   [chfaHistoricalAwards] — # of prior CHFA awards in this county (last 5 yrs)
+ * @property {number}   [countyAffordabilityGap] — county-level affordability gap score 0–100
  *
  * @typedef {Object} DealRecommendation
  * @property {string}   recommendedExecution   — '9%' | '4%' | 'Either'
@@ -52,6 +56,9 @@
  * @property {string}   confidence            — 'high' | 'medium' | 'low'
  * @property {string}   confidenceBadge       — emoji badge for UI display
  * @property {string}   alternativePath       — description of the alternate credit type path
+ * @property {Object}   scenarioSensitivity   — sensitivity ranges for key risk factors
+ * @property {Object}   fmrAlignment          — how proposed rents align with HUD FMR (if fmrData provided)
+ * @property {Object}   chfaAwardContext       — CHFA historical award context for county
  */
 
 (function (root, factory) {
@@ -170,6 +177,11 @@
       rationale.push('Soft funding availability (' + _formatDollars(softFunding) + ') supports 4% capital stack');
       if (inputs.isQct || inputs.isDda) {
         rationale.push('QCT/DDA designation provides up to 30% basis boost, improving 4% execution');
+      }
+      if (inputs.pabCapAvailable === false) {
+        risks.push('PAB cap not available — 4% execution requires bond reservation before proceeding');
+        rationale.push('Despite scale, PAB volume cap is unavailable — consult CHFA for bond reservation timeline');
+        return 'Either';
       }
       return '4%';
     }
@@ -336,7 +348,11 @@
       risks.push('Limited local soft funding (<$500K) — gap financing may be challenging');
     }
     if (execution === '4%') {
-      risks.push('4% execution requires Private Activity Bond volume cap — limited in Colorado');
+      if (inputs.pabCapAvailable === false) {
+        risks.push('PAB volume cap not pre-allocated — 4% execution is not currently feasible');
+      } else {
+        risks.push('4% execution requires Private Activity Bond volume cap — limited in Colorado');
+      }
     }
     if (!inputs.isQct && !inputs.isDda) {
       risks.push('No QCT/DDA designation — basis boost unavailable, reducing equity yield');
@@ -345,6 +361,160 @@
       risks.push('Stale or missing rent comps — income/rent ratio assumptions may not reflect current market');
     }
     return risks;
+  }
+
+  /* ── PAB cap analysis ───────────────────────────────────────────── */
+
+  function _pabCapNote(execution, inputs, risks) {
+    if (execution !== '4%') return null;
+    if (inputs.pabCapAvailable === false) {
+      risks.push('PAB volume cap not pre-allocated — 4% execution requires coordination with CHFA for bond reservation');
+      return 'PAB volume cap has not been allocated for this project. Contact CHFA Bond Finance office to initiate reservation. Without allocation, 4% execution is not feasible.';
+    }
+    if (inputs.pabCapAvailable === true) {
+      return 'PAB volume cap confirmed available. Coordinate bond issuance timeline with CHFA to align with credit reservation.';
+    }
+    return 'PAB volume cap status unknown. Verify availability with CHFA before committing to 4% execution path.';
+  }
+
+  /* ── HUD FMR alignment ───────────────────────────────────────────── */
+
+  function _computeFmrAlignment(inputs, suggestedAMIMix) {
+    var fmr = inputs.fmrData;
+    if (!fmr || typeof fmr !== 'object') return null;
+
+    var oneFMR   = _num(fmr.oneBedroomFMR, 0);
+    var twoFMR   = _num(fmr.twoBedroomFMR, 0);
+    var threeFMR = _num(fmr.threeBedroomFMR, 0);
+
+    if (!oneFMR && !twoFMR && !threeFMR) return null;
+
+    // LIHTC max gross rents at 60% AMI are typically ~90–95% of FMR
+    // At 50% AMI ~75–80%, at 30% AMI ~45–50%
+    var fmrPctAt60 = 0.92;
+    var fmrPctAt50 = 0.77;
+    var fmrPctAt30 = 0.47;
+
+    var result = {};
+    if (oneFMR) {
+      result.oneBR = {
+        fmr: Math.round(oneFMR),
+        maxRentAt60Ami: Math.round(oneFMR * fmrPctAt60),
+        maxRentAt50Ami: Math.round(oneFMR * fmrPctAt50),
+        maxRentAt30Ami: Math.round(oneFMR * fmrPctAt30)
+      };
+    }
+    if (twoFMR) {
+      result.twoBR = {
+        fmr: Math.round(twoFMR),
+        maxRentAt60Ami: Math.round(twoFMR * fmrPctAt60),
+        maxRentAt50Ami: Math.round(twoFMR * fmrPctAt50),
+        maxRentAt30Ami: Math.round(twoFMR * fmrPctAt30)
+      };
+    }
+    if (threeFMR) {
+      result.threeBR = {
+        fmr: Math.round(threeFMR),
+        maxRentAt60Ami: Math.round(threeFMR * fmrPctAt60),
+        maxRentAt50Ami: Math.round(threeFMR * fmrPctAt50),
+        maxRentAt30Ami: Math.round(threeFMR * fmrPctAt30)
+      };
+    }
+    result.note = 'LIHTC max gross rents are estimated as a % of HUD FMR. Actual LIHTC max rents must be calculated using HUD Area Median Income limits.';
+    return result;
+  }
+
+  /* ── Scenario sensitivity ────────────────────────────────────────── */
+
+  function _computeScenarioSensitivity(inputs, execution) {
+    var pmaScore    = _num(inputs.pmaScore, 50);
+    var competitive = _num(inputs.competitiveSetSize, 0);
+    var softFunding = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
+    var units       = _num(inputs.proposedUnits, 60);
+
+    // Equity price sensitivity: +/- 3 cents on equity pricing
+    var basePrice   = (execution === '4%') ? DEFAULT_ASSUMPTIONS.equityPrice4Pct : DEFAULT_ASSUMPTIONS.equityPrice9Pct;
+    var hardCost    = DEFAULT_ASSUMPTIONS.hardCostPerUnit * units;
+    var softCost    = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
+    var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);
+    var basisBoost  = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
+    var creditRate  = (execution === '9%') ? 0.09 : 0.04;
+    var annualCredit = hardCost * creditRate * basisBoost;
+
+    var equityLow  = Math.round(annualCredit * 10 * (basePrice - 0.03));
+    var equityHigh = Math.round(annualCredit * 10 * (basePrice + 0.03));
+
+    // Demand sensitivity: PMA score ± 10 points
+    var pmaLowSignal  = (pmaScore - 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
+                        (pmaScore - 10 >= DEFAULT_ASSUMPTIONS.pmaModerateThreshold) ? 'moderate' : 'weak';
+    var pmaHighSignal = (pmaScore + 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
+                        (pmaScore + 10 >= DEFAULT_ASSUMPTIONS.pmaModerateThreshold) ? 'moderate' : 'weak';
+
+    // Saturation sensitivity: competitive set ± 2 projects
+    var satLow  = Math.max(0, competitive - 2);
+    var satHigh = competitive + 2;
+    var satLowLabel  = satLow  >= DEFAULT_ASSUMPTIONS.saturationHighThreshold ? 'saturated' :
+                       satLow  >= DEFAULT_ASSUMPTIONS.saturationMedThreshold  ? 'moderate'  : 'low';
+    var satHighLabel = satHigh >= DEFAULT_ASSUMPTIONS.saturationHighThreshold ? 'saturated' :
+                       satHigh >= DEFAULT_ASSUMPTIONS.saturationMedThreshold  ? 'moderate'  : 'low';
+
+    return {
+      equityPricingRange: {
+        low:  _formatDollars(equityLow),
+        high: _formatDollars(equityHigh),
+        note: 'Equity proceeds at ±3¢ equity price from ' + basePrice.toFixed(2)
+      },
+      demandSignalRange: {
+        low:  pmaLowSignal,
+        high: pmaHighSignal,
+        note: 'PMA demand signal if score shifts ±10 points from ' + Math.round(pmaScore)
+      },
+      saturationRange: {
+        low:  satLowLabel  + ' (' + satLow  + ' projects)',
+        high: satHighLabel + ' (' + satHigh + ' projects)',
+        note: 'Market saturation at competitive set size ±2 projects'
+      }
+    };
+  }
+
+  /* ── CHFA historical award context ──────────────────────────────── */
+
+  function _computeChfaAwardContext(inputs, execution) {
+    var awards   = _num(inputs.chfaHistoricalAwards, -1);
+    var afGap    = _num(inputs.countyAffordabilityGap, -1);
+    var geoid    = inputs.geoid || null;
+
+    var context = {};
+
+    if (awards >= 0) {
+      context.countyAwardsLast5Years = awards;
+      if (awards === 0) {
+        context.countyAwardSignal = 'low';
+        context.countyAwardNote   = 'No CHFA awards in this county in the last 5 years — geographic priority and need justification will be critical.';
+      } else if (awards <= 2) {
+        context.countyAwardSignal = 'moderate';
+        context.countyAwardNote   = awards + ' award(s) in last 5 years — county has demonstrated CHFA fundability; competitive application is viable.';
+      } else {
+        context.countyAwardSignal = 'high';
+        context.countyAwardNote   = awards + ' awards in last 5 years — strong CHFA track record in county; competition may be elevated.';
+      }
+    }
+
+    if (afGap >= 0) {
+      context.affordabilityGapScore = afGap;
+      context.affordabilityGapTier  = afGap >= 70 ? 'critical' : afGap >= 40 ? 'significant' : 'moderate';
+      context.affordabilityGapNote  = 'County affordability gap score: ' + afGap + '/100 (' + context.affordabilityGapTier + '). ' +
+        (afGap >= 70 ? 'High gap strengthens QAP need narrative.' : 'Quantify need clearly in QAP narrative.');
+    }
+
+    if (execution === '9%' && Object.keys(context).length > 0) {
+      context.qapCompetitivenessNote = 'For 9% competitive applications, CHFA QAP scoring rewards: deep affordability (30% AMI units), ' +
+        'geographic diversity, community revitalization, and development team track record. Ensure score optimization before submission.';
+    }
+
+    if (geoid) context.geoid = geoid;
+
+    return (Object.keys(context).length > 0) ? context : null;
   }
 
   /* ── Alternative path description ───────────────────────────────── */
@@ -401,11 +571,14 @@
     if (_missing(inputs.ami30UnitsNeeded)) {
       caveats.push('HNA affordability gap data not provided — AMI mix uses county-level defaults.');
     }
+    if (_missing(inputs.pabCapAvailable) && _num(inputs.proposedUnits, 0) >= DEFAULT_ASSUMPTIONS.fourPctMinUnits) {
+      caveats.push('PAB volume cap status not provided — 4% feasibility cannot be fully assessed.');
+    }
 
-    var confidence     = _computeConfidence(inputs);
-    var execution      = _selectExecution(inputs, rationale, risks);
-    var conceptType    = _selectConceptType(inputs, rationale, risks);
-    var proposedUnits  = _num(inputs.proposedUnits, 60);
+    var confidence       = _computeConfidence(inputs);
+    var execution        = _selectExecution(inputs, rationale, risks);
+    var conceptType      = _selectConceptType(inputs, rationale, risks);
+    var proposedUnits    = _num(inputs.proposedUnits, 60);
     var suggestedUnitMix = _computeUnitMix(conceptType, proposedUnits);
     var suggestedAMIMix  = _computeAMIMix(conceptType, proposedUnits, inputs);
 
@@ -415,7 +588,11 @@
 
     _identifyRisks(inputs, execution, risks);
 
-    var capitalStack = _computeCapitalStack(inputs, execution, suggestedUnitMix);
+    var capitalStack         = _computeCapitalStack(inputs, execution, suggestedUnitMix);
+    var pabCapNote           = _pabCapNote(execution, inputs, risks);
+    var fmrAlignment         = _computeFmrAlignment(inputs, suggestedAMIMix);
+    var scenarioSensitivity  = _computeScenarioSensitivity(inputs, execution);
+    var chfaAwardContext     = _computeChfaAwardContext(inputs, execution);
 
     return {
       recommendedExecution:   execution,
@@ -428,7 +605,11 @@
       caveats:                caveats,
       confidence:             confidence,
       confidenceBadge:        _confidenceBadge(confidence),
-      alternativePath:        _alternativePath(execution, inputs)
+      alternativePath:        _alternativePath(execution, inputs),
+      pabCapNote:             pabCapNote,
+      fmrAlignment:           fmrAlignment,
+      scenarioSensitivity:    scenarioSensitivity,
+      chfaAwardContext:       chfaAwardContext
     };
   }
 
@@ -454,8 +635,11 @@
   }
 
   return {
-    predictConcept: predictConcept,
-    predict:        predict,
-    DISCLAIMER:     DISCLAIMER
+    predictConcept:              predictConcept,
+    predict:                     predict,
+    DISCLAIMER:                  DISCLAIMER,
+    _computeScenarioSensitivity: _computeScenarioSensitivity,
+    _computeFmrAlignment:        _computeFmrAlignment,
+    _computeChfaAwardContext:    _computeChfaAwardContext
   };
 }));

@@ -341,6 +341,135 @@ test('Handles zero proposedUnits without division errors', () => {
   assert(rec && typeof rec.conceptType === 'string', 'handles zero proposedUnits');
 });
 
+// ── Phase 3: PAB cap analysis ─────────────────────────────────────────────────
+
+test('PAB cap unavailable shifts large-scale 4% recommendation to Either', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits:        120,
+    softFundingAvailable: 2000000,
+    ami30UnitsNeeded:     10,
+    pabCapAvailable:      false
+  });
+  assert(rec.recommendedExecution === 'Either', 'PAB cap=false shifts 4% to Either: ' + rec.recommendedExecution);
+  var hasPabRisk = rec.keyRisks.some(function (r) { return /PAB/i.test(r); });
+  assert(hasPabRisk, 'PAB cap risk noted in keyRisks');
+});
+
+test('PAB cap available preserves 4% recommendation', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits:        120,
+    softFundingAvailable: 2000000,
+    ami30UnitsNeeded:     10,
+    pabCapAvailable:      true
+  });
+  assert(rec.recommendedExecution === '4%', 'PAB cap=true keeps 4% recommendation');
+  assert(typeof rec.pabCapNote === 'string', 'pabCapNote returned for 4% path');
+});
+
+test('pabCapNote is null for 9% recommendations', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits:    50,
+    ami30UnitsNeeded: 20,
+    pabCapAvailable:  true
+  });
+  assert(rec.recommendedExecution === '9%', 'is 9% recommendation');
+  assert(rec.pabCapNote === null, 'pabCapNote is null for 9% path');
+});
+
+test('PAB cap caveat added for large projects without pabCapAvailable', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 120 });
+  var hasCaveat = rec.caveats.some(function (c) { return /PAB/i.test(c); });
+  assert(hasCaveat, 'PAB status caveat added when large project and pabCapAvailable not set');
+});
+
+// ── Phase 3: HUD FMR alignment ────────────────────────────────────────────────
+
+test('fmrAlignment returned when fmrData provided', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits: 60,
+    fmrData: { oneBedroomFMR: 1400, twoBedroomFMR: 1700, threeBedroomFMR: 2100 }
+  });
+  assert(rec.fmrAlignment !== null, 'fmrAlignment is not null when fmrData provided');
+  assert(typeof rec.fmrAlignment === 'object', 'fmrAlignment is an object');
+  assert(typeof rec.fmrAlignment.oneBR === 'object', 'fmrAlignment.oneBR is present');
+  assert(rec.fmrAlignment.oneBR.fmr === 1400, 'FMR value preserved: ' + rec.fmrAlignment.oneBR.fmr);
+  assert(rec.fmrAlignment.oneBR.maxRentAt60Ami > 0, 'maxRentAt60Ami computed');
+  assert(rec.fmrAlignment.oneBR.maxRentAt30Ami < rec.fmrAlignment.oneBR.maxRentAt60Ami, 'AMI rent tiers descend');
+});
+
+test('fmrAlignment is null when fmrData not provided', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 60 });
+  assert(rec.fmrAlignment === null, 'fmrAlignment null without fmrData');
+});
+
+// ── Phase 3: Scenario sensitivity ────────────────────────────────────────────
+
+test('scenarioSensitivity returned for all recommendations', () => {
+  ['9%', '4%', 'Either'].forEach(function (path) {
+    var inputs = path === '9%'
+      ? { proposedUnits: 50, ami30UnitsNeeded: 20, competitiveSetSize: 0 }
+      : path === '4%'
+      ? { proposedUnits: 120, softFundingAvailable: 2000000, pabCapAvailable: true }
+      : { proposedUnits: 80, softFundingAvailable: 0, competitiveSetSize: 6 };
+    var rec = predictor.predictConcept(inputs);
+    assert(typeof rec.scenarioSensitivity === 'object', path + ': scenarioSensitivity is object');
+    assert(typeof rec.scenarioSensitivity.equityPricingRange === 'object', path + ': equityPricingRange present');
+    assert(typeof rec.scenarioSensitivity.demandSignalRange === 'object', path + ': demandSignalRange present');
+    assert(typeof rec.scenarioSensitivity.saturationRange === 'object', path + ': saturationRange present');
+  });
+});
+
+// ── Phase 3: CHFA award context ───────────────────────────────────────────────
+
+test('chfaAwardContext returned when chfaHistoricalAwards provided', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits:         60,
+    chfaHistoricalAwards:  3,
+    countyAffordabilityGap: 75
+  });
+  assert(rec.chfaAwardContext !== null, 'chfaAwardContext is not null');
+  assert(rec.chfaAwardContext.countyAwardsLast5Years === 3, 'award count preserved');
+  assert(rec.chfaAwardContext.countyAwardSignal === 'high', 'high signal for 3+ awards');
+  assert(rec.chfaAwardContext.affordabilityGapTier === 'critical', 'critical gap tier at 75');
+});
+
+test('chfaAwardContext: low signal for zero historical awards', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 60, chfaHistoricalAwards: 0 });
+  assert(rec.chfaAwardContext !== null, 'chfaAwardContext present');
+  assert(rec.chfaAwardContext.countyAwardSignal === 'low', 'low signal for 0 awards');
+});
+
+test('chfaAwardContext includes QAP note for 9% recommendations', () => {
+  var rec = predictor.predictConcept({
+    proposedUnits:        50,
+    ami30UnitsNeeded:     20,
+    chfaHistoricalAwards: 1
+  });
+  assert(rec.recommendedExecution === '9%', 'is 9% recommendation');
+  assert(typeof rec.chfaAwardContext.qapCompetitivenessNote === 'string', 'QAP note present for 9% path');
+});
+
+test('chfaAwardContext is null when no award context inputs provided', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 60 });
+  assert(rec.chfaAwardContext === null, 'chfaAwardContext null without context inputs');
+});
+
+// ── Phase 3: New output fields schema ─────────────────────────────────────────
+
+test('predictConcept returns all Phase 3 output fields', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 60 });
+  assert('pabCapNote' in rec,          'pabCapNote field present');
+  assert('fmrAlignment' in rec,        'fmrAlignment field present');
+  assert('scenarioSensitivity' in rec, 'scenarioSensitivity field present');
+  assert('chfaAwardContext' in rec,    'chfaAwardContext field present');
+});
+
+test('Exported helper functions available on module', () => {
+  assert(typeof predictor._computeScenarioSensitivity === 'function', '_computeScenarioSensitivity exported');
+  assert(typeof predictor._computeFmrAlignment === 'function',        '_computeFmrAlignment exported');
+  assert(typeof predictor._computeChfaAwardContext === 'function',    '_computeChfaAwardContext exported');
+});
+
 // ── Results ───────────────────────────────────────────────────────────────────
 
 console.log('\n' + '─'.repeat(60));
