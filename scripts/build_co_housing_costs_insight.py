@@ -1004,7 +1004,6 @@ def _make_choropleth_map(
 
     # Build lookup dict: fips -> value
     valid = data[[county_col, value_col]].dropna()
-    data_dict = dict(zip(valid[county_col].astype(str), valid[value_col]))
 
     # Determine key in GeoJSON features for FIPS
     # Support both "GEOID" and "FIPS" property keys
