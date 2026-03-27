@@ -1124,7 +1124,6 @@ def generate_maps(
     # Building permits per capita map
     if bps is not None and not bps.empty and acs_df is not None and not acs_df.empty:
         latest_year = max(cfg.ACS_COHORTS)
-        pop_snap = acs_df[acs_df["acs_year"] == latest_year][["county_fips"]].copy()
         bps_agg = (
             bps.groupby("county_fips")["total_units"]
             .mean()
@@ -1136,6 +1135,7 @@ def generate_maps(
             "Avg Annual Residential Permits (5-yr avg, Census BPS)",
             ASSETS_MAPS / "co_county_permits_per_capita.html",
             fmt="{:,.0f}", colormap="YlGn", cfg=cfg,
+            cfg=cfg,
         )
 
 
