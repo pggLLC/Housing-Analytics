@@ -1465,7 +1465,7 @@
         window.HNAUtils.PROJECTION_SCENARIOS['custom'] = {
           label:       'Custom',
           description: name,
-          color:       '#9c27b0',
+          colorIdx:    3, // resolves to var(--chart-4) at render time
         };
         const sel = document.getElementById('projScenario');
         if (sel){
@@ -1497,12 +1497,15 @@
       const showEl = document.getElementById(showId);
       if (showEl) {
         showEl.hidden = false;
-        // Resize Chart.js charts that were rendered while container was hidden
-        showEl.querySelectorAll('canvas').forEach(canvas => {
-          if (typeof Chart !== 'undefined') {
-            const ch = Chart.getChart(canvas);
-            if (ch) { ch.resize(); ch.update(); }
-          }
+        // Defer resize so the browser has time to lay out the newly visible
+        // container before Chart.js measures the canvas dimensions.
+        requestAnimationFrame(() => {
+          showEl.querySelectorAll('canvas').forEach(canvas => {
+            if (typeof Chart !== 'undefined') {
+              const ch = Chart.getChart(canvas);
+              if (ch) { ch.resize(); ch.update(); }
+            }
+          });
         });
       }
     }));
