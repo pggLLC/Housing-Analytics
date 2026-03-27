@@ -41,8 +41,8 @@
   // -------------------------------------------------------------------------
 
   async function load() {
-    const fetcher = (typeof window.fetchWithTimeout === 'function')
-      ? window.fetchWithTimeout
+    const fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
       : (u) => fetch(u).then(r => r.json());
 
     const data = await fetcher(DATA_PATH);
