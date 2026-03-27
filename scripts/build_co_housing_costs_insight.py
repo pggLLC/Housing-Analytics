@@ -103,6 +103,17 @@ try:
 except ImportError:  # pragma: no cover
     HAS_PYARROW = False
 
+# Prevent unused-variable warnings for optional dependency flags in tools like CodeQL.
+# This does not affect runtime behavior but documents their intended presence.
+_OPTIONAL_DEPENDENCY_FLAGS = (
+    HAS_PANDAS,
+    HAS_GEOPANDAS,
+    HAS_FOLIUM,
+    HAS_MATPLOTLIB,
+    HAS_SKLEARN,
+    HAS_PYARROW,
+)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-8s  %(message)s",
