@@ -381,41 +381,48 @@
       <div class="chart-card span-12" id="scenario-projections-section">
         <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
         <p>
-          Cohort-component forward projections under three growth scenarios.
-          Adjust scenario assumptions below and switch views to compare population,
-          household formation, and housing demand by affordability tier.
+          Cohort-component forward projections under three growth scenarios, aligned with
+          <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)">DLG HNA methodology ↗</a>.
+          Adjust scenario assumptions and switch views to compare population, household formation,
+          and housing demand by affordability tier.
         </p>
 
         <!-- Scenario selector row -->
-        <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
+        <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:10px">
           <div class="span-4">
             <label for="projScenario" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Scenario</label>
-            <select id="projScenario" class="control" style="width:100%">
-              <option value="baseline" selected>Baseline</option>
-              <option value="low_growth">Low growth</option>
-              <option value="high_growth">High growth</option>
+            <select id="projScenario" class="control" style="width:100%;min-height:44px">
+              <option value="baseline" selected>Baseline (moderate growth)</option>
+              <option value="low_growth">Low growth (affordability headwinds)</option>
+              <option value="high_growth">High growth (economic expansion)</option>
             </select>
           </div>
           <div class="span-8" style="display:flex;align-items:center">
-            <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
-              Moderate growth following recent historical trends.
-            </p>
+            <div>
+              <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
+                Moderate growth following recent historical trends.
+              </p>
+              <p style="margin:4px 0 0;font-size:.82rem;color:var(--muted)">
+                Source: DOLA State Demography Office — Components of Change (2024 vintage).
+                <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent)">DOLA SDO ↗</a>
+              </p>
+            </div>
           </div>
         </div>
 
         <!-- View toggle -->
-        <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
-            <input type="radio" name="projViewToggle" value="population" checked>
-            <span>Population</span>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap" role="group" aria-label="Projection view selector">
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="population" checked aria-label="Population projection view">
+            <span>📈 Population</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
-            <input type="radio" name="projViewToggle" value="household">
-            <span>Households</span>
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="household" aria-label="Household projection view">
+            <span>🏠 Households</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
-            <input type="radio" name="projViewToggle" value="demand">
-            <span>Housing demand</span>
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="demand" aria-label="Housing demand by AMI tier view">
+            <span>📊 Housing demand</span>
           </label>
         </div>
 
@@ -423,11 +430,13 @@
         <div id="projViewPop" style="margin-top:12px">
           <div class="hna-grid" style="margin-top:0">
             <div class="chart-card span-8" style="margin:0">
-              <h3 style="font-size:.95rem;margin:0 0 8px">Population projection by scenario</h3>
-              <div class="chart-box tall"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
+              <h3 style="font-size:.95rem;margin:0 0 4px">Population projection by scenario</h3>
+              <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Baseline, low, and high growth trajectories from DOLA SYA data.</p>
+              <div class="chart-box tall"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart showing population projections under baseline, low growth, and high growth scenarios"></canvas></div>
             </div>
             <div class="chart-card span-4" style="margin:0">
-              <h3 style="font-size:.95rem;margin:0 0 8px">Single-scenario detail</h3>
+              <h3 style="font-size:.95rem;margin:0 0 4px">Selected scenario detail</h3>
+              <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
               <div class="chart-box tall"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
             </div>
           </div>
@@ -436,61 +445,79 @@
         <!-- Household view -->
         <div id="projViewHH" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
-            <h3 style="font-size:.95rem;margin:0 0 8px">Projected households over time</h3>
-            <div class="chart-box tall"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
+            <h3 style="font-size:.95rem;margin:0 0 4px">Projected households over time</h3>
+            <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
+            <div class="chart-box tall"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart showing DOLA-based household formation forecast"></canvas></div>
           </div>
         </div>
 
         <!-- Housing demand view -->
         <div id="projViewDemand" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
-            <h3 style="font-size:.95rem;margin:0 0 8px">Housing demand by affordability tier (renter)</h3>
-            <div class="chart-box tall"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart (renter households)"></canvas></div>
+            <h3 style="font-size:.95rem;margin:0 0 4px">Projected housing demand by affordability tier (renter households)</h3>
+            <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
+            <div class="chart-box tall"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
           </div>
         </div>
 
         <!-- Projection assumption sliders (demographic rates) -->
-        <div class="chart-card" style="padding:12px;margin-top:16px;background:rgba(255,255,255,.04)">
-          <h3 style="margin:0 0 10px;font-size:.95rem">Projection assumption overrides</h3>
-          <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
-            <div class="span-4">
-              <label for="scenFertility" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                Fertility rate multiplier
-              </label>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input id="scenFertility" type="range" min="0.5" max="2.0" step="0.01" value="1.0" style="flex:1" aria-label="Fertility rate multiplier" />
-                <div id="scenFertilityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
+        <details style="margin-top:16px">
+          <summary style="cursor:pointer;font-weight:700;font-size:.92rem;padding:6px 0">
+            ⚙️ Override projection assumptions
+          </summary>
+          <div class="chart-card" style="padding:12px;margin-top:10px;background:rgba(255,255,255,.04)">
+            <p style="margin:0 0 10px;font-size:.85rem;color:var(--muted)">
+              Adjust the demographic rate assumptions for the selected scenario.
+              Changes apply immediately to all projection charts.
+              These parameters follow the DLG cohort-component model methodology.
+            </p>
+            <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
+              <div class="span-4">
+                <label for="scenFertility" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                  Fertility rate multiplier
+                  <span style="font-size:.78rem;font-weight:400"> (1.0 = baseline ACS rates)</span>
+                </label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input id="scenFertility" type="range" min="0.5" max="2.0" step="0.01" value="1.0" style="flex:1;min-height:44px;accent-color:var(--accent)" aria-label="Fertility rate multiplier (1.0 is baseline)" />
+                  <div id="scenFertilityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
+                </div>
+              </div>
+              <div class="span-4">
+                <label for="scenMigration" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                  Net migration (persons/year)
+                  <span style="font-size:.78rem;font-weight:400"> (baseline: 500/yr avg)</span>
+                </label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input id="scenMigration" type="range" min="-500" max="3000" step="50" value="500" style="flex:1;min-height:44px;accent-color:var(--accent)" aria-label="Annual net migration (baseline is 500 persons per year)" />
+                  <div id="scenMigrationVal" style="min-width:48px;text-align:right;color:var(--text);font-weight:700">500</div>
+                </div>
+              </div>
+              <div class="span-4">
+                <label for="scenMortality" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
+                  Mortality rate multiplier
+                  <span style="font-size:.78rem;font-weight:400"> (1.0 = standard life-table)</span>
+                </label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input id="scenMortality" type="range" min="0.8" max="1.2" step="0.01" value="1.0" style="flex:1;min-height:44px;accent-color:var(--accent)" aria-label="Mortality rate multiplier (1.0 is standard life-table)" />
+                  <div id="scenMortalityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
+                </div>
               </div>
             </div>
-            <div class="span-4">
-              <label for="scenMigration" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                Net migration (annual)
-              </label>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input id="scenMigration" type="range" min="-500" max="3000" step="50" value="500" style="flex:1" aria-label="Annual net migration" />
-                <div id="scenMigrationVal" style="min-width:48px;text-align:right;color:var(--text);font-weight:700">500</div>
-              </div>
-            </div>
-            <div class="span-4">
-              <label for="scenMortality" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                Mortality rate multiplier
-              </label>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input id="scenMortality" type="range" min="0.8" max="1.2" step="0.01" value="1.0" style="flex:1" aria-label="Mortality rate multiplier" />
-                <div id="scenMortalityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
-              </div>
+            <div style="margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <button id="btnSaveCustomScenario" class="control" style="padding:8px 16px;font-size:.88rem;cursor:pointer;min-height:44px">
+                💾 Save as custom scenario
+              </button>
+              <button id="btnResetScenarioDefaults" class="control" style="padding:8px 16px;font-size:.88rem;cursor:pointer;min-height:44px;background:var(--bg2)">
+                ↺ Reset to scenario defaults
+              </button>
             </div>
           </div>
-          <div style="margin-top:10px;display:flex;align-items:center;justify-content:flex-end">
-            <button id="btnSaveCustomScenario" class="control" style="padding:6px 14px;font-size:.85rem;cursor:pointer">
-              Save as custom scenario
-            </button>
-          </div>
-          <p style="margin:10px 0 0;color:var(--muted);font-size:.88rem">
-            Sliders override the selected scenario's default assumptions. Changes apply immediately to all projection charts.
-            Use "Save as custom scenario" to compare your custom settings alongside baseline/low/high growth.
-          </p>
-        </div>
+        </details>
+
+        <!-- Scenario summary note -->
+        <p id="scenarioNeedSummary" style="margin:12px 0 0;padding:10px 12px;background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);border-radius:8px;border-left:3px solid var(--accent);font-size:.88rem;color:var(--text);display:none">
+          <!-- Populated by JS when data is available -->
+        </p>
       </div>
 
       <!-- Labor Market Metrics -->
@@ -676,7 +703,7 @@
               <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)" aria-checked="false">
               <div class="checklist-item-content">
                 <label for="chkBaseline"><strong>Establish baseline</strong> — document the number of affordable rentals at 60% AMI or below</label>
-                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                <p class="checklist-item-note">
                   <em>Why it matters:</em> The baseline establishes the starting inventory from which the 3% annual growth target is measured.
                   Accurate baseline data is required before a jurisdiction can commit to Prop 123.
                   Source: ACS DP04 data shown in the Prop 123 panel above; verify against
@@ -690,7 +717,7 @@
               <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target" aria-checked="false">
               <div class="checklist-item-content">
                 <label for="chkGrowth"><strong>Adopt 3% annual growth target</strong> — formally commit to growing affordable stock by ≥3% each year</label>
-                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                <p class="checklist-item-note">
                   <em>Why it matters:</em> The 3% annual growth commitment is a core Prop 123 requirement.
                   Adoption signals to DOLA, CHFA, and developers that the jurisdiction supports affordable housing creation.
                   Without adoption, the jurisdiction is ineligible for Prop 123 land grant and workforce housing funds.
@@ -704,7 +731,7 @@
               <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process" aria-checked="false">
               <div class="checklist-item-content">
                 <label for="chkFastTrack"><strong>Establish fast-track approval process</strong> — adopt a streamlined permitting path for qualifying affordable developments</label>
-                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                <p class="checklist-item-note">
                   <em>Why it matters:</em> A documented fast-track process is required for jurisdictions with populations ≥ 1,000 (municipalities) or ≥ 5,000 (counties).
                   Fast-tracking reduces permitting delays by 50%+ and is a prerequisite to access DOLA land grant funds.
                   See <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 FAQ</a> for approved process templates.
@@ -717,7 +744,7 @@
               <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)" aria-checked="false">
               <div class="checklist-item-content">
                 <label for="chkDola"><strong>File commitment notice with DOLA</strong> — annual deadline: <strong>January 31</strong></label>
-                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                <p class="checklist-item-note">
                   <em>Why it matters:</em> The annual DOLA notice is the formal on-record commitment that preserves eligibility for the current funding cycle.
                   Missing the January 31 deadline disqualifies the jurisdiction from Prop 123 land grant and CDOH workforce housing funds for that year.
                   File at the <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a>.
@@ -730,7 +757,7 @@
               <input type="checkbox" id="chkReport" aria-label="Annual reporting filed" aria-checked="false">
               <div class="checklist-item-content">
                 <label for="chkReport"><strong>Annual progress report filed with DOLA</strong> — documents units added toward the 3% growth target</label>
-                <p class="checklist-item-note" style="font-size:var(--tiny);color:var(--muted);margin:2px 0 0">
+                <p class="checklist-item-note">
                   <em>Why it matters:</em> Annual reporting demonstrates accountability and validates the jurisdiction's progress.
                   Failure to report may result in clawback of Prop 123 funds received and suspension of eligibility.
                   Cross-reference with <a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a>
@@ -944,7 +971,7 @@
         </p>
         <div id="actionPlanAnnouncer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+        <div class="action-plan-grid">
           <!-- Column 1: Supply-side actions -->
           <div>
             <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">📦 Housing Supply Actions</h3>

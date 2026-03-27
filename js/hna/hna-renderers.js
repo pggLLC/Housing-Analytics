@@ -2009,6 +2009,22 @@
         tenure: 'renter',
       });
     }
+
+    // Update the scenario need summary note panel
+    const summaryEl = document.getElementById('scenarioNeedSummary');
+    if (summaryEl && seriesByScenario.baseline && seriesByScenario.baseline.length) {
+      const endIdx = seriesByScenario.baseline.length - 1;
+      const endYear = seriesByScenario.baseline[endIdx].year;
+      const baselinePop = seriesByScenario.baseline[endIdx].population;
+      const lowPop = (seriesByScenario.low_growth || [])[endIdx]?.population;
+      const highPop = (seriesByScenario.high_growth || [])[endIdx]?.population;
+      const fmt = U().fmtNum;
+      const parts = [`By ${endYear}: Baseline population ${fmt(baselinePop)}`];
+      if (lowPop !== undefined) parts.push(`Low growth ${fmt(lowPop)}`);
+      if (highPop !== undefined) parts.push(`High growth ${fmt(highPop)}`);
+      summaryEl.textContent = parts.join(' · ') + '. Source: DOLA SDO 2024 vintage, cohort-component model.';
+      summaryEl.style.display = '';
+    }
   }
 
 

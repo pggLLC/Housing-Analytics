@@ -1480,6 +1480,31 @@
         }
         updateScenarioDescription();
         if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
+        if (typeof window.__announceUpdate === 'function') {
+          window.__announceUpdate('Custom scenario saved: ' + name);
+        }
+      });
+    }
+
+    // Reset to scenario defaults button
+    const resetBtn = document.getElementById('btnResetScenarioDefaults');
+    if (resetBtn){
+      resetBtn.addEventListener('click', () => {
+        const sc = getSelectedScenario();
+        const defaults = {
+          baseline:   { fertility: 1.0,  migration: 500,  mortality: 1.0  },
+          low_growth: { fertility: 0.90, migration: 250,  mortality: 1.02 },
+          high_growth:{ fertility: 1.05, migration: 1000, mortality: 0.98 },
+          custom:     { fertility: 1.0,  migration: 500,  mortality: 1.0  },
+        };
+        const d = defaults[sc] || defaults.baseline;
+        const fEl = document.getElementById('scenFertility');
+        const mEl = document.getElementById('scenMigration');
+        const rEl = document.getElementById('scenMortality');
+        if (fEl){ fEl.value = d.fertility;  _updateSliderLabel('scenFertilityVal',  d.fertility.toFixed(2)); }
+        if (mEl){ mEl.value = d.migration;  _updateSliderLabel('scenMigrationVal',  Math.round(d.migration).toLocaleString()); }
+        if (rEl){ rEl.value = d.mortality;  _updateSliderLabel('scenMortalityVal',  d.mortality.toFixed(2)); }
+        if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
       });
     }
 
@@ -1497,11 +1522,22 @@
       const showEl = document.getElementById(showId);
       if (showEl) {
         showEl.hidden = false;
-        // Resize Chart.js charts that were rendered while container was hidden
-        showEl.querySelectorAll('canvas').forEach(canvas => {
-          if (typeof Chart !== 'undefined') {
-            const ch = Chart.getChart(canvas);
-            if (ch) { ch.resize(); ch.update(); }
+        // Resize Chart.js charts that were rendered while container was hidden.
+        // Use requestAnimationFrame to ensure the DOM layout has settled and the
+        // container has its final dimensions before Chart.js measures it.
+        requestAnimationFrame(() => {
+          showEl.querySelectorAll('canvas').forEach(canvas => {
+            if (typeof Chart !== 'undefined') {
+              const ch = Chart.getChart(canvas);
+              if (ch) { ch.resize(); ch.update('none'); }
+            }
+          });
+          // Announce view change to screen readers (WCAG 4.1.3)
+          const viewLabel = val === 'population' ? 'Population projection'
+                          : val === 'household'  ? 'Household projection'
+                          : 'Housing demand by AMI tier';
+          if (typeof window.__announceUpdate === 'function') {
+            window.__announceUpdate(`Scenario view changed to: ${viewLabel}`);
           }
         });
       }
