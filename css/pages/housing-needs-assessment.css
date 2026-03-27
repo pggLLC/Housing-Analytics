@@ -443,6 +443,13 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 }
 .proj-view-label input[type="radio"] { accent-color: var(--accent); }
 
+/* Scenario assumption range slider (WCAG 2.5.5: min-height 44px) */
+.scenario-range {
+  flex: 1;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
 /* ----------------------------------------------------------------
    DOLA filing deadline badge (rendered by renderDolaFilingStatus)
    ---------------------------------------------------------------- */
