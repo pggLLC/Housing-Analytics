@@ -100,7 +100,7 @@ def check_tracts_layer() -> bool:
     try:
         features, elapsed = arcgis_paginate(
             TIGERWEB_TRACTS,
-            where=f'STATEFP="{STATE_FIPS}"',
+            where=f"STATEFP='{STATE_FIPS}'",
         )
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
         if not features:
@@ -126,7 +126,7 @@ def check_counties_layer() -> bool:
     try:
         features, elapsed = arcgis_paginate(
             TIGERWEB_COUNTIES,
-            where=f'STATEFP="{STATE_FIPS}"',
+            where=f"STATEFP='{STATE_FIPS}'",
             out_fields="STATEFP,COUNTYFP,NAME,NAMELSAD",
         )
         log(f"Response time: {elapsed:.2f}s | Features returned: {len(features)}")
@@ -158,7 +158,7 @@ def check_tracts_geojson() -> bool:
     try:
         features, elapsed = arcgis_paginate(
             TIGERWEB_TRACTS,
-            where=f'STATEFP="{STATE_FIPS}"',
+            where=f"STATEFP='{STATE_FIPS}'",
             out_fields="GEOID,STATEFP,NAMELSAD",
             out_format="geojson",
         )
