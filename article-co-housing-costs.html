@@ -24,6 +24,38 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <style>
+    /* ── iframe map loading spinner ── */
+    .map-iframe-wrap { position: relative; }
+    .map-iframe-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem;
+      background: var(--bg2, #f5f7fa);
+      border-radius: inherit; z-index: 2; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .map-iframe-overlay.loaded { opacity: 0; }
+    .map-iframe-spinner {
+      width: 2rem; height: 2rem;
+      border: 3px solid var(--border, rgba(13,31,53,.12));
+      border-top-color: var(--accent, #096e65);
+      border-radius: 50%;
+      animation: map-spin 0.7s linear infinite;
+    }
+    @keyframes map-spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .map-iframe-spinner { animation: none; } }
+    .map-iframe-overlay-text { font-size: 0.85rem; color: var(--muted, #476080); }
+    /* ── pipeline status banner ── */    .pipeline-status-banner {
+      background: var(--bg2, #f5f7fa);
+      border-left: 3px solid var(--warn, #d97706);
+      padding: var(--sp2) var(--sp3);
+      font-size: var(--small, 0.875rem);
+      color: var(--text, #1d2d3e);
+      border-radius: 0 var(--radius, 6px) var(--radius, 6px) 0;
+      margin-bottom: var(--sp3);
+    }
+  </style>
+  <script>function hideMapSpinner(f){var o=f.previousElementSibling;if(o)o.classList.add('loaded');}</script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -52,7 +84,14 @@
           <span>📖 10 min read</span>
           <span>👤 Market Analysis Team</span>
         </div>
+        <p style="font-size:var(--small);color:var(--muted);margin-top:var(--sp1);">
+          <span style="display:inline-flex;align-items:center;gap:0.35rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:0.2em 0.6em;font-weight:600;">🗓 Data Last Updated: 2026-03-27</span>
+          &nbsp;<a href="data-status.html" style="color:var(--link);">View data status →</a>
+        </p>
       </header>
+
+      <!-- Pipeline status banner (hidden by default; shown by JS if outputs are incomplete) -->
+      <div id="pipeline-status-banner" class="pipeline-status-banner" hidden role="status" aria-live="polite"></div>
 
       <!-- Article body -->
       <div class="article-body" style="margin-top:var(--sp4);">
@@ -84,7 +123,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Median Gross Rent by County</h4>
-          <div id="map-rent-latest" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div id="map-rent-latest" class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_median_rent_latest.html"
               title="Median gross rent by Colorado county (2020–2024 ACS)"
@@ -93,6 +133,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated. Run the pipeline script to create interactive maps.</p>'">
             </iframe>
           </div>
@@ -101,7 +142,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Burden (Share of Renters Paying ≥30% of Income)</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_rent_burden_30_latest.html"
               title="Rent burden share (≥30%) by Colorado county"
@@ -110,6 +152,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -118,7 +161,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Vacancy Rate by County</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_vacancy_latest.html"
               title="Housing vacancy rate by Colorado county"
@@ -127,6 +171,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -138,7 +183,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Change: 10-Year Window (2014 → 2024 Cohorts)</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_rent_change_10y_win.html"
               title="10-year windowed rent change by Colorado county"
@@ -147,6 +193,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -155,7 +202,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Change: 15-Year Window (2009 → 2024 Cohorts)</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_rent_change_15y_win.html"
               title="15-year windowed rent change by Colorado county"
@@ -164,6 +212,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -175,7 +224,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">FHFA HPI 10-Year Change by County</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_fhfa_hpi_change_10y.html"
               title="FHFA HPI 10-year change by Colorado county"
@@ -184,6 +234,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -216,7 +267,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Average Annual Construction Wages by County</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_construction_wages.html"
               title="Average annual construction wages by Colorado county"
@@ -225,6 +277,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -236,7 +289,8 @@
 
         <div style="margin:var(--sp3) 0;">
           <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Residential Building Permits Per Capita by County</h4>
-          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+          <div class="map-iframe-wrap" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <div class="map-iframe-overlay" aria-hidden="true"><div class="map-iframe-spinner"></div><span class="map-iframe-overlay-text">Loading map…</span></div>
             <iframe
               src="assets/co-housing-costs/maps/co_county_permits_per_capita.html"
               title="Residential building permits per capita by Colorado county"
@@ -245,6 +299,7 @@
               width="100%" height="520"
               style="border:none;"
               loading="lazy"
+              onload="hideMapSpinner(this)"
               onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
             </iframe>
           </div>
@@ -288,7 +343,7 @@
               <tr><td>5</td><td>Vacancy rate</td><td>−0.11</td><td>ACS B25002</td></tr>
             </tbody>
           </table>
-          <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">
+          <p id="drivers-table-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">
             Placeholder values shown. Run pipeline to populate with current model output. Coefficients are standardized (z-score inputs).
           </p>
         </div>
@@ -362,10 +417,13 @@
     // Load drivers ranking CSV and populate table if available
     (function () {
       const csvUrl = 'assets/co-housing-costs/snapshots/drivers_ranking.csv';
+      const noteEl = document.getElementById('drivers-table-note');
       fetch(csvUrl)
-        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (r) {
+          if (!r.ok) return Promise.reject(new Error('CSV not available (HTTP ' + r.status + ')'));
+          return r.text();
+        })
         .then(function (text) {
-          if (!text) return;
           const lines = text.trim().split('\n');
           if (lines.length < 2) return;
           const tbody = document.getElementById('drivers-table-body');
@@ -377,10 +435,38 @@
           tbody.innerHTML = rows.map(function (c, i) {
             return '<tr><td>' + (i + 1) + '</td><td>' + (c[0] || '') + '</td><td>' + (c[1] || '') + '</td><td>' + (c[2] || '') + '</td></tr>';
           }).join('');
+          if (noteEl) noteEl.textContent = 'Showing live data from the latest pipeline run. Coefficients are standardized (z-score inputs).';
           const liveEl = document.getElementById('map-status-live');
           if (liveEl) liveEl.textContent = 'Driver ranking table updated from latest pipeline output.';
         })
-        .catch(function () { /* graceful — placeholder table stays */ });
+        .catch(function () {
+          if (noteEl) noteEl.textContent = 'Pipeline CSV not yet available — static placeholder values shown above. Run the pipeline script to generate current model output.';
+        });
+    }());
+
+    // Check pipeline-status.json and show banner if outputs are incomplete
+    (function () {
+      const statusUrl = 'assets/co-housing-costs/snapshots/pipeline-status.json';
+      fetch(statusUrl)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (status) {
+          if (!status) return;
+          var msgs = [];
+          if (!status.maps_complete) {
+            msgs.push('Interactive maps incomplete (' + status.maps_generated + '/' + status.maps_total + ' generated).');
+          }
+          if (!status.drivers_csv_available) {
+            msgs.push('Driver ranking CSV not yet generated.');
+          }
+          if (msgs.length) {
+            var banner = document.getElementById('pipeline-status-banner');
+            if (banner) {
+              banner.textContent = '⚠ Pipeline notice: ' + msgs.join(' ') + ' Run python scripts/build_co_housing_costs_insight.py --refresh to generate all outputs.';
+              banner.hidden = false;
+            }
+          }
+        })
+        .catch(function () { /* status file not present — ignore */ });
     }());
   </script>
 </body>
