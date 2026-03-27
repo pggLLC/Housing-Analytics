@@ -429,3 +429,83 @@
   opacity: 0.8;
 }
 .hca-dq-badge[title] { cursor: help; }
+
+/* ----------------------------------------------------------------
+   Missing AMI tiers and demographic stratification in detail panel
+   ---------------------------------------------------------------- */
+.hca-detail-missing-ami {
+  margin: 10px 0 8px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--warn, #d97706) 8%, transparent);
+  border-left: 3px solid var(--warn, #d97706);
+  border-radius: 4px;
+}
+.hca-detail-missing-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.hca-detail-missing-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.hca-ami-missing-badge {
+  display: inline-block;
+  background: var(--warn, #d97706);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+/* Demographic cost-burden bar chart in detail panel */
+.hca-detail-demog {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: var(--bg-card, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.hca-detail-demog-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.hca-detail-demog-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 46px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+.hca-detail-demog-tier {
+  font-size: 0.78rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+.hca-detail-demog-bar-wrap {
+  background: var(--border);
+  border-radius: 2px;
+  height: 8px;
+  overflow: hidden;
+}
+.hca-detail-demog-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.hca-detail-demog-val {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--text);
+}
