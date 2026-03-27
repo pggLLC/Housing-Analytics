@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-27T12:34:02.070Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-27T13:43:16.931Z. Do not edit by hand.
 
 ---
 
@@ -925,7 +925,7 @@
 
 ## Test Files
 
-78 test files found.
+79 test files found.
 
 | File | Size |
 |------|------|
@@ -979,7 +979,8 @@
 | `test/test_environmental_screening.js` | 11.7 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_lihtc_deal_predictor.js` | 15.6 KB |
+| `test/test_legislative_tracker.js` | 11.5 KB |
+| `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 9.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
@@ -1012,7 +1013,7 @@
 
 ## GitHub Actions Workflows
 
-32 workflow files found.
+33 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1027,6 +1028,7 @@
 | `.github/workflows/ci-checks.yml` | 5.8 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.1 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
+| `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-quality-check.yml` | 6.0 KB |
 | `.github/workflows/data-refresh.yml` | 3.2 KB |
