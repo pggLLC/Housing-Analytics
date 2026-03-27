@@ -218,6 +218,10 @@ class Config:
     MAP_CENTER: Tuple[float, float] = (39.0, -105.5)
     MAP_ZOOM: int = 6
 
+    # Colorado bounding box for map pan/zoom restriction (WGS84)
+    # ~5% padding beyond the true state extent [36.99°N–41.00°N, -109.06°W–-102.04°W]
+    CO_BOUNDS: List[List[float]] = [[36.79, -109.42], [41.21, -101.68]]
+
     # Zillow integration (optional — set env var ZILLOW_DATA_PATH to a CSV)
     ZILLOW_DATA_PATH: Optional[str] = os.environ.get("ZILLOW_DATA_PATH")
 
@@ -1006,8 +1010,10 @@ def _make_choropleth_map(
 
     center = cfg.MAP_CENTER if cfg else (39.0, -105.5)
     zoom = cfg.MAP_ZOOM if cfg else 6
+    co_bounds = cfg.CO_BOUNDS if cfg else [[36.79, -109.42], [41.21, -101.68]]
 
-    m = folium.Map(location=list(center), zoom_start=zoom, tiles="CartoDB positron")
+    m = folium.Map(location=list(center), zoom_start=zoom, tiles="CartoDB positron", max_bounds=True)
+    m.fit_bounds(co_bounds)
 
     # Build lookup dict: fips -> value
     valid = data[[county_col, value_col]].dropna()
@@ -1215,6 +1221,54 @@ def load_zillow_data(cfg: Config) -> Optional["pd.DataFrame"]:
 
 
 # ---------------------------------------------------------------------------
+# Output Validation & Pipeline Status
+# ---------------------------------------------------------------------------
+
+def _validate_outputs_and_write_status() -> None:
+    """Check that expected pipeline outputs exist and write pipeline-status.json."""
+    expected_maps = [
+        "co_county_median_rent_latest.html",
+        "co_county_rent_burden_30_latest.html",
+        "co_county_vacancy_latest.html",
+        "co_county_rent_change_10y_win.html",
+        "co_county_rent_change_15y_win.html",
+        "co_county_fhfa_hpi_change_10y.html",
+        "co_county_construction_wages.html",
+        "co_county_permits_per_capita.html",
+    ]
+
+    maps_generated = [f for f in expected_maps if (ASSETS_MAPS / f).exists()]
+    maps_missing = [f for f in expected_maps if f not in maps_generated]
+    csv_ok = (ASSETS_SNAPSHOTS / "drivers_ranking.csv").exists()
+
+    if maps_missing:
+        log.warning(
+            "Missing map outputs (%d/%d): %s",
+            len(maps_missing), len(expected_maps), maps_missing,
+        )
+    else:
+        log.info("All %d expected maps present.", len(expected_maps))
+
+    if not csv_ok:
+        log.warning("drivers_ranking.csv not present in snapshots.")
+
+    status = {
+        "generated": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "maps_generated": len(maps_generated),
+        "maps_total": len(expected_maps),
+        "maps_complete": len(maps_missing) == 0,
+        "drivers_csv_available": csv_ok,
+        "dependencies": OPTIONAL_DEPENDENCY_FLAGS,
+        "missing_maps": maps_missing,
+    }
+
+    status_path = ASSETS_SNAPSHOTS / "pipeline-status.json"
+    status_path.parent.mkdir(parents=True, exist_ok=True)
+    status_path.write_text(json.dumps(status, indent=2), encoding="utf-8")
+    log.info("Pipeline status written to %s", status_path)
+
+
+# ---------------------------------------------------------------------------
 # README (field documentation)
 # ---------------------------------------------------------------------------
 
@@ -1370,6 +1424,21 @@ def main(refresh: bool = False) -> None:
     log.info("=== Colorado Housing Costs Pipeline ===")
     log.info("refresh=%s", refresh)
 
+    # Log optional dependency status so operators know what will be skipped
+    missing_deps = [name for name, avail in OPTIONAL_DEPENDENCY_FLAGS.items() if not avail]
+    if missing_deps:
+        log.warning("Missing optional dependencies: %s", ", ".join(missing_deps))
+        if not HAS_PANDAS:
+            log.warning("  → All data fetching and map generation will be skipped")
+        elif not HAS_FOLIUM:
+            log.warning("  → Map generation will be skipped (install folium)")
+        if not HAS_SKLEARN:
+            log.warning("  → Drivers regression model will be skipped (install scikit-learn)")
+        if not HAS_MATPLOTLIB:
+            log.warning("  → PPI chart will be skipped (install matplotlib)")
+    else:
+        log.info("All optional dependencies present — full pipeline enabled")
+
     _ensure_dirs()
     cfg = Config()
 
@@ -1426,6 +1495,10 @@ def main(refresh: bool = False) -> None:
 
     # 12. README
     write_readme()
+
+    # 13. Output validation and pipeline status
+    log.info("--- Output validation ---")
+    _validate_outputs_and_write_status()
 
     log.info("=== Pipeline complete ===")
     log.info("Outputs:")
