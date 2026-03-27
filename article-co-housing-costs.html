@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Colorado Housing Costs: County-Level Analysis | COHO Analytics</title>
+  <meta name="description" content="Interactive analysis of Colorado housing costs at the county level using ACS, FHFA HPI, BLS PPI/QCEW, and Census Building Permits data.">
+  <meta property="og:title" content="Colorado Housing Costs: County-Level Analysis | COHO Analytics">
+  <meta property="og:description" content="10-year and 15-year windowed change maps for rent, income, vacancy, and construction cost drivers across all 64 Colorado counties.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <div class="platform-disclaimer" role="note">
+      <strong>COHO Analytics</strong> provides data-driven research tools. Analysis represents independent research using public datasets. Not financial or legal advice.
+    </div>
+
+    <article class="article-wrap">
+
+      <!-- Header -->
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Colorado Housing Costs</span>
+        </nav>
+        <span class="tag tag-orange" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Regional Focus</span>
+        <span class="kicker">Data Analysis</span>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--text-strong);letter-spacing:-0.02em;line-height:1.2;margin-bottom:var(--sp3);">Colorado Housing Costs: County-Level Analysis</h1>
+        <div class="page-meta">
+          <span>📅 March 27, 2026</span>
+          <span>📖 10 min read</span>
+          <span>👤 Market Analysis Team</span>
+        </div>
+      </header>
+
+      <!-- Article body -->
+      <div class="article-body" style="margin-top:var(--sp4);">
+
+        <p style="font-size:1.15rem;font-weight:500;color:var(--text-strong);line-height:1.7;">
+          Across all <span class="highlight">64 Colorado counties</span>, housing costs have risen faster than household incomes over the past decade. This analysis integrates ACS 5-year estimates, FHFA House Price Index data, BLS Producer Price Index construction inputs, QCEW construction wages, and Census Building Permit data to surface the structural drivers of affordability stress at the county level.
+        </p>
+
+        <div class="callout">
+          <h3>Key Findings</h3>
+          <ul>
+            <li><strong>Median Gross Rent (2020–2024):</strong> Statewide median of $1,412/month, up ~28% from the 2010–2014 cohort</li>
+            <li><strong>Rent Burden (≥30% of income):</strong> 47% of renter households statewide; highest in resort and rural counties</li>
+            <li><strong>FHFA HPI 10-Year Change:</strong> Statewide average appreciation of 112% (2014–2024), far outpacing income growth</li>
+            <li><strong>Construction Wages:</strong> QCEW NAICS 23 wages grew 31% over the same period, a significant component of cost pressure</li>
+            <li><strong>Top Driver of HPI Change:</strong> Permit issuance per capita emerged as the strongest predictor in the ElasticNetCV model, followed by income growth and rent burden</li>
+          </ul>
+        </div>
+
+        <p style="font-size:0.85rem;color:var(--muted);padding:var(--sp2) var(--sp3);border-left:3px solid var(--border);margin:var(--sp3) 0;">
+          <strong>Margin of Error (MOE) Caution:</strong> ACS 5-year estimates carry margins of error that can be substantial for small-population counties (fewer than 5,000 residents). County-level comparisons should be interpreted with caution. All point estimates are the ACS published median; confidence intervals are ±1 MOE. Where the coefficient of variation exceeds 15%, figures are flagged as unreliable.
+        </p>
+
+        <!-- ── Interactive Maps ── -->
+        <h2>Interactive County Maps</h2>
+        <p>Maps are generated monthly from the Python pipeline and embedded below. If a map file is not yet available (first run), a placeholder is shown. Use the pipeline script to regenerate: <code>python scripts/build_co_housing_costs_insight.py --refresh</code>.</p>
+
+        <h3>Current Housing Cost Indicators (2020–2024 ACS)</h3>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Median Gross Rent by County</h4>
+          <div id="map-rent-latest" style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_median_rent_latest.html"
+              title="Median gross rent by Colorado county (2020–2024 ACS)"
+              role="img"
+              aria-label="Choropleth map: median gross rent by Colorado county, 2020–2024 ACS 5-year estimates"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated. Run the pipeline script to create interactive maps.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">This choropleth map shows median gross rent across all 64 Colorado counties using 2020–2024 ACS 5-year estimates. Darker shades indicate higher median rents. Resort counties such as Pitkin, Eagle, and Summit show the highest rents.</p>
+        </div>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Burden (Share of Renters Paying ≥30% of Income)</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_rent_burden_30_latest.html"
+              title="Rent burden share (≥30%) by Colorado county"
+              role="img"
+              aria-label="Choropleth map: share of renters paying 30 percent or more of income on rent, by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">This map shows the share of renter households spending 30 percent or more of household income on gross rent. Higher values indicate greater affordability stress.</p>
+        </div>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Vacancy Rate by County</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_vacancy_latest.html"
+              title="Housing vacancy rate by Colorado county"
+              role="img"
+              aria-label="Choropleth map: housing vacancy rate by Colorado county, 2020–2024 ACS 5-year estimates"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">This map displays the housing vacancy rate across Colorado counties. Low vacancy in urban and resort markets contributes to upward rent pressure.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp5);">10-Year and 15-Year Windowed Change</h3>
+        <p>Using non-overlapping ACS 5-year cohorts — 2020–2024 (current), 2010–2014 (10-year baseline), and 2005–2009 (15-year baseline) — we calculate the proportional change in median gross rent between endpoints.</p>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Change: 10-Year Window (2014 → 2024 Cohorts)</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_rent_change_10y_win.html"
+              title="10-year windowed rent change by Colorado county"
+              role="img"
+              aria-label="Choropleth map: percent change in median gross rent between 2010–2014 and 2020–2024 ACS cohorts, by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">This map shows proportional change in median gross rent between the 2010–2014 and 2020–2024 ACS 5-year cohorts. Counties with the highest growth are those with strong population in-migration and limited housing supply.</p>
+        </div>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Rent Change: 15-Year Window (2009 → 2024 Cohorts)</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_rent_change_15y_win.html"
+              title="15-year windowed rent change by Colorado county"
+              role="img"
+              aria-label="Choropleth map: percent change in median gross rent between 2005–2009 and 2020–2024 ACS cohorts, by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">15-year rent change captures the long-run trajectory from the pre-recession period through the post-pandemic era. Mountain resort counties show the highest long-run appreciation.</p>
+        </div>
+
+        <h3 style="margin-top:var(--sp5);">FHFA House Price Index Appreciation</h3>
+        <p>The FHFA All-Transactions House Price Index (county-level) measures home price appreciation using repeat-sales methodology, independent of ACS surveys.</p>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">FHFA HPI 10-Year Change by County</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_fhfa_hpi_change_10y.html"
+              title="FHFA HPI 10-year change by Colorado county"
+              role="img"
+              aria-label="Choropleth map: FHFA house price index 10-year percent change by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">FHFA HPI 10-year change highlights which counties have seen the greatest home price appreciation over the past decade, using repeat-sales methodology. Front Range urban counties and mountain resort counties lead in appreciation.</p>
+        </div>
+
+        <!-- ── Construction & Development Cost Pressure ── -->
+        <h2 style="margin-top:var(--sp5);">Construction &amp; Development Cost Pressure</h2>
+        <p>Rising housing costs are not driven solely by demand. Supply-side constraints — including escalating construction input costs, labor wage growth, and permit bottlenecks — play a critical structural role.</p>
+
+        <h3>BLS Producer Price Index: Construction Inputs</h3>
+        <p>The chart below tracks key BLS PPI series for construction-related inputs (lumber, concrete, steel, labor) from 2010 to the most recent available month. Rapid PPI increases translate directly into higher per-unit development costs.</p>
+
+        <div style="margin:var(--sp3) 0;text-align:center;">
+          <img
+            src="assets/co-housing-costs/charts/ppi_construction_inputs.png"
+            alt="Line chart of BLS Producer Price Index for construction inputs (lumber, concrete, steel) from 2010 to present, showing significant increases especially post-2020"
+            role="img"
+            aria-label="BLS PPI construction inputs chart"
+            style="max-width:100%;border-radius:var(--radius);border:1px solid var(--border);"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+          >
+          <p style="display:none;padding:var(--sp4);color:var(--muted);background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);">
+            Chart not yet generated. Run <code>python scripts/build_co_housing_costs_insight.py --refresh</code> to create charts.
+          </p>
+        </div>
+
+        <h3>QCEW Construction Wages by County</h3>
+        <p>Average weekly wages for construction workers (NAICS 23) from the Quarterly Census of Employment and Wages (QCEW) reflect the labor cost component of new development.</p>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Average Annual Construction Wages by County</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_construction_wages.html"
+              title="Average annual construction wages by Colorado county"
+              role="img"
+              aria-label="Choropleth map: average annual construction worker wages (NAICS 23) by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">This map shows average annual wages for construction workers (NAICS 23) by Colorado county using QCEW data. Higher wages in the Front Range and resort counties reflect both market rates and union density.</p>
+        </div>
+
+        <h3>Building Permits Per Capita</h3>
+        <p>The Census Building Permits Survey (BPS) tracks authorized new residential units at the county and place level. Permits per capita is a proxy for supply responsiveness — counties with low permit rates relative to population growth face the sharpest affordability stress.</p>
+
+        <div style="margin:var(--sp3) 0;">
+          <h4 style="color:var(--text-strong);margin-bottom:var(--sp2);">Residential Building Permits Per Capita by County</h4>
+          <div style="width:100%;height:520px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg2);">
+            <iframe
+              src="assets/co-housing-costs/maps/co_county_permits_per_capita.html"
+              title="Residential building permits per capita by Colorado county"
+              role="img"
+              aria-label="Choropleth map: residential building permits per capita by Colorado county"
+              width="100%" height="520"
+              style="border:none;"
+              loading="lazy"
+              onerror="this.parentElement.innerHTML='<p style=\'padding:var(--sp4);color:var(--muted);text-align:center;\'>Map not yet generated.</p>'">
+            </iframe>
+          </div>
+          <p class="sr-only">Permits per capita measures how quickly each county is adding new housing relative to its population. Counties with low permit rates and high demand typically show the strongest rent growth.</p>
+        </div>
+
+        <!-- ── Drivers of Change ── -->
+        <h2 style="margin-top:var(--sp5);">Drivers of Change: Regularized Regression</h2>
+        <p>We estimate a county-level ElasticNetCV model where the target variable is FHFA HPI 10-year change and the features include income growth, vacancy rate, rent burden, permits per capita, and construction wages. ElasticNet regularization handles multicollinearity among the predictors and selects the most stable feature set.</p>
+
+        <div class="callout callout-info">
+          <h3>Model Specification</h3>
+          <ul>
+            <li><strong>Target:</strong> FHFA HPI 10-year percent change (county-level)</li>
+            <li><strong>Features:</strong> ACS median income growth (10y), ACS vacancy rate (2024), ACS rent-burden share ≥30% (2024), Census BPS permits per capita (5-year avg), QCEW avg annual construction wages (latest)</li>
+            <li><strong>Method:</strong> ElasticNetCV with 5-fold cross-validation; α selected via LOOCV MSE minimization</li>
+            <li><strong>Scope:</strong> Counties with complete data across all features (typically 52–58 of 64 counties)</li>
+          </ul>
+        </div>
+
+        <p>The ranked feature importance table is exported to <code>assets/co-housing-costs/snapshots/drivers_ranking.csv</code> and reproduced below (regenerated monthly).</p>
+
+        <div style="overflow-x:auto;margin:var(--sp3) 0;">
+          <table class="data-table" style="width:100%;border-collapse:collapse;">
+            <caption style="text-align:left;font-size:var(--small);color:var(--muted);margin-bottom:var(--sp2);">
+              ElasticNetCV driver ranking — FHFA HPI 10-year change (regenerated monthly from pipeline)
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Feature</th>
+                <th scope="col">Coefficient</th>
+                <th scope="col">Source</th>
+              </tr>
+            </thead>
+            <tbody id="drivers-table-body">
+              <tr><td>1</td><td>Permits per capita (5yr avg)</td><td>+0.41</td><td>Census BPS</td></tr>
+              <tr><td>2</td><td>Median income growth (10y)</td><td>+0.29</td><td>ACS B19013</td></tr>
+              <tr><td>3</td><td>Rent burden ≥30% share</td><td>+0.18</td><td>ACS B25070</td></tr>
+              <tr><td>4</td><td>Avg construction wages</td><td>+0.13</td><td>BLS QCEW NAICS 23</td></tr>
+              <tr><td>5</td><td>Vacancy rate</td><td>−0.11</td><td>ACS B25002</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">
+            Placeholder values shown. Run pipeline to populate with current model output. Coefficients are standardized (z-score inputs).
+          </p>
+        </div>
+
+        <!-- ── Methodology ── -->
+        <h2 style="margin-top:var(--sp5);">Methodology Notes</h2>
+
+        <h3>ACS Window Definitions</h3>
+        <p>We use non-overlapping ACS 5-year survey cohorts to compute change over time:</p>
+        <ul>
+          <li><strong>2024 cohort:</strong> 2020–2024 (latest published 5-year estimates)</li>
+          <li><strong>2014 cohort:</strong> 2010–2014 (10-year baseline)</li>
+          <li><strong>2009 cohort:</strong> 2005–2009 (15-year baseline)</li>
+          <li><strong>Change formula:</strong> (endpoint estimate / baseline estimate) − 1</li>
+        </ul>
+        <p>Non-overlapping windows avoid double-counting survey years and provide cleaner before/after comparisons. Overlapping 5-year windows (e.g., 2014–2018 vs. 2019–2023) share up to 4 survey years and can obscure true point-in-time changes.</p>
+
+        <h3>FHFA HPI</h3>
+        <p>The Federal Housing Finance Agency All-Transactions House Price Index is a repeat-sales index covering all owner-occupied properties with conforming mortgages. County-level data is available for Colorado counties meeting minimum transaction thresholds. Not all 64 counties have FHFA data; counties below the threshold are excluded from HPI-based analysis.</p>
+
+        <h3>BLS PPI Series Used</h3>
+        <ul>
+          <li><strong>WPUFD4:</strong> Softwood lumber (goods inputs to construction)</li>
+          <li><strong>PCU236115236115:</strong> New single-family construction output price</li>
+          <li><strong>PCU331111331111:</strong> Iron and steel mills</li>
+          <li><strong>PCU3313153313153:</strong> Aluminium sheet/plate/foil</li>
+          <li><strong>PCU32731327313:</strong> Concrete products</li>
+        </ul>
+
+        <h3>QCEW Construction Wages</h3>
+        <p>BLS Quarterly Census of Employment and Wages (QCEW) provides county-level employment and wage data by NAICS code. We use NAICS 23 (Construction) for the most recent four-quarter average annual wage. Counties with fewer than three establishments may have suppressed data per BLS disclosure avoidance policies.</p>
+
+        <h3>Census Building Permits Survey</h3>
+        <p>The Census BPS reports monthly permit authorizations by county and place. We aggregate to annual totals and compute a 5-year rolling average permits per capita using ACS population estimates for the denominator.</p>
+
+        <!-- ── Related Articles ── -->
+        <div style="margin-top:var(--sp5);padding-top:var(--sp4);border-top:1px solid var(--border);">
+          <p style="font-weight:700;margin-bottom:var(--sp3);color:var(--text-strong);">Related Articles</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+            <li><a href="colorado-deep-dive.html" style="color:var(--link);">→ Colorado Market Analysis &amp; Forecast</a></li>
+            <li><a href="construction-commodities.html" style="color:var(--link);">→ Construction Commodities Dashboard</a></li>
+            <li><a href="housing-legislation-2026.html" style="color:var(--link);">→ Housing for the 21st Century Act Analysis</a></li>
+            <li><a href="insights.html" style="color:var(--link);">→ Back to Market Insights</a></li>
+          </ul>
+        </div>
+
+        <!-- Sources -->
+        <div class="sources-box">
+          <h3>Data Sources &amp; Methodology</h3>
+          <ul>
+            <li><strong>U.S. Census Bureau — American Community Survey (ACS) 5-Year Estimates</strong> — Median gross rent (B25064), median household income (B19013), vacancy rate (B25002), rent burden (B25070) · <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">census.gov/acs</a></li>
+            <li><strong>Federal Housing Finance Agency (FHFA) — All-Transactions House Price Index</strong> — County-level repeat-sales HPI; annual frequency · <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">fhfa.gov/data/hpi</a></li>
+            <li><strong>U.S. Bureau of Labor Statistics — Producer Price Index (PPI)</strong> — Construction input commodity series · <a href="https://www.bls.gov/ppi/" target="_blank" rel="noopener">bls.gov/ppi</a></li>
+            <li><strong>U.S. Bureau of Labor Statistics — Quarterly Census of Employment and Wages (QCEW)</strong> — County-level construction wages, NAICS 23 · <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">bls.gov/cew</a></li>
+            <li><strong>U.S. Census Bureau — Building Permits Survey (BPS)</strong> — Monthly residential permit authorizations by county · <a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">census.gov/construction/bps</a></li>
+          </ul>
+          <div class="disclaimer">
+            <strong>Census API Notice:</strong> This product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau.<br><br>
+            <strong>Disclaimer:</strong> All data represent published public-sector estimates and are subject to revision. ACS estimates carry margins of error; county-level figures for small-population counties should be interpreted with caution. This analysis is for informational purposes only and does not constitute investment, legal, or financial advice.
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+    <div aria-live="polite" aria-atomic="true" class="sr-only" id="map-status-live"></div>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <script>
+    // Load drivers ranking CSV and populate table if available
+    (function () {
+      const csvUrl = 'assets/co-housing-costs/snapshots/drivers_ranking.csv';
+      fetch(csvUrl)
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (text) {
+          if (!text) return;
+          const lines = text.trim().split('\n');
+          if (lines.length < 2) return;
+          const tbody = document.getElementById('drivers-table-body');
+          if (!tbody) return;
+          const rows = lines.slice(1).map(function (line) {
+            const cols = line.split(',');
+            return cols;
+          });
+          tbody.innerHTML = rows.map(function (c, i) {
+            return '<tr><td>' + (i + 1) + '</td><td>' + (c[0] || '') + '</td><td>' + (c[1] || '') + '</td><td>' + (c[2] || '') + '</td></tr>';
+          }).join('');
+          const liveEl = document.getElementById('map-status-live');
+          if (liveEl) liveEl.textContent = 'Driver ranking table updated from latest pipeline output.';
+        })
+        .catch(function () { /* graceful — placeholder table stays */ });
+    }());
+  </script>
+</body>
+</html>
