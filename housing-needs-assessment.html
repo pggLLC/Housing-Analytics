@@ -407,18 +407,18 @@
         </div>
 
         <!-- View toggle -->
-        <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+        <div class="scenario-view-toggle" role="group" aria-label="Projection view">
+          <label>
             <input type="radio" name="projViewToggle" value="population" checked>
             <span>Population</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+          <label>
             <input type="radio" name="projViewToggle" value="household">
             <span>Households</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem">
+          <label>
             <input type="radio" name="projViewToggle" value="demand">
-            <span>Housing demand</span>
+            <span>Housing demand by AMI</span>
           </label>
         </div>
 
@@ -495,6 +495,122 @@
           </p>
         </div>
       </div>
+
+      <!-- Displacement Risk Assessment (DLG Methodology) -->
+      <section id="displacement-risk-section" class="chart-card span-12 displacement-risk-section">
+        <h2>Displacement Risk Assessment</h2>
+        <p style="color:var(--muted)">
+          Identifies populations and neighborhoods at elevated risk of displacement due to housing cost increases,
+          demographic change, or loss of affordable units. Required component of the Colorado HNA methodology.
+          Source: ACS 5-year estimates, HUD CHAS, DOLA projections.
+        </p>
+        <div class="dlg-guidance-ref">
+          Per Colorado's
+          <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance"
+             target="_blank" rel="noopener">DLG HNA Methodology &amp; Displacement Risk Assessment Guidance</a>,
+          jurisdictions must assess displacement risk as part of their housing needs analysis.
+        </div>
+
+        <!-- Displacement risk metric cards (populated by JS) -->
+        <div id="displacementRiskMetrics" class="displacement-risk-grid" aria-live="polite">
+          <div class="displacement-risk-card">
+            <div class="risk-label">Rent burden rate (≥30%)</div>
+            <div class="risk-value" id="drRentBurden">—</div>
+            <div class="risk-note">Share of renter households spending ≥30% of income on housing</div>
+          </div>
+          <div class="displacement-risk-card">
+            <div class="risk-label">Severe cost burden (≥50%)</div>
+            <div class="risk-value" id="drSevereBurden">—</div>
+            <div class="risk-note">Share of renter households spending ≥50% of income on housing</div>
+          </div>
+          <div class="displacement-risk-card">
+            <div class="risk-label">Renter share</div>
+            <div class="risk-value" id="drRenterShare">—</div>
+            <div class="risk-note">Higher renter concentrations face greater displacement exposure</div>
+          </div>
+          <div class="displacement-risk-card">
+            <div class="risk-label">Rent-to-income gap</div>
+            <div class="risk-value" id="drRentIncomeGap">—</div>
+            <div class="risk-note">Estimated annual income needed to afford median gross rent at 30% threshold</div>
+          </div>
+        </div>
+
+        <!-- Displacement risk factor checklist -->
+        <div class="displacement-risk-factors">
+          <h3 style="font-size:.95rem;margin:0 0 8px">DLG Displacement Risk Factors</h3>
+          <p style="color:var(--muted);font-size:.87rem;margin-bottom:8px">
+            The following factors indicate elevated displacement risk per the DLG guidance.
+            Identify which apply to the selected geography to prioritize housing strategies.
+          </p>
+          <ul class="displacement-risk-factor-list" aria-label="Displacement risk factors">
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">📈</span>
+              <div class="factor-body">
+                <div class="factor-name">Rapid rent appreciation</div>
+                <div class="factor-desc">Median gross rent increased &gt;10% in the last ACS reporting period, outpacing wage growth</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">🏚️</span>
+              <div class="factor-body">
+                <div class="factor-name">Aging affordable housing stock</div>
+                <div class="factor-desc">Significant share of rental units built pre-1980 at risk of deterioration, conversion, or demolition</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">💼</span>
+              <div class="factor-body">
+                <div class="factor-name">Low-wage workforce concentration</div>
+                <div class="factor-desc">High share of service-sector, hospitality, or agricultural workers earning below 50% AMI</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">👴</span>
+              <div class="factor-body">
+                <div class="factor-name">Senior renter population</div>
+                <div class="factor-desc">Older adults on fixed incomes are disproportionately cost-burdened and face displacement risk</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">🔴</span>
+              <div class="factor-body">
+                <div class="factor-name">LIHTC expiring use restrictions</div>
+                <div class="factor-desc">Affordable properties whose 30-year compliance periods expire within 10 years may convert to market rate</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">🚗</span>
+              <div class="factor-body">
+                <div class="factor-name">Long in-commute patterns</div>
+                <div class="factor-desc">Workers commuting &gt;30 min are likely priced out of the local market and at risk of further displacement</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">👨‍👩‍👧</span>
+              <div class="factor-body">
+                <div class="factor-name">Racial and ethnic minority households</div>
+                <div class="factor-desc">Historically underserved communities face structural barriers and disproportionate displacement risk</div>
+              </div>
+            </li>
+            <li class="displacement-risk-factor-item">
+              <span class="factor-icon">🏘️</span>
+              <div class="factor-body">
+                <div class="factor-name">Mobile home park residents</div>
+                <div class="factor-desc">Manufactured housing residents face unique displacement risk from land-use conversion and park closures</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <p style="font-size:.82rem;color:var(--muted);margin-top:12px">
+          Displacement risk metrics are derived from ACS DP04 (housing costs), DP03 (income), and B25003 (tenure).
+          Select a geography above to populate the risk indicators.
+          Consult the full
+          <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance"
+             target="_blank" rel="noopener" style="color:var(--accent)">DLG Displacement Risk Assessment Guidance</a>
+          for detailed methodology.
+        </p>
+      </section>
 
       <!-- Labor Market Metrics -->
       <section id="labor-market-section" class="chart-card span-12 labor-market-section">
@@ -947,10 +1063,10 @@
         </p>
         <div id="actionPlanAnnouncer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+        <div class="action-plan-grid">
           <!-- Column 1: Supply-side actions -->
           <div>
-            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">📦 Housing Supply Actions</h3>
+            <h3 class="action-plan-col-title">📦 Housing Supply Actions</h3>
             <ul class="compliance-checklist" id="actionPlanSupply">
               <li class="checklist-item pending" id="actionZoning" data-storage-key="action_zoning">
                 <span class="checklist-status-icon" aria-hidden="true">⏳</span>
@@ -989,7 +1105,7 @@
 
           <!-- Column 2: Affordability and demand actions -->
           <div>
-            <h3 style="font-size:.95rem;margin:0 0 10px;color:var(--accent)">💰 Affordability &amp; Demand Actions</h3>
+            <h3 class="action-plan-col-title">💰 Affordability &amp; Demand Actions</h3>
             <ul class="compliance-checklist" id="actionPlanDemand">
               <li class="checklist-item pending" id="actionLIHTC" data-storage-key="action_lihtc">
                 <span class="checklist-status-icon" aria-hidden="true">⏳</span>
@@ -1095,17 +1211,21 @@
 <script>
   CohoHelp.init({
     title: 'How to Use the Housing Needs Assessment',
-    description: 'This tool helps you quantify housing needs for any Colorado county or municipality using public data sources (Census ACS, DOLA, LEHD, and HUD).',
+    description: 'This tool helps you quantify housing needs for any Colorado county or municipality using public data sources (Census ACS, DOLA, LEHD, and HUD). Aligned with the Colorado DLG HNA Methodology and Displacement Risk Assessment Guidance.',
     steps: [
       { label: 'Select a geography', desc: 'Choose a county or municipality from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
       { label: 'Review demographic data', desc: 'Explore the population trends, age distribution, household formation rates, and income breakdowns to understand who needs housing.' },
       { label: 'Examine housing supply & affordability', desc: 'Review the AMI gap analysis, cost-burden rates (households spending >30% or >50% of income on housing), and existing stock by tenure.' },
+      { label: 'Assess displacement risk', desc: 'Review the Displacement Risk Assessment section to identify which populations face the greatest risk of housing instability. Required per DLG guidance.' },
+      { label: 'Model future scenarios', desc: 'Use the Scenario-based projections section to compare baseline, low-growth, and high-growth futures. Adjust sliders for custom demographic assumptions and save custom scenarios.' },
       { label: 'Analyze economic indicators', desc: 'Check employment trends, wage levels, and job growth — these drive future housing demand projections.' },
       { label: 'Export your summary', desc: 'Use the PDF, CSV, or JSON export buttons to download data for use in LIHTC applications, grant proposals, or planning documents.' },
     ],
     tips: [
       'Start with a county before drilling into a municipality — county data is more complete.',
       'The CHAS affordability gap chart shows how many households are cost-burdened at each income tier.',
+      'The Displacement Risk Assessment section auto-populates once a geography is selected.',
+      'Switch between Population / Households / Housing demand views in the scenario section to see different projections.',
       'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
     ]
   });
