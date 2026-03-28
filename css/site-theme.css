@@ -322,6 +322,7 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(120,255,170,.24);border:1px solid rgba(120,255,170,.55); }
 .map-legend .marker-lihtc { width:10px;height:10px;border-radius:50%;background:#5fa8ff;display:inline-block;flex-shrink:0; }
 .map-legend .marker-county { width:10px;height:10px;border-radius:2px;background:rgba(200,200,255,.35);border:1px solid rgba(130,130,220,.5);display:inline-block;flex-shrink:0; }
+.map-reset-btn { padding:8px 12px;font-size:13px;cursor:pointer;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.2);font-family:inherit; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: var(--sp3) 0; }
 .delta { font-weight: 700; font-size: 0.82rem; }
 .delta.up { color: var(--good) !important; }

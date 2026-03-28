@@ -13,6 +13,10 @@
   var qctLayerGroup     = null;
   var countyLayerGroup  = null;
 
+  // ── Colorado default view ────────────────────────────────────────────────────
+  var CO_DEFAULT_CENTER = [39.5501, -105.7821];
+  var CO_DEFAULT_ZOOM   = 7;
+
   // ── Basemap tile layer reference ─────────────────────────────────────────────
   var currentTileLayer = null;
 
@@ -420,7 +424,7 @@
     el.addEventListener('change', function () {
       var county = el.value;
       if (!county) {
-        map.setView([39.5501, -105.7821], 7);
+        map.setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
         return;
       }
       // Use Nominatim to get county bounding box and zoom
@@ -899,7 +903,7 @@
     }
 
     try {
-      var map = L.map(mapEl, { maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
+      var map = L.map(mapEl, { maxBoundsViscosity: 1.0 }).setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
 
       // Initialize layer groups
       lihtcLayerGroup  = L.layerGroup();
@@ -907,7 +911,9 @@
       qctLayerGroup    = L.layerGroup();
       countyLayerGroup = L.layerGroup();
 
-      // Restrict pan/zoom to Colorado — tight padding so the map stays on-state
+      // Restrict pan/zoom to Colorado — 5% padding (~10 miles of border context)
+      // allows brief viewing of adjacent areas without drifting 50+ miles away.
+      // maxBoundsViscosity: 1.0 makes the boundary strict (no elastic overscroll).
       var coloradoBounds = L.latLngBounds(
         L.latLng(36.8, -109.1),
         L.latLng(41.1, -102.0)
@@ -933,6 +939,21 @@
       };
       legend.addTo(map);
 
+      // ── Reset extent control ─────────────────────────────────────────────────
+      var resetBtn = L.control({ position: 'topleft' });
+      resetBtn.onAdd = function () {
+        var div = L.DomUtil.create('button', 'map-reset-btn');
+        div.type = 'button';
+        div.innerHTML = 'Reset Extent';
+        div.title = 'Fit map to Colorado';
+        L.DomEvent.on(div, 'click', function (e) {
+          L.DomEvent.stopPropagation(e);
+          map.setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
+        });
+        return div;
+      };
+      resetBtn.addTo(map);
+
       updateStatus('Map ready.');
       console.info('[co-lihtc-map] Map initialized on', mapEl.id || mapEl.tagName);
 
@@ -944,6 +965,8 @@
       loadLocalOverlays(map);
       wireToggles(map);
       wireCountyDropdown(map);
+      // Ensure tiles render correctly if the container was hidden during initialization
+      setTimeout(function () { map.invalidateSize(); }, 100);
       return map;
     } catch (err) {
       console.error('[co-lihtc-map] Map initialization error:', err);
