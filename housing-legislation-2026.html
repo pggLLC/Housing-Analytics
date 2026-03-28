@@ -29,6 +29,10 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
+  <header id="site-header"></header>
+
+  <div aria-live="polite" aria-atomic="true" id="legTracker-live" class="sr-only"></div>
+
   <main id="main-content">
     <article class="article-wrap">
 
@@ -98,6 +102,14 @@
         <p>The bill now enters conference committee to reconcile with the Senate ROAD Act. Key differences to be negotiated include credit allocation formulas, income targeting requirements, and the scope of CRA expansion. Both chambers have indicated strong interest in reaching agreement before the August recess, making a Q2 2026 passage realistic.</p>
         <p>Developers and investors should begin modeling project economics under both current-law and post-enactment scenarios to be prepared for rapid market shifts upon passage.</p>
 
+        <section id="bill-status-panel" aria-labelledby="bill-status-heading" style="margin:var(--sp5) 0;">
+          <h2 id="bill-status-heading">Live Bill Status Tracker</h2>
+          <p style="color:var(--muted);line-height:1.7;">Real-time tracking of key affordable housing legislation. Data reflects the current legislative stage and estimated passage probability.</p>
+          <div id="bill-status-cards" role="list" aria-label="Bill status list" style="display:grid;gap:var(--sp3);margin-top:var(--sp3);">
+            <p style="color:var(--muted);">Loading bill status…</p>
+          </div>
+        </section>
+
         <div class="sources-box">
           <h3>Data Sources</h3>
           <ul>
@@ -117,6 +129,50 @@
     </article>
   </main>
 
+  <footer id="site-footer"></footer>
+
+  <script src="js/legislative-tracker.js"></script>
   <script src="js/contrast-guard.js"></script>
+  <script>
+    /* ── Populate bill-status-cards using LegislativeTracker ── */
+    document.addEventListener('DOMContentLoaded', function () {
+      var container = document.getElementById('bill-status-cards');
+      var liveRegion = document.getElementById('legTracker-live');
+      if (!container || typeof LegislativeTracker === 'undefined') return;
+
+      var bills = LegislativeTracker.getAllBills();
+      if (!bills || !bills.length) return;
+
+      /* Passage probability thresholds for color coding */
+      var PROB_HIGH = 70;   /* >= 70 % → high likelihood (good) */
+      var PROB_MED  = 40;   /* >= 40 % → moderate likelihood (warn) */
+      /* <  40 % → low likelihood (chart-7) */
+
+      container.innerHTML = bills.map(function (bill) {
+        var pct = bill.stageProgress || 0;
+        var prob = bill.passageProbability || 0;
+        var color = prob >= PROB_HIGH ? 'var(--good)' : prob >= PROB_MED ? 'var(--warn)' : 'var(--chart-7)';
+        return '<div role="listitem" class="chart-card" style="padding:var(--sp3);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+          '<div>' +
+          '<strong style="color:var(--text-strong);">' + bill.title + '</strong>' +
+          '<div style="color:var(--muted);font-size:var(--small);margin-top:var(--sp1);">' + bill.id + ' &middot; ' + bill.stage + '</div>' +
+          '</div>' +
+          '<span style="font-weight:700;color:' + color + ';white-space:nowrap;">' + prob + '% passage</span>' +
+          '</div>' +
+          '<div role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="Legislative progress for ' + bill.title + ': ' + pct + '%"' +
+          ' style="margin-top:var(--sp2);height:6px;background:var(--bg3,#ddd);border-radius:3px;">' +
+          '<div style="width:' + pct + '%;height:100%;background:var(--accent);border-radius:3px;"></div>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+
+      if (liveRegion) {
+        liveRegion.textContent = bills.length + ' bills tracked. ' +
+          bills.filter(function (b) { return (b.passageProbability || 0) >= 70; }).length +
+          ' have high passage probability.';
+      }
+    });
+  </script>
 </body>
 </html>
