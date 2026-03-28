@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-27T08:00:52.588Z",
+  "generated": "2026-03-28T07:45:17.697Z",
   "files": [
     "alerts/alerts_archive.json",
     "allocations.json",
@@ -18,6 +18,7 @@
     "co-county-economic-indicators.json",
     "co-demographics.json",
     "co-historical-allocations.json",
+    "co-housing-costs/README.md",
     "co_ami_gap_by_county.json",
     "dda-colorado.json",
     "derived/market-analysis/README.md",
@@ -871,6 +872,7 @@
     "market/opportunity_zones_co.geojson",
     "market/parcel_aggregates_co.json",
     "market/qct_dda_designations_co.json",
+    "market/qct_dda_designations_co_normalized.json",
     "market/reference-projects.json",
     "market/schools_co.geojson",
     "market/tract_boundaries_co.geojson",
@@ -888,5 +890,5 @@
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 886
+  "file_count": 888
 }
