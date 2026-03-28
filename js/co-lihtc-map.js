@@ -42,6 +42,77 @@
     'Teller','Washington','Weld','Yuma',
   ];
 
+  // ── Pre-computed bounding boxes for all 64 Colorado counties ─────────────────
+  // Format: [[south_lat, west_lng], [north_lat, east_lng]] (Leaflet fitBounds format)
+  // Used as an instant fallback when Nominatim geocoding is slow or unavailable.
+  // Derived from FALLBACK_COUNTY polygon data and USGS/Census geographic references.
+  var CO_COUNTY_BOUNDS = {
+    'Adams':       [[39.74, -105.05], [40.00, -104.66]],
+    'Alamosa':     [[37.35, -106.30], [37.74, -105.49]],
+    'Arapahoe':    [[39.56, -104.97], [39.91, -104.67]],
+    'Archuleta':   [[36.99, -107.63], [37.50, -106.87]],
+    'Baca':        [[36.99, -103.04], [37.64, -102.04]],
+    'Bent':        [[37.64, -103.51], [38.52, -103.04]],
+    'Boulder':     [[39.94, -105.69], [40.26, -105.06]],
+    'Broomfield':  [[39.90, -105.17], [40.03, -105.02]],
+    'Chaffee':     [[38.51, -106.63], [39.13, -105.76]],
+    'Cheyenne':    [[38.52, -103.16], [38.87, -102.04]],
+    'Clear Creek': [[39.57, -106.13], [39.90, -105.22]],
+    'Conejos':     [[36.99, -106.90], [37.36, -105.74]],
+    'Costilla':    [[36.99, -105.73], [37.41, -105.04]],
+    'Crowley':     [[37.64, -103.96], [38.52, -103.51]],
+    'Custer':      [[37.96, -105.77], [38.52, -105.05]],
+    'Delta':       [[38.23, -108.38], [39.23, -107.43]],
+    'Denver':      [[39.61, -105.11], [39.91, -104.60]],
+    'Dolores':     [[37.48, -108.86], [37.82, -108.19]],
+    'Douglas':     [[39.13, -105.33], [39.64, -104.67]],
+    'Eagle':       [[39.34, -107.18], [39.76, -106.18]],
+    'Elbert':      [[38.87, -104.67], [39.65, -103.97]],
+    'El Paso':     [[38.69, -105.19], [39.13, -104.06]],
+    'Fremont':     [[37.96, -106.05], [38.69, -105.12]],
+    'Garfield':    [[39.13, -108.35], [40.09, -106.85]],
+    'Gilpin':      [[39.71, -105.81], [39.98, -105.44]],
+    'Grand':       [[39.76, -106.65], [40.44, -105.72]],
+    'Gunnison':    [[38.16, -107.70], [39.34, -106.24]],
+    'Hinsdale':    [[37.48, -107.57], [38.16, -107.00]],
+    'Huerfano':    [[37.15, -105.73], [38.00, -104.62]],
+    'Jackson':     [[40.44, -106.65], [41.00, -105.72]],
+    'Jefferson':   [[39.56, -105.65], [39.98, -105.05]],
+    'Kiowa':       [[37.64, -103.16], [38.52, -102.04]],
+    'Kit Carson':  [[38.52, -103.97], [39.13, -102.04]],
+    'La Plata':    [[37.00, -108.21], [37.68, -107.00]],
+    'Lake':        [[39.04, -106.53], [39.34, -106.09]],
+    'Larimer':     [[40.26, -106.19], [41.00, -105.06]],
+    'Las Animas':  [[36.99, -105.05], [37.68, -103.00]],
+    'Lincoln':     [[38.52, -104.67], [39.13, -103.35]],
+    'Logan':       [[40.44, -104.06], [41.00, -102.65]],
+    'Mesa':        [[38.83, -109.05], [39.64, -107.43]],
+    'Mineral':     [[37.25, -107.00], [37.76, -106.53]],
+    'Moffat':      [[40.44, -109.05], [41.00, -107.28]],
+    'Montezuma':   [[36.99, -109.05], [37.63, -107.86]],
+    'Montrose':    [[38.14, -109.05], [39.34, -107.55]],
+    'Morgan':      [[39.91, -104.06], [40.44, -103.05]],
+    'Otero':       [[37.64, -103.96], [38.20, -103.51]],
+    'Ouray':       [[37.96, -108.25], [38.47, -107.34]],
+    'Park':        [[38.65, -106.25], [39.58, -105.10]],
+    'Phillips':    [[40.44, -103.05], [41.00, -102.65]],
+    'Pitkin':      [[39.13, -107.26], [39.76, -106.68]],
+    'Prowers':     [[37.64, -103.04], [38.52, -102.04]],
+    'Pueblo':      [[37.64, -105.05], [38.52, -104.06]],
+    'Rio Blanco':  [[39.64, -109.05], [40.44, -107.28]],
+    'Rio Grande':  [[37.04, -107.00], [37.76, -106.03]],
+    'Routt':       [[40.25, -107.28], [40.74, -106.46]],
+    'Saguache':    [[37.53, -107.10], [38.64, -105.73]],
+    'San Juan':    [[37.48, -108.01], [37.82, -107.57]],
+    'San Miguel':  [[37.58, -108.87], [38.15, -108.20]],
+    'Sedgwick':    [[40.44, -102.65], [41.00, -102.04]],
+    'Summit':      [[39.34, -106.44], [39.76, -105.72]],
+    'Teller':      [[38.52, -105.66], [39.13, -104.98]],
+    'Washington':  [[39.13, -103.62], [40.44, -102.65]],
+    'Weld':        [[39.91, -105.06], [41.00, -104.06]],
+    'Yuma':        [[39.91, -103.05], [40.44, -102.04]],
+  };
+
   // ── Fallback DDA polygon data ────────────────────────────────────────────────
   var FALLBACK_DDA = {type:'FeatureCollection',features:[
     {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDA_NAME:'Denver-Aurora-Lakewood HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
@@ -427,6 +498,15 @@
         map.setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
         return;
       }
+
+      // Helper: zoom to pre-computed local bounds (instant, offline-capable)
+      function zoomFromLocalBounds() {
+        var bounds = CO_COUNTY_BOUNDS[county];
+        if (bounds) {
+          map.fitBounds(bounds);
+        }
+      }
+
       // Use Nominatim to get county bounding box and zoom
       var url = 'https://nominatim.openstreetmap.org/search?q=' +
         encodeURIComponent(county + ' County, Colorado, USA') +
@@ -434,7 +514,11 @@
       fetch(url, { headers: { 'Accept-Language': 'en', 'User-Agent': 'HousingAnalyticsCO/1.0' } })
         .then(function (r) { return r.json(); })
         .then(function (results) {
-          if (!results || !results.length) return;
+          if (!results || !results.length) {
+            // Nominatim returned no results — fall back to pre-computed bounds
+            zoomFromLocalBounds();
+            return;
+          }
           var bb = results[0].boundingbox;
           if (bb) {
             map.fitBounds([
@@ -446,7 +530,8 @@
           }
         })
         .catch(function (e) {
-          console.warn('[co-lihtc-map] County zoom failed:', e.message);
+          console.warn('[co-lihtc-map] County Nominatim zoom failed, using local bounds:', e.message);
+          zoomFromLocalBounds();
         });
     });
   }
@@ -903,7 +988,7 @@
     }
 
     try {
-      var map = L.map(mapEl, { maxBoundsViscosity: 1.0 }).setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
+      var map = L.map(mapEl, { maxBoundsViscosity: 1.0, maxZoom: 18 }).setView(CO_DEFAULT_CENTER, CO_DEFAULT_ZOOM);
 
       // Initialize layer groups
       lihtcLayerGroup  = L.layerGroup();
