@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-28T14:19:50.327Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-28T14:21:19.925Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 38.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 10.3 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
-| `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 9.1 KB |
+| `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 78.7 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
@@ -926,7 +926,7 @@
 
 ## Test Files
 
-79 test files found.
+80 test files found.
 
 | File | Size |
 |------|------|
@@ -1001,6 +1001,7 @@
 | `test/website-monitor.js` | 990 B |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `tests/conftest.py` | 3.0 KB |
+| `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_governance_stress.py` | 30.3 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
