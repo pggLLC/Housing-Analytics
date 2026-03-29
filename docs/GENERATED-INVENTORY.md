@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-28T14:21:19.925Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-29T13:46:31.430Z. Do not edit by hand.
 
 ---
 
@@ -26,7 +26,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.7 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 38.2 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 10.3 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
@@ -37,10 +37,10 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 31.1 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.4 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 16.4 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
@@ -63,7 +63,7 @@
 | `data/chfa-lihtc.json` | 268.5 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
-| `data/co-county-economic-indicators.json` | 14.8 KB | ✅ | — |
+| `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
