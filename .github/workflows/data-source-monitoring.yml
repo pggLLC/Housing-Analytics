@@ -1,0 +1,279 @@
+name: Data Source Monitoring
+
+on:
+  schedule:
+    - cron: '0 7 * * *'   # Daily at 07:00 UTC
+  workflow_dispatch:        # Allow manual trigger
+
+permissions:
+  contents: write
+  issues:   write
+
+jobs:
+  discover:
+    name: Discover & Monitor Data Sources
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Setup ───────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      # ── Run discovery scan ───────────────────────────────────────────────────
+      - name: Run data source discovery scan
+        id: discovery
+        run: |
+          node - <<'JSEOF'
+          const fs   = require('fs');
+          const path = require('path');
+          const ROOT = process.cwd();
+
+          // ── Load config ────────────────────────────────────────────────────
+          const configPath = path.join(ROOT, 'config', 'data-discovery-config.json');
+          const config = fs.existsSync(configPath)
+            ? JSON.parse(fs.readFileSync(configPath, 'utf8'))
+            : { scanDirectories: ['data'], ignorePatterns: ['.git', 'node_modules'], fileExtensions: ['.json', '.geojson', '.csv'] };
+
+          const EXTS    = config.fileExtensions   || ['.json', '.geojson', '.csv'];
+          const IGNORES = config.ignorePatterns   || ['.git', 'node_modules', 'archive'];
+          const SCAN_DIRS = config.scanDirectories || ['data'];
+
+          // ── Walk directory ─────────────────────────────────────────────────
+          function walk(dir, base) {
+            base = base || ROOT;
+            const results = [];
+            if (!fs.existsSync(dir)) return results;
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              if (IGNORES.some(ig => entry.name === ig || entry.name.startsWith('.'))) continue;
+              const full = path.join(dir, entry.name);
+              if (entry.isDirectory()) {
+                results.push(...walk(full, base));
+              } else if (EXTS.some(ext => entry.name.endsWith(ext))) {
+                results.push(path.relative(base, full).replace(/\\/g, '/'));
+              }
+            }
+            return results;
+          }
+
+          // ── Load DATA-MANIFEST.json ────────────────────────────────────────
+          const manifestPath = path.join(ROOT, 'DATA-MANIFEST.json');
+          let manifest = { sources: [] };
+          if (fs.existsSync(manifestPath)) {
+            try { manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')); } catch (_) {}
+          }
+          const registeredPaths = new Set((manifest.sources || []).map(s => s.file_path));
+
+          // ── Also load data/manifest.json for cross-reference ───────────────
+          const dataManifestPath = path.join(ROOT, 'data', 'manifest.json');
+          let dataManifest = { files: {} };
+          if (fs.existsSync(dataManifestPath)) {
+            try { dataManifest = JSON.parse(fs.readFileSync(dataManifestPath, 'utf8')); } catch (_) {}
+          }
+          const dataManifestFiles = new Set(Object.keys(dataManifest.files || dataManifest.entries || {}));
+
+          // ── Scan ───────────────────────────────────────────────────────────
+          const allFiles = [];
+          for (const dir of SCAN_DIRS) {
+            allFiles.push(...walk(path.join(ROOT, dir)));
+          }
+
+          // Also scan config/
+          allFiles.push(...walk(path.join(ROOT, 'config')));
+
+          const newSources = [];
+          const existingSources = [];
+
+          for (const filePath of allFiles) {
+            // Skip manifest itself
+            if (filePath === 'data/manifest.json') continue;
+
+            const full = path.join(ROOT, filePath);
+            let size = 0;
+            try { size = fs.statSync(full).size; } catch (_) {}
+
+            const entry = {
+              path: filePath,
+              sizeBytes: size,
+              inDataManifest: registeredPaths.has(filePath),
+              inFilesManifest: dataManifestFiles.has(filePath)
+            };
+
+            if (!registeredPaths.has(filePath)) {
+              newSources.push(entry);
+            } else {
+              existingSources.push(entry);
+            }
+          }
+
+          // ── Freshness check ────────────────────────────────────────────────
+          const now = Date.now();
+          const MS_PER_DAY = 86400000;
+          const staleEntries = [];
+          const agingEntries = [];
+
+          for (const s of (manifest.sources || [])) {
+            if (!s.last_update) continue;
+            const lastUpdate = new Date(s.last_update).getTime();
+            if (isNaN(lastUpdate)) continue;
+            const days = Math.floor((now - lastUpdate) / MS_PER_DAY);
+
+            // Rough thresholds based on update_method
+            const maxAge = s.update_method === 'daily' ? 2
+                         : s.update_method === 'weekly' ? 10
+                         : s.update_method === 'monthly' ? 45
+                         : 400;
+            const agingThreshold = Math.floor(maxAge * 0.7);
+
+            if (days > maxAge)         staleEntries.push({ ...s, daysSince: days });
+            else if (days > agingThreshold) agingEntries.push({ ...s, daysSince: days });
+          }
+
+          // ── Build report ───────────────────────────────────────────────────
+          const report = {
+            scanTimestamp:    new Date().toISOString(),
+            totalScanned:     allFiles.length,
+            newSourceCount:   newSources.length,
+            existingCount:    existingSources.length,
+            staleCount:       staleEntries.length,
+            agingCount:       agingEntries.length,
+            newSources,
+            staleEntries:     staleEntries.map(s => ({ path: s.file_path, name: s.source_name, daysSince: s.daysSince })),
+            agingEntries:     agingEntries.map(s => ({ path: s.file_path, name: s.source_name, daysSince: s.daysSince }))
+          };
+
+          // ── Write report ───────────────────────────────────────────────────
+          const reportDir = path.join(ROOT, 'data', 'discovery-reports');
+          if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
+
+          const reportFile = path.join(reportDir, 'latest.json');
+          fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
+
+          // Write Markdown summary
+          const mdLines = [
+            '# Data Source Discovery Report',
+            '',
+            '**Scan timestamp:** ' + report.scanTimestamp,
+            '',
+            '## Summary',
+            '',
+            '| Metric | Count |',
+            '|---|---|',
+            '| Files scanned | ' + report.totalScanned + ' |',
+            '| New (unregistered) | ' + report.newSourceCount + ' |',
+            '| Registered | ' + report.existingCount + ' |',
+            '| Stale (overdue) | ' + report.staleCount + ' |',
+            '| Aging (due soon) | ' + report.agingCount + ' |',
+            ''
+          ];
+
+          if (newSources.length) {
+            mdLines.push('## 🆕 New Unregistered Sources', '');
+            for (const s of newSources) {
+              mdLines.push('- `' + s.path + '` (' + Math.round(s.sizeBytes / 1024) + ' KB)');
+            }
+            mdLines.push('');
+          }
+
+          if (staleEntries.length) {
+            mdLines.push('## ⚠ Stale Sources', '');
+            for (const s of staleEntries) {
+              mdLines.push('- **' + s.name + '** — ' + s.daysSince + ' days since last update');
+            }
+            mdLines.push('');
+          }
+
+          if (agingEntries.length) {
+            mdLines.push('## ⏳ Aging Sources', '');
+            for (const s of agingEntries) {
+              mdLines.push('- ' + s.name + ' — ' + s.daysSince + ' days since last update');
+            }
+            mdLines.push('');
+          }
+
+          const mdPath = path.join(reportDir, 'latest.md');
+          fs.writeFileSync(mdPath, mdLines.join('\n'));
+
+          console.log('Discovery complete.');
+          console.log('  New sources:  ' + newSources.length);
+          console.log('  Stale:        ' + staleEntries.length);
+          console.log('  Aging:        ' + agingEntries.length);
+
+          // Set outputs for subsequent steps
+          const outputFile = process.env.GITHUB_OUTPUT;
+          if (outputFile) {
+            fs.appendFileSync(outputFile,
+              'new_count=' + newSources.length + '\n' +
+              'stale_count=' + staleEntries.length + '\n' +
+              'aging_count=' + agingEntries.length + '\n'
+            );
+          }
+          JSEOF
+
+      # ── Create GitHub issue for new sources ─────────────────────────────────
+      - name: Create GitHub issue for new unregistered sources
+        if: steps.discovery.outputs.new_count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NEW_COUNT="${{ steps.discovery.outputs.new_count }}"
+          STALE_COUNT="${{ steps.discovery.outputs.stale_count }}"
+          AGING_COUNT="${{ steps.discovery.outputs.aging_count }}"
+          SCAN_TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          BODY="## Data Source Discovery Alert
+
+          **Scan timestamp:** ${SCAN_TS}
+          **Run:** [$GITHUB_RUN_ID](https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)
+
+          | Metric | Count |
+          |---|---|
+          | 🆕 New unregistered sources | ${NEW_COUNT} |
+          | ⚠ Stale sources | ${STALE_COUNT} |
+          | ⏳ Aging sources | ${AGING_COUNT} |
+
+          New data files were detected that are not yet registered in \`DATA-MANIFEST.json\`.
+          Please review the [Data Review Hub](https://pggllc.github.io/Housing-Analytics/data-review-hub.html)
+          and the [discovery report](https://github.com/$GITHUB_REPOSITORY/blob/main/data/discovery-reports/latest.md).
+
+          ### Action Required
+          1. Open \`data-review-hub.html\` → **Pending Discovery** tab
+          2. Review suggested metadata for each new source
+          3. Click **Approve & Download Patch** to generate a manifest update
+          4. Commit the patched \`DATA-MANIFEST.json\` to the repository
+
+          _This issue was auto-created by the [data-source-monitoring workflow](.github/workflows/data-source-monitoring.yml)._"
+
+          gh issue create \
+            --title "🔍 Data Discovery: ${NEW_COUNT} new source(s) detected ($(date -u +%Y-%m-%d))" \
+            --body "$BODY" \
+            --label "data-discovery" \
+            --label "pending-review" \
+          || echo "Issue creation skipped (labels may not exist — create them manually)"
+
+      # ── Commit discovery report ─────────────────────────────────────────────
+      - name: Commit discovery report
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/discovery-reports/latest.json data/discovery-reports/latest.md
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update data discovery report [skip ci]"
+            git push
+          fi
+
+      # ── Upload artifact ─────────────────────────────────────────────────────
+      - name: Upload discovery report as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: data-discovery-report-${{ github.run_id }}
+          path: data/discovery-reports/
+          retention-days: 30
