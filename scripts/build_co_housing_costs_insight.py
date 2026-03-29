@@ -1147,7 +1147,6 @@ def generate_maps(
             "Avg Annual Residential Permits (5-yr avg, Census BPS)",
             ASSETS_MAPS / "co_county_permits_per_capita.html",
             fmt="{:,.0f}", colormap="YlGn", cfg=cfg,
-            cfg=cfg,
         )
 
 
