@@ -6,6 +6,21 @@
 (function () {
   'use strict';
 
+  // ── Utilities ─────────────────────────────────────────────────────────────
+
+  /**
+   * HTML-escape a string for safe insertion into innerHTML.
+   */
+  function _esc(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // ── State ─────────────────────────────────────────────────────────────────
 
   var state = {
@@ -218,7 +233,7 @@
         (s.geoUnit ? '<span class="drh-card-chip">📍 ' + _esc(s.geoUnit) + '</span>' : '') +
       '</div>' +
       '<dl class="drh-card-dl">' +
-        '<dt>Features</dt><dd>' + (s.features || '—') + '</dd>' +
+        '<dt>Features</dt><dd>' + _esc(s.features || '—') + '</dd>' +
         '<dt>Last updated</dt><dd>' + _esc(s.lastUpdated || '—') + '</dd>' +
         '<dt>Frequency</dt><dd>' + _esc(s.updateFrequency || '—') + '</dd>' +
         '<dt>Provider</dt><dd>' + _esc(s.provider || '—') + '</dd>' +
