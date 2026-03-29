@@ -43,7 +43,7 @@
   async function load() {
     const fetcher = (typeof window.safeFetchJSON === 'function')
       ? window.safeFetchJSON
-      : (u) => fetch(u).then(r => r.json());
+      : (u) => fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 
     const data = await fetcher(DATA_PATH);
     _allEntries    = data.rankings || [];

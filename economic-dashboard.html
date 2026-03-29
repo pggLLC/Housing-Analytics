@@ -53,6 +53,7 @@
   <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
 </div>
 <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
+<div id="pipeline-status-banner" class="pipeline-status-banner" hidden role="status" aria-live="polite"></div>
 
 <section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0;">
 <div style="padding:0 var(--sp4) var(--sp4);">
@@ -685,6 +686,36 @@ function getKey(){ return CONFIG_KEY || ""; }
       'Construction PPI data is especially useful for change-order exposure analysis.',
     ]
   });
+</script>
+
+<script>
+  // Pipeline status banner — fetch lib/pipeline-status.json and warn if incomplete.
+  (function () {
+    'use strict';
+    var banner = document.getElementById('pipeline-status-banner');
+    if (!banner) return;
+    var statusUrl = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('lib/pipeline-status.json')
+      : 'lib/pipeline-status.json';
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }); };
+    fetcher(statusUrl)
+      .then(function (ps) {
+        // Make available for debugging
+        window.dataValidationStatus = ps;
+        if (!ps || ps.status === 'success') return;
+        var lastBuild = ps.lastSuccessfulBuild
+          ? new Date(ps.lastSuccessfulBuild).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : '—';
+        banner.textContent = '⚠ Some data may be incomplete. Last successful build: ' + lastBuild;
+        banner.removeAttribute('hidden');
+      })
+      .catch(function () {
+        // Missing or inaccessible status file — do not show banner.
+        window.dataValidationStatus = null;
+      });
+  }());
 </script>
 
 <footer id="site-footer"></footer>

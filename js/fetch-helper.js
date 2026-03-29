@@ -13,11 +13,16 @@
  *   - Console error on failure
  *   - Visible red error banner inserted into the page on failure
  *   - Error message also written into #statusPanel if present
+ *   - All failures appended to window.dataFetchErrors for monitoring
  */
 (function () {
   'use strict';
 
   var BASE = (typeof window.APP_BASE_PATH === 'string') ? window.APP_BASE_PATH : '/';
+
+  // Centralised error log — populated by every failed fetch so dashboards and
+  // support tooling can inspect `window.dataFetchErrors` without reading the console.
+  window.dataFetchErrors = window.dataFetchErrors || [];
   var CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
   /**
@@ -225,6 +230,13 @@
                 try { return new URL(url).pathname; } catch (e) { return relativePath; }
               }());
               console.error('[fetch-helper] Failed to load "' + relativePath + '" after ' + maxRetries + ' attempts:', err);
+              // Record to window.dataFetchErrors for monitoring
+              window.dataFetchErrors.push({
+                path: relativePath,
+                url: url,
+                error: err ? (err.message || String(err)) : 'unknown',
+                timestamp: new Date().toISOString()
+              });
               if (!background) {
                 showErrorBanner(pathLabel);
                 updateStatusPanel('Failed to load ' + pathLabel);
