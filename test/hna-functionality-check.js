@@ -105,6 +105,9 @@ const REQUIRED_IDS = [
     'methodology',
     // Local resources
     'localResources',
+    // Scenario tool elements (PR #457 / scenario-tool fixes)
+    'btnResetScenarioDefaults',
+    'scenarioNeedSummary',
 ];
 
 test('HTML: all required UI element IDs are present', () => {
@@ -805,6 +808,90 @@ test('Python build_hna_data.py: fetch_counties uses STATEFP (not STATE) for TIGE
     assert(
         !py.includes("STATE='{STATE_FIPS_CO}'") && !py.includes("STATE='08'"),
         'fetch_counties does NOT use the deprecated STATE= alias'
+    );
+});
+
+
+// ---------------------------------------------------------------------------
+// HNA Scenario Tool: chart resize fix & reset button (PR #457 features)
+// ---------------------------------------------------------------------------
+test('JS: chart resize race condition fixed with requestAnimationFrame', () => {
+    assert(
+        js.includes('requestAnimationFrame') && js.includes('ch.resize()') && js.includes("ch.update('none')"),
+        'requestAnimationFrame wraps ch.resize() and ch.update() for hidden-view charts'
+    );
+});
+
+test('JS: reset button uses correct per-scenario migration defaults', () => {
+    assert(js.includes('migration: 500'),  'baseline scenario uses 500/yr migration default');
+    assert(js.includes('migration: 250'),  'low_growth scenario uses 250/yr migration default');
+    assert(js.includes('migration: 1000'), 'high_growth scenario uses 1000/yr migration default');
+});
+
+test('JS: __announceUpdate called on projection view toggle for WCAG 4.1.3', () => {
+    assert(
+        js.includes("__announceUpdate(`Scenario view changed to:") ||
+        js.includes("__announceUpdate('Scenario view changed to:"),
+        '__announceUpdate is called when projection view tab changes'
+    );
+});
+
+// ---------------------------------------------------------------------------
+// HNA Scenario Tool: accessibility attributes (WCAG 2.5.5 touch targets)
+// ---------------------------------------------------------------------------
+test('HTML: projection view toggle uses role="group" with aria-label', () => {
+    assert(
+        html.includes('role="group"') && html.includes('aria-label="Projection view selector"'),
+        'projection view selector has role="group" and aria-label'
+    );
+});
+
+test('HTML: projection view labels use .proj-view-label class (WCAG 2.5.5 touch target)', () => {
+    assert(
+        html.includes('class="proj-view-label"'),
+        '.proj-view-label class applied to projection toggle labels'
+    );
+});
+
+// ---------------------------------------------------------------------------
+// HNA CSS: new utility classes added with PR #457
+// ---------------------------------------------------------------------------
+test('CSS: .checklist-item-note rule is defined', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.checklist-item-note'), '.checklist-item-note CSS rule exists');
+    assert(css.includes('.checklist-item.done .checklist-item-note'), '.checklist-item.done hides note');
+});
+
+test('CSS: .action-plan-grid responsive grid rule is defined', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.action-plan-grid'), '.action-plan-grid class exists');
+    assert(
+        css.includes('grid-template-columns: 1fr 1fr') || css.includes('grid-template-columns:1fr 1fr'),
+        '.action-plan-grid uses two-column layout'
+    );
+});
+
+test('CSS: .proj-view-label enforces WCAG 2.5.5 minimum touch target sizes', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.proj-view-label'), '.proj-view-label CSS rule exists');
+    assert(css.includes('min-height: 44px'), '.proj-view-label has min-height: 44px (WCAG 2.5.5)');
+    assert(css.includes('min-width: 44px'),  '.proj-view-label has min-width: 44px (WCAG 2.5.5)');
+});
+
+// ---------------------------------------------------------------------------
+// HNA DLG methodology alignment
+// ---------------------------------------------------------------------------
+test('HTML: DLG methodology reference link is present', () => {
+    assert(
+        html.includes('href="https://dlg.colorado.gov/') &&
+        html.includes('final-housing-needs-assessment-methodology'),
+        'DLG HNA methodology reference link points to the correct URL'
     );
 });
 
