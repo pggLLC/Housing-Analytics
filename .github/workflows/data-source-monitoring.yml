@@ -1,0 +1,137 @@
+name: Data Source Monitoring
+
+on:
+  schedule:
+    # Run daily at 06:30 UTC (after most nightly data-refresh jobs complete)
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+    inputs:
+      create_issue:
+        description: 'Create a GitHub issue for stale/new sources (true/false)'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  monitor:
+    name: Scan data sources for staleness and new files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run data-source monitoring script
+        id: monitor
+        shell: bash
+        run: |
+          node scripts/data-source-monitor.js 2>&1 | tee /tmp/monitor-output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: Upload monitoring report
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-source-monitor-report
+          path: /tmp/monitor-output.txt
+          retention-days: 14
+
+      - name: Parse monitoring results
+        id: parse
+        run: |
+          STALE_COUNT=$(grep -c "STALE:" /tmp/monitor-output.txt || true)
+          AGING_COUNT=$(grep -c "AGING:" /tmp/monitor-output.txt || true)
+          NEW_COUNT=$(grep -c "NEW_FILE:" /tmp/monitor-output.txt || true)
+          echo "stale_count=${STALE_COUNT}" >> "$GITHUB_OUTPUT"
+          echo "aging_count=${AGING_COUNT}" >> "$GITHUB_OUTPUT"
+          echo "new_count=${NEW_COUNT}" >> "$GITHUB_OUTPUT"
+          echo "has_issues=$([[ ${STALE_COUNT} -gt 0 || ${NEW_COUNT} -gt 0 ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub issue for data problems
+        if: >
+          steps.parse.outputs.has_issues == 'true' &&
+          (github.event_name == 'schedule' || inputs.create_issue == 'true')
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/monitor-output.txt', 'utf8');
+            const staleCount  = parseInt('${{ steps.parse.outputs.stale_count }}') || 0;
+            const agingCount  = parseInt('${{ steps.parse.outputs.aging_count }}') || 0;
+            const newCount    = parseInt('${{ steps.parse.outputs.new_count }}') || 0;
+            const today = new Date().toISOString().split('T')[0];
+
+            const title = `[Data Monitor] ${staleCount} stale, ${agingCount} aging, ${newCount} new — ${today}`;
+            const body = [
+              '## 📊 Daily Data Source Monitor Report',
+              '',
+              `**Run date:** ${today}`,
+              `**Stale sources:** ${staleCount}`,
+              `**Aging sources:** ${agingCount}`,
+              `**Unregistered new files:** ${newCount}`,
+              '',
+              '### Details',
+              '```',
+              report.slice(0, 8000),
+              '```',
+              '',
+              `### Action Required`,
+              staleCount > 0
+                ? '- Update stale data sources or extend `maxAgeDays` if the delay is expected.'
+                : '',
+              newCount > 0
+                ? '- Register new data files in `js/data-source-inventory.js` with full metadata.'
+                : '',
+              '',
+              `View the [Data Review Hub](https://pggllc.github.io/Housing-Analytics/data-review-hub.html) for full details.`,
+            ].filter(l => l !== '').join('\n');
+
+            // Look for an existing open monitor issue from today
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'data-monitor',
+              per_page: 10,
+            });
+
+            const existing = issues.data.find(i => i.title.includes(today));
+
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+              console.log(`Updated existing issue #${existing.number}`);
+            } else {
+              const newIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['data-monitor'],
+              });
+              console.log(`Created issue #${newIssue.data.number}`);
+            }
+
+      - name: Print summary
+        run: |
+          echo "### Data Source Monitor Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Status | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔴 Stale | ${{ steps.parse.outputs.stale_count }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ⚠️ Aging | ${{ steps.parse.outputs.aging_count }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🆕 New unregistered files | ${{ steps.parse.outputs.new_count }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Full report available as workflow artifact." >> "$GITHUB_STEP_SUMMARY"

@@ -34,6 +34,7 @@ jobs:
           check_file "market-analysis.html"
           check_file "market-intelligence.html"
           check_file "dashboard-data-sources-ui.html"
+          check_file "data-review-hub.html"
 
           echo ""
           echo "=== Checking required JS files ==="
@@ -43,6 +44,7 @@ jobs:
           check_file "js/data-source-inventory.js"
           check_file "js/temporal-dashboard.js"
           check_file "js/geographic-dashboard.js"
+          check_file "js/source-attribution.js"
 
           echo ""
           echo "=== Checking required CSS files ==="
@@ -86,6 +88,9 @@ jobs:
           check_script_ref "dashboard-data-sources-ui.html" "js/data-source-inventory.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/temporal-dashboard.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/geographic-dashboard.js"
+          check_script_ref "data-review-hub.html" "js/data-source-inventory.js"
+          check_script_ref "data-review-hub.html" "js/temporal-dashboard.js"
+          check_script_ref "data-review-hub.html" "js/data-quality-check.js"
 
           if [ $errors -gt 0 ]; then
             echo ""

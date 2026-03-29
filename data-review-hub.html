@@ -62,15 +62,11 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/dark-mode.css">
   <link rel="stylesheet" href="css/data-dashboard.css">
-  <!-- Leaflet (vendored locally) -->
-  <link rel="stylesheet" href="js/vendor/leaflet.css">
-  <script src="js/vendor/leaflet.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script src="js/data-source-inventory.js"></script>
   <script src="js/temporal-dashboard.js"></script>
-  <script src="js/geographic-dashboard.js"></script>
 
   <style>
     /* ── Quality tab ─────────────────────────────────────────────── */
@@ -346,7 +342,6 @@
             <option value="stale">Stale</option>
           </select>
           <button class="dd-btn dd-btn--primary" id="ddExportTableCsv">⬇ CSV</button>
-          <button class="dd-btn" id="ddViewOnMap" style="display:inline-flex;align-items:center;gap:.3rem">🗺️ View on Map</button>
           <span id="ddTableCount" style="font-size:.8rem;color:var(--text-secondary,#888);align-self:center"></span>
         </div>
         <div class="dd-table-wrap">
@@ -647,12 +642,6 @@
     if (tab) tab.setAttribute('aria-selected', 'true');
 
     // Lazy render on first open
-    if (panelId === 'panel-timeline' && !document.getElementById('ddTimeline').children.length) {
-      renderTimeline();
-    }
-    if (panelId === 'panel-geographic' && !document.getElementById('ddCoverageSummary').children.length) {
-      renderGeographic();
-    }
     if (panelId === 'panel-sources' && !document.getElementById('ddTableBody').querySelector('tr td')) {
       renderTable();
     }
@@ -866,11 +855,6 @@
       applyFilters();
     });
 
-    var viewOnMapBtn = document.getElementById('ddViewOnMap');
-    if (viewOnMapBtn) {
-      viewOnMapBtn.addEventListener('click', function () { activateTab('panel-geographic'); });
-    }
-
     window.__ddApplyFilters = applyFilters;
   }
 
@@ -1011,35 +995,6 @@
                 '<code style="font-size:.72rem;word-break:break-all">' + esc(s.apiEndpoint) + '</code></div>' +
               '</div>';
           }).join('');
-    }
-  }
-
-  // ── Timeline / Geographic (lazy) ─────────────────────────────────
-  function renderTimeline() {
-    var TD = window.TemporalDashboard;
-    if (!TD) return;
-    TD.renderTimeline(document.getElementById('ddTimeline'), allSources);
-    TD.renderUpdateSchedule(document.getElementById('ddUpdateSchedule'), allSources);
-  }
-
-  var _geoRendered = false;
-  function renderGeographic() {
-    var GD = window.GeographicDashboard;
-    if (!GD) return;
-    if (!_geoRendered) {
-      GD.initCoverageMap('ddCoverageMap', allSources);
-      _geoRendered = true;
-    }
-    GD.renderCoverageSummary(document.getElementById('ddCoverageSummary'), allSources);
-    GD.renderCoverageMatrix(document.getElementById('ddCoverageMatrix'), allSources, 'County');
-    var matrixEl = document.getElementById('ddCoverageMatrix');
-    if (matrixEl && !matrixEl.dataset.geoListenerAttached) {
-      matrixEl.dataset.geoListenerAttached = '1';
-      matrixEl.addEventListener('change', function (e) {
-        if (e.target && e.target.id === 'geoUnitFilter') {
-          GD.renderCoverageMatrix(matrixEl, allSources, e.target.value);
-        }
-      });
     }
   }
 

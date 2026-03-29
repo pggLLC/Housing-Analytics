@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pggllc.github.io/Housing-Analytics/schemas/data-source-schema.json",
+  "title": "COHO Analytics — Data Source Schema Template",
+  "description": "Schema.org Dataset-compatible template for documenting data sources in the COHO Housing Analytics platform. Use this template to generate JSON-LD markup for each registered dataset.",
+  "version": "1.0.0",
+  "generated": "2026-03-29T15:00:00Z",
+  "templates": {
+    "DataCatalog": {
+      "@context": "https://schema.org",
+      "@type": "DataCatalog",
+      "@id": "https://pggllc.github.io/Housing-Analytics/data-review-hub.html",
+      "name": "COHO Analytics Data Catalog",
+      "description": "Unified inventory of 50+ data sources powering the Colorado Housing Analytics platform. Covers LIHTC, demographics, economic indicators, market data, GIS, and policy datasets.",
+      "url": "https://pggllc.github.io/Housing-Analytics/data-review-hub.html",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "creator": {
+        "@type": "Organization",
+        "name": "COHO Analytics / pggLLC",
+        "url": "https://pggllc.github.io/Housing-Analytics/"
+      },
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "Colorado, United States",
+        "geo": {
+          "@type": "GeoShape",
+          "box": "37.0 -109.1 41.0 -102.0"
+        }
+      },
+      "temporalCoverage": "2010/..",
+      "dateModified": "2026-03-29",
+      "keywords": ["affordable housing", "LIHTC", "Colorado", "HUD", "census", "economic indicators", "housing needs assessment"]
+    },
+    "Dataset": {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "@id": "REPLACE_WITH_DATASET_URI",
+      "name": "REPLACE_WITH_NAME",
+      "description": "REPLACE_WITH_DESCRIPTION",
+      "url": "REPLACE_WITH_SOURCE_URL",
+      "identifier": "REPLACE_WITH_SOURCE_ID",
+      "version": "REPLACE_WITH_VERSION_OR_DATE",
+      "dateModified": "REPLACE_WITH_LAST_UPDATED_ISO",
+      "license": "REPLACE_WITH_LICENSE_URL",
+      "creator": {
+        "@type": "Organization",
+        "name": "REPLACE_WITH_PROVIDER_NAME"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "COHO Analytics / pggLLC",
+        "url": "https://pggllc.github.io/Housing-Analytics/"
+      },
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "REPLACE_WITH_FORMAT",
+        "contentUrl": "REPLACE_WITH_LOCAL_FILE_URL"
+      },
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "REPLACE_WITH_COVERAGE"
+      },
+      "temporalCoverage": "REPLACE_WITH_TEMPORAL_COVERAGE",
+      "measurementTechnique": "REPLACE_WITH_UPDATE_METHOD",
+      "variableMeasured": "REPLACE_WITH_FIELDS",
+      "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "@id": "https://pggllc.github.io/Housing-Analytics/data-review-hub.html"
+      }
+    }
+  },
+  "fieldDefinitions": {
+    "id": {
+      "type": "string",
+      "description": "Unique machine-readable identifier for the data source. Used as key in cross-references and URL fragments.",
+      "example": "hud-lihtc-co"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the data source.",
+      "example": "HUD LIHTC Colorado"
+    },
+    "category": {
+      "type": "string",
+      "description": "Thematic category grouping for the source.",
+      "enum": ["LIHTC / Housing", "QCT / DDA", "Policy", "Economic", "Demographic", "Market", "GIS", "Amenity", "Preservation", "Projections", "Compliance", "System", "Regional"]
+    },
+    "format": {
+      "type": "string",
+      "description": "File or data format.",
+      "enum": ["JSON", "GeoJSON", "CSV", "API"]
+    },
+    "provider": {
+      "type": "string",
+      "description": "Organization that publishes or maintains the primary data source."
+    },
+    "url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Canonical URL of the upstream data provider or dataset landing page."
+    },
+    "localFile": {
+      "type": "string",
+      "description": "Relative path to the cached local copy of the data file within this repository.",
+      "example": "data/market/hud_lihtc_co.geojson"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date string of the most recent data refresh.",
+      "example": "2025-12-01"
+    },
+    "updateFrequency": {
+      "type": "string",
+      "description": "Expected cadence for data refresh.",
+      "enum": ["Daily", "Weekly", "Monthly", "Quarterly", "Annual", "On deploy", "Session-based", "As-filed", "Manual"]
+    },
+    "maxAgeDays": {
+      "type": "integer",
+      "description": "Maximum acceptable age in days before the source is considered stale. Used to compute freshness score.",
+      "example": 365
+    },
+    "geoUnit": {
+      "type": "string",
+      "description": "Geographic unit of observation for spatial data.",
+      "example": "County"
+    },
+    "coverage": {
+      "type": "string",
+      "description": "Human-readable description of geographic or thematic coverage.",
+      "example": "Colorado statewide"
+    },
+    "features": {
+      "type": ["integer", "null"],
+      "description": "Approximate number of records, features, or data points in the dataset.",
+      "example": 64
+    },
+    "description": {
+      "type": "string",
+      "description": "Full human-readable description of the dataset, including key fields and use cases."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Searchable keyword tags for the dataset."
+    },
+    "apiEndpoint": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Live API endpoint if the source supports real-time or on-demand queries."
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Alternative sources or related resources providing similar data.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "whereUsed": {
+      "type": "array",
+      "description": "List of dashboard pages that consume this data source, enabling traceability from source to visualization.",
+      "items": {
+        "type": "object",
+        "required": ["page", "label"],
+        "properties": {
+          "page": {
+            "type": "string",
+            "description": "Relative filename of the consuming dashboard page.",
+            "example": "housing-needs-assessment.html"
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable name of the consuming page.",
+            "example": "Housing Needs Assessment"
+          },
+          "section": {
+            "type": "string",
+            "description": "Specific section, chart, or component within the page that uses this source.",
+            "example": "AMI Gap Chart"
+          }
+        }
+      }
+    }
+  },
+  "freshnessThresholds": {
+    "current": "Days since update ≤ 70% of maxAgeDays",
+    "aging": "Days since update between 70%–100% of maxAgeDays",
+    "stale": "Days since update > maxAgeDays",
+    "unknown": "No lastUpdated date recorded"
+  },
+  "citation": {
+    "format": "COHO Analytics. ({YEAR}). {DATASET_NAME} [Data set]. Retrieved from https://pggllc.github.io/Housing-Analytics/data-review-hub.html",
+    "bibtex": "@dataset{coho_{YEAR},\n  author = {COHO Analytics / pggLLC},\n  title = {{DATASET_NAME}},\n  year = {YEAR},\n  publisher = {pggLLC},\n  url = {https://pggllc.github.io/Housing-Analytics/data-review-hub.html}\n}"
+  }
+}

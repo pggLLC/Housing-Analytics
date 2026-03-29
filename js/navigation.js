@@ -38,7 +38,7 @@
         { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
         { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
         { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
-        { label: "Data Health", href: "data-status.html", desc: "Pipeline & data freshness" },
+        { label: "Data Hub", href: "data-review-hub.html", desc: "Sources, quality & transparency" },
       ]
     },
     {
