@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-29T14:26:51.691Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-29T15:59:34.199Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-35 pages found.
+36 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -25,6 +25,7 @@
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 14.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
+| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.5 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 10.3 KB |
@@ -50,7 +51,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-867 JSON files found.
+868 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -72,6 +73,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 333 B | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 948.5 KB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
@@ -1015,7 +1017,7 @@
 
 ## GitHub Actions Workflows
 
-34 workflow files found.
+35 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1034,6 +1036,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-quality-check.yml` | 6.0 KB |
 | `.github/workflows/data-refresh.yml` | 3.2 KB |
+| `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
