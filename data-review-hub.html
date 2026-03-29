@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Data Review &amp; Transparency Hub | COHO Analytics</title>
+  <meta name="description" content="Unified inventory, quality checks, and source attribution for all COHO Analytics datasets.">
+  <meta property="og:title" content="Data Review &amp; Transparency Hub | COHO Analytics">
+  <meta property="og:description" content="Unified inventory, quality checks, and source attribution for all COHO Analytics datasets.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "COHO Analytics Data Hub",
+    "description": "Unified inventory, quality checks, and source attribution for all COHO Analytics housing datasets covering Colorado.",
+    "url": "https://coho.analytics/data-review-hub.html",
+    "publisher": {
+      "@type": "Organization",
+      "name": "COHO Analytics",
+      "url": "https://coho.analytics"
+    },
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Colorado, United States",
+      "geo": {
+        "@type": "GeoShape",
+        "box": "37.0 -109.1 41.0 -102.0"
+      }
+    },
+    "temporalCoverage": "2020/..",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "keywords": ["housing", "Colorado", "LIHTC", "AMI", "census", "FRED", "data quality"],
+    "includedInDataCatalog": {
+      "@type": "DataCatalog",
+      "name": "COHO Analytics Data Catalog"
+    },
+    "about": [
+      { "@type": "Thing", "name": "Affordable Housing" },
+      { "@type": "Thing", "name": "Colorado Demographics" },
+      { "@type": "Thing", "name": "Low Income Housing Tax Credit" }
+    ]
+  }
+  </script>
+
+  <script src="js/config.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/data-quality-check.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+  <link rel="stylesheet" href="css/data-dashboard.css">
+  <!-- Leaflet (vendored locally) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script src="js/data-source-inventory.js"></script>
+  <script src="js/temporal-dashboard.js"></script>
+  <script src="js/geographic-dashboard.js"></script>
+
+  <style>
+    /* ── Quality tab ─────────────────────────────────────────────── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .status-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .status-card__icon  { font-size: 1.4rem; line-height: 1; }
+    .status-card__label { font-weight: 700; font-size: .95rem; color: var(--text); }
+    .status-card__detail { font-size: .82rem; color: var(--muted); line-height: 1.4; }
+    .status-card__age   { font-size: .78rem; color: var(--faint); margin-top: .2rem; }
+    .status-card--ok      { border-left: 3px solid var(--good); }
+    .status-card--warn    { border-left: 3px solid var(--warn); }
+    .status-card--error   { border-left: 3px solid var(--bad); }
+    .status-card--loading { border-left: 3px solid var(--border-strong); opacity: .7; }
+    #qualityStatusSummary {
+      padding: .75rem 1rem;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    #qualityStatusSummary.ok    { background: var(--good-dim); color: var(--good); }
+    #qualityStatusSummary.warn  { background: var(--warn-dim); color: var(--warn); }
+    #qualityStatusSummary.error { background: var(--bad-dim);  color: var(--bad); }
+    .quality-source-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: .88rem; }
+    .quality-source-table th { text-align: left; padding: .5rem .75rem; border-bottom: 2px solid var(--border); color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+    .quality-source-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .quality-source-table tr:last-child td { border-bottom: none; }
+    .badge-ok    { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--good-dim);color:var(--good);font-size:.78rem;font-weight:700; }
+    .badge-warn  { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--warn-dim);color:var(--warn);font-size:.78rem;font-weight:700; }
+    .badge-error { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bad-dim);color:var(--bad);font-size:.78rem;font-weight:700; }
+    .badge-loading { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bg2);color:var(--muted);font-size:.78rem;font-weight:700; }
+
+    /* ── Where Used tab ─────────────────────────────────────────── */
+    .wu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .wu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .wu-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+    .wu-card__name { font-weight: 700; font-size: .95rem; color: var(--text); flex: 1; }
+    .wu-card__cat  { font-size: .72rem; background: var(--accent-light); color: var(--accent); border-radius: 4px; padding: .1rem .45rem; white-space: nowrap; align-self: flex-start; }
+    .wu-card__pages { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+    .wu-card__pages li { font-size: .83rem; }
+    .wu-card__pages a { color: var(--accent); }
+    .wu-card__pages .wu-section { font-size: .74rem; color: var(--muted); margin-left: .25rem; }
+    .wu-card__none { font-size: .82rem; color: var(--muted); font-style: italic; }
+    .wu-card__feat { font-size: .75rem; color: var(--faint); margin-top: .2rem; }
+    .wu-toolbar { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .75rem; }
+    .wu-toolbar input[type="search"] { flex: 1; min-width: 180px; }
+
+    /* ── Metadata tab ────────────────────────────────────────────── */
+    .meta-section { margin-bottom: 1.5rem; }
+    .meta-section h3 { font-size: .95rem; font-weight: 700; margin: 0 0 .5rem; color: var(--text); }
+    .meta-jsonld {
+      background: var(--bg2, #f5f7fa);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-size: .77rem;
+      font-family: monospace;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 340px;
+      overflow-y: auto;
+      color: var(--text);
+    }
+    .meta-field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: .75rem;
+      margin-top: .75rem;
+    }
+    .meta-field-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem .9rem;
+      font-size: .83rem;
+    }
+    .meta-field-card .mfc-key { font-weight: 700; color: var(--text); font-size: .88rem; margin-bottom: .25rem; }
+    .meta-field-card .mfc-val { color: var(--muted); font-size: .8rem; }
+    .meta-field-card .mfc-val code { font-size: .75rem; background: var(--bg2, #f5f7fa); padding: .05rem .3rem; border-radius: 3px; }
+    .meta-cite-box {
+      background: var(--bg2, #f5f7fa);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: .75rem 1rem;
+      font-size: .83rem;
+      color: var(--text);
+    }
+    .meta-cite-box code { font-size: .78rem; }
+
+    /* ── Archive notice ─────────────────────────────────────────── */
+    .archive-notice {
+      background: var(--bg2, #f5f7fa);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .6rem 1rem;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 1.25rem;
+    }
+    .archive-notice a { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .status-grid, .wu-grid, .meta-field-grid { grid-template-columns: 1fr; }
+      .quality-source-table { display: none; }
+    }
+  </style>
+</head>
+<body class="no-shell" data-page="data-review-hub.html">
+
+<div id="ddLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header id="site-header"></header>
+
+<main id="main-content">
+  <div class="dd-layout">
+
+    <!-- ── Sidebar ──────────────────────────────────────────────── -->
+    <aside class="dd-sidebar" aria-label="Data source filters">
+      <div class="dd-sidebar-section">
+        <div class="dd-sidebar-title">Status</div>
+        <button class="dd-filter-btn active" data-filter="status" data-value="all">All Sources</button>
+        <button class="dd-filter-btn" data-filter="status" data-value="current">✅ Current</button>
+        <button class="dd-filter-btn" data-filter="status" data-value="aging">⚠️ Aging</button>
+        <button class="dd-filter-btn" data-filter="status" data-value="stale">🔴 Stale</button>
+        <button class="dd-filter-btn" data-filter="status" data-value="unknown">❓ Unknown</button>
+      </div>
+      <div class="dd-sidebar-section">
+        <div class="dd-sidebar-title">Category</div>
+        <div id="ddCategoryFilters"></div>
+      </div>
+      <div class="dd-sidebar-section">
+        <div class="dd-sidebar-title">Format</div>
+        <button class="dd-filter-btn active" data-filter="format" data-value="all">All Formats</button>
+        <button class="dd-filter-btn" data-filter="format" data-value="json">JSON</button>
+        <button class="dd-filter-btn" data-filter="format" data-value="geojson">GeoJSON</button>
+      </div>
+      <div class="dd-sidebar-section">
+        <div class="dd-sidebar-title">Update Frequency</div>
+        <button class="dd-filter-btn active" data-filter="freq" data-value="all">All</button>
+        <button class="dd-filter-btn" data-filter="freq" data-value="daily">Daily</button>
+        <button class="dd-filter-btn" data-filter="freq" data-value="weekly">Weekly</button>
+        <button class="dd-filter-btn" data-filter="freq" data-value="monthly">Monthly</button>
+        <button class="dd-filter-btn" data-filter="freq" data-value="annual">Annual</button>
+      </div>
+      <div class="dd-sidebar-section">
+        <div class="dd-sidebar-title">Export</div>
+        <button class="dd-btn" id="ddExportCsv" style="width:100%;margin-bottom:.4rem">⬇ Export CSV</button>
+        <button class="dd-btn" id="ddExportJson" style="width:100%">⬇ Export JSON</button>
+      </div>
+    </aside>
+
+    <!-- ── Main ─────────────────────────────────────────────────── -->
+    <div class="dd-main">
+
+      <!-- Page header -->
+      <div style="margin-bottom:1rem">
+        <h1 style="font-size:1.35rem;font-weight:700;margin:0 0 .25rem;color:var(--text-primary,#1a1a2e)">
+          Data Review &amp; Transparency Hub
+        </h1>
+        <p style="font-size:.875rem;color:var(--text-secondary,#666);margin:0">
+          Unified inventory, quality checks, and source attribution for all COHO Analytics datasets.
+          <small id="ddTimestamp" style="display:block;margin-top:.2rem;opacity:.7"></small>
+        </p>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="dd-stats-bar" role="region" aria-label="Summary statistics">
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">Total Sources</div>
+          <div class="dd-stat-value" id="ddStatTotal">—</div>
+          <div class="dd-stat-sub">in registry</div>
+        </div>
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">✅ Current</div>
+          <div class="dd-stat-value" id="ddStatCurrent" style="color:#2e7d32">—</div>
+          <div class="dd-stat-sub">fresh sources</div>
+        </div>
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">⚠️ Aging</div>
+          <div class="dd-stat-value" id="ddStatAging" style="color:#f57c00">—</div>
+          <div class="dd-stat-sub">need attention</div>
+        </div>
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">🔴 Stale</div>
+          <div class="dd-stat-value" id="ddStatStale" style="color:#c62828">—</div>
+          <div class="dd-stat-sub">overdue</div>
+        </div>
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">Avg Freshness</div>
+          <div class="dd-stat-value" id="ddStatFreshness">—</div>
+          <div class="dd-stat-sub">% average score</div>
+        </div>
+        <div class="dd-stat-card">
+          <div class="dd-stat-label">Categories</div>
+          <div class="dd-stat-value" id="ddStatCategories">—</div>
+          <div class="dd-stat-sub">data categories</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="dd-tabs" role="tablist" aria-label="Hub sections">
+        <button class="dd-tab" role="tab" id="tab-overview"   aria-selected="true"  aria-controls="panel-overview">Overview</button>
+        <button class="dd-tab" role="tab" id="tab-sources"    aria-selected="false" aria-controls="panel-sources">Sources</button>
+        <button class="dd-tab" role="tab" id="tab-quality"    aria-selected="false" aria-controls="panel-quality">Quality</button>
+        <button class="dd-tab" role="tab" id="tab-whereused"  aria-selected="false" aria-controls="panel-whereused">Where Used</button>
+        <button class="dd-tab" role="tab" id="tab-metadata"   aria-selected="false" aria-controls="panel-metadata">Metadata</button>
+        <button class="dd-tab" role="tab" id="tab-audit"      aria-selected="false" aria-controls="panel-audit">Audit</button>
+      </div>
+
+      <!-- ── Panel: Overview ──────────────────────────────────────── -->
+      <div id="panel-overview" class="dd-panel active" role="tabpanel" aria-labelledby="tab-overview">
+        <h2 style="font-size:1rem;font-weight:700;margin:0 0 .75rem">Category Freshness Overview</h2>
+        <div id="ddFreshnessOverview"></div>
+
+        <h2 style="font-size:1rem;font-weight:700;margin:1.5rem 0 .75rem">Recent Activity</h2>
+        <div id="ddActivityFeed"></div>
+
+        <h2 style="font-size:1rem;font-weight:700;margin:1.5rem 0 .75rem">Due Soon (Next 30 Days)</h2>
+        <div id="ddDueSoon" style="color:var(--text-secondary,#888);font-size:.875rem">Loading…</div>
+
+        <div class="archive-notice" role="note">
+          <strong>Note:</strong> This hub replaces
+          <a href="archive/dashboard-data-sources-ui.html">dashboard-data-sources-ui.html</a> and
+          <a href="archive/data-status.html">data-status.html</a>.
+          View archived pages for historical reference.
+        </div>
+      </div>
+
+      <!-- ── Panel: Sources ───────────────────────────────────────── -->
+      <div id="panel-sources" class="dd-panel" role="tabpanel" aria-labelledby="tab-sources">
+        <div class="dd-toolbar">
+          <input type="search" id="ddSearch" class="dd-search" placeholder="Search sources…" aria-label="Search data sources">
+          <select id="ddCatFilter" class="dd-filter-select" aria-label="Category filter">
+            <option value="">All Categories</option>
+          </select>
+          <select id="ddStatusFilter" class="dd-filter-select" aria-label="Status filter">
+            <option value="">All Statuses</option>
+            <option value="current">Current</option>
+            <option value="aging">Aging</option>
+            <option value="stale">Stale</option>
+          </select>
+          <button class="dd-btn dd-btn--primary" id="ddExportTableCsv">⬇ CSV</button>
+          <button class="dd-btn" id="ddViewOnMap" style="display:inline-flex;align-items:center;gap:.3rem">🗺️ View on Map</button>
+          <span id="ddTableCount" style="font-size:.8rem;color:var(--text-secondary,#888);align-self:center"></span>
+        </div>
+        <div class="dd-table-wrap">
+          <table class="dd-table" id="ddSourcesTable" aria-label="Data sources inventory">
+            <thead>
+              <tr>
+                <th data-col="name">Name <span class="sort-icon"></span></th>
+                <th data-col="category">Category <span class="sort-icon"></span></th>
+                <th data-col="format">Format <span class="sort-icon"></span></th>
+                <th data-col="lastUpdated">Last Updated <span class="sort-icon"></span></th>
+                <th data-col="status">Status <span class="sort-icon"></span></th>
+                <th data-col="freshnessScore">Freshness <span class="sort-icon"></span></th>
+                <th data-col="coverage">Coverage <span class="sort-icon"></span></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ddTableBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-secondary,#888);padding:1.5rem">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Panel: Quality ───────────────────────────────────────── -->
+      <div id="panel-quality" class="dd-panel" role="tabpanel" aria-labelledby="tab-quality">
+        <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem">
+          <h2 style="font-size:1rem;font-weight:700;margin:0">Data Quality &amp; Freshness</h2>
+          <span id="qualityLastChecked" style="font-size:.82rem;color:var(--muted)">Checking…</span>
+          <button id="qualityRefreshBtn" class="dd-btn dd-btn--primary" type="button" style="font-size:.8rem;padding:.3rem .8rem">Re-check now</button>
+        </div>
+
+        <div id="qualityStatusSummary" class="ok" role="status" aria-live="polite">⏳ Running data validation…</div>
+
+        <div id="qualityStatusGrid" class="status-grid" aria-label="Dataset status cards">
+          <div class="status-card status-card--loading">
+            <div class="status-card__icon">⏳</div>
+            <div class="status-card__label">Loading…</div>
+          </div>
+        </div>
+
+        <section aria-labelledby="qualityTableHeading" style="margin-top:1.25rem">
+          <h3 id="qualityTableHeading" style="font-size:.95rem;font-weight:700;margin:0 0 .5rem">All Data Sources Detail</h3>
+          <table class="quality-source-table" aria-label="Data sources quality detail">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Status</th>
+                <th>Records</th>
+                <th>Cache Age</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="qualityTableBody">
+              <tr><td colspan="5" style="color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="dd-audit-section" style="margin-top:1.5rem" aria-labelledby="contentFreshnessHeading">
+          <div class="dd-audit-title" id="contentFreshnessHeading">Content Freshness</div>
+          <div class="status-grid" id="contentStatusGrid">
+            <div class="status-card status-card--loading" id="trendsStatusCard">
+              <div class="status-card__icon">⏳</div>
+              <div class="status-card__label">Key Market Trends</div>
+              <div class="status-card__detail">Checking verification date…</div>
+              <div class="status-card__age"></div>
+            </div>
+            <div class="status-card status-card--loading" id="alertPipelineCard">
+              <div class="status-card__icon">⏳</div>
+              <div class="status-card__label">Alert Pipeline</div>
+              <div class="status-card__detail">Checking feed status…</div>
+              <div class="status-card__age"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ── Panel: Where Used ─────────────────────────────────────── -->
+      <div id="panel-whereused" class="dd-panel" role="tabpanel" aria-labelledby="tab-whereused">
+        <h2 style="font-size:1rem;font-weight:700;margin:0 0 .75rem">Source Usage Across Dashboards</h2>
+        <p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem">
+          Each card shows which COHO Analytics pages consume that data source.
+        </p>
+        <div class="wu-toolbar">
+          <input type="search" id="wuSearch" class="dd-search" placeholder="Filter sources…" aria-label="Filter where-used sources">
+          <select id="wuCatFilter" class="dd-filter-select" aria-label="Category filter for where used">
+            <option value="">All Categories</option>
+          </select>
+          <span id="wuCount" style="font-size:.8rem;color:var(--muted);align-self:center"></span>
+        </div>
+        <div id="wuGrid" class="wu-grid" aria-label="Source usage cards">
+          <div class="wu-card"><div class="wu-card__name">Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- ── Panel: Metadata ───────────────────────────────────────── -->
+      <div id="panel-metadata" class="dd-panel" role="tabpanel" aria-labelledby="tab-metadata">
+        <h2 style="font-size:1rem;font-weight:700;margin:0 0 .75rem">Metadata &amp; Schema</h2>
+
+        <div class="meta-section">
+          <h3>Schema.org JSON-LD (Dataset markup)</h3>
+          <p style="font-size:.82rem;color:var(--muted);margin:0 0 .5rem">
+            The following structured data is embedded in the <code>&lt;head&gt;</code> of this page to aid search engines and data catalogues.
+          </p>
+          <pre class="meta-jsonld" id="metaJsonLdDisplay" aria-label="Schema.org JSON-LD markup for this dataset"></pre>
+        </div>
+
+        <div class="meta-section">
+          <h3>Field Definitions</h3>
+          <p style="font-size:.82rem;color:var(--muted);margin:0 0 .5rem">
+            Standard properties available on every source registry entry.
+          </p>
+          <div class="meta-field-grid" id="metaFieldGrid" aria-label="Source field definitions">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <div class="meta-section">
+          <h3>How to Cite</h3>
+          <div class="meta-cite-box">
+            <p style="margin:0 0 .4rem">When referencing data from COHO Analytics in publications or reports, use:</p>
+            <code id="metaCiteText">COHO Analytics. (<span id="metaCiteYear"></span>). <em>Colorado Housing Analytics Platform</em>. Retrieved from https://coho.analytics/data-review-hub.html</code>
+            <p style="margin:.5rem 0 0;font-size:.78rem;color:var(--muted)">
+              Individual dataset citations should also include the original source provider (e.g. FRED, Census Bureau, CHFA) and the <code>lastUpdated</code> date shown in the Sources tab.
+            </p>
+          </div>
+        </div>
+
+        <div class="meta-section">
+          <h3>Source Registry Summary</h3>
+          <div id="metaRegistrySummary" aria-label="Source registry summary table"></div>
+        </div>
+      </div>
+
+      <!-- ── Panel: Audit ──────────────────────────────────────────── -->
+      <div id="panel-audit" class="dd-panel" role="tabpanel" aria-labelledby="tab-audit">
+        <div class="dd-audit-section">
+          <div class="dd-audit-title">⚠️ Overdue Updates</div>
+          <div id="ddAuditOverdue"></div>
+        </div>
+        <div class="dd-audit-section">
+          <div class="dd-audit-title">✅ Well-Maintained Sources</div>
+          <div id="ddAuditCurrent"></div>
+        </div>
+        <div class="dd-audit-section">
+          <div class="dd-audit-title">🔌 API Endpoints Available</div>
+          <div id="ddAuditApis"></div>
+        </div>
+        <div class="dd-audit-section" style="margin-top:1.5rem">
+          <div class="dd-audit-title">Export Audit Report</div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button class="dd-btn dd-btn--primary" id="ddExportAuditCsv">⬇ CSV Audit Log</button>
+            <button class="dd-btn" id="ddExportAuditJson">⬇ JSON Metadata</button>
+            <button class="dd-btn" id="ddExportMarkdown">⬇ Markdown Report</button>
+          </div>
+        </div>
+
+        <div class="archive-notice" role="note">
+          Archiving <em>dashboard-data-sources-ui.html</em> and <em>data-status.html</em> — this hub replaces both.
+          View archived pages:
+          <a href="archive/dashboard-data-sources-ui.html">dashboard-data-sources-ui.html</a> ·
+          <a href="archive/data-status.html">data-status.html</a>
+        </div>
+      </div>
+
+    </div><!-- /.dd-main -->
+  </div><!-- /.dd-layout -->
+</main>
+
+<footer id="site-footer"></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ────────────────────────────────────────────────────────────────
+  // Shared helpers
+  // ────────────────────────────────────────────────────────────────
+  function esc(s) {
+    return (s == null ? '' : String(s))
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function announce(msg) {
+    var el = document.getElementById('ddLiveRegion');
+    if (el) {
+      el.setAttribute('aria-live', 'off');
+      el.textContent = msg;
+      requestAnimationFrame(function () { el.setAttribute('aria-live', 'polite'); });
+    }
+  }
+
+  function setText(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  function downloadFile(content, filename, type) {
+    var blob = new Blob([content], { type: type || 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function resolvePath(p) {
+    return (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl(p) : p;
+  }
+
+  function relTime(ms) {
+    if (ms === null || ms === undefined) return '—';
+    var s = Math.floor(ms / 1000);
+    if (s < 60) return s + 's ago';
+    var m = Math.floor(s / 60);
+    if (m < 60) return m + 'm ago';
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + 'h ago';
+    return Math.floor(h / 24) + 'd ago';
+  }
+
+  function daysSince(dateObj) {
+    return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // State
+  // ────────────────────────────────────────────────────────────────
+  var allSources = [];
+  var filteredSources = [];
+  var sortCol = 'lastUpdated';
+  var sortDir = 'desc';
+  var activeFilters = { status: 'all', format: 'all', freq: 'all', category: 'all' };
+  var expandedId = null;
+
+  // ────────────────────────────────────────────────────────────────
+  // Init
+  // ────────────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.DataSourceInventory) {
+      console.error('[data-review-hub] DataSourceInventory not loaded');
+      return;
+    }
+
+    allSources = window.DataSourceInventory.getSources();
+    filteredSources = allSources.slice();
+
+    var stats = window.DataSourceInventory.getStats();
+    setText('ddStatTotal',      stats.total);
+    setText('ddStatCurrent',    stats.counts.current || 0);
+    setText('ddStatAging',      stats.counts.aging || 0);
+    setText('ddStatStale',      stats.counts.stale || 0);
+    setText('ddStatFreshness',  stats.avgFreshness !== null ? stats.avgFreshness + '%' : '—');
+    setText('ddStatCategories', stats.categories);
+    setText('ddTimestamp',      'Generated: ' + new Date().toLocaleString());
+
+    buildCategoryFilters();
+    buildCatSelectFilter();
+    renderTable();
+    renderOverview();
+    renderAudit();
+    wireUpTabs();
+    wireUpSidebar();
+    wireUpTableControls();
+    wireUpExports();
+
+    // Quality tab
+    initQualityTab();
+
+    // Where Used tab
+    buildWuCatFilter();
+    renderWhereUsed(allSources);
+
+    // Metadata tab
+    initMetadataTab();
+
+    // Citation year
+    var yearEl = document.getElementById('metaCiteYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+
+  // ────────────────────────────────────────────────────────────────
+  // Tabs
+  // ────────────────────────────────────────────────────────────────
+  function activateTab(panelId) {
+    document.querySelectorAll('.dd-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.querySelectorAll('.dd-tab').forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+    var panel = document.getElementById(panelId);
+    var tabId = 'tab-' + panelId.replace('panel-', '');
+    if (panel) panel.classList.add('active');
+    var tab = document.getElementById(tabId);
+    if (tab) tab.setAttribute('aria-selected', 'true');
+
+    // Lazy render on first open
+    if (panelId === 'panel-timeline' && !document.getElementById('ddTimeline').children.length) {
+      renderTimeline();
+    }
+    if (panelId === 'panel-geographic' && !document.getElementById('ddCoverageSummary').children.length) {
+      renderGeographic();
+    }
+    if (panelId === 'panel-sources' && !document.getElementById('ddTableBody').querySelector('tr td')) {
+      renderTable();
+    }
+  }
+
+  function wireUpTabs() {
+    document.querySelectorAll('.dd-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var panelId = tab.getAttribute('aria-controls');
+        activateTab(panelId);
+        announce(tab.textContent.trim() + ' panel selected.');
+      });
+    });
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Overview panel
+  // ────────────────────────────────────────────────────────────────
+  function renderOverview() {
+    var TD = window.TemporalDashboard;
+    if (TD) {
+      TD.renderFreshnessOverview(document.getElementById('ddFreshnessOverview'), allSources);
+      TD.renderActivityFeed(document.getElementById('ddActivityFeed'), allSources);
+    }
+
+    var dueSoon = window.DataSourceInventory.getDueSoon(30);
+    var dueSoonEl = document.getElementById('ddDueSoon');
+    if (dueSoonEl) {
+      if (!dueSoon.length) {
+        dueSoonEl.innerHTML = '<p style="color:var(--text-secondary,#888)">No sources due for update in the next 30 days.</p>';
+      } else {
+        var html = '<div style="display:flex;flex-direction:column;gap:.4rem">';
+        dueSoon.forEach(function (s) {
+          html += '<div class="dd-alert-item dd-alert-item--warn">' +
+            '<span>⏰</span>' +
+            '<div><strong>' + esc(s.name) + '</strong> (' + esc(s.category) + ')' +
+              ' — updates ' + esc(s.updateFrequency) + ', last updated ' + esc(s.lastUpdated || '—') + '</div>' +
+            '</div>';
+        });
+        html += '</div>';
+        dueSoonEl.innerHTML = html;
+      }
+    }
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Sources table
+  // ────────────────────────────────────────────────────────────────
+  function renderTable() {
+    var tbody = document.getElementById('ddTableBody');
+    if (!tbody) return;
+    var count = document.getElementById('ddTableCount');
+    if (count) count.textContent = filteredSources.length + ' of ' + allSources.length + ' sources';
+
+    var TD = window.TemporalDashboard;
+    var badgeHtml = TD ? TD.badgeHtml.bind(TD) : function (s) { return esc(s); };
+    var gaugeHtml = TD ? TD.gaugeHtml.bind(TD) : function (sc) { return sc !== null ? sc + '%' : '—'; };
+
+    if (!filteredSources.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-secondary,#888);padding:1.5rem">No sources match the current filters.</td></tr>';
+      announce('No matching sources.');
+      return;
+    }
+
+    var sorted = filteredSources.slice().sort(function (a, b) {
+      var va = a[sortCol], vb = b[sortCol];
+      if (va == null) return 1;
+      if (vb == null) return -1;
+      var cmp = (typeof va === 'string') ? va.localeCompare(vb) : va - vb;
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+
+    var html = '';
+    sorted.forEach(function (s) {
+      var rowId    = 'dd-row-' + s.id;
+      var expandId = 'dd-expand-' + s.id;
+      var isExpanded = expandedId === s.id;
+      html += '<tr id="' + rowId + '" class="' + (isExpanded ? 'expanded' : '') + '">' +
+        '<td><strong>' + esc(s.name) + '</strong></td>' +
+        '<td><span style="font-size:.78rem">' + esc(s.category) + '</span></td>' +
+        '<td><code style="font-size:.75rem">' + esc(s.format) + '</code></td>' +
+        '<td>' + (s.lastUpdated ? esc(s.lastUpdated) : '<span style="color:var(--text-secondary,#888)">—</span>') + '</td>' +
+        '<td>' + badgeHtml(s.status) + '</td>' +
+        '<td>' + gaugeHtml(s.freshnessScore, s.status) + '</td>' +
+        '<td style="font-size:.78rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(s.coverage) + '">' + esc(s.coverage) + '</td>' +
+        '<td style="white-space:nowrap">' +
+          '<button class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" ' +
+            'data-action="expand" data-id="' + esc(s.id) + '" ' +
+            'aria-expanded="' + isExpanded + '" aria-controls="' + expandId + '">' +
+            (isExpanded ? '▲ Hide' : '▼ Details') +
+          '</button>' +
+          (s.apiEndpoint ? ' <button class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" data-action="check-api" data-id="' + esc(s.id) + '">🔌 API</button>' : '') +
+          (s.url ? ' <a href="' + esc(s.url) + '" target="_blank" rel="noopener" class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem">🔗</a>' : '') +
+        '</td>' +
+        '</tr>' +
+        '<tr id="' + expandId + '" class="dd-expand-row ' + (isExpanded ? 'open' : '') + '" aria-hidden="' + !isExpanded + '">' +
+          '<td colspan="8">' +
+            '<div class="dd-expand-content">' +
+              '<p style="margin:0 0 .5rem">' + esc(s.description || 'No description available.') + '</p>' +
+              '<div class="dd-expand-grid">' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Provider</div><div class="dd-expand-val">' + esc(s.provider) + '</div></div>' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Update Frequency</div><div class="dd-expand-val">' + esc(s.updateFrequency) + '</div></div>' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Geographic Unit</div><div class="dd-expand-val">' + esc(s.geoUnit) + '</div></div>' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Features / Records</div><div class="dd-expand-val">' + (s.features ? s.features.toLocaleString() : '—') + '</div></div>' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Max Age (days)</div><div class="dd-expand-val">' + (s.maxAgeDays || '—') + '</div></div>' +
+                '<div class="dd-expand-field"><div class="dd-expand-label">Days Since Update</div><div class="dd-expand-val">' + (s.daysSinceUpdate !== null ? s.daysSinceUpdate + ' days' : '—') + '</div></div>' +
+                (s.localFile ? '<div class="dd-expand-field"><div class="dd-expand-label">Local File</div><div class="dd-expand-val"><code style="font-size:.77rem">' + esc(s.localFile) + '</code></div></div>' : '') +
+                (s.tags && s.tags.length ? '<div class="dd-expand-field"><div class="dd-expand-label">Tags</div><div class="dd-expand-val">' +
+                  s.tags.map(function (t) {
+                    return '<span style="background:var(--accent-light);color:var(--accent);border-radius:4px;padding:.1rem .4rem;font-size:.72rem;margin-right:.2rem">' + esc(t) + '</span>';
+                  }).join('') +
+                '</div></div>' : '') +
+              '</div>' +
+              (s.alternatives && s.alternatives.length ? (
+                '<div style="margin-top:.75rem;border-top:1px solid var(--border,#dde3ec);padding-top:.6rem">' +
+                '<div style="font-size:.78rem;font-weight:600;color:var(--text-secondary,#666);margin-bottom:.4rem">Alternative Resources</div>' +
+                '<div style="display:flex;flex-direction:column;gap:.4rem">' +
+                s.alternatives.map(function (alt) {
+                  return '<div style="background:var(--bg-alt,#f8f9fb);border-radius:4px;padding:.4rem .6rem;font-size:.8rem">' +
+                    '<strong>' + esc(alt.title) + '</strong>' +
+                    (alt.description ? ' — ' + esc(alt.description) : '') +
+                    (alt.url ? ' <a href="' + esc(alt.url) + '" target="_blank" rel="noopener" style="color:var(--accent)">→ Visit</a>' : '') +
+                    '</div>';
+                }).join('') +
+                '</div></div>'
+              ) : '') +
+            '</div>' +
+          '</td>' +
+        '</tr>';
+    });
+
+    tbody.innerHTML = html;
+    announce(filteredSources.length + ' sources displayed.');
+
+    var ths = document.querySelectorAll('#ddSourcesTable th[data-col]');
+    ths.forEach(function (th) {
+      th.className = th.dataset.col === sortCol ? 'sort-' + sortDir : '';
+    });
+  }
+
+  // ── Sort ─────────────────────────────────────────────────────────
+  function wireUpTableControls() {
+    var table = document.getElementById('ddSourcesTable');
+    if (table) {
+      table.querySelector('thead').addEventListener('click', function (e) {
+        var th = e.target.closest('th[data-col]');
+        if (!th) return;
+        var col = th.dataset.col;
+        if (sortCol === col) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+        else { sortCol = col; sortDir = 'asc'; }
+        renderTable();
+      });
+    }
+
+    var tbody = document.getElementById('ddTableBody');
+    if (tbody) {
+      tbody.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        var action = btn.dataset.action;
+        var id = btn.dataset.id;
+        if (action === 'expand') {
+          expandedId = expandedId === id ? null : id;
+          renderTable();
+        } else if (action === 'check-api') {
+          var src = allSources.find(function (s) { return s.id === id; });
+          if (src && src.apiEndpoint) {
+            window.open(src.apiEndpoint, '_blank', 'noopener,noreferrer');
+          }
+        }
+      });
+    }
+
+    var search       = document.getElementById('ddSearch');
+    var catFilter    = document.getElementById('ddCatFilter');
+    var statusFilter = document.getElementById('ddStatusFilter');
+
+    function applyFilters() {
+      var q = (search ? search.value.toLowerCase() : '');
+      filteredSources = allSources.filter(function (s) {
+        if (q && !(
+          s.name.toLowerCase().includes(q) ||
+          s.category.toLowerCase().includes(q) ||
+          (s.provider || '').toLowerCase().includes(q) ||
+          (s.description || '').toLowerCase().includes(q) ||
+          (s.tags || []).some(function (t) { return t.toLowerCase().includes(q); })
+        )) return false;
+        if (activeFilters.category !== 'all' && s.category !== activeFilters.category) return false;
+        if (activeFilters.status !== 'all' && s.status !== activeFilters.status) return false;
+        if (activeFilters.format !== 'all' && !s.format.toLowerCase().includes(activeFilters.format)) return false;
+        if (activeFilters.freq !== 'all' && !(s.updateFrequency || '').toLowerCase().includes(activeFilters.freq)) return false;
+        return true;
+      });
+      renderTable();
+      updateCategoryButtonCounts();
+    }
+
+    if (search)       search.addEventListener('input', applyFilters);
+    if (catFilter)    catFilter.addEventListener('change', function () {
+      activeFilters.category = catFilter.value || 'all';
+      document.querySelectorAll('.dd-filter-btn[data-filter="category"]').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.value === activeFilters.category);
+      });
+      applyFilters();
+    });
+    if (statusFilter) statusFilter.addEventListener('change', function () {
+      activeFilters.status = statusFilter.value || 'all';
+      document.querySelectorAll('.dd-filter-btn[data-filter="status"]').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.value === activeFilters.status);
+      });
+      applyFilters();
+    });
+
+    var viewOnMapBtn = document.getElementById('ddViewOnMap');
+    if (viewOnMapBtn) {
+      viewOnMapBtn.addEventListener('click', function () { activateTab('panel-geographic'); });
+    }
+
+    window.__ddApplyFilters = applyFilters;
+  }
+
+  // ── Sidebar ───────────────────────────────────────────────────────
+  function wireUpSidebar() {
+    document.querySelectorAll('.dd-filter-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filterType = btn.dataset.filter;
+        var value = btn.dataset.value;
+        document.querySelectorAll('.dd-filter-btn[data-filter="' + filterType + '"]').forEach(function (b) {
+          b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        activeFilters[filterType] = value;
+        if (filterType === 'status') {
+          var sf = document.getElementById('ddStatusFilter');
+          if (sf) sf.value = value === 'all' ? '' : value;
+        }
+        if (filterType === 'category') {
+          var cf = document.getElementById('ddCatFilter');
+          if (cf) cf.value = value === 'all' ? '' : value;
+        }
+        if (window.__ddApplyFilters) window.__ddApplyFilters();
+      });
+    });
+  }
+
+  // ── Category filters ──────────────────────────────────────────────
+  function buildCategoryFilters() {
+    var cats = {};
+    allSources.forEach(function (s) { cats[s.category] = (cats[s.category] || 0) + 1; });
+    var el = document.getElementById('ddCategoryFilters');
+    if (!el) return;
+    var total = allSources.length;
+    var html = '<button class="dd-filter-btn active" data-filter="category" data-value="all">All <span style="opacity:.6;font-size:.7rem">(' + total + ')</span></button>';
+    Object.keys(cats).sort().forEach(function (cat) {
+      html += '<button class="dd-filter-btn" data-filter="category" data-value="' + esc(cat) + '">' +
+        esc(cat) + ' <span style="opacity:.6;font-size:.7rem">(' + cats[cat] + ')</span></button>';
+    });
+    el.innerHTML = html;
+
+    el.querySelectorAll('.dd-filter-btn[data-filter="category"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        el.querySelectorAll('.dd-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var val = btn.dataset.value;
+        activeFilters.category = val || 'all';
+        var catFilter = document.getElementById('ddCatFilter');
+        if (catFilter) catFilter.value = val === 'all' ? '' : val;
+        if (window.__ddApplyFilters) window.__ddApplyFilters();
+        activateTab('panel-sources');
+      });
+    });
+  }
+
+  function buildCatSelectFilter() {
+    var select = document.getElementById('ddCatFilter');
+    if (!select) return;
+    var cats = {};
+    allSources.forEach(function (s) { cats[s.category] = true; });
+    Object.keys(cats).sort().forEach(function (cat) {
+      var opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      select.appendChild(opt);
+    });
+  }
+
+  function updateCategoryButtonCounts() {
+    var searchEl = document.getElementById('ddSearch');
+    var q = searchEl ? searchEl.value.toLowerCase() : '';
+    var counts = {};
+    var total = 0;
+    allSources.forEach(function (s) {
+      if (q && !(
+        s.name.toLowerCase().includes(q) ||
+        s.category.toLowerCase().includes(q) ||
+        (s.provider || '').toLowerCase().includes(q) ||
+        (s.description || '').toLowerCase().includes(q) ||
+        (s.tags || []).some(function (t) { return t.toLowerCase().includes(q); })
+      )) return;
+      if (activeFilters.status !== 'all' && s.status !== activeFilters.status) return;
+      if (activeFilters.format !== 'all' && !s.format.toLowerCase().includes(activeFilters.format)) return;
+      if (activeFilters.freq !== 'all' && !(s.updateFrequency || '').toLowerCase().includes(activeFilters.freq)) return;
+      counts[s.category] = (counts[s.category] || 0) + 1;
+      total++;
+    });
+    var el = document.getElementById('ddCategoryFilters');
+    if (!el) return;
+    el.querySelectorAll('.dd-filter-btn[data-filter="category"]').forEach(function (btn) {
+      var val = btn.dataset.value;
+      var span = btn.querySelector('span');
+      if (span) span.textContent = '(' + (val === 'all' ? total : (counts[val] || 0)) + ')';
+    });
+  }
+
+  // ── Audit panel ───────────────────────────────────────────────────
+  function renderAudit() {
+    var overdueEl = document.getElementById('ddAuditOverdue');
+    var currentEl = document.getElementById('ddAuditCurrent');
+    var apisEl    = document.getElementById('ddAuditApis');
+
+    var overdue = allSources.filter(function (s) { return s.status === 'stale'; });
+    var current = allSources.filter(function (s) { return s.status === 'current'; });
+    var apis    = window.DataSourceInventory.getApiSources ? window.DataSourceInventory.getApiSources() : [];
+
+    if (overdueEl) {
+      overdueEl.innerHTML = !overdue.length
+        ? '<div class="dd-alert-item dd-alert-item--ok">✅ No overdue sources found.</div>'
+        : overdue.map(function (s) {
+            return '<div class="dd-alert-item dd-alert-item--error">' +
+              '<span>🔴</span>' +
+              '<div><strong>' + esc(s.name) + '</strong> — last updated ' + esc(s.lastUpdated || 'unknown') +
+                ' (' + (s.daysSinceUpdate !== null ? s.daysSinceUpdate + ' days ago' : 'unknown') + ')' +
+                ' · Expected: ' + esc(s.updateFrequency) + '</div>' +
+              '</div>';
+          }).join('');
+    }
+
+    if (currentEl) {
+      currentEl.innerHTML = current.slice(0, 8).map(function (s) {
+        return '<div class="dd-alert-item dd-alert-item--ok">' +
+          '<span>✅</span>' +
+          '<div><strong>' + esc(s.name) + '</strong> — ' +
+            esc(s.freshnessScore !== null ? s.freshnessScore + '% fresh' : 'current') +
+            (s.lastUpdated ? ' · updated ' + esc(s.lastUpdated) : '') + '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    if (apisEl) {
+      apisEl.innerHTML = !apis.length
+        ? '<div class="dd-alert-item dd-alert-item--ok" style="color:var(--muted)">No API-connected sources registered.</div>'
+        : apis.map(function (s) {
+            return '<div class="dd-alert-item dd-alert-item--ok" style="background:var(--card-bg,#fff)">' +
+              '<span>🔌</span>' +
+              '<div><strong>' + esc(s.name) + '</strong><br>' +
+                '<code style="font-size:.72rem;word-break:break-all">' + esc(s.apiEndpoint) + '</code></div>' +
+              '</div>';
+          }).join('');
+    }
+  }
+
+  // ── Timeline / Geographic (lazy) ─────────────────────────────────
+  function renderTimeline() {
+    var TD = window.TemporalDashboard;
+    if (!TD) return;
+    TD.renderTimeline(document.getElementById('ddTimeline'), allSources);
+    TD.renderUpdateSchedule(document.getElementById('ddUpdateSchedule'), allSources);
+  }
+
+  var _geoRendered = false;
+  function renderGeographic() {
+    var GD = window.GeographicDashboard;
+    if (!GD) return;
+    if (!_geoRendered) {
+      GD.initCoverageMap('ddCoverageMap', allSources);
+      _geoRendered = true;
+    }
+    GD.renderCoverageSummary(document.getElementById('ddCoverageSummary'), allSources);
+    GD.renderCoverageMatrix(document.getElementById('ddCoverageMatrix'), allSources, 'County');
+    var matrixEl = document.getElementById('ddCoverageMatrix');
+    if (matrixEl && !matrixEl.dataset.geoListenerAttached) {
+      matrixEl.dataset.geoListenerAttached = '1';
+      matrixEl.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'geoUnitFilter') {
+          GD.renderCoverageMatrix(matrixEl, allSources, e.target.value);
+        }
+      });
+    }
+  }
+
+  // ── Exports ───────────────────────────────────────────────────────
+  function wireUpExports() {
+    var inv = window.DataSourceInventory;
+    if (!inv) return;
+
+    function exportCsv() {
+      downloadFile(inv.toCSV(), 'data-sources-audit.csv', 'text/csv');
+      announce('CSV exported.');
+    }
+
+    function exportJson() {
+      downloadFile(JSON.stringify(inv.getSources(), null, 2), 'data-sources-audit.json', 'application/json');
+      announce('JSON exported.');
+    }
+
+    function exportMarkdown() {
+      var lines = ['# Data Sources Audit Report', '', '**Generated:** ' + new Date().toISOString(), ''];
+      var stats = inv.getStats();
+      lines.push('## Summary', '',
+        '| Metric | Value |', '|---|---|',
+        '| Total Sources | ' + stats.total + ' |',
+        '| Current | ' + (stats.counts.current || 0) + ' |',
+        '| Aging | ' + (stats.counts.aging || 0) + ' |',
+        '| Stale | ' + (stats.counts.stale || 0) + ' |',
+        '| Avg Freshness | ' + (stats.avgFreshness !== null ? stats.avgFreshness + '%' : 'N/A') + ' |',
+        '', '## Sources', '',
+        '| Name | Category | Status | Last Updated | Freshness |',
+        '|---|---|---|---|---|'
+      );
+      inv.getSources().forEach(function (s) {
+        lines.push('| ' + (s.name || '') + ' | ' + (s.category || '') + ' | ' + (s.status || '') + ' | ' + (s.lastUpdated || '—') + ' | ' + (s.freshnessScore !== null ? s.freshnessScore + '%' : '—') + ' |');
+      });
+      downloadFile(lines.join('\n'), 'data-sources-report.md', 'text/markdown');
+      announce('Markdown report exported.');
+    }
+
+    var wires = {
+      ddExportCsv:       exportCsv,
+      ddExportJson:      exportJson,
+      ddExportTableCsv:  exportCsv,
+      ddExportAuditCsv:  exportCsv,
+      ddExportAuditJson: exportJson,
+      ddExportMarkdown:  exportMarkdown
+    };
+    Object.keys(wires).forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', wires[id]);
+    });
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Quality tab  (ported from data-status.html)
+  // ────────────────────────────────────────────────────────────────
+  var STALE_TRENDS_DAYS   = 30;
+  var STALE_PIPELINE_DAYS = 7;
+
+  function renderQualityCard(report) {
+    var card = document.createElement('div');
+    var cls  = report.ok ? 'ok' : (report.critical ? 'error' : 'warn');
+    card.className = 'status-card status-card--' + cls;
+    card.innerHTML =
+      '<div class="status-card__icon">' + (report.ok ? '✅' : '⚠️') + '</div>' +
+      '<div class="status-card__label">' + esc(report.label) + '</div>' +
+      '<div class="status-card__detail">' +
+        (report.featureCount > 0 ? report.featureCount + ' records' : '') +
+        (report.message ? '<br>' + esc(report.message) : '') +
+      '</div>' +
+      '<div class="status-card__age">' + relTime(report.cacheAge) + '</div>';
+    return card;
+  }
+
+  function renderQualityTableRow(report) {
+    var cls = report.ok ? 'badge-ok' : (report.critical ? 'badge-error' : 'badge-warn');
+    var lbl = report.ok ? '✅ OK' : (report.critical ? '⚠ Error' : '⚠ Warn');
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + esc(report.label) + '</td>' +
+      '<td><span class="' + cls + '">' + lbl + '</span></td>' +
+      '<td>' + (report.featureCount > 0 ? report.featureCount : '—') + '</td>' +
+      '<td>' + relTime(report.cacheAge) + '</td>' +
+      '<td style="color:var(--muted);">' + esc(report.message || '') + '</td>';
+    return tr;
+  }
+
+  function runQualityCheck() {
+    if (!window.DataQuality) {
+      setText('qualityStatusSummary', '⚠ DataQuality module not loaded.');
+      return;
+    }
+
+    var summary = document.getElementById('qualityStatusSummary');
+    if (summary) { summary.className = 'ok'; summary.textContent = '⏳ Running data validation…'; }
+
+    window.DataQuality.runAll().then(function (reports) {
+      var allOk        = reports.every(function (r) { return r.ok; });
+      var anyCritFail  = reports.some(function (r) { return !r.ok && r.critical; });
+
+      if (summary) {
+        if (anyCritFail) {
+          summary.className = 'error';
+          summary.textContent = '⚠ One or more critical datasets are unavailable.';
+        } else if (!allOk) {
+          summary.className = 'warn';
+          summary.textContent = '⚠ Some datasets have warnings — dashboards may use cached data.';
+        } else {
+          summary.className = 'ok';
+          summary.textContent = '✅ All datasets validated successfully.';
+        }
+        announce(summary.textContent);
+      }
+
+      var grid = document.getElementById('qualityStatusGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        reports.forEach(function (r) { grid.appendChild(renderQualityCard(r)); });
+      }
+
+      var tbody = document.getElementById('qualityTableBody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        reports.forEach(function (r) { tbody.appendChild(renderQualityTableRow(r)); });
+      }
+
+      setText('qualityLastChecked', 'Last checked: ' + new Date().toLocaleTimeString());
+    });
+  }
+
+  function initQualityTab() {
+    runQualityCheck();
+    loadContentStatus();
+    var btn = document.getElementById('qualityRefreshBtn');
+    if (btn) btn.addEventListener('click', runQualityCheck);
+  }
+
+  function loadContentStatus() {
+    fetch(resolvePath('data/insights-meta.json'))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (meta) { renderTrendsCard(meta); })
+      .catch(function () { renderTrendsCard(null); });
+
+    fetch(resolvePath('data/policy_briefs.json'))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) { renderPipelineCard(data && data.meta ? data.meta : null); })
+      .catch(function () { renderPipelineCard(null); });
+  }
+
+  function renderTrendsCard(meta) {
+    var card = document.getElementById('trendsStatusCard');
+    if (!card) return;
+    if (!meta || !meta.lastVerified) {
+      card.className = 'status-card status-card--warn';
+      card.innerHTML =
+        '<div class="status-card__icon">⚠️</div>' +
+        '<div class="status-card__label">Key Market Trends</div>' +
+        '<div class="status-card__detail">Verification date unavailable</div>' +
+        '<div class="status-card__age"><a href="docs/MARKET_TRENDS_UPDATE_PROTOCOL.md">View protocol →</a></div>';
+      return;
+    }
+    var verified = new Date(meta.lastVerified);
+    var ageDays  = daysSince(verified);
+    var dateStr  = verified.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var isStale  = ageDays > STALE_TRENDS_DAYS;
+    card.className = 'status-card status-card--' + (isStale ? 'warn' : 'ok');
+    card.innerHTML =
+      '<div class="status-card__icon">' + (isStale ? '⚠️' : '✅') + '</div>' +
+      '<div class="status-card__label">Key Market Trends</div>' +
+      '<div class="status-card__detail">Last verified: ' + esc(dateStr) +
+        (meta.verifiedBy ? ' by ' + esc(meta.verifiedBy) : '') + '</div>' +
+      '<div class="status-card__age">' + ageDays + 'd ago' +
+        (isStale ? ' — <strong style="color:var(--warn);">review recommended</strong>' : '') +
+      '</div>';
+  }
+
+  function renderPipelineCard(meta) {
+    var card = document.getElementById('alertPipelineCard');
+    if (!card) return;
+    if (!meta) {
+      card.className = 'status-card status-card--warn';
+      card.innerHTML =
+        '<div class="status-card__icon">⚠️</div>' +
+        '<div class="status-card__label">Alert Pipeline</div>' +
+        '<div class="status-card__detail">Status unavailable</div>' +
+        '<div class="status-card__age"><a href="docs/alerts-pipeline.md">View docs →</a></div>';
+      return;
+    }
+    var generated  = meta.generated ? new Date(meta.generated) : null;
+    var feedCount  = meta.feed_count || 0;
+    var alertCount = meta.source_alerts || meta.alert_count || 0;
+    var briefCount = meta.brief_count || 0;
+    var ageDays    = generated ? daysSince(generated) : null;
+    var dateStr    = generated
+      ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : '—';
+    var isActive = feedCount > 0 || alertCount > 0;
+    var isStale  = ageDays !== null && ageDays > STALE_PIPELINE_DAYS;
+    var cls, icon, action;
+    if (!isActive) {
+      cls = 'warn'; icon = '⚠️';
+      action = '<div class="status-card__age">Configure feeds — see <a href="docs/alerts-pipeline.md">alerts-pipeline.md</a></div>';
+    } else if (isStale) {
+      cls = 'warn'; icon = '⚠️';
+      action = '<div class="status-card__age">' + ageDays + 'd since last fetch — pipeline may be stalled</div>';
+    } else {
+      cls = 'ok'; icon = '✅';
+      action = '<div class="status-card__age">Last fetch: ' + esc(dateStr) + (ageDays !== null ? ' (' + ageDays + 'd ago)' : '') + '</div>';
+    }
+    card.className = 'status-card status-card--' + cls;
+    card.innerHTML =
+      '<div class="status-card__icon">' + icon + '</div>' +
+      '<div class="status-card__label">Alert Pipeline</div>' +
+      '<div class="status-card__detail">' +
+        feedCount + ' feed' + (feedCount === 1 ? '' : 's') + ' · ' +
+        alertCount + ' alert' + (alertCount === 1 ? '' : 's') + ' · ' +
+        briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
+      '</div>' +
+      action;
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Where Used tab
+  // ────────────────────────────────────────────────────────────────
+  function buildWuCatFilter() {
+    var select = document.getElementById('wuCatFilter');
+    if (!select) return;
+    var cats = {};
+    allSources.forEach(function (s) { cats[s.category] = true; });
+    Object.keys(cats).sort().forEach(function (cat) {
+      var opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      select.appendChild(opt);
+    });
+
+    var search = document.getElementById('wuSearch');
+    function applyWu() {
+      var q   = search ? search.value.toLowerCase() : '';
+      var cat = select.value;
+      var filtered = allSources.filter(function (s) {
+        if (cat && s.category !== cat) return false;
+        if (q && !s.name.toLowerCase().includes(q) && !(s.provider || '').toLowerCase().includes(q)) return false;
+        return true;
+      });
+      renderWhereUsed(filtered);
+    }
+    if (search) search.addEventListener('input', applyWu);
+    select.addEventListener('change', applyWu);
+  }
+
+  function renderWhereUsed(sources) {
+    var TD = window.TemporalDashboard;
+    var badgeHtml = TD ? TD.badgeHtml.bind(TD) : function (s) { return esc(s); };
+    var grid = document.getElementById('wuGrid');
+    if (!grid) return;
+    var countEl = document.getElementById('wuCount');
+    if (countEl) countEl.textContent = sources.length + ' sources';
+
+    if (!sources.length) {
+      grid.innerHTML = '<div class="wu-card"><div class="wu-card__name">No sources match the filter.</div></div>';
+      return;
+    }
+
+    var html = '';
+    sources.forEach(function (s) {
+      var whereUsed = Array.isArray(s.whereUsed) ? s.whereUsed : [];
+      var pagesHtml;
+      if (!whereUsed.length) {
+        pagesHtml = '<span class="wu-card__none">Usage not tracked</span>';
+      } else {
+        pagesHtml = '<ul class="wu-card__pages">' +
+          whereUsed.map(function (u) {
+            return '<li><a href="' + esc(u.page || '#') + '">' + esc(u.label || u.page || '—') + '</a>' +
+              (u.section ? '<span class="wu-section">in ' + esc(u.section) + '</span>' : '') +
+              '</li>';
+          }).join('') +
+          '</ul>';
+      }
+      html += '<div class="wu-card">' +
+        '<div class="wu-card__header">' +
+          '<div class="wu-card__name">' + esc(s.name) + '</div>' +
+          '<span class="wu-card__cat">' + esc(s.category) + '</span>' +
+        '</div>' +
+        '<div>' + badgeHtml(s.status) + '</div>' +
+        pagesHtml +
+        '<div class="wu-card__feat">' +
+          (s.features ? s.features.toLocaleString() + ' features' : '—') +
+          (s.lastUpdated ? ' · updated ' + esc(s.lastUpdated) : '') +
+        '</div>' +
+        '</div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Metadata tab
+  // ────────────────────────────────────────────────────────────────
+  var SCHEMA_LD = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "COHO Analytics Data Hub",
+    "description": "Unified inventory, quality checks, and source attribution for all COHO Analytics housing datasets covering Colorado.",
+    "url": "https://coho.analytics/data-review-hub.html",
+    "publisher": { "@type": "Organization", "name": "COHO Analytics", "url": "https://coho.analytics" },
+    "spatialCoverage": { "@type": "Place", "name": "Colorado, United States", "geo": { "@type": "GeoShape", "box": "37.0 -109.1 41.0 -102.0" } },
+    "temporalCoverage": "2020/..",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "keywords": ["housing", "Colorado", "LIHTC", "AMI", "census", "FRED", "data quality"]
+  };
+
+  var FIELD_DEFS = [
+    { key: 'id',             type: 'string',  desc: 'Unique slug identifier for the source' },
+    { key: 'name',           type: 'string',  desc: 'Human-readable display name' },
+    { key: 'category',       type: 'string',  desc: 'Thematic grouping (e.g. "Economics", "Census")' },
+    { key: 'provider',       type: 'string',  desc: 'Organisation that publishes the raw data' },
+    { key: 'format',         type: 'string',  desc: 'File format: JSON, GeoJSON, CSV, etc.' },
+    { key: 'lastUpdated',    type: 'string',  desc: 'ISO-8601 date of last known update' },
+    { key: 'updateFrequency',type: 'string',  desc: 'Expected cadence: Daily, Monthly, Annual, etc.' },
+    { key: 'maxAgeDays',     type: 'number',  desc: 'Days before source is considered stale' },
+    { key: 'daysSinceUpdate',type: 'number',  desc: 'Computed days elapsed since lastUpdated' },
+    { key: 'status',         type: 'string',  desc: '"current" | "aging" | "stale" | "unknown"' },
+    { key: 'freshnessScore', type: 'number',  desc: 'Percentage 0–100 derived from age vs maxAgeDays' },
+    { key: 'coverage',       type: 'string',  desc: 'Geographic scope of the dataset' },
+    { key: 'geoUnit',        type: 'string',  desc: 'Smallest geographic resolution (County, Tract, etc.)' },
+    { key: 'features',       type: 'number',  desc: 'Approximate record / feature count' },
+    { key: 'description',    type: 'string',  desc: 'Longer prose description of the dataset' },
+    { key: 'localFile',      type: 'string',  desc: 'Relative path to the local data file' },
+    { key: 'url',            type: 'string',  desc: 'Canonical URL for the source on the provider site' },
+    { key: 'apiEndpoint',    type: 'string',  desc: 'Live REST API endpoint (if available)' },
+    { key: 'tags',           type: 'string[]',desc: 'Free-form tags for cross-cutting search' },
+    { key: 'whereUsed',      type: 'object[]',desc: 'Array of {page, label, section} — dashboards consuming this source' },
+    { key: 'alternatives',   type: 'object[]',desc: 'Array of {title, description, url} — fallback resources' }
+  ];
+
+  function initMetadataTab() {
+    var pre = document.getElementById('metaJsonLdDisplay');
+    if (pre) pre.textContent = JSON.stringify(SCHEMA_LD, null, 2);
+
+    var fieldGrid = document.getElementById('metaFieldGrid');
+    if (fieldGrid) {
+      fieldGrid.innerHTML = FIELD_DEFS.map(function (f) {
+        return '<div class="meta-field-card">' +
+          '<div class="mfc-key">' + esc(f.key) + '</div>' +
+          '<div class="mfc-val"><code>' + esc(f.type) + '</code> — ' + esc(f.desc) + '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    var summaryEl = document.getElementById('metaRegistrySummary');
+    if (summaryEl && allSources.length) {
+      var cats = {};
+      allSources.forEach(function (s) { cats[s.category] = (cats[s.category] || 0) + 1; });
+      var rows = Object.keys(cats).sort().map(function (cat) {
+        return '<tr><td>' + esc(cat) + '</td><td style="text-align:right">' + cats[cat] + '</td></tr>';
+      }).join('');
+      summaryEl.innerHTML =
+        '<table style="width:100%;border-collapse:collapse;font-size:.85rem" aria-label="Sources per category">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:.4rem .6rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em">Category</th>' +
+          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em">Sources</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+        '<tfoot><tr style="font-weight:700">' +
+          '<td style="padding:.4rem .6rem;border-top:2px solid var(--border)">Total</td>' +
+          '<td style="text-align:right;padding:.4rem .6rem;border-top:2px solid var(--border)">' + allSources.length + '</td>' +
+        '</tr></tfoot>' +
+        '</table>';
+    }
+  }
+
+}());
+</script>
+<script src="js/audit-hook.js"></script>
+</body>
+</html>
