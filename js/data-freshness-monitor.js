@@ -11,7 +11,6 @@
   var REPORT_KEY      = 'drh_freshness_report';
   var MS_PER_DAY      = 86400000;
   var MANIFEST_PATH   = 'DATA-MANIFEST.json';
-  var INV_MANIFEST    = 'data/manifest.json';
 
   // ── Helpers ──────────────────────────────────────────────────────────────
 
