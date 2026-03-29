@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-29T15:46:59.223268Z",
+  "generated": "2026-03-29T16:13:07Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -4405,6 +4405,21 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 114554
+    },
+    "chfa-lihtc.json": {
+      "featureCount": 716,
+      "placeholder": false,
+      "bytes": 274900
+    },
+    "co_ami_gap_by_county.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 70651
+    },
+    "fred-data.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 971229
     }
   }
 }
