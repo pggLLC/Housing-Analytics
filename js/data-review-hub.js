@@ -52,11 +52,6 @@
     requestAnimationFrame(function () { el.setAttribute('aria-live', 'polite'); });
   }
 
-  function resolveUrl(p) {
-    return typeof window.resolveAssetUrl === 'function'
-      ? window.resolveAssetUrl(p) : p;
-  }
-
   // ── Tab navigation ────────────────────────────────────────────────────────
 
   function initTabs() {
