@@ -81,7 +81,7 @@
     'data/hna/chas_affordability_gap.json',
     'data/hna/municipal/municipal-config.json',
     'data/hna/municipal/growth-rates.json',
-    'config/data-discovery-config.json'
+    CONFIG_PATH
   ];
 
   // ── Main discovery logic ─────────────────────────────────────────────────
