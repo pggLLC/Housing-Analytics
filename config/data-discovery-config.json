@@ -1,0 +1,39 @@
+{
+  "scanDirectories": ["data", "assets/data", "datasets"],
+  "apiScanPatterns": ["fetch(", "axios.", "XMLHttpRequest", "safeFetchJSON(", "resolveAssetUrl("],
+  "ignorePatterns": [".git", "node_modules", ".temp", "archive", "vendor"],
+  "detectionMethods": ["files", "code", "html"],
+  "fileExtensions": [".json", ".geojson", ".csv", ".tsv"],
+  "updateFrequencyEstimators": {
+    "daily": 86400,
+    "weekly": 604800,
+    "monthly": 2592000,
+    "quarterly": 7776000,
+    "annual": 31536000
+  },
+  "stalenessThresholds": {
+    "daily":     { "aging": 1, "stale": 2 },
+    "weekly":    { "aging": 5, "stale": 10 },
+    "monthly":   { "aging": 25, "stale": 45 },
+    "quarterly": { "aging": 80, "stale": 120 },
+    "annual":    { "aging": 300, "stale": 400 }
+  },
+  "notificationSettings": {
+    "createGitHubIssue": true,
+    "issueLabels": ["data-discovery", "pending-review"],
+    "slackWebhook": "{SLACK_WEBHOOK_URL}",
+    "emailAddresses": []
+  },
+  "approvalWorkflow": {
+    "requireApproval": true,
+    "autoPublishAfterDays": 7,
+    "requiresMetadata": true
+  },
+  "manifestFiles": [
+    "DATA-MANIFEST.json",
+    "data/manifest.json"
+  ],
+  "hubPage": "data-review-hub.html",
+  "reportOutputDir": "data/discovery-reports",
+  "maxReportsToKeep": 30
+}

@@ -1,0 +1,12 @@
+{
+  "scanTimestamp": "2026-03-29T15:02:00.000Z",
+  "totalScanned": 0,
+  "newSourceCount": 0,
+  "existingCount": 0,
+  "staleCount": 0,
+  "agingCount": 0,
+  "newSources": [],
+  "staleEntries": [],
+  "agingEntries": [],
+  "_note": "Placeholder — will be replaced by the data-source-monitoring GitHub Actions workflow on first run."
+}
