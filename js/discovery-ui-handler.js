@@ -84,12 +84,12 @@
 
     container.innerHTML = '';
     for (var i = 0; i < newSources.length; i++) {
-      container.appendChild(buildPendingCard(newSources[i]));
+      container.appendChild(buildPendingCard(newSources[i], i));
     }
     announce(newSources.length + ' pending discoveries found.');
   }
 
-  function buildPendingCard(src) {
+  function buildPendingCard(src, idx) {
     var card = document.createElement('div');
     card.className = 'drh-pending-card';
     card.dataset.path = src.path;
@@ -106,15 +106,15 @@
       '<div class="drh-pending-meta">' +
         '<div class="drh-meta-field">' +
           '<label>Suggested Name</label>' +
-          '<input type="text" class="drh-input" id="pend-name-' + i + '" value="' + _esc(src.suggestedName) + '" />' +
+          '<input type="text" class="drh-input" id="pend-name-' + idx + '" value="' + _esc(src.suggestedName) + '" />' +
         '</div>' +
         '<div class="drh-meta-field">' +
           '<label>Description</label>' +
-          '<input type="text" class="drh-input" id="pend-desc-' + i + '" value="' + _esc(src.suggestedDesc) + '" />' +
+          '<input type="text" class="drh-input" id="pend-desc-' + idx + '" value="' + _esc(src.suggestedDesc) + '" />' +
         '</div>' +
         '<div class="drh-meta-field">' +
           '<label>Est. Frequency</label>' +
-          '<select class="drh-input" id="pend-freq-' + i + '">' +
+          '<select class="drh-input" id="pend-freq-' + idx + '">' +
             buildFreqOptions(src.suggestedFreq) +
           '</select>' +
         '</div>' +
