@@ -28,7 +28,15 @@
    */
   async function loadKalshiData() {
     try {
-      const url = 'data/kalshi/prediction-market.json?v=' + Date.now();
+      const path = 'data/kalshi/prediction-market.json';
+      // Use safeFetchJSON when available (retry + timeout + error tracking).
+      if (typeof window.safeFetchJSON === 'function') {
+        const json = await window.safeFetchJSON(path).catch(function () { return null; });
+        if (!json || json.error) return null;
+        return (Array.isArray(json.items) && json.items.length > 0) ? json : null;
+      }
+      // Minimal fallback when fetch-helper.js is not yet loaded.
+      const url = path + '?v=' + Date.now();
       const res = await fetch(url);
       // Unavailable: HTTP error status (file missing or server error).
       if (!res.ok) return null;
