@@ -1,0 +1,65 @@
+county_fips,county_name,acs_year,median_gross_rent,median_hh_income,vacancy_rate,rent_burden_30_plus
+08001,"Adams, Colorado",2024,1420,72000,0.06,0.475
+08003,"Alamosa, Colorado",2024,820,41000,0.095,0.51
+08005,"Arapahoe, Colorado",2024,1540,76000,0.055,0.455
+08007,"Archuleta, Colorado",2024,990,48000,0.12,0.495
+08009,"Baca, Colorado",2024,650,35000,0.14,0.49
+08011,"Bent, Colorado",2024,640,34000,0.155,0.505
+08013,"Boulder, Colorado",2024,1870,85000,0.042,0.39
+08014,"Broomfield, Colorado",2024,1690,92000,0.038,0.37
+08015,"Chaffee, Colorado",2024,1050,52000,0.105,0.49
+08017,"Cheyenne, Colorado",2024,610,52000,0.165,0.38
+08019,"Clear Creek, Colorado",2024,1280,68000,0.085,0.435
+08021,"Conejos, Colorado",2024,670,36000,0.145,0.53
+08023,"Costilla, Colorado",2024,630,32000,0.18,0.545
+08025,"Crowley, Colorado",2024,620,30000,0.185,0.56
+08027,"Custer, Colorado",2024,890,51000,0.125,0.465
+08029,"Delta, Colorado",2024,830,44000,0.12,0.505
+08031,"Denver, Colorado",2024,1650,69000,0.052,0.465
+08033,"Dolores, Colorado",2024,700,42000,0.155,0.465
+08035,"Douglas, Colorado",2024,1850,118000,0.035,0.32
+08037,"Eagle, Colorado",2024,2150,88000,0.075,0.475
+08039,"Elbert, Colorado",2024,1480,95000,0.045,0.36
+08041,"El Paso, Colorado",2024,1390,68000,0.062,0.46
+08043,"Fremont, Colorado",2024,840,43000,0.118,0.51
+08045,"Garfield, Colorado",2024,1180,64000,0.092,0.475
+08047,"Gilpin, Colorado",2024,1320,74000,0.098,0.415
+08049,"Grand, Colorado",2024,1350,67000,0.11,0.45
+08051,"Gunnison, Colorado",2024,1200,58000,0.095,0.465
+08053,"Hinsdale, Colorado",2024,980,56000,0.185,0.39
+08055,"Huerfano, Colorado",2024,700,36000,0.155,0.525
+08057,"Jackson, Colorado",2024,720,46000,0.175,0.41
+08059,"Jefferson, Colorado",2024,1560,82000,0.048,0.415
+08061,"Kiowa, Colorado",2024,590,46000,0.185,0.39
+08063,"Kit Carson, Colorado",2024,660,48000,0.155,0.42
+08065,"Lake, Colorado",2024,1100,55000,0.125,0.49
+08067,"La Plata, Colorado",2024,1250,62000,0.085,0.455
+08069,"Larimer, Colorado",2024,1480,73000,0.055,0.44
+08071,"Las Animas, Colorado",2024,680,38000,0.165,0.52
+08073,"Lincoln, Colorado",2024,650,46000,0.18,0.41
+08075,"Logan, Colorado",2024,800,47000,0.135,0.49
+08077,"Mesa, Colorado",2024,990,52000,0.095,0.5
+08079,"Mineral, Colorado",2024,850,45000,0.21,0.41
+08081,"Moffat, Colorado",2024,810,52000,0.125,0.455
+08083,"Montezuma, Colorado",2024,870,45000,0.115,0.505
+08085,"Montrose, Colorado",2024,920,48000,0.105,0.505
+08087,"Morgan, Colorado",2024,790,47000,0.125,0.495
+08089,"Otero, Colorado",2024,680,37000,0.155,0.53
+08091,"Ouray, Colorado",2024,1150,63000,0.095,0.425
+08093,"Park, Colorado",2024,1200,72000,0.105,0.415
+08095,"Phillips, Colorado",2024,640,48000,0.17,0.39
+08097,"Pitkin, Colorado",2024,2400,92000,0.095,0.425
+08099,"Prowers, Colorado",2024,680,38000,0.155,0.52
+08101,"Pueblo, Colorado",2024,890,48000,0.105,0.51
+08103,"Rio Blanco, Colorado",2024,790,54000,0.145,0.42
+08105,"Rio Grande, Colorado",2024,740,40000,0.145,0.51
+08107,"Routt, Colorado",2024,1850,79000,0.085,0.44
+08109,"Saguache, Colorado",2024,690,37000,0.175,0.53
+08111,"San Juan, Colorado",2024,1100,52000,0.19,0.405
+08113,"San Miguel, Colorado",2024,2050,86000,0.11,0.42
+08115,"Sedgwick, Colorado",2024,610,44000,0.185,0.385
+08117,"Summit, Colorado",2024,1980,83000,0.09,0.445
+08119,"Teller, Colorado",2024,1150,68000,0.075,0.42
+08121,"Washington, Colorado",2024,620,48000,0.17,0.38
+08123,"Weld, Colorado",2024,1380,70000,0.06,0.455
+08125,"Yuma, Colorado",2024,680,48000,0.155,0.41
