@@ -253,7 +253,7 @@ jobs:
             --body "$BODY" \
             --label "data-discovery" \
             --label "pending-review" \
-          || echo "Issue creation skipped (labels may not exist — create them manually)"
+          || echo "Issue creation skipped (labels may not exist -- create them manually)"
 
       # ── Commit discovery report ─────────────────────────────────────────────
       - name: Commit discovery report

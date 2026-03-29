@@ -368,8 +368,6 @@
     var summary = document.getElementById('drhQualitySummary');
     if (!grid || !tbody || !summary) return;
 
-    function _esc2(s) { return _esc(s); }
-
     function relTime(ms) {
       if (ms == null) return '—';
       var s = Math.floor(ms / 1000);
@@ -387,10 +385,10 @@
       div.className = 'drh-status-card drh-status-card--' + cls;
       div.innerHTML =
         '<div class="drh-status-icon">' + (r.ok ? '✅' : '⚠️') + '</div>' +
-        '<div class="drh-status-label">' + _esc2(r.label) + '</div>' +
+        '<div class="drh-status-label">' + _esc(r.label) + '</div>' +
         '<div class="drh-status-detail">' +
           (r.featureCount > 0 ? r.featureCount + ' records' : '') +
-          (r.message ? '<br>' + _esc2(r.message) : '') +
+          (r.message ? '<br>' + _esc(r.message) : '') +
         '</div>' +
         '<div class="drh-status-age">' + relTime(r.cacheAge) + '</div>';
       return div;
@@ -401,11 +399,11 @@
       var lbl = r.ok ? '✅ OK' : (r.critical ? '⚠ Error' : '⚠ Warn');
       var tr = document.createElement('tr');
       tr.innerHTML =
-        '<td>' + _esc2(r.label) + '</td>' +
+        '<td>' + _esc(r.label) + '</td>' +
         '<td><span class="' + cls + '">' + lbl + '</span></td>' +
         '<td>' + (r.featureCount > 0 ? r.featureCount : '—') + '</td>' +
         '<td>' + relTime(r.cacheAge) + '</td>' +
-        '<td style="color:var(--muted)">' + _esc2(r.message || '') + '</td>';
+        '<td style="color:var(--muted)">' + _esc(r.message || '') + '</td>';
       return tr;
     }
 
