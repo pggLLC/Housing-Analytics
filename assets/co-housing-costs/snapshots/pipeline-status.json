@@ -1,0 +1,9 @@
+{
+  "generated": "2026-03-29T15:46:06.213354+00:00",
+  "data_vintage": "2024 (ACS 2020-2024 5-year estimates)",
+  "note": "Data seeded from public sources; pipeline re-fetches on next scheduled run",
+  "maps_generated": 8,
+  "maps_total": 8,
+  "maps_complete": true,
+  "drivers_csv_available": true
+}
