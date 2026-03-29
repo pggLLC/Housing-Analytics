@@ -22,6 +22,7 @@
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
     "validate:data": "node scripts/validate-critical-data.js",
+    "validate:pipeline": "node lib/validate-outputs.js",
     "monitor:report": "node scripts/monitoring/generate-report.js",
     "monitor:report:json": "node scripts/monitoring/generate-report.js --json",
     "monitor:check": "python3 scripts/monitoring/data-quality-check.py",

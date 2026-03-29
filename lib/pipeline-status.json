@@ -1,0 +1,19 @@
+{
+  "status": "success",
+  "timestamp": "2026-03-29T13:22:52.087Z",
+  "lastSuccessfulBuild": "2026-03-29T13:22:52.087Z",
+  "failedSteps": [],
+  "incompletePaths": [],
+  "recordCounts": {
+    "data/manifest.json": 888,
+    "data/fred-data.json": 45,
+    "data/chfa-lihtc.json": 716,
+    "data/co_ami_gap_by_county.json": 64,
+    "data/lihtc-trends-by-county.json": 64,
+    "data/car-market.json": 14,
+    "data/hna/ranking-index.json": 544,
+    "data/market/nhpd_co.geojson": 20,
+    "data/hna/chas_affordability_gap.json": 3,
+    "data/hud-fmr-income-limits.json": 64
+  }
+}

@@ -1221,9 +1221,14 @@
       // Load constraint module data (Phase 2.1)
       var envScreening = window.EnvironmentalScreening;
       if (envScreening && typeof envScreening.load === 'function') {
-        // Load FEMA flood zones via raw fetch (GeoJSON extension)
-        fetch(DS.baseData('environmental/fema-flood-co.geojson'))
-          .then(function (r) { return r.ok ? r.json() : null; })
+        // Load FEMA flood zones via fetchWithTimeout (GeoJSON extension)
+        var femaUrl = DS.baseData('environmental/fema-flood-co.geojson');
+        var femaFetch = (typeof window.fetchWithTimeout === 'function')
+          ? window.fetchWithTimeout(femaUrl, {}, 10000, 1)
+              .then(function (r) { return r.ok ? r.json() : null; })
+          : fetch(femaUrl)
+              .then(function (r) { return r.ok ? r.json() : null; });
+        femaFetch
           .catch(function () { return null; })
           .then(function (floodGeoJSON) {
             envScreening.load(floodGeoJSON, results[3]);
