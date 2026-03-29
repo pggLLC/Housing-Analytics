@@ -156,9 +156,9 @@ class TestFredMetadata:
             )
 
     def test_series_count_is_39(self, fred_series):
-        """fred-data.json must contain exactly 39 series."""
-        assert len(fred_series) == 39, (
-            f'Expected 39 series, found {len(fred_series)}'
+        """fred-data.json must contain exactly 45 series."""
+        assert len(fred_series) == 45, (
+            f'Expected 45 series, found {len(fred_series)}'
         )
 
 
