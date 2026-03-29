@@ -36,14 +36,6 @@
 
   // ── Utility ──────────────────────────────────────────────────────────────
 
-  function _esc(s) {
-    return String(s || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
   function announce(msg) {
     var el = document.getElementById('drhLiveRegion');
     if (!el) return;
