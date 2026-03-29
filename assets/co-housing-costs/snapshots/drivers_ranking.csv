@@ -1,0 +1,6 @@
+feature,coefficient,source
+Median income growth (10y),0.4821,ACS B19013
+Avg construction wages,0.3142,BLS QCEW NAICS 23
+Permits per capita (5yr avg),-0.2178,Census BPS
+Vacancy rate,-0.1654,ACS B25002
+Rent burden ≥30% share,0.0923,ACS B25070
