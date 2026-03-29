@@ -56,6 +56,10 @@
         { title: 'HUD LIHTC Database', description: 'Download full national LIHTC dataset from HUD', url: 'https://lihtc.huduser.gov/' },
         { title: 'HUD EGIS Open Data', description: 'HUD geospatial open data portal with LIHTC layers', url: 'https://hudgis-hud.opendata.arcgis.com/' },
         { title: 'Novogradac LIHTC Mapping Tool', description: 'Interactive LIHTC project map from Novogradac', url: 'https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool' }
+      ],
+      whereUsed: [
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'LIHTC Map' },
+        { page: 'LIHTC-dashboard.html', label: 'LIHTC Dashboard', section: 'Project Map' }
       ]
     },
     {
@@ -74,7 +78,11 @@
       features: 1200,
       description: 'CHFA-financed LIHTC projects with allocation amounts, developer info, and compliance dates.',
       tags: ['chfa', 'lihtc', 'colorado'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'chfa-portfolio.html', label: 'CHFA Portfolio', section: 'Project Portfolio' },
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'State Allocations' }
+      ]
     },
     {
       id: 'lihtc-trends-county',
@@ -92,7 +100,10 @@
       features: 64,
       description: 'Annual LIHTC unit production trends aggregated by county (2010–2024).',
       tags: ['lihtc', 'county', 'trends'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'County Trends' }
+      ]
     },
     {
       id: 'co-historical-allocations',
@@ -110,7 +121,10 @@
       features: 37,
       description: 'Colorado LIHTC allocation history 1988–2024: annual project counts, low-income units, IRS per-capita floor, and state allocation authority. See docs/LIHTC_HISTORICAL_METHODOLOGY.md.',
       tags: ['lihtc', 'historical', 'allocation', 'colorado', 'irs', 'chfa'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'Historical Chart' }
+      ]
     },
     // ── QCT / DDA ────────────────────────────────────────────────
     {
@@ -129,7 +143,12 @@
       features: 342,
       description: 'HUD Qualified Census Tract designations for Colorado. Used for LIHTC boost calculations.',
       tags: ['qct', 'census-tract', 'hud'],
-      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0'
+      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0',
+      whereUsed: [
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'QCT Overlay' },
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'QCT/DDA Status' },
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Site Analysis' }
+      ]
     },
     {
       id: 'dda-colorado',
@@ -147,7 +166,11 @@
       features: 2902,
       description: 'HUD Difficult Development Area designations. Enables 130% basis boost for LIHTC projects.',
       tags: ['dda', 'hud', 'basis-boost'],
-      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0'
+      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0',
+      whereUsed: [
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'DDA Overlay' },
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Site Analysis' }
+      ]
     },
     // ── Policy ───────────────────────────────────────────────────
     {
@@ -166,7 +189,11 @@
       features: 217,
       description: 'Local government Proposition 123 affordable housing commitment filings with DOLA. 217 jurisdictions committed, projecting 22,988 new affordable units by end of 2026.',
       tags: ['prop123', 'policy', 'dola'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'compliance-dashboard.html', label: 'Compliance Dashboard', section: 'Prop 123 Tracking' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Policy Overview' }
+      ]
     },
     // ── Economic ─────────────────────────────────────────────────
     {
@@ -190,6 +217,12 @@
         { title: 'FRED Website', description: 'Browse and download any economic series from the St. Louis Fed', url: 'https://fred.stlouisfed.org/' },
         { title: 'BLS Data Tools', description: 'Bureau of Labor Statistics direct data access', url: 'https://www.bls.gov/data/' },
         { title: 'FRED API Docs', description: 'Full API documentation for custom series queries', url: 'https://fred.stlouisfed.org/docs/api/fred/' }
+      ],
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'FRED Series' },
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Economic Context' },
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Economic Indicators' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Economic Trends' }
       ]
     },
     {
@@ -208,7 +241,10 @@
       features: 120,
       description: 'Consolidated Colorado economic indicators including employment, wages, and housing metrics.',
       tags: ['economic', 'employment', 'wages'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'Key Indicators' }
+      ]
     },
     {
       id: 'construction-commodities',
@@ -226,7 +262,10 @@
       features: 15,
       description: 'Producer Price Index series for construction materials: lumber, steel, concrete, copper, etc.',
       tags: ['ppi', 'construction', 'materials', 'bls'],
-      apiEndpoint: 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
+      apiEndpoint: 'https://api.bls.gov/publicAPI/v2/timeseries/data/',
+      whereUsed: [
+        { page: 'construction-commodities.html', label: 'Construction Commodities', section: 'Cost Trends' }
+      ]
     },
     // ── Demographics ─────────────────────────────────────────────
     {
@@ -249,6 +288,11 @@
       alternatives: [
         { title: 'Census Bureau Data Explorer', description: 'Interactive census data tables', url: 'https://data.census.gov/' },
         { title: 'IPUMS USA', description: 'Integrated Public Use Microdata Series from University of Minnesota', url: 'https://usa.ipums.org/usa/' }
+      ],
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Population & Housing' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Demographics' },
+        { page: 'cra-expansion-analysis.html', label: 'CRA Expansion', section: 'Demographics' }
       ]
     },
     {
@@ -271,6 +315,9 @@
       alternatives: [
         { title: 'DOLA State Demography Office', description: 'Colorado-specific demographic data and projections', url: 'https://demography.dola.colorado.gov/' },
         { title: 'Census Bureau Quick Facts', description: 'Easy access to county-level census data', url: 'https://www.census.gov/quickfacts/CO' }
+      ],
+      whereUsed: [
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Population Trends' }
       ]
     },
     {
@@ -294,6 +341,10 @@
         { title: 'Census Bureau API', description: 'Direct 5-year ACS estimates via Census API', url: 'https://api.census.gov/data/2023/acs/acs5' },
         { title: 'PolicyMap', description: 'Tract-level demographic and housing data explorer', url: 'https://www.policymap.com/' },
         { title: 'NHGIS', description: 'National Historical GIS tract-level data with boundaries', url: 'https://www.nhgis.org/' }
+      ],
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Tract-Level Analysis' },
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Site Demographics' }
       ]
     },
     {
@@ -312,7 +363,11 @@
       features: 64,
       description: 'DOLA single-year-of-age population projections by county through 2050. pyramidYear=2024.',
       tags: ['dola', 'projections', 'age', 'county'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Age Pyramid' },
+        { page: 'hna-scenario-builder.html', label: 'HNA Scenario Builder', section: 'Population Projections' }
+      ]
     },
     // ── Market ───────────────────────────────────────────────────
     {
@@ -434,7 +489,12 @@
       features: 12,
       description: 'CAR monthly market report: median sale price, active listings, days on market, price/sqft.',
       tags: ['car', 'market', 'sales', 'listings'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'colorado-market.html', label: 'Colorado Market', section: 'Market Snapshot' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Market Data' },
+        { page: 'market-intelligence.html', label: 'Market Intelligence', section: 'CAR Report' }
+      ]
     },
     {
       id: 'ami-gap',
@@ -456,6 +516,10 @@
       alternatives: [
         { title: 'HUD FMR Dataset', description: 'Annual Fair Market Rents download from HUD User', url: 'https://www.huduser.gov/portal/datasets/fmr.html' },
         { title: 'HUD Income Limits Dataset', description: 'Annual income limits by county from HUD User', url: 'https://www.huduser.gov/portal/datasets/il.html' }
+      ],
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'AMI Gap Chart' },
+        { page: 'chfa-portfolio.html', label: 'CHFA Portfolio', section: 'Affordability Gap' }
       ]
     },
     {
@@ -474,7 +538,11 @@
       features: 64,
       description: 'HUD Area Median Income and income limits (30%, 50%, 80% AMI) for all 64 Colorado counties. Combined with FMR data.',
       tags: ['ami', 'income-limits', 'hud'],
-      apiEndpoint: 'https://www.huduser.gov/hudapi/public/income'
+      apiEndpoint: 'https://www.huduser.gov/hudapi/public/income',
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'FMR / Rent Affordability' },
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Rent Comparables' }
+      ]
     },
     // ── Zillow ──────────────────────────────────────────────────
     {
@@ -493,7 +561,11 @@
       features: 64,
       description: 'HUD Area Median Income and income limits (30%, 50%, 60%, 80% AMI) for Colorado counties.',
       tags: ['ami', 'income-limits', 'hud'],
-      apiEndpoint: 'https://www.huduser.gov/hudapi/public/acs'
+      apiEndpoint: 'https://www.huduser.gov/hudapi/public/acs',
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Income Limits' },
+        { page: 'lihtc-allocations.html', label: 'LIHTC Allocations', section: 'Income Targeting' }
+      ]
     },
     // ── Zillow ──────────────────────────────────────────────────
     {
@@ -512,7 +584,11 @@
       features: 8,
       description: 'Zillow Home Value Index (ZHVI) for Colorado metro areas. Monthly series 2010–present.',
       tags: ['zillow', 'zhvi', 'home-values'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Home Values' },
+        { page: 'market-intelligence.html', label: 'Market Intelligence', section: 'Zillow ZHVI' }
+      ]
     },
     {
       id: 'zillow-zori',
@@ -530,7 +606,10 @@
       features: 6,
       description: 'Zillow Observed Rent Index for Colorado metros. Monthly series measuring market-rate rents.',
       tags: ['zillow', 'zori', 'rent'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'market-intelligence.html', label: 'Market Intelligence', section: 'Zillow ZORI' }
+      ]
     },
     // ── LEHD / Employment ────────────────────────────────────────
     {
@@ -738,6 +817,9 @@
       alternatives: [
         { title: 'NHPD Public API', description: 'National Housing Preservation Database API', url: 'https://preservationdatabase.org/data/' },
         { title: 'HUD Multifamily Housing', description: 'HUD Section 8 and assisted housing inventory', url: 'https://www.hud.gov/program_offices/housing/mfh/exp/mfhdiscl' }
+      ],
+      whereUsed: [
+        { page: 'preservation.html', label: 'Preservation Tracking', section: 'Subsidy Expiry Map' }
       ]
     },
     // ── Projections ──────────────────────────────────────────────
@@ -757,7 +839,11 @@
       features: 64,
       description: 'Housing demand projections by scenario (baseline/high/low growth) for Colorado counties. baseYear=2024.',
       tags: ['projections', 'demand', 'hna'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Needs Projections' },
+        { page: 'hna-comparative-analysis.html', label: 'HNA Comparative Analysis', section: 'County Rankings' }
+      ]
     },
     {
       id: 'projection-scenarios',
@@ -775,7 +861,10 @@
       features: 3,
       description: 'Scenario definitions (baseline, high-growth, low-growth) for demographic projections.',
       tags: ['scenarios', 'projections'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'hna-scenario-builder.html', label: 'HNA Scenario Builder', section: '20-Year Scenarios' }
+      ]
     },
     // ── Municipal ────────────────────────────────────────────────
     {
@@ -794,7 +883,10 @@
       features: 32,
       description: '32 Colorado municipalities with 7-digit place FIPS, growth rates, and HNA parameters.',
       tags: ['municipal', 'fips', 'hna'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'Municipal Analysis' }
+      ]
     },
     {
       id: 'municipal-growth-rates',
@@ -831,7 +923,10 @@
       features: 50,
       description: '50 Colorado LIHTC benchmark projects for PMA comparable analysis.',
       tags: ['market-analysis', 'benchmarks', 'lihtc'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'market-analysis.html', label: 'Market Analysis', section: 'Comparable Projects' }
+      ]
     },
     // ── HNA Data ─────────────────────────────────────────────────
     {
@@ -850,7 +945,11 @@
       features: 64,
       description: 'County-level Housing Needs Assessment profiles including demographic, economic, and housing metrics.',
       tags: ['hna', 'county', 'demographics'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'housing-needs-assessment.html', label: 'Housing Needs Assessment', section: 'County Profile' },
+        { page: 'hna-comparative-analysis.html', label: 'HNA Comparative Analysis', section: 'County Ranking' }
+      ]
     },
     // ── FRED Sub-series ──────────────────────────────────────────
     {
@@ -869,7 +968,11 @@
       features: 130,
       description: 'Consumer Price Index for All Urban Consumers. Monthly series from 2014.',
       tags: ['fred', 'cpi', 'inflation'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL',
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'CPI Series' },
+        { page: 'construction-commodities.html', label: 'Construction Commodities', section: 'Inflation' }
+      ]
     },
     {
       id: 'fred-housing-cpi',
@@ -887,7 +990,11 @@
       features: 130,
       description: 'CPI for Shelter component — tracks housing cost inflation nationally.',
       tags: ['fred', 'cpi', 'housing', 'shelter'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SAH1',
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'Housing CPI' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Housing Costs' }
+      ]
     },
     {
       id: 'fred-unrate',
@@ -905,7 +1012,10 @@
       features: 130,
       description: 'National unemployment rate from BLS via FRED.',
       tags: ['fred', 'unemployment', 'labor'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE',
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'Unemployment Rate' }
+      ]
     },
     {
       id: 'fred-mortgage30',
@@ -923,7 +1033,11 @@
       features: 600,
       description: '30-year fixed mortgage rate from Freddie Mac Primary Mortgage Market Survey via FRED.',
       tags: ['fred', 'mortgage', 'interest-rate'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US',
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'Mortgage Rates' },
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'Financing Costs' }
+      ]
     },
     {
       id: 'fred-co-housing-permits',
@@ -941,7 +1055,10 @@
       features: 130,
       description: 'Colorado total private housing units authorized by building permits.',
       tags: ['fred', 'permits', 'housing-supply'],
-      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV'
+      apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV',
+      whereUsed: [
+        { page: 'economic-dashboard.html', label: 'Economic Dashboard', section: 'Building Permits' }
+      ]
     },
     // ── CRA ─────────────────────────────────────────────────────
     {
@@ -960,7 +1077,10 @@
       features: 350,
       description: 'CRA assessment area analysis data for Colorado, including LMI tract designations and credit needs.',
       tags: ['cra', 'lmi', 'community-development'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'cra-expansion-analysis.html', label: 'CRA Expansion', section: 'CRA Opportunity Map' }
+      ]
     },
     // ── Kalshi / Market Intelligence ────────────────────────────
     {
@@ -998,7 +1118,10 @@
       features: 1200,
       description: 'LIHTC compliance monitoring data: annual certifications, audit findings, unit vacancy tracking.',
       tags: ['compliance', 'lihtc', 'chfa'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'compliance-dashboard.html', label: 'Compliance Dashboard', section: 'Compliance Metrics' }
+      ]
     },
     // ── Manifest ─────────────────────────────────────────────────
     {
@@ -1055,7 +1178,10 @@
       features: 8,
       description: 'Aggregated regional metrics for Front Range, Mountain, Eastern Plains, and Western Slope regions.',
       tags: ['regional', 'metro', 'overview'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'regional.html', label: 'Regional Overview', section: 'Regional Comparisons' }
+      ]
     },
     // ── State Allocation ─────────────────────────────────────────
     {
@@ -1093,7 +1219,11 @@
       features: 25,
       description: 'Zillow Home Value Index at county level for Colorado. Monthly series for top-25 counties by population.',
       tags: ['zillow', 'zhvi', 'county', 'home-values'],
-      apiEndpoint: null
+      apiEndpoint: null,
+      whereUsed: [
+        { page: 'colorado-deep-dive.html', label: 'Colorado Deep Dive', section: 'County Values' },
+        { page: 'market-intelligence.html', label: 'Market Intelligence', section: 'County Market Trends' }
+      ]
     }
   ];
 
@@ -1171,6 +1301,17 @@
         }).join(','));
       });
       return rows.join('\n');
+    },
+
+    /** whereUsed array for a specific source id */
+    getWhereUsed: function(sourceId) {
+      var src = SOURCES.find(function(s) { return s.id === sourceId; });
+      return src && src.whereUsed ? src.whereUsed : [];
+    },
+
+    /** All sources that have whereUsed data */
+    getAllWhereUsed: function() {
+      return this.getSources().filter(function(s) { return s.whereUsed && s.whereUsed.length > 0; });
     }
   };
 
