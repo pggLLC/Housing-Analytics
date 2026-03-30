@@ -1,87 +1,109 @@
 {
   "meta": {
-    "generated": "2026-03-23T03:42:42Z",
-    "brief_count": 5,
-    "source_alerts": 78,
+    "generated": "2026-03-30T03:58:11Z",
+    "brief_count": 6,
+    "source_alerts": 115,
     "methodology": "Policy briefs are generated from aggregated RSS feed alerts. LLM-assisted summaries use GPT-4o-mini when OPENAI_API_KEY is set; otherwise rule-based summaries are produced from headline aggregation."
   },
   "briefs": [
     {
       "title": "Affordable Housing Policy Brief \u2014 March 2026",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent news coverage on affordable housing in Colorado covers 48 item(s). Notable headlines include: Denver's first Native-focused affordable housing project nears completion - The Business Journals; WFF Secures $47M for North & Oliver Affordable Housing - Hoodline; NC House committee wants to close costly tax loophole for affordable housing - NC Newsline. Coverage spans: Colorado, Denver.",
+      "summary": "Recent news coverage on affordable housing in Colorado covers 62 item(s). Notable headlines include: Colorado's push for affordable housing continues as Gov. Polis signs HOME Act, workforce housing bill - Colorado Politics; Bill to Create More Affordable Housing Opportunities Passes Colorado House - Ark Valley Voice; 6 Affordable Housing Proposals Receive Support from Austin City Council for Competitive LIHTC Funding Applications - austintexas.gov. Coverage spans: Colorado, Statewide.",
       "implications": "Policymakers should monitor affordable housing trends in Colorado. This data cluster suggests active public discourse and potential legislative or market developments.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "Hoodline",
-        "CU Denver News",
-        "JD Supra",
-        "NC Newsline",
-        "The Business Journals"
+        "Ark Valley Voice",
+        "cohousedems.com",
+        "Colorado Politics",
+        "coloradosun.com",
+        "austintexas.gov"
       ],
-      "alert_count": 48,
+      "alert_count": 62,
       "regions": [
         "Colorado",
-        "Denver"
+        "Statewide"
       ],
-      "generated": "2026-03-23T03:42:42Z"
+      "generated": "2026-03-30T03:58:11Z"
     },
     {
       "title": "General Policy Brief \u2014 March 2026",
       "policy_topic": "General",
-      "summary": "Recent news coverage on general in Colorado covers 23 item(s). Notable headlines include: Colorado Senate advances bill limiting local control over housing projects - Rocky Mountain Voice; Colorado Lawmakers Push Forward Bill To Expand Affordable and Middle-Income Housing - Realtor.com; Minimum home lot sizes eyed in Colorado push to break barriers - HousingWire. Coverage spans: Statewide, Denver.",
+      "summary": "Recent news coverage on general in Colorado covers 35 item(s). Notable headlines include: New Colorado Laws Make It Easier for Nonprofits to Build Housing - Governing; March 26, 2026: Travel troubles or smooth sailing at DIA? A leak in the housing supply, marking history for Colorado\u2019s 150th - cpr.org; Colorado HOME Act aims to expand housing while sparking debate over local control - kktv.com. Coverage spans: Colorado, Statewide.",
       "implications": "Policymakers should monitor general trends in Colorado. This data cluster suggests active public discourse and potential legislative or market developments.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Realtor.com",
+        "cpr.org",
+        "cohousedems.com",
         "Rocky Mountain Voice",
-        "marketplace.org",
-        "HousingWire",
-        "CBS News"
+        "Governing",
+        "kktv.com"
       ],
-      "alert_count": 23,
+      "alert_count": 35,
       "regions": [
-        "Statewide",
-        "Denver"
+        "Colorado",
+        "Statewide"
       ],
-      "generated": "2026-03-23T03:42:42Z"
+      "generated": "2026-03-30T03:58:11Z"
     },
     {
       "title": "Zoning & Land Use Policy Brief \u2014 March 2026",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent news coverage on zoning & land use in Colorado covers 4 item(s). Notable headlines include: Special election being held in one Colorado city after months of debate about zoning changes - CBS News; Zoning Updates and Housing Affordability Are Headed to the Ballot in Lakewood - Westword; Colorado House passes bill allowing nonprofits, schools to sidestep local zoning rules to build housing - The Denver Post. Coverage spans: Statewide, Colorado, Denver.",
+      "summary": "Recent news coverage on zoning & land use in Colorado covers 9 item(s). Notable headlines include: Colorado Law Lets Schools, Other Public Agencies Build Housing Regardless of Local Zoning - Planetizen; Colorado governor signs bill letting schools, universities bypass some zoning rules to build housing - coloradosun.com; Colorado governor signs bill giving zoning exemptions to nonprofits, schools that want to build housing - vaildaily.com. Coverage spans: Colorado, Statewide.",
       "implications": "Policymakers should monitor zoning & land use trends in Colorado. This data cluster suggests active public discourse and potential legislative or market developments.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
-        "The Denver Post",
-        "Denver7",
-        "CBS News",
-        "Westword"
+        "vaildaily.com",
+        "coloradosun.com",
+        "KUNC",
+        "AspenTimes.com",
+        "Planetizen"
       ],
-      "alert_count": 4,
+      "alert_count": 9,
       "regions": [
-        "Statewide",
         "Colorado",
-        "Denver"
+        "Statewide"
       ],
-      "generated": "2026-03-23T03:42:42Z"
+      "generated": "2026-03-30T03:58:11Z"
     },
     {
       "title": "Rent & Tenants Policy Brief \u2014 March 2026",
       "policy_topic": "Rent & Tenants",
-      "summary": "Recent news coverage on rent & tenants in Colorado covers 2 item(s). Notable headlines include: Gov. Polis Announces Colorado Renter Rewards: Nation\u2019s First State Cash Back and Savings Program for Prop 123 Equity-Program Renters - Colorado Office of Economic Development and International Trade (.gov); GUEST COLUMN: Rent control is a failed housing policy - Colorado Springs Gazette. Coverage spans: Statewide, Colorado Springs.",
+      "summary": "Recent news coverage on rent & tenants in Colorado covers 5 item(s). Notable headlines include: Colorado Kicks Off Cash-Back Program for Renters - Multifamily Housing News; Is rent getting cheaper in major Colorado cities? - coloradosun.com; Colorado Gov. Jared Polis announces new program offering renters cash back, to begin in Estes Park - CBS News. Coverage spans: Colorado Springs, Statewide.",
       "implications": "Policymakers should monitor rent & tenants trends in Colorado. This data cluster suggests active public discourse and potential legislative or market developments.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Colorado Office of Economic Development and International Trade (.gov)",
-        "Colorado Springs Gazette"
+        "Multifamily Housing News",
+        "CBS News",
+        "coloradosun.com",
+        "Colorado Springs Gazette",
+        "Colorado Office of Economic Development and International Trade (.gov)"
       ],
-      "alert_count": 2,
+      "alert_count": 5,
       "regions": [
-        "Statewide",
-        "Colorado Springs"
+        "Colorado Springs",
+        "Statewide"
       ],
-      "generated": "2026-03-23T03:42:42Z"
+      "generated": "2026-03-30T03:58:11Z"
+    },
+    {
+      "title": "Construction & Permitting Policy Brief \u2014 March 2026",
+      "policy_topic": "Construction & Permitting",
+      "summary": "Recent news coverage on construction & permitting in Colorado covers 3 item(s). Notable headlines include: State awards grants to push dense developments near transit centers - cpr.org; One of new Colorado bills to spur housing construction offers incentives to local communities - The Denver Post; Colorado Springs Seeks Public Input on Housing and Community Development Funding - Colorado Springs Business Journal. Coverage spans: Colorado, Colorado Springs, Denver.",
+      "implications": "Policymakers should monitor construction & permitting trends in Colorado. This data cluster suggests active public discourse and potential legislative or market developments.",
+      "related_data": "data/market/hud_lihtc_co.geojson",
+      "sources": [
+        "cpr.org",
+        "Colorado Springs Business Journal",
+        "The Denver Post"
+      ],
+      "alert_count": 3,
+      "regions": [
+        "Colorado",
+        "Colorado Springs",
+        "Denver"
+      ],
+      "generated": "2026-03-30T03:58:11Z"
     },
     {
       "title": "Housing Policy Policy Brief \u2014 March 2026",
@@ -96,7 +118,7 @@
       "regions": [
         "Statewide"
       ],
-      "generated": "2026-03-23T03:42:42Z"
+      "generated": "2026-03-30T03:58:11Z"
     }
   ]
 }
