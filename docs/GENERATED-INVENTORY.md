@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-29T17:48:13.316Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-03-30T07:28:40.460Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/alerts/alerts_archive.json` | 53.6 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 79.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -920,7 +920,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 5.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 6.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
