@@ -99,8 +99,8 @@ _TRANSIENT_HTTP_CODES = {400, 403, 429, 500, 502, 503, 504}
 
 def fetch_url(
     url: str,
-    retries: int = 4,
-    timeout: int = 60,
+    retries: int = 6,
+    timeout: int = 120,
     backoff_base: float = 5.0,
     max_backoff: float = 60.0,
 ) -> bytes:
@@ -245,11 +245,12 @@ def build_tract_centroids() -> dict:
         except RuntimeError as e:
             log(
                 f"[arcgis] Page {page_num} failed (offset={offset}): {e}\n"
+                f"  → Stopping pagination with {len(tracts)} tract(s) collected so far.\n"
                 "  → Recovery suggestion: check TIGERweb service status at "
                 "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
                 level="ERROR",
             )
-            raise
+            break
         features = page.get("features", [])
         log(f"[arcgis] Page {page_num}: received {len(features)} features (offset={offset})")
         for f in features:
@@ -426,11 +427,12 @@ def build_tract_boundaries() -> dict:
         except RuntimeError as e:
             log(
                 f"[arcgis] Boundaries page {page_num} failed (offset={offset}): {e}\n"
+                f"  → Stopping pagination with {len(features)} boundary feature(s) collected so far.\n"
                 "  → Recovery suggestion: check TIGERweb service status at "
                 "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
                 level="ERROR",
             )
-            raise
+            break
         raw_features = page.get("features", [])
         log(f"[arcgis] Boundaries page {page_num}: received {len(raw_features)} features "
             f"(offset={offset})")
