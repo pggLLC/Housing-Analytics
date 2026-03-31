@@ -1,184 +1,215 @@
-# Accessibility Guide — COHO Analytics
+# Accessibility Standards — COHO Analytics
 
-WCAG 2.1 AA compliance reference for developers maintaining this site.
-
----
-
-## WCAG 2.1 AA Checklist
-
-### Perceivable
-
-| # | Criterion | Status | Notes |
-|---|-----------|--------|-------|
-| 1.1.1 | Non-text content has alt text | ✅ | All images use `alt` attributes |
-| 1.3.1 | Info and relationships conveyed in structure | ✅ | Semantic HTML landmarks used |
-| 1.3.2 | Meaningful sequence preserved | ✅ | Logical DOM order |
-| 1.3.3 | Sensory characteristics not the only cue | ✅ | Colour + text + icon used |
-| 1.4.1 | Color not the sole indicator | ✅ | Deltas use arrow icon + colour |
-| 1.4.3 | Contrast ratio ≥ 4.5:1 (normal text) | ✅ | Verified below |
-| 1.4.4 | Text resizable to 200 % | ✅ | No fixed px font sizes in body |
-| 1.4.5 | Images of text avoided | ✅ | Text rendered as real text |
-| 1.4.10 | Reflow at 320 px | ✅ | Single-column mobile layout |
-| 1.4.11 | Non-text contrast ≥ 3:1 | ✅ | UI components meet threshold |
-| 1.4.12 | Text spacing adjustable | ✅ | CSS uses relative units |
-| 1.4.13 | Content on hover/focus visible | ✅ | Tooltips remain on hover |
-
-### Operable
-
-| # | Criterion | Status | Notes |
-|---|-----------|--------|-------|
-| 2.1.1 | All functionality available via keyboard | ✅ | Focus order follows DOM |
-| 2.1.2 | No keyboard traps | ✅ | Mobile menu dismisses via Escape |
-| 2.4.1 | Skip navigation link | ✅ | `.skip-link` on every page |
-| 2.4.2 | Pages have descriptive titles | ✅ | Unique `<title>` per page |
-| 2.4.3 | Focus order meaningful | ✅ | Logical tab order |
-| 2.4.4 | Link purpose clear from context | ✅ | Avoid "click here" text |
-| 2.4.6 | Headings and labels descriptive | ✅ | One h1 per page |
-| 2.4.7 | Focus visible | ✅ | 2 px ring via accessibility.css |
-| 2.5.3 | Label in name | ✅ | aria-label matches visible label |
-| 2.5.5 | Target size ≥ 44 × 44 px | ✅ | responsive.css enforces this |
-
-### Understandable
-
-| # | Criterion | Status | Notes |
-|---|-----------|--------|-------|
-| 3.1.1 | Language of page set | ✅ | `<html lang="en">` on all pages |
-| 3.2.1 | On focus does not change context | ✅ | No auto-submit or redirect on focus |
-| 3.3.1 | Error identification | ✅ | `.field-error` class + message |
-| 3.3.2 | Labels or instructions for inputs | ✅ | All inputs have `<label>` |
-
-### Robust
-
-| # | Criterion | Status | Notes |
-|---|-----------|--------|-------|
-| 4.1.1 | Parsing — valid HTML | ✅ | Unique IDs, closed tags |
-| 4.1.2 | Name, role, value for UI components | ✅ | ARIA attributes used |
-| 4.1.3 | Status messages programmatically determined | ✅ | `aria-live` regions |
+This document describes the WCAG 2.1 AA accessibility standards enforced in COHO Analytics and explains how automated testing prevents regressions.
 
 ---
 
-## Color Contrast Verification
+## Color Contrast Requirements
 
-All contrast ratios verified against WCAG 2.1 AA requirements (4.5:1 normal text, 3:1 large text).
+COHO Analytics targets **WCAG 2.1 Level AA** compliance for all text/background color combinations.
 
-### Light Mode
-
-| Element | Foreground | Background | Ratio | Pass |
-|---------|-----------|------------|-------|------|
-| Body text (`--text`) | `#0d1f35` | `#eef2f7` (`--bg`) | 12.1:1 | ✅ AA |
-| Muted text (`--muted`) | `#476080` | `#eef2f7` | 4.7:1 | ✅ AA |
-| Faint text (`--faint`) | `#53708c` | `#eef2f7` | 4.6:1 | ✅ AA |
-| Accent (`--accent`) | `#0a7e74` | `#eef2f7` | 3.4:1 | ✅ AA large |
-| Link (`--link`) | `#0b7285` | `#eef2f7` | 5.2:1 | ✅ AA |
-| Nav links (`--muted`) | `#476080` | card bg | 4.7:1 | ✅ AA |
-
-### Dark Mode
-
-| Element | Foreground | Background | Ratio | Pass |
-|---------|-----------|------------|-------|------|
-| Body text | `rgba(215,232,248,.93)` | `#08121e` | 13.4:1 | ✅ AA |
-| Muted text | `rgba(155,185,215,.72)` | `#0d1e30` | 4.6:1 | ✅ AA |
-| Accent dark | `#0fd4cf` | `#08121e` | 6.2:1 | ✅ AA |
-| Accent gold | `#fbbf24` | `#08121e` | 9.1:1 | ✅ AA |
-| Links dark | `#5ecbcc` | `#08121e` | 5.8:1 | ✅ AA |
+| Text type | Minimum contrast ratio |
+|-----------|----------------------|
+| Normal text (< 18 pt / < 24 px) | **4.5 : 1** |
+| Large text (≥ 18 pt regular / ≥ 14 pt bold) | **3.0 : 1** |
+| UI components and graphical objects | **3.0 : 1** |
 
 ---
 
-## Keyboard Navigation Guide
+## CSS Design Tokens
 
-| Key | Action |
-|-----|--------|
-| `Tab` | Move focus to next interactive element |
-| `Shift + Tab` | Move focus to previous interactive element |
-| `Enter` | Activate button or link |
-| `Space` | Activate button; scroll down |
-| `Escape` | Close mobile menu or modal |
-| `Arrow keys` | Navigate within select dropdowns and map controls |
+All colors are defined as CSS custom properties in `css/site-theme.css`. The site supports automatic OS-level dark mode via `@media (prefers-color-scheme: dark)` and a manual JS toggle via the `html.dark-mode` class.
 
-### Skip Link
+### Light Mode Tokens (`:root`)
 
-Every page contains a visually hidden skip link as the first focusable element:
+| Token | Value | Role |
+|-------|-------|------|
+| `--text` | `#0d1f35` | Primary body text (16.6:1 on white) |
+| `--text-strong` | `#060f1d` | Headings and emphasized text (19.2:1 on white) |
+| `--muted` | `#374151` | Secondary text, labels, UI chrome (10.3:1 on white) |
+| `--faint` | `#4b5563` | Tertiary text, sources, captions (7.6:1 on white) |
+| `--bg` | `#eef2f7` | Page background |
+| `--bg2` | `#e4ecf4` | Section/panel backgrounds |
+| `--bg3` | `#dae4f0` | Nested/inset backgrounds |
+| `--card` | `#ffffff` | Card surfaces |
+| `--accent` | `#096e65` | Brand/interactive color (6.1:1 on white, WCAG AA) |
+| `--link` | `#005a9c` | Hyperlinks (7.1:1 on white) |
+| `--good` | `#047857` | Success indicators (5.5:1 on white) |
+| `--warn` | `#b45309` | Warning indicators (5.0:1 on white) |
+| `--bad` | `#991b1b` | Error indicators (8.3:1 on white) |
+| `--info` | `#1d4ed8` | Informational indicators (6.7:1 on white) |
 
-```html
-<a class="skip-link" href="#main-content">Skip to main content</a>
-```
+### Dark Mode Tokens (`@media (prefers-color-scheme: dark)`)
 
-Tab to it; it becomes visible and jumps keyboard focus past the navigation.
+Dark mode uses light text on dark surfaces. All light mode token values are overridden automatically. Key changes:
+
+| Token | Dark Value | Role |
+|-------|-----------|------|
+| `--text` | `rgba(215,232,248,.93)` | Primary text (~15:1 on dark bg) |
+| `--muted` | `rgba(210,225,245,.95)` | Secondary text (~14:1 on dark bg) |
+| `--faint` | `rgba(190,210,235,.90)` | Tertiary text (~12:1 on dark bg) |
+| `--bg` | `#08121e` | Page background |
+| `--card` | `#0d1e30` | Card surfaces |
+| `--accent` | `#0fd4cf` | Brand color, light version (~10:1 on dark bg) |
 
 ---
 
-## Screen Reader Compatibility
+## Emphasis and Highlight Colors
 
-Tested with:
-- **NVDA 2024** + Firefox on Windows
-- **JAWS 2024** + Chrome on Windows
-- **VoiceOver** + Safari on macOS / iOS
-- **TalkBack** on Android
+### When Emphasis Backgrounds Are Used
 
-### ARIA Landmarks
+The design system provides a set of **dim** tokens — `--accent-dim`, `--good-dim`, `--warn-dim`, `--bad-dim`, and `--info-dim` — for subtle tinted backgrounds used in:
 
-Each page contains the following landmark regions:
+- Table row hover and selected states
+- Status badges (success, warning, error, info)
+- Alert / callout boxes
+- Active navigation links and checkboxes
 
-```html
-<header role="banner">   <!-- site-header injected by navigation.js -->
-<nav aria-label="Primary">
-<main id="main-content">
-<footer role="contentinfo">
-```
+Each dim token is a semi-transparent version of its corresponding semantic color at **10 % opacity on white** (e.g. `--warn-dim: rgba(168,70,8,.10)`), producing a nearly-white tinted surface.
 
-### ARIA Label Conventions
+### Choosing the Right Text Color
 
-| Pattern | Example |
+| Background | Preferred text color | Why |
+|------------|---------------------|-----|
+| `--accent-dim` | `--text`, `--muted` | Dark text has ≥ 8:1 on near-white tint |
+| `--good-dim` | `--text`, `--good` | `--text` ≥ 14:1; `--good` ≥ 4.78:1 |
+| `--warn-dim` | `--text`, `--warn` | `--text` ≥ 14:1; `--warn` ≥ 5.13:1 |
+| `--bad-dim` | `--text`, `--bad` | `--text` ≥ 13:1; `--bad` ≥ 6.96:1 |
+| `--info-dim` | `--text`, `--info` | `--text` ≥ 14:1; `--info` ≥ 5.83:1 |
+
+**Never** place muted or faint text on a dim background using the semantic status color — use `--text` or `--muted` instead.
+
+### Adding a New Emphasis Style
+
+Before shipping any new badge, alert, or highlighted region:
+
+1. **Identify the text/background pair** — e.g. `--warn` text on `--warn-dim` background.
+2. **Add the pair to `.contrast-check-config.json`** with `"lightOnly": true` (dim backgrounds are rgba and cannot be blended correctly in the dark-mode model):
+   ```json
+   {
+     "label": "Warn status text on warn-dim badge background",
+     "fg": "--warn",
+     "bg": "--warn-dim",
+     "lightOnly": true
+   }
+   ```
+3. **Run the light-mode check** to confirm ≥ 4.5:1:
+   ```bash
+   node tools/contrast-checker.js
+   ```
+4. **Manually verify dark mode** — open a page in dark mode and visually inspect the element. The automated tool blends rgba colors on white and cannot correctly model dark card backgrounds, so dark mode requires manual verification.
+5. **Do not hardcode hex values** in inline styles or `backgroundColor` arrays; always use `var(--xxx-dim)`.
+
+### Selection / Highlight
+
+`::selection` uses `var(--accent)` as background with white text in light mode (6.12:1 ✅) and dark navy text (`#0d1f35`) in dark mode (8.97:1 ✅). Do not override `::selection` background without re-verifying contrast.
+
+### Prohibited Inline Patterns
+
+The following patterns have been found to fail WCAG in alert boxes and must **not** be used:
+
+| Pattern | Problem |
 |---------|---------|
-| Navigation with label | `<nav aria-label="Primary">` |
-| Interactive charts | `<canvas aria-label="LIHTC Allocation Trend 2020-2026" role="img">` |
-| Toggle buttons | `<button aria-pressed="false" aria-label="Switch to dark mode">` |
-| Loading state | `<div aria-live="polite" aria-busy="true">` |
-| Error messages | `<span role="alert" class="field-error-message">` |
+| `background: rgba(192, 57, 43, …)` | Base `#c0392b` fails (3.4:1 on white) |
+| `background: rgba(198, 40, 40, …)` | Use `rgba(169, 50, 38, …)` (`#a93226`, 5.4:1) |
+
+Always use `var(--bad-dim)` or `var(--accent-dim)` CSS tokens instead of rgba literals derived from failing base colors.
 
 ---
 
-## Form Accessibility Requirements
+## Automated Contrast Testing
 
-1. **Every input must have a `<label>` with a matching `for`/`id` pair.**
-2. Required fields must have `aria-required="true"` and a visible indicator (`*`).
-3. Error messages must be associated with the input via `aria-describedby`.
-4. Grouped controls (radio/checkbox) must use `<fieldset>` + `<legend>`.
+### Local Check
 
-```html
-<!-- Correct form pattern -->
-<div class="field-group">
-  <label for="state-select">State <span aria-hidden="true">*</span></label>
-  <select id="state-select" aria-required="true" aria-describedby="state-error">
-    <option value="">Select a state…</option>
-    …
-  </select>
-  <span id="state-error" class="field-error-message" role="alert" hidden>
-    Please select a state.
-  </span>
-</div>
+Run the contrast checker before committing changes to `css/site-theme.css`:
+
+```bash
+# Check light mode (default)
+node tools/contrast-checker.js
+
+# Check dark mode
+node tools/contrast-checker.js --dark
+
+# JSON output for CI integration
+node tools/contrast-checker.js --json
+node tools/contrast-checker.js --dark --json
 ```
 
+The tool exits with code `0` if all configured pairs pass WCAG AA, `1` if any fail.
+
+### Configuration
+
+Token pairs and thresholds are configured in `.contrast-check-config.json`. Add new pairs when introducing new text/background combinations:
+
+```json
+{
+  "thresholds": { "normal": 4.5, "large": 3.0 },
+  "pairs": [
+    {
+      "label": "My new text component",
+      "fg": "--my-text-token",
+      "bg": "--my-bg-token",
+      "large": false
+    },
+    {
+      "label": "Status text on dim badge background (light mode only)",
+      "fg": "--warn",
+      "bg": "--warn-dim",
+      "lightOnly": true
+    }
+  ]
+}
+```
+
+**`"lightOnly": true`** — Add this flag for any pair whose background is a semi-transparent `rgba()` token (e.g. `--warn-dim`). The checker always blends rgba on white, which correctly models light-mode near-white surfaces but gives misleading results for dark mode (where the real backdrop is a dark card). Such pairs are skipped when running `node tools/contrast-checker.js --dark`. Always **verify dark mode manually**.
+
+### CI/CD Integration
+
+The `accessibility.yml` workflow runs the contrast checker on every pull request targeting `main`. It will block merging if any configured pair falls below the WCAG AA threshold.
+
+A comprehensive browser-based audit is performed by `contrast-audit.yml`, which uses Playwright to render each page, measure computed colors, and report violations.
+
 ---
 
-## Testing Tools and Resources
+## Accessibility Checklist for New Features
 
-| Tool | Purpose |
-|------|---------|
-| [axe DevTools](https://www.deque.com/axe/) | Automated WCAG audit in Chrome/Firefox |
-| [WAVE](https://wave.webaim.org/) | Visual accessibility overlay |
-| [Colour Contrast Analyser](https://www.tpgi.com/color-contrast-checker/) | Manual contrast checking |
-| [NVDA](https://www.nvaccess.org/) | Free Windows screen reader |
-| Chrome DevTools → Accessibility tree | DOM inspection |
-| `prefers-color-scheme` emulation | DevTools → Rendering panel |
-| `prefers-reduced-motion` emulation | DevTools → Rendering panel |
-| `prefers-contrast` emulation | DevTools → Rendering panel |
+Before merging any UI changes, verify:
+
+- [ ] All new text uses `--text`, `--muted`, or `--faint` tokens (never hardcoded hex)
+- [ ] Any non-token color has been verified with `tools/contrast-checker.js` or an online tool
+- [ ] New emphasis backgrounds (alerts, badges, highlights) use `--xxx-dim` tokens and the pair has been added to `.contrast-check-config.json` with `"lightOnly": true`
+- [ ] Dark mode emphasis backgrounds verified manually (the automated checker cannot model rgba backgrounds on dark cards)
+- [ ] `<canvas>` elements have `role="img"` and a descriptive `aria-label`
+- [ ] Interactive controls that update chart data call `window.__announceUpdate(message)` in their handler and the page has an `aria-live="polite"` region
+- [ ] All pages include `<header>`, `<main id="main-content">`, and `<footer>` landmarks
+- [ ] A skip-navigation link (`<a class="skip-link" href="#main-content">`) is the first focusable element
+- [ ] `<html lang="en">` is present on every page
+- [ ] Touch targets (labels, checkboxes, dot-plot indicators) meet the 44 × 44 px minimum
+- [ ] Chart colors use `var(--chart-1)` through `var(--chart-7)` tokens only
 
 ---
 
-## Resources
+## Prohibited Colors
 
-- [WCAG 2.1 specification](https://www.w3.org/TR/WCAG21/)
-- [WebAIM: Introduction to accessibility](https://webaim.org/intro/)
-- [MDN ARIA documentation](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA)
-- [Inclusive Components](https://inclusive-components.design/)
+The following hex values fail WCAG AA on white (`#ffffff`) or the site's light backgrounds and must **never** appear in HTML `backgroundColor` arrays or inline styles:
+
+| Hex | Ratio on white | Problem |
+|-----|---------------|---------|
+| `#6c7a89` | 2.6:1 | Too light |
+| `#3498db` | 3.5:1 | Too light |
+| `#27ae60` | 2.5:1 | Too light |
+| `#d4a574` | 1.9:1 | Too light |
+| `#e4b584` | 2.1:1 | Too light |
+| `#2ecc71` | 2.4:1 | Too light |
+| `#f39c12` | 2.8:1 | Too light |
+| `#c0392b` | 3.4:1 | Too light |
+
+Use the `--chart-1` … `--chart-7` CSS tokens instead.
+
+---
+
+## References
+
+- [WCAG 2.1 — Understanding SC 1.4.3: Contrast (Minimum)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [APCA Contrast Calculator](https://www.myndex.com/APCA/)
