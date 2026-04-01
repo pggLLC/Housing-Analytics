@@ -25,6 +25,9 @@ __MACOSX/
 # Quarantine folders — moved here for review before permanent deletion
 _tobedeleted/
 _audit/
+
+# GitHub Pages staging directory (created during deploy workflow)
+_site/
 .pytest_cache/
 *.egg-info/
 .venv/
