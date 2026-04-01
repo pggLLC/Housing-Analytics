@@ -52,6 +52,7 @@
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
+  <script defer src="js/site-state.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
@@ -1285,6 +1286,34 @@
     watchGeoChange();
     var geo = getCurrentGeo();
     initActionPlan(geo.geoType, geo.geoid);
+  }
+}());
+</script>
+<script>
+// Wire HNA county selection into SiteState so Market Analysis
+// and other tools automatically inherit the selected geography.
+(function () {
+  function syncCountyToSiteState() {
+    if (!window.SiteState || !window.HNAState) return;
+    var geoType = window.HNAState.els && window.HNAState.els.geoType && window.HNAState.els.geoType.value;
+    var geoSelect = window.HNAState.els && window.HNAState.els.geoSelect;
+    if (!geoSelect) return;
+    geoSelect.addEventListener('change', function () {
+      if (geoType !== 'county') return;
+      var fips = geoSelect.value;
+      var name = geoSelect.options[geoSelect.selectedIndex] && geoSelect.options[geoSelect.selectedIndex].text;
+      if (fips) window.SiteState.setCounty(fips, name || fips);
+    });
+    // Also sync geoType changes so we always read the current type
+    var geoTypeEl = window.HNAState.els.geoType;
+    if (geoTypeEl) geoTypeEl.addEventListener('change', function () {
+      geoType = geoTypeEl.value;
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncCountyToSiteState);
+  } else {
+    syncCountyToSiteState();
   }
 }());
 </script>

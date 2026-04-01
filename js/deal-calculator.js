@@ -562,10 +562,14 @@
     note.style.display = basisBoostEligible ? 'block' : 'none';
   }
 
-  // TODO (Future PR): integrate full 4%/9% deal-predictor module
-  //   (js/lihtc-deal-predictor.js) with CHFA QAP scoring, soft-debt layering,
-  //   and investor pricing.  This calculator is intentionally scoped to
-  //   early-stage feasibility sizing only and is not a final underwriting tool.
+  // SCOPE BOUNDARY — do not expand this file into a deal predictor or scoring engine.
+  // This calculator is intentionally limited to early-stage feasibility sizing:
+  // eligible basis, annual credits, rough equity, and gap-to-subsidy estimates.
+  //
+  // A full 4%/9% deal-predictor (CHFA QAP scoring, soft-debt layering, investor
+  // pricing) is out of scope here and requires an explicit product decision before
+  // implementation. Adding automated award-probability scoring or parcel-level
+  // conclusions would cross the platform's "screening, not certainty" boundary.
   window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };
 
   if (document.readyState === 'loading') {
