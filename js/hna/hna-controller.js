@@ -1164,6 +1164,8 @@
 
       return { ok:true, proj };
     }catch(e){
+      // Log real error so browser console shows the actual failure, not just the generic message.
+      console.error('[HNA] renderProjections failed — actual error:', e);
       window.HNAState.state.lastProj = null;
       // Clear projection stat cards gracefully (null-guarded to prevent crash on partial DOM)
       if (window.HNAState.els.statBaseUnits) window.HNAState.els.statBaseUnits.textContent = '—';
@@ -1180,6 +1182,83 @@
       }
       return { ok:false, err:String(e) };
     }
+  }
+
+
+  /**
+   * fetchAcsExtended — supplemental ACS fetch for extended analysis variables.
+   *
+   * The cached summary files (data/hna/summary/*.json) store only ~22 snapshot
+   * fields (population, income, home value, rent, tenure, structure type counts).
+   * The extended analysis charts — Income Distribution, Age of Housing Stock,
+   * Bedroom Mix, Owner Cost Burden, Housing Gap, Special Needs — require ~36
+   * additional DP03/DP04/DP05/DP02 variables that are NOT in the cache.
+   *
+   * This function fetches those missing variables from the ACS 5-year profile API
+   * and returns them as a flat object so they can be merged into the cached profile.
+   * Uses ACS 5-year (acs5) for reliability across all Colorado geography sizes.
+   *
+   * Called from update() when a cached profile exists but lacks DP03_0052E
+   * (the income bracket field that gates all extended chart rendering).
+   */
+  async function fetchAcsExtended(geoType, geoid) {
+    var extVars = [
+      // Income distribution (DP03 income brackets — used by renderIncomeDistribution
+      // and as AMI-tier proxies in renderHousingGapSummary)
+      'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
+      'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
+      // Age of housing stock (DP04 year-built bins — renderHousingAgeChart)
+      'DP04_0026E','DP04_0027E','DP04_0028E','DP04_0029E',
+      'DP04_0030E','DP04_0031E','DP04_0032E',
+      // Bedroom mix detail (DP04 — renderBedroomMixChart)
+      'DP04_0042E','DP04_0043E','DP04_0044E','DP04_0045E','DP04_0046E',
+      // Owner cost burden bins (DP04 SMOCAPI — renderOwnerCostBurdenChart)
+      'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
+      // Renter household count + GRAPI rent burden bins (renderHousingGapSummary)
+      'DP04_0047E',
+      'DP04_0136PE','DP04_0137PE','DP04_0138PE',
+      'DP04_0139PE','DP04_0140PE','DP04_0141PE',
+      // Special needs population (renderSpecialNeedsPanel)
+      'DP05_0019E', // children under 18
+      'DP05_0029E', // 65+
+      'DP05_0030E', // 65+ (alternate ACS vintage code)
+      'DP05_0031E', // 75+
+      'DP02_0003E', // family households
+      'DP02_0009E', // male single-parent HH
+      'DP02_0013E', // female single-parent HH
+      'DP02_0072E', // with a disability
+    ];
+
+    var forParam = geoType === 'county'
+      ? 'county:' + geoid.slice(2, 5)
+      : geoType === 'state'
+        ? 'state:' + window.HNAUtils.STATE_FIPS_CO
+        : 'place:' + geoid.slice(2);
+    var inParam  = geoType === 'state' ? null : 'state:' + window.HNAUtils.STATE_FIPS_CO;
+    var key      = window.HNAUtils.censusKey();
+    var year     = window.HNAUtils.ACS_YEAR_PRIMARY || 2023;
+
+    function buildExtUrl(yr) {
+      var base = 'https://api.census.gov/data/' + yr + '/acs/acs5/profile';
+      var qs   = 'get=' + encodeURIComponent(extVars.join(',')) + '&for=' + forParam;
+      if (inParam) qs += '&in=' + inParam;
+      if (key)     qs += '&key=' + encodeURIComponent(key);
+      return base + '?' + qs;
+    }
+
+    var r = await fetch(buildExtUrl(year));
+    if (!r.ok && year !== 2022) {
+      // Try one year earlier as a fallback (ACS 5-year data lags ~1 year)
+      r = await fetch(buildExtUrl(2022));
+    }
+    if (!r.ok) throw new Error('Extended ACS fetch HTTP ' + r.status);
+
+    var j   = await r.json();
+    var hdr = j[0];
+    var row = j[1] || [];
+    var out = {};
+    hdr.forEach(function(k, i) { out[k] = row[i]; });
+    return out;
   }
 
 
@@ -1357,31 +1436,42 @@
     } else {
       labelPrefix = 'Population (scaled from county ';
     }
-    window.HNARenderers.makeChart(document.getElementById('chartPopProj').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: years,
-        datasets: [
-          { label: `${labelPrefix}DOLA forecast)`, data: popSel, borderWidth: 2, pointRadius: 0, tension: 0.25 },
-          { label: `${labelPrefix}historic-trend sensitivity)`, data: popSelTrend, borderWidth: 2, pointRadius: 0, borderDash:[6,4], tension: 0.25 },
-        ]
-      },
-      options: {
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{ labels:{ color:t.text } },
-          tooltip:{ callbacks:{ label:(ctx)=> `${ctx.dataset.label}: ${window.HNAUtils.fmtNum(ctx.parsed.y)}` } }
+    // Null-guard: canvas must exist before calling getContext. If the element is
+    // missing for any reason, skip the chart rather than throwing and killing the
+    // entire projection flow (which would trigger the catch block and show the
+    // misleading "run the workflow" message).
+    var projCanvas = document.getElementById('chartPopProj');
+    if (projCanvas) {
+      window.HNARenderers.makeChart(projCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [
+            { label: `${labelPrefix}DOLA forecast)`, data: popSel, borderWidth: 2, pointRadius: 0, tension: 0.25 },
+            { label: `${labelPrefix}historic-trend sensitivity)`, data: popSelTrend, borderWidth: 2, pointRadius: 0, borderDash:[6,4], tension: 0.25 },
+          ]
         },
-        scales:{
-          x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
-          y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
+        options: {
+          responsive:true,
+          maintainAspectRatio:false,
+          plugins:{
+            legend:{ labels:{ color:t.text } },
+            tooltip:{ callbacks:{ label:(ctx)=> `${ctx.dataset.label}: ${window.HNAUtils.fmtNum(ctx.parsed.y)}` } }
+          },
+          scales:{
+            x:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
+            y:{ ticks:{ color:t.muted }, grid:{ color:t.border } },
+          }
         }
-      }
-    });
+      });
+    }
 
     // ---- Scenario comparison charts (5–10 year horizon section) ----
-    window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t);
+    try {
+      window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t);
+    } catch(scErr) {
+      console.error('[HNA] _renderScenarioSection failed:', scErr);
+    }
   }
 
   /**
@@ -1654,6 +1744,25 @@
           }
         }
       }catch(_){/* ignore */}
+
+    // Cached summary files only store ~22 snapshot fields. If the profile exists
+    // but is missing extended analysis variables (income brackets, housing age bins,
+    // bedroom mix detail, owner cost burden, rent burden bins, special needs population),
+    // fetch them from the ACS 5-year profile API and merge into the cached profile.
+    // This is non-fatal: if the supplemental fetch fails, basic snapshot cards still
+    // display correctly and extended charts show a blank state.
+    if (profile && typeof profile.DP03_0052E === 'undefined') {
+      try {
+        const ext = await fetchAcsExtended(geoType, geoid);
+        if (ext) {
+          // Merge: cached fields take priority on any overlap (cache has authoritative
+          // snapshot values like median income; extended fetch adds the missing variables)
+          profile = Object.assign({}, ext, profile);
+        }
+      } catch(e) {
+        console.warn('[HNA] Extended ACS supplement failed — extended charts may show blank:', e.message);
+      }
+    }
 
     if (!profile){
       if (!window.HNAUtils.censusKey()) {
