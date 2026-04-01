@@ -61,12 +61,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site content
+        run: |
+          mkdir -p _site
+          cp -r css js data assets lib maps config _site/
+          cp *.html robots.txt sitemap.xml _site/
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: '.'
-          retention-days: 1
+          path: _site/
 
       - name: Deploy to GitHub Pages
         id: deployment
