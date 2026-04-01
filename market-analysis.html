@@ -54,7 +54,7 @@
     <div style="padding:1rem 0 0.5rem">
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
-      <p style="max-width:640px">Public Market Analysis (PMA) scoring engine. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required. Scores cover vacancy, income qualification, commuting patterns, transit access, schools, competitive supply, and development opportunity factors.</p>
+      <p style="max-width:640px">Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required. Scores cover vacancy, income qualification, commuting patterns, transit access, schools, competitive supply, and development opportunity factors.</p>
       <p style="max-width:640px;font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
@@ -198,6 +198,7 @@
             <div class="pma-score-circle" id="pmaScoreCircle" aria-label="Overall PMA score">—</div>
             <div class="pma-score-meta">
               <div class="pma-score-label">Overall PMA Score (0–100)</div>
+              <div class="pma-score-note" style="font-size:.75rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
               <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
               <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
             </div>
