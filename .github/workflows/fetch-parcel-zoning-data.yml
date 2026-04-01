@@ -1,0 +1,182 @@
+name: Fetch Parcel & Zoning Data
+
+# Builds the parcel aggregates, zoning compatibility index, transit routes,
+# and school boundaries that power the PMA Parcel & Zoning map overlay.
+#
+# Data files written:
+#   data/market/parcel_aggregates_co.json   — county parcel aggregates
+#   data/market/zoning_compat_index_co.json — multifamily zoning compat index
+#   data/market/transit_routes_co.geojson   — GTFS transit routes (RTD + others)
+#   data/market/schools_co.geojson          — school locations + CDE ratings
+#
+# Sources (all free/public):
+#   Parcel data:  Colorado county assessors via DOLA ArcGIS REST endpoints
+#   Zoning data:  DOLA Zoning Atlas + OpenStreetMap Overpass API landuse
+#   Transit:      RTD GTFS feed (https://www.rtd-denver.com/open-data) +
+#                 other CO transit agencies via transitfeeds.com
+#   Schools:      Colorado Dept of Education ArcGIS service
+#
+# Regrid live parcel API (optional):
+#   Set REGRID_API_KEY in repository secrets to enable per-parcel detail.
+#   When absent, county-level aggregates are built from public sources.
+#
+# Schedule: Sundays at 02:00 UTC (offset from generate-market-analysis-data.yml
+# which runs Mondays at 04:00 UTC to avoid resource contention).
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'   # Sundays at 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Force refresh even if cache appears fresh'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-parcel-zoning:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install requests shapely pyproj 2>&1 | tail -5
+
+      # ── Parcel aggregates ─────────────────────────────────────────────
+      - name: Fetch parcel aggregates (DOLA + county assessors)
+        env:
+          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
+        run: |
+          python scripts/market/fetch_parcel_data.py 2>&1 | tee /tmp/parcel_build.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      - name: Validate parcel aggregates
+        run: |
+          python - <<'PYEOF'
+          import json, sys, os
+          path = 'data/market/parcel_aggregates_co.json'
+          if not os.path.exists(path):
+            print('::warning::parcel_aggregates_co.json was not created; using empty stub')
+            stub = {"meta": {"generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "source": "stub"}, "counties": []}
+            with open(path, 'w') as f: json.dump(stub, f)
+            sys.exit(0)
+          with open(path) as f:
+            data = json.load(f)
+          counties = data.get('counties', [])
+          print(f'parcel_aggregates_co.json: {len(counties)} counties')
+          if len(counties) == 0:
+            print('::warning::parcel_aggregates_co.json has 0 counties — data may be a stub')
+          PYEOF
+
+      # ── Zoning compatibility index ────────────────────────────────────
+      - name: Fetch zoning compatibility index (DOLA + OSM)
+        run: |
+          python scripts/market/fetch_zoning.py 2>&1 | tee /tmp/zoning_build.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      - name: Validate zoning index
+        run: |
+          python - <<'PYEOF'
+          import json, sys, os
+          path = 'data/market/zoning_compat_index_co.json'
+          if not os.path.exists(path):
+            print('::warning::zoning_compat_index_co.json was not created; using empty stub')
+            stub = {
+              "meta": {"generated": "stub", "compat_score_scale": "0 (no MF) to 2.5 (unrestricted MF)"},
+              "jurisdictions": []
+            }
+            with open(path, 'w') as f: json.dump(stub, f)
+            sys.exit(0)
+          with open(path) as f:
+            data = json.load(f)
+          juris = data.get('jurisdictions', [])
+          print(f'zoning_compat_index_co.json: {len(juris)} jurisdictions')
+          if len(juris) == 0:
+            print('::warning::zoning_compat_index_co.json has 0 jurisdictions — data may be a stub')
+          PYEOF
+
+      # ── Transit routes (GTFS) ─────────────────────────────────────────
+      - name: Fetch transit routes (RTD GTFS + CO agencies)
+        run: |
+          python scripts/market/fetch_gtfs_transit.py 2>&1 | tee /tmp/transit_build.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      - name: Validate transit routes
+        run: |
+          python - <<'PYEOF'
+          import json, sys, os
+          path = 'data/market/transit_routes_co.geojson'
+          if not os.path.exists(path):
+            print('::warning::transit_routes_co.geojson not created; using empty stub')
+            stub = {"type": "FeatureCollection", "features": []}
+            with open(path, 'w') as f: json.dump(stub, f)
+            sys.exit(0)
+          with open(path) as f:
+            data = json.load(f)
+          count = len(data.get('features', []))
+          print(f'transit_routes_co.geojson: {count} route features')
+          PYEOF
+
+      # ── School locations ──────────────────────────────────────────────
+      - name: Fetch school locations (CDE ArcGIS)
+        run: |
+          python scripts/market/fetch_schools.py 2>&1 | tee /tmp/schools_build.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      - name: Validate schools data
+        run: |
+          python - <<'PYEOF'
+          import json, sys, os
+          path = 'data/market/schools_co.geojson'
+          if not os.path.exists(path):
+            print('::warning::schools_co.geojson not created; using empty stub')
+            stub = {"type": "FeatureCollection", "features": []}
+            with open(path, 'w') as f: json.dump(stub, f)
+            sys.exit(0)
+          with open(path) as f:
+            data = json.load(f)
+          count = len(data.get('features', []))
+          print(f'schools_co.geojson: {count} schools')
+          PYEOF
+
+      # ── Opportunity Zones (refresh) ───────────────────────────────────
+      - name: Refresh Opportunity Zone designations
+        run: |
+          python scripts/market/fetch_opportunity_zones.py 2>&1 | tee /tmp/oz_build.log
+          echo "Exit code: $?"
+        continue-on-error: true
+
+      # ── Commit all updated data ───────────────────────────────────────
+      - name: Commit updated data files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/parcel_aggregates_co.json \
+                  data/market/zoning_compat_index_co.json \
+                  data/market/transit_routes_co.geojson \
+                  data/market/schools_co.geojson \
+                  data/market/opportunity_zones_co.geojson 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            COUNT=$(git diff --cached --name-only | wc -l)
+            git commit -m "chore: refresh parcel/zoning/transit/schools data ($COUNT files) [skip ci]"
+            git push
+          fi

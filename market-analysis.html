@@ -41,9 +41,9 @@
     <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
   <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <span class="workflow-step workflow-step--active">2. Market Analysis</span>
+  <span class="workflow-step workflow-step--active">2. Market Analysis &amp; PMA</span>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="colorado-deep-dive.html">3. Deep Dive</a>
+  <a class="workflow-step" href="hna-scenario-builder.html">3. Scenarios</a>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
   <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
   <span class="workflow-step-arrow" aria-hidden="true">→</span>
@@ -85,6 +85,7 @@
     <!-- ── Report Section Navigation ── -->
     <nav class="ma-section-nav" aria-label="Report sections">
       <ul class="ma-section-nav-list">
+        <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Delineation</a></li>
         <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
         <li><a href="#maMarketDemand" class="ma-section-nav-link">Market Demand</a></li>
         <li><a href="#maAffordableSupply" class="ma-section-nav-link">Affordable Supply</a></li>
@@ -93,12 +94,16 @@
         <li><a href="#maNeighborhoodAccess" class="ma-section-nav-link">Neighborhood Access</a></li>
         <li><a href="#maPolicyOverlays" class="ma-section-nav-link">Policy Overlays</a></li>
         <li><a href="#maOpportunities" class="ma-section-nav-link">Opportunities</a></li>
-        <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Tool</a></li>
       </ul>
     </nav>
 
     <section class="ma-report-section" id="maPmaTool">
-      <h2>PMA Scoring Tool</h2>
+      <h2>Primary Market Area (PMA) Delineation</h2>
+      <p style="max-width:640px;font-size:.85rem;color:var(--muted);margin-bottom:.75rem;">
+        Define the PMA boundary using commuting flows, barriers, school districts, and transit —
+        meeting NH&amp;RA / Novogradac industry standards for LIHTC market studies.
+        Click the map to place a site, then select a delineation method and run the analysis.
+      </p>
 
       <!-- ── Delineation method tabs ── -->
       <div class="pma-method-bar" style="margin-bottom:1rem;">
@@ -158,6 +163,20 @@
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
         <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
 
+        <!-- ── Boundary overlays (always visible) ── -->
+        <div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.8em;
+                    border:1px solid var(--border,#444);border-radius:6px;padding:.5rem .85rem;">
+          <span style="font-weight:600;width:100%;margin-bottom:.15rem;">Boundary overlays</span>
+          <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;">
+            <input type="checkbox" id="pmaSmaToggle" class="pma-layer-toggle" data-layer="sma" />
+            Show Secondary Market Area <span style="color:var(--muted);font-size:.9em;">(SMA — ~25 mi buffer)</span>
+          </label>
+          <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;">
+            <input type="checkbox" id="pmaParcelZoningToggle" class="pma-layer-toggle" data-layer="parcelZoning" />
+            Parcel &amp; Zoning <span style="color:var(--muted);font-size:.9em;">(MF suitability)</span>
+          </label>
+        </div>
+
         <!-- ── Layer picker (commuting / hybrid modes) ── -->
         <div id="pmaLayerPickerWrap" hidden
              style="margin-top:.75rem;border:1px solid var(--border,#444);border-radius:6px;padding:.65rem .85rem;">
@@ -176,10 +195,10 @@
               <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit
             </label>
             <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment
+              <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment centers
             </label>
             <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> OZ / AFFH
+              <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> OZ / Opportunities
             </label>
             <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
               <input type="checkbox" class="pma-layer-toggle" data-layer="infrastructure" /> Infrastructure
@@ -325,6 +344,12 @@
         <div class="pma-card">
           <h2>Scenario Analysis</h2>
           <p style="font-size:var(--tiny);margin-bottom:0.5rem">What-if modeling: compare score outcomes for different unit counts.</p>
+          <a href="hna-scenario-builder.html"
+             style="display:inline-block;font-size:var(--tiny);padding:.3rem .75rem;
+                    border:1px solid var(--accent,#096e65);border-radius:4px;color:var(--accent,#096e65);
+                    text-decoration:none;margin-bottom:.5rem;">
+            Full Scenario Builder &rarr;
+          </a>
           <div id="pmaScenarioResult">
             <div class="pma-empty">Run analysis to compare scenarios.</div>
           </div>
@@ -512,6 +537,9 @@
   <!-- HNA-to-concept bridge and full card renderer -->
   <script defer src="js/market-analysis/housing-needs-fit-analyzer.js"></script>
   <script defer src="js/lihtc-concept-card-renderer.js"></script>
+  <script defer src="js/pma-delineation.js"></script>
+  <script defer src="js/pma-parcel-zoning.js"></script>
+  <script defer src="js/data-connectors/regrid-parcels.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
   <!-- Phase 2.1: Enhanced constraint screening modules -->
   <script defer src="js/environmental-screening.js"></script>
