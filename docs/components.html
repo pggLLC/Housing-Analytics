@@ -130,6 +130,9 @@
     }
   </style>
 <script src="../js/config.js"></script>
+  <script defer src="../js/navigation.js"></script>
+  <script defer src="../js/dark-mode-toggle.js"></script>
+  <script defer src="../js/mobile-menu.js"></script>
 </head>
 <body>
 
@@ -738,32 +741,7 @@
   <!-- ============================================================
        FOOTER
   ============================================================ -->
-  <footer role="contentinfo" style="background:var(--bg2); border-top:1px solid var(--border); padding: var(--sp4) var(--sp5); text-align:center; font-size:var(--small); color:var(--muted);">
-    <p>Housing Analytics Component Library — Built with pure CSS and design tokens.</p>
-    <p class="mt-1">
-      <a href="#buttons" style="color: #0f172a;">Buttons</a> ·
-      <a href="#cards" style="color: #0f172a;">Cards</a> ·
-      <a href="#grids" style="color: #0f172a;">Grids</a> ·
-      <a href="#forms" style="color: #0f172a;">Forms</a> ·
-      <a href="#navigation" style="color: #0f172a;">Navigation</a> ·
-      <a href="#tables" style="color: #0f172a;">Tables</a> ·
-      <a href="#utilities" style="color: #0f172a;">Utilities</a>
-    </p>
-  </footer>
-
-  <!-- Minimal navbar toggle — no external JS required -->
-  <script>
-    (function () {
-      var toggle = document.querySelector('.navbar-toggle');
-      var navbar = document.querySelector('.navbar');
-      if (!toggle || !navbar) return;
-      toggle.addEventListener('click', function () {
-        var expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        navbar.classList.toggle('is-open', !expanded);
-      });
-    }());
-  </script>
+  <footer id="site-footer"></footer>
 
 
 
