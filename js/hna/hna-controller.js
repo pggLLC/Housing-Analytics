@@ -1207,22 +1207,35 @@
       // and as AMI-tier proxies in renderHousingGapSummary)
       'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
       'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
-      // Age of housing stock (DP04 year-built bins — renderHousingAgeChart)
-      'DP04_0026E','DP04_0027E','DP04_0028E','DP04_0029E',
-      'DP04_0030E','DP04_0031E','DP04_0032E',
-      // Bedroom mix detail (DP04 — renderBedroomMixChart)
-      'DP04_0042E','DP04_0043E','DP04_0044E','DP04_0045E','DP04_0046E',
-      // Owner cost burden bins (DP04 SMOCAPI — renderOwnerCostBurdenChart)
+      // Age of housing stock (DP04 YEAR STRUCTURE BUILT — renderHousingAgeChart)
+      // Confirmed ACS 5-year 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
+      // DP04_0027E–DP04_0032E are ROOMS variables — do NOT request them here
+      'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
+      'DP04_0022E','DP04_0023E','DP04_0024E','DP04_0025E','DP04_0026E',
+      // Bedroom mix detail (DP04 BEDROOMS — renderBedroomMixChart)
+      // Confirmed ACS 5-year 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
+      // DP04_0045E–DP04_0047E are HOUSING TENURE variables — do NOT use for bedrooms
+      'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E','DP04_0044E',
+      // Structure type (ACS 2023: DP04_0007E=1-unit detached … DP04_0014E=mobile home)
+      'DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
+      'DP04_0011E','DP04_0012E','DP04_0013E','DP04_0014E',
+      // Owner cost burden bins (DP04 SMOCAPI — renderOwnerCostBurdenChart) ✅ stable codes
       'DP04_0111PE','DP04_0112PE','DP04_0113PE','DP04_0114PE','DP04_0115PE',
-      // Renter household count + GRAPI rent burden bins (renderHousingGapSummary)
+      // Renter HH count + GRAPI rent burden bins (renderHousingGapSummary)
+      // DP04_0047E = renter-occupied count (confirmed ✅)
+      // DP04_0141PE = 30–34.9%, DP04_0142PE = 35%+ (ACS 2023 confirmed codes)
+      // DP04_0136PE in ACS 2023 = total GRAPI universe, NOT ≥30%; frontend computes ≥30%
+      // as DP04_0141PE + DP04_0142PE when DP04_0136PE is absent from cache
       'DP04_0047E',
-      'DP04_0136PE','DP04_0137PE','DP04_0138PE',
-      'DP04_0139PE','DP04_0140PE','DP04_0141PE',
+      'DP04_0137PE','DP04_0138PE','DP04_0139PE','DP04_0140PE',
+      'DP04_0141PE','DP04_0142PE',
       // Special needs population (renderSpecialNeedsPanel)
-      'DP05_0019E', // children under 18
-      'DP05_0029E', // 65+
-      'DP05_0030E', // 65+ (alternate ACS vintage code)
-      'DP05_0031E', // 75+
+      'DP05_0016E', // 75–84 years (used to compute 75+ aggregate)
+      'DP05_0017E', // 85 years and over (used to compute 75+ aggregate)
+      'DP05_0019E', // Under 18 years
+      'DP05_0024E', // 65 years and over (primary 65+ aggregate)
+      'DP05_0029E', // 65 years and over (secondary/vintage fallback)
+      // DP05_0031E is "65 years and over, Female" — removed (was incorrectly labelled 75+)
       'DP02_0003E', // family households
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH

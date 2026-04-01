@@ -1329,16 +1329,21 @@
     const t = chartTheme();
 
     // Stock by structure (counts)
+    // ACS 2023 confirmed codes (DP04 UNITS IN STRUCTURE starts at DP04_0007E):
+    //   DP04_0007E=1-unit detached, DP04_0008E=1-unit attached, DP04_0009E=2 units,
+    //   DP04_0010E=3-4 units, DP04_0011E=5-9 units, DP04_0012E=10-19 units,
+    //   DP04_0013E=20+ units, DP04_0014E=mobile home
+    // Note: in older ACS years this section started at DP04_0003E (now vacancy codes).
     const stock = [
-      { k:'1-unit detached', v:Number(profile?.DP04_0003E) },
-      { k:'1-unit attached', v:Number(profile?.DP04_0004E) },
-      { k:'2 units', v:Number(profile?.DP04_0005E) },
-      { k:'3–4 units', v:Number(profile?.DP04_0006E) },
-      { k:'5–9 units', v:Number(profile?.DP04_0007E) },
-      { k:'10–19 units', v:Number(profile?.DP04_0008E) },
-      { k:'20+ units', v:Number(profile?.DP04_0009E) },
-      { k:'Mobile home', v:Number(profile?.DP04_0010E) },
-    ].filter(d=>Number.isFinite(d.v));
+      { k:'1-unit detached', v:Number(profile?.DP04_0007E) },
+      { k:'1-unit attached', v:Number(profile?.DP04_0008E) },
+      { k:'2 units',         v:Number(profile?.DP04_0009E) },
+      { k:'3–4 units',       v:Number(profile?.DP04_0010E) },
+      { k:'5–9 units',       v:Number(profile?.DP04_0011E) },
+      { k:'10–19 units',     v:Number(profile?.DP04_0012E) },
+      { k:'20+ units',       v:Number(profile?.DP04_0013E) },
+      { k:'Mobile home',     v:Number(profile?.DP04_0014E) },
+    ].filter(d=>Number.isFinite(d.v) && d.v > 0);
 
     makeChart(document.getElementById('chartStock').getContext('2d'), {
       type:'bar',
@@ -1362,8 +1367,9 @@
     });
 
     // Tenure donut
-    const owner = Number(profile?.DP04_0047PE);
-    const renter = Number(profile?.DP04_0046PE);
+    // ACS 2023: DP04_0046PE = owner-occupied %, DP04_0047PE = renter-occupied %
+    const owner = Number(profile?.DP04_0046PE);
+    const renter = Number(profile?.DP04_0047PE);
     makeChart(document.getElementById('chartTenure').getContext('2d'), {
       type:'doughnut',
       data:{
@@ -2591,6 +2597,19 @@
 
   /**
    * renderHousingAgeChart — Age of housing stock (DP04 year built)
+   *
+   * ACS 5-year 2023 confirmed variable codes (DP04 YEAR STRUCTURE BUILT):
+   *   DP04_0017E = Built 2020 or later
+   *   DP04_0018E = Built 2010 to 2019
+   *   DP04_0019E = Built 2000 to 2009
+   *   DP04_0020E = Built 1990 to 1999
+   *   DP04_0021E = Built 1980 to 1989
+   *   DP04_0022E = Built 1970 to 1979
+   *   DP04_0023E = Built 1960 to 1969
+   *   DP04_0024E = Built 1950 to 1959
+   *   DP04_0025E = Built 1940 to 1949
+   *   DP04_0026E = Built 1939 or earlier
+   * Note: DP04_0027E–DP04_0032E are ROOMS variables, not year-built.
    */
   function renderHousingAgeChart(profile) {
     const canvas = document.getElementById('chartHousingAge');
@@ -2598,12 +2617,12 @@
     const t = chartTheme();
     const eras = [
       { label: 'Pre-1940',  v: Number(profile.DP04_0026E) },
-      { label: '1940–1959', v: Number(profile.DP04_0027E) },
-      { label: '1960–1979', v: Number(profile.DP04_0028E) },
-      { label: '1980–1999', v: Number(profile.DP04_0029E) },
-      { label: '2000–2009', v: Number(profile.DP04_0030E) },
-      { label: '2010–2019', v: Number(profile.DP04_0031E) },
-      { label: '2020+',     v: Number(profile.DP04_0032E) },
+      { label: '1940–1959', v: (Number(profile.DP04_0025E) || 0) + (Number(profile.DP04_0024E) || 0) },
+      { label: '1960–1979', v: (Number(profile.DP04_0023E) || 0) + (Number(profile.DP04_0022E) || 0) },
+      { label: '1980–1999', v: (Number(profile.DP04_0021E) || 0) + (Number(profile.DP04_0020E) || 0) },
+      { label: '2000–2009', v: Number(profile.DP04_0019E) },
+      { label: '2010–2019', v: Number(profile.DP04_0018E) },
+      { label: '2020+',     v: Number(profile.DP04_0017E) },
     ].filter(e => e.v > 0);
     if (!eras.length) return;
     makeChart(canvas.getContext('2d'), {
@@ -2626,17 +2645,26 @@
 
   /**
    * renderBedroomMixChart — Bedroom mix (DP04 bedrooms)
+   *
+   * ACS 5-year 2023 confirmed variable codes (DP04 BEDROOMS):
+   *   DP04_0039E = No bedroom
+   *   DP04_0040E = 1 bedroom
+   *   DP04_0041E = 2 bedrooms
+   *   DP04_0042E = 3 bedrooms
+   *   DP04_0043E = 4 bedrooms
+   *   DP04_0044E = 5 or more bedrooms
+   * Note: DP04_0045E–DP04_0047E are HOUSING TENURE variables, not bedrooms.
    */
   function renderBedroomMixChart(profile) {
     const canvas = document.getElementById('chartBedroomMix');
     if (!canvas || !profile) return;
     const t = chartTheme();
     const mix = [
-      { label: 'No bedroom', v: Number(profile.DP04_0042E) },
-      { label: '1 bedroom',  v: Number(profile.DP04_0043E) },
-      { label: '2 bedrooms', v: Number(profile.DP04_0044E) },
-      { label: '3 bedrooms', v: Number(profile.DP04_0045E) },
-      { label: '4+ bedrooms',v: Number(profile.DP04_0046E) },
+      { label: 'No bedroom', v: Number(profile.DP04_0039E) },
+      { label: '1 bedroom',  v: Number(profile.DP04_0040E) },
+      { label: '2 bedrooms', v: Number(profile.DP04_0041E) },
+      { label: '3 bedrooms', v: Number(profile.DP04_0042E) },
+      { label: '4+ bedrooms',v: (Number(profile.DP04_0043E) || 0) + (Number(profile.DP04_0044E) || 0) },
     ].filter(m => m.v > 0);
     if (!mix.length) return;
     makeChart(canvas.getContext('2d'), {
@@ -2701,13 +2729,17 @@
     const el = document.getElementById('housingGapSummary');
     if (!el || !profile) return;
 
-    const rentVac      = Number(profile.DP04_0005PE) || 0;
-    // ACS DP04 rent burden fields:
-    // DP04_0136PE = gross rent ≥30% of income (cost-burdened, includes severely burdened)
-    // DP04_0141PE = gross rent ≥50% of income (severely burdened)
-    const rentBurden30 = Number(profile.DP04_0136PE) || 0; // ≥30% (cost-burdened)
-    const rentBurden50 = Number(profile.DP04_0141PE) || 0; // ≥50% (severely burdened)
-    const renterHH     = Number(profile.DP04_0047E)  || 0;
+    // ACS 2023 DP04 vacancy rate — DP04_0005E = Rental vacancy rate (stored as estimate)
+    const rentVac = Number(profile.DP04_0005E) || Number(profile.DP04_0005PE) || 0;
+    // ACS 2023 GRAPI rent burden:
+    // DP04_0141PE = 30.0–34.9% of income; DP04_0142PE = 35%+ of income
+    // DP04_0136PE = pre-computed ≥30% (stored by B-series fallback in pipeline)
+    // For live profile fetches: ≥30% = DP04_0141PE + DP04_0142PE
+    const grapi_30_34 = Number(profile.DP04_0141PE) || 0;
+    const grapi_35p   = Number(profile.DP04_0142PE) || 0;
+    const rentBurden30 = Number(profile.DP04_0136PE) || (grapi_30_34 + grapi_35p) || 0; // ≥30% cost-burdened
+    const rentBurden50 = grapi_35p || 0; // ≥35% (best DP04 proxy; ACS DP04 has no 50% bin)
+    const renterHH     = Number(profile.DP04_0047E) || 0;
 
     // Estimate households at each AMI tier using ACS income brackets.
     // These are rough approximations: actual AMI thresholds vary by county and are
@@ -2723,12 +2755,12 @@
     el.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
         <div class="stat">
-          <div class="k">Severely burdened renters (≥50%)</div>
+          <div class="k">Severely burdened renters (≥35%)</div>
           <div class="v" style="color:var(--bad,#ef4444)">${sevBurdened > 0 ? sevBurdened.toLocaleString() : '—'}</div>
-          <div class="s">Est. households</div>
+          <div class="s">Est. households (ACS GRAPI 35%+ bin)</div>
         </div>
         <div class="stat">
-          <div class="k">Moderately burdened renters (30–50%)</div>
+          <div class="k">Cost-burdened renters (≥30%)</div>
           <div class="v" style="color:var(--warn,#d97706)">${modBurdened > 0 ? modBurdened.toLocaleString() : '—'}</div>
           <div class="s">Est. households</div>
         </div>
@@ -2755,7 +2787,8 @@
       </div>
       <p style="font-size:.82rem;color:var(--muted);margin-top:8px">
         AMI tier estimates based on household income brackets from ACS DP03.
-        Severely burdened = renter households spending ≥50% of income on housing (ACS GRAPI).
+        Cost-burdened = renters spending ≥30% of income on housing (ACS GRAPI DP04_0141+0142).
+        Severely burdened = renters spending ≥35% (ACS DP04 finest available bin; HUD standard is 50%).
       </p>
     `;
   }
@@ -2768,8 +2801,10 @@
     if (!el || !profile) return;
 
     const totalPop    = Number(profile.DP05_0001E) || 0;
-    const pop65plus   = Number(profile.DP05_0029E) || Number(profile.DP05_0030E) || 0;
-    const pop75plus   = Number(profile.DP05_0031E) || 0;
+    const pop65plus   = Number(profile.DP05_0024E) || Number(profile.DP05_0029E) || 0;
+    // 75+ = sum of ACS age bins: DP05_0016E (75–84) + DP05_0017E (85+)
+    // DP05_0031E is "65 years and over, Female" — NOT a 75+ aggregate
+    const pop75plus   = (Number(profile.DP05_0016E) || 0) + (Number(profile.DP05_0017E) || 0);
     const disabledPop = Number(profile.DP02_0072E) || 0;
     const childrenU18 = Number(profile.DP05_0019E) || 0;
     const familyHH    = Number(profile.DP02_0003E) || 0;
