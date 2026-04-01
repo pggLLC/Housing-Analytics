@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T10:40:17.640Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T11:48:51.988Z. Do not edit by hand.
 
 ---
 
@@ -1038,7 +1038,7 @@
 | `.github/workflows/data-quality-check.yml` | 6.0 KB |
 | `.github/workflows/data-refresh.yml` | 3.2 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
-| `.github/workflows/deploy.yml` | 1.8 KB |
+| `.github/workflows/deploy.yml` | 1.9 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
 | `.github/workflows/fetch-chas-data.yml` | 2.5 KB |
