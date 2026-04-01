@@ -456,14 +456,50 @@
     var btn = $id('pmaExplainScoreBtn');
     if (!btn) return;
     btn.addEventListener('click', function () {
+      // In enhanced (commuting / hybrid) mode _lastScoreRun is set by the runner.
+      // In buffer mode, fall back to the result stored in PMAEngine._state.
+      var scoreRun = _lastScoreRun ||
+        (window.PMAEngine && window.PMAEngine._state && window.PMAEngine._state.getLastResult
+          ? window.PMAEngine._state.getLastResult()
+          : null);
+
+      if (!scoreRun) {
+        alert('No analysis has been run yet — click a location on the map first.');
+        return;
+      }
+
       var just = window.PMAJustification;
-      if (!just || !_lastScoreRun) { return; }
-      var trail = just.generateAuditTrail(_lastScoreRun);
+      if (!just) {
+        // Fallback summary when PMAJustification module is not loaded (buffer mode)
+        var r = scoreRun;
+        var lines = [
+          'Score: '            + (r.pma_score != null ? r.pma_score : '—'),
+          'Buffer radius: '    + (r.bufferMiles || '—') + ' miles',
+          'Tracts in buffer: ' + (r.tractCount  || '—'),
+          'Population: '       + (r.acs && r.acs.pop ? r.acs.pop.toLocaleString() : '—'),
+          'Renter households: '+ (r.acs && r.acs.renter_hh ? r.acs.renter_hh.toLocaleString() : '—'),
+          'Median gross rent: '+ (r.acs && r.acs.median_gross_rent
+              ? '$' + Math.round(r.acs.median_gross_rent).toLocaleString() : '—'),
+          'Median HH income: ' + (r.acs && r.acs.median_hh_income
+              ? '$' + Math.round(r.acs.median_hh_income).toLocaleString() : '—'),
+          'Cost burden rate: ' + (r.acs && r.acs.cost_burden_rate != null
+              ? (r.acs.cost_burden_rate * 100).toFixed(1) + '%' : '—'),
+          'LIHTC projects: '   + (r.lihtcCount  != null ? r.lihtcCount  : '—'),
+          'LIHTC units: '      + (r.lihtcUnits  != null ? r.lihtcUnits  : '—'),
+          '',
+          'See browser console for full result object.'
+        ];
+        console.log('[PMAExplainScore] Buffer-mode result:', r);
+        alert(lines.join('\n'));
+        return;
+      }
+
+      var trail = just.generateAuditTrail(scoreRun);
       var info = [
-        'Run ID: '      + trail.run_id,
-        'Data vintage: '+ trail.data_vintage,
-        'LODES vintage: '+ trail.lodes_vintage,
-        'Quality: '     + trail.data_quality,
+        'Run ID: '       + trail.run_id,
+        'Data vintage: ' + trail.data_vintage,
+        'LODES vintage: ' + trail.lodes_vintage,
+        'Quality: '      + trail.data_quality,
         '',
         'Decision layers: ' + (trail.layers || []).join(', '),
         '',
