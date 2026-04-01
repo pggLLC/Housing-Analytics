@@ -493,6 +493,14 @@
         entries.push({ label: NAICS_LABELS[key], count: count });
       }
     });
+    // Fallback: state-aggregate and pipeline-generated files may store industries as a
+    // pre-sorted array instead of flat CNS root fields (e.g. data/hna/lehd/08.json).
+    if (!entries.length && Array.isArray(lehd.industries)) {
+      return lehd.industries
+        .filter(function(d) { return d && Number.isFinite(Number(d.count)) && Number(d.count) > 0; })
+        .slice(0, topN)
+        .map(function(d) { return { label: d.label || d.naics, count: Number(d.count) }; });
+    }
     if (!entries.length) return [];
     entries.sort(function(a, b) { return b.count - a.count; });
     return entries.slice(0, topN);
@@ -500,14 +508,31 @@
 
   /**
    * Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields.
+   * Falls back to annualWages[latest year] when root CE fields are absent
+   * (e.g. state-aggregate file stores wage tiers under annualWages[year].low/medium/high).
    * @param {object} lehd
    * @returns {{low, medium, high, total}|null}
    */
   function calculateWageDistribution(lehd) {
     if (!lehd) return null;
-    const low    = Number(lehd.CE01);  // ≤ $1,250/month
-    const medium = Number(lehd.CE02);  // $1,251–$3,333/month
-    const high   = Number(lehd.CE03);  // > $3,333/month
+    var low    = Number(lehd.CE01);  // ≤ $1,250/month
+    var medium = Number(lehd.CE02);  // $1,251–$3,333/month
+    var high   = Number(lehd.CE03);  // > $3,333/month
+
+    // Fallback: use most-recent year from annualWages when root CE fields are absent.
+    if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) {
+      var wages = lehd.annualWages;
+      if (wages && typeof wages === 'object') {
+        var years = Object.keys(wages).sort();
+        var latest = wages[years[years.length - 1]];
+        if (latest) {
+          low    = Number(latest.low);
+          medium = Number(latest.medium);
+          high   = Number(latest.high);
+        }
+      }
+    }
+
     if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) return null;
     const l = Number.isFinite(low)    ? low    : 0;
     const m = Number.isFinite(medium) ? medium : 0;
