@@ -288,36 +288,43 @@
   // -------------------------------------------------------------------------
   // Render data source table
   // -------------------------------------------------------------------------
+  // maxAgeDays: warn with "Stale" badge if last-refreshed timestamp exceeds this many days.
+  // Set to null to skip staleness checking (e.g. annually-updated reference files).
   var DATA_SOURCES = [
     {
-      name:   'Census ACS (state)',
-      file:   'data/census-acs-state.json',
-      tsPath: ['meta', 'pulled_at_utc'],
-      notes:  'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
+      name:       'Census ACS (state)',
+      file:       'census-acs-state.json',
+      tsPath:     ['meta', 'pulled_at_utc'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
     },
     {
-      name:   'CO County Demographics',
-      file:   'data/co-county-demographics.json',
-      tsPath: ['meta', 'refreshed_utc'],
-      notes:  'Updated daily by data-refresh.yml. Graceful fallback if key missing.',
+      name:       'CO County Demographics',
+      file:       'co-county-demographics.json',
+      tsPath:     ['meta', 'refreshed_utc'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by data-refresh.yml. Graceful fallback if key missing.',
     },
     {
-      name:   'CHFA LIHTC',
-      file:   'data/chfa-lihtc.json',
-      tsPath: ['fetchedAt'],
-      notes:  'Updated weekly by fetch-chfa-lihtc.yml. No API key required.',
+      name:       'CHFA LIHTC',
+      file:       'chfa-lihtc.json',
+      tsPath:     ['fetchedAt'],
+      maxAgeDays: 10,
+      notes:      'Updated weekly by fetch-chfa-lihtc.yml. No API key required.',
     },
     {
-      name:   'FRED Economic Data',
-      file:   'data/fred-data.json',
-      tsPath: ['updated'],
-      notes:  'Updated daily by fetch-fred-data.yml. Requires FRED_API_KEY.',
+      name:       'FRED Economic Data',
+      file:       'fred-data.json',
+      tsPath:     ['updated'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by fetch-fred-data.yml. Requires FRED_API_KEY.',
     },
     {
-      name:   'Data Manifest',
-      file:   'data/manifest.json',
-      tsPath: ['generated'],
-      notes:  'Rebuilt by data-refresh.yml after each successful data fetch.',
+      name:       'Data Manifest',
+      file:       'manifest.json',
+      tsPath:     ['generated'],
+      maxAgeDays: 3,
+      notes:      'Rebuilt by data-refresh.yml after each successful data fetch.',
     },
   ];
 
@@ -381,9 +388,19 @@
         })
         .then(function (data) {
           var ts = deepGet(data, src.tsPath);
-          fileCell.innerHTML = '<span class="dq-badge dq-badge--ok">Present</span>';
+          var stale = false;
+          if (ts && src.maxAgeDays != null) {
+            var ageDays = (Date.now() - new Date(ts).getTime()) / 86400000;
+            stale = ageDays > src.maxAgeDays;
+          }
+          if (stale) {
+            fileCell.innerHTML = '<span class="dq-badge dq-badge--warn">Stale</span>';
+            emit(src.name + ': STALE — last refreshed ' + (ts || 'unknown') + ' (exceeds ' + src.maxAgeDays + '-day threshold)');
+          } else {
+            fileCell.innerHTML = '<span class="dq-badge dq-badge--ok">Present</span>';
+            emit(src.name + ': present — last refreshed ' + (ts || 'unknown'));
+          }
           tsCell.textContent = fmtTs(ts);
-          emit(src.name + ': present — last refreshed ' + (ts || 'unknown'));
         })
         .catch(function (e) {
           fileCell.innerHTML = '<span class="dq-badge dq-badge--missing">Missing</span>';
