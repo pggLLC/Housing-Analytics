@@ -55,8 +55,8 @@
     <div style="padding:1rem 0 0.5rem">
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
-      <p style="max-width:640px">Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required. Scores cover vacancy, income qualification, commuting patterns, transit access, schools, competitive supply, and development opportunity factors.</p>
-      <p style="max-width:640px;font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
+      <p class="pma-intro-text">Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment using Census ACS, HUD LIHTC, and TIGERweb data — no API key required. Scores cover vacancy, income qualification, commuting patterns, transit access, schools, competitive supply, and development opportunity factors.</p>
+      <p class="pma-intro-note" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
     </div>
@@ -101,10 +101,8 @@
 
     <section class="ma-report-section" id="maPmaTool">
       <h2>Primary Market Area (PMA) Delineation</h2>
-      <p style="max-width:640px;font-size:.85rem;color:var(--muted);margin-bottom:.75rem;">
-        Define the PMA boundary using commuting flows, barriers, school districts, and transit —
-        meeting NH&amp;RA / Novogradac industry standards for LIHTC market studies.
-        Click the map to place a site, then select a delineation method and run the analysis.
+      <p class="pma-intro-note" style="margin-bottom:.75rem;">
+        Define the PMA boundary using commuting flows, barriers, school districts, and transit — meeting NH&amp;RA / Novogradac industry standards for LIHTC market studies. Click the map to place a site, then select a delineation method and run the analysis.
       </p>
 
       <!-- ── Delineation method tabs ── -->
@@ -165,45 +163,60 @@
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
         <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
 
-        <!-- ── Boundary overlays (always visible) ── -->
-        <div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.8em;
-                    border:1px solid var(--border,#444);border-radius:6px;padding:.5rem .85rem;">
-          <span style="font-weight:600;width:100%;margin-bottom:.15rem;">Boundary overlays</span>
-          <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;">
-            <input type="checkbox" id="pmaSmaToggle" class="pma-layer-toggle" data-layer="sma" />
-            Show Secondary Market Area <span style="color:var(--muted);font-size:.9em;">(SMA — ~25 mi buffer)</span>
-          </label>
-          <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;">
-            <input type="checkbox" id="pmaParcelZoningToggle" class="pma-layer-toggle" data-layer="parcelZoning" />
-            Parcel &amp; Zoning <span style="color:var(--muted);font-size:.9em;">(MF suitability)</span>
-          </label>
+        <!-- ── Boundary overlays ── -->
+        <div class="map-layer-section">
+          <span class="map-layer-heading">Boundary overlays</span>
+          <div class="map-layer-grid">
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaSmaToggle" data-layer="sma">
+              Secondary Market Area <small>(~25 mi)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaParcelZoningToggle" data-layer="parcelZoning">
+              Parcel &amp; Zoning <small>(MF suitability)</small>
+            </label>
+          </div>
         </div>
 
-        <!-- ── Layer picker (commuting / hybrid modes) ── -->
-        <div id="pmaLayerPickerWrap" hidden
-             style="margin-top:.75rem;border:1px solid var(--border,#444);border-radius:6px;padding:.65rem .85rem;">
-          <p style="font-size:.8em;font-weight:600;margin:0 0 .4rem;">Map layers</p>
-          <div style="display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.8em;">
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="commuting" checked /> Commuting flows
+        <!-- ── Map layers ── -->
+        <div id="pmaLayerPickerWrap" class="map-layer-section">
+          <span class="map-layer-heading">Map layers</span>
+          <div class="map-layer-grid">
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="lihtc" checked>
+              LIHTC properties
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="barriers" /> Barriers
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commuting">
+              Commuting flows
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="schools" /> Schools
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="opportunities">
+              Opportunity Zones
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="schools">
+              Schools
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment centers
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="transit">
+              Transit
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> OZ / Opportunities
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="employmentCenters">
+              Employment centers
             </label>
-            <label class="dot-wrap" style="display:flex;align-items:center;gap:.3rem;cursor:pointer;min-height:44px;min-width:44px;">
-              <input type="checkbox" class="pma-layer-toggle" data-layer="infrastructure" /> Infrastructure
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="barriers">
+              Barriers
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="infrastructure">
+              Infrastructure
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="flood">
+              Flood zones
             </label>
           </div>
         </div>
