@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T14:04:45.619Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T14:09:46.760Z. Do not edit by hand.
 
 ---
 
@@ -929,7 +929,7 @@
 
 ## Test Files
 
-80 test files found.
+85 test files found.
 
 | File | Size |
 |------|------|
@@ -988,14 +988,19 @@
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 9.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
+| `test/unit/cohort-component-model.test.js` | 13.0 KB |
+| `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 4.5 KB |
 | `test/unit/pma-competitive-set.test.js` | 5.3 KB |
+| `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 4.8 KB |
 | `test/unit/pma-justification.test.js` | 5.8 KB |
 | `test/unit/pma-opportunities.test.js` | 4.9 KB |
 | `test/unit/pma-schools.test.js` | 4.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
+| `test/unit/scenario-storage.test.js` | 13.3 KB |
+| `test/unit/site-selection-score.test.js` | 19.6 KB |
 | `test/validate-site.js` | 9.1 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
