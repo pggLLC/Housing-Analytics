@@ -39,6 +39,9 @@
         { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
         { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
         { label: "Data Health", href: "data-status.html", desc: "Pipeline & data freshness" },
+        { label: "Data Quality Dashboard", href: "dashboard-data-quality.html", desc: "Dataset coverage & freshness" },
+        { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "Source inventory & status" },
+        { label: "Data Review Hub", href: "data-review-hub.html", desc: "Review & transparency" },
       ]
     },
     {
