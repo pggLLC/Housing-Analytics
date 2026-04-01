@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T14:09:46.760Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T14:28:18.451Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 268.5 KB | ✅ | 716 features |
+| `data/chfa-lihtc.json` | 268.2 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
@@ -896,7 +896,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 102.4 KB | ✅ | — |
+| `data/manifest.json` | 98.1 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
