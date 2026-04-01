@@ -567,7 +567,7 @@
   // eligible basis, annual credits, rough equity, and gap-to-subsidy estimates.
   //
   // A full 4%/9% deal-predictor (CHFA QAP scoring, soft-debt layering, investor
-  // pricing) is out of scope here and requires an explicit product decision before
+  // pricing) is out of scope here and requires explicit product decision before
   // implementation. Adding automated award-probability scoring or parcel-level
   // conclusions would cross the platform's "screening, not certainty" boundary.
   window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };

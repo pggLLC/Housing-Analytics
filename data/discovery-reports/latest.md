@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-03-31T08:00:50.367Z
+**Scan timestamp:** 2026-04-01T08:08:30.218Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 888 |
-| New (unregistered) | 857 |
+| Files scanned | 889 |
+| New (unregistered) | 858 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -15,12 +15,13 @@
 ## 🆕 New Unregistered Sources
 
 - `data/alerts/alerts_archive.json` (79 KB)
+- `data/car-market-report-2026-04.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
 - `data/derived/market-analysis/market_demand.json` (8 KB)
 - `data/derived/market-analysis/neighborhood_access.json` (14 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (125 KB)
+- `data/discovery-reports/latest.json` (126 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (7 KB)
@@ -874,27 +875,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 820 days since last update
-- **undefined** — 454 days since last update
-- **undefined** — 454 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 821 days since last update
+- **undefined** — 455 days since last update
+- **undefined** — 455 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 364 days since last update
+- undefined — 365 days since last update
