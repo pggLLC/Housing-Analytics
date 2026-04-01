@@ -291,7 +291,10 @@
         datasets: [{
           label: 'Jobs',
           data: [dist.low, dist.medium, dist.high],
-          backgroundColor: ['rgba(239,68,68,.7)', 'rgba(251,191,36,.7)', 'rgba(34,163,111,.7)'],
+          // Low=bad (chart-7 red), Medium=warn (chart-6 burnt-orange), High=good (chart-3 teal)
+          backgroundColor: [t.chartColors[6] + 'B3', t.chartColors[5] + 'B3', t.chartColors[2] + 'B3'],
+          borderColor:     [t.chartColors[6],         t.chartColors[5],         t.chartColors[2]        ],
+          borderWidth: 1,
         }]
       },
       options: {
@@ -322,7 +325,9 @@
         datasets: [{
           label: 'Jobs',
           data: industries.map(function(d){ return d.count; }),
-          backgroundColor: 'rgba(59,130,246,.7)',
+          backgroundColor: industries.map(function(_, i) { return t.chartColors[i % t.chartColors.length] + 'B3'; }),
+          borderColor:     industries.map(function(_, i) { return t.chartColors[i % t.chartColors.length]; }),
+          borderWidth: 1,
         }]
       },
       options: {
@@ -429,8 +434,8 @@
         datasets: [{
           label: 'Total Jobs',
           data: counts,
-          borderColor: 'rgba(59,130,246,.9)',
-          backgroundColor: 'rgba(59,130,246,.15)',
+          borderColor: t.chartColors[0],
+          backgroundColor: t.chartColors[0] + '26',
           fill: true,
           tension: 0.3,
           pointRadius: 5,
@@ -534,8 +539,8 @@
         datasets: [{
           label: 'Avg Annual Wage (est.)',
           data: wageSeries,
-          borderColor: 'rgba(34,163,111,.9)',
-          backgroundColor: 'rgba(34,163,111,.1)',
+          borderColor: t.chartColors[2],
+          backgroundColor: t.chartColors[2] + '1A',
           fill: true,
           tension: 0.3,
           yAxisID: 'yWage',
@@ -616,13 +621,10 @@
 
     var t = chartTheme();
     var colors = industries.map(function(_, i) {
-      var palette = [
-        'rgba(59,130,246,.75)', 'rgba(34,163,111,.75)', 'rgba(251,191,36,.75)',
-        'rgba(239,68,68,.75)',  'rgba(168,85,247,.75)', 'rgba(20,184,166,.75)',
-        'rgba(249,115,22,.75)', 'rgba(236,72,153,.75)', 'rgba(99,102,241,.75)',
-        'rgba(156,163,175,.75)',
-      ];
-      return palette[i % palette.length];
+      return t.chartColors[i % t.chartColors.length] + 'BF';
+    });
+    var borderColors = industries.map(function(_, i) {
+      return t.chartColors[i % t.chartColors.length];
     });
 
     makeChart(document.getElementById('chartIndustryAnalysis').getContext('2d'), {
@@ -633,6 +635,8 @@
           label: 'Jobs',
           data: industries.map(function(d) { return d.count || 0; }),
           backgroundColor: colors,
+          borderColor: borderColors,
+          borderWidth: 1,
         }]
       },
       options: {
@@ -912,8 +916,8 @@
           {
             label: 'Required target (3% growth)',
             data: targetData,
-            borderColor: 'rgba(34,163,111,0.85)',
-            backgroundColor: 'rgba(34,163,111,0.12)',
+            borderColor: t.chartColors[2],
+            backgroundColor: t.chartColors[2] + '1F',
             borderDash: [],
             tension: 0.3,
             fill: false,
@@ -921,8 +925,8 @@
           {
             label: 'Baseline',
             data: baselineData_flat,
-            borderColor: 'rgba(251,191,36,0.75)',
-            backgroundColor: 'rgba(251,191,36,0.10)',
+            borderColor: t.chartColors[5],
+            backgroundColor: t.chartColors[5] + '1A',
             borderDash: [5, 5],
             tension: 0,
             fill: false,
