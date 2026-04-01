@@ -162,11 +162,16 @@
 
   function _validateAmiGap(data, cfg, cacheAge) {
     var counties = data && data.counties;
-    var isObj = counties && typeof counties === 'object' && !Array.isArray(counties);
-    var count = isObj ? Object.keys(counties).length : 0;
+    // counties may be either an array (current format) or a keyed object (legacy)
+    var count = 0;
+    if (Array.isArray(counties)) {
+      count = counties.length;
+    } else if (counties && typeof counties === 'object') {
+      count = Object.keys(counties).length;
+    }
     var ok = count > 0;
     return _makeReport(cfg, ok, count, cacheAge,
-      ok ? null : 'AMI gap counties object is empty or malformed');
+      ok ? null : 'AMI gap counties list is empty or malformed');
   }
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
