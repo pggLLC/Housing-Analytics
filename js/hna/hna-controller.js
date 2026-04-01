@@ -1202,19 +1202,24 @@
    * (the income bracket field that gates all extended chart rendering).
    */
   async function fetchAcsExtended(geoType, geoid) {
-    var extVars = [
-      // Income distribution (DP03 income brackets — used by renderIncomeDistribution
-      // and as AMI-tier proxies in renderHousingGapSummary)
+    // Split into two batches to stay well under the ACS profile API's 50-variable limit.
+    // Batch A: Housing + income vars (DP03 + DP04) — 41 variables
+    // Batch B: Special needs population vars (DP05 + DP02) — 9 variables
+    // Each batch is fetched independently; a failure in one does not prevent the other
+    // from returning data, so charts that depend on only one batch still render.
+
+    var batchA = [
+      // Income distribution (DP03 income brackets — renderIncomeDistribution,
+      // AMI-tier proxies in renderHousingGapSummary)
       'DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E',
       'DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E','DP03_0060E',
       // Age of housing stock (DP04 YEAR STRUCTURE BUILT — renderHousingAgeChart)
-      // Confirmed ACS 5-year 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
+      // ACS 5-year 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
       // DP04_0027E–DP04_0032E are ROOMS variables — do NOT request them here
       'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
       'DP04_0022E','DP04_0023E','DP04_0024E','DP04_0025E','DP04_0026E',
       // Bedroom mix detail (DP04 BEDROOMS — renderBedroomMixChart)
-      // Confirmed ACS 5-year 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
-      // DP04_0045E–DP04_0047E are HOUSING TENURE variables — do NOT use for bedrooms
+      // ACS 5-year 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
       'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E','DP04_0044E',
       // Structure type (ACS 2023: DP04_0007E=1-unit detached … DP04_0014E=mobile home)
       'DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
@@ -1224,25 +1229,21 @@
       // Renter HH count + GRAPI rent burden bins (renderHousingGapSummary)
       // DP04_0047E = renter-occupied count (confirmed ✅)
       // DP04_0141PE = 30–34.9%, DP04_0142PE = 35%+ (ACS 2023 confirmed codes)
-      // DP04_0136PE in ACS 2023 = total GRAPI universe, NOT ≥30%; frontend computes ≥30%
-      // as DP04_0141PE + DP04_0142PE when DP04_0136PE is absent from cache
-      'DP04_0047E',
-      // GRAPI: only the ≥30% bins are used by renderHousingGapSummary.
-      // DP04_0137PE–0140PE (<15% through 25–29.9%) are not read by any renderer
-      // and were pushing the request over the ACS API 50-variable limit → HTTP 400.
-      'DP04_0141PE','DP04_0142PE',
+      'DP04_0047E','DP04_0141PE','DP04_0142PE',
+    ];                                                        // 41 variables
+
+    var batchB = [
       // Special needs population (renderSpecialNeedsPanel)
       'DP05_0016E', // 75–84 years (used to compute 75+ aggregate)
-      'DP05_0017E', // 85 years and over (used to compute 75+ aggregate)
+      'DP05_0017E', // 85 years and over
       'DP05_0019E', // Under 18 years
       'DP05_0024E', // 65 years and over (primary 65+ aggregate)
       'DP05_0029E', // 65 years and over (secondary/vintage fallback)
-      // DP05_0031E is "65 years and over, Female" — removed (was incorrectly labelled 75+)
       'DP02_0003E', // family households
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
-    ];
+    ];                                                        // 9 variables
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)
@@ -1253,27 +1254,41 @@
     var key      = window.HNAUtils.censusKey();
     var year     = window.HNAUtils.ACS_YEAR_PRIMARY || 2023;
 
-    function buildExtUrl(yr) {
+    function buildUrl(yr, vars) {
       var base = 'https://api.census.gov/data/' + yr + '/acs/acs5/profile';
-      var qs   = 'get=' + encodeURIComponent(extVars.join(',')) + '&for=' + forParam;
+      var qs   = 'get=' + encodeURIComponent(vars.join(',')) + '&for=' + forParam;
       if (inParam) qs += '&in=' + inParam;
       if (key)     qs += '&key=' + encodeURIComponent(key);
       return base + '?' + qs;
     }
 
-    var r = await fetch(buildExtUrl(year));
-    if (!r.ok && year !== 2022) {
-      // Try one year earlier as a fallback (ACS 5-year data lags ~1 year)
-      r = await fetch(buildExtUrl(2022));
+    // Fetch one batch; returns a flat {varCode: value} object or {} on failure.
+    async function fetchBatch(vars, label) {
+      try {
+        var r = await fetch(buildUrl(year, vars));
+        if (!r.ok && year !== 2022) r = await fetch(buildUrl(2022, vars));
+        if (!r.ok) {
+          console.warn('fetchAcsExtended batch ' + label + ' HTTP ' + r.status + ' — skipping');
+          return {};
+        }
+        var j   = await r.json();
+        var hdr = j[0];
+        var row = j[1] || [];
+        var out = {};
+        hdr.forEach(function(k, i) { out[k] = row[i]; });
+        return out;
+      } catch (e) {
+        console.warn('fetchAcsExtended batch ' + label + ' error:', e);
+        return {};
+      }
     }
-    if (!r.ok) throw new Error('Extended ACS fetch HTTP ' + r.status);
 
-    var j   = await r.json();
-    var hdr = j[0];
-    var row = j[1] || [];
-    var out = {};
-    hdr.forEach(function(k, i) { out[k] = row[i]; });
-    return out;
+    // Run both batches concurrently; merge results (batchB wins on any overlap — none expected).
+    var results = await Promise.all([
+      fetchBatch(batchA, 'A (housing+income)'),
+      fetchBatch(batchB, 'B (special-needs pop)'),
+    ]);
+    return Object.assign({}, results[0], results[1]);
   }
 
 
