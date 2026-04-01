@@ -22,7 +22,7 @@
     FRED_API_KEY:         "",
     REGRID_API_KEY:       "",
     BRIDGE_BROWSER_TOKEN: "",
-    BRIDGE_DATASET:       "",   // e.g. "ires_co" or "recolorado" — set via Data Quality Dashboard
+    BRIDGE_DATASET:       "test", // override via Data Quality Dashboard when real MLS access is granted
     DATA_VERSION:         "2026-03-15"
   }, stored);
 }());
