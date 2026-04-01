@@ -2016,7 +2016,39 @@
       });
     }
 
-    // Update the scenario need summary note panel
+    // Save seriesByScenario to shared state so the CSV export function can read it.
+    if (S().state) {
+      S().state.lastScenarioSeries = seriesByScenario;
+      S().state.lastBaseYear = baseYear;
+    }
+
+    // Update freshness badge with the data vintage year.
+    const freshnessBadge = document.getElementById('scenarioFreshnessBadge');
+    if (freshnessBadge && baseYear) {
+      freshnessBadge.textContent = `${baseYear} vintage`;
+      freshnessBadge.hidden = false;
+    }
+
+    // Show a data quality notice when the projection is synthesised from DOLA
+    // county baselines (i.e. the geography is a place or CDP, not a county).
+    const dqEl = document.getElementById('scenarioDataQuality');
+    if (dqEl) {
+    // Detect synthetic projections: shareFactors < 1 when geography is a place
+    // or CDP (where popSel is scaled from the containing county's DOLA baseline).
+    // For county/state selections popSel === popCounty so all share factors = 1.
+    const isSynthetic = shareFactors.some(sf => sf < 1);
+      if (isSynthetic) {
+        dqEl.textContent = '⚠ Projections are estimated by scaling county-level DOLA data. Place/CDP-specific data may differ.';
+        dqEl.className = 'scenario-data-quality dq-warn';
+        dqEl.hidden = false;
+      } else {
+        dqEl.textContent = '✓ Projections use county-level DOLA SDO cohort-component data directly.';
+        dqEl.className = 'scenario-data-quality';
+        dqEl.hidden = false;
+      }
+    }
+
+    // Update the scenario need summary panel with structured comparison data.
     const summaryEl = document.getElementById('scenarioNeedSummary');
     if (summaryEl && seriesByScenario.baseline && seriesByScenario.baseline.length) {
       const endIdx = seriesByScenario.baseline.length - 1;
@@ -2026,10 +2058,22 @@
       const highPop = (seriesByScenario.high_growth || [])[endIdx]?.population;
       const fmt = U().fmtNum;
       const vintage = baseYear || new Date().getFullYear();
-      const parts = [`By ${endYear}: Baseline population ${fmt(baselinePop)}`];
-      if (lowPop !== undefined) parts.push(`Low growth ${fmt(lowPop)}`);
-      if (highPop !== undefined) parts.push(`High growth ${fmt(highPop)}`);
-      summaryEl.textContent = parts.join(' · ') + `. Source: DOLA SDO ${vintage} vintage, cohort-component model.`;
+
+      // Build structured comparison grid (one column per scenario)
+      const cols = [
+        { sc: 'baseline',    label: 'Baseline',    pop: baselinePop },
+        { sc: 'low_growth',  label: 'Low growth',  pop: lowPop },
+        { sc: 'high_growth', label: 'High growth', pop: highPop },
+      ].filter(c => c.pop !== undefined && c.pop !== null);
+
+      const gridHTML = cols.map(c =>
+        `<div class="scenario-summary-col"><p class="sc-label">${c.label}</p><p class="sc-value">${fmt(c.pop)}</p></div>`
+      ).join('');
+
+      summaryEl.innerHTML =
+        `<strong>By ${endYear} projected population</strong>` +
+        `<div class="scenario-summary-grid">${gridHTML}</div>` +
+        `<p style="margin:6px 0 0;font-size:.8rem;color:var(--muted)">Source: DOLA SDO ${vintage} vintage, cohort-component model.</p>`;
       summaryEl.style.display = '';
     }
   }

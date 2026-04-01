@@ -711,3 +711,69 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 /* ── PMA methodology section heading ────────────────────── */
 .pma-methodology-section h2 { margin-bottom: 6px; }
+
+/* ── Scenario comparison enhancements ───────────────────── */
+.scenario-freshness-badge {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+  color: var(--accent);
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent 70%);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.scenario-need-summary {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+  font-size: .88rem;
+  color: var(--text);
+}
+.scenario-need-summary .scenario-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+@media (max-width: 600px) {
+  .scenario-need-summary .scenario-summary-grid { grid-template-columns: 1fr; }
+}
+.scenario-summary-col {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+}
+.scenario-summary-col .sc-label {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: 0 0 2px;
+}
+.scenario-summary-col .sc-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.scenario-data-quality {
+  margin: 6px 0 0;
+  font-size: .8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.scenario-data-quality.dq-warn {
+  color: var(--warn);
+}
+
+/* ── Scenario export button ──────────────────────────────── */
+.scenario-export-btn {
+  padding: 6px 12px;
+  font-size: .82rem;
+  cursor: pointer;
+  min-height: 44px;
+  white-space: nowrap;
+}

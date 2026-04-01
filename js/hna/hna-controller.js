@@ -1552,6 +1552,9 @@
     }
 
     // Slider live-update labels
+    // Debounce timer: chart re-renders are deferred 300 ms so rapid slider
+    // drags don't trigger a repaint on every pixel move (performance).
+    let _sliderDebounce = null;
     [
       ['scenFertility', 'scenFertilityVal', v => Number(v).toFixed(2)],
       ['scenMigration', 'scenMigrationVal', v => Math.round(Number(v)).toLocaleString()],
@@ -1561,8 +1564,11 @@
       if (slider){
         slider.addEventListener('input', () => {
           _updateSliderLabel(labelId, fmt(slider.value));
-          // Re-render after slider change
-          if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
+          // Debounce chart re-render to avoid rapid repaints on slider drag
+          clearTimeout(_sliderDebounce);
+          _sliderDebounce = setTimeout(() => {
+            if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
+          }, 300);
         });
       }
     });
@@ -1662,6 +1668,65 @@
         }
       }
     }));
+
+    // Export scenario CSV button
+    const exportBtn = document.getElementById('btnExportScenario');
+    if (exportBtn){
+      exportBtn.addEventListener('click', () => {
+        exportScenarioCSV();
+      });
+    }
+  }
+
+  /**
+   * exportScenarioCSV — build a CSV of all scenario projection series and
+   * trigger a browser download.  Falls back silently if no data is loaded.
+   */
+  function exportScenarioCSV(){
+    const state = window.HNAState && window.HNAState.state;
+    if (!state || !state.lastScenarioSeries) {
+      if (typeof window.__announceUpdate === 'function') {
+        window.__announceUpdate('No scenario data available to export. Select a geography first.');
+      }
+      return;
+    }
+    const series    = state.lastScenarioSeries;     // {scenarioKey: [{year, population}, ...]}
+    const geoLabel  = state.lastGeoLabel || 'geography';
+    const scenarios = Object.keys(series);
+    if (!scenarios.length) return;
+
+    // Build header row
+    const header = ['Year', ...scenarios.map(sc => {
+      const meta = (window.HNAUtils && window.HNAUtils.PROJECTION_SCENARIOS[sc]) || {};
+      return meta.label || sc;
+    })];
+
+    // Collect all years across scenarios (sorted ascending)
+    const allYears = [...new Set(scenarios.flatMap(sc => (series[sc] || []).map(p => p.year)))].sort((a,b) => a - b);
+
+    const rows = [header];
+    allYears.forEach(yr => {
+      const row = [yr];
+      scenarios.forEach(sc => {
+        const pt = (series[sc] || []).find(p => p.year === yr);
+        row.push(pt ? pt.population : '');
+      });
+      rows.push(row);
+    });
+
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `hna-scenario-projections-${geoLabel.replace(/[^a-z0-9]/gi, '_').toLowerCase().slice(0, 50)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof window.__announceUpdate === 'function') {
+      window.__announceUpdate('Scenario comparison exported to CSV.');
+    }
   }
 
 
@@ -1710,6 +1775,9 @@
     // Clear stat cards immediately so users never see stale data from a previous geography.
     // Cards will be repopulated once the new profile data arrives.
     window.HNARenderers.clearStats();
+
+    // Store geo label in state so CSV export can use it.
+    window.HNAState.state.lastGeoLabel = label;
 
     // Announce geography change to screen readers (WCAG 4.1.3 / Rule 11)
     if (typeof window.__announceUpdate === 'function') {
