@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T06:20:24.479Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T07:39:14.659Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 10.3 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 78.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 79.0 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
@@ -953,7 +953,7 @@
 | `test/economic_indicators_test.py` | 24.3 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/hna-functionality-check.js` | 48.2 KB |
+| `test/hna-functionality-check.js` | 48.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
