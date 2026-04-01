@@ -132,15 +132,18 @@ jobs:
           for sid, name in SERIES.items():
             try:
               obs = fetch_observations(sid)
-              result[sid] = {"name": name, "observations": obs}
-              print(f"✓ {sid}: {len(obs)} observations")
+              if obs:
+                result[sid] = {"name": name, "observations": obs}
+                print(f"✓ {sid}: {len(obs)} observations")
+              else:
+                print(f"⚠ {sid}: 0 observations returned — skipping (Rule 7)", file=sys.stderr)
+                errors.append(sid)
             except Exception as e:
               print(f"✗ {sid}: {e}", file=sys.stderr)
-              result[sid] = {"name": name, "observations": []}
               errors.append(sid)
 
           if errors:
-            print(f"\n⚠️  {len(errors)} series failed: {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}", file=sys.stderr)
+            print(f"\n⚠️  {len(errors)} series skipped (no data): {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}", file=sys.stderr)
 
           output = {
             "updated": datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
@@ -152,8 +155,7 @@ jobs:
             json.dump(output, f)
 
           total = len(result)
-          with_data = sum(1 for v in result.values() if v["observations"])
-          print(f"\nWrote data/fred-data.json — {with_data}/{total} series have observations")
+          print(f"\nWrote data/fred-data.json — {total} series with observations")
           PY
           echo "── FRED fetch completed at $(date -u) ──"
 

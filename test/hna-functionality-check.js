@@ -577,8 +577,10 @@ test('Deploy workflow: js/config.js is generated from secrets at deploy time', (
 test('Deploy workflow: data/hna directory is included in the Pages artifact', () => {
     const deployYml = path.join(ROOT, '.github', 'workflows', 'deploy.yml');
     const workflow  = fs.readFileSync(deployYml, 'utf8');
-    // The workflow uploads the entire repo root ('.') as the Pages artifact
-    assert(workflow.includes("path: '.'"), "Pages artifact path includes repo root ('.')");
+    // The workflow builds _site/ and uploads that directory as the Pages artifact
+    assert(workflow.includes('path: _site/'), "Pages artifact path is _site/ directory");
+    // Verify that data/ directory is explicitly copied into _site/
+    assert(workflow.includes('_site') && workflow.includes('data'), "data/ directory is copied into _site/");
 });
 
 // ---------------------------------------------------------------------------
