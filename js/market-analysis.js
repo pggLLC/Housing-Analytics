@@ -499,20 +499,48 @@
     setText('pmaTractCount', result.tractCount || '—');
 
     var dims = result.dimensions;
-    var dimNames = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
+    var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
     var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
+    var dimDescs  = [
+      'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
+      'Risk that the project cannot capture enough income-qualified renters to lease up. Lower capture rate needed = higher score.',
+      'Upward pressure on market rents vs. AMI-restricted limits. High rent pressure = strong affordability gap and demand for restricted units.',
+      'Availability of vacant, underdeveloped, or redevelopable land within the PMA. Also reflects development cost constraints.',
+      'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
+    ];
     var listEl = el('pmaDimList');
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
         var s = dims[k] || 0;
-        return '<li class="pma-dim-item">' +
-          '<span class="pma-dim-name">' + dimLabels[i] + '</span>' +
+        var barColor = s >= 70 ? 'var(--good)' : s >= 45 ? 'var(--accent)' : s >= 25 ? 'var(--warn)' : 'var(--bad)';
+        return '<li class="pma-dim-item" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">' +
+          '<span class="pma-dim-name">' + dimLabels[i] +
+            '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
+          '</span>' +
           '<div class="pma-dim-bar-wrap" style="flex:1">' +
-            '<div class="pma-dim-bar" style="width:' + s + '%"></div>' +
+            '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + '"></div>' +
           '</div>' +
           '<span class="pma-dim-score">' + s + '</span>' +
         '</li>';
-      }).join('');
+      }).join('') +
+      '<li style="margin-top:.5rem;padding:.5rem .3rem;border-top:1px solid var(--border)">' +
+        '<details style="font-size:.75rem;color:var(--muted)">' +
+          '<summary style="cursor:pointer;font-weight:600;color:var(--text)">What do these scores mean?</summary>' +
+          '<dl style="margin:.4rem 0 0;display:flex;flex-direction:column;gap:.35rem">' +
+            dimNames.map(function (k, i) {
+              return '<div><dt style="font-weight:600;color:var(--text)">' + dimLabels[i] + '</dt>' +
+                     '<dd style="margin:0;color:var(--muted)">' + dimDescs[i] + '</dd></div>';
+            }).join('') +
+            '<div><dt style="font-weight:600;color:var(--text)">Score range</dt>' +
+              '<dd style="margin:0;color:var(--muted)">0–100. ' +
+                '<span style="color:var(--good)">■ 70–100 Strong</span> · ' +
+                '<span style="color:var(--accent)">■ 45–69 Moderate</span> · ' +
+                '<span style="color:var(--warn)">■ 25–44 Marginal</span> · ' +
+                '<span style="color:var(--bad)">■ 0–24 Weak</span>' +
+              '</dd></div>' +
+          '</dl>' +
+        '</details>' +
+      '</li>';
     }
 
     var flagsEl = el('pmaFlags');

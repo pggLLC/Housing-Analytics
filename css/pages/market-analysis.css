@@ -173,6 +173,16 @@
 .pma-dim-name {
   font-size: var(--tiny);
   color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pma-dim-info {
+  font-size: .65rem;
+  color: var(--faint);
+  cursor: help;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .pma-dim-bar-wrap {

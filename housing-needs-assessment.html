@@ -156,9 +156,34 @@
           <span id="lihtcMapStatus" class="hna-layer-status"></span>
         </div>
         <div style="margin-top:10px">
-          <details>
-            <summary>Local commitments &amp; resources</summary>
+          <details id="localCommitmentsDetails" open>
+            <summary style="font-weight:600;cursor:pointer;margin-bottom:6px">Local commitments &amp; resources</summary>
             <div id="localResources" style="margin-top:8px;color:var(--muted)">—</div>
+
+            <!-- Housing authority lookup -->
+            <div style="margin-top:12px;padding:10px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
+              <p style="font-size:.82rem;font-weight:600;margin:0 0 6px;color:var(--text)">Housing Authorities &amp; Contacts</p>
+              <p style="font-size:.78rem;color:var(--muted);margin:0 0 8px">
+                Colorado public housing authorities, CHFA partners, and local housing contacts for the selected geography.
+              </p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+                <button id="btnSearchHousingAuthorities" type="button"
+                        style="padding:.35rem .85rem;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer">
+                  Search housing authorities
+                </button>
+                <a id="linkHudPhaFinder" href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts"
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;padding:.35rem .85rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);text-decoration:none">
+                  HUD PHA Finder ↗
+                </a>
+                <a id="linkChfaContact" href="https://www.chfainfo.com/about/contact"
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;padding:.35rem .85rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);text-decoration:none">
+                  CHFA Contact ↗
+                </a>
+              </div>
+              <div id="housingAuthorityResults" style="font-size:.82rem;color:var(--muted)"></div>
+            </div>
           </details>
         </div>
       </div>
@@ -1165,6 +1190,127 @@
   } else {
     syncCountyToSiteState();
   }
+}());
+</script>
+
+<!-- ── Housing Authority Search ── -->
+<script>
+(function () {
+  'use strict';
+
+  // Static list of Colorado public housing authorities (PHAs) + key partners.
+  // Keyed by county FIPS (08XXX). "statewide" applies when no county match.
+  var CO_HOUSING_AUTHORITIES = {
+    statewide: [
+      { name: 'Colorado Housing and Finance Authority (CHFA)', role: 'State housing finance agency — LIHTC allocator, funder', url: 'https://www.chfainfo.com/', phone: '(303) 297-7305' },
+      { name: 'Colorado Division of Housing (CDOH)', role: 'State rental assistance, HTF, and housing policy', url: 'https://cdola.colorado.gov/housing', phone: '(303) 864-7810' },
+      { name: 'Colorado Coalition for the Homeless', role: 'Supportive housing, PSH financing partner', url: 'https://www.coloradocoalition.org/', phone: '(303) 293-2217' },
+    ],
+    '08031': [ // Denver
+      { name: 'Denver Housing Authority (DHA)', role: 'Public housing authority — Section 8, LIHTC developer', url: 'https://www.denverhousing.org/', phone: '(720) 932-3000' },
+      { name: 'Denver Office of Housing Stability', role: 'City affordable housing fund, inclusionary policy', url: 'https://www.denvergov.org/housing', phone: '(720) 913-1653' },
+    ],
+    '08041': [ // El Paso (Colorado Springs)
+      { name: 'Colorado Springs Housing Authority (CSHA)', role: 'Public housing authority — Section 8, HCV', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+    ],
+    '08013': [ // Boulder
+      { name: 'Boulder Housing Partners', role: 'Public housing authority — LIHTC developer, HCV', url: 'https://www.boulderhousing.org/', phone: '(720) 564-4610' },
+    ],
+    '08001': [ // Adams
+      { name: 'Adams County Housing Authority', role: 'Section 8 HCV, public housing', url: 'https://www.adcogov.org/housing-authority', phone: '(303) 227-2085' },
+    ],
+    '08005': [ // Arapahoe
+      { name: 'Arapahoe County Housing Authority', role: 'HCV, supportive housing', url: 'https://www.arapahoegov.com/housing', phone: '(303) 738-8080' },
+    ],
+    '08059': [ // Jefferson
+      { name: 'Jefferson County Housing Authority', role: 'Section 8 HCV, senior housing', url: 'https://www.jeffco.us/1286/Housing-Authority', phone: '(303) 271-4100' },
+    ],
+    '08123': [ // Weld
+      { name: 'Weld County Housing Authority', role: 'HCV, rural housing programs', url: 'https://www.weldgov.com/departments/housing', phone: '(970) 304-6430' },
+    ],
+    '08069': [ // Larimer (Fort Collins)
+      { name: 'Housing Catalyst (Fort Collins)', role: 'Public housing authority — LIHTC developer', url: 'https://www.housingcatalyst.com/', phone: '(970) 416-2910' },
+    ],
+    '08101': [ // Pueblo
+      { name: 'Pueblo Housing Authority', role: 'Public housing, Section 8 HCV', url: 'https://www.pueblo.us/292/Housing-Authority', phone: '(719) 544-7662' },
+    ],
+    '08045': [ // Garfield (Glenwood Springs)
+      { name: 'Garfield County Housing Authority', role: 'Workforce housing, LIHTC developer in mountain region', url: 'https://www.garfield-county.com/housing/', phone: '(970) 945-1377' },
+    ],
+    '08097': [ // Pitkin (Aspen)
+      { name: 'Aspen/Pitkin County Housing Authority', role: 'Deed-restricted workforce housing, employee units', url: 'https://www.apcha.org/', phone: '(970) 920-5050' },
+    ],
+    '08077': [ // Mesa (Grand Junction)
+      { name: 'Grand Junction Housing Authority', role: 'Public housing, HCV, LIHTC', url: 'https://www.gjha.org/', phone: '(970) 245-0388' },
+    ],
+    '08035': [ // Douglas
+      { name: 'Douglas County Housing Authority', role: 'HCV, workforce housing programs', url: 'https://www.douglas.co.us/housing-authority/', phone: '(303) 660-7374' },
+    ],
+    '08014': [ // Broomfield
+      { name: 'Broomfield Housing Authority', role: 'Section 8 HCV, affordable unit coordination', url: 'https://www.broomfield.org/housing', phone: '(303) 438-6370' },
+    ]
+  };
+
+  function renderAuthorityResults(fips) {
+    var resultsEl = document.getElementById('housingAuthorityResults');
+    if (!resultsEl) return;
+
+    var matches = (fips && CO_HOUSING_AUTHORITIES[fips]) ? CO_HOUSING_AUTHORITIES[fips] : [];
+    var all = matches.concat(CO_HOUSING_AUTHORITIES.statewide);
+
+    if (all.length === 0) {
+      resultsEl.innerHTML = '<p style="color:var(--muted)">No local housing authorities found. See HUD PHA Finder for contacts in your area.</p>';
+      return;
+    }
+
+    resultsEl.innerHTML = '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
+      all.map(function (a) {
+        return '<li style="padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
+            '<div>' +
+              '<a href="' + a.url + '" target="_blank" rel="noopener" style="font-weight:600;color:var(--accent);font-size:.85rem">' + a.name + ' ↗</a>' +
+              '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
+            '</div>' +
+            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
+          '</div>' +
+        '</li>';
+      }).join('') +
+    '</ul>' +
+    '<p style="margin-top:8px;font-size:.75rem;color:var(--faint)">Showing ' + all.length + ' results. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Search all PHAs on HUD ↗</a></p>';
+  }
+
+  function getSelectedFips() {
+    // Try to read from SiteState or the county select
+    if (window.SiteState && window.SiteState.get) {
+      var s = window.SiteState.get();
+      if (s && s.geoid) return '08' + s.geoid.slice(-3); // approximate county FIPS
+    }
+    var sel = document.getElementById('hnaCountySelect') || document.getElementById('countySelect');
+    if (sel && sel.value) return sel.value;
+    return null;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('btnSearchHousingAuthorities');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var fips = getSelectedFips();
+        renderAuthorityResults(fips);
+        btn.textContent = 'Refresh results';
+      });
+    }
+
+    // Also auto-populate when a county is selected
+    var countySelectors = document.querySelectorAll('#hnaCountySelect, #countySelect');
+    countySelectors.forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        var resultsEl = document.getElementById('housingAuthorityResults');
+        if (resultsEl && resultsEl.innerHTML) {
+          renderAuthorityResults(sel.value);
+        }
+      });
+    });
+  });
 }());
 </script>
 </body>
