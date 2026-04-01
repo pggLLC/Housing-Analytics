@@ -50,6 +50,7 @@
   <script defer src="js/compliance-checklist.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <script defer src="js/data-connectors/bridge-market-summary.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/site-state.js"></script>
@@ -839,6 +840,189 @@
             Go to PMA Delineation &amp; CHFA Checklist →
           </a>
         </div>
+      </section>
+
+      <!-- ── Colorado Market Conditions ── -->
+      <section id="co-market-conditions" class="chart-card span-12">
+        <h2>Colorado Market Conditions</h2>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Land values, recent transactions, and property assessments by region — from Bridge Data Output public records. Updated weekly. Supports early-stage LIHTC site feasibility screening.
+        </p>
+
+        <!-- Region summary cards grid -->
+        <div id="bridgeRegionGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem">
+          <!-- Skeleton loading state -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+        </div>
+
+        <!-- Two-column: Rural Markets + Statewide Context -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div id="bridgeRuralHighlight" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
+            <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading rural market data…</p>
+          </div>
+          <div id="bridgeStatewideCard" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
+            <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading statewide data…</p>
+          </div>
+        </div>
+
+        <p class="dq-detail" style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">
+          Data: Bridge Data Output public assessments &amp; transactions · Updated weekly via GitHub Actions · <a href="dashboard-data-quality.html">Data Quality Dashboard</a>
+        </p>
+
+        <!-- Data pending banner (hidden until needed) -->
+        <div id="bridgeDataStatus" style="display:none;margin-top:.75rem;padding:.6rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.85rem;color:var(--muted)">
+          Market data pending. The weekly workflow has not yet run.
+        </div>
+
+        <script>
+(function () {
+  function fmtK(val) {
+    if (val == null || isNaN(val)) return 'N/A';
+    var n = Number(val);
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+    if (n >= 1000) return '$' + Math.round(n / 1000) + 'k';
+    return '$' + n.toLocaleString();
+  }
+
+  function tierBadge(tier) {
+    if (!tier) return '';
+    var bg = '#6b7280';
+    var label = tier;
+    var tl = String(tier).toLowerCase();
+    if (tl === 'low') { bg = 'var(--good)'; }
+    else if (tl === 'moderate') { bg = 'var(--warn)'; }
+    else if (tl === 'high') { bg = 'var(--bad)'; }
+    return '<span style="display:inline-block;background:' + bg + ';color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;margin-left:.35rem;vertical-align:middle">' + label + '</span>';
+  }
+
+  function dataBadge(available) {
+    if (available) {
+      return '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">data</span>';
+    }
+    return '<span style="display:inline-block;background:#6b7280;color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
+  }
+
+  function renderBridgeMarketSection(summary) {
+    if (!summary) { showPending(); return; }
+
+    // ── Region grid ──
+    var grid = document.getElementById('bridgeRegionGrid');
+    var regions = Array.isArray(summary.regions) ? summary.regions : [];
+    if (grid && regions.length) {
+      var html = '';
+      for (var i = 0; i < regions.length; i++) {
+        var r = regions[i];
+        var avail = !!r.data_available;
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (r.region_name || 'Region') + '</strong> ' + dataBadge(avail) + '</div>';
+        if (avail) {
+          html += '<div style="font-size:.78rem;color:var(--muted)">';
+          html += '<div>Median assessed: <strong style="color:var(--text)">' + fmtK(r.median_assessed_value) + '</strong>' + tierBadge(r.land_cost_tier) + '</div>';
+          html += '<div>Transactions (12mo): ' + (r.transaction_count_12mo != null ? r.transaction_count_12mo.toLocaleString() : 'N/A') + '</div>';
+          if (r.is_rural) {
+            html += '<div><span style="display:inline-block;background:var(--accent);color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
+          }
+          html += '</div>';
+        } else {
+          html += '<div style="font-size:.78rem;color:var(--muted)">Awaiting first data run.</div>';
+        }
+        html += '</div>';
+      }
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.innerHTML = html;
+    }
+
+    // ── Rural highlight ──
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      var ruralRegions = regions.filter(function (r) { return r.is_rural && r.data_available; });
+      var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets, making it a priority for affordable housing investment.</p>';
+      if (ruralRegions.length) {
+        rHtml += '<ul style="margin:.4rem 0;padding-left:1.1rem;font-size:.8rem;color:var(--muted)">';
+        for (var j = 0; j < ruralRegions.length; j++) {
+          var rr = ruralRegions[j];
+          rHtml += '<li><strong style="color:var(--text)">' + rr.region_name + '</strong> — ' + fmtK(rr.median_assessed_value) + tierBadge(rr.land_cost_tier) + '</li>';
+        }
+        rHtml += '</ul>';
+      } else {
+        rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">Rural region data pending first workflow run.</p>';
+      }
+      rHtml += '<p style="font-size:.78rem;color:var(--muted);margin:.5rem 0 0;border-top:1px solid var(--border);padding-top:.4rem">Note: The <strong>Eastern Plains</strong> and <strong>San Luis Valley</strong> show particularly strong LIHTC eligibility indicators — low land costs combined with persistent housing cost burden.</p>';
+      ruralEl.innerHTML = rHtml;
+    }
+
+    // ── Statewide card ──
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl && summary.statewide) {
+      var sw = summary.statewide;
+      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+      swHtml += '<div style="margin-bottom:.3rem">Statewide median assessed value: <strong style="color:var(--text)">' + fmtK(sw.median_assessed_value) + '</strong>' + tierBadge(sw.land_cost_tier) + '</div>';
+      swHtml += '<div style="margin-bottom:.3rem">Total transactions (12mo): <strong style="color:var(--text)">' + (sw.transaction_count_12mo != null ? sw.transaction_count_12mo.toLocaleString() : 'N/A') + '</strong></div>';
+      if (sw.data_generated) {
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Data generated: ' + sw.data_generated + '</div>';
+      }
+      swHtml += '</div>';
+      swEl.innerHTML = swHtml;
+    }
+  }
+
+  function showPending() {
+    var statusEl = document.getElementById('bridgeDataStatus');
+    if (statusEl) {
+      statusEl.style.display = 'block';
+      statusEl.innerHTML = 'Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a>';
+    }
+    var grid = document.getElementById('bridgeRegionGrid');
+    if (grid) {
+      grid.innerHTML = '<p style="color:var(--muted);font-size:.85rem;grid-column:1/-1">Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
+    }
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      ruralEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Rural Markets</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+    }
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) {
+      swEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Statewide Context</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof window.BridgeMarketSummary === 'undefined' || !window.BridgeMarketSummary || typeof window.BridgeMarketSummary.load !== 'function') {
+      showPending();
+      return;
+    }
+    window.BridgeMarketSummary.load().then(function (summary) {
+      if (!summary) { showPending(); return; }
+      renderBridgeMarketSection(summary);
+    }).catch(function () {
+      showPending();
+    });
+  });
+}());
+        </script>
       </section>
 
       <!-- ── Housing Action Plan ── -->

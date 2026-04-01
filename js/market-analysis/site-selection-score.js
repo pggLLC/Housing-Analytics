@@ -376,16 +376,66 @@
     return parts.join(' ');
   }
 
+  /**
+   * Enhanced land-supply score that incorporates Bridge assessed land value data.
+   * When Bridge data is unavailable, falls back to pure ACS vacancy-based scoring.
+   *
+   * @param {object} acs - ACS data (vacancy_rate etc.)
+   * @param {object|null} bridgeContext - from BridgeMarketSummary.getLandCostContext()
+   *   { tier: 'low'|'moderate'|'high'|'unknown', medianLandValue: number|null, isRural: boolean }
+   * @returns {number} 0-100
+   */
+  function scoreLandSupplyWithBridge(acs, bridgeContext) {
+    var base = scoreLandSupply(acs);   // ACS vacancy-rate base score
+    if (!bridgeContext || bridgeContext.tier === 'unknown') return base;
+
+    // Blend: 60% ACS vacancy signal, 40% Bridge land cost signal
+    var landCostScore;
+    if (bridgeContext.tier === 'low')      landCostScore = 80;
+    else if (bridgeContext.tier === 'moderate') landCostScore = 55;
+    else                                       landCostScore = 30;  // 'high'
+
+    // Rural bonus: rural markets have structurally more developable land
+    if (bridgeContext.isRural) landCostScore = Math.min(100, landCostScore + 10);
+
+    return _clamp(Math.round(base * 0.60 + landCostScore * 0.40));
+  }
+
+  /**
+   * Enhanced market score blending existing inputs with Bridge transaction velocity.
+   * @param bridgeContext - from BridgeMarketSummary.getMarketVelocity()
+   *   { transactionCount: number, priceTrendPct: number|null, label: 'active'|'moderate'|'quiet' }
+   */
+  function scoreMarketWithBridge(rentTrend, jobTrend, concentration, serviceStrength, bridgeContext) {
+    var base = scoreMarket(rentTrend, jobTrend, concentration, serviceStrength);
+    if (!bridgeContext || !bridgeContext.label || bridgeContext.label === 'unknown') return base;
+
+    // Market velocity bonus/penalty (±10 pts max)
+    var velocityAdj = bridgeContext.label === 'active'   ?  8 :
+                      bridgeContext.label === 'moderate'  ?  0 :
+                     /* quiet */                           -8;
+
+    // Price trend boost (Bridge transaction data, 0-5% trend range)
+    var trendAdj = 0;
+    if (bridgeContext.priceTrendPct != null) {
+      trendAdj = _clamp(Math.round((Math.min(bridgeContext.priceTrendPct / 5, 1)) * 7));
+    }
+
+    return _clamp(base + velocityAdj + trendAdj);
+  }
+
   /* ── Expose ─────────────────────────────────────────────────────── */
   window.SiteSelectionScore = {
-    COMPONENT_WEIGHTS: COMPONENT_WEIGHTS,
-    scoreDemand:       scoreDemand,
-    scoreSubsidy:      scoreSubsidy,
-    scoreFeasibility:  scoreFeasibility,
-    scoreAccess:       scoreAccess,
-    scorePolicy:       scorePolicy,
-    scoreMarket:       scoreMarket,
-    computeScore:      computeScore
+    COMPONENT_WEIGHTS:         COMPONENT_WEIGHTS,
+    scoreDemand:               scoreDemand,
+    scoreSubsidy:              scoreSubsidy,
+    scoreFeasibility:          scoreFeasibility,
+    scoreAccess:               scoreAccess,
+    scorePolicy:               scorePolicy,
+    scoreMarket:               scoreMarket,
+    scoreLandSupplyWithBridge: scoreLandSupplyWithBridge,
+    scoreMarketWithBridge:     scoreMarketWithBridge,
+    computeScore:              computeScore
   };
 
 }());

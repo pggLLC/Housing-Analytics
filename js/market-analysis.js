@@ -350,9 +350,24 @@
     var demandScore        = scoreDemand(acs);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
     var rentPressureObj    = scoreRentPressure(acs);
-    var landSupplyScore    = scoreLandSupply(acs);
+    // Enhance land-supply score with Bridge assessed land value data
+    var _bridgeLandCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
+      ? window.BridgeMarketSummary.getLandCostContext(lat, lon)
+      : null;
+    var SSS = window.SiteSelectionScore || {};
+    var landSupplyScore = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
+      ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
+      : scoreLandSupply(acs);
+
+    // Enhance market score with Bridge transaction velocity
+    var _bridgeVelCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
+      ? window.BridgeMarketSummary.getMarketVelocity(lat, lon)
+      : null;
     var wfResult           = _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts);
     var workforceScore     = wfResult.score;
+
+    // Bridge market velocity (used in result metadata)
+    var _bridgeVelocityLabel = _bridgeVelCtx ? _bridgeVelCtx.label : 'unknown';
 
     var overall = Math.round(
       demandScore          * WEIGHTS.demand +
@@ -438,7 +453,9 @@
       rentRatio:       rentPressureObj.ratio,
       flags:           flags,
       pma_data_coverage: pmaDataCoverage,
-      fallback_reasons:  fallbackReasons
+      fallback_reasons:  fallbackReasons,
+      bridgeLandContext:  _bridgeLandCtx,
+      bridgeVelocity:    _bridgeVelCtx
     };
   }
 
@@ -541,6 +558,26 @@
           '</dl>' +
         '</details>' +
       '</li>';
+    }
+
+    // Bridge market context card
+    if (result.bridgeLandContext || result.bridgeVelocity) {
+      var bridgeCardEl = el('pmaBridgeContext');
+      if (bridgeCardEl) {
+        var lc = result.bridgeLandContext || {};
+        var mv = result.bridgeVelocity || {};
+        var tierColor = lc.tier === 'low' ? 'var(--good)' : lc.tier === 'high' ? 'var(--bad)' : 'var(--accent)';
+        bridgeCardEl.innerHTML =
+          '<div style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
+          '<div style="display:flex;gap:.75rem;flex-wrap:wrap">' +
+            (lc.tier ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
+            (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
+            (mv.label && mv.label !== 'unknown' ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
+            (lc.isRural ? '<span style="background:var(--accent);color:#fff;padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
+          '</div>' +
+          (lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
+        bridgeCardEl.style.display = '';
+      }
     }
 
     var flagsEl = el('pmaFlags');
