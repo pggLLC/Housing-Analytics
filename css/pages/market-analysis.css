@@ -867,6 +867,24 @@
   box-shadow: var(--focus-ring);
 }
 
+/* ── MLS listings layer badge ── */
+.map-layer-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0 5px;
+  border-radius: 8px;
+  background: var(--muted, #546e7a);
+  color: #fff;
+  vertical-align: middle;
+  margin-left: 3px;
+  line-height: 1.5;
+}
+.map-layer-badge--ok   { background: var(--good,  #2e7d32); }
+.map-layer-badge--warn { background: var(--warn,  #f57c00); }
+.map-layer-cb:disabled { opacity: .4; cursor: not-allowed; }
+label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
+
 /* ── Layer picker ── */
 #pmaLayerPickerWrap {
   margin-top: 0.75rem;

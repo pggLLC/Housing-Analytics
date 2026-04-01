@@ -5,16 +5,24 @@
 (function () {
   var stored = {};
   try {
-    ['CENSUS_API_KEY', 'FRED_API_KEY', 'REGRID_API_KEY'].forEach(function (k) {
+    [
+      'CENSUS_API_KEY',
+      'FRED_API_KEY',
+      'REGRID_API_KEY',
+      'BRIDGE_BROWSER_TOKEN',
+      'BRIDGE_DATASET'
+    ].forEach(function (k) {
       var v = localStorage.getItem('coho_api_' + k);
       if (v) stored[k] = v;
     });
   } catch (_) {}
 
   window.APP_CONFIG = Object.assign({
-    CENSUS_API_KEY:  "",
-    FRED_API_KEY:    "",
-    REGRID_API_KEY:  "",
-    DATA_VERSION:    "2026-03-15"
+    CENSUS_API_KEY:       "",
+    FRED_API_KEY:         "",
+    REGRID_API_KEY:       "",
+    BRIDGE_BROWSER_TOKEN: "",
+    BRIDGE_DATASET:       "",   // e.g. "ires_co" or "recolorado" — set via Data Quality Dashboard
+    DATA_VERSION:         "2026-03-15"
   }, stored);
 }());
