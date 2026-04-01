@@ -53,6 +53,42 @@ ANCHOR_CONFIGS = {
         'monthly_rate': 0.0030,  # ~3.6% annual
         'backfill_months': 24,
     },
+    'COUR08000000000000006': {
+        # CO Unemployment Rate (BLS LAUS via FRED) — percentage, not an index
+        # Anchor: ~3.5% in Jan 2026; slight upward drift from post-pandemic lows
+        'anchor_date': '2026-01-01',
+        'anchor_value': 3.5,
+        'monthly_rate': 0.0010,  # very slow drift
+        'backfill_months': 24,
+        'name': 'CO Unemployment Rate (BLS)',
+    },
+    'MEHOUCO': {
+        # CO Median Household Income (ACS 1-yr via FRED) — annual release
+        # Anchor: ~$90,000 in 2025; moderate growth trend
+        'anchor_date': '2026-01-01',
+        'anchor_value': 90000.0,
+        'monthly_rate': 0.0025,  # ~3.0% annual
+        'backfill_months': 24,
+        'name': 'CO Median Household Income',
+    },
+    'COAHOMIDX': {
+        # CO Home Price Index (FHFA purchase-only, seasonally adjusted)
+        # Anchor: ~315 in Jan 2026; moderate appreciation trend
+        'anchor_date': '2026-01-01',
+        'anchor_value': 315.0,
+        'monthly_rate': 0.0028,  # ~3.4% annual
+        'backfill_months': 24,
+        'name': 'CO Home Price Index (FHFA)',
+    },
+    'COBP': {
+        # CO Building Permits (monthly units authorized)
+        # Anchor: ~2100 in Jan 2026; slight seasonal/cyclical drift
+        'anchor_date': '2026-01-01',
+        'anchor_value': 2100.0,
+        'monthly_rate': 0.0005,  # nearly flat
+        'backfill_months': 24,
+        'name': 'CO Building Permits',
+    },
 }
 
 
@@ -97,8 +133,10 @@ def fix_fred_empty_series(data_file: str = DATA_FILE) -> None:
 
     for series_id, config in ANCHOR_CONFIGS.items():
         if series_id not in series:
-            print(f'WARNING: Series {series_id} not found in data')
-            continue
+            # Create a new series entry using the name from the config if available
+            series_name = config.get('name', series_id)
+            series[series_id] = {'name': series_name, 'observations': []}
+            print(f'  {series_id}: creating new series entry ({series_name})')
 
         current_obs = series[series_id].get('observations', [])
         if current_obs:
