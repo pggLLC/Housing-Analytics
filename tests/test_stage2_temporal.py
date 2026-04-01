@@ -156,13 +156,9 @@ class TestFredMetadata:
             )
 
     def test_series_count_is_39(self, fred_series):
-        """fred-data.json must contain at least 36 series with observations.
-
-        Series that fail to fetch are excluded (Rule 7); the count may vary
-        between 36 and 45 depending on API availability.
-        """
-        assert len(fred_series) >= 36, (
-            f'Expected at least 36 series, found {len(fred_series)}'
+        """fred-data.json must contain exactly 45 series."""
+        assert len(fred_series) == 45, (
+            f'Expected 45 series, found {len(fred_series)}'
         )
 
 
