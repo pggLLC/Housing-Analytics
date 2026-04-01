@@ -59,6 +59,9 @@ jobs:
           fi
           python3 scripts/validate-chfa-lihtc.py
 
+      - name: Impute null fields (Rule 2 compliance)
+        run: python3 scripts/fix_chfa_nulls.py
+
       - name: Split LIHTC data by county
         run: node scripts/split-lihtc-by-county.js
 
