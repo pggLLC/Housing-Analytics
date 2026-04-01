@@ -218,6 +218,10 @@
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="flood">
               Flood zones
             </label>
+            <label class="map-layer-label" id="layerToggleListings" title="Requires Bridge Browser Token + Dataset Code (set in Data Quality Dashboard)">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="listings" id="listingsLayerCb">
+              MLS listings <span class="map-layer-badge" id="listingsBadge">—</span>
+            </label>
           </div>
         </div>
       </div>
@@ -724,6 +728,8 @@
   <script defer src="js/pma-delineation.js"></script>
   <script defer src="js/pma-parcel-zoning.js"></script>
   <script defer src="js/data-connectors/regrid-parcels.js"></script>
+  <script defer src="js/data-connectors/bridge-parcels.js"></script>
+  <script defer src="js/data-connectors/bridge-listings.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
   <!-- Phase 2.1: Enhanced constraint screening modules -->
@@ -755,6 +761,114 @@
 </script>
 
 <footer id="site-footer"></footer>
+
+<script>
+/* ── Bridge Listings layer initialisation ── */
+(function () {
+  'use strict';
+  function initListingsLayer() {
+    var badge  = document.getElementById('listingsBadge');
+    var cb     = document.getElementById('listingsLayerCb');
+    var label  = document.getElementById('layerToggleListings');
+    if (!badge || !cb) return;
+
+    var avail = window.BridgeListings && window.BridgeListings.isAvailable();
+
+    if (avail) {
+      cb.disabled = false;
+      badge.textContent = 'ready';
+      badge.className = 'map-layer-badge map-layer-badge--ok';
+      if (label) label.title = 'Toggle MLS comparable listings on the map';
+    } else {
+      cb.disabled = true;
+      badge.textContent = 'no token';
+      badge.className = 'map-layer-badge map-layer-badge--warn';
+      if (label) {
+        label.title = 'Add your Bridge Browser Token and Dataset Code in the ' +
+                      'Data Quality Dashboard to enable this layer.';
+      }
+    }
+
+    /* Wire the checkbox to the existing PMA layer toggle system */
+    cb.addEventListener('change', function () {
+      if (!this.checked) {
+        /* Layer off — remove markers if the map module supports it */
+        if (window.PmaMap && typeof window.PmaMap.clearLayer === 'function') {
+          window.PmaMap.clearLayer('listings');
+        }
+        return;
+      }
+
+      /* Get current site coords from MAP or from the form */
+      var lat = null, lon = null;
+      if (window.PmaState) {
+        lat = parseFloat(window.PmaState.lat || 0);
+        lon = parseFloat(window.PmaState.lon || 0);
+      }
+      if (!lat || !lon) {
+        var latEl = document.getElementById('maLat') || document.getElementById('siteLat');
+        var lonEl = document.getElementById('maLon') || document.getElementById('siteLon');
+        if (latEl && lonEl) {
+          lat = parseFloat(latEl.value);
+          lon = parseFloat(lonEl.value);
+        }
+      }
+      if (!lat || !lon) {
+        console.warn('[BridgeListings] No site coordinates — run the PMA first.');
+        this.checked = false;
+        return;
+      }
+
+      badge.textContent = '…';
+      badge.className = 'map-layer-badge';
+
+      var radius = parseFloat(
+        (document.getElementById('maRadius') || {}).value || 1
+      ) || 1;
+
+      Promise.all([
+        window.BridgeListings.fetchActiveListingsNearPoint(lat, lon, radius),
+        window.BridgeListings.fetchRecentSalesNearPoint(lat, lon, radius, { monthsBack: 12 })
+      ]).then(function (results) {
+        var active = results[0];
+        var sales  = results[1];
+        var all    = active.concat(sales);
+
+        badge.textContent = all.length;
+        badge.className   = all.length > 0
+          ? 'map-layer-badge map-layer-badge--ok'
+          : 'map-layer-badge map-layer-badge--warn';
+
+        if (window.PmaMap && typeof window.PmaMap.addListingsLayer === 'function') {
+          window.PmaMap.addListingsLayer(
+            active.map(window.BridgeListings.toMapMarker),
+            sales.map(window.BridgeListings.toMapMarker)
+          );
+        } else {
+          /* Fallback: fire a custom event so market-analysis.js can handle it */
+          document.dispatchEvent(new CustomEvent('pma:listings-loaded', {
+            detail: {
+              active: active.map(window.BridgeListings.toMapMarker),
+              sales:  sales.map(window.BridgeListings.toMapMarker)
+            }
+          }));
+        }
+      }).catch(function (err) {
+        console.warn('[BridgeListings] layer fetch failed:', err);
+        badge.textContent = 'err';
+        badge.className = 'map-layer-badge map-layer-badge--warn';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initListingsLayer);
+  } else {
+    initListingsLayer();
+  }
+}());
+</script>
+
 <script>
 /* ── SiteState integration: show persisted county context on Market Analysis ── */
 (function () {
