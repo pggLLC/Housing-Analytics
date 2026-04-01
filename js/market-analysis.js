@@ -905,6 +905,22 @@
     var explainBtn = document.getElementById('pmaExplainScoreBtn');
     if (explainBtn) { explainBtn.hidden = false; }
 
+    // Render PMA boundary polygon (buffer mode) and SMA ring if toggled.
+    (function () {
+      var delineation = window.PMADelineation;
+      if (!delineation) return;
+      delineation.renderPmaLayer(map, lat, lon, effectiveBuffer);
+      var smaCheck = document.getElementById('pmaSmaToggle');
+      if (smaCheck && smaCheck.checked) {
+        delineation.renderSmaLayer(map, lat, lon, true);
+      }
+      // Update parcel/zoning layer if already visible
+      var parcelCheck = document.getElementById('pmaParcelZoningToggle');
+      if (parcelCheck && parcelCheck.checked && window.PMAParcelZoning) {
+        window.PMAParcelZoning.renderParcelZoningLayer(map, lat, lon, effectiveBuffer);
+      }
+    }());
+
     // ── Trigger concept recommendation for buffer mode ───────────────
     (function () {
       var predictor = window.LIHTCDealPredictor;
@@ -1262,6 +1278,11 @@
 
   function placeSiteMarker(lat, lon) {
     siteLatLng = { lat: lat, lon: lon };
+    // Keep PMAEngine shim up-to-date so other modules can read last site coords.
+    if (window.PMAEngine) {
+      window.PMAEngine._lastLat = lat;
+      window.PMAEngine._lastLon = lon;
+    }
     var L = window.L;
     if (!L) return;
 
@@ -1694,6 +1715,7 @@
 
   // Expose for testing
   window.PMAEngine = {
+    _map:                    function () { return map; },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     computePma:              computePma,

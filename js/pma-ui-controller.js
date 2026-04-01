@@ -369,6 +369,24 @@
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
+
+      // Render PMA delineation polygon and optional SMA ring
+      var delineation = window.PMADelineation;
+      var mapRef = window.PMAEngine && window.PMAEngine._map();
+      if (delineation && mapRef) {
+        delineation.renderPmaLayer(mapRef, lat, lon, _bufferMiles);
+
+        // If the analysis produced a commuting boundary, overlay it
+        if (scoreRun && scoreRun.boundary) {
+          delineation.renderCommutingBoundary(mapRef, scoreRun.boundary);
+        }
+
+        // Respect the SMA toggle
+        var smaCheck = $id('pmaSmaToggle');
+        if (smaCheck && smaCheck.checked) {
+          delineation.renderSmaLayer(mapRef, lat, lon, true);
+        }
+      }
     })
     .on('error', function (err) {
       _running = false;

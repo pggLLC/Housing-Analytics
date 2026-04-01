@@ -27,7 +27,7 @@
         { label: "HNA Comparative Ranking", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking" },
         { label: "Projection Scenarios", href: "hna-scenario-builder.html", desc: "20-year demographic scenario builder" },
         { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
-        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
+        { label: "Scenario Builder", href: "hna-scenario-builder.html", desc: "20-year projection scenarios" },
         { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
         { label: "LIHTC Allocations", href: "lihtc-allocations.html", desc: "State allocation maps & data" },
       ]
@@ -45,6 +45,7 @@
       label: "Policy &amp; Insights",
       items: [
         { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
+        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
         { label: "Weekly Housing Brief", href: "private/weekly-brief/index.html", desc: "Weekly intelligence brief" },
         { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
         { label: "LIHTC Enhancement (AHCIA)", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
