@@ -311,7 +311,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   font-size: .9rem;
 }
 
-.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
+.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; max-width: 700px; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
 .checklist-item {
   display: flex;
   align-items: flex-start;
@@ -654,6 +654,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 14px;
+  max-width: 700px;
 }
 .chfa-checklist-panel h3 { margin: 0 0 6px; font-size: 1rem; }
 .chfa-checklist {
