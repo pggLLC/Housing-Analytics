@@ -325,6 +325,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   overflow-wrap: break-word;
   word-break: break-word;
   line-height: 1.5;
+  min-width: 0; /* allows flex children to shrink below content width on desktop */
 }
 .checklist-item:last-child { border-bottom: none; }
 .checklist-item input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); min-width: 16px; min-height: 16px; }
