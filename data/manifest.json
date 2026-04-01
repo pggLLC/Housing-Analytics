@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-31T08:10:11.341Z",
+  "generated": "2026-04-01T08:16:53.007Z",
   "files": [
     "alerts/alerts_archive.json",
     "allocations.json",
@@ -10,6 +10,7 @@
     "boundaries/counties_co.geojson",
     "car-market-report-2026-02.json",
     "car-market-report-2026-03.json",
+    "car-market-report-2026-04.json",
     "car-market.json",
     "census-acs-state.json",
     "chfa-lihtc.json",
@@ -898,5 +899,5 @@
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 896
+  "file_count": 897
 }

@@ -1270,39 +1270,39 @@
       el.className = 'yoy ' + (pct >= 0 ? 'pos' : 'neg');
     }
 
-    S().els.statPop.textContent = U().fmtNum(pop);
-    S().els.statPopSrc.innerHTML = U().srcLink('DP05', yr, sr, 'DP05', gt, gid);
+    if (S().els.statPop) S().els.statPop.textContent = U().fmtNum(pop);
+    if (S().els.statPopSrc) S().els.statPopSrc.innerHTML = U().srcLink('DP05', yr, sr, 'DP05', gt, gid);
     setYoy(S().els.statPopYoy, pop, prevProfile?.DP05_0001E);
-    S().els.statMhi.textContent = U().fmtMoney(mhi);
-    S().els.statMhiSrc.innerHTML = U().srcLink('DP03', yr, sr, 'DP03', gt, gid);
+    if (S().els.statMhi) S().els.statMhi.textContent = U().fmtMoney(mhi);
+    if (S().els.statMhiSrc) S().els.statMhiSrc.innerHTML = U().srcLink('DP03', yr, sr, 'DP03', gt, gid);
     setYoy(S().els.statMhiYoy, mhi, prevProfile?.DP03_0062E);
-    S().els.statHomeValue.textContent = U().fmtMoney(homeValue);
-    S().els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    if (S().els.statHomeValue) S().els.statHomeValue.textContent = U().fmtMoney(homeValue);
+    if (S().els.statHomeValueSrc) S().els.statHomeValueSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
     setYoy(S().els.statHomeValueYoy, homeValue, prevProfile?.DP04_0089E);
-    S().els.statRent.textContent = U().fmtMoney(rent);
-    S().els.statRentSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    if (S().els.statRent) S().els.statRent.textContent = U().fmtMoney(rent);
+    if (S().els.statRentSrc) S().els.statRentSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
     setYoy(S().els.statRentYoy, rent, prevProfile?.DP04_0134E);
 
     const owner = Number(profile?.DP04_0047PE);
     const renter = Number(profile?.DP04_0046PE);
-    S().els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
-    S().els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    if (S().els.statTenure) S().els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
+    if (S().els.statTenureSrc) S().els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
     const rb = U().rentBurden30Plus(profile || {});
-    S().els.statRentBurden.textContent = rb === null ? '—' : U().fmtPct(rb);
-    S().els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
+    if (S().els.statRentBurden) S().els.statRentBurden.textContent = rb === null ? '—' : U().fmtPct(rb);
+    if (S().els.statRentBurdenSrc) S().els.statRentBurdenSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
     const incomeNeed = U().computeIncomeNeeded(homeValue);
-    S().els.statIncomeNeed.textContent = incomeNeed ? U().fmtMoney(incomeNeed.annualIncome) : '—';
-    S().els.statIncomeNeedNote.textContent = incomeNeed ? `Assumes ${Math.round(U().AFFORD.rateAnnual*1000)/10}% rate, ${Math.round(U().AFFORD.downPaymentPct*100)}% down` : '30% of income rule';
+    if (S().els.statIncomeNeed) S().els.statIncomeNeed.textContent = incomeNeed ? U().fmtMoney(incomeNeed.annualIncome) : '—';
+    if (S().els.statIncomeNeedNote) S().els.statIncomeNeedNote.textContent = incomeNeed ? `Assumes ${Math.round(U().AFFORD.rateAnnual*1000)/10}% rate, ${Math.round(U().AFFORD.downPaymentPct*100)}% down` : '30% of income rule';
 
     const mean = Number(s0801?.S0801_C01_018E);
-    S().els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
+    if (S().els.statCommute) S().els.statCommute.textContent = Number.isFinite(mean) ? `${mean.toFixed(1)} min` : '—';
     const commYr = s0801?._acsYear   || yr;
     const commSr = s0801?._acsSeries || sr;
-    S().els.statCommuteSrc.innerHTML = U().srcLink('S0801 · mean travel time (min)', commYr, commSr, 'S0801', gt, gid);
+    if (S().els.statCommuteSrc) S().els.statCommuteSrc.innerHTML = U().srcLink('S0801 · mean travel time (min)', commYr, commSr, 'S0801', gt, gid);
 
-    S().els.geoContextPill.textContent = geoLabel;
+    if (S().els.geoContextPill) S().els.geoContextPill.textContent = geoLabel;
 
     const narrativeParts = [];
     if (pop) narrativeParts.push(`${geoLabel} has an estimated population of ${U().fmtNum(pop)}.`);
@@ -1311,10 +1311,10 @@
     if (rent) narrativeParts.push(`Median gross rent is around ${U().fmtMoney(rent)}.`);
     if (rb !== null) narrativeParts.push(`About ${U().fmtPct(rb)} of renter households are cost-burdened (≥30% of income).`);
     if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${U().fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
-    S().els.execNarrative.textContent = narrativeParts.join(' ');
+    if (S().els.execNarrative) S().els.execNarrative.textContent = narrativeParts.join(' ');
 
     // Afford assumptions
-    S().els.affordAssumptions.innerHTML = `
+    if (S().els.affordAssumptions) S().els.affordAssumptions.innerHTML = `
       <ul>
         <li>Interest rate: <strong>${(U().AFFORD.rateAnnual*100).toFixed(2)}%</strong> (fixed), term: <strong>${U().AFFORD.termYears}</strong> years</li>
         <li>Down payment: <strong>${Math.round(U().AFFORD.downPaymentPct*100)}%</strong>; PMI: <strong>${(U().AFFORD.pmiPctAnnual*100).toFixed(2)}%</strong> on loan when down &lt; 20%</li>
