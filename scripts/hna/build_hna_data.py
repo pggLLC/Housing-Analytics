@@ -712,10 +712,11 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
             burden35c = si(raw.get('B25070_010E'))
 
             # Compute percentages that mirror DP-series fields
+            # ACS 2023: DP04_0046PE = owner %, DP04_0047PE = renter % (not swapped)
             owner_pct = round(owner / occ * 100, 1) if (occ and owner is not None) else None
             renter_pct = round(renter / occ * 100, 1) if (occ and renter is not None) else None
 
-            # Aggregate structure "20+" for DP04_0009E (20–49 + 50+)
+            # Aggregate structure "20+" for DP04_0013E (20–49 + 50+)
             s20_49 = si(raw.get('B25024_008E'))
             s50p = si(raw.get('B25024_009E'))
             units_20p = (s20_49 or 0) + (s50p or 0) if (s20_49 is not None or s50p is not None) else None
@@ -726,37 +727,40 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
                     return None
                 return round(n / grapi_tot * 100, 1)
 
-            b25_29 = si(raw.get('B25070_006E'))
             b30_34 = burden30
-            # DP04_0142PE = <15%, DP04_0143PE = 15–19.9%, DP04_0144PE = 20–24.9%
-            # We cannot compute these exactly from B25070, so leave as None.
-            # DP04_0145PE = 30–34.9%, DP04_0146PE = 35%+
             burden35_total = sum(
                 v for v in [burden35a, burden35b, burden35c] if v is not None
             ) if any(v is not None for v in [burden35a, burden35b, burden35c]) else None
+            # Pre-compute ≥30% burdened for frontend renderHousingGapSummary (DP04_0136PE slot)
+            burden30_plus = (b30_34 or 0) + (burden35_total or 0)
 
             mapped = {
                 'DP05_0001E': raw.get('B01003_001E'),
                 'DP02_0001E': raw.get('B11001_001E'),
                 'DP03_0062E': raw.get('B19013_001E'),
                 'DP04_0001E': raw.get('B25001_001E'),
-                'DP04_0047PE': str(owner_pct) if owner_pct is not None else None,
-                'DP04_0046PE': str(renter_pct) if renter_pct is not None else None,
+                # Tenure — ACS 2023 correct orientation: DP04_0046PE=owner %, DP04_0047PE=renter %
+                'DP04_0046PE': str(owner_pct) if owner_pct is not None else None,
+                'DP04_0047PE': str(renter_pct) if renter_pct is not None else None,
+                'DP04_0046E': raw.get('B25003_002E'),   # owner HH count
+                'DP04_0047E': raw.get('B25003_003E'),   # renter HH count (used by Housing Gap panel)
                 'DP04_0089E': raw.get('B25077_001E'),
                 'DP04_0134E': raw.get('B25064_001E'),
-                'DP04_0003E': raw.get('B25024_002E'),
-                'DP04_0004E': raw.get('B25024_003E'),
-                'DP04_0005E': raw.get('B25024_004E'),
-                'DP04_0006E': raw.get('B25024_005E'),
-                'DP04_0007E': raw.get('B25024_006E'),
-                'DP04_0008E': raw.get('B25024_007E'),
-                'DP04_0009E': str(units_20p) if units_20p is not None else None,
-                'DP04_0010E': raw.get('B25024_010E'),
-                'DP04_0142PE': None,
-                'DP04_0143PE': None,
-                'DP04_0144PE': str(grapi_pct(b25_29)) if b25_29 is not None else None,
-                'DP04_0145PE': str(grapi_pct(b30_34)) if b30_34 is not None else None,
-                'DP04_0146PE': str(grapi_pct(burden35_total)) if burden35_total is not None else None,
+                # Structure type — ACS 2023 codes: DP04_0007E=1-unit detached … DP04_0014E=mobile home
+                # (In older ACS this section started at DP04_0003E; it shifted to DP04_0007E in 2023)
+                'DP04_0007E': raw.get('B25024_002E'),   # 1-unit detached
+                'DP04_0008E': raw.get('B25024_003E'),   # 1-unit attached
+                'DP04_0009E': raw.get('B25024_004E'),   # 2 units
+                'DP04_0010E': raw.get('B25024_005E'),   # 3-4 units
+                'DP04_0011E': raw.get('B25024_006E'),   # 5-9 units
+                'DP04_0012E': raw.get('B25024_007E'),   # 10-19 units
+                'DP04_0013E': str(units_20p) if units_20p is not None else None,  # 20+ units
+                'DP04_0014E': raw.get('B25024_010E'),   # mobile home
+                # GRAPI — store pre-computed ≥30% in DP04_0136PE slot (frontend reads this as cost-burdened %)
+                # DP04_0141PE = 30–34.9% bin, DP04_0142PE = 35%+ bin
+                'DP04_0136PE': str(grapi_pct(burden30_plus)) if grapi_tot else None,   # ≥30% burdened
+                'DP04_0141PE': str(grapi_pct(b30_34)) if b30_34 is not None else None,  # 30–34.9%
+                'DP04_0142PE': str(grapi_pct(burden35_total)) if burden35_total is not None else None,  # 35%+
                 'NAME': raw.get('NAME'),
             }
             return mapped
@@ -767,17 +771,35 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
 
 def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     """Fetch ACS profile with fallback chain: ACS1/profile → ACS1/subject → ACS5/profile.
-    For CDPs, adds ACS 5-year B-series as a final fallback."""
+    For CDPs, adds ACS 5-year B-series as a final fallback.
+
+    ACS variable code notes (verified against ACS 5-year 2023 variable list):
+    - DP04_0046PE = Owner-occupied %  (DP04_0047PE = Renter-occupied %)
+    - Structure type starts at DP04_0007E in ACS 2023 (older years had it at DP04_0003E)
+    - GRAPI bins: DP04_0137PE (<15%) … DP04_0142PE (≥35%). DP04_0143–0146 do not exist
+      in ACS 2023 and cause HTTP 400 for the entire request if included.
+    """
     vars_ = [
-        'DP05_0001E',
-        'DP03_0062E',
-        'DP04_0001E',
-        'DP04_0047PE',
-        'DP04_0046PE',
-        'DP04_0089E',
-        'DP04_0134E',
-        'DP04_0003E','DP04_0004E','DP04_0005E','DP04_0006E','DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
-        'DP04_0142PE','DP04_0143PE','DP04_0144PE','DP04_0145PE','DP04_0146PE',
+        'DP05_0001E',   # Total population
+        'DP03_0062E',   # Median household income
+        'DP04_0001E',   # Total housing units
+        # Housing tenure (ACS 2023: DP04_0046PE=owner %, DP04_0047PE=renter %)
+        'DP04_0046PE',  # Owner-occupied %
+        'DP04_0047PE',  # Renter-occupied %
+        'DP04_0047E',   # Renter-occupied count (used by renderHousingGapSummary)
+        'DP04_0089E',   # Median home value (owner)
+        'DP04_0134E',   # Median gross rent
+        # Occupancy/vacancy (DP04_0003E–0005E in ACS 2023 = vacant HH, homeowner vac rate, rental vac rate)
+        'DP04_0005E',   # Rental vacancy rate
+        # Structure type (ACS 2023: DP04_0007E = 1-unit detached … DP04_0014E = mobile home)
+        # In older ACS years this section started at DP04_0003E; it now starts at DP04_0007E
+        'DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
+        'DP04_0011E','DP04_0012E','DP04_0013E','DP04_0014E',
+        # GRAPI rent burden bins (ACS 2023 confirmed codes; DP04_0144–0146PE do not exist)
+        # DP04_0137PE=<15%, DP04_0138PE=15–19.9%, DP04_0139PE=20–24.9%, DP04_0140PE=25–29.9%
+        # DP04_0141PE=30–34.9%, DP04_0142PE=35%+
+        'DP04_0137PE','DP04_0138PE','DP04_0139PE','DP04_0140PE',
+        'DP04_0141PE','DP04_0142PE',
         'NAME'
     ]
 
