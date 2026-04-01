@@ -850,8 +850,8 @@
       'DP03_0062E',
       // DP04 housing
       'DP04_0001E', // housing units
-      'DP04_0047PE', // owner-occupied %
-      'DP04_0046PE', // renter-occupied %
+      'DP04_0046PE', // owner-occupied % (ACS 2023)
+      'DP04_0047PE', // renter-occupied % (ACS 2023)
       'DP04_0089E',  // median value (owner-occupied)
       'DP04_0134E',  // median gross rent
       // Structure
@@ -1317,8 +1317,8 @@
     const countyFips5 = proj?.countyFips || selection?.contextCounty || (selection?.geoType==='county' ? selection?.geoid : null);
 
     const years = proj?.years || [];
-    const popCounty = (proj?.population_dola || []).map(safeNum);
-    const popCountyTrend = (proj?.population_trend || []).map(safeNum);
+    const popCounty = (proj?.population_dola || []).map(window.HNAUtils.safeNum);
+    const popCountyTrend = (proj?.population_trend || []).map(window.HNAUtils.safeNum);
     const baseYear = proj?.baseYear;
     const baseCountyPop = window.HNAUtils.safeNum(proj?.base?.population);
 
@@ -1838,7 +1838,24 @@
         if (ext) {
           // Merge: cached fields take priority on any overlap (cache has authoritative
           // snapshot values like median income; extended fetch adds the missing variables)
-          profile = Object.assign({}, ext, profile);
+          // Merge strategy: ext (fresh ACS 5-year fetch) takes priority over cached
+          // profile for any overlapping keys. Rationale:
+          //   1. Old cached files may store stale ACS codes (structure type in DP04 shifted
+          //      in ACS 2023; old builds wrote DP04_0007E as "5–9 units", ACS 2023 is
+          //      "1-unit detached") — ext always reflects current ACS 2023 codes.
+          //   2. Old cached files may store Python None → JSON null for variables that
+          //      were unavailable at build time; null should not overwrite a valid live value.
+          // Non-extended cached fields (median income, tenure %, total population) are not
+          // in extVars so they are preserved from the cache unchanged.
+          const merged = Object.assign({}, profile, ext);
+          // Safety: if ext has a null/undefined for a key the cache had a real value for,
+          // keep the cached value (ext fetch may partially succeed for some vars).
+          for (const k of Object.keys(ext)) {
+            if ((ext[k] === null || ext[k] === undefined) && profile[k] != null) {
+              merged[k] = profile[k];
+            }
+          }
+          profile = merged;
         }
       } catch(e) {
         console.warn('[HNA] Extended ACS supplement failed — extended charts may show blank:', e.message);

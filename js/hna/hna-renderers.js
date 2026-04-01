@@ -2773,8 +2773,12 @@
     const el = document.getElementById('housingGapSummary');
     if (!el || !profile) return;
 
-    // ACS 2023 DP04 vacancy rate — DP04_0005E = Rental vacancy rate (stored as estimate)
-    const rentVac = Number(profile.DP04_0005E) || Number(profile.DP04_0005PE) || 0;
+    // ACS 2023 DP04: DP04_0005E is the rental vacancy rate (%) in current ACS.
+    // Old cached summary files (generated before the 2023 DP04 restructuring) may have
+    // stored DP04_0005E as a unit COUNT (2-unit buildings under old code mapping), so
+    // any value ≥ 100 is treated as a stale count rather than a valid rate.
+    let rentVac = Number(profile.DP04_0005E) || Number(profile.DP04_0005PE) || 0;
+    if (rentVac >= 100) rentVac = 0; // guard: vacancy rates are 0–100%; ≥100 = stale count
     // ACS 2023 GRAPI rent burden:
     // DP04_0141PE = 30.0–34.9% of income; DP04_0142PE = 35%+ of income
     // DP04_0136PE = pre-computed ≥30% (stored by B-series fallback in pipeline)
