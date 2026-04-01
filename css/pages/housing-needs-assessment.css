@@ -311,11 +311,13 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   font-size: .9rem;
 }
 
-.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; max-width: 700px; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
+.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
 .checklist-item {
-  display: flex;
+  display: grid;
+  /* left: icon + checkbox in a tight fixed column; right: text fills the rest */
+  grid-template-columns: 44px 1fr;
   align-items: flex-start;
-  gap: 12px;
+  gap: 0;
   padding: 10px 12px;
   margin: 2px 0;
   border-bottom: none;
@@ -325,13 +327,32 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   color: var(--text);
   width: 100%;
   box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
   line-height: 1.5;
   min-width: 0;
   cursor: pointer;
   transition: background .12s ease, border-color .12s ease;
 }
+/* Left cell: icon + checkbox stacked/inline in 44px */
+.checklist-item > .checklist-status-icon,
+.checklist-item > input[type="checkbox"] {
+  grid-column: 1;
+}
+.checklist-item > .checklist-status-icon {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  font-size: .85rem;
+  padding-top: 2px;
+  vertical-align: middle;
+}
+/* Override: put icon and checkbox side-by-side in a single left cell */
+.checklist-item {
+  grid-template-columns: 20px 22px 1fr;
+  column-gap: 8px;
+}
+.checklist-item > .checklist-status-icon { grid-column: 1; }
+.checklist-item > input[type="checkbox"]  { grid-column: 2; margin-top: 2px; }
+.checklist-item > .checklist-item-content { grid-column: 3; }
 .checklist-item:hover {
   background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
   border-color: color-mix(in oklab, var(--accent) 20%, var(--border) 80%);
@@ -341,14 +362,13 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 .checklist-item:last-child  { border-radius: 0 0 8px 8px; border-bottom: none; }
 .checklist-item:only-child  { border-radius: 8px; }
 .checklist-item input[type="checkbox"] {
-  margin-top: 2px;
   flex-shrink: 0;
   accent-color: var(--accent);
-  min-width: 20px;
-  min-height: 20px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
 }
-.checklist-item label { cursor: pointer; flex: 1; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
+.checklist-item label { cursor: pointer; display: block; overflow-wrap: break-word; word-break: break-word; }
 .checklist-item.done {
   background: color-mix(in oklab, var(--good) 7%, var(--card) 93%);
   border-color: color-mix(in oklab, var(--good) 25%, var(--border) 75%);
@@ -654,7 +674,6 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 14px;
-  max-width: 700px;
 }
 .chfa-checklist-panel h3 { margin: 0 0 6px; font-size: 1rem; }
 .chfa-checklist {
