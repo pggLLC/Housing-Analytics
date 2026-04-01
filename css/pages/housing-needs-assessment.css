@@ -302,12 +302,12 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 .timeline-chart { position: relative; height: 220px; min-height: 220px; margin-top: 10px; }
 
-.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow: hidden; }
+.compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
 .checklist-item {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  padding: 6px 0;
+  gap: 12px;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border);
   font-size: .9rem;
   color: var(--text);
@@ -315,6 +315,7 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   box-sizing: border-box;
   overflow-wrap: break-word;
   word-break: break-word;
+  line-height: 1.5;
 }
 .checklist-item:last-child { border-bottom: none; }
 .checklist-item input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); min-width: 16px; min-height: 16px; }
