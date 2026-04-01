@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T11:48:51.988Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T11:59:02.422Z. Do not edit by hand.
 
 ---
 
@@ -1050,7 +1050,7 @@
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
 | `.github/workflows/generate-market-analysis-data.yml` | 10.7 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
-| `.github/workflows/run-all-workflows.yml` | 8.8 KB |
+| `.github/workflows/run-all-workflows.yml` | 16.2 KB |
 | `.github/workflows/site-audit.yml` | 1.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
