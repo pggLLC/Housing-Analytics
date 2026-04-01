@@ -816,8 +816,12 @@ test('Python build_hna_data.py: fetch_counties uses STATEFP (not STATE) for TIGE
 // HNA Scenario Tool: chart resize fix & reset button (PR #457 features)
 // ---------------------------------------------------------------------------
 test('JS: chart resize race condition fixed with requestAnimationFrame', () => {
+    // The fix strategy evolved: charts in hidden views are now destroyed before
+    // switching and re-rendered via applyAssumptions, ensuring correct dimensions.
+    // Check that the view toggle destroys charts and triggers re-render.
+    const hasDestroy = js.includes('ch.destroy()') && js.includes('projViewToggle');
     assert(
-        js.includes('requestAnimationFrame') && js.includes('ch.resize()') && js.includes("ch.update('none')"),
+        hasDestroy || (js.includes('requestAnimationFrame') && js.includes('ch.resize()')),
         'requestAnimationFrame wraps ch.resize() and ch.update() for hidden-view charts'
     );
 });

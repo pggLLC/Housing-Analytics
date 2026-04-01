@@ -1158,16 +1158,26 @@
 
       await applyAssumptions(proj, selection);
 
+      // Clear any prior data-unavailable notice in the scenario section
+      const scenNote = document.getElementById('scenarioProjectionsNote');
+      if (scenNote) { scenNote.textContent = ''; scenNote.hidden = true; }
+
       return { ok:true, proj };
     }catch(e){
       window.HNAState.state.lastProj = null;
-      // Clear outputs gracefully
-      window.HNAState.els.statBaseUnits.textContent = '—';
-      window.HNAState.els.statBaseUnitsSrc.textContent = '—';
-      window.HNAState.els.statTargetVac.textContent = '—';
-      window.HNAState.els.statUnitsNeed.textContent = '—';
-      window.HNAState.els.statNetMig.textContent = '—';
-      window.HNAState.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
+      // Clear projection stat cards gracefully (null-guarded to prevent crash on partial DOM)
+      if (window.HNAState.els.statBaseUnits) window.HNAState.els.statBaseUnits.textContent = '—';
+      if (window.HNAState.els.statBaseUnitsSrc) window.HNAState.els.statBaseUnitsSrc.textContent = '—';
+      if (window.HNAState.els.statTargetVac) window.HNAState.els.statTargetVac.textContent = '—';
+      if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = '—';
+      if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = '—';
+      if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
+      // Show a visible notice in the scenario section so users know charts are unavailable
+      const scenNote = document.getElementById('scenarioProjectionsNote');
+      if (scenNote) {
+        scenNote.textContent = 'Scenario projections are not available for this geography yet. Run the Build HNA data workflow to populate.';
+        scenNote.hidden = false;
+      }
       return { ok:false, err:String(e) };
     }
   }
@@ -1512,9 +1522,19 @@
     const viewToggle = document.querySelectorAll('input[name="projViewToggle"]');
     viewToggle.forEach(r => r.addEventListener('change', () => {
       const val = r.value;
+      // Destroy Chart.js instances in all containers before hiding to prevent
+      // double-initialization when the container is shown again (charts created
+      // while hidden have 0x0 dimensions and may not resize correctly).
       ['projViewPop', 'projViewHH', 'projViewDemand'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.hidden = true;
+        if (!el) return;
+        if (typeof Chart !== 'undefined') {
+          el.querySelectorAll('canvas').forEach(canvas => {
+            const ch = Chart.getChart(canvas);
+            if (ch) ch.destroy();
+          });
+        }
+        el.hidden = true;
       });
       const showId = val === 'population' ? 'projViewPop'
                    : val === 'household'  ? 'projViewHH'
@@ -1522,24 +1542,21 @@
       const showEl = document.getElementById(showId);
       if (showEl) {
         showEl.hidden = false;
-        // Resize Chart.js charts that were rendered while container was hidden.
-        // Use requestAnimationFrame to ensure the DOM layout has settled and the
-        // container has its final dimensions before Chart.js measures it.
-        requestAnimationFrame(() => {
-          showEl.querySelectorAll('canvas').forEach(canvas => {
-            if (typeof Chart !== 'undefined') {
-              const ch = Chart.getChart(canvas);
-              if (ch) { ch.resize(); ch.update('none'); }
-            }
+        // Re-render charts for the newly visible view. Using applyAssumptions
+        // ensures charts are created while the container is visible, so they
+        // get correct dimensions on first render.
+        if (window.HNAState.state.lastProj && window.HNAState.state.current) {
+          applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current).catch(e => {
+            console.warn('[HNA] applyAssumptions error on view toggle', e);
           });
-          // Announce view change to screen readers (WCAG 4.1.3)
-          const viewLabel = val === 'population' ? 'Population projection'
-                          : val === 'household'  ? 'Household projection'
-                          : 'Housing demand by AMI tier';
-          if (typeof window.__announceUpdate === 'function') {
-            window.__announceUpdate(`Scenario view changed to: ${viewLabel}`);
-          }
-        });
+        }
+        // Announce view change to screen readers (WCAG 4.1.3)
+        const viewLabel = val === 'population' ? 'Population projection'
+                        : val === 'household'  ? 'Household projection'
+                        : 'Housing demand by AMI tier';
+        if (typeof window.__announceUpdate === 'function') {
+          window.__announceUpdate(`Scenario view changed to: ${viewLabel}`);
+        }
       }
     }));
   }
