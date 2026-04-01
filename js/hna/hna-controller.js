@@ -1227,7 +1227,9 @@
       // DP04_0136PE in ACS 2023 = total GRAPI universe, NOT ≥30%; frontend computes ≥30%
       // as DP04_0141PE + DP04_0142PE when DP04_0136PE is absent from cache
       'DP04_0047E',
-      'DP04_0137PE','DP04_0138PE','DP04_0139PE','DP04_0140PE',
+      // GRAPI: only the ≥30% bins are used by renderHousingGapSummary.
+      // DP04_0137PE–0140PE (<15% through 25–29.9%) are not read by any renderer
+      // and were pushing the request over the ACS API 50-variable limit → HTTP 400.
       'DP04_0141PE','DP04_0142PE',
       // Special needs population (renderSpecialNeedsPanel)
       'DP05_0016E', // 75–84 years (used to compute 75+ aggregate)
