@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T19:04:18.864Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T19:50:07.040Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 31.6 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 33.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
@@ -1023,7 +1023,7 @@
 
 ## GitHub Actions Workflows
 
-35 workflow files found.
+36 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1052,6 +1052,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
 | `.github/workflows/generate-market-analysis-data.yml` | 10.7 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
