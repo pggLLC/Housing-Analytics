@@ -1888,7 +1888,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <script src="js/trend-analysis.js"></script>
   <script src="js/policy-simulator.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+  (function () {
+    function initModules() {
       if (window.TrendAnalysis) TrendAnalysis.init();
       if (window.PolicySimulator) PolicySimulator.init();
       // Load CAR market data
@@ -1924,7 +1925,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           if (error)  { error.textContent = "Failed to load CAR market data."; error.style.display = "block"; }
         });
       }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initModules);
+    } else {
+      initModules();
+    }
+  }());
   </script>
   <script src="js/map-overlay.js"></script>
   <script src="js/ui-interactions.js"></script>

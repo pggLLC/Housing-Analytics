@@ -965,6 +965,12 @@
 
   // ── Map initialization ───────────────────────────────────────────────────────
   function initMap() {
+    if (window.__coLihtcMapInit) {
+      console.warn('[co-lihtc-map] initMap() called more than once — skipping duplicate initialization.');
+      return window.coLihtcMap || null;
+    }
+    window.__coLihtcMapInit = true;
+
     if (typeof L === 'undefined') {
       console.error('[co-lihtc-map] Leaflet (L) is not defined. Ensure js/vendor/leaflet.js loads before this script.');
       updateStatus('Map unavailable — Leaflet failed to load.');
