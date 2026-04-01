@@ -148,8 +148,9 @@ def main() -> int:
     generated = utc_now()
 
     base_params = {
-        "outFields": "NAME,NAMELSAD,STATEFP,COUNTYFP,GEOID",
+        "outFields": "NAME,NAMELSAD,STATEFP,COUNTYFP",
         "f": "geojson",
+        "returnGeometry": "true",
         "outSR": "4326",
     }
 
