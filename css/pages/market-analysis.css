@@ -764,6 +764,99 @@
   color: var(--text);
 }
 
+/* ── Intro text — full-width justified ── */
+.pma-intro-text {
+  font-size: 1rem;
+  line-height: 1.65;
+  text-align: justify;
+  hyphens: auto;
+  text-wrap: pretty;
+  color: var(--text);
+}
+.pma-intro-text + .pma-intro-text { margin-top: 0.35rem; }
+.pma-intro-note {
+  font-size: .82rem;
+  color: var(--muted);
+  text-align: justify;
+  hyphens: auto;
+  text-wrap: pretty;
+  margin-top: 0.35rem;
+}
+
+/* ── Map layer controls ── */
+.map-layer-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.85rem;
+  margin-top: 0.6rem;
+}
+.map-layer-section + .map-layer-section { margin-top: 0.5rem; }
+
+.map-layer-heading {
+  font-size: var(--small);
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.map-layer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+}
+
+.map-layer-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--small);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem 0.25rem 0.3rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  min-height: 32px;
+  transition: background .12s ease, border-color .12s ease;
+}
+.map-layer-label:hover {
+  background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+  border-color: color-mix(in oklab, var(--accent) 25%, var(--border) 75%);
+}
+
+/* Custom checkbox styled as a toggle pill */
+.map-layer-cb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg2);
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: background .12s ease, border-color .12s ease;
+}
+.map-layer-cb:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.map-layer-cb:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 4px;
+  width: 5px; height: 8px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.map-layer-cb:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 /* ── Layer picker ── */
 #pmaLayerPickerWrap {
   margin-top: 0.75rem;
