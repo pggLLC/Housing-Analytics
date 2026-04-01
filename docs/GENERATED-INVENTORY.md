@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T07:39:14.659Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T09:02:15.510Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.5 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 474 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.9 KB |
@@ -29,15 +29,15 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 10.3 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 16.7 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 17.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 79.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 80.2 KB |
 | `index.html` | COHO Analytics | Housing Finance &amp; Development Analytics | 12.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 31.1 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 31.4 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
@@ -74,9 +74,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 126.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 126.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 948.7 KB | ✅ | — |
+| `data/fred-data.json` | 949.1 KB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
