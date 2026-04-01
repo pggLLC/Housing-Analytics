@@ -95,6 +95,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
         run: |
           # Poll all triggered runs concurrently in a single loop.
           # Timeout: 45 minutes (90 polls × 30-second interval).
@@ -149,6 +150,131 @@ jobs:
             fi
           done < /tmp/run_ids.txt
 
+          # ─── RETRY PHASE ─────────────────────────────────────────────────────
+          # Retry failed / timed-out workflows up to 2 times with exponential
+          # backoff: 30 s before attempt 2, 60 s before attempt 3.
+          > /tmp/retry_log.txt
+          BACKOFFS=(30 60)
+
+          for retry_attempt in 1 2; do
+            # Collect every workflow that did not succeed in the previous round.
+            retry_needed=()
+            while IFS='=' read -r workflow conclusion; do
+              [ -z "$workflow" ] && continue
+              [ "$conclusion" != "success" ] && retry_needed+=("$workflow")
+            done < /tmp/conclusions.txt
+
+            [ ${#retry_needed[@]} -eq 0 ] && break
+
+            backoff=${BACKOFFS[$((retry_attempt - 1))]}
+            backoff=${backoff:-60}  # fallback if index is out of bounds
+            echo "─────────────────────────────────────────────────────────────"
+            echo "  RETRY $retry_attempt/2 — ${#retry_needed[@]} workflow(s) to retry after ${backoff}s"
+            echo "─────────────────────────────────────────────────────────────"
+            echo "::notice::Retry $retry_attempt/2 — retrying ${#retry_needed[@]} workflow(s) after ${backoff}s backoff"
+            sleep "$backoff"
+
+            # Re-trigger failed workflows.
+            > "/tmp/retry_trigger_${retry_attempt}.txt"
+            for workflow in "${retry_needed[@]}"; do
+              echo "↩ Retry $retry_attempt: $workflow"
+              TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+                echo "  ✅ Re-triggered"
+                echo "${workflow}=${TRIGGER_TIME}" >> "/tmp/retry_trigger_${retry_attempt}.txt"
+                echo "${workflow}: attempt $((retry_attempt + 1)) triggered" >> /tmp/retry_log.txt
+              else
+                echo "  ❌ Failed to re-trigger"
+                echo "${workflow}: attempt $((retry_attempt + 1)) trigger failed" >> /tmp/retry_log.txt
+              fi
+              sleep 2
+            done
+
+            # Allow GitHub time to queue the new runs.
+            sleep 15
+
+            # Collect run IDs for the retried workflows.
+            > "/tmp/retry_ids_${retry_attempt}.txt"
+            while IFS='=' read -r workflow trigger_time; do
+              [ -z "$workflow" ] && continue
+              run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+                --limit 5 --json databaseId,createdAt \
+                --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+                2>/dev/null)
+              if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
+                echo "$workflow=$run_id" >> "/tmp/retry_ids_${retry_attempt}.txt"
+                echo "  📋 $workflow → run #$run_id"
+              else
+                echo "  ⚠️  Run not found for $workflow"
+                echo "$workflow=unknown" >> "/tmp/retry_ids_${retry_attempt}.txt"
+              fi
+            done < "/tmp/retry_trigger_${retry_attempt}.txt"
+
+            # Wait for retry completions (same poll cadence as the initial wait).
+            > "/tmp/retry_conclusions_${retry_attempt}.txt"
+            for poll in $(seq 1 "$MAX_POLLS"); do
+              all_done=true
+
+              while IFS='=' read -r workflow run_id; do
+                [ -z "$workflow" ] && continue
+                grep -q "^${workflow}=" "/tmp/retry_conclusions_${retry_attempt}.txt" 2>/dev/null && continue
+
+                if [ "$run_id" = "unknown" ]; then
+                  echo "$workflow=not_found" >> "/tmp/retry_conclusions_${retry_attempt}.txt"
+                  continue
+                fi
+
+                result=$(gh run view "$run_id" --repo "$REPO" \
+                  --json status,conclusion \
+                  --jq '.status + ":" + (.conclusion // "")' 2>/dev/null || echo "error:")
+
+                run_status=$(echo "$result" | cut -d: -f1)
+                conclusion=$(echo "$result" | cut -d: -f2)
+
+                if [ "$run_status" = "completed" ]; then
+                  echo "$workflow=$conclusion" >> "/tmp/retry_conclusions_${retry_attempt}.txt"
+                  if [ "$conclusion" = "success" ]; then
+                    echo "  ✅ $workflow: success (retry $retry_attempt)"
+                  else
+                    echo "  ❌ $workflow: $conclusion (retry $retry_attempt)"
+                    # Only emit the error annotation after the final retry attempt.
+                    if [ "$retry_attempt" -eq 2 ]; then
+                      echo "::error::Data workflow still failing after all retries: $workflow (conclusion: $conclusion)"
+                    fi
+                  fi
+                else
+                  all_done=false
+                fi
+              done < "/tmp/retry_ids_${retry_attempt}.txt"
+
+              [ "$all_done" = "true" ] && break
+              echo "  … retry $retry_attempt still running (poll $poll/$MAX_POLLS)"
+              sleep 30
+            done
+
+            # Mark any retry runs that timed out.
+            while IFS='=' read -r workflow run_id; do
+              [ -z "$workflow" ] && continue
+              if ! grep -q "^${workflow}=" "/tmp/retry_conclusions_${retry_attempt}.txt" 2>/dev/null; then
+                echo "$workflow=timeout" >> "/tmp/retry_conclusions_${retry_attempt}.txt"
+                echo "  ⏰ $workflow: timed out (retry $retry_attempt)"
+                echo "${workflow}: attempt $((retry_attempt + 1)) timed out" >> /tmp/retry_log.txt
+              fi
+            done < "/tmp/retry_ids_${retry_attempt}.txt"
+
+            # Promote successful retry outcomes into the main conclusions file.
+            while IFS='=' read -r workflow conclusion; do
+              [ -z "$workflow" ] && continue
+              if [ "$conclusion" = "success" ]; then
+                grep -v "^${workflow}=" /tmp/conclusions.txt > /tmp/conclusions.tmp || true
+                mv /tmp/conclusions.tmp /tmp/conclusions.txt
+                echo "${workflow}=success" >> /tmp/conclusions.txt
+                echo "${workflow}: attempt $((retry_attempt + 1)) succeeded" >> /tmp/retry_log.txt
+              fi
+            done < "/tmp/retry_conclusions_${retry_attempt}.txt"
+          done
+          # ─── END RETRY PHASE ─────────────────────────────────────────────────
+
           echo ""
           echo "============================================"
           echo "         DATA WORKFLOWS — FINAL REPORT     "
@@ -157,11 +283,17 @@ jobs:
 
           while IFS='=' read -r workflow conclusion; do
             [ -z "$workflow" ] && continue
+            # Annotate workflows that were retried.
+            retry_info=""
+            if grep -q "^${workflow}:" /tmp/retry_log.txt 2>/dev/null; then
+              retry_count=$(grep -c "^${workflow}:.*triggered$" /tmp/retry_log.txt 2>/dev/null || true)
+              [ "$retry_count" -gt 0 ] && retry_info=" (retried ×${retry_count})"
+            fi
             case "$conclusion" in
-              success)   echo "  ✅ $workflow"; passed=$((passed + 1)) ;;
-              timeout)   echo "  ⏰ $workflow (timed out)"; timedout=$((timedout + 1)) ;;
-              not_found) echo "  ❓ $workflow (run not found)"; notfound=$((notfound + 1)) ;;
-              *)         echo "  ❌ $workflow ($conclusion)"; failed=$((failed + 1)) ;;
+              success)   echo "  ✅ $workflow${retry_info}"; passed=$((passed + 1)) ;;
+              timeout)   echo "  ⏰ $workflow (timed out)${retry_info}"; timedout=$((timedout + 1)) ;;
+              not_found) echo "  ❓ $workflow (run not found)${retry_info}"; notfound=$((notfound + 1)) ;;
+              *)         echo "  ❌ $workflow ($conclusion)${retry_info}"; failed=$((failed + 1)) ;;
             esac
           done < /tmp/conclusions.txt
 
@@ -170,6 +302,15 @@ jobs:
           echo "  Failed    : $failed"
           echo "  Timed out : $timedout"
           echo "  Not found : $notfound"
+
+          # Show the retry log summary when retries occurred.
+          if [ -s /tmp/retry_log.txt ]; then
+            echo ""
+            echo "  ↩ Retry summary:"
+            while IFS= read -r line; do
+              echo "    $line"
+            done < /tmp/retry_log.txt
+          fi
 
           if [ "$failed" -gt 0 ] || [ "$timedout" -gt 0 ]; then
             exit 1
