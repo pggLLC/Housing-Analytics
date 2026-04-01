@@ -820,8 +820,6 @@ test('JS: chart resize race condition fixed with requestAnimationFrame', () => {
     // switching and re-rendered via applyAssumptions, ensuring correct dimensions.
     // Check that the view toggle destroys charts and triggers re-render.
     const hasDestroy = js.includes('ch.destroy()') && js.includes('projViewToggle');
-    const hasRerender = js.includes('applyAssumptions(window.HNAState.state.lastProj') ||
-                        js.includes('applyAssumptions(window.HNAState.state.lastProj,');
     assert(
         hasDestroy || (js.includes('requestAnimationFrame') && js.includes('ch.resize()')),
         'requestAnimationFrame wraps ch.resize() and ch.update() for hidden-view charts'

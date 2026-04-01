@@ -1546,7 +1546,9 @@
         // ensures charts are created while the container is visible, so they
         // get correct dimensions on first render.
         if (window.HNAState.state.lastProj && window.HNAState.state.current) {
-          applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current);
+          applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current).catch(e => {
+            console.warn('[HNA] applyAssumptions error on view toggle', e);
+          });
         }
         // Announce view change to screen readers (WCAG 4.1.3)
         const viewLabel = val === 'population' ? 'Population projection'

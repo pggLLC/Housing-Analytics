@@ -302,6 +302,15 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 .timeline-chart { position: relative; height: 220px; min-height: 220px; margin-top: 10px; }
 
+.scenario-proj-notice {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  background: var(--warn-dim, #fef3c7);
+  color: var(--warn, #92400e);
+  border-radius: 6px;
+  font-size: .9rem;
+}
+
 .compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
 .checklist-item {
   display: flex;
