@@ -11,7 +11,8 @@ import os
 import glob
 from datetime import datetime, timezone
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+DATA_DIR = os.path.join(REPO_ROOT, 'data')
 MANIFEST_FILE = os.path.join(DATA_DIR, 'manifest.json')
 
 
@@ -62,9 +63,9 @@ def scan_data_files():
 
     entries = {}
     for fpath in sorted(all_files):
-        # Use paths relative to the data/ directory (no "data/" prefix)
-        rel = os.path.relpath(fpath, start=DATA_DIR)
-        if rel == 'manifest.json':
+        # Use paths relative to the repository root (include "data/" prefix)
+        rel = os.path.relpath(fpath, start=REPO_ROOT)
+        if rel == os.path.join('data', 'manifest.json'):
             continue  # exclude manifest itself
         try:
             size = os.path.getsize(fpath)

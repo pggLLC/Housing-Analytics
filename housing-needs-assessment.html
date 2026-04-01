@@ -401,7 +401,7 @@
               <option value="high_growth">High growth (economic expansion)</option>
             </select>
           </div>
-          <div class="span-8" style="display:flex;align-items:center">
+          <div class="span-6" style="display:flex;align-items:center">
             <div>
               <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
                 Moderate growth following recent historical trends.
@@ -409,8 +409,14 @@
               <p style="margin:4px 0 0;font-size:.82rem;color:var(--muted)">
                 Source: DOLA State Demography Office — Components of Change (current vintage).
                 <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DOLA State Demography Office website (opens in new tab)">DOLA SDO</a>
+                <span id="scenarioFreshnessBadge" class="scenario-freshness-badge" hidden></span>
               </p>
             </div>
+          </div>
+          <div class="span-2" style="display:flex;align-items:flex-end;justify-content:flex-end">
+            <button id="btnExportScenario" class="control scenario-export-btn" title="Export scenario comparison data as CSV" aria-label="Export scenario comparison to CSV">
+              ⬇ Export CSV
+            </button>
           </div>
         </div>
 
@@ -522,9 +528,11 @@
         </details>
 
         <!-- Scenario summary note -->
-        <p id="scenarioNeedSummary" style="margin:12px 0 0;padding:10px 12px;background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);border-radius:8px;border-left:3px solid var(--accent);font-size:.88rem;color:var(--text);display:none">
+        <div id="scenarioNeedSummary" class="scenario-need-summary" style="display:none" role="region" aria-label="Scenario comparison summary">
           <!-- Populated by JS when data is available -->
-        </p>
+        </div>
+        <!-- Scenario data quality indicator -->
+        <p id="scenarioDataQuality" class="scenario-data-quality" hidden></p>
       </div>
 
       <!-- Labor Market Metrics -->
