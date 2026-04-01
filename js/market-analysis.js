@@ -831,9 +831,9 @@
     var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
-    // If no ACS matches in this buffer, try expanding to the next available radius.
+    // If no ACS matches (or no centroids found) try expanding to larger radii.
     var effectiveBuffer = bufferMiles;
-    if (!acs && bufTracts.length > 0) {
+    if (!acs) {
       var fallbackSizes = BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; });
       for (var fi = 0; fi < fallbackSizes.length; fi++) {
         var fallbackMiles = fallbackSizes[fi];
@@ -850,11 +850,12 @@
     }
 
     if (!acs) {
-      if (bufTracts.length > 0) {
-        console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
-          [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
-      }
-      showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
+      console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
+        [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
+      showEmpty('pmaScoreWrap',
+        'No ACS tract data found within ' +
+        (BUFFER_OPTIONS[BUFFER_OPTIONS.length - 1] || bufferMiles) + ' miles. ' +
+        'Try a different location, or run the "Generate Market Analysis Data" workflow to refresh coverage.');
       return;
     }
 
@@ -898,6 +899,11 @@
 
     renderScore(lastResult);
     setText('pmaRunBtn', 'Re-run Analysis');
+
+    // Make the Explain Score button visible and functional in buffer mode.
+    // pma-ui-controller.js _initExplainScore will pick up lastResult via PMAEngine.
+    var explainBtn = document.getElementById('pmaExplainScoreBtn');
+    if (explainBtn) { explainBtn.hidden = false; }
 
     // ── Trigger concept recommendation for buffer mode ───────────────
     (function () {
@@ -1705,6 +1711,7 @@
     OVERLAY_STYLES:          OVERLAY_STYLES,
     _state: {
       getLihtcLoadError:    function () { return lihtcLoadError; },
+      getLastResult:        function () { return lastResult; },
       getLastQuality:       function () { return lastQuality; },
       getLastBenchmark:     function () { return lastBenchmark; },
       getLastPipeline:      function () { return lastPipeline; },
