@@ -62,8 +62,9 @@ def scan_data_files():
 
     entries = {}
     for fpath in sorted(all_files):
-        rel = os.path.relpath(fpath, start=os.path.join(DATA_DIR, '..'))
-        if rel == 'data/manifest.json':
+        # Use paths relative to the data/ directory (no "data/" prefix)
+        rel = os.path.relpath(fpath, start=DATA_DIR)
+        if rel == 'manifest.json':
             continue  # exclude manifest itself
         try:
             size = os.path.getsize(fpath)
