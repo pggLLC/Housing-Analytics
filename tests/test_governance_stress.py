@@ -618,11 +618,11 @@ class TestProbe10ManifestSync:
         with open(os.path.join(DATA_DIR, 'manifest.json')) as f:
             manifest = json.load(f)
         files = manifest.get('files', {})
-        # Paths in manifest.json are relative to the data/ directory (no "data/" prefix).
+        # Paths in manifest.json are relative to the repository root (include "data/" prefix).
         required = [
-            'chfa-lihtc.json',
-            'co_ami_gap_by_county.json',
-            'fred-data.json',
+            'data/chfa-lihtc.json',
+            'data/co_ami_gap_by_county.json',
+            'data/fred-data.json',
         ]
         missing = [k for k in required if k not in files]
         assert missing == [], (
