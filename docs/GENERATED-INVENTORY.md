@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T09:39:22.509Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T10:29:25.674Z. Do not edit by hand.
 
 ---
 
@@ -12,7 +12,7 @@
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.3 KB |
 | `about.html` | About | COHO Analytics | 15.1 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.0 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.2 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
@@ -37,7 +37,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 22.9 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 31.4 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 31.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 19.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
