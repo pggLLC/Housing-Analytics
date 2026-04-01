@@ -61,12 +61,25 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site directory
+        run: |
+          mkdir -p _site
+          cp *.html _site/ 2>/dev/null || true
+          for dir in css js data maps assets lib; do
+            [ -d "$dir" ] && cp -r "$dir" _site/
+          done
+          for file in robots.txt sitemap.xml DATA-MANIFEST.json; do
+            [ -f "$file" ] && cp "$file" _site/
+          done
+          # Validate critical directories were copied
+          for dir in css js data; do
+            [ -d "_site/$dir" ] || { echo "ERROR: critical directory '$dir' missing from site"; exit 1; }
+          done
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: '.'
-          retention-days: 1
+          path: _site/
 
       - name: Deploy to GitHub Pages
         id: deployment
