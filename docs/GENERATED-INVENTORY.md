@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T12:16:04.945Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-01T14:04:45.619Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 448.9 KB | ✅ | 716 features |
+| `data/chfa-lihtc.json` | 268.5 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
@@ -76,7 +76,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 126.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.79 MB | ✅ | — |
+| `data/fred-data.json` | 1.80 MB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -896,7 +896,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 27.9 KB | ✅ | — |
+| `data/manifest.json` | 102.4 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
@@ -1010,7 +1010,7 @@
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
-| `tests/test_stage2_temporal.py` | 31.8 KB |
+| `tests/test_stage2_temporal.py` | 31.6 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 
@@ -1038,13 +1038,13 @@
 | `.github/workflows/data-quality-check.yml` | 6.0 KB |
 | `.github/workflows/data-refresh.yml` | 3.2 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
-| `.github/workflows/deploy.yml` | 1.9 KB |
+| `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
 | `.github/workflows/fetch-chas-data.yml` | 2.5 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 2.6 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 2.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 3.2 KB |
-| `.github/workflows/fetch-fred-data.yml` | 8.7 KB |
+| `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
