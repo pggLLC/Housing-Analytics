@@ -557,6 +557,7 @@
           console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message, '— using embedded fallback.');
         }
       }
+    }
     // Return embedded fallback filtered to county
     return { ...window.HNAUtils.lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
   }
