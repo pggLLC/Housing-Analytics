@@ -1308,12 +1308,13 @@
     const forPart = (geoType==='county') ? `county:${code}` : `place:${code}`;
     const inPart = `state:${stateF}`;
 
-    const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
+    const keySuffix = key ? '&key=' + encodeURIComponent(key) : '';
+    const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}` + keySuffix;
     const r = await fetch(url);
     if (!r.ok){
       // For CDPs, ACS5 profile may not support CDP geography; fall back to B-series.
       if (geoType === 'cdp'){
-        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=${encodeURIComponent(`place:${code}`)}&in=${encodeURIComponent(inPart)}${key?`&key=${encodeURIComponent(key)}`:''}`;
+        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=` + encodeURIComponent('place:' + code) + `&in=${encodeURIComponent(inPart)}` + keySuffix;
         const rb = await fetch(bUrl);
         if (!rb.ok) throw new Error(`ACS5 trend HTTP ${rb.status}`);
         const jb = await rb.json();
