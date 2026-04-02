@@ -209,11 +209,14 @@
         var re = new RegExp('\\b' + term + '\\b');
         if (re.test(result)) {
           var t = termMap[term];
-          var tooltip = '<abbr class="gl-tooltip-trigger" tabindex="0" title="' +
-            escHtml(t.full + ': ' + t.definition.substring(0, 120) + '…') +
+          // Use aria-label instead of title so the browser's native tooltip
+          // doesn't create a duplicate of the custom .gl-tooltip-popup,
+          // which was also causing raw HTML strings to be visible in some contexts.
+          var tooltip = '<abbr class="gl-tooltip-trigger" tabindex="0" aria-label="' +
+            escHtml(t.full) +
             '" data-glossary-term="' + escHtml(term) + '">' + term +
             '<span class="gl-tooltip-popup" aria-hidden="true"><strong>' + escHtml(t.full) + '</strong>' +
-            escHtml(t.definition.substring(0, 120)) + '…</span></abbr>';
+            escHtml(t.definition.substring(0, 160)) + '…</span></abbr>';
           result = result.replace(re, tooltip);
           wrapped[term] = true;
           changed = true;

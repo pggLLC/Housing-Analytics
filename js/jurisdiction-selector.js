@@ -55,8 +55,8 @@
       '.sj-input:focus{border-color:var(--accent);box-shadow:var(--focus-ring);}',
       '.sj-hint{font-size:var(--tiny);color:var(--muted);margin:5px 0 0;}',
 
-      /* Results dropdown */
-      '.sj-results{position:absolute;top:calc(100% + 4px);left:0;right:0;margin:0;padding:0;list-style:none;max-height:240px;overflow-y:auto;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);box-shadow:var(--shadow);z-index:100;}',
+      /* Results dropdown — z-index 9100 clears the sticky header (z-index 9000) */
+      '.sj-results{position:absolute;top:calc(100% + 4px);left:0;right:0;margin:0;padding:0;list-style:none;max-height:240px;overflow-y:auto;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);box-shadow:var(--shadow);z-index:9100;}',
       '.sj-results li{padding:10px 14px;cursor:pointer;font-size:.95rem;color:var(--text);border-bottom:1px solid var(--border);}',
       '.sj-results li:last-child{border-bottom:none;}',
       '.sj-results li:hover,.sj-results li[aria-selected="true"]{background:var(--accent-dim);color:var(--accent);}',
@@ -189,8 +189,68 @@
     selectedCounty: null,   // { name, fips }
     selectedCity:   null,   // string or null
     countyFocusIdx: -1,
-    cityFocusIdx:   -1
+    cityFocusIdx:   -1,
+    geoConfig:      null,   // loaded from data/hna/geo-config.json
+    citiesForCounty: []     // places + CDPs for the selected county
   };
+
+  /* ─────────────────────────────────────────────────────────────────────────
+   * 2b. Geo-config loader — populates city/CDP list per county
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  function loadGeoConfig(callback) {
+    if (state.geoConfig) {
+      if (callback) callback(state.geoConfig);
+      return;
+    }
+    var url = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/hna/geo-config.json')
+      : 'data/hna/geo-config.json';
+    fetch(url)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (cfg) {
+        if (cfg) state.geoConfig = cfg;
+        if (callback) callback(cfg);
+      })
+      .catch(function () { if (callback) callback(null); });
+  }
+
+  function _buildCitiesForCounty(countyFips) {
+    var cfg = state.geoConfig;
+    if (!cfg) { state.citiesForCounty = []; return; }
+    var list = [];
+    // Incorporated places — filter by containingCounty
+    if (Array.isArray(cfg.places)) {
+      cfg.places.forEach(function (p) {
+        if (p.containingCounty === countyFips || p.county_fips === countyFips) {
+          list.push({ name: p.label, type: 'place' });
+        }
+      });
+    }
+    // CDPs — filter by containingCounty (may not always be present)
+    if (Array.isArray(cfg.cdps)) {
+      cfg.cdps.forEach(function (c) {
+        if (c.containingCounty === countyFips || c.county_fips === countyFips) {
+          list.push({ name: c.label + ' (CDP)', type: 'cdp' });
+        }
+      });
+    }
+    list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    state.citiesForCounty = list;
+  }
+
+  function filterCities(query) {
+    var q = (query || '').toLowerCase().trim();
+    if (!q) { return state.citiesForCounty.slice(0, 12); }
+    var results = [];
+    for (var i = 0; i < state.citiesForCounty.length; i++) {
+      if (state.citiesForCounty[i].name.toLowerCase().indexOf(q) !== -1) {
+        results.push(state.citiesForCounty[i]);
+        if (results.length >= 12) break;
+      }
+    }
+    return results;
+  }
 
   /* ─────────────────────────────────────────────────────────────────────────
    * 4. DOM references (populated in init)
@@ -298,6 +358,15 @@
     el.cityFieldGroup.hidden = false;
     el.citySearch.value = '';
     el.citySearch.placeholder = 'Search cities in ' + county.name + ' County…';
+
+    // Load geo-config and build city list for this county
+    loadGeoConfig(function () {
+      _buildCitiesForCounty(county.fips);
+      // Show full list immediately so users see available options
+      if (state.citiesForCounty.length > 0) {
+        renderCityResults(filterCities(''));
+      }
+    });
 
     // Enable continue button
     el.sjContinueBtn.disabled = false;
@@ -631,16 +700,25 @@
 
     el.countySearch.addEventListener('keydown', handleCountyKeydown);
 
-    // City search handlers
+    // City search handlers — filter against geo-config places/CDPs for the county
     el.citySearch.addEventListener('input', function () {
       var val = this.value.trim();
-      // City field is free-text; no filtered list to show by default.
-      // Update state so continue button reflects the typed city.
       state.selectedCity = val || null;
       if (state.selectedCounty) {
         el.sjSelectionSub.textContent = val ? val + ', CO' : '';
       }
-      hideCityResults();
+      if (state.citiesForCounty.length > 0) {
+        var matches = filterCities(val);
+        renderCityResults(matches.map(function (c) { return c.name; }));
+      } else {
+        hideCityResults();
+      }
+    });
+
+    el.citySearch.addEventListener('focus', function () {
+      if (state.citiesForCounty.length > 0 && !state.selectedCity) {
+        renderCityResults(filterCities('').map(function (c) { return c.name; }));
+      }
     });
 
     el.citySearch.addEventListener('keydown', handleCityKeydown);

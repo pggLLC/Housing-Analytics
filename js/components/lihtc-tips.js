@@ -21,6 +21,10 @@
   var _promise  = null;   // in-flight fetch Promise
   var _audience = 'developer';
 
+  // Track all mounted panels so setAudience() can re-render them in place.
+  // Each entry: { containerId, tags, heading }
+  var _mounts   = [];
+
   /* ── Styles (injected once) ───────────────────────────────────────────── */
 
   function _ensureStyles() {
@@ -191,6 +195,36 @@
    * @param {string}   [options.audience]  'elected'|'developer'|'financier'
    * @param {string}   [options.heading]   Override panel heading text
    */
+  function _renderInto(container, containerId, tags, audience, heading) {
+    var entries = _findByTags(tags);
+    if (!entries.length) return;
+
+    var cards = entries.map(function (e, i) {
+      return _cardHTML(e, audience, containerId + '-' + i);
+    }).join('');
+
+    container.innerHTML =
+      '<div class="lt-wrap">' +
+        '<div class="lt-inner">' +
+          '<p class="lt-heading">' +
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
+              'stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+              '<circle cx="12" cy="12" r="10"/>' +
+              '<line x1="12" y1="8" x2="12" y2="12"/>' +
+              '<line x1="12" y1="16" x2="12.01" y2="16"/>' +
+            '</svg>' +
+            _esc(heading) +
+          '</p>' +
+          '<div class="lt-grid">' + cards + '</div>' +
+          '<a class="lt-guide-link" href="lihtc-guide-for-stakeholders.html">' +
+            'Full LIHTC Guide →' +
+          '</a>' +
+        '</div>' +
+      '</div>';
+
+    _wireAccordion(container);
+  }
+
   function render(containerId, tags, options) {
     options = options || {};
     _ensureStyles();
@@ -201,45 +235,37 @@
     var audience = options.audience || _audience;
     var heading  = options.heading  || 'LIHTC Quick Reference';
 
+    // Track mount so setAudience() can re-render in place
+    var existing = false;
+    for (var mi = 0; mi < _mounts.length; mi++) {
+      if (_mounts[mi].containerId === containerId) {
+        _mounts[mi].tags = tags; _mounts[mi].heading = heading;
+        existing = true; break;
+      }
+    }
+    if (!existing) _mounts.push({ containerId: containerId, tags: tags, heading: heading });
+
     _load().then(function () {
-      var entries = _findByTags(tags);
-      if (!entries.length) return;   // nothing to show
-
-      var cards = entries.map(function (e, i) {
-        return _cardHTML(e, audience, containerId + '-' + i);
-      }).join('');
-
-      container.innerHTML =
-        '<div class="lt-wrap">' +
-          '<div class="lt-inner">' +
-            '<p class="lt-heading">' +
-              '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
-                'stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-                '<circle cx="12" cy="12" r="10"/>' +
-                '<line x1="12" y1="8" x2="12" y2="12"/>' +
-                '<line x1="12" y1="16" x2="12.01" y2="16"/>' +
-              '</svg>' +
-              _esc(heading) +
-            '</p>' +
-            '<div class="lt-grid">' + cards + '</div>' +
-            '<a class="lt-guide-link" href="lihtc-guide-for-stakeholders.html">' +
-              'Full LIHTC Guide →' +
-            '</a>' +
-          '</div>' +
-        '</div>';
-
-      _wireAccordion(container);
+      _renderInto(container, containerId, tags, audience, heading);
     });
   }
 
   /**
    * setAudience(mode)
-   * Set the default audience for future render() calls.
+   * Change the default audience AND re-render all currently mounted panels.
    */
   function setAudience(mode) {
-    if (mode === 'elected' || mode === 'developer' || mode === 'financier') {
-      _audience = mode;
-    }
+    if (mode !== 'elected' && mode !== 'developer' && mode !== 'financier') return;
+    _audience = mode;
+    // Re-render every mounted panel with the new audience
+    if (!_cache && !_promise) return;  // data not loaded yet — future render() calls use new _audience
+    _load().then(function () {
+      for (var i = 0; i < _mounts.length; i++) {
+        var m = _mounts[i];
+        var el = global.document.getElementById(m.containerId);
+        if (el) _renderInto(el, m.containerId, m.tags, _audience, m.heading || 'LIHTC Quick Reference');
+      }
+    });
   }
 
   global.LihtcTips = {

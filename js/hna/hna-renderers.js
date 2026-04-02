@@ -2729,7 +2729,28 @@
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'right', labels: { color: t.text, font: { size: 11 } } },
+          legend: {
+            position: 'right',
+            labels: {
+              color: t.text,
+              font: { size: 11 },
+              generateLabels: function (chart) {
+                var data = chart.data;
+                if (!data.labels || !data.labels.length) return [];
+                return data.labels.map(function (label, i) {
+                  var val = (data.datasets[0] && data.datasets[0].data[i]) || 0;
+                  return {
+                    text: label + ': ' + Number(val).toLocaleString(),
+                    fillStyle: (data.datasets[0].backgroundColor || [])[i] || '#ccc',
+                    strokeStyle: 'transparent',
+                    lineWidth: 0,
+                    hidden: false,
+                    index: i
+                  };
+                });
+              }
+            }
+          },
           title: { display: true, text: 'Housing Units by Bedroom Count (ACS DP04)', color: t.text, font: { size: 12 } },
           tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toLocaleString() + ' units' } },
         },
