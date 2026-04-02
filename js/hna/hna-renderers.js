@@ -57,14 +57,19 @@
 
   function chartTheme(){
     const style = getComputedStyle(document.documentElement);
-    const text = style.getPropertyValue('--text').trim() || '#111';
-    const muted = style.getPropertyValue('--muted').trim() || '#555';
+    const text   = style.getPropertyValue('--text').trim()   || '#111';
+    const muted  = style.getPropertyValue('--muted').trim()  || '#555';
     const border = style.getPropertyValue('--border').trim() || '#ddd';
-    // Chart palette tokens (var(--chart-1) … var(--chart-7), Rule 10)
+    const good   = style.getPropertyValue('--good').trim()   || '#047857';
+    const bad    = style.getPropertyValue('--bad').trim()    || '#991b1b';
+    const warn   = style.getPropertyValue('--warn').trim()   || '#a84608';
+    const accent = style.getPropertyValue('--accent').trim() || '#096e65';
+    // Chart palette tokens — resolved via getComputedStyle so canvas 2D context
+    // can actually use them (canvas cannot resolve CSS var() strings directly).
     const chartColors = [1,2,3,4,5,6,7].map(n =>
       style.getPropertyValue(`--chart-${n}`).trim() || ['#1e5799','#0369a1','#096e65','#7c3d00','#166534','#92400e','#991b1b'][n-1]
     );
-    return { text, muted, border, chartColors };
+    return { text, muted, border, grid: border, good, bad, warn, accent, chartColors };
   }
 
 
@@ -2624,7 +2629,7 @@
       { label: '$200k+',    v: Number(profile.DP03_0060E) },
     ].filter(b => b.v > 0);
     if (!brackets.length) return;
-    const colors = brackets.map((_, i) => `var(--chart-${(i % 7) + 1})`);
+    const colors = brackets.map((_, i) => t.chartColors[i % 7]);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -2677,7 +2682,7 @@
       type: 'bar',
       data: {
         labels: eras.map(e => e.label),
-        datasets: [{ label: 'Units', data: eras.map(e => e.v), backgroundColor: 'var(--chart-3, #0891b2)' }],
+        datasets: [{ label: 'Units', data: eras.map(e => e.v), backgroundColor: t.chartColors[2] }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -2719,7 +2724,7 @@
       type: 'doughnut',
       data: {
         labels: mix.map(m => m.label),
-        datasets: [{ data: mix.map(m => m.v), backgroundColor: ['var(--chart-1)','var(--chart-2)','var(--chart-3)','var(--chart-4)','var(--chart-5)'] }],
+        datasets: [{ data: mix.map(m => m.v), backgroundColor: t.chartColors.slice(0, 5) }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -2747,7 +2752,7 @@
       { label: '35%+',   v: Number(profile.DP04_0115PE) },
     ].filter(b => b.v > 0);
     if (!bins.length) return;
-    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? 'var(--bad, #ef4444)' : 'var(--good, #10b981)');
+    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? t.bad : t.good);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
