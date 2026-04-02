@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T11:56:01.906Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T13:44:48.718Z. Do not edit by hand.
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-872 JSON files found.
+875 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -81,7 +81,7 @@
 | `data/discovery-reports/latest.json` | 125.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 949.3 KB | ✅ | — |
-| `data/glossary.json` | 7.4 KB | ✅ | — |
+| `data/glossary.json` | 8.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -149,7 +149,7 @@
 | `data/hna/dola_sya/08121.json` | 3.1 KB | ✅ | — |
 | `data/hna/dola_sya/08123.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 3.1 KB | ✅ | — |
-| `data/hna/geo-config.json` | 24.1 KB | ✅ | — |
+| `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 68.4 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
@@ -493,6 +493,7 @@
 | `data/hna/summary/0812815.json` | 1.1 KB | ✅ | — |
 | `data/hna/summary/0812855.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0812900.json` | 1.0 KB | ✅ | — |
+| `data/hna/summary/0812910.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0812945.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0813460.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0813590.json` | 1.1 KB | ✅ | — |
@@ -859,6 +860,8 @@
 | `data/hna/summary/0878335.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0878345.json` | 1.1 KB | ✅ | — |
 | `data/hna/summary/0878610.json` | 1.0 KB | ✅ | — |
+| `data/hna/summary/0879100.json` | 1.3 KB | ✅ | — |
+| `data/hna/summary/0879105.json` | 1.2 KB | ✅ | — |
 | `data/hna/summary/0879270.json` | 1.0 KB | ✅ | — |
 | `data/hna/summary/0879785.json` | 1.1 KB | ✅ | — |
 | `data/hna/summary/0879800.json` | 1.1 KB | ✅ | — |
