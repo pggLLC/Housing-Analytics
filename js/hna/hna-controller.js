@@ -564,17 +564,24 @@
   // Fetch QCT census tracts from HUD ArcGIS service for the county
 
   async function fetchQctTracts(countyFips5){
-    if (!countyFips5 || countyFips5.length !== 5) return null;
-    const countyFips = countyFips5.slice(2);
+    if (!countyFips5) return null;
+    const isState = countyFips5 === '08';
+    if (!isState && countyFips5.length !== 5) return null;
+    const countyFips = isState ? null : countyFips5.slice(2);
+
+    // Filter: for state-level, return all features; for county, filter by FIPS.
+    const matchCounty = f => {
+      if (isState) return true;
+      return (f.properties?.COUNTYFP === countyFips) ||
+             (f.properties?.COUNTY   === countyFips) ||
+             (f.properties?.GEOID || '').startsWith(countyFips5);
+    };
+
     // Tier 1: local cached statewide file (written by CI workflow)
     try {
       const localGj = await loadJson('data/qct-colorado.json');
       if (localGj && Array.isArray(localGj.features)) {
-        const features = localGj.features.filter(f =>
-          (f.properties?.COUNTYFP === countyFips) ||
-          (f.properties?.COUNTY   === countyFips) ||
-          (f.properties?.GEOID || '').startsWith(countyFips5)
-        );
+        const features = localGj.features.filter(matchCounty);
         if (features.length > 0) {
           console.info('[HNA] QCT loaded from local cache (data/qct-colorado.json).');
           return { ...localGj, features };
@@ -583,11 +590,11 @@
     } catch(_) {/* no local cache */}
     // Tier 2: live HUD ArcGIS API — use GEOID prefix filter for census tracts
     const params = new URLSearchParams({
-      where:   `GEOID LIKE '${countyFips5}%'`,
+      where:   isState ? `GEOID LIKE '08%'` : `GEOID LIKE '${countyFips5}%'`,
       outFields: 'GEOID,TRACTCE,NAME,STATEFP,COUNTYFP',
       f: 'geojson',
       outSR: '4326',
-      resultRecordCount: 500,
+      resultRecordCount: isState ? 2000 : 500,
     });
     const url = `${window.HNAUtils.SOURCES.hudQctQuery}/query?${params}`;
     try {
@@ -602,20 +609,12 @@
     try {
       const backupGj = await loadJson(`${window.HNAUtils.GITHUB_PAGES_BASE}/data/qct-colorado.json`);
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(f =>
-          (f.properties?.COUNTYFP === countyFips) ||
-          (f.properties?.COUNTY   === countyFips) ||
-          (f.properties?.GEOID || '').startsWith(countyFips5)
-        );
+        const features = backupGj.features.filter(matchCounty);
         if (features.length > 0) return { ...backupGj, features };
       }
     } catch(_) {/* no GitHub Pages QCT backup */}
     // Tier 3b: embedded fallback filtered to county
-    const qctFeatures = window.HNAUtils.QCT_FALLBACK_CO.features.filter(f =>
-      (f.properties?.COUNTYFP === countyFips) ||
-      (f.properties?.COUNTY   === countyFips) ||
-      (f.properties?.GEOID || '').startsWith(countyFips5)
-    );
+    const qctFeatures = window.HNAUtils.QCT_FALLBACK_CO.features.filter(matchCounty);
     if (qctFeatures.length > 0) return { ...window.HNAUtils.QCT_FALLBACK_CO, features: qctFeatures };
     return null;
   }
@@ -623,17 +622,21 @@
   // Fetch DDA polygons from HUD ArcGIS service for the county
 
   async function fetchDdaForCounty(countyFips5){
-    if (!countyFips5 || countyFips5.length !== 5) return null;
-    const countyFips = countyFips5.slice(2);
+    if (!countyFips5) return null;
+    const isState = countyFips5 === '08';
+    if (!isState && countyFips5.length !== 5) return null;
+    const countyFips = isState ? null : countyFips5.slice(2);
     // Use window.HNAUtils.CO_DDA lookup to get the expected HUD Metro FMR Area name for DDA_NAME matching.
     // The national HUD dataset (data/dda-colorado.json) uses ZCTA5-based features with a
     // DDA_NAME field and lacks COUNTYFP/COUNTIES. The COUNTYFP/COUNTIES checks are retained
     // for forward compatibility in case a future source (e.g. the live HUD API) returns those fields.
-    const expectedArea = window.HNAUtils.CO_DDA[countyFips5]?.area;
-    const ddaFilter = f =>
-      (expectedArea && f.properties?.DDA_NAME === expectedArea) ||
-      (f.properties?.COUNTYFP === countyFips) ||
-      (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips));
+    const expectedArea = isState ? null : (window.HNAUtils.CO_DDA[countyFips5]?.area);
+    const ddaFilter = f => {
+      if (isState) return true; // State-level: return all Colorado DDAs
+      return (expectedArea && f.properties?.DDA_NAME === expectedArea) ||
+             (f.properties?.COUNTYFP === countyFips) ||
+             (Array.isArray(f.properties?.COUNTIES) && f.properties.COUNTIES.includes(countyFips));
+    };
     // Tier 1: local cached statewide file (written by CI workflow)
     try {
       const localGj = await loadJson('data/dda-colorado.json');
@@ -2105,11 +2108,54 @@
       }
     }
 
-    // Set defaults
-    window.HNAState.els.geoType.value = window.HNAUtils.DEFAULTS.geoType;
-    buildSelect();
+    // Restore jurisdiction from WorkflowState / SiteState, or fall back to defaults.
+    let restoredGeoType = null;
+    let restoredGeoId   = null;
 
-    // For county type, ensure a county is selected (first in list when no match for window.HNAUtils.DEFAULTS.geoId)
+    // Priority 1: WorkflowState (set by select-jurisdiction.html)
+    if (window.WorkflowState && typeof window.WorkflowState.getJurisdiction === 'function') {
+      const jx = window.WorkflowState.getJurisdiction();
+      if (jx && jx.fips) {
+        if (jx.type === 'city' && jx.displayName) {
+          // City/town selection — find its GEOID in geo-config places
+          const cfg = window.__HNA_GEO_CONFIG;
+          const allPlaces = [...(cfg?.places || []), ...(cfg?.cdps || [])];
+          const nameMatch = allPlaces.find(p =>
+            p.label.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase() === jx.displayName.toLowerCase()
+          );
+          if (nameMatch) {
+            restoredGeoType = 'place';
+            restoredGeoId   = nameMatch.geoid;
+          } else {
+            // City not in geo-config — fall back to its containing county
+            restoredGeoType = 'county';
+            restoredGeoId   = jx.fips;
+          }
+        } else {
+          // County selection
+          restoredGeoType = 'county';
+          restoredGeoId   = jx.fips;
+        }
+      }
+    }
+
+    // Priority 2: SiteState (legacy fallback)
+    if (!restoredGeoType && window.SiteState && typeof window.SiteState.getCounty === 'function') {
+      const county = window.SiteState.getCounty();
+      if (county && county.fips) {
+        restoredGeoType = 'county';
+        restoredGeoId   = county.fips;
+      }
+    }
+
+    // Apply restored jurisdiction or defaults
+    window.HNAState.els.geoType.value = restoredGeoType || window.HNAUtils.DEFAULTS.geoType;
+    buildSelect();
+    if (restoredGeoId) {
+      window.HNAState.els.geoSelect.value = restoredGeoId;
+    }
+
+    // For county type, ensure a county is selected (first in list when no match)
     if (window.HNAState.els.geoType.value === 'county' && !window.HNAState.els.geoSelect.value){
       const firstOpt = window.HNAState.els.geoSelect.options[0];
       if (firstOpt) window.HNAState.els.geoSelect.value = firstOpt.value;

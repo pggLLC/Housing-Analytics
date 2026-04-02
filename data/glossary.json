@@ -100,6 +100,26 @@
       "term": "PPI",
       "full": "Producer Price Index",
       "definition": "A family of indexes that measures the average change over time in the selling prices received by domestic producers for their output. In housing finance, construction PPIs (for lumber, steel, concrete, etc.) are tracked to forecast development cost trends and change-order exposure."
+    },
+    {
+      "term": "CDP",
+      "full": "Census Designated Place",
+      "definition": "An unincorporated community identified by the U.S. Census Bureau as a concentrated population center for statistical purposes. CDPs are not legally incorporated municipalities but are used to collect and report demographic and housing data, making them important geographies for housing needs assessments in rural and suburban Colorado."
+    },
+    {
+      "term": "TDC",
+      "full": "Total Development Cost",
+      "definition": "The complete cost of developing a housing project, including land acquisition, hard construction costs, soft costs (architecture, engineering, legal), financing fees, and reserves. TDC is a key metric in LIHTC underwriting, as it determines the eligible basis for calculating tax credit amounts."
+    },
+    {
+      "term": "DCR",
+      "full": "Debt Coverage Ratio",
+      "definition": "The ratio of a property's net operating income to its annual debt service payments. A DCR of 1.15 or higher is typically required by lenders for affordable housing projects, ensuring sufficient cash flow to cover mortgage payments with a margin of safety."
+    },
+    {
+      "term": "PAB",
+      "full": "Private Activity Bond",
+      "definition": "A tax-exempt bond issued by state or local governments to finance projects with a private purpose, including affordable housing. In LIHTC financing, projects using at least 50% PAB financing automatically qualify for 4% tax credits without competing in the 9% allocation process."
     }
   ]
 }

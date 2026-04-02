@@ -1,1 +1,3104 @@
-{"updated": "2026-03-07T23:07:42Z", "featured": [{"type": "county", "geoid": "08001", "label": "Adams County"}, {"type": "county", "geoid": "08005", "label": "Arapahoe County"}, {"type": "county", "geoid": "08013", "label": "Boulder County"}, {"type": "county", "geoid": "08014", "label": "Broomfield County"}, {"type": "county", "geoid": "08031", "label": "Denver County"}, {"type": "county", "geoid": "08035", "label": "Douglas County"}, {"type": "county", "geoid": "08041", "label": "El Paso County"}, {"type": "county", "geoid": "08059", "label": "Jefferson County"}, {"type": "county", "geoid": "08069", "label": "Larimer County"}, {"type": "county", "geoid": "08077", "label": "Mesa County"}, {"type": "county", "geoid": "08097", "label": "Pitkin County"}, {"type": "county", "geoid": "08101", "label": "Pueblo County"}, {"type": "county", "geoid": "08117", "label": "Summit County"}, {"type": "county", "geoid": "08123", "label": "Weld County"}, {"type": "place", "geoid": "0820000", "label": "Denver (city)", "containingCounty": "08031"}, {"type": "place", "geoid": "0816000", "label": "Colorado Springs (city)", "containingCounty": "08041"}, {"type": "place", "geoid": "0804000", "label": "Aurora (city)", "containingCounty": "08005"}, {"type": "place", "geoid": "0827425", "label": "Fort Collins (city)", "containingCounty": "08069"}, {"type": "place", "geoid": "0845970", "label": "Longmont (city)", "containingCounty": "08013"}, {"type": "place", "geoid": "0843000", "label": "Lakewood (city)", "containingCounty": "08059"}, {"type": "place", "geoid": "0832155", "label": "Greeley (city)", "containingCounty": "08123"}, {"type": "place", "geoid": "0855745", "label": "Pueblo (city)", "containingCounty": "08101"}, {"type": "place", "geoid": "0807850", "label": "Boulder (city)", "containingCounty": "08013"}, {"type": "place", "geoid": "0831660", "label": "Grand Junction (city)", "containingCounty": "08077"}, {"type": "place", "geoid": "0846465", "label": "Loveland (city)", "containingCounty": "08069"}, {"type": "place", "geoid": "0830475", "label": "Glenwood Springs (city)", "containingCounty": "08097"}, {"type": "place", "geoid": "0823680", "label": "Durango (city)", "containingCounty": "08067"}, {"type": "cdp", "geoid": "0836410", "label": "Highlands Ranch (CDP)", "containingCounty": "08035"}, {"type": "cdp", "geoid": "0815165", "label": "Clifton (CDP)", "containingCounty": "08077"}], "counties": [{"geoid": "08001", "label": "Adams County"}, {"geoid": "08003", "label": "Alamosa County"}, {"geoid": "08005", "label": "Arapahoe County"}, {"geoid": "08007", "label": "Archuleta County"}, {"geoid": "08009", "label": "Baca County"}, {"geoid": "08011", "label": "Bent County"}, {"geoid": "08013", "label": "Boulder County"}, {"geoid": "08014", "label": "Broomfield County"}, {"geoid": "08015", "label": "Chaffee County"}, {"geoid": "08017", "label": "Cheyenne County"}, {"geoid": "08019", "label": "Clear Creek County"}, {"geoid": "08021", "label": "Conejos County"}, {"geoid": "08023", "label": "Costilla County"}, {"geoid": "08025", "label": "Crowley County"}, {"geoid": "08027", "label": "Custer County"}, {"geoid": "08029", "label": "Delta County"}, {"geoid": "08031", "label": "Denver County"}, {"geoid": "08033", "label": "Dolores County"}, {"geoid": "08035", "label": "Douglas County"}, {"geoid": "08037", "label": "Eagle County"}, {"geoid": "08041", "label": "El Paso County"}, {"geoid": "08039", "label": "Elbert County"}, {"geoid": "08043", "label": "Fremont County"}, {"geoid": "08045", "label": "Garfield County"}, {"geoid": "08047", "label": "Gilpin County"}, {"geoid": "08049", "label": "Grand County"}, {"geoid": "08051", "label": "Gunnison County"}, {"geoid": "08053", "label": "Hinsdale County"}, {"geoid": "08055", "label": "Huerfano County"}, {"geoid": "08057", "label": "Jackson County"}, {"geoid": "08059", "label": "Jefferson County"}, {"geoid": "08061", "label": "Kiowa County"}, {"geoid": "08063", "label": "Kit Carson County"}, {"geoid": "08067", "label": "La Plata County"}, {"geoid": "08065", "label": "Lake County"}, {"geoid": "08069", "label": "Larimer County"}, {"geoid": "08071", "label": "Las Animas County"}, {"geoid": "08073", "label": "Lincoln County"}, {"geoid": "08075", "label": "Logan County"}, {"geoid": "08077", "label": "Mesa County"}, {"geoid": "08079", "label": "Mineral County"}, {"geoid": "08081", "label": "Moffat County"}, {"geoid": "08083", "label": "Montezuma County"}, {"geoid": "08085", "label": "Montrose County"}, {"geoid": "08087", "label": "Morgan County"}, {"geoid": "08089", "label": "Otero County"}, {"geoid": "08091", "label": "Ouray County"}, {"geoid": "08093", "label": "Park County"}, {"geoid": "08095", "label": "Phillips County"}, {"geoid": "08097", "label": "Pitkin County"}, {"geoid": "08099", "label": "Prowers County"}, {"geoid": "08101", "label": "Pueblo County"}, {"geoid": "08103", "label": "Rio Blanco County"}, {"geoid": "08105", "label": "Rio Grande County"}, {"geoid": "08107", "label": "Routt County"}, {"geoid": "08109", "label": "Saguache County"}, {"geoid": "08111", "label": "San Juan County"}, {"geoid": "08113", "label": "San Miguel County"}, {"geoid": "08115", "label": "Sedgwick County"}, {"geoid": "08117", "label": "Summit County"}, {"geoid": "08119", "label": "Teller County"}, {"geoid": "08121", "label": "Washington County"}, {"geoid": "08123", "label": "Weld County"}, {"geoid": "08125", "label": "Yuma County"}], "places": [{"type": "place", "geoid": "0804000", "label": "Aurora (city)", "containingCounty": "08005"}, {"type": "place", "geoid": "0807850", "label": "Boulder (city)", "containingCounty": "08013"}, {"type": "place", "geoid": "0808675", "label": "Brighton (city)", "containingCounty": "08001"}, {"type": "place", "geoid": "0809280", "label": "Broomfield (city)", "containingCounty": "08014"}, {"type": "place", "geoid": "0812415", "label": "Castle Rock (town)", "containingCounty": "08035"}, {"type": "place", "geoid": "0816000", "label": "Colorado Springs (city)", "containingCounty": "08041"}, {"type": "place", "geoid": "0820000", "label": "Denver (city)", "containingCounty": "08031"}, {"type": "place", "geoid": "0822465", "label": "Englewood (city)", "containingCounty": "08005"}, {"type": "place", "geoid": "0827425", "label": "Fort Collins (city)", "containingCounty": "08069"}, {"type": "place", "geoid": "0832155", "label": "Greeley (city)", "containingCounty": "08123"}, {"type": "place", "geoid": "0843000", "label": "Lakewood (city)", "containingCounty": "08059"}, {"type": "place", "geoid": "0845970", "label": "Longmont (city)", "containingCounty": "08013"}, {"type": "place", "geoid": "0846465", "label": "Loveland (city)", "containingCounty": "08069"}, {"type": "place", "geoid": "0852290", "label": "Parker (town)", "containingCounty": "08035"}, {"type": "place", "geoid": "0855745", "label": "Pueblo (city)", "containingCounty": "08101"}, {"type": "place", "geoid": "0877290", "label": "Thornton (city)", "containingCounty": "08001"}, {"type": "place", "geoid": "0883835", "label": "Westminster (city)", "containingCounty": "08001"}, {"type": "place", "geoid": "0803455", "label": "Arvada (city)", "containingCounty": "08059"}, {"type": "place", "geoid": "0812815", "label": "Centennial (city)", "containingCounty": "08005"}, {"type": "place", "geoid": "0875140", "label": "Commerce City (city)", "containingCounty": "08001"}, {"type": "place", "geoid": "0845255", "label": "Littleton (city)", "containingCounty": "08035"}, {"type": "place", "geoid": "0854330", "label": "Northglenn (city)", "containingCounty": "08001"}, {"type": "place", "geoid": "0803620", "label": "Aspen (city)", "containingCounty": "08097"}, {"type": "place", "geoid": "0804935", "label": "Basalt (town)", "containingCounty": "08097"}, {"type": "place", "geoid": "0808400", "label": "Breckenridge (town)", "containingCounty": "08117"}, {"type": "place", "geoid": "0812045", "label": "Carbondale (town)", "containingCounty": "08097"}, {"type": "place", "geoid": "0820730", "label": "Dillon (town)", "containingCounty": "08117"}, {"type": "place", "geoid": "0827565", "label": "Frisco (town)", "containingCounty": "08117"}, {"type": "place", "geoid": "0830475", "label": "Glenwood Springs (city)", "containingCounty": "08097"}, {"type": "place", "geoid": "0835250", "label": "Gypsum (town)", "containingCounty": "08037"}, {"type": "place", "geoid": "0866500", "label": "Rifle (city)", "containingCounty": "08045"}, {"type": "place", "geoid": "0873220", "label": "Steamboat Springs (city)", "containingCounty": "08107"}, {"type": "place", "geoid": "0877580", "label": "Telluride (town)", "containingCounty": "08113"}, {"type": "place", "geoid": "0882870", "label": "Vail (town)", "containingCounty": "08037"}, {"type": "place", "geoid": "0810270", "label": "Canon City (city)", "containingCounty": "08043"}, {"type": "place", "geoid": "0817320", "label": "Craig (city)", "containingCounty": "08081"}, {"type": "place", "geoid": "0821735", "label": "Delta (city)", "containingCounty": "08029"}, {"type": "place", "geoid": "0823680", "label": "Durango (city)", "containingCounty": "08067"}, {"type": "place", "geoid": "0824640", "label": "Eagle (town)", "containingCounty": "08037"}, {"type": "place", "geoid": "0831660", "label": "Grand Junction (city)", "containingCounty": "08077"}, {"type": "place", "geoid": "0832515", "label": "Gunnison (city)", "containingCounty": "08051"}, {"type": "place", "geoid": "0844380", "label": "Montrose (city)", "containingCounty": "08085"}, {"type": "place", "geoid": "0857330", "label": "Parachute (town)", "containingCounty": "08045"}, {"type": "place", "geoid": "0866955", "label": "Silt (town)", "containingCounty": "08045"}, {"type": "place", "geoid": "0800775", "label": "Alamosa (city)", "containingCounty": "08003"}, {"type": "place", "geoid": "0803875", "label": "Brush (city)", "containingCounty": "08049"}, {"type": "place", "geoid": "0826145", "label": "Florence (city)", "containingCounty": "08043"}, {"type": "place", "geoid": "0827290", "label": "Fort Morgan (city)", "containingCounty": "08049"}, {"type": "place", "geoid": "0831400", "label": "Lamar (city)", "containingCounty": "08071"}, {"type": "place", "geoid": "0841930", "label": "Monte Vista (city)", "containingCounty": "08105"}, {"type": "place", "geoid": "0869985", "label": "Sterling (city)", "containingCounty": "08121"}, {"type": "place", "geoid": "0875415", "label": "Trinidad (city)", "containingCounty": "08071"}, {"type": "place", "geoid": "0884330", "label": "Walsenburg (city)", "containingCounty": "08055"}, {"type": "place", "geoid": "0828745", "label": "Fruita (city)", "containingCounty": "08077"}, {"type": "place", "geoid": "0856970", "label": "Palisade (town)", "containingCounty": "08077"}], "cdps": [{"geoid": "0800320", "label": "Acres Green (CDP)", "type": "cdp"}, {"geoid": "0800620", "label": "Aetna Estates (CDP)", "type": "cdp"}, {"geoid": "0800870", "label": "Air Force Academy (CDP)", "type": "cdp"}, {"geoid": "0801145", "label": "Alamosa East (CDP)", "type": "cdp"}, {"geoid": "0801420", "label": "Allenspark (CDP)", "type": "cdp"}, {"geoid": "0801640", "label": "Alpine (CDP)", "type": "cdp"}, {"geoid": "0801740", "label": "Altona (CDP)", "type": "cdp"}, {"geoid": "0801915", "label": "Amherst (CDP)", "type": "cdp"}, {"geoid": "0802575", "label": "Applewood (CDP)", "type": "cdp"}, {"geoid": "0802850", "label": "Arapahoe (CDP)", "type": "cdp"}, {"geoid": "0802905", "label": "Arboles (CDP)", "type": "cdp"}, {"geoid": "0803015", "label": "Aristocrat Ranchettes (CDP)", "type": "cdp"}, {"geoid": "0803730", "label": "Aspen Park (CDP)", "type": "cdp"}, {"geoid": "0803840", "label": "Atwood (CDP)", "type": "cdp"}, {"geoid": "0804165", "label": "Avondale (CDP)", "type": "cdp"}, {"geoid": "0804620", "label": "Bark Ranch (CDP)", "type": "cdp"}, {"geoid": "0805120", "label": "Battlement Mesa (CDP)", "type": "cdp"}, {"geoid": "0806172", "label": "Berkley (CDP)", "type": "cdp"}, {"geoid": "0806602", "label": "Beulah Valley (CDP)", "type": "cdp"}, {"geoid": "0806970", "label": "Black Forest (CDP)", "type": "cdp"}, {"geoid": "0807245", "label": "Blende (CDP)", "type": "cdp"}, {"geoid": "0807420", "label": "Blue Sky (CDP)", "type": "cdp"}, {"geoid": "0807455", "label": "Blue Valley (CDP)", "type": "cdp"}, {"geoid": "0807580", "label": "Bonanza Mountain Estates (CDP)", "type": "cdp"}, {"geoid": "0808290", "label": "Brandon (CDP)", "type": "cdp"}, {"geoid": "0808530", "label": "Brick Center (CDP)", "type": "cdp"}, {"geoid": "0808620", "label": "Briggsdale (CDP)", "type": "cdp"}, {"geoid": "0808950", "label": "Brook Forest (CDP)", "type": "cdp"}, {"geoid": "0810985", "label": "Byers (CDP)", "type": "cdp"}, {"geoid": "0811975", "label": "Capulin (CDP)", "type": "cdp"}, {"geoid": "0812325", "label": "Cascade-Chipita Park (CDP)", "type": "cdp"}, {"geoid": "0812393", "label": "Castle Pines Village (CDP)", "type": "cdp"}, {"geoid": "0812450", "label": "Cathedral (CDP)", "type": "cdp"}, {"geoid": "0812460", "label": "Catherine (CDP)", "type": "cdp"}, {"geoid": "0812470", "label": "Cattle Creek (CDP)", "type": "cdp"}, {"geoid": "0812945", "label": "Chacra (CDP)", "type": "cdp"}, {"geoid": "0813590", "label": "Cherry Creek (CDP)", "type": "cdp"}, {"geoid": "0814587", "label": "Cimarron Hills (CDP)", "type": "cdp"}, {"geoid": "0815165", "label": "Clifton (CDP)", "type": "cdp", "containingCounty": "08077"}, {"geoid": "0815302", "label": "Coal Creek (CDP)", "type": "cdp"}, {"geoid": "0815440", "label": "Coaldale (CDP)", "type": "cdp"}, {"geoid": "0815825", "label": "Colona (CDP)", "type": "cdp"}, {"geoid": "0815935", "label": "Colorado City (CDP)", "type": "cdp"}, {"geoid": "0816110", "label": "Columbine (CDP)", "type": "cdp"}, {"geoid": "0816465", "label": "Comanche Creek (CDP)", "type": "cdp"}, {"geoid": "0816715", "label": "Conejos (CDP)", "type": "cdp"}, {"geoid": "0817100", "label": "Cope (CDP)", "type": "cdp"}, {"geoid": "0817150", "label": "Copper Mountain (CDP)", "type": "cdp"}, {"geoid": "0817485", "label": "Cotopaxi (CDP)", "type": "cdp"}, {"geoid": "0818585", "label": "Crisman (CDP)", "type": "cdp"}, {"geoid": "0819150", "label": "Dakota Ridge (CDP)", "type": "cdp"}, {"geoid": "0820275", "label": "Derby (CDP)", "type": "cdp"}, {"geoid": "0820605", "label": "Divide (CDP)", "type": "cdp"}, {"geoid": "0821155", "label": "Dotsero (CDP)", "type": "cdp"}, {"geoid": "0821330", "label": "Dove Valley (CDP)", "type": "cdp"}, {"geoid": "0821390", "label": "Downieville-Lawson-Dumont (CDP)", "type": "cdp"}, {"geoid": "0822575", "label": "East Pleasant View (CDP)", "type": "cdp"}, {"geoid": "0822882", "label": "Echo Hills (CDP)", "type": "cdp"}, {"geoid": "0823300", "label": "Edwards (CDP)", "type": "cdp"}, {"geoid": "0823795", "label": "El Jebel (CDP)", "type": "cdp"}, {"geoid": "0824290", "label": "El Moro (CDP)", "type": "cdp"}, {"geoid": "0823520", "label": "Elbert (CDP)", "type": "cdp"}, {"geoid": "0823575", "label": "Eldora (CDP)", "type": "cdp"}, {"geoid": "0823630", "label": "Eldorado Springs (CDP)", "type": "cdp"}, {"geoid": "0824235", "label": "Ellicott (CDP)", "type": "cdp"}, {"geoid": "0825390", "label": "Evergreen (CDP)", "type": "cdp"}, {"geoid": "0825550", "label": "Fairmount (CDP)", "type": "cdp"}, {"geoid": "0827095", "label": "Florissant (CDP)", "type": "cdp"}, {"geoid": "0827175", "label": "Floyd Hill (CDP)", "type": "cdp"}, {"geoid": "0827370", "label": "Fort Carson (CDP)", "type": "cdp"}, {"geoid": "0827535", "label": "Fort Garland (CDP)", "type": "cdp"}, {"geoid": "0827950", "label": "Four Square Mile (CDP)", "type": "cdp"}, {"geoid": "0828250", "label": "Franktown (CDP)", "type": "cdp"}, {"geoid": "0828800", "label": "Fruitvale (CDP)", "type": "cdp"}, {"geoid": "0828830", "label": "Fulford (CDP)", "type": "cdp"}, {"geoid": "0829240", "label": "Gardner (CDP)", "type": "cdp"}, {"geoid": "0829295", "label": "Garfield (CDP)", "type": "cdp"}, {"geoid": "0829625", "label": "Genesee (CDP)", "type": "cdp"}, {"geoid": "0829845", "label": "Gerrard (CDP)", "type": "cdp"}, {"geoid": "0830350", "label": "Glendale (CDP)", "type": "cdp"}, {"geoid": "0830420", "label": "Gleneagle (CDP)", "type": "cdp"}, {"geoid": "0830945", "label": "Gold Hill (CDP)", "type": "cdp"}, {"geoid": "0830890", "label": "Goldfield (CDP)", "type": "cdp"}, {"geoid": "0831935", "label": "Grand View Estates (CDP)", "type": "cdp"}, {"geoid": "0833420", "label": "Guffey (CDP)", "type": "cdp"}, {"geoid": "0833502", "label": "Gunbarrel (CDP)", "type": "cdp"}, {"geoid": "0834630", "label": "Hartsel (CDP)", "type": "cdp"}, {"geoid": "0834685", "label": "Hasty (CDP)", "type": "cdp"}, {"geoid": "0835400", "label": "Heeney (CDP)", "type": "cdp"}, {"geoid": "0835860", "label": "Hidden Lake (CDP)", "type": "cdp"}, {"geoid": "0836410", "label": "Highlands Ranch (CDP)", "type": "cdp", "containingCounty": "08035"}, {"geoid": "0836940", "label": "Hoehne (CDP)", "type": "cdp"}, {"geoid": "0837220", "label": "Holly Hills (CDP)", "type": "cdp"}, {"geoid": "0837655", "label": "Howard (CDP)", "type": "cdp"}, {"geoid": "0838425", "label": "Idalia (CDP)", "type": "cdp"}, {"geoid": "0838480", "label": "Idledale (CDP)", "type": "cdp"}, {"geoid": "0838810", "label": "Indian Hills (CDP)", "type": "cdp"}, {"geoid": "0838910", "label": "Inverness (CDP)", "type": "cdp"}, {"geoid": "0839160", "label": "Jackson Lake (CDP)", "type": "cdp"}, {"geoid": "0839250", "label": "Jansen (CDP)", "type": "cdp"}, {"geoid": "0839745", "label": "Joes (CDP)", "type": "cdp"}, {"geoid": "0839800", "label": "Johnson Village (CDP)", "type": "cdp"}, {"geoid": "0840377", "label": "Ken Caryl (CDP)", "type": "cdp"}, {"geoid": "0840550", "label": "Keystone (CDP)", "type": "cdp"}, {"geoid": "0840900", "label": "Kirk (CDP)", "type": "cdp"}, {"geoid": "0841065", "label": "Kittredge (CDP)", "type": "cdp"}, {"geoid": "0842165", "label": "La Junta Gardens (CDP)", "type": "cdp"}, {"geoid": "0842000", "label": "Laird (CDP)", "type": "cdp"}, {"geoid": "0843220", "label": "Laporte (CDP)", "type": "cdp"}, {"geoid": "0844265", "label": "Lazear (CDP)", "type": "cdp"}, {"geoid": "0844270", "label": "Lazy Acres (CDP)", "type": "cdp"}, {"geoid": "0844375", "label": "Leadville North (CDP)", "type": "cdp"}, {"geoid": "0844595", "label": "Lewis (CDP)", "type": "cdp"}, {"geoid": "0844695", "label": "Leyner (CDP)", "type": "cdp"}, {"geoid": "0845145", "label": "Lincoln Park (CDP)", "type": "cdp"}, {"geoid": "0845680", "label": "Loghill Village (CDP)", "type": "cdp"}, {"geoid": "0845750", "label": "Loma (CDP)", "type": "cdp"}, {"geoid": "0846410", "label": "Louviers (CDP)", "type": "cdp"}, {"geoid": "0847015", "label": "Lynn (CDP)", "type": "cdp"}, {"geoid": "0848940", "label": "Marvel (CDP)", "type": "cdp"}, {"geoid": "0849215", "label": "Matheson (CDP)", "type": "cdp"}, {"geoid": "0849325", "label": "Maybell (CDP)", "type": "cdp"}, {"geoid": "0849490", "label": "Maysville (CDP)", "type": "cdp"}, {"geoid": "0847235", "label": "McClave (CDP)", "type": "cdp"}, {"geoid": "0847345", "label": "McCoy (CDP)", "type": "cdp"}, {"geoid": "0850012", "label": "Meridian (CDP)", "type": "cdp"}, {"geoid": "0850026", "label": "Meridian Village (CDP)", "type": "cdp"}, {"geoid": "0850380", "label": "Midland (CDP)", "type": "cdp"}, {"geoid": "0851975", "label": "Morgan Heights (CDP)", "type": "cdp"}, {"geoid": "0852210", "label": "Mountain Meadows (CDP)", "type": "cdp"}, {"geoid": "0852820", "label": "Mulford (CDP)", "type": "cdp"}, {"geoid": "0853010", "label": "Nathrop (CDP)", "type": "cdp"}, {"geoid": "0853780", "label": "Niwot (CDP)", "type": "cdp"}, {"geoid": "0853875", "label": "No Name (CDP)", "type": "cdp"}, {"geoid": "0853945", "label": "Norrie (CDP)", "type": "cdp"}, {"geoid": "0854495", "label": "North La Junta (CDP)", "type": "cdp"}, {"geoid": "0854750", "label": "North Washington (CDP)", "type": "cdp"}, {"geoid": "0855925", "label": "Orchard (CDP)", "type": "cdp"}, {"geoid": "0856035", "label": "Orchard Mesa (CDP)", "type": "cdp"}, {"geoid": "0856695", "label": "Padroni (CDP)", "type": "cdp"}, {"geoid": "0857445", "label": "Paragon Estates (CDP)", "type": "cdp"}, {"geoid": "0857465", "label": "Park Center (CDP)", "type": "cdp"}, {"geoid": "0857850", "label": "Parshall (CDP)", "type": "cdp"}, {"geoid": "0858400", "label": "Penrose (CDP)", "type": "cdp"}, {"geoid": "0858510", "label": "Peoria (CDP)", "type": "cdp"}, {"geoid": "0858592", "label": "Perry Park (CDP)", "type": "cdp"}, {"geoid": "0858675", "label": "Peyton (CDP)", "type": "cdp"}, {"geoid": "0858785", "label": "Phippsburg (CDP)", "type": "cdp"}, {"geoid": "0858960", "label": "Piedra (CDP)", "type": "cdp"}, {"geoid": "0859240", "label": "Pine Brook Hill (CDP)", "type": "cdp"}, {"geoid": "0859520", "label": "Pine Valley (CDP)", "type": "cdp"}, {"geoid": "0859885", "label": "Placerville (CDP)", "type": "cdp"}, {"geoid": "0860655", "label": "Ponderosa Park (CDP)", "type": "cdp"}, {"geoid": "0860765", "label": "Portland (CDP)", "type": "cdp"}, {"geoid": "0862220", "label": "Pueblo West (CDP)", "type": "cdp"}, {"geoid": "0863320", "label": "Red Feather Lakes (CDP)", "type": "cdp"}, {"geoid": "0863375", "label": "Redlands (CDP)", "type": "cdp"}, {"geoid": "0863650", "label": "Redstone (CDP)", "type": "cdp"}, {"geoid": "0863705", "label": "Redvale (CDP)", "type": "cdp"}, {"geoid": "0864870", "label": "Rock Creek Park (CDP)", "type": "cdp"}, {"geoid": "0865685", "label": "Rollinsville (CDP)", "type": "cdp"}, {"geoid": "0866197", "label": "Roxborough Park (CDP)", "type": "cdp"}, {"geoid": "0866995", "label": "Saddle Ridge (CDP)", "type": "cdp"}, {"geoid": "0867445", "label": "Salt Creek (CDP)", "type": "cdp"}, {"geoid": "0867500", "label": "San Acacio (CDP)", "type": "cdp"}, {"geoid": "0868847", "label": "Security-Widefield (CDP)", "type": "cdp"}, {"geoid": "0868875", "label": "Sedalia (CDP)", "type": "cdp"}, {"geoid": "0868985", "label": "Segundo (CDP)", "type": "cdp"}, {"geoid": "0869110", "label": "Seven Hills (CDP)", "type": "cdp"}, {"geoid": "0869480", "label": "Shaw Heights (CDP)", "type": "cdp"}, {"geoid": "0869810", "label": "Sherrelwood (CDP)", "type": "cdp"}, {"geoid": "0870112", "label": "Sierra Ridge (CDP)", "type": "cdp"}, {"geoid": "0871625", "label": "Smeltertown (CDP)", "type": "cdp"}, {"geoid": "0871790", "label": "Snyder (CDP)", "type": "cdp"}, {"geoid": "0871845", "label": "Somerset (CDP)", "type": "cdp"}, {"geoid": "0872320", "label": "Southern Ute (CDP)", "type": "cdp"}, {"geoid": "0867040", "label": "St. Ann Highlands (CDP)", "type": "cdp"}, {"geoid": "0867142", "label": "St. Mary's (CDP)", "type": "cdp"}, {"geoid": "0873925", "label": "Stepping Stone (CDP)", "type": "cdp"}, {"geoid": "0873943", "label": "Sterling Ranch (CDP)", "type": "cdp"}, {"geoid": "0874080", "label": "Stonegate (CDP)", "type": "cdp"}, {"geoid": "0874275", "label": "Stonewall Gap (CDP)", "type": "cdp"}, {"geoid": "0874375", "label": "Strasburg (CDP)", "type": "cdp"}, {"geoid": "0874430", "label": "Stratmoor (CDP)", "type": "cdp"}, {"geoid": "0874980", "label": "Sugarloaf (CDP)", "type": "cdp"}, {"geoid": "0875585", "label": "Sunshine (CDP)", "type": "cdp"}, {"geoid": "0876190", "label": "Tabernash (CDP)", "type": "cdp"}, {"geoid": "0876325", "label": "Tall Timber (CDP)", "type": "cdp"}, {"geoid": "0877235", "label": "The Pinery (CDP)", "type": "cdp"}, {"geoid": "0877757", "label": "Todd Creek (CDP)", "type": "cdp"}, {"geoid": "0878280", "label": "Towaoc (CDP)", "type": "cdp"}, {"geoid": "0878335", "label": "Towner (CDP)", "type": "cdp"}, {"geoid": "0878345", "label": "Trail Side (CDP)", "type": "cdp"}, {"geoid": "0879785", "label": "Upper Bear Creek (CDP)", "type": "cdp"}, {"geoid": "0879800", "label": "Upper Witter Gulch (CDP)", "type": "cdp"}, {"geoid": "0880095", "label": "Valdez (CDP)", "type": "cdp"}, {"geoid": "0880370", "label": "Valmont (CDP)", "type": "cdp"}, {"geoid": "0880755", "label": "Vernon (CDP)", "type": "cdp"}, {"geoid": "0881305", "label": "Vineland (CDP)", "type": "cdp"}, {"geoid": "0882900", "label": "Watkins (CDP)", "type": "cdp"}, {"geoid": "0883120", "label": "Welby (CDP)", "type": "cdp"}, {"geoid": "0883175", "label": "Weldona (CDP)", "type": "cdp"}, {"geoid": "0884042", "label": "West Pleasant View (CDP)", "type": "cdp"}, {"geoid": "0883500", "label": "Westcreek (CDP)", "type": "cdp"}, {"geoid": "0884000", "label": "Weston (CDP)", "type": "cdp"}, {"geoid": "0885760", "label": "Wolcott (CDP)", "type": "cdp"}, {"geoid": "0886117", "label": "Woodmoor (CDP)", "type": "cdp"}, {"geoid": "0886200", "label": "Woody Creek (CDP)", "type": "cdp"}], "source": {"county_list": "TIGERweb State_County MapServer/1", "place_list": "Census ACS 5-year 2024 place names (Colorado; regenerated by build_hna_data.py via GitHub Actions)"}}
+{
+  "updated": "2026-03-07T23:07:42Z",
+  "featured": [
+    {
+      "type": "county",
+      "geoid": "08001",
+      "label": "Adams County"
+    },
+    {
+      "type": "county",
+      "geoid": "08005",
+      "label": "Arapahoe County"
+    },
+    {
+      "type": "county",
+      "geoid": "08013",
+      "label": "Boulder County"
+    },
+    {
+      "type": "county",
+      "geoid": "08014",
+      "label": "Broomfield County"
+    },
+    {
+      "type": "county",
+      "geoid": "08031",
+      "label": "Denver County"
+    },
+    {
+      "type": "county",
+      "geoid": "08035",
+      "label": "Douglas County"
+    },
+    {
+      "type": "county",
+      "geoid": "08041",
+      "label": "El Paso County"
+    },
+    {
+      "type": "county",
+      "geoid": "08059",
+      "label": "Jefferson County"
+    },
+    {
+      "type": "county",
+      "geoid": "08069",
+      "label": "Larimer County"
+    },
+    {
+      "type": "county",
+      "geoid": "08077",
+      "label": "Mesa County"
+    },
+    {
+      "type": "county",
+      "geoid": "08097",
+      "label": "Pitkin County"
+    },
+    {
+      "type": "county",
+      "geoid": "08101",
+      "label": "Pueblo County"
+    },
+    {
+      "type": "county",
+      "geoid": "08117",
+      "label": "Summit County"
+    },
+    {
+      "type": "county",
+      "geoid": "08123",
+      "label": "Weld County"
+    },
+    {
+      "type": "place",
+      "geoid": "0820000",
+      "label": "Denver (city)",
+      "containingCounty": "08031"
+    },
+    {
+      "type": "place",
+      "geoid": "0816000",
+      "label": "Colorado Springs (city)",
+      "containingCounty": "08041"
+    },
+    {
+      "type": "place",
+      "geoid": "0804000",
+      "label": "Aurora (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "type": "place",
+      "geoid": "0827425",
+      "label": "Fort Collins (city)",
+      "containingCounty": "08069"
+    },
+    {
+      "type": "place",
+      "geoid": "0845970",
+      "label": "Longmont (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "type": "place",
+      "geoid": "0843000",
+      "label": "Lakewood (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "type": "place",
+      "geoid": "0832155",
+      "label": "Greeley (city)",
+      "containingCounty": "08123"
+    },
+    {
+      "type": "place",
+      "geoid": "0855745",
+      "label": "Pueblo (city)",
+      "containingCounty": "08101"
+    },
+    {
+      "type": "place",
+      "geoid": "0807850",
+      "label": "Boulder (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "type": "place",
+      "geoid": "0831660",
+      "label": "Grand Junction (city)",
+      "containingCounty": "08077"
+    },
+    {
+      "type": "place",
+      "geoid": "0846465",
+      "label": "Loveland (city)",
+      "containingCounty": "08069"
+    },
+    {
+      "type": "place",
+      "geoid": "0830475",
+      "label": "Glenwood Springs (city)",
+      "containingCounty": "08097"
+    },
+    {
+      "type": "place",
+      "geoid": "0823680",
+      "label": "Durango (city)",
+      "containingCounty": "08067"
+    },
+    {
+      "type": "cdp",
+      "geoid": "0836410",
+      "label": "Highlands Ranch (CDP)",
+      "containingCounty": "08035"
+    },
+    {
+      "type": "cdp",
+      "geoid": "0815165",
+      "label": "Clifton (CDP)",
+      "containingCounty": "08077"
+    }
+  ],
+  "counties": [
+    {
+      "geoid": "08001",
+      "label": "Adams County"
+    },
+    {
+      "geoid": "08003",
+      "label": "Alamosa County"
+    },
+    {
+      "geoid": "08005",
+      "label": "Arapahoe County"
+    },
+    {
+      "geoid": "08007",
+      "label": "Archuleta County"
+    },
+    {
+      "geoid": "08009",
+      "label": "Baca County"
+    },
+    {
+      "geoid": "08011",
+      "label": "Bent County"
+    },
+    {
+      "geoid": "08013",
+      "label": "Boulder County"
+    },
+    {
+      "geoid": "08014",
+      "label": "Broomfield County"
+    },
+    {
+      "geoid": "08015",
+      "label": "Chaffee County"
+    },
+    {
+      "geoid": "08017",
+      "label": "Cheyenne County"
+    },
+    {
+      "geoid": "08019",
+      "label": "Clear Creek County"
+    },
+    {
+      "geoid": "08021",
+      "label": "Conejos County"
+    },
+    {
+      "geoid": "08023",
+      "label": "Costilla County"
+    },
+    {
+      "geoid": "08025",
+      "label": "Crowley County"
+    },
+    {
+      "geoid": "08027",
+      "label": "Custer County"
+    },
+    {
+      "geoid": "08029",
+      "label": "Delta County"
+    },
+    {
+      "geoid": "08031",
+      "label": "Denver County"
+    },
+    {
+      "geoid": "08033",
+      "label": "Dolores County"
+    },
+    {
+      "geoid": "08035",
+      "label": "Douglas County"
+    },
+    {
+      "geoid": "08037",
+      "label": "Eagle County"
+    },
+    {
+      "geoid": "08041",
+      "label": "El Paso County"
+    },
+    {
+      "geoid": "08039",
+      "label": "Elbert County"
+    },
+    {
+      "geoid": "08043",
+      "label": "Fremont County"
+    },
+    {
+      "geoid": "08045",
+      "label": "Garfield County"
+    },
+    {
+      "geoid": "08047",
+      "label": "Gilpin County"
+    },
+    {
+      "geoid": "08049",
+      "label": "Grand County"
+    },
+    {
+      "geoid": "08051",
+      "label": "Gunnison County"
+    },
+    {
+      "geoid": "08053",
+      "label": "Hinsdale County"
+    },
+    {
+      "geoid": "08055",
+      "label": "Huerfano County"
+    },
+    {
+      "geoid": "08057",
+      "label": "Jackson County"
+    },
+    {
+      "geoid": "08059",
+      "label": "Jefferson County"
+    },
+    {
+      "geoid": "08061",
+      "label": "Kiowa County"
+    },
+    {
+      "geoid": "08063",
+      "label": "Kit Carson County"
+    },
+    {
+      "geoid": "08067",
+      "label": "La Plata County"
+    },
+    {
+      "geoid": "08065",
+      "label": "Lake County"
+    },
+    {
+      "geoid": "08069",
+      "label": "Larimer County"
+    },
+    {
+      "geoid": "08071",
+      "label": "Las Animas County"
+    },
+    {
+      "geoid": "08073",
+      "label": "Lincoln County"
+    },
+    {
+      "geoid": "08075",
+      "label": "Logan County"
+    },
+    {
+      "geoid": "08077",
+      "label": "Mesa County"
+    },
+    {
+      "geoid": "08079",
+      "label": "Mineral County"
+    },
+    {
+      "geoid": "08081",
+      "label": "Moffat County"
+    },
+    {
+      "geoid": "08083",
+      "label": "Montezuma County"
+    },
+    {
+      "geoid": "08085",
+      "label": "Montrose County"
+    },
+    {
+      "geoid": "08087",
+      "label": "Morgan County"
+    },
+    {
+      "geoid": "08089",
+      "label": "Otero County"
+    },
+    {
+      "geoid": "08091",
+      "label": "Ouray County"
+    },
+    {
+      "geoid": "08093",
+      "label": "Park County"
+    },
+    {
+      "geoid": "08095",
+      "label": "Phillips County"
+    },
+    {
+      "geoid": "08097",
+      "label": "Pitkin County"
+    },
+    {
+      "geoid": "08099",
+      "label": "Prowers County"
+    },
+    {
+      "geoid": "08101",
+      "label": "Pueblo County"
+    },
+    {
+      "geoid": "08103",
+      "label": "Rio Blanco County"
+    },
+    {
+      "geoid": "08105",
+      "label": "Rio Grande County"
+    },
+    {
+      "geoid": "08107",
+      "label": "Routt County"
+    },
+    {
+      "geoid": "08109",
+      "label": "Saguache County"
+    },
+    {
+      "geoid": "08111",
+      "label": "San Juan County"
+    },
+    {
+      "geoid": "08113",
+      "label": "San Miguel County"
+    },
+    {
+      "geoid": "08115",
+      "label": "Sedgwick County"
+    },
+    {
+      "geoid": "08117",
+      "label": "Summit County"
+    },
+    {
+      "geoid": "08119",
+      "label": "Teller County"
+    },
+    {
+      "geoid": "08121",
+      "label": "Washington County"
+    },
+    {
+      "geoid": "08123",
+      "label": "Weld County"
+    },
+    {
+      "geoid": "08125",
+      "label": "Yuma County"
+    }
+  ],
+  "places": [
+    {
+      "geoid": "0800760",
+      "label": "Aguilar (town)",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0800925",
+      "label": "Akron (town)",
+      "containingCounty": "08121"
+    },
+    {
+      "type": "place",
+      "geoid": "0801090",
+      "label": "Alamosa (city)",
+      "containingCounty": "08003"
+    },
+    {
+      "geoid": "0801530",
+      "label": "Alma (town)",
+      "containingCounty": "08093"
+    },
+    {
+      "geoid": "0802355",
+      "label": "Antonito (town)",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0803235",
+      "label": "Arriba (town)",
+      "containingCounty": "08073"
+    },
+    {
+      "type": "place",
+      "geoid": "0803455",
+      "label": "Arvada (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "type": "place",
+      "geoid": "0803620",
+      "label": "Aspen (city)",
+      "containingCounty": "08097"
+    },
+    {
+      "geoid": "0803950",
+      "label": "Ault (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "type": "place",
+      "geoid": "0804000",
+      "label": "Aurora (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0804110",
+      "label": "Avon (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "type": "place",
+      "geoid": "0804935",
+      "label": "Basalt (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0805265",
+      "label": "Bayfield (town)",
+      "containingCounty": "08067"
+    },
+    {
+      "geoid": "0806090",
+      "label": "Bennett (town)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0806255",
+      "label": "Berthoud (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0806530",
+      "label": "Bethune (town)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0807025",
+      "label": "Black Hawk (city)",
+      "containingCounty": "08047"
+    },
+    {
+      "geoid": "0807190",
+      "label": "Blanca (town)",
+      "containingCounty": "08023"
+    },
+    {
+      "geoid": "0807410",
+      "label": "Blue River (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0807571",
+      "label": "Bonanza (town)",
+      "containingCounty": "08109"
+    },
+    {
+      "geoid": "0807795",
+      "label": "Boone (town)",
+      "containingCounty": "08101"
+    },
+    {
+      "type": "place",
+      "geoid": "0807850",
+      "label": "Boulder (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0808070",
+      "label": "Bow Mar (town)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0808345",
+      "label": "Branson (town)",
+      "containingCounty": "08071"
+    },
+    {
+      "type": "place",
+      "geoid": "0808400",
+      "label": "Breckenridge (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "type": "place",
+      "geoid": "0808675",
+      "label": "Brighton (city)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0809115",
+      "label": "Brookside (town)",
+      "containingCounty": "08043"
+    },
+    {
+      "type": "place",
+      "geoid": "0809280",
+      "label": "Broomfield (city)",
+      "containingCounty": "08014"
+    },
+    {
+      "type": "place",
+      "geoid": "0809555",
+      "label": "Brush (city)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0810105",
+      "label": "Buena Vista (town)",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0810600",
+      "label": "Burlington (city)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0811260",
+      "label": "Calhan (town)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0811645",
+      "label": "Campo (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "geoid": "0812030",
+      "label": "Carbonate (town)",
+      "containingCounty": "08045"
+    },
+    {
+      "type": "place",
+      "geoid": "0812045",
+      "label": "Carbondale (town)",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0812387",
+      "label": "Castle Pines (city)",
+      "containingCounty": "08035"
+    },
+    {
+      "type": "place",
+      "geoid": "0812415",
+      "label": "Castle Rock (town)",
+      "containingCounty": "08035"
+    },
+    {
+      "type": "place",
+      "geoid": "0811810",
+      "label": "Ca\u00f1on City (city)",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0812635",
+      "label": "Cedaredge (town)",
+      "containingCounty": "08029"
+    },
+    {
+      "type": "place",
+      "geoid": "0812815",
+      "label": "Centennial (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0812855",
+      "label": "Center (town)",
+      "containingCounty": "08109"
+    },
+    {
+      "geoid": "0812910",
+      "label": "Central City (city)",
+      "containingCounty": "08047"
+    },
+    {
+      "geoid": "0813460",
+      "label": "Cheraw (town)",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0813845",
+      "label": "Cherry Hills Village (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0814175",
+      "label": "Cheyenne Wells (town)",
+      "containingCounty": "08017"
+    },
+    {
+      "geoid": "0814765",
+      "label": "City of Creede (town)",
+      "containingCounty": "08079"
+    },
+    {
+      "geoid": "0815330",
+      "label": "Coal Creek (town)",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0815550",
+      "label": "Cokedale (town)",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0815605",
+      "label": "Collbran (town)",
+      "containingCounty": "08077"
+    },
+    {
+      "type": "place",
+      "geoid": "0816000",
+      "label": "Colorado Springs (city)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0816385",
+      "label": "Columbine Valley (town)",
+      "containingCounty": "08005"
+    },
+    {
+      "type": "place",
+      "geoid": "0816495",
+      "label": "Commerce City (city)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0817375",
+      "label": "Cortez (city)",
+      "containingCounty": "08083"
+    },
+    {
+      "type": "place",
+      "geoid": "0817760",
+      "label": "Craig (city)",
+      "containingCounty": "08081"
+    },
+    {
+      "geoid": "0817925",
+      "label": "Crawford (town)",
+      "containingCounty": "08029"
+    },
+    {
+      "geoid": "0818310",
+      "label": "Crested Butte (town)",
+      "containingCounty": "08051"
+    },
+    {
+      "geoid": "0818420",
+      "label": "Crestone (town)",
+      "containingCounty": "08109"
+    },
+    {
+      "geoid": "0818530",
+      "label": "Cripple Creek (city)",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0818640",
+      "label": "Crook (town)",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0818750",
+      "label": "Crowley (town)",
+      "containingCounty": "08025"
+    },
+    {
+      "geoid": "0819080",
+      "label": "Dacono (city)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0819355",
+      "label": "De Beque (town)",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0819630",
+      "label": "Deer Trail (town)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0819795",
+      "label": "Del Norte (town)",
+      "containingCounty": "08105"
+    },
+    {
+      "type": "place",
+      "geoid": "0819850",
+      "label": "Delta (city)",
+      "containingCounty": "08029"
+    },
+    {
+      "type": "place",
+      "geoid": "0820000",
+      "label": "Denver (city)",
+      "containingCounty": "08031"
+    },
+    {
+      "type": "place",
+      "geoid": "0820440",
+      "label": "Dillon (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0820495",
+      "label": "Dinosaur (town)",
+      "containingCounty": "08081"
+    },
+    {
+      "geoid": "0820770",
+      "label": "Dolores (town)",
+      "containingCounty": "08083"
+    },
+    {
+      "geoid": "0821265",
+      "label": "Dove Creek (town)",
+      "containingCounty": "08033"
+    },
+    {
+      "type": "place",
+      "geoid": "0822035",
+      "label": "Durango (city)",
+      "containingCounty": "08067"
+    },
+    {
+      "geoid": "0822145",
+      "label": "Eads (town)",
+      "containingCounty": "08061"
+    },
+    {
+      "type": "place",
+      "geoid": "0822200",
+      "label": "Eagle (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0822860",
+      "label": "Eaton (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0823025",
+      "label": "Eckley (town)",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0823135",
+      "label": "Edgewater (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0823740",
+      "label": "Elizabeth (town)",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0824620",
+      "label": "Empire (town)",
+      "containingCounty": "08019"
+    },
+    {
+      "type": "place",
+      "geoid": "0824785",
+      "label": "Englewood (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0824950",
+      "label": "Erie (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0825115",
+      "label": "Estes Park (town)",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0825280",
+      "label": "Evans (city)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0825610",
+      "label": "Fairplay (town)",
+      "containingCounty": "08093"
+    },
+    {
+      "geoid": "0826270",
+      "label": "Federal Heights (city)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0826600",
+      "label": "Firestone (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0826765",
+      "label": "Flagler (town)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0826875",
+      "label": "Fleming (town)",
+      "containingCounty": "08075"
+    },
+    {
+      "type": "place",
+      "geoid": "0827040",
+      "label": "Florence (city)",
+      "containingCounty": "08043"
+    },
+    {
+      "type": "place",
+      "geoid": "0827425",
+      "label": "Fort Collins (city)",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0827700",
+      "label": "Fort Lupton (city)",
+      "containingCounty": "08123"
+    },
+    {
+      "type": "place",
+      "geoid": "0827810",
+      "label": "Fort Morgan (city)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0827865",
+      "label": "Fountain (city)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0827975",
+      "label": "Fowler (town)",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0828105",
+      "label": "Foxfield (town)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0828305",
+      "label": "Fraser (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0828360",
+      "label": "Frederick (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "type": "place",
+      "geoid": "0828690",
+      "label": "Frisco (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "type": "place",
+      "geoid": "0828745",
+      "label": "Fruita (city)",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0829185",
+      "label": "Garden City (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0829680",
+      "label": "Genoa (town)",
+      "containingCounty": "08073"
+    },
+    {
+      "geoid": "0829735",
+      "label": "Georgetown (town)",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0829955",
+      "label": "Gilcrest (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0830340",
+      "label": "Glendale (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "type": "place",
+      "geoid": "0830780",
+      "label": "Glenwood Springs (city)",
+      "containingCounty": "08097"
+    },
+    {
+      "geoid": "0830835",
+      "label": "Golden (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0831550",
+      "label": "Granada (town)",
+      "containingCounty": "08099"
+    },
+    {
+      "geoid": "0831605",
+      "label": "Granby (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "type": "place",
+      "geoid": "0831660",
+      "label": "Grand Junction (city)",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0831715",
+      "label": "Grand Lake (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "type": "place",
+      "geoid": "0832155",
+      "label": "Greeley (city)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0832650",
+      "label": "Green Mountain Falls (town)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0833035",
+      "label": "Greenwood Village (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0833310",
+      "label": "Grover (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "type": "place",
+      "geoid": "0833640",
+      "label": "Gunnison (city)",
+      "containingCounty": "08051"
+    },
+    {
+      "type": "place",
+      "geoid": "0833695",
+      "label": "Gypsum (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0834520",
+      "label": "Hartman (town)",
+      "containingCounty": "08099"
+    },
+    {
+      "geoid": "0834740",
+      "label": "Haswell (town)",
+      "containingCounty": "08061"
+    },
+    {
+      "geoid": "0834960",
+      "label": "Haxtun (town)",
+      "containingCounty": "08095"
+    },
+    {
+      "geoid": "0835070",
+      "label": "Hayden (town)",
+      "containingCounty": "08107"
+    },
+    {
+      "geoid": "0836610",
+      "label": "Hillrose (town)",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0837215",
+      "label": "Holly (town)",
+      "containingCounty": "08099"
+    },
+    {
+      "geoid": "0837270",
+      "label": "Holyoke (city)",
+      "containingCounty": "08095"
+    },
+    {
+      "geoid": "0837380",
+      "label": "Hooper (town)",
+      "containingCounty": "08003"
+    },
+    {
+      "geoid": "0837600",
+      "label": "Hot Sulphur Springs (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0837545",
+      "label": "Hotchkiss (town)",
+      "containingCounty": "08029"
+    },
+    {
+      "geoid": "0837820",
+      "label": "Hudson (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0837875",
+      "label": "Hugo (town)",
+      "containingCounty": "08073"
+    },
+    {
+      "geoid": "0838370",
+      "label": "Idaho Springs (city)",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0838535",
+      "label": "Ignacio (town)",
+      "containingCounty": "08067"
+    },
+    {
+      "geoid": "0838590",
+      "label": "Iliff (town)",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0839195",
+      "label": "Jamestown (town)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0839855",
+      "label": "Johnstown (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0839965",
+      "label": "Julesburg (town)",
+      "containingCounty": "08115"
+    },
+    {
+      "geoid": "0840185",
+      "label": "Keenesburg (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0840515",
+      "label": "Kersey (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0840570",
+      "label": "Kim (town)",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0840790",
+      "label": "Kiowa (town)",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0841010",
+      "label": "Kit Carson (town)",
+      "containingCounty": "08017"
+    },
+    {
+      "geoid": "0841560",
+      "label": "Kremmling (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0842055",
+      "label": "La Jara (town)",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0842110",
+      "label": "La Junta (city)",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0843605",
+      "label": "La Salle (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0844100",
+      "label": "La Veta (town)",
+      "containingCounty": "08055"
+    },
+    {
+      "geoid": "0841835",
+      "label": "Lafayette (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0842330",
+      "label": "Lake City (town)",
+      "containingCounty": "08053"
+    },
+    {
+      "geoid": "0842495",
+      "label": "Lakeside (town)",
+      "containingCounty": "08059"
+    },
+    {
+      "type": "place",
+      "geoid": "0843000",
+      "label": "Lakewood (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "type": "place",
+      "geoid": "0843110",
+      "label": "Lamar (city)",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0843550",
+      "label": "Larkspur (town)",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0843660",
+      "label": "Las Animas (city)",
+      "containingCounty": "08011"
+    },
+    {
+      "geoid": "0844320",
+      "label": "Leadville (city)",
+      "containingCounty": "08065"
+    },
+    {
+      "geoid": "0844980",
+      "label": "Limon (town)",
+      "containingCounty": "08073"
+    },
+    {
+      "type": "place",
+      "geoid": "0845255",
+      "label": "Littleton (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0845530",
+      "label": "Lochbuie (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0845695",
+      "label": "Log Lane Village (town)",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0845955",
+      "label": "Lone Tree (city)",
+      "containingCounty": "08035"
+    },
+    {
+      "type": "place",
+      "geoid": "0845970",
+      "label": "Longmont (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0846355",
+      "label": "Louisville (city)",
+      "containingCounty": "08013"
+    },
+    {
+      "type": "place",
+      "geoid": "0846465",
+      "label": "Loveland (city)",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0847070",
+      "label": "Lyons (town)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0848060",
+      "label": "Manassa (town)",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0848115",
+      "label": "Mancos (town)",
+      "containingCounty": "08083"
+    },
+    {
+      "geoid": "0848445",
+      "label": "Manitou Springs (city)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0848500",
+      "label": "Manzanola (town)",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0848555",
+      "label": "Marble (town)",
+      "containingCounty": "08051"
+    },
+    {
+      "geoid": "0849600",
+      "label": "Mead (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0849875",
+      "label": "Meeker (town)",
+      "containingCounty": "08103"
+    },
+    {
+      "geoid": "0850040",
+      "label": "Merino (town)",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0850480",
+      "label": "Milliken (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0850920",
+      "label": "Minturn (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0851250",
+      "label": "Moffat (town)",
+      "containingCounty": "08109"
+    },
+    {
+      "type": "place",
+      "geoid": "0851635",
+      "label": "Monte Vista (city)",
+      "containingCounty": "08105"
+    },
+    {
+      "geoid": "0851690",
+      "label": "Montezuma (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "type": "place",
+      "geoid": "0851745",
+      "label": "Montrose (city)",
+      "containingCounty": "08085"
+    },
+    {
+      "geoid": "0851800",
+      "label": "Monument (town)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0852075",
+      "label": "Morrison (town)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0852570",
+      "label": "Mount Crested Butte (town)",
+      "containingCounty": "08051"
+    },
+    {
+      "geoid": "0852350",
+      "label": "Mountain View (town)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0852550",
+      "label": "Mountain Village (town)",
+      "containingCounty": "08113"
+    },
+    {
+      "geoid": "0853120",
+      "label": "Naturita (town)",
+      "containingCounty": "08085"
+    },
+    {
+      "geoid": "0853175",
+      "label": "Nederland (town)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0853395",
+      "label": "New Castle (town)",
+      "containingCounty": "08045"
+    },
+    {
+      "type": "place",
+      "geoid": "0854330",
+      "label": "Northglenn (city)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0854880",
+      "label": "Norwood (town)",
+      "containingCounty": "08113"
+    },
+    {
+      "geoid": "0854935",
+      "label": "Nucla (town)",
+      "containingCounty": "08085"
+    },
+    {
+      "geoid": "0855045",
+      "label": "Nunn (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0855155",
+      "label": "Oak Creek (town)",
+      "containingCounty": "08107"
+    },
+    {
+      "geoid": "0855540",
+      "label": "Olathe (town)",
+      "containingCounty": "08085"
+    },
+    {
+      "geoid": "0855705",
+      "label": "Olney Springs (town)",
+      "containingCounty": "08025"
+    },
+    {
+      "geoid": "0855870",
+      "label": "Ophir (town)",
+      "containingCounty": "08113"
+    },
+    {
+      "geoid": "0855980",
+      "label": "Orchard City (town)",
+      "containingCounty": "08029"
+    },
+    {
+      "geoid": "0856145",
+      "label": "Ordway (town)",
+      "containingCounty": "08025"
+    },
+    {
+      "geoid": "0856365",
+      "label": "Otis (town)",
+      "containingCounty": "08121"
+    },
+    {
+      "geoid": "0856420",
+      "label": "Ouray (city)",
+      "containingCounty": "08091"
+    },
+    {
+      "geoid": "0856475",
+      "label": "Ovid (town)",
+      "containingCounty": "08115"
+    },
+    {
+      "geoid": "0856860",
+      "label": "Pagosa Springs (town)",
+      "containingCounty": "08007"
+    },
+    {
+      "type": "place",
+      "geoid": "0856970",
+      "label": "Palisade (town)",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0857025",
+      "label": "Palmer Lake (town)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0857245",
+      "label": "Paoli (town)",
+      "containingCounty": "08095"
+    },
+    {
+      "geoid": "0857300",
+      "label": "Paonia (town)",
+      "containingCounty": "08029"
+    },
+    {
+      "type": "place",
+      "geoid": "0857400",
+      "label": "Parachute (town)",
+      "containingCounty": "08045"
+    },
+    {
+      "type": "place",
+      "geoid": "0857630",
+      "label": "Parker (town)",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0858235",
+      "label": "Peetz (town)",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0859005",
+      "label": "Pierce (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0859830",
+      "label": "Pitkin (town)",
+      "containingCounty": "08051"
+    },
+    {
+      "geoid": "0860160",
+      "label": "Platteville (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0860600",
+      "label": "Poncha Springs (town)",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0861315",
+      "label": "Pritchett (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "type": "place",
+      "geoid": "0862000",
+      "label": "Pueblo (city)",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0862660",
+      "label": "Ramah (town)",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0862880",
+      "label": "Rangely (town)",
+      "containingCounty": "08103"
+    },
+    {
+      "geoid": "0863045",
+      "label": "Raymer (New Raymer) (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0863265",
+      "label": "Red Cliff (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0864090",
+      "label": "Rico (town)",
+      "containingCounty": "08033"
+    },
+    {
+      "geoid": "0864200",
+      "label": "Ridgway (town)",
+      "containingCounty": "08091"
+    },
+    {
+      "type": "place",
+      "geoid": "0864255",
+      "label": "Rifle (city)",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0864970",
+      "label": "Rockvale (town)",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0865190",
+      "label": "Rocky Ford (city)",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0865740",
+      "label": "Romeo (town)",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0866895",
+      "label": "Rye (town)",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0867005",
+      "label": "Saguache (town)",
+      "containingCounty": "08109"
+    },
+    {
+      "geoid": "0867280",
+      "label": "Salida (city)",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0868105",
+      "label": "San Luis (town)",
+      "containingCounty": "08023"
+    },
+    {
+      "geoid": "0867830",
+      "label": "Sanford (town)",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0868655",
+      "label": "Sawpit (town)",
+      "containingCounty": "08113"
+    },
+    {
+      "geoid": "0868930",
+      "label": "Sedgwick (town)",
+      "containingCounty": "08115"
+    },
+    {
+      "geoid": "0869040",
+      "label": "Seibert (town)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0869150",
+      "label": "Severance (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0869645",
+      "label": "Sheridan (city)",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0869700",
+      "label": "Sheridan Lake (town)",
+      "containingCounty": "08061"
+    },
+    {
+      "type": "place",
+      "geoid": "0870195",
+      "label": "Silt (town)",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0870250",
+      "label": "Silver Cliff (town)",
+      "containingCounty": "08027"
+    },
+    {
+      "geoid": "0870360",
+      "label": "Silver Plume (town)",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0870525",
+      "label": "Silverthorne (town)",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0870580",
+      "label": "Silverton (town)",
+      "containingCounty": "08111"
+    },
+    {
+      "geoid": "0870635",
+      "label": "Simla (town)",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0871755",
+      "label": "Snowmass Village (town)",
+      "containingCounty": "08097"
+    },
+    {
+      "geoid": "0872395",
+      "label": "South Fork (town)",
+      "containingCounty": "08105"
+    },
+    {
+      "geoid": "0873330",
+      "label": "Springfield (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "geoid": "0873715",
+      "label": "Starkville (town)",
+      "containingCounty": "08071"
+    },
+    {
+      "type": "place",
+      "geoid": "0873825",
+      "label": "Steamboat Springs (city)",
+      "containingCounty": "08107"
+    },
+    {
+      "type": "place",
+      "geoid": "0873935",
+      "label": "Sterling (city)",
+      "containingCounty": "08121"
+    },
+    {
+      "geoid": "0874485",
+      "label": "Stratton (town)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0874815",
+      "label": "Sugar City (town)",
+      "containingCounty": "08025"
+    },
+    {
+      "geoid": "0875640",
+      "label": "Superior (town)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0875970",
+      "label": "Swink (town)",
+      "containingCounty": "08089"
+    },
+    {
+      "type": "place",
+      "geoid": "0876795",
+      "label": "Telluride (town)",
+      "containingCounty": "08113"
+    },
+    {
+      "type": "place",
+      "geoid": "0877290",
+      "label": "Thornton (city)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0877510",
+      "label": "Timnath (town)",
+      "containingCounty": "08069"
+    },
+    {
+      "type": "place",
+      "geoid": "0878610",
+      "label": "Trinidad (city)",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0879270",
+      "label": "Two Buttes (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "type": "place",
+      "geoid": "0880040",
+      "label": "Vail (town)",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0880865",
+      "label": "Victor (city)",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0881030",
+      "label": "Vilas (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "geoid": "0881690",
+      "label": "Vona (town)",
+      "containingCounty": "08063"
+    },
+    {
+      "geoid": "0882130",
+      "label": "Walden (town)",
+      "containingCounty": "08057"
+    },
+    {
+      "type": "place",
+      "geoid": "0882350",
+      "label": "Walsenburg (city)",
+      "containingCounty": "08055"
+    },
+    {
+      "geoid": "0882460",
+      "label": "Walsh (town)",
+      "containingCounty": "08009"
+    },
+    {
+      "geoid": "0882735",
+      "label": "Ward (town)",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0883230",
+      "label": "Wellington (town)",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0883450",
+      "label": "Westcliffe (town)",
+      "containingCounty": "08027"
+    },
+    {
+      "type": "place",
+      "geoid": "0883835",
+      "label": "Westminster (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0884440",
+      "label": "Wheat Ridge (city)",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0884770",
+      "label": "Wiggins (town)",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0885045",
+      "label": "Wiley (town)",
+      "containingCounty": "08099"
+    },
+    {
+      "geoid": "0885155",
+      "label": "Williamsburg (town)",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0885485",
+      "label": "Windsor (town)",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0885705",
+      "label": "Winter Park (town)",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0886090",
+      "label": "Woodland Park (city)",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0886310",
+      "label": "Wray (city)",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0886475",
+      "label": "Yampa (town)",
+      "containingCounty": "08107"
+    },
+    {
+      "geoid": "0886750",
+      "label": "Yuma (city)",
+      "containingCounty": "08125"
+    }
+  ],
+  "cdps": [
+    {
+      "geoid": "0800320",
+      "label": "Acres Green (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0800620",
+      "label": "Aetna Estates (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0800870",
+      "label": "Air Force Academy (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0801145",
+      "label": "Alamosa East (CDP)",
+      "type": "cdp",
+      "containingCounty": "08003"
+    },
+    {
+      "geoid": "0801420",
+      "label": "Allenspark (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0801640",
+      "label": "Alpine (CDP)",
+      "type": "cdp",
+      "containingCounty": "08105"
+    },
+    {
+      "geoid": "0801740",
+      "label": "Altona (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0801915",
+      "label": "Amherst (CDP)",
+      "type": "cdp",
+      "containingCounty": "08095"
+    },
+    {
+      "geoid": "0802575",
+      "label": "Applewood (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0802850",
+      "label": "Arapahoe (CDP)",
+      "type": "cdp",
+      "containingCounty": "08017"
+    },
+    {
+      "geoid": "0802905",
+      "label": "Arboles (CDP)",
+      "type": "cdp",
+      "containingCounty": "08007"
+    },
+    {
+      "geoid": "0803015",
+      "label": "Aristocrat Ranchettes (CDP)",
+      "type": "cdp",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0803730",
+      "label": "Aspen Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0803840",
+      "label": "Atwood (CDP)",
+      "type": "cdp",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0804165",
+      "label": "Avondale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0804620",
+      "label": "Bark Ranch (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0805120",
+      "label": "Battlement Mesa (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0806172",
+      "label": "Berkley (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0806602",
+      "label": "Beulah Valley (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0806970",
+      "label": "Black Forest (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0807245",
+      "label": "Blende (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0807420",
+      "label": "Blue Sky (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0807455",
+      "label": "Blue Valley (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0807580",
+      "label": "Bonanza Mountain Estates (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0808290",
+      "label": "Brandon (CDP)",
+      "type": "cdp",
+      "containingCounty": "08061"
+    },
+    {
+      "geoid": "0808530",
+      "label": "Brick Center (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0808620",
+      "label": "Briggsdale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08123"
+    },
+    {
+      "geoid": "0808950",
+      "label": "Brook Forest (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0810985",
+      "label": "Byers (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0811975",
+      "label": "Capulin (CDP)",
+      "type": "cdp",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0812325",
+      "label": "Cascade-Chipita Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0812393",
+      "label": "Castle Pines Village (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0812450",
+      "label": "Cathedral (CDP)",
+      "type": "cdp",
+      "containingCounty": "08053"
+    },
+    {
+      "geoid": "0812460",
+      "label": "Catherine (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0812470",
+      "label": "Cattle Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0812945",
+      "label": "Chacra (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0813590",
+      "label": "Cherry Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0814587",
+      "label": "Cimarron Hills (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0815165",
+      "label": "Clifton (CDP)",
+      "type": "cdp",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0815302",
+      "label": "Coal Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0815440",
+      "label": "Coaldale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0815825",
+      "label": "Colona (CDP)",
+      "type": "cdp",
+      "containingCounty": "08091"
+    },
+    {
+      "geoid": "0815935",
+      "label": "Colorado City (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0816110",
+      "label": "Columbine (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0816465",
+      "label": "Comanche Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0816715",
+      "label": "Conejos (CDP)",
+      "type": "cdp",
+      "containingCounty": "08021"
+    },
+    {
+      "geoid": "0817100",
+      "label": "Cope (CDP)",
+      "type": "cdp",
+      "containingCounty": "08121"
+    },
+    {
+      "geoid": "0817150",
+      "label": "Copper Mountain (CDP)",
+      "type": "cdp",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0817485",
+      "label": "Cotopaxi (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0818585",
+      "label": "Crisman (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0819150",
+      "label": "Dakota Ridge (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0820275",
+      "label": "Derby (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0820605",
+      "label": "Divide (CDP)",
+      "type": "cdp",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0821155",
+      "label": "Dotsero (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0821330",
+      "label": "Dove Valley (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0821390",
+      "label": "Downieville-Lawson-Dumont (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0822575",
+      "label": "East Pleasant View (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0822882",
+      "label": "Echo Hills (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0823300",
+      "label": "Edwards (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0823795",
+      "label": "El Jebel (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0824290",
+      "label": "El Moro (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0823520",
+      "label": "Elbert (CDP)",
+      "type": "cdp",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0823575",
+      "label": "Eldora (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0823630",
+      "label": "Eldorado Springs (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0824235",
+      "label": "Ellicott (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0825390",
+      "label": "Evergreen (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0825550",
+      "label": "Fairmount (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0827095",
+      "label": "Florissant (CDP)",
+      "type": "cdp",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0827175",
+      "label": "Floyd Hill (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0827370",
+      "label": "Fort Carson (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0827535",
+      "label": "Fort Garland (CDP)",
+      "type": "cdp",
+      "containingCounty": "08023"
+    },
+    {
+      "geoid": "0827950",
+      "label": "Four Square Mile (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0828250",
+      "label": "Franktown (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0828800",
+      "label": "Fruitvale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0828830",
+      "label": "Fulford (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0829240",
+      "label": "Gardner (CDP)",
+      "type": "cdp",
+      "containingCounty": "08055"
+    },
+    {
+      "geoid": "0829295",
+      "label": "Garfield (CDP)",
+      "type": "cdp",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0829625",
+      "label": "Genesee (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0829845",
+      "label": "Gerrard (CDP)",
+      "type": "cdp",
+      "containingCounty": "08105"
+    },
+    {
+      "geoid": "0830350",
+      "label": "Glendale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0830420",
+      "label": "Gleneagle (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0830945",
+      "label": "Gold Hill (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0830890",
+      "label": "Goldfield (CDP)",
+      "type": "cdp",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0831935",
+      "label": "Grand View Estates (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0833420",
+      "label": "Guffey (CDP)",
+      "type": "cdp",
+      "containingCounty": "08093"
+    },
+    {
+      "geoid": "0833502",
+      "label": "Gunbarrel (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0834630",
+      "label": "Hartsel (CDP)",
+      "type": "cdp",
+      "containingCounty": "08093"
+    },
+    {
+      "geoid": "0834685",
+      "label": "Hasty (CDP)",
+      "type": "cdp",
+      "containingCounty": "08011"
+    },
+    {
+      "geoid": "0835400",
+      "label": "Heeney (CDP)",
+      "type": "cdp",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0835860",
+      "label": "Hidden Lake (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0836410",
+      "label": "Highlands Ranch (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0836940",
+      "label": "Hoehne (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0837220",
+      "label": "Holly Hills (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0837655",
+      "label": "Howard (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0838425",
+      "label": "Idalia (CDP)",
+      "type": "cdp",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0838480",
+      "label": "Idledale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0838810",
+      "label": "Indian Hills (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0838910",
+      "label": "Inverness (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0839160",
+      "label": "Jackson Lake (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0839250",
+      "label": "Jansen (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0839745",
+      "label": "Joes (CDP)",
+      "type": "cdp",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0839800",
+      "label": "Johnson Village (CDP)",
+      "type": "cdp",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0840377",
+      "label": "Ken Caryl (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0840550",
+      "label": "Keystone (CDP)",
+      "type": "cdp",
+      "containingCounty": "08117"
+    },
+    {
+      "geoid": "0840900",
+      "label": "Kirk (CDP)",
+      "type": "cdp",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0841065",
+      "label": "Kittredge (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0842165",
+      "label": "La Junta Gardens (CDP)",
+      "type": "cdp",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0842000",
+      "label": "Laird (CDP)",
+      "type": "cdp",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0843220",
+      "label": "Laporte (CDP)",
+      "type": "cdp",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0844265",
+      "label": "Lazear (CDP)",
+      "type": "cdp",
+      "containingCounty": "08029"
+    },
+    {
+      "geoid": "0844270",
+      "label": "Lazy Acres (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0844375",
+      "label": "Leadville North (CDP)",
+      "type": "cdp",
+      "containingCounty": "08065"
+    },
+    {
+      "geoid": "0844595",
+      "label": "Lewis (CDP)",
+      "type": "cdp",
+      "containingCounty": "08083"
+    },
+    {
+      "geoid": "0844695",
+      "label": "Leyner (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0845145",
+      "label": "Lincoln Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0845680",
+      "label": "Loghill Village (CDP)",
+      "type": "cdp",
+      "containingCounty": "08091"
+    },
+    {
+      "geoid": "0845750",
+      "label": "Loma (CDP)",
+      "type": "cdp",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0846410",
+      "label": "Louviers (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0847015",
+      "label": "Lynn (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0848940",
+      "label": "Marvel (CDP)",
+      "type": "cdp",
+      "containingCounty": "08067"
+    },
+    {
+      "geoid": "0849215",
+      "label": "Matheson (CDP)",
+      "type": "cdp",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0849325",
+      "label": "Maybell (CDP)",
+      "type": "cdp",
+      "containingCounty": "08081"
+    },
+    {
+      "geoid": "0849490",
+      "label": "Maysville (CDP)",
+      "type": "cdp",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0847235",
+      "label": "McClave (CDP)",
+      "type": "cdp",
+      "containingCounty": "08011"
+    },
+    {
+      "geoid": "0847345",
+      "label": "McCoy (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0850012",
+      "label": "Meridian (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0850026",
+      "label": "Meridian Village (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0850380",
+      "label": "Midland (CDP)",
+      "type": "cdp",
+      "containingCounty": "08119"
+    },
+    {
+      "geoid": "0851975",
+      "label": "Morgan Heights (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0852210",
+      "label": "Mountain Meadows (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0852820",
+      "label": "Mulford (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0853010",
+      "label": "Nathrop (CDP)",
+      "type": "cdp",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0853780",
+      "label": "Niwot (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0853875",
+      "label": "No Name (CDP)",
+      "type": "cdp",
+      "containingCounty": "08045"
+    },
+    {
+      "geoid": "0853945",
+      "label": "Norrie (CDP)",
+      "type": "cdp",
+      "containingCounty": "08097"
+    },
+    {
+      "geoid": "0854495",
+      "label": "North La Junta (CDP)",
+      "type": "cdp",
+      "containingCounty": "08089"
+    },
+    {
+      "geoid": "0854750",
+      "label": "North Washington (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0855925",
+      "label": "Orchard (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0856035",
+      "label": "Orchard Mesa (CDP)",
+      "type": "cdp",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0856695",
+      "label": "Padroni (CDP)",
+      "type": "cdp",
+      "containingCounty": "08075"
+    },
+    {
+      "geoid": "0857445",
+      "label": "Paragon Estates (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0857465",
+      "label": "Park Center (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0857850",
+      "label": "Parshall (CDP)",
+      "type": "cdp",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0858400",
+      "label": "Penrose (CDP)",
+      "type": "cdp",
+      "containingCounty": "08043"
+    },
+    {
+      "geoid": "0858510",
+      "label": "Peoria (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0858592",
+      "label": "Perry Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0858675",
+      "label": "Peyton (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0858785",
+      "label": "Phippsburg (CDP)",
+      "type": "cdp",
+      "containingCounty": "08107"
+    },
+    {
+      "geoid": "0858960",
+      "label": "Piedra (CDP)",
+      "type": "cdp",
+      "containingCounty": "08053"
+    },
+    {
+      "geoid": "0859240",
+      "label": "Pine Brook Hill (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0859520",
+      "label": "Pine Valley (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0859885",
+      "label": "Placerville (CDP)",
+      "type": "cdp",
+      "containingCounty": "08113"
+    },
+    {
+      "geoid": "0860655",
+      "label": "Ponderosa Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08039"
+    },
+    {
+      "geoid": "0860765",
+      "label": "Portland (CDP)",
+      "type": "cdp",
+      "containingCounty": "08091"
+    },
+    {
+      "geoid": "0862220",
+      "label": "Pueblo West (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0863320",
+      "label": "Red Feather Lakes (CDP)",
+      "type": "cdp",
+      "containingCounty": "08069"
+    },
+    {
+      "geoid": "0863375",
+      "label": "Redlands (CDP)",
+      "type": "cdp",
+      "containingCounty": "08077"
+    },
+    {
+      "geoid": "0863650",
+      "label": "Redstone (CDP)",
+      "type": "cdp",
+      "containingCounty": "08097"
+    },
+    {
+      "geoid": "0863705",
+      "label": "Redvale (CDP)",
+      "type": "cdp",
+      "containingCounty": "08085"
+    },
+    {
+      "geoid": "0864870",
+      "label": "Rock Creek Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0865685",
+      "label": "Rollinsville (CDP)",
+      "type": "cdp",
+      "containingCounty": "08047"
+    },
+    {
+      "geoid": "0866197",
+      "label": "Roxborough Park (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0866995",
+      "label": "Saddle Ridge (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0867445",
+      "label": "Salt Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0867500",
+      "label": "San Acacio (CDP)",
+      "type": "cdp",
+      "containingCounty": "08023"
+    },
+    {
+      "geoid": "0868847",
+      "label": "Security-Widefield (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0868875",
+      "label": "Sedalia (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0868985",
+      "label": "Segundo (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0869110",
+      "label": "Seven Hills (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0869480",
+      "label": "Shaw Heights (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0869810",
+      "label": "Sherrelwood (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0870112",
+      "label": "Sierra Ridge (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0871625",
+      "label": "Smeltertown (CDP)",
+      "type": "cdp",
+      "containingCounty": "08015"
+    },
+    {
+      "geoid": "0871790",
+      "label": "Snyder (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0871845",
+      "label": "Somerset (CDP)",
+      "type": "cdp",
+      "containingCounty": "08051"
+    },
+    {
+      "geoid": "0872320",
+      "label": "Southern Ute (CDP)",
+      "type": "cdp",
+      "containingCounty": "08067"
+    },
+    {
+      "geoid": "0867040",
+      "label": "St. Ann Highlands (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0867142",
+      "label": "St. Mary's (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0873925",
+      "label": "Stepping Stone (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0873943",
+      "label": "Sterling Ranch (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0874080",
+      "label": "Stonegate (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0874275",
+      "label": "Stonewall Gap (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0874375",
+      "label": "Strasburg (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0874430",
+      "label": "Stratmoor (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0874980",
+      "label": "Sugarloaf (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0875585",
+      "label": "Sunshine (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0876190",
+      "label": "Tabernash (CDP)",
+      "type": "cdp",
+      "containingCounty": "08049"
+    },
+    {
+      "geoid": "0876325",
+      "label": "Tall Timber (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0877235",
+      "label": "The Pinery (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0877757",
+      "label": "Todd Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0878280",
+      "label": "Towaoc (CDP)",
+      "type": "cdp",
+      "containingCounty": "08083"
+    },
+    {
+      "geoid": "0878335",
+      "label": "Towner (CDP)",
+      "type": "cdp",
+      "containingCounty": "08061"
+    },
+    {
+      "geoid": "0878345",
+      "label": "Trail Side (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0879100",
+      "label": "Twin Lakes CDP (Adams County)",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0879105",
+      "label": "Twin Lakes CDP (Lake County)",
+      "containingCounty": "08065"
+    },
+    {
+      "geoid": "0879785",
+      "label": "Upper Bear Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0879800",
+      "label": "Upper Witter Gulch (CDP)",
+      "type": "cdp",
+      "containingCounty": "08019"
+    },
+    {
+      "geoid": "0880095",
+      "label": "Valdez (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0880370",
+      "label": "Valmont (CDP)",
+      "type": "cdp",
+      "containingCounty": "08013"
+    },
+    {
+      "geoid": "0880755",
+      "label": "Vernon (CDP)",
+      "type": "cdp",
+      "containingCounty": "08125"
+    },
+    {
+      "geoid": "0881305",
+      "label": "Vineland (CDP)",
+      "type": "cdp",
+      "containingCounty": "08101"
+    },
+    {
+      "geoid": "0882900",
+      "label": "Watkins (CDP)",
+      "type": "cdp",
+      "containingCounty": "08005"
+    },
+    {
+      "geoid": "0883120",
+      "label": "Welby (CDP)",
+      "type": "cdp",
+      "containingCounty": "08001"
+    },
+    {
+      "geoid": "0883175",
+      "label": "Weldona (CDP)",
+      "type": "cdp",
+      "containingCounty": "08087"
+    },
+    {
+      "geoid": "0884042",
+      "label": "West Pleasant View (CDP)",
+      "type": "cdp",
+      "containingCounty": "08059"
+    },
+    {
+      "geoid": "0883500",
+      "label": "Westcreek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08035"
+    },
+    {
+      "geoid": "0884000",
+      "label": "Weston (CDP)",
+      "type": "cdp",
+      "containingCounty": "08071"
+    },
+    {
+      "geoid": "0885760",
+      "label": "Wolcott (CDP)",
+      "type": "cdp",
+      "containingCounty": "08037"
+    },
+    {
+      "geoid": "0886117",
+      "label": "Woodmoor (CDP)",
+      "type": "cdp",
+      "containingCounty": "08041"
+    },
+    {
+      "geoid": "0886200",
+      "label": "Woody Creek (CDP)",
+      "type": "cdp",
+      "containingCounty": "08097"
+    }
+  ],
+  "source": {
+    "county_list": "TIGERweb State_County MapServer/1",
+    "place_list": "Census ACS 5-year 2024 place names (Colorado; regenerated by build_hna_data.py via GitHub Actions)"
+  }
+}
