@@ -5,67 +5,62 @@
  *
  * Information Architecture:
  * ─────────────────────────────────────────────────────────────────────────
- * PRIMARY WORKFLOW (Platform group):
- *   Home → Housing Needs Assessment → Market Analysis → Colorado Deep Dive
- *   → Economic Dashboard → LIHTC Allocations
+ * PRIMARY WORKFLOW (Scoping a Project group):
+ *   Select Jurisdiction → Housing Needs Assessment → Market Analysis
+ *   → Scenario Builder → Deal Calculator
  *
- * SECONDARY / DATA PAGES (Data & Research group):
- *   Market Intelligence, CHFA Portfolio, Preservation Tracking, Data Health
+ * EXPLORE:
+ *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
+ *   LIHTC Allocations, CHFA Portfolio, Economic Dashboard
  *
- * ARCHIVED / STUB PAGES (not in primary nav):
- *   colorado-market.html — stub (redirect to colorado-deep-dive.html)
- *   census-dashboard.html — secondary reference page
- *   dashboard.html — superseded by Economic Dashboard
+ * DATA:
+ *   Data Health, Data Quality, Preservation Tracking, Data Review
+ *
+ * INSIGHTS:
+ *   Market Insights, LIHTC Guide, Housing Legislation, CRA Expansion,
+ *   About COHO
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
   const GROUPS = [
     {
-      label: "Platform",
+      label: "Scoping a Project",
       items: [
-        { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
-        { label: "HNA Comparative Ranking", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking" },
-        { label: "Projection Scenarios", href: "hna-scenario-builder.html", desc: "20-year demographic scenario builder" },
-        { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
-        { label: "Scenario Builder", href: "hna-scenario-builder.html", desc: "20-year projection scenarios" },
-        { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
-        { label: "LIHTC Allocations", href: "lihtc-allocations.html", desc: "State allocation maps & data" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Choose your county or city" },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "HNA tool & county profile" },
+        { label: "Market Analysis",         href: "market-analysis.html",          desc: "PMA, comparables & feasibility" },
+        { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "20-year projection scenarios" },
+        { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "LIHTC pro forma & capital stack" },
       ]
     },
     {
-      label: "Data &amp; Research",
+      label: "Explore",
       items: [
-        { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
-        { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
-        { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
-        { label: "Data Health", href: "data-status.html", desc: "Pipeline & data freshness" },
-        { label: "Data Quality Dashboard", href: "dashboard-data-quality.html", desc: "Dataset coverage & freshness" },
-        { label: "Data Sources", href: "dashboard-data-sources-ui.html", desc: "Source inventory & status" },
-        { label: "Data Review Hub", href: "data-review-hub.html", desc: "Review & transparency" },
+        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking & comparison" },
+        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level detail & market overview" },
+        { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide market data" },
+        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "State allocation maps & data" },
+        { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "CHFA LIHTC projects" },
+        { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED economic indicators" },
       ]
     },
     {
-      label: "Policy &amp; Insights",
+      label: "Data",
       items: [
-        { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
-        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
-        { label: "Weekly Housing Brief", href: "private/weekly-brief/index.html", desc: "Weekly intelligence brief" },
-        { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
-        { label: "LIHTC Enhancement (AHCIA)", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
-        { label: "Housing Legislation", href: "housing-legislation-2026.html", desc: "2026 bills tracker" },
-        { label: "Policy Briefs", href: "policy-briefs.html", desc: "Research summaries" },
-        { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
+        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline & data freshness" },
+        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Dataset coverage & freshness" },
+        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry" },
+        { label: "Data Review",           href: "data-review-hub.html",           desc: "Review & transparency" },
       ]
     },
     {
-      label: "About",
+      label: "Insights",
       items: [
-        { label: "Home", href: "index.html", desc: "Platform overview" },
-        { label: "About COHO", href: "about.html", desc: "Platform & methodology" },
-        { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
-        { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
-        { label: "Sitemap", href: "sitemap.html", desc: "All pages" },
-        { label: "Privacy Policy", href: "privacy-policy.html", desc: "Data & privacy" },
+        { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
+        { label: "LIHTC Guide",           href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics for all audiences" },
+        { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
+        { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
+        { label: "About COHO",            href: "about.html",                     desc: "Platform & methodology" },
       ]
     }
   ];
@@ -134,8 +129,51 @@
         nav.site-nav{display:none}
         .footer-wrap{grid-template-columns:1fr}
       }
+      .jurisdiction-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 12px;background:color-mix(in oklab,var(--card) 50%,var(--accent) 50%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:999px;font-size:.8rem;font-weight:700;color:var(--text);text-decoration:none;transition:background .15s}
+      .jurisdiction-pill:hover{background:color-mix(in oklab,var(--card) 30%,var(--accent) 70%)}
+      .jurisdiction-pill--empty{background:transparent;border:1px dashed var(--border);color:var(--muted)}
+      .jurisdiction-pill--empty:hover{border-color:var(--accent);color:var(--text)}
+      .jurisdiction-pill__name{color:inherit;text-decoration:none;font-weight:700}
+      .jurisdiction-pill__clear{background:none;border:none;padding:0 2px;cursor:pointer;color:inherit;opacity:.7;font-size:1rem;line-height:1;display:flex;align-items:center}
+      .jurisdiction-pill__clear:hover{opacity:1}
     `;
     document.head.appendChild(s);
+  }
+
+  function _updateJurisdictionPill() {
+    var wrap = document.getElementById('jurisdictionPillWrap');
+    if (!wrap) return;
+
+    // Try WorkflowState first, fall back to SiteState
+    var county = null;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      if (proj && proj.steps && proj.steps.jurisdiction && proj.steps.jurisdiction.countyName) {
+        county = proj.steps.jurisdiction.countyName;
+      }
+    } catch (_) {}
+
+    if (!county) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.name) county = sc.name;
+      } catch (_) {}
+    }
+
+    var root = relToRoot();
+
+    if (county) {
+      wrap.innerHTML =
+        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
+          '<span class="jurisdiction-pill__name">' + county + '</span>' +
+          ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
+        '</a>';
+    } else {
+      wrap.innerHTML =
+        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill jurisdiction-pill--empty">' +
+          '+ Choose jurisdiction' +
+        '</a>';
+    }
   }
 
   function inject() {
@@ -164,6 +202,9 @@
         <div class="brand">
           <a href="${normalizeHref('index.html')}">COHO Analytics</a>
           <small>Colorado Housing Intelligence</small>
+        </div>
+        <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
+          <!-- populated by _updateJurisdictionPill() after DOM is ready -->
         </div>
         <nav class="site-nav" aria-label="Primary">
           ${GROUPS.map(g => `
@@ -227,16 +268,17 @@
           <p>Colorado Housing Intelligence — data-driven insights for affordable housing professionals.</p>
         </div>
         <div class="footer-col">
-          <strong>Platform</strong>
+          <strong>Scoping a Project</strong>
+          <a href="${normalizeHref('select-jurisdiction.html')}">Select Jurisdiction</a>
           <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
           <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
-          <a href="${normalizeHref('colorado-deep-dive.html')}">Colorado Deep Dive</a>
+          <a href="${normalizeHref('deal-calculator.html')}">Deal Calculator</a>
         </div>
         <div class="footer-col">
-          <strong>Data</strong>
-          <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
-          <a href="${normalizeHref('lihtc-allocations.html')}">LIHTC Allocations</a>
-          <a href="${normalizeHref('market-intelligence.html')}">Market Intelligence</a>
+          <strong>Explore &amp; Learn</strong>
+          <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
+          <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
+          <a href="${normalizeHref('insights.html')}">Market Insights</a>
         </div>
         <div class="footer-disclaimer">
           <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
@@ -408,6 +450,10 @@
       var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
       window.__navShowError(msg);
     });
+
+    _updateJurisdictionPill();
+    document.addEventListener('workflow:step-updated', _updateJurisdictionPill);
+    document.addEventListener('sitestate:county-changed', _updateJurisdictionPill);
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }
