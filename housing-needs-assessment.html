@@ -1738,7 +1738,7 @@
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx   = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx && jx.countyFips) return jx.countyFips;
+      if (jx && (jx.fips || jx.countyFips)) return jx.fips || jx.countyFips;
     } catch (_) {}
     // 3. SiteState legacy county
     try {
@@ -1903,7 +1903,7 @@
     var hasJurisdiction = false;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction && proj.steps.jurisdiction.countyFips) {
+      if (proj && proj.jurisdiction && (proj.jurisdiction.fips || proj.jurisdiction.countyFips)) {
         hasJurisdiction = true;
       }
     } catch (_) {}

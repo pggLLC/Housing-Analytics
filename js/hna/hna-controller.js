@@ -535,9 +535,10 @@
         }
 
         // Remote fallback (only reached when local file is absent or has no county features):
-        // try CHFA ArcGIS FeatureServer first (most current CO-specific data).
+        // The LIHTC ArcGIS service uses PROJ_ST (e.g. 'CO') and CURCNTY (integer, no leading zeros).
+        const countyInt = parseInt(countyFips, 10);  // '001' → 1, '014' → 14
         const chfaParams = new URLSearchParams({
-          where:   `STATEFP='${stateFips}' AND COUNTYFP='${countyFips}'`,
+          where:   `PROJ_ST='CO' AND CURCNTY='${countyInt}'`,
           outFields: '*',
           f: 'geojson',
           outSR: '4326',
@@ -551,30 +552,11 @@
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
             return { ...gj, _source: 'CHFA' };
           }
-          console.warn('[HNA] CHFA LIHTC returned no features; falling back to HUD.');
+          console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5, '— using embedded fallback.');
         } catch(e) {
-          console.warn('[HNA] CHFA LIHTC ArcGIS API unavailable; falling back to HUD.', e.message);
+          console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message, '— using embedded fallback.');
         }
       }
-
-      // All states (and Colorado final fallback): HUD ArcGIS FeatureServer.
-      const params = new URLSearchParams({
-        where:   `CNTY_FIPS='${countyFips5}'`,
-        outFields: '*',
-        f: 'geojson',
-        outSR: '4326',
-        resultRecordCount: 1000,
-      });
-      const url = `${window.HNAUtils.SOURCES.hudLihtcQuery}/query?${params}`;
-      try {
-        const r = await fetchWithTimeout(url, {}, 15000);
-        if (!r.ok) throw new Error(`LIHTC HTTP ${r.status}`);
-        const gj = await r.json();
-        if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
-      } catch(e) {
-        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
-      }
-    }
     // Return embedded fallback filtered to county
     return { ...window.HNAUtils.lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
   }
