@@ -23,6 +23,21 @@
     REGRID_API_KEY:       "",
     BRIDGE_BROWSER_TOKEN: "",
     BRIDGE_DATASET:       "test", // override via Data Quality Dashboard when real MLS access is granted
-    DATA_VERSION:         "2026-03-15"
+    DATA_VERSION:         "2026-03-15",
+
+    // ── Analytics (js/components/analytics.js) ────────────────────────────
+    // Without these, analytics is local-only (localStorage debug helper).
+    // To enable cross-session population data:
+    //
+    //   Option A — Plausible Analytics (recommended; privacy-first, no cookies):
+    //     ANALYTICS_PROVIDER: "plausible"
+    //     ANALYTICS_DOMAIN:   "pggllc.github.io"   ← your GitHub Pages domain
+    //
+    //   Option B — custom beacon endpoint (Cloudflare Worker, Lambda, etc.):
+    //     ANALYTICS_ENDPOINT: "https://your-worker.workers.dev/collect"
+    //
+    ANALYTICS_PROVIDER:   "",   // "plausible" or ""
+    ANALYTICS_DOMAIN:     "",   // required when provider = "plausible"
+    ANALYTICS_ENDPOINT:   ""    // required when using a custom beacon endpoint
   }, stored);
 }());

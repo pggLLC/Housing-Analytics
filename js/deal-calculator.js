@@ -156,6 +156,13 @@
           </p>
         </div>
 
+        <!-- Unit-sync warning: shown when Total Units ≠ sum of AMI-tier units -->
+        <div id="dc-units-sync-warn" hidden
+          style="margin:0.5rem 0 var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);
+                 background:#fef3c7;border:1px solid #fcd34d;color:#92400e;
+                 font-size:var(--tiny);line-height:1.5;">
+        </div>
+
         <label style="display:block;margin-bottom:var(--sp2);margin-top:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">County (sets HUD FMR gross rent limits)</span>
           <select id="dc-county-select"
@@ -237,7 +244,9 @@
           <input id="dc-deferred-pct" type="range" min="0" max="100" step="5" value="40"
             style="display:block;width:100%;margin-top:0.25rem;">
           <span style="font-size:var(--tiny);color:var(--muted);">
-            Deferred portion counts as a Source, reducing gap financing needed.
+            Shown as a "soft source" in S&amp;U — this is a deferred developer obligation
+            paid from operating cash flow over time, <em>not</em> cash available at closing.
+            CHFA and lenders will require a repayment pro forma to verify supportability.
           </span>
         </label>
         <div id="dc-devfee-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin-top:var(--sp2);">
@@ -334,7 +343,12 @@
               <td id="dc-su-mortgage-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
             <tr>
-              <td style="padding:0.3rem 0.25rem;">Deferred Developer Fee</td>
+              <td style="padding:0.3rem 0.25rem;">
+                Deferred Developer Fee
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Soft source — developer obligation paid from future cash flow, not cash at closing
+                </span>
+              </td>
               <td id="dc-su-deferred" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-deferred-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
@@ -532,16 +546,33 @@
     var annualCredits = eligibleBasis * _creditRate;
     var equity = annualCredits * CREDIT_YEARS * equityPrice;
 
-    // Rent income
+    // Rent income — sum checked AMI-tier units
     var annualRents = 0;
+    var amiUnitSum = 0;
     [30, 40, 50, 60].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
-      if (chk && chk.checked && uInput) {
+      if (chk && uInput) {
         var u = parseInt(uInput.value, 10) || 0;
-        annualRents += u * _amiLimits[pct] * 12;
+        if (chk.checked) {
+          annualRents += u * _amiLimits[pct] * 12;
+        }
+        amiUnitSum += u; // count all tier units regardless of checkbox
       }
     });
+
+    // Warn when Total Units ≠ sum of AMI-tier units (auto-NOI uses Total Units
+    // for operating expenses; rent uses AMI-tier units — divergence = wrong NOI).
+    var syncWarn = document.getElementById('dc-units-sync-warn');
+    if (syncWarn && units > 0 && amiUnitSum > 0 && units !== amiUnitSum) {
+      syncWarn.textContent =
+        '⚠ Total Units (' + units + ') ≠ sum of AMI-tier units (' + amiUnitSum +
+        '). Auto-NOI operating expenses use Total Units; rents use AMI-tier units. ' +
+        'Align both inputs for an accurate NOI.';
+      syncWarn.hidden = false;
+    } else if (syncWarn) {
+      syncWarn.hidden = true;
+    }
 
     // Developer fee
     var devfeePctEl = document.getElementById('dc-devfee-pct');
