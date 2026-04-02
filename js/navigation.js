@@ -133,9 +133,37 @@
       .jurisdiction-pill:hover{background:color-mix(in oklab,var(--card) 30%,var(--accent) 70%)}
       .jurisdiction-pill--empty{background:transparent;border:1px dashed var(--border);color:var(--muted)}
       .jurisdiction-pill--empty:hover{border-color:var(--accent);color:var(--text)}
-      .jurisdiction-pill__name{color:inherit;text-decoration:none;font-weight:700}
+      .jurisdiction-pill__name{color:inherit;text-decoration:none;font-weight:700;
+        max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
       .jurisdiction-pill__clear{background:none;border:none;padding:0 2px;cursor:pointer;color:inherit;opacity:.7;font-size:1rem;line-height:1;display:flex;align-items:center}
       .jurisdiction-pill__clear:hover{opacity:1}
+      /* #18 — mobile pill: truncate at small screens */
+      @media(max-width:480px){
+        .jurisdiction-pill__name{max-width:80px}
+        .jurisdiction-pill{padding:4px 8px 4px 10px;font-size:.75rem}
+      }
+      /* #19 — progress connector vertical alignment */
+      .wf-step-connector{margin-top:15px;margin-bottom:0 !important}
+      /* #11 — audience toggle */
+      .audience-toggle{display:flex;gap:3px;align-items:center}
+      .audience-toggle__btn{padding:4px 9px;font-size:.72rem;font-weight:700;border-radius:999px;
+        border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--muted);
+        letter-spacing:.02em;transition:all .15s}
+      .audience-toggle__btn:hover{border-color:var(--accent);color:var(--accent)}
+      .audience-toggle__btn[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+      @media(max-width:640px){.audience-toggle{display:none}}
+      /* #12 — project switcher dropdown */
+      .jx-dropdown{position:absolute;top:calc(100% + 6px);left:0;min-width:200px;
+        background:var(--card);border:1px solid var(--border);border-radius:8px;
+        box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2100}
+      .jx-dropdown__item{display:block;padding:7px 10px;font-size:.82rem;border-radius:6px;
+        text-decoration:none;color:var(--text);cursor:pointer;border:none;background:none;
+        width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .jx-dropdown__item:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%)}
+      .jx-dropdown__item--new{color:var(--accent);font-weight:700;border-top:1px solid var(--border);margin-top:4px;padding-top:9px}
+      .jx-dropdown__label{padding:4px 10px;font-size:.7rem;font-weight:700;color:var(--muted);
+        text-transform:uppercase;letter-spacing:.06em}
+      .jurisdiction-pill-wrap{position:relative}
     `;
     document.head.appendChild(s);
   }
@@ -205,6 +233,11 @@
         </div>
         <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
           <!-- populated by _updateJurisdictionPill() after DOM is ready -->
+        </div>
+        <div class="audience-toggle" id="audienceToggleWrap" aria-label="Audience view">
+          <button class="audience-toggle__btn" type="button" data-audience="elected" aria-pressed="false">Elected</button>
+          <button class="audience-toggle__btn" type="button" data-audience="developer" aria-pressed="true">Developer</button>
+          <button class="audience-toggle__btn" type="button" data-audience="financier" aria-pressed="false">Financier</button>
         </div>
         <nav class="site-nav" aria-label="Primary">
           ${GROUPS.map(g => `
@@ -450,6 +483,80 @@
       var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
       window.__navShowError(msg);
     });
+
+    // #11 — Audience toggle: restore saved preference, wire buttons
+    (function () {
+      var saved = '';
+      try { saved = localStorage.getItem('coho_audience') || 'developer'; } catch (_) {}
+      var toggleWrap = document.getElementById('audienceToggleWrap');
+      if (toggleWrap) {
+        toggleWrap.querySelectorAll('[data-audience]').forEach(function (btn) {
+          var aud = btn.getAttribute('data-audience');
+          btn.setAttribute('aria-pressed', String(aud === saved));
+          btn.addEventListener('click', function () {
+            try { localStorage.setItem('coho_audience', aud); } catch (_) {}
+            toggleWrap.querySelectorAll('[data-audience]').forEach(function (b) {
+              b.setAttribute('aria-pressed', String(b === btn));
+            });
+            if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(aud);
+            if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(aud);
+          });
+        });
+        // Apply saved audience to modules when they load
+        document.addEventListener('DOMContentLoaded', function () {
+          if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(saved);
+          if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(saved);
+        });
+      }
+    }());
+
+    // #12 — Project switcher: click pill → show dropdown with recent projects + New Project
+    (function () {
+      var _jxDropdown = null;
+      function _closeJxDropdown() {
+        if (_jxDropdown) { _jxDropdown.remove(); _jxDropdown = null; }
+      }
+      var pillWrap = document.getElementById('jurisdictionPillWrap');
+      if (pillWrap) {
+        pillWrap.addEventListener('click', function (e) {
+          if (_jxDropdown) { _closeJxDropdown(); return; }
+          var root = relToRoot();
+          var rows = '';
+          try {
+            var projects = window.WorkflowState && window.WorkflowState.listProjects() || [];
+            var active   = window.WorkflowState && window.WorkflowState.getActiveProject();
+            var activeId = active && active.id;
+            if (projects.length) {
+              rows += '<div class="jx-dropdown__label">Recent projects</div>';
+              projects.slice(0, 3).forEach(function (p) {
+                var isCur = p.id === activeId;
+                rows += '<button class="jx-dropdown__item' + (isCur ? '" style="font-weight:700' : '') +
+                  '" data-proj-id="' + p.id + '">' + (isCur ? '● ' : '') +
+                  (p.name || 'Untitled project').slice(0, 28) + '</button>';
+              });
+            }
+          } catch (_) {}
+          rows += '<a class="jx-dropdown__item jx-dropdown__item--new" href="' + root + 'select-jurisdiction.html?new=1">＋ New Project</a>';
+          _jxDropdown = document.createElement('div');
+          _jxDropdown.className = 'jx-dropdown';
+          _jxDropdown.innerHTML = rows;
+          // Wire project load buttons
+          _jxDropdown.querySelectorAll('[data-proj-id]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              try { window.WorkflowState && window.WorkflowState.loadProject(btn.getAttribute('data-proj-id')); } catch (_) {}
+              _closeJxDropdown();
+              _updateJurisdictionPill();
+            });
+          });
+          pillWrap.appendChild(_jxDropdown);
+          setTimeout(function () {
+            document.addEventListener('click', function _outside(ev) {
+              if (!pillWrap.contains(ev.target)) { _closeJxDropdown(); document.removeEventListener('click', _outside); }
+            });
+          }, 0);
+        });
+      }
+    }());
 
     _updateJurisdictionPill();
     document.addEventListener('workflow:step-updated', _updateJurisdictionPill);

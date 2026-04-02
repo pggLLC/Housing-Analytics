@@ -495,6 +495,15 @@
    * ───────────────────────────────────────────────────────────────────────── */
 
   function restoreFromWorkflowState() {
+    // #12: if arriving via ?new=1, start a fresh project instead of restoring
+    try {
+      var sp = new URLSearchParams(global.location.search);
+      if (sp.get('new') === '1' && global.WorkflowState && global.WorkflowState.newProject) {
+        global.WorkflowState.newProject('New Project');
+        return;   // blank slate — don't pre-fill anything
+      }
+    } catch (_) {}
+
     if (!global.WorkflowState || typeof global.WorkflowState.getStep !== 'function') { return; }
     var step;
     try { step = global.WorkflowState.getStep('jurisdiction'); } catch (e) { return; }

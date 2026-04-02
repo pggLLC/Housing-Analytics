@@ -22,6 +22,7 @@
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/export-panel.js" defer></script>
   <!-- Deferred: navigation and UI -->
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -504,7 +505,12 @@
 
       if (exportBtn) {
         exportBtn.addEventListener('click', function () {
-          window.print();
+          // Use ExportPanel if available, fallback to print
+          if (window.ExportPanel) {
+            ExportPanel.exportDeal({});
+          } else {
+            window.print();
+          }
         });
       }
     }
