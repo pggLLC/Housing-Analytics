@@ -1214,12 +1214,33 @@
       </section>
 
       <div class="chart-card span-12 methodology">
-        <h2>Methodology & data sources (dynamic)</h2>
+        <h2>Methodology & Data Sources</h2>
         <p style="color:var(--muted)">
           This section updates as you change geographies and as cached datasets become available.
           All sources link to the primary publisher.
         </p>
         <div id="methodology"></div>
+
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <h3 style="font-size:.95rem;margin:0 0 .6rem">Primary Data Sources</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
+            <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
+            <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
+            <div><strong>LEHD LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+            <div><strong>DOLA/SDO</strong> — <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">Population Projections</a></div>
+            <div><strong>HUD LIHTC</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Database</a></div>
+            <div><strong>HUD QCT/DDA</strong> — <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT</a> · <a href="https://www.huduser.gov/portal/datasets/dda.html" target="_blank" rel="noopener">DDA</a></div>
+            <div><strong>HUD FMR</strong> — <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">Fair Market Rents</a></div>
+            <div><strong>CHFA</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado Housing Finance Authority</a></div>
+            <div><strong>Prop 123</strong> — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings</a></div>
+            <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb.html" target="_blank" rel="noopener">Geographic Boundaries</a></div>
+          </div>
+          <p style="margin-top:.8rem;font-size:.82rem;color:var(--muted)">
+            Data refreshes automatically via GitHub Actions.
+            <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+            <a href="data-status.html">Data freshness status</a>
+          </p>
+        </div>
       </div>
     </section>
 
