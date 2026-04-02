@@ -1606,56 +1606,82 @@
 (function () {
   'use strict';
 
-  /* ── Trigger projection + neighborhood render when geography changes ── */
-  function onGeoChange(geoType, geoid, countyData) {
-    var fips = geoid;
-    // Normalize fips to 5-digit county FIPS
-    if (fips && fips.length > 5) fips = fips.slice(0, 5);
-    if (!fips || geoType === 'state') {
-      document.getElementById('hnpProjectionContainer').innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
-      document.getElementById('hnpAmiContainer').innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above.</p>';
-      document.getElementById('ncContextContainer').innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
-      return;
-    }
+  var _debounceTimer = null;
 
-    // Housing need projector
+  /* ── Render projections + neighborhood when geography is loaded ───── */
+  function onGeoChange() {
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) return;
+
+    var geoType    = geoTypeEl.value;
+    var geoid      = geoSelectEl.value;
+    var countyFips = geoid ? geoid.slice(0, 5) : '';
+
+    var _reset = function () {
+      var p1 = document.getElementById('hnpProjectionContainer');
+      var p2 = document.getElementById('hnpAmiContainer');
+      var p3 = document.getElementById('ncContextContainer');
+      if (p1) p1.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
+      if (p2) p2.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above.</p>';
+      if (p3) p3.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
+    };
+
+    if (!geoid || geoType === 'state') { _reset(); return; }
+
+    // Pull current county data from the HNA controller state (populated after load)
+    var countyData = {};
+    try {
+      if (window.HNAState && window.HNAState.state && window.HNAState.state.current) {
+        countyData = window.HNAState.state.current;
+      }
+    } catch (_) {}
+
+    // Housing need projections + AMI recommendation
     if (window.HousingNeedProjector) {
-      var pill = document.getElementById('projectionGeoPill');
-      if (pill) { pill.style.display = ''; pill.textContent = countyData && countyData.name ? countyData.name + ' County' : fips; }
-      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', fips, countyData || {});
-      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData || {});
+      var pill     = document.getElementById('projectionGeoPill');
+      var geoLabel = geoSelectEl.options[geoSelectEl.selectedIndex]
+        ? geoSelectEl.options[geoSelectEl.selectedIndex].text : countyFips;
+      if (pill) { pill.style.display = ''; pill.textContent = geoLabel; }
+      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData);
+      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
     }
 
-    // Neighborhood context (only meaningful at county level)
+    // Neighborhood context card
     if (window.NeighborhoodContext) {
-      var countyFips = fips.slice(0, 5);
       NeighborhoodContext.load().then(function () {
         NeighborhoodContext.renderContextCard('ncContextContainer', countyFips);
       });
     }
   }
 
-  /* ── Hook into existing hna-controller geography events ──────────── */
-  document.addEventListener('hna:geo-loaded', function (e) {
-    var d = e.detail || {};
-    onGeoChange(d.geoType || '', d.geoid || '', d.data || {});
-  });
+  function _debouncedOnGeoChange() {
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(onGeoChange, 350);
+  }
 
-  // Also watch for legacy SiteState county changes
-  document.addEventListener('sitestate:county-changed', function (e) {
-    var d = e.detail || {};
-    if (d.fips) onGeoChange('county', d.fips, { name: d.name });
-  });
-
-  /* ── Initialize EduCallout after page loads ─────────────────────── */
+  /* ── Watch #geoContextPill for HNA controller completion signal ───── */
+  // The controller updates the pill text when a geography finishes loading.
+  // Using MutationObserver avoids modifying hna-controller.js.
   document.addEventListener('DOMContentLoaded', function () {
+    var pill = document.getElementById('geoContextPill');
+    if (pill) {
+      new MutationObserver(_debouncedOnGeoChange)
+        .observe(pill, { childList: true, characterData: true, subtree: true });
+    }
+
+    // Also wire directly to geo selects for immediate debounce on user input
+    var geoSelectEl = document.getElementById('geoSelect');
+    var geoTypeEl   = document.getElementById('geoType');
+    if (geoSelectEl) geoSelectEl.addEventListener('change', _debouncedOnGeoChange);
+    if (geoTypeEl)   geoTypeEl.addEventListener('change',   _debouncedOnGeoChange);
+
+    // SiteState fallback
+    document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
+
+    // EduCallout init
     if (window.EduCallout) {
-      EduCallout.load().then(function () {
-        EduCallout.init({ audience: 'developer' });
-      });
+      EduCallout.load().then(function () { EduCallout.init({ audience: 'developer' }); });
     }
   });
 }());
