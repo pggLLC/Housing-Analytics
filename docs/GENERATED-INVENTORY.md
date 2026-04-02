@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T03:54:20.389Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T10:09:44.602Z. Do not edit by hand.
 
 ---
 
@@ -45,7 +45,7 @@
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 8.2 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 10.9 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 467 B |
 
@@ -78,9 +78,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 126.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 125.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.80 MB | ✅ | — |
+| `data/fred-data.json` | 949.3 KB | ✅ | — |
 | `data/glossary.json` | 7.4 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -900,7 +900,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 102.4 KB | ✅ | — |
+| `data/manifest.json` | 28.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
