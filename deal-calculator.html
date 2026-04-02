@@ -21,6 +21,7 @@
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
   <!-- Deferred: navigation and UI -->
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -97,6 +98,9 @@
     <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
       <div id="dealCalcMount"></div>
     </div>
+
+    <!-- LIHTC contextual tips (Deal Calculator step) -->
+    <div id="lihtcTipsMount-dc"></div>
 
     <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
     <section class="dc-edu-section" aria-labelledby="dcEduHeading">
@@ -512,6 +516,12 @@
       wireSaveExport();
       // Fix #2: update progress bar step completion from WorkflowState
       if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 5);
+      // LIHTC contextual tips for this step
+      if (window.LihtcTips) {
+        LihtcTips.render('lihtcTipsMount-dc',
+          ['eligible_basis', 'equity_price', 'dscr', 'capital_stack'],
+          { heading: 'Deal Structure Concepts' });
+      }
     }
 
     if (document.readyState === 'loading') {

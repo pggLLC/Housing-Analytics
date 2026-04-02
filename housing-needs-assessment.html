@@ -24,6 +24,7 @@
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -1221,6 +1222,9 @@
       </div>
     </section>
 
+    <!-- LIHTC contextual tips (HNA step) -->
+    <div id="lihtcTipsMount-hna"></div>
+
     <!-- HNA Save & Continue panel -->
     <section class="hna-continue-panel" id="hnaContinuePanel">
       <div class="hna-continue-panel__inner">
@@ -1934,6 +1938,13 @@
     // Re-run banner update if SiteState changes county
     document.addEventListener('sitestate:county-changed', updateJurisdictionBanner);
     document.addEventListener('workflow:step-updated', updateJurisdictionBanner);
+
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-hna',
+        ['ami', 'cost_burden', 'housing_gap', 'dola_projections'],
+        { heading: 'HNA Concepts' });
+    }
   });
 }());
 </script>

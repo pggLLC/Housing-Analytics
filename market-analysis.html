@@ -14,6 +14,7 @@
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -718,6 +719,9 @@
       </p>
     </section>
 
+    <!-- LIHTC contextual tips (Market Analysis step) -->
+    <div id="lihtcTipsMount-ma"></div>
+
     <!-- Market Analysis Save & Continue panel -->
     <section class="hna-continue-panel" id="maContinuePanel">
       <div class="hna-continue-panel__inner">
@@ -1043,6 +1047,12 @@
     document.addEventListener('workflow:step-updated', updateMaJurisdictionBanner);
     // Fix #2: update progress bar step completion from WorkflowState
     if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 3);
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-ma',
+        ['pma', 'capture_rate', 'comparable_units', 'vacancy_rate'],
+        { heading: 'Market Analysis Concepts' });
+    }
 
     var saveBtn = document.getElementById('maSaveProjectBtn');
     var confirm = document.getElementById('maSaveConfirmation');
