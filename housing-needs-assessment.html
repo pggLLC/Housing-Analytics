@@ -23,6 +23,7 @@
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -1616,7 +1617,32 @@
 
     var geoType    = geoTypeEl.value;
     var geoid      = geoSelectEl.value;
-    var countyFips = geoid ? geoid.slice(0, 5) : '';
+
+    // Fix #5: derive the correct county FIPS for all geo types.
+    // County GEOIDs are 5-digit and equal the FIPS directly.
+    // Place/CDP GEOIDs are 7-digit (stateCode + placeCode); slicing to 5 chars
+    // produces a garbage value (e.g. "0804000".slice(0,5) → "08040", not a county).
+    // Use containingCounty from geo-config for places, or HNAUtils as a fallback.
+    var countyFips = '';
+    if (geoid) {
+      if (geoType === 'county') {
+        countyFips = geoid;   // county GEOID === FIPS
+      } else if (geoType === 'place' || geoType === 'cdp') {
+        // Look up containingCounty from the loaded geo config
+        try {
+          var _gc  = window.__HNA_GEO_CONFIG;
+          var _col = (geoType === 'cdp') ? (_gc && _gc.cdps) : (_gc && _gc.places);
+          var _rec = _col && _col.filter(function (p) { return p.geoid === geoid; })[0];
+          countyFips = (_rec && _rec.containingCounty) || '';
+        } catch (_e1) {}
+        // Fallback: HNAUtils if available
+        if (!countyFips && window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+          try { countyFips = window.HNAUtils.countyFromGeoid(geoType, geoid) || ''; } catch (_e2) {}
+        }
+      } else {
+        countyFips = geoid.slice(0, 5);   // unexpected type — best effort
+      }
+    }
 
     var _reset = function () {
       var p1 = document.getElementById('hnpProjectionContainer');
@@ -1660,6 +1686,68 @@
     _debounceTimer = setTimeout(onGeoChange, 350);
   }
 
+  /* ── Fix #1: Auto-select geography from URL params or WorkflowState ── */
+  // After jurisdiction is set (e.g., from comparative analysis redirect with
+  // ?fips=08001&auto=1), pre-populate #geoType and #geoSelect so the user
+  // doesn't have to re-enter their jurisdiction on this page.
+  function _resolveAutoFips() {
+    // 1. Prefer explicit URL param (e.g. ?fips=08001&auto=1)
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      var f  = sp.get('fips');
+      if (f && /^\d{5}$/.test(f)) return f;
+    } catch (_) {}
+    // 2. WorkflowState jurisdiction
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx   = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx && jx.countyFips) return jx.countyFips;
+    } catch (_) {}
+    // 3. SiteState legacy county
+    try {
+      var sc = window.SiteState && window.SiteState.getCounty();
+      if (sc && sc.fips) return sc.fips;
+    } catch (_) {}
+    return null;
+  }
+
+  function _tryAutoSelect(targetFips, attempts) {
+    if (!targetFips) return;
+    attempts = attempts || 0;
+    if (attempts > 12) return;   // give up after ~6 s
+
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) {
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 400);
+      return;
+    }
+
+    // Ensure we're showing the county view
+    if (geoTypeEl.value !== 'county') {
+      geoTypeEl.value = 'county';
+      geoTypeEl.dispatchEvent(new Event('change', { bubbles: true }));
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+      return;
+    }
+
+    // Find an option whose value matches the county FIPS
+    var opts  = geoSelectEl.options;
+    var found = false;
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i].value === targetFips) {
+        geoSelectEl.value = opts[i].value;
+        geoSelectEl.dispatchEvent(new Event('change', { bubbles: true }));
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+    }
+  }
+
   /* ── Watch #geoContextPill for HNA controller completion signal ───── */
   // The controller updates the pill text when a geography finishes loading.
   // Using MutationObserver avoids modifying hna-controller.js.
@@ -1678,6 +1766,12 @@
 
     // SiteState fallback
     document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
+
+    // Fix #1: auto-select county if arriving from jurisdiction flow
+    var autoFips = _resolveAutoFips();
+    if (autoFips) {
+      setTimeout(function () { _tryAutoSelect(autoFips); }, 300);
+    }
 
     // EduCallout init
     if (window.EduCallout) {
@@ -1820,6 +1914,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     updateJurisdictionBanner();
     updateWorkflowStepState();
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 2);
 
     var saveBtn = document.getElementById('hnaSaveProjectBtn');
     var confirm = document.getElementById('hnaSaveConfirmation');

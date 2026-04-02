@@ -13,6 +13,7 @@
   <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -1009,16 +1010,24 @@
   function savePmaToProject() {
     if (!window.WorkflowState) return false;
     try {
-      var scoreEl    = document.getElementById('pmaScore');
-      var scoreLbl   = document.getElementById('pmaScoreLabel');
-      var latEl      = document.getElementById('pmaLat');
-      var lonEl      = document.getElementById('pmaLon');
+      // Fix #3: use correct DOM IDs (#pmaScoreCircle / #pmaScoreTier).
+      // The old IDs (#pmaScore, #pmaScoreLabel, #pmaLat, #pmaLon) never existed.
+      var scoreEl  = document.getElementById('pmaScoreCircle');
+      var scoreLbl = document.getElementById('pmaScoreTier');
+      // lat/lon come from PMAState when available; there are no DOM elements for them.
+      var lat = null, lon = null;
+      try {
+        if (window.PMAState && window.PMAState.site) {
+          lat = window.PMAState.site.lat != null ? window.PMAState.site.lat : null;
+          lon = window.PMAState.site.lon != null ? window.PMAState.site.lon : null;
+        }
+      } catch (_) {}
       var snapshot = {
         completedAt: new Date().toISOString(),
         score:       scoreEl  ? scoreEl.textContent.trim()  : null,
         label:       scoreLbl ? scoreLbl.textContent.trim() : null,
-        lat:         latEl    ? latEl.textContent.trim()    : null,
-        lon:         lonEl    ? lonEl.textContent.trim()    : null
+        lat:         lat,
+        lon:         lon
       };
       WorkflowState.setStep('market', snapshot);
       return true;
@@ -1032,6 +1041,8 @@
     updateMaJurisdictionBanner();
     document.addEventListener('sitestate:county-changed', updateMaJurisdictionBanner);
     document.addEventListener('workflow:step-updated', updateMaJurisdictionBanner);
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 3);
 
     var saveBtn = document.getElementById('maSaveProjectBtn');
     var confirm = document.getElementById('maSaveConfirmation');
