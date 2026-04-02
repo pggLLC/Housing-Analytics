@@ -452,6 +452,24 @@
     // Fix #2: update progress bar step completion from WorkflowState
     if (window.WorkflowProgress) WorkflowProgress.refreshSteps('sbWorkflowProgress', 4);
 
+    // Fix #9: pre-select county from WorkflowState / SiteState
+    var sbSel = document.getElementById('sbCountySelect');
+    if (sbSel) {
+      var _jxFips = null;
+      try {
+        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+        if (_jx && _jx.countyFips) _jxFips = _jx.countyFips;
+      } catch (_) {}
+      if (!_jxFips) {
+        try {
+          var _sc = window.SiteState && window.SiteState.getCounty();
+          if (_sc && _sc.fips) _jxFips = _sc.fips;
+        } catch (_) {}
+      }
+      if (_jxFips) sbSel.value = _jxFips;
+    }
+
     var saveBtn = document.getElementById('sbSaveBtn');
     var confirm = document.getElementById('sbSaveConfirm');
     if (saveBtn) {

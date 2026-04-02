@@ -477,6 +477,10 @@
       '</p>';
 
     container.innerHTML = introPara + table + currentGapNote + methodNote;
+    // Fix #4: re-scan for any [data-edu] anchors injected by this render
+    if (window.EduCallout && window.EduCallout.isLoaded()) {
+      window.EduCallout.scan(container);
+    }
   }
 
   function _projRow(label, scenario, annualGap, isBaseline) {

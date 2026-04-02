@@ -503,18 +503,50 @@
     // Wire up county selector
     var countySel = document.getElementById('dc-county-select');
     if (countySel) {
-      // Populate options once HudFmr is ready
-      var tryPopulate = function () {
-        if (window.HudFmr && window.HudFmr.isLoaded()) {
-          populateCountySelector(countySel);
-        } else if (window.HudFmr) {
-          window.HudFmr.load().then(function () {
-            populateCountySelector(countySel);
-          });
+      // Fix #8: retry until HudFmr deferred script initialises (up to ~7.5 s).
+      // After populating, pre-select the county from WorkflowState / SiteState.
+      var _populateRetries = 0;
+      var _afterPopulate = function () {
+        // Pre-select jurisdiction county so user doesn't re-enter it
+        var fips = null;
+        try {
+          var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+          var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+          if (_jx && _jx.countyFips) fips = _jx.countyFips;
+        } catch (_) {}
+        if (!fips) {
+          try {
+            var _sc = window.SiteState && window.SiteState.getCounty();
+            if (_sc && _sc.fips) fips = _sc.fips;
+          } catch (_) {}
+        }
+        if (fips) {
+          for (var _i = 0; _i < countySel.options.length; _i++) {
+            if (countySel.options[_i].value === fips) {
+              countySel.value = fips;
+              countySel.dispatchEvent(new Event('change', { bubbles: true }));
+              break;
+            }
+          }
         }
       };
-      // Retry after a short delay to allow deferred scripts to initialise
-      setTimeout(tryPopulate, 200);
+      var _doPopulate = function () {
+        if (window.HudFmr) {
+          if (window.HudFmr.isLoaded()) {
+            populateCountySelector(countySel);
+            _afterPopulate();
+          } else {
+            window.HudFmr.load().then(function () {
+              populateCountySelector(countySel);
+              _afterPopulate();
+            });
+          }
+        } else if (++_populateRetries < 15) {
+          // HudFmr script hasn't initialised yet — retry
+          setTimeout(_doPopulate, 500);
+        }
+      };
+      setTimeout(_doPopulate, 200);
 
       countySel.addEventListener('change', function () {
         var fips = this.value;
