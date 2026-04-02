@@ -1126,6 +1126,8 @@
     if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
 
     map = L.map('pmaMap', { zoomControl: true, maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
+    // Expose map so the page's inline jurisdiction logic can flyTo county centroids (#13)
+    window._cohoMap = map;
 
     // Restrict pan/zoom tightly to Colorado state boundary + minimal padding.
     // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.

@@ -23,6 +23,7 @@
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/export-panel.js" defer></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -335,6 +336,9 @@
       <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology Documentation</a>
     </div>
 
+    <!-- Export panel (Scenario Builder step) -->
+    <div id="exportPanelMount-sb"></div>
+
     <!-- Scenario Save & Continue panel -->
     <section class="hna-continue-panel" id="sbContinuePanel">
       <div class="hna-continue-panel__inner">
@@ -343,7 +347,7 @@
           <span>Save your scenario assumptions to this project, then move to the Deal Calculator to model the full capital stack.</span>
         </div>
         <div class="hna-continue-panel__actions">
-          <button class="btn hna-save-btn" id="sbSaveBtn" type="button">Save Scenarios</button>
+          <button class="btn hna-save-btn" id="sbSaveBtn" type="button" disabled title="Load a county above to enable saving">Save Scenarios</button>
           <a class="btn btn-primary hna-continue-btn" href="deal-calculator.html">Continue to Deal Calculator →</a>
         </div>
       </div>
@@ -478,6 +482,20 @@
         } catch (_) {}
       }
       if (_jxFips) sbSel.value = _jxFips;
+    }
+
+    // #10 Export panel
+    if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');
+
+    // #14 Enable save button after county data loads
+    var sbLoadBtn = document.getElementById('sbLoadCounty');
+    if (sbLoadBtn) {
+      sbLoadBtn.addEventListener('click', function () {
+        setTimeout(function () {
+          var sb = document.getElementById('sbSaveBtn');
+          if (sb) { sb.disabled = false; sb.removeAttribute('title'); }
+        }, 1200);
+      });
     }
 
     var saveBtn = document.getElementById('sbSaveBtn');

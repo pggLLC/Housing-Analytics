@@ -15,6 +15,7 @@
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/export-panel.js" defer></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -721,6 +722,8 @@
 
     <!-- LIHTC contextual tips (Market Analysis step) -->
     <div id="lihtcTipsMount-ma"></div>
+    <!-- Export panel (Market Analysis step) -->
+    <div id="exportPanelMount-ma"></div>
 
     <!-- Market Analysis Save & Continue panel -->
     <section class="hna-continue-panel" id="maContinuePanel">
@@ -730,7 +733,7 @@
           <span>Save your PMA score and site analysis to this project, then continue to Scenario Builder.</span>
         </div>
         <div class="hna-continue-panel__actions">
-          <button class="btn hna-save-btn" id="maSaveProjectBtn" type="button">Save PMA to Project</button>
+          <button class="btn hna-save-btn" id="maSaveProjectBtn" type="button" disabled title="Score a site above to enable saving">Save PMA to Project</button>
           <a class="btn btn-primary hna-continue-btn" href="hna-scenario-builder.html">
             Continue to Scenarios →
           </a>
@@ -1054,9 +1057,66 @@
         { heading: 'Market Analysis Concepts' });
     }
 
+    // #10 Export panel
+    if (window.ExportPanel) ExportPanel.render('exportPanelMount-ma', 'market');
+
+    // #13 Fly map to jurisdiction county centroid when jurisdiction is known
+    var _CO_CENTROIDS = {
+      '08001':[39.87,-104.34],'08003':[37.19,-105.87],'08005':[39.63,-104.77],
+      '08007':[38.85,-105.49],'08009':[38.44,-102.60],'08011':[37.30,-102.56],
+      '08013':[40.09,-105.36],'08014':[40.37,-104.69],'08015':[38.17,-105.15],
+      '08017':[37.58,-107.88],'08019':[37.95,-104.52],'08021':[37.18,-104.51],
+      '08023':[40.88,-107.56],'08025':[39.33,-108.44],'08027':[37.28,-104.06],
+      '08029':[38.86,-104.52],'08031':[39.76,-104.88],'08033':[37.68,-106.92],
+      '08035':[39.59,-107.03],'08037':[40.54,-104.35],'08039':[40.38,-104.00],
+      '08041':[38.83,-105.04],'08043':[37.38,-106.04],'08045':[38.66,-106.07],
+      '08047':[39.65,-102.61],'08049':[39.01,-106.92],'08051':[39.15,-106.57],
+      '08053':[39.45,-105.77],'08055':[40.26,-103.80],'08057':[38.42,-107.87],
+      '08059':[40.09,-104.36],'08061':[38.35,-102.07],'08063':[38.08,-105.93],
+      '08065':[40.67,-103.12],'08067':[40.03,-103.48],'08069':[40.27,-105.10],
+      '08071':[37.35,-108.59],'08073':[37.44,-108.33],'08075':[39.33,-107.64],
+      '08077':[39.24,-108.89],'08079':[37.97,-103.72],'08081':[39.01,-107.63],
+      '08083':[37.47,-107.34],'08085':[38.44,-105.68],'08087':[37.44,-105.37],
+      '08089':[40.88,-102.60],'08091':[37.65,-105.70],'08093':[40.84,-103.52],
+      '08095':[40.59,-102.61],'08097':[38.75,-108.24],'08099':[38.51,-104.52],
+      '08101':[40.88,-104.36],'08103':[37.57,-103.51],'08105':[40.25,-107.22],
+      '08107':[38.67,-103.15],'08109':[37.29,-106.66],'08111':[37.68,-107.32],
+      '08113':[37.16,-107.00],'08115':[39.64,-106.42],'08117':[39.57,-106.04],
+      '08119':[39.08,-102.62],'08121':[37.43,-104.63],'08123':[39.68,-102.07],
+      '08125':[40.00,-102.08]
+    };
+    function _flyToJurisdiction() {
+      var fips = null;
+      try {
+        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+        if (_jx && _jx.countyFips) fips = _jx.countyFips;
+      } catch (_) {}
+      if (!fips) {
+        try { var _sc = window.SiteState && window.SiteState.getCounty(); if (_sc && _sc.fips) fips = _sc.fips; } catch (_) {}
+      }
+      if (fips && _CO_CENTROIDS[fips] && window._cohoMap) {
+        window._cohoMap.flyTo(_CO_CENTROIDS[fips], 10, { duration: 1.2 });
+      }
+    }
+    // Fly on load and whenever jurisdiction changes
+    setTimeout(_flyToJurisdiction, 800);
+    document.addEventListener('workflow:step-updated', _flyToJurisdiction);
+    document.addEventListener('sitestate:county-changed', _flyToJurisdiction);
+
+    // #14 Enable save button only after PMA score renders
     var saveBtn = document.getElementById('maSaveProjectBtn');
     var confirm = document.getElementById('maSaveConfirmation');
     if (saveBtn) {
+      var scoreEl = document.getElementById('pmaScoreCircle');
+      if (scoreEl) {
+        new MutationObserver(function () {
+          if (scoreEl.textContent.trim()) {
+            saveBtn.disabled = false;
+            saveBtn.removeAttribute('title');
+          }
+        }).observe(scoreEl, { childList: true, characterData: true, subtree: true });
+      }
       saveBtn.addEventListener('click', function () {
         var ok = savePmaToProject();
         if (ok && confirm) {

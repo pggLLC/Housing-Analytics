@@ -317,7 +317,7 @@
 
       /* ---- Badge row ---- */
       '  <div class="nc-badges">',
-      '    <span class="nc-badge nc-badge--form">' + formEra + '</span>',
+      '    <span class="nc-badge nc-badge--form" title="Development form and era: reflects the primary physical character and construction period of the housing stock">' + formEra + '</span>',
       '    <span class="nc-badge nc-badge--density">' + density + '</span>',
       '    <span class="' + pressureCls + '">' + pressureTxt + '</span>',
       yearBadge,
