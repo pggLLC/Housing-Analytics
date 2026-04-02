@@ -22,6 +22,7 @@
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -173,6 +174,9 @@
       </div>
       <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
     </section>
+
+    <!-- LIHTC contextual tips (Scenario Builder step) -->
+    <div id="lihtcTipsMount-sb"></div>
 
     <!-- Main layout -->
     <div class="sb-layout">
@@ -451,6 +455,12 @@
     document.addEventListener('workflow:step-updated', updateBanner);
     // Fix #2: update progress bar step completion from WorkflowState
     if (window.WorkflowProgress) WorkflowProgress.refreshSteps('sbWorkflowProgress', 4);
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-sb',
+        ['lihtc', 'credit_rate_9pct', 'qct', 'chfa_qap'],
+        { heading: 'Scenario & Credit Concepts' });
+    }
 
     // Fix #9: pre-select county from WorkflowState / SiteState
     var sbSel = document.getElementById('sbCountySelect');
