@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T01:50:54.786Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T01:57:41.903Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-37 pages found.
+38 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -27,6 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.5 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 25.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 20.2 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 17.1 KB |
