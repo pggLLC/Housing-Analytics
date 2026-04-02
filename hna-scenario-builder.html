@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/scenario-builder.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/workflow-state.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -41,14 +42,46 @@
 
   <main id="main-content" class="sb-main">
 
-    <!-- Breadcrumb -->
-    <nav class="workflow-steps" aria-label="Analysis workflow">
-      <a class="workflow-step" href="housing-needs-assessment.html" data-i18n="nav.hna">Housing Needs Assessment</a>
-      <span class="workflow-step-arrow" aria-hidden="true">→</span>
-      <a class="workflow-step" href="hna-comparative-analysis.html" data-i18n="nav.hnaRanking">Comparative Ranking</a>
-      <span class="workflow-step-arrow" aria-hidden="true">→</span>
-      <span class="workflow-step workflow-step--active" data-i18n="nav.hnaScenarios">Projection Scenarios</span>
-    </nav>
+    <!-- Workflow progress bar (Step 4 of 5) -->
+    <div class="wf-progress-wrap" id="sbWorkflowProgress">
+      <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+        <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+          <span class="wf-step__num">✓</span>
+          <span class="wf-step__label">Jurisdiction</span>
+        </a>
+        <div class="wf-step-connector"></div>
+        <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+          <span class="wf-step__num">✓</span>
+          <span class="wf-step__label">Needs Assessment</span>
+        </a>
+        <div class="wf-step-connector"></div>
+        <a class="wf-step wf-step--done" href="market-analysis.html" data-step="3">
+          <span class="wf-step__num">✓</span>
+          <span class="wf-step__label">Market Analysis</span>
+        </a>
+        <div class="wf-step-connector"></div>
+        <div class="wf-step wf-step--active" data-step="4" aria-current="step">
+          <span class="wf-step__num">4</span>
+          <span class="wf-step__label">Scenarios</span>
+        </div>
+        <div class="wf-step-connector"></div>
+        <a class="wf-step" href="deal-calculator.html" data-step="5">
+          <span class="wf-step__num">5</span>
+          <span class="wf-step__label">Deal</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Jurisdiction context banner -->
+    <div id="sbJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info">
+          <span class="hna-jurisdiction-banner__label">Analyzing</span>
+          <strong id="sbJurisdictionName">—</strong>
+        </div>
+        <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
+      </div>
+    </div>
 
     <!-- Hero -->
     <div class="sb-hero">
@@ -297,6 +330,21 @@
       <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology Documentation</a>
     </div>
 
+    <!-- Scenario Save & Continue panel -->
+    <section class="hna-continue-panel" id="sbContinuePanel">
+      <div class="hna-continue-panel__inner">
+        <div class="hna-continue-panel__text">
+          <strong>Step 4 complete?</strong>
+          <span>Save your scenario assumptions to this project, then move to the Deal Calculator to model the full capital stack.</span>
+        </div>
+        <div class="hna-continue-panel__actions">
+          <button class="btn hna-save-btn" id="sbSaveBtn" type="button">Save Scenarios</button>
+          <a class="btn btn-primary hna-continue-btn" href="deal-calculator.html">Continue to Deal Calculator →</a>
+        </div>
+      </div>
+      <div id="sbSaveConfirm" class="hna-save-confirmation" hidden>✓ Scenarios saved to project</div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -344,5 +392,81 @@
       }
     });
   </script>
+
+<script>
+/* Workflow: progress bar styles + jurisdiction banner + save-to-project */
+(function () {
+  'use strict';
+  if (!document.getElementById('wf-progress-styles')) {
+    var s = document.createElement('style');
+    s.id = 'wf-progress-styles';
+    s.textContent = [
+      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+      '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
+      '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
+      '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
+      '.wf-step--active .wf-step__num{background:var(--accent);color:#fff;border-color:var(--accent);}',
+      '.wf-step--active .wf-step__label{color:var(--accent);}',
+      '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
+      '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
+      '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+      '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+      '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+      '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+      '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;}',
+      '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
+      '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
+      '.hna-continue-panel__text{flex:1;min-width:200px;}',
+      '.hna-continue-panel__text strong{display:block;margin-bottom:4px;}',
+      '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
+      '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
+      '.hna-save-btn{padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text);}',
+      '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent);}',
+      '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
+      '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
+  function updateBanner() {
+    var banner = document.getElementById('sbJurisdictionBanner');
+    var nameEl = document.getElementById('sbJurisdictionName');
+    if (!banner || !nameEl) return;
+    var countyName = null;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      if (proj && proj.steps && proj.steps.jurisdiction) countyName = proj.steps.jurisdiction.countyName || null;
+    } catch (_) {}
+    if (!countyName) {
+      try { var sc = window.SiteState && window.SiteState.getCounty(); if (sc && sc.name) countyName = sc.name; } catch (_) {}
+    }
+    if (countyName) { nameEl.textContent = countyName + ' County'; banner.removeAttribute('hidden'); }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    updateBanner();
+    document.addEventListener('sitestate:county-changed', updateBanner);
+    document.addEventListener('workflow:step-updated', updateBanner);
+
+    var saveBtn = document.getElementById('sbSaveBtn');
+    var confirm = document.getElementById('sbSaveConfirm');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function () {
+        if (!window.WorkflowState) return;
+        try {
+          var sel = document.getElementById('sbCountySelect');
+          var snapshot = {
+            completedAt: new Date().toISOString(),
+            county: sel ? (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].text) : null
+          };
+          WorkflowState.setStep('scenario', snapshot);
+          if (confirm) { confirm.removeAttribute('hidden'); saveBtn.textContent = 'Saved ✓'; saveBtn.disabled = true; setTimeout(function(){ confirm.setAttribute('hidden',''); }, 3000); }
+        } catch(e) { console.warn('[SB] save failed', e); }
+      });
+    }
+  });
+}());
+</script>
 </body>
 </html>

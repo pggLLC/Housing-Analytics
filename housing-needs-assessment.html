@@ -52,6 +52,11 @@
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
+  <!-- New modules: projections, neighborhood context, educational callouts, export -->
+  <script defer src="js/housing-need-projector.js"></script>
+  <script defer src="js/neighborhood-context.js"></script>
+  <script defer src="js/components/edu-callout.js"></script>
+  <script defer src="js/components/export-panel.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/site-state.js"></script>
@@ -875,6 +880,50 @@
         </div>
       </section>
 
+      <!-- ── Projected Housing Need & AMI Recommendation ── -->
+      <section id="housing-need-projection" class="chart-card span-12" aria-label="Projected housing need">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Projected Housing Need</h2>
+          <span class="pill" id="projectionGeoPill" style="display:none"></span>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and current housing gap.
+          <span data-edu="dola_projections"></span>
+        </p>
+        <!-- Projection table — rendered by HousingNeedProjector -->
+        <div id="hnpProjectionContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate projections.</p>
+        </div>
+
+        <!-- AMI Distribution Recommendation -->
+        <div style="margin-top:28px;border-top:1px solid var(--border);padding-top:20px">
+          <h3 style="margin:0 0 6px">Recommended AMI Distribution
+            <span data-edu="ami"></span>
+          </h3>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+            Based on current income distribution and cost burden, the following AMI targeting mix is recommended for a new LIHTC project in this jurisdiction.
+            <span data-edu="lihtc"></span>
+          </p>
+          <div id="hnpAmiContainer">
+            <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Neighborhood & Architectural Context ── -->
+      <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Neighborhood & Architectural Context</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
+        </p>
+        <!-- Neighborhood context card — rendered by NeighborhoodContext -->
+        <div id="ncContextContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
+        </div>
+      </section>
+
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
@@ -1548,6 +1597,66 @@
         }
       });
     });
+  });
+}());
+</script>
+
+<!-- Projected housing need + neighborhood context + edu callouts integration -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Trigger projection + neighborhood render when geography changes ── */
+  function onGeoChange(geoType, geoid, countyData) {
+    var fips = geoid;
+    // Normalize fips to 5-digit county FIPS
+    if (fips && fips.length > 5) fips = fips.slice(0, 5);
+    if (!fips || geoType === 'state') {
+      document.getElementById('hnpProjectionContainer').innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
+      document.getElementById('hnpAmiContainer').innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above.</p>';
+      document.getElementById('ncContextContainer').innerHTML =
+        '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
+      return;
+    }
+
+    // Housing need projector
+    if (window.HousingNeedProjector) {
+      var pill = document.getElementById('projectionGeoPill');
+      if (pill) { pill.style.display = ''; pill.textContent = countyData && countyData.name ? countyData.name + ' County' : fips; }
+      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', fips, countyData || {});
+      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData || {});
+    }
+
+    // Neighborhood context (only meaningful at county level)
+    if (window.NeighborhoodContext) {
+      var countyFips = fips.slice(0, 5);
+      NeighborhoodContext.load().then(function () {
+        NeighborhoodContext.renderContextCard('ncContextContainer', countyFips);
+      });
+    }
+  }
+
+  /* ── Hook into existing hna-controller geography events ──────────── */
+  document.addEventListener('hna:geo-loaded', function (e) {
+    var d = e.detail || {};
+    onGeoChange(d.geoType || '', d.geoid || '', d.data || {});
+  });
+
+  // Also watch for legacy SiteState county changes
+  document.addEventListener('sitestate:county-changed', function (e) {
+    var d = e.detail || {};
+    if (d.fips) onGeoChange('county', d.fips, { name: d.name });
+  });
+
+  /* ── Initialize EduCallout after page loads ─────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.EduCallout) {
+      EduCallout.load().then(function () {
+        EduCallout.init({ audience: 'developer' });
+      });
+    }
   });
 }());
 </script>
