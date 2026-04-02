@@ -44,6 +44,11 @@ CACHE_TTL_HOURS = 24
 TIGERWEB_TRACTS = (
     "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer/0"
 )
+# Census Cartographic Boundary GeoJSON — used as fallback when TIGERweb returns 0 features.
+# 500k-resolution polygon file for Colorado tracts (≈3 MB, one request, no pagination).
+CENSUS_CB_TRACTS_URL = (
+    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json"
+)
 ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
@@ -465,10 +470,56 @@ def build_tract_boundaries() -> dict:
         offset += len(raw_features)
 
     log(f"[arcgis] {len(features)} tract boundary features built")
+
+    # ── Census Cartographic Boundary fallback ─────────────────────────────────
+    # TIGERweb's Tracts_Blocks/MapServer/0 endpoint has intermittently returned
+    # 0 features.  When that happens, fetch the pre-built 500k-resolution
+    # polygon file from Census FTP — a single GeoJSON, no pagination required.
+    if not features:
+        log(
+            "[boundary-fallback] TIGERweb returned 0 features; "
+            "trying Census Cartographic Boundary GeoJSON…",
+            level="WARN",
+        )
+        try:
+            raw_cb = fetch_url(CENSUS_CB_TRACTS_URL)
+            cb = json.loads(raw_cb)
+            cb_features = cb.get("features", [])
+            for f in cb_features:
+                props = f.get("properties") or {}
+                geoid = str(props.get("GEOID") or props.get("GEOID20") or "")
+                geom = f.get("geometry")
+                if not geoid or not geom:
+                    continue
+                county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
+                features.append({
+                    "type": "Feature",
+                    "geometry": geom,
+                    "properties": {
+                        "GEOID": geoid,
+                        "geoid": geoid,
+                        "NAME": props.get("NAMELSAD", f"Tract {geoid[-6:]}"),
+                        "county_fips": county_fips,
+                    },
+                })
+            log(
+                f"[boundary-fallback] Census Cartographic Boundary: "
+                f"{len(features)} features loaded",
+            )
+            source_note = "Census Cartographic Boundary 500k (cb_2022_08_tract_500k.json) — fallback"
+        except Exception as cb_exc:
+            log(
+                f"[boundary-fallback] Census Cartographic Boundary fetch failed: {cb_exc}",
+                level="ERROR",
+            )
+            source_note = "US Census TIGERweb ArcGIS REST (public) — unavailable"
+    else:
+        source_note = "US Census TIGERweb ArcGIS REST (public)"
+
     return {
         "type": "FeatureCollection",
         "meta": {
-            "source": "US Census TIGERweb ArcGIS REST (public)",
+            "source": source_note,
             "state": "Colorado",
             "state_fips": STATE_FIPS,
             "generated": datetime.now(timezone.utc).isoformat(),
