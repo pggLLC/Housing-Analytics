@@ -24,6 +24,9 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script src="js/components/workflow-progress.js"></script>
+  <script src="js/components/edu-callout.js"></script>
+  <script src="js/components/lihtc-tips.js"></script>
   <script defer src="js/jurisdiction-selector.js"></script>
 </head>
 <body>
@@ -161,7 +164,25 @@
       <div class="sj-recent__list" id="sjRecentList"></div>
     </div>
 
+    <!-- LIHTC contextual tips for Step 1 -->
+    <div id="lihtcTipsMount-sj" style="margin-top:2rem;max-width:760px;margin-left:auto;margin-right:auto;padding:0 1rem 2rem;"></div>
+
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Sync workflow progress bar with WorkflowState
+      if (window.WorkflowProgress && window.WorkflowProgress.refreshSteps) {
+        window.WorkflowProgress.refreshSteps('workflowProgress', 1);
+      }
+      // Render LIHTC contextual tips for jurisdiction selection
+      if (window.LihtcTips && window.LihtcTips.render) {
+        window.LihtcTips.render('lihtcTipsMount-sj', ['lihtc_basics', 'qap', 'site_selection'], {
+          heading: 'LIHTC Essentials for Site Selection'
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
