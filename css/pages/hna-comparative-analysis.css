@@ -509,3 +509,72 @@
   text-align: right;
   color: var(--text);
 }
+
+/* ----------------------------------------------------------------
+   Housing Commitment Scorecard — table badge
+   ---------------------------------------------------------------- */
+.hca-commit-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.hca-commit-high  { background: color-mix(in oklab, var(--good, #16a34a) 18%, transparent); color: var(--good, #16a34a); }
+.hca-commit-mid   { background: color-mix(in oklab, var(--warn, #d97706) 18%, transparent); color: var(--warn, #d97706); }
+.hca-commit-low   { background: color-mix(in oklab, var(--bad, #dc2626) 18%, transparent);  color: var(--bad, #dc2626); }
+.hca-commit-none  { color: var(--muted); font-weight: 400; }
+
+/* ----------------------------------------------------------------
+   Housing Commitment Scorecard — detail panel
+   ---------------------------------------------------------------- */
+.hca-scorecard-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.hca-scorecard-panel h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.6rem;
+}
+.hca-scorecard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
+@media (max-width: 640px) {
+  .hca-scorecard-grid { grid-template-columns: 1fr; }
+}
+.hca-sc-item {
+  font-size: 0.83rem;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hca-sc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hca-sc-yes  { color: var(--text); }
+.hca-sc-yes  .hca-sc-icon { background: var(--good, #16a34a); color: #fff; }
+.hca-sc-no   { color: var(--muted); }
+.hca-sc-no   .hca-sc-icon { background: var(--bad, #dc2626); color: #fff; }
+.hca-sc-unknown       { color: var(--muted); font-style: italic; }
+.hca-sc-unknown .hca-sc-icon { background: var(--border); color: var(--muted); }
+.hca-scorecard-summary {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}

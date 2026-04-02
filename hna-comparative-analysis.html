@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>HNA Comparative Ranking | COHO Analytics</title>
-  <meta name="description" content="Statewide comparative ranking of Housing Needs Assessments for all Colorado counties, municipalities, and CDPs — sorted by housing gap, affordability, and growth metrics." />
+  <meta name="description" content="Statewide comparative ranking of Housing Needs Assessments for all Colorado counties, incorporated places, and CDPs — sorted by housing gap, affordability, and growth metrics." />
   <meta property="og:title" content="HNA Comparative Ranking | COHO Analytics">
-  <meta property="og:description" content="Rank all Colorado counties, municipalities, and CDPs by housing need metrics.">
+  <meta property="og:description" content="Rank all Colorado counties, incorporated places, and CDPs by housing need metrics.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +52,7 @@
       <div class="kicker">Colorado • Statewide Context</div>
       <h1>Compare Jurisdictions</h1>
       <p class="hca-hero-sub">
-        Rank all 64 Colorado counties, municipalities, and Census-Designated Places by housing need.
+        Rank all 64 Colorado counties, incorporated places, and Census-Designated Places by housing need.
         Click any row to see its statewide position, strengths and challenges, and a direct link to
         begin your <a href="housing-needs-assessment.html">Housing Needs Assessment</a>.
         Rankings refresh automatically each Monday.
@@ -72,7 +72,7 @@
       </div>
       <div class="hca-kpi-card">
         <span class="hca-kpi-value" id="hcaKpiPlaces">—</span>
-        <span class="hca-kpi-label">Municipalities</span>
+        <span class="hca-kpi-label">Incorporated Places</span>
       </div>
       <div class="hca-kpi-card">
         <span class="hca-kpi-value" id="hcaKpiCDPs">—</span>
@@ -85,7 +85,7 @@
       <button class="hca-quick-btn active" data-preset="all"         type="button">All Geographies</button>
       <button class="hca-quick-btn"        data-preset="top10"       type="button">Top Need</button>
       <button class="hca-quick-btn"        data-preset="counties"    type="button">Counties Only</button>
-      <button class="hca-quick-btn"        data-preset="places"      type="button">Municipalities Only</button>
+      <button class="hca-quick-btn"        data-preset="places"      type="button">Incorporated Places Only</button>
       <button class="hca-quick-btn"        data-preset="cdps"        type="button">CDPs Only</button>
       <button class="hca-quick-btn"        data-preset="frontRange"  type="button">Front Range</button>
       <button class="hca-quick-btn"        data-preset="mountains"   type="button">Mountains</button>
@@ -108,7 +108,7 @@
         <select id="hcaFilterType" class="hca-select" aria-label="Filter by geography type">
           <option value="">All types</option>
           <option value="county">County</option>
-          <option value="place">Municipality</option>
+          <option value="place">Incorporated Place</option>
           <option value="cdp">CDP</option>
         </select>
       </label>
@@ -130,6 +130,7 @@
         Sort by
         <select id="hcaSortMetric" class="hca-select" aria-label="Sort by metric">
           <option value="overall_need_score">Overall Housing Need</option>
+          <option value="commitment_score">Housing Commitment Score</option>
           <option value="housing_gap_units">Units Needed (30% AMI)</option>
           <option value="pct_cost_burdened">% Rent Burdened</option>
           <option value="in_commuters">In-Commuters</option>
@@ -185,7 +186,7 @@
           </tr>
         </thead>
         <tbody id="hcaTableBody" role="rowgroup">
-          <tr><td colspan="12" class="hca-loading" aria-live="polite">Loading ranking data…</td></tr>
+          <tr><td colspan="13" class="hca-loading" aria-live="polite">Loading ranking data…</td></tr>
         </tbody>
       </table>
     </div>
@@ -195,7 +196,10 @@
       HUD CHAS cost-burden data, LEHD commuting flows, and AMI gap modeling.
       <strong>Overall Need Score</strong> weights: 50% unit gap (30% AMI), 30% cost-burden rate, 20% in-commuter pressure.
       Underserved AMI tiers are those with &lt;75% market coverage and a deficit &gt;100 units.
-      Municipal values are scaled by population share within their containing county.
+      Incorporated place values are scaled by population share within their containing county.
+      <strong>Housing Commitment</strong> scores are derived from DOLA Proposition 123 filings, local housing authority
+      registries, inclusionary zoning ordinance data, local housing trust fund programs, and jurisdiction-level
+      housing plans and advocacy organizations.
       Data refreshes automatically each Monday 06:30 UTC via GitHub Actions.
       · <a href="housing-needs-assessment.html">Run individual HNA →</a>
       · <a href="data-status.html">Data freshness →</a>

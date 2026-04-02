@@ -13,8 +13,9 @@
   // Constants
   // -------------------------------------------------------------------------
 
-  const DATA_PATH = 'data/hna/ranking-index.json';
-  const HNA_PAGE  = 'housing-needs-assessment.html';
+  const DATA_PATH      = 'data/hna/ranking-index.json';
+  const SCORECARD_PATH = 'data/policy/housing-policy-scorecard.json';
+  const HNA_PAGE       = 'housing-needs-assessment.html';
 
   const DEFAULT_METRIC = 'overall_need_score';
   const DEFAULT_SORT_DIR = 'desc';
@@ -34,6 +35,7 @@
   let _selectedGeoid  = '';
   let _metadata       = {};
   let _metricsConfig  = [];
+  let _scorecardData  = {};   // housing-policy-scorecard.json scores
   let _renderedCount  = 0;
 
   // -------------------------------------------------------------------------
@@ -45,10 +47,14 @@
       ? window.safeFetchJSON
       : (u) => fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 
-    const data = await fetcher(DATA_PATH);
+    const [data, scorecard] = await Promise.all([
+      fetcher(DATA_PATH),
+      fetcher(SCORECARD_PATH).catch(() => ({ scores: {} })),
+    ]);
     _allEntries    = data.rankings || [];
     _metadata      = data.metadata || {};
     _metricsConfig = data.metrics  || [];
+    _scorecardData = (scorecard && scorecard.scores) || {};
 
     _filteredEntries = _allEntries.slice();
     return data;
@@ -64,6 +70,14 @@
       // by DataQuality.sanitizeNumber and rendered as '—' in the UI table.
       // Null entries sort to the bottom regardless of sort direction.
       const _sanitize = (_dq && _dq.sanitizeNumber) || (v => (v === null || v === undefined ? null : +v));
+      // Commitment score comes from scorecard, not entry.metrics
+      if (metric === 'commitment_score') {
+        const scA = _scorecardData[a.geoid];
+        const scB = _scorecardData[b.geoid];
+        const av = scA ? scA.totalScore : -Infinity;
+        const bv = scB ? scB.totalScore : -Infinity;
+        return dir === 'asc' ? av - bv : bv - av;
+      }
       const av = _sanitize(a.metrics[metric]) ?? -Infinity;
       const bv = _sanitize(b.metrics[metric]) ?? -Infinity;
       return dir === 'asc' ? av - bv : bv - av;
@@ -140,7 +154,7 @@
   }
 
   function typeLabel(type) {
-    const map = { county: 'County', place: 'Municipality', cdp: 'CDP' };
+    const map = { county: 'County', place: 'Incorporated Place', cdp: 'CDP' };
     return map[type] || type;
   }
 
@@ -163,6 +177,7 @@
 
   const METRIC_COLUMNS = [
     { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score' },
+    { id: 'commitment_score',           label: 'Housing\nCommitment',       mobileLabel: 'Commitment', isScorecard: true },
     { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed' },
     { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened' },
     { id: 'in_commuters',               label: 'In-Commuters',              mobileLabel: 'In-Commuters' },
@@ -192,6 +207,14 @@
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
       ...METRIC_COLUMNS.map(col => {
+        if (col.isScorecard) {
+          const sc = _scorecardData[entry.geoid];
+          if (!sc || sc.knownDimensions < 1) {
+            return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}"><span class="hca-commit-badge hca-commit-none" title="Insufficient data">—</span></td>`;
+          }
+          const cls = sc.totalScore >= 4 ? 'hca-commit-high' : sc.totalScore >= 2 ? 'hca-commit-mid' : 'hca-commit-low';
+          return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}"><span class="hca-commit-badge ${cls}" title="${sc.totalScore} of ${sc.knownDimensions} housing commitment dimensions confirmed">${sc.totalScore}/${sc.knownDimensions}</span></td>`;
+        }
         const val = entry.metrics[col.id];
         const unit = getMetricUnit(col.id);
         return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}">${fmt(val, unit)}</td>`;
@@ -289,6 +312,32 @@
     announce(_selectedGeoid ? `${entry.name} selected. Rank #${entry.rank}.` : 'Selection cleared.');
   }
 
+  const SCORECARD_LABELS = {
+    has_hna: 'Housing Needs Assessment',
+    prop123_committed: 'Proposition 123 Committed',
+    has_housing_authority: 'Housing Authority',
+    has_housing_nonprofits: 'Housing Nonprofits',
+    has_comp_plan: 'Housing in Comprehensive Plan',
+    has_iz_ordinance: 'Zoning Incentives / IZ Ordinance',
+    has_local_funding: 'Affordable Housing Funding',
+  };
+
+  function renderScorecardDetail(geoid) {
+    const sc = _scorecardData[geoid];
+    if (!sc || sc.knownDimensions < 1) {
+      return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><p style="color:var(--muted);font-size:.85rem">No policy data available for this jurisdiction yet.</p></div>';
+    }
+    const items = Object.entries(sc.dimensions).map(function (pair) {
+      const id = pair[0], val = pair[1];
+      const label = SCORECARD_LABELS[id] || id;
+      if (val === true)  return '<div class="hca-sc-item hca-sc-yes"><span class="hca-sc-icon">✓</span> ' + label + '</div>';
+      if (val === false) return '<div class="hca-sc-item hca-sc-no"><span class="hca-sc-icon">✗</span> ' + label + '</div>';
+      return '<div class="hca-sc-item hca-sc-unknown"><span class="hca-sc-icon">?</span> ' + label + '</div>';
+    }).join('');
+    const summary = sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed';
+    return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><div class="hca-scorecard-grid">' + items + '</div><div class="hca-scorecard-summary">' + summary + '</div></div>';
+  }
+
   function updateDetailPanel(entry) {
     const panel = document.getElementById('hcaDetailPanel');
     if (!panel) return;
@@ -382,6 +431,7 @@
         <div class="hca-detail-missing-tiers">${missingTiersHtml}</div>
       </div>
       ${demogHtml}
+      ${renderScorecardDetail(entry.geoid)}
       <a class="hca-detail-link" href="${hnaLink(entry)}">Open full HNA for ${entry.name} →</a>
     `;
     panel.classList.add('visible');
@@ -450,33 +500,56 @@
       'Gross Rent Median',
       'Percentile Rank',
       'Median Comparison',
+      'Commitment Score',
+      'Commitment Known Dims',
+      'Has HNA',
+      'Prop 123 Committed',
+      'Has Housing Authority',
+      'Has Housing Nonprofits',
+      'Has Comp Plan',
+      'Has IZ Ordinance',
+      'Has Local Funding',
     ];
 
-    const rows = _filteredEntries.map(e => [
-      e.rank,
-      e.geoid,
-      e.name,
-      e.type,
-      e.region,
-      e.metrics.overall_need_score,
-      e.metrics.housing_gap_units,
-      e.metrics.ami_gap_50pct,
-      e.metrics.ami_gap_60pct,
-      e.metrics.pct_cost_burdened,
-      e.metrics.pct_burdened_lte30,
-      e.metrics.pct_burdened_31to50,
-      e.metrics.pct_burdened_51to80,
-      Array.isArray(e.metrics.missing_ami_tiers) ? e.metrics.missing_ami_tiers.join('; ') : '',
-      e.metrics.in_commuters,
-      e.metrics.commute_ratio,
-      e.metrics.population,
-      e.metrics.median_hh_income,
-      e.metrics.population_projection_20yr,
-      e.metrics.pct_renters,
-      e.metrics.gross_rent_median,
-      e.percentileRank,
-      e.medianComparison,
-    ]);
+    const rows = _filteredEntries.map(e => {
+      const sc = _scorecardData[e.geoid] || {};
+      const dims = sc.dimensions || {};
+      const boolStr = v => v === true ? 'Yes' : v === false ? 'No' : '';
+      return [
+        e.rank,
+        e.geoid,
+        e.name,
+        e.type,
+        e.region,
+        e.metrics.overall_need_score,
+        e.metrics.housing_gap_units,
+        e.metrics.ami_gap_50pct,
+        e.metrics.ami_gap_60pct,
+        e.metrics.pct_cost_burdened,
+        e.metrics.pct_burdened_lte30,
+        e.metrics.pct_burdened_31to50,
+        e.metrics.pct_burdened_51to80,
+        Array.isArray(e.metrics.missing_ami_tiers) ? e.metrics.missing_ami_tiers.join('; ') : '',
+        e.metrics.in_commuters,
+        e.metrics.commute_ratio,
+        e.metrics.population,
+        e.metrics.median_hh_income,
+        e.metrics.population_projection_20yr,
+        e.metrics.pct_renters,
+        e.metrics.gross_rent_median,
+        e.percentileRank,
+        e.medianComparison,
+        sc.totalScore ?? '',
+        sc.knownDimensions ?? '',
+        boolStr(dims.has_hna),
+        boolStr(dims.prop123_committed),
+        boolStr(dims.has_housing_authority),
+        boolStr(dims.has_housing_nonprofits),
+        boolStr(dims.has_comp_plan),
+        boolStr(dims.has_iz_ordinance),
+        boolStr(dims.has_local_funding),
+      ];
+    });
 
     const csv = [headers, ...rows]
       .map(row => row.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))
@@ -648,6 +721,7 @@
     sortEntries,
     applyFilters,
     exportCSV,
+    getScorecardData: function () { return _scorecardData; },
     // Exposed for testing
     _get: () => ({
       allEntries:      _allEntries,
