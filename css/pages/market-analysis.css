@@ -38,6 +38,10 @@
   #pmaMap { height: 360px; }
 }
 
+@media (max-width: 640px) {
+  #pmaMap { height: 260px; }
+}
+
 /* ── Controls bar (buffer selector) ── */
 .pma-controls {
   display: flex;
