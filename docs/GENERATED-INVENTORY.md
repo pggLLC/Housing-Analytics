@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T13:44:48.718Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T14:44:16.331Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 26.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.9 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 23.7 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 24.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.0 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 114.2 KB |
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-875 JSON files found.
+876 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -926,6 +926,7 @@
 | `data/market/zoning_compat_index_co.json` | 476 B | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
+| `data/policy/housing-policy-scorecard.json` | 178.6 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
