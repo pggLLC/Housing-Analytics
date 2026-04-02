@@ -707,18 +707,31 @@
       </div>
     </section>
 
-    <!-- Methodology note -->
+    <!-- Methodology & Data Sources -->
     <section style="margin-top:2rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)">
       <h2 style="font-size:var(--small);font-weight:700;margin-bottom:0.4rem">Methodology &amp; Data Sources</h2>
-      <p style="font-size:var(--tiny)">
-        <strong>ACS data:</strong> US Census Bureau American Community Survey 5-Year Estimates (B01003, B25003, B25004, B25070, B25064).
-        <strong>LIHTC:</strong> HUD LIHTC Database (public).
-        <strong>Geographies:</strong> Census TIGERweb tract centroids.
-        <strong>Enhanced delineation:</strong> LEHD/LODES commuting flows, USGS hydrology, school boundaries (ED), NTD transit, EPA Smart Location, HUD NHPD, Opportunity Zones, FEMA flood zones.
+      <p style="font-size:var(--tiny);margin-bottom:.8rem">
         All data is pre-computed or fetched from free public APIs; no proprietary key required.
         See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a>,
         <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a>, and
         <a href="docs/PMA_DATA_ENHANCEMENTS.md">PMA_DATA_ENHANCEMENTS.md</a> for full methodology.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:.82rem">
+        <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B01003, B25003, B25004, B25070, B25064)</div>
+        <div><strong>HUD LIHTC Database</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Projects</a></div>
+        <div><strong>CHFA ArcGIS</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado LIHTC Portfolio</a></div>
+        <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb.html" target="_blank" rel="noopener">Tract Centroids &amp; Boundaries</a></div>
+        <div><strong>LEHD/LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+        <div><strong>FRED</strong> — <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">Housing Starts &amp; Economic Series</a></div>
+        <div><strong>HUD NHPD</strong> — <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">Preservation Database</a></div>
+        <div><strong>EPA Smart Location</strong> — <a href="https://www.epa.gov/smartgrowth/smart-location-mapping" target="_blank" rel="noopener">Walkability &amp; Transit Access</a></div>
+        <div><strong>FEMA Flood Zones</strong> — <a href="https://www.fema.gov/flood-maps" target="_blank" rel="noopener">National Flood Hazard Layer</a></div>
+        <div><strong>Opportunity Zones</strong> — <a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener">CDFI Fund</a></div>
+      </div>
+      <p style="margin-top:.8rem;font-size:.8rem;color:var(--muted)">
+        Data refreshes automatically via GitHub Actions.
+        <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+        <a href="data-status.html">Data freshness status</a>
       </p>
     </section>
 
