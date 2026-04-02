@@ -172,11 +172,17 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
   .metric { grid-column: span 12 !important; }
 }
 
-/* Feature / content grids: 1-column on mobile */
+/* Feature / content grids: 1-column on mobile.
+   Intentionally named classes only — the [class*="grid"] glob was removed
+   because it collapsed deal-calculator, scenario-builder, and HNA results
+   panels unintentionally on narrow screens. */
 @media (max-width: 639px) {
   .features-grid,
   .cards-grid,
-  [class*="grid"] {
+  .home-steps-grid,
+  .policy-grid,
+  .lender-grid,
+  .resource-grid {
     grid-template-columns: 1fr !important;
   }
 }
