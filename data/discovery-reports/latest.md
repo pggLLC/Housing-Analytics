@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-01T08:08:30.218Z
+**Scan timestamp:** 2026-04-02T07:57:45.979Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 889 |
-| New (unregistered) | 858 |
+| Files scanned | 891 |
+| New (unregistered) | 860 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -17,6 +17,8 @@
 - `data/alerts/alerts_archive.json` (79 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
+- `data/core/educational-content.json` (66 KB)
+- `data/core/neighborhood-context.json` (70 KB)
 - `data/derived/market-analysis/market_demand.json` (8 KB)
 - `data/derived/market-analysis/neighborhood_access.json` (14 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
@@ -875,27 +877,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 821 days since last update
-- **undefined** — 455 days since last update
-- **undefined** — 455 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 822 days since last update
+- **undefined** — 456 days since last update
+- **undefined** — 456 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 365 days since last update
+- undefined — 366 days since last update
