@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/pages/hna-comparative-analysis.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/workflow-state.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/navigation.js"></script>
@@ -33,26 +34,28 @@
 
   <main id="main-content" class="hca-main">
 
-    <!-- Workflow breadcrumb -->
-    <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
-      <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
-      <span class="workflow-step-arrow" aria-hidden="true">→</span>
-      <span class="workflow-step workflow-step--active">2. Comparative Ranking</span>
-      <span class="workflow-step-arrow" aria-hidden="true">→</span>
-      <a class="workflow-step" href="market-analysis.html">3. Market Analysis</a>
-      <span class="workflow-step-arrow" aria-hidden="true">→</span>
-      <a class="workflow-step" href="colorado-deep-dive.html">4. Deep Dive</a>
+    <!-- Explore-first entry banner -->
+    <div class="hca-explore-banner" id="hcaExploreBanner">
+      <div class="hca-explore-banner__inner">
+        <div class="hca-explore-banner__text">
+          <strong>Exploring jurisdictions?</strong>
+          Browse the rankings below to find where housing need is greatest. Click any county row to see a detailed profile — then select it as your working jurisdiction to begin your analysis.
+        </div>
+        <div class="hca-explore-banner__actions">
+          <a href="select-jurisdiction.html" class="hca-explore-banner__link">I already know my jurisdiction →</a>
+        </div>
+      </div>
     </div>
 
     <!-- Hero -->
     <div class="hca-hero">
       <div class="kicker">Colorado • Statewide Context</div>
-      <h1>HNA Comparative Needs Ranking</h1>
+      <h1>Compare Jurisdictions</h1>
       <p class="hca-hero-sub">
-        Rank all Colorado counties, municipalities, and Census-Designated Places by housing need metrics.
-        Select any geography to see its statewide position and link directly to its full
-        <a href="housing-needs-assessment.html">Housing Needs Assessment</a>.
-        Rankings update automatically each Monday when HNA data refreshes.
+        Rank all 64 Colorado counties, municipalities, and Census-Designated Places by housing need.
+        Click any row to see its statewide position, strengths and challenges, and a direct link to
+        begin your <a href="housing-needs-assessment.html">Housing Needs Assessment</a>.
+        Rankings refresh automatically each Monday.
       </p>
       <small id="hcaDataTimestamp" class="data-timestamp"></small>
     </div>
@@ -199,5 +202,201 @@
     </p>
 
   </main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Styles ───────────────────────────────────────────────────────── */
+  var s = document.createElement('style');
+  s.textContent = [
+    /* Explore-first banner */
+    '.hca-explore-banner{margin-bottom:0;background:color-mix(in oklab,var(--bg2) 70%,var(--accent) 30%);border-bottom:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);}',
+    '.hca-explore-banner__inner{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}',
+    '.hca-explore-banner__text{font-size:.88rem;color:var(--text);flex:1;}',
+    '.hca-explore-banner__text strong{margin-right:6px;}',
+    '.hca-explore-banner__link{font-size:.82rem;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap;}',
+    '.hca-explore-banner__link:hover{text-decoration:underline;}',
+    /* Jurisdiction selection card (injected into #hcaDetailPanel) */
+    '.hca-select-jurisdiction{margin-top:16px;padding:16px 20px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}',
+    '.hca-select-jurisdiction__text{font-size:.9rem;}',
+    '.hca-select-jurisdiction__text strong{display:block;margin-bottom:4px;}',
+    '.hca-select-jurisdiction__text span{font-size:.82rem;color:var(--muted);}',
+    '.hca-select-jurisdiction__btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap;}',
+    '.hca-select-jurisdiction__btn:hover{opacity:.9;}',
+    '.hca-select-jurisdiction__btn.done{background:var(--good,#047857);}',
+    '.hca-select-jurisdiction__confirm{font-size:.82rem;font-weight:700;color:var(--good,#047857);margin-top:8px;width:100%;}',
+    /* Strength/weakness panel */
+    '.hca-sw-panel{margin-top:16px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;}',
+    '.hca-sw-panel h4{margin:0 0 12px;font-size:.9rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}',
+    '.hca-sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}',
+    '.hca-sw-item{display:flex;align-items:flex-start;gap:8px;font-size:.82rem;padding:8px 10px;border-radius:6px;}',
+    '.hca-sw-item--strength{background:color-mix(in oklab,var(--card) 70%,var(--good,#047857) 30%);border:1px solid color-mix(in oklab,var(--border) 50%,var(--good,#047857) 50%);}',
+    '.hca-sw-item--challenge{background:color-mix(in oklab,var(--card) 70%,var(--bad,#991b1b) 30%);border:1px solid color-mix(in oklab,var(--border) 50%,var(--bad,#991b1b) 50%);}',
+    '.hca-sw-item__icon{font-size:1em;flex-shrink:0;}',
+    '.hca-sw-item__text{line-height:1.35;}',
+    '@media(max-width:640px){.hca-sw-grid{grid-template-columns:1fr;}.hca-explore-banner__inner{flex-direction:column;align-items:flex-start;}}'
+  ].join('');
+  document.head.appendChild(s);
+
+  /* ── Hide explore banner if user already has jurisdiction ─────────── */
+  function maybeHideExploreBanner() {
+    var hasJurisdiction = false;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      if (proj && proj.steps && proj.steps.jurisdiction && proj.steps.jurisdiction.countyFips) {
+        hasJurisdiction = true;
+      }
+    } catch (_) {}
+    if (!hasJurisdiction) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.fips) hasJurisdiction = true;
+      } catch (_) {}
+    }
+    if (hasJurisdiction) {
+      var banner = document.getElementById('hcaExploreBanner');
+      if (banner) banner.style.display = 'none';
+    }
+  }
+
+  /* ── Strength/weakness builder ────────────────────────────────────── */
+  function buildStrengthWeakness(geo) {
+    if (!geo) return null;
+    var strengths   = [];
+    var challenges  = [];
+
+    // Cost burden
+    var cb = parseFloat(geo.pct_cost_burdened || geo.cost_burdened_pct || 0);
+    if (cb > 0) {
+      if (cb >= 50) challenges.push('Very high cost burden (' + cb.toFixed(0) + '% of renters)');
+      else if (cb >= 35) challenges.push('Elevated cost burden (' + cb.toFixed(0) + '%)');
+      else strengths.push('Relatively low cost burden (' + cb.toFixed(0) + '%)');
+    }
+
+    // Income
+    var mhi = parseFloat(geo.median_hh_income || 0);
+    if (mhi > 0) {
+      if (mhi >= 90000) strengths.push('Strong median household income ($' + Math.round(mhi / 1000) + 'k)');
+      else if (mhi < 55000) challenges.push('Low median income ($' + Math.round(mhi / 1000) + 'k) — LIHTC demand signal');
+    }
+
+    // Vacancy
+    var vac = parseFloat(geo.vacancy_rate || 0);
+    if (vac > 0) {
+      if (vac >= 6) strengths.push('Adequate vacancy rate (' + vac.toFixed(1) + '%) — some market slack');
+      else if (vac < 3) challenges.push('Very low vacancy (' + vac.toFixed(1) + '%) — acute supply shortage');
+    }
+
+    // Commuters / job access
+    var commuters = parseFloat(geo.in_commuters || 0);
+    if (commuters > 5000) strengths.push('High in-commuter volume (' + (commuters / 1000).toFixed(1) + 'k) — workforce housing demand');
+    else if (commuters < 500 && geo.type === 'county') challenges.push('Limited employment base — smaller capture pool');
+
+    // Need score
+    var score = parseFloat(geo.overall_need_score || 0);
+    if (score > 0) {
+      if (score >= 70) challenges.push('High overall housing need score (' + score.toFixed(0) + '/100)');
+      else if (score <= 30) strengths.push('Lower housing pressure (need score ' + score.toFixed(0) + ')');
+    }
+
+    // Renters
+    var renters = parseFloat(geo.pct_renters || 0);
+    if (renters >= 45) strengths.push('High renter share (' + renters.toFixed(0) + '%) — strong LIHTC market');
+    else if (renters < 25 && renters > 0) challenges.push('Low renter rate (' + renters.toFixed(0) + '%) — smaller rental market');
+
+    // Pad with defaults if too sparse
+    if (strengths.length === 0 && challenges.length === 0) return null;
+
+    return { strengths: strengths, challenges: challenges };
+  }
+
+  /* ── Inject jurisdiction selection card into detail panel ─────────── */
+  function injectSelectionCard(panel) {
+    if (!panel || !panel.innerHTML.trim()) return;
+    if (document.getElementById('hcaSelectJurisdictionCard')) return;
+
+    // Try to read geo data from the panel's dataset or a nearby data attr
+    var geoName = '';
+    var geoFips = '';
+    var geoType = '';
+    var h3 = panel.querySelector('h3');
+    if (h3) geoName = h3.textContent.replace(' County', '').trim();
+    var fipsEl = panel.querySelector('[data-fips]');
+    if (fipsEl) geoFips = fipsEl.dataset.fips;
+    var typeEl = panel.querySelector('[data-geo-type]');
+    if (typeEl) geoType = typeEl.dataset.geoType;
+
+    // Jurisdiction selection card
+    var card = document.createElement('div');
+    card.className = 'hca-select-jurisdiction';
+    card.id = 'hcaSelectJurisdictionCard';
+    card.innerHTML =
+      '<div class="hca-select-jurisdiction__text">' +
+        '<strong>Use ' + (geoName || 'this jurisdiction') + ' as your working jurisdiction?</strong>' +
+        '<span>Selecting it will personalize your HNA, Market Analysis, and other tools for this area.</span>' +
+      '</div>' +
+      '<button class="hca-select-jurisdiction__btn" id="hcaSelectJurisdictionBtn" type="button">' +
+        'Select Jurisdiction →' +
+      '</button>';
+    panel.appendChild(card);
+
+    document.getElementById('hcaSelectJurisdictionBtn').addEventListener('click', function () {
+      var btn = this;
+      // Set in WorkflowState and SiteState
+      try {
+        if (window.WorkflowState) {
+          WorkflowState.setJurisdiction({
+            fips:        geoFips || null,
+            name:        geoName,
+            countyName:  geoName,
+            countyFips:  geoFips || null,
+            type:        geoType || 'county'
+          });
+        }
+      } catch (_) {}
+      try {
+        if (window.SiteState && geoFips) SiteState.setCounty(geoFips, geoName);
+      } catch (_) {}
+
+      btn.textContent = '✓ Jurisdiction Set';
+      btn.classList.add('done');
+      btn.disabled = true;
+
+      var confirm = document.createElement('div');
+      confirm.className = 'hca-select-jurisdiction__confirm';
+      confirm.innerHTML = '✓ Working jurisdiction set to ' + geoName + '. ' +
+        '<a href="housing-needs-assessment.html" style="color:var(--accent);font-weight:700">Begin Housing Needs Assessment →</a>';
+      card.appendChild(confirm);
+    });
+  }
+
+  /* ── Watch detail panel for content changes ───────────────────────── */
+  function watchDetailPanel() {
+    var panel = document.getElementById('hcaDetailPanel');
+    if (!panel) return;
+
+    var observer = new MutationObserver(function () {
+      // Remove old selection card and SW panel before re-injecting
+      var old = document.getElementById('hcaSelectJurisdictionCard');
+      if (old) old.remove();
+      var oldSw = document.getElementById('hcaSwPanel');
+      if (oldSw) oldSw.remove();
+
+      if (!panel.innerHTML.trim()) return;
+
+      // Give the ranking JS a tick to finish rendering
+      setTimeout(function () { injectSelectionCard(panel); }, 50);
+    });
+    observer.observe(panel, { childList: true, subtree: false });
+  }
+
+  /* ── Init ─────────────────────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    maybeHideExploreBanner();
+    watchDetailPanel();
+  });
+}());
+</script>
 </body>
 </html>
