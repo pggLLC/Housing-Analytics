@@ -109,7 +109,11 @@
 
   function updateLihtcInfoPanel() {
     if (!S().els.lihtcInfoPanel || !S().allLihtcFeatures.length) return;
-    const bounds = S().map && S().map.getBounds ? S().map.getBounds() : null;
+    // Use the selected geography's boundary (not the viewport) to filter projects.
+    // This ensures the project list reflects the jurisdiction, not the map zoom level.
+    const boundaryBounds = S().boundaryLayer && S().boundaryLayer.getBounds ? S().boundaryLayer.getBounds() : null;
+    const fallbackBounds = S().map && S().map.getBounds ? S().map.getBounds() : null;
+    const bounds = boundaryBounds || fallbackBounds;
     let visible = S().allLihtcFeatures;
     if (bounds) {
       visible = S().allLihtcFeatures.filter(f => {
@@ -134,7 +138,7 @@
     }).join('');
     const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${S().lihtcDataSource}</span>`;
     S().els.lihtcInfoPanel.innerHTML = rows ? `
-      <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
+      <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in jurisdiction (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
         <table style="width:100%;border-collapse:collapse;font-size:.83rem">
           <thead><tr style="color:var(--muted)">
@@ -147,7 +151,7 @@
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>` : '<p>No LIHTC projects visible in current map area.</p>';
+      </div>` : '<p>No LIHTC projects found within this jurisdiction.</p>';
   }
 
   // Render LIHTC project markers on the S().map
@@ -185,13 +189,23 @@
     // Visibility toggle
     if (S().els.layerLihtc && !S().els.layerLihtc.checked) S().lihtcLayer.remove();
 
-    // Update stats
-    const count = geojson.features.length;
-    const units = geojson.features.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
+    // Update stats — use boundary-filtered features when a boundary exists,
+    // so place/CDP selections show only projects within the jurisdiction.
+    const boundaryBounds = S().boundaryLayer && S().boundaryLayer.getBounds ? S().boundaryLayer.getBounds() : null;
+    let statsFeatures = geojson.features;
+    if (boundaryBounds) {
+      statsFeatures = geojson.features.filter(f => {
+        if (!f.geometry || f.geometry.type !== 'Point') return false;
+        const [lng, lat] = f.geometry.coordinates;
+        return boundaryBounds.contains([lat, lng]);
+      });
+    }
+    const count = statsFeatures.length;
+    const units = statsFeatures.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
     if (S().els.statLihtcCount) S().els.statLihtcCount.textContent = count.toLocaleString();
     if (S().els.statLihtcUnits) S().els.statLihtcUnits.textContent = units.toLocaleString();
 
-    // Build the info panel for the current viewport
+    // Build the info panel filtered to the jurisdiction boundary
     updateLihtcInfoPanel();
   }
 
