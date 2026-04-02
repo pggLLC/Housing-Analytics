@@ -51,6 +51,12 @@
    Map and chart containers
    ---------------------------------------------------------------- */
 #hnaMap { height: 62vh; min-height: 520px; width: 100%; border-radius: 14px; border: 1px solid var(--border); overflow: hidden; }
+
+@media (max-width: 640px) {
+  #hnaMap { height: 50vh; min-height: 260px; border-radius: 8px; }
+  .chart-box { height: 260px; min-height: 260px; }
+  .chart-box.tall { height: 320px; min-height: 320px; }
+}
 .chart-box { position: relative; height: 360px; min-height: 360px; }
 .chart-box.tall { height: 440px; min-height: 440px; }
 
