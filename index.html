@@ -1,12 +1,14 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>COHO Analytics | Housing Finance &amp; Development Analytics</title>
-  <meta name="description" content="COHO Analytics — decision-support tools for affordable housing professionals. Housing needs assessment, market feasibility, LIHTC allocation maps, and real-time economic indicators powered by FRED, HUD, and Census data.">
-  <meta property="og:title" content="COHO Analytics | Housing Finance &amp; Development Analytics">
-  <meta property="og:description" content="Decision-support tools for affordable housing professionals: housing needs assessment, market feasibility, LIHTC allocations, and real-time economic indicators.">
+  <title>COHO Analytics | Colorado Affordable Housing Platform</title>
+  <meta name="description" content="COHO Analytics guides developers, elected officials, and financiers through the real complexity of building affordable homes in Colorado — from housing needs assessment to closing a LIHTC deal.">
+  <meta property="og:title" content="COHO Analytics | Colorado Affordable Housing Platform">
+  <meta property="og:description" content="Step-by-step LIHTC development workflow for Colorado: jurisdiction selection, housing needs assessment, market analysis, scenario building, and deal calculator.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,177 +16,437 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
-    <script src="js/path-resolver.js"></script>
+  <link rel="stylesheet" href="css/pages/home.css">
+  <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/workflow-state.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
-<script defer="" src="js/navigation.js"></script>
-  <script defer="" src="js/dark-mode-toggle.js"></script>
-  <script defer="" src="js/mobile-menu.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
 </head>
 <body>
   <div id="statusPanel" aria-live="polite"></div>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <main id="main-content">
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container">
-        <h1>COHO Analytics</h1>
-        <p class="hero-sub" style="max-width:700px;margin-bottom:var(--sp4);">Decision-support tools for affordable housing professionals — start with a Housing Needs Assessment, evaluate market feasibility, then track economic conditions and LIHTC allocations to close the deal.</p>
-        <div class="hero-actions">
-          <a href="housing-needs-assessment.html" class="btn">Start Assessment</a>
-          <a href="economic-dashboard.html" class="btn btn-outline">Economic Dashboard</a>
-          <a href="lihtc-allocations.html" class="btn btn-outline">Allocation Maps</a>
+    <!-- ── 1. Opening ── -->
+    <section class="home-opening" aria-labelledby="home-heading">
+      <div class="home-container">
+        <span class="home-opening__eyebrow">COHO Analytics · Colorado Housing Platform</span>
+        <h1 id="home-heading">Housing with dignity<br> begins with understanding need.</h1>
+        <p class="home-opening__lead">
+          This platform guides developers, elected officials, and financiers
+          through the real complexity of building affordable homes in Colorado —
+          from identifying who needs housing, to closing a LIHTC deal.
+        </p>
+        <div class="home-opening__actions">
+          <a href="select-jurisdiction.html" class="btn">Start a Project Analysis →</a>
+          <a href="hna-comparative-analysis.html" class="home-opening__explore">
+            Not sure where to start? Explore all Colorado jurisdictions →
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- KPI Strip -->
-    <div class="kpi-strip" role="region" aria-label="Key metrics">
-      <div class="kpi-strip-item">
-        <div class="kpi-strip-value">$14.1B</div>
-        <div class="kpi-strip-label">Annual LIHTC Credits</div>
-      </div>
-      <div class="kpi-strip-item">
-        <div class="kpi-strip-value">51</div>
-        <div class="kpi-strip-label">States Tracked</div>
-      </div>
-      <div class="kpi-strip-item">
-        <div class="kpi-strip-value">2028</div>
-        <div class="kpi-strip-label">Forecast Horizon</div>
-      </div>
-      <div class="kpi-strip-item">
-        <div class="kpi-strip-value">6+</div>
-        <div class="kpi-strip-label">Federal Data Sources</div>
+    <!-- ── 2. Resume strip (hidden until JS reveals) ── -->
+    <div id="homeResumeStrip" class="home-resume" hidden aria-label="Resume your project">
+      <span class="home-resume__label">Continue where you left off:</span>
+      <span id="homeResumeJurisdiction"></span>
+      <span class="home-resume__separator" aria-hidden="true">·</span>
+      <span id="homeResumeStep"></span>
+      <a id="homeResumeCta" href="#" class="home-resume__cta">Continue →</a>
+      <button id="homeResumeNewBtn" class="home-resume__new" type="button">Start new project</button>
+    </div>
+
+    <!-- ── 3. Entry paths ── -->
+    <div class="home-paths" role="navigation" aria-label="Platform entry points">
+      <div class="home-container">
+        <div class="home-paths__grid">
+          <div class="home-path">
+            <span class="home-path__eyebrow">Know your jurisdiction?</span>
+            <h3>Start your analysis</h3>
+            <p>Select a Colorado county, city, or community to begin. Your jurisdiction
+               sets AMI limits, FMR rent ceilings, QCT/DDA designations, and which
+               data loads throughout the workflow.</p>
+            <a href="select-jurisdiction.html">Select a jurisdiction →</a>
+          </div>
+          <div class="home-path">
+            <span class="home-path__eyebrow">Exploring your options?</span>
+            <h3>Compare jurisdictions</h3>
+            <p>Not sure where to focus? The Comparative Analysis ranks all 645 Colorado
+               counties, cities, and communities by housing need, cost burden, AMI gaps,
+               and LIHTC development history.</p>
+            <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Intro -->
-    <section aria-label="Platform overview" class="section-alt">
-      <div class="container narrow-container">
-        <p class="hero-sub lead mb-4">
-          COHO Analytics is a data-driven platform delivering market intelligence for developers, housing authorities, and policymakers navigating the complex landscape of housing affordability, community development, and long-term housing need. By integrating economic indicators, housing supply metrics, demographic trends, and public data, the platform provides a clear, objective foundation for evaluating development feasibility, financing conditions, and community housing demand.
+    <!-- ── 4. Workflow steps ── -->
+    <section class="home-workflow" aria-labelledby="workflow-heading">
+      <div class="home-container">
+        <div class="home-section-intro">
+          <h2 id="workflow-heading">The LIHTC Development Workflow</h2>
+          <p>Every affordable housing project follows the same path.
+             This platform walks you through each step with real Colorado data.
+             Your inputs carry forward — you don't start over.</p>
+        </div>
+        <ol class="home-steps" aria-label="Workflow steps">
+
+          <li class="home-step">
+            <span class="home-step__num" aria-hidden="true">01</span>
+            <div class="home-step__body">
+              <h3>Select Your Jurisdiction</h3>
+              <p>Set the location for your analysis. This determines AMI income limits,
+                 HUD Fair Market Rents, QCT and DDA designations, ACS demographic data,
+                 and CHFA development history for your area.</p>
+              <a href="select-jurisdiction.html" aria-label="Step 1: Select your jurisdiction">Go to jurisdiction selection →</a>
+            </div>
+          </li>
+
+          <li class="home-step">
+            <span class="home-step__num" aria-hidden="true">02</span>
+            <div class="home-step__body">
+              <h3>Housing Needs Assessment</h3>
+              <p>Understand who needs housing — income distribution, cost burden, tenure
+                 patterns, and the gap between what exists and what's needed. Includes
+                 neighborhood character context, 10-year demand projections, and a
+                 recommended AMI distribution for your jurisdiction.</p>
+              <a href="housing-needs-assessment.html" aria-label="Step 2: Housing needs assessment">Go to housing needs assessment →</a>
+            </div>
+          </li>
+
+          <li class="home-step">
+            <span class="home-step__num" aria-hidden="true">03</span>
+            <div class="home-step__body">
+              <h3>Market Analysis &amp; Site Feasibility</h3>
+              <p>Define a Primary Market Area. Score your site on demand, competition,
+                 rent pressure, land supply, and workforce access. Identify QCT and DDA
+                 designations that affect your eligible basis. Required for all CHFA applications.</p>
+              <a href="market-analysis.html" aria-label="Step 3: Market analysis and site feasibility">Go to market analysis →</a>
+            </div>
+          </li>
+
+          <li class="home-step">
+            <span class="home-step__num" aria-hidden="true">04</span>
+            <div class="home-step__body">
+              <h3>Scenario Builder</h3>
+              <p>Design your unit mix and income targeting. Set rents by AMI tier against
+                 HUD Fair Market Rent limits. Choose between 9% competitive and 4%
+                 bond-financed credits. See how your mix addresses 20-year projected demand.</p>
+              <a href="scenario-builder.html" aria-label="Step 4: Scenario builder">Go to scenario builder →</a>
+            </div>
+          </li>
+
+          <li class="home-step">
+            <span class="home-step__num" aria-hidden="true">05</span>
+            <div class="home-step__body">
+              <h3>Deal Calculator</h3>
+              <p>Size your LIHTC capital stack. Calculate equity proceeds, permanent loan
+                 capacity from NOI, and the gap that soft sources need to fill. Compare
+                 9% and 4% scenarios side by side. Identify CRA lenders and CHFA programs.</p>
+              <a href="deal-calculator.html" aria-label="Step 5: Deal calculator">Go to deal calculator →</a>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+    </section>
+
+    <!-- ── 5. What is LIHTC ── -->
+    <section class="home-lihtc" aria-labelledby="lihtc-heading">
+      <div class="home-container">
+        <h2 id="lihtc-heading">What is the Low-Income Housing Tax Credit?</h2>
+
+        <p>The Low-Income Housing Tax Credit (LIHTC) is the primary federal program
+           financing affordable rental housing — responsible for the construction or
+           rehabilitation of more than 3.5 million homes since 1986. It works by
+           awarding investors dollar-for-dollar federal tax credits in exchange for
+           funding homes restricted to households earning 30%–80% of Area Median Income.
+           States receive a per-capita credit allocation from the IRS, then award those
+           credits competitively through a Qualified Allocation Plan.</p>
+
+        <p>In Colorado, CHFA (Colorado Housing and Finance Authority) allocates roughly
+           $30 million in annual tax credits — enough to support 20–30 new developments
+           each year across the state. Projects compete for these credits based on site
+           quality, market need, developer capacity, and community support. Most applicants
+           do not receive an award on their first attempt.</p>
+
+        <p>A single LIHTC development typically takes 3–7 years from initial site
+           selection to residents moving in — navigating market studies, equity investor
+           selection, construction financing, and a 15-year compliance period that often
+           extends to 30 years or more. This platform exists to make that path clearer.</p>
+
+        <a href="lihtc-guide-for-stakeholders.html" class="home-lihtc__link">
+          Read the complete LIHTC guide for Colorado →
+        </a>
+      </div>
+    </section>
+
+    <!-- ── 6. Audience ── -->
+    <section class="home-audience" aria-labelledby="audience-heading">
+      <div class="home-container home-container--wide">
+        <h2 id="audience-heading">Built for the people doing the work.</h2>
+        <div class="home-audience__grid">
+
+          <div class="home-audience__item">
+            <h3>Newly elected officials</h3>
+            <p>Your community has been asked to support affordable housing — perhaps under
+               Proposition 123, a regional housing plan, or constituent pressure. This
+               platform shows you the actual numbers: how many households in your
+               jurisdiction are cost-burdened, what income levels need the most help, what
+               a realistic development project looks like in your neighborhood, and what
+               your role is in making it happen.</p>
+          </div>
+
+          <div class="home-audience__item">
+            <h3>First-time developers</h3>
+            <p>LIHTC development is a multi-year, multi-party process with specific
+               technical requirements at every stage. This platform demystifies the
+               workflow — from documenting market demand and delineating your Primary
+               Market Area, to sizing your capital stack and understanding what CHFA
+               awards points for in their Qualified Allocation Plan.</p>
+          </div>
+
+          <div class="home-audience__item">
+            <h3>Graduate-level financiers</h3>
+            <p>The deal mechanics are real and unvarnished. Eligible basis calculation,
+               QCT and DDA boost, permanent loan sizing from net operating income,
+               LIHTC equity pricing, and gap analysis — all built from HUD, CHFA,
+               and ACS public data, with 9% and 4% credit scenario comparison and
+               a CRA lender identification tool.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7. Housing with Dignity ── -->
+    <section class="home-dignity" aria-labelledby="dignity-heading">
+      <div class="home-dignity__inner">
+        <p class="home-dignity__opening" id="dignity-heading">
+          Affordable housing is not just a real estate transaction.
         </p>
-        <p class="hero-sub mb-4">
-          Whether underwriting a LIHTC development, evaluating permanent loan sizing, or assessing regional housing demand, sound decisions depend on understanding both present conditions and forward-looking risk. This platform brings together trusted public datasets and real-time market signals to support disciplined analysis.
-        </p>
-        <p class="hero-sub">
-          Built for affordable housing professionals, public agencies, and community development practitioners, COHO Analytics provides the analytical context needed to support durable, financially viable, and policy-aligned housing outcomes.
-        </p>
+        <p>It is a public health intervention. Research consistently links stable,
+           affordable housing to lower rates of emergency room utilization, improved
+           school attendance, reduced child welfare involvement, and greater long-term
+           economic security. The evidence is clear and has been for decades.</p>
+        <p>It is also a question of community. The working family paying 48% of income
+           on rent, the senior on a fixed income, the person transitioning out of
+           homelessness — these are your neighbors, your constituents, your colleagues.
+           They need homes that fit their communities: architecturally, socially,
+           and financially. Not warehouses. Homes.</p>
+        <p>This platform exists to reduce the friction between identifying housing
+           need and delivering a project that closes. To give the developer the data
+           they need at every stage. To give the elected official the vocabulary to
+           advocate for it. To give the financier the tools to underwrite it.</p>
       </div>
     </section>
 
-    <!-- Featured Insights -->
-    <section class="featured-section" aria-labelledby="featured-heading">
-      <div class="container">
-        <div class="section-heading" style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-          <div>
-            <span class="kicker">Featured</span>
-            <h2 id="featured-heading">Latest Market Insights</h2>
-          </div>
-          <a href="insights.html" class="btn btn-outline btn-sm">View All →</a>
-        </div>
-        <div class="featured-grid">
-          <article class="featured-card">
-            <span class="tag tag-orange">Regional Focus</span>
-            <h3>Colorado Market Analysis &amp; Forecast</h3>
-            <p>Deep dive into Colorado's $287M LIHTC market, Denver metro trends, CHFA priorities, and econometric forecasts through 2028.</p>
-            <div class="card-meta">Feb 10, 2026 · 8 min read · <em>CHFA, Census, FRED</em></div>
-            <a href="colorado-deep-dive.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Read Analysis →</a>
-          </article>
-          <article class="featured-card" style="border-top-color:var(--accent2);">
-            <span class="tag tag-blue">Policy</span>
-            <h3>2026 Housing Legislation Tracker</h3>
-            <p>Track AHCIA expansion provisions, basis boost increases, and the latest Congressional activity affecting LIHTC programs nationally.</p>
-            <div class="card-meta">Jan 28, 2026 · 6 min read · <em>HUD, Treasury, Congress</em></div>
-            <a href="housing-legislation-2026.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Read Update →</a>
-          </article>
-          <article class="featured-card" style="border-top-color:var(--good);">
-            <span class="tag tag-green">Data Update</span>
-            <h3>2026 State Allocation Maps Now Live</h3>
-            <p>Explore per-capita LIHTC allocations across all 50 states with updated 2026 IRS cap data and comparative year-over-year analysis.</p>
-            <div class="card-meta">Jan 15, 2026 · 4 min read · <em>IRS, HUD, State HFAs</em></div>
-            <a href="lihtc-allocations.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Explore Maps →</a>
-          </article>
-          <article class="featured-card" style="border-top-color:var(--accent2);">
-            <span class="tag tag-blue">Data Tool</span>
-            <h3>CHFA Multifamily Portfolio</h3>
-            <p>Browse and filter Colorado's LIHTC-funded multifamily housing portfolio by county, credit type, and year placed in service.</p>
-            <div class="card-meta">Live data · <em>HUD LIHTC Database &amp; CHFA Multifamily Portfolio</em></div>
-            <a href="chfa-portfolio.html" class="btn btn-sm" style="align-self:flex-start;margin-top:0.25rem;">Browse Portfolio →</a>
-          </article>
-        </div>
-      </div>
-    </section>
+    <!-- ── 8. Data snapshot ── -->
+    <section class="home-snapshot" aria-label="Colorado housing data at a glance">
+      <div class="home-container home-container--wide">
+        <span class="home-snapshot__label">Colorado at a glance</span>
+        <span class="home-snapshot__note-global">From public data sources — updated weekly</span>
+        <div class="home-snapshot__grid" role="list">
 
-    <!-- Audience Cards -->
-    <section class="journey-section" aria-labelledby="audience-heading">
-      <div class="container">
-        <div class="section-heading text-center">
-          <span class="kicker">Built For</span>
-          <h2 id="audience-heading">Who Uses COHO Analytics?</h2>
-        </div>
-        <div class="journey-grid">
-          <div class="journey-card card">
-            <div class="journey-icon" aria-hidden="true">🏛</div>
-            <h3>Policymakers &amp; Planners</h3>
-            <p>Track state QAP priorities, compare allocation strategies across HFAs, and measure program outcomes. City planners can map housing gaps, model need by tenure type, and tie zoning decisions to Census and LIHTC data.</p>
-            <a href="lihtc-allocations.html" class="btn">State Allocations →</a>
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">9% Credit Rate</span>
+            <span class="home-snapshot__val" id="snapCreditRate">9.00%</span>
+            <span class="home-snapshot__note">Fixed by statute</span>
           </div>
-          <div class="journey-card card">
-            <div class="journey-icon" aria-hidden="true">🏗</div>
-            <h3>Developers, Syndicators &amp; Investors</h3>
-            <p>Analyze market feasibility, score sites with the PMA engine, track construction cost trends, and size equity needs using live LIHTC allocation data. Identify high-opportunity geographies before the competition does.</p>
-            <a href="colorado-deep-dive.html" class="btn">Market Deep Dive →</a>
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Denver Metro 1BR FMR</span>
+            <span class="home-snapshot__val" id="snapFmr1br">—</span>
+            <span class="home-snapshot__note">HUD FY2025</span>
           </div>
-          <div class="journey-card card">
-            <div class="journey-icon" aria-hidden="true">🔬</div>
-            <h3>Researchers &amp; New Practitioners</h3>
-            <p>Access comprehensive LIHTC allocation history, AMI trends, and housing market indicators from authoritative federal and state sources. The Housing Needs Assessment and Economic Dashboard are good starting points.</p>
-            <a href="economic-dashboard.html" class="btn">Economic Dashboard →</a>
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Denver 60% AMI (4-person)</span>
+            <span class="home-snapshot__val" id="snapAmi60">—</span>
+            <span class="home-snapshot__note">Annual income limit</span>
           </div>
-          <div class="journey-card card">
-            <div class="journey-icon" aria-hidden="true">🏢</div>
-            <h3>Public-Sector &amp; Agency Users</h3>
-            <p>CHFA, DOLA, CDOH, and local housing authorities can use the HNA, CHAS affordability gap analysis, and AMI gap charts to document need, support gap financing applications, and satisfy HUD reporting requirements.</p>
-            <a href="housing-needs-assessment.html" class="btn">Housing Needs Assessment →</a>
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">CO Renter Cost Burden</span>
+            <span class="home-snapshot__val" id="snapCostBurden">—</span>
+            <span class="home-snapshot__note">% paying &gt;30% on rent</span>
           </div>
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Active CHFA Properties</span>
+            <span class="home-snapshot__val" id="snapLihtcCount">847</span>
+            <span class="home-snapshot__note">LIHTC portfolio</span>
+          </div>
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">Data vintage</span>
+            <span class="home-snapshot__val" id="snapVintage">ACS 2022 · HUD FY2025</span>
+            <span class="home-snapshot__note">Public datasets</span>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Data Sources -->
-    <section aria-label="Data sources" style="padding-block:var(--sp4);background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-      <div class="container text-center">
-        <p style="font-size:var(--tiny);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color: #0f172a;margin-bottom:var(--sp3);">Powered by authoritative federal &amp; state data sources</p>
-        <div style="display:flex;flex-wrap:wrap;gap:var(--sp2);justify-content:center;align-items:center;">
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">IRS LIHTC Database</span>
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">U.S. Census ACS</span>
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">Federal Reserve FRED</span>
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">HUD / HUDUSER</span>
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">CHFA Colorado</span>
-          <span style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:var(--small);font-weight:600;color:var(--muted);">BLS &amp; BEA</span>
+    <!-- ── 9. Insights reading list ── -->
+    <section class="home-insights" aria-labelledby="insights-heading">
+      <div class="home-container">
+        <div class="home-insights__header">
+          <h2 id="insights-heading">From the platform</h2>
+          <a href="insights.html" aria-label="View all platform insights">All insights →</a>
         </div>
+        <ul class="home-insights__list" aria-label="Recent platform insights">
+
+          <li class="home-insight">
+            <span class="home-insight__tag">Regional</span>
+            <a href="colorado-deep-dive.html" class="home-insight__title">
+              Colorado Market Analysis &amp; 2028 Forecast
+            </a>
+            <span class="home-insight__meta">February 2026 · CHFA, Census, FRED</span>
+          </li>
+
+          <li class="home-insight">
+            <span class="home-insight__tag">Policy</span>
+            <a href="housing-legislation-2026.html" class="home-insight__title">
+              2026 Housing Legislation Tracker
+            </a>
+            <span class="home-insight__meta">January 2026 · AHCIA, Basis Boost</span>
+          </li>
+
+          <li class="home-insight">
+            <span class="home-insight__tag">Guide</span>
+            <a href="lihtc-guide-for-stakeholders.html" class="home-insight__title">
+              LIHTC Guide for Colorado Stakeholders
+            </a>
+            <span class="home-insight__meta">Reference · First-time developers &amp; elected officials</span>
+          </li>
+
+        </ul>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section" aria-label="Get started">
-      <div class="container">
-        <h2>Ready to Explore the Data?</h2>
-        <p>Access comprehensive LIHTC market intelligence, state-level allocations, and economic indicators — all in one platform.</p>
-        <div class="cta-actions">
-          <a href="economic-dashboard.html" class="btn-white">View Dashboard</a>
-          <a href="colorado-deep-dive.html" class="btn-outline-white">Colorado Deep Dive</a>
-          <a href="lihtc-allocations.html" class="btn-outline-white">Allocation Maps</a>
-        </div>
+    <!-- ── Data attribution ── -->
+    <div class="home-sources" role="contentinfo" aria-label="Data sources">
+      <div class="home-container">
+        <p>Powered by IRS LIHTC Database · U.S. Census ACS · Federal Reserve FRED ·
+           HUD/HUDUSER · CHFA Colorado · BLS &amp; BEA · Colorado DOLA</p>
       </div>
-    </section>
+    </div>
 
   </main>
 
+  <script>
+// Homepage initialization
+(function () {
+  'use strict';
 
+  function fmtCurrency(n) {
+    if (!n) return '—';
+    return '$' + Number(n).toLocaleString();
+  }
+  function fmtPct(n) {
+    if (n == null) return '—';
+    return (Number(n) * 100).toFixed(1) + '%';
+  }
 
-</body></html>
+  // 1. Resume project strip
+  function initResumeStrip() {
+    if (typeof window.WorkflowState === 'undefined') return;
+    var proj = WorkflowState.getActiveProject();
+    if (!proj) return;
+    var jur = WorkflowState.getStep('jurisdiction');
+    if (!jur || !jur.name) return;
+
+    var progress = WorkflowState.getProgress();
+    var strip  = document.getElementById('homeResumeStrip');
+    var jurEl  = document.getElementById('homeResumeJurisdiction');
+    var stepEl = document.getElementById('homeResumeStep');
+    var ctaEl  = document.getElementById('homeResumeCta');
+    if (!strip) return;
+
+    if (jurEl) jurEl.textContent = jur.name;
+    if (stepEl) stepEl.textContent = 'Step ' + progress.nextStepNum + ' of 5 — ' + progress.nextStepLabel;
+    if (ctaEl) ctaEl.href = progress.nextStepUrl;
+
+    strip.hidden = false;
+
+    var newBtn = document.getElementById('homeResumeNewBtn');
+    if (newBtn) {
+      newBtn.addEventListener('click', function () {
+        WorkflowState.newProject();
+        strip.hidden = true;
+      });
+    }
+  }
+
+  // 2. Data snapshot
+  function loadSnapshot() {
+    // FMR data
+    var DS = window.DataService;
+    if (!DS) return;
+
+    DS.getJSON(DS.baseData('hud-fmr-income-limits.json'))
+      .then(function (data) {
+        // Try Denver MSA — various possible keys
+        var areas = data && (data.areas || data);
+        var denver = null;
+        if (Array.isArray(areas)) {
+          denver = areas.find(function (a) {
+            return a && (
+              (a.areaName || '').toLowerCase().indexOf('denver') !== -1 ||
+              (a.metro || '').toLowerCase().indexOf('denver') !== -1
+            );
+          });
+        } else if (areas && typeof areas === 'object') {
+          // keyed by code
+          Object.keys(areas).forEach(function (k) {
+            var a = areas[k];
+            if (!denver && a && ((a.areaName || '').toLowerCase().indexOf('denver') !== -1)) {
+              denver = a;
+            }
+          });
+        }
+        if (denver) {
+          var fmr1 = denver.fmr_1 || denver.FMR_1 || denver['1BR'] || null;
+          var ami60 = denver.il60_4 || denver.i60_4 || denver.ami60_4 || null;
+          var el = document.getElementById('snapFmr1br');
+          if (el && fmr1) el.textContent = fmtCurrency(fmr1);
+          var el2 = document.getElementById('snapAmi60');
+          if (el2 && ami60) el2.textContent = fmtCurrency(ami60);
+        }
+      })
+      .catch(function () { /* graceful: defaults show */ });
+
+    // ACS state data for cost burden
+    DS.getJSON(DS.baseData('census-acs-state.json'))
+      .then(function (data) {
+        var cb = data && (data.cost_burden_rate || data.renterCostBurden || null);
+        if (cb != null) {
+          var el = document.getElementById('snapCostBurden');
+          if (el) el.textContent = fmtPct(cb);
+        }
+      })
+      .catch(function () {});
+  }
+
+  function init() {
+    initResumeStrip();
+    loadSnapshot();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+}());
+  </script>
+
+</body>
+</html>
