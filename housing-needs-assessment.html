@@ -129,8 +129,7 @@
           <select id="geoType">
             <option value="state" selected>State of Colorado</option>
             <option value="county">County</option>
-            <option value="place">Municipality (Incorporated Place)</option>
-            <option value="cdp">Census-Designated Place (CDP)</option>
+            <option value="place">Municipality (Incorporated Place + CDP)</option>
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
@@ -1615,6 +1614,21 @@
 
   var _debounceTimer = null;
 
+  /* ── County demographics cache (for HousingNeedProjector) ─────────── */
+  // co-county-demographics.json is keyed by county name ("Adams", "Boulder", …).
+  // We preload it once so onGeoChange() can do a synchronous lookup.
+  var _demogCache = null;
+  (function _preloadDemog() {
+    var url = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/co-county-demographics.json')
+      : 'data/co-county-demographics.json';
+    fetch(url).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (d) {
+      if (d && d.counties) _demogCache = d;
+    }).catch(function () {});
+  }());
+
   /* ── Render projections + neighborhood when geography is loaded ───── */
   function onGeoChange() {
     var geoTypeEl   = document.getElementById('geoType');
@@ -1634,12 +1648,15 @@
       if (geoType === 'county') {
         countyFips = geoid;   // county GEOID === FIPS
       } else if (geoType === 'place' || geoType === 'cdp') {
-        // Look up containingCounty from the loaded geo config
+        // Look up containingCounty from the loaded geo config.
+        // For the combined 'place' dropdown, check both places and CDPs arrays.
         try {
           var _gc  = window.__HNA_GEO_CONFIG;
-          var _col = (geoType === 'cdp') ? (_gc && _gc.cdps) : (_gc && _gc.places);
-          var _rec = _col && _col.filter(function (p) { return p.geoid === geoid; })[0];
-          countyFips = (_rec && _rec.containingCounty) || '';
+          // Try places first, then CDPs (CDPs may lack containingCounty — fall through to subtype check)
+          var _placeRec = (_gc && Array.isArray(_gc.places)) ? _gc.places.filter(function (p) { return p.geoid === geoid; })[0] : null;
+          var _cdpRec   = (_gc && Array.isArray(_gc.cdps))   ? _gc.cdps.filter(function (c) { return c.geoid === geoid; })[0]   : null;
+          var _rec = _placeRec || _cdpRec;
+          countyFips = (_rec && (_rec.containingCounty || _rec.county_fips)) || '';
         } catch (_e1) {}
         // Fallback: HNAUtils if available
         if (!countyFips && window.HNAUtils && window.HNAUtils.countyFromGeoid) {
@@ -1661,11 +1678,25 @@
 
     if (!geoid || geoType === 'state') { _reset(); return; }
 
-    // Pull current county data from the HNA controller state (populated after load)
+    // Pull county demographic data from co-county-demographics.json for projections.
+    // HNAState.state.current has a different shape (geoType/geoid/profile) and must NOT
+    // be passed to HousingNeedProjector, which expects {households, vacancy_rate, …}.
     var countyData = {};
     try {
-      if (window.HNAState && window.HNAState.state && window.HNAState.state.current) {
-        countyData = window.HNAState.state.current;
+      if (_demogCache && _demogCache.counties && countyFips && countyFips.length === 5) {
+        // Map FIPS → county name via __HNA_GEO_CONFIG, then look up in demographics
+        var _gc = window.__HNA_GEO_CONFIG;
+        var _countyName = '';
+        if (_gc && Array.isArray(_gc.counties)) {
+          var _match = _gc.counties.filter(function (c) { return c.geoid === countyFips; })[0];
+          if (_match) {
+            // Labels are "Adams County", "El Paso County", etc. — strip " County" suffix.
+            _countyName = _match.label.replace(/\s+County$/i, '');
+          }
+        }
+        if (_countyName && _demogCache.counties[_countyName]) {
+          countyData = _demogCache.counties[_countyName];
+        }
       }
     } catch (_) {}
 
@@ -1892,6 +1923,15 @@
   function saveHnaToProject() {
     if (!window.WorkflowState) return false;
     try {
+      // Auto-create a project if none is active so saves never silently fail
+      if (!WorkflowState.getActiveProject()) {
+        var _pill = document.getElementById('geoContextPill');
+        var _autoName = (_pill && _pill.textContent.trim())
+          ? _pill.textContent.trim() + ' Analysis'
+          : null;
+        WorkflowState.newProject(_autoName || undefined);
+      }
+
       // Collect headline stats from DOM
       var pop      = document.getElementById('statPop');
       var rent     = document.getElementById('statRent');

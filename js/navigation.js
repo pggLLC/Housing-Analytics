@@ -205,9 +205,17 @@
   }
 
   function inject() {
-    // Prevent duplicate navigation injection
-    if (document.querySelector('header.site-header')) {
+    // Prevent duplicate navigation injection.
+    // An existing header is only considered "already injected" when it has content
+    // (i.e. contains a .nav-wrap). Empty placeholder headers (e.g. in scenario-builder.html)
+    // are replaced so navigation is always present.
+    const existingHeader = document.querySelector('header.site-header');
+    if (existingHeader && existingHeader.querySelector('.nav-wrap')) {
       return;
+    }
+    // Remove the empty placeholder so we can insert the full header below
+    if (existingHeader) {
+      existingHeader.parentNode.removeChild(existingHeader);
     }
 
     ensureHeaderStyles();

@@ -147,15 +147,24 @@
       return;
     }
 
-    if (type === 'place' && Array.isArray(cfg?.places) && cfg.places.length){
-      for (const p of cfg.places){
+    if (type === 'place'){
+      // Combine incorporated places + CDPs into one sorted list so all
+      // 263 Colorado municipalities are discoverable in a single dropdown.
+      // Each option carries a data-subtype attribute ('place' or 'cdp') so
+      // fetchBoundary() can select the correct TIGERweb layer.
+      const combined = [];
+      for (const p of (cfg?.places || [])) combined.push({ geoid: p.geoid, label: p.label, subtype: 'place' });
+      for (const c of (cfg?.cdps  || [])) combined.push({ geoid: c.geoid, label: c.label, subtype: 'cdp'   });
+      combined.sort((a, b) => a.label.localeCompare(b.label));
+      for (const item of combined){
         const opt = document.createElement('option');
-        opt.value = p.geoid;
-        opt.textContent = p.label;
+        opt.value = item.geoid;
+        opt.textContent = item.subtype === 'cdp' ? item.label + ' (CDP)' : item.label;
+        opt.setAttribute('data-subtype', item.subtype);
         window.HNAState.els.geoSelect.appendChild(opt);
       }
-      if (!window.HNAState.els.geoSelect.value && cfg.places[0]) window.HNAState.els.geoSelect.value = cfg.places[0].geoid;
-      _announceGeoOptions(cfg.places.length, 'municipality');
+      if (!window.HNAState.els.geoSelect.value && combined[0]) window.HNAState.els.geoSelect.value = combined[0].geoid;
+      _announceGeoOptions(combined.length, 'municipality');
       return;
     }
 
@@ -164,6 +173,7 @@
         const opt = document.createElement('option');
         opt.value = c.geoid;
         opt.textContent = c.label;
+        opt.setAttribute('data-subtype', 'cdp');
         window.HNAState.els.geoSelect.appendChild(opt);
       }
       if (!window.HNAState.els.geoSelect.value && cfg.cdps[0]) window.HNAState.els.geoSelect.value = cfg.cdps[0].geoid;
@@ -251,8 +261,17 @@
 
     const service = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer';
     const countyService = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer';
-    const layer = geoType === 'state' ? 0 : geoType === 'county' ? 1 : geoType === 'place' ? 4 : geoType === 'cdp' ? 5 : 4;
-    const svc   = (geoType === 'county' || geoType === 'state') ? countyService : service;
+    // When geoType is 'place', check the selected option's data-subtype to distinguish
+    // incorporated places (layer 4) from CDPs (layer 5) in the combined dropdown.
+    let _effectiveType = geoType;
+    if (geoType === 'place') {
+      const selEl = window.HNAState.els.geoSelect;
+      const selOpt = selEl && selEl.options && selEl.options[selEl.selectedIndex];
+      const subtype = selOpt && selOpt.getAttribute('data-subtype');
+      if (subtype === 'cdp') _effectiveType = 'cdp';
+    }
+    const layer = _effectiveType === 'state' ? 0 : _effectiveType === 'county' ? 1 : _effectiveType === 'place' ? 4 : _effectiveType === 'cdp' ? 5 : 4;
+    const svc   = (_effectiveType === 'county' || _effectiveType === 'state') ? countyService : service;
     const base  = `${svc}/${layer}`;
 
     const where = `GEOID='${geoid}'`;
