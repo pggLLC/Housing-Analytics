@@ -169,14 +169,89 @@
       </fieldset>
 
       <!-- Debt / Mortgage Inputs -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing Inputs</legend>
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Operating Income &amp; NOI</legend>
 
+        <!-- Auto-compute NOI toggle -->
+        <div style="margin-bottom:var(--sp2);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
+            <input id="dc-auto-noi" type="checkbox" style="width:16px;height:16px;flex-shrink:0;">
+            <span style="font-size:var(--small);font-weight:600;">Auto-compute NOI from rent &amp; expense inputs</span>
+          </label>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
+            When checked, NOI = Gross Rents × (1 − Vacancy) − Operating Expenses − Replacement Reserve
+          </p>
+        </div>
+
+        <!-- Manual NOI override (hidden when auto-compute is on) -->
+        <div id="dc-noi-manual-wrap" style="margin-bottom:var(--sp2);">
+          <label style="display:block;">
+            <span style="font-size:var(--small);color:var(--muted);">Net Operating Income (NOI) ($/year)</span>
+            <input id="dc-noi" type="number" min="0" step="1000" value="0"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+        </div>
+
+        <!-- Auto-NOI inputs (hidden until auto-compute is checked) -->
+        <div id="dc-noi-auto-wrap" style="display:none;">
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Vacancy Rate (%)</span>
+            <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="5"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
+            <input id="dc-opex" type="number" min="0" step="10" value="450"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance, taxes)</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
+            <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
+          </label>
+          <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
+            Computed NOI: <span id="dc-noi-computed">—</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Developer Fee -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Developer Fee</legend>
         <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Estimated Net Operating Income (NOI) ($/year)</span>
-          <input id="dc-noi" type="number" min="0" step="1000" value="0"
-            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <span style="font-size:var(--small);color:var(--muted);">
+            Developer Fee Rate: <strong id="dc-devfee-pct-label">15</strong>% of TDC
+          </span>
+          <input id="dc-devfee-pct" type="range" min="0" max="25" step="0.5" value="15"
+            style="display:block;width:100%;margin-top:0.25rem;">
+          <span style="font-size:var(--tiny);color:var(--muted);">
+            Typical CHFA range: 12–18% of TDC. Only a portion is includable in eligible basis.
+          </span>
         </label>
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">
+            Deferred Developer Fee: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
+          </span>
+          <input id="dc-deferred-pct" type="range" min="0" max="100" step="5" value="40"
+            style="display:block;width:100%;margin-top:0.25rem;">
+          <span style="font-size:var(--tiny);color:var(--muted);">
+            Deferred portion counts as a Source, reducing gap financing needed.
+          </span>
+        </label>
+        <div id="dc-devfee-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin-top:var(--sp2);">
+          <span style="color:var(--muted);">Total Developer Fee</span>
+          <span id="dc-r-devfee" style="font-weight:700;text-align:right;">—</span>
+          <span style="color:var(--muted);">Deferred (gap fill)</span>
+          <span id="dc-r-deferred" style="font-weight:700;text-align:right;color:var(--accent);">—</span>
+          <span style="color:var(--muted);">Paid at closing</span>
+          <span id="dc-r-devfee-closing" style="font-weight:700;text-align:right;">—</span>
+        </div>
+      </fieldset>
+
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing</legend>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
@@ -259,6 +334,11 @@
               <td id="dc-su-mortgage-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
             <tr>
+              <td style="padding:0.3rem 0.25rem;">Deferred Developer Fee</td>
+              <td id="dc-su-deferred" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-deferred-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
               <td style="padding:0.3rem 0.25rem;color:var(--muted);">Gap / Subordinate Debt / Grants Needed</td>
               <td id="dc-su-gap" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-gap-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
@@ -330,11 +410,44 @@
     const ids = ['dc-tdc', 'dc-units', 'dc-basis-pct',
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
-      'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price'];
+      'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
+      'dc-vacancy', 'dc-opex', 'dc-rep-reserve'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
+
+    // Auto-NOI toggle
+    var autoNoiChk = document.getElementById('dc-auto-noi');
+    var noiManualWrap = document.getElementById('dc-noi-manual-wrap');
+    var noiAutoWrap = document.getElementById('dc-noi-auto-wrap');
+    if (autoNoiChk) {
+      autoNoiChk.addEventListener('change', function () {
+        var on = autoNoiChk.checked;
+        if (noiManualWrap) noiManualWrap.style.display = on ? 'none' : 'block';
+        if (noiAutoWrap) noiAutoWrap.style.display = on ? 'block' : 'none';
+        recalculate();
+      });
+    }
+
+    // Developer fee slider label sync
+    var devfeePctSlider = document.getElementById('dc-devfee-pct');
+    var devfeePctLabel  = document.getElementById('dc-devfee-pct-label');
+    if (devfeePctSlider && devfeePctLabel) {
+      devfeePctSlider.addEventListener('input', function () {
+        devfeePctLabel.textContent = parseFloat(devfeePctSlider.value).toFixed(1);
+        recalculate();
+      });
+    }
+    // Deferred % slider label sync
+    var deferredPctSlider = document.getElementById('dc-deferred-pct');
+    var deferredPctLabel  = document.getElementById('dc-deferred-pct-label');
+    if (deferredPctSlider && deferredPctLabel) {
+      deferredPctSlider.addEventListener('input', function () {
+        deferredPctLabel.textContent = parseInt(deferredPctSlider.value, 10);
+        recalculate();
+      });
+    }
 
     // Credit rate scenario toggle
     ['dc-rate-9', 'dc-rate-4'].forEach(function (id) {
@@ -409,6 +522,7 @@
     }
 
     var tdc = safeVal('dc-tdc') || 0;
+    var units = safeVal('dc-units') || 0;
     var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
@@ -429,8 +543,41 @@
       }
     });
 
+    // Developer fee
+    var devfeePctEl = document.getElementById('dc-devfee-pct');
+    var devfeePct = devfeePctEl ? (parseFloat(devfeePctEl.value) || 15) / 100 : 0.15;
+    var devFeeTotal = tdc * devfeePct;
+    var deferredPctEl = document.getElementById('dc-deferred-pct');
+    var deferredPct = deferredPctEl ? (parseFloat(deferredPctEl.value) || 40) / 100 : 0.40;
+    var deferredDevFee = devFeeTotal * deferredPct;
+    var devFeeAtClosing = devFeeTotal - deferredDevFee;
+
+    // Developer fee display
+    var devfeeEl = document.getElementById('dc-r-devfee');
+    var deferredEl = document.getElementById('dc-r-deferred');
+    var devfeeClosingEl = document.getElementById('dc-r-devfee-closing');
+    if (devfeeEl) devfeeEl.textContent = tdc > 0 ? fmt(devFeeTotal) : '—';
+    if (deferredEl) deferredEl.textContent = tdc > 0 ? fmt(deferredDevFee) : '—';
+    if (devfeeClosingEl) devfeeClosingEl.textContent = tdc > 0 ? fmt(devFeeAtClosing) : '—';
+
+    // Auto-NOI or manual NOI
+    var autoNoi = document.getElementById('dc-auto-noi');
+    var noi;
+    if (autoNoi && autoNoi.checked) {
+      var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
+      var opexPerUnitMonth = safeVal('dc-opex') || 450;
+      var repReservePerUnit = safeVal('dc-rep-reserve') || 350;
+      var effectiveGrossIncome = annualRents * (1 - vacancyPct);
+      var annualOpex = opexPerUnitMonth * 12 * (units || 60);
+      var annualRepReserve = repReservePerUnit * (units || 60);
+      noi = effectiveGrossIncome - annualOpex - annualRepReserve;
+      var noiComputedEl = document.getElementById('dc-noi-computed');
+      if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
+    } else {
+      noi = safeVal('dc-noi') || 0;
+    }
+
     // Supportable first mortgage
-    var noi = safeVal('dc-noi') || 0;
     var dcr = safeVal('dc-dcr');
     if (!isFinite(dcr) || dcr <= 0) dcr = 1.20;
     var interestRate = safeVal('dc-rate');
@@ -441,8 +588,8 @@
     var mc = mortgageConstant(interestRate / 100, term);
     var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
 
-    // Sources & uses
-    var gap = tdc - equity - mortgage;
+    // Sources & uses — deferred dev fee fills gap before subordinate debt is needed
+    var gap = tdc - equity - mortgage - deferredDevFee;
 
     // Update LIHTC results
     document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
@@ -472,12 +619,13 @@
 
     // Update Sources & Uses table
     var su = {
-      equity:      { amt: equity,   id: 'dc-su-equity' },
-      mortgage:    { amt: mortgage,  id: 'dc-su-mortgage' },
-      gap:         { amt: gap,       id: 'dc-su-gap' },
-      tdc:         { amt: tdc,       id: 'dc-su-tdc' }
+      equity:   { amt: equity,        id: 'dc-su-equity' },
+      mortgage: { amt: mortgage,       id: 'dc-su-mortgage' },
+      deferred: { amt: deferredDevFee, id: 'dc-su-deferred' },
+      gap:      { amt: gap,            id: 'dc-su-gap' },
+      tdc:      { amt: tdc,            id: 'dc-su-tdc' }
     };
-    ['equity', 'mortgage', 'gap', 'tdc'].forEach(function (key) {
+    ['equity', 'mortgage', 'deferred', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
       var amtEl = document.getElementById(row.id);
       var pctEl = document.getElementById(row.id + '-pct');
