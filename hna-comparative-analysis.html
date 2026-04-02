@@ -312,20 +312,63 @@
   }
 
   /* ── Inject jurisdiction selection card into detail panel ─────────── */
+  /* ── Extract geo data from the rendered detail panel ─────────────── */
+  function _extractGeoFromPanel(panel) {
+    // Name from .hca-detail-title (strips type badge text)
+    var geoName = '';
+    var titleEl = panel.querySelector('.hca-detail-title');
+    if (titleEl) {
+      var clone = titleEl.cloneNode(true);
+      var badge = clone.querySelector('.hca-type-badge');
+      if (badge) badge.remove();
+      geoName = clone.textContent.trim();
+    }
+
+    // FIPS from the highlighted table row data-geoid attribute
+    var geoFips = '';
+    var highlighted = document.querySelector('.hca-tr.highlighted');
+    if (highlighted) geoFips = highlighted.dataset.geoid || '';
+
+    // Type from the type badge class (hca-type-county / hca-type-place / hca-type-cdp)
+    var geoType = 'county';
+    var typeBadge = panel.querySelector('[class*="hca-type-"]');
+    if (typeBadge) {
+      var cls = typeBadge.className || '';
+      if (cls.indexOf('hca-type-place') !== -1) geoType = 'place';
+      else if (cls.indexOf('hca-type-cdp') !== -1) geoType = 'cdp';
+    }
+
+    // Parse numeric metrics from stat pairs
+    var geo = { name: geoName, fips: geoFips, type: geoType };
+    var statEls = panel.querySelectorAll('.hca-detail-stat');
+    statEls.forEach(function (stat) {
+      var val = stat.querySelector('.hca-detail-stat-val');
+      var lbl = stat.querySelector('.hca-detail-stat-label');
+      if (!val || !lbl) return;
+      var raw = val.textContent.trim().replace(/[,%$#]/g, '');
+      var num = parseFloat(raw);
+      var label = lbl.textContent.trim().toLowerCase();
+      if (label.indexOf('burdened') !== -1 && label.indexOf('%') !== -1) geo.pct_cost_burdened = num;
+      else if (label.indexOf('in-commut') !== -1 && label.indexOf('ratio') === -1) geo.in_commuters = num;
+      else if (label.indexOf('30% ami') !== -1) geo.housing_gap_units = num;
+      else if (label.indexOf('need score') !== -1) geo.overall_need_score = num;
+      else if (label.indexOf('population') !== -1) geo.population = num;
+      else if (label.indexOf('income') !== -1) geo.median_hh_income = num;
+      else if (label.indexOf('renter') !== -1) geo.pct_renters = num;
+      else if (label.indexOf('vacancy') !== -1) geo.vacancy_rate = num;
+    });
+
+    return geo;
+  }
+
   function injectSelectionCard(panel) {
     if (!panel || !panel.innerHTML.trim()) return;
     if (document.getElementById('hcaSelectJurisdictionCard')) return;
 
-    // Try to read geo data from the panel's dataset or a nearby data attr
-    var geoName = '';
-    var geoFips = '';
-    var geoType = '';
-    var h3 = panel.querySelector('h3');
-    if (h3) geoName = h3.textContent.replace(' County', '').trim();
-    var fipsEl = panel.querySelector('[data-fips]');
-    if (fipsEl) geoFips = fipsEl.dataset.fips;
-    var typeEl = panel.querySelector('[data-geo-type]');
-    if (typeEl) geoType = typeEl.dataset.geoType;
+    var geo = _extractGeoFromPanel(panel);
+    var geoName = geo.name;
+    var geoFips = geo.fips;
+    var geoType = geo.type;
 
     // Jurisdiction selection card
     var card = document.createElement('div');
@@ -371,6 +414,36 @@
     });
   }
 
+  /* ── Inject strength/weakness panel into detail panel ────────────── */
+  function _injectStrengthWeakness(panel) {
+    if (!panel || document.getElementById('hcaSwPanel')) return;
+    var geo = _extractGeoFromPanel(panel);
+    var sw = buildStrengthWeakness(geo);
+    if (!sw || (sw.strengths.length === 0 && sw.challenges.length === 0)) return;
+
+    var div = document.createElement('div');
+    div.className = 'hca-sw-panel';
+    div.id = 'hcaSwPanel';
+
+    var items = '';
+    sw.strengths.forEach(function (s) {
+      items += '<div class="hca-sw-item hca-sw-item--strength"><span class="hca-sw-item__icon">✓</span><span class="hca-sw-item__text">' + s + '</span></div>';
+    });
+    sw.challenges.forEach(function (c) {
+      items += '<div class="hca-sw-item hca-sw-item--challenge"><span class="hca-sw-item__icon">⚠</span><span class="hca-sw-item__text">' + c + '</span></div>';
+    });
+
+    div.innerHTML = '<h4>Strengths &amp; Challenges</h4><div class="hca-sw-grid">' + items + '</div>';
+
+    // Insert before the select jurisdiction card (or append to panel)
+    var card = document.getElementById('hcaSelectJurisdictionCard');
+    if (card) {
+      panel.insertBefore(div, card);
+    } else {
+      panel.appendChild(div);
+    }
+  }
+
   /* ── Watch detail panel for content changes ───────────────────────── */
   function watchDetailPanel() {
     var panel = document.getElementById('hcaDetailPanel');
@@ -386,7 +459,10 @@
       if (!panel.innerHTML.trim()) return;
 
       // Give the ranking JS a tick to finish rendering
-      setTimeout(function () { injectSelectionCard(panel); }, 50);
+      setTimeout(function () {
+        injectSelectionCard(panel);
+        _injectStrengthWeakness(panel);
+      }, 80);
     });
     observer.observe(panel, { childList: true, subtree: false });
   }
