@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T10:09:44.602Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T11:25:36.920Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 23.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 112.1 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 114.2 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.6 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-871 JSON files found.
+872 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -902,6 +902,7 @@
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
 | `data/manifest.json` | 28.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
+| `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
