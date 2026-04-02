@@ -403,8 +403,26 @@
   /* ------------------------------------------------------------------ */
   /*  Expose public API                                                   */
   /* ------------------------------------------------------------------ */
+  /**
+   * scan(rootEl)
+   * Wire up any [data-edu] elements within rootEl that were added after init().
+   * Call this at the end of any function that renders dynamic content containing
+   * [data-edu] anchors (e.g. HousingNeedProjector, NeighborhoodContext).
+   * Safe to call repeatedly — already-wired elements are skipped.
+   *
+   * @param {Element} rootEl  Container to scan. Defaults to document.body.
+   */
+  function scan(rootEl) {
+    var root = rootEl || document.body;
+    var elements = root.querySelectorAll('[data-edu]');
+    for (var i = 0; i < elements.length; i++) {
+      _wireElement(elements[i]);
+    }
+  }
+
   window.EduCallout = {
     init:        init,
+    scan:        scan,
     setAudience: setAudience,
     load:        load,
     isLoaded:    isLoaded,

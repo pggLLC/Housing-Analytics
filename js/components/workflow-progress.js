@@ -230,6 +230,7 @@
      * @param {number} activeStep   The step number this page represents.
      */
     refreshSteps: function (containerId, activeStep) {
+      ensureStyles();   // Fix #17: inject CSS if not already present
       var container = document.getElementById(containerId);
       if (!container) return;
 
