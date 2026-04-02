@@ -336,12 +336,17 @@
       document.body.insertBefore(header, document.body.firstChild);
     }
 
-    // Append footer after main (or at end)
-    const main = document.querySelector('main');
-    if (main && main.parentElement) {
-      main.parentElement.insertBefore(footer, main.nextSibling);
+    // Replace any empty footer placeholder, otherwise insert after main
+    const existingFooter = document.querySelector('footer.site-footer');
+    if (existingFooter && !existingFooter.querySelector('.footer-wrap')) {
+      existingFooter.parentNode.replaceChild(footer, existingFooter);
     } else {
-      document.body.appendChild(footer);
+      const main = document.querySelector('main');
+      if (main && main.parentElement) {
+        main.parentElement.insertBefore(footer, main.nextSibling);
+      } else {
+        document.body.appendChild(footer);
+      }
     }
 
     // Inject drawer into body
