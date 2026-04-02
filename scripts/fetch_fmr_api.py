@@ -31,12 +31,13 @@ OUT_FMR_RAW     = os.path.join(_ROOT, 'data', 'market', 'fmr_co.json')
 OUT_COMBINED    = os.path.join(_ROOT, 'data', 'hud-fmr-income-limits.json')
 OUT_TRACT_MAP   = os.path.join(_ROOT, 'data', 'market', 'fmr_tract_map_co.json')
 
-HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO'
+HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2026'
+HUD_FMR_URL_PREV = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2025'
 HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/income/listCounties/08'  # FIPS 08 = CO
 HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/fmr/il/data/{entityid}?year={year}'
 
 TIMEOUT  = 30
-FY       = 2025
+FY       = 2026
 
 # HUD household-size adjustment factors used to derive income limits at sizes 1-4
 # from the 4-person AMI (approximate statutory factors).
@@ -264,10 +265,30 @@ def main() -> int:
     token = os.environ.get('HUD_API_TOKEN', '').strip() or None
 
     # ── 1. Fetch FMR data (public endpoint) ──────────────────────────────────
-    print('Fetching HUD Fair Market Rents for Colorado…')
-    fmr_data = http_get_json(HUD_FMR_URL, token)
+    # Try current FY first, fall back to previous FY.  Validate that we got
+    # actual area records — a 200-OK error JSON (e.g. {"status":"error",...})
+    # is truthy but not usable data.
+    def _has_records(d):
+        """Return True only when d contains a non-empty list of FMR records."""
+        if not isinstance(d, dict):
+            return False
+        payload = d.get('data') or d.get('results') or d.get('fmr_data')
+        return isinstance(payload, list) and len(payload) > 0
+
+    fmr_data = None
+    for _url in (HUD_FMR_URL, HUD_FMR_URL_PREV):
+        print(f'Fetching HUD Fair Market Rents for Colorado ({_url})…')
+        _resp = http_get_json(_url, token)
+        if _resp and _has_records(_resp):
+            fmr_data = _resp
+            print(f'  ✓ Got {len(_resp.get("data", _resp.get("results", [])))} FMR records')
+            break
+        else:
+            print(f'  ⚠ No usable records from {_url}: '
+                  f'{str(_resp)[:120] if _resp else "no response"}', file=sys.stderr)
+
     if not fmr_data:
-        print('✗ Failed to fetch HUD FMR data.', file=sys.stderr)
+        print('✗ HUD FMR API returned no usable data for FY2026 or FY2025.', file=sys.stderr)
         return 1
 
     generated = utc_now()

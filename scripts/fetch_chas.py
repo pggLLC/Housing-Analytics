@@ -32,11 +32,15 @@ GAP_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordability_gap.json')
 
 # HUD CHAS data — most recent available vintage (sub-county 140-jurisdiction download)
 # URL pattern: https://www.huduser.gov/portal/datasets/cp.html
+# Try newest vintage first; fall back to prior vintage if the primary URL 404s.
 CHAS_STATE_URL = (
+    'https://www.huduser.gov/portal/datasets/cp/2017thru2021-140-csv.zip'
+)
+CHAS_STATE_URL_FALLBACK = (
     'https://www.huduser.gov/portal/datasets/cp/2016thru2020-140-csv.zip'
 )
 COLORADO_FIPS = '08'
-VINTAGE = '2016-2020'
+VINTAGE = '2017-2021'
 TIMEOUT = 120
 
 # CHAS Table 1 (2016-2020) column mapping for renter households by AMI × cost burden.
@@ -151,18 +155,44 @@ def _int(value: str) -> int:
 
 
 def extract_table1_records(zf: zipfile.ZipFile) -> list:
-    """Return all rows from Table1.csv (or equivalent) in the CHAS ZIP."""
-    candidates = [n for n in zf.namelist() if n.lower().endswith('.csv')
-                  and 'table1' in n.lower().replace(' ', '').replace('-', '').replace('_', '')]
+    """Return all rows from Table1.csv (or equivalent) in the CHAS ZIP.
+
+    Handles:
+    - Files at ZIP root or inside subdirectories (path contains 'table1')
+    - Case variations (Table1, TABLE1, table1)
+    - Vintage differences in state-field naming (st / state / stateId / stfips)
+    """
+    names = zf.namelist()
+    # Primary: any CSV whose basename (not full path) contains 'table1'
+    import posixpath
+    def _norm(s):
+        return s.lower().replace(' ', '').replace('-', '').replace('_', '')
+
+    candidates = [n for n in names
+                  if n.lower().endswith('.csv')
+                  and 'table1' in _norm(posixpath.basename(n))]
+    # Fallback: any CSV with 'Table' in its full path
     if not candidates:
-        candidates = [n for n in zf.namelist() if n.endswith('.csv') and 'Table' in n]
+        candidates = [n for n in names
+                      if n.lower().endswith('.csv') and 'table' in n.lower()]
+    # Last resort: any CSV (HUD sometimes ships a single table)
+    if not candidates:
+        candidates = [n for n in names if n.lower().endswith('.csv')]
+
     records = []
-    for csv_name in candidates[:1]:  # only Table 1
+    for csv_name in candidates[:1]:   # only Table 1
+        print(f'  Reading CHAS CSV: {csv_name}')
         with zf.open(csv_name) as cf:
             reader = csv.DictReader(io.TextIOWrapper(cf, encoding='utf-8-sig'))
             for row in reader:
-                if str(row.get('st', '')).zfill(2) == COLORADO_FIPS:
+                # Try multiple state-field names across vintages
+                state_val = (row.get('st') or row.get('state') or
+                             row.get('stfips') or row.get('stateId') or '')
+                if str(state_val).zfill(2) == COLORADO_FIPS:
                     records.append(dict(row))
+    if not records:
+        print(f'  ⚠ No Colorado rows found in {candidates[:1]} '
+              f'(files in ZIP: {names[:10]})', file=sys.stderr)
     return records
 
 
@@ -360,12 +390,18 @@ def load_existing_gap(path: str) -> dict:
 
 def main() -> int:
     print('Fetching HUD CHAS data for Colorado…')
-    try:
-        raw = http_get(CHAS_STATE_URL)
-    except Exception as exc:
-        print(f'✗ Failed to download CHAS data: {exc}', file=sys.stderr)
+    raw = None
+    for url in (CHAS_STATE_URL, CHAS_STATE_URL_FALLBACK):
+        try:
+            print(f'  Trying {url}')
+            raw = http_get(url)
+            print(f'  ✓ Downloaded {len(raw):,} bytes')
+            break
+        except Exception as exc:
+            print(f'  ✗ {exc}', file=sys.stderr)
+    if not raw:
+        print('✗ All CHAS download URLs failed.', file=sys.stderr)
         return 1
-
     records = []
     try:
         with zipfile.ZipFile(io.BytesIO(raw)) as zf:
