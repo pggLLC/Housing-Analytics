@@ -247,9 +247,13 @@
     }
 
     // Always show DDA status from static lookup or fetched data
-    const isDda = !!(ddaInfo?.status || (ddaGeojson?.features?.length));
-    const areaName = ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '';
-    if (S().els.statDdaStatus) S().els.statDdaStatus.textContent = isDda ? 'Yes ✓' : 'No';
+    const featureCount = ddaGeojson?.features?.length || 0;
+    const isDda = !!(ddaInfo?.status || featureCount);
+    const isState = countyFips5 === '08';
+    const areaName = isState
+      ? `${featureCount} DDA counties`
+      : (ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '');
+    if (S().els.statDdaStatus) S().els.statDdaStatus.textContent = isState ? `${featureCount} areas` : (isDda ? 'Yes ✓' : 'No');
     if (S().els.statDdaNote) S().els.statDdaNote.textContent = isDda ? (areaName || 'HUD DDA') : 'Not designated';
   }
 

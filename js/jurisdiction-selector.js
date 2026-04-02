@@ -558,8 +558,8 @@
         resumeLink.addEventListener('click', function (e) {
           var projId = this.getAttribute('data-proj-id');
           try {
-            if (global.WorkflowState && typeof global.WorkflowState.activateProject === 'function') {
-              global.WorkflowState.activateProject(projId);
+            if (global.WorkflowState && typeof global.WorkflowState.loadProject === 'function') {
+              global.WorkflowState.loadProject(projId);
             }
           } catch (err) {
             // non-fatal — navigation will still proceed
