@@ -336,11 +336,11 @@
       document.body.insertBefore(header, document.body.firstChild);
     }
 
-    // Replace any empty footer placeholder, otherwise insert after main
-    const existingFooter = document.querySelector('footer.site-footer');
+    // Replace any empty footer placeholder (class OR id based), otherwise insert after main
+    const existingFooter = document.querySelector('footer.site-footer, footer#site-footer');
     if (existingFooter && !existingFooter.querySelector('.footer-wrap')) {
       existingFooter.parentNode.replaceChild(footer, existingFooter);
-    } else {
+    } else if (!existingFooter) {
       const main = document.querySelector('main');
       if (main && main.parentElement) {
         main.parentElement.insertBefore(footer, main.nextSibling);

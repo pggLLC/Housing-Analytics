@@ -186,12 +186,13 @@
    * 3. State
    * ───────────────────────────────────────────────────────────────────────── */
   var state = {
-    selectedCounty: null,   // { name, fips }
-    selectedCity:   null,   // string or null
-    countyFocusIdx: -1,
-    cityFocusIdx:   -1,
-    geoConfig:      null,   // loaded from data/hna/geo-config.json
-    citiesForCounty: []     // places + CDPs for the selected county
+    selectedCounty:  null,   // { name, fips }
+    selectedCity:    null,   // string or null
+    countyFocusIdx:  -1,
+    cityFocusIdx:    -1,
+    geoConfig:       null,   // loaded from data/hna/geo-config.json
+    citiesForCounty: [],     // incorporated places for the selected county
+    allCdps:         []      // all CDPs (no county filter — containingCounty missing for most)
   };
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -209,7 +210,13 @@
     fetch(url)
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (cfg) {
-        if (cfg) state.geoConfig = cfg;
+        if (cfg) {
+          state.geoConfig = cfg;
+          // Pre-cache all CDPs for text search (most CDPs lack containingCounty)
+          state.allCdps = Array.isArray(cfg.cdps)
+            ? cfg.cdps.map(function (c) { return { name: c.label, type: 'cdp' }; })
+            : [];
+        }
         if (callback) callback(cfg);
       })
       .catch(function () { if (callback) callback(null); });
@@ -219,7 +226,7 @@
     var cfg = state.geoConfig;
     if (!cfg) { state.citiesForCounty = []; return; }
     var list = [];
-    // Incorporated places — filter by containingCounty
+    // Incorporated places — filter by containingCounty (all places have this field)
     if (Array.isArray(cfg.places)) {
       cfg.places.forEach(function (p) {
         if (p.containingCounty === countyFips || p.county_fips === countyFips) {
@@ -227,29 +234,37 @@
         }
       });
     }
-    // CDPs — filter by containingCounty (may not always be present)
-    if (Array.isArray(cfg.cdps)) {
-      cfg.cdps.forEach(function (c) {
-        if (c.containingCounty === countyFips || c.county_fips === countyFips) {
-          list.push({ name: c.label + ' (CDP)', type: 'cdp' });
-        }
-      });
-    }
+    // Note: CDPs mostly lack containingCounty in the data source.
+    // They are searched globally via state.allCdps when the user types.
     list.sort(function (a, b) { return a.name.localeCompare(b.name); });
     state.citiesForCounty = list;
   }
 
   function filterCities(query) {
     var q = (query || '').toLowerCase().trim();
-    if (!q) { return state.citiesForCounty.slice(0, 12); }
-    var results = [];
-    for (var i = 0; i < state.citiesForCounty.length; i++) {
-      if (state.citiesForCounty[i].name.toLowerCase().indexOf(q) !== -1) {
-        results.push(state.citiesForCounty[i]);
-        if (results.length >= 12) break;
-      }
+    if (!q) {
+      // No query — show up to 15 incorporated places for this county
+      return state.citiesForCounty.slice(0, 15);
     }
-    return results;
+    // With query — match places first, then CDPs from the full statewide list
+    var results = [];
+    var seen = {};
+    state.citiesForCounty.forEach(function (c) {
+      if (c.name.toLowerCase().indexOf(q) !== -1) {
+        results.push(c);
+        seen[c.name] = true;
+      }
+    });
+    // Append matching CDPs (statewide search — most lack county info)
+    if (results.length < 15) {
+      state.allCdps.forEach(function (c) {
+        if (!seen[c.name] && c.name.toLowerCase().indexOf(q) !== -1) {
+          results.push(c);
+          if (results.length >= 15) { return; }
+        }
+      });
+    }
+    return results.slice(0, 15);
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -266,13 +281,12 @@
   }
 
   function filterCounties(query) {
-    var q = query.toLowerCase().trim();
-    if (!q) { return CO_COUNTIES.slice(0, 10); }
+    var q = (query || '').toLowerCase().trim();
+    if (!q) { return CO_COUNTIES.slice(); }  // all 64 when empty
     var results = [];
     for (var i = 0; i < CO_COUNTIES.length; i++) {
       if (CO_COUNTIES[i].name.toLowerCase().indexOf(q) !== -1) {
         results.push(CO_COUNTIES[i]);
-        if (results.length >= 10) { break; }
       }
     }
     return results;
@@ -364,7 +378,7 @@
       _buildCitiesForCounty(county.fips);
       // Show full list immediately so users see available options
       if (state.citiesForCounty.length > 0) {
-        renderCityResults(filterCities(''));
+        renderCityResults(filterCities('').map(function (c) { return c.name; }));
       }
     });
 
