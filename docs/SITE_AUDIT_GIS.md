@@ -388,6 +388,7 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 
 ## Actionable Recommendations
 
+- Archived file: `_audit/scripts/policy/build_housing_scorecard.py` — review and remove fully if unneeded.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 
