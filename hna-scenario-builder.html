@@ -21,6 +21,7 @@
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -448,6 +449,8 @@
     updateBanner();
     document.addEventListener('sitestate:county-changed', updateBanner);
     document.addEventListener('workflow:step-updated', updateBanner);
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('sbWorkflowProgress', 4);
 
     var saveBtn = document.getElementById('sbSaveBtn');
     var confirm = document.getElementById('sbSaveConfirm');

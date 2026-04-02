@@ -20,6 +20,7 @@
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
   <!-- Deferred: navigation and UI -->
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -509,6 +510,8 @@
       updateJurisdictionBanner();
       populateCraGrid();
       wireSaveExport();
+      // Fix #2: update progress bar step completion from WorkflowState
+      if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 5);
     }
 
     if (document.readyState === 'loading') {

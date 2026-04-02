@@ -215,6 +215,47 @@
         return;
       }
       WorkflowProgress.render(containerId, last.activeStep, last.options);
+    },
+
+    /**
+     * Fix #2: Update step completion classes on an *existing* hardcoded progress
+     * bar without replacing its DOM.  Call this on DOMContentLoaded for any page
+     * that has a statically-rendered `.wf-step[data-step]` progress bar.
+     *
+     * - Steps that WorkflowState records as completed get `wf-step--done` + ✓ num.
+     * - The declared activeStep keeps `wf-step--active` and is never overwritten.
+     * - Future `refresh(containerId)` calls will work after this runs.
+     *
+     * @param {string} containerId  ID of the wrapper element.
+     * @param {number} activeStep   The step number this page represents.
+     */
+    refreshSteps: function (containerId, activeStep) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+
+      var step = parseInt(activeStep, 10) || 1;
+      var done = resolveDoneSteps(step, null);
+
+      var stepEls = container.querySelectorAll('.wf-step[data-step]');
+      for (var i = 0; i < stepEls.length; i++) {
+        var el  = stepEls[i];
+        var num = parseInt(el.getAttribute('data-step'), 10);
+        if (!num) continue;
+
+        var isActive = (num === step);
+        var isDone   = (done.indexOf(num) !== -1);
+
+        el.classList.toggle('wf-step--done',   isDone   && !isActive);
+        el.classList.toggle('wf-step--active', isActive);
+
+        var numEl = el.querySelector('.wf-step__num');
+        if (numEl) {
+          numEl.textContent = (isDone && !isActive) ? '\u2713' : String(num);
+        }
+      }
+
+      // Register so subsequent refresh(containerId) calls work correctly
+      _lastArgs[containerId] = { activeStep: step, options: null };
     }
 
   };

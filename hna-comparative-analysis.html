@@ -408,9 +408,16 @@
 
       var confirm = document.createElement('div');
       confirm.className = 'hca-select-jurisdiction__confirm';
+      // Fix #6: redirect to HNA with ?fips=&auto=1 so the geography auto-selects.
+      // Show confirmation for 900 ms then navigate automatically.
+      var targetUrl = 'housing-needs-assessment.html' +
+        (geoFips ? '?fips=' + encodeURIComponent(geoFips) + '&auto=1' : '');
       confirm.innerHTML = '✓ Working jurisdiction set to ' + geoName + '. ' +
-        '<a href="housing-needs-assessment.html" style="color:var(--accent);font-weight:700">Begin Housing Needs Assessment →</a>';
+        'Redirecting to Housing Needs Assessment&hellip;';
       card.appendChild(confirm);
+      setTimeout(function () {
+        window.location.href = targetUrl;
+      }, 900);
     });
   }
 
