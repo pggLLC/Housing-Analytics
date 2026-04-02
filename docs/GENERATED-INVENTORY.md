@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T01:37:47.258Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-02T01:44:57.146Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-36 pages found.
+37 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -44,6 +44,7 @@
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 7.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 467 B |
 
