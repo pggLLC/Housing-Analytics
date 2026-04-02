@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`SITE_AUDIT_GIS.md`](SITE_AUDIT_GIS.md) for the current platform audit.  
-> *Auto-synced 2026-04-02 by `scripts/sync-docs.mjs` · 38 pages · 872 data files · 36 workflows*
+> *Auto-synced 2026-04-02 by `scripts/sync-docs.mjs` · 38 pages · 875 data files · 36 workflows*
 <!-- sync-banner:end -->
 
 # COHO Analytics — Site Design & Functionality Audit
