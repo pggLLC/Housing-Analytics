@@ -377,6 +377,22 @@
   }
 
   /**
+   * Base land-supply score derived from ACS vacancy rate.
+   * Very low vacancy → strong demand / tight supply → higher score.
+   * Mirrors the implementation in market-analysis.js so both code paths
+   * use the same formula.
+   *
+   * @param {object|null} acs - ACS aggregate. Expected key: vacancy_rate (0–1 decimal).
+   * @returns {number} 0–100
+   */
+  function scoreLandSupply(acs) {
+    if (!acs || typeof acs !== 'object') return 50;
+    var vac = _safe(acs.vacancy_rate, 0.05);
+    // Very low vacancy (<1%) → score ≈ 92; at 12%+ vacancy → score ≈ 0.
+    return _clamp(Math.round((1 - vac / 0.12) * 100));
+  }
+
+  /**
    * Enhanced land-supply score that incorporates Bridge assessed land value data.
    * When Bridge data is unavailable, falls back to pure ACS vacancy-based scoring.
    *
@@ -433,6 +449,7 @@
     scoreAccess:               scoreAccess,
     scorePolicy:               scorePolicy,
     scoreMarket:               scoreMarket,
+    scoreLandSupply:           scoreLandSupply,
     scoreLandSupplyWithBridge: scoreLandSupplyWithBridge,
     scoreMarketWithBridge:     scoreMarketWithBridge,
     computeScore:              computeScore
