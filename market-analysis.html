@@ -1013,7 +1013,7 @@
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       if (proj && proj.steps && proj.steps.jurisdiction) {
-        countyName = proj.steps.jurisdiction.countyName || null;
+        countyName = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName || null;
       }
     } catch (_) {}
     if (!countyName) {
@@ -1023,7 +1023,7 @@
       } catch (_) {}
     }
     if (countyName) {
-      nameEl.textContent = countyName + ' County';
+      nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
       banner.removeAttribute('hidden');
     }
   }

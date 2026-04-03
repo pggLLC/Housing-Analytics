@@ -350,8 +350,8 @@
       try {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         if (proj && proj.steps && proj.steps.jurisdiction) {
-          countyName = proj.steps.jurisdiction.countyName || null;
-          cityName   = proj.steps.jurisdiction.cityName   || null;
+          countyName = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName || null;
+          cityName   = proj.steps.jurisdiction.displayName || proj.steps.jurisdiction.cityName   || null;
         }
       } catch (_) {}
 
@@ -363,7 +363,7 @@
       }
 
       if (countyName) {
-        nameEl.textContent = countyName + ' County';
+        nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
         if (subEl) subEl.textContent = cityName ? '\u00b7 ' + cityName : '';
         banner.removeAttribute('hidden');
       }
