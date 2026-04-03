@@ -2019,6 +2019,13 @@ def build_geo_derived_inputs():
 
 
 def write_geo_config():
+    # Allow CI to skip geo-config regeneration (e.g. when the file has been
+    # manually expanded with TIGERweb-sourced geographies that Census ACS
+    # may not return).
+    if os.environ.get('SKIP_GEO_CONFIG', '').lower() == 'true':
+        print("ℹ geo-config: SKIP_GEO_CONFIG=true; keeping existing file", file=sys.stderr)
+        return
+
     counties = fetch_counties()
     if not counties:
         # Network unavailable — preserve existing geo-config if present
@@ -2030,6 +2037,25 @@ def write_geo_config():
     place_county = fetch_place_county_map(counties) if counties else {}
     places = fetch_places(counties=counties, place_county=place_county)
     cdps = fetch_cdps(counties=counties, place_county=place_county)
+
+    # Guard: if the existing geo-config has more geographies than Census ACS
+    # returned, preserve it to avoid regressing a manually expanded config.
+    if os.path.exists(OUT['geo_config']):
+        try:
+            with open(OUT['geo_config'], 'r', encoding='utf-8') as _f:
+                existing = json.load(_f)
+            existing_total = (len(existing.get('counties', [])) +
+                              len(existing.get('places', [])) +
+                              len(existing.get('cdps', [])))
+            new_total = len(counties) + len(places) + len(cdps)
+            if existing_total > new_total:
+                print(f"⚠ geo-config: existing file has {existing_total} geographies vs {new_total} "
+                      f"from Census ACS; keeping existing file to avoid regression. "
+                      f"Set SKIP_GEO_CONFIG=false to force overwrite.", file=sys.stderr)
+                return
+        except Exception:
+            pass  # can't read existing file; overwrite is fine
+
     payload = {
         'updated': utc_now_z(),
         'featured': FEATURED,
