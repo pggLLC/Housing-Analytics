@@ -1142,8 +1142,11 @@
         if (val === false) return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted)"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bad,#dc2626);color:#fff;font-size:.72rem;font-weight:700">&#10007;</span> ' + label + '</div>';
         return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted);font-style:italic"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--muted);font-size:.72rem;font-weight:700">?</span> ' + label + '</div>';
       }).join('');
+      var cta = sc.knownDimensions < 7
+        ? '<p style="margin-top:.5rem;font-size:.78rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
+        : '';
       content.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">' + items + '</div>' +
-        '<div style="margin-top:.6rem;font-size:.82rem;font-weight:600;color:var(--accent)">' + sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed</div>';
+        '<div style="margin-top:.6rem;font-size:.82rem;font-weight:600;color:var(--accent)">' + sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed</div>' + cta;
       panel.style.display = '';
     }
 

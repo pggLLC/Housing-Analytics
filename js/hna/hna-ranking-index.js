@@ -335,7 +335,10 @@
       return '<div class="hca-sc-item hca-sc-unknown"><span class="hca-sc-icon">?</span> ' + label + '</div>';
     }).join('');
     const summary = sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed';
-    return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><div class="hca-scorecard-grid">' + items + '</div><div class="hca-scorecard-summary">' + summary + '</div></div>';
+    var cta = sc.knownDimensions < 7
+      ? '<p style="margin-top:.5rem;font-size:.78rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
+      : '';
+    return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><div class="hca-scorecard-grid">' + items + '</div><div class="hca-scorecard-summary">' + summary + '</div>' + cta + '</div>';
   }
 
   function updateDetailPanel(entry) {
@@ -685,6 +688,43 @@
   }
 
   // -------------------------------------------------------------------------
+  // Scorecard coverage dashboard
+  // -------------------------------------------------------------------------
+
+  function renderScorecardCoverage() {
+    const panel = document.getElementById('hcaScorecardCoverage');
+    const bars  = document.getElementById('hcaCoverageBars');
+    if (!panel || !bars || !Object.keys(_scorecardData).length) return;
+
+    const total = Object.keys(_scorecardData).length;
+    const dims = [
+      { id: 'prop123_committed',     label: 'Prop 123 Committed' },
+      { id: 'has_housing_authority',  label: 'Housing Authority' },
+      { id: 'has_housing_nonprofits', label: 'Housing Nonprofits' },
+      { id: 'has_hna',               label: 'Housing Needs Assessment' },
+      { id: 'has_comp_plan',         label: 'Comprehensive Plan' },
+      { id: 'has_iz_ordinance',      label: 'IZ Ordinance' },
+      { id: 'has_local_funding',     label: 'Local Funding' },
+    ];
+
+    bars.innerHTML = dims.map(function (d) {
+      var known = 0;
+      for (var geoid in _scorecardData) {
+        var v = _scorecardData[geoid].dimensions[d.id];
+        if (v !== null && v !== undefined) known++;
+      }
+      var pct = Math.round(known / total * 100);
+      return '<div class="hca-cov-row">' +
+        '<span class="hca-cov-label">' + d.label + '</span>' +
+        '<div class="hca-cov-bar-wrap"><div class="hca-cov-bar" style="width:' + pct + '%"></div></div>' +
+        '<span class="hca-cov-pct">' + pct + '%</span>' +
+        '</div>';
+    }).join('');
+
+    panel.style.display = '';
+  }
+
+  // -------------------------------------------------------------------------
   // Init
   // -------------------------------------------------------------------------
 
@@ -699,6 +739,7 @@
       rerenderTable();
       wireControls();
       setupInfiniteScroll();
+      renderScorecardCoverage();
       announce(`Loaded ${_allEntries.length} geographies.`);
     } catch (err) {
       console.error('[HNARanking] Failed to load ranking data:', err);
