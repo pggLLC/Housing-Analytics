@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-02T07:57:45.979Z
+**Scan timestamp:** 2026-04-03T07:54:53.191Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 891 |
-| New (unregistered) | 860 |
+| Files scanned | 896 |
+| New (unregistered) | 865 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -26,7 +26,7 @@
 - `data/discovery-reports/latest.json` (126 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
-- `data/glossary.json` (7 KB)
+- `data/glossary.json` (9 KB)
 - `data/hna/derived/geo-derived.json` (6 KB)
 - `data/hna/dola_sya/08.json` (4 KB)
 - `data/hna/dola_sya/08001.json` (3 KB)
@@ -93,7 +93,7 @@
 - `data/hna/dola_sya/08121.json` (3 KB)
 - `data/hna/dola_sya/08123.json` (3 KB)
 - `data/hna/dola_sya/08125.json` (3 KB)
-- `data/hna/geo-config.json` (24 KB)
+- `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (68 KB)
 - `data/hna/lehd/08.json` (2 KB)
 - `data/hna/lehd/08001.json` (3 KB)
@@ -225,7 +225,7 @@
 - `data/hna/lihtc/08123.json` (8 KB)
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources.json` (61 KB)
+- `data/hna/local-resources.json` (68 KB)
 - `data/hna/projections/08.json` (2 KB)
 - `data/hna/projections/08001.json` (4 KB)
 - `data/hna/projections/08003.json` (3 KB)
@@ -291,7 +291,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (4 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (478 KB)
+- `data/hna/ranking-index.json` (356 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -440,6 +440,7 @@
 - `data/hna/summary/0812815.json` (1 KB)
 - `data/hna/summary/0812855.json` (1 KB)
 - `data/hna/summary/0812900.json` (1 KB)
+- `data/hna/summary/0812910.json` (1 KB)
 - `data/hna/summary/0812945.json` (1 KB)
 - `data/hna/summary/0813460.json` (1 KB)
 - `data/hna/summary/0813590.json` (1 KB)
@@ -806,6 +807,8 @@
 - `data/hna/summary/0878335.json` (1 KB)
 - `data/hna/summary/0878345.json` (1 KB)
 - `data/hna/summary/0878610.json` (1 KB)
+- `data/hna/summary/0879100.json` (1 KB)
+- `data/hna/summary/0879105.json` (1 KB)
 - `data/hna/summary/0879270.json` (1 KB)
 - `data/hna/summary/0879785.json` (1 KB)
 - `data/hna/summary/0879800.json` (1 KB)
@@ -845,6 +848,7 @@
 - `data/hna/summary/0886750.json` (1 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
+- `data/market/bridge_co_market_summary.json` (0 KB)
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
 - `data/market/cdot_traffic_co.json` (8 KB)
@@ -870,6 +874,7 @@
 - `data/market/zoning_compat_index_co.json` (0 KB)
 - `data/policy/chfa-awards-historical.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
+- `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (4 KB)
 - `data/policy_briefs.json` (7 KB)
@@ -877,27 +882,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 822 days since last update
-- **undefined** — 456 days since last update
-- **undefined** — 456 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 823 days since last update
+- **undefined** — 457 days since last update
+- **undefined** — 457 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 366 days since last update
+- undefined — 367 days since last update
