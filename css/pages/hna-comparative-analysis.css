@@ -578,3 +578,38 @@
   font-weight: 600;
   color: var(--accent);
 }
+
+/* ----------------------------------------------------------------
+   Scorecard Coverage Dashboard
+   ---------------------------------------------------------------- */
+.hca-coverage-dashboard {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.hca-cov-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 50px;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+.hca-cov-label { font-weight: 600; color: var(--text); }
+.hca-cov-bar-wrap {
+  height: 14px;
+  background: var(--bg2);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.hca-cov-bar {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.hca-cov-pct { font-weight: 700; text-align: right; color: var(--text); }
+@media (max-width: 640px) {
+  .hca-cov-row { grid-template-columns: 1fr 1fr 40px; }
+}
