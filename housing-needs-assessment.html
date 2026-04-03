@@ -129,7 +129,7 @@
           <select id="geoType">
             <option value="state" selected>State of Colorado</option>
             <option value="county">County</option>
-            <option value="place">Municipality (Incorporated Place + CDP)</option>
+            <option value="place">Incorporated Place (+ CDP)</option>
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
@@ -754,7 +754,7 @@
               Jurisdiction Type
               <select id="ftGeoType"
                 style="margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
-                <option value="place">Municipality</option>
+                <option value="place">Incorporated Place</option>
                 <option value="county">County</option>
                 <option value="cdp">CDP (unincorporated)</option>
               </select>
@@ -767,6 +767,19 @@
           <div id="ftResult"></div>
           <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
             <a href="compliance-dashboard.html">View full compliance dashboard →</a>
+          </p>
+        </div>
+
+        <!-- Housing Policy Commitment Scorecard -->
+        <div id="hnaScorecardPanel" class="chart-card" style="margin-top:0;padding:14px;display:none;">
+          <h3>Housing Policy Commitment</h3>
+          <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
+            How this jurisdiction compares on 7 housing policy dimensions.
+            Data from Prop 123 filings, housing authority registries, inclusionary zoning ordinances, and local housing plans.
+          </p>
+          <div id="hnaScorecardContent"></div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:8px;">
+            <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
           </p>
         </div>
 

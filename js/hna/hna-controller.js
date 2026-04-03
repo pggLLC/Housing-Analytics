@@ -1997,6 +1997,9 @@
     // Prop 123 compliance section (uses ACS profile + geoType)
     window.HNARenderers.renderProp123Section(profile, geoType);
 
+    // Housing Policy Commitment scorecard (loads scorecard JSON, non-blocking)
+    window.HNARenderers.renderHnaScorecardPanel(geoid);
+
     // DOLA SYA (cached; county context)
     let dola=null;
     if (geoType === 'state'){

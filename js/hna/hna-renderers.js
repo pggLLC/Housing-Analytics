@@ -1110,6 +1110,59 @@
   }
 
   // ---------------------------------------------------------------
+  // Housing Policy Commitment Scorecard (on HNA page)
+  // ---------------------------------------------------------------
+
+  var _hnaScorecardCache = null;
+
+  function renderHnaScorecardPanel(geoid) {
+    var panel = document.getElementById('hnaScorecardPanel');
+    var content = document.getElementById('hnaScorecardContent');
+    if (!panel || !content) return;
+
+    function render(scores) {
+      var sc = scores[geoid];
+      if (!sc || sc.knownDimensions < 1) {
+        panel.style.display = 'none';
+        return;
+      }
+      var labels = {
+        has_hna: 'Housing Needs Assessment',
+        prop123_committed: 'Proposition 123 Committed',
+        has_housing_authority: 'Housing Authority',
+        has_housing_nonprofits: 'Housing Nonprofits',
+        has_comp_plan: 'Housing in Comprehensive Plan',
+        has_iz_ordinance: 'Zoning Incentives / IZ Ordinance',
+        has_local_funding: 'Affordable Housing Funding',
+      };
+      var items = Object.keys(sc.dimensions).map(function (id) {
+        var val = sc.dimensions[id];
+        var label = labels[id] || id;
+        if (val === true)  return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--good,#16a34a);color:#fff;font-size:.72rem;font-weight:700">&#10003;</span> ' + label + '</div>';
+        if (val === false) return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted)"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bad,#dc2626);color:#fff;font-size:.72rem;font-weight:700">&#10007;</span> ' + label + '</div>';
+        return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted);font-style:italic"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--muted);font-size:.72rem;font-weight:700">?</span> ' + label + '</div>';
+      }).join('');
+      content.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">' + items + '</div>' +
+        '<div style="margin-top:.6rem;font-size:.82rem;font-weight:600;color:var(--accent)">' + sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed</div>';
+      panel.style.display = '';
+    }
+
+    if (_hnaScorecardCache) {
+      render(_hnaScorecardCache);
+      return;
+    }
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }); };
+    fetcher('data/policy/housing-policy-scorecard.json')
+      .then(function (data) {
+        _hnaScorecardCache = (data && data.scores) || {};
+        render(_hnaScorecardCache);
+      })
+      .catch(function () { panel.style.display = 'none'; });
+  }
+
+  // ---------------------------------------------------------------
   // Phase 3: Historical compliance tracking + Fast-track timeline
   // ---------------------------------------------------------------
 
@@ -2965,7 +3018,7 @@
     renderLaborMarketSection, renderEmploymentTrend, renderWageTrend,
     renderIndustryAnalysis, renderEconomicIndicators, renderWageGaps,
     renderBaselineCard, renderGrowthChart, renderFastTrackCard, renderChecklist,
-    renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection,
+    renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection, renderHnaScorecardPanel,
     renderComplianceTable, renderSnapshot, renderHousingCharts, renderAffordChart,
     renderRentBurdenBins, renderChasAffordabilityGap, renderModeShare, renderLehd,
     renderDolaPyramid, clearProjectionsForStateLevel, _renderScenarioSection,
