@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-02T08:08:30.115Z",
+  "generated": "2026-04-03T08:03:11.488Z",
   "files": [
     "alerts/alerts_archive.json",
     "allocations.json",
@@ -456,6 +456,7 @@
     "hna/summary/0812815.json",
     "hna/summary/0812855.json",
     "hna/summary/0812900.json",
+    "hna/summary/0812910.json",
     "hna/summary/0812945.json",
     "hna/summary/0813460.json",
     "hna/summary/0813590.json",
@@ -822,6 +823,8 @@
     "hna/summary/0878335.json",
     "hna/summary/0878345.json",
     "hna/summary/0878610.json",
+    "hna/summary/0879100.json",
+    "hna/summary/0879105.json",
     "hna/summary/0879270.json",
     "hna/summary/0879785.json",
     "hna/summary/0879800.json",
@@ -865,6 +868,7 @@
     "lihtc-trends-by-county.json",
     "manifest.json",
     "market/acs_tract_metrics_co.json",
+    "market/bridge_co_market_summary.json",
     "market/cde_schools_co.json",
     "market/cdle_job_postings_co.json",
     "market/cdot_traffic_co.json",
@@ -894,6 +898,7 @@
     "market/zoning_compat_index_co.json",
     "policy/chfa-awards-historical.json",
     "policy/county-ownership.json",
+    "policy/housing-policy-scorecard.json",
     "policy/lihtc-assumptions.json",
     "policy/prop123_jurisdictions.json",
     "policy/soft-funding-status.json",
@@ -901,5 +906,5 @@
     "qct-colorado.json",
     "states-10m.json"
   ],
-  "file_count": 899
+  "file_count": 904
 }
