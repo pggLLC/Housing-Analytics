@@ -1911,8 +1911,8 @@
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       if (proj && proj.steps && proj.steps.jurisdiction) {
-        countyName = proj.steps.jurisdiction.countyName || null;
-        cityName   = proj.steps.jurisdiction.cityName   || null;
+        countyName = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName || null;
+        cityName   = proj.steps.jurisdiction.displayName || proj.steps.jurisdiction.cityName || null;
       }
     } catch (_) {}
 
@@ -1924,7 +1924,9 @@
     }
 
     if (countyName) {
-      nameEl.textContent = countyName + ' County';
+      // Avoid "Denver County County" — name may already include " County"
+      var displayName = /county$/i.test(countyName) ? countyName : countyName + ' County';
+      nameEl.textContent = displayName;
       if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
       banner.removeAttribute('hidden');
     }
