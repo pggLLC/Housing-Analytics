@@ -9,7 +9,8 @@
  * Non-goals (explicitly documented):
  *   - Does NOT underwrite individual projects (no investor-level pro forma)
  *   - Does NOT predict CHFA QAP award (no competitive scoring model)
- *   - Does NOT calculate basis, eligible basis, or applicable fraction
+ *   - Approximates eligible basis at 85% of TDC; actual eligible basis requires full
+ *     cost-certification review excluding land, permanent fees, and non-depreciable items
  *   - Does NOT model permanent debt underwriting (DSCR, LTV)
  *   - Does NOT finalize capital stack (conceptual outline only)
  *
@@ -83,9 +84,10 @@
   var DEFAULT_ASSUMPTIONS = {
     equityPrice9Pct:          0.87,
     equityPrice4Pct:          0.85,
-    hardCostPerUnit:          275000,
+    hardCostPerUnit:          350000,
     softCostPct:              0.22,
     devFeePct:                0.15,
+    eligibleBasisPct:         0.85,
     defaultSoftFunding:       500000,
     saturationLowThreshold:   1,
     saturationMedThreshold:   3,
@@ -307,9 +309,10 @@
       ? DEFAULT_ASSUMPTIONS.equityPrice4Pct
       : DEFAULT_ASSUMPTIONS.equityPrice9Pct;
     var basisBoost   = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
+    var eligibleBasis = totalDevCost * DEFAULT_ASSUMPTIONS.eligibleBasisPct;
     var annualCredit = (execution === '9%')
-      ? totalDevCost * 0.09 * basisBoost
-      : totalDevCost * 0.04 * basisBoost;
+      ? eligibleBasis * 0.09 * basisBoost
+      : eligibleBasis * 0.04 * basisBoost;
     var equity       = annualCredit * 10 * equityPrice;
 
     var localSoft    = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
@@ -439,7 +442,9 @@
     var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);
     var basisBoost  = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
     var creditRate  = (execution === '9%') ? 0.09 : 0.04;
-    var annualCredit = hardCost * creditRate * basisBoost;
+    // Eligible basis = hard + soft costs (excludes dev fee), consistent with _computeCapitalStack.
+    var eligibleBasis = (hardCost + softCost) * DEFAULT_ASSUMPTIONS.eligibleBasisPct;
+    var annualCredit = eligibleBasis * creditRate * basisBoost;
 
     var equityLow  = Math.round(annualCredit * 10 * (basePrice - 0.03));
     var equityHigh = Math.round(annualCredit * 10 * (basePrice + 0.03));
