@@ -470,9 +470,10 @@
         console.warn('[HNA] CHFA LIHTC ArcGIS API unavailable; falling back to HUD.', e.message);
       }
 
-      // Final fallback: HUD ArcGIS FeatureServer for all Colorado projects.
+      // Final fallback: HUD ArcGIS FeatureServer for this county.
+      // CNTY_FIPS is a string field — must be quoted in ArcGIS SQL to avoid HTTP 400.
       const hudParams = new URLSearchParams({
-        where:   `HUD_ID LIKE '08%' OR STATE='CO' OR STATE='Colorado'`,
+        where:   `CNTY_FIPS='${countyFips5}'`,
         outFields: '*',
         f: 'geojson',
         outSR: '4326',
