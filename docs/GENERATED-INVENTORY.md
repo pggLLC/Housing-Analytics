@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-04T18:53:54.727Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-04T20:30:16.450Z. Do not edit by hand.
 
 ---
 
@@ -1055,7 +1055,7 @@
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
-| `.github/workflows/fetch-chas-data.yml` | 2.9 KB |
+| `.github/workflows/fetch-chas-data.yml` | 3.0 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 2.5 KB |
 | `.github/workflows/fetch-county-data.yml` | 3.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
@@ -1071,7 +1071,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 1.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
-| `.github/workflows/zillow-data-sync.yml` | 17.9 KB |
+| `.github/workflows/zillow-data-sync.yml` | 17.8 KB |
 
 ---
 
