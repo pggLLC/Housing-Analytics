@@ -109,6 +109,7 @@
       .nav-group-btn{background:none;border:none;cursor:pointer;color:var(--text);font-weight:700;font-size:.92rem;padding:8px 10px;border-radius:999px;border:1px solid transparent;display:flex;align-items:center;gap:4px}
       .nav-group-btn:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%);border-color:color-mix(in oklab,var(--border) 60%,var(--accent) 40%)}
       .nav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2000}
+      .nav-group:nth-last-child(-n+2) .nav-dropdown{left:auto;right:0}
       .nav-dropdown a{display:flex;flex-direction:column;padding:8px 10px;border-radius:6px;color:var(--text);text-decoration:none}
       .nav-dropdown a:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%)}
       .nav-link-label{font-weight:700;font-size:.9rem}
@@ -176,8 +177,8 @@
     var county = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction && proj.steps.jurisdiction.countyName) {
-        county = proj.steps.jurisdiction.countyName;
+      if (proj && proj.steps && proj.steps.jurisdiction && (proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName)) {
+        county = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName;
       }
     } catch (_) {}
 
