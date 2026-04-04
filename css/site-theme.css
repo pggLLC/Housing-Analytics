@@ -857,13 +857,14 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 /* Matches both .wf-progress-wrap (HNA/MA/SB/DC pages) and .workflow-progress (select-jurisdiction) */
 .wf-progress-wrap,
 .workflow-progress {
-  position: sticky !important;
-  top: 58px !important;       /* height of the sticky site header */
-  z-index: 8500 !important;   /* below header (9000) but above page content */
-  background: color-mix(in srgb, var(--card) 85%, transparent) !important;
-  backdrop-filter: saturate(1.2) blur(10px) !important;
-  -webkit-backdrop-filter: saturate(1.2) blur(10px) !important;
-  border-bottom: 1px solid var(--border) !important;
+  position: sticky;
+  top: 58px;       /* height of the sticky site header */
+  z-index: 8500;   /* below header (9000) but above page content */
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  backdrop-filter: saturate(1.2) blur(10px);
+  -webkit-backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 1px solid var(--border);
+  /* Override inline script-injected stylesheets (appended to <head> after site-theme.css loads) */
   max-width: none !important;
   margin: 0 !important;
   padding: 6px 0 !important;
