@@ -853,6 +853,30 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .workflow-step--active{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--card) 85%,var(--accent) 15%)}
 .workflow-step-arrow{color:var(--muted);font-size:.82rem}
 
+/* === Scoping-a-Project workflow progress bar — sticky below site header === */
+/* Matches both .wf-progress-wrap (HNA/MA/SB/DC pages) and .workflow-progress (select-jurisdiction) */
+.wf-progress-wrap,
+.workflow-progress {
+  position: sticky;
+  top: 58px;       /* height of the sticky site header */
+  z-index: 8500;   /* below header (9000) but above page content */
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  backdrop-filter: saturate(1.2) blur(10px);
+  -webkit-backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 1px solid var(--border);
+  /* Override inline script-injected stylesheets (appended to <head> after site-theme.css loads) */
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 6px 0 !important;
+}
+/* Keep the inner step list centered at 1200 px on wide viewports */
+.wf-progress-steps,
+.workflow-progress__steps {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--sp4);
+}
+
 /* === Platform disclaimer === */
 .platform-disclaimer{padding:10px 16px;background:color-mix(in oklab,var(--card) 90%,var(--accent) 10%);border-left:3px solid var(--accent);border-radius:4px;font-size:.85rem;color:var(--muted);margin-bottom:16px}
 
