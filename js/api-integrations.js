@@ -6,7 +6,7 @@ class DataAPIIntegrations {
         this.apis = {
             hud: {
                 baseUrl: 'https://www.huduser.gov/hudapi/public',
-                token: null, // User must register at huduser.gov
+                token: window.APP_CONFIG ? window.APP_CONFIG.HUD_TOKEN : null, // Register at huduser.gov; set window.APP_CONFIG.HUD_TOKEN
                 endpoints: {
                     ami: '/ami',
                     fmr: '/fmr'
@@ -34,6 +34,18 @@ class DataAPIIntegrations {
         };
         
         this.cache = new Map();
+
+        // Warn in the browser console when API keys are absent so developers
+        // know they need to configure them before enabling live data fetches.
+        if (!this.apis.fred.apiKey) {
+            console.info('[DataAPIIntegrations] FRED_API_KEY not configured — live FRED API calls will fail. Get a free key at research.stlouisfed.org and set window.APP_CONFIG.FRED_API_KEY.');
+        }
+        if (!this.apis.census.apiKey) {
+            console.info('[DataAPIIntegrations] CENSUS_API_KEY not configured — Census API rate limits are stricter without a key. Register at api.census.gov/data/key_signup.html and set window.APP_CONFIG.CENSUS_API_KEY.');
+        }
+        if (!this.apis.hud.token) {
+            console.info('[DataAPIIntegrations] HUD_TOKEN not configured — live HUD API calls will fail. Register at huduser.gov and set window.APP_CONFIG.HUD_TOKEN.');
+        }
     }
 
     // HUD AMI Data for Colorado Counties
