@@ -203,7 +203,7 @@
         <div id="dc-noi-auto-wrap" style="display:none;">
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Vacancy Rate (%)</span>
-            <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="5"
+            <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="7"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
@@ -264,13 +264,13 @@
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
-          <input id="dc-dcr" type="number" min="1" step="0.05" value="1.20"
+          <input id="dc-dcr" type="number" min="1.05" max="2.0" step="0.05" value="1.20"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
-          <input id="dc-rate" type="number" min="0" max="30" step="0.1" value="6.5"
+          <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
@@ -314,7 +314,14 @@
 
           <dt style="color:var(--muted);">Supportable First Mortgage</dt>
           <dd id="dc-r-mortgage" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
+
+          <dt style="color:var(--muted);">Cap Rate (NOI / TDC)</dt>
+          <dd id="dc-r-cap-rate" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Break-Even Occupancy</dt>
+          <dd id="dc-r-beo" style="font-weight:700;text-align:right;">—</dd>
         </dl>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">Cap rate and break-even occupancy require auto-compute NOI to be enabled.</p>
       </fieldset>
 
       <!-- Sources & Uses Panel -->
@@ -594,13 +601,15 @@
     // Auto-NOI or manual NOI
     var autoNoi = document.getElementById('dc-auto-noi');
     var noi;
+    var annualOpex = null;
+    var annualRepReserve = null;
     if (autoNoi && autoNoi.checked) {
       var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
       var opexPerUnitMonth = safeVal('dc-opex') || 450;
       var repReservePerUnit = safeVal('dc-rep-reserve') || 350;
       var effectiveGrossIncome = annualRents * (1 - vacancyPct);
-      var annualOpex = opexPerUnitMonth * 12 * (units || 60);
-      var annualRepReserve = repReservePerUnit * (units || 60);
+      annualOpex = opexPerUnitMonth * 12 * (units || 60);
+      annualRepReserve = repReservePerUnit * (units || 60);
       noi = effectiveGrossIncome - annualOpex - annualRepReserve;
       var noiComputedEl = document.getElementById('dc-noi-computed');
       if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
@@ -610,14 +619,25 @@
 
     // Supportable first mortgage
     var dcr = safeVal('dc-dcr');
-    if (!isFinite(dcr) || dcr <= 0) dcr = 1.20;
+    if (!isFinite(dcr) || dcr < 1.05) dcr = 1.20;
+    if (dcr > 2.0) dcr = 2.0; // cap at realistic LIHTC maximum
     var interestRate = safeVal('dc-rate');
-    if (!isFinite(interestRate) || interestRate <= 0) interestRate = 6.5;
+    if (!isFinite(interestRate) || interestRate < 3.0) interestRate = 6.5;
+    if (interestRate > 12.0) interestRate = 12.0; // cap at realistic upper bound
     var term = safeVal('dc-term');
     if (!isFinite(term) || term <= 0) term = 35;
 
     var mc = mortgageConstant(interestRate / 100, term);
     var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
+
+    // Cap rate and break-even occupancy
+    var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
+    var annualDebtService = mc > 0 ? mortgage * mc : 0;
+    var breakEvenOcc = annualRents > 0
+      ? (annualOpex != null && annualRepReserve != null
+          ? Math.min((annualOpex + annualRepReserve + annualDebtService) / annualRents, 1)
+          : null)
+      : null;
 
     // Sources & uses — deferred dev fee fills gap before subordinate debt is needed
     var gap = tdc - equity - mortgage - deferredDevFee;
@@ -631,6 +651,12 @@
     // Update mortgage results
     document.getElementById('dc-r-mc').textContent = mc > 0 ? (mc * 100).toFixed(4) + '%' : '—';
     document.getElementById('dc-r-mortgage').textContent = noi > 0 ? fmt(mortgage) : '—';
+
+    // Update cap rate and break-even occupancy
+    var capRateEl = document.getElementById('dc-r-cap-rate');
+    if (capRateEl) capRateEl.textContent = capRate != null ? (capRate * 100).toFixed(2) + '%' : '—';
+    var beoEl = document.getElementById('dc-r-beo');
+    if (beoEl) beoEl.textContent = breakEvenOcc != null ? (breakEvenOcc * 100).toFixed(1) + '%' : '—';
 
     // Update gap note (legacy)
     var note = document.getElementById('dc-gap-note');

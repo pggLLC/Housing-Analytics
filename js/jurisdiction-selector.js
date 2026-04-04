@@ -325,7 +325,12 @@
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
         li.setAttribute('data-idx', String(idx));
-        li.innerHTML = county.name + ' County<span class="sj-result-fips">' + county.fips + '</span>';
+        var nameText = document.createTextNode(county.name + ' County');
+        var fipsSpan = document.createElement('span');
+        fipsSpan.className = 'sj-result-fips';
+        fipsSpan.textContent = county.fips;
+        li.appendChild(nameText);
+        li.appendChild(fipsSpan);
         li.addEventListener('mousedown', function (e) {
           e.preventDefault(); // prevent input blur before click registers
           selectCounty(county);
