@@ -1366,8 +1366,8 @@
     if (S().els.statRentSrc) S().els.statRentSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
     setYoy(S().els.statRentYoy, rent, prevProfile?.DP04_0134E);
 
-    const owner = Number(profile?.DP04_0047PE);
-    const renter = Number(profile?.DP04_0046PE);
+    const owner = Number(profile?.DP04_0046PE);
+    const renter = Number(profile?.DP04_0047PE);
     if (S().els.statTenure) S().els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
     if (S().els.statTenureSrc) S().els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 

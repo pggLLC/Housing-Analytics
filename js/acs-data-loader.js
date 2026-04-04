@@ -60,8 +60,8 @@
     DP04: {
       DP04_0001E:  { name: 'total_housing_units',    type: 'integer',    description: 'Total housing units' },
       DP04_0003PE: { name: 'vacancy_rate',            type: 'percentage', description: 'Vacancy rate (%)' },
-      DP04_0046PE: { name: 'pct_renter_occupied',     type: 'percentage', description: '% renter-occupied units' },
-      DP04_0047PE: { name: 'pct_owner_occupied',      type: 'percentage', description: '% owner-occupied units' },
+      DP04_0046PE: { name: 'pct_owner_occupied',      type: 'percentage', description: '% owner-occupied units' },
+      DP04_0047PE: { name: 'pct_renter_occupied',     type: 'percentage', description: '% renter-occupied units' },
       DP04_0089E:  { name: 'median_home_value',       type: 'integer',    description: 'Median home value ($)' },
       DP04_0134E:  { name: 'median_gross_rent',       type: 'integer',    description: 'Median gross rent ($)' },
       DP04_0142PE: { name: 'grapi_lt15',              type: 'percentage', description: 'Gross rent < 15% of income' },

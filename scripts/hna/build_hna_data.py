@@ -635,8 +635,8 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
         'B19013_001E',  # median household income     → DP03_0062E
         'B25001_001E',  # total housing units         → DP04_0001E
         'B25003_001E',  # occupied housing units total
-        'B25003_002E',  # owner-occupied              → DP04_0047PE (%)
-        'B25003_003E',  # renter-occupied             → DP04_0046PE (%)
+        'B25003_002E',  # owner-occupied              → DP04_0046PE (%)
+        'B25003_003E',  # renter-occupied             → DP04_0047PE (%)
         'B25077_001E',  # median home value           → DP04_0089E
         'B25064_001E',  # median gross rent           → DP04_0134E
         # Structure by units in building              → DP04_0003E–0010E

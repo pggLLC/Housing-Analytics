@@ -563,7 +563,7 @@
    *
    * ACS DP04 fields used:
    *   DP04_0001E  - Total housing units
-   *   DP04_0046PE - Renter-occupied (%)
+   *   DP04_0047PE - Renter-occupied (%)
    *   DP04_0003E  - Occupied housing units
    *   DP04_0144PE - GRAPI <15%
    *   DP04_0145PE - GRAPI 15-19.9%
@@ -577,7 +577,7 @@
     if (!profile) return null;
 
     const totalUnits  = Number(profile.DP04_0001E);
-    const renterPct   = Number(profile.DP04_0046PE);  // e.g. 27.5
+    const renterPct   = Number(profile.DP04_0047PE);  // e.g. 27.5
     const occupiedUnits = Number(profile.DP04_0003E);
 
     if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
