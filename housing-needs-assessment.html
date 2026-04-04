@@ -68,6 +68,11 @@
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
   <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
   <main id="main-content">
     <!-- Workflow progress bar (Step 2 of 5) -->
     <div class="wf-progress-wrap" id="hnaWorkflowProgress">
@@ -177,21 +182,21 @@
           <label class="layer-toggle">
             <input type="checkbox" id="layerLihtc" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-dot" style="background:#e84545"></span>
+              <span class="legend-dot" style="background:var(--bad)"></span>
               LIHTC
             </span>
           </label>
           <label class="layer-toggle">
             <input type="checkbox" id="layerQct" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-swatch" style="background:rgba(251,191,36,.35);border-color:#d97706"></span>
+              <span class="legend-swatch" style="background:rgba(var(--warn-rgb,251,191,36),.35);border-color:var(--warn)"></span>
               QCT tracts
             </span>
           </label>
           <label class="layer-toggle">
             <input type="checkbox" id="layerDda" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-swatch" style="background:rgba(139,92,246,.2);border-color:#7c3aed"></span>
+              <span class="legend-swatch" style="background:rgba(var(--chart-6-rgb,139,92,246),.2);border-color:var(--chart-6,#7c3aed)"></span>
               DDA
             </span>
           </label>
@@ -1018,7 +1023,7 @@
     if (available) {
       return '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">data</span>';
     }
-    return '<span style="display:inline-block;background:#6b7280;color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
+    return '<span style="display:inline-block;background:var(--muted);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
   }
 
   function renderBridgeMarketSection(summary) {
@@ -2026,5 +2031,9 @@
   });
 }());
 </script>
+
+  <footer class="site-footer">
+    <!-- Injected by navigation.js -->
+  </footer>
 </body>
 </html>

@@ -66,6 +66,21 @@ function json(obj, env, status = 200, extraHeaders = {}) {
   });
 }
 
+/**
+ * Normalise any raw value to a zero-padded 5-digit FIPS string.
+ * Handles both full 5-digit codes and bare 3-digit county suffixes (prefixed "08").
+ *
+ * @param {string|number|null} raw
+ * @returns {string}  5-digit FIPS (e.g. "08031") or "" if input is falsy.
+ */
+function toFips5(raw) {
+  if (raw == null || raw === "") return "";
+  const s = String(raw).trim().replace(/\D/g, ""); // digits only
+  if (s.length >= 5) return s.padStart(5, "0").slice(0, 5);
+  if (s.length > 0) return `08${s.padStart(3, "0")}`; // treat as CO county suffix
+  return "";
+}
+
 async function fromCacheOrCompute(request, env, ctx, cacheSeconds, computeFn) {
   const cache = caches.default;
   const cacheKey = new Request(request.url, { method: "GET" });
@@ -335,7 +350,7 @@ async function hudListCounties(hudToken, year, stateFips) {
 function buildHudCountyIndex(list) {
   const idx = {};
   for (const item of list) {
-    const fips = String(item.fips_code || "").padStart(5, "0");
+    const fips = toFips5(item.fips_code);
     const entityid = item.county_id;
     if (fips && entityid) idx[fips] = { entityid, county_name: item.county_name };
   }
@@ -390,8 +405,7 @@ async function censusB19001_CO_Counties(acsYear, key) {
   const counties = rows.map(r => {
     const o = {};
     header.forEach((h, i) => o[h] = r[i]);
-    const county = o["county"];
-    const fips = `08${String(county).padStart(3, "0")}`;
+    const fips = toFips5(o["county"]);
 
     const counts = [];
     for (let i = 2; i <= 17; i++) {
@@ -436,8 +450,7 @@ async function censusB25063_CO_Counties(acsYear, key) {
   for (const r of rows) {
     const o = {};
     header.forEach((h, i) => o[h] = r[i]);
-    const county = o["county"];
-    const fips = `08${String(county).padStart(3, "0")}`;
+    const fips = toFips5(o["county"]);
 
     const counts = [];
     for (let i = 2; i <= 25; i++) {
