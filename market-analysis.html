@@ -49,37 +49,37 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <main id="main-content">
-    <!-- Workflow progress bar (Step 3 of 5) -->
-    <div class="wf-progress-wrap" id="maWorkflowProgress">
-      <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-        <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-          <span class="wf-step__num">✓</span>
-          <span class="wf-step__label">Jurisdiction</span>
-        </a>
-        <div class="wf-step-connector"></div>
-        <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
-          <span class="wf-step__num">✓</span>
-          <span class="wf-step__label">Needs Assessment</span>
-        </a>
-        <div class="wf-step-connector"></div>
-        <div class="wf-step wf-step--active" data-step="3" aria-current="step">
-          <span class="wf-step__num">3</span>
-          <span class="wf-step__label">Market Analysis</span>
-        </div>
-        <div class="wf-step-connector"></div>
-        <a class="wf-step" href="hna-scenario-builder.html" data-step="4">
-          <span class="wf-step__num">4</span>
-          <span class="wf-step__label">Scenarios</span>
-        </a>
-        <div class="wf-step-connector"></div>
-        <a class="wf-step" href="deal-calculator.html" data-step="5">
-          <span class="wf-step__num">5</span>
-          <span class="wf-step__label">Deal</span>
-        </a>
+  <!-- Workflow progress bar (Step 3 of 5) — outside <main> so it sticks independently -->
+  <div class="wf-progress-wrap" id="maWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="3" aria-current="step">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Market Analysis</span>
       </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
     </div>
+  </div>
 
+  <main id="main-content">
     <!-- Jurisdiction context banner -->
     <div id="maJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
       <div class="hna-jurisdiction-banner__inner">
