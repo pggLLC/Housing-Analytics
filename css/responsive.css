@@ -63,7 +63,7 @@ select,
 label,
 summary,
 .btn,
-nav.site-nav a,
+nav.site-nav > a,
 .mobile-menu-toggle {
   min-height: 44px;
   min-width: 44px;
@@ -73,7 +73,7 @@ nav.site-nav a,
 }
 
 /* Navigation links are inline-flex but allow wrapping label text */
-nav.site-nav a {
+nav.site-nav > a {
   white-space: nowrap;
   padding: 10px 12px;
 }
@@ -99,7 +99,7 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     gap: 4px;
   }
 
-  nav.site-nav a {
+  nav.site-nav > a {
     font-size: var(--small);
     padding: 8px 8px;
   }
