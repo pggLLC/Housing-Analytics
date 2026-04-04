@@ -442,6 +442,7 @@
     var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);
     var basisBoost  = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
     var creditRate  = (execution === '9%') ? 0.09 : 0.04;
+    // Eligible basis = hard + soft costs (excludes dev fee), consistent with _computeCapitalStack.
     var eligibleBasis = (hardCost + softCost) * DEFAULT_ASSUMPTIONS.eligibleBasisPct;
     var annualCredit = eligibleBasis * creditRate * basisBoost;
 
