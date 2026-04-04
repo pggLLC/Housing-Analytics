@@ -91,9 +91,9 @@
     s.textContent = `
       header.site-header{position:sticky;top:0;z-index:1000;background:var(--card);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(10px)}
       .nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:14px}
-      .brand{display:flex;flex-direction:column;gap:2px}
-      .brand a{font-weight:800;letter-spacing:.2px;color:var(--text);text-decoration:none}
-      .brand small{color:var(--muted);font-weight:600}
+      .brand{display:flex;flex-direction:column;gap:2px;text-align:left}
+      .brand a{font-weight:800;letter-spacing:.2px;color:var(--text);text-decoration:none;text-align:left}
+      .brand small{color:var(--muted);font-weight:600;text-align:left}
       nav.site-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
       nav.site-nav a{padding:8px 10px;border-radius:999px;border:1px solid transparent;color:var(--text);text-decoration:none;font-weight:700;font-size:.92rem}
       nav.site-nav a:hover{background:color-mix(in oklab, var(--card) 70%, var(--accent) 30%);border-color:color-mix(in oklab, var(--border) 60%, var(--accent) 40%)}
@@ -108,12 +108,12 @@
       .nav-group{position:relative}
       .nav-group-btn{background:none;border:none;cursor:pointer;color:var(--text);font-weight:700;font-size:.92rem;padding:8px 10px;border-radius:999px;border:1px solid transparent;display:flex;align-items:center;gap:4px}
       .nav-group-btn:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%);border-color:color-mix(in oklab,var(--border) 60%,var(--accent) 40%)}
-      .nav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2000}
+      .nav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2000;text-align:left}
       .nav-group:nth-last-child(-n+2) .nav-dropdown{left:auto;right:0}
-      .nav-dropdown a{display:flex;flex-direction:column;padding:8px 10px;border-radius:6px;color:var(--text);text-decoration:none}
+      .nav-dropdown a{display:flex !important;flex-direction:column !important;align-items:flex-start !important;justify-content:flex-start !important;padding:8px 10px;border-radius:6px;color:var(--text);text-decoration:none;min-height:unset !important;min-width:unset !important;white-space:normal !important;text-align:left}
       .nav-dropdown a:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%)}
-      .nav-link-label{font-weight:700;font-size:.9rem}
-      .nav-link-desc{font-size:.78rem;color:var(--muted)}
+      .nav-link-label{font-weight:700;font-size:.9rem;text-align:left;width:100%}
+      .nav-link-desc{font-size:.78rem;color:var(--muted);text-align:left;width:100%}
       .nav-caret{font-size:.7em;transition:transform .2s}
       [aria-expanded="true"] .nav-caret{transform:rotate(180deg)}
       .mobile-nav-section-btn{width:100%;text-align:left;background:none;border:none;padding:12px 16px;font-weight:700;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)}
