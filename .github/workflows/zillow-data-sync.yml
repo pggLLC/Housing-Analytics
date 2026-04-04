@@ -98,8 +98,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # Only run when the token secret is present
-    if: ${{ secrets.BRIDGE_SERVER_TOKEN != '' }}
 
     steps:
       - uses: actions/checkout@v4
