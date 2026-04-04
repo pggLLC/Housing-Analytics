@@ -151,7 +151,7 @@
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>` : '<p>No LIHTC projects found within this jurisdiction.</p>';
+      </div>` : '<p>No LIHTC projects visible in current map area.</p>';
   }
 
   // Render LIHTC project markers on the S().map

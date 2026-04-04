@@ -477,7 +477,8 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   cursor: pointer;
   font-size: .88rem;
   font-weight: 500;
-  min-height: 36px;
+  min-height: 44px;
+  min-width: 44px;
   padding: 0 14px;
   border-radius: 6px;
   border: 1.5px solid var(--border);
