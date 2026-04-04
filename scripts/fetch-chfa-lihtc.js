@@ -566,6 +566,28 @@ function resolveCntyFipsFromCity(cityName) {
 }
 
 /**
+ * Normalise the CREDIT field to a consistent percentage string ("9%" or "4%").
+ *
+ * The HUD ArcGIS service has historically returned three different encodings:
+ *   "9%"  — modern string (preferred)
+ *   "4%"  — modern string (preferred)
+ *   "1"   — legacy HUD integer code meaning 9% new-construction credit
+ *   "2"   — legacy HUD integer code meaning 4% bond-financed credit
+ *
+ * @param {*} raw  Raw CREDIT attribute value from ArcGIS.
+ * @returns {string|null}  Normalised string ("9%" | "4%") or null if unknown.
+ */
+function normalizeCreditField(raw) {
+  if (raw == null) return null;
+  const v = String(raw).trim();
+  if (v === '9%' || v === '9') return '9%';
+  if (v === '4%' || v === '4') return '4%';
+  if (v === '1') return '9%'; // legacy HUD code: 1 = 9% new-construction
+  if (v === '2') return '4%'; // legacy HUD code: 2 = 4% bond-financed
+  return v || null; // pass through any other non-empty value unchanged
+}
+
+/**
  * Convert an ArcGIS JSON feature to a GeoJSON Feature.
  * Handles Point geometry (x/y) only; skips features without valid geometry.
  *
@@ -620,7 +642,7 @@ function toGeoJsonFeature(esriFeature) {
       LI_UNITS:  attrs.LI_UNITS  ?? null,
       YR_PIS:    attrs.YR_PIS    ?? null,
       YR_ALLOC:  attrs.YR_ALLOC  ?? null,
-      CREDIT:    attrs.CREDIT    ?? null,
+      CREDIT:    normalizeCreditField(attrs.CREDIT),
       NON_PROF:  attrs.NON_PROF  ?? null,
       QCT:       attrs.QCT       ?? null,
       DDA:       attrs.DDA       ?? null,
