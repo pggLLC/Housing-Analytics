@@ -1074,3 +1074,120 @@
   .hca-cp-ami__burden-row { grid-template-columns: 1fr 1fr 1fr; }
   .hca-cp-ami__missing-grid { grid-template-columns: 1fr; }
 }
+
+/* ================================================================
+   Housing Gap & Homeownership Affordability sections
+   ================================================================ */
+
+.hca-cp-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.hca-cp-section__title {
+  font-size: .88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.hca-cp-subsection {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.hca-cp-subsection__title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text2, var(--muted));
+  margin-bottom: 8px;
+}
+
+.hca-cp-row--compact {
+  padding: 4px 0;
+  min-height: auto;
+}
+
+.hca-cp-row--compact .hca-cp-row__label {
+  font-size: .8rem;
+}
+
+.hca-cp-row--compact .hca-cp-row__num {
+  font-size: .82rem;
+}
+
+.hca-cp-loading {
+  text-align: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: .85rem;
+  font-style: italic;
+}
+
+/* ── AMI-to-Purchase grid ─────────────────────────────────────── */
+
+.hca-cp-purchase__note {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.hca-cp-purchase__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.hca-cp-purchase__scenario {
+  background: var(--bg2, #f5f5f5);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.hca-cp-purchase__scenario-title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hca-cp-purchase__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  font-size: .82rem;
+}
+
+.hca-cp-purchase__label {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.hca-cp-purchase__val {
+  font-family: var(--font-mono, 'SF Mono', 'Consolas', monospace);
+  font-weight: 700;
+  text-align: right;
+  min-width: 90px;
+}
+
+.hca-cp-purchase__val--a { color: var(--accent); }
+.hca-cp-purchase__val--b { color: var(--info, #2563eb); }
+
+/* AMI level color coding */
+.hca-cp-ami-ok      { color: var(--color-success, #16a34a) !important; }
+.hca-cp-ami-stretch  { color: var(--color-warning, #d97706) !important; }
+.hca-cp-ami-out      { color: var(--color-error, #dc2626) !important; }
+
+@media (max-width: 640px) {
+  .hca-cp-purchase__grid { grid-template-columns: 1fr; }
+  .hca-cp-purchase__val { min-width: 70px; font-size: .78rem; }
+}

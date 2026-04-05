@@ -339,7 +339,6 @@
 
   var COMPARISON_METRICS = [
     { id: 'overall_need_score', label: 'Overall Need Score',     unit: 'score',   lowerBetter: true  },
-    { id: 'housing_gap_units',  label: 'Units Needed (30% AMI)', unit: 'integer',  lowerBetter: true  },
     { id: 'pct_cost_burdened',  label: '% Rent Burdened',        unit: 'percent',  lowerBetter: true  },
     { id: 'in_commuters',       label: 'In-Commuters',           unit: 'integer',  lowerBetter: false },
     { id: 'population',         label: 'Population',             unit: 'integer',  lowerBetter: false },
@@ -349,6 +348,87 @@
     { id: 'gross_rent_median',  label: 'Median Gross Rent',      unit: 'dollars',  lowerBetter: true  },
     { id: 'population_projection_20yr', label: 'Pop. Projection (20yr)', unit: 'integer', lowerBetter: false },
   ];
+
+  var HOUSING_GAP_METRICS = [
+    { id: 'ami_gap_30pct',     label: 'Unit Gap ≤30% AMI',  unit: 'integer', lowerBetter: true },
+    { id: 'ami_gap_50pct',     label: 'Unit Gap ≤50% AMI',  unit: 'integer', lowerBetter: true },
+    { id: 'ami_gap_60pct',     label: 'Unit Gap ≤60% AMI',  unit: 'integer', lowerBetter: true },
+    { id: 'housing_gap_units', label: 'Total Housing Gap',   unit: 'integer', lowerBetter: true },
+  ];
+
+  // ── Summary data cache ──────────────────────────────────────────────
+  var _summaryCache = {};
+
+  function _fetchSummary(geoid) {
+    if (_summaryCache[geoid]) return Promise.resolve(_summaryCache[geoid]);
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); };
+
+    return fetcher('data/hna/summary/' + geoid + '.json').then(function (data) {
+      _summaryCache[geoid] = data;
+      return data;
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  // ── Homeownership affordability calculations ──────────────────────
+  // Standard mortgage assumptions for "AMI required to purchase"
+  var MORTGAGE_RATE    = 0.07;   // 7% (current market approximation)
+  var MORTGAGE_TERM_YR = 30;
+  var DOWN_PAYMENT_PCT = 0.05;   // 5% conventional minimum
+  var HOUSING_COST_PCT = 0.30;   // 30% of gross income to housing
+  var PROPERTY_TAX_RATE = 0.006; // ~0.6% effective rate (CO average)
+  var INSURANCE_ANNUAL  = 2400;  // annual homeowner insurance estimate
+
+  /**
+   * Compute the annual household income required to purchase a home at a
+   * given price, then express that as a percentage of Area Median Income.
+   *
+   * For current homeowners, we estimate a reduced purchase price reflecting
+   * existing equity (median equity ≈ 40% of home value per Fed data).
+   *
+   * @param {number} homeValue  Median home value ($)
+   * @param {number} ami        Area Median Income ($), approximated from median HH income
+   * @param {boolean} isOwner   true = current homeowner (has equity)
+   * @returns {{ amiPct: number, requiredIncome: number, monthlyPayment: number,
+   *             downPayment: number, loanAmount: number }}
+   */
+  function _calcPurchaseAmi(homeValue, ami, isOwner) {
+    if (!homeValue || !ami || homeValue <= 0 || ami <= 0) return null;
+
+    // Current homeowners: assume 40% median equity offsets purchase price
+    var effectivePrice = isOwner ? homeValue * 0.60 : homeValue;
+
+    var downPayment = effectivePrice * DOWN_PAYMENT_PCT;
+    var loanAmount  = effectivePrice - downPayment;
+
+    // Monthly mortgage payment (P&I)
+    var monthlyRate = MORTGAGE_RATE / 12;
+    var nPayments   = MORTGAGE_TERM_YR * 12;
+    var monthlyPI   = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, nPayments)) /
+                      (Math.pow(1 + monthlyRate, nPayments) - 1);
+
+    // Add property tax + insurance to monthly housing cost
+    var monthlyTax       = (effectivePrice * PROPERTY_TAX_RATE) / 12;
+    var monthlyInsurance = INSURANCE_ANNUAL / 12;
+    var monthlyPayment   = monthlyPI + monthlyTax + monthlyInsurance;
+
+    // Required annual income (housing ≤ 30% of gross)
+    var requiredIncome = (monthlyPayment * 12) / HOUSING_COST_PCT;
+
+    // Express as percentage of AMI
+    var amiPct = (requiredIncome / ami) * 100;
+
+    return {
+      amiPct: Math.round(amiPct),
+      requiredIncome: Math.round(requiredIncome),
+      monthlyPayment: Math.round(monthlyPayment),
+      downPayment: Math.round(downPayment),
+      loanAmount: Math.round(loanAmount),
+    };
+  }
 
   function _fmtVal(val, unit) {
     if (val === null || val === undefined || isNaN(val)) return '—';
@@ -410,6 +490,188 @@
       },
       missingTiers: m.missing_ami_tiers || [],
     };
+  }
+
+  // ── Housing Gap section builder ─────────────────────────────────────
+
+  function _buildHousingGapSection(entryA, entryB) {
+    var html = '<div class="hca-cp-section">';
+    html += '<h4 class="hca-cp-section__title">Housing Gap Analysis</h4>';
+
+    HOUSING_GAP_METRICS.forEach(function (m) {
+      var valA = entryA.metrics[m.id];
+      var valB = entryB.metrics[m.id];
+      var numA = (valA !== null && valA !== undefined) ? +valA : null;
+      var numB = (valB !== null && valB !== undefined) ? +valB : null;
+
+      var maxVal = Math.max(Math.abs(numA || 0), Math.abs(numB || 0));
+      var pctA = maxVal > 0 && numA !== null ? (Math.abs(numA) / maxVal * 100) : 0;
+      var pctB = maxVal > 0 && numB !== null ? (Math.abs(numB) / maxVal * 100) : 0;
+      var delta = _deltaText(numA, numB, m.unit, m.lowerBetter);
+
+      html += '<div class="hca-cp-row">' +
+        '<div class="hca-cp-row__label">' + m.label + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numA, m.unit) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--a" style="width:' + pctA.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+        '<div class="hca-cp-row__delta ' + delta.cls + '">' + delta.text + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numB, m.unit) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--b" style="width:' + pctB.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+      '</div>';
+    });
+
+    // Cost burden breakdown by tier
+    html += '<div class="hca-cp-subsection">';
+    html += '<div class="hca-cp-subsection__title">Renter Cost Burden by Income Tier</div>';
+    var burdenMetrics = [
+      { id: 'pct_burdened_lte30',  label: '≤30% AMI burdened' },
+      { id: 'pct_burdened_31to50', label: '31–50% AMI burdened' },
+      { id: 'pct_burdened_51to80', label: '51–80% AMI burdened' },
+    ];
+    burdenMetrics.forEach(function (bm) {
+      var bA = entryA.metrics[bm.id];
+      var bB = entryB.metrics[bm.id];
+      var numA = bA != null ? +bA : null;
+      var numB = bB != null ? +bB : null;
+      var delta = _deltaText(numA, numB, 'percent', true);
+      html += '<div class="hca-cp-row hca-cp-row--compact">' +
+        '<div class="hca-cp-row__label">' + bm.label + '</div>' +
+        '<div class="hca-cp-row__val"><span class="hca-cp-row__num">' + _fmtVal(numA, 'percent') + '</span></div>' +
+        '<div class="hca-cp-row__delta ' + delta.cls + '">' + delta.text + '</div>' +
+        '<div class="hca-cp-row__val"><span class="hca-cp-row__num">' + _fmtVal(numB, 'percent') + '</span></div>' +
+      '</div>';
+    });
+    html += '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  // ── Homeownership Affordability section builder ───────────────────
+
+  function _buildHomeownershipSection(summaryA, summaryB, entryA, entryB) {
+    var pA = summaryA ? summaryA.acsProfile || {} : {};
+    var pB = summaryB ? summaryB.acsProfile || {} : {};
+
+    var homeValA = pA.DP04_0089E != null ? +pA.DP04_0089E : null;
+    var homeValB = pB.DP04_0089E != null ? +pB.DP04_0089E : null;
+    var incomeA  = pA.DP03_0062E != null ? +pA.DP03_0062E : null;
+    var incomeB  = pB.DP03_0062E != null ? +pB.DP03_0062E : null;
+    var ownerPctA = pA.DP04_0046PE != null ? +pA.DP04_0046PE : null;
+    var ownerPctB = pB.DP04_0046PE != null ? +pB.DP04_0046PE : null;
+
+    // Owner cost burden (30%+ of income): DP04_0145PE (30-34.9%) + DP04_0146PE (≥35%)
+    var ownerBurdenA = null, ownerBurdenB = null;
+    if (pA.DP04_0145PE != null && pA.DP04_0146PE != null) ownerBurdenA = +pA.DP04_0145PE + +pA.DP04_0146PE;
+    if (pB.DP04_0145PE != null && pB.DP04_0146PE != null) ownerBurdenB = +pB.DP04_0145PE + +pB.DP04_0146PE;
+
+    // Compute AMI required to purchase (use median HH income as AMI proxy)
+    var purchaseRenter_A = _calcPurchaseAmi(homeValA, incomeA, false);
+    var purchaseRenter_B = _calcPurchaseAmi(homeValB, incomeB, false);
+    var purchaseOwner_A  = _calcPurchaseAmi(homeValA, incomeA, true);
+    var purchaseOwner_B  = _calcPurchaseAmi(homeValB, incomeB, true);
+
+    // Affordability index = home price / income
+    var affIdxA = homeValA && incomeA ? (homeValA / incomeA) : null;
+    var affIdxB = homeValB && incomeB ? (homeValB / incomeB) : null;
+
+    if (!homeValA && !homeValB) return '';
+
+    var html = '<div class="hca-cp-section hca-cp-homeownership">';
+    html += '<h4 class="hca-cp-section__title">Homeownership Affordability</h4>';
+
+    // Basic metrics rows
+    var hoMetrics = [
+      { label: 'Median Home Value', vA: homeValA, vB: homeValB, unit: 'dollars', lower: true },
+      { label: '% Owner-Occupied',  vA: ownerPctA, vB: ownerPctB, unit: 'percent', lower: false },
+      { label: 'Price-to-Income Ratio', vA: affIdxA ? +affIdxA.toFixed(1) : null, vB: affIdxB ? +affIdxB.toFixed(1) : null, unit: 'ratio', lower: true },
+      { label: '% Owners Cost-Burdened', vA: ownerBurdenA ? +ownerBurdenA.toFixed(1) : null, vB: ownerBurdenB ? +ownerBurdenB.toFixed(1) : null, unit: 'percent', lower: true },
+    ];
+
+    hoMetrics.forEach(function (m) {
+      var numA = m.vA, numB = m.vB;
+      var maxVal = Math.max(Math.abs(numA || 0), Math.abs(numB || 0));
+      var pctA = maxVal > 0 && numA !== null ? (Math.abs(numA) / maxVal * 100) : 0;
+      var pctB = maxVal > 0 && numB !== null ? (Math.abs(numB) / maxVal * 100) : 0;
+      var delta = _deltaText(numA, numB, m.unit, m.lower);
+      var fmt = function (v) {
+        if (v === null || v === undefined) return '—';
+        if (m.unit === 'dollars') return '$' + Math.round(v).toLocaleString('en-US');
+        if (m.unit === 'percent') return v.toFixed(1) + '%';
+        if (m.unit === 'ratio') return v.toFixed(1) + 'x';
+        return v.toLocaleString('en-US');
+      };
+
+      html += '<div class="hca-cp-row">' +
+        '<div class="hca-cp-row__label">' + m.label + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + fmt(numA) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--a" style="width:' + pctA.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+        '<div class="hca-cp-row__delta ' + delta.cls + '">' + delta.text + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + fmt(numB) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--b" style="width:' + pctB.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+      '</div>';
+    });
+
+    // AMI-to-Purchase comparison table
+    html += '<div class="hca-cp-subsection hca-cp-purchase">';
+    html += '<div class="hca-cp-subsection__title">AMI Required to Purchase a Home</div>';
+    html += '<div class="hca-cp-purchase__note">Based on 7% rate, 30-yr term, 5% down, 30% debt-to-income</div>';
+
+    html += '<div class="hca-cp-purchase__grid">';
+
+    // Non-homeowner scenario
+    html += '<div class="hca-cp-purchase__scenario">';
+    html += '<div class="hca-cp-purchase__scenario-title">First-Time Buyer (no existing equity)</div>';
+    html += _purchaseRow('AMI Required', purchaseRenter_A, purchaseRenter_B, 'amiPct');
+    html += _purchaseRow('Income Needed', purchaseRenter_A, purchaseRenter_B, 'requiredIncome');
+    html += _purchaseRow('Monthly Payment', purchaseRenter_A, purchaseRenter_B, 'monthlyPayment');
+    html += _purchaseRow('Down Payment', purchaseRenter_A, purchaseRenter_B, 'downPayment');
+    html += '</div>';
+
+    // Homeowner scenario (with equity)
+    html += '<div class="hca-cp-purchase__scenario">';
+    html += '<div class="hca-cp-purchase__scenario-title">Current Homeowner (est. 40% equity)</div>';
+    html += _purchaseRow('AMI Required', purchaseOwner_A, purchaseOwner_B, 'amiPct');
+    html += _purchaseRow('Income Needed', purchaseOwner_A, purchaseOwner_B, 'requiredIncome');
+    html += _purchaseRow('Monthly Payment', purchaseOwner_A, purchaseOwner_B, 'monthlyPayment');
+    html += _purchaseRow('Capital Advantage', purchaseRenter_A && purchaseOwner_A ? { val: purchaseRenter_A.requiredIncome - purchaseOwner_A.requiredIncome } : null,
+                          purchaseRenter_B && purchaseOwner_B ? { val: purchaseRenter_B.requiredIncome - purchaseOwner_B.requiredIncome } : null, 'val');
+    html += '</div>';
+
+    html += '</div>'; // grid
+    html += '</div>'; // subsection
+    html += '</div>'; // section
+    return html;
+  }
+
+  function _purchaseRow(label, dataA, dataB, field) {
+    var vA = dataA ? dataA[field] : null;
+    var vB = dataB ? dataB[field] : null;
+    var fmtFn;
+    if (field === 'amiPct') {
+      fmtFn = function (v) { return v != null ? v + '% AMI' : '—'; };
+    } else {
+      fmtFn = function (v) { return v != null ? '$' + Math.round(v).toLocaleString('en-US') : '—'; };
+    }
+
+    // Color code AMI percentage
+    var clsA = '', clsB = '';
+    if (field === 'amiPct') {
+      clsA = vA != null ? (vA <= 80 ? 'hca-cp-ami-ok' : vA <= 120 ? 'hca-cp-ami-stretch' : 'hca-cp-ami-out') : '';
+      clsB = vB != null ? (vB <= 80 ? 'hca-cp-ami-ok' : vB <= 120 ? 'hca-cp-ami-stretch' : 'hca-cp-ami-out') : '';
+    }
+
+    return '<div class="hca-cp-purchase__row">' +
+      '<span class="hca-cp-purchase__label">' + label + '</span>' +
+      '<span class="hca-cp-purchase__val hca-cp-purchase__val--a ' + clsA + '">' + fmtFn(vA) + '</span>' +
+      '<span class="hca-cp-purchase__val hca-cp-purchase__val--b ' + clsB + '">' + fmtFn(vB) + '</span>' +
+    '</div>';
   }
 
   function _buildAmiMixSection(entryA, entryB) {
@@ -517,7 +779,25 @@
     }
     if (!entryA || !entryB) { panel.style.display = 'none'; return; }
 
-    var total = state.allEntries.length;
+    // Render the panel with ranking-index data first (instant),
+    // then fetch summary data for homeownership section (async overlay).
+    _renderPanelHTML(panel, entryA, entryB, null, null);
+
+    // Fetch summary data for both jurisdictions (for homeownership metrics)
+    Promise.all([
+      _fetchSummary(entryA.geoid),
+      _fetchSummary(entryB.geoid),
+    ]).then(function (summaries) {
+      // Re-render with full summary data
+      if (panel.style.display !== 'none') {
+        _renderPanelHTML(panel, entryA, entryB, summaries[0], summaries[1]);
+      }
+    });
+  }
+
+  function _renderPanelHTML(panel, entryA, entryB, summaryA, summaryB) {
+    var state = window.HNARanking && HNARanking._get();
+    var total = state ? state.allEntries.length : 0;
     var scorecardData = HNARanking.getScorecardData ? HNARanking.getScorecardData() : {};
     var scA = scorecardData[entryA.geoid];
     var scB = scorecardData[entryB.geoid];
@@ -540,15 +820,15 @@
       '</div>' +
     '</div>';
 
-    // Metric rows
+    // ── Core Demographics ──
     html += '<div class="hca-cp-metrics">';
+    html += '<h4 class="hca-cp-section__title">Demographics & Market</h4>';
     COMPARISON_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];
       var numA = (valA !== null && valA !== undefined) ? +valA : null;
       var numB = (valB !== null && valB !== undefined) ? +valB : null;
 
-      // Bar widths: scale to max of the two
       var maxVal = Math.max(Math.abs(numA || 0), Math.abs(numB || 0));
       var pctA = maxVal > 0 && numA !== null ? (Math.abs(numA) / maxVal * 100) : 0;
       var pctB = maxVal > 0 && numB !== null ? (Math.abs(numB) / maxVal * 100) : 0;
@@ -570,7 +850,20 @@
     });
     html += '</div>';
 
-    // Scorecard comparison
+    // ── Housing Gap Analysis ──
+    html += _buildHousingGapSection(entryA, entryB);
+
+    // ── Homeownership Affordability (requires summary data) ──
+    if (summaryA || summaryB) {
+      html += _buildHomeownershipSection(summaryA, summaryB, entryA, entryB);
+    } else {
+      html += '<div class="hca-cp-section hca-cp-homeownership">' +
+        '<h4 class="hca-cp-section__title">Homeownership Affordability</h4>' +
+        '<div class="hca-cp-loading">Loading ACS data…</div>' +
+      '</div>';
+    }
+
+    // ── Scorecard comparison ──
     html += '<div class="hca-cp-scorecard">';
     var scAText = scA && scA.knownDimensions > 0 ? scA.totalScore + '/' + scA.knownDimensions : '—';
     var scBText = scB && scB.knownDimensions > 0 ? scB.totalScore + '/' + scB.knownDimensions : '—';
