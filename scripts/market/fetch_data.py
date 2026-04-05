@@ -197,7 +197,7 @@ def _fetch_manual(url, retries, timeout, backoff_base, max_wait):
                     "[retry %d/%d] URLError: %s — waiting %.1fs", attempt + 1, retries - 1,
                     e.reason, wait,
                 )
-                import time as _t; _t.sleep(wait)
+                time.sleep(wait)
 
     raise RuntimeError(
         f"Failed after {retries} attempts: {last_err} | URL: {url}"
