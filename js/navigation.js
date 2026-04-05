@@ -177,8 +177,9 @@
     var county = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction && (proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName)) {
-        county = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName;
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx && (jx.name || jx.countyName)) {
+        county = jx.name || jx.countyName;
       }
     } catch (_) {}
 

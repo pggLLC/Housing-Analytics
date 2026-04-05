@@ -1017,8 +1017,9 @@
     var countyName = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction) {
-        countyName = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName || null;
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        countyName = jx.name || jx.countyName || null;
       }
     } catch (_) {}
     if (!countyName) {

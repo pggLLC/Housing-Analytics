@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/scenario-builder.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/site-state.js"></script>
   <script src="js/workflow-state.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
@@ -439,7 +440,8 @@
     var countyName = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      if (proj && proj.steps && proj.steps.jurisdiction) countyName = proj.steps.jurisdiction.name || proj.steps.jurisdiction.countyName || null;
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) countyName = jx.name || jx.countyName || null;
     } catch (_) {}
     if (!countyName) {
       try { var sc = window.SiteState && window.SiteState.getCounty(); if (sc && sc.name) countyName = sc.name; } catch (_) {}
