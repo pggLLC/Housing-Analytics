@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T12:16:33.427Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T12:35:55.251Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 474 B |
-| `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 18.9 KB |
+| `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 20.0 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.8 KB |
@@ -27,9 +27,9 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.8 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.4 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.4 KB |
@@ -38,7 +38,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.5 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 61.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 62.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.1 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
