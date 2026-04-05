@@ -628,9 +628,12 @@
     var countyName = formatCountyName(state.selectedCounty.name);
     var cityName   = (el.citySearch.value.trim()) || null;
 
-    // Persist into WorkflowState
+    // Persist into WorkflowState (create project if none active)
     if (global.WorkflowState && typeof global.WorkflowState.setJurisdiction === 'function') {
       try {
+        if (!global.WorkflowState.getActiveProject() && typeof global.WorkflowState.newProject === 'function') {
+          global.WorkflowState.newProject(countyName + ' Analysis');
+        }
         var payload = {
           fips: fips,
           name: countyName
