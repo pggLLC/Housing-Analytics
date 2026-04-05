@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T06:31:12.049Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T06:53:42.285Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.2 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
-| `census-dashboard.html` | Census Data | COHO Analytics | 4.7 KB |
+| `census-dashboard.html` | Census Data | COHO Analytics | 4.8 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 114.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
@@ -23,9 +23,9 @@
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 13.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 20.0 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.8 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
-| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.8 KB |
-| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.5 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
+| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.9 KB |
+| `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 26.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.8 KB |
@@ -44,7 +44,7 @@
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 25.4 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 25.5 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 10.9 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 467 B |
