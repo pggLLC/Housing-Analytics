@@ -1,14 +1,15 @@
 /**
  * js/hna/hna-comparison.js
  * Comparison workspace for hna-comparative-analysis.html
- * Phase 1: County context filtering + A/B jurisdiction selection
+ * County context filtering + searchable dropdown jurisdiction selection
  *
  * Depends on: js/hna/hna-ranking-index.js (window.HNARanking)
  *             js/site-state.js (window.SiteState) — optional
  *
  * Strategy: Rather than duplicating row rendering from hna-ranking-index.js,
- * this module injects A/B button cells into existing rows via MutationObserver.
- * County filtering hides/shows rows via CSS rather than rebuilding the table.
+ * this module injects HNA link cells into existing rows via MutationObserver.
+ * Jurisdiction A/B selection is done via searchable dropdown selectors in the
+ * setup bar. County filtering hides/shows rows via CSS rather than rebuilding.
  */
 (function () {
   'use strict';
@@ -102,25 +103,40 @@
     });
 
     mount.innerHTML =
+      '<div class="hca-comp-bar__county">' +
+        '<label class="hca-comp-label" for="hcaCountyFilter">County context</label>' +
+        '<select id="hcaCountyFilter" class="hca-select hca-comp-select">' + countyOpts + '</select>' +
+      '</div>' +
       '<div class="hca-comp-bar">' +
-        '<div class="hca-comp-bar__county">' +
-          '<label class="hca-comp-label" for="hcaCountyFilter">County context</label>' +
-          '<select id="hcaCountyFilter" class="hca-select hca-comp-select">' + countyOpts + '</select>' +
+        '<div class="hca-comp-selector">' +
+          '<label class="hca-comp-selector__label" for="hcaCompSelectA">Jurisdiction A</label>' +
+          '<div class="hca-comp-selector__wrap">' +
+            '<input type="text" id="hcaCompSearchA" class="hca-comp-selector__search" placeholder="Search jurisdictions\u2026" autocomplete="off">' +
+            '<select id="hcaCompSelectA" class="hca-comp-selector__select">' +
+              '<option value="">\u2014 Select A \u2014</option>' +
+            '</select>' +
+          '</div>' +
         '</div>' +
-        '<div class="hca-comp-bar__vs">' +
-          '<div class="hca-comp-slot" id="hcaSlotA">' + _renderSlot('A', _compA) + '</div>' +
-          '<span class="hca-comp-vs-label">vs</span>' +
-          '<div class="hca-comp-slot" id="hcaSlotB">' + _renderSlot('B', _compB) + '</div>' +
+        '<span class="hca-comp-vs">vs</span>' +
+        '<div class="hca-comp-selector">' +
+          '<label class="hca-comp-selector__label" for="hcaCompSelectB">Jurisdiction B</label>' +
+          '<div class="hca-comp-selector__wrap">' +
+            '<input type="text" id="hcaCompSearchB" class="hca-comp-selector__search" placeholder="Search jurisdictions\u2026" autocomplete="off">' +
+            '<select id="hcaCompSelectB" class="hca-comp-selector__select">' +
+              '<option value="">\u2014 Select B \u2014</option>' +
+            '</select>' +
+          '</div>' +
         '</div>' +
-        '<div class="hca-comp-bar__actions">' +
-          '<button type="button" class="hca-comp-action" id="hcaSwapBtn" title="Swap A and B"' +
-            (!_compA || !_compB ? ' disabled' : '') + '>Swap</button>' +
-          '<button type="button" class="hca-comp-action hca-comp-action--reset" id="hcaResetBtn" title="Clear comparison"' +
-            (!_compA && !_compB ? ' disabled' : '') + '>Reset</button>' +
+        '<div class="hca-comp-actions">' +
+          '<button type="button" class="hca-comp-action" id="hcaCompSwap" title="Swap A \u21c4 B">\u21c4 Swap</button>' +
+          '<button type="button" class="hca-comp-action hca-comp-action--reset" id="hcaCompReset" title="Clear both">\u2715 Reset</button>' +
         '</div>' +
       '</div>';
 
-    // Wire events
+    // Populate dropdowns
+    _populateSelectors();
+
+    // Wire county filter
     var countySelect = document.getElementById('hcaCountyFilter');
     if (countySelect) {
       countySelect.addEventListener('change', function () {
@@ -129,87 +145,169 @@
       });
     }
 
-    document.getElementById('hcaSwapBtn').addEventListener('click', function () {
+    // Wire search filters
+    _wireSearchFilter('hcaCompSearchA', 'hcaCompSelectA', 'A');
+    _wireSearchFilter('hcaCompSearchB', 'hcaCompSelectB', 'B');
+
+    // Wire swap
+    document.getElementById('hcaCompSwap').addEventListener('click', function () {
       var tmp = _compA;
       _compA = _compB;
       _compB = tmp;
       _persist();
       _renderSetupBar();
       _updateRowHighlights();
+      _dispatchUpdate();
       _announce('Swapped A and B.');
     });
 
-    document.getElementById('hcaResetBtn').addEventListener('click', function () {
+    // Wire reset
+    document.getElementById('hcaCompReset').addEventListener('click', function () {
       _compA = null;
       _compB = null;
       _persist();
       _renderSetupBar();
       _updateRowHighlights();
+      _dispatchUpdate();
       _announce('Comparison cleared.');
     });
   }
 
-  function _renderSlot(label, entry) {
-    if (!entry) {
-      return '<span class="hca-comp-slot__empty">' + label + ': click a row\'s "' + label + '" button</span>';
-    }
-    return '<span class="hca-comp-slot__label">' + label + ':</span> ' +
-      '<strong class="hca-comp-slot__name">' + entry.name + '</strong>' +
-      '<button type="button" class="hca-comp-slot__clear" data-clear="' + label + '" title="Clear ' + label + '">✕</button>';
+  // ── Populate selector dropdowns ───────────────────────────────────
+
+  function _populateSelectors() {
+    var state = window.HNARanking && HNARanking._get();
+    if (!state) return;
+
+    var entries = state.allEntries.slice().sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
+
+    var selectA = document.getElementById('hcaCompSelectA');
+    var selectB = document.getElementById('hcaCompSelectB');
+    if (!selectA || !selectB) return;
+
+    var optionsHTML = '<option value="">\u2014 Select \u2014</option>';
+    entries.forEach(function (e) {
+      var typeLabel = e.type.charAt(0).toUpperCase() + e.type.slice(1);
+      var regionLabel = e.region ? ' - ' + e.region : '';
+      optionsHTML += '<option value="' + e.geoid + '">' +
+        e.name + ' (' + typeLabel + regionLabel + ')' +
+        '</option>';
+    });
+
+    selectA.innerHTML = optionsHTML.replace('\u2014 Select \u2014', '\u2014 Select A \u2014');
+    selectB.innerHTML = optionsHTML.replace('\u2014 Select \u2014', '\u2014 Select B \u2014');
+
+    // Set current selections
+    if (_compA) selectA.value = _compA.geoid;
+    if (_compB) selectB.value = _compB.geoid;
   }
 
-  // ── Inject Compare column into rendered table ──────────────────────
+  // ── Search filter wiring ──────────────────────────────────────────
+
+  function _wireSearchFilter(searchId, selectId, side) {
+    var searchInput = document.getElementById(searchId);
+    var selectEl = document.getElementById(selectId);
+    if (!searchInput || !selectEl) return;
+
+    // Filter options as user types
+    searchInput.addEventListener('input', function () {
+      var term = searchInput.value.toLowerCase();
+      var options = selectEl.querySelectorAll('option');
+      options.forEach(function (opt) {
+        if (!opt.value) return; // keep the placeholder visible
+        if (!term || opt.textContent.toLowerCase().indexOf(term) !== -1) {
+          opt.hidden = false;
+          opt.disabled = false;
+        } else {
+          opt.hidden = true;
+          opt.disabled = true;
+        }
+      });
+    });
+
+    // On select change, update comparison state
+    selectEl.addEventListener('change', function () {
+      var geoid = selectEl.value;
+      if (!geoid) {
+        if (side === 'A') _compA = null;
+        else _compB = null;
+      } else {
+        var state = window.HNARanking && HNARanking._get();
+        if (!state) return;
+        var entry = null;
+        for (var i = 0; i < state.allEntries.length; i++) {
+          if (state.allEntries[i].geoid === geoid) { entry = state.allEntries[i]; break; }
+        }
+        if (!entry) return;
+        var selection = { geoid: entry.geoid, name: entry.name, type: entry.type, region: entry.region };
+        // Prevent same jurisdiction in both slots
+        if (side === 'A') {
+          if (_compB && _compB.geoid === geoid) _compB = null;
+          _compA = selection;
+        } else {
+          if (_compA && _compA.geoid === geoid) _compA = null;
+          _compB = selection;
+        }
+      }
+      _persist();
+      _updateRowHighlights();
+      _dispatchUpdate();
+      // Sync the other select if it was cleared due to duplicate
+      var otherSelect = document.getElementById(side === 'A' ? 'hcaCompSelectB' : 'hcaCompSelectA');
+      var otherComp = side === 'A' ? _compB : _compA;
+      if (otherSelect) otherSelect.value = otherComp ? otherComp.geoid : '';
+      _announce(geoid ? entry.name + ' set as ' + side + '.' : side + ' cleared.');
+    });
+  }
+
+  // ── Inject HNA link column into rendered table ─────────────────────
   // Called after every ranking module re-render (sort, filter, scroll).
-  // Adds a "Compare" <th> to the header and A/B button <td> to each row
-  // that doesn't already have one.
+  // Sets the last column header to "HNA" and makes each row's last cell
+  // an HNA link instead of A/B buttons.
 
   function _injectCompareColumn() {
-    // Header
+    // Header — relabel the last th to "HNA"
     var thead = document.getElementById('hcaTableHead');
     if (thead) {
       var headerRow = thead.querySelector('tr');
       if (headerRow) {
-        // Check if Compare th already exists
-        var existingTh = headerRow.querySelector('.hca-th-compare');
+        var existingTh = headerRow.querySelector('.hca-th-hna');
         if (!existingTh) {
-          // Replace the last "Open HNA" th with Compare
           var ths = headerRow.querySelectorAll('th');
           var lastTh = ths[ths.length - 1];
-          if (lastTh && lastTh.textContent.trim() === '') {
-            // The ranking module renders an empty-label th for the HNA link column
-            lastTh.textContent = 'Compare';
-            lastTh.classList.add('hca-th-compare');
+          if (lastTh && !lastTh.classList.contains('hca-th-hna')) {
+            lastTh.textContent = 'HNA';
+            lastTh.classList.add('hca-th-hna');
           }
         }
       }
     }
 
-    // Body rows — replace the last <td> (Open HNA link) with A/B buttons
+    // Body rows — ensure the last td has an HNA link
     var tbody = document.getElementById('hcaTableBody');
     if (!tbody) return;
 
     var rows = tbody.querySelectorAll('.hca-tr');
     rows.forEach(function (tr) {
-      // Skip rows that already have A/B buttons
-      if (tr.querySelector('.hca-ab-btn')) return;
+      // Skip rows that already have an HNA link
+      if (tr.querySelector('.hca-hna-link')) return;
 
       var geoid = tr.dataset.geoid;
       if (!geoid) return;
 
-      var isA = _compA && _compA.geoid === geoid;
-      var isB = _compB && _compB.geoid === geoid;
+      var geoType = tr.dataset.geoType || 'place';
+      var nameEl = tr.querySelector('.hca-td-name');
+      var name = nameEl ? nameEl.textContent.trim() : geoid;
 
-      // Find the last td (which has the "Open HNA →" link)
       var tds = tr.querySelectorAll('td');
       var lastTd = tds[tds.length - 1];
       if (!lastTd) return;
 
-      // Replace its content with A/B buttons (the HNA link is already on the name column)
-      lastTd.className = 'hca-td hca-td-compare';
-      lastTd.setAttribute('data-label', 'Compare');
-      lastTd.innerHTML =
-        '<button type="button" class="hca-ab-btn hca-ab-btn--a' + (isA ? ' active' : '') + '" data-action="setA" data-geoid="' + geoid + '" title="Set as A">' + (isA ? '✓ A' : 'A') + '</button>' +
-        '<button type="button" class="hca-ab-btn hca-ab-btn--b' + (isB ? ' active' : '') + '" data-action="setB" data-geoid="' + geoid + '" title="Set as B">' + (isB ? '✓ B' : 'B') + '</button>';
+      lastTd.className = 'hca-td hca-td-hna';
+      lastTd.setAttribute('data-label', 'HNA');
+      lastTd.innerHTML = '<a href="housing-needs-assessment.html?fips=' + geoid + '&geoType=' + geoType + '&auto=1" class="hca-hna-link" title="Open HNA for ' + name + '">HNA \u2192</a>';
     });
   }
 
@@ -256,84 +354,10 @@
       var geoid = tr.dataset.geoid;
       tr.classList.toggle('hca-comp-a', !!(_compA && _compA.geoid === geoid));
       tr.classList.toggle('hca-comp-b', !!(_compB && _compB.geoid === geoid));
-
-      // Update A/B button states if they exist
-      var btnA = tr.querySelector('[data-action="setA"]');
-      var btnB = tr.querySelector('[data-action="setB"]');
-      if (btnA) {
-        var isA = _compA && _compA.geoid === geoid;
-        btnA.classList.toggle('active', isA);
-        btnA.textContent = isA ? '✓ A' : 'A';
-      }
-      if (btnB) {
-        var isB = _compB && _compB.geoid === geoid;
-        btnB.classList.toggle('active', isB);
-        btnB.textContent = isB ? '✓ B' : 'B';
-      }
     });
   }
 
-  // ── A/B button click handler (delegated) ───────────────────────────
-
-  function _handleABClick(e) {
-    var btn = e.target.closest('.hca-ab-btn');
-    if (!btn) return;
-
-    e.stopPropagation();
-    var action = btn.dataset.action;
-    var geoid = btn.dataset.geoid;
-
-    // Find entry in ranking data
-    var state = window.HNARanking && HNARanking._get();
-    if (!state) return;
-    var entry = null;
-    for (var i = 0; i < state.allEntries.length; i++) {
-      if (state.allEntries[i].geoid === geoid) { entry = state.allEntries[i]; break; }
-    }
-    if (!entry) return;
-
-    var selection = { geoid: entry.geoid, name: entry.name, type: entry.type, region: entry.region };
-
-    if (action === 'setA') {
-      if (_compA && _compA.geoid === geoid) {
-        _compA = null;
-      } else {
-        if (_compB && _compB.geoid === geoid) _compB = null;
-        _compA = selection;
-      }
-    } else if (action === 'setB') {
-      if (_compB && _compB.geoid === geoid) {
-        _compB = null;
-      } else {
-        if (_compA && _compA.geoid === geoid) _compA = null;
-        _compB = selection;
-      }
-    }
-
-    _persist();
-    _renderSetupBar();
-    _updateRowHighlights();
-    _dispatchUpdate();
-
-    var label = action === 'setA' ? 'A' : 'B';
-    var isSet = (action === 'setA' && _compA) || (action === 'setB' && _compB);
-    _announce(isSet ? entry.name + ' set as ' + label + '.' : label + ' cleared.');
-  }
-
-  // ── Clear slot click handler ───────────────────────────────────────
-
-  function _handleSlotClear(e) {
-    var btn = e.target.closest('.hca-comp-slot__clear');
-    if (!btn) return;
-    var which = btn.dataset.clear;
-    if (which === 'A') _compA = null;
-    if (which === 'B') _compB = null;
-    _persist();
-    _renderSetupBar();
-    _updateRowHighlights();
-    _dispatchUpdate();
-    _announce(which + ' cleared.');
-  }
+  // (A/B button click handler removed — selection now via dropdown selectors)
 
   // ── Side-by-side comparison panel (Phase 2) ─────────────────────────
 
@@ -935,16 +959,16 @@
     var thead = document.getElementById('hcaTableHead');
     if (thead) {
       var headObserver = new MutationObserver(function () {
-        // Re-inject the Compare header
+        // Re-inject the HNA header
         var headerRow = thead.querySelector('tr');
         if (headerRow) {
-          var existingTh = headerRow.querySelector('.hca-th-compare');
+          var existingTh = headerRow.querySelector('.hca-th-hna');
           if (!existingTh) {
             var ths = headerRow.querySelectorAll('th');
             var lastTh = ths[ths.length - 1];
-            if (lastTh && !lastTh.textContent.trim()) {
-              lastTh.textContent = 'Compare';
-              lastTh.classList.add('hca-th-compare');
+            if (lastTh && !lastTh.classList.contains('hca-th-hna')) {
+              lastTh.textContent = 'HNA';
+              lastTh.classList.add('hca-th-hna');
             }
           }
         }
@@ -977,21 +1001,7 @@
       _dispatchUpdate();
     });
 
-    // Delegated click and keyboard handler for A/B buttons and slot clear
-    document.addEventListener('click', function (e) {
-      _handleABClick(e);
-      _handleSlotClear(e);
-    });
-    // Keyboard accessibility: Enter/Space on A/B buttons
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        var btn = e.target.closest('.hca-ab-btn, .hca-comp-slot__clear');
-        if (btn) {
-          e.preventDefault();
-          btn.click();
-        }
-      }
-    });
+    // (A/B button delegation removed — selection now via dropdown selectors)
   }
 
   // ── Public API ─────────────────────────────────────────────────────

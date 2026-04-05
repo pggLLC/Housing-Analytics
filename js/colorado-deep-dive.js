@@ -429,6 +429,24 @@ function initPolicyPanel(panelId) {
             var name = info.name || feat.properties.NAME || fips;
             layer.bindTooltip('<strong>' + escapeHtml(name) + ' County</strong><br>Cost-burdened renters: ' +
               (info.rate * 100).toFixed(1) + '%');
+
+            /* Map → Chart sync: clicking a county updates the AMI gap select */
+            layer.on('click', function () {
+              var sel = document.getElementById('amiGapCountySelect');
+              if (!sel) return;
+              /* Try matching by 5-digit FIPS */
+              var matched = false;
+              for (var i = 0; i < sel.options.length; i++) {
+                if (sel.options[i].value === fips) {
+                  sel.value = fips;
+                  matched = true;
+                  break;
+                }
+              }
+              if (matched) {
+                sel.dispatchEvent(new Event('change', { bubbles: true }));
+              }
+            });
           }
         }).addTo(map);
 

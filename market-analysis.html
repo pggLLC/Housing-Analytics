@@ -207,8 +207,8 @@
         <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
 
         <!-- ── Boundary overlays ── -->
-        <div class="map-layer-section">
-          <span class="map-layer-heading">Boundary overlays</span>
+        <details class="map-layer-details map-layer-section" open>
+          <summary class="map-layer-heading">Boundary overlays</summary>
           <div class="map-layer-grid">
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaSmaToggle" data-layer="sma">
@@ -219,11 +219,11 @@
               Parcel &amp; Zoning <small>(MF suitability)</small>
             </label>
           </div>
-        </div>
+        </details>
 
         <!-- ── Map layers ── -->
-        <div id="pmaLayerPickerWrap" class="map-layer-section">
-          <span class="map-layer-heading">Map layers</span>
+        <details id="pmaLayerPickerWrap" class="map-layer-details map-layer-section" open>
+          <summary class="map-layer-heading">Map layers</summary>
           <div class="map-layer-grid">
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="lihtc" checked>
@@ -266,7 +266,7 @@
               MLS listings <span class="map-layer-badge" id="listingsBadge">—</span>
             </label>
           </div>
-        </div>
+        </details>
       </div>
 
       <!-- ── Right: Analysis Panel ── -->
@@ -380,27 +380,33 @@
           <div class="pma-ami-grid">
             <div class="pma-ami-field">
               <label for="pmaProposedUnits">Total proposed units</label>
-              <input type="number" id="pmaProposedUnits" min="1" max="500" value="100" aria-label="Total proposed units">
+              <input type="number" id="pmaProposedUnits" min="1" max="500" value="100" aria-label="Total proposed units" aria-describedby="pmaProposedUnits-error">
+              <span id="pmaProposedUnits-error" class="field-error" role="alert" hidden></span>
             </div>
             <div class="pma-ami-field">
               <label for="pmaAmi30">Units @ 30% AMI</label>
-              <input type="number" id="pmaAmi30" min="0" max="500" value="0" aria-label="Units at 30 percent AMI">
+              <input type="number" id="pmaAmi30" min="0" max="500" value="0" aria-label="Units at 30 percent AMI" aria-describedby="pmaAmi30-error">
+              <span id="pmaAmi30-error" class="field-error" role="alert" hidden></span>
             </div>
             <div class="pma-ami-field">
               <label for="pmaAmi40">Units @ 40% AMI</label>
-              <input type="number" id="pmaAmi40" min="0" max="500" value="0" aria-label="Units at 40 percent AMI">
+              <input type="number" id="pmaAmi40" min="0" max="500" value="0" aria-label="Units at 40 percent AMI" aria-describedby="pmaAmi40-error">
+              <span id="pmaAmi40-error" class="field-error" role="alert" hidden></span>
             </div>
             <div class="pma-ami-field">
               <label for="pmaAmi50">Units @ 50% AMI</label>
-              <input type="number" id="pmaAmi50" min="0" max="500" value="0" aria-label="Units at 50 percent AMI">
+              <input type="number" id="pmaAmi50" min="0" max="500" value="0" aria-label="Units at 50 percent AMI" aria-describedby="pmaAmi50-error">
+              <span id="pmaAmi50-error" class="field-error" role="alert" hidden></span>
             </div>
             <div class="pma-ami-field">
               <label for="pmaAmi60">Units @ 60% AMI</label>
-              <input type="number" id="pmaAmi60" min="0" max="500" value="100" aria-label="Units at 60 percent AMI">
+              <input type="number" id="pmaAmi60" min="0" max="500" value="100" aria-label="Units at 60 percent AMI" aria-describedby="pmaAmi60-error">
+              <span id="pmaAmi60-error" class="field-error" role="alert" hidden></span>
             </div>
             <div class="pma-ami-field">
               <label for="pmaAmi80">Units @ 80% AMI</label>
-              <input type="number" id="pmaAmi80" min="0" max="500" value="0" aria-label="Units at 80 percent AMI">
+              <input type="number" id="pmaAmi80" min="0" max="500" value="0" aria-label="Units at 80 percent AMI" aria-describedby="pmaAmi80-error">
+              <span id="pmaAmi80-error" class="field-error" role="alert" hidden></span>
             </div>
           </div>
           <div id="pmaSimResult" style="margin-top:0.75rem">

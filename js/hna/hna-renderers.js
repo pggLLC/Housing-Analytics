@@ -1107,6 +1107,11 @@
     const geoid = (profile && profile._geoid) ? profile._geoid : '';
     renderHistoricalSection(baselineData, geoType, geoid);
     renderFastTrackCalculatorSection();
+
+    // Phase 4: Housing Policy Commitment scorecard
+    if (geoid) {
+      renderHnaScorecardPanel(geoid);
+    }
   }
 
   // ---------------------------------------------------------------

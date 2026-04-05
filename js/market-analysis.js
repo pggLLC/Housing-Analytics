@@ -849,6 +849,10 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
+    // Show chart loading overlay (uses PMAUIController helpers when available)
+    var _uic = window.PMAUIController;
+    if (_uic && _uic.showChartLoading) _uic.showChartLoading('pmaRadarChart');
+
     // ── Recover from global cache if module-level variables are stale ──
     // This fixes the "No ACS data" error on the second (and subsequent) map
     // clicks where the reference could become stale between analysis runs.
@@ -950,6 +954,9 @@
     });
 
     renderScore(lastResult);
+    // Hide chart loading overlay after rendering
+    var _uic2 = window.PMAUIController;
+    if (_uic2 && _uic2.hideChartLoading) _uic2.hideChartLoading('pmaRadarChart');
     setText('pmaRunBtn', 'Re-run Analysis');
 
     // Make the Explain Score button visible and functional in buffer mode.

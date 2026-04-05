@@ -21,6 +21,31 @@
 (function () {
   'use strict';
 
+  /* ── Chart loading-state helpers (self-contained for this page) ──── */
+  function _showChartLoading(canvasId) {
+    var el = document.getElementById(canvasId);
+    if (!el) return;
+    var box = el.closest('.chart-box') || el.parentElement;
+    if (!box) return;
+    box.style.position = 'relative';
+    var overlay = box.querySelector('.chart-loading');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'chart-loading';
+      overlay.innerHTML = '<div class="chart-spinner"></div><span class="chart-loading-label">Loading\u2026</span>';
+      box.appendChild(overlay);
+    }
+    overlay.hidden = false;
+  }
+  function _hideChartLoading(canvasId) {
+    var el = document.getElementById(canvasId);
+    if (!el) return;
+    var box = el.closest('.chart-box') || el.parentElement;
+    if (!box) return;
+    var overlay = box.querySelector('.chart-loading');
+    if (overlay) overlay.hidden = true;
+  }
+
   /* ── CSS for active tab state (injected once) ────────────────────── */
   var STYLE_INJECTED = false;
   function _injectStyle() {
@@ -341,6 +366,75 @@
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  /* ── Field validation helpers (Audit 5.2) ───────────────────────── */
+
+  /**
+   * Show an inline validation error for a form field.
+   * Sets aria-invalid on the input and un-hides the companion error span.
+   *
+   * @param {string} inputId - The input element's id (e.g. 'pmaAmi30')
+   * @param {string} msg     - Human-readable error message
+   */
+  function _showFieldError(inputId, msg) {
+    var inp  = $id(inputId);
+    var span = $id(inputId + '-error');
+    if (inp)  { inp.setAttribute('aria-invalid', 'true'); }
+    if (span) { span.textContent = msg; span.hidden = false; }
+  }
+
+  /**
+   * Clear an inline validation error for a form field.
+   *
+   * @param {string} inputId - The input element's id
+   */
+  function _clearFieldError(inputId) {
+    var inp  = $id(inputId);
+    var span = $id(inputId + '-error');
+    if (inp)  { inp.removeAttribute('aria-invalid'); }
+    if (span) { span.textContent = ''; span.hidden = true; }
+  }
+
+  /** Clear all AMI field errors. */
+  var _AMI_FIELDS = ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+  function _clearAllFieldErrors() {
+    _AMI_FIELDS.forEach(_clearFieldError);
+  }
+
+  /**
+   * Validate the capture-rate simulator inputs.
+   * Returns true when valid; shows inline errors and returns false otherwise.
+   */
+  function _validateAmiInputs() {
+    _clearAllFieldErrors();
+    var valid = true;
+
+    var proposedEl = $id('pmaProposedUnits');
+    var proposed   = parseInt((proposedEl || {}).value, 10);
+    if (!proposed || proposed < 1) {
+      _showFieldError('pmaProposedUnits', 'Enter at least 1 unit.');
+      valid = false;
+    }
+
+    var amiIds = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+    var sum = 0;
+    amiIds.forEach(function (id) {
+      var el = $id(id);
+      var v  = parseInt((el || {}).value, 10) || 0;
+      if (v < 0) {
+        _showFieldError(id, 'Value cannot be negative.');
+        valid = false;
+      }
+      sum += v;
+    });
+
+    if (valid && proposed && sum > proposed) {
+      _showFieldError('pmaAmi30', 'AMI unit total (' + sum + ') exceeds proposed units (' + proposed + ').');
+      valid = false;
+    }
+
+    return valid;
+  }
+
   /* ── Main analysis trigger ───────────────────────────────────────── */
   function _runEnhancedAnalysis(lat, lon) {
     if (_running) return;
@@ -348,6 +442,7 @@
     if (!runner) return;   // fall through to existing buffer flow
 
     _running = true;
+    _showChartLoading('pmaRadarChart');
     _progressShow();
     _progressUpdate({ index: 0, total: 9, label: 'Starting analysis…', pct: 0 });
 
@@ -365,6 +460,7 @@
     .on('complete', function (scoreRun) {
       _lastScoreRun = scoreRun;
       _running = false;
+      _hideChartLoading('pmaRadarChart');
       _progressComplete();
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
@@ -390,6 +486,7 @@
     })
     .on('error', function (err) {
       _running = false;
+      _hideChartLoading('pmaRadarChart');
       _progressHide();
       console.error('[PMAUIController] Analysis error:', err);
     });
@@ -443,6 +540,9 @@
     if (!runBtn) return;
 
     runBtn.addEventListener('click', function () {
+      // Validate AMI inputs before any analysis mode
+      if (!_validateAmiInputs()) return;
+
       // Only intercept non-buffer modes (buffer flow handled by market-analysis.js)
       if (_method === 'buffer') return;
 
@@ -568,9 +668,11 @@
   /* ── Public API (minimal, for testing) ──────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMAUIController = {
-      getMethod:      function () { return _method; },
+      getMethod:       function () { return _method; },
       getLastScoreRun: function () { return _lastScoreRun; },
-      runEnhanced:    _runEnhancedAnalysis
+      runEnhanced:     _runEnhancedAnalysis,
+      showChartLoading: _showChartLoading,
+      hideChartLoading: _hideChartLoading
     };
   }
 

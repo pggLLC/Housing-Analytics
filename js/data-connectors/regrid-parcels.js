@@ -94,9 +94,15 @@
 
   function _localFallback(lat, lon, miles) {
     var DS = window.DataService;
-    var fetcher = (DS && typeof DS.getJSON === 'function' && typeof DS.baseData === 'function')
-      ? DS.getJSON(DS.baseData(LOCAL_FALLBACK))
-      : fetch(LOCAL_FALLBACK).then(function (r) { return r.ok ? r.json() : null; });
+    var fetcher;
+    if (DS && typeof DS.getJSON === 'function' && typeof DS.baseData === 'function') {
+      fetcher = DS.getJSON(DS.baseData(LOCAL_FALLBACK));
+    } else {
+      var doFetch = (typeof window.fetchWithTimeout === 'function')
+        ? function () { return window.fetchWithTimeout(LOCAL_FALLBACK); }
+        : function () { return fetch(LOCAL_FALLBACK); };
+      fetcher = doFetch().then(function (r) { return r.ok ? r.json() : null; });
+    }
 
     return fetcher.then(function (data) {
       var counties = (data && Array.isArray(data.counties)) ? data.counties : [];
@@ -140,6 +146,11 @@
         });
     }).catch(function (err) {
       console.warn('[RegridParcels] Local fallback failed:', err && err.message);
+      window.dataFetchErrors = window.dataFetchErrors || [];
+      window.dataFetchErrors.push({
+        source: 'RegridParcels', endpoint: 'localFallback', url: LOCAL_FALLBACK,
+        error: (err && err.message) || String(err), ts: new Date().toISOString()
+      });
       return [];
     });
   }
@@ -158,7 +169,11 @@
       '&fields=' + encodeURIComponent(Object.values(FIELD_MAP).join(',')) +
       '&limit=500';
 
-    return fetch(url)
+    var doFetch = (typeof window.fetchWithTimeout === 'function')
+      ? function () { return window.fetchWithTimeout(url); }
+      : function () { return fetch(url); };
+
+    return doFetch()
       .then(function (r) {
         if (!r.ok) throw new Error('Regrid API returned HTTP ' + r.status);
         return r.json();
@@ -171,6 +186,11 @@
       })
       .catch(function (err) {
         console.warn('[RegridParcels] API fetch failed, falling back to local data:', err && err.message);
+        window.dataFetchErrors = window.dataFetchErrors || [];
+        window.dataFetchErrors.push({
+          source: 'RegridParcels', endpoint: 'regridAPI', url: url,
+          error: (err && err.message) || String(err), ts: new Date().toISOString()
+        });
         return _localFallback(lat, lon, miles);
       });
   }

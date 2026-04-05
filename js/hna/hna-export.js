@@ -36,12 +36,20 @@
   }
 
   /**
-   * Show a brief success toast and announce to the #hnaLiveRegion (Recommendation 5.1).
+   * Show a brief toast and announce to the #hnaLiveRegion (Recommendation 5.1).
    * Auto-dismisses after 4 seconds.
    *
    * @param {string} message - Human-readable confirmation, e.g. "PDF downloaded ✓"
+   * @param {'success'|'info'|'warn'} [type='success'] - Toast colour variant
    */
-  function _showExportToast(message) {
+  function _showExportToast(message, type) {
+    var bgMap = {
+      success: 'var(--good,#047857)',
+      info:    'var(--accent,#2563eb)',
+      warn:    'var(--warning,#d97706)'
+    };
+    var bg = bgMap[type] || bgMap.success;
+
     // Announce to screen readers via aria-live region
     var liveRegion = document.getElementById('hnaLiveRegion');
     if (liveRegion) {
@@ -58,7 +66,7 @@
     toast.setAttribute('role', 'status');
     toast.style.cssText = [
       'position:fixed', 'bottom:1.25rem', 'left:50%', 'transform:translateX(-50%)',
-      'background:var(--good,#047857)', 'color:#fff',
+      'background:' + bg, 'color:#fff',
       'padding:.55rem 1.25rem', 'border-radius:8px', 'font-size:.875rem',
       'box-shadow:0 4px 18px rgba(0,0,0,.22)', 'z-index:9500',
       'max-width:90vw', 'text-align:center', 'pointer-events:none',
@@ -156,11 +164,16 @@
    */
   async function exportPdf(filename) {
     var outFile = filename || 'housing-needs-assessment.pdf';
+    var pdfBtn  = document.getElementById('btnPdf');
     try {
+      if (pdfBtn) { pdfBtn.disabled = true; }
       if (!window.html2canvas || !window.jspdf) {
         window.print();
         return;
       }
+
+      _showExportToast('Generating PDF\u2026', 'info');
+
       var jsPDF = window.jspdf.jsPDF;
       var node  = document.querySelector('main');
       var bg    = getComputedStyle(document.documentElement)
@@ -192,7 +205,10 @@
       _showExportToast('PDF downloaded \u2713');
     } catch (e) {
       console.warn('[HNA] PDF export failed; falling back to print()', e);
+      _showExportToast('PDF generation failed \u2014 using print fallback', 'warn');
       window.print();
+    } finally {
+      if (pdfBtn) { pdfBtn.disabled = false; }
     }
   }
 

@@ -462,7 +462,14 @@
         }
       } catch (_) {}
       try {
-        if (window.SiteState && geoFips) SiteState.setCounty(geoFips, geoName);
+        if (window.SiteState && geoFips) {
+          SiteState.setCounty(geoFips, geoName);
+          // For sub-county geographies (place/CDP), also set geography
+          // so HNA controller can restore the specific jurisdiction.
+          if (geoType === 'place' || geoType === 'cdp') {
+            SiteState.setGeography(geoFips, geoName, geoType);
+          }
+        }
       } catch (_) {}
 
       btn.textContent = '✓ Jurisdiction Set';
@@ -472,9 +479,14 @@
       var confirm = document.createElement('div');
       confirm.className = 'hca-select-jurisdiction__confirm';
       // Fix #6: redirect to HNA with ?fips=&auto=1 so the geography auto-selects.
-      // Show confirmation for 900 ms then navigate automatically.
-      var targetUrl = 'housing-needs-assessment.html' +
-        (geoFips ? '?fips=' + encodeURIComponent(geoFips) + '&auto=1' : '');
+      // For sub-county, also pass geoType and geoid so the HNA page picks up the exact jurisdiction.
+      var targetUrl = 'housing-needs-assessment.html';
+      if (geoFips) {
+        targetUrl += '?fips=' + encodeURIComponent(geoFips) + '&auto=1';
+        if (geoType && geoType !== 'county') {
+          targetUrl += '&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoFips);
+        }
+      }
       confirm.innerHTML = '✓ Working jurisdiction set to ' + geoName + '. ' +
         'Redirecting to Housing Needs Assessment&hellip;';
       card.appendChild(confirm);

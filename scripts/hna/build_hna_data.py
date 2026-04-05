@@ -2021,9 +2021,9 @@ def build_geo_derived_inputs():
 def write_geo_config():
     # Allow CI to skip geo-config regeneration (e.g. when the file has been
     # manually expanded with TIGERweb-sourced geographies that Census ACS
-    # may not return).
-    if os.environ.get('SKIP_GEO_CONFIG', '').lower() == 'true':
-        print("ℹ geo-config: SKIP_GEO_CONFIG=true; keeping existing file", file=sys.stderr)
+    # may not return).  Accepts any truthy value: "true", "1", "yes", etc.
+    if os.environ.get('SKIP_GEO_CONFIG', '').lower() in ('true', '1', 'yes'):
+        print("ℹ geo-config: SKIP_GEO_CONFIG is set; keeping existing file", file=sys.stderr)
         return
 
     counties = fetch_counties()
