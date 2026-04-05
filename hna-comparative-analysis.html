@@ -22,11 +22,13 @@
   <script src="js/workflow-state.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-ranking-index.js"></script>
+  <script defer src="js/hna/hna-comparison.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -79,6 +81,9 @@
         <span class="hca-kpi-label">CDPs</span>
       </div>
     </div>
+
+    <!-- Comparison setup bar (populated by hna-comparison.js) -->
+    <div id="hcaComparisonBar"></div>
 
     <!-- Quick-access preset buttons -->
     <div class="hca-quick-bar" role="toolbar" aria-label="Quick filters">

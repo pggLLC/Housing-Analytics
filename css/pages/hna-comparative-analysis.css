@@ -613,3 +613,166 @@
 @media (max-width: 640px) {
   .hca-cov-row { grid-template-columns: 1fr 1fr 40px; }
 }
+
+/* ----------------------------------------------------------------
+   Comparison workspace — setup bar
+   ---------------------------------------------------------------- */
+.hca-comp-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+.hca-comp-bar__county {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hca-comp-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.hca-comp-select {
+  min-width: 180px;
+}
+.hca-comp-bar__vs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.hca-comp-vs-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.hca-comp-slot {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+.hca-comp-slot__empty {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hca-comp-slot__label {
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.hca-comp-slot__name {
+  color: var(--text-strong, var(--text));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hca-comp-slot__clear {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 2px 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.hca-comp-slot__clear:hover { color: var(--bad, #dc2626); }
+.hca-comp-bar__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hca-comp-action {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.hca-comp-action:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.hca-comp-action:disabled { opacity: 0.4; cursor: default; }
+.hca-comp-action--reset:hover:not(:disabled) { border-color: var(--bad, #dc2626); color: var(--bad, #dc2626); }
+
+@media (max-width: 640px) {
+  .hca-comp-bar { flex-direction: column; align-items: stretch; }
+  .hca-comp-bar__vs { flex-direction: column; }
+  .hca-comp-bar__actions { justify-content: flex-end; }
+}
+
+/* ----------------------------------------------------------------
+   Comparison workspace — A/B row buttons
+   ---------------------------------------------------------------- */
+.hca-ab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hca-ab-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.hca-ab-btn--a.active {
+  background: color-mix(in oklab, var(--accent) 20%, transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.hca-ab-btn--b.active {
+  background: color-mix(in oklab, var(--info, #2563eb) 20%, transparent);
+  border-color: var(--info, #2563eb);
+  color: var(--info, #2563eb);
+}
+.hca-td-compare {
+  white-space: nowrap;
+}
+.hca-td-compare .hca-ab-btn + .hca-ab-btn {
+  margin-left: 4px;
+}
+
+/* ----------------------------------------------------------------
+   Comparison workspace — A/B row highlights
+   ---------------------------------------------------------------- */
+.hca-tr.hca-comp-a {
+  background: color-mix(in oklab, var(--accent) 8%, var(--card)) !important;
+  border-left: 3px solid var(--accent);
+}
+.hca-tr.hca-comp-b {
+  background: color-mix(in oklab, var(--info, #2563eb) 8%, var(--card)) !important;
+  border-left: 3px solid var(--info, #2563eb);
+}
