@@ -314,6 +314,10 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .kpi-delta.positive, .stat-delta.positive { color: var(--good) !important; }
 .kpi-delta.negative, .stat-delta.negative { color: var(--bad) !important; }
 .kpi-delta.flat, .stat-delta.flat { color: var(--faint) !important; }
+/* Standardized source attribution for KPI / stat cards */
+.kpi-source, .stat-source { font-size: 0.65rem; color: var(--faint, #999); margin-top: 3px; font-style: italic; }
+.kpi-source a, .stat-source a { color: var(--faint, #999); text-decoration: none; }
+.kpi-source a:hover, .stat-source a:hover { text-decoration: underline; }
 .chart-source { font-size: 0.72rem; color: var(--faint); margin-top: var(--sp2); padding: 0 var(--sp4) var(--sp3); }
 .chart-source a { color: var(--faint); text-decoration: none; }
 .chart-source a:hover { text-decoration: underline; }

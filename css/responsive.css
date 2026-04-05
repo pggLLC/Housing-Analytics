@@ -15,9 +15,14 @@
   /* --bp-xl: 1280px  */
 }
 
-/* Prevent horizontal overflow on small viewports */
-html, body {
-  overflow-x: hidden;
+/* Prevent horizontal overflow on small viewports.
+   Use clip (not hidden) so <body> doesn't become a scroll container,
+   which would break position:sticky on the site header and workflow bar. */
+html {
+  overflow-x: clip;
+  width: 100%;
+}
+body {
   width: 100%;
 }
 
