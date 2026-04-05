@@ -830,7 +830,7 @@
   padding: 0.25rem 0.5rem 0.25rem 0.3rem;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
-  min-height: 32px;
+  min-height: 44px;
   transition: background .12s ease, border-color .12s ease;
 }
 .map-layer-label:hover {
@@ -895,4 +895,32 @@ label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.65rem 0.85rem;
+}
+
+/* ── Inline field-error messages (Audit 5.2) ── */
+.field-error {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--bad, #dc2626);
+  margin-top: 0.25rem;
+}
+.field-error[hidden] {
+  display: none;
+}
+
+/* ── Mobile touch targets for controls ── */
+@media (max-width: 900px) {
+  .pma-controls select {
+    min-height: 44px;
+  }
+
+  .map-layer-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
 }

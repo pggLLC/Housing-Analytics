@@ -116,7 +116,10 @@
         window.DataService.baseData('market/bridge_co_market_summary.json')
       );
     } else {
-      fetchPromise = fetch(DATA_PATH).then(function (r) {
+      var doFetch = (typeof window.fetchWithTimeout === 'function')
+        ? function () { return window.fetchWithTimeout(DATA_PATH); }
+        : function () { return fetch(DATA_PATH); };
+      fetchPromise = doFetch().then(function (r) {
         if (!r.ok) { throw new Error('HTTP ' + r.status); }
         return r.json();
       });
@@ -131,6 +134,11 @@
       ['catch'](function (err) {
         console.warn('[BridgeMarketSummary] Cache file not found — run the ' +
                      'zillow-data-sync workflow to generate it.');
+        window.dataFetchErrors = window.dataFetchErrors || [];
+        window.dataFetchErrors.push({
+          source: 'BridgeMarketSummary', url: DATA_PATH,
+          error: (err && err.message) || String(err), ts: new Date().toISOString()
+        });
         _summary   = null;
         _available = false;
         return null;

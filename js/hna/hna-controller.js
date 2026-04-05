@@ -2145,7 +2145,27 @@
       }
     }
 
-    // Priority 2: SiteState (legacy fallback)
+    // Priority 2: URL parameters (geoType + geoid from comparative analysis redirect)
+    if (!restoredGeoType) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGeoType = urlParams.get('geoType');
+      const urlGeoid   = urlParams.get('geoid');
+      if (urlGeoType && urlGeoid) {
+        restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
+        restoredGeoId   = urlGeoid;
+      }
+    }
+
+    // Priority 3: SiteState.getGeography (sub-county selection from comparative analysis)
+    if (!restoredGeoType && window.SiteState && typeof window.SiteState.getGeography === 'function') {
+      const geo = window.SiteState.getGeography();
+      if (geo && geo.geoid) {
+        restoredGeoType = (geo.type === 'cdp') ? 'place' : (geo.type || 'place');
+        restoredGeoId   = geo.geoid;
+      }
+    }
+
+    // Priority 4: SiteState.getCounty (legacy fallback)
     if (!restoredGeoType && window.SiteState && typeof window.SiteState.getCounty === 'function') {
       const county = window.SiteState.getCounty();
       if (county && county.fips) {

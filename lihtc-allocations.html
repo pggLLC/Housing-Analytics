@@ -556,24 +556,13 @@
       const yr = parseInt(year, 10);
       if (window.StateAllocationsHistorical && yr >= 2010 && yr <= 2023) {
         const hist = window.StateAllocationsHistorical;
-        const coRow = hist.getColorado(yr);
+        const states = hist.getAllStates(yr) || {};
         const natRow = (hist.national || []).find(d => d.year === yr);
-        const states = {};
-        if (coRow) {
-          states['CO'] = {
-            name: 'Colorado',
-            allocation: coRow.allocation,
-            population: coRow.population,
-            perCapita: coRow.perCapita,
-            status: coRow.status,
-            source: 'HUD / CHFA',
-          };
-        }
         return {
           source: hist.source,
           year: yr,
           states,
-          _historicalNote: 'Historical data — Colorado detail available; other states use IRS per-capita estimates.',
+          _historicalNote: 'Historical data — CO uses confirmed CHFA data; other states use IRS per-capita estimates.',
           _national: natRow,
         };
       }

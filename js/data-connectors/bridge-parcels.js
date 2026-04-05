@@ -154,7 +154,11 @@
               '&access_token=' + encodeURIComponent(tok) +
               (extraParams ? '&' + extraParams : '');
 
-    return fetch(url)
+    var doFetch = (typeof window.fetchWithTimeout === 'function')
+      ? function () { return window.fetchWithTimeout(url); }
+      : function () { return fetch(url); };
+
+    return doFetch()
       .then(function (r) {
         if (!r.ok) throw new Error('Bridge API HTTP ' + r.status + ' (' + endpoint + ')');
         return r.json();
@@ -165,6 +169,11 @@
       })
       .catch(function (err) {
         console.warn('[BridgeParcels] ' + endpoint + ' failed:', err && err.message);
+        window.dataFetchErrors = window.dataFetchErrors || [];
+        window.dataFetchErrors.push({
+          source: 'BridgeParcels', endpoint: endpoint, url: url,
+          error: (err && err.message) || String(err), ts: new Date().toISOString()
+        });
         return [];
       });
   }

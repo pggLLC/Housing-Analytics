@@ -131,6 +131,15 @@ html.dark-mode {
   --text-secondary:       var(--muted);
   --accent-gold:          var(--accent2);
   --border-color:         var(--border);
+
+  /* Chart palette (mirrors site-theme.css @media prefers-color-scheme: dark) */
+  --chart-1: #5b9bd5;
+  --chart-2: #38bdf8;
+  --chart-3: #0fd4cf;
+  --chart-4: #fbbf24;
+  --chart-5: #4ade80;
+  --chart-6: #fb923c;
+  --chart-7: #f87171;
 }
 
 html.dark-mode body,

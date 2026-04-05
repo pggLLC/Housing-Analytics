@@ -46,7 +46,7 @@ TIGERWEB_TRACTS = (
 )
 # Census Cartographic Boundary GeoJSON — used as fallback when TIGERweb returns 0 features.
 # 500k-resolution polygon file for Colorado tracts (≈3 MB, one request, no pagination).
-CENSUS_CB_TRACTS_URL = (
+CENSUS_CB_TRACTS_URL = os.environ.get("CENSUS_CB_URL") or (
     "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json"
 )
 ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"

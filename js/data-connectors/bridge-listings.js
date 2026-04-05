@@ -91,7 +91,11 @@
               '?access_token=' + encodeURIComponent(tok) +
               '&' + qs;
 
-    return fetch(url)
+    var doFetch = (typeof window.fetchWithTimeout === 'function')
+      ? function () { return window.fetchWithTimeout(url); }
+      : function () { return fetch(url); };
+
+    return doFetch()
       .then(function (r) {
         if (r.status === 401) throw new Error('Unauthorized — check your Bridge Browser Token');
         if (r.status === 404) throw new Error('Dataset not found — check your BRIDGE_DATASET code');
@@ -103,6 +107,11 @@
       })
       .catch(function (err) {
         console.warn('[BridgeListings] fetch failed:', err && err.message);
+        window.dataFetchErrors = window.dataFetchErrors || [];
+        window.dataFetchErrors.push({
+          source: 'BridgeListings', url: url,
+          error: (err && err.message) || String(err), ts: new Date().toISOString()
+        });
         return [];
       });
   }

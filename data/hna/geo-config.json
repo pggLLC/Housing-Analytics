@@ -641,6 +641,11 @@
       "containingCounty": "08109"
     },
     {
+      "geoid": "0812900",
+      "label": "Central (city)",
+      "county": "Gilpin"
+    },
+    {
       "geoid": "0812910",
       "label": "Central City (city)",
       "containingCounty": "08047"
