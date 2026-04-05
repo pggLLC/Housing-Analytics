@@ -192,6 +192,26 @@ document.addEventListener('DOMContentLoaded', function() {
                                 return context.dataset.label + ': $' + context.parsed.y + 'B';
                             }
                         }
+                    },
+                    annotation: {
+                        annotations: {
+                            prop123: {
+                                type: 'line',
+                                xMin: '2022', xMax: '2022',
+                                borderColor: 'rgba(14, 165, 233, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [6, 4],
+                                label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14, 165, 233, 0.7)', font: { size: 11 } }
+                            },
+                            ahcia: {
+                                type: 'line',
+                                xMin: '2023', xMax: '2023',
+                                borderColor: 'rgba(139, 92, 246, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [6, 4],
+                                label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139, 92, 246, 0.7)', font: { size: 11 } }
+                            }
+                        }
                     }
                 },
                 scales: {

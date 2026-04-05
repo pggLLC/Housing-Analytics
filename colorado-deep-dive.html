@@ -44,6 +44,7 @@
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <script>
   // Set Chart.js defaults using CSS custom properties for legibility
   document.addEventListener('DOMContentLoaded', function () {
@@ -1728,7 +1729,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           labels: ["2022","2023","2024","2025"],
           datasets: [{ label:"Avg monthly concession ($)", data:[45, 65, 110, 169], tension:.35 }]
         },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  annotation: { annotations: {
+                    prop123: { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } },
+                    ahcia:   { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
+                  } } },
                   scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
       });
       safeChart("foreclosure-chart", {
@@ -1737,7 +1742,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           labels: ["2023","2024","2025","2026"],
           datasets: [{ label:"Filings (index)", data:[70, 55, 62, 68], tension:.35 }]
         },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  annotation: { annotations: {
+                    ahcia: { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
+                  } } },
                   scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
       });
       safeChart("confidence-chart", {
@@ -1804,6 +1812,34 @@ h3 { font-size: 1.05rem; font-weight: 700; }
                 tooltip: {
                   callbacks: {
                     footer: function () { return 'Source: HUD LIHTC Database'; }
+                  }
+                },
+                annotation: {
+                  annotations: {
+                    covid: {
+                      type: 'line',
+                      xMin: '2020', xMax: '2020',
+                      borderColor: 'rgba(220, 38, 38, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220, 38, 38, 0.7)', font: { size: 11 } }
+                    },
+                    prop123: {
+                      type: 'line',
+                      xMin: '2022', xMax: '2022',
+                      borderColor: 'rgba(14, 165, 233, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14, 165, 233, 0.7)', font: { size: 11 } }
+                    },
+                    ahcia: {
+                      type: 'line',
+                      xMin: '2023', xMax: '2023',
+                      borderColor: 'rgba(139, 92, 246, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139, 92, 246, 0.7)', font: { size: 11 } }
+                    }
                   }
                 }
               },

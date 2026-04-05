@@ -168,7 +168,7 @@
       }
     ],
     "housingLead": {
-      "name": "Adams County Community & Support Services \u2014 Housing",
+      "name": "Adams County Community & Support Services — Housing",
       "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
     },
     "housingPlans": [
@@ -450,7 +450,7 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Broomfield \u2014 Housing Services",
+      "name": "City & County of Broomfield — Housing Services",
       "url": "https://www.broomfield.org/1344/Housing-Services"
     },
     "housingPlans": [
@@ -758,12 +758,12 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Denver \u2014 Housing Stability",
+      "name": "City & County of Denver — Housing Stability",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
     },
     "housingPlans": [
       {
-        "name": "Housing an Inclusive Denver \u2014 5-Year Action Plan",
+        "name": "Housing an Inclusive Denver — 5-Year Action Plan",
         "type": "Housing Action Plan",
         "year": 2021,
         "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Housing-Plans"
@@ -974,7 +974,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Colorado Springs \u2014 Neighborhood Services",
+      "name": "City of Colorado Springs — Neighborhood Services",
       "url": "https://coloradosprings.gov/neighborhoods"
     },
     "housingPlans": [
@@ -1139,6 +1139,18 @@
       {
         "name": "Grand County Housing Authority",
         "url": "https://www.co.grand.co.us/388/Housing-Authority"
+      },
+      {
+        "name": "Housing Authority of the City of Brush",
+        "contact": "brushhousing@brushhousing.com",
+        "totalUnits": 30,
+        "phaCode": "CO044"
+      },
+      {
+        "name": "Fort Morgan Housing Authority",
+        "contact": "nancy@fmhousing.net",
+        "totalUnits": 86,
+        "phaCode": "CO011"
       }
     ],
     "advocacy": [
@@ -1213,7 +1225,7 @@
     },
     "housingAuthority": [
       {
-        "name": "Hinsdale County (limited \u2014 administered through Gunnison County)",
+        "name": "Hinsdale County (limited — administered through Gunnison County)",
         "url": "https://www.hinsdalecounty.org/"
       }
     ],
@@ -1480,6 +1492,12 @@
       {
         "name": "Wellington Housing Authority",
         "contact": "jbrewen@housingcatalyst.com"
+      },
+      {
+        "name": "Fort Collins Housing Authority",
+        "contact": "jbrewen@housingcatalyst.com",
+        "totalUnits": 1177,
+        "phaCode": "CO041"
       }
     ],
     "advocacy": [
@@ -1497,7 +1515,7 @@
       }
     ],
     "housingLead": {
-      "name": "Fort Collins Community Development \u2014 Housing",
+      "name": "Fort Collins Community Development — Housing",
       "url": "https://www.fcgov.com/commdev/housing.php"
     },
     "housingPlans": [
@@ -1554,6 +1572,12 @@
         "name": "Housing Authority of the Town of Aguilar",
         "contact": "aguilarhousing@gmail.com",
         "totalUnits": 18
+      },
+      {
+        "name": "Housing Authority of the City of Lamar",
+        "contact": "executivedirector@lamarhousing.org",
+        "totalUnits": 137,
+        "phaCode": "CO006"
       }
     ],
     "advocacy": [
@@ -2000,7 +2024,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Pueblo \u2014 Development Services",
+      "name": "City of Pueblo — Development Services",
       "url": "https://www.pueblo.us/development"
     },
     "housingPlans": [
@@ -2160,7 +2184,7 @@
     },
     "housingAuthority": [
       {
-        "name": "San Juan County Housing (Silverton \u2014 limited)",
+        "name": "San Juan County Housing (Silverton — limited)",
         "url": "https://www.sanjuancountycolorado.us/"
       }
     ],
@@ -2337,6 +2361,12 @@
       {
         "name": "NE Colorado Housing Authority (rural eastern Colorado)",
         "url": "https://www.necoha.org/"
+      },
+      {
+        "name": "Housing Authority of the City of Sterling",
+        "contact": "brigadon@kci.net",
+        "totalUnits": 110,
+        "phaCode": "CO025"
       }
     ],
     "advocacy": [
