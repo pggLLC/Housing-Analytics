@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T10:58:00.944Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T11:11:11.749Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 26.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.8 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.1 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.6 KB |
