@@ -335,9 +335,164 @@
     _announce(which + ' cleared.');
   }
 
+  // ── Side-by-side comparison panel (Phase 2) ─────────────────────────
+
+  var COMPARISON_METRICS = [
+    { id: 'overall_need_score', label: 'Overall Need Score',     unit: 'score',   lowerBetter: true  },
+    { id: 'housing_gap_units',  label: 'Units Needed (30% AMI)', unit: 'integer',  lowerBetter: true  },
+    { id: 'pct_cost_burdened',  label: '% Rent Burdened',        unit: 'percent',  lowerBetter: true  },
+    { id: 'in_commuters',       label: 'In-Commuters',           unit: 'integer',  lowerBetter: false },
+    { id: 'population',         label: 'Population',             unit: 'integer',  lowerBetter: false },
+    { id: 'median_hh_income',   label: 'Median HH Income',       unit: 'dollars',  lowerBetter: false },
+    { id: 'pct_renters',        label: '% Renters',              unit: 'percent',  lowerBetter: false },
+    { id: 'vacancy_rate',       label: 'Vacancy Rate',           unit: 'percent',  lowerBetter: false },
+    { id: 'gross_rent_median',  label: 'Median Gross Rent',      unit: 'dollars',  lowerBetter: true  },
+    { id: 'population_projection_20yr', label: 'Pop. Projection (20yr)', unit: 'integer', lowerBetter: false },
+  ];
+
+  function _fmtVal(val, unit) {
+    if (val === null || val === undefined || isNaN(val)) return '—';
+    var n = +val;
+    if (unit === 'percent') return n.toFixed(1) + '%';
+    if (unit === 'dollars') return '$' + n.toLocaleString('en-US');
+    if (unit === 'score')   return n.toFixed(1);
+    return n.toLocaleString('en-US');
+  }
+
+  function _deltaText(a, b, unit, lowerBetter) {
+    if (a === null || a === undefined || b === null || b === undefined) return { text: '—', cls: '' };
+    var diff = a - b;
+    if (Math.abs(diff) < 0.01) return { text: '=', cls: '' };
+
+    var pct = b !== 0 ? Math.abs(diff / b * 100) : 0;
+    var arrow = diff > 0 ? '▲' : '▼';
+    var text;
+    if (unit === 'percent' || unit === 'score') {
+      text = arrow + ' ' + Math.abs(diff).toFixed(1);
+    } else if (unit === 'dollars') {
+      text = arrow + ' $' + Math.abs(Math.round(diff)).toLocaleString('en-US');
+    } else {
+      text = arrow + ' ' + Math.abs(Math.round(diff)).toLocaleString('en-US');
+    }
+
+    // Determine if A's value is "better" than B's
+    var aBetter = lowerBetter ? (a < b) : (a > b);
+    return { text: text, cls: aBetter ? 'hca-cp-row__delta--better' : 'hca-cp-row__delta--worse' };
+  }
+
+  function _renderComparisonPanel() {
+    var panel = document.getElementById('hcaComparisonPanel');
+    if (!panel) return;
+
+    if (!_compA || !_compB) {
+      panel.style.display = 'none';
+      return;
+    }
+
+    var state = window.HNARanking && HNARanking._get();
+    if (!state) { panel.style.display = 'none'; return; }
+
+    // Look up full entry data
+    var entryA = null, entryB = null;
+    for (var i = 0; i < state.allEntries.length; i++) {
+      if (state.allEntries[i].geoid === _compA.geoid) entryA = state.allEntries[i];
+      if (state.allEntries[i].geoid === _compB.geoid) entryB = state.allEntries[i];
+      if (entryA && entryB) break;
+    }
+    if (!entryA || !entryB) { panel.style.display = 'none'; return; }
+
+    var total = state.allEntries.length;
+    var scorecardData = HNARanking.getScorecardData ? HNARanking.getScorecardData() : {};
+    var scA = scorecardData[entryA.geoid];
+    var scB = scorecardData[entryB.geoid];
+
+    // Build header
+    var html = '<div class="hca-cp-header">' +
+      '<h3 class="hca-cp-title">Side-by-Side Comparison</h3>' +
+      '<button type="button" class="hca-cp-close" id="hcaCpClose" title="Close comparison panel" aria-label="Close comparison panel">✕</button>' +
+    '</div>';
+
+    // Names row
+    html += '<div class="hca-cp-names">' +
+      '<div class="hca-cp-names__label"></div>' +
+      '<div class="hca-cp-names__a">' + entryA.name +
+        '<div class="hca-cp-rank">#' + entryA.rank + ' of ' + total + ' · ' + entryA.percentileRank + 'th pctile</div>' +
+      '</div>' +
+      '<div class="hca-cp-names__vs">vs</div>' +
+      '<div class="hca-cp-names__b">' + entryB.name +
+        '<div class="hca-cp-rank">#' + entryB.rank + ' of ' + total + ' · ' + entryB.percentileRank + 'th pctile</div>' +
+      '</div>' +
+    '</div>';
+
+    // Metric rows
+    html += '<div class="hca-cp-metrics">';
+    COMPARISON_METRICS.forEach(function (m) {
+      var valA = entryA.metrics[m.id];
+      var valB = entryB.metrics[m.id];
+      var numA = (valA !== null && valA !== undefined) ? +valA : null;
+      var numB = (valB !== null && valB !== undefined) ? +valB : null;
+
+      // Bar widths: scale to max of the two
+      var maxVal = Math.max(Math.abs(numA || 0), Math.abs(numB || 0));
+      var pctA = maxVal > 0 && numA !== null ? (Math.abs(numA) / maxVal * 100) : 0;
+      var pctB = maxVal > 0 && numB !== null ? (Math.abs(numB) / maxVal * 100) : 0;
+
+      var delta = _deltaText(numA, numB, m.unit, m.lowerBetter);
+
+      html += '<div class="hca-cp-row">' +
+        '<div class="hca-cp-row__label">' + m.label + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numA, m.unit) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--a" style="width:' + pctA.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+        '<div class="hca-cp-row__delta ' + delta.cls + '">' + delta.text + '</div>' +
+        '<div class="hca-cp-row__val">' +
+          '<span class="hca-cp-row__num">' + _fmtVal(numB, m.unit) + '</span>' +
+          '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--b" style="width:' + pctB.toFixed(1) + '%"></div></div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+
+    // Scorecard comparison
+    html += '<div class="hca-cp-scorecard">';
+    var scAText = scA && scA.knownDimensions > 0 ? scA.totalScore + '/' + scA.knownDimensions : '—';
+    var scBText = scB && scB.knownDimensions > 0 ? scB.totalScore + '/' + scB.knownDimensions : '—';
+    var scANum = scA ? scA.totalScore : 0;
+    var scBNum = scB ? scB.totalScore : 0;
+    var scMax = Math.max(scANum, scBNum, 1);
+    var scDelta = _deltaText(scANum, scBNum, 'score', false);
+
+    html += '<div class="hca-cp-row">' +
+      '<div class="hca-cp-row__label">Housing Commitment</div>' +
+      '<div class="hca-cp-row__val">' +
+        '<span class="hca-cp-row__num">' + scAText + '</span>' +
+        '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--a" style="width:' + (scANum / scMax * 100).toFixed(1) + '%"></div></div>' +
+      '</div>' +
+      '<div class="hca-cp-row__delta ' + scDelta.cls + '">' + scDelta.text + '</div>' +
+      '<div class="hca-cp-row__val">' +
+        '<span class="hca-cp-row__num">' + scBText + '</span>' +
+        '<div class="hca-cp-row__bar-wrap"><div class="hca-cp-row__bar hca-cp-row__bar--b" style="width:' + (scBNum / scMax * 100).toFixed(1) + '%"></div></div>' +
+      '</div>' +
+    '</div>';
+    html += '</div>';
+
+    panel.innerHTML = html;
+    panel.style.display = 'block';
+
+    // Wire close button
+    var closeBtn = document.getElementById('hcaCpClose');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        panel.style.display = 'none';
+      });
+    }
+  }
+
   // ── Events ─────────────────────────────────────────────────────────
 
   function _dispatchUpdate() {
+    _renderComparisonPanel();
     document.dispatchEvent(new CustomEvent('comparison:updated', {
       detail: { a: _compA, b: _compB, countyFilter: _countyFilter }
     }));
