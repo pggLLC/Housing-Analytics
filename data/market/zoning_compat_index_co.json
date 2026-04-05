@@ -3,13 +3,110 @@
     "source": "County/Municipal Planning GIS — Zoning Districts (public)",
     "state": "Colorado",
     "state_fips": "08",
-    "vintage": "2026-03-23",
-    "generated": "2026-03-23T00:00:00Z",
+    "vintage": "2026-04-05",
+    "generated": "2026-04-05T04:46:05Z",
     "jurisdictions_attempted": 8,
     "jurisdictions_successful": 0,
     "coverage_pct": 0.0,
-    "compat_score_scale": "0\u20132.5 (2.5 = fully MF/mixed-use compatible)",
-    "note": "Stub — rebuild via scripts/market/fetch_zoning.py"
+    "compat_score_scale": "0–2.5 (2.5 = fully MF/mixed-use compatible)",
+    "note": "Rebuild via scripts/market/fetch_zoning.py"
   },
-  "jurisdictions": []
+  "jurisdictions": [
+    {
+      "jurisdiction": "Denver",
+      "county_fips": "08031",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Jefferson County",
+      "county_fips": "08059",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Arapahoe County",
+      "county_fips": "08005",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Boulder County",
+      "county_fips": "08013",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "El Paso County",
+      "county_fips": "08041",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Larimer County",
+      "county_fips": "08069",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Weld County",
+      "county_fips": "08123",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    },
+    {
+      "jurisdiction": "Adams County",
+      "county_fips": "08001",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "multifamily_parcels": 0,
+      "pct_residential": 0.0,
+      "pct_multifamily": 0.0,
+      "avg_compat_score": 0.0,
+      "zone_breakdown": {},
+      "note": "fetch failed — check GIS endpoint"
+    }
+  ]
 }
