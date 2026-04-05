@@ -36,6 +36,77 @@
 .hca-hero-sub a:hover { text-decoration: underline; }
 
 /* ----------------------------------------------------------------
+   How-to guide (Phase IV)
+   ---------------------------------------------------------------- */
+.hca-how-to {
+  margin-bottom: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 8px);
+  overflow: hidden;
+}
+.hca-how-to__toggle {
+  padding: 10px 16px;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+}
+.hca-how-to__toggle::-webkit-details-marker { display: none; }
+.hca-how-to__toggle::before { content: '▸ '; }
+.hca-how-to[open] .hca-how-to__toggle::before { content: '▾ '; }
+.hca-how-to__content {
+  padding: 0 16px 14px;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--text2, var(--text));
+}
+.hca-how-to__steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.hca-how-to__step {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hca-how-to__step strong {
+  color: var(--text);
+  font-size: .84rem;
+}
+.hca-how-to__step kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: .75rem;
+  font-family: var(--font-mono, monospace);
+  background: var(--bg2, #eee);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.hca-how-to__metrics {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+.hca-how-to__metrics dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 6px 0 0;
+  font-size: .8rem;
+}
+.hca-how-to__metrics dt {
+  font-weight: 700;
+  color: var(--text);
+}
+.hca-how-to__metrics dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------------
    KPI strip
    ---------------------------------------------------------------- */
 .hca-kpi-strip {

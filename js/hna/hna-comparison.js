@@ -977,10 +977,20 @@
       _dispatchUpdate();
     });
 
-    // Delegated click handler for A/B buttons and slot clear
+    // Delegated click and keyboard handler for A/B buttons and slot clear
     document.addEventListener('click', function (e) {
       _handleABClick(e);
       _handleSlotClear(e);
+    });
+    // Keyboard accessibility: Enter/Space on A/B buttons
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var btn = e.target.closest('.hca-ab-btn, .hca-comp-slot__clear');
+        if (btn) {
+          e.preventDefault();
+          btn.click();
+        }
+      }
     });
   }
 

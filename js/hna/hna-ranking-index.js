@@ -176,14 +176,14 @@
   // -------------------------------------------------------------------------
 
   const METRIC_COLUMNS = [
-    { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score' },
-    { id: 'commitment_score',           label: 'Housing\nCommitment',       mobileLabel: 'Commitment', isScorecard: true },
-    { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed' },
-    { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened' },
-    { id: 'in_commuters',               label: 'In-Commuters',              mobileLabel: 'In-Commuters' },
-    { id: 'population',                 label: 'Population',                mobileLabel: 'Population' },
-    { id: 'median_hh_income',           label: 'Median HH\nIncome',         mobileLabel: 'Median Income' },
-    { id: 'pct_renters',                label: '% Renters',                 mobileLabel: '% Renters' },
+    { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score',       tip: 'Composite index (0-100): 50% unit gap at 30% AMI, 30% cost-burden rate, 20% in-commuter pressure' },
+    { id: 'commitment_score',           label: 'Housing\nCommitment',       mobileLabel: 'Commitment', isScorecard: true, tip: 'Policy commitment scorecard: housing authority, inclusionary zoning, Prop 123, housing plans, etc.' },
+    { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed',     tip: 'Estimated deficit of affordable rental units at 30% of Area Median Income (HUD CHAS data)' },
+    { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened',  tip: 'Share of renter households paying 30%+ of income on housing costs (ACS GRAPI)' },
+    { id: 'in_commuters',               label: 'In-Commuters',              mobileLabel: 'In-Commuters',     tip: 'Workers employed here but living elsewhere — a demand signal for local housing (LEHD LODES)' },
+    { id: 'population',                 label: 'Population',                mobileLabel: 'Population',       tip: 'Total resident population (ACS 2024 5-year estimates)' },
+    { id: 'median_hh_income',           label: 'Median HH\nIncome',         mobileLabel: 'Median Income',    tip: 'Median household income in dollars (ACS 2024). Higher income areas may still have affordability gaps.' },
+    { id: 'pct_renters',                label: '% Renters',                 mobileLabel: '% Renters',        tip: 'Share of occupied housing units that are renter-occupied (ACS 2024 tenure data)' },
   ];
 
   function renderRow(entry, total) {
@@ -239,6 +239,7 @@
       id: col.id,
       label: col.label.replace(/\n/g, ' '),
       sortable: true,
+      tip: col.tip || '',
     }));
     const thLink = { id: 'link', label: '', sortable: false };
 
@@ -250,7 +251,8 @@
       if (!col.sortable) return `<th class="hca-th" scope="col">${col.label}</th>`;
       const isActive = _sortMetric === col.id;
       const dir = isActive ? _sortDir : '';
-      return `<th class="hca-th sortable ${isActive ? 'sort-' + dir : ''}" scope="col" data-metric="${col.id}" tabindex="0" role="columnheader" aria-sort="${isActive ? (dir === 'desc' ? 'descending' : 'ascending') : 'none'}">
+      const tipAttr = col.tip ? ` title="${col.tip}"` : '';
+      return `<th class="hca-th sortable ${isActive ? 'sort-' + dir : ''}" scope="col" data-metric="${col.id}" tabindex="0" role="columnheader" aria-sort="${isActive ? (dir === 'desc' ? 'descending' : 'ascending') : 'none'}"${tipAttr}>
         ${col.label}<span class="sort-icon" aria-hidden="true"></span>
       </th>`;
     }).join('');
