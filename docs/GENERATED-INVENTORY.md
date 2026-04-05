@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T06:53:42.285Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T10:58:00.944Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 26.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 39.8 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 24.9 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.6 KB |
@@ -66,7 +66,7 @@
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 22.8 KB | ✅ | — |
+| `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
@@ -78,7 +78,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 127.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 127.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 950.1 KB | ✅ | — |
 | `data/glossary.json` | 8.9 KB | ✅ | — |
