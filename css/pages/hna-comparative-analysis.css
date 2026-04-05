@@ -68,6 +68,12 @@
   margin-top: 4px;
   font-weight: 600;
 }
+.hca-kpi-source {
+  font-size: 0.65rem;
+  color: var(--faint, #999);
+  margin-top: 3px;
+  font-style: italic;
+}
 
 /* ----------------------------------------------------------------
    Quick-access selector panel
@@ -1126,6 +1132,17 @@
   color: var(--muted);
   font-size: .85rem;
   font-style: italic;
+}
+
+/* Source citation inline with section titles */
+.hca-cp-source {
+  font-size: .65rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--faint, #999);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 6px;
 }
 
 /* ── AMI-to-Purchase grid ─────────────────────────────────────── */

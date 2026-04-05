@@ -374,13 +374,14 @@
   }
 
   // ── Homeownership affordability calculations ──────────────────────
-  // Standard mortgage assumptions for "AMI required to purchase"
-  var MORTGAGE_RATE    = 0.07;   // 7% (current market approximation)
-  var MORTGAGE_TERM_YR = 30;
-  var DOWN_PAYMENT_PCT = 0.05;   // 5% conventional minimum
-  var HOUSING_COST_PCT = 0.30;   // 30% of gross income to housing
-  var PROPERTY_TAX_RATE = 0.006; // ~0.6% effective rate (CO average)
-  var INSURANCE_ANNUAL  = 2400;  // annual homeowner insurance estimate
+  // Reads from centralized config (js/config/financial-constants.js)
+  var _cfg = window.COHO_DEFAULTS || {};
+  var MORTGAGE_RATE    = _cfg.mortgageRate    || 0.07;
+  var MORTGAGE_TERM_YR = _cfg.mortgageTermYr  || 30;
+  var DOWN_PAYMENT_PCT = _cfg.downPaymentPct  || 0.05;
+  var HOUSING_COST_PCT = _cfg.housingCostPct  || 0.30;
+  var PROPERTY_TAX_RATE = _cfg.propertyTaxRate || 0.006;
+  var INSURANCE_ANNUAL  = _cfg.insuranceAnnual || 2400;
 
   /**
    * Compute the annual household income required to purchase a home at a
@@ -496,7 +497,7 @@
 
   function _buildHousingGapSection(entryA, entryB) {
     var html = '<div class="hca-cp-section">';
-    html += '<h4 class="hca-cp-section__title">Housing Gap Analysis</h4>';
+    html += '<h4 class="hca-cp-section__title">Housing Gap Analysis <span class="hca-cp-source">ACS 2024 · HUD CHAS · LEHD LODES</span></h4>';
 
     HOUSING_GAP_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
@@ -580,7 +581,7 @@
     if (!homeValA && !homeValB) return '';
 
     var html = '<div class="hca-cp-section hca-cp-homeownership">';
-    html += '<h4 class="hca-cp-section__title">Homeownership Affordability</h4>';
+    html += '<h4 class="hca-cp-section__title">Homeownership Affordability <span class="hca-cp-source">ACS 2024 DP04 · Freddie Mac PMMS</span></h4>';
 
     // Basic metrics rows
     var hoMetrics = [
@@ -680,7 +681,7 @@
     if (!mixA && !mixB) return '';
 
     var html = '<div class="hca-cp-ami">';
-    html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix</h4>';
+    html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix <span class="hca-cp-source">HUD CHAS · AMI Gap Model</span></h4>';
 
     // Stacked bar comparison
     html += '<div class="hca-cp-ami__bars">';
@@ -822,7 +823,7 @@
 
     // ── Core Demographics ──
     html += '<div class="hca-cp-metrics">';
-    html += '<h4 class="hca-cp-section__title">Demographics & Market</h4>';
+    html += '<h4 class="hca-cp-section__title">Demographics & Market <span class="hca-cp-source">ACS 2024 · DOLA · LEHD LODES</span></h4>';
     COMPARISON_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];

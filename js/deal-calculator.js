@@ -1,13 +1,13 @@
 (function () {
   'use strict';
 
-  // HUD FY2025 Colorado AMI gross rent limits — Denver-Aurora-Lakewood MSA default.
-  // These are overridden dynamically when HudFmr is loaded and a county is selected.
-  // Formula: (AMI × %AMI × 0.30) / 12
-  var _amiLimits = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
+  // Financial defaults from centralized config (js/config/financial-constants.js).
+  // Overridden dynamically when HudFmr loads and a county is selected.
+  var _cfg = window.COHO_DEFAULTS || {};
+  var _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
-  var _creditRate = 0.09;   // current credit rate — updated by scenario toggle
-  const EQUITY_PRICE_DEFAULT = 0.90;  // per dollar of annual credit (default)
+  var _creditRate = _cfg.creditRate9Pct || 0.09;
+  var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -765,7 +765,7 @@
         if (fips) {
           updateAmiLimitsFromFmr(fips);
         } else {
-          _amiLimits = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
+          _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
           _countyFips = null;
         }
         // Update the FMR note
