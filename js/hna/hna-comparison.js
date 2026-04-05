@@ -380,6 +380,122 @@
     return { text: text, cls: aBetter ? 'hca-cp-row__delta--better' : 'hca-cp-row__delta--worse' };
   }
 
+  // ── AMI Mix recommendation builder ─────────────────────────────────
+
+  function _deriveAmiMix(entry) {
+    var m = entry.metrics;
+    var gap30 = m.ami_gap_30pct || 0;
+    var gap50 = m.ami_gap_50pct || 0;
+    var gap60 = m.ami_gap_60pct || 0;
+
+    // Incremental gaps between tiers
+    var tier30 = gap30;                         // ≤30% AMI
+    var tier3150 = Math.max(gap50 - gap30, 0);  // 31–50% AMI
+    var tier5160 = Math.max(gap60 - gap50, 0);  // 51–60% AMI
+
+    var total = tier30 + tier3150 + tier5160;
+    if (total === 0) return null;
+
+    return {
+      tiers: [
+        { label: '≤30% AMI', units: tier30, pct: (tier30 / total * 100) },
+        { label: '31–50% AMI', units: tier3150, pct: (tier3150 / total * 100) },
+        { label: '51–60% AMI', units: tier5160, pct: (tier5160 / total * 100) },
+      ],
+      totalGap: total,
+      burden: {
+        lte30: m.pct_burdened_lte30,
+        b3150: m.pct_burdened_31to50,
+        b5180: m.pct_burdened_51to80,
+      },
+      missingTiers: m.missing_ami_tiers || [],
+    };
+  }
+
+  function _buildAmiMixSection(entryA, entryB) {
+    var mixA = _deriveAmiMix(entryA);
+    var mixB = _deriveAmiMix(entryB);
+    if (!mixA && !mixB) return '';
+
+    var html = '<div class="hca-cp-ami">';
+    html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix</h4>';
+
+    // Stacked bar comparison
+    html += '<div class="hca-cp-ami__bars">';
+    [{ label: 'A', mix: mixA, entry: entryA, cls: 'a' },
+     { label: 'B', mix: mixB, entry: entryB, cls: 'b' }].forEach(function (side) {
+      html += '<div class="hca-cp-ami__side">';
+      html += '<div class="hca-cp-ami__side-label hca-cp-ami__side-label--' + side.cls + '">' + side.entry.name + '</div>';
+      if (!side.mix) {
+        html += '<div class="hca-cp-ami__no-data">Insufficient AMI data</div>';
+      } else {
+        // Stacked horizontal bar
+        html += '<div class="hca-cp-ami__stack">';
+        side.mix.tiers.forEach(function (t, i) {
+          var tierCls = 'hca-cp-ami__seg--t' + i;
+          html += '<div class="hca-cp-ami__seg ' + tierCls + '" style="width:' + t.pct.toFixed(1) + '%" title="' + t.label + ': ' + t.pct.toFixed(0) + '% (' + t.units.toLocaleString('en-US') + ' units)">';
+          if (t.pct >= 12) html += t.pct.toFixed(0) + '%';
+          html += '</div>';
+        });
+        html += '</div>';
+        // Legend
+        html += '<div class="hca-cp-ami__legend">';
+        side.mix.tiers.forEach(function (t, i) {
+          html += '<span class="hca-cp-ami__legend-item">' +
+            '<span class="hca-cp-ami__legend-swatch hca-cp-ami__seg--t' + i + '"></span>' +
+            t.label + ': ' + t.pct.toFixed(0) + '% <small>(' + t.units.toLocaleString('en-US') + ')</small>' +
+          '</span>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+
+    // Cost burden by tier comparison
+    html += '<div class="hca-cp-ami__burden">';
+    html += '<div class="hca-cp-ami__burden-title">Cost Burden by AMI Tier</div>';
+    var burdenTiers = [
+      { key: 'lte30', label: '≤30% AMI' },
+      { key: 'b3150', label: '31–50% AMI' },
+      { key: 'b5180', label: '51–80% AMI' },
+    ];
+    burdenTiers.forEach(function (bt) {
+      var bA = mixA && mixA.burden[bt.key] != null ? mixA.burden[bt.key] : null;
+      var bB = mixB && mixB.burden[bt.key] != null ? mixB.burden[bt.key] : null;
+      html += '<div class="hca-cp-ami__burden-row">' +
+        '<span class="hca-cp-ami__burden-label">' + bt.label + '</span>' +
+        '<span class="hca-cp-ami__burden-val hca-cp-ami__burden-val--a">' + (bA != null ? bA + '%' : '—') + '</span>' +
+        '<span class="hca-cp-ami__burden-val hca-cp-ami__burden-val--b">' + (bB != null ? bB + '%' : '—') + '</span>' +
+      '</div>';
+    });
+    html += '</div>';
+
+    // Missing/underserved tiers
+    if ((mixA && mixA.missingTiers.length) || (mixB && mixB.missingTiers.length)) {
+      html += '<div class="hca-cp-ami__missing">';
+      html += '<div class="hca-cp-ami__missing-title">Underserved Rental Tiers</div>';
+      html += '<div class="hca-cp-ami__missing-grid">';
+      [{ entry: entryA, mix: mixA, cls: 'a' }, { entry: entryB, mix: mixB, cls: 'b' }].forEach(function (side) {
+        html += '<div class="hca-cp-ami__missing-col">';
+        html += '<span class="hca-cp-ami__missing-name hca-cp-ami__missing-name--' + side.cls + '">' + side.entry.name + '</span>';
+        if (side.mix && side.mix.missingTiers.length) {
+          side.mix.missingTiers.forEach(function (tier) {
+            html += '<span class="hca-ami-missing-badge">' + tier + '</span> ';
+          });
+        } else {
+          html += '<span style="color:var(--muted);font-size:.82rem">None identified</span>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+      html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+  }
+
   function _renderComparisonPanel() {
     var panel = document.getElementById('hcaComparisonPanel');
     if (!panel) return;
@@ -476,6 +592,9 @@
       '</div>' +
     '</div>';
     html += '</div>';
+
+    // ── Recommended AMI Mix section ──
+    html += _buildAmiMixSection(entryA, entryB);
 
     panel.innerHTML = html;
     panel.style.display = 'block';
