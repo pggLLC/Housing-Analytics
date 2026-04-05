@@ -118,13 +118,6 @@
       if (inBuf) { (t.bbox && t.bbox.length === 4) ? bboxCount++ : centroidCount++; }
       return inBuf;
     });
-    // Diagnostic: log method breakdown so operators can confirm bbox data is
-    // being used (bbox=0 means all tracts are falling back to centroid distance).
-    console.log(
-      '[market-analysis] tractsInBuffer(' + miles + 'mi): ' +
-      included.length + ' tracts included ' +
-      '(bbox=' + bboxCount + ', centroid-fallback=' + centroidCount + ')'
-    );
     return included;
   }
 
@@ -437,8 +430,6 @@
       land_supply:   landSupplyCoverage,
       workforce:     wfResult.coverageLevel
     };
-
-    console.log('[pma-runner] Data coverage:', JSON.stringify({ pma_data_coverage: pmaDataCoverage, fallback_reasons: fallbackReasons }));
 
     return {
       overall:       Math.min(100, Math.max(0, overall)),
@@ -858,8 +849,6 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
-    console.log('[market-analysis] runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi');
-
     // ── Recover from global cache if module-level variables are stale ──
     // This fixes the "No ACS data" error on the second (and subsequent) map
     // clicks where the reference could become stale between analysis runs.
@@ -868,12 +857,10 @@
       if ((!tractCentroids || !(tractCentroids.tracts || tractCentroids).length) &&
           _cache.has('tractCentroids')) {
         tractCentroids = _cache.get('tractCentroids');
-        console.log('[market-analysis] runAnalysis(): restored tractCentroids from PMADataCache');
       }
       if ((!acsMetrics || !(acsMetrics.tracts || []).length) &&
           _cache.has('acsMetrics')) {
         acsMetrics = _cache.get('acsMetrics');
-        console.log('[market-analysis] runAnalysis(): restored acsMetrics from PMADataCache (cache: ' + _cache.debugSummary() + ')');
       }
     }
 
@@ -1087,7 +1074,6 @@
     // and SiteSelectionScore expect, then push the data into MAState before
     // calling MAController.runAnalysis() so that _getAcs() / _getLihtc()
     // can retrieve it through the secondary (MAState) path.
-    console.log('[market-analysis] runAnalysis(): delegating to MAController.runAnalysis()');
     var MAC = window.MAController;
     if (MAC && typeof MAC.runAnalysis === 'function') {
       var MA = window.MAState;
@@ -1486,8 +1472,6 @@
   function loadData() {
     var DS = window.DataService;
     if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
-    console.log('[market-analysis] loadData(): starting data load');
-
     // Load Prop 123 jurisdictions in parallel (non-fatal if unavailable)
     DS.getJSON(DS.baseData('policy/prop123_jurisdictions.json')).then(function (data) {
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
@@ -1556,12 +1540,6 @@
       // Hide the map loading overlay now that data is ready.
       var mapOverlay = document.getElementById('pmaMapLoadingOverlay');
       if (mapOverlay) mapOverlay.style.display = 'none';
-      console.log('[market-analysis] loadData(): complete' +
-        ' — centroids=' + (((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length) +
-        ', acs='        + ((acsMetrics && acsMetrics.tracts) || []).length +
-        ', lihtc='      + (lihtcFeatures || []).length +
-        (statusParts.length ? ', warnings: ' + statusParts.join('; ') : ''));
-
       // Load workforce data connectors in parallel (non-fatal if any fail)
       var workforcePromises = [
         window.LodesCommute  ? window.LodesCommute.loadMetrics().catch(function () {}) : Promise.resolve(),
@@ -1704,8 +1682,6 @@
     ['DataService', 'MAState', 'MARenderers', 'SiteSelectionScore', 'MAController'].forEach(function (name) {
       if (!window[name]) {
         console.warn('[market-analysis] module not found: ' + name);
-      } else {
-        console.log('[market-analysis] module ready: ' + name);
       }
     });
 
