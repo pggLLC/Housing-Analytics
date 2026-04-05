@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-04T20:50:44.090Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T05:53:58.369Z. Do not edit by hand.
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-876 JSON files found.
+877 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -64,9 +64,9 @@
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 268.2 KB | ✅ | 716 features |
+| `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
+| `data/co-county-demographics.json` | 22.8 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 127.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.78 MB | ✅ | — |
+| `data/fred-data.json` | 950.1 KB | ✅ | — |
 | `data/glossary.json` | 8.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -218,21 +218,21 @@
 | `data/hna/lehd/08125.json` | 2.6 KB | ✅ | — |
 | `data/hna/lihtc/08001.json` | 18.5 KB | ✅ | 49 features |
 | `data/hna/lihtc/08003.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08005.json` | 23.9 KB | ✅ | 63 features |
+| `data/hna/lihtc/08005.json` | 24.0 KB | ✅ | 63 features |
 | `data/hna/lihtc/08007.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08009.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08011.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08013.json` | 22.4 KB | ✅ | 60 features |
+| `data/hna/lihtc/08013.json` | 22.5 KB | ✅ | 60 features |
 | `data/hna/lihtc/08014.json` | 1.6 KB | ✅ | 4 features |
 | `data/hna/lihtc/08015.json` | 2.3 KB | ✅ | 6 features |
 | `data/hna/lihtc/08017.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08019.json` | 480 B | ✅ | 1 features |
+| `data/hna/lihtc/08019.json` | 481 B | ✅ | 1 features |
 | `data/hna/lihtc/08021.json` | 1.6 KB | ✅ | 4 features |
 | `data/hna/lihtc/08023.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08025.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08027.json` | 458 B | ✅ | 1 features |
+| `data/hna/lihtc/08027.json` | 459 B | ✅ | 1 features |
 | `data/hna/lihtc/08029.json` | 1.6 KB | ✅ | 4 features |
-| `data/hna/lihtc/08031.json` | 73.7 KB | ✅ | 198 features |
+| `data/hna/lihtc/08031.json` | 73.9 KB | ✅ | 198 features |
 | `data/hna/lihtc/08033.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08035.json` | 3.5 KB | ✅ | 9 features |
 | `data/hna/lihtc/08037.json` | 3.0 KB | ✅ | 8 features |
@@ -241,18 +241,18 @@
 | `data/hna/lihtc/08043.json` | 5.4 KB | ✅ | 14 features |
 | `data/hna/lihtc/08045.json` | 2.7 KB | ✅ | 7 features |
 | `data/hna/lihtc/08047.json` | 474 B | ✅ | 1 features |
-| `data/hna/lihtc/08049.json` | 451 B | ✅ | 1 features |
-| `data/hna/lihtc/08051.json` | 468 B | ✅ | 1 features |
+| `data/hna/lihtc/08049.json` | 452 B | ✅ | 1 features |
+| `data/hna/lihtc/08051.json` | 469 B | ✅ | 1 features |
 | `data/hna/lihtc/08053.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08055.json` | 464 B | ✅ | 1 features |
+| `data/hna/lihtc/08055.json` | 465 B | ✅ | 1 features |
 | `data/hna/lihtc/08057.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08059.json` | 17.1 KB | ✅ | 45 features |
+| `data/hna/lihtc/08059.json` | 17.2 KB | ✅ | 45 features |
 | `data/hna/lihtc/08061.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08063.json` | 472 B | ✅ | 1 features |
-| `data/hna/lihtc/08065.json` | 834 B | ✅ | 2 features |
+| `data/hna/lihtc/08063.json` | 473 B | ✅ | 1 features |
+| `data/hna/lihtc/08065.json` | 835 B | ✅ | 2 features |
 | `data/hna/lihtc/08067.json` | 5.3 KB | ✅ | 14 features |
 | `data/hna/lihtc/08069.json` | 19.7 KB | ✅ | 52 features |
-| `data/hna/lihtc/08071.json` | 468 B | ✅ | 1 features |
+| `data/hna/lihtc/08071.json` | 469 B | ✅ | 1 features |
 | `data/hna/lihtc/08073.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08075.json` | 1.6 KB | ✅ | 4 features |
 | `data/hna/lihtc/08077.json` | 5.3 KB | ✅ | 14 features |
@@ -261,12 +261,12 @@
 | `data/hna/lihtc/08083.json` | 3.1 KB | ✅ | 8 features |
 | `data/hna/lihtc/08085.json` | 3.4 KB | ✅ | 9 features |
 | `data/hna/lihtc/08087.json` | 1.9 KB | ✅ | 5 features |
-| `data/hna/lihtc/08089.json` | 843 B | ✅ | 2 features |
+| `data/hna/lihtc/08089.json` | 844 B | ✅ | 2 features |
 | `data/hna/lihtc/08091.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08093.json` | 449 B | ✅ | 1 features |
+| `data/hna/lihtc/08093.json` | 450 B | ✅ | 1 features |
 | `data/hna/lihtc/08095.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08097.json` | 1.9 KB | ✅ | 5 features |
-| `data/hna/lihtc/08099.json` | 826 B | ✅ | 2 features |
+| `data/hna/lihtc/08099.json` | 827 B | ✅ | 2 features |
 | `data/hna/lihtc/08101.json` | 13.0 KB | ✅ | 35 features |
 | `data/hna/lihtc/08103.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08105.json` | 1.6 KB | ✅ | 4 features |
@@ -276,10 +276,10 @@
 | `data/hna/lihtc/08113.json` | 1.2 KB | ✅ | 3 features |
 | `data/hna/lihtc/08115.json` | 81 B | ✅ | 0 features |
 | `data/hna/lihtc/08117.json` | 2.3 KB | ✅ | 6 features |
-| `data/hna/lihtc/08119.json` | 838 B | ✅ | 2 features |
+| `data/hna/lihtc/08119.json` | 840 B | ✅ | 2 features |
 | `data/hna/lihtc/08121.json` | 81 B | ✅ | 0 features |
-| `data/hna/lihtc/08123.json` | 8.2 KB | ✅ | 22 features |
-| `data/hna/lihtc/08125.json` | 448 B | ✅ | 1 features |
+| `data/hna/lihtc/08123.json` | 8.3 KB | ✅ | 22 features |
+| `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 67.7 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
@@ -903,7 +903,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 103.2 KB | ✅ | — |
+| `data/manifest.json` | 293 B | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -917,13 +917,14 @@
 | `data/market/food_access_co.json` | 396 B | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lodes_co.json` | 242.5 KB | ✅ | — |
-| `data/market/parcel_aggregates_co.json` | 369 B | ✅ | — |
+| `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 236.2 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 449 B | ✅ | — |
-| `data/market/zoning_compat_index_co.json` | 476 B | ✅ | — |
+| `data/market/zillow_co_metros.json` | 103.3 KB | ✅ | — |
+| `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.6 KB | ✅ | — |
