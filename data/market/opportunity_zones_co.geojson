@@ -6,10 +6,10 @@
     "state": "Colorado",
     "state_fips": "08",
     "vintage": "2018 designations (permanent)",
-    "generated": "2026-03-23T00:00:00Z",
+    "generated": "2026-04-05T04:53:15Z",
     "feature_count": 0,
     "coverage_pct": 0.0,
-    "note": "Stub — rebuild via scripts/market/fetch_opportunity_zones.py"
+    "note": "Rebuild via scripts/market/fetch_opportunity_zones.py"
   },
   "features": []
 }
