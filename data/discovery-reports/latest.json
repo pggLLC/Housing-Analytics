@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-04-04T07:41:14.109Z",
-  "totalScanned": 896,
-  "newSourceCount": 865,
+  "scanTimestamp": "2026-04-05T07:48:00.763Z",
+  "totalScanned": 900,
+  "newSourceCount": 869,
   "existingCount": 30,
   "staleCount": 20,
   "agingCount": 1,
@@ -488,7 +488,7 @@
     },
     {
       "path": "data/hna/geography-registry.json",
-      "sizeBytes": 70089,
+      "sizeBytes": 126690,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -884,19 +884,19 @@
     },
     {
       "path": "data/hna/lihtc/08001.json",
-      "sizeBytes": 18946,
+      "sizeBytes": 18989,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08003.json",
-      "sizeBytes": 1616,
+      "sizeBytes": 1620,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08005.json",
-      "sizeBytes": 24481,
+      "sizeBytes": 24534,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -920,19 +920,19 @@
     },
     {
       "path": "data/hna/lihtc/08013.json",
-      "sizeBytes": 22949,
+      "sizeBytes": 23004,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08014.json",
-      "sizeBytes": 1621,
+      "sizeBytes": 1624,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08015.json",
-      "sizeBytes": 2394,
+      "sizeBytes": 2400,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -944,13 +944,13 @@
     },
     {
       "path": "data/hna/lihtc/08019.json",
-      "sizeBytes": 480,
+      "sizeBytes": 481,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08021.json",
-      "sizeBytes": 1638,
+      "sizeBytes": 1642,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -968,19 +968,19 @@
     },
     {
       "path": "data/hna/lihtc/08027.json",
-      "sizeBytes": 458,
+      "sizeBytes": 459,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08029.json",
-      "sizeBytes": 1596,
+      "sizeBytes": 1598,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08031.json",
-      "sizeBytes": 75484,
+      "sizeBytes": 75648,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -992,13 +992,13 @@
     },
     {
       "path": "data/hna/lihtc/08035.json",
-      "sizeBytes": 3622,
+      "sizeBytes": 3629,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08037.json",
-      "sizeBytes": 3096,
+      "sizeBytes": 3102,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1010,19 +1010,19 @@
     },
     {
       "path": "data/hna/lihtc/08041.json",
-      "sizeBytes": 13530,
+      "sizeBytes": 13560,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08043.json",
-      "sizeBytes": 5481,
+      "sizeBytes": 5492,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08045.json",
-      "sizeBytes": 2808,
+      "sizeBytes": 2814,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1034,13 +1034,13 @@
     },
     {
       "path": "data/hna/lihtc/08049.json",
-      "sizeBytes": 451,
+      "sizeBytes": 452,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08051.json",
-      "sizeBytes": 468,
+      "sizeBytes": 469,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1052,7 +1052,7 @@
     },
     {
       "path": "data/hna/lihtc/08055.json",
-      "sizeBytes": 464,
+      "sizeBytes": 465,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1064,7 +1064,7 @@
     },
     {
       "path": "data/hna/lihtc/08059.json",
-      "sizeBytes": 17534,
+      "sizeBytes": 17575,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1076,31 +1076,31 @@
     },
     {
       "path": "data/hna/lihtc/08063.json",
-      "sizeBytes": 472,
+      "sizeBytes": 473,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08065.json",
-      "sizeBytes": 834,
+      "sizeBytes": 835,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08067.json",
-      "sizeBytes": 5455,
+      "sizeBytes": 5468,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08069.json",
-      "sizeBytes": 20163,
+      "sizeBytes": 20210,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08071.json",
-      "sizeBytes": 468,
+      "sizeBytes": 469,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1112,13 +1112,13 @@
     },
     {
       "path": "data/hna/lihtc/08075.json",
-      "sizeBytes": 1605,
+      "sizeBytes": 1608,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08077.json",
-      "sizeBytes": 5412,
+      "sizeBytes": 5426,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1136,25 +1136,25 @@
     },
     {
       "path": "data/hna/lihtc/08083.json",
-      "sizeBytes": 3124,
+      "sizeBytes": 3130,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08085.json",
-      "sizeBytes": 3498,
+      "sizeBytes": 3507,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08087.json",
-      "sizeBytes": 1960,
+      "sizeBytes": 1964,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08089.json",
-      "sizeBytes": 843,
+      "sizeBytes": 844,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1166,7 +1166,7 @@
     },
     {
       "path": "data/hna/lihtc/08093.json",
-      "sizeBytes": 449,
+      "sizeBytes": 450,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1178,19 +1178,19 @@
     },
     {
       "path": "data/hna/lihtc/08097.json",
-      "sizeBytes": 1975,
+      "sizeBytes": 1980,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08099.json",
-      "sizeBytes": 826,
+      "sizeBytes": 827,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08101.json",
-      "sizeBytes": 13318,
+      "sizeBytes": 13350,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1202,19 +1202,19 @@
     },
     {
       "path": "data/hna/lihtc/08105.json",
-      "sizeBytes": 1621,
+      "sizeBytes": 1625,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08107.json",
-      "sizeBytes": 1268,
+      "sizeBytes": 1271,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08109.json",
-      "sizeBytes": 2011,
+      "sizeBytes": 2015,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1226,7 +1226,7 @@
     },
     {
       "path": "data/hna/lihtc/08113.json",
-      "sizeBytes": 1237,
+      "sizeBytes": 1240,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1238,13 +1238,13 @@
     },
     {
       "path": "data/hna/lihtc/08117.json",
-      "sizeBytes": 2377,
+      "sizeBytes": 2383,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08119.json",
-      "sizeBytes": 838,
+      "sizeBytes": 840,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1256,13 +1256,13 @@
     },
     {
       "path": "data/hna/lihtc/08123.json",
-      "sizeBytes": 8443,
+      "sizeBytes": 8464,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/hna/lihtc/08125.json",
-      "sizeBytes": 448,
+      "sizeBytes": 449,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -5096,13 +5096,13 @@
     },
     {
       "path": "data/market/opportunity_zones_co.geojson",
-      "sizeBytes": 442,
+      "sizeBytes": 433,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/market/parcel_aggregates_co.json",
-      "sizeBytes": 369,
+      "sizeBytes": 2888,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -5126,13 +5126,13 @@
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
-      "sizeBytes": 296,
+      "sizeBytes": 312,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/market/transit_routes_co.geojson",
-      "sizeBytes": 389,
+      "sizeBytes": 53557962,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -5149,8 +5149,14 @@
       "inFilesManifest": false
     },
     {
+      "path": "data/market/zillow_co_metros.json",
+      "sizeBytes": 105785,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/market/zoning_compat_index_co.json",
-      "sizeBytes": 476,
+      "sizeBytes": 3208,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -5191,6 +5197,24 @@
       "inFilesManifest": false
     },
     {
+      "path": "data/zillow/median_list_price_metro.csv",
+      "sizeBytes": 816796,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/zillow/zhvi_metro.csv",
+      "sizeBytes": 4373209,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/zillow/zori_metro.csv",
+      "sizeBytes": 981492,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "config/data-discovery-config.json",
       "sizeBytes": 1257,
       "inDataManifest": false,
@@ -5201,109 +5225,109 @@
     {
       "path": "data/boundaries/counties_co.geojson",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/amenities/healthcare_co.geojson",
       "name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/amenities/schools_co.geojson",
       "name": "OpenStreetMap — Overpass API (School nodes)",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/amenities/retail_nodes_co.geojson",
       "name": "OpenStreetMap — Overpass API (Retail node clusters)",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/policy/prop123_jurisdictions.json",
       "name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/chfa-lihtc.json",
       "name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co-county-demographics.json",
       "name": "US Census Bureau — ACS 5-Year County-Level Demographics",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co-county-economic-indicators.json",
       "name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/dda-colorado.json",
       "name": "HUD — Difficult Development Areas (DDA) Designations",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/qct-colorado.json",
       "name": "HUD — Qualified Census Tracts (QCT) Designations",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co-county-boundaries.json",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries (Primary Cache)",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/census-acs-state.json",
       "name": "US Census Bureau — ACS 5-Year State-Level Estimates",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co_ami_gap_by_county.json",
       "name": "CHFA / HUD — Colorado AMI Gap Analysis by County",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co-demographics.json",
       "name": "US Census Bureau — Colorado Statewide Demographics",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/co-historical-allocations.json",
       "name": "CHFA — Colorado LIHTC Historical Allocation History",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/allocations.json",
       "name": "CHFA — Colorado LIHTC Allocation Ledger",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/lihtc-trends-by-county.json",
       "name": "CHFA — Colorado LIHTC Allocation Trends by County",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/states-10m.json",
       "name": "Natural Earth / US Atlas — US State Boundaries (10m)",
-      "daysSince": 824
+      "daysSince": 825
     },
     {
       "path": "data/market/nhpd_co.geojson",
       "name": "National Housing Preservation Database (NHPD) — Colorado Assisted Housing",
-      "daysSince": 458
+      "daysSince": 459
     },
     {
       "path": "data/hna/chas_affordability_gap.json",
       "name": "HUD CHAS — Colorado Affordability Gap Analysis (Derived)",
-      "daysSince": 458
+      "daysSince": 459
     }
   ],
   "agingEntries": [
     {
       "path": "data/hud-fmr-income-limits.json",
       "name": "HUD — FY2025 Fair Market Rents & Income Limits",
-      "daysSince": 368
+      "daysSince": 369
     }
   ]
 }

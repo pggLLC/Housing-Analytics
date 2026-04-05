@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-04T07:41:14.109Z
+**Scan timestamp:** 2026-04-05T07:48:00.763Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 896 |
-| New (unregistered) | 865 |
+| Files scanned | 900 |
+| New (unregistered) | 869 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -94,7 +94,7 @@
 - `data/hna/dola_sya/08123.json` (3 KB)
 - `data/hna/dola_sya/08125.json` (3 KB)
 - `data/hna/geo-config.json` (64 KB)
-- `data/hna/geography-registry.json` (68 KB)
+- `data/hna/geography-registry.json` (124 KB)
 - `data/hna/lehd/08.json` (2 KB)
 - `data/hna/lehd/08001.json` (3 KB)
 - `data/hna/lehd/08003.json` (3 KB)
@@ -863,46 +863,50 @@
 - `data/market/inclusionary_zoning_co.json` (7 KB)
 - `data/market/lodes_co.json` (242 KB)
 - `data/market/opportunity_zones_co.geojson` (0 KB)
-- `data/market/parcel_aggregates_co.json` (0 KB)
+- `data/market/parcel_aggregates_co.json` (3 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (0 KB)
 - `data/market/tract_boundaries_co.geojson` (0 KB)
-- `data/market/transit_routes_co.geojson` (0 KB)
+- `data/market/transit_routes_co.geojson` (52303 KB)
 - `data/market/utility_capacity_co.geojson` (0 KB)
 - `data/market/walkability_scores_co.json` (0 KB)
-- `data/market/zoning_compat_index_co.json` (0 KB)
+- `data/market/zillow_co_metros.json` (103 KB)
+- `data/market/zoning_compat_index_co.json` (3 KB)
 - `data/policy/chfa-awards-historical.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (4 KB)
 - `data/policy_briefs.json` (7 KB)
+- `data/zillow/median_list_price_metro.csv` (798 KB)
+- `data/zillow/zhvi_metro.csv` (4271 KB)
+- `data/zillow/zori_metro.csv` (958 KB)
 - `config/data-discovery-config.json` (1 KB)
 
 ## ⚠ Stale Sources
 
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 824 days since last update
-- **undefined** — 458 days since last update
-- **undefined** — 458 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 825 days since last update
+- **undefined** — 459 days since last update
+- **undefined** — 459 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 368 days since last update
+- undefined — 369 days since last update
