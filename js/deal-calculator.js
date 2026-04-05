@@ -735,13 +735,18 @@
           }
         }
       };
+      var _populated = false;
       var _doPopulate = function () {
+        if (_populated) return;          // already done
         if (window.HudFmr) {
           if (window.HudFmr.isLoaded()) {
+            _populated = true;
             populateCountySelector(countySel);
             _afterPopulate();
           } else {
             window.HudFmr.load().then(function () {
+              if (_populated) return;
+              _populated = true;
               populateCountySelector(countySel);
               _afterPopulate();
             });
@@ -751,6 +756,8 @@
           setTimeout(_doPopulate, 500);
         }
       };
+      // Listen for the custom event (faster path) AND keep polling as fallback
+      document.addEventListener('HudFmr:loaded', _doPopulate);
       setTimeout(_doPopulate, 200);
 
       countySel.addEventListener('change', function () {
