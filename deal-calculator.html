@@ -34,6 +34,7 @@
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
+  <script defer src="js/deal-comparison.js"></script>
 </head>
 <body data-page-last-updated="2026-04-01"
       data-page-source="HUD FMR · CHFA · IRC §42">
@@ -100,6 +101,16 @@
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
       <div id="dealCalcMount"></div>
+    </div>
+
+    <!-- ── Scenario Save / Comparison ─────────────────────────────────── -->
+    <div style="max-width:1200px;margin:16px auto 0;padding:0 18px;">
+      <div class="dc-scenario-actions">
+        <button type="button" class="dc-scenario-btn dc-scenario-btn--a" id="dcSaveAsA">Save current as Scenario A</button>
+        <button type="button" class="dc-scenario-btn dc-scenario-btn--b" id="dcSaveAsB">Save current as Scenario B</button>
+      </div>
+      <div id="dcComparisonBar"></div>
+      <div id="dcComparisonPanel" style="display:none;"></div>
     </div>
 
     <!-- LIHTC contextual tips (Deal Calculator step) -->
@@ -293,6 +304,109 @@
       line-height: 1.5;
       margin-top: 4px;
     }
+
+    /* ── Scenario comparison styles ──────────────────────────────── */
+    .dc-scenario-actions {
+      display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .dc-scenario-btn {
+      padding: 8px 18px; font-size: .85rem; font-weight: 600;
+      border-radius: 6px; cursor: pointer; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); transition: all .15s;
+    }
+    .dc-scenario-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .dc-scenario-btn--a { border-left: 3px solid var(--accent); }
+    .dc-scenario-btn--b { border-left: 3px solid var(--info, #2563eb); }
+
+    .dc-comp-bar {
+      padding: 12px 16px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .dc-comp-bar__title {
+      font-size: .9rem; font-weight: 700; color: var(--text-strong, var(--text));
+      margin: 0; flex-shrink: 0;
+    }
+    .dc-comp-bar__slots { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+    .dc-comp-vs { font-size: .82rem; font-weight: 700; color: var(--muted); }
+    .dc-comp-slot {
+      flex: 1; min-width: 0; padding: 8px 12px; background: var(--bg);
+      border: 1px dashed var(--border); border-radius: 6px; font-size: .85rem;
+      display: flex; align-items: center; gap: 6px; overflow: hidden;
+    }
+    .dc-comp-slot__empty { color: var(--muted); font-style: italic; font-size: .82rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dc-comp-slot__label { font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .dc-comp-slot__name { color: var(--text-strong, var(--text)); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; }
+    .dc-comp-slot__clear { background: none; border: none; font-size: .9rem;
+      cursor: pointer; color: var(--muted); padding: 2px 4px; margin-left: auto;
+      flex-shrink: 0; line-height: 1; }
+    .dc-comp-slot__clear:hover { color: var(--bad, #dc2626); }
+    .dc-comp-bar__actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .dc-comp-action {
+      padding: 6px 14px; font-size: .82rem; font-weight: 600;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+      cursor: pointer; color: var(--text); transition: all .15s;
+    }
+    .dc-comp-action:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .dc-comp-action:disabled { opacity: .4; cursor: default; }
+    .dc-comp-action--reset:hover:not(:disabled) { border-color: var(--bad, #dc2626); color: var(--bad, #dc2626); }
+
+    /* Comparison panel */
+    #dcComparisonPanel {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 20px 24px; margin-bottom: 16px;
+    }
+    .dc-cp-header { display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; }
+    .dc-cp-title { font-size: 1rem; font-weight: 700; margin: 0; }
+    .dc-cp-close { background: none; border: none; font-size: 1.1rem; cursor: pointer;
+      color: var(--muted); padding: 4px 6px; line-height: 1; }
+    .dc-cp-close:hover { color: var(--text); }
+    .dc-cp-names {
+      display: grid; grid-template-columns: 180px 1fr 60px 1fr; gap: 8px;
+      align-items: center; margin-bottom: 14px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .dc-cp-names__label { font-size: .78rem; font-weight: 600; color: var(--muted); }
+    .dc-cp-names__a { font-weight: 700; font-size: .95rem; color: var(--accent); }
+    .dc-cp-names__b { font-weight: 700; font-size: .95rem; color: var(--info, #2563eb); }
+    .dc-cp-names__vs { text-align: center; font-weight: 700; font-size: .82rem; color: var(--muted); }
+    .dc-cp-section-title {
+      font-size: .82rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px;
+      padding-bottom: 4px; border-bottom: 1px solid var(--border);
+    }
+    .dc-cp-metrics { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+    .dc-cp-row {
+      display: grid; grid-template-columns: 180px 1fr 80px 1fr; gap: 8px;
+      align-items: center; padding: 5px 0;
+      border-bottom: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
+    }
+    .dc-cp-row:last-child { border-bottom: none; }
+    .dc-cp-row__label { font-size: .82rem; font-weight: 600; color: var(--muted); }
+    .dc-cp-row__val { display: flex; flex-direction: column; gap: 3px; }
+    .dc-cp-row__num { font-size: .88rem; font-weight: 700; font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono); color: var(--text-strong, var(--text)); }
+    .dc-cp-row__bar-wrap { height: 5px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+    .dc-cp-row__bar { height: 100%; border-radius: 3px; transition: width .4s ease; }
+    .dc-cp-row__bar--a { background: var(--accent); }
+    .dc-cp-row__bar--b { background: var(--info, #2563eb); }
+    .dc-cp-row__delta { text-align: center; font-size: .75rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .dc-cp-row__delta--better { color: var(--good, #16a34a); }
+    .dc-cp-row__delta--worse { color: var(--bad, #dc2626); }
+
+    .dc-cp-need-align { margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border); }
+    .dc-cp-need-desc { font-size: .82rem; color: var(--muted); margin: 0 0 12px; }
+
+    @media (max-width: 640px) {
+      .dc-cp-names, .dc-cp-row { grid-template-columns: 1fr; gap: 4px; }
+      .dc-cp-names__vs, .dc-cp-row__delta { display: none; }
+      .dc-comp-bar { flex-direction: column; align-items: stretch; }
+      .dc-comp-bar__slots { flex-direction: column; }
+      .dc-scenario-actions { flex-direction: column; }
+    }
   </style>
 
   <!-- ── Inline JavaScript ─────────────────────────────────────────────── -->
@@ -475,6 +589,9 @@
         }
       };
     }
+
+    // Expose for deal-comparison.js to capture snapshots
+    window._dcReadDealState = readDealState;
 
     /* ── Save to project ─────────────────────────────────────────────── */
     function saveDealToProject() {
