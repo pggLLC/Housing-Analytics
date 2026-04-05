@@ -265,25 +265,78 @@
   }
 
   /**
-   * Fetch National Transit Database (NTD) transit route and service data.
-   * STUB: NTD data is an annual bulk download; no live spatial query API exists.
-   * Returns empty stub until a server-side proxy ingesting the bulk data is available.
+   * Fetch transit route data.
+   * Loads from local transit_routes_co.geojson (GTFS-derived, 508 routes)
+   * when available; falls back to empty array otherwise.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{transitRoutes: Array, serviceMetrics: object}>}
+   * @returns {Promise<{transitRoutes: Array, serviceMetrics: object, _dataSource: string}>}
    */
   function fetchNTDData(bbox) {
-    if (!bbox) return Promise.resolve({ transitRoutes: [], serviceMetrics: {} });
-    // NTD data is annual bulk download; return empty stub for live queries
-    return Promise.resolve({ transitRoutes: [], serviceMetrics: {} });
+    if (!bbox) return Promise.resolve({ transitRoutes: [], serviceMetrics: {}, _dataSource: 'none' });
+    // Load local GTFS-derived transit routes GeoJSON
+    return getJSON('data/market/transit_routes_co.geojson')
+      .then(function (geojson) {
+        var features = (geojson && geojson.features) ? geojson.features : [];
+        if (!features.length) {
+          return { transitRoutes: [], serviceMetrics: {}, _dataSource: 'stub' };
+        }
+        // Filter features within the bounding box
+        var inBbox = features.filter(function (f) {
+          if (!f.geometry || !f.geometry.coordinates) return false;
+          var coords = f.geometry.coordinates;
+          // Check if any coordinate falls within bbox
+          return coords.some(function (c) {
+            var lon = c[0], lat = c[1];
+            return lat >= bbox.minLat && lat <= bbox.maxLat &&
+                   lon >= bbox.minLon && lon <= bbox.maxLon;
+          });
+        });
+        // Convert GeoJSON features to transit route objects for scoring
+        var routes = inBbox.map(function (f) {
+          var props = f.properties || {};
+          var coords = f.geometry.coordinates || [];
+          // Sample stops from the route linestring (every ~20th coordinate)
+          var stops = [];
+          var step = Math.max(1, Math.floor(coords.length / 10));
+          for (var i = 0; i < coords.length; i += step) {
+            stops.push({ lat: coords[i][1], lon: coords[i][0] });
+          }
+          // route_type: 0=tram, 1=subway, 2=rail, 3=bus
+          var mode = { 0: 'Tram', 1: 'Subway', 2: 'Rail', 3: 'Bus' }[props.route_type] || 'Bus';
+          // Estimate headway from route type (real headways need GTFS frequencies.txt)
+          var headway = props.route_type <= 1 ? 10 : props.route_type === 2 ? 15 : 30;
+          return {
+            routeId:        props.shape_id || 'unknown',
+            routeName:      (props.agency || 'Transit') + ' ' + mode,
+            mode:           mode,
+            headwayMinutes: headway,
+            stops:          stops
+          };
+        });
+        return {
+          transitRoutes: routes,
+          serviceMetrics: {
+            totalRoutes: routes.length,
+            busRoutes:   routes.filter(function (r) { return r.mode === 'Bus'; }).length,
+            railRoutes:  routes.filter(function (r) { return r.mode !== 'Bus'; }).length
+          },
+          _dataSource: 'local-gtfs'
+        };
+      })
+      .catch(function () {
+        return { transitRoutes: [], serviceMetrics: {}, _dataSource: 'stub' };
+      });
   }
 
   /**
    * Fetch EPA Smart Location Database transit accessibility metrics.
+   * Attempts live EPA API; on failure marks data as unavailable rather than
+   * returning misleading hardcoded scores.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{transitAccessibility: number, walkScore: number}>}
+   * @returns {Promise<{transitAccessibility: number, walkScore: number, _dataSource: string}>}
    */
   function fetchEPASmartLocation(bbox) {
-    if (!bbox) return Promise.resolve({ transitAccessibility: 50, walkScore: 50 });
+    if (!bbox) return Promise.resolve({ transitAccessibility: null, walkScore: null, _dataSource: 'none' });
     var fetcher = (typeof window.fetchWithTimeout === 'function')
       ? window.fetchWithTimeout
       : function (url) { return fetch(url); };
@@ -298,7 +351,7 @@
       })
       .then(function (data) {
         var features = (data && data.features) ? data.features : [];
-        if (!features.length) return { transitAccessibility: 50, walkScore: 50 };
+        if (!features.length) return { transitAccessibility: null, walkScore: null, _dataSource: 'epa-empty' };
         var d4aSum = 0, d3bSum = 0;
         features.forEach(function (f) {
           var a = (f.attributes || {});
@@ -307,10 +360,14 @@
         });
         return {
           transitAccessibility: Math.min(100, Math.round((d4aSum / features.length) * 5)),
-          walkScore:            Math.min(100, Math.round((d3bSum / features.length) * 5))
+          walkScore:            Math.min(100, Math.round((d3bSum / features.length) * 5)),
+          _dataSource: 'epa-live'
         };
       })
-      .catch(function () { return { transitAccessibility: 50, walkScore: 50 }; });
+      .catch(function () {
+        // EPA API failed (likely CORS) — return nulls instead of misleading 50
+        return { transitAccessibility: null, walkScore: null, _dataSource: 'epa-unavailable' };
+      });
   }
 
   /**
@@ -332,26 +389,26 @@
 
   /**
    * Fetch HUD Opportunity Atlas economic mobility data.
-   * STUB: No public real-time API; returns neutral defaults until HUD bulk data
-   * is ingested and a server-side proxy is configured.
+   * STUB: No public real-time API; returns null mobilityIndex (data unavailable)
+   * until HUD bulk data is ingested and a server-side proxy is configured.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{mobilityIndex: number, percentiles: Array}>}
+   * @returns {Promise<{mobilityIndex: number|null, percentiles: Array, _stub: boolean}>}
    */
   function fetchHudOpportunityAtlas(bbox) {
-    if (!bbox) return Promise.resolve({ mobilityIndex: 50, percentiles: [] });
-    return Promise.resolve({ mobilityIndex: 50, percentiles: [] });
+    if (!bbox) return Promise.resolve({ mobilityIndex: null, percentiles: [], _stub: true });
+    return Promise.resolve({ mobilityIndex: null, percentiles: [], _stub: true });
   }
 
   /**
    * Fetch HUD AFFH fair housing opportunity index data.
-   * STUB: No public real-time API; returns neutral defaults until HUD bulk data
-   * is ingested and a server-side proxy is configured.
+   * STUB: No public real-time API; returns null opportunityIndex (data unavailable)
+   * until HUD bulk data is ingested and a server-side proxy is configured.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{opportunityIndex: number, segregationMetrics: object}>}
+   * @returns {Promise<{opportunityIndex: number|null, segregationMetrics: object, _stub: boolean}>}
    */
   function fetchHudAFFH(bbox) {
-    if (!bbox) return Promise.resolve({ opportunityIndex: 50, segregationMetrics: {} });
-    return Promise.resolve({ opportunityIndex: 50, segregationMetrics: {} });
+    if (!bbox) return Promise.resolve({ opportunityIndex: null, segregationMetrics: {}, _stub: true });
+    return Promise.resolve({ opportunityIndex: null, segregationMetrics: {}, _stub: true });
   }
 
   /**
@@ -405,27 +462,27 @@
 
   /**
    * Fetch local utility infrastructure capacity data.
-   * STUB: No public national API exists; returns a configurable 50 % headroom
-   * default until jurisdiction-specific GIS data is available.
+   * STUB: No public national API exists; returns null values (data unavailable)
+   * until jurisdiction-specific GIS data is available.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @param {string} [jurisdiction]
-   * @returns {Promise<{sewerHeadroom: number, waterCapacity: number}>}
+   * @returns {Promise<{sewerHeadroom: number|null, waterCapacity: number|null, _stub: boolean}>}
    */
   function fetchUtilityCapacity(bbox, jurisdiction) {
-    // Utility data requires local GIS; return neutral 50 % headroom stub
-    return Promise.resolve({ sewerHeadroom: 0.5, waterCapacity: 0.5 });
+    // Utility data requires local GIS; return nulls to indicate unavailable
+    return Promise.resolve({ sewerHeadroom: null, waterCapacity: null, _stub: true });
   }
 
   /**
    * Fetch USDA Food Access Atlas data for a bounding box.
-   * STUB: USDA Food Access Atlas is a static dataset; returns empty stub until
-   * bulk data is ingested and a server-side spatial query is available.
+   * STUB: USDA Food Access Atlas is a static dataset; returns null proximityIndex
+   * (data unavailable) until bulk data is ingested and a spatial query is available.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{foodDeserts: Array, proximityIndex: number}>}
+   * @returns {Promise<{foodDeserts: Array, proximityIndex: number|null, _stub: boolean}>}
    */
   function fetchFoodAccessAtlas(bbox) {
-    if (!bbox) return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
-    return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
+    if (!bbox) return Promise.resolve({ foodDeserts: [], proximityIndex: null, _stub: true });
+    return Promise.resolve({ foodDeserts: [], proximityIndex: null, _stub: true });
   }
 
   /**
