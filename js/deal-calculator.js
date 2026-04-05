@@ -620,10 +620,10 @@
     // Supportable first mortgage
     var dcr = safeVal('dc-dcr');
     if (!isFinite(dcr) || dcr < 1.05) dcr = 1.20;
-    if (dcr > 2.0) dcr = 2.0; // cap at realistic LIHTC maximum
+    if (dcr > 2.0) dcr = 2.0;
     var interestRate = safeVal('dc-rate');
     if (!isFinite(interestRate) || interestRate < 3.0) interestRate = 6.5;
-    if (interestRate > 12.0) interestRate = 12.0; // cap at realistic upper bound
+    if (interestRate > 12.0) interestRate = 12.0;
     var term = safeVal('dc-term');
     if (!isFinite(term) || term <= 0) term = 35;
 
