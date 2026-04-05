@@ -224,9 +224,17 @@
             ds.fetchNTDData(bbox),
             ds.fetchEPASmartLocation(bbox)
           ]).then(function (res) {
-            var transitScore = pmaTransit.calculateTransitScore(lat, lon, res[0].transitRoutes || [], res[1]);
+            var ntdResult = res[0] || {};
+            var epaResult = res[1] || {};
+            var transitScore = pmaTransit.calculateTransitScore(lat, lon, ntdResult.transitRoutes || [], epaResult);
             results.transit = pmaTransit.getTransitJustification();
-            progress('transit', 'Scoring transit accessibility…');
+            // Propagate data source info
+            results.transit._ntdDataSource = ntdResult._dataSource || 'unknown';
+            results.transit._epaDataSource = epaResult._dataSource || 'unknown';
+            var label = 'Scoring transit accessibility';
+            if (ntdResult._dataSource === 'local-gtfs') label += ' (local GTFS data)';
+            if (epaResult._dataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
+            progress('transit', label + '…');
             return transitScore;
           })
           .catch(function () {

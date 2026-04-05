@@ -440,6 +440,13 @@
         landSupply:    landSupplyScore,
         workforce:     workforceScore
       },
+      dimensionDataAvailable: {
+        demand:       demandCoverage !== 'fallback',
+        captureRisk:  captureRiskCoverage !== 'fallback',
+        rentPressure: rentPressureCoverage !== 'fallback',
+        landSupply:   landSupplyCoverage !== 'fallback',
+        workforce:    wfResult.coverageLevel !== 'fallback'
+      },
       capture:         captureObj.capture,
       rentRatio:       rentPressureObj.ratio,
       flags:           flags,
@@ -507,6 +514,7 @@
     setText('pmaTractCount', result.tractCount || '—');
 
     var dims = result.dimensions;
+    var dimAvail = result.dimensionDataAvailable || {};
     var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
     var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
     var dimDescs  = [
@@ -520,15 +528,23 @@
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
         var s = dims[k] || 0;
-        var barColor = s >= 70 ? 'var(--good)' : s >= 45 ? 'var(--accent)' : s >= 25 ? 'var(--warn)' : 'var(--bad)';
+        var hasData = dimAvail[k] !== false;
+        var barColor = !hasData ? 'var(--muted, #666)' :
+          s >= 70 ? 'var(--good)' : s >= 45 ? 'var(--accent)' : s >= 25 ? 'var(--warn)' : 'var(--bad)';
+        var barOpacity = hasData ? '1' : '0.4';
+        var stubLabel = hasData ? '' :
+          ' <span style="font-size:.7em;color:var(--warn,#c0392b);font-weight:600;margin-left:.25rem" ' +
+          'title="Score based on fallback defaults — real data not available">(estimated)</span>';
         return '<li class="pma-dim-item" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">' +
-          '<span class="pma-dim-name">' + dimLabels[i] +
+          '<span class="pma-dim-name">' + dimLabels[i] + stubLabel +
             '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
           '</span>' +
           '<div class="pma-dim-bar-wrap" style="flex:1">' +
-            '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + '"></div>' +
+            '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + ';opacity:' + barOpacity + '"></div>' +
           '</div>' +
-          '<span class="pma-dim-score">' + s + '</span>' +
+          '<span class="pma-dim-score" style="' + (hasData ? '' : 'color:var(--muted,#666);font-style:italic') + '">' +
+            s + (hasData ? '' : '*') +
+          '</span>' +
         '</li>';
       }).join('') +
       '<li style="margin-top:.5rem;padding:.5rem .3rem;border-top:1px solid var(--border)">' +
@@ -546,6 +562,10 @@
                 '<span style="color:var(--warn)">■ 25–44 Marginal</span> · ' +
                 '<span style="color:var(--bad)">■ 0–24 Weak</span>' +
               '</dd></div>' +
+            '<div><dt style="font-weight:600;color:var(--warn,#c0392b)">* Estimated scores</dt>' +
+              '<dd style="margin:0;color:var(--muted)">Scores marked with * or (estimated) are based on ' +
+                'fallback defaults because real data was not available. Check the Data Coverage panel below ' +
+                'for details on which data sources are live vs. unavailable.</dd></div>' +
           '</dl>' +
         '</details>' +
       '</li>';
@@ -587,7 +607,7 @@
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
     renderDataCoverage(result);
-    updateRadarChart(result.dimensions);
+    updateRadarChart(result.dimensions, result.dimensionDataAvailable);
     updateSimulator(result);
     renderBenchmark(result);
     renderPipeline(result);
@@ -627,6 +647,58 @@
       '</tr>';
     }).join('');
 
+    // Enhanced pipeline data sources (from PMA Analysis Runner)
+    var pipelineSources = [
+      { label: 'Transit Routes', source: result._transitDataSource || null },
+      { label: 'EPA Walkability', source: result._epaDataSource || null },
+      { label: 'HUD AFFH', source: null },
+      { label: 'HUD Opp. Atlas', source: null },
+      { label: 'Utility Capacity', source: null },
+      { label: 'USDA Food Access', source: null }
+    ];
+
+    // Derive source info from the analysis runner results if available
+    var ar = result._analysisResults || {};
+    if (ar.transit) {
+      pipelineSources[0].source = ar.transit._ntdDataSource || (ar.transit.nearbyRouteCount > 0 ? 'local-gtfs' : 'stub');
+      pipelineSources[1].source = ar.transit._epaDataSource || (ar.transit.epaDataAvailable ? 'epa-live' : 'unavailable');
+    }
+    if (ar.opportunities && ar.opportunities._dataSources) {
+      pipelineSources[2].source = ar.opportunities._dataSources.affh || 'unavailable';
+      pipelineSources[3].source = ar.opportunities._dataSources.atlas || 'unavailable';
+    }
+    if (ar.infrastructure && ar.infrastructure._dataAvailability) {
+      var infraAvail = ar.infrastructure._dataAvailability;
+      pipelineSources[4].source = infraAvail.stubSources.indexOf('utility') === -1 ? 'live' : 'unavailable';
+      pipelineSources[5].source = infraAvail.stubSources.indexOf('foodAccess') === -1 ? 'live' : 'unavailable';
+    }
+
+    var pipelineRows = pipelineSources.map(function (ps) {
+      var src = ps.source || 'unavailable';
+      var isLive = src === 'live' || src === 'local-gtfs' || src === 'epa-live';
+      var levelStr = isLive ? 'live' : (src === 'stub' ? 'stub' : 'unavailable');
+      var icon = isLive ? '✓' : '—';
+      var color = isLive ? 'var(--good)' : 'var(--muted, #888)';
+      var note = isLive ? src : 'Data not available';
+      return '<tr>' +
+        '<td style="padding:.15rem .4rem;color:var(--faint)">' + ps.label + '</td>' +
+        '<td style="padding:.15rem .4rem;font-weight:600;color:' + color + '">' + icon + ' ' + levelStr + '</td>' +
+        '<td style="padding:.15rem .4rem;font-size:.78em;color:var(--faint)">' + note + '</td>' +
+      '</tr>';
+    }).join('');
+
+    var fallbackNote = '';
+    var fallbackCount = dims.filter(function (d) { return (cov[d.key] || 'fallback') === 'fallback'; }).length;
+    var pipelineUnavail = pipelineSources.filter(function (ps) {
+      var src = ps.source || 'unavailable';
+      return src === 'unavailable' || src === 'stub' || !src;
+    }).length;
+    if (fallbackCount > 0 || pipelineUnavail > 0) {
+      fallbackNote = '<p style="margin:.5rem 0 0;font-size:.75em;color:var(--warn,#c0392b);font-style:italic;">' +
+        'Scores marked (est.) or with unavailable data sources use default assumptions. ' +
+        'See fallback reasons above for details.</p>';
+    }
+
     coverageEl.innerHTML =
       '<table style="width:100%;border-collapse:collapse;font-size:.82em">' +
         '<thead><tr>' +
@@ -635,16 +707,23 @@
           '<th style="text-align:left;padding:.15rem .4rem;color:var(--faint);font-weight:400">Notes</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
-      '</table>';
+      '</table>' +
+      '<h5 style="margin:.75rem 0 .25rem;font-size:.82em;color:var(--faint)">Enhanced Pipeline Sources</h5>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:.82em">' +
+        '<tbody>' + pipelineRows + '</tbody>' +
+      '</table>' +
+      fallbackNote;
   }
 
   /* ── Radar chart ─────────────────────────────────────────────────── */
   var radarChart = null;
 
-  function updateRadarChart(dims) {
+  function updateRadarChart(dims, dimAvail) {
     var canvas = el('pmaRadarChart');
     if (!canvas || !window.Chart) return;
 
+    dimAvail = dimAvail || {};
+    var dimKeys = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
     var data = [
       dims.demand,
       dims.captureRisk,
@@ -652,28 +731,51 @@
       dims.landSupply,
       dims.workforce
     ];
+
+    // Per-point colors: muted for estimated, accent for real data
     var cs = getComputedStyle(document.documentElement);
     var accent = cs.getPropertyValue('--accent').trim() || '#0a7e74';
     var muted  = cs.getPropertyValue('--muted').trim()  || '#476080';
     var border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.11)';
+    var warnColor = cs.getPropertyValue('--warn').trim() || '#c0392b';
+
+    var pointColors = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? accent : (muted || '#999');
+    });
+    var pointStyles = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? 'circle' : 'triangle';
+    });
+    var pointRadii = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? 3 : 5;
+    });
+
+    // Labels: append "(est.)" for estimated dimensions
+    var labels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'].map(function (lbl, i) {
+      return dimAvail[dimKeys[i]] !== false ? lbl : lbl + ' (est.)';
+    });
 
     if (radarChart) {
+      radarChart.data.labels = labels;
       radarChart.data.datasets[0].data = data;
+      radarChart.data.datasets[0].pointBackgroundColor = pointColors;
+      radarChart.data.datasets[0].pointStyle = pointStyles;
+      radarChart.data.datasets[0].pointRadius = pointRadii;
       radarChart.update();
       return;
     }
     radarChart = new window.Chart(canvas, {
       type: 'radar',
       data: {
-        labels: ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'],
+        labels: labels,
         datasets: [{
           label: 'PMA Score',
           data: data,
           borderColor: accent,
           backgroundColor: 'rgba(14,165,160,.15)',
-          pointBackgroundColor: accent,
-          borderWidth: 2,
-          pointRadius: 3
+          pointBackgroundColor: pointColors,
+          pointStyle: pointStyles,
+          pointRadius: pointRadii,
+          borderWidth: 2
         }]
       },
       options: {
@@ -1285,6 +1387,115 @@
     legend.addTo(map);
   }
 
+  /* ── PMA layer toggle wiring ───────────────────────────────────── */
+  var LAYER_CONFIG = {
+    lihtc:             { src: null, style: null },                                                           // handled by initOverlayLayers
+    sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
+    transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
+    schools:           { src: 'market/schools_co.geojson',                    pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 } },
+    flood:             { src: 'market/flood_zones_co.geojson',                style: { color: '#3b82f6', weight: 1, fillOpacity: 0.2 } },
+    barriers:          { src: 'market/environmental_constraints_co.geojson',  style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
+    commuting:         { src: null },   // no GeoJSON available
+    employmentCenters: { src: null },   // no GeoJSON available
+    infrastructure:    { src: null },   // no GeoJSON available
+    parcelZoning:      { src: null },   // no GeoJSON available
+    listings:          { src: null }    // handled externally (Bridge API)
+  };
+
+  var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
+
+  function initLayerToggles() {
+    var L = window.L;
+    var DS = window.DataService;
+    if (!L || !map) { console.warn('[market-analysis] initLayerToggles: Leaflet or map not ready'); return; }
+
+    var checkboxes = document.querySelectorAll('.pma-layer-toggle');
+    for (var i = 0; i < checkboxes.length; i++) {
+      (function (cb) {
+        var key = cb.getAttribute('data-layer');
+        if (!key) return;
+
+        var cfg = LAYER_CONFIG[key];
+
+        // Skip keys not in config (e.g. future additions)
+        if (!cfg) return;
+
+        // Disable checkboxes for layers with no data source and no special handling
+        if (!cfg.src && key !== 'lihtc' && key !== 'listings') {
+          cb.disabled = true;
+          var noData = document.createElement('small');
+          noData.textContent = ' (no data)';
+          noData.style.color = 'var(--muted, #94a3b8)';
+          cb.parentNode.appendChild(noData);
+          return;
+        }
+
+        // LIHTC toggle — wire to existing lihtcLayer from initOverlayLayers
+        if (key === 'lihtc') {
+          cb.addEventListener('change', function () {
+            if (!lihtcLayer) return;
+            if (cb.checked) {
+              if (!map.hasLayer(lihtcLayer)) lihtcLayer.addTo(map);
+            } else {
+              map.removeLayer(lihtcLayer);
+            }
+          });
+          return;
+        }
+
+        // Listings — skip, handled by external Bridge API integration
+        if (key === 'listings') return;
+
+        // Standard GeoJSON layers
+        cb.addEventListener('change', function () {
+          if (cb.checked) {
+            // Already cached — just re-add to map
+            if (_mapLayers[key]) {
+              if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
+              return;
+            }
+            // Fetch and create layer
+            var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(cfg.src) : ('data/' + cfg.src);
+            var fetchPromise = (DS && typeof DS.getJSON === 'function')
+              ? DS.getJSON(url)
+              : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+
+            fetchPromise.then(function (gj) {
+              if (!gj || !gj.features || gj.features.length === 0) {
+                console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
+                return;
+              }
+              var opts = {};
+              if (cfg.pointStyle) {
+                opts.pointToLayer = function (feature, latlng) {
+                  return L.circleMarker(latlng, cfg.pointStyle);
+                };
+              }
+              if (cfg.style) {
+                opts.style = cfg.style;
+              }
+              opts.onEachFeature = function (feature, layer) {
+                var p = feature.properties || {};
+                var name = p.NAME || p.name || p.NAMELSAD || p.Name || '';
+                if (name) layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
+              };
+              _mapLayers[key] = L.geoJSON(gj, opts);
+              _mapLayers[key].addTo(map);
+            }).catch(function (err) {
+              console.warn('[market-analysis] Failed to load layer "' + key + '":', err);
+            });
+          } else {
+            // Unchecked — remove from map
+            if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) {
+              map.removeLayer(_mapLayers[key]);
+            }
+          }
+        });
+      })(checkboxes[i]);
+    }
+  }
+
   /* ── Load overlay GeoJSON files ──────────────────────────────────── */
   function loadOverlays() {
     var DS = window.DataService;
@@ -1680,6 +1891,7 @@
   /* ── Init ───────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     initMap();
+    initLayerToggles();
     bindBufferSelect();
     bindRunBtn();
     bindAmiInputs();
