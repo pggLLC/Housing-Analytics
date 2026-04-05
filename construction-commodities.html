@@ -17,6 +17,7 @@
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
 <script src="js/vendor/chart.umd.min.js"></script>
+<script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
@@ -133,6 +134,25 @@
                 ? commodities[0].history.filter(h => h && h.date).map(h => h.date)
                 : [];
             
+            // Build policy-event annotations based on which dates appear in the labels
+            var policyAnnotations = {};
+            var covidLabel = labels.find(function(l) { return /^2020-03/.test(l) || l === '2020-03-01'; });
+            if (covidLabel) {
+                policyAnnotations.covid = {
+                    type: 'line', xMin: covidLabel, xMax: covidLabel,
+                    borderColor: 'rgba(220,38,38,0.5)', borderWidth: 2, borderDash: [6,4],
+                    label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220,38,38,0.7)', font: { size: 10 } }
+                };
+            }
+            var prop123Label = labels.find(function(l) { return /^2022-11/.test(l) || /^2022-12/.test(l) || l === '2022-11-01'; });
+            if (prop123Label) {
+                policyAnnotations.prop123 = {
+                    type: 'line', xMin: prop123Label, xMax: prop123Label,
+                    borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4],
+                    label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } }
+                };
+            }
+
             new Chart(ctx, {
                 type: 'line',
                 data: { labels, datasets },
@@ -157,6 +177,9 @@
                         },
                         title: {
                             display: false
+                        },
+                        annotation: {
+                            annotations: policyAnnotations
                         }
                     }
                 }

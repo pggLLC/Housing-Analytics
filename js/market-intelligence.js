@@ -715,6 +715,19 @@
       'rgba(239,68,68,1)', 'rgba(34,197,94,1)', 'rgba(168,85,247,1)'
     ];
 
+    // Build policy-event annotations based on which years appear in the data
+    var yearLabels = years.map(String);
+    var trendAnnotations = {};
+    if (yearLabels.indexOf('2020') !== -1) {
+      trendAnnotations.covid = { type: 'line', xMin: '2020', xMax: '2020', borderColor: 'rgba(220,38,38,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220,38,38,0.7)', font: { size: 10 } } };
+    }
+    if (yearLabels.indexOf('2022') !== -1) {
+      trendAnnotations.prop123 = { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } };
+    }
+    if (yearLabels.indexOf('2023') !== -1) {
+      trendAnnotations.ahcia = { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } };
+    }
+
     if (selectedCounty && trends.counties[selectedCounty]) {
       // Single county: bar chart
       var countyData = trends.counties[selectedCounty];
@@ -722,7 +735,7 @@
       lihtcTrendChartInst = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: years.map(String),
+          labels: yearLabels,
           datasets: [{
             label: selectedCounty + ' County — LIHTC Projects',
             data: values,
@@ -733,7 +746,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          plugins: { legend: { display: false }, annotation: { annotations: trendAnnotations } },
           scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
       });
@@ -762,11 +775,11 @@
 
       lihtcTrendChartInst = new Chart(ctx, {
         type: 'line',
-        data: { labels: years.map(String), datasets: datasets },
+        data: { labels: yearLabels, datasets: datasets },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+          plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }, annotation: { annotations: trendAnnotations } },
           scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
       });
