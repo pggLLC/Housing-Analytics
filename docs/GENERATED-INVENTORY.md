@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T11:17:45.653Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T11:28:23.264Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.3 KB |
+| `LIHTC-dashboard.html` | Redirecting… | 280 B |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.2 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
@@ -32,7 +32,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 25.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.1 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.4 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 20.9 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 55.2 KB |
