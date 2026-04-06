@@ -36,6 +36,7 @@
   let _metadata       = {};
   let _metricsConfig  = [];
   let _scorecardData  = {};   // housing-policy-scorecard.json scores
+  let _econData       = {};   // co-county-economic-indicators.json — keyed by county name
   let _renderedCount  = 0;
 
   // -------------------------------------------------------------------------
@@ -47,14 +48,16 @@
       ? window.safeFetchJSON
       : (u) => fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 
-    const [data, scorecard] = await Promise.all([
+    const [data, scorecard, econ] = await Promise.all([
       fetcher(DATA_PATH),
       fetcher(SCORECARD_PATH).catch(() => ({ scores: {} })),
+      fetcher('data/co-county-economic-indicators.json').catch(() => null),
     ]);
     _allEntries    = data.rankings || [];
     _metadata      = data.metadata || {};
     _metricsConfig = data.metrics  || [];
     _scorecardData = (scorecard && scorecard.scores) || {};
+    _econData      = (econ && econ.counties) || {};
 
     _filteredEntries = _allEntries.slice();
     return data;
@@ -76,6 +79,18 @@
         const scB = _scorecardData[b.geoid];
         const av = scA ? scA.totalScore : -Infinity;
         const bv = scB ? scB.totalScore : -Infinity;
+        return dir === 'asc' ? av - bv : bv - av;
+      }
+      // Unemployment rate comes from econ data, not entry.metrics
+      if (metric === 'unemployment_rate') {
+        const econLookup = (entry) => {
+          if (entry.type !== 'county') return null;
+          const cName = entry.name.replace(/\s+County$/i, '').trim();
+          const cData = _econData[cName];
+          return cData ? cData.unemployment_rate : null;
+        };
+        const av = econLookup(a) ?? Infinity; // nulls sort to bottom for asc
+        const bv = econLookup(b) ?? Infinity;
         return dir === 'asc' ? av - bv : bv - av;
       }
       const av = _sanitize(a.metrics[metric]) ?? -Infinity;
@@ -184,6 +199,7 @@
     { id: 'population',                 label: 'Population',                mobileLabel: 'Population',       tip: 'Total resident population (ACS 2024 5-year estimates)' },
     { id: 'median_hh_income',           label: 'Median HH\nIncome',         mobileLabel: 'Median Income',    tip: 'Median household income in dollars (ACS 2024). Higher income areas may still have affordability gaps.' },
     { id: 'pct_renters',                label: '% Renters',                 mobileLabel: '% Renters',        tip: 'Share of occupied housing units that are renter-occupied (ACS 2024 tenure data)' },
+    { id: 'unemployment_rate',          label: 'Unemp.\nRate',              mobileLabel: 'Unemp. Rate', isEcon: true, tip: 'Unemployment rate from BLS LAUS (counties only). Lower values indicate a healthier labour market.' },
   ];
 
   function renderRow(entry, total) {
@@ -214,6 +230,19 @@
           }
           const cls = sc.totalScore >= 4 ? 'hca-commit-high' : sc.totalScore >= 2 ? 'hca-commit-mid' : 'hca-commit-low';
           return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}"><span class="hca-commit-badge ${cls}" title="${sc.totalScore} of ${sc.knownDimensions} housing commitment dimensions confirmed">${sc.totalScore}/${sc.knownDimensions}</span></td>`;
+        }
+        if (col.isEcon) {
+          // Unemployment rate: only available for county-type entries; look up by county name
+          if (entry.type !== 'county') {
+            return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}" title="County-level data only">—</td>`;
+          }
+          // County name in entry is like "Adams County"; strip " County" for the key
+          const cName = entry.name.replace(/\s+County$/i, '').trim();
+          const cData = _econData[cName];
+          const ur = cData ? cData[col.id] : null;
+          const urStr = ur != null ? ur.toFixed(1) + '%' : '—';
+          return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}">${urStr}</td>`;
+        }
         }
         const val = entry.metrics[col.id];
         const unit = getMetricUnit(col.id);
