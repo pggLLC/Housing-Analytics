@@ -235,13 +235,12 @@ fallback, trying each source in order and using the first that returns valid dat
 | Tier | Source | Features | Schema | Update Cadence |
 |------|--------|----------|--------|---------------|
 | **1** | `data/chfa-lihtc.json` | 716 | CHFA canonical | Weekly (Mon 05:00 UTC) |
-| **2** | `data/hna/lihtc/{fips5}.json` | Per-county split | CHFA canonical | Weekly (same CI run) |
-| **3** | `data/market/hud_lihtc_co.geojson` | 716 | HUD-compatible† | Weekly (same CI run) |
-| **4** | Live CHFA ArcGIS FeatureServer | ~716 | CHFA (raw) | Real-time, 15 s timeout |
-| **5** | Live HUD ArcGIS FeatureServer | ~716 | HUD (raw) | Real-time, 15 s timeout |
-| **6** | Embedded sentinel records | ~10 | CHFA canonical | Static (hard-coded) |
+| **2** | `data/market/hud_lihtc_co.geojson` | 716 | Dual (CHFA + HUD)† | Weekly (same CI run) |
+| **3** | Live CHFA ArcGIS FeatureServer | ~716 | CHFA (raw) | Real-time, 15 s timeout |
+| **4** | Live HUD ArcGIS FeatureServer | ~716 | HUD (raw) | Real-time, 15 s timeout |
+| **5** | Embedded sentinel records | ~10 | CHFA canonical | Static (hard-coded) |
 
-† Tier 3 is rebuilt from Tier 1 by `scripts/normalize-lihtc-to-hud-schema.js` after each fetch.
+† Tier 2 is rebuilt from Tier 1 by `scripts/normalize-lihtc-to-hud-schema.js` after each fetch, carrying both CHFA and HUD-compatible field names.
 
 **Field normalization:** The connector maps HUD field names to the CHFA canonical schema
 (`PROJECT_NAME → PROJECT`, `CITY → PROJ_CTY`, `TOTAL_UNITS → N_UNITS`,
