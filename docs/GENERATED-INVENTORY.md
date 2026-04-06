@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T11:56:20.627Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T11:57:46.687Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.9 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 116.3 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 117.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 714 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
@@ -28,11 +28,11 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.8 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 41.1 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.1 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 41.3 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.2 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.9 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 21.0 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
