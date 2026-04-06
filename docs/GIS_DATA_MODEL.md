@@ -226,6 +226,30 @@ Stores a score calculation result with full explainability.
 
 ### 3.1 LIHTC Inventory
 
+#### Canonical Source Priority
+
+All maps and analysis pages must route LIHTC data loading through `window.HudLihtc.load()`
+from `js/data-connectors/hud-lihtc.js`. This connector implements the following 5-tier
+fallback, trying each source in order and using the first that returns valid data:
+
+| Tier | Source | Features | Schema | Update Cadence |
+|------|--------|----------|--------|---------------|
+| **1** | `data/chfa-lihtc.json` | 716 | CHFA canonical | Weekly (Mon 05:00 UTC) |
+| **2** | `data/market/hud_lihtc_co.geojson` | 716 | Dual (CHFA + HUD)† | Weekly (same CI run) |
+| **3** | Live CHFA ArcGIS FeatureServer | ~716 | CHFA (raw) | Real-time, 15 s timeout |
+| **4** | Live HUD ArcGIS FeatureServer | ~716 | HUD (raw) | Real-time, 15 s timeout |
+| **5** | Embedded sentinel records | ~10 | CHFA canonical | Static (hard-coded) |
+
+† Tier 2 is rebuilt from Tier 1 by `scripts/normalize-lihtc-to-hud-schema.js` after each fetch, carrying both CHFA and HUD-compatible field names.
+
+**Field normalization:** The connector maps HUD field names to the CHFA canonical schema
+(`PROJECT_NAME → PROJECT`, `CITY → PROJ_CTY`, `TOTAL_UNITS → N_UNITS`,
+`YEAR_ALLOC → YR_ALLOC`, `CREDIT_PCT → CREDIT`) before returning features, so all
+consumers receive a consistent schema regardless of which tier supplied the data.
+
+**Never load LIHTC data directly** in page-level scripts. All loading must go through
+`window.HudLihtc.load()` to ensure the most complete and current data is used first.
+
 **Canonical fetch script:** `scripts/fetch-chfa-lihtc.js` — run weekly by `.github/workflows/fetch-chfa-lihtc.yml`.
 
 **Update cadence:** Every Monday at 05:00 UTC (offset 1 h after the QCT/DDA cache at 04:00).  Run manually via the GitHub Actions UI ("Fetch CHFA LIHTC Data" → "Run workflow") whenever:
@@ -235,9 +259,9 @@ Stores a score calculation result with full explainability.
 
 1. **Fetch**: `fetch-chfa-lihtc.yml` runs `scripts/fetch-chfa-lihtc.js`, which queries the CHFA ArcGIS FeatureServer (CHFA primary → HUD ArcGIS fallback) for all Colorado LIHTC projects.
 2. **Transform**: Raw ArcGIS features normalized to the `Property` schema; FIPS codes zero-padded to 5 digits; `fetchedAt` ISO-8601 UTC timestamp and `source` URL written to the top-level JSON envelope.
-3. **Cache**: Written to `data/chfa-lihtc.json` (GeoJSON FeatureCollection with `fetchedAt` / `source` metadata); also split per-county to `data/hna/lihtc/{fips5}.json` by `scripts/split-lihtc-by-county.js`.
-4. **Serve**: `co-lihtc-map.js` uses a four-tier fallback: CHFA ArcGIS → HUD ArcGIS → `data/chfa-lihtc.json` → embedded JSON. When reading from the local file, the `fetchedAt` date is displayed in the `#map-status` bar (e.g. "Source: local backup (716 projects) · cache: 2025-10-14").
-5. **HNA page**: `housing-needs-assessment.js` also reads `data/chfa-lihtc.json`; the `fetchedAt` date is shown in `#lihtcMapStatus` (e.g. "Source: local · cache: 2025-10-14").
+3. **Cache**: Written to `data/chfa-lihtc.json` (GeoJSON FeatureCollection with `fetchedAt` / `source` metadata); also split per-county to `data/hna/lihtc/{fips5}.json` by `scripts/split-lihtc-by-county.js`; and re-written to `data/market/hud_lihtc_co.geojson` with HUD-compatible field names by `scripts/normalize-lihtc-to-hud-schema.js`.
+4. **Serve**: All pages call `window.HudLihtc.load()`, which tries `data/chfa-lihtc.json` first. When reading from the local file, the `fetchedAt` date is surfaced via `HudLihtc.getFetchedAt()` and displayed in status bars.
+5. **HNA page**: `hna-controller.js` also reads per-county `data/hna/lihtc/{fips5}.json` directly for county-level views (county cache → statewide chfa-lihtc.json → live ArcGIS → embedded).
 
 ### 3.2 Prop 123 Jurisdictions
 
