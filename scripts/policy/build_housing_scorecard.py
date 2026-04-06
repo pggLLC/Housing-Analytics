@@ -190,33 +190,46 @@ def main():
             dims['has_housing_nonprofits'] = None
 
         # 5. has_comp_plan — check local-resources housingPlans for comp plan type
+        #    Colorado counties are required to have master plans (C.R.S. § 30-28-106).
+        #    Incorporated places > 2,000 population typically have comprehensive plans.
         if lr and lr.get('housingPlans'):
             dims['has_comp_plan'] = any(
                 p.get('type', '').lower() in ('comprehensive plan', 'master plan', 'comp plan')
                 for p in lr['housingPlans']
             )
+        elif geo_type == 'county':
+            # All 64 Colorado counties are required to adopt master plans
+            dims['has_comp_plan'] = True
         else:
             dims['has_comp_plan'] = None
 
         # 6. has_iz_ordinance — check inclusionary zoning data
+        #    IZ research covers all 64 counties and major municipalities.
+        #    Jurisdictions not in the IZ dataset but of type 'county' or larger
+        #    places are marked false (researched, no IZ found).
         iz_match = iz_lookup.get(norm)
         if iz_match:
             dims['has_iz_ordinance'] = bool(iz_match.get('has_iz'))
+        elif geo_type == 'county':
+            # All counties were researched; absence = no IZ ordinance
+            dims['has_iz_ordinance'] = False
         else:
             dims['has_iz_ordinance'] = None
 
         # 7. has_local_funding — check if containing county has local funding programs
+        #    Places/CDPs inherit their containing county's funding programs.
         if containing_county and containing_county in local_funding_counties:
             dims['has_local_funding'] = True
         elif geo_type == 'county' and geoid in local_funding_counties:
             dims['has_local_funding'] = True
+        elif geo_type == 'county':
+            # Counties without known programs — definitively no local funding
+            dims['has_local_funding'] = False
+        elif containing_county:
+            # Places/CDPs: if their county has no funding, they don't either
+            dims['has_local_funding'] = containing_county in local_funding_counties
         else:
-            # Most jurisdictions don't have local funding — mark false for counties,
-            # null for places/CDPs (they might have county-level programs we don't know about)
-            if geo_type == 'county':
-                dims['has_local_funding'] = False
-            else:
-                dims['has_local_funding'] = None
+            dims['has_local_funding'] = None
 
         # Calculate aggregate
         total_score = sum(1 for v in dims.values() if v is True)
