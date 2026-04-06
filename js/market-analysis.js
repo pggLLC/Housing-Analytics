@@ -1026,7 +1026,7 @@
       return;
     }
     var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
+    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
     var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts);
 
@@ -1368,9 +1368,9 @@
         },
         onEachFeature: function (f, layer) {
           var p = f.properties || {};
-          var name = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-          var units = p.TOTAL_UNITS || p.total_units || '?';
-          var year  = p.YEAR_ALLOC  || p.year_alloc  || '';
+          var name = p.PROJECT || p.PROJECT_NAME || p.project_name || 'LIHTC Project';
+          var units = p.N_UNITS || p.TOTAL_UNITS || p.total_units || '?';
+          var year  = p.YR_ALLOC || p.YEAR_ALLOC  || p.year_alloc  || '';
           var prop123Badge = isInProp123Jurisdiction(f) ? '<br><span style="color:#7c3aed;font-weight:600">✓ Prop 123 Jurisdiction</span>' : '';
           layer.bindTooltip(
             name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : '') + prop123Badge,
@@ -1749,7 +1749,9 @@
     return Promise.all([
       fetchFile('market/tract_centroids_co.json'),
       fetchFile('market/acs_tract_metrics_co.json'),
-      fetchFile('market/hud_lihtc_co.geojson')
+      (window.HudLihtc ? window.HudLihtc.load() : fetchFile('market/hud_lihtc_co.geojson')).catch(function (e) {
+        return { _loadError: true, _missing: true, _msg: e && e.message };
+      })
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
