@@ -194,8 +194,8 @@
 | `test/demographic_projections_test.py` | ✅ Implemented | Python tests for cohort component model, headship rates, housing demand projections |
 | `test/economic_indicators_test.py` | ✅ Implemented | Python tests for employment growth, wage trends, industry concentration, job accessibility |
 | `test/build_counties_co_test.py` | ✅ Implemented | Python tests for county boundary builder resilience |
-| `test/lighthouse-audit.js` | 🟡 Stub | Lighthouse runner — hardcoded to `colorado-deep-dive.html`, no CI integration |
-| `test/website-monitor.js` | 🟡 Stub | Link crawler scaffold — `startUrl` is a placeholder, scan logic incomplete |
+| `test/lighthouse-audit.js` | ✅ Implemented | Zero-dependency HTML structure and accessibility checker — scans all pages for lang, h1, alt text, viewport, title |
+| `test/website-monitor.js` | ✅ Implemented | Zero-dependency local link checker — validates all asset references across all HTML pages |
 
 > **Note:** `test/` and `tests/` are split directories. `test/` uses plain Node.js/Python harnesses; `tests/` uses pytest. These should be consolidated into a single `tests/` directory.
 
@@ -230,7 +230,7 @@
 |------|--------|-------|
 | `tools/check-links.mjs` | ✅ Implemented | Dead-link checker for GitHub Pages |
 | `tools/streamline-preflight.js` | ✅ Implemented | SEO/compliance preflight verification |
-| `tools/copilot_apply_hardening.js` | 🟡 Stub | Placeholder — contains only comment lines, no implementation |
+| `tools/copilot_apply_hardening.js` | 🗑 Deleted | Removed — was empty comment-only stub with no implementation |
 
 ---
 
@@ -263,7 +263,7 @@
 |--------|-------|
 | ✅ Implemented | 120 |
 | 🔶 Partial | 0 |
-| 🟡 Stub | 3 |
+| 🟡 Stub | 0 |
 | 📦 Legacy | 10 |
 | 🔧 Needs Refactor | 4 |
 | **Total** | **137** |
@@ -312,12 +312,10 @@ The following files are candidates for archival to `_dev/` or outright deletion:
 | `js/data.js` | Superseded by `data-service-portable.js` |
 | `docs/EXAMPLE-USAGE.html` | Unreferenced old-style usage example |
 
-### 10. Stub Completion
-Three files are pure stubs with no implementation:
-
-- **`tools/copilot_apply_hardening.js`** — Contains only comment lines. Should either be implemented (security-hardening automation) or deleted.
-- **`test/lighthouse-audit.js`** — Hardcoded to a single page, not wired to CI. Should be generalized to test all critical pages and added to the CI gate.
-- **`test/website-monitor.js`** — `startUrl` is a placeholder, scan logic incomplete. Should complete the link crawler and add to CI.
+### 10. ~~Stub Completion~~ ✅ RESOLVED
+- **`tools/copilot_apply_hardening.js`** — Deleted (was empty comment-only stub).
+- **`test/lighthouse-audit.js`** — Rewritten as zero-dependency HTML structure and accessibility checker. Scans all 49 HTML pages for lang attributes, heading structure, alt text, inline handlers, viewport meta, and title elements.
+- **`test/website-monitor.js`** — Rewritten as zero-dependency local link checker. Validates 839 asset references (CSS, JS, data, images) across all HTML pages.
 
 ---
 
