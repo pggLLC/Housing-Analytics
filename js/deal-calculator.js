@@ -8,6 +8,7 @@
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
+  var _amiGapData = null;   // cached co_ami_gap_by_county.json
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -698,6 +699,112 @@
   }
 
   // -------------------------------------------------------------------
+  // AMI gap display + deal predictor integration
+  // -------------------------------------------------------------------
+
+  /**
+   * Find the county record in the AMI gap data by FIPS.
+   */
+  function _findAmiGapCounty(fips) {
+    if (!_amiGapData || !_amiGapData.counties || !fips) return null;
+    var target = String(fips).padStart(5, '0');
+    for (var i = 0; i < _amiGapData.counties.length; i++) {
+      if (String(_amiGapData.counties[i].fips).padStart(5, '0') === target) {
+        return _amiGapData.counties[i];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Render AMI gap info panel when a county is selected.
+   */
+  function _renderAmiGapInfo(fips) {
+    var container = document.getElementById('dc-ami-gap-info');
+    if (!container) {
+      // Create the container after the FMR note
+      var fmrNote = document.getElementById('dc-fmr-note');
+      if (!fmrNote) return;
+      container = document.createElement('div');
+      container.id = 'dc-ami-gap-info';
+      container.style.cssText = 'font-size:var(--tiny);color:var(--muted);margin-bottom:var(--sp2);' +
+        'padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
+      fmrNote.parentNode.insertBefore(container, fmrNote.nextSibling);
+    }
+    var county = _findAmiGapCounty(fips);
+    if (!county) {
+      container.hidden = true;
+      return;
+    }
+    var gaps = county.gap_units_minus_households_le_ami_pct || {};
+    var gap30 = Math.abs(gaps['30'] || 0);
+    var gap50 = Math.abs(gaps['50'] || 0);
+    var gap60 = Math.abs(gaps['60'] || 0);
+    container.innerHTML =
+      '<strong style="color:var(--accent);">Affordability Gap — ' + (county.county_name || '') + '</strong><br>' +
+      '30% AMI: ' + gap30.toLocaleString() + ' units needed' +
+      ' &bull; 50% AMI: ' + gap50.toLocaleString() + ' units needed' +
+      ' &bull; 60% AMI: ' + gap60.toLocaleString() + ' units needed';
+    container.hidden = false;
+  }
+
+  /**
+   * Call the deal predictor (enhanced or base) when county changes,
+   * passing AMI gap data from the calculator inputs.
+   */
+  function _runDealPredictor(fips) {
+    var predictor = window.LIHTCDealPredictor;
+    if (!predictor) return;
+
+    var units = parseInt((document.getElementById('dc-units') || {}).value, 10) || 60;
+    var dealInputs = {
+      geoid: fips || undefined,
+      proposedUnits: units,
+      isQct: !!(document.getElementById('dc-qct-dda') || {}).checked
+    };
+
+    // AMI gap data
+    var county = _findAmiGapCounty(fips);
+    if (county) {
+      var gaps = county.gap_units_minus_households_le_ami_pct || {};
+      dealInputs.ami30UnitsNeeded = Math.abs(gaps['30'] || 0);
+      dealInputs.ami50UnitsNeeded = Math.abs(gaps['50'] || 0);
+      dealInputs.ami60UnitsNeeded = Math.abs(gaps['60'] || 0);
+    }
+
+    // Use enhanced predictor when available
+    var result;
+    if (window.LIHTCDealPredictorEnhanced) {
+      result = window.LIHTCDealPredictorEnhanced.predictEnhanced(dealInputs);
+    } else {
+      result = { base: predictor.predictConcept(dealInputs) };
+    }
+
+    // Render a compact concept recommendation below the calculator
+    var recCard = document.getElementById('dc-concept-rec');
+    if (!recCard) {
+      var mount = document.getElementById('dealCalcMount');
+      if (!mount) return;
+      recCard = document.createElement('div');
+      recCard.id = 'dc-concept-rec';
+      recCard.style.cssText = 'margin-top:var(--sp3);padding:var(--sp2) var(--sp3);' +
+        'border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
+      mount.appendChild(recCard);
+    }
+    var rec = result.base;
+    recCard.innerHTML =
+      '<h3 style="margin:0 0 0.5rem;font-size:0.95rem;">' +
+      (rec.confidenceBadge || '') + ' Concept Recommendation: <strong>' +
+      rec.recommendedExecution + ' ' + (rec.conceptType || '').charAt(0).toUpperCase() +
+      (rec.conceptType || '').slice(1) + ' Housing</strong>' +
+      ' <span style="font-size:0.75em;color:var(--muted);">' + rec.confidence + ' confidence</span></h3>' +
+      '<ul style="margin:0;padding-left:1.25rem;font-size:var(--small);">' +
+      (rec.keyRationale || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') +
+      '</ul>';
+    recCard.hidden = false;
+  }
+
+  // -------------------------------------------------------------------
   // Public API
   // -------------------------------------------------------------------
   function init() {
@@ -776,8 +883,19 @@
               return p + '% AMI = $' + _amiLimits[p].toLocaleString();
             }).join(' \u2022 ');
         }
+        _renderAmiGapInfo(fips);
+        _runDealPredictor(fips);
         recalculate();
       });
+
+    // Load AMI gap data
+    var _gapResolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
+    fetch(_gapResolver('data/co_ami_gap_by_county.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      _amiGapData = data;
+    }).catch(function () {});
     }
   }
 
