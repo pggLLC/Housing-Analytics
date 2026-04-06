@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T18:55:53.235Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T19:07:52.824Z. Do not edit by hand.
 
 ---
 
@@ -28,7 +28,7 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.8 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 65.2 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 66.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.2 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-881 JSON files found.
+882 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -936,6 +936,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 7.0 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
