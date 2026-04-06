@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T05:41:09.856Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T05:46:56.289Z. Do not edit by hand.
 
 ---
 
@@ -976,7 +976,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
-| `test/lighthouse-audit.js` | 953 B |
+| `test/lighthouse-audit.js` | 4.6 KB |
 | `test/pages-availability-check.js` | 10.0 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 11.8 KB |
@@ -1020,7 +1020,7 @@
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
 | `test/website-monitor-utils.js` | 3.6 KB |
-| `test/website-monitor.js` | 990 B |
+| `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
