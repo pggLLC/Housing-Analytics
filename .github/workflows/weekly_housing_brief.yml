@@ -21,6 +21,75 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install feedparser
+
+      - name: Populate alert_feeds.txt with production URLs
+        run: |
+          cat > scripts/alert_feeds.txt << 'FEEDS'
+          # RSS feed URLs for housing news alerts (one per line)
+          # Auto-populated by weekly_housing_brief.yml — do not edit manually
+
+          # ── Google News: Colorado affordable housing topics ──
+          https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+zoning+land+use+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
+          https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
+
+          # ── NCSHA: National Council of State Housing Agencies ──
+          https://www.ncsha.org/feed/
+
+          # ── Novogradac: LIHTC & affordable housing news ──
+          https://www.novoco.com/rss.xml
+
+          # ── HUD: Exchange news and updates ──
+          https://www.hudexchange.info/feed/
+
+          # ── Colorado General Assembly: legislation tracking ──
+          https://leg.colorado.gov/rss.xml
+          FEEDS
+
+      - name: Fetch RSS alerts
+        env:
+          ALERT_FEEDS_FILE: scripts/alert_feeds.txt
+          ALERTS_MAX_AGE_DAYS: '90'
+        run: |
+          echo "── Fetching alerts at $(date -u) ──"
+          python3 scripts/fetch_google_alerts.py
+          echo "── Alert fetch complete ──"
+
+      - name: Debug OPENAI_API_KEY presence
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -n "$OPENAI_API_KEY" ]; then
+            echo "✓ OPENAI_API_KEY is set (length: ${#OPENAI_API_KEY} chars) — LLM-assisted mode will be attempted"
+          else
+            echo "⚠ OPENAI_API_KEY is NOT set — briefs will use rule-based mode"
+          fi
+
+      - name: Generate policy briefs
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BRIEFS_MAX: '20'
+        run: |
+          echo "── Generating policy briefs at $(date -u) ──"
+          python3 scripts/generate_policy_briefs.py
+          echo "── Brief generation complete ──"
+          python3 - <<'PY'
+          import json
+          with open("data/policy_briefs.json") as f:
+              d = json.load(f)
+          meta = d.get("meta", {})
+          print(f"  Brief count    : {meta.get('brief_count', 0)}")
+          print(f"  Source alerts  : {meta.get('source_alerts', 0)}")
+          mode = "LLM-assisted" if "LLM-assisted" in meta.get("methodology", "") else "Rule-based"
+          print(f"  Mode           : {mode}")
+          PY
+
       - name: Build weekly brief
         run: python private/weekly-brief/scripts/build_weekly_brief.py
 
@@ -31,6 +100,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add private/weekly-brief/
+          git add scripts/alert_feeds.txt
+          git add data/alerts/alerts_archive.json
+          git add data/policy_briefs.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
