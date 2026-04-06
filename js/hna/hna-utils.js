@@ -80,6 +80,7 @@
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
     chasCostBurden: 'data/hna/chas_affordability_gap.json',
+    blsEconIndicators: 'data/co-county-economic-indicators.json',
   };
 
   const SOURCES = {

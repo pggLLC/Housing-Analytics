@@ -558,7 +558,7 @@
       format: 'JSON',
       provider: 'Bureau of Labor Statistics',
       url: 'https://www.bls.gov/cew/',
-      localFile: 'data/bls-qcew-co.json',
+      localFile: 'data/co-county-economic-indicators.json',
       lastUpdated: '2025-09-01',
       updateFrequency: 'Quarterly',
       maxAgeDays: 120,
