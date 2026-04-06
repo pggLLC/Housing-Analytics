@@ -1,5 +1,47 @@
 # CHANGELOG
 
+## Phase 3 (continued): Data Integration, Deal Prediction & Documentation
+**Date:** April 2026
+
+### Data Pipeline Completions
+- **6 real Colorado data sources** replace PMA stubs — EPA SLD (walkability), USDA Food Access, FEMA NFHL (flood zones), LODES (workforce commuting), Opportunity Insights (mobility), DOLA (demographics)
+- All data loaded via **local-first pattern** with live API fallback
+- `fetchNOAAClimateData()` — now loads from `data/market/climate_hazards_co.json`, derives resilience score from 6 hazard categories (drought, wildfire, flood, hail, heat, freeze-thaw)
+- `fetchUtilityCapacity()` — now loads from `data/market/utility_capacity_co.geojson`, provides service-area-based capacity estimates with bbox overlap filtering
+- `fetchHudAFFH()` — derived fair housing index from Opportunity Insights mobility + incarceration data
+
+### Enhanced LIHTC Deal Prediction (#445)
+- Fixed `HudFmr.getByFips()` method name mismatch (→ `getFmrByFips()` + `getIncomeLimitsByFips()`)
+- Aligned hard cost constants with `data/lihtc-assumptions.json` by concept type
+- Wired CHFA historical awards, AMI gap data, and soft funding into predictor inputs
+- Added enhanced predictor graceful fallback on `market-analysis.html` and `deal-calculator.html`
+
+### Housing Policy Scorecard
+- 546 Colorado jurisdictions scored across 7 dimensions
+- Integrated into HNA Comparative Analysis page
+- CSV export includes all policy commitment columns
+- HUD eGIS housing authority data merged via `scripts/policy/merge_pha_resources.py`
+
+### Navigation & UX
+- Extracted 78 CSS rules from `js/navigation.js` into `css/navigation.css`
+- Added Census Explorer to nav Explore group
+- Chart policy annotations (COVID-19, Prop 123, AHCIA) on all time-series charts
+- HNA Comparative Analysis: searchable dropdown selectors replace A/B button pattern
+
+### Documentation Updates
+- `docs/LIHTC_FEASIBILITY_CALCULATOR.md` — updated to reflect implemented deal predictor
+- `docs/FEATURE_COMPLETE.md` — added "Recently Completed" section with all Phase 3 deliverables
+- `docs/implementation-status.md` — auto-synced via `scripts/sync-docs.mjs`
+
+### Bug Fixes
+- Fixed glossary/help modal z-index (raised to 9500 above sticky header)
+- Fixed sub-county jurisdiction passthrough to HNA page via URL params + SiteState
+- Fixed LIHTC allocations showing only Colorado (now uses `getAllStates()` for 50-state data)
+- Fixed PMA map layer toggles (11 checkboxes had zero event handlers)
+- Fixed `fetch_climate_and_environment.py` Python 3.9 compatibility (`dict | None` → `None` default)
+
+---
+
 ## Phase 3: Site Architecture, State Management & Data Pipeline
 **Date:** March 2026
 
