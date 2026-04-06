@@ -957,8 +957,13 @@ function getKey(){ return CONFIG_KEY || ""; }
 
 <script>
 // ── Polymarket Prediction Markets ──
+// Reads pre-fetched data from data/polymarket-data.json (built daily by GitHub Action).
+// Falls back to live Gamma API if the cached file is unavailable.
 (function() {
   'use strict';
+  var CACHE_URL = (typeof window.resolveAssetUrl === 'function')
+    ? window.resolveAssetUrl('data/polymarket-data.json')
+    : 'data/polymarket-data.json';
   var API = 'https://gamma-api.polymarket.com';
 
   function pct(p) { return Math.round(p * 100) + '%'; }
@@ -979,7 +984,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       var prices = [0, 0];
       try { prices = JSON.parse(m.outcomePrices); } catch(e) {}
       return {
-        question: m.groupItemTitle || m.question || '',
+        question: m.question || '',
         prob: parseFloat(prices[0]) || 0,
         volume: parseFloat(m.volume) || 0
       };
@@ -993,7 +998,6 @@ function getKey(){ return CONFIG_KEY || ""; }
     var html = '';
     brackets.forEach(function(b) {
       var isTop = b.prob === maxProb;
-      var color = isTop ? 'var(--color-primary, #1a73e8)' : 'var(--muted, #888)';
       html += '<div class="hp-prob-row">' +
         '<span class="hp-prob-label" title="' + b.label + '">' + b.label + '</span>' +
         '<div class="hp-bar-wrap"><div class="hp-bar hp-bar--market" style="width:' + (maxProb > 0 ? (b.prob / maxProb * 100) : 0) + '%;' + (isTop ? '' : 'opacity:.6;') + '"></div></div>' +
@@ -1003,7 +1007,25 @@ function getKey(){ return CONFIG_KEY || ""; }
     el.innerHTML = html;
   }
 
-  function fetchEvent(slug) {
+  // Load from cached JSON, falling back to live API per-event
+  var _pmCache = null;
+  function loadCachedData() {
+    if (_pmCache) return Promise.resolve(_pmCache);
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function(u) { return fetch(u).then(function(r) { return r.ok ? r.json() : null; }); };
+    return fetcher(CACHE_URL).then(function(data) {
+      if (data && data.events) { _pmCache = data; return data; }
+      return null;
+    }).catch(function() { return null; });
+  }
+
+  function getEvent(slug) {
+    // Try cached data first
+    if (_pmCache && _pmCache.events && _pmCache.events[slug]) {
+      return Promise.resolve(_pmCache.events[slug]);
+    }
+    // Fallback to live API (may fail due to CORS on GitHub Pages)
     return fetch(API + '/events?slug=' + slug)
       .then(function(r) { return r.json(); })
       .then(function(d) { return d[0] || null; })
@@ -1014,19 +1036,21 @@ function getKey(){ return CONFIG_KEY || ""; }
     var btn = document.getElementById('pm-refresh');
     if (btn) btn.disabled = true;
 
-    Promise.all([
-      fetchEvent('us-recession-by-end-of-2026'),
-      fetchEvent('fed-decision-in-april'),
-      fetchEvent('how-many-fed-rate-cuts-in-2026'),
-      fetchEvent('how-high-will-inflation-get-in-2026'),
-      fetchEvent('gdp-growth-in-2026'),
-      fetchEvent('what-will-the-median-home-value-in-the-us-be-on-april-30'),
-      fetchEvent('what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30'),
-      fetchEvent('april-unemployment-rate-372'),
-      fetchEvent('fed-decision-in-june-825'),
-      fetchEvent('what-will-the-median-home-value-in-chicago-be-on-april-30'),
-      fetchEvent('tech-layoffs-up-or-down-in-2026')
-    ]).then(function(results) {
+    loadCachedData().then(function() {
+      return Promise.all([
+        getEvent('us-recession-by-end-of-2026'),
+        getEvent('fed-decision-in-april'),
+        getEvent('how-many-fed-rate-cuts-in-2026'),
+        getEvent('how-high-will-inflation-get-in-2026'),
+        getEvent('gdp-growth-in-2026'),
+        getEvent('what-will-the-median-home-value-in-the-us-be-on-april-30'),
+        getEvent('what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30'),
+        getEvent('april-unemployment-rate-372'),
+        getEvent('fed-decision-in-june-825'),
+        getEvent('what-will-the-median-home-value-in-chicago-be-on-april-30'),
+        getEvent('tech-layoffs-up-or-down-in-2026')
+      ]);
+    }).then(function(results) {
       var recession = results[0], fedApril = results[1], fedCuts = results[2],
           inflation = results[3], gdp = results[4], usHome = results[5],
           laHome = results[6], unemp = results[7], fedJune = results[8],
@@ -1198,10 +1222,11 @@ function getKey(){ return CONFIG_KEY || ""; }
         }
       }
 
-      setText('pm-updated', 'Updated ' + new Date().toLocaleString());
+      var src = _pmCache ? 'cached ' + (_pmCache.updated || '') : 'live';
+      setText('pm-updated', 'Data: ' + src + ' | Rendered ' + new Date().toLocaleString());
     }).catch(function(err) {
       console.warn('Polymarket fetch error:', err);
-      setText('pm-updated', 'Update failed');
+      setText('pm-updated', 'Update failed — check browser console');
     }).finally(function() {
       var btn = document.getElementById('pm-refresh');
       if (btn) btn.disabled = false;
