@@ -51,6 +51,7 @@ jobs:
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
+          SKIP_GEO_CONFIG: 'true'
         run: |
           set -x
           python3 scripts/hna/build_hna_data.py 2>&1

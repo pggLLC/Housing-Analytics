@@ -471,14 +471,24 @@
       });
     }
 
-    // Credit rate scenario toggle
+    // Credit rate scenario toggle — also switches equity price default
     ['dc-rate-9', 'dc-rate-4'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) {
         el.addEventListener('change', function () {
           _creditRate = parseFloat(this.value);
+          var is4Pct = (this.value === '0.04');
           var pabNote = document.getElementById('dc-rate-pab-note');
-          if (pabNote) pabNote.style.display = (this.value === '0.04') ? 'block' : 'none';
+          if (pabNote) pabNote.style.display = is4Pct ? 'block' : 'none';
+
+          // Update equity price default to match credit rate scenario
+          var newDefault = is4Pct
+            ? (_cfg.equityPrice4Pct || 0.85)
+            : (_cfg.equityPrice9Pct || 0.90);
+          EQUITY_PRICE_DEFAULT = newDefault;
+          var eqInput = document.getElementById('dc-equity-price');
+          if (eqInput) eqInput.value = newDefault.toFixed(2);
+
           recalculate();
         });
       }

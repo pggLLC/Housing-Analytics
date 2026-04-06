@@ -81,13 +81,17 @@
     'depend on CHFA QAP scoring, market conditions, subsidy availability, and factors ' +
     'not modeled here. Always engage a qualified LIHTC syndicator and attorney before proceeding.';
 
+  var _coho = (typeof window !== 'undefined' && window.COHO_DEFAULTS) || {};
+
   var DEFAULT_ASSUMPTIONS = {
-    equityPrice9Pct:          0.87,
-    equityPrice4Pct:          0.85,
+    creditRate9Pct:           _coho.creditRate9Pct  || 0.09,
+    creditRate4Pct:           _coho.creditRate4Pct  || 0.04,
+    equityPrice9Pct:          _coho.equityPrice9Pct || 0.87,
+    equityPrice4Pct:          _coho.equityPrice4Pct || 0.85,
     hardCostPerUnit:          350000,
     softCostPct:              0.22,
     devFeePct:                0.15,
-    eligibleBasisPct:         0.85,
+    eligibleBasisPct:         _coho.eligibleBasisPct || 0.85,
     defaultSoftFunding:       500000,
     saturationLowThreshold:   1,
     saturationMedThreshold:   3,
@@ -383,8 +387,8 @@
     var basisBoost   = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
     var eligibleBasis = totalDevCost * _getEligibleBasisPct();
     var annualCredit = (execution === '9%')
-      ? eligibleBasis * 0.09 * basisBoost
-      : eligibleBasis * 0.04 * basisBoost;
+      ? eligibleBasis * DEFAULT_ASSUMPTIONS.creditRate9Pct * basisBoost
+      : eligibleBasis * DEFAULT_ASSUMPTIONS.creditRate4Pct * basisBoost;
     var equity       = annualCredit * 10 * equityPrice;
 
     var localSoft    = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
@@ -514,7 +518,7 @@
     var softCost    = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
     var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);
     var basisBoost  = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
-    var creditRate  = (execution === '9%') ? 0.09 : 0.04;
+    var creditRate  = (execution === '9%') ? DEFAULT_ASSUMPTIONS.creditRate9Pct : DEFAULT_ASSUMPTIONS.creditRate4Pct;
     // Eligible basis = hard + soft costs (excludes dev fee), consistent with _computeCapitalStack.
     var eligibleBasis = (hardCost + softCost) * _getEligibleBasisPct();
     var annualCredit = eligibleBasis * creditRate * basisBoost;
