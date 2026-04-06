@@ -1,0 +1,6143 @@
+{
+  "meta": {
+    "source": "Opportunity Insights, Harvard/Brown",
+    "sourceUrl": "https://opportunityinsights.org/wp-content/uploads/2018/10/tract_outcomes_simple.csv",
+    "fetched": "2026-04-06",
+    "tracts": 1226,
+    "metrics": [
+      "incarcerationRate25",
+      "mobilityIndex",
+      "upwardMobility25"
+    ],
+    "description": "Tract-level economic mobility metrics from the Opportunity Atlas. mobilityIndex is a 0-100 composite score derived from expected income rank for children from low-income families."
+  },
+  "tracts": {
+    "08001007801": {
+      "upwardMobility25": 0.31867674,
+      "incarcerationRate25": 0.046238579,
+      "mobilityIndex": 31.9
+    },
+    "08001007802": {
+      "upwardMobility25": 0.33210811,
+      "incarcerationRate25": 0.045622829,
+      "mobilityIndex": 33.2
+    },
+    "08001007900": {
+      "upwardMobility25": 0.3571282,
+      "incarcerationRate25": 0.063426547,
+      "mobilityIndex": 35.7
+    },
+    "08001008000": {
+      "upwardMobility25": 0.38528958,
+      "incarcerationRate25": 0.05001808,
+      "mobilityIndex": 38.5
+    },
+    "08001008100": {
+      "upwardMobility25": 0.35130289,
+      "incarcerationRate25": 0.01237662,
+      "mobilityIndex": 35.1
+    },
+    "08001008200": {
+      "upwardMobility25": 0.4084453,
+      "incarcerationRate25": 0.057749789,
+      "mobilityIndex": 40.8
+    },
+    "08001008308": {
+      "upwardMobility25": 0.3622933,
+      "incarcerationRate25": 0.048548892,
+      "mobilityIndex": 36.2
+    },
+    "08001008309": {
+      "upwardMobility25": 0.39635083,
+      "incarcerationRate25": 0.021422341,
+      "mobilityIndex": 39.6
+    },
+    "08001008353": {
+      "upwardMobility25": 0.41925916,
+      "incarcerationRate25": 0.041958369,
+      "mobilityIndex": 41.9
+    },
+    "08001008401": {
+      "upwardMobility25": 0.44203719,
+      "incarcerationRate25": 0.02600448,
+      "mobilityIndex": 44.2
+    },
+    "08001008402": {
+      "upwardMobility25": 0.50149989,
+      "incarcerationRate25": 0.020198423,
+      "mobilityIndex": 50.1
+    },
+    "08001008505": {
+      "upwardMobility25": 0.43153775,
+      "incarcerationRate25": 0.027269319,
+      "mobilityIndex": 43.2
+    },
+    "08001008506": {
+      "upwardMobility25": 0.43905467,
+      "incarcerationRate25": 0.01285484,
+      "mobilityIndex": 43.9
+    },
+    "08001008507": {
+      "upwardMobility25": 0.44437066,
+      "incarcerationRate25": 0.022914313,
+      "mobilityIndex": 44.4
+    },
+    "08001008508": {
+      "upwardMobility25": 0.45712993,
+      "incarcerationRate25": 0.01647109,
+      "mobilityIndex": 45.7
+    },
+    "08001008523": {
+      "upwardMobility25": 0.43873751,
+      "incarcerationRate25": 0.0058858972,
+      "mobilityIndex": 43.9
+    },
+    "08001008524": {
+      "upwardMobility25": 0.46488678,
+      "incarcerationRate25": 0.034784403,
+      "mobilityIndex": 46.5
+    },
+    "08001008526": {
+      "upwardMobility25": 0.48790911,
+      "incarcerationRate25": 0.0064429883,
+      "mobilityIndex": 48.8
+    },
+    "08001008529": {
+      "upwardMobility25": 0.43283576,
+      "incarcerationRate25": 0.0083355121,
+      "mobilityIndex": 43.3
+    },
+    "08001008533": {
+      "upwardMobility25": 0.45221758,
+      "incarcerationRate25": 0.022093233,
+      "mobilityIndex": 45.2
+    },
+    "08001008534": {
+      "upwardMobility25": 0.45416743,
+      "incarcerationRate25": 0.006774772,
+      "mobilityIndex": 45.4
+    },
+    "08001008535": {
+      "upwardMobility25": 0.41526297,
+      "incarcerationRate25": -0.0071428805,
+      "mobilityIndex": 41.5
+    },
+    "08001008536": {
+      "upwardMobility25": 0.47088239,
+      "incarcerationRate25": 0.010535332,
+      "mobilityIndex": 47.1
+    },
+    "08001008537": {
+      "upwardMobility25": 0.42250699,
+      "incarcerationRate25": -0.0058772769,
+      "mobilityIndex": 42.3
+    },
+    "08001008538": {
+      "upwardMobility25": 0.4361172,
+      "incarcerationRate25": 0.020899102,
+      "mobilityIndex": 43.6
+    },
+    "08001008539": {
+      "upwardMobility25": 0.46312678,
+      "incarcerationRate25": 0.0081494171,
+      "mobilityIndex": 46.3
+    },
+    "08001008540": {
+      "upwardMobility25": 0.50546515,
+      "incarcerationRate25": -0.0058790576,
+      "mobilityIndex": 50.5
+    },
+    "08001008541": {
+      "upwardMobility25": 0.4170762,
+      "incarcerationRate25": 0.00051748444,
+      "mobilityIndex": 41.7
+    },
+    "08001008542": {
+      "upwardMobility25": 0.51124966,
+      "incarcerationRate25": 0.037094697,
+      "mobilityIndex": 51.1
+    },
+    "08001008543": {
+      "upwardMobility25": 0.45135847,
+      "incarcerationRate25": 0.026921641,
+      "mobilityIndex": 45.1
+    },
+    "08001008544": {
+      "upwardMobility25": 0.39279395,
+      "incarcerationRate25": -0.015866533,
+      "mobilityIndex": 39.3
+    },
+    "08001008545": {
+      "upwardMobility25": 0.47308221,
+      "incarcerationRate25": 0.0091878651,
+      "mobilityIndex": 47.3
+    },
+    "08001008546": {
+      "upwardMobility25": 0.47337228,
+      "incarcerationRate25": 0.027750261,
+      "mobilityIndex": 47.3
+    },
+    "08001008547": {
+      "upwardMobility25": 0.45599553,
+      "incarcerationRate25": 0.0071355416,
+      "mobilityIndex": 45.6
+    },
+    "08001008548": {
+      "upwardMobility25": 0.63149619,
+      "mobilityIndex": 63.1
+    },
+    "08001008549": {
+      "upwardMobility25": 0.45024002,
+      "incarcerationRate25": 0.045967564,
+      "mobilityIndex": 45.0
+    },
+    "08001008550": {
+      "upwardMobility25": 0.46187174,
+      "incarcerationRate25": 0.045273297,
+      "mobilityIndex": 46.2
+    },
+    "08001008551": {
+      "upwardMobility25": 0.53166705,
+      "incarcerationRate25": 0.19074239,
+      "mobilityIndex": 53.2
+    },
+    "08001008603": {
+      "upwardMobility25": 0.37825373,
+      "incarcerationRate25": 0.039206568,
+      "mobilityIndex": 37.8
+    },
+    "08001008604": {
+      "upwardMobility25": 0.42714772,
+      "incarcerationRate25": 0.018010916,
+      "mobilityIndex": 42.7
+    },
+    "08001008605": {
+      "upwardMobility25": 0.44839376,
+      "incarcerationRate25": 0.014134799,
+      "mobilityIndex": 44.8
+    },
+    "08001008606": {
+      "upwardMobility25": 0.4073869,
+      "incarcerationRate25": 0.02398992,
+      "mobilityIndex": 40.7
+    },
+    "08001008705": {
+      "upwardMobility25": 0.37755013,
+      "incarcerationRate25": 0.04390464,
+      "mobilityIndex": 37.8
+    },
+    "08001008706": {
+      "upwardMobility25": 0.36713895,
+      "incarcerationRate25": 0.040424302,
+      "mobilityIndex": 36.7
+    },
+    "08001008709": {
+      "upwardMobility25": 0.35131288,
+      "incarcerationRate25": 0.034270898,
+      "mobilityIndex": 35.1
+    },
+    "08001008801": {
+      "upwardMobility25": 0.37653196,
+      "incarcerationRate25": 0.061087031,
+      "mobilityIndex": 37.7
+    },
+    "08001008802": {
+      "upwardMobility25": 0.36302739,
+      "incarcerationRate25": 0.039857458,
+      "mobilityIndex": 36.3
+    },
+    "08001008901": {
+      "upwardMobility25": 0.39358601,
+      "incarcerationRate25": 0.04760097,
+      "mobilityIndex": 39.4
+    },
+    "08001009001": {
+      "upwardMobility25": 0.41340339,
+      "incarcerationRate25": 0.045633916,
+      "mobilityIndex": 41.3
+    },
+    "08001009002": {
+      "upwardMobility25": 0.38633668,
+      "incarcerationRate25": 0.05567348,
+      "mobilityIndex": 38.6
+    },
+    "08001009101": {
+      "upwardMobility25": 0.41319948,
+      "incarcerationRate25": 0.056450985,
+      "mobilityIndex": 41.3
+    },
+    "08001009103": {
+      "upwardMobility25": 0.3856194,
+      "incarcerationRate25": 0.045121521,
+      "mobilityIndex": 38.6
+    },
+    "08001009104": {
+      "upwardMobility25": 0.41030127,
+      "incarcerationRate25": 0.053512704,
+      "mobilityIndex": 41.0
+    },
+    "08001009202": {
+      "upwardMobility25": 0.40189931,
+      "incarcerationRate25": 0.056881193,
+      "mobilityIndex": 40.2
+    },
+    "08001009203": {
+      "upwardMobility25": 0.39931676,
+      "incarcerationRate25": 0.04427097,
+      "mobilityIndex": 39.9
+    },
+    "08001009204": {
+      "upwardMobility25": 0.44081849,
+      "incarcerationRate25": 0.058850788,
+      "mobilityIndex": 44.1
+    },
+    "08001009206": {
+      "upwardMobility25": 0.38783273,
+      "incarcerationRate25": 0.013845145,
+      "mobilityIndex": 38.8
+    },
+    "08001009207": {
+      "upwardMobility25": 0.45144549,
+      "incarcerationRate25": 0.012307102,
+      "mobilityIndex": 45.1
+    },
+    "08001009304": {
+      "upwardMobility25": 0.4343881,
+      "incarcerationRate25": 0.047816962,
+      "mobilityIndex": 43.4
+    },
+    "08001009306": {
+      "upwardMobility25": 0.40838286,
+      "incarcerationRate25": 0.03341683,
+      "mobilityIndex": 40.8
+    },
+    "08001009307": {
+      "upwardMobility25": 0.39002728,
+      "incarcerationRate25": 0.041086189,
+      "mobilityIndex": 39.0
+    },
+    "08001009308": {
+      "upwardMobility25": 0.39642781,
+      "incarcerationRate25": 0.067174621,
+      "mobilityIndex": 39.6
+    },
+    "08001009309": {
+      "upwardMobility25": 0.41134882,
+      "incarcerationRate25": 0.034742307,
+      "mobilityIndex": 41.1
+    },
+    "08001009310": {
+      "upwardMobility25": 0.41812164,
+      "incarcerationRate25": 0.033761375,
+      "mobilityIndex": 41.8
+    },
+    "08001009316": {
+      "upwardMobility25": 0.39520437,
+      "incarcerationRate25": 0.023767563,
+      "mobilityIndex": 39.5
+    },
+    "08001009318": {
+      "upwardMobility25": 0.40561929,
+      "incarcerationRate25": 0.040640976,
+      "mobilityIndex": 40.6
+    },
+    "08001009319": {
+      "upwardMobility25": 0.39213288,
+      "incarcerationRate25": 0.032842238,
+      "mobilityIndex": 39.2
+    },
+    "08001009320": {
+      "upwardMobility25": 0.3926422,
+      "incarcerationRate25": 0.033911731,
+      "mobilityIndex": 39.3
+    },
+    "08001009321": {
+      "upwardMobility25": 0.45057815,
+      "incarcerationRate25": 0.025816498,
+      "mobilityIndex": 45.1
+    },
+    "08001009322": {
+      "upwardMobility25": 0.39391112,
+      "incarcerationRate25": 0.04389121,
+      "mobilityIndex": 39.4
+    },
+    "08001009323": {
+      "upwardMobility25": 0.38642821,
+      "incarcerationRate25": 0.029990457,
+      "mobilityIndex": 38.6
+    },
+    "08001009325": {
+      "upwardMobility25": 0.5287385,
+      "incarcerationRate25": 0.0037382301,
+      "mobilityIndex": 52.9
+    },
+    "08001009326": {
+      "upwardMobility25": 0.52509743,
+      "incarcerationRate25": 0.013548719,
+      "mobilityIndex": 52.5
+    },
+    "08001009327": {
+      "upwardMobility25": 0.44765419,
+      "incarcerationRate25": 0.019726776,
+      "mobilityIndex": 44.8
+    },
+    "08001009401": {
+      "upwardMobility25": 0.42173886,
+      "incarcerationRate25": 0.018569952,
+      "mobilityIndex": 42.2
+    },
+    "08001009406": {
+      "upwardMobility25": 0.45415184,
+      "incarcerationRate25": 0.016019296,
+      "mobilityIndex": 45.4
+    },
+    "08001009407": {
+      "upwardMobility25": 0.43246076,
+      "incarcerationRate25": 0.028163556,
+      "mobilityIndex": 43.2
+    },
+    "08001009408": {
+      "upwardMobility25": 0.55817318,
+      "incarcerationRate25": -0.006408914,
+      "mobilityIndex": 55.8
+    },
+    "08001009409": {
+      "upwardMobility25": 0.405092,
+      "incarcerationRate25": 0.049055342,
+      "mobilityIndex": 40.5
+    },
+    "08001009410": {
+      "upwardMobility25": 0.52924174,
+      "incarcerationRate25": 0.010880217,
+      "mobilityIndex": 52.9
+    },
+    "08001009411": {
+      "upwardMobility25": 0.52053392,
+      "incarcerationRate25": 0.028812544,
+      "mobilityIndex": 52.1
+    },
+    "08001009501": {
+      "upwardMobility25": 0.39912528,
+      "incarcerationRate25": 0.040478319,
+      "mobilityIndex": 39.9
+    },
+    "08001009502": {
+      "upwardMobility25": 0.41178361,
+      "incarcerationRate25": 0.021028172,
+      "mobilityIndex": 41.2
+    },
+    "08001009553": {
+      "upwardMobility25": 0.39380291,
+      "incarcerationRate25": 0.02799502,
+      "mobilityIndex": 39.4
+    },
+    "08001009603": {
+      "upwardMobility25": 0.44375166,
+      "incarcerationRate25": 0.031847227,
+      "mobilityIndex": 44.4
+    },
+    "08001009604": {
+      "upwardMobility25": 0.4166159,
+      "incarcerationRate25": 0.027274281,
+      "mobilityIndex": 41.7
+    },
+    "08001009606": {
+      "upwardMobility25": 0.39221674,
+      "incarcerationRate25": 0.027749263,
+      "mobilityIndex": 39.2
+    },
+    "08001009607": {
+      "upwardMobility25": 0.4569867,
+      "incarcerationRate25": 0.0076737832,
+      "mobilityIndex": 45.7
+    },
+    "08001009608": {
+      "upwardMobility25": 0.4693591,
+      "incarcerationRate25": 0.0035375967,
+      "mobilityIndex": 46.9
+    },
+    "08001009751": {
+      "upwardMobility25": 0.39565507,
+      "incarcerationRate25": 0.036605224,
+      "mobilityIndex": 39.6
+    },
+    "08001009752": {
+      "upwardMobility25": 0.40339774,
+      "incarcerationRate25": 0.041423954,
+      "mobilityIndex": 40.3
+    },
+    "08001015000": {
+      "upwardMobility25": 0.39124656,
+      "incarcerationRate25": 0.040413339,
+      "mobilityIndex": 39.1
+    },
+    "08001060000": {
+      "upwardMobility25": 0.50788397,
+      "incarcerationRate25": -0.023309652,
+      "mobilityIndex": 50.8
+    },
+    "08001060100": {
+      "upwardMobility25": 0.43384093,
+      "incarcerationRate25": 0.039220374,
+      "mobilityIndex": 43.4
+    },
+    "08001060200": {
+      "upwardMobility25": 0.42562011,
+      "incarcerationRate25": 0.010452458,
+      "mobilityIndex": 42.6
+    },
+    "08001061200": {
+      "upwardMobility25": 0.42496863,
+      "incarcerationRate25": 0.083155774,
+      "mobilityIndex": 42.5
+    },
+    "08003960000": {
+      "upwardMobility25": 0.40234527,
+      "incarcerationRate25": 0.0047439402,
+      "mobilityIndex": 40.2
+    },
+    "08003960100": {
+      "upwardMobility25": 0.47040746,
+      "incarcerationRate25": 0.026663888,
+      "mobilityIndex": 47.0
+    },
+    "08003960200": {
+      "upwardMobility25": 0.45071259,
+      "incarcerationRate25": 0.014246997,
+      "mobilityIndex": 45.1
+    },
+    "08003960300": {
+      "upwardMobility25": 0.36045656,
+      "incarcerationRate25": 0.041314326,
+      "mobilityIndex": 36.0
+    },
+    "08005004951": {
+      "upwardMobility25": 0.39950317,
+      "incarcerationRate25": 0.10895538,
+      "mobilityIndex": 40.0
+    },
+    "08005004952": {
+      "upwardMobility25": 0.47061446,
+      "incarcerationRate25": 0.0098018916,
+      "mobilityIndex": 47.1
+    },
+    "08005005551": {
+      "upwardMobility25": 0.38716707,
+      "incarcerationRate25": 0.025094744,
+      "mobilityIndex": 38.7
+    },
+    "08005005552": {
+      "upwardMobility25": 0.40274742,
+      "incarcerationRate25": 0.017750965,
+      "mobilityIndex": 40.3
+    },
+    "08005005553": {
+      "upwardMobility25": 0.44231835,
+      "incarcerationRate25": 0.038188763,
+      "mobilityIndex": 44.2
+    },
+    "08005005611": {
+      "upwardMobility25": 0.50246012,
+      "incarcerationRate25": 0.012834809,
+      "mobilityIndex": 50.2
+    },
+    "08005005612": {
+      "upwardMobility25": 0.41719809,
+      "incarcerationRate25": 0.018883353,
+      "mobilityIndex": 41.7
+    },
+    "08005005614": {
+      "upwardMobility25": 0.51659995,
+      "incarcerationRate25": 0.014508272,
+      "mobilityIndex": 51.7
+    },
+    "08005005619": {
+      "upwardMobility25": 0.44871524,
+      "incarcerationRate25": 0.014352601,
+      "mobilityIndex": 44.9
+    },
+    "08005005620": {
+      "upwardMobility25": 0.47986737,
+      "incarcerationRate25": 0.09510617,
+      "mobilityIndex": 48.0
+    },
+    "08005005621": {
+      "upwardMobility25": 0.5340597,
+      "incarcerationRate25": 0.019155947,
+      "mobilityIndex": 53.4
+    },
+    "08005005622": {
+      "upwardMobility25": 0.63914704,
+      "incarcerationRate25": -0.017932322,
+      "mobilityIndex": 63.9
+    },
+    "08005005623": {
+      "upwardMobility25": 0.47855467,
+      "incarcerationRate25": 0.024044303,
+      "mobilityIndex": 47.9
+    },
+    "08005005624": {
+      "upwardMobility25": 0.51342708,
+      "incarcerationRate25": -0.0053202817,
+      "mobilityIndex": 51.3
+    },
+    "08005005625": {
+      "upwardMobility25": 0.44083336,
+      "incarcerationRate25": 0.0053176503,
+      "mobilityIndex": 44.1
+    },
+    "08005005626": {
+      "upwardMobility25": 0.47094208,
+      "incarcerationRate25": -0.000273841,
+      "mobilityIndex": 47.1
+    },
+    "08005005627": {
+      "upwardMobility25": 0.54205006,
+      "incarcerationRate25": -0.00053835008,
+      "mobilityIndex": 54.2
+    },
+    "08005005628": {
+      "upwardMobility25": 0.52578235,
+      "incarcerationRate25": 0.014972175,
+      "mobilityIndex": 52.6
+    },
+    "08005005629": {
+      "upwardMobility25": 0.58470303,
+      "incarcerationRate25": 0.048442908,
+      "mobilityIndex": 58.5
+    },
+    "08005005630": {
+      "upwardMobility25": 0.56541491,
+      "incarcerationRate25": 0.003366109,
+      "mobilityIndex": 56.5
+    },
+    "08005005631": {
+      "upwardMobility25": 0.54076213,
+      "incarcerationRate25": -0.0093791233,
+      "mobilityIndex": 54.1
+    },
+    "08005005632": {
+      "upwardMobility25": 0.52697396,
+      "incarcerationRate25": 0.026754733,
+      "mobilityIndex": 52.7
+    },
+    "08005005633": {
+      "upwardMobility25": 0.53005999,
+      "incarcerationRate25": 8.1304097e-05,
+      "mobilityIndex": 53.0
+    },
+    "08005005634": {
+      "upwardMobility25": 0.52753228,
+      "incarcerationRate25": 0.0021498061,
+      "mobilityIndex": 52.8
+    },
+    "08005005635": {
+      "upwardMobility25": 0.47476688,
+      "incarcerationRate25": 0.014997182,
+      "mobilityIndex": 47.5
+    },
+    "08005005636": {
+      "upwardMobility25": 0.50917196,
+      "incarcerationRate25": 0.0088432059,
+      "mobilityIndex": 50.9
+    },
+    "08005005700": {
+      "upwardMobility25": 0.41091722,
+      "incarcerationRate25": 0.01575027,
+      "mobilityIndex": 41.1
+    },
+    "08005005800": {
+      "upwardMobility25": 0.46973577,
+      "incarcerationRate25": 0.0052443752,
+      "mobilityIndex": 47.0
+    },
+    "08005005951": {
+      "upwardMobility25": 0.42358723,
+      "incarcerationRate25": -0.0092140622,
+      "mobilityIndex": 42.4
+    },
+    "08005005952": {
+      "upwardMobility25": 0.46474004,
+      "incarcerationRate25": 0.03652307,
+      "mobilityIndex": 46.5
+    },
+    "08005006000": {
+      "upwardMobility25": 0.4173201,
+      "incarcerationRate25": 0.050934345,
+      "mobilityIndex": 41.7
+    },
+    "08005006100": {
+      "upwardMobility25": 0.44460106,
+      "incarcerationRate25": 0.039669923,
+      "mobilityIndex": 44.5
+    },
+    "08005006200": {
+      "upwardMobility25": 0.42703685,
+      "incarcerationRate25": 0.039432485,
+      "mobilityIndex": 42.7
+    },
+    "08005006300": {
+      "upwardMobility25": 0.44520915,
+      "incarcerationRate25": 0.04322711,
+      "mobilityIndex": 44.5
+    },
+    "08005006400": {
+      "upwardMobility25": 0.51236552,
+      "incarcerationRate25": 0.01154779,
+      "mobilityIndex": 51.2
+    },
+    "08005006501": {
+      "upwardMobility25": 0.47873625,
+      "incarcerationRate25": 0.015660908,
+      "mobilityIndex": 47.9
+    },
+    "08005006502": {
+      "upwardMobility25": 0.48353258,
+      "incarcerationRate25": 0.021511942,
+      "mobilityIndex": 48.4
+    },
+    "08005006601": {
+      "upwardMobility25": 0.39874834,
+      "incarcerationRate25": 0.029139947,
+      "mobilityIndex": 39.9
+    },
+    "08005006603": {
+      "upwardMobility25": 0.51444411,
+      "incarcerationRate25": 0.049787838,
+      "mobilityIndex": 51.4
+    },
+    "08005006604": {
+      "upwardMobility25": 0.45677498,
+      "incarcerationRate25": 0.02354159,
+      "mobilityIndex": 45.7
+    },
+    "08005006704": {
+      "upwardMobility25": 0.51730841,
+      "incarcerationRate25": -0.028141564,
+      "mobilityIndex": 51.7
+    },
+    "08005006705": {
+      "upwardMobility25": 0.31371963,
+      "incarcerationRate25": -0.015879,
+      "mobilityIndex": 31.4
+    },
+    "08005006706": {
+      "upwardMobility25": 0.58429241,
+      "incarcerationRate25": -0.0012766066,
+      "mobilityIndex": 58.4
+    },
+    "08005006707": {
+      "upwardMobility25": 0.51705885,
+      "incarcerationRate25": 0.0075077112,
+      "mobilityIndex": 51.7
+    },
+    "08005006708": {
+      "upwardMobility25": 0.5407055,
+      "incarcerationRate25": 0.014228753,
+      "mobilityIndex": 54.1
+    },
+    "08005006709": {
+      "upwardMobility25": 0.54994678,
+      "incarcerationRate25": 0.0011796753,
+      "mobilityIndex": 55.0
+    },
+    "08005006711": {
+      "upwardMobility25": 0.57638437,
+      "incarcerationRate25": -0.0016004774,
+      "mobilityIndex": 57.6
+    },
+    "08005006712": {
+      "upwardMobility25": 0.59353572,
+      "incarcerationRate25": -0.045647893,
+      "mobilityIndex": 59.4
+    },
+    "08005006713": {
+      "upwardMobility25": 0.39858362,
+      "incarcerationRate25": 0.0011019455,
+      "mobilityIndex": 39.9
+    },
+    "08005006808": {
+      "upwardMobility25": 0.5763253,
+      "incarcerationRate25": 0.0051206718,
+      "mobilityIndex": 57.6
+    },
+    "08005006815": {
+      "upwardMobility25": 0.54528099,
+      "incarcerationRate25": -0.0026931872,
+      "mobilityIndex": 54.5
+    },
+    "08005006854": {
+      "upwardMobility25": 0.49393713,
+      "incarcerationRate25": 0.029267954,
+      "mobilityIndex": 49.4
+    },
+    "08005006855": {
+      "upwardMobility25": 0.54256195,
+      "incarcerationRate25": -0.00040614291,
+      "mobilityIndex": 54.3
+    },
+    "08005006856": {
+      "upwardMobility25": 0.44979233,
+      "incarcerationRate25": 0.020768115,
+      "mobilityIndex": 45.0
+    },
+    "08005006857": {
+      "upwardMobility25": 0.53016323,
+      "incarcerationRate25": -0.023069298,
+      "mobilityIndex": 53.0
+    },
+    "08005006858": {
+      "upwardMobility25": 0.52150965,
+      "incarcerationRate25": 0.0020383354,
+      "mobilityIndex": 52.2
+    },
+    "08005007101": {
+      "upwardMobility25": 0.55392247,
+      "incarcerationRate25": 0.029436199,
+      "mobilityIndex": 55.4
+    },
+    "08005007103": {
+      "upwardMobility25": 0.43155652,
+      "incarcerationRate25": 0.027919702,
+      "mobilityIndex": 43.2
+    },
+    "08005007104": {
+      "upwardMobility25": 0.38235405,
+      "incarcerationRate25": -0.00067591731,
+      "mobilityIndex": 38.2
+    },
+    "08005007105": {
+      "upwardMobility25": 0.40855965,
+      "incarcerationRate25": 0.016852016,
+      "mobilityIndex": 40.9
+    },
+    "08005007106": {
+      "upwardMobility25": 0.32998928,
+      "incarcerationRate25": 0.0025078917,
+      "mobilityIndex": 33.0
+    },
+    "08005007201": {
+      "upwardMobility25": 0.3680248,
+      "incarcerationRate25": 0.036853693,
+      "mobilityIndex": 36.8
+    },
+    "08005007202": {
+      "upwardMobility25": 0.38635969,
+      "incarcerationRate25": 0.048146822,
+      "mobilityIndex": 38.6
+    },
+    "08005007301": {
+      "upwardMobility25": 0.33827835,
+      "incarcerationRate25": 0.057975829,
+      "mobilityIndex": 33.8
+    },
+    "08005007302": {
+      "upwardMobility25": 0.34387091,
+      "incarcerationRate25": 0.050105702,
+      "mobilityIndex": 34.4
+    },
+    "08005007400": {
+      "upwardMobility25": 0.39344293,
+      "incarcerationRate25": 0.031672105,
+      "mobilityIndex": 39.3
+    },
+    "08005007500": {
+      "upwardMobility25": 0.38910472,
+      "incarcerationRate25": 0.049661744,
+      "mobilityIndex": 38.9
+    },
+    "08005007600": {
+      "upwardMobility25": 0.38897765,
+      "incarcerationRate25": 0.044719502,
+      "mobilityIndex": 38.9
+    },
+    "08005007702": {
+      "upwardMobility25": 0.38647601,
+      "incarcerationRate25": 0.039231475,
+      "mobilityIndex": 38.6
+    },
+    "08005007703": {
+      "upwardMobility25": 0.37346789,
+      "incarcerationRate25": 0.054718953,
+      "mobilityIndex": 37.3
+    },
+    "08005007704": {
+      "upwardMobility25": 0.40353909,
+      "incarcerationRate25": 0.039015003,
+      "mobilityIndex": 40.4
+    },
+    "08005015100": {
+      "upwardMobility25": 0.51855165,
+      "incarcerationRate25": 0.030488161,
+      "mobilityIndex": 51.9
+    },
+    "08005080000": {
+      "upwardMobility25": 0.42129934,
+      "incarcerationRate25": 0.027062494,
+      "mobilityIndex": 42.1
+    },
+    "08005080100": {
+      "upwardMobility25": 0.43357083,
+      "incarcerationRate25": 0.034480855,
+      "mobilityIndex": 43.4
+    },
+    "08005080200": {
+      "upwardMobility25": 0.45376033,
+      "incarcerationRate25": 0.032633416,
+      "mobilityIndex": 45.4
+    },
+    "08005080300": {
+      "upwardMobility25": 0.47153631,
+      "incarcerationRate25": 0.025414998,
+      "mobilityIndex": 47.2
+    },
+    "08005080400": {
+      "upwardMobility25": 0.51699835,
+      "incarcerationRate25": 0.0047542108,
+      "mobilityIndex": 51.7
+    },
+    "08005080500": {
+      "upwardMobility25": 0.43583801,
+      "incarcerationRate25": 0.022420768,
+      "mobilityIndex": 43.6
+    },
+    "08005080600": {
+      "upwardMobility25": 0.47581166,
+      "incarcerationRate25": 0.030975243,
+      "mobilityIndex": 47.6
+    },
+    "08005080700": {
+      "upwardMobility25": 0.42451313,
+      "incarcerationRate25": 0.033849206,
+      "mobilityIndex": 42.5
+    },
+    "08005080800": {
+      "upwardMobility25": 0.41338348,
+      "incarcerationRate25": 0.022919545,
+      "mobilityIndex": 41.3
+    },
+    "08005080900": {
+      "upwardMobility25": 0.45175627,
+      "incarcerationRate25": 0.021548029,
+      "mobilityIndex": 45.2
+    },
+    "08005081000": {
+      "upwardMobility25": 0.385883,
+      "incarcerationRate25": 0.0652605,
+      "mobilityIndex": 38.6
+    },
+    "08005081100": {
+      "upwardMobility25": 0.39072862,
+      "incarcerationRate25": 0.044026859,
+      "mobilityIndex": 39.1
+    },
+    "08005081200": {
+      "upwardMobility25": 0.39732042,
+      "incarcerationRate25": 0.037845779,
+      "mobilityIndex": 39.7
+    },
+    "08005081300": {
+      "upwardMobility25": 0.42112407,
+      "incarcerationRate25": 0.044863161,
+      "mobilityIndex": 42.1
+    },
+    "08005081400": {
+      "upwardMobility25": 0.45487672,
+      "incarcerationRate25": 0.021066712,
+      "mobilityIndex": 45.5
+    },
+    "08005081500": {
+      "upwardMobility25": 0.56674272,
+      "incarcerationRate25": -0.00032823134,
+      "mobilityIndex": 56.7
+    },
+    "08005081600": {
+      "upwardMobility25": 0.43382472,
+      "incarcerationRate25": 0.020403285,
+      "mobilityIndex": 43.4
+    },
+    "08005081700": {
+      "upwardMobility25": 0.53446651,
+      "incarcerationRate25": 0.0087001724,
+      "mobilityIndex": 53.4
+    },
+    "08005081800": {
+      "upwardMobility25": 0.38492146,
+      "incarcerationRate25": 0.036481071,
+      "mobilityIndex": 38.5
+    },
+    "08005081900": {
+      "upwardMobility25": 0.37900901,
+      "incarcerationRate25": 0.054638505,
+      "mobilityIndex": 37.9
+    },
+    "08005082000": {
+      "upwardMobility25": 0.39549261,
+      "incarcerationRate25": 0.085531116,
+      "mobilityIndex": 39.5
+    },
+    "08005082100": {
+      "upwardMobility25": 0.44051889,
+      "incarcerationRate25": 0.041452479,
+      "mobilityIndex": 44.1
+    },
+    "08005082200": {
+      "upwardMobility25": 0.43676001,
+      "incarcerationRate25": 0.025326436,
+      "mobilityIndex": 43.7
+    },
+    "08005082300": {
+      "upwardMobility25": 0.40163401,
+      "incarcerationRate25": 0.044080894,
+      "mobilityIndex": 40.2
+    },
+    "08005082400": {
+      "upwardMobility25": 0.48403504,
+      "incarcerationRate25": 0.048421547,
+      "mobilityIndex": 48.4
+    },
+    "08005082500": {
+      "upwardMobility25": 0.45060748,
+      "incarcerationRate25": 0.010250292,
+      "mobilityIndex": 45.1
+    },
+    "08005082600": {
+      "upwardMobility25": 0.41226104,
+      "incarcerationRate25": 0.027894128,
+      "mobilityIndex": 41.2
+    },
+    "08005082700": {
+      "upwardMobility25": 0.4420276,
+      "incarcerationRate25": 0.03770772,
+      "mobilityIndex": 44.2
+    },
+    "08005082800": {
+      "upwardMobility25": 0.4562349,
+      "incarcerationRate25": 0.029969584,
+      "mobilityIndex": 45.6
+    },
+    "08005082900": {
+      "upwardMobility25": 0.48657721,
+      "incarcerationRate25": 0.016432218,
+      "mobilityIndex": 48.7
+    },
+    "08005083000": {
+      "upwardMobility25": 0.5005936,
+      "incarcerationRate25": -0.067216389,
+      "mobilityIndex": 50.1
+    },
+    "08005083100": {
+      "upwardMobility25": 0.48675841,
+      "incarcerationRate25": 0.018840134,
+      "mobilityIndex": 48.7
+    },
+    "08005083200": {
+      "upwardMobility25": 0.47850329,
+      "incarcerationRate25": 0.030223392,
+      "mobilityIndex": 47.9
+    },
+    "08005083300": {
+      "upwardMobility25": 0.50415248,
+      "incarcerationRate25": 0.022901781,
+      "mobilityIndex": 50.4
+    },
+    "08005083400": {
+      "upwardMobility25": 0.49531707,
+      "incarcerationRate25": 0.039595217,
+      "mobilityIndex": 49.5
+    },
+    "08005083500": {
+      "upwardMobility25": 0.45595214,
+      "incarcerationRate25": 0.036436684,
+      "mobilityIndex": 45.6
+    },
+    "08005083600": {
+      "upwardMobility25": 0.4896183,
+      "incarcerationRate25": 0.017272318,
+      "mobilityIndex": 49.0
+    },
+    "08005083700": {
+      "upwardMobility25": 0.52047545,
+      "incarcerationRate25": 0.011308798,
+      "mobilityIndex": 52.0
+    },
+    "08005083800": {
+      "upwardMobility25": 0.46559063,
+      "incarcerationRate25": 0.046568021,
+      "mobilityIndex": 46.6
+    },
+    "08005083900": {
+      "upwardMobility25": 0.49971792,
+      "incarcerationRate25": 0.015253783,
+      "mobilityIndex": 50.0
+    },
+    "08005084000": {
+      "upwardMobility25": 0.52161616,
+      "incarcerationRate25": 0.014231533,
+      "mobilityIndex": 52.2
+    },
+    "08005084100": {
+      "upwardMobility25": 0.47833517,
+      "incarcerationRate25": 0.017218851,
+      "mobilityIndex": 47.8
+    },
+    "08005084200": {
+      "upwardMobility25": 0.41619304,
+      "incarcerationRate25": 0.043447591,
+      "mobilityIndex": 41.6
+    },
+    "08005084300": {
+      "upwardMobility25": 0.48732796,
+      "incarcerationRate25": 0.039019927,
+      "mobilityIndex": 48.7
+    },
+    "08005084400": {
+      "upwardMobility25": 0.45090008,
+      "incarcerationRate25": 0.022989217,
+      "mobilityIndex": 45.1
+    },
+    "08005084500": {
+      "upwardMobility25": 0.46498811,
+      "incarcerationRate25": 0.019701909,
+      "mobilityIndex": 46.5
+    },
+    "08005084600": {
+      "upwardMobility25": 0.45844758,
+      "incarcerationRate25": 0.015802667,
+      "mobilityIndex": 45.8
+    },
+    "08005084700": {
+      "upwardMobility25": 0.51216274,
+      "incarcerationRate25": 0.0020865656,
+      "mobilityIndex": 51.2
+    },
+    "08005084800": {
+      "upwardMobility25": 0.4736656,
+      "incarcerationRate25": 0.018675147,
+      "mobilityIndex": 47.4
+    },
+    "08005084900": {
+      "upwardMobility25": 0.50580889,
+      "incarcerationRate25": 0.014565082,
+      "mobilityIndex": 50.6
+    },
+    "08005085000": {
+      "upwardMobility25": 0.42496851,
+      "incarcerationRate25": -0.0030729352,
+      "mobilityIndex": 42.5
+    },
+    "08005085100": {
+      "upwardMobility25": 0.52894878,
+      "incarcerationRate25": 0.0032631224,
+      "mobilityIndex": 52.9
+    },
+    "08005085200": {
+      "upwardMobility25": 0.55736721,
+      "incarcerationRate25": -0.024485325,
+      "mobilityIndex": 55.7
+    },
+    "08005085300": {
+      "upwardMobility25": 0.53972828,
+      "incarcerationRate25": 0.0073940787,
+      "mobilityIndex": 54.0
+    },
+    "08005085400": {
+      "upwardMobility25": 0.49956062,
+      "incarcerationRate25": 0.011932406,
+      "mobilityIndex": 50.0
+    },
+    "08005085500": {
+      "upwardMobility25": 0.5123601,
+      "incarcerationRate25": 0.01807441,
+      "mobilityIndex": 51.2
+    },
+    "08005085600": {
+      "upwardMobility25": 0.47454879,
+      "incarcerationRate25": 0.020975098,
+      "mobilityIndex": 47.5
+    },
+    "08005085700": {
+      "upwardMobility25": 0.44210428,
+      "incarcerationRate25": 0.033926398,
+      "mobilityIndex": 44.2
+    },
+    "08005085800": {
+      "upwardMobility25": 0.45595431,
+      "incarcerationRate25": 0.0032284402,
+      "mobilityIndex": 45.6
+    },
+    "08005085900": {
+      "upwardMobility25": 0.54579043,
+      "incarcerationRate25": 0.010182993,
+      "mobilityIndex": 54.6
+    },
+    "08005086000": {
+      "upwardMobility25": 0.46131399,
+      "incarcerationRate25": -0.0032220774,
+      "mobilityIndex": 46.1
+    },
+    "08005086100": {
+      "upwardMobility25": 0.52245623,
+      "incarcerationRate25": 0.039748859,
+      "mobilityIndex": 52.2
+    },
+    "08005086200": {
+      "upwardMobility25": 0.43325713,
+      "incarcerationRate25": 0.042269792,
+      "mobilityIndex": 43.3
+    },
+    "08005086300": {
+      "upwardMobility25": 0.59713322,
+      "incarcerationRate25": 0.011192678,
+      "mobilityIndex": 59.7
+    },
+    "08005086400": {
+      "upwardMobility25": 0.4561815,
+      "incarcerationRate25": 0.019673374,
+      "mobilityIndex": 45.6
+    },
+    "08005086500": {
+      "upwardMobility25": 0.45691425,
+      "incarcerationRate25": 0.0050085126,
+      "mobilityIndex": 45.7
+    },
+    "08005086600": {
+      "upwardMobility25": 0.58573842,
+      "incarcerationRate25": 0.019522371,
+      "mobilityIndex": 58.6
+    },
+    "08005086700": {
+      "upwardMobility25": 0.62004155,
+      "incarcerationRate25": 0.077054165,
+      "mobilityIndex": 62.0
+    },
+    "08005086800": {
+      "upwardMobility25": 0.461164,
+      "incarcerationRate25": 0.026053669,
+      "mobilityIndex": 46.1
+    },
+    "08005086900": {
+      "upwardMobility25": 0.4596436,
+      "incarcerationRate25": -0.021400815,
+      "mobilityIndex": 46.0
+    },
+    "08005087000": {
+      "upwardMobility25": 0.44747978,
+      "incarcerationRate25": 0.037682056,
+      "mobilityIndex": 44.7
+    },
+    "08005087100": {
+      "upwardMobility25": 0.47106203,
+      "incarcerationRate25": 0.056613185,
+      "mobilityIndex": 47.1
+    },
+    "08005087200": {
+      "upwardMobility25": 0.43583229,
+      "incarcerationRate25": 0.06589327,
+      "mobilityIndex": 43.6
+    },
+    "08005087300": {
+      "upwardMobility25": 0.4180384,
+      "incarcerationRate25": 0.039933681,
+      "mobilityIndex": 41.8
+    },
+    "08007940400": {
+      "upwardMobility25": 0.44410312,
+      "incarcerationRate25": 0.028599823,
+      "mobilityIndex": 44.4
+    },
+    "08007974200": {
+      "upwardMobility25": 0.45180172,
+      "incarcerationRate25": 0.00338667,
+      "mobilityIndex": 45.2
+    },
+    "08007974300": {
+      "upwardMobility25": 0.4825739,
+      "incarcerationRate25": -0.0020129126,
+      "mobilityIndex": 48.3
+    },
+    "08007974400": {
+      "upwardMobility25": 0.4134948,
+      "incarcerationRate25": 0.0096269771,
+      "mobilityIndex": 41.3
+    },
+    "08009964600": {
+      "upwardMobility25": 0.55155694,
+      "incarcerationRate25": 0.0094307074,
+      "mobilityIndex": 55.2
+    },
+    "08009964700": {
+      "upwardMobility25": 0.49029276,
+      "incarcerationRate25": -0.003512044,
+      "mobilityIndex": 49.0
+    },
+    "08011966700": {
+      "upwardMobility25": 0.38240796,
+      "incarcerationRate25": 0.028938379,
+      "mobilityIndex": 38.2
+    },
+    "08013012101": {
+      "upwardMobility25": 0.44858161,
+      "incarcerationRate25": 0.020080147,
+      "mobilityIndex": 44.9
+    },
+    "08013012102": {
+      "upwardMobility25": 0.44561958,
+      "incarcerationRate25": 0.0036510357,
+      "mobilityIndex": 44.6
+    },
+    "08013012103": {
+      "upwardMobility25": 0.4061105,
+      "incarcerationRate25": 0.029113887,
+      "mobilityIndex": 40.6
+    },
+    "08013012104": {
+      "upwardMobility25": 0.49285927,
+      "incarcerationRate25": 5.2947603e-06,
+      "mobilityIndex": 49.3
+    },
+    "08013012105": {
+      "upwardMobility25": 0.44382778,
+      "incarcerationRate25": 0.0033295478,
+      "mobilityIndex": 44.4
+    },
+    "08013012201": {
+      "upwardMobility25": 0.41037157,
+      "incarcerationRate25": 0.0084328083,
+      "mobilityIndex": 41.0
+    },
+    "08013012202": {
+      "upwardMobility25": 0.44740456,
+      "incarcerationRate25": 0.009321929,
+      "mobilityIndex": 44.7
+    },
+    "08013012203": {
+      "upwardMobility25": 0.4406811,
+      "incarcerationRate25": 0.020722963,
+      "mobilityIndex": 44.1
+    },
+    "08013012204": {
+      "upwardMobility25": 0.43397832,
+      "incarcerationRate25": 0.032129683,
+      "mobilityIndex": 43.4
+    },
+    "08013012300": {
+      "upwardMobility25": 0.46602529,
+      "incarcerationRate25": 0.026230464,
+      "mobilityIndex": 46.6
+    },
+    "08013012401": {
+      "upwardMobility25": 0.42093077,
+      "incarcerationRate25": -0.016701439,
+      "mobilityIndex": 42.1
+    },
+    "08013012501": {
+      "upwardMobility25": 0.46092954,
+      "incarcerationRate25": 0.02570405,
+      "mobilityIndex": 46.1
+    },
+    "08013012505": {
+      "upwardMobility25": 0.55673259,
+      "incarcerationRate25": 0.00020116672,
+      "mobilityIndex": 55.7
+    },
+    "08013012507": {
+      "upwardMobility25": 0.51290309,
+      "incarcerationRate25": 0.021661222,
+      "mobilityIndex": 51.3
+    },
+    "08013012508": {
+      "upwardMobility25": 0.4498831,
+      "incarcerationRate25": 0.023270652,
+      "mobilityIndex": 45.0
+    },
+    "08013012509": {
+      "upwardMobility25": 0.43662962,
+      "incarcerationRate25": -0.0036526921,
+      "mobilityIndex": 43.7
+    },
+    "08013012510": {
+      "upwardMobility25": 0.4536849,
+      "incarcerationRate25": 0.00039031077,
+      "mobilityIndex": 45.4
+    },
+    "08013012511": {
+      "upwardMobility25": 0.51010609,
+      "incarcerationRate25": 0.0062097213,
+      "mobilityIndex": 51.0
+    },
+    "08013012603": {
+      "upwardMobility25": 0.54417968,
+      "incarcerationRate25": 0.012437635,
+      "mobilityIndex": 54.4
+    },
+    "08013012605": {
+      "upwardMobility25": 0.52546179,
+      "incarcerationRate25": 0.021737481,
+      "mobilityIndex": 52.5
+    },
+    "08013012607": {
+      "upwardMobility25": 0.39314964,
+      "incarcerationRate25": 0.059074804,
+      "mobilityIndex": 39.3
+    },
+    "08013012608": {
+      "upwardMobility25": 0.51530045,
+      "incarcerationRate25": 0.024929533,
+      "mobilityIndex": 51.5
+    },
+    "08013012701": {
+      "upwardMobility25": 0.48627076,
+      "incarcerationRate25": 0.0020823772,
+      "mobilityIndex": 48.6
+    },
+    "08013012705": {
+      "upwardMobility25": 0.53472596,
+      "incarcerationRate25": 0.0065667252,
+      "mobilityIndex": 53.5
+    },
+    "08013012707": {
+      "upwardMobility25": 0.45367229,
+      "incarcerationRate25": 0.013853679,
+      "mobilityIndex": 45.4
+    },
+    "08013012708": {
+      "upwardMobility25": 0.48879689,
+      "incarcerationRate25": 0.0087240171,
+      "mobilityIndex": 48.9
+    },
+    "08013012709": {
+      "upwardMobility25": 0.57584935,
+      "incarcerationRate25": -0.011084204,
+      "mobilityIndex": 57.6
+    },
+    "08013012710": {
+      "upwardMobility25": 0.515338,
+      "incarcerationRate25": 0.00041954967,
+      "mobilityIndex": 51.5
+    },
+    "08013012800": {
+      "upwardMobility25": 0.54268217,
+      "incarcerationRate25": 0.01226119,
+      "mobilityIndex": 54.3
+    },
+    "08013012903": {
+      "upwardMobility25": 0.48061457,
+      "incarcerationRate25": 0.046720091,
+      "mobilityIndex": 48.1
+    },
+    "08013012904": {
+      "upwardMobility25": 0.54577279,
+      "incarcerationRate25": 0.041791756,
+      "mobilityIndex": 54.6
+    },
+    "08013012905": {
+      "upwardMobility25": 0.46344081,
+      "incarcerationRate25": 0.050234396,
+      "mobilityIndex": 46.3
+    },
+    "08013012907": {
+      "upwardMobility25": 0.48008639,
+      "incarcerationRate25": 0.012156174,
+      "mobilityIndex": 48.0
+    },
+    "08013013003": {
+      "upwardMobility25": 0.49048313,
+      "incarcerationRate25": 0.014051091,
+      "mobilityIndex": 49.0
+    },
+    "08013013004": {
+      "upwardMobility25": 0.53040832,
+      "incarcerationRate25": 0.022517797,
+      "mobilityIndex": 53.0
+    },
+    "08013013005": {
+      "upwardMobility25": 0.48792389,
+      "incarcerationRate25": 0.047187779,
+      "mobilityIndex": 48.8
+    },
+    "08013013006": {
+      "upwardMobility25": 0.5597288,
+      "incarcerationRate25": 0.015069566,
+      "mobilityIndex": 56.0
+    },
+    "08013013201": {
+      "upwardMobility25": 0.47454008,
+      "incarcerationRate25": 0.078345329,
+      "mobilityIndex": 47.5
+    },
+    "08013013202": {
+      "upwardMobility25": 0.44074112,
+      "incarcerationRate25": 0.030562337,
+      "mobilityIndex": 44.1
+    },
+    "08013013205": {
+      "upwardMobility25": 0.44083887,
+      "incarcerationRate25": 0.0079711843,
+      "mobilityIndex": 44.1
+    },
+    "08013013207": {
+      "upwardMobility25": 0.43373486,
+      "incarcerationRate25": 0.029792534,
+      "mobilityIndex": 43.4
+    },
+    "08013013208": {
+      "upwardMobility25": 0.45758331,
+      "incarcerationRate25": 0.010504412,
+      "mobilityIndex": 45.8
+    },
+    "08013013210": {
+      "upwardMobility25": 0.42152619,
+      "incarcerationRate25": 0.028214628,
+      "mobilityIndex": 42.2
+    },
+    "08013013211": {
+      "upwardMobility25": 0.43447766,
+      "incarcerationRate25": 0.0044003422,
+      "mobilityIndex": 43.4
+    },
+    "08013013212": {
+      "upwardMobility25": 0.5451498,
+      "incarcerationRate25": 0.041670289,
+      "mobilityIndex": 54.5
+    },
+    "08013013213": {
+      "upwardMobility25": 0.51878566,
+      "incarcerationRate25": 0.011327715,
+      "mobilityIndex": 51.9
+    },
+    "08013013302": {
+      "upwardMobility25": 0.42202166,
+      "incarcerationRate25": 0.016742973,
+      "mobilityIndex": 42.2
+    },
+    "08013013305": {
+      "upwardMobility25": 0.47150919,
+      "incarcerationRate25": 0.0027314392,
+      "mobilityIndex": 47.2
+    },
+    "08013013306": {
+      "upwardMobility25": 0.429851,
+      "incarcerationRate25": 0.019519376,
+      "mobilityIndex": 43.0
+    },
+    "08013013307": {
+      "upwardMobility25": 0.43741956,
+      "incarcerationRate25": 0.0020823334,
+      "mobilityIndex": 43.7
+    },
+    "08013013308": {
+      "upwardMobility25": 0.44372457,
+      "incarcerationRate25": 0.021265721,
+      "mobilityIndex": 44.4
+    },
+    "08013013401": {
+      "upwardMobility25": 0.33103451,
+      "incarcerationRate25": 0.037675329,
+      "mobilityIndex": 33.1
+    },
+    "08013013402": {
+      "upwardMobility25": 0.42016858,
+      "incarcerationRate25": 0.023974113,
+      "mobilityIndex": 42.0
+    },
+    "08013013503": {
+      "upwardMobility25": 0.37529936,
+      "incarcerationRate25": 0.030159656,
+      "mobilityIndex": 37.5
+    },
+    "08013013505": {
+      "upwardMobility25": 0.4275212,
+      "incarcerationRate25": 0.0087839048,
+      "mobilityIndex": 42.8
+    },
+    "08013013506": {
+      "upwardMobility25": 0.42518273,
+      "incarcerationRate25": 0.041811999,
+      "mobilityIndex": 42.5
+    },
+    "08013013507": {
+      "upwardMobility25": 0.43573794,
+      "incarcerationRate25": 0.024855249,
+      "mobilityIndex": 43.6
+    },
+    "08013013508": {
+      "upwardMobility25": 0.50152755,
+      "incarcerationRate25": 0.00019886464,
+      "mobilityIndex": 50.2
+    },
+    "08013013601": {
+      "upwardMobility25": 0.48068541,
+      "incarcerationRate25": -0.006063988,
+      "mobilityIndex": 48.1
+    },
+    "08013013602": {
+      "upwardMobility25": 0.46305656,
+      "incarcerationRate25": 0.0096989749,
+      "mobilityIndex": 46.3
+    },
+    "08013013701": {
+      "upwardMobility25": 0.40130833,
+      "incarcerationRate25": 0.0012206266,
+      "mobilityIndex": 40.1
+    },
+    "08013013702": {
+      "upwardMobility25": 0.4420757,
+      "incarcerationRate25": 0.033980988,
+      "mobilityIndex": 44.2
+    },
+    "08013060600": {
+      "upwardMobility25": 0.47431582,
+      "incarcerationRate25": -0.00027424289,
+      "mobilityIndex": 47.4
+    },
+    "08013060700": {
+      "upwardMobility25": 0.46219656,
+      "incarcerationRate25": 0.037559651,
+      "mobilityIndex": 46.2
+    },
+    "08013060800": {
+      "upwardMobility25": 0.39783952,
+      "incarcerationRate25": 0.023422692,
+      "mobilityIndex": 39.8
+    },
+    "08013060900": {
+      "upwardMobility25": 0.45042247,
+      "incarcerationRate25": 0.05328178,
+      "mobilityIndex": 45.0
+    },
+    "08013061300": {
+      "upwardMobility25": 0.53031957,
+      "incarcerationRate25": 0.05399891,
+      "mobilityIndex": 53.0
+    },
+    "08013061400": {
+      "upwardMobility25": 0.5370295,
+      "incarcerationRate25": -0.010536674,
+      "mobilityIndex": 53.7
+    },
+    "08014030000": {
+      "upwardMobility25": 0.4913038,
+      "incarcerationRate25": 0.022327432,
+      "mobilityIndex": 49.1
+    },
+    "08014030100": {
+      "upwardMobility25": 0.44942519,
+      "incarcerationRate25": 0.011940903,
+      "mobilityIndex": 44.9
+    },
+    "08014030200": {
+      "upwardMobility25": 0.4386301,
+      "incarcerationRate25": 0.014832766,
+      "mobilityIndex": 43.9
+    },
+    "08014030300": {
+      "upwardMobility25": 0.46917582,
+      "incarcerationRate25": 0.015493948,
+      "mobilityIndex": 46.9
+    },
+    "08014030400": {
+      "upwardMobility25": 0.52706659,
+      "incarcerationRate25": 0.019892903,
+      "mobilityIndex": 52.7
+    },
+    "08014030500": {
+      "upwardMobility25": 0.60751647,
+      "incarcerationRate25": 0.025271103,
+      "mobilityIndex": 60.8
+    },
+    "08014030600": {
+      "upwardMobility25": 0.50646561,
+      "incarcerationRate25": 0.010639318,
+      "mobilityIndex": 50.6
+    },
+    "08014030700": {
+      "upwardMobility25": 0.52028233,
+      "incarcerationRate25": 0.00026280401,
+      "mobilityIndex": 52.0
+    },
+    "08014030800": {
+      "upwardMobility25": 0.4485065,
+      "incarcerationRate25": 0.0075094854,
+      "mobilityIndex": 44.9
+    },
+    "08014030900": {
+      "upwardMobility25": 0.43741068,
+      "incarcerationRate25": 0.00073307776,
+      "mobilityIndex": 43.7
+    },
+    "08014031000": {
+      "upwardMobility25": 0.55787635,
+      "incarcerationRate25": -0.0090245204,
+      "mobilityIndex": 55.8
+    },
+    "08014031100": {
+      "upwardMobility25": 0.42121059,
+      "incarcerationRate25": 0.01224227,
+      "mobilityIndex": 42.1
+    },
+    "08014031200": {
+      "upwardMobility25": 0.4484517,
+      "incarcerationRate25": 0.044783767,
+      "mobilityIndex": 44.8
+    },
+    "08014031300": {
+      "upwardMobility25": 0.45359656,
+      "incarcerationRate25": 0.016720558,
+      "mobilityIndex": 45.4
+    },
+    "08014031400": {
+      "upwardMobility25": 0.49202976,
+      "incarcerationRate25": -0.21451332,
+      "mobilityIndex": 49.2
+    },
+    "08015000100": {
+      "upwardMobility25": 0.44059619,
+      "incarcerationRate25": 0.030912949,
+      "mobilityIndex": 44.1
+    },
+    "08015000200": {
+      "upwardMobility25": 0.46325606,
+      "incarcerationRate25": 0.014294608,
+      "mobilityIndex": 46.3
+    },
+    "08015000300": {
+      "upwardMobility25": 0.48212454,
+      "incarcerationRate25": 0.01155519,
+      "mobilityIndex": 48.2
+    },
+    "08015000401": {
+      "upwardMobility25": 0.52070111,
+      "incarcerationRate25": 0.0040272642,
+      "mobilityIndex": 52.1
+    },
+    "08015000402": {
+      "upwardMobility25": 0.44874159,
+      "incarcerationRate25": 0.12328334,
+      "mobilityIndex": 44.9
+    },
+    "08017960600": {
+      "upwardMobility25": 0.58510911,
+      "incarcerationRate25": 0.0026199447,
+      "mobilityIndex": 58.5
+    },
+    "08019014700": {
+      "upwardMobility25": 0.51452404,
+      "incarcerationRate25": 0.051018372,
+      "mobilityIndex": 51.5
+    },
+    "08019014800": {
+      "upwardMobility25": 0.46405619,
+      "incarcerationRate25": 0.25700057,
+      "mobilityIndex": 46.4
+    },
+    "08019014900": {
+      "upwardMobility25": 0.44914192,
+      "incarcerationRate25": -0.0075007076,
+      "mobilityIndex": 44.9
+    },
+    "08021974800": {
+      "upwardMobility25": 0.47004798,
+      "incarcerationRate25": 0.017131032,
+      "mobilityIndex": 47.0
+    },
+    "08021974900": {
+      "upwardMobility25": 0.5126403,
+      "incarcerationRate25": 0.0036480315,
+      "mobilityIndex": 51.3
+    },
+    "08023972600": {
+      "upwardMobility25": 0.42592248,
+      "incarcerationRate25": 0.020354033,
+      "mobilityIndex": 42.6
+    },
+    "08023972700": {
+      "upwardMobility25": 0.36787212,
+      "incarcerationRate25": 0.086763807,
+      "mobilityIndex": 36.8
+    },
+    "08025969600": {
+      "upwardMobility25": 0.40682921,
+      "incarcerationRate25": 0.0092026545,
+      "mobilityIndex": 40.7
+    },
+    "08027970100": {
+      "upwardMobility25": 0.49116141,
+      "incarcerationRate25": 0.042206079,
+      "mobilityIndex": 49.1
+    },
+    "08029964600": {
+      "upwardMobility25": 0.4592689,
+      "incarcerationRate25": 0.0088280868,
+      "mobilityIndex": 45.9
+    },
+    "08029964700": {
+      "upwardMobility25": 0.50778097,
+      "incarcerationRate25": 0.01058875,
+      "mobilityIndex": 50.8
+    },
+    "08029964800": {
+      "upwardMobility25": 0.44209746,
+      "incarcerationRate25": 0.019620709,
+      "mobilityIndex": 44.2
+    },
+    "08029964900": {
+      "upwardMobility25": 0.44454437,
+      "incarcerationRate25": 0.023081899,
+      "mobilityIndex": 44.5
+    },
+    "08029965000": {
+      "upwardMobility25": 0.51853025,
+      "incarcerationRate25": 0.01727994,
+      "mobilityIndex": 51.9
+    },
+    "08029965100": {
+      "upwardMobility25": 0.42759097,
+      "incarcerationRate25": 0.017950041,
+      "mobilityIndex": 42.8
+    },
+    "08029965200": {
+      "upwardMobility25": 0.55106086,
+      "incarcerationRate25": 0.023401069,
+      "mobilityIndex": 55.1
+    },
+    "08031000102": {
+      "upwardMobility25": 0.42372042,
+      "incarcerationRate25": 0.012473618,
+      "mobilityIndex": 42.4
+    },
+    "08031000201": {
+      "upwardMobility25": 0.37925506,
+      "incarcerationRate25": 0.016891086,
+      "mobilityIndex": 37.9
+    },
+    "08031000202": {
+      "upwardMobility25": 0.37278,
+      "incarcerationRate25": 0.090898842,
+      "mobilityIndex": 37.3
+    },
+    "08031000301": {
+      "upwardMobility25": 0.37902158,
+      "incarcerationRate25": 0.078563102,
+      "mobilityIndex": 37.9
+    },
+    "08031000302": {
+      "upwardMobility25": 0.40786135,
+      "incarcerationRate25": 0.032761965,
+      "mobilityIndex": 40.8
+    },
+    "08031000303": {
+      "upwardMobility25": 0.37838617,
+      "incarcerationRate25": 0.053197239,
+      "mobilityIndex": 37.8
+    },
+    "08031000401": {
+      "upwardMobility25": 0.36777225,
+      "incarcerationRate25": 0.03989087,
+      "mobilityIndex": 36.8
+    },
+    "08031000402": {
+      "upwardMobility25": 0.37912148,
+      "incarcerationRate25": 0.05447131,
+      "mobilityIndex": 37.9
+    },
+    "08031000501": {
+      "upwardMobility25": 0.41318253,
+      "incarcerationRate25": 0.027564429,
+      "mobilityIndex": 41.3
+    },
+    "08031000502": {
+      "upwardMobility25": 0.3815982,
+      "incarcerationRate25": 0.039443716,
+      "mobilityIndex": 38.2
+    },
+    "08031000600": {
+      "upwardMobility25": 0.33639091,
+      "incarcerationRate25": 0.037512332,
+      "mobilityIndex": 33.6
+    },
+    "08031000701": {
+      "upwardMobility25": 0.36448547,
+      "incarcerationRate25": 0.051245324,
+      "mobilityIndex": 36.4
+    },
+    "08031000702": {
+      "upwardMobility25": 0.37682164,
+      "incarcerationRate25": 0.047951646,
+      "mobilityIndex": 37.7
+    },
+    "08031000800": {
+      "upwardMobility25": 0.33788309,
+      "incarcerationRate25": 0.0076231938,
+      "mobilityIndex": 33.8
+    },
+    "08031000902": {
+      "upwardMobility25": 0.39025939,
+      "incarcerationRate25": 0.035313364,
+      "mobilityIndex": 39.0
+    },
+    "08031000903": {
+      "upwardMobility25": 0.36731026,
+      "incarcerationRate25": 0.075029187,
+      "mobilityIndex": 36.7
+    },
+    "08031000904": {
+      "upwardMobility25": 0.37016678,
+      "incarcerationRate25": 0.042851422,
+      "mobilityIndex": 37.0
+    },
+    "08031000905": {
+      "upwardMobility25": 0.38395068,
+      "incarcerationRate25": 0.037618052,
+      "mobilityIndex": 38.4
+    },
+    "08031001000": {
+      "upwardMobility25": 0.37777907,
+      "incarcerationRate25": 0.03660541,
+      "mobilityIndex": 37.8
+    },
+    "08031001101": {
+      "upwardMobility25": 0.39126018,
+      "incarcerationRate25": 0.062935419,
+      "mobilityIndex": 39.1
+    },
+    "08031001102": {
+      "upwardMobility25": 0.37771487,
+      "incarcerationRate25": 0.057254005,
+      "mobilityIndex": 37.8
+    },
+    "08031001301": {
+      "upwardMobility25": 0.39089602,
+      "incarcerationRate25": 0.017486164,
+      "mobilityIndex": 39.1
+    },
+    "08031001302": {
+      "upwardMobility25": 0.38608539,
+      "incarcerationRate25": 0.046707816,
+      "mobilityIndex": 38.6
+    },
+    "08031001401": {
+      "upwardMobility25": 0.38122621,
+      "incarcerationRate25": 0.051794913,
+      "mobilityIndex": 38.1
+    },
+    "08031001402": {
+      "upwardMobility25": 0.37722173,
+      "incarcerationRate25": 0.042564902,
+      "mobilityIndex": 37.7
+    },
+    "08031001403": {
+      "upwardMobility25": 0.32674694,
+      "incarcerationRate25": 0.038310584,
+      "mobilityIndex": 32.7
+    },
+    "08031001500": {
+      "upwardMobility25": 0.38687879,
+      "incarcerationRate25": 0.051568076,
+      "mobilityIndex": 38.7
+    },
+    "08031001600": {
+      "upwardMobility25": 0.3220965,
+      "incarcerationRate25": 0.097034797,
+      "mobilityIndex": 32.2
+    },
+    "08031001701": {
+      "upwardMobility25": 0.51860058,
+      "incarcerationRate25": 0.021029441,
+      "mobilityIndex": 51.9
+    },
+    "08031001702": {
+      "upwardMobility25": 0.37815031,
+      "incarcerationRate25": 0.014136707,
+      "mobilityIndex": 37.8
+    },
+    "08031001800": {
+      "upwardMobility25": 0.37280551,
+      "incarcerationRate25": 0.024627738,
+      "mobilityIndex": 37.3
+    },
+    "08031001901": {
+      "upwardMobility25": 0.35901344,
+      "incarcerationRate25": 0.063363001,
+      "mobilityIndex": 35.9
+    },
+    "08031002000": {
+      "upwardMobility25": 0.39823458,
+      "incarcerationRate25": 0.046963897,
+      "mobilityIndex": 39.8
+    },
+    "08031002100": {
+      "upwardMobility25": 0.3744593,
+      "incarcerationRate25": 0.051481456,
+      "mobilityIndex": 37.4
+    },
+    "08031002300": {
+      "upwardMobility25": 0.34604299,
+      "incarcerationRate25": 0.042694259,
+      "mobilityIndex": 34.6
+    },
+    "08031002402": {
+      "upwardMobility25": 0.29171354,
+      "incarcerationRate25": 0.088142358,
+      "mobilityIndex": 29.2
+    },
+    "08031002403": {
+      "upwardMobility25": 0.31831172,
+      "incarcerationRate25": 0.061152704,
+      "mobilityIndex": 31.8
+    },
+    "08031002601": {
+      "upwardMobility25": 0.34134147,
+      "incarcerationRate25": 0.023808466,
+      "mobilityIndex": 34.1
+    },
+    "08031002602": {
+      "upwardMobility25": 0.41278747,
+      "incarcerationRate25": 0.075968727,
+      "mobilityIndex": 41.3
+    },
+    "08031002701": {
+      "upwardMobility25": 0.38770279,
+      "incarcerationRate25": 0.041501611,
+      "mobilityIndex": 38.8
+    },
+    "08031002702": {
+      "upwardMobility25": 0.43596953,
+      "incarcerationRate25": 0.0032831377,
+      "mobilityIndex": 43.6
+    },
+    "08031002703": {
+      "upwardMobility25": 0.36359805,
+      "incarcerationRate25": 0.028033532,
+      "mobilityIndex": 36.4
+    },
+    "08031002801": {
+      "upwardMobility25": 0.38512439,
+      "incarcerationRate25": 0.024967739,
+      "mobilityIndex": 38.5
+    },
+    "08031002802": {
+      "upwardMobility25": 0.38256815,
+      "incarcerationRate25": 0.059183005,
+      "mobilityIndex": 38.3
+    },
+    "08031002803": {
+      "upwardMobility25": 0.38748792,
+      "incarcerationRate25": 0.046392962,
+      "mobilityIndex": 38.7
+    },
+    "08031002901": {
+      "upwardMobility25": 0.39647475,
+      "incarcerationRate25": 0.055311192,
+      "mobilityIndex": 39.6
+    },
+    "08031002902": {
+      "upwardMobility25": 0.46019247,
+      "incarcerationRate25": -0.017244847,
+      "mobilityIndex": 46.0
+    },
+    "08031003001": {
+      "upwardMobility25": 0.48153096,
+      "incarcerationRate25": 0.03097121,
+      "mobilityIndex": 48.2
+    },
+    "08031003002": {
+      "upwardMobility25": 0.39691296,
+      "incarcerationRate25": 0.034813084,
+      "mobilityIndex": 39.7
+    },
+    "08031003003": {
+      "upwardMobility25": 0.40417016,
+      "incarcerationRate25": 0.019803962,
+      "mobilityIndex": 40.4
+    },
+    "08031003004": {
+      "upwardMobility25": 0.38004997,
+      "incarcerationRate25": 0.074464038,
+      "mobilityIndex": 38.0
+    },
+    "08031003101": {
+      "upwardMobility25": 0.34913161,
+      "incarcerationRate25": 0.023774816,
+      "mobilityIndex": 34.9
+    },
+    "08031003102": {
+      "upwardMobility25": 0.32890913,
+      "incarcerationRate25": 0.03388856,
+      "mobilityIndex": 32.9
+    },
+    "08031003201": {
+      "upwardMobility25": 0.39706412,
+      "incarcerationRate25": 0.061373301,
+      "mobilityIndex": 39.7
+    },
+    "08031003202": {
+      "upwardMobility25": 0.45772678,
+      "incarcerationRate25": 0.026358562,
+      "mobilityIndex": 45.8
+    },
+    "08031003203": {
+      "upwardMobility25": 0.48582152,
+      "incarcerationRate25": 0.03462011,
+      "mobilityIndex": 48.6
+    },
+    "08031003300": {
+      "upwardMobility25": 0.43252921,
+      "incarcerationRate25": 0.014659221,
+      "mobilityIndex": 43.3
+    },
+    "08031003401": {
+      "upwardMobility25": 0.50139529,
+      "incarcerationRate25": -0.012432307,
+      "mobilityIndex": 50.1
+    },
+    "08031003402": {
+      "upwardMobility25": 0.46417704,
+      "incarcerationRate25": -0.00037614437,
+      "mobilityIndex": 46.4
+    },
+    "08031003500": {
+      "upwardMobility25": 0.38241333,
+      "incarcerationRate25": 0.042286418,
+      "mobilityIndex": 38.2
+    },
+    "08031003601": {
+      "upwardMobility25": 0.35719538,
+      "incarcerationRate25": 0.03518283,
+      "mobilityIndex": 35.7
+    },
+    "08031003602": {
+      "upwardMobility25": 0.35142401,
+      "incarcerationRate25": 0.070558943,
+      "mobilityIndex": 35.1
+    },
+    "08031003603": {
+      "upwardMobility25": 0.33649707,
+      "incarcerationRate25": 0.10662141,
+      "mobilityIndex": 33.6
+    },
+    "08031003701": {
+      "upwardMobility25": 0.40646839,
+      "incarcerationRate25": 0.021296745,
+      "mobilityIndex": 40.6
+    },
+    "08031003702": {
+      "upwardMobility25": 0.37819231,
+      "incarcerationRate25": 0.048639286,
+      "mobilityIndex": 37.8
+    },
+    "08031003703": {
+      "upwardMobility25": 0.36721411,
+      "incarcerationRate25": 0.04687392,
+      "mobilityIndex": 36.7
+    },
+    "08031003800": {
+      "upwardMobility25": 0.48389003,
+      "incarcerationRate25": 0.032359321,
+      "mobilityIndex": 48.4
+    },
+    "08031003901": {
+      "upwardMobility25": 0.44517648,
+      "incarcerationRate25": -0.0004407379,
+      "mobilityIndex": 44.5
+    },
+    "08031003902": {
+      "upwardMobility25": 0.42404339,
+      "incarcerationRate25": 0.0022629271,
+      "mobilityIndex": 42.4
+    },
+    "08031004002": {
+      "upwardMobility25": 0.54307288,
+      "incarcerationRate25": 0.0054402142,
+      "mobilityIndex": 54.3
+    },
+    "08031004003": {
+      "upwardMobility25": 0.43230125,
+      "incarcerationRate25": 0.024932845,
+      "mobilityIndex": 43.2
+    },
+    "08031004004": {
+      "upwardMobility25": 0.47340462,
+      "incarcerationRate25": 0.047699776,
+      "mobilityIndex": 47.3
+    },
+    "08031004005": {
+      "upwardMobility25": 0.46667522,
+      "incarcerationRate25": -0.015101478,
+      "mobilityIndex": 46.7
+    },
+    "08031004006": {
+      "upwardMobility25": 0.52536112,
+      "incarcerationRate25": 0.013345733,
+      "mobilityIndex": 52.5
+    },
+    "08031004101": {
+      "upwardMobility25": 0.31480414,
+      "incarcerationRate25": 0.078155696,
+      "mobilityIndex": 31.5
+    },
+    "08031004102": {
+      "upwardMobility25": 0.31705371,
+      "incarcerationRate25": 0.076520965,
+      "mobilityIndex": 31.7
+    },
+    "08031004103": {
+      "upwardMobility25": 0.33051556,
+      "incarcerationRate25": 0.056901135,
+      "mobilityIndex": 33.1
+    },
+    "08031004104": {
+      "upwardMobility25": 0.35316539,
+      "incarcerationRate25": 0.048383445,
+      "mobilityIndex": 35.3
+    },
+    "08031004106": {
+      "upwardMobility25": 0.42087287,
+      "incarcerationRate25": -0.033560742,
+      "mobilityIndex": 42.1
+    },
+    "08031004107": {
+      "upwardMobility25": 0.44526052,
+      "incarcerationRate25": 0.045075614,
+      "mobilityIndex": 44.5
+    },
+    "08031004201": {
+      "upwardMobility25": 0.41786745,
+      "incarcerationRate25": 0.019145124,
+      "mobilityIndex": 41.8
+    },
+    "08031004202": {
+      "upwardMobility25": 0.38970357,
+      "incarcerationRate25": 0.0352933,
+      "mobilityIndex": 39.0
+    },
+    "08031004301": {
+      "upwardMobility25": 0.40319461,
+      "incarcerationRate25": 0.037309397,
+      "mobilityIndex": 40.3
+    },
+    "08031004302": {
+      "upwardMobility25": 0.40758076,
+      "incarcerationRate25": 0.043040033,
+      "mobilityIndex": 40.8
+    },
+    "08031004303": {
+      "upwardMobility25": 0.46606803,
+      "incarcerationRate25": 0.072785884,
+      "mobilityIndex": 46.6
+    },
+    "08031004304": {
+      "upwardMobility25": 0.38204578,
+      "incarcerationRate25": 0.045596704,
+      "mobilityIndex": 38.2
+    },
+    "08031004306": {
+      "upwardMobility25": 0.4212873,
+      "incarcerationRate25": 0.040397551,
+      "mobilityIndex": 42.1
+    },
+    "08031004403": {
+      "upwardMobility25": 0.34977132,
+      "incarcerationRate25": 0.042592734,
+      "mobilityIndex": 35.0
+    },
+    "08031004404": {
+      "upwardMobility25": 0.3471905,
+      "incarcerationRate25": 0.064168088,
+      "mobilityIndex": 34.7
+    },
+    "08031004405": {
+      "upwardMobility25": 0.40691003,
+      "incarcerationRate25": 0.069023818,
+      "mobilityIndex": 40.7
+    },
+    "08031004503": {
+      "upwardMobility25": 0.34934238,
+      "incarcerationRate25": 0.060667325,
+      "mobilityIndex": 34.9
+    },
+    "08031004504": {
+      "upwardMobility25": 0.3718932,
+      "incarcerationRate25": 0.042867821,
+      "mobilityIndex": 37.2
+    },
+    "08031004505": {
+      "upwardMobility25": 0.37644711,
+      "incarcerationRate25": 0.035078034,
+      "mobilityIndex": 37.6
+    },
+    "08031004506": {
+      "upwardMobility25": 0.3614023,
+      "incarcerationRate25": 0.067725085,
+      "mobilityIndex": 36.1
+    },
+    "08031004601": {
+      "upwardMobility25": 0.41186911,
+      "incarcerationRate25": 0.047299404,
+      "mobilityIndex": 41.2
+    },
+    "08031004602": {
+      "upwardMobility25": 0.39061064,
+      "incarcerationRate25": 0.04583187,
+      "mobilityIndex": 39.1
+    },
+    "08031004603": {
+      "upwardMobility25": 0.38581949,
+      "incarcerationRate25": 0.042012226,
+      "mobilityIndex": 38.6
+    },
+    "08031004700": {
+      "upwardMobility25": 0.40512216,
+      "incarcerationRate25": 0.038400099,
+      "mobilityIndex": 40.5
+    },
+    "08031004801": {
+      "upwardMobility25": 0.44279945,
+      "incarcerationRate25": 0.024038795,
+      "mobilityIndex": 44.3
+    },
+    "08031005001": {
+      "upwardMobility25": 0.41035718,
+      "incarcerationRate25": 0.026135925,
+      "mobilityIndex": 41.0
+    },
+    "08031005002": {
+      "upwardMobility25": 0.41858512,
+      "incarcerationRate25": 0.051304318,
+      "mobilityIndex": 41.9
+    },
+    "08031005102": {
+      "upwardMobility25": 0.4507435,
+      "incarcerationRate25": 0.03068364,
+      "mobilityIndex": 45.1
+    },
+    "08031005104": {
+      "upwardMobility25": 0.39831826,
+      "incarcerationRate25": 0.04038683,
+      "mobilityIndex": 39.8
+    },
+    "08031005200": {
+      "upwardMobility25": 0.44057763,
+      "incarcerationRate25": 0.013019804,
+      "mobilityIndex": 44.1
+    },
+    "08031005300": {
+      "upwardMobility25": 0.4414421,
+      "incarcerationRate25": -0.019388972,
+      "mobilityIndex": 44.1
+    },
+    "08031005502": {
+      "upwardMobility25": 0.53914881,
+      "incarcerationRate25": -0.022848519,
+      "mobilityIndex": 53.9
+    },
+    "08031005503": {
+      "upwardMobility25": 0.42020199,
+      "incarcerationRate25": 0.035118517,
+      "mobilityIndex": 42.0
+    },
+    "08031006701": {
+      "upwardMobility25": 0.47665969,
+      "incarcerationRate25": 0.030953011,
+      "mobilityIndex": 47.7
+    },
+    "08031006804": {
+      "upwardMobility25": 0.51954311,
+      "incarcerationRate25": -0.003397804,
+      "mobilityIndex": 52.0
+    },
+    "08031006809": {
+      "upwardMobility25": 0.45640317,
+      "incarcerationRate25": 0.011580182,
+      "mobilityIndex": 45.6
+    },
+    "08031006810": {
+      "upwardMobility25": 0.43339989,
+      "incarcerationRate25": 0.044123612,
+      "mobilityIndex": 43.3
+    },
+    "08031006811": {
+      "upwardMobility25": 0.45136532,
+      "incarcerationRate25": 0.016349521,
+      "mobilityIndex": 45.1
+    },
+    "08031006812": {
+      "upwardMobility25": 0.44898179,
+      "incarcerationRate25": 0.028994069,
+      "mobilityIndex": 44.9
+    },
+    "08031006813": {
+      "upwardMobility25": 0.41125259,
+      "incarcerationRate25": 0.053929448,
+      "mobilityIndex": 41.1
+    },
+    "08031006814": {
+      "upwardMobility25": 0.43491605,
+      "incarcerationRate25": 0.0314437,
+      "mobilityIndex": 43.5
+    },
+    "08031006901": {
+      "upwardMobility25": 0.43879032,
+      "incarcerationRate25": 0.015098153,
+      "mobilityIndex": 43.9
+    },
+    "08031007006": {
+      "upwardMobility25": 0.39393672,
+      "incarcerationRate25": 0.01934997,
+      "mobilityIndex": 39.4
+    },
+    "08031007013": {
+      "upwardMobility25": 0.48822388,
+      "incarcerationRate25": 0.044710036,
+      "mobilityIndex": 48.8
+    },
+    "08031007037": {
+      "upwardMobility25": 0.42685345,
+      "incarcerationRate25": 0.013512574,
+      "mobilityIndex": 42.7
+    },
+    "08031007088": {
+      "upwardMobility25": 0.39770702,
+      "incarcerationRate25": 0.065943651,
+      "mobilityIndex": 39.8
+    },
+    "08031007089": {
+      "upwardMobility25": 0.40344542,
+      "incarcerationRate25": 0.079121053,
+      "mobilityIndex": 40.3
+    },
+    "08031008304": {
+      "upwardMobility25": 0.34767154,
+      "incarcerationRate25": 0.040599473,
+      "mobilityIndex": 34.8
+    },
+    "08031008305": {
+      "upwardMobility25": 0.35823184,
+      "incarcerationRate25": 0.062509671,
+      "mobilityIndex": 35.8
+    },
+    "08031008306": {
+      "upwardMobility25": 0.33547676,
+      "incarcerationRate25": 0.073531426,
+      "mobilityIndex": 33.5
+    },
+    "08031008312": {
+      "upwardMobility25": 0.36256516,
+      "incarcerationRate25": 0.062955953,
+      "mobilityIndex": 36.3
+    },
+    "08031008386": {
+      "upwardMobility25": 0.36137134,
+      "incarcerationRate25": 0.067217551,
+      "mobilityIndex": 36.1
+    },
+    "08031008387": {
+      "upwardMobility25": 0.36100826,
+      "incarcerationRate25": 0.043134645,
+      "mobilityIndex": 36.1
+    },
+    "08031008388": {
+      "upwardMobility25": 0.39572564,
+      "incarcerationRate25": 0.017579893,
+      "mobilityIndex": 39.6
+    },
+    "08031008389": {
+      "upwardMobility25": 0.44749355,
+      "incarcerationRate25": -0.0031584813,
+      "mobilityIndex": 44.7
+    },
+    "08031008390": {
+      "upwardMobility25": 0.40052965,
+      "incarcerationRate25": 0.043954488,
+      "mobilityIndex": 40.1
+    },
+    "08031008391": {
+      "upwardMobility25": 0.39002973,
+      "incarcerationRate25": 0.055772584,
+      "mobilityIndex": 39.0
+    },
+    "08031011902": {
+      "upwardMobility25": 0.45217922,
+      "incarcerationRate25": 0.020680577,
+      "mobilityIndex": 45.2
+    },
+    "08031011903": {
+      "upwardMobility25": 0.49398506,
+      "incarcerationRate25": 0.018591102,
+      "mobilityIndex": 49.4
+    },
+    "08031012001": {
+      "upwardMobility25": 0.4209758,
+      "incarcerationRate25": 0.16593969,
+      "mobilityIndex": 42.1
+    },
+    "08031012010": {
+      "upwardMobility25": 0.46061414,
+      "incarcerationRate25": -0.00077591138,
+      "mobilityIndex": 46.1
+    },
+    "08031012014": {
+      "upwardMobility25": 0.43535671,
+      "incarcerationRate25": 0.036323987,
+      "mobilityIndex": 43.5
+    },
+    "08031015300": {
+      "upwardMobility25": 0.49099907,
+      "incarcerationRate25": 0.019074973,
+      "mobilityIndex": 49.1
+    },
+    "08031015400": {
+      "upwardMobility25": 0.36507654,
+      "incarcerationRate25": 0.056698602,
+      "mobilityIndex": 36.5
+    },
+    "08031015500": {
+      "upwardMobility25": 0.42707571,
+      "incarcerationRate25": 0.030842109,
+      "mobilityIndex": 42.7
+    },
+    "08031015600": {
+      "upwardMobility25": 0.3730869,
+      "incarcerationRate25": 0.044512361,
+      "mobilityIndex": 37.3
+    },
+    "08031015700": {
+      "upwardMobility25": 0.40668646,
+      "incarcerationRate25": 0.037932049,
+      "mobilityIndex": 40.7
+    },
+    "08031980100": {
+      "upwardMobility25": 0.37042907,
+      "mobilityIndex": 37.0
+    },
+    "08033000100": {
+      "upwardMobility25": 0.47603101,
+      "incarcerationRate25": 0.070735827,
+      "mobilityIndex": 47.6
+    },
+    "08035013901": {
+      "upwardMobility25": 0.48625332,
+      "incarcerationRate25": -0.0044846251,
+      "mobilityIndex": 48.6
+    },
+    "08035013904": {
+      "upwardMobility25": 0.49923453,
+      "incarcerationRate25": 0.013032684,
+      "mobilityIndex": 49.9
+    },
+    "08035013905": {
+      "upwardMobility25": 0.54296148,
+      "incarcerationRate25": 0.054820564,
+      "mobilityIndex": 54.3
+    },
+    "08035013907": {
+      "upwardMobility25": 0.4982971,
+      "incarcerationRate25": 0.0053640455,
+      "mobilityIndex": 49.8
+    },
+    "08035013908": {
+      "upwardMobility25": 0.5228461,
+      "incarcerationRate25": 0.012553911,
+      "mobilityIndex": 52.3
+    },
+    "08035013909": {
+      "upwardMobility25": 0.51790202,
+      "incarcerationRate25": 0.042492758,
+      "mobilityIndex": 51.8
+    },
+    "08035013910": {
+      "upwardMobility25": 0.5256663,
+      "incarcerationRate25": 0.051269758,
+      "mobilityIndex": 52.6
+    },
+    "08035013911": {
+      "upwardMobility25": 0.50731695,
+      "incarcerationRate25": 0.0092303418,
+      "mobilityIndex": 50.7
+    },
+    "08035014001": {
+      "upwardMobility25": 0.4960852,
+      "incarcerationRate25": 0.0047985301,
+      "mobilityIndex": 49.6
+    },
+    "08035014005": {
+      "upwardMobility25": 0.57541353,
+      "incarcerationRate25": -0.005092591,
+      "mobilityIndex": 57.5
+    },
+    "08035014006": {
+      "upwardMobility25": 0.66276067,
+      "incarcerationRate25": 0.088996746,
+      "mobilityIndex": 66.3
+    },
+    "08035014007": {
+      "upwardMobility25": 0.38403249,
+      "incarcerationRate25": -0.0061916187,
+      "mobilityIndex": 38.4
+    },
+    "08035014008": {
+      "upwardMobility25": 0.50488168,
+      "incarcerationRate25": 0.041571509,
+      "mobilityIndex": 50.5
+    },
+    "08035014009": {
+      "upwardMobility25": 0.4850342,
+      "incarcerationRate25": 0.0071545378,
+      "mobilityIndex": 48.5
+    },
+    "08035014010": {
+      "upwardMobility25": 0.52161729,
+      "incarcerationRate25": -0.0092814518,
+      "mobilityIndex": 52.2
+    },
+    "08035014011": {
+      "upwardMobility25": 0.2728239,
+      "incarcerationRate25": -0.043400828,
+      "mobilityIndex": 27.3
+    },
+    "08035014012": {
+      "upwardMobility25": 0.48495328,
+      "incarcerationRate25": 0.041664951,
+      "mobilityIndex": 48.5
+    },
+    "08035014013": {
+      "upwardMobility25": 0.38659614,
+      "incarcerationRate25": 0.14633735,
+      "mobilityIndex": 38.7
+    },
+    "08035014107": {
+      "upwardMobility25": 0.53584582,
+      "incarcerationRate25": -0.0014339461,
+      "mobilityIndex": 53.6
+    },
+    "08035014108": {
+      "upwardMobility25": 0.49689373,
+      "incarcerationRate25": -0.0084385779,
+      "mobilityIndex": 49.7
+    },
+    "08035014109": {
+      "upwardMobility25": 0.49416021,
+      "incarcerationRate25": -0.034905709,
+      "mobilityIndex": 49.4
+    },
+    "08035014110": {
+      "upwardMobility25": 0.46413797,
+      "incarcerationRate25": 0.015137636,
+      "mobilityIndex": 46.4
+    },
+    "08035014112": {
+      "upwardMobility25": 0.43761083,
+      "incarcerationRate25": -0.0024484117,
+      "mobilityIndex": 43.8
+    },
+    "08035014113": {
+      "upwardMobility25": 0.53982991,
+      "incarcerationRate25": -0.00028585378,
+      "mobilityIndex": 54.0
+    },
+    "08035014114": {
+      "upwardMobility25": 0.45835316,
+      "incarcerationRate25": 0.024282537,
+      "mobilityIndex": 45.8
+    },
+    "08035014115": {
+      "upwardMobility25": 0.54930627,
+      "incarcerationRate25": -0.0099038994,
+      "mobilityIndex": 54.9
+    },
+    "08035014116": {
+      "upwardMobility25": 0.46216547,
+      "incarcerationRate25": 0.117583,
+      "mobilityIndex": 46.2
+    },
+    "08035014122": {
+      "upwardMobility25": 0.62041497,
+      "incarcerationRate25": 0.021497458,
+      "mobilityIndex": 62.0
+    },
+    "08035014123": {
+      "upwardMobility25": 0.47900534,
+      "incarcerationRate25": 0.010974473,
+      "mobilityIndex": 47.9
+    },
+    "08035014124": {
+      "upwardMobility25": 0.52073961,
+      "incarcerationRate25": 0.017609015,
+      "mobilityIndex": 52.1
+    },
+    "08035014125": {
+      "upwardMobility25": 0.42275295,
+      "incarcerationRate25": 0.013979855,
+      "mobilityIndex": 42.3
+    },
+    "08035014126": {
+      "upwardMobility25": 0.50100935,
+      "incarcerationRate25": 0.028731175,
+      "mobilityIndex": 50.1
+    },
+    "08035014127": {
+      "upwardMobility25": 0.5758239,
+      "incarcerationRate25": 0.02522067,
+      "mobilityIndex": 57.6
+    },
+    "08035014128": {
+      "upwardMobility25": 0.51930565,
+      "incarcerationRate25": 0.065063551,
+      "mobilityIndex": 51.9
+    },
+    "08035014129": {
+      "upwardMobility25": 0.36683664,
+      "incarcerationRate25": 0.0052881544,
+      "mobilityIndex": 36.7
+    },
+    "08035014130": {
+      "upwardMobility25": 0.45421308,
+      "incarcerationRate25": -0.0096616326,
+      "mobilityIndex": 45.4
+    },
+    "08035014131": {
+      "upwardMobility25": 0.57282847,
+      "incarcerationRate25": 0.0087042181,
+      "mobilityIndex": 57.3
+    },
+    "08035014132": {
+      "upwardMobility25": 0.50843,
+      "incarcerationRate25": 0.0020165525,
+      "mobilityIndex": 50.8
+    },
+    "08035014133": {
+      "upwardMobility25": 0.5110364,
+      "incarcerationRate25": -0.010116815,
+      "mobilityIndex": 51.1
+    },
+    "08035014134": {
+      "upwardMobility25": 0.55201572,
+      "incarcerationRate25": 0.11521792,
+      "mobilityIndex": 55.2
+    },
+    "08035014135": {
+      "upwardMobility25": 0.44258907,
+      "incarcerationRate25": -0.0059787664,
+      "mobilityIndex": 44.3
+    },
+    "08035014136": {
+      "upwardMobility25": 0.52547693,
+      "incarcerationRate25": -0.0080807321,
+      "mobilityIndex": 52.5
+    },
+    "08035014137": {
+      "upwardMobility25": 0.57120568,
+      "incarcerationRate25": 0.0044421703,
+      "mobilityIndex": 57.1
+    },
+    "08035014138": {
+      "upwardMobility25": 0.60258472,
+      "incarcerationRate25": 0.0078825122,
+      "mobilityIndex": 60.3
+    },
+    "08035014139": {
+      "upwardMobility25": 0.50509989,
+      "incarcerationRate25": 0.012487425,
+      "mobilityIndex": 50.5
+    },
+    "08035014140": {
+      "upwardMobility25": 0.53394699,
+      "incarcerationRate25": 0.066786386,
+      "mobilityIndex": 53.4
+    },
+    "08035014202": {
+      "upwardMobility25": 0.47453195,
+      "incarcerationRate25": 0.035396148,
+      "mobilityIndex": 47.5
+    },
+    "08035014203": {
+      "upwardMobility25": 0.47942677,
+      "incarcerationRate25": 0.015920538,
+      "mobilityIndex": 47.9
+    },
+    "08035014204": {
+      "upwardMobility25": 0.46051565,
+      "incarcerationRate25": -0.0022229892,
+      "mobilityIndex": 46.1
+    },
+    "08035014300": {
+      "upwardMobility25": 0.4793061,
+      "incarcerationRate25": -0.042635333,
+      "mobilityIndex": 47.9
+    },
+    "08035014403": {
+      "upwardMobility25": 0.45002285,
+      "incarcerationRate25": 0.013903388,
+      "mobilityIndex": 45.0
+    },
+    "08035014404": {
+      "upwardMobility25": 0.47084543,
+      "incarcerationRate25": 0.025670929,
+      "mobilityIndex": 47.1
+    },
+    "08035014405": {
+      "upwardMobility25": 0.49785078,
+      "incarcerationRate25": -0.010835985,
+      "mobilityIndex": 49.8
+    },
+    "08035014406": {
+      "upwardMobility25": 0.53556901,
+      "incarcerationRate25": -0.0020659303,
+      "mobilityIndex": 53.6
+    },
+    "08035014503": {
+      "upwardMobility25": 0.46709058,
+      "incarcerationRate25": 0.0015841788,
+      "mobilityIndex": 46.7
+    },
+    "08035014504": {
+      "upwardMobility25": 0.45398802,
+      "incarcerationRate25": 0.02637079,
+      "mobilityIndex": 45.4
+    },
+    "08035014505": {
+      "upwardMobility25": 0.48223701,
+      "incarcerationRate25": 0.023407903,
+      "mobilityIndex": 48.2
+    },
+    "08035014506": {
+      "upwardMobility25": 0.41092914,
+      "incarcerationRate25": 0.014414641,
+      "mobilityIndex": 41.1
+    },
+    "08035014602": {
+      "upwardMobility25": 0.51590723,
+      "incarcerationRate25": 0.022864055,
+      "mobilityIndex": 51.6
+    },
+    "08035014603": {
+      "upwardMobility25": 0.5041132,
+      "incarcerationRate25": 0.030203631,
+      "mobilityIndex": 50.4
+    },
+    "08035014604": {
+      "upwardMobility25": 0.44262785,
+      "incarcerationRate25": 0.012528945,
+      "mobilityIndex": 44.3
+    },
+    "08037000100": {
+      "upwardMobility25": 0.54539883,
+      "incarcerationRate25": 0.028750204,
+      "mobilityIndex": 54.5
+    },
+    "08037000200": {
+      "upwardMobility25": 0.43848285,
+      "incarcerationRate25": 0.0061098384,
+      "mobilityIndex": 43.8
+    },
+    "08037000301": {
+      "upwardMobility25": 0.45249137,
+      "incarcerationRate25": 0.020019313,
+      "mobilityIndex": 45.2
+    },
+    "08037000302": {
+      "upwardMobility25": 0.42181519,
+      "incarcerationRate25": 0.043684192,
+      "mobilityIndex": 42.2
+    },
+    "08037000401": {
+      "upwardMobility25": 0.325849,
+      "incarcerationRate25": -0.11204645,
+      "mobilityIndex": 32.6
+    },
+    "08037000402": {
+      "upwardMobility25": 0.58844215,
+      "incarcerationRate25": -0.025994962,
+      "mobilityIndex": 58.8
+    },
+    "08037000403": {
+      "upwardMobility25": 0.47583589,
+      "incarcerationRate25": 0.019188633,
+      "mobilityIndex": 47.6
+    },
+    "08037000502": {
+      "upwardMobility25": 0.66728216,
+      "incarcerationRate25": 0.046741039,
+      "mobilityIndex": 66.7
+    },
+    "08037000503": {
+      "upwardMobility25": 0.29255596,
+      "incarcerationRate25": 0.045221228,
+      "mobilityIndex": 29.3
+    },
+    "08037000600": {
+      "upwardMobility25": 0.42084917,
+      "incarcerationRate25": -0.044263262,
+      "mobilityIndex": 42.1
+    },
+    "08037000701": {
+      "upwardMobility25": 0.47375789,
+      "incarcerationRate25": 0.18353869,
+      "mobilityIndex": 47.4
+    },
+    "08037000702": {
+      "upwardMobility25": 0.54104799,
+      "incarcerationRate25": 0.045499779,
+      "mobilityIndex": 54.1
+    },
+    "08037000703": {
+      "upwardMobility25": 0.50256538,
+      "incarcerationRate25": 0.029239045,
+      "mobilityIndex": 50.3
+    },
+    "08039961100": {
+      "upwardMobility25": 0.49802235,
+      "incarcerationRate25": 0.01007962,
+      "mobilityIndex": 49.8
+    },
+    "08039961204": {
+      "upwardMobility25": 0.50171477,
+      "incarcerationRate25": 0.00899042,
+      "mobilityIndex": 50.2
+    },
+    "08039961205": {
+      "upwardMobility25": 0.54374844,
+      "incarcerationRate25": 0.038296822,
+      "mobilityIndex": 54.4
+    },
+    "08039961206": {
+      "upwardMobility25": 0.44892761,
+      "incarcerationRate25": -0.0001778333,
+      "mobilityIndex": 44.9
+    },
+    "08039961207": {
+      "upwardMobility25": 0.50105864,
+      "incarcerationRate25": 0.0088742282,
+      "mobilityIndex": 50.1
+    },
+    "08039961208": {
+      "upwardMobility25": 0.49228457,
+      "incarcerationRate25": 0.014320276,
+      "mobilityIndex": 49.2
+    },
+    "08039961209": {
+      "upwardMobility25": 0.4533661,
+      "incarcerationRate25": -0.010843547,
+      "mobilityIndex": 45.3
+    },
+    "08041000101": {
+      "upwardMobility25": 0.47066775,
+      "incarcerationRate25": 0.011165216,
+      "mobilityIndex": 47.1
+    },
+    "08041000102": {
+      "upwardMobility25": 0.42605358,
+      "incarcerationRate25": 0.025633564,
+      "mobilityIndex": 42.6
+    },
+    "08041000202": {
+      "upwardMobility25": 0.46992955,
+      "incarcerationRate25": 0.034578044,
+      "mobilityIndex": 47.0
+    },
+    "08041000203": {
+      "upwardMobility25": 0.43477497,
+      "incarcerationRate25": 0.021763861,
+      "mobilityIndex": 43.5
+    },
+    "08041000301": {
+      "upwardMobility25": 0.37430045,
+      "incarcerationRate25": 0.010754601,
+      "mobilityIndex": 37.4
+    },
+    "08041000302": {
+      "upwardMobility25": 0.3892349,
+      "incarcerationRate25": 0.032643825,
+      "mobilityIndex": 38.9
+    },
+    "08041000400": {
+      "upwardMobility25": 0.45539162,
+      "incarcerationRate25": 0.012709568,
+      "mobilityIndex": 45.5
+    },
+    "08041000500": {
+      "upwardMobility25": 0.50003219,
+      "incarcerationRate25": 0.013227412,
+      "mobilityIndex": 50.0
+    },
+    "08041000600": {
+      "upwardMobility25": 0.43903476,
+      "incarcerationRate25": 0.027612077,
+      "mobilityIndex": 43.9
+    },
+    "08041000700": {
+      "upwardMobility25": 0.39479512,
+      "incarcerationRate25": 0.032944273,
+      "mobilityIndex": 39.5
+    },
+    "08041000800": {
+      "upwardMobility25": 0.42306134,
+      "incarcerationRate25": 0.021108765,
+      "mobilityIndex": 42.3
+    },
+    "08041000900": {
+      "upwardMobility25": 0.44230595,
+      "incarcerationRate25": 0.041261423,
+      "mobilityIndex": 44.2
+    },
+    "08041001000": {
+      "upwardMobility25": 0.45113596,
+      "incarcerationRate25": 0.080593057,
+      "mobilityIndex": 45.1
+    },
+    "08041001101": {
+      "upwardMobility25": 0.38884255,
+      "incarcerationRate25": 0.070141286,
+      "mobilityIndex": 38.9
+    },
+    "08041001104": {
+      "upwardMobility25": 0.4149147,
+      "incarcerationRate25": 0.020037284,
+      "mobilityIndex": 41.5
+    },
+    "08041001301": {
+      "upwardMobility25": 0.38452622,
+      "incarcerationRate25": 0.082503445,
+      "mobilityIndex": 38.5
+    },
+    "08041001302": {
+      "upwardMobility25": 0.39073977,
+      "incarcerationRate25": 0.024129784,
+      "mobilityIndex": 39.1
+    },
+    "08041001400": {
+      "upwardMobility25": 0.43012801,
+      "incarcerationRate25": 0.019673588,
+      "mobilityIndex": 43.0
+    },
+    "08041001500": {
+      "upwardMobility25": 0.37499678,
+      "incarcerationRate25": 0.061787929,
+      "mobilityIndex": 37.5
+    },
+    "08041001600": {
+      "upwardMobility25": 0.42878336,
+      "incarcerationRate25": 0.016580354,
+      "mobilityIndex": 42.9
+    },
+    "08041001700": {
+      "upwardMobility25": 0.40516376,
+      "incarcerationRate25": 0.052385971,
+      "mobilityIndex": 40.5
+    },
+    "08041001800": {
+      "upwardMobility25": 0.48108378,
+      "incarcerationRate25": 0.030933946,
+      "mobilityIndex": 48.1
+    },
+    "08041001900": {
+      "upwardMobility25": 0.36405143,
+      "incarcerationRate25": 0.035410669,
+      "mobilityIndex": 36.4
+    },
+    "08041002000": {
+      "upwardMobility25": 0.40223771,
+      "incarcerationRate25": 0.021196427,
+      "mobilityIndex": 40.2
+    },
+    "08041002101": {
+      "upwardMobility25": 0.3935985,
+      "incarcerationRate25": 0.036205288,
+      "mobilityIndex": 39.4
+    },
+    "08041002102": {
+      "upwardMobility25": 0.3778398,
+      "incarcerationRate25": 0.02365048,
+      "mobilityIndex": 37.8
+    },
+    "08041002200": {
+      "upwardMobility25": 0.35979307,
+      "incarcerationRate25": 0.046365675,
+      "mobilityIndex": 36.0
+    },
+    "08041002300": {
+      "upwardMobility25": 0.38564837,
+      "incarcerationRate25": 0.0042489292,
+      "mobilityIndex": 38.6
+    },
+    "08041002400": {
+      "upwardMobility25": 0.40235785,
+      "incarcerationRate25": 0.018265883,
+      "mobilityIndex": 40.2
+    },
+    "08041002501": {
+      "upwardMobility25": 0.4821659,
+      "incarcerationRate25": 0.028599994,
+      "mobilityIndex": 48.2
+    },
+    "08041002502": {
+      "upwardMobility25": 0.46366879,
+      "incarcerationRate25": 0.045955792,
+      "mobilityIndex": 46.4
+    },
+    "08041002700": {
+      "upwardMobility25": 0.35803294,
+      "incarcerationRate25": 0.060190327,
+      "mobilityIndex": 35.8
+    },
+    "08041002800": {
+      "upwardMobility25": 0.33629,
+      "incarcerationRate25": 0.053563245,
+      "mobilityIndex": 33.6
+    },
+    "08041002900": {
+      "upwardMobility25": 0.36718386,
+      "incarcerationRate25": 0.048763286,
+      "mobilityIndex": 36.7
+    },
+    "08041003000": {
+      "upwardMobility25": 0.43078652,
+      "incarcerationRate25": 0.019559382,
+      "mobilityIndex": 43.1
+    },
+    "08041003100": {
+      "upwardMobility25": 0.49484652,
+      "incarcerationRate25": 0.064229935,
+      "mobilityIndex": 49.5
+    },
+    "08041003303": {
+      "upwardMobility25": 0.3747431,
+      "incarcerationRate25": 0.043571644,
+      "mobilityIndex": 37.5
+    },
+    "08041003305": {
+      "upwardMobility25": 0.47206724,
+      "incarcerationRate25": 0.011322341,
+      "mobilityIndex": 47.2
+    },
+    "08041003306": {
+      "upwardMobility25": 0.46289787,
+      "incarcerationRate25": 0.048610527,
+      "mobilityIndex": 46.3
+    },
+    "08041003307": {
+      "upwardMobility25": 0.40879226,
+      "incarcerationRate25": 0.040368076,
+      "mobilityIndex": 40.9
+    },
+    "08041003308": {
+      "upwardMobility25": 0.42591619,
+      "incarcerationRate25": 0.028555656,
+      "mobilityIndex": 42.6
+    },
+    "08041003400": {
+      "upwardMobility25": 0.44304988,
+      "incarcerationRate25": 0.021124175,
+      "mobilityIndex": 44.3
+    },
+    "08041003701": {
+      "upwardMobility25": 0.50813031,
+      "incarcerationRate25": 0.024665035,
+      "mobilityIndex": 50.8
+    },
+    "08041003702": {
+      "upwardMobility25": 0.4776471,
+      "incarcerationRate25": -0.0037117684,
+      "mobilityIndex": 47.8
+    },
+    "08041003705": {
+      "upwardMobility25": 0.51023412,
+      "incarcerationRate25": 0.040563479,
+      "mobilityIndex": 51.0
+    },
+    "08041003706": {
+      "upwardMobility25": 0.47845247,
+      "incarcerationRate25": 0.0074431975,
+      "mobilityIndex": 47.8
+    },
+    "08041003707": {
+      "upwardMobility25": 0.46274704,
+      "incarcerationRate25": 0.016482016,
+      "mobilityIndex": 46.3
+    },
+    "08041003708": {
+      "upwardMobility25": 0.54156113,
+      "incarcerationRate25": -0.00037629713,
+      "mobilityIndex": 54.2
+    },
+    "08041003709": {
+      "upwardMobility25": 0.46595195,
+      "incarcerationRate25": 0.019855369,
+      "mobilityIndex": 46.6
+    },
+    "08041003801": {
+      "upwardMobility25": 0.3674598,
+      "incarcerationRate25": 0.031517919,
+      "mobilityIndex": 36.7
+    },
+    "08041003902": {
+      "upwardMobility25": 0.45593992,
+      "incarcerationRate25": 0.046546668,
+      "mobilityIndex": 45.6
+    },
+    "08041003905": {
+      "upwardMobility25": 0.44318813,
+      "incarcerationRate25": -0.0033954305,
+      "mobilityIndex": 44.3
+    },
+    "08041003906": {
+      "upwardMobility25": 0.52040195,
+      "incarcerationRate25": 0.025934339,
+      "mobilityIndex": 52.0
+    },
+    "08041003909": {
+      "upwardMobility25": 0.44918185,
+      "incarcerationRate25": 0.01918585,
+      "mobilityIndex": 44.9
+    },
+    "08041004008": {
+      "upwardMobility25": 0.40529588,
+      "incarcerationRate25": 0.017938839,
+      "mobilityIndex": 40.5
+    },
+    "08041004009": {
+      "upwardMobility25": 0.34471542,
+      "incarcerationRate25": 0.076189861,
+      "mobilityIndex": 34.5
+    },
+    "08041004100": {
+      "upwardMobility25": 0.39552367,
+      "incarcerationRate25": 0.038241003,
+      "mobilityIndex": 39.6
+    },
+    "08041004200": {
+      "upwardMobility25": 0.39723516,
+      "incarcerationRate25": 0.041520417,
+      "mobilityIndex": 39.7
+    },
+    "08041004300": {
+      "upwardMobility25": 0.41207057,
+      "incarcerationRate25": 0.03369467,
+      "mobilityIndex": 41.2
+    },
+    "08041004401": {
+      "upwardMobility25": 0.38961333,
+      "incarcerationRate25": 0.060609814,
+      "mobilityIndex": 39.0
+    },
+    "08041004402": {
+      "upwardMobility25": 0.36721107,
+      "incarcerationRate25": 0.04022396,
+      "mobilityIndex": 36.7
+    },
+    "08041004501": {
+      "upwardMobility25": 0.34546894,
+      "incarcerationRate25": 0.036014397,
+      "mobilityIndex": 34.5
+    },
+    "08041004502": {
+      "upwardMobility25": 0.43833867,
+      "incarcerationRate25": 0.0095753968,
+      "mobilityIndex": 43.8
+    },
+    "08041004503": {
+      "upwardMobility25": 0.44378477,
+      "incarcerationRate25": 0.0076937675,
+      "mobilityIndex": 44.4
+    },
+    "08041004506": {
+      "upwardMobility25": 0.39536679,
+      "incarcerationRate25": 0.029130308,
+      "mobilityIndex": 39.5
+    },
+    "08041004507": {
+      "upwardMobility25": 0.40198964,
+      "incarcerationRate25": 0.028173974,
+      "mobilityIndex": 40.2
+    },
+    "08041004508": {
+      "upwardMobility25": 0.3891879,
+      "incarcerationRate25": 0.037670214,
+      "mobilityIndex": 38.9
+    },
+    "08041004510": {
+      "upwardMobility25": 0.4276275,
+      "incarcerationRate25": 0.045161337,
+      "mobilityIndex": 42.8
+    },
+    "08041004511": {
+      "upwardMobility25": 0.39225391,
+      "incarcerationRate25": 0.043230612,
+      "mobilityIndex": 39.2
+    },
+    "08041004601": {
+      "upwardMobility25": 0.39880186,
+      "incarcerationRate25": 0.027395729,
+      "mobilityIndex": 39.9
+    },
+    "08041004602": {
+      "upwardMobility25": 0.40882841,
+      "incarcerationRate25": 0.022879645,
+      "mobilityIndex": 40.9
+    },
+    "08041004603": {
+      "upwardMobility25": 0.41154921,
+      "incarcerationRate25": 0.018573835,
+      "mobilityIndex": 41.2
+    },
+    "08041004701": {
+      "upwardMobility25": 0.47812375,
+      "incarcerationRate25": 0.02263293,
+      "mobilityIndex": 47.8
+    },
+    "08041004702": {
+      "upwardMobility25": 0.45956221,
+      "incarcerationRate25": 0.010824824,
+      "mobilityIndex": 46.0
+    },
+    "08041004703": {
+      "upwardMobility25": 0.46648601,
+      "incarcerationRate25": 0.032606661,
+      "mobilityIndex": 46.6
+    },
+    "08041004705": {
+      "upwardMobility25": 0.51526588,
+      "incarcerationRate25": 0.028248155,
+      "mobilityIndex": 51.5
+    },
+    "08041004706": {
+      "upwardMobility25": 0.46268511,
+      "incarcerationRate25": 0.019591926,
+      "mobilityIndex": 46.3
+    },
+    "08041004800": {
+      "upwardMobility25": 0.43928185,
+      "incarcerationRate25": 0.038837738,
+      "mobilityIndex": 43.9
+    },
+    "08041004901": {
+      "upwardMobility25": 0.4724094,
+      "incarcerationRate25": 0.0038701014,
+      "mobilityIndex": 47.2
+    },
+    "08041004902": {
+      "upwardMobility25": 0.42788184,
+      "incarcerationRate25": 0.046699658,
+      "mobilityIndex": 42.8
+    },
+    "08041005000": {
+      "upwardMobility25": 0.38909301,
+      "incarcerationRate25": 0.046253756,
+      "mobilityIndex": 38.9
+    },
+    "08041005104": {
+      "upwardMobility25": 0.44578487,
+      "incarcerationRate25": 0.0013155863,
+      "mobilityIndex": 44.6
+    },
+    "08041005105": {
+      "upwardMobility25": 0.41953784,
+      "incarcerationRate25": 0.024119308,
+      "mobilityIndex": 42.0
+    },
+    "08041005106": {
+      "upwardMobility25": 0.48951969,
+      "incarcerationRate25": 0.012786948,
+      "mobilityIndex": 49.0
+    },
+    "08041005107": {
+      "upwardMobility25": 0.49615425,
+      "incarcerationRate25": 0.051751465,
+      "mobilityIndex": 49.6
+    },
+    "08041005108": {
+      "upwardMobility25": 0.45027369,
+      "incarcerationRate25": 0.017244967,
+      "mobilityIndex": 45.0
+    },
+    "08041005109": {
+      "upwardMobility25": 0.53332072,
+      "incarcerationRate25": 0.014318122,
+      "mobilityIndex": 53.3
+    },
+    "08041005110": {
+      "upwardMobility25": 0.40737393,
+      "incarcerationRate25": 0.031066485,
+      "mobilityIndex": 40.7
+    },
+    "08041005111": {
+      "upwardMobility25": 0.3508594,
+      "incarcerationRate25": 0.062481053,
+      "mobilityIndex": 35.1
+    },
+    "08041005201": {
+      "upwardMobility25": 0.37220567,
+      "incarcerationRate25": 0.039082892,
+      "mobilityIndex": 37.2
+    },
+    "08041005202": {
+      "upwardMobility25": 0.37821978,
+      "incarcerationRate25": 0.060382459,
+      "mobilityIndex": 37.8
+    },
+    "08041005300": {
+      "upwardMobility25": 0.37481141,
+      "incarcerationRate25": 0.040082458,
+      "mobilityIndex": 37.5
+    },
+    "08041005400": {
+      "upwardMobility25": 0.37578896,
+      "incarcerationRate25": 0.045913808,
+      "mobilityIndex": 37.6
+    },
+    "08041005501": {
+      "upwardMobility25": 0.47386628,
+      "incarcerationRate25": 0.029839987,
+      "mobilityIndex": 47.4
+    },
+    "08041005502": {
+      "upwardMobility25": 0.40087253,
+      "incarcerationRate25": 0.019433767,
+      "mobilityIndex": 40.1
+    },
+    "08041005601": {
+      "upwardMobility25": 0.4574106,
+      "incarcerationRate25": 0.029500516,
+      "mobilityIndex": 45.7
+    },
+    "08041005602": {
+      "upwardMobility25": 0.40921706,
+      "incarcerationRate25": 0.045886848,
+      "mobilityIndex": 40.9
+    },
+    "08041005700": {
+      "upwardMobility25": 0.42525905,
+      "incarcerationRate25": 0.013283205,
+      "mobilityIndex": 42.5
+    },
+    "08041005800": {
+      "upwardMobility25": 0.45495605,
+      "incarcerationRate25": 0.057241231,
+      "mobilityIndex": 45.5
+    },
+    "08041005900": {
+      "upwardMobility25": 0.41957551,
+      "incarcerationRate25": 0.037061717,
+      "mobilityIndex": 42.0
+    },
+    "08041006000": {
+      "upwardMobility25": 0.40596676,
+      "incarcerationRate25": 0.038884424,
+      "mobilityIndex": 40.6
+    },
+    "08041006100": {
+      "upwardMobility25": 0.33951947,
+      "incarcerationRate25": 0.039144993,
+      "mobilityIndex": 34.0
+    },
+    "08041006200": {
+      "upwardMobility25": 0.37568027,
+      "incarcerationRate25": 0.034856673,
+      "mobilityIndex": 37.6
+    },
+    "08041006301": {
+      "upwardMobility25": 0.37888476,
+      "incarcerationRate25": 0.030903725,
+      "mobilityIndex": 37.9
+    },
+    "08041006302": {
+      "upwardMobility25": 0.37588224,
+      "incarcerationRate25": 0.04074404,
+      "mobilityIndex": 37.6
+    },
+    "08041006400": {
+      "upwardMobility25": 0.36593124,
+      "incarcerationRate25": 0.036547527,
+      "mobilityIndex": 36.6
+    },
+    "08041006501": {
+      "upwardMobility25": 0.3851499,
+      "incarcerationRate25": 0.03231122,
+      "mobilityIndex": 38.5
+    },
+    "08041006502": {
+      "upwardMobility25": 0.36633554,
+      "incarcerationRate25": 0.053103928,
+      "mobilityIndex": 36.6
+    },
+    "08041006600": {
+      "upwardMobility25": 0.45323241,
+      "incarcerationRate25": 0.0042621722,
+      "mobilityIndex": 45.3
+    },
+    "08041006700": {
+      "upwardMobility25": 0.41673547,
+      "incarcerationRate25": 0.0083534811,
+      "mobilityIndex": 41.7
+    },
+    "08041006801": {
+      "upwardMobility25": 0.46856281,
+      "incarcerationRate25": 0.009842502,
+      "mobilityIndex": 46.9
+    },
+    "08041006802": {
+      "upwardMobility25": 0.4612157,
+      "incarcerationRate25": 0.014150245,
+      "mobilityIndex": 46.1
+    },
+    "08041006901": {
+      "upwardMobility25": 0.47432926,
+      "incarcerationRate25": 0.045486327,
+      "mobilityIndex": 47.4
+    },
+    "08041006902": {
+      "upwardMobility25": 0.47313792,
+      "incarcerationRate25": 0.028735608,
+      "mobilityIndex": 47.3
+    },
+    "08041007000": {
+      "upwardMobility25": 0.48410931,
+      "incarcerationRate25": 0.016141273,
+      "mobilityIndex": 48.4
+    },
+    "08041007101": {
+      "upwardMobility25": 0.46458834,
+      "incarcerationRate25": 0.056486066,
+      "mobilityIndex": 46.5
+    },
+    "08041007102": {
+      "upwardMobility25": 0.51257175,
+      "incarcerationRate25": 0.0304894,
+      "mobilityIndex": 51.3
+    },
+    "08041007201": {
+      "upwardMobility25": 0.50794005,
+      "incarcerationRate25": 0.023632722,
+      "mobilityIndex": 50.8
+    },
+    "08041007202": {
+      "upwardMobility25": 0.51088345,
+      "incarcerationRate25": 0.00084257568,
+      "mobilityIndex": 51.1
+    },
+    "08041007300": {
+      "upwardMobility25": 0.50056762,
+      "incarcerationRate25": 0.010911348,
+      "mobilityIndex": 50.1
+    },
+    "08041007400": {
+      "upwardMobility25": 0.53366315,
+      "incarcerationRate25": 0.022528466,
+      "mobilityIndex": 53.4
+    },
+    "08041007500": {
+      "upwardMobility25": 0.49281067,
+      "incarcerationRate25": 0.023894228,
+      "mobilityIndex": 49.3
+    },
+    "08041007601": {
+      "upwardMobility25": 0.47386068,
+      "incarcerationRate25": 0.065709226,
+      "mobilityIndex": 47.4
+    },
+    "08041007602": {
+      "upwardMobility25": 0.53700215,
+      "incarcerationRate25": 0.0051603885,
+      "mobilityIndex": 53.7
+    },
+    "08041007700": {
+      "upwardMobility25": 0.45550007,
+      "incarcerationRate25": 0.020404717,
+      "mobilityIndex": 45.6
+    },
+    "08041007800": {
+      "upwardMobility25": 0.49576727,
+      "incarcerationRate25": 0.041819666,
+      "mobilityIndex": 49.6
+    },
+    "08041007900": {
+      "upwardMobility25": 0.40778986,
+      "incarcerationRate25": 0.057017718,
+      "mobilityIndex": 40.8
+    },
+    "08041008000": {
+      "upwardMobility25": 0.41784862,
+      "incarcerationRate25": 0.019931231,
+      "mobilityIndex": 41.8
+    },
+    "08043978100": {
+      "upwardMobility25": 0.44983724,
+      "incarcerationRate25": 0.02126967,
+      "mobilityIndex": 45.0
+    },
+    "08043978200": {
+      "upwardMobility25": 0.44151872,
+      "incarcerationRate25": 0.016898043,
+      "mobilityIndex": 44.2
+    },
+    "08043978300": {
+      "upwardMobility25": 0.42208835,
+      "incarcerationRate25": 0.016654188,
+      "mobilityIndex": 42.2
+    },
+    "08043978400": {
+      "upwardMobility25": 0.43748,
+      "incarcerationRate25": 0.065302581,
+      "mobilityIndex": 43.7
+    },
+    "08043978500": {
+      "upwardMobility25": 0.41371945,
+      "incarcerationRate25": 0.02808019,
+      "mobilityIndex": 41.4
+    },
+    "08043978600": {
+      "upwardMobility25": 0.42390242,
+      "incarcerationRate25": 0.040467001,
+      "mobilityIndex": 42.4
+    },
+    "08043978800": {
+      "upwardMobility25": 0.40642872,
+      "incarcerationRate25": 0.052597668,
+      "mobilityIndex": 40.6
+    },
+    "08043979000": {
+      "upwardMobility25": 0.42564091,
+      "incarcerationRate25": 0.0052848412,
+      "mobilityIndex": 42.6
+    },
+    "08043979100": {
+      "upwardMobility25": 0.46389213,
+      "incarcerationRate25": 0.037260838,
+      "mobilityIndex": 46.4
+    },
+    "08043979200": {
+      "upwardMobility25": 0.44429272,
+      "incarcerationRate25": 0.088378288,
+      "mobilityIndex": 44.4
+    },
+    "08043979400": {
+      "upwardMobility25": 0.40814704,
+      "incarcerationRate25": 0.00028629016,
+      "mobilityIndex": 40.8
+    },
+    "08045951600": {
+      "upwardMobility25": 0.50722176,
+      "incarcerationRate25": 0.023106599,
+      "mobilityIndex": 50.7
+    },
+    "08045951701": {
+      "upwardMobility25": 0.52044988,
+      "incarcerationRate25": 0.015422455,
+      "mobilityIndex": 52.0
+    },
+    "08045951702": {
+      "upwardMobility25": 0.45356968,
+      "incarcerationRate25": 0.012526012,
+      "mobilityIndex": 45.4
+    },
+    "08045951802": {
+      "upwardMobility25": 0.50666946,
+      "incarcerationRate25": 0.02697978,
+      "mobilityIndex": 50.7
+    },
+    "08045951803": {
+      "upwardMobility25": 0.44730753,
+      "incarcerationRate25": -0.0014815646,
+      "mobilityIndex": 44.7
+    },
+    "08045951804": {
+      "upwardMobility25": 0.44651872,
+      "incarcerationRate25": 0.0074620564,
+      "mobilityIndex": 44.7
+    },
+    "08045951901": {
+      "upwardMobility25": 0.48291311,
+      "incarcerationRate25": 0.026853617,
+      "mobilityIndex": 48.3
+    },
+    "08045951902": {
+      "upwardMobility25": 0.46008658,
+      "incarcerationRate25": 0.030021707,
+      "mobilityIndex": 46.0
+    },
+    "08045952001": {
+      "upwardMobility25": 0.45474303,
+      "incarcerationRate25": 0.030852042,
+      "mobilityIndex": 45.5
+    },
+    "08045952002": {
+      "upwardMobility25": 0.45919755,
+      "incarcerationRate25": 0.0093431538,
+      "mobilityIndex": 45.9
+    },
+    "08045952100": {
+      "upwardMobility25": 0.45197359,
+      "incarcerationRate25": 0.02259467,
+      "mobilityIndex": 45.2
+    },
+    "08047013800": {
+      "upwardMobility25": 0.44158733,
+      "incarcerationRate25": -0.0057046963,
+      "mobilityIndex": 44.2
+    },
+    "08049000100": {
+      "upwardMobility25": 0.54303437,
+      "incarcerationRate25": 0.019723788,
+      "mobilityIndex": 54.3
+    },
+    "08049000201": {
+      "upwardMobility25": 0.44614387,
+      "incarcerationRate25": 0.054137047,
+      "mobilityIndex": 44.6
+    },
+    "08049000202": {
+      "upwardMobility25": 0.51864189,
+      "incarcerationRate25": 0.050954688,
+      "mobilityIndex": 51.9
+    },
+    "08051963600": {
+      "upwardMobility25": 0.47554791,
+      "incarcerationRate25": 0.0015707656,
+      "mobilityIndex": 47.6
+    },
+    "08051963700": {
+      "upwardMobility25": 0.5040828,
+      "incarcerationRate25": 0.0062679625,
+      "mobilityIndex": 50.4
+    },
+    "08051963800": {
+      "upwardMobility25": 0.27414116,
+      "incarcerationRate25": 0.020908788,
+      "mobilityIndex": 27.4
+    },
+    "08051963900": {
+      "upwardMobility25": 0.53428239,
+      "incarcerationRate25": 0.014399285,
+      "mobilityIndex": 53.4
+    },
+    "08053973100": {
+      "upwardMobility25": 0.42191032,
+      "incarcerationRate25": 0.089855723,
+      "mobilityIndex": 42.2
+    },
+    "08055960600": {
+      "upwardMobility25": 0.36978289,
+      "incarcerationRate25": 0.023929644,
+      "mobilityIndex": 37.0
+    },
+    "08055960900": {
+      "upwardMobility25": 0.46122566,
+      "incarcerationRate25": 0.03413447,
+      "mobilityIndex": 46.1
+    },
+    "08057955600": {
+      "upwardMobility25": 0.55538201,
+      "incarcerationRate25": -0.054058082,
+      "mobilityIndex": 55.5
+    },
+    "08059009806": {
+      "upwardMobility25": 0.46571454,
+      "incarcerationRate25": 0.047057595,
+      "mobilityIndex": 46.6
+    },
+    "08059009807": {
+      "upwardMobility25": 0.42570257,
+      "incarcerationRate25": 0.0044363919,
+      "mobilityIndex": 42.6
+    },
+    "08059009808": {
+      "upwardMobility25": 0.4848564,
+      "incarcerationRate25": 0.026690703,
+      "mobilityIndex": 48.5
+    },
+    "08059009815": {
+      "upwardMobility25": 0.50331604,
+      "incarcerationRate25": 0.0026845492,
+      "mobilityIndex": 50.3
+    },
+    "08059009823": {
+      "upwardMobility25": 0.52454728,
+      "incarcerationRate25": 0.0047745463,
+      "mobilityIndex": 52.5
+    },
+    "08059009824": {
+      "upwardMobility25": 0.50489533,
+      "incarcerationRate25": 0.0030894233,
+      "mobilityIndex": 50.5
+    },
+    "08059009827": {
+      "upwardMobility25": 0.50741422,
+      "incarcerationRate25": 0.022974657,
+      "mobilityIndex": 50.7
+    },
+    "08059009828": {
+      "upwardMobility25": 0.49591076,
+      "incarcerationRate25": 0.0067171981,
+      "mobilityIndex": 49.6
+    },
+    "08059009829": {
+      "upwardMobility25": 0.49690416,
+      "incarcerationRate25": 0.0039636106,
+      "mobilityIndex": 49.7
+    },
+    "08059009830": {
+      "upwardMobility25": 0.5210374,
+      "incarcerationRate25": 0.010058156,
+      "mobilityIndex": 52.1
+    },
+    "08059009831": {
+      "upwardMobility25": 0.49449384,
+      "incarcerationRate25": 0.0059988759,
+      "mobilityIndex": 49.4
+    },
+    "08059009832": {
+      "upwardMobility25": 0.43177369,
+      "incarcerationRate25": 0.015482559,
+      "mobilityIndex": 43.2
+    },
+    "08059009833": {
+      "upwardMobility25": 0.48538366,
+      "incarcerationRate25": 0.0027970502,
+      "mobilityIndex": 48.5
+    },
+    "08059009834": {
+      "upwardMobility25": 0.52007037,
+      "incarcerationRate25": 0.005437037,
+      "mobilityIndex": 52.0
+    },
+    "08059009835": {
+      "upwardMobility25": 0.46636704,
+      "incarcerationRate25": 0.006940064,
+      "mobilityIndex": 46.6
+    },
+    "08059009836": {
+      "upwardMobility25": 0.45854601,
+      "incarcerationRate25": 0.025658669,
+      "mobilityIndex": 45.9
+    },
+    "08059009837": {
+      "upwardMobility25": 0.56385761,
+      "incarcerationRate25": -0.019193606,
+      "mobilityIndex": 56.4
+    },
+    "08059009838": {
+      "upwardMobility25": 0.46170852,
+      "incarcerationRate25": 0.015085008,
+      "mobilityIndex": 46.2
+    },
+    "08059009839": {
+      "upwardMobility25": 0.50470173,
+      "incarcerationRate25": -0.0088727083,
+      "mobilityIndex": 50.5
+    },
+    "08059009840": {
+      "upwardMobility25": 0.50058532,
+      "incarcerationRate25": 0.040817544,
+      "mobilityIndex": 50.1
+    },
+    "08059009841": {
+      "upwardMobility25": 0.49190161,
+      "incarcerationRate25": 0.023764532,
+      "mobilityIndex": 49.2
+    },
+    "08059009842": {
+      "upwardMobility25": 0.5379765,
+      "incarcerationRate25": -0.0013541561,
+      "mobilityIndex": 53.8
+    },
+    "08059009843": {
+      "upwardMobility25": 0.44346675,
+      "incarcerationRate25": 0.011322482,
+      "mobilityIndex": 44.3
+    },
+    "08059009845": {
+      "upwardMobility25": 0.65353644,
+      "incarcerationRate25": 0.037458465,
+      "mobilityIndex": 65.4
+    },
+    "08059009846": {
+      "upwardMobility25": 0.47567484,
+      "incarcerationRate25": 0.00067143328,
+      "mobilityIndex": 47.6
+    },
+    "08059009847": {
+      "upwardMobility25": 0.49272302,
+      "incarcerationRate25": 0.021189462,
+      "mobilityIndex": 49.3
+    },
+    "08059009848": {
+      "upwardMobility25": 0.45750731,
+      "incarcerationRate25": -0.0028503246,
+      "mobilityIndex": 45.8
+    },
+    "08059009849": {
+      "upwardMobility25": 0.40488732,
+      "incarcerationRate25": 0.032636091,
+      "mobilityIndex": 40.5
+    },
+    "08059009850": {
+      "upwardMobility25": 0.42611739,
+      "incarcerationRate25": 0.02424675,
+      "mobilityIndex": 42.6
+    },
+    "08059009851": {
+      "upwardMobility25": 0.44788972,
+      "incarcerationRate25": 0.012137068,
+      "mobilityIndex": 44.8
+    },
+    "08059009852": {
+      "upwardMobility25": 0.47906736,
+      "incarcerationRate25": 0.038110763,
+      "mobilityIndex": 47.9
+    },
+    "08059009900": {
+      "upwardMobility25": 0.46500042,
+      "incarcerationRate25": 0.033104628,
+      "mobilityIndex": 46.5
+    },
+    "08059010000": {
+      "upwardMobility25": 0.43615657,
+      "incarcerationRate25": 0.022954877,
+      "mobilityIndex": 43.6
+    },
+    "08059010100": {
+      "upwardMobility25": 0.44913545,
+      "incarcerationRate25": 0.038533568,
+      "mobilityIndex": 44.9
+    },
+    "08059010205": {
+      "upwardMobility25": 0.61917371,
+      "incarcerationRate25": 0.0020121925,
+      "mobilityIndex": 61.9
+    },
+    "08059010206": {
+      "upwardMobility25": 0.48209527,
+      "incarcerationRate25": 0.0082213096,
+      "mobilityIndex": 48.2
+    },
+    "08059010208": {
+      "upwardMobility25": 0.46436465,
+      "incarcerationRate25": 0.025606094,
+      "mobilityIndex": 46.4
+    },
+    "08059010209": {
+      "upwardMobility25": 0.45406955,
+      "incarcerationRate25": 0.015023812,
+      "mobilityIndex": 45.4
+    },
+    "08059010210": {
+      "upwardMobility25": 0.47237337,
+      "incarcerationRate25": 0.012834295,
+      "mobilityIndex": 47.2
+    },
+    "08059010211": {
+      "upwardMobility25": 0.44684711,
+      "incarcerationRate25": 0.026312845,
+      "mobilityIndex": 44.7
+    },
+    "08059010212": {
+      "upwardMobility25": 0.46285129,
+      "incarcerationRate25": 0.025417306,
+      "mobilityIndex": 46.3
+    },
+    "08059010213": {
+      "upwardMobility25": 0.44327101,
+      "incarcerationRate25": 0.025310243,
+      "mobilityIndex": 44.3
+    },
+    "08059010303": {
+      "upwardMobility25": 0.48633537,
+      "incarcerationRate25": 0.035939462,
+      "mobilityIndex": 48.6
+    },
+    "08059010304": {
+      "upwardMobility25": 0.4808014,
+      "incarcerationRate25": 0.029448053,
+      "mobilityIndex": 48.1
+    },
+    "08059010305": {
+      "upwardMobility25": 0.43143708,
+      "incarcerationRate25": 0.028250445,
+      "mobilityIndex": 43.1
+    },
+    "08059010306": {
+      "upwardMobility25": 0.49281788,
+      "incarcerationRate25": 0.0031582371,
+      "mobilityIndex": 49.3
+    },
+    "08059010307": {
+      "upwardMobility25": 0.45501494,
+      "incarcerationRate25": 0.01398515,
+      "mobilityIndex": 45.5
+    },
+    "08059010308": {
+      "upwardMobility25": 0.44565091,
+      "incarcerationRate25": 0.020171829,
+      "mobilityIndex": 44.6
+    },
+    "08059010402": {
+      "upwardMobility25": 0.40323019,
+      "incarcerationRate25": 0.021753846,
+      "mobilityIndex": 40.3
+    },
+    "08059010403": {
+      "upwardMobility25": 0.41036224,
+      "incarcerationRate25": 0.043277312,
+      "mobilityIndex": 41.0
+    },
+    "08059010405": {
+      "upwardMobility25": 0.4002198,
+      "incarcerationRate25": 0.066319071,
+      "mobilityIndex": 40.0
+    },
+    "08059010406": {
+      "upwardMobility25": 0.40975296,
+      "incarcerationRate25": 0.017270699,
+      "mobilityIndex": 41.0
+    },
+    "08059010502": {
+      "upwardMobility25": 0.43142644,
+      "incarcerationRate25": 0.042752225,
+      "mobilityIndex": 43.1
+    },
+    "08059010503": {
+      "upwardMobility25": 0.43661514,
+      "incarcerationRate25": 0.030773986,
+      "mobilityIndex": 43.7
+    },
+    "08059010504": {
+      "upwardMobility25": 0.48985189,
+      "incarcerationRate25": 0.022561621,
+      "mobilityIndex": 49.0
+    },
+    "08059010603": {
+      "upwardMobility25": 0.44885185,
+      "incarcerationRate25": 0.035665933,
+      "mobilityIndex": 44.9
+    },
+    "08059010604": {
+      "upwardMobility25": 0.45981011,
+      "incarcerationRate25": 0.01736898,
+      "mobilityIndex": 46.0
+    },
+    "08059010701": {
+      "upwardMobility25": 0.42392612,
+      "incarcerationRate25": 0.05597534,
+      "mobilityIndex": 42.4
+    },
+    "08059010702": {
+      "upwardMobility25": 0.41438285,
+      "incarcerationRate25": 0.032578066,
+      "mobilityIndex": 41.4
+    },
+    "08059010801": {
+      "upwardMobility25": 0.53430718,
+      "incarcerationRate25": 0.0041687391,
+      "mobilityIndex": 53.4
+    },
+    "08059010901": {
+      "upwardMobility25": 0.43641385,
+      "incarcerationRate25": 0.02538834,
+      "mobilityIndex": 43.6
+    },
+    "08059010902": {
+      "upwardMobility25": 0.42090487,
+      "incarcerationRate25": 0.03823537,
+      "mobilityIndex": 42.1
+    },
+    "08059011000": {
+      "upwardMobility25": 0.40741158,
+      "incarcerationRate25": 0.039261609,
+      "mobilityIndex": 40.7
+    },
+    "08059011100": {
+      "upwardMobility25": 0.40238988,
+      "incarcerationRate25": 0.01554714,
+      "mobilityIndex": 40.2
+    },
+    "08059011202": {
+      "upwardMobility25": 0.46134347,
+      "incarcerationRate25": 0.015631704,
+      "mobilityIndex": 46.1
+    },
+    "08059011300": {
+      "upwardMobility25": 0.38051277,
+      "incarcerationRate25": 0.051064789,
+      "mobilityIndex": 38.1
+    },
+    "08059011401": {
+      "upwardMobility25": 0.37071338,
+      "incarcerationRate25": 0.073886685,
+      "mobilityIndex": 37.1
+    },
+    "08059011402": {
+      "upwardMobility25": 0.37148717,
+      "incarcerationRate25": 0.035920646,
+      "mobilityIndex": 37.1
+    },
+    "08059011550": {
+      "upwardMobility25": 0.38697991,
+      "incarcerationRate25": 0.031617727,
+      "mobilityIndex": 38.7
+    },
+    "08059011601": {
+      "upwardMobility25": 0.38714024,
+      "incarcerationRate25": 0.038126238,
+      "mobilityIndex": 38.7
+    },
+    "08059011602": {
+      "upwardMobility25": 0.4209514,
+      "incarcerationRate25": 0.039218642,
+      "mobilityIndex": 42.1
+    },
+    "08059011701": {
+      "upwardMobility25": 0.52898705,
+      "incarcerationRate25": 0.034689475,
+      "mobilityIndex": 52.9
+    },
+    "08059011702": {
+      "upwardMobility25": 0.45286062,
+      "incarcerationRate25": 0.032988131,
+      "mobilityIndex": 45.3
+    },
+    "08059011708": {
+      "upwardMobility25": 0.44087783,
+      "incarcerationRate25": 0.034659311,
+      "mobilityIndex": 44.1
+    },
+    "08059011709": {
+      "upwardMobility25": 0.44633123,
+      "incarcerationRate25": 0.014638289,
+      "mobilityIndex": 44.6
+    },
+    "08059011710": {
+      "upwardMobility25": 0.45659778,
+      "incarcerationRate25": 0.031382442,
+      "mobilityIndex": 45.7
+    },
+    "08059011711": {
+      "upwardMobility25": 0.46369338,
+      "incarcerationRate25": 0.012191874,
+      "mobilityIndex": 46.4
+    },
+    "08059011712": {
+      "upwardMobility25": 0.50159973,
+      "incarcerationRate25": 0.011194242,
+      "mobilityIndex": 50.2
+    },
+    "08059011720": {
+      "upwardMobility25": 0.48482323,
+      "incarcerationRate25": 0.014546647,
+      "mobilityIndex": 48.5
+    },
+    "08059011721": {
+      "upwardMobility25": 0.4963184,
+      "incarcerationRate25": 0.039308812,
+      "mobilityIndex": 49.6
+    },
+    "08059011723": {
+      "upwardMobility25": 0.44955337,
+      "incarcerationRate25": 0.048464749,
+      "mobilityIndex": 45.0
+    },
+    "08059011724": {
+      "upwardMobility25": 0.49800253,
+      "incarcerationRate25": 0.014226045,
+      "mobilityIndex": 49.8
+    },
+    "08059011725": {
+      "upwardMobility25": 0.55811232,
+      "incarcerationRate25": -0.0077946186,
+      "mobilityIndex": 55.8
+    },
+    "08059011726": {
+      "upwardMobility25": 0.50571656,
+      "incarcerationRate25": 0.01867771,
+      "mobilityIndex": 50.6
+    },
+    "08059011727": {
+      "upwardMobility25": 0.53484559,
+      "incarcerationRate25": 0.035159823,
+      "mobilityIndex": 53.5
+    },
+    "08059011728": {
+      "upwardMobility25": 0.50907248,
+      "incarcerationRate25": -0.002534165,
+      "mobilityIndex": 50.9
+    },
+    "08059011729": {
+      "upwardMobility25": 0.43910477,
+      "incarcerationRate25": 0.037139855,
+      "mobilityIndex": 43.9
+    },
+    "08059011730": {
+      "upwardMobility25": 0.44426256,
+      "incarcerationRate25": 0.01985039,
+      "mobilityIndex": 44.4
+    },
+    "08059011731": {
+      "upwardMobility25": 0.49782178,
+      "incarcerationRate25": 0.0016110271,
+      "mobilityIndex": 49.8
+    },
+    "08059011732": {
+      "upwardMobility25": 0.41287181,
+      "incarcerationRate25": 0.043879732,
+      "mobilityIndex": 41.3
+    },
+    "08059011733": {
+      "upwardMobility25": 0.41354457,
+      "incarcerationRate25": 0.024579505,
+      "mobilityIndex": 41.4
+    },
+    "08059011803": {
+      "upwardMobility25": 0.41957432,
+      "incarcerationRate25": 0.035611831,
+      "mobilityIndex": 42.0
+    },
+    "08059011804": {
+      "upwardMobility25": 0.45364547,
+      "incarcerationRate25": 0.025089629,
+      "mobilityIndex": 45.4
+    },
+    "08059011805": {
+      "upwardMobility25": 0.4481816,
+      "incarcerationRate25": 0.02553831,
+      "mobilityIndex": 44.8
+    },
+    "08059011806": {
+      "upwardMobility25": 0.41653994,
+      "incarcerationRate25": 0.025140688,
+      "mobilityIndex": 41.7
+    },
+    "08059011904": {
+      "upwardMobility25": 0.43315995,
+      "incarcerationRate25": 0.07872922,
+      "mobilityIndex": 43.3
+    },
+    "08059011951": {
+      "upwardMobility25": 0.46166271,
+      "incarcerationRate25": 0.02027153,
+      "mobilityIndex": 46.2
+    },
+    "08059012022": {
+      "upwardMobility25": 0.50401336,
+      "incarcerationRate25": 0.035580039,
+      "mobilityIndex": 50.4
+    },
+    "08059012023": {
+      "upwardMobility25": 0.57733709,
+      "incarcerationRate25": 0.013868881,
+      "mobilityIndex": 57.7
+    },
+    "08059012024": {
+      "upwardMobility25": 0.56158757,
+      "incarcerationRate25": 0.0010762368,
+      "mobilityIndex": 56.2
+    },
+    "08059012026": {
+      "upwardMobility25": 0.43171772,
+      "incarcerationRate25": 0.010643879,
+      "mobilityIndex": 43.2
+    },
+    "08059012027": {
+      "upwardMobility25": 0.46664837,
+      "incarcerationRate25": 0.0026992443,
+      "mobilityIndex": 46.7
+    },
+    "08059012030": {
+      "upwardMobility25": 0.46935269,
+      "incarcerationRate25": 0.014024345,
+      "mobilityIndex": 46.9
+    },
+    "08059012031": {
+      "upwardMobility25": 0.45362532,
+      "incarcerationRate25": 0.018081935,
+      "mobilityIndex": 45.4
+    },
+    "08059012032": {
+      "upwardMobility25": 0.56011385,
+      "incarcerationRate25": -0.0005319374,
+      "mobilityIndex": 56.0
+    },
+    "08059012033": {
+      "upwardMobility25": 0.47531202,
+      "incarcerationRate25": 0.0021338107,
+      "mobilityIndex": 47.5
+    },
+    "08059012034": {
+      "upwardMobility25": 0.58831942,
+      "incarcerationRate25": 0.0040545678,
+      "mobilityIndex": 58.8
+    },
+    "08059012035": {
+      "upwardMobility25": 0.49707681,
+      "incarcerationRate25": 0.0063071069,
+      "mobilityIndex": 49.7
+    },
+    "08059012036": {
+      "upwardMobility25": 0.5149498,
+      "incarcerationRate25": -0.0071396031,
+      "mobilityIndex": 51.5
+    },
+    "08059012037": {
+      "upwardMobility25": 0.47601178,
+      "incarcerationRate25": 0.042175781,
+      "mobilityIndex": 47.6
+    },
+    "08059012038": {
+      "upwardMobility25": 0.45231763,
+      "incarcerationRate25": 0.052246582,
+      "mobilityIndex": 45.2
+    },
+    "08059012039": {
+      "upwardMobility25": 0.45492113,
+      "incarcerationRate25": 0.039803829,
+      "mobilityIndex": 45.5
+    },
+    "08059012041": {
+      "upwardMobility25": 0.50131053,
+      "incarcerationRate25": 0.014996259,
+      "mobilityIndex": 50.1
+    },
+    "08059012042": {
+      "upwardMobility25": 0.49040127,
+      "incarcerationRate25": 0.010042784,
+      "mobilityIndex": 49.0
+    },
+    "08059012043": {
+      "upwardMobility25": 0.44733781,
+      "incarcerationRate25": 0.039179418,
+      "mobilityIndex": 44.7
+    },
+    "08059012044": {
+      "upwardMobility25": 0.56461316,
+      "incarcerationRate25": 0.052653141,
+      "mobilityIndex": 56.5
+    },
+    "08059012045": {
+      "upwardMobility25": 0.50209969,
+      "incarcerationRate25": 0.0077712494,
+      "mobilityIndex": 50.2
+    },
+    "08059012046": {
+      "upwardMobility25": 0.47594166,
+      "incarcerationRate25": 0.014528554,
+      "mobilityIndex": 47.6
+    },
+    "08059012047": {
+      "upwardMobility25": 0.47319704,
+      "incarcerationRate25": 0.010539616,
+      "mobilityIndex": 47.3
+    },
+    "08059012048": {
+      "upwardMobility25": 0.5075171,
+      "incarcerationRate25": 0.018752765,
+      "mobilityIndex": 50.8
+    },
+    "08059012049": {
+      "upwardMobility25": 0.52725667,
+      "incarcerationRate25": 0.013463764,
+      "mobilityIndex": 52.7
+    },
+    "08059012050": {
+      "upwardMobility25": 0.55010039,
+      "incarcerationRate25": 0.012882597,
+      "mobilityIndex": 55.0
+    },
+    "08059012051": {
+      "upwardMobility25": 0.49956384,
+      "incarcerationRate25": 0.034669999,
+      "mobilityIndex": 50.0
+    },
+    "08059012052": {
+      "upwardMobility25": 0.5095768,
+      "incarcerationRate25": 0.025436789,
+      "mobilityIndex": 51.0
+    },
+    "08059012053": {
+      "upwardMobility25": 0.44750306,
+      "incarcerationRate25": 0.023320701,
+      "mobilityIndex": 44.8
+    },
+    "08059012054": {
+      "upwardMobility25": 0.50347477,
+      "incarcerationRate25": 0.0050773923,
+      "mobilityIndex": 50.3
+    },
+    "08059012055": {
+      "upwardMobility25": 0.44076827,
+      "incarcerationRate25": 0.053797144,
+      "mobilityIndex": 44.1
+    },
+    "08059012057": {
+      "upwardMobility25": 0.45718318,
+      "incarcerationRate25": 0.011407819,
+      "mobilityIndex": 45.7
+    },
+    "08059012058": {
+      "upwardMobility25": 0.49298343,
+      "incarcerationRate25": 0.011820408,
+      "mobilityIndex": 49.3
+    },
+    "08059012059": {
+      "upwardMobility25": 0.44895789,
+      "incarcerationRate25": 0.0019634548,
+      "mobilityIndex": 44.9
+    },
+    "08059012060": {
+      "upwardMobility25": 0.46840745,
+      "incarcerationRate25": 0.002145685,
+      "mobilityIndex": 46.8
+    },
+    "08059015800": {
+      "upwardMobility25": 0.45140505,
+      "incarcerationRate25": 0.048035812,
+      "mobilityIndex": 45.1
+    },
+    "08059015900": {
+      "upwardMobility25": 0.46566892,
+      "incarcerationRate25": 0.02497842,
+      "mobilityIndex": 46.6
+    },
+    "08059060300": {
+      "upwardMobility25": 0.52375072,
+      "incarcerationRate25": 0.027127704,
+      "mobilityIndex": 52.4
+    },
+    "08059060400": {
+      "upwardMobility25": 0.46341982,
+      "incarcerationRate25": 0.032292336,
+      "mobilityIndex": 46.3
+    },
+    "08059060500": {
+      "upwardMobility25": 0.49570838,
+      "incarcerationRate25": -0.0077137267,
+      "mobilityIndex": 49.6
+    },
+    "08061960100": {
+      "upwardMobility25": 0.51864183,
+      "incarcerationRate25": -0.017785912,
+      "mobilityIndex": 51.9
+    },
+    "08063962100": {
+      "upwardMobility25": 0.49879643,
+      "incarcerationRate25": 0.017290372,
+      "mobilityIndex": 49.9
+    },
+    "08063962200": {
+      "upwardMobility25": 0.52249098,
+      "incarcerationRate25": -0.0026321949,
+      "mobilityIndex": 52.2
+    },
+    "08063962300": {
+      "upwardMobility25": 0.57086444,
+      "incarcerationRate25": 0.035712156,
+      "mobilityIndex": 57.1
+    },
+    "08065961700": {
+      "upwardMobility25": 0.40029192,
+      "incarcerationRate25": 0.059674792,
+      "mobilityIndex": 40.0
+    },
+    "08065961900": {
+      "upwardMobility25": 0.45642194,
+      "incarcerationRate25": -0.027743375,
+      "mobilityIndex": 45.6
+    },
+    "08067940300": {
+      "upwardMobility25": 0.5447877,
+      "incarcerationRate25": 0.00091242569,
+      "mobilityIndex": 54.5
+    },
+    "08067940400": {
+      "upwardMobility25": 0.52138174,
+      "incarcerationRate25": 0.011285268,
+      "mobilityIndex": 52.1
+    },
+    "08067970600": {
+      "upwardMobility25": 0.48057827,
+      "incarcerationRate25": 0.012335911,
+      "mobilityIndex": 48.1
+    },
+    "08067970701": {
+      "upwardMobility25": 0.48886743,
+      "incarcerationRate25": 0.0034409298,
+      "mobilityIndex": 48.9
+    },
+    "08067970703": {
+      "upwardMobility25": 0.4855434,
+      "incarcerationRate25": 0.0012358371,
+      "mobilityIndex": 48.6
+    },
+    "08067970704": {
+      "upwardMobility25": 0.43455678,
+      "incarcerationRate25": 0.011861772,
+      "mobilityIndex": 43.5
+    },
+    "08067970800": {
+      "upwardMobility25": 0.4852685,
+      "incarcerationRate25": 0.017726976,
+      "mobilityIndex": 48.5
+    },
+    "08067970900": {
+      "upwardMobility25": 0.43113196,
+      "incarcerationRate25": -0.0016253447,
+      "mobilityIndex": 43.1
+    },
+    "08067971000": {
+      "upwardMobility25": 0.46475172,
+      "incarcerationRate25": 0.014203387,
+      "mobilityIndex": 46.5
+    },
+    "08067971100": {
+      "upwardMobility25": 0.4479461,
+      "incarcerationRate25": 0.020243924,
+      "mobilityIndex": 44.8
+    },
+    "08069000100": {
+      "upwardMobility25": 0.47150782,
+      "incarcerationRate25": 0.031871118,
+      "mobilityIndex": 47.2
+    },
+    "08069000201": {
+      "upwardMobility25": 0.44722357,
+      "incarcerationRate25": 0.020082094,
+      "mobilityIndex": 44.7
+    },
+    "08069000202": {
+      "upwardMobility25": 0.40090701,
+      "incarcerationRate25": 0.01925174,
+      "mobilityIndex": 40.1
+    },
+    "08069000300": {
+      "upwardMobility25": 0.43043378,
+      "incarcerationRate25": 0.010973192,
+      "mobilityIndex": 43.0
+    },
+    "08069000401": {
+      "upwardMobility25": 0.44611266,
+      "incarcerationRate25": 0.03464793,
+      "mobilityIndex": 44.6
+    },
+    "08069000402": {
+      "upwardMobility25": 0.44001475,
+      "incarcerationRate25": 0.031359695,
+      "mobilityIndex": 44.0
+    },
+    "08069000503": {
+      "upwardMobility25": 0.41898161,
+      "incarcerationRate25": 0.034522723,
+      "mobilityIndex": 41.9
+    },
+    "08069000504": {
+      "upwardMobility25": 0.46330214,
+      "incarcerationRate25": 0.026731452,
+      "mobilityIndex": 46.3
+    },
+    "08069000505": {
+      "upwardMobility25": 0.45699003,
+      "incarcerationRate25": 0.01523021,
+      "mobilityIndex": 45.7
+    },
+    "08069000506": {
+      "upwardMobility25": 0.45926216,
+      "incarcerationRate25": 0.024801319,
+      "mobilityIndex": 45.9
+    },
+    "08069000600": {
+      "upwardMobility25": 0.40131682,
+      "incarcerationRate25": 0.056999743,
+      "mobilityIndex": 40.1
+    },
+    "08069000700": {
+      "upwardMobility25": 0.43835419,
+      "incarcerationRate25": 0.0057056705,
+      "mobilityIndex": 43.8
+    },
+    "08069000801": {
+      "upwardMobility25": 0.42465913,
+      "incarcerationRate25": 0.0035001894,
+      "mobilityIndex": 42.5
+    },
+    "08069000802": {
+      "upwardMobility25": 0.43308452,
+      "incarcerationRate25": 0.05412912,
+      "mobilityIndex": 43.3
+    },
+    "08069000901": {
+      "upwardMobility25": 0.47988206,
+      "incarcerationRate25": 0.018762005,
+      "mobilityIndex": 48.0
+    },
+    "08069000902": {
+      "upwardMobility25": 0.44543207,
+      "incarcerationRate25": 0.019997926,
+      "mobilityIndex": 44.5
+    },
+    "08069001003": {
+      "upwardMobility25": 0.43988451,
+      "incarcerationRate25": 0.0089212572,
+      "mobilityIndex": 44.0
+    },
+    "08069001004": {
+      "upwardMobility25": 0.52622944,
+      "incarcerationRate25": 0.0069686207,
+      "mobilityIndex": 52.6
+    },
+    "08069001007": {
+      "upwardMobility25": 0.44509813,
+      "incarcerationRate25": 0.012690903,
+      "mobilityIndex": 44.5
+    },
+    "08069001008": {
+      "upwardMobility25": 0.55030555,
+      "incarcerationRate25": -0.0018482299,
+      "mobilityIndex": 55.0
+    },
+    "08069001009": {
+      "upwardMobility25": 0.4651368,
+      "incarcerationRate25": 0.01313416,
+      "mobilityIndex": 46.5
+    },
+    "08069001010": {
+      "upwardMobility25": 0.57512397,
+      "incarcerationRate25": -0.011829892,
+      "mobilityIndex": 57.5
+    },
+    "08069001104": {
+      "upwardMobility25": 0.46031767,
+      "incarcerationRate25": 0.037914533,
+      "mobilityIndex": 46.0
+    },
+    "08069001106": {
+      "upwardMobility25": 0.52097934,
+      "incarcerationRate25": 0.029295806,
+      "mobilityIndex": 52.1
+    },
+    "08069001107": {
+      "upwardMobility25": 0.46560648,
+      "incarcerationRate25": 0.027790261,
+      "mobilityIndex": 46.6
+    },
+    "08069001109": {
+      "upwardMobility25": 0.47279334,
+      "incarcerationRate25": 0.098618023,
+      "mobilityIndex": 47.3
+    },
+    "08069001110": {
+      "upwardMobility25": 0.47345126,
+      "incarcerationRate25": 0.021258811,
+      "mobilityIndex": 47.3
+    },
+    "08069001111": {
+      "upwardMobility25": 0.4588365,
+      "incarcerationRate25": 0.022408642,
+      "mobilityIndex": 45.9
+    },
+    "08069001112": {
+      "upwardMobility25": 0.4407506,
+      "incarcerationRate25": 0.019858729,
+      "mobilityIndex": 44.1
+    },
+    "08069001113": {
+      "upwardMobility25": 0.51989388,
+      "incarcerationRate25": -0.0047373925,
+      "mobilityIndex": 52.0
+    },
+    "08069001114": {
+      "upwardMobility25": 0.473739,
+      "incarcerationRate25": -0.034440685,
+      "mobilityIndex": 47.4
+    },
+    "08069001301": {
+      "upwardMobility25": 0.45656982,
+      "incarcerationRate25": 0.03514852,
+      "mobilityIndex": 45.7
+    },
+    "08069001304": {
+      "upwardMobility25": 0.38190132,
+      "incarcerationRate25": 0.063708365,
+      "mobilityIndex": 38.2
+    },
+    "08069001305": {
+      "upwardMobility25": 0.41558433,
+      "incarcerationRate25": 0.043340743,
+      "mobilityIndex": 41.6
+    },
+    "08069001306": {
+      "upwardMobility25": 0.40042877,
+      "incarcerationRate25": 0.049362004,
+      "mobilityIndex": 40.0
+    },
+    "08069001307": {
+      "upwardMobility25": 0.41205406,
+      "incarcerationRate25": 0.033554744,
+      "mobilityIndex": 41.2
+    },
+    "08069001308": {
+      "upwardMobility25": 0.55155981,
+      "incarcerationRate25": 0.021595139,
+      "mobilityIndex": 55.2
+    },
+    "08069001601": {
+      "upwardMobility25": 0.42916664,
+      "incarcerationRate25": 0.048135839,
+      "mobilityIndex": 42.9
+    },
+    "08069001602": {
+      "upwardMobility25": 0.4645237,
+      "incarcerationRate25": 0.00456633,
+      "mobilityIndex": 46.5
+    },
+    "08069001603": {
+      "upwardMobility25": 0.50594056,
+      "incarcerationRate25": 0.0051341155,
+      "mobilityIndex": 50.6
+    },
+    "08069001605": {
+      "upwardMobility25": 0.52924138,
+      "incarcerationRate25": -0.0029536367,
+      "mobilityIndex": 52.9
+    },
+    "08069001606": {
+      "upwardMobility25": 0.59350133,
+      "incarcerationRate25": 0.0023332618,
+      "mobilityIndex": 59.4
+    },
+    "08069001607": {
+      "upwardMobility25": 0.55095249,
+      "incarcerationRate25": 0.0096183391,
+      "mobilityIndex": 55.1
+    },
+    "08069001608": {
+      "upwardMobility25": 0.39609337,
+      "incarcerationRate25": 0.033238202,
+      "mobilityIndex": 39.6
+    },
+    "08069001704": {
+      "upwardMobility25": 0.41262886,
+      "incarcerationRate25": 0.047850199,
+      "mobilityIndex": 41.3
+    },
+    "08069001706": {
+      "upwardMobility25": 0.43052039,
+      "incarcerationRate25": 0.044453472,
+      "mobilityIndex": 43.1
+    },
+    "08069001707": {
+      "upwardMobility25": 0.45967051,
+      "incarcerationRate25": 0.033822361,
+      "mobilityIndex": 46.0
+    },
+    "08069001708": {
+      "upwardMobility25": 0.49751875,
+      "incarcerationRate25": 0.003354894,
+      "mobilityIndex": 49.8
+    },
+    "08069001709": {
+      "upwardMobility25": 0.50050795,
+      "incarcerationRate25": 0.02110168,
+      "mobilityIndex": 50.1
+    },
+    "08069001804": {
+      "upwardMobility25": 0.43960318,
+      "incarcerationRate25": 0.034332603,
+      "mobilityIndex": 44.0
+    },
+    "08069001806": {
+      "upwardMobility25": 0.53399014,
+      "incarcerationRate25": 0.027510615,
+      "mobilityIndex": 53.4
+    },
+    "08069001807": {
+      "upwardMobility25": 0.44832137,
+      "incarcerationRate25": 0.020354297,
+      "mobilityIndex": 44.8
+    },
+    "08069001808": {
+      "upwardMobility25": 0.50102776,
+      "incarcerationRate25": 0.025921853,
+      "mobilityIndex": 50.1
+    },
+    "08069001809": {
+      "upwardMobility25": 0.46288157,
+      "incarcerationRate25": 0.048317585,
+      "mobilityIndex": 46.3
+    },
+    "08069001901": {
+      "upwardMobility25": 0.46992821,
+      "incarcerationRate25": 0.017554468,
+      "mobilityIndex": 47.0
+    },
+    "08069001902": {
+      "upwardMobility25": 0.48772886,
+      "incarcerationRate25": 0.024587596,
+      "mobilityIndex": 48.8
+    },
+    "08069001903": {
+      "upwardMobility25": 0.45326644,
+      "incarcerationRate25": 0.0093794744,
+      "mobilityIndex": 45.3
+    },
+    "08069002005": {
+      "upwardMobility25": 0.45063663,
+      "incarcerationRate25": 0.03532993,
+      "mobilityIndex": 45.1
+    },
+    "08069002007": {
+      "upwardMobility25": 0.46040478,
+      "incarcerationRate25": 0.023728596,
+      "mobilityIndex": 46.0
+    },
+    "08069002008": {
+      "upwardMobility25": 0.43140304,
+      "incarcerationRate25": 0.030355245,
+      "mobilityIndex": 43.1
+    },
+    "08069002010": {
+      "upwardMobility25": 0.44789612,
+      "incarcerationRate25": 0.018829986,
+      "mobilityIndex": 44.8
+    },
+    "08069002011": {
+      "upwardMobility25": 0.50912899,
+      "incarcerationRate25": 0.01154844,
+      "mobilityIndex": 50.9
+    },
+    "08069002300": {
+      "upwardMobility25": 0.50043577,
+      "incarcerationRate25": 0.046815772,
+      "mobilityIndex": 50.0
+    },
+    "08069002401": {
+      "upwardMobility25": 0.4999876,
+      "incarcerationRate25": 0.046691697,
+      "mobilityIndex": 50.0
+    },
+    "08069002402": {
+      "upwardMobility25": 0.48969471,
+      "incarcerationRate25": -0.00018728455,
+      "mobilityIndex": 49.0
+    },
+    "08069002501": {
+      "upwardMobility25": 0.45493639,
+      "incarcerationRate25": 0.01417124,
+      "mobilityIndex": 45.5
+    },
+    "08069002502": {
+      "upwardMobility25": 0.45464537,
+      "incarcerationRate25": 0.03137286,
+      "mobilityIndex": 45.5
+    },
+    "08069002503": {
+      "upwardMobility25": 0.45113909,
+      "incarcerationRate25": -0.0053549157,
+      "mobilityIndex": 45.1
+    },
+    "08069002600": {
+      "upwardMobility25": 0.49238157,
+      "incarcerationRate25": 0.040048972,
+      "mobilityIndex": 49.2
+    },
+    "08069002700": {
+      "upwardMobility25": 0.50002921,
+      "incarcerationRate25": 0.007927875,
+      "mobilityIndex": 50.0
+    },
+    "08069002801": {
+      "upwardMobility25": 0.5536716,
+      "incarcerationRate25": 0.057085272,
+      "mobilityIndex": 55.4
+    },
+    "08069002802": {
+      "upwardMobility25": 0.49722332,
+      "incarcerationRate25": 0.014968357,
+      "mobilityIndex": 49.7
+    },
+    "08071000100": {
+      "upwardMobility25": 0.45458153,
+      "incarcerationRate25": 0.022559578,
+      "mobilityIndex": 45.5
+    },
+    "08071000200": {
+      "upwardMobility25": 0.45296669,
+      "incarcerationRate25": 0.028027024,
+      "mobilityIndex": 45.3
+    },
+    "08071000300": {
+      "upwardMobility25": 0.53268683,
+      "incarcerationRate25": 0.0074033304,
+      "mobilityIndex": 53.3
+    },
+    "08071000400": {
+      "upwardMobility25": 0.38257074,
+      "incarcerationRate25": 0.027599648,
+      "mobilityIndex": 38.3
+    },
+    "08071000500": {
+      "upwardMobility25": 0.42632517,
+      "incarcerationRate25": 0.028634571,
+      "mobilityIndex": 42.6
+    },
+    "08071000800": {
+      "upwardMobility25": 0.52669978,
+      "incarcerationRate25": 0.01223372,
+      "mobilityIndex": 52.7
+    },
+    "08073961700": {
+      "upwardMobility25": 0.44428688,
+      "incarcerationRate25": 0.022000678,
+      "mobilityIndex": 44.4
+    },
+    "08073961800": {
+      "upwardMobility25": 0.47552162,
+      "incarcerationRate25": 0.025387231,
+      "mobilityIndex": 47.6
+    },
+    "08075965900": {
+      "upwardMobility25": 0.57221949,
+      "incarcerationRate25": -0.0078608086,
+      "mobilityIndex": 57.2
+    },
+    "08075966000": {
+      "upwardMobility25": 0.56845826,
+      "incarcerationRate25": -0.0058171903,
+      "mobilityIndex": 56.8
+    },
+    "08075966100": {
+      "upwardMobility25": 0.46146873,
+      "incarcerationRate25": 0.031622197,
+      "mobilityIndex": 46.1
+    },
+    "08075966200": {
+      "upwardMobility25": 0.43345982,
+      "incarcerationRate25": 0.034455642,
+      "mobilityIndex": 43.3
+    },
+    "08075966300": {
+      "upwardMobility25": 0.4518055,
+      "incarcerationRate25": 0.021145923,
+      "mobilityIndex": 45.2
+    },
+    "08075966400": {
+      "upwardMobility25": 0.53092331,
+      "incarcerationRate25": 0.028648755,
+      "mobilityIndex": 53.1
+    },
+    "08077000200": {
+      "upwardMobility25": 0.41041192,
+      "incarcerationRate25": 0.032413274,
+      "mobilityIndex": 41.0
+    },
+    "08077000300": {
+      "upwardMobility25": 0.37845913,
+      "incarcerationRate25": 0.033610493,
+      "mobilityIndex": 37.8
+    },
+    "08077000400": {
+      "upwardMobility25": 0.43861672,
+      "incarcerationRate25": 0.01918143,
+      "mobilityIndex": 43.9
+    },
+    "08077000500": {
+      "upwardMobility25": 0.4261491,
+      "incarcerationRate25": 0.050798148,
+      "mobilityIndex": 42.6
+    },
+    "08077000601": {
+      "upwardMobility25": 0.4432407,
+      "incarcerationRate25": 0.023311635,
+      "mobilityIndex": 44.3
+    },
+    "08077000602": {
+      "upwardMobility25": 0.45438829,
+      "incarcerationRate25": 0.063286901,
+      "mobilityIndex": 45.4
+    },
+    "08077000700": {
+      "upwardMobility25": 0.4185442,
+      "incarcerationRate25": 0.039483182,
+      "mobilityIndex": 41.9
+    },
+    "08077000800": {
+      "upwardMobility25": 0.47262725,
+      "incarcerationRate25": 0.038098812,
+      "mobilityIndex": 47.3
+    },
+    "08077000900": {
+      "upwardMobility25": 0.45035923,
+      "incarcerationRate25": 0.014073139,
+      "mobilityIndex": 45.0
+    },
+    "08077001001": {
+      "upwardMobility25": 0.53633225,
+      "incarcerationRate25": 0.022290599,
+      "mobilityIndex": 53.6
+    },
+    "08077001002": {
+      "upwardMobility25": 0.49479437,
+      "incarcerationRate25": 0.03656568,
+      "mobilityIndex": 49.5
+    },
+    "08077001101": {
+      "upwardMobility25": 0.43218151,
+      "incarcerationRate25": 0.030033961,
+      "mobilityIndex": 43.2
+    },
+    "08077001102": {
+      "upwardMobility25": 0.49362949,
+      "incarcerationRate25": 0.023878796,
+      "mobilityIndex": 49.4
+    },
+    "08077001200": {
+      "upwardMobility25": 0.46043858,
+      "incarcerationRate25": 0.016514106,
+      "mobilityIndex": 46.0
+    },
+    "08077001301": {
+      "upwardMobility25": 0.44101948,
+      "incarcerationRate25": 0.039538097,
+      "mobilityIndex": 44.1
+    },
+    "08077001302": {
+      "upwardMobility25": 0.4586204,
+      "incarcerationRate25": 0.00050261716,
+      "mobilityIndex": 45.9
+    },
+    "08077001402": {
+      "upwardMobility25": 0.51825088,
+      "incarcerationRate25": -0.0015573814,
+      "mobilityIndex": 51.8
+    },
+    "08077001403": {
+      "upwardMobility25": 0.46622023,
+      "incarcerationRate25": 0.0057035447,
+      "mobilityIndex": 46.6
+    },
+    "08077001404": {
+      "upwardMobility25": 0.53578329,
+      "incarcerationRate25": 0.036912579,
+      "mobilityIndex": 53.6
+    },
+    "08077001501": {
+      "upwardMobility25": 0.43383425,
+      "incarcerationRate25": 0.025018025,
+      "mobilityIndex": 43.4
+    },
+    "08077001502": {
+      "upwardMobility25": 0.52008712,
+      "incarcerationRate25": 0.01121028,
+      "mobilityIndex": 52.0
+    },
+    "08077001600": {
+      "upwardMobility25": 0.48885998,
+      "incarcerationRate25": 0.012269993,
+      "mobilityIndex": 48.9
+    },
+    "08077001702": {
+      "upwardMobility25": 0.46686354,
+      "incarcerationRate25": 0.02423293,
+      "mobilityIndex": 46.7
+    },
+    "08077001703": {
+      "upwardMobility25": 0.43294007,
+      "incarcerationRate25": 0.026191512,
+      "mobilityIndex": 43.3
+    },
+    "08077001705": {
+      "upwardMobility25": 0.4313494,
+      "incarcerationRate25": 0.033895344,
+      "mobilityIndex": 43.1
+    },
+    "08077001706": {
+      "upwardMobility25": 0.41815346,
+      "incarcerationRate25": 0.029731074,
+      "mobilityIndex": 41.8
+    },
+    "08077001707": {
+      "upwardMobility25": 0.46117106,
+      "incarcerationRate25": 0.013441734,
+      "mobilityIndex": 46.1
+    },
+    "08077001800": {
+      "upwardMobility25": 0.5171926,
+      "incarcerationRate25": 0.014718182,
+      "mobilityIndex": 51.7
+    },
+    "08077001900": {
+      "upwardMobility25": 0.46577328,
+      "incarcerationRate25": 0.015950732,
+      "mobilityIndex": 46.6
+    },
+    "08079973600": {
+      "upwardMobility25": 0.30292848,
+      "mobilityIndex": 30.3
+    },
+    "08081000300": {
+      "upwardMobility25": 0.48523986,
+      "incarcerationRate25": 0.019205736,
+      "mobilityIndex": 48.5
+    },
+    "08081000400": {
+      "upwardMobility25": 0.44461995,
+      "incarcerationRate25": 0.0070060738,
+      "mobilityIndex": 44.5
+    },
+    "08081000500": {
+      "upwardMobility25": 0.44979981,
+      "incarcerationRate25": 0.048351269,
+      "mobilityIndex": 45.0
+    },
+    "08081000600": {
+      "upwardMobility25": 0.51828426,
+      "incarcerationRate25": 0.019340182,
+      "mobilityIndex": 51.8
+    },
+    "08083941100": {
+      "upwardMobility25": 0.3032572,
+      "incarcerationRate25": 0.056971814,
+      "mobilityIndex": 30.3
+    },
+    "08083969000": {
+      "upwardMobility25": 0.46534514,
+      "incarcerationRate25": 0.036915459,
+      "mobilityIndex": 46.5
+    },
+    "08083969100": {
+      "upwardMobility25": 0.45837876,
+      "incarcerationRate25": 0.0052190567,
+      "mobilityIndex": 45.8
+    },
+    "08083969200": {
+      "upwardMobility25": 0.49658087,
+      "incarcerationRate25": -0.0033175289,
+      "mobilityIndex": 49.7
+    },
+    "08083969300": {
+      "upwardMobility25": 0.44345608,
+      "incarcerationRate25": 0.01656246,
+      "mobilityIndex": 44.3
+    },
+    "08083969400": {
+      "upwardMobility25": 0.38367632,
+      "incarcerationRate25": 0.029036831,
+      "mobilityIndex": 38.4
+    },
+    "08083969600": {
+      "upwardMobility25": 0.42389256,
+      "incarcerationRate25": -0.0064694113,
+      "mobilityIndex": 42.4
+    },
+    "08085966100": {
+      "upwardMobility25": 0.47632587,
+      "incarcerationRate25": 0.051135611,
+      "mobilityIndex": 47.6
+    },
+    "08085966201": {
+      "upwardMobility25": 0.45302314,
+      "incarcerationRate25": 0.023095977,
+      "mobilityIndex": 45.3
+    },
+    "08085966202": {
+      "upwardMobility25": 0.43855372,
+      "incarcerationRate25": 0.011150094,
+      "mobilityIndex": 43.9
+    },
+    "08085966300": {
+      "upwardMobility25": 0.41714007,
+      "incarcerationRate25": 0.017258406,
+      "mobilityIndex": 41.7
+    },
+    "08085966400": {
+      "upwardMobility25": 0.44623595,
+      "incarcerationRate25": 0.034353662,
+      "mobilityIndex": 44.6
+    },
+    "08085966501": {
+      "upwardMobility25": 0.44131407,
+      "incarcerationRate25": 0.017479623,
+      "mobilityIndex": 44.1
+    },
+    "08085966502": {
+      "upwardMobility25": 0.48722053,
+      "incarcerationRate25": 0.019612173,
+      "mobilityIndex": 48.7
+    },
+    "08085966503": {
+      "upwardMobility25": 0.41631448,
+      "incarcerationRate25": 0.02206335,
+      "mobilityIndex": 41.6
+    },
+    "08085966601": {
+      "upwardMobility25": 0.40849289,
+      "incarcerationRate25": 0.022279248,
+      "mobilityIndex": 40.8
+    },
+    "08085966602": {
+      "upwardMobility25": 0.46451688,
+      "incarcerationRate25": 0.035851795,
+      "mobilityIndex": 46.5
+    },
+    "08087000100": {
+      "upwardMobility25": 0.57767874,
+      "incarcerationRate25": 0.0081471084,
+      "mobilityIndex": 57.8
+    },
+    "08087000200": {
+      "upwardMobility25": 0.54538864,
+      "incarcerationRate25": -0.0048690452,
+      "mobilityIndex": 54.5
+    },
+    "08087000300": {
+      "upwardMobility25": 0.42345726,
+      "incarcerationRate25": 0.034873173,
+      "mobilityIndex": 42.3
+    },
+    "08087000400": {
+      "upwardMobility25": 0.41431209,
+      "incarcerationRate25": 0.030487508,
+      "mobilityIndex": 41.4
+    },
+    "08087000500": {
+      "upwardMobility25": 0.40608597,
+      "incarcerationRate25": 0.040273957,
+      "mobilityIndex": 40.6
+    },
+    "08087000600": {
+      "upwardMobility25": 0.44797921,
+      "incarcerationRate25": 0.031493977,
+      "mobilityIndex": 44.8
+    },
+    "08087000700": {
+      "upwardMobility25": 0.43282169,
+      "incarcerationRate25": 0.022270527,
+      "mobilityIndex": 43.3
+    },
+    "08087000800": {
+      "upwardMobility25": 0.56756282,
+      "incarcerationRate25": 0.014805521,
+      "mobilityIndex": 56.8
+    },
+    "08089968000": {
+      "upwardMobility25": 0.51091045,
+      "incarcerationRate25": 0.015989665,
+      "mobilityIndex": 51.1
+    },
+    "08089968100": {
+      "upwardMobility25": 0.41100565,
+      "incarcerationRate25": 0.045138136,
+      "mobilityIndex": 41.1
+    },
+    "08089968200": {
+      "upwardMobility25": 0.45904332,
+      "incarcerationRate25": 0.011544146,
+      "mobilityIndex": 45.9
+    },
+    "08089968300": {
+      "upwardMobility25": 0.42067045,
+      "incarcerationRate25": 0.03484913,
+      "mobilityIndex": 42.1
+    },
+    "08089968400": {
+      "upwardMobility25": 0.45937294,
+      "incarcerationRate25": 0.045994699,
+      "mobilityIndex": 45.9
+    },
+    "08089968500": {
+      "upwardMobility25": 0.48184687,
+      "incarcerationRate25": 0.015169566,
+      "mobilityIndex": 48.2
+    },
+    "08089968600": {
+      "upwardMobility25": 0.38875428,
+      "incarcerationRate25": 0.023214294,
+      "mobilityIndex": 38.9
+    },
+    "08091967600": {
+      "upwardMobility25": 0.55651867,
+      "incarcerationRate25": 0.025623258,
+      "mobilityIndex": 55.7
+    },
+    "08093000100": {
+      "upwardMobility25": 0.46721303,
+      "incarcerationRate25": 0.038283054,
+      "mobilityIndex": 46.7
+    },
+    "08093000200": {
+      "upwardMobility25": 0.46283177,
+      "incarcerationRate25": 0.038550276,
+      "mobilityIndex": 46.3
+    },
+    "08093000300": {
+      "upwardMobility25": 0.43479478,
+      "incarcerationRate25": 0.33020011,
+      "mobilityIndex": 43.5
+    },
+    "08093000400": {
+      "upwardMobility25": 0.46028912,
+      "incarcerationRate25": 0.028464183,
+      "mobilityIndex": 46.0
+    },
+    "08093000500": {
+      "upwardMobility25": 0.46681345,
+      "incarcerationRate25": 0.010905638,
+      "mobilityIndex": 46.7
+    },
+    "08095967600": {
+      "upwardMobility25": 0.47827193,
+      "incarcerationRate25": 0.021506146,
+      "mobilityIndex": 47.8
+    },
+    "08095967700": {
+      "upwardMobility25": 0.53919834,
+      "incarcerationRate25": 6.824037e-05,
+      "mobilityIndex": 53.9
+    },
+    "08097000100": {
+      "upwardMobility25": 0.44492197,
+      "incarcerationRate25": 0.00086641917,
+      "mobilityIndex": 44.5
+    },
+    "08097000401": {
+      "upwardMobility25": 0.44904369,
+      "incarcerationRate25": -0.0081500132,
+      "mobilityIndex": 44.9
+    },
+    "08097000402": {
+      "upwardMobility25": 0.43852153,
+      "incarcerationRate25": -0.038431767,
+      "mobilityIndex": 43.9
+    },
+    "08097000500": {
+      "upwardMobility25": 0.55493313,
+      "incarcerationRate25": 0.071995541,
+      "mobilityIndex": 55.5
+    },
+    "08099000100": {
+      "upwardMobility25": 0.48485833,
+      "incarcerationRate25": 0.0056031747,
+      "mobilityIndex": 48.5
+    },
+    "08099000200": {
+      "upwardMobility25": 0.38830781,
+      "incarcerationRate25": 0.040224154,
+      "mobilityIndex": 38.8
+    },
+    "08099000300": {
+      "upwardMobility25": 0.45645741,
+      "incarcerationRate25": 0.01037553,
+      "mobilityIndex": 45.6
+    },
+    "08099000600": {
+      "upwardMobility25": 0.53307259,
+      "incarcerationRate25": -0.0039082798,
+      "mobilityIndex": 53.3
+    },
+    "08099000700": {
+      "upwardMobility25": 0.4978044,
+      "incarcerationRate25": -0.0058236639,
+      "mobilityIndex": 49.8
+    },
+    "08101000100": {
+      "upwardMobility25": 0.43204716,
+      "incarcerationRate25": 0.039573323,
+      "mobilityIndex": 43.2
+    },
+    "08101000200": {
+      "upwardMobility25": 0.34188318,
+      "incarcerationRate25": 0.041731812,
+      "mobilityIndex": 34.2
+    },
+    "08101000400": {
+      "upwardMobility25": 0.36890662,
+      "incarcerationRate25": 0.014437574,
+      "mobilityIndex": 36.9
+    },
+    "08101000500": {
+      "upwardMobility25": 0.38276604,
+      "incarcerationRate25": 0.041989047,
+      "mobilityIndex": 38.3
+    },
+    "08101000600": {
+      "upwardMobility25": 0.34901851,
+      "incarcerationRate25": 0.049952012,
+      "mobilityIndex": 34.9
+    },
+    "08101000800": {
+      "upwardMobility25": 0.33269957,
+      "incarcerationRate25": 0.032473512,
+      "mobilityIndex": 33.3
+    },
+    "08101000902": {
+      "upwardMobility25": 0.42364019,
+      "incarcerationRate25": 0.030194325,
+      "mobilityIndex": 42.4
+    },
+    "08101000904": {
+      "upwardMobility25": 0.40350935,
+      "incarcerationRate25": 0.039381605,
+      "mobilityIndex": 40.4
+    },
+    "08101000905": {
+      "upwardMobility25": 0.38418555,
+      "incarcerationRate25": 0.012299467,
+      "mobilityIndex": 38.4
+    },
+    "08101001000": {
+      "upwardMobility25": 0.33661008,
+      "incarcerationRate25": 0.062654674,
+      "mobilityIndex": 33.7
+    },
+    "08101001100": {
+      "upwardMobility25": 0.33580506,
+      "incarcerationRate25": 0.051392835,
+      "mobilityIndex": 33.6
+    },
+    "08101001200": {
+      "upwardMobility25": 0.3260254,
+      "incarcerationRate25": 0.029767375,
+      "mobilityIndex": 32.6
+    },
+    "08101001400": {
+      "upwardMobility25": 0.33928704,
+      "incarcerationRate25": 0.027052347,
+      "mobilityIndex": 33.9
+    },
+    "08101001500": {
+      "upwardMobility25": 0.3954013,
+      "incarcerationRate25": 0.022731211,
+      "mobilityIndex": 39.5
+    },
+    "08101001600": {
+      "upwardMobility25": 0.41303849,
+      "incarcerationRate25": 0.016512586,
+      "mobilityIndex": 41.3
+    },
+    "08101001700": {
+      "upwardMobility25": 0.45305422,
+      "incarcerationRate25": 0.022799684,
+      "mobilityIndex": 45.3
+    },
+    "08101001800": {
+      "upwardMobility25": 0.42095828,
+      "incarcerationRate25": 0.015838394,
+      "mobilityIndex": 42.1
+    },
+    "08101001900": {
+      "upwardMobility25": 0.37013111,
+      "incarcerationRate25": 0.040419277,
+      "mobilityIndex": 37.0
+    },
+    "08101002000": {
+      "upwardMobility25": 0.33850631,
+      "incarcerationRate25": 0.033451069,
+      "mobilityIndex": 33.9
+    },
+    "08101002100": {
+      "upwardMobility25": 0.34373325,
+      "incarcerationRate25": 0.067666337,
+      "mobilityIndex": 34.4
+    },
+    "08101002200": {
+      "upwardMobility25": 0.31595561,
+      "incarcerationRate25": 0.015179065,
+      "mobilityIndex": 31.6
+    },
+    "08101002300": {
+      "upwardMobility25": 0.37894964,
+      "incarcerationRate25": 0.061964437,
+      "mobilityIndex": 37.9
+    },
+    "08101002400": {
+      "upwardMobility25": 0.3572537,
+      "incarcerationRate25": 0.053952668,
+      "mobilityIndex": 35.7
+    },
+    "08101002500": {
+      "upwardMobility25": 0.36812821,
+      "incarcerationRate25": 0.052692927,
+      "mobilityIndex": 36.8
+    },
+    "08101002600": {
+      "upwardMobility25": 0.37038374,
+      "incarcerationRate25": 0.046878163,
+      "mobilityIndex": 37.0
+    },
+    "08101002700": {
+      "upwardMobility25": 0.3910535,
+      "incarcerationRate25": 0.030386226,
+      "mobilityIndex": 39.1
+    },
+    "08101002801": {
+      "upwardMobility25": 0.38975751,
+      "incarcerationRate25": 0.018725494,
+      "mobilityIndex": 39.0
+    },
+    "08101002802": {
+      "upwardMobility25": 0.3583414,
+      "incarcerationRate25": 0.01224089,
+      "mobilityIndex": 35.8
+    },
+    "08101002804": {
+      "upwardMobility25": 0.41537625,
+      "incarcerationRate25": 0.024898654,
+      "mobilityIndex": 41.5
+    },
+    "08101002806": {
+      "upwardMobility25": 0.47777545,
+      "incarcerationRate25": -0.00021405517,
+      "mobilityIndex": 47.8
+    },
+    "08101002807": {
+      "upwardMobility25": 0.50524724,
+      "incarcerationRate25": 0.011273692,
+      "mobilityIndex": 50.5
+    },
+    "08101002808": {
+      "upwardMobility25": 0.48467889,
+      "incarcerationRate25": 0.029160352,
+      "mobilityIndex": 48.5
+    },
+    "08101002901": {
+      "upwardMobility25": 0.36266172,
+      "incarcerationRate25": 0.050127432,
+      "mobilityIndex": 36.3
+    },
+    "08101002903": {
+      "upwardMobility25": 0.41463566,
+      "incarcerationRate25": 0.021878129,
+      "mobilityIndex": 41.5
+    },
+    "08101002906": {
+      "upwardMobility25": 0.40574166,
+      "incarcerationRate25": 0.033495907,
+      "mobilityIndex": 40.6
+    },
+    "08101002911": {
+      "upwardMobility25": 0.43587783,
+      "incarcerationRate25": 0.013824922,
+      "mobilityIndex": 43.6
+    },
+    "08101002912": {
+      "upwardMobility25": 0.37404752,
+      "incarcerationRate25": 0.026931005,
+      "mobilityIndex": 37.4
+    },
+    "08101002913": {
+      "upwardMobility25": 0.44504687,
+      "incarcerationRate25": 0.0083752498,
+      "mobilityIndex": 44.5
+    },
+    "08101002914": {
+      "upwardMobility25": 0.4190186,
+      "incarcerationRate25": 0.019942427,
+      "mobilityIndex": 41.9
+    },
+    "08101002915": {
+      "upwardMobility25": 0.44085479,
+      "incarcerationRate25": 0.01270172,
+      "mobilityIndex": 44.1
+    },
+    "08101002916": {
+      "upwardMobility25": 0.40612331,
+      "incarcerationRate25": 0.0078339083,
+      "mobilityIndex": 40.6
+    },
+    "08101002917": {
+      "upwardMobility25": 0.50139564,
+      "incarcerationRate25": 0.023940723,
+      "mobilityIndex": 50.1
+    },
+    "08101002918": {
+      "upwardMobility25": 0.45208958,
+      "incarcerationRate25": 0.028849928,
+      "mobilityIndex": 45.2
+    },
+    "08101003001": {
+      "upwardMobility25": 0.37768057,
+      "incarcerationRate25": 0.085359618,
+      "mobilityIndex": 37.8
+    },
+    "08101003004": {
+      "upwardMobility25": 0.40941563,
+      "incarcerationRate25": 0.029877866,
+      "mobilityIndex": 40.9
+    },
+    "08101003103": {
+      "upwardMobility25": 0.39253664,
+      "incarcerationRate25": 0.027233703,
+      "mobilityIndex": 39.3
+    },
+    "08101003104": {
+      "upwardMobility25": 0.45134839,
+      "incarcerationRate25": -0.0032636246,
+      "mobilityIndex": 45.1
+    },
+    "08101003105": {
+      "upwardMobility25": 0.46506962,
+      "incarcerationRate25": 0.017833402,
+      "mobilityIndex": 46.5
+    },
+    "08101003106": {
+      "upwardMobility25": 0.45076883,
+      "incarcerationRate25": 0.0026409258,
+      "mobilityIndex": 45.1
+    },
+    "08101003200": {
+      "upwardMobility25": 0.40242878,
+      "incarcerationRate25": 0.01644369,
+      "mobilityIndex": 40.2
+    },
+    "08101003500": {
+      "upwardMobility25": 0.3797805,
+      "incarcerationRate25": 0.060049031,
+      "mobilityIndex": 38.0
+    },
+    "08101003600": {
+      "upwardMobility25": 0.34625405,
+      "incarcerationRate25": 0.054547962,
+      "mobilityIndex": 34.6
+    },
+    "08103951100": {
+      "upwardMobility25": 0.50972056,
+      "incarcerationRate25": 0.0039562825,
+      "mobilityIndex": 51.0
+    },
+    "08103951200": {
+      "upwardMobility25": 0.49376521,
+      "incarcerationRate25": 0.0082810344,
+      "mobilityIndex": 49.4
+    },
+    "08105976700": {
+      "upwardMobility25": 0.39787331,
+      "incarcerationRate25": 0.036740027,
+      "mobilityIndex": 39.8
+    },
+    "08105976800": {
+      "upwardMobility25": 0.41129273,
+      "incarcerationRate25": 0.028711628,
+      "mobilityIndex": 41.1
+    },
+    "08105977000": {
+      "upwardMobility25": 0.45897314,
+      "incarcerationRate25": -0.0021600155,
+      "mobilityIndex": 45.9
+    },
+    "08107000100": {
+      "upwardMobility25": 0.50647527,
+      "incarcerationRate25": 0.041124057,
+      "mobilityIndex": 50.6
+    },
+    "08107000200": {
+      "upwardMobility25": 0.55462605,
+      "incarcerationRate25": 0.011144206,
+      "mobilityIndex": 55.5
+    },
+    "08107000300": {
+      "upwardMobility25": 0.48964247,
+      "incarcerationRate25": 0.0020905486,
+      "mobilityIndex": 49.0
+    },
+    "08107000400": {
+      "upwardMobility25": 0.54197186,
+      "incarcerationRate25": 0.011173591,
+      "mobilityIndex": 54.2
+    },
+    "08107000500": {
+      "upwardMobility25": 0.53931969,
+      "incarcerationRate25": 0.017476695,
+      "mobilityIndex": 53.9
+    },
+    "08107000600": {
+      "upwardMobility25": 0.43029258,
+      "incarcerationRate25": -0.021172544,
+      "mobilityIndex": 43.0
+    },
+    "08107000700": {
+      "upwardMobility25": 0.4652009,
+      "incarcerationRate25": 0.0026362401,
+      "mobilityIndex": 46.5
+    },
+    "08107000800": {
+      "upwardMobility25": 0.44326982,
+      "incarcerationRate25": -0.03598576,
+      "mobilityIndex": 44.3
+    },
+    "08109977600": {
+      "upwardMobility25": 0.48914117,
+      "incarcerationRate25": 0.037576213,
+      "mobilityIndex": 48.9
+    },
+    "08109977700": {
+      "upwardMobility25": 0.40171075,
+      "incarcerationRate25": 0.0071700569,
+      "mobilityIndex": 40.2
+    },
+    "08111972600": {
+      "upwardMobility25": 0.50687981,
+      "incarcerationRate25": 0.062582195,
+      "mobilityIndex": 50.7
+    },
+    "08113968102": {
+      "upwardMobility25": 0.46108493,
+      "incarcerationRate25": 0.13624492,
+      "mobilityIndex": 46.1
+    },
+    "08113968103": {
+      "upwardMobility25": 0.43338686,
+      "incarcerationRate25": -0.13723099,
+      "mobilityIndex": 43.3
+    },
+    "08113968200": {
+      "upwardMobility25": 0.6130836,
+      "incarcerationRate25": -0.0049359463,
+      "mobilityIndex": 61.3
+    },
+    "08115968300": {
+      "upwardMobility25": 0.50246364,
+      "incarcerationRate25": 0.010132361,
+      "mobilityIndex": 50.2
+    },
+    "08117000100": {
+      "upwardMobility25": 0.44159591,
+      "incarcerationRate25": 0.0022093565,
+      "mobilityIndex": 44.2
+    },
+    "08117000200": {
+      "upwardMobility25": 0.56882513,
+      "incarcerationRate25": -0.0043323524,
+      "mobilityIndex": 56.9
+    },
+    "08117000300": {
+      "upwardMobility25": 0.37835145,
+      "incarcerationRate25": -0.0038124195,
+      "mobilityIndex": 37.8
+    },
+    "08117000401": {
+      "upwardMobility25": 0.51387382,
+      "incarcerationRate25": -0.04729899,
+      "mobilityIndex": 51.4
+    },
+    "08117000402": {
+      "upwardMobility25": 0.58596975,
+      "incarcerationRate25": -0.054834567,
+      "mobilityIndex": 58.6
+    },
+    "08119010103": {
+      "upwardMobility25": 0.45477581,
+      "incarcerationRate25": 0.033196956,
+      "mobilityIndex": 45.5
+    },
+    "08119010104": {
+      "upwardMobility25": 0.4712916,
+      "incarcerationRate25": 0.023931921,
+      "mobilityIndex": 47.1
+    },
+    "08119010105": {
+      "upwardMobility25": 0.439812,
+      "incarcerationRate25": 0.0036958042,
+      "mobilityIndex": 44.0
+    },
+    "08119010106": {
+      "upwardMobility25": 0.43070799,
+      "incarcerationRate25": 0.004084202,
+      "mobilityIndex": 43.1
+    },
+    "08119010201": {
+      "upwardMobility25": 0.43122816,
+      "incarcerationRate25": 0.043451194,
+      "mobilityIndex": 43.1
+    },
+    "08119010202": {
+      "upwardMobility25": 0.45623139,
+      "incarcerationRate25": 0.0017331749,
+      "mobilityIndex": 45.6
+    },
+    "08121924100": {
+      "upwardMobility25": 0.52225834,
+      "incarcerationRate25": 0.02916402,
+      "mobilityIndex": 52.2
+    },
+    "08121924200": {
+      "upwardMobility25": 0.48928332,
+      "incarcerationRate25": 0.051343225,
+      "mobilityIndex": 48.9
+    },
+    "08123000100": {
+      "upwardMobility25": 0.36697853,
+      "incarcerationRate25": 0.035479557,
+      "mobilityIndex": 36.7
+    },
+    "08123000200": {
+      "upwardMobility25": 0.36434311,
+      "incarcerationRate25": 0.056890298,
+      "mobilityIndex": 36.4
+    },
+    "08123000401": {
+      "upwardMobility25": 0.56247193,
+      "incarcerationRate25": 0.0083747851,
+      "mobilityIndex": 56.2
+    },
+    "08123000402": {
+      "upwardMobility25": 0.42917415,
+      "incarcerationRate25": 0.049311314,
+      "mobilityIndex": 42.9
+    },
+    "08123000501": {
+      "upwardMobility25": 0.37206107,
+      "incarcerationRate25": 0.063718185,
+      "mobilityIndex": 37.2
+    },
+    "08123000502": {
+      "upwardMobility25": 0.366824,
+      "incarcerationRate25": 0.060349185,
+      "mobilityIndex": 36.7
+    },
+    "08123000600": {
+      "upwardMobility25": 0.33826739,
+      "incarcerationRate25": 0.12552814,
+      "mobilityIndex": 33.8
+    },
+    "08123000701": {
+      "upwardMobility25": 0.348937,
+      "incarcerationRate25": 0.093698613,
+      "mobilityIndex": 34.9
+    },
+    "08123000703": {
+      "upwardMobility25": 0.40606502,
+      "incarcerationRate25": 0.049526569,
+      "mobilityIndex": 40.6
+    },
+    "08123000705": {
+      "upwardMobility25": 0.49362332,
+      "incarcerationRate25": 0.069802754,
+      "mobilityIndex": 49.4
+    },
+    "08123000800": {
+      "upwardMobility25": 0.38836789,
+      "incarcerationRate25": 0.075980954,
+      "mobilityIndex": 38.8
+    },
+    "08123000900": {
+      "upwardMobility25": 0.46448463,
+      "incarcerationRate25": 0.043285403,
+      "mobilityIndex": 46.4
+    },
+    "08123001003": {
+      "upwardMobility25": 0.39261654,
+      "incarcerationRate25": 0.035569482,
+      "mobilityIndex": 39.3
+    },
+    "08123001004": {
+      "upwardMobility25": 0.38614771,
+      "incarcerationRate25": 0.060543455,
+      "mobilityIndex": 38.6
+    },
+    "08123001005": {
+      "upwardMobility25": 0.42412314,
+      "incarcerationRate25": 0.03578889,
+      "mobilityIndex": 42.4
+    },
+    "08123001006": {
+      "upwardMobility25": 0.42879701,
+      "incarcerationRate25": 0.048522845,
+      "mobilityIndex": 42.9
+    },
+    "08123001100": {
+      "upwardMobility25": 0.46324217,
+      "incarcerationRate25": 0.014090267,
+      "mobilityIndex": 46.3
+    },
+    "08123001201": {
+      "upwardMobility25": 0.44212228,
+      "incarcerationRate25": 0.012540326,
+      "mobilityIndex": 44.2
+    },
+    "08123001202": {
+      "upwardMobility25": 0.46019942,
+      "incarcerationRate25": 0.0037247776,
+      "mobilityIndex": 46.0
+    },
+    "08123001300": {
+      "upwardMobility25": 0.40041229,
+      "incarcerationRate25": 0.044816148,
+      "mobilityIndex": 40.0
+    },
+    "08123001404": {
+      "upwardMobility25": 0.40077871,
+      "incarcerationRate25": 0.047850039,
+      "mobilityIndex": 40.1
+    },
+    "08123001405": {
+      "upwardMobility25": 0.50527036,
+      "incarcerationRate25": -0.00964549,
+      "mobilityIndex": 50.5
+    },
+    "08123001406": {
+      "upwardMobility25": 0.52745777,
+      "incarcerationRate25": 0.042715088,
+      "mobilityIndex": 52.7
+    },
+    "08123001407": {
+      "upwardMobility25": 0.58091533,
+      "incarcerationRate25": 0.038817655,
+      "mobilityIndex": 58.1
+    },
+    "08123001408": {
+      "upwardMobility25": 0.57220447,
+      "incarcerationRate25": 0.023378249,
+      "mobilityIndex": 57.2
+    },
+    "08123001409": {
+      "upwardMobility25": 0.51895308,
+      "incarcerationRate25": -0.0024966106,
+      "mobilityIndex": 51.9
+    },
+    "08123001410": {
+      "upwardMobility25": 0.51985323,
+      "incarcerationRate25": 0.00050400174,
+      "mobilityIndex": 52.0
+    },
+    "08123001411": {
+      "upwardMobility25": 0.53569275,
+      "incarcerationRate25": 0.023034628,
+      "mobilityIndex": 53.6
+    },
+    "08123001412": {
+      "upwardMobility25": 0.42863011,
+      "incarcerationRate25": -0.0076953326,
+      "mobilityIndex": 42.9
+    },
+    "08123001413": {
+      "upwardMobility25": 0.47385758,
+      "incarcerationRate25": 0.045690984,
+      "mobilityIndex": 47.4
+    },
+    "08123001414": {
+      "upwardMobility25": 0.44735861,
+      "incarcerationRate25": -0.0037711,
+      "mobilityIndex": 44.7
+    },
+    "08123001415": {
+      "upwardMobility25": 0.49567762,
+      "incarcerationRate25": 0.00079039542,
+      "mobilityIndex": 49.6
+    },
+    "08123001416": {
+      "upwardMobility25": 0.52715081,
+      "incarcerationRate25": -0.010106308,
+      "mobilityIndex": 52.7
+    },
+    "08123001417": {
+      "upwardMobility25": 0.47431901,
+      "incarcerationRate25": 0.023335019,
+      "mobilityIndex": 47.4
+    },
+    "08123001500": {
+      "upwardMobility25": 0.45070383,
+      "incarcerationRate25": 0.042358216,
+      "mobilityIndex": 45.1
+    },
+    "08123001600": {
+      "upwardMobility25": 0.49649516,
+      "incarcerationRate25": 0.046621319,
+      "mobilityIndex": 49.6
+    },
+    "08123001700": {
+      "upwardMobility25": 0.49687445,
+      "incarcerationRate25": 0.032562319,
+      "mobilityIndex": 49.7
+    },
+    "08123001800": {
+      "upwardMobility25": 0.45352417,
+      "incarcerationRate25": 0.044469424,
+      "mobilityIndex": 45.4
+    },
+    "08123001902": {
+      "upwardMobility25": 0.42479745,
+      "incarcerationRate25": 0.067887716,
+      "mobilityIndex": 42.5
+    },
+    "08123001905": {
+      "upwardMobility25": 0.41838342,
+      "incarcerationRate25": 0.026535215,
+      "mobilityIndex": 41.8
+    },
+    "08123001906": {
+      "upwardMobility25": 0.43363783,
+      "incarcerationRate25": 0.030433636,
+      "mobilityIndex": 43.4
+    },
+    "08123001907": {
+      "upwardMobility25": 0.44949576,
+      "incarcerationRate25": 0.0054451418,
+      "mobilityIndex": 44.9
+    },
+    "08123001908": {
+      "upwardMobility25": 0.40595761,
+      "incarcerationRate25": 0.023764141,
+      "mobilityIndex": 40.6
+    },
+    "08123002004": {
+      "upwardMobility25": 0.40374652,
+      "incarcerationRate25": 0.023374077,
+      "mobilityIndex": 40.4
+    },
+    "08123002006": {
+      "upwardMobility25": 0.5059219,
+      "incarcerationRate25": 0.054624487,
+      "mobilityIndex": 50.6
+    },
+    "08123002007": {
+      "upwardMobility25": 0.4988732,
+      "incarcerationRate25": 0.011998692,
+      "mobilityIndex": 49.9
+    },
+    "08123002008": {
+      "upwardMobility25": 0.46136996,
+      "incarcerationRate25": 0.053560484,
+      "mobilityIndex": 46.1
+    },
+    "08123002009": {
+      "upwardMobility25": 0.5565809,
+      "incarcerationRate25": 0.014772471,
+      "mobilityIndex": 55.7
+    },
+    "08123002010": {
+      "upwardMobility25": 0.47527882,
+      "incarcerationRate25": 0.044962171,
+      "mobilityIndex": 47.5
+    },
+    "08123002011": {
+      "upwardMobility25": 0.53612804,
+      "incarcerationRate25": 0.13413525,
+      "mobilityIndex": 53.6
+    },
+    "08123002012": {
+      "upwardMobility25": 0.52047616,
+      "incarcerationRate25": -0.058493953,
+      "mobilityIndex": 52.0
+    },
+    "08123002013": {
+      "upwardMobility25": 0.4254078,
+      "incarcerationRate25": 0.12567511,
+      "mobilityIndex": 42.5
+    },
+    "08123002014": {
+      "upwardMobility25": 0.41845497,
+      "incarcerationRate25": 0.010270242,
+      "mobilityIndex": 41.8
+    },
+    "08123002015": {
+      "upwardMobility25": 0.42336529,
+      "incarcerationRate25": 0.038254187,
+      "mobilityIndex": 42.3
+    },
+    "08123002016": {
+      "upwardMobility25": 0.36075151,
+      "incarcerationRate25": 0.0073114629,
+      "mobilityIndex": 36.1
+    },
+    "08123002017": {
+      "upwardMobility25": 0.37929985,
+      "incarcerationRate25": 0.63167346,
+      "mobilityIndex": 37.9
+    },
+    "08123002018": {
+      "upwardMobility25": 0.20858082,
+      "incarcerationRate25": 0.17353344,
+      "mobilityIndex": 20.9
+    },
+    "08123002019": {
+      "upwardMobility25": 0.37951988,
+      "incarcerationRate25": 0.0072357757,
+      "mobilityIndex": 38.0
+    },
+    "08123002020": {
+      "upwardMobility25": 0.51842117,
+      "incarcerationRate25": 0.022528335,
+      "mobilityIndex": 51.8
+    },
+    "08123002021": {
+      "upwardMobility25": 0.51232481,
+      "incarcerationRate25": 0.011301715,
+      "mobilityIndex": 51.2
+    },
+    "08123002101": {
+      "upwardMobility25": 0.42690527,
+      "incarcerationRate25": 0.010072036,
+      "mobilityIndex": 42.7
+    },
+    "08123002102": {
+      "upwardMobility25": 0.46839753,
+      "incarcerationRate25": 0.05267505,
+      "mobilityIndex": 46.8
+    },
+    "08123002103": {
+      "upwardMobility25": 0.4607873,
+      "incarcerationRate25": 0.026186647,
+      "mobilityIndex": 46.1
+    },
+    "08123002203": {
+      "upwardMobility25": 0.42474774,
+      "incarcerationRate25": 0.04271476,
+      "mobilityIndex": 42.5
+    },
+    "08123002204": {
+      "upwardMobility25": 0.5499081,
+      "incarcerationRate25": 0.023203412,
+      "mobilityIndex": 55.0
+    },
+    "08123002205": {
+      "upwardMobility25": 0.44976288,
+      "incarcerationRate25": 0.036263928,
+      "mobilityIndex": 45.0
+    },
+    "08123002206": {
+      "upwardMobility25": 0.4915756,
+      "incarcerationRate25": 0.037093207,
+      "mobilityIndex": 49.2
+    },
+    "08123002207": {
+      "upwardMobility25": 0.41916326,
+      "incarcerationRate25": -0.039219968,
+      "mobilityIndex": 41.9
+    },
+    "08123002208": {
+      "upwardMobility25": 0.47464728,
+      "incarcerationRate25": 0.016003579,
+      "mobilityIndex": 47.5
+    },
+    "08123002209": {
+      "upwardMobility25": 0.42149597,
+      "incarcerationRate25": -0.010019551,
+      "mobilityIndex": 42.1
+    },
+    "08123002210": {
+      "upwardMobility25": 0.43428674,
+      "incarcerationRate25": 0.036473151,
+      "mobilityIndex": 43.4
+    },
+    "08123002300": {
+      "upwardMobility25": 0.48137459,
+      "incarcerationRate25": 0.045321409,
+      "mobilityIndex": 48.1
+    },
+    "08123002501": {
+      "upwardMobility25": 0.50027806,
+      "incarcerationRate25": 0.01081237,
+      "mobilityIndex": 50.0
+    },
+    "08123002502": {
+      "upwardMobility25": 0.53116894,
+      "incarcerationRate25": 0.011834973,
+      "mobilityIndex": 53.1
+    },
+    "08125963100": {
+      "upwardMobility25": 0.51221645,
+      "incarcerationRate25": 0.0087249735,
+      "mobilityIndex": 51.2
+    },
+    "08125963200": {
+      "upwardMobility25": 0.51183456,
+      "incarcerationRate25": 0.030608563,
+      "mobilityIndex": 51.2
+    }
+  }
+}

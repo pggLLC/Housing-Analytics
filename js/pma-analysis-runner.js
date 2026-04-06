@@ -233,7 +233,8 @@
             results.transit._epaDataSource = epaResult._dataSource || 'unknown';
             var label = 'Scoring transit accessibility';
             if (ntdResult._dataSource === 'local-gtfs') label += ' (local GTFS data)';
-            if (epaResult._dataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
+            if (epaResult._dataSource === 'epa-sld-local') label += ' (local EPA SLD data)';
+            else if (epaResult._dataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
             progress('transit', label + '…');
             return transitScore;
           })

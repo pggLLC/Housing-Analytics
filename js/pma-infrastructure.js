@@ -98,16 +98,20 @@
 
   /**
    * Fetch USDA Food Access Atlas data.
+   * Delegates to DataService which loads local data/market/food_access_co.json
+   * and computes a proximity index (0-100) from tract-level food desert flags,
+   * low-access indicators, and poverty rates.
+   *
    * @param {{minLat,minLon,maxLat,maxLon}} boundingBox
-   * @returns {Promise<{foodDeserts: Array, proximityIndex: number}>}
+   * @returns {Promise<{foodDeserts: Array, proximityIndex: number, _stub: boolean, _dataSource: string}>}
    */
   function fetchFoodAccessAtlas(boundingBox) {
     var ds = (typeof window !== 'undefined') ? window.DataService : null;
     if (ds && typeof ds.fetchFoodAccessAtlas === 'function') {
       return ds.fetchFoodAccessAtlas(boundingBox);
     }
-    // FALLBACK: DataService.fetchFoodAccessAtlas unavailable. Using neutral proximityIndex 50 until USDA Food Access Atlas data is wired.
-    return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
+    // FALLBACK: DataService unavailable; return stub so scorecard omits this dimension.
+    return Promise.resolve({ foodDeserts: [], proximityIndex: null, _stub: true });
   }
 
   /**
@@ -168,7 +172,8 @@
       _realSources.push('utility');
     }
 
-    // Food access (0–100 proximity index)
+    // Food access (0–100 proximity index from USDA Food Access Atlas)
+    // Higher proximityIndex = better food access; food desert tracts score lower.
     var foodIsStub = foodData._stub || (foodData.proximityIndex == null);
     if (foodIsStub) {
       lastFoodAccessScore = null;
@@ -213,7 +218,9 @@
       flags: {
         highFloodRisk:        lastFloodRiskPct > HIGH_FLOOD_PCT,
         utilityAtCapacity:    lastSewerAdequate === false,
-        foodDesertPresent:    (foodData.foodDeserts || []).length > 0
+        foodDesertPresent:    (foodData.foodDeserts || []).length > 0,
+        foodDesertCount:      (foodData.foodDeserts || []).length,
+        foodAccessTractCount: foodData._tractCount || 0
       },
       _dataAvailability: {
         realSources: _realSources,
