@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T03:32:48.336Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T04:17:25.861Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/alerts/alerts_archive.json` | 79.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 102.1 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -911,7 +911,7 @@
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
 | `data/market/chas_co.json` | 273 B | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
-| `data/market/climate_hazards_co.json` | 1.5 KB | ✅ | — |
+| `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 17.9 KB | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
@@ -935,7 +935,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 6.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 7.0 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
@@ -1049,7 +1049,7 @@
 | `.github/workflows/build-market-data.yml` | 9.5 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
-| `.github/workflows/ci-checks.yml` | 5.8 KB |
+| `.github/workflows/ci-checks.yml` | 7.1 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.1 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
