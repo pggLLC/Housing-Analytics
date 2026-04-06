@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T05:46:56.289Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T05:48:58.812Z. Do not edit by hand.
 
 ---
 
@@ -18,7 +18,7 @@
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 116.3 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.7 KB |
-| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 641 B |
+| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 714 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.2 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 20.0 KB |
@@ -47,7 +47,7 @@
 | `regional.html` | Regional Analysis | COHO Analytics | 25.6 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 11.0 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
-| `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 634 B |
+| `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
 
 ---
 
