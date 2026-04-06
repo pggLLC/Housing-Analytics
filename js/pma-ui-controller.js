@@ -71,6 +71,73 @@
   var _lastScoreRun = null;
   var _running      = false;
 
+  /* ── Preload CHFA LIHTC and AMI gap data for predictor enrichment ── */
+  (function _preloadPredictorData() {
+    if (typeof fetch !== 'function') return;
+    var resolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
+
+    // CHFA LIHTC awards
+    fetch(resolver('data/chfa-lihtc.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      window._chfaLihtcCache = data;
+    }).catch(function () {});
+
+    // AMI gap by county
+    fetch(resolver('data/co_ami_gap_by_county.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      window._amiGapCache = data;
+    }).catch(function () {});
+  })();
+
+  /**
+   * Count CHFA awards in a county from the last 5 years (2021-2026).
+   */
+  function _applyChfaAwards(dealInputs, countyFips, chfaData) {
+    if (!chfaData || !chfaData.features) return;
+    var count = 0;
+    var fips = String(countyFips).padStart(5, '0');
+    for (var i = 0; i < chfaData.features.length; i++) {
+      var props = chfaData.features[i].properties;
+      if (!props) continue;
+      var projFips = String(props.CNTY_FIPS || '').padStart(5, '0');
+      if (projFips !== fips) continue;
+      var yr = parseInt(props.YR_ALLOC, 10);
+      if (yr >= 2021 && yr <= 2026) count++;
+    }
+    dealInputs.chfaHistoricalAwards = count;
+  }
+
+  /**
+   * Look up the county affordability gap score from AMI gap data.
+   */
+  function _applyAmiGap(dealInputs, countyFips, amiGapData) {
+    if (!amiGapData || !amiGapData.counties) return;
+    var fips = String(countyFips).padStart(5, '0');
+    for (var i = 0; i < amiGapData.counties.length; i++) {
+      var c = amiGapData.counties[i];
+      if (String(c.fips).padStart(5, '0') === fips) {
+        // Compute a 0-100 affordability gap score from coverage at 50% AMI
+        // Lower coverage = higher gap
+        var coverage50 = c.coverage_le_ami_pct && c.coverage_le_ami_pct['50'];
+        if (coverage50 != null) {
+          dealInputs.countyAffordabilityGap = Math.round((1 - coverage50) * 100);
+        }
+        // Pass AMI-specific gap unit counts for the enhanced predictor
+        var gaps = c.gap_units_minus_households_le_ami_pct;
+        if (gaps) {
+          dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.abs(gaps['30'] || 0);
+          dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.abs(gaps['50'] || 0);
+          dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.abs(gaps['60'] || 0);
+        }
+        break;
+      }
+    }
+  }
+
   /* ── Progress bar helpers ────────────────────────────────────────── */
   function _progressShow() {
     var wrap = $id('pmaProgressWrap');
@@ -150,7 +217,48 @@
       if (elig.dda !== undefined) dealInputs.isDda = !!elig.dda;
     }
 
-    var rec = predictor.predictConcept(dealInputs);
+    // Wire CHFA historical awards — count projects in selected county with
+    // YR_ALLOC in last 5 years (2021-2026) from cached chfa-lihtc.json
+    var countyFips = dealInputs.geoid || null;
+    if (!countyFips) {
+      try {
+        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+        if (_jx && _jx.countyFips) countyFips = _jx.countyFips;
+      } catch (_) {}
+      if (!countyFips) {
+        try {
+          var _sc = window.SiteState && window.SiteState.getCounty();
+          if (_sc && _sc.fips) countyFips = _sc.fips;
+        } catch (_) {}
+      }
+    }
+    if (countyFips) {
+      dealInputs.geoid = countyFips;
+      // CHFA historical awards (from cached data if available)
+      if (window._chfaLihtcCache) {
+        _applyChfaAwards(dealInputs, countyFips, window._chfaLihtcCache);
+      }
+      // County affordability gap (from cached data if available)
+      if (window._amiGapCache) {
+        _applyAmiGap(dealInputs, countyFips, window._amiGapCache);
+      }
+    }
+
+    // Wire soft funding data from SoftFundingTracker if loaded
+    if (window.SoftFundingTracker && typeof window.SoftFundingTracker.check === 'function' && countyFips) {
+      try {
+        var fundResult = window.SoftFundingTracker.check(countyFips, new Date().getFullYear());
+        if (fundResult && typeof fundResult.available === 'number') {
+          dealInputs.softFundingAvailable = fundResult.available;
+        }
+      } catch (_) {}
+    }
+
+    // Use enhanced predictor when available, fall back to base
+    var rec = (window.LIHTCDealPredictorEnhanced
+      ? window.LIHTCDealPredictorEnhanced.predictEnhanced(dealInputs).base
+      : predictor.predictConcept(dealInputs));
 
     // Compute housing needs fit when HNA data is available
     var hnsFit = null;

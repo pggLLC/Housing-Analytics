@@ -169,10 +169,24 @@
   function _loadFmrData(inputs) {
     var geoid = inputs.geoid || '';
 
-    // Prefer live connector if available
-    if (HudFmr && typeof HudFmr.getByFips === 'function' && geoid) {
-      var record = HudFmr.getByFips(geoid);
-      if (record) return record;
+    // Prefer live connector if available — use getFmrByFips + getIncomeLimitsByFips
+    if (HudFmr && geoid) {
+      var fmr = (typeof HudFmr.getFmrByFips === 'function') ? HudFmr.getFmrByFips(geoid) : null;
+      var il  = (typeof HudFmr.getIncomeLimitsByFips === 'function') ? HudFmr.getIncomeLimitsByFips(geoid) : null;
+      if (fmr || il) {
+        var merged = { source: 'HudFmr' };
+        if (fmr) {
+          merged.oneBedroomFMR   = fmr.one_br;
+          merged.twoBedroomFMR   = fmr.two_br;
+          merged.threeBedroomFMR = fmr.three_br;
+          merged.fmr = fmr;
+        }
+        if (il) {
+          merged.income_limits = il;
+          merged.ami_4person   = il.ami_4person;
+        }
+        return merged;
+      }
     }
 
     // Fall back to caller-supplied fmrData

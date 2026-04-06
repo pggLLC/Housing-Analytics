@@ -98,6 +98,77 @@
     deepAffordabilityPct:     0.25
   };
 
+  /* ── Hard costs by concept type (loaded from lihtc-assumptions.json) ── */
+  var _hardCostByConcept = null;
+  var _assumptionsLoaded = false;
+  var _assumptionsPromise = null;
+
+  /**
+   * Load constants from data/policy/lihtc-assumptions.json (once, cached).
+   * Overrides DEFAULT_ASSUMPTIONS where the JSON provides values.
+   * Falls back silently to hardcoded defaults on fetch failure.
+   */
+  function _loadAssumptions() {
+    if (_assumptionsPromise) return _assumptionsPromise;
+    // Only attempt in browser context
+    if (typeof fetch !== 'function') {
+      _assumptionsLoaded = true;
+      return (_assumptionsPromise = Promise.resolve());
+    }
+    var url = (typeof window !== 'undefined' && typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy/lihtc-assumptions.json')
+      : 'data/policy/lihtc-assumptions.json';
+    _assumptionsPromise = fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      if (data.hardCostPerUnit && typeof data.hardCostPerUnit === 'object') {
+        _hardCostByConcept = {
+          family:      data.hardCostPerUnit.family      || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
+          seniors:     data.hardCostPerUnit.seniors      || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
+          'mixed-use': data.hardCostPerUnit.mixedUse     || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
+          supportive:  data.hardCostPerUnit.supportive   || DEFAULT_ASSUMPTIONS.hardCostPerUnit
+        };
+      }
+      if (data.equityPricing) {
+        if (data.equityPricing.default9Pct) DEFAULT_ASSUMPTIONS.equityPrice9Pct = data.equityPricing.default9Pct;
+        if (data.equityPricing.default4Pct) DEFAULT_ASSUMPTIONS.equityPrice4Pct = data.equityPricing.default4Pct;
+      }
+      if (data.softCostPct)  DEFAULT_ASSUMPTIONS.softCostPct = data.softCostPct;
+      if (data.devFeePct)    DEFAULT_ASSUMPTIONS.devFeePct    = data.devFeePct;
+      _assumptionsLoaded = true;
+      console.log('[LIHTCDealPredictor] Loaded assumptions from lihtc-assumptions.json');
+    }).catch(function (err) {
+      console.warn('[LIHTCDealPredictor] Could not load lihtc-assumptions.json, using defaults:', err);
+      _assumptionsLoaded = true;
+    });
+    return _assumptionsPromise;
+  }
+
+  // Kick off loading immediately in browser context
+  if (typeof window !== 'undefined') { _loadAssumptions(); }
+
+  /**
+   * Return hard cost per unit for the given concept type.
+   * Uses concept-specific cost from JSON when available.
+   */
+  function _getHardCostPerUnit(conceptType) {
+    if (_hardCostByConcept && _hardCostByConcept[conceptType]) {
+      return _hardCostByConcept[conceptType];
+    }
+    return DEFAULT_ASSUMPTIONS.hardCostPerUnit;
+  }
+
+  /**
+   * Return eligible basis percentage, preferring COHO_DEFAULTS when available.
+   */
+  function _getEligibleBasisPct() {
+    if (typeof window !== 'undefined' && window.COHO_DEFAULTS && window.COHO_DEFAULTS.eligibleBasisPct) {
+      return window.COHO_DEFAULTS.eligibleBasisPct;
+    }
+    return DEFAULT_ASSUMPTIONS.eligibleBasisPct;
+  }
+
   /* ── Helper: safe numeric access ─────────────────────────────────── */
 
   function _num(v, fallback) {
@@ -297,9 +368,10 @@
 
   /* ── Indicative capital stack ────────────────────────────────────── */
 
-  function _computeCapitalStack(inputs, execution, unitMix) {
+  function _computeCapitalStack(inputs, execution, unitMix, conceptType) {
     var totalUnits   = _num(inputs.proposedUnits, 60);
-    var hardCost     = DEFAULT_ASSUMPTIONS.hardCostPerUnit * totalUnits;
+    var hardCostPU   = _getHardCostPerUnit(conceptType || 'family');
+    var hardCost     = hardCostPU * totalUnits;
     var softCost     = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
     var totalDevCost = hardCost + softCost;
     var devFee       = totalDevCost * DEFAULT_ASSUMPTIONS.devFeePct;
@@ -309,7 +381,7 @@
       ? DEFAULT_ASSUMPTIONS.equityPrice4Pct
       : DEFAULT_ASSUMPTIONS.equityPrice9Pct;
     var basisBoost   = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
-    var eligibleBasis = totalDevCost * DEFAULT_ASSUMPTIONS.eligibleBasisPct;
+    var eligibleBasis = totalDevCost * _getEligibleBasisPct();
     var annualCredit = (execution === '9%')
       ? eligibleBasis * 0.09 * basisBoost
       : eligibleBasis * 0.04 * basisBoost;
@@ -429,7 +501,7 @@
 
   /* ── Scenario sensitivity ────────────────────────────────────────── */
 
-  function _computeScenarioSensitivity(inputs, execution) {
+  function _computeScenarioSensitivity(inputs, execution, conceptType) {
     var pmaScore    = _num(inputs.pmaScore, 50);
     var competitive = _num(inputs.competitiveSetSize, 0);
     var softFunding = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
@@ -437,13 +509,14 @@
 
     // Equity price sensitivity: +/- 3 cents on equity pricing
     var basePrice   = (execution === '4%') ? DEFAULT_ASSUMPTIONS.equityPrice4Pct : DEFAULT_ASSUMPTIONS.equityPrice9Pct;
-    var hardCost    = DEFAULT_ASSUMPTIONS.hardCostPerUnit * units;
+    var hardCostPU  = _getHardCostPerUnit(conceptType || 'family');
+    var hardCost    = hardCostPU * units;
     var softCost    = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
     var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);
     var basisBoost  = (inputs.isQct || inputs.isDda) ? 1.30 : 1.00;
     var creditRate  = (execution === '9%') ? 0.09 : 0.04;
     // Eligible basis = hard + soft costs (excludes dev fee), consistent with _computeCapitalStack.
-    var eligibleBasis = (hardCost + softCost) * DEFAULT_ASSUMPTIONS.eligibleBasisPct;
+    var eligibleBasis = (hardCost + softCost) * _getEligibleBasisPct();
     var annualCredit = eligibleBasis * creditRate * basisBoost;
 
     var equityLow  = Math.round(annualCredit * 10 * (basePrice - 0.03));
@@ -593,10 +666,10 @@
 
     _identifyRisks(inputs, execution, risks);
 
-    var capitalStack         = _computeCapitalStack(inputs, execution, suggestedUnitMix);
+    var capitalStack         = _computeCapitalStack(inputs, execution, suggestedUnitMix, conceptType);
     var pabCapNote           = _pabCapNote(execution, inputs, risks);
     var fmrAlignment         = _computeFmrAlignment(inputs, suggestedAMIMix);
-    var scenarioSensitivity  = _computeScenarioSensitivity(inputs, execution);
+    var scenarioSensitivity  = _computeScenarioSensitivity(inputs, execution, conceptType);
     var chfaAwardContext     = _computeChfaAwardContext(inputs, execution);
 
     return {
