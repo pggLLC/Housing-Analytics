@@ -72,9 +72,26 @@ landScore = max(0, min(100, (1 − vacancy_rate / 0.12) × 100))
 
 ### 5. Workforce (15%)
 
-**Placeholder** — currently returns a constant score of 60.
-Future implementation will integrate LODES (Longitudinal Employer-Household Dynamics)
-commute-shed data to measure workforce demand near the site.
+Weighted composite score from up to 5 Colorado-specific data sources:
+
+| Sub-source | Weight | Data File | Module |
+|---|---|---|---|
+| LODES job accessibility | 25% | `data/market/lodes_co.json` | `window.LodesCommute` |
+| ACS income/education proxy | 25% | ACS tract metrics | (inline) |
+| CDLE vacancy rates | 20% | `data/market/cdle_job_postings_co.json` | `window.CdleJobs` |
+| CDE school quality | 15% | `data/market/cde_schools_co.json` | `window.CdeSchools` |
+| CDOT traffic connectivity | 15% | `data/market/cdot_traffic_co.json` | `window.CdotTraffic` |
+
+```
+workforceScore = lodesScore   × 0.25
+               + acsWfScore   × 0.25
+               + cdleScore    × 0.20
+               + cdeScore     × 0.15
+               + cdotScore    × 0.15
+```
+
+Each sub-source falls back to a neutral value (40–55) when its data module is
+unavailable. Coverage level is reported as `full`, `partial`, or `fallback`.
 
 ---
 
