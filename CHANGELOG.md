@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## Phase 3 (final): Constants Centralization, Test Infrastructure & Documentation
+**Date:** April 5, 2026
+
+### Deal Calculator Improvements
+- Equity price input now auto-switches when toggling 4% (0.85) / 9% (0.90) credit rate scenarios
+- `js/lihtc-deal-predictor.js` — replaced 3 hardcoded credit rate literals (0.09, 0.04) with `DEFAULT_ASSUMPTIONS.creditRate9Pct/creditRate4Pct` sourced from `COHO_DEFAULTS`
+- Wired `eligibleBasisPct` to `COHO_DEFAULTS` with graceful fallback
+
+### Test Infrastructure
+- `test/lighthouse-audit.js` — rewritten from Lighthouse/Chrome stub to zero-dependency HTML structure checker (49 pages, 6 checks: lang, h1, alt, handlers, viewport, title)
+- `test/website-monitor.js` — rewritten from axios/cheerio stub to zero-dependency local link checker (839 references validated)
+- Deleted `tools/copilot_apply_hardening.js` (empty 5-line stub)
+
+### CI & Data Pipeline
+- `build-hna-data.yml` — added `SKIP_GEO_CONFIG=true` to prevent CI overwrite of 546-geography geo-config.json
+- Added viewport meta to redirect pages (colorado-market.html, state-allocation-map.html)
+
+### Documentation
+- `README.md` — comprehensive update reflecting 38 pages, 37 workflows, 16 CSS files, 136 JS modules, 21 data sources
+- `docs/implementation-status.md` — critical gaps #2-5 marked resolved, stub count → 0, partial count → 0
+
+---
+
 ## Phase 3 (continued): Data Integration, Deal Prediction & Documentation
 **Date:** April 2026
 
