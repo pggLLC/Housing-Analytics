@@ -56,6 +56,7 @@
   var lihtcFeatures       = null;
   var lihtcLoadError      = false;  // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
+  var dolaData            = null;   // DOLA county demographics (more current than ACS)
   var referenceProjects   = null;   // benchmark reference set
   var lastQuality         = null;   // last data quality assessment
   var lastBenchmark       = null;   // last benchmark result
@@ -1046,12 +1047,46 @@
       CONF.renderConfidenceBadge('pmaHeuristicConfidence', confidence);
     }
 
+    // Enrich with DOLA county-level demographics if available.
+    // DOLA provides more current population/housing estimates than ACS
+    // (annual vs. 5-year rolling average).
+    var dolaEnrichment = null;
+    if (dolaData && dolaData.counties) {
+      var pmaCountyFips = {};
+      bufTracts.forEach(function (t) { pmaCountyFips[t.geoid.slice(0, 5)] = true; });
+      var dolaCounties = {};
+      var dolaTotalPop = 0, dolaTotalHU = 0, dolaTotalVacant = 0;
+      Object.keys(pmaCountyFips).forEach(function (fips) {
+        var cd = dolaData.counties[fips];
+        if (cd && !cd._noData) {
+          dolaCounties[fips] = cd;
+          dolaTotalPop    += cd.population    || 0;
+          dolaTotalHU     += cd.housingUnits  || 0;
+          dolaTotalVacant += cd.vacantUnits   || 0;
+        }
+      });
+      if (Object.keys(dolaCounties).length) {
+        dolaEnrichment = {
+          year: dolaData.meta.year,
+          counties: dolaCounties,
+          aggregated: {
+            population:   dolaTotalPop,
+            housingUnits: dolaTotalHU,
+            vacantUnits:  dolaTotalVacant,
+            vacancyRate:  dolaTotalHU > 0 ? Math.round((dolaTotalVacant / dolaTotalHU) * 10000) / 10000 : null
+          },
+          _source: 'DOLA State Demography Office'
+        };
+      }
+    }
+
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
       confidence: confidence,
+      dolaContext: dolaEnrichment,
       _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
@@ -1769,6 +1804,23 @@
         workforceDataLoaded = true;
       });
 
+      // Load DOLA county demographics (non-fatal — supplements ACS with more
+      // current population/housing estimates from the CO State Demography Office).
+      DS.getJSON(DS.baseData('market/dola_demographics_co.json'))
+        .then(function (data) {
+          if (data && data.counties && !data.meta.error) {
+            dolaData = data;
+            if (window.PMADataCache) {
+              window.PMADataCache.set('dolaData', data);
+            }
+            console.log('[market-analysis] DOLA data loaded: ' +
+              Object.keys(data.counties).length + ' counties (' + (data.meta.year || '?') + ')');
+          }
+        })
+        .catch(function () {
+          console.warn('[market-analysis] DOLA demographics unavailable (optional enrichment)');
+        });
+
       // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
       if (window.OsmAmenities && DS) {
         DS.getJSON(DS.baseData('derived/market-analysis/neighborhood_access.json'))
@@ -2001,7 +2053,8 @@
       getLastPipeline:      function () { return lastPipeline; },
       getLastScenarios:     function () { return lastScenarios; },
       getLastConfidence:    function () { return lastConfidence; },
-      getReferenceProjects: function () { return referenceProjects; }
+      getReferenceProjects: function () { return referenceProjects; },
+      getDolaData:          function () { return dolaData; }
     }
   };
 

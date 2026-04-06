@@ -101,8 +101,10 @@
 
     // Track which data sources are available
     var hasRoutes = routes && routes.length > 0;
-    var hasEpa = epaData.transitAccessibility != null && epaData._dataSource !== 'epa-unavailable';
-    var hasWalk = epaData.walkScore != null && epaData._dataSource !== 'epa-unavailable';
+    var epaSource = epaData._dataSource || '';
+    var epaAvail  = epaSource === 'epa-live' || epaSource === 'epa-sld-local';
+    var hasEpa = epaData.transitAccessibility != null && epaAvail;
+    var hasWalk = epaData.walkScore != null && epaAvail;
 
     // Frequency score: based on nearby routes with headway <= HIGH_FREQUENCY_MIN
     var nearbyRoutes = (routes || []).filter(function (r) {
@@ -158,8 +160,8 @@
     // Store data availability for justification
     _lastDataSources = {
       routeData: hasRoutes ? 'local-gtfs' : 'none',
-      epaData: hasEpa ? 'epa-live' : 'unavailable',
-      walkData: hasWalk ? 'epa-live' : 'unavailable',
+      epaData: hasEpa ? epaSource : 'unavailable',
+      walkData: hasWalk ? epaSource : 'unavailable',
       nearbyRouteCount: nearbyRoutes.length
     };
 
@@ -244,8 +246,9 @@
    * @returns {object}
    */
   function getTransitJustification() {
-    var epaAvailable = _lastDataSources.epaData === 'epa-live';
-    var walkAvailable = _lastDataSources.walkData === 'epa-live';
+    var epaAvailable = _lastDataSources.epaData === 'epa-live' || _lastDataSources.epaData === 'epa-sld-local';
+    var walkAvailable = _lastDataSources.walkData === 'epa-live' || _lastDataSources.walkData === 'epa-sld-local';
+    var epa = lastEpaData || {};
     return {
       transitAccessibilityScore: lastScore,
       walkScore:                 lastWalkScore,
@@ -256,6 +259,11 @@
       hasHighFrequencyService:   lastRoutes.some(function (r) {
         return toNum(r.headwayMinutes || 60) <= HIGH_FREQUENCY_MIN;
       }),
+      // Extended EPA SLD metrics (available when _dataSource is epa-sld-local)
+      jobAccess:                 epa.jobAccess != null ? epa.jobAccess : null,
+      landUseMix:                epa.landUseMix != null ? epa.landUseMix : null,
+      empDensity:                epa.empDensity != null ? epa.empDensity : null,
+      blockGroupCount:           epa.blockGroupCount || null,
       _dataSources: _lastDataSources
     };
   }
