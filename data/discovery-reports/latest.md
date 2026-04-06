@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-05T07:48:00.763Z
+**Scan timestamp:** 2026-04-06T08:16:49.944Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 900 |
-| New (unregistered) | 869 |
+| Files scanned | 905 |
+| New (unregistered) | 874 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/alerts/alerts_archive.json` (79 KB)
+- `data/alerts/alerts_archive.json` (102 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
 - `data/core/educational-content.json` (66 KB)
@@ -23,7 +23,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (14 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (127 KB)
+- `data/discovery-reports/latest.json` (128 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (9 KB)
@@ -225,7 +225,7 @@
 - `data/hna/lihtc/08123.json` (8 KB)
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources.json` (68 KB)
+- `data/hna/local-resources.json` (69 KB)
 - `data/hna/projections/08.json` (2 KB)
 - `data/hna/projections/08001.json` (4 KB)
 - `data/hna/projections/08003.json` (3 KB)
@@ -854,14 +854,19 @@
 - `data/market/cdot_traffic_co.json` (8 KB)
 - `data/market/chas_co.json` (0 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
-- `data/market/climate_hazards_co.json` (1 KB)
+- `data/market/climate_hazards_co.json` (3 KB)
 - `data/market/data_quality_report.json` (11 KB)
+- `data/market/dola_demographics_co.json` (18 KB)
 - `data/market/environmental_constraints_co.geojson` (0 KB)
+- `data/market/epa_sld_co.json` (716 KB)
 - `data/market/flood_zones_co.geojson` (0 KB)
+- `data/market/flood_zones_co.json` (605 KB)
 - `data/market/fmr_co.json` (0 KB)
-- `data/market/food_access_co.json` (0 KB)
+- `data/market/food_access_co.json` (432 KB)
+- `data/market/hud_egis_co.geojson` (55 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
-- `data/market/lodes_co.json` (242 KB)
+- `data/market/lodes_co.json` (663 KB)
+- `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (0 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
@@ -869,7 +874,7 @@
 - `data/market/schools_co.geojson` (0 KB)
 - `data/market/tract_boundaries_co.geojson` (0 KB)
 - `data/market/transit_routes_co.geojson` (52303 KB)
-- `data/market/utility_capacity_co.geojson` (0 KB)
+- `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_scores_co.json` (0 KB)
 - `data/market/zillow_co_metros.json` (103 KB)
 - `data/market/zoning_compat_index_co.json` (3 KB)
@@ -886,27 +891,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 825 days since last update
-- **undefined** — 459 days since last update
-- **undefined** — 459 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 826 days since last update
+- **undefined** — 460 days since last update
+- **undefined** — 460 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 369 days since last update
+- undefined — 370 days since last update
