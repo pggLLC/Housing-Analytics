@@ -3019,6 +3019,82 @@
     renderSpecialNeedsPanel(profile);
   }
 
+  /**
+   * Render BLS Labour Market KPI cards (unemployment rate + 5-yr job growth)
+   * into #blsLabourMarketCards using data from co-county-economic-indicators.json.
+   *
+   * @param {string|null} countyFips5 - 5-digit county FIPS for the selected geography
+   * @param {string} geoType - 'county' | 'place' | 'cdp' | 'state'
+   * @param {object|null} econData - parsed co-county-economic-indicators.json
+   */
+  function renderBlsLabourMarket(countyFips5, geoType, econData) {
+    var container = document.getElementById('blsLabourMarketCards');
+    if (!container) return;
+
+    // Derive county name from geo-config for lookup in econData.counties (keyed by name)
+    var countyName = null;
+    if (geoType !== 'state' && countyFips5) {
+      var geoConf = window.__HNA_GEO_CONFIG;
+      var countyEntry = geoConf && Array.isArray(geoConf.counties)
+        ? geoConf.counties.find(function (c) { return c.geoid === countyFips5; })
+        : null;
+      if (countyEntry && countyEntry.label) {
+        // Labels are like "Adams County" — strip " County" suffix for the lookup key
+        countyName = countyEntry.label.replace(/\s+County$/i, '').trim();
+      }
+    }
+
+    var countyData = econData && econData.counties && countyName
+      ? (econData.counties[countyName] || null)
+      : null;
+
+    // For state-level: compute averages across all counties
+    if (geoType === 'state' && econData && econData.counties) {
+      var allCounties = Object.values(econData.counties);
+      var avg = function (field) {
+        var vals = allCounties.map(function (c) { return c[field]; }).filter(function (v) { return v != null; });
+        return vals.length ? vals.reduce(function (s, v) { return s + v; }, 0) / vals.length : null;
+      };
+      countyData = {
+        unemployment_rate: avg('unemployment_rate'),
+        job_growth_5yr_pct: avg('job_growth_5yr_pct'),
+      };
+    }
+
+    var ur = countyData ? countyData.unemployment_rate : null;
+    var jg = countyData ? countyData.job_growth_5yr_pct : null;
+
+    // Thresholds for unemployment rate (BLS LAUS): <3.8% = low/healthy, ≤5.5% = moderate, >5.5% = elevated.
+    // These align with the thresholds used in market-intelligence.js renderEconomicKpis() setBadge() calls.
+    var UR_LOW = 3.8;
+    var UR_HIGH = 5.5;
+    // Thresholds for 5-year job growth (BLS QCEW): ≥8% = strong, ≥2% = moderate, <2% = weak.
+    // These align with the market-intelligence.js thresholds for the job-growth badge.
+    var JG_STRONG = 8;
+    var JG_MODERATE = 2;
+
+    // Helper to build a KPI card
+    function kpiCard(label, value, sub, colorVar) {
+      return '<div class="metric-card">' +
+        '<div class="mc-label">' + label + '</div>' +
+        '<div class="mc-value"' + (colorVar ? ' style="color:' + colorVar + '"' : '') + '>' + value + '</div>' +
+        '<div class="mc-sub">' + sub + '</div>' +
+        '</div>';
+    }
+
+    var urValue = ur != null ? ur.toFixed(1) + '%' : '—';
+    var urColor = ur != null ? (ur < UR_LOW ? 'var(--success,#22a36f)' : ur <= UR_HIGH ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var urSub = ur != null ? (ur < UR_LOW ? 'Low — healthy labour market' : ur <= UR_HIGH ? 'Moderate' : 'Elevated') : 'Data not yet available';
+
+    var jgValue = jg != null ? (jg > 0 ? '+' : '') + jg.toFixed(1) + '%' : '—';
+    var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var jgSub = jg != null ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
+
+    container.innerHTML =
+      kpiCard('Unemployment Rate', urValue, urSub + ' · BLS LAUS', urColor) +
+      kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS QCEW', jgColor);
+  }
+
   window.HNARenderers = {
     setBanner, clearStats, chartTheme, makeChart, renderBoundary,
     updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
@@ -3033,6 +3109,6 @@
     renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
     renderLocalResources, renderMethodology, renderFmrPanel,
     showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
-    renderExtendedAnalysis,
+    renderExtendedAnalysis, renderBlsLabourMarket,
   };
 })();
