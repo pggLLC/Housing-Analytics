@@ -951,33 +951,46 @@
         };
       }
 
-      // If bbox provided, filter features whose bounding box overlaps
+      // If bbox provided, filter features that overlap the bounding box
       var matched = [];
       if (bbox) {
         for (var i = 0; i < features.length; i++) {
           var f = features[i];
           var geom = f.geometry;
-          if (!geom || !geom.coordinates) continue;
-          // Quick centroid check for polygon features
-          var coords = geom.type === 'MultiPolygon'
-            ? geom.coordinates[0][0]
-            : (geom.type === 'Polygon' ? geom.coordinates[0] : null);
-          if (!coords || !coords.length) continue;
-          // Compute simple bounding box of feature
-          var fMinLon = Infinity, fMaxLon = -Infinity;
-          var fMinLat = Infinity, fMaxLat = -Infinity;
-          for (var j = 0; j < coords.length; j++) {
-            var c = coords[j];
-            if (c[0] < fMinLon) fMinLon = c[0];
-            if (c[0] > fMaxLon) fMaxLon = c[0];
-            if (c[1] < fMinLat) fMinLat = c[1];
-            if (c[1] > fMaxLat) fMaxLat = c[1];
+          var props = f.properties || {};
+
+          // Point features (centroids with radius_deg from area estimate)
+          if (geom && geom.type === 'Point' && geom.coordinates) {
+            var lon = geom.coordinates[0];
+            var lat = geom.coordinates[1];
+            var r = props.radius_deg || 0.01; // ~1km default
+            // Check if expanded point bbox overlaps query bbox
+            if ((lon + r) >= bbox.minLon && (lon - r) <= bbox.maxLon &&
+                (lat + r) >= bbox.minLat && (lat - r) <= bbox.maxLat) {
+              matched.push(f);
+            }
           }
-          // Check overlap
-          if (fMaxLon >= bbox.minLon && fMinLon <= bbox.maxLon &&
-              fMaxLat >= bbox.minLat && fMinLat <= bbox.maxLat) {
-            matched.push(f);
+          // Polygon features (legacy or future full-geometry data)
+          else if (geom && geom.coordinates) {
+            var coords = geom.type === 'MultiPolygon'
+              ? geom.coordinates[0][0]
+              : (geom.type === 'Polygon' ? geom.coordinates[0] : null);
+            if (!coords || !coords.length) continue;
+            var fMinLon = Infinity, fMaxLon = -Infinity;
+            var fMinLat = Infinity, fMaxLat = -Infinity;
+            for (var j = 0; j < coords.length; j++) {
+              var c = coords[j];
+              if (c[0] < fMinLon) fMinLon = c[0];
+              if (c[0] > fMaxLon) fMaxLon = c[0];
+              if (c[1] < fMinLat) fMinLat = c[1];
+              if (c[1] > fMaxLat) fMaxLat = c[1];
+            }
+            if (fMaxLon >= bbox.minLon && fMinLon <= bbox.maxLon &&
+                fMaxLat >= bbox.minLat && fMinLat <= bbox.maxLat) {
+              matched.push(f);
+            }
           }
+          // Features without geometry (e.g. DWR water districts) — skip bbox filter
         }
       } else {
         matched = features;

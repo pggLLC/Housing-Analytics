@@ -1,15 +1,6766 @@
 {
   "type": "FeatureCollection",
   "meta": {
-    "source": "Colorado CDSS / DWR / DOLA utility service areas (public)",
+    "source": "Census TIGERweb + Colorado DWR water districts",
     "state": "Colorado",
     "state_fips": "08",
     "vintage": "2026-04-06",
-    "generated": "2026-04-06T03:50:30Z",
-    "feature_count": 0,
-    "sources_successful": [],
-    "coverage_pct": 0.0,
-    "note": "Water/sewer service area boundaries for infrastructure feasibility. Rebuild via scripts/market/fetch_utility_capacity.py"
+    "generated": "2026-04-06T04:43:26Z",
+    "feature_count": 351,
+    "sources_successful": [
+      "Census TIGERweb Incorporated Places",
+      "Colorado DWR Water Districts"
+    ],
+    "coverage_pct": 100.0,
+    "note": "Municipal boundaries from TIGERweb + DWR water district metadata. Rebuild via scripts/market/fetch_utility_capacity.py"
   },
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0868655",
+        "NAME": "Sawpit town",
+        "FUNCSTAT": "A",
+        "area_sqm": 77794.0,
+        "radius_deg": 0.0014,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.0021,
+          37.9947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0851690",
+        "NAME": "Montezuma town",
+        "FUNCSTAT": "A",
+        "area_sqm": 204193.0,
+        "radius_deg": 0.0023,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8676,
+          39.5815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0873715",
+        "NAME": "Starkville town",
+        "FUNCSTAT": "A",
+        "area_sqm": 189014.0,
+        "radius_deg": 0.0022,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5233,
+          37.1168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0852350",
+        "NAME": "Mountain View town",
+        "FUNCSTAT": "A",
+        "area_sqm": 240817.0,
+        "radius_deg": 0.0025,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0567,
+          39.7748
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0866895",
+        "NAME": "Rye town",
+        "FUNCSTAT": "A",
+        "area_sqm": 243522.0,
+        "radius_deg": 0.0025,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9319,
+          37.9213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0829185",
+        "NAME": "Garden City town",
+        "FUNCSTAT": "A",
+        "area_sqm": 292410.0,
+        "radius_deg": 0.0027,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6895,
+          40.3946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0881030",
+        "NAME": "Vilas town",
+        "FUNCSTAT": "A",
+        "area_sqm": 331107.0,
+        "radius_deg": 0.0029,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.4474,
+          37.3737
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0818640",
+        "NAME": "Crook town",
+        "FUNCSTAT": "A",
+        "area_sqm": 350132.0,
+        "radius_deg": 0.003,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.8014,
+          40.8588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0811645",
+        "NAME": "Campo town",
+        "FUNCSTAT": "A",
+        "area_sqm": 373692.0,
+        "radius_deg": 0.0031,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.5788,
+          37.1047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0881690",
+        "NAME": "Vona town",
+        "FUNCSTAT": "A",
+        "area_sqm": 573247.0,
+        "radius_deg": 0.0038,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.7434,
+          39.3021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0858235",
+        "NAME": "Peetz town",
+        "FUNCSTAT": "A",
+        "area_sqm": 578464.0,
+        "radius_deg": 0.0039,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.1138,
+          40.9618
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0815550",
+        "NAME": "Cokedale town",
+        "FUNCSTAT": "A",
+        "area_sqm": 530771.0,
+        "radius_deg": 0.0037,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6216,
+          37.1442
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0818750",
+        "NAME": "Crowley town",
+        "FUNCSTAT": "A",
+        "area_sqm": 584023.0,
+        "radius_deg": 0.0039,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.8597,
+          38.1935
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0845695",
+        "NAME": "Log Lane Village town",
+        "FUNCSTAT": "A",
+        "area_sqm": 507573.0,
+        "radius_deg": 0.0036,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.829,
+          40.2697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0836610",
+        "NAME": "Hillrose town",
+        "FUNCSTAT": "A",
+        "area_sqm": 488402.0,
+        "radius_deg": 0.0036,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.5222,
+          40.3245
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0850040",
+        "NAME": "Merino town",
+        "FUNCSTAT": "A",
+        "area_sqm": 392679.0,
+        "radius_deg": 0.0032,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.3537,
+          40.4837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0842495",
+        "NAME": "Lakeside town",
+        "FUNCSTAT": "A",
+        "area_sqm": 485965.0,
+        "radius_deg": 0.0035,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0579,
+          39.7802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0838590",
+        "NAME": "Iliff town",
+        "FUNCSTAT": "A",
+        "area_sqm": 494731.0,
+        "radius_deg": 0.0036,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.0661,
+          40.7592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0806530",
+        "NAME": "Bethune town",
+        "FUNCSTAT": "A",
+        "area_sqm": 419629.0,
+        "radius_deg": 0.0033,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.4234,
+          39.3038
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0813460",
+        "NAME": "Cheraw town",
+        "FUNCSTAT": "A",
+        "area_sqm": 467086.0,
+        "radius_deg": 0.0035,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.5111,
+          38.1076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856475",
+        "NAME": "Ovid town",
+        "FUNCSTAT": "A",
+        "area_sqm": 403309.0,
+        "radius_deg": 0.0032,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.3883,
+          40.9608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0834520",
+        "NAME": "Hartman town",
+        "FUNCSTAT": "A",
+        "area_sqm": 710811.0,
+        "radius_deg": 0.0043,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2216,
+          38.1211
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0848500",
+        "NAME": "Manzanola town",
+        "FUNCSTAT": "A",
+        "area_sqm": 736388.0,
+        "radius_deg": 0.0044,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.8668,
+          38.1088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0880865",
+        "NAME": "Victor city",
+        "FUNCSTAT": "A",
+        "area_sqm": 743782.0,
+        "radius_deg": 0.0044,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1419,
+          38.7087
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0875970",
+        "NAME": "Swink town",
+        "FUNCSTAT": "A",
+        "area_sqm": 725067.0,
+        "radius_deg": 0.0043,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.6282,
+          38.0141
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0824620",
+        "NAME": "Empire town",
+        "FUNCSTAT": "A",
+        "area_sqm": 748529.0,
+        "radius_deg": 0.0044,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.6816,
+          39.7597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0879270",
+        "NAME": "Two Buttes town",
+        "FUNCSTAT": "A",
+        "area_sqm": 642191.0,
+        "radius_deg": 0.0041,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.3966,
+          37.5607
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0859830",
+        "NAME": "Pitkin town",
+        "FUNCSTAT": "A",
+        "area_sqm": 668079.0,
+        "radius_deg": 0.0042,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.5149,
+          38.6087
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870360",
+        "NAME": "Silver Plume town",
+        "FUNCSTAT": "A",
+        "area_sqm": 668525.0,
+        "radius_deg": 0.0042,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.7265,
+          39.6957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0817925",
+        "NAME": "Crawford town",
+        "FUNCSTAT": "A",
+        "area_sqm": 650504.0,
+        "radius_deg": 0.0041,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.6096,
+          38.705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837380",
+        "NAME": "Hooper town",
+        "FUNCSTAT": "A",
+        "area_sqm": 652732.0,
+        "radius_deg": 0.0041,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8777,
+          37.746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0861315",
+        "NAME": "Pritchett town",
+        "FUNCSTAT": "A",
+        "area_sqm": 603596.0,
+        "radius_deg": 0.0039,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.8587,
+          37.37
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0865740",
+        "NAME": "Romeo town",
+        "FUNCSTAT": "A",
+        "area_sqm": 604499.0,
+        "radius_deg": 0.004,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9854,
+          37.1718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855705",
+        "NAME": "Olney Springs town",
+        "FUNCSTAT": "A",
+        "area_sqm": 623096.0,
+        "radius_deg": 0.004,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.9445,
+          38.1663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0863265",
+        "NAME": "Red Cliff town",
+        "FUNCSTAT": "A",
+        "area_sqm": 632784.0,
+        "radius_deg": 0.004,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3699,
+          39.5093
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0808345",
+        "NAME": "Branson town",
+        "FUNCSTAT": "A",
+        "area_sqm": 634005.0,
+        "radius_deg": 0.004,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.8838,
+          37.0155
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0862660",
+        "NAME": "Ramah town",
+        "FUNCSTAT": "A",
+        "area_sqm": 657989.0,
+        "radius_deg": 0.0041,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.1673,
+          39.1214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855870",
+        "NAME": "Ophir town",
+        "FUNCSTAT": "A",
+        "area_sqm": 608736.0,
+        "radius_deg": 0.004,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8312,
+          37.8568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0886475",
+        "NAME": "Yampa town",
+        "FUNCSTAT": "A",
+        "area_sqm": 636193.0,
+        "radius_deg": 0.0041,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9085,
+          40.153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0854880",
+        "NAME": "Norwood town",
+        "FUNCSTAT": "A",
+        "area_sqm": 904889.0,
+        "radius_deg": 0.0048,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.2923,
+          38.1284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0869040",
+        "NAME": "Seibert town",
+        "FUNCSTAT": "A",
+        "area_sqm": 887957.0,
+        "radius_deg": 0.0048,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.8695,
+          39.298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0885045",
+        "NAME": "Wiley town",
+        "FUNCSTAT": "A",
+        "area_sqm": 868087.0,
+        "radius_deg": 0.0047,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.7189,
+          38.1548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0882130",
+        "NAME": "Walden town",
+        "FUNCSTAT": "A",
+        "area_sqm": 868261.0,
+        "radius_deg": 0.0047,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.2813,
+          40.7316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0857245",
+        "NAME": "Paoli town",
+        "FUNCSTAT": "A",
+        "area_sqm": 766300.0,
+        "radius_deg": 0.0044,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.4718,
+          40.6128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0829680",
+        "NAME": "Genoa town",
+        "FUNCSTAT": "A",
+        "area_sqm": 803518.0,
+        "radius_deg": 0.0046,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.4987,
+          39.2782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0869700",
+        "NAME": "Sheridan Lake town",
+        "FUNCSTAT": "A",
+        "area_sqm": 804282.0,
+        "radius_deg": 0.0046,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2944,
+          38.4667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0842055",
+        "NAME": "La Jara town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1056262.0,
+        "radius_deg": 0.0052,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9597,
+          37.2735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0802355",
+        "NAME": "Antonito town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1104638.0,
+        "radius_deg": 0.0053,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0103,
+          37.0762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0800760",
+        "NAME": "Aguilar town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1016074.0,
+        "radius_deg": 0.0051,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.655,
+          37.4036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856365",
+        "NAME": "Otis town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1070196.0,
+        "radius_deg": 0.0053,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.9621,
+          40.1501
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0867005",
+        "NAME": "Saguache town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1021216.0,
+        "radius_deg": 0.0051,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1411,
+          38.0863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0840570",
+        "NAME": "Kim town",
+        "FUNCSTAT": "A",
+        "area_sqm": 980926.0,
+        "radius_deg": 0.005,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.3534,
+          37.2471
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0868930",
+        "NAME": "Sedgwick town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1007551.0,
+        "radius_deg": 0.0051,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.5256,
+          40.9355
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0848555",
+        "NAME": "Marble town",
+        "FUNCSTAT": "A",
+        "area_sqm": 931735.0,
+        "radius_deg": 0.0049,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.1907,
+          39.0717
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855155",
+        "NAME": "Oak Creek town",
+        "FUNCSTAT": "A",
+        "area_sqm": 954671.0,
+        "radius_deg": 0.005,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9576,
+          40.274
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807795",
+        "NAME": "Boone town",
+        "FUNCSTAT": "A",
+        "area_sqm": 980977.0,
+        "radius_deg": 0.005,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.2581,
+          38.2494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0818420",
+        "NAME": "Crestone town",
+        "FUNCSTAT": "A",
+        "area_sqm": 996291.0,
+        "radius_deg": 0.0051,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.6962,
+          37.9945
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0874815",
+        "NAME": "Sugar City town",
+        "FUNCSTAT": "A",
+        "area_sqm": 996804.0,
+        "radius_deg": 0.0051,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.6633,
+          38.2328
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0822145",
+        "NAME": "Eads town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1280736.0,
+        "radius_deg": 0.0058,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.7798,
+          38.4816
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0826875",
+        "NAME": "Fleming town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1267181.0,
+        "radius_deg": 0.0057,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.8396,
+          40.6821
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0823025",
+        "NAME": "Eckley town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1218967.0,
+        "radius_deg": 0.0056,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.4883,
+          40.1124
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0809115",
+        "NAME": "Brookside town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1227448.0,
+        "radius_deg": 0.0056,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1909,
+          38.4135
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0882460",
+        "NAME": "Walsh town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1158492.0,
+        "radius_deg": 0.0055,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2799,
+          37.3861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807571",
+        "NAME": "Bonanza town",
+        "FUNCSTAT": "I",
+        "area_sqm": 1132548.0,
+        "radius_deg": 0.0054,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1419,
+          38.2966
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0801530",
+        "NAME": "Alma town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1124636.0,
+        "radius_deg": 0.0054,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.067,
+          39.2859
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827975",
+        "NAME": "Fowler town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1448078.0,
+        "radius_deg": 0.0061,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.0265,
+          38.1304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0882735",
+        "NAME": "Ward town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1387018.0,
+        "radius_deg": 0.006,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.5139,
+          40.0722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0815605",
+        "NAME": "Collbran town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1445929.0,
+        "radius_deg": 0.0061,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.9635,
+          39.24
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0874485",
+        "NAME": "Stratton town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1331423.0,
+        "radius_deg": 0.0059,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6035,
+          39.3029
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0838535",
+        "NAME": "Ignacio town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1371831.0,
+        "radius_deg": 0.006,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.6375,
+          37.1178
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0803235",
+        "NAME": "Arriba town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1292242.0,
+        "radius_deg": 0.0058,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.274,
+          39.2843
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0834960",
+        "NAME": "Haxtun town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1589212.0,
+        "radius_deg": 0.0064,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6299,
+          40.6417
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0833310",
+        "NAME": "Grover town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1542184.0,
+        "radius_deg": 0.0063,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.2259,
+          40.8691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0841010",
+        "NAME": "Kit Carson town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1530039.0,
+        "radius_deg": 0.0063,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.7955,
+          38.7628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0821265",
+        "NAME": "Dove Creek town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1482738.0,
+        "radius_deg": 0.0062,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.9072,
+          37.7668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0868105",
+        "NAME": "San Luis town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1468084.0,
+        "radius_deg": 0.0062,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4225,
+          37.2024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0839195",
+        "NAME": "Jamestown town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1486877.0,
+        "radius_deg": 0.0062,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.3916,
+          40.1183
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0830340",
+        "NAME": "Glendale city",
+        "FUNCSTAT": "A",
+        "area_sqm": 1471185.0,
+        "radius_deg": 0.0062,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9352,
+          39.7036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0831550",
+        "NAME": "Granada town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1774937.0,
+        "radius_deg": 0.0068,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.3116,
+          38.063
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0823135",
+        "NAME": "Edgewater city",
+        "FUNCSTAT": "A",
+        "area_sqm": 1798852.0,
+        "radius_deg": 0.0068,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0626,
+          39.7509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0864090",
+        "NAME": "Rico town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1756595.0,
+        "radius_deg": 0.0067,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.0317,
+          37.6891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0808070",
+        "NAME": "Bow Mar town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1714311.0,
+        "radius_deg": 0.0067,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0512,
+          39.6252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0854935",
+        "NAME": "Nucla town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1793719.0,
+        "radius_deg": 0.0068,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5487,
+          38.2667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0853120",
+        "NAME": "Naturita town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1627350.0,
+        "radius_deg": 0.0065,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5664,
+          38.2183
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870635",
+        "NAME": "Simla town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1688812.0,
+        "radius_deg": 0.0066,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.0825,
+          39.1408
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0848115",
+        "NAME": "Mancos town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1651541.0,
+        "radius_deg": 0.0065,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.2938,
+          37.3466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837600",
+        "NAME": "Hot Sulphur Springs town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1992067.0,
+        "radius_deg": 0.0072,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1032,
+          40.0749
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0820770",
+        "NAME": "Dolores town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1928345.0,
+        "radius_deg": 0.0071,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.4995,
+          37.4746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837215",
+        "NAME": "Holly town",
+        "FUNCSTAT": "A",
+        "area_sqm": 1890473.0,
+        "radius_deg": 0.007,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.1246,
+          38.0553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0842330",
+        "NAME": "Lake City town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2153813.0,
+        "radius_deg": 0.0075,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3106,
+          38.0301
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0857300",
+        "NAME": "Paonia town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2146726.0,
+        "radius_deg": 0.0074,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5921,
+          38.8698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0829955",
+        "NAME": "Gilcrest town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2100358.0,
+        "radius_deg": 0.0074,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.782,
+          40.2842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0834740",
+        "NAME": "Haswell town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2078550.0,
+        "radius_deg": 0.0073,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.165,
+          38.4525
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0863045",
+        "NAME": "Raymer (New Raymer) town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2031224.0,
+        "radius_deg": 0.0072,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.8436,
+          40.608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856145",
+        "NAME": "Ordway town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2017946.0,
+        "radius_deg": 0.0072,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.7566,
+          38.2208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0811260",
+        "NAME": "Calhan town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2355870.0,
+        "radius_deg": 0.0078,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.3002,
+          39.034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837875",
+        "NAME": "Hugo town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2361658.0,
+        "radius_deg": 0.0078,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.4731,
+          39.1362
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870580",
+        "NAME": "Silverton town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2217718.0,
+        "radius_deg": 0.0076,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.665,
+          37.8108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0818310",
+        "NAME": "Crested Butte town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2244617.0,
+        "radius_deg": 0.0076,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9773,
+          38.8678
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856420",
+        "NAME": "Ouray city",
+        "FUNCSTAT": "A",
+        "area_sqm": 2234424.0,
+        "radius_deg": 0.0076,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.6733,
+          38.0275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0840790",
+        "NAME": "Kiowa town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2224310.0,
+        "radius_deg": 0.0076,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.4581,
+          39.3436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812855",
+        "NAME": "Center town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2540152.0,
+        "radius_deg": 0.0081,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1104,
+          37.7523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0843605",
+        "NAME": "La Salle town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2549235.0,
+        "radius_deg": 0.0081,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7061,
+          40.3487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0816385",
+        "NAME": "Columbine Valley town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2550281.0,
+        "radius_deg": 0.0081,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0352,
+          39.5993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837545",
+        "NAME": "Hotchkiss town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2400597.0,
+        "radius_deg": 0.0079,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.7134,
+          38.799
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0814765",
+        "NAME": "City of Creede town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2453013.0,
+        "radius_deg": 0.008,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9251,
+          37.8486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0820495",
+        "NAME": "Dinosaur town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2408245.0,
+        "radius_deg": 0.0079,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -109.0068,
+          40.2399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0848060",
+        "NAME": "Manassa town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2411755.0,
+        "radius_deg": 0.0079,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9373,
+          37.1738
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812030",
+        "NAME": "Carbonate town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2569452.0,
+        "radius_deg": 0.0081,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3391,
+          39.7443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0829735",
+        "NAME": "Georgetown town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2590486.0,
+        "radius_deg": 0.0082,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.6942,
+          39.718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0819795",
+        "NAME": "Del Norte town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2789814.0,
+        "radius_deg": 0.0085,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.353,
+          37.678
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0831715",
+        "NAME": "Grand Lake town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2789977.0,
+        "radius_deg": 0.0085,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8241,
+          40.2505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0814175",
+        "NAME": "Cheyenne Wells town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2770172.0,
+        "radius_deg": 0.0085,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.352,
+          38.8192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0844320",
+        "NAME": "Leadville city",
+        "FUNCSTAT": "A",
+        "area_sqm": 3039459.0,
+        "radius_deg": 0.0089,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.2935,
+          39.2473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0825610",
+        "NAME": "Fairplay town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2976481.0,
+        "radius_deg": 0.0088,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9965,
+          39.2245
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0832650",
+        "NAME": "Green Mountain Falls town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3002004.0,
+        "radius_deg": 0.0088,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0232,
+          38.9345
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0873330",
+        "NAME": "Springfield town",
+        "FUNCSTAT": "A",
+        "area_sqm": 2917170.0,
+        "radius_deg": 0.0087,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6189,
+          37.4049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0883450",
+        "NAME": "Westcliffe town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3197836.0,
+        "radius_deg": 0.0091,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4654,
+          38.1339
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0815330",
+        "NAME": "Coal Creek town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3092189.0,
+        "radius_deg": 0.0089,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1422,
+          38.3622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856970",
+        "NAME": "Palisade town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3077612.0,
+        "radius_deg": 0.0089,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.3573,
+          39.1083
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0841560",
+        "NAME": "Kremmling town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3392998.0,
+        "radius_deg": 0.0094,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3782,
+          40.0565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0884770",
+        "NAME": "Wiggins town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3426363.0,
+        "radius_deg": 0.0094,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.0725,
+          40.2287
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0828105",
+        "NAME": "Foxfield town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3427462.0,
+        "radius_deg": 0.0094,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7857,
+          39.5881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0819630",
+        "NAME": "Deer Trail town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3281449.0,
+        "radius_deg": 0.0092,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.0435,
+          39.6165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0826765",
+        "NAME": "Flagler town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3694558.0,
+        "radius_deg": 0.0098,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.0747,
+          39.2941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0844100",
+        "NAME": "La Veta town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3539235.0,
+        "radius_deg": 0.0096,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0085,
+          37.5086
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0847070",
+        "NAME": "Lyons town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3532428.0,
+        "radius_deg": 0.0096,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2692,
+          40.223
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0853175",
+        "NAME": "Nederland town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3832541.0,
+        "radius_deg": 0.01,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.5072,
+          39.9633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855540",
+        "NAME": "Olathe town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3861551.0,
+        "radius_deg": 0.01,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.9832,
+          38.6084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0839965",
+        "NAME": "Julesburg town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3916485.0,
+        "radius_deg": 0.0101,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2627,
+          40.9849
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0823740",
+        "NAME": "Elizabeth town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3820840.0,
+        "radius_deg": 0.0099,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6085,
+          39.3597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0820440",
+        "NAME": "Dillon town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3854061.0,
+        "radius_deg": 0.01,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0392,
+          39.6213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0867830",
+        "NAME": "Sanford town",
+        "FUNCSTAT": "A",
+        "area_sqm": 3782495.0,
+        "radius_deg": 0.0099,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9008,
+          37.2574
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0843550",
+        "NAME": "Larkspur town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4133669.0,
+        "radius_deg": 0.0103,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8923,
+          39.2318
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0818530",
+        "NAME": "Cripple Creek city",
+        "FUNCSTAT": "A",
+        "area_sqm": 3940717.0,
+        "radius_deg": 0.0101,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.185,
+          38.7466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870195",
+        "NAME": "Silt town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4357372.0,
+        "radius_deg": 0.0106,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.6529,
+          39.5482
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0828690",
+        "NAME": "Frisco town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4321365.0,
+        "radius_deg": 0.0106,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0916,
+          39.5791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0865190",
+        "NAME": "Rocky Ford city",
+        "FUNCSTAT": "A",
+        "area_sqm": 4348017.0,
+        "radius_deg": 0.0106,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.7224,
+          38.05
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0843660",
+        "NAME": "Las Animas city",
+        "FUNCSTAT": "A",
+        "area_sqm": 4212127.0,
+        "radius_deg": 0.0104,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.2236,
+          38.0695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0803950",
+        "NAME": "Ault town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4571360.0,
+        "radius_deg": 0.0109,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7394,
+          40.5892
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0826270",
+        "NAME": "Federal Heights city",
+        "FUNCSTAT": "A",
+        "area_sqm": 4596112.0,
+        "radius_deg": 0.0109,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0154,
+          39.865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0864200",
+        "NAME": "Ridgway town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4787404.0,
+        "radius_deg": 0.0111,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.7546,
+          38.1572
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0859005",
+        "NAME": "Pierce town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4811653.0,
+        "radius_deg": 0.0111,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7702,
+          40.6412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0852075",
+        "NAME": "Morrison town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4818170.0,
+        "radius_deg": 0.0112,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1992,
+          39.6401
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0840550",
+        "NAME": "Keystone town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4729244.0,
+        "radius_deg": 0.0111,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9635,
+          39.6026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807190",
+        "NAME": "Blanca town",
+        "FUNCSTAT": "A",
+        "area_sqm": 4747010.0,
+        "radius_deg": 0.0111,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.5135,
+          37.4393
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812635",
+        "NAME": "Cedaredge town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5078433.0,
+        "radius_deg": 0.0115,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.9255,
+          38.8941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812045",
+        "NAME": "Carbondale town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5377785.0,
+        "radius_deg": 0.0118,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.215,
+          39.3956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0852570",
+        "NAME": "Mount Crested Butte town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5355219.0,
+        "radius_deg": 0.0118,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9606,
+          38.9083
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0864970",
+        "NAME": "Rockvale town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5317734.0,
+        "radius_deg": 0.0117,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1645,
+          38.3644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0804935",
+        "NAME": "Basalt town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5237157.0,
+        "radius_deg": 0.0116,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.0413,
+          39.3662
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0805265",
+        "NAME": "Bayfield town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5221696.0,
+        "radius_deg": 0.0116,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5937,
+          37.2346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0851250",
+        "NAME": "Moffat town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5496240.0,
+        "radius_deg": 0.0119,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9101,
+          38.0057
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0810600",
+        "NAME": "Burlington city",
+        "FUNCSTAT": "A",
+        "area_sqm": 5735547.0,
+        "radius_deg": 0.0122,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2714,
+          39.3041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0869645",
+        "NAME": "Sheridan city",
+        "FUNCSTAT": "A",
+        "area_sqm": 5763826.0,
+        "radius_deg": 0.0122,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0182,
+          39.6468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0876795",
+        "NAME": "Telluride town",
+        "FUNCSTAT": "A",
+        "area_sqm": 5725542.0,
+        "radius_deg": 0.0122,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8266,
+          37.9363
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807410",
+        "NAME": "Blue River town",
+        "FUNCSTAT": "A",
+        "area_sqm": 6304464.0,
+        "radius_deg": 0.0128,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0353,
+          39.436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0840515",
+        "NAME": "Kersey town",
+        "FUNCSTAT": "A",
+        "area_sqm": 6125963.0,
+        "radius_deg": 0.0126,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5799,
+          40.3941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0857400",
+        "NAME": "Parachute town",
+        "FUNCSTAT": "A",
+        "area_sqm": 6660282.0,
+        "radius_deg": 0.0131,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.0545,
+          39.448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0872395",
+        "NAME": "South Fork town",
+        "FUNCSTAT": "A",
+        "area_sqm": 6587433.0,
+        "radius_deg": 0.013,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.6412,
+          37.6692
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0838370",
+        "NAME": "Idaho Springs city",
+        "FUNCSTAT": "A",
+        "area_sqm": 6398581.0,
+        "radius_deg": 0.0129,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.5027,
+          39.7441
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0853395",
+        "NAME": "New Castle town",
+        "FUNCSTAT": "A",
+        "area_sqm": 6465073.0,
+        "radius_deg": 0.0129,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5267,
+          39.5776
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837270",
+        "NAME": "Holyoke city",
+        "FUNCSTAT": "A",
+        "area_sqm": 6405951.0,
+        "radius_deg": 0.0129,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2975,
+          40.582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0851635",
+        "NAME": "Monte Vista city",
+        "FUNCSTAT": "A",
+        "area_sqm": 6830392.0,
+        "radius_deg": 0.0133,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1501,
+          37.5789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812900",
+        "NAME": "Central city",
+        "FUNCSTAT": "A",
+        "area_sqm": 7209848.0,
+        "radius_deg": 0.0136,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4986,
+          39.7858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0800925",
+        "NAME": "Akron town",
+        "FUNCSTAT": "A",
+        "area_sqm": 7180126.0,
+        "radius_deg": 0.0136,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.2203,
+          40.1635
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0819355",
+        "NAME": "De Beque town",
+        "FUNCSTAT": "A",
+        "area_sqm": 7192400.0,
+        "radius_deg": 0.0136,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.205,
+          39.3105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0860600",
+        "NAME": "Poncha Springs town",
+        "FUNCSTAT": "A",
+        "area_sqm": 7009627.0,
+        "radius_deg": 0.0135,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0893,
+          38.5145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0882350",
+        "NAME": "Walsenburg city",
+        "FUNCSTAT": "A",
+        "area_sqm": 7743479.0,
+        "radius_deg": 0.0141,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7817,
+          37.6306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0809555",
+        "NAME": "Brush city",
+        "FUNCSTAT": "A",
+        "area_sqm": 7351380.0,
+        "radius_deg": 0.0138,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.6324,
+          40.2599
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0867280",
+        "NAME": "Salida city",
+        "FUNCSTAT": "A",
+        "area_sqm": 7429545.0,
+        "radius_deg": 0.0139,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9984,
+          38.5301
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0857025",
+        "NAME": "Palmer Lake town",
+        "FUNCSTAT": "A",
+        "area_sqm": 7998477.0,
+        "radius_deg": 0.0144,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.906,
+          39.1152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807025",
+        "NAME": "Black Hawk city",
+        "FUNCSTAT": "A",
+        "area_sqm": 8079596.0,
+        "radius_deg": 0.0144,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4935,
+          39.8016
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0852550",
+        "NAME": "Mountain Village town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8547101.0,
+        "radius_deg": 0.0149,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8577,
+          37.9324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0886750",
+        "NAME": "Yuma city",
+        "FUNCSTAT": "A",
+        "area_sqm": 8477770.0,
+        "radius_deg": 0.0148,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.7161,
+          40.1237
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0848445",
+        "NAME": "Manitou Springs city",
+        "FUNCSTAT": "A",
+        "area_sqm": 8155504.0,
+        "radius_deg": 0.0145,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9129,
+          38.8575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0844980",
+        "NAME": "Limon town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8190319.0,
+        "radius_deg": 0.0145,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.6856,
+          39.2653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0842110",
+        "NAME": "La Junta city",
+        "FUNCSTAT": "A",
+        "area_sqm": 8277869.0,
+        "radius_deg": 0.0146,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.5471,
+          37.9791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0822860",
+        "NAME": "Eaton town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8185010.0,
+        "radius_deg": 0.0145,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.713,
+          40.5257
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0828305",
+        "NAME": "Fraser town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8956223.0,
+        "radius_deg": 0.0152,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8029,
+          39.9303
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0835070",
+        "NAME": "Hayden town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8916482.0,
+        "radius_deg": 0.0152,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.2382,
+          40.4854
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0886310",
+        "NAME": "Wray city",
+        "FUNCSTAT": "A",
+        "area_sqm": 8952851.0,
+        "radius_deg": 0.0152,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.2284,
+          40.0802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0860160",
+        "NAME": "Platteville town",
+        "FUNCSTAT": "A",
+        "area_sqm": 8825373.0,
+        "radius_deg": 0.0151,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8334,
+          40.223
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0849875",
+        "NAME": "Meeker town",
+        "FUNCSTAT": "A",
+        "area_sqm": 9295238.0,
+        "radius_deg": 0.0155,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8946,
+          40.05
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0885155",
+        "NAME": "Williamsburg town",
+        "FUNCSTAT": "A",
+        "area_sqm": 9147736.0,
+        "radius_deg": 0.0154,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.171,
+          38.384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0803620",
+        "NAME": "Aspen city",
+        "FUNCSTAT": "A",
+        "area_sqm": 10004781.0,
+        "radius_deg": 0.0161,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8368,
+          39.1952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0845530",
+        "NAME": "Lochbuie town",
+        "FUNCSTAT": "A",
+        "area_sqm": 9542872.0,
+        "radius_deg": 0.0157,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7272,
+          40.0118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870525",
+        "NAME": "Silverthorne town",
+        "FUNCSTAT": "A",
+        "area_sqm": 10492905.0,
+        "radius_deg": 0.0165,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0866,
+          39.6561
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0875640",
+        "NAME": "Superior town",
+        "FUNCSTAT": "A",
+        "area_sqm": 10187232.0,
+        "radius_deg": 0.0162,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1588,
+          39.934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0810105",
+        "NAME": "Buena Vista town",
+        "FUNCSTAT": "A",
+        "area_sqm": 10209046.0,
+        "radius_deg": 0.0162,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.1407,
+          38.8299
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855045",
+        "NAME": "Nunn town",
+        "FUNCSTAT": "A",
+        "area_sqm": 10305684.0,
+        "radius_deg": 0.0163,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7888,
+          40.7137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827040",
+        "NAME": "Florence city",
+        "FUNCSTAT": "A",
+        "area_sqm": 11639531.0,
+        "radius_deg": 0.0173,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1119,
+          38.3844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0883230",
+        "NAME": "Wellington town",
+        "FUNCSTAT": "A",
+        "area_sqm": 11346596.0,
+        "radius_deg": 0.0171,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.007,
+          40.6975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0862880",
+        "NAME": "Rangely town",
+        "FUNCSTAT": "A",
+        "area_sqm": 11352925.0,
+        "radius_deg": 0.0171,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.7796,
+          40.0861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0880040",
+        "NAME": "Vail town",
+        "FUNCSTAT": "A",
+        "area_sqm": 12203524.0,
+        "radius_deg": 0.0178,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3612,
+          39.6385
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0856860",
+        "NAME": "Pagosa Springs town",
+        "FUNCSTAT": "A",
+        "area_sqm": 13102668.0,
+        "radius_deg": 0.0184,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.0304,
+          37.2674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0817760",
+        "NAME": "Craig city",
+        "FUNCSTAT": "A",
+        "area_sqm": 13137851.0,
+        "radius_deg": 0.0184,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5554,
+          40.5171
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0833640",
+        "NAME": "Gunnison city",
+        "FUNCSTAT": "A",
+        "area_sqm": 12557713.0,
+        "radius_deg": 0.018,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9246,
+          38.548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827810",
+        "NAME": "Fort Morgan city",
+        "FUNCSTAT": "A",
+        "area_sqm": 13932084.0,
+        "radius_deg": 0.019,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.7901,
+          40.2537
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0843110",
+        "NAME": "Lamar city",
+        "FUNCSTAT": "A",
+        "area_sqm": 13512630.0,
+        "radius_deg": 0.0187,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6154,
+          38.074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0822200",
+        "NAME": "Eagle town",
+        "FUNCSTAT": "A",
+        "area_sqm": 15068084.0,
+        "radius_deg": 0.0197,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8124,
+          39.6375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0830780",
+        "NAME": "Glenwood Springs city",
+        "FUNCSTAT": "A",
+        "area_sqm": 15112452.0,
+        "radius_deg": 0.0198,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.3347,
+          39.5456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0817375",
+        "NAME": "Cortez city",
+        "FUNCSTAT": "A",
+        "area_sqm": 16064100.0,
+        "radius_deg": 0.0204,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5766,
+          37.3503
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0813845",
+        "NAME": "Cherry Hills Village city",
+        "FUNCSTAT": "A",
+        "area_sqm": 16072263.0,
+        "radius_deg": 0.0204,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9481,
+          39.6375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0808400",
+        "NAME": "Breckenridge town",
+        "FUNCSTAT": "A",
+        "area_sqm": 15646155.0,
+        "radius_deg": 0.0201,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.0432,
+          39.4995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0886090",
+        "NAME": "Woodland Park city",
+        "FUNCSTAT": "A",
+        "area_sqm": 17124045.0,
+        "radius_deg": 0.021,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0594,
+          38.9985
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0825115",
+        "NAME": "Estes Park town",
+        "FUNCSTAT": "A",
+        "area_sqm": 17339949.0,
+        "radius_deg": 0.0212,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.521,
+          40.3696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0824785",
+        "NAME": "Englewood city",
+        "FUNCSTAT": "A",
+        "area_sqm": 16992553.0,
+        "radius_deg": 0.021,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9943,
+          39.6468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0837820",
+        "NAME": "Hudson town",
+        "FUNCSTAT": "A",
+        "area_sqm": 16937486.0,
+        "radius_deg": 0.0209,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6235,
+          40.0853
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0806090",
+        "NAME": "Bennett town",
+        "FUNCSTAT": "A",
+        "area_sqm": 18487503.0,
+        "radius_deg": 0.0219,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.4319,
+          39.7417
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0854330",
+        "NAME": "Northglenn city",
+        "FUNCSTAT": "A",
+        "area_sqm": 19063485.0,
+        "radius_deg": 0.0222,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9783,
+          39.9108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0851800",
+        "NAME": "Monument town",
+        "FUNCSTAT": "A",
+        "area_sqm": 18862893.0,
+        "radius_deg": 0.0221,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8478,
+          39.0727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0864255",
+        "NAME": "Rifle city",
+        "FUNCSTAT": "A",
+        "area_sqm": 18381748.0,
+        "radius_deg": 0.0218,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.7735,
+          39.5361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0801090",
+        "NAME": "Alamosa city",
+        "FUNCSTAT": "A",
+        "area_sqm": 20628347.0,
+        "radius_deg": 0.0231,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8779,
+          37.4759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0846355",
+        "NAME": "Louisville city",
+        "FUNCSTAT": "A",
+        "area_sqm": 20662544.0,
+        "radius_deg": 0.0231,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1441,
+          39.971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0877510",
+        "NAME": "Timnath town",
+        "FUNCSTAT": "A",
+        "area_sqm": 20322247.0,
+        "radius_deg": 0.0229,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9628,
+          40.5367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0828745",
+        "NAME": "Fruita city",
+        "FUNCSTAT": "A",
+        "area_sqm": 20744199.0,
+        "radius_deg": 0.0231,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.73,
+          39.1548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0850920",
+        "NAME": "Minturn town",
+        "FUNCSTAT": "A",
+        "area_sqm": 19314500.0,
+        "radius_deg": 0.0223,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.3862,
+          39.5466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0873935",
+        "NAME": "Sterling city",
+        "FUNCSTAT": "A",
+        "area_sqm": 19732076.0,
+        "radius_deg": 0.0226,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.1926,
+          40.6205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0833695",
+        "NAME": "Gypsum town",
+        "FUNCSTAT": "A",
+        "area_sqm": 23012577.0,
+        "radius_deg": 0.0244,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9347,
+          39.6287
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0804110",
+        "NAME": "Avon town",
+        "FUNCSTAT": "A",
+        "area_sqm": 21221430.0,
+        "radius_deg": 0.0234,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.5131,
+          39.6445
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0833035",
+        "NAME": "Greenwood Village city",
+        "FUNCSTAT": "A",
+        "area_sqm": 21300817.0,
+        "radius_deg": 0.0235,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9133,
+          39.6151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0845955",
+        "NAME": "Lone Tree city",
+        "FUNCSTAT": "A",
+        "area_sqm": 25537538.0,
+        "radius_deg": 0.0257,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8711,
+          39.531
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0873825",
+        "NAME": "Steamboat Springs city",
+        "FUNCSTAT": "A",
+        "area_sqm": 25631083.0,
+        "radius_deg": 0.0257,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.8243,
+          40.4777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812387",
+        "NAME": "Castle Pines city",
+        "FUNCSTAT": "A",
+        "area_sqm": 24861593.0,
+        "radius_deg": 0.0253,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8706,
+          39.4625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0830835",
+        "NAME": "Golden city",
+        "FUNCSTAT": "A",
+        "area_sqm": 24969977.0,
+        "radius_deg": 0.0254,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2118,
+          39.7407
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0878610",
+        "NAME": "Trinidad city",
+        "FUNCSTAT": "A",
+        "area_sqm": 24640267.0,
+        "radius_deg": 0.0252,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.4908,
+          37.1758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0884440",
+        "NAME": "Wheat Ridge city",
+        "FUNCSTAT": "A",
+        "area_sqm": 24287439.0,
+        "radius_deg": 0.025,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1029,
+          39.7728
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0841835",
+        "NAME": "Lafayette city",
+        "FUNCSTAT": "A",
+        "area_sqm": 23975691.0,
+        "radius_deg": 0.0249,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0997,
+          39.9947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0819080",
+        "NAME": "Dacono city",
+        "FUNCSTAT": "A",
+        "area_sqm": 24031543.0,
+        "radius_deg": 0.0249,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9469,
+          40.0623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0840185",
+        "NAME": "Keenesburg town",
+        "FUNCSTAT": "A",
+        "area_sqm": 29994502.0,
+        "radius_deg": 0.0278,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5466,
+          40.1434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0855980",
+        "NAME": "Orchard City town",
+        "FUNCSTAT": "A",
+        "area_sqm": 29840238.0,
+        "radius_deg": 0.0278,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.9705,
+          38.8144
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0825280",
+        "NAME": "Evans city",
+        "FUNCSTAT": "A",
+        "area_sqm": 27593000.0,
+        "radius_deg": 0.0267,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7391,
+          40.3655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0850480",
+        "NAME": "Milliken town",
+        "FUNCSTAT": "A",
+        "area_sqm": 33579900.0,
+        "radius_deg": 0.0295,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.855,
+          40.3124
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0819850",
+        "NAME": "Delta city",
+        "FUNCSTAT": "A",
+        "area_sqm": 34371032.0,
+        "radius_deg": 0.0298,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.0772,
+          38.756
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827700",
+        "NAME": "Fort Lupton city",
+        "FUNCSTAT": "A",
+        "area_sqm": 34975702.0,
+        "radius_deg": 0.0301,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8046,
+          40.0834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0806255",
+        "NAME": "Berthoud town",
+        "FUNCSTAT": "A",
+        "area_sqm": 33834906.0,
+        "radius_deg": 0.0296,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0432,
+          40.3072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0869150",
+        "NAME": "Severance town",
+        "FUNCSTAT": "A",
+        "area_sqm": 33412169.0,
+        "radius_deg": 0.0294,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8649,
+          40.5544
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0845255",
+        "NAME": "Littleton city",
+        "FUNCSTAT": "A",
+        "area_sqm": 32684636.0,
+        "radius_deg": 0.0291,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0188,
+          39.5915
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0831605",
+        "NAME": "Granby town",
+        "FUNCSTAT": "A",
+        "area_sqm": 32844778.0,
+        "radius_deg": 0.0291,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9194,
+          40.0648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0811810",
+        "NAME": "Cañon City city",
+        "FUNCSTAT": "A",
+        "area_sqm": 32148520.0,
+        "radius_deg": 0.0288,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2202,
+          38.443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0885705",
+        "NAME": "Winter Park town",
+        "FUNCSTAT": "A",
+        "area_sqm": 43940197.0,
+        "radius_deg": 0.0337,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.7828,
+          39.8787
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0839855",
+        "NAME": "Johnstown town",
+        "FUNCSTAT": "A",
+        "area_sqm": 40841321.0,
+        "radius_deg": 0.0325,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.947,
+          40.3465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0870250",
+        "NAME": "Silver Cliff town",
+        "FUNCSTAT": "A",
+        "area_sqm": 40034765.0,
+        "radius_deg": 0.0322,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.4104,
+          38.1204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0849600",
+        "NAME": "Mead town",
+        "FUNCSTAT": "A",
+        "area_sqm": 40119279.0,
+        "radius_deg": 0.0322,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9888,
+          40.2291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0826600",
+        "NAME": "Firestone town",
+        "FUNCSTAT": "A",
+        "area_sqm": 36024075.0,
+        "radius_deg": 0.0305,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.949,
+          40.1567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0828360",
+        "NAME": "Frederick town",
+        "FUNCSTAT": "A",
+        "area_sqm": 39389791.0,
+        "radius_deg": 0.0319,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9702,
+          40.1088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827865",
+        "NAME": "Fountain city",
+        "FUNCSTAT": "A",
+        "area_sqm": 57865105.0,
+        "radius_deg": 0.0387,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6826,
+          38.689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0857630",
+        "NAME": "Parker town",
+        "FUNCSTAT": "A",
+        "area_sqm": 58516712.0,
+        "radius_deg": 0.0389,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7753,
+          39.5084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0824950",
+        "NAME": "Erie town",
+        "FUNCSTAT": "A",
+        "area_sqm": 55402549.0,
+        "radius_deg": 0.0378,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0381,
+          40.0405
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0808675",
+        "NAME": "Brighton city",
+        "FUNCSTAT": "A",
+        "area_sqm": 56304302.0,
+        "radius_deg": 0.0381,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7956,
+          39.9716
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0851745",
+        "NAME": "Montrose city",
+        "FUNCSTAT": "A",
+        "area_sqm": 49368102.0,
+        "radius_deg": 0.0357,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.859,
+          38.4688
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0822035",
+        "NAME": "Durango city",
+        "FUNCSTAT": "A",
+        "area_sqm": 45804014.0,
+        "radius_deg": 0.0344,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.8741,
+          37.2647
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0846465",
+        "NAME": "Loveland city",
+        "FUNCSTAT": "A",
+        "area_sqm": 93638493.0,
+        "radius_deg": 0.0492,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0628,
+          40.4171
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0809280",
+        "NAME": "Broomfield city",
+        "FUNCSTAT": "A",
+        "area_sqm": 85384997.0,
+        "radius_deg": 0.047,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0527,
+          39.9541
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0816495",
+        "NAME": "Commerce City city",
+        "FUNCSTAT": "A",
+        "area_sqm": 95600329.0,
+        "radius_deg": 0.0497,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8416,
+          39.8644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812415",
+        "NAME": "Castle Rock town",
+        "FUNCSTAT": "A",
+        "area_sqm": 94716155.0,
+        "radius_deg": 0.0495,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8505,
+          39.3762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0877290",
+        "NAME": "Thornton city",
+        "FUNCSTAT": "A",
+        "area_sqm": 94930696.0,
+        "radius_deg": 0.0495,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9442,
+          39.9206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0883835",
+        "NAME": "Westminster city",
+        "FUNCSTAT": "A",
+        "area_sqm": 81934248.0,
+        "radius_deg": 0.046,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0625,
+          39.8836
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0812815",
+        "NAME": "Centennial city",
+        "FUNCSTAT": "A",
+        "area_sqm": 78104516.0,
+        "radius_deg": 0.0449,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8666,
+          39.5924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0807850",
+        "NAME": "Boulder city",
+        "FUNCSTAT": "A",
+        "area_sqm": 69737385.0,
+        "radius_deg": 0.0424,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.2519,
+          40.0239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0871755",
+        "NAME": "Snowmass Village town",
+        "FUNCSTAT": "A",
+        "area_sqm": 71979699.0,
+        "radius_deg": 0.0431,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.9392,
+          39.2212
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0845970",
+        "NAME": "Longmont city",
+        "FUNCSTAT": "A",
+        "area_sqm": 75835664.0,
+        "radius_deg": 0.0443,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1011,
+          40.1689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0885485",
+        "NAME": "Windsor town",
+        "FUNCSTAT": "A",
+        "area_sqm": 68121159.0,
+        "radius_deg": 0.042,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.92,
+          40.469
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0820000",
+        "NAME": "Denver city",
+        "FUNCSTAT": "A",
+        "area_sqm": 396460168.0,
+        "radius_deg": 0.1012,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.876,
+          39.762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0804000",
+        "NAME": "Aurora city",
+        "FUNCSTAT": "A",
+        "area_sqm": 425073704.0,
+        "radius_deg": 0.1048,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7207,
+          39.7098
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0816000",
+        "NAME": "Colorado Springs city",
+        "FUNCSTAT": "A",
+        "area_sqm": 523773256.0,
+        "radius_deg": 0.1163,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7595,
+          38.8674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0831660",
+        "NAME": "Grand Junction city",
+        "FUNCSTAT": "A",
+        "area_sqm": 105608783.0,
+        "radius_deg": 0.0522,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.5676,
+          39.0877
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0862000",
+        "NAME": "Pueblo city",
+        "FUNCSTAT": "A",
+        "area_sqm": 146634215.0,
+        "radius_deg": 0.0615,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6116,
+          38.2691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0827425",
+        "NAME": "Fort Collins city",
+        "FUNCSTAT": "A",
+        "area_sqm": 148446565.0,
+        "radius_deg": 0.0619,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0657,
+          40.5476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0832155",
+        "NAME": "Greeley city",
+        "FUNCSTAT": "A",
+        "area_sqm": 131081563.0,
+        "radius_deg": 0.0582,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.7722,
+          40.4157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0803455",
+        "NAME": "Arvada city",
+        "FUNCSTAT": "A",
+        "area_sqm": 101018347.0,
+        "radius_deg": 0.0511,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1512,
+          39.8321
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "0843000",
+        "NAME": "Lakewood city",
+        "FUNCSTAT": "A",
+        "area_sqm": 112638658.0,
+        "radius_deg": 0.0539,
+        "utility_type": "municipal_boundary",
+        "data_source": "Census TIGERweb",
+        "constraint_level": "moderate",
+        "notes": "Municipal service area — refer to local capital improvement plan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.1172,
+          39.6978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "South Platte: Greeley to Balzac",
+        "waterDistrict": 1,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "South Platte: Denver Gage to Greeley",
+        "waterDistrict": 2,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Cache La Poudre River",
+        "waterDistrict": 3,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Big Thompson River",
+        "waterDistrict": 4,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "St. Vrain Creek",
+        "waterDistrict": 5,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Boulder Creek",
+        "waterDistrict": 6,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Clear Creek",
+        "waterDistrict": 7,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "South Platte Cheesman to Denver Gage",
+        "waterDistrict": 8,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Bear Creek",
+        "waterDistrict": 9,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Fountain Creek",
+        "waterDistrict": 10,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arkansas: Headwaters to Salida",
+        "waterDistrict": 11,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arkansas: Salida to Portland",
+        "waterDistrict": 12,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Wet Mountain Valley",
+        "waterDistrict": 13,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arkansas: Portland to Fowler",
+        "waterDistrict": 14,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Saint Charles",
+        "waterDistrict": 15,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Cucharas River",
+        "waterDistrict": 16,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arkansas: Fowler to Las Animas",
+        "waterDistrict": 17,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Apishapa River",
+        "waterDistrict": 18,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Purgatoire River",
+        "waterDistrict": 19,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Rio Grande",
+        "waterDistrict": 20,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Alamosa La Jara",
+        "waterDistrict": 21,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Conejos Creek",
+        "waterDistrict": 22,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Upper South Platte",
+        "waterDistrict": 23,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Culebra Creek",
+        "waterDistrict": 24,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "San Luis Creek",
+        "waterDistrict": 25,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Saguache Creek",
+        "waterDistrict": 26,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Carnero Creek",
+        "waterDistrict": 27,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Tomichi Creek",
+        "waterDistrict": 28,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "San Juan River Basin",
+        "waterDistrict": 29,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Animas River Basin",
+        "waterDistrict": 30,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Los Pinos River Basin",
+        "waterDistrict": 31,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "McElmo Creek Basin",
+        "waterDistrict": 32,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "La Plata River Basin",
+        "waterDistrict": 33,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Mancos River Basin",
+        "waterDistrict": 34,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Trinchera Creek",
+        "waterDistrict": 35,
+        "division": 3,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Blue River Basin",
+        "waterDistrict": 36,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Eagle River Basin",
+        "waterDistrict": 37,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Roaring Fork River Basin",
+        "waterDistrict": 38,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Rifle/Elk/Parachute Creeks",
+        "waterDistrict": 39,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "North Fork/Tribs.",
+        "waterDistrict": 40,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Lower Uncompahgre River",
+        "waterDistrict": 41,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Lower Gunnison River",
+        "waterDistrict": 42,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "White River Basin",
+        "waterDistrict": 43,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Lower Yampa River",
+        "waterDistrict": 44,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Divide Creek",
+        "waterDistrict": 45,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Navajo Reservoir",
+        "waterDistrict": 46,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "North Platte River Basin",
+        "waterDistrict": 47,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Laramie River",
+        "waterDistrict": 48,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Republican River",
+        "waterDistrict": 49,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Muddy/Troublesome Creeks",
+        "waterDistrict": 50,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Upper Colorado/Fraser Rivers",
+        "waterDistrict": 51,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Piney/Cottonwood Creeks",
+        "waterDistrict": 52,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Tribs. North of Colorado River",
+        "waterDistrict": 53,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Slater/Timberlake Creeks",
+        "waterDistrict": 54,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Little Snake River",
+        "waterDistrict": 55,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Green River Basin",
+        "waterDistrict": 56,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Middle Yampa River",
+        "waterDistrict": 57,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Upper Yampa River",
+        "waterDistrict": 58,
+        "division": 6,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "East River Basin",
+        "waterDistrict": 59,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "San Miguel River Basin",
+        "waterDistrict": 60,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Paradox Creek",
+        "waterDistrict": 61,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Upper Gunnison River",
+        "waterDistrict": 62,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Dolores River Basin",
+        "waterDistrict": 63,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "South Platte: Balzac to Stateline",
+        "waterDistrict": 64,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arikaree River",
+        "waterDistrict": 65,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Cimarron River Basin",
+        "waterDistrict": 66,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Arkansas: Las Animas to Stateline",
+        "waterDistrict": 67,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Upper Uncompahgre River",
+        "waterDistrict": 68,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Disappointment Creek Basin",
+        "waterDistrict": 69,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Roan Creek Basin",
+        "waterDistrict": 70,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "West Dolores Creek/Tribs.",
+        "waterDistrict": 71,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Lower Colorado River",
+        "waterDistrict": 72,
+        "division": 5,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Little Dolores River",
+        "waterDistrict": 73,
+        "division": 4,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Sand Creek",
+        "waterDistrict": 76,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Navajo River Basin",
+        "waterDistrict": 77,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Piedra River Basin",
+        "waterDistrict": 78,
+        "division": 7,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "Huerfano River",
+        "waterDistrict": 79,
+        "division": 2,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "NAME": "North Fork of South Platte",
+        "waterDistrict": 80,
+        "division": 1,
+        "utility_type": "water_district",
+        "data_source": "Colorado DWR",
+        "constraint_level": "variable",
+        "notes": "DWR water district — check local tap fees and availability"
+      },
+      "geometry": null
+    }
+  ]
 }
