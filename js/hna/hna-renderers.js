@@ -3064,6 +3064,15 @@
     var ur = countyData ? countyData.unemployment_rate : null;
     var jg = countyData ? countyData.job_growth_5yr_pct : null;
 
+    // Thresholds for unemployment rate (BLS LAUS): <3.8% = low/healthy, ≤5.5% = moderate, >5.5% = elevated.
+    // These align with the thresholds used in market-intelligence.js renderEconomicKpis() setBadge() calls.
+    var UR_LOW = 3.8;
+    var UR_HIGH = 5.5;
+    // Thresholds for 5-year job growth (BLS QCEW): ≥8% = strong, ≥2% = moderate, <2% = weak.
+    // These align with the market-intelligence.js thresholds for the job-growth badge.
+    var JG_STRONG = 8;
+    var JG_MODERATE = 2;
+
     // Helper to build a KPI card
     function kpiCard(label, value, sub, colorVar) {
       return '<div class="metric-card">' +
@@ -3074,12 +3083,12 @@
     }
 
     var urValue = ur != null ? ur.toFixed(1) + '%' : '—';
-    var urColor = ur != null ? (ur < 3.8 ? 'var(--success,#22a36f)' : ur <= 5.5 ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
-    var urSub = ur != null ? (ur < 3.8 ? 'Low — healthy labour market' : ur <= 5.5 ? 'Moderate' : 'Elevated') : 'Data not yet available';
+    var urColor = ur != null ? (ur < UR_LOW ? 'var(--success,#22a36f)' : ur <= UR_HIGH ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var urSub = ur != null ? (ur < UR_LOW ? 'Low — healthy labour market' : ur <= UR_HIGH ? 'Moderate' : 'Elevated') : 'Data not yet available';
 
     var jgValue = jg != null ? (jg > 0 ? '+' : '') + jg.toFixed(1) + '%' : '—';
-    var jgColor = jg != null ? (jg >= 8 ? 'var(--success,#22a36f)' : jg >= 2 ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
-    var jgSub = jg != null ? (jg >= 8 ? 'Strong 5-yr growth' : jg >= 2 ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
+    var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var jgSub = jg != null ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
 
     container.innerHTML =
       kpiCard('Unemployment Rate', urValue, urSub + ' · BLS LAUS', urColor) +
