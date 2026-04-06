@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-05T23:16:21.512Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T02:12:26.917Z. Do not edit by hand.
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-877 JSON files found.
+881 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -913,10 +913,14 @@
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 1.5 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
+| `data/market/dola_demographics_co.json` | 17.9 KB | ✅ | — |
+| `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
+| `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 289 B | ✅ | — |
-| `data/market/food_access_co.json` | 396 B | ✅ | — |
+| `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
-| `data/market/lodes_co.json` | 242.5 KB | ✅ | — |
+| `data/market/lodes_co.json` | 662.5 KB | ✅ | — |
+| `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
