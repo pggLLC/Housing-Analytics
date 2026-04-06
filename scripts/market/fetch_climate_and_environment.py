@@ -58,11 +58,12 @@ EPA_EJSCREEN_URL = (
     "?namestr=Colorado&areatype=state&areaid=08&f=json"
 )
 
-# EPA EJSCREEN REST API for Colorado tract-level data
-EPA_EJI_URL = (
-    "https://gaftp.epa.gov/EPADataCommons/ORD/EJI/EJI2022/"
-    "EJI_2022_Colorado_CSV.zip"
-)
+# EPA EJI data — try multiple known paths (URLs change periodically)
+EPA_EJI_URLS = [
+    "https://gaftp.epa.gov/EPADataCommons/ORD/EJI/EJI2022/EJI_2022_Colorado_CSV.zip",
+    "https://gaftp.epa.gov/EPADataCommons/ORD/EJI/EJI_2022_Colorado_CSV.zip",
+    "https://gaftp.epa.gov/EPADataCommons/ORD/EJI/EJI2022/EJI_2022_Nationwide_CSV.zip",
+]
 
 # Colorado Parks & Wildlife protected lands
 CPW_PROTECTED_URL = (
@@ -203,8 +204,20 @@ def fetch_eji_data() -> list:
     import zipfile
 
     log("Fetching EPA Environmental Justice Index for Colorado…")
+    raw = None
+    for eji_url in EPA_EJI_URLS:
+        try:
+            raw = fetch_url(eji_url, timeout=180, retries=1)
+            log(f"  EJI download succeeded: {eji_url[:60]}…")
+            break
+        except Exception as exc:
+            log(f"  EJI URL failed ({eji_url[:60]}…): {exc}", level="WARN")
+
+    if not raw:
+        log("  All EJI URLs failed — skipping EJI data", level="WARN")
+        return []
+
     try:
-        raw = fetch_url(EPA_EJI_URL, timeout=180)
         with zipfile.ZipFile(io.BytesIO(raw)) as zf:
             csv_names = [n for n in zf.namelist() if n.endswith(".csv")]
             if not csv_names:
