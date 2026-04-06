@@ -21,14 +21,32 @@
   /** @const {number} Earth radius in miles for haversine calculations */
   var EARTH_RADIUS_MI = 3958.8;
 
-  /** @const {string} CHFA ArcGIS FeatureServer base URL (Tier 3 live fallback) */
+  /** @const {string} CHFA ArcGIS FeatureServer base URL (Tier 3 live fallback).
+   *  Both CHFA and HUD LIHTC services are hosted on the same ArcGIS Online org
+   *  (VTyQ9soqVukalItT — HUD EGIS portal). CHFA publishes its data under the
+   *  /LIHTC/ service name; HUD publishes the broader national database under
+   *  /LIHTC_Properties/.  Tier 3 prefers the CHFA service because it is more
+   *  current for Colorado; Tier 4 falls back to the HUD service.
+   */
   var CHFA_ARCGIS_ENDPOINT = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0';
 
-  /** @const {string} HUD ArcGIS FeatureServer base URL (Tier 4 live fallback) */
+  /** @const {string} HUD ArcGIS FeatureServer base URL (Tier 4 live fallback).
+   *  Resides in the same ArcGIS Online org as CHFA_ARCGIS_ENDPOINT but under
+   *  the /LIHTC_Properties/ service, which is the broader HUD national database.
+   */
   var HUD_ARCGIS_ENDPOINT = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0';
 
   /** @const {number} Fetch timeout for live ArcGIS calls in milliseconds */
   var LIVE_TIMEOUT_MS = 15000;
+
+  /**
+   * WHERE clause used for ArcGIS FeatureServer queries.
+   * Checks all three known representations of the Colorado state identifier
+   * (postal abbreviation, FIPS code string, and full name) because different
+   * service vintages use different encodings.
+   * @const {string}
+   */
+  var ARCGIS_CO_WHERE = "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'";
 
   /**
    * Embedded sentinel — a representative geographic spread of Colorado LIHTC
@@ -165,7 +183,7 @@
    */
   function _tryArcGIS(endpoint, sourceName) {
     var qs = [
-      "where=Proj_St%3D'CO'%20OR%20Proj_St%3D'08'%20OR%20Proj_St%3D'Colorado'",
+      'where=' + encodeURIComponent(ARCGIS_CO_WHERE),
       'outFields=*',
       'f=geojson',
       'outSR=4326',

@@ -111,7 +111,7 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output), 'utf8');
+fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2), 'utf8');
 
 var sizeKb = Math.round(fs.statSync(OUTPUT_PATH).size / 1024);
 console.log('[normalize-lihtc] Wrote ' + normalized.length + ' features → ' + OUTPUT_PATH + ' (' + sizeKb + ' KB)');
