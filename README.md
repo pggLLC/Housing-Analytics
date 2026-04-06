@@ -17,33 +17,41 @@ COHO Analytics is a static web application providing comprehensive data insights
 - **Legislative Tracker** — AHCIA, CRA expansion, housing policy updates
 - **Regional Analysis** — Multifamily trends, CRA footprints, national allocation maps
 
-## Live Pages
+## Live Pages (38 total)
 
 | Page | Description |
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
-| `economic-dashboard.html` | FRED-powered economic indicators dashboard |
+| `economic-dashboard.html` | FRED-powered economic indicators dashboard with housing prediction markets |
 | `lihtc-allocations.html` | LIHTC state allocation maps and data — consolidated from former LIHTC-dashboard + state-allocation-map pages |
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
-| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) |
+| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 271 places, 211 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
-| `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
-| `housing-legislation-2026.html` | 2026 housing legislation tracker |
+| `deal-calculator.html` | LIHTC Feasibility Calculator — 4% vs 9% credit sizing, sources & uses, first mortgage |
+| `select-jurisdiction.html` | Jurisdiction selector — routes to HNA, comparative analysis, or scenario builder |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide jurisdiction needs ranking with scorecard |
+| `hna-scenario-builder.html` | HNA Scenario Builder — what-if modeling for housing policy outcomes |
 | `compliance-dashboard.html` | Prop 123 Compliance Dashboard — jurisdiction commitments map |
 | `chfa-portfolio.html` | CHFA Portfolio — Colorado LIHTC project map and list |
+| `preservation.html` | Affordable housing preservation tracker (NHPD) |
+| `cra-expansion-analysis.html` | CRA expansion analysis and forecast |
+| `housing-legislation-2026.html` | 2026 housing legislation tracker |
+| `colorado-elections.html` | Colorado elections and housing ballot measures |
+| `policy-briefs.html` | Weekly housing policy briefs |
+| `data-status.html` | Live data pipeline status and freshness report |
+| `data-review-hub.html` | Data quality review and validation hub |
 | `insights.html` | Market insights and research articles |
 | `article-pricing.html` | Housing pricing analysis article |
+| `article-co-housing-costs.html` | Colorado housing costs analysis |
+| `colorado-market.html` | Colorado market overview |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics — stakeholder guide for developers, housing authorities, and investors |
 | `lihtc-enhancement-ahcia.html` | LIHTC enhancement and AHCIA data |
-| `colorado-elections.html` | Colorado elections and housing ballot measures |
-| `preservation.html` | Affordable housing preservation tracker (NHPD) |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide county needs ranking |
 | `privacy-policy.html` | Privacy policy |
-| `data-status.html` | Live data pipeline status and freshness report |
 | `sitemap.html` | Site directory |
 | `about.html` | About the project and methodology |
+| `og-card.html` | Open Graph card preview |
 
 ### Archived Pages
 
@@ -61,59 +69,104 @@ The following pages have been moved to `archive/` and are no longer linked in th
 
 ```
 Housing-Analytics/
-├── index.html                   # Entry point
-├── *.html                       # 29 page files
+├── index.html                     # Entry point
+├── *.html                         # 38 page files (see Live Pages above)
 │
-├── css/
-│   ├── site-theme.css           # Design tokens, dark/light mode, typography
-│   ├── layout.css               # Containers, grids, print styles
-│   ├── pages.css                # Shared components (buttons, cards, hero, etc.)
-│   ├── predictions-dashboard.css # Economic dashboard prediction layout
-│   ├── colorado-regional-predictions.css # Colorado regional predictions grid
-│   └── colorado-deep-dive.css   # Colorado deep dive specific styles
+├── css/                           # 16 stylesheets (no build step)
+│   ├── site-theme.css             # Design tokens, dark/light mode, typography
+│   ├── layout.css                 # Containers, grids, print styles
+│   ├── pages.css                  # Shared components (buttons, cards, hero, etc.)
+│   ├── navigation.css             # Header, footer, breadcrumb styles
+│   ├── mobile-nav.css             # Hamburger menu and responsive nav
+│   ├── dark-mode.css              # Dark mode overrides
+│   ├── accessibility.css          # Focus rings, ARIA live regions, skip links
+│   ├── responsive.css             # Breakpoint-specific overrides
+│   ├── print.css                  # Print-optimized styles
+│   ├── spacing.css                # Utility spacing classes
+│   ├── data-dashboard.css         # Data status/quality dashboards
+│   ├── comparative-analysis.css   # HNA comparison layouts
+│   ├── scenario-builder.css       # HNA scenario builder forms
+│   ├── help-modal.css             # Glossary/help modal overlay
+│   ├── predictions-dashboard.css  # Economic dashboard prediction layout
+│   └── colorado-regional-predictions.css # Regional predictions grid
 │
-├── js/
-│   ├── navigation.js            # Header/footer injection + mobile menu styles
-│   ├── dark-mode-toggle.js      # OS-aware dark/light mode with persistence
-│   ├── mobile-menu.js           # Hamburger menu for mobile
-│   ├── config.js                # API configuration (FRED, Census keys)
-│   ├── api-config-wrapper.js    # API key wrapper/guard
-│   ├── contrast-guard.js        # Accessibility contrast checking
-│   ├── citations.js             # Data source citation tooltips
-│   ├── data-service-portable.js # Data fetching utilities (portable, no external deps)
-│   ├── fred-cards.js            # Federal Reserve FRED KPI cards
-│   ├── fred-commodities.js      # Commodity price charts
-│   ├── housing-data-integration.js # Housing market data integration
-│   ├── housing-predictions.js   # National forecasting models (economic dashboard)
-│   ├── colorado-regional-predictions.js # Colorado regional predictions (5 regions, 2025)
-│   ├── census-geo.js            # Census geographic data
-│   ├── co-ami-gap.js            # Colorado AMI gap analysis
-│   ├── state-allocations-2024.js # 2024 IRS allocation data
-│   ├── state-allocations-2025.js # 2025 IRS allocation data
-│   ├── state-allocations-2026.js # 2026 IRS allocation data
-│   ├── trend-analysis.js        # Trend computation utilities
-│   ├── policy-simulator.js      # Policy impact simulator
-│   ├── map-overlay.js           # Map overlay utilities
-│   ├── ui-interactions.js       # UI interaction handlers
-│   └── vendor/                  # Vendored libraries (no CDN dependency)
-│       ├── chart.umd.min.js     # Chart.js v4
-│       ├── d3.v7.min.js         # D3.js v7
-│       ├── topojson.v3.min.js   # TopoJSON v3
-│       ├── leaflet.js           # Leaflet.js maps
-│       └── leaflet.css          # Leaflet map styles
+├── js/                            # 136 JavaScript modules (ES5 IIFEs, no build step)
+│   ├── config/
+│   │   └── financial-constants.js # Centralized COHO_DEFAULTS (credit rates, equity, AMI)
+│   ├── data-connectors/           # External data source adapters
+│   │   ├── hud-fmr.js            # HUD Fair Market Rent / income limits
+│   │   └── hud-egis.js           # QCT/DDA point-in-polygon overlay
+│   ├── hna/                       # Housing Needs Assessment modules
+│   │   ├── hna-controller.js     # HNA page orchestrator
+│   │   ├── hna-renderers.js      # Section renderers + scorecard panel
+│   │   ├── hna-comparison.js     # Comparative ranking engine
+│   │   ├── hna-ranking-index.js  # Statewide jurisdiction ranking
+│   │   ├── hna-export.js         # CSV/PDF export
+│   │   └── hna-market-bridge.js  # HNA ↔ PMA data bridge
+│   ├── market-analysis/           # PMA engine modules
+│   │   ├── market-analysis-controller.js  # Site analysis orchestrator
+│   │   ├── site-selection-score.js        # Multi-dimensional site scoring
+│   │   └── housing-needs-fit-analyzer.js  # HNA gap ↔ concept alignment
+│   ├── data-service-portable.js   # Central data loader (FRED, Census, market data)
+│   ├── market-analysis.js         # PMA scoring engine (5 dimensions, 15 weights)
+│   ├── deal-calculator.js         # LIHTC feasibility calculator (4%/9%, S&U)
+│   ├── lihtc-deal-predictor.js    # Concept recommendation engine
+│   ├── co-lihtc-map.js           # Colorado LIHTC project map (Leaflet)
+│   ├── fetch-helper.js           # Retry + timeout fetch wrapper
+│   └── vendor/                    # Vendored libraries (no CDN dependency)
+│       ├── chart.umd.min.js      # Chart.js v4
+│       ├── d3.v7.min.js          # D3.js v7
+│       ├── topojson.v3.min.js    # TopoJSON v3
+│       └── leaflet.js + .css     # Leaflet.js maps
 │
 ├── data/
-│   ├── allocations.json         # LIHTC allocation data
-│   ├── census-acs-state.json    # ACS state-level data
-│   ├── co_ami_gap_by_county.json # Colorado AMI gap by county
-│   ├── fred-data.json           # Cached FRED economic data
-│   ├── policy/
-│   │   └── prop123_jurisdictions.json # Prop 123 jurisdiction data
-│   └── states-10m.json          # US states TopoJSON
+│   ├── allocations.json           # LIHTC allocation data (all 50 states)
+│   ├── chfa-lihtc.json            # Colorado LIHTC projects (CHFA ArcGIS)
+│   ├── co_ami_gap_by_county.json  # Colorado AMI gap by county (64 counties)
+│   ├── fred-data.json             # Cached FRED economic data
+│   ├── qct-colorado.json          # HUD Qualified Census Tracts (224 features)
+│   ├── dda-colorado.json          # HUD Difficult Development Areas
+│   ├── hud-fmr-income-limits.json # HUD FMR and income limits
+│   ├── manifest.json              # Data pipeline build manifest
+│   ├── hna/                       # Housing Needs Assessment data
+│   │   ├── geo-config.json        # 546 geographies (counties, places, CDPs)
+│   │   ├── ranking-index.json     # Statewide needs ranking
+│   │   ├── local-resources.json   # Housing authorities, nonprofits, plans
+│   │   └── summary/              # Per-jurisdiction JSON profiles (546 files)
+│   ├── market/                    # PMA market data (35 files)
+│   │   ├── lodes_co.json         # LEHD LODES commuting data
+│   │   ├── food_access_co.json   # USDA Food Access Atlas
+│   │   ├── climate_hazards_co.json # NOAA/EPA climate + EJ data
+│   │   ├── utility_capacity_co.geojson # Utility service areas (351 features)
+│   │   ├── environmental_constraints_co.geojson # Protected lands
+│   │   └── ...                    # 30 additional market data files
+│   ├── policy/                    # Policy and compliance data
+│   │   ├── prop123_jurisdictions.json     # Prop 123 commitment status
+│   │   ├── housing-policy-scorecard.json  # 7-dimension policy scorecard
+│   │   ├── soft-funding-status.json       # Local funding programs
+│   │   └── lihtc-assumptions.json         # Deal predictor assumptions
+│   └── states-10m.json           # US states TopoJSON
 │
-└── .github/
-    └── workflows/
-        └── deploy.yml           # Auto-deploy to GitHub Pages
+├── scripts/                       # Data pipeline scripts
+│   ├── hna/                       # HNA data builders
+│   ├── market/                    # Market data fetchers (LODES, NOAA, EPA, DWR, etc.)
+│   ├── policy/                    # Policy data builders (scorecard, prop123)
+│   ├── kalshi/                    # Prediction market data
+│   ├── audit/                     # Playwright site audit
+│   └── validate-schemas.js        # Schema validation (85 checks)
+│
+├── test/                          # Unit + integration tests
+│   ├── unit/                      # Module-level tests
+│   └── smoke-market-analysis.js   # 185 smoke checks
+│
+└── .github/workflows/             # 37 CI/CD workflows
+    ├── deploy.yml                 # GitHub Pages deploy
+    ├── ci-checks.yml              # Schema validation + artifact checks
+    ├── build-hna-data.yml         # HNA data pipeline
+    ├── build-market-data.yml      # Market data pipeline
+    ├── site-audit.yml             # Playwright site audit
+    ├── accessibility.yml          # WCAG contrast/a11y audit
+    └── ...                        # 31 additional data + monitoring workflows
 ```
 
 ## Market Analysis Tool — Phase 2
@@ -154,7 +207,7 @@ node test/smoke-market-analysis.js              # 185 smoke checks
 
 ## CSS Architecture
 
-The site uses a **3-file CSS stack** — no build step required:
+The site uses a **16-file CSS stack** — no build step required. Core files loaded on every page:
 
 ```html
 <link rel="stylesheet" href="css/site-theme.css">   <!-- tokens, dark mode -->
@@ -162,7 +215,7 @@ The site uses a **3-file CSS stack** — no build step required:
 <link rel="stylesheet" href="css/pages.css">         <!-- all shared components -->
 ```
 
-Some pages add a 4th file for page-specific styles (e.g., `predictions-dashboard.css`).
+Additional CSS files are loaded per-page as needed (e.g., `comparative-analysis.css`, `scenario-builder.css`).
 
 ### Design Tokens (in `site-theme.css`)
 
@@ -269,7 +322,7 @@ verified Kalshi series or event tickers for each housing metric.
 1. Fork / push this repo to GitHub
 2. Go to **Settings → Pages**
 3. Source: `Deploy from a branch` → `main` / `/ (root)`
-4. The GitHub Actions workflow (`.github/workflows/deploy.yml`) will auto-deploy on every push to `main`
+4. The GitHub Actions workflows (37 in `.github/workflows/`) handle deploy, data refresh, audits, and monitoring automatically
 
 ### Local Development
 
@@ -291,16 +344,30 @@ Drop the repo into Netlify or Vercel with these settings:
 
 ## Data Sources
 
-All data is sourced from authoritative public sources:
+All data is sourced from authoritative public sources (20+ APIs and datasets):
 
 | Source | Data |
 |--------|------|
 | [IRS LIHTC Database](https://www.irs.gov/credits-deductions/businesses/low-income-housing-tax-credit) | Annual allocation caps and per-capita amounts |
-| [U.S. Census ACS](https://www.census.gov/programs-surveys/acs) | AMI, income, housing cost burden |
+| [U.S. Census ACS](https://www.census.gov/programs-surveys/acs) | AMI, income, housing cost burden, demographics |
+| [Census LEHD/LODES](https://lehd.ces.census.gov/) | Workforce commuting patterns (origin-destination) |
+| [Census TIGERweb](https://tigerweb.geo.census.gov/) | Incorporated place boundaries, CDPs |
 | [Federal Reserve FRED](https://fred.stlouisfed.org/) | Construction costs, CPI, interest rates |
-| [HUD / HUDUSER](https://www.huduser.gov/) | Fair market rents, income limits |
-| [CHFA ArcGIS FeatureServer](https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0) | **Primary** source for Colorado LIHTC project locations (Colorado Housing and Finance Authority) |
-| [CHFA Colorado](https://www.chfainfo.com/) | Colorado-specific LIHTC QAP and allocations |
+| [HUD / HUDUSER](https://www.huduser.gov/) | Fair market rents, income limits, QCT/DDA designations |
+| [HUD eGIS ArcGIS](https://hudgis-hud.opendata.arcgis.com/) | QCT/DDA polygon overlays, PHA locations |
+| [CHFA ArcGIS](https://services.arcgis.com/VTyQ9soqVukalItT/) | **Primary** Colorado LIHTC project locations |
+| [FEMA NFHL](https://www.fema.gov/flood-maps) | Flood zone designations by tract |
+| [EPA EJScreen / EJI](https://ejscreen.epa.gov/) | Environmental justice index, social vulnerability |
+| [EPA Smart Location Database](https://www.epa.gov/smartgrowth/smart-location-mapping) | Transit access, walkability, job accessibility |
+| [USDA Food Access Atlas](https://www.ers.usda.gov/data-products/food-access-research-atlas/) | Food desert designations |
+| [Opportunity Insights](https://opportunityinsights.org/) | Upward mobility metrics by tract |
+| [NOAA CDO](https://www.ncdc.noaa.gov/cdo-web/) | Climate normals, extreme weather stations |
+| [Colorado DWR](https://dwr.state.co.us/) | Water district infrastructure (78 districts) |
+| [Colorado DOLA](https://demography.dola.colorado.gov/) | Population projections, demographic estimates |
+| [Colorado CDLE](https://www.colmigateway.com/) | Job vacancy rates by industry/region |
+| [Colorado CDE](https://www.cde.state.co.us/) | School quality ratings |
+| [CDOT](https://www.codot.gov/) | Traffic connectivity, AADT counts |
+| [NHPD](https://preservationdatabase.org/) | National Housing Preservation Database |
 | [BLS & BEA](https://www.bls.gov/) | Employment, wages, economic indicators |
 
 > **Colorado LIHTC Data Provenance:** For Colorado, the CHFA ArcGIS FeatureServer is queried first for LIHTC project data. If it is unreachable or returns no data, the system automatically falls back to the HUD LIHTC ArcGIS service. The active data source is labeled (Source: CHFA / Source: HUD) on all Colorado LIHTC project listings and popups.
