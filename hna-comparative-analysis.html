@@ -230,11 +230,14 @@
             <th class="hca-th sortable" scope="col" data-metric="pct_renters" tabindex="0" role="columnheader" aria-sort="none">
               % Renters<span class="sort-icon" aria-hidden="true"></span>
             </th>
+            <th class="hca-th sortable" scope="col" data-metric="unemployment_rate" tabindex="0" role="columnheader" aria-sort="none" title="Unemployment rate from BLS LAUS (counties only)">
+              Unemp. Rate<span class="sort-icon" aria-hidden="true"></span>
+            </th>
             <th class="hca-th" scope="col">Full HNA</th>
           </tr>
         </thead>
         <tbody id="hcaTableBody" role="rowgroup">
-          <tr><td colspan="13" class="hca-loading" aria-live="polite">Loading ranking data…</td></tr>
+          <tr><td colspan="14" class="hca-loading" aria-live="polite">Loading ranking data…</td></tr>
         </tbody>
       </table>
     </div>
@@ -248,6 +251,7 @@
       <strong>Housing Commitment</strong> scores are derived from DOLA Proposition 123 filings, local housing authority
       registries, inclusionary zoning ordinance data, local housing trust fund programs, and jurisdiction-level
       housing plans and advocacy organizations.
+      <strong>Unemp. Rate</strong> — BLS LAUS annual average; county-level only (places/CDPs show —).
       Data refreshes automatically each Monday 06:30 UTC via GitHub Actions.
       · <a href="housing-needs-assessment.html">Run individual HNA →</a>
       · <a href="data-status.html">Data freshness →</a>

@@ -967,7 +967,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 <div style="margin-bottom: 1.5rem;">
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-success);">✓ Employment</div>
-<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at 3.7% (4th lowest among 50 largest markets)</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at <span id="cddUnemploymentInline">3.7%</span> (BLS LAUS statewide avg)</div>
 </div>
 <div>
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-warning);">⚠ Normalizing</div>
@@ -1213,8 +1213,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Unemployment Rate</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;">3.7%</div>
-<div style="font-size: 0.875rem; color: var(--color-success);">↓ 4th lowest in nation</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;" id="cddUnemploymentStat">3.7%</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">BLS LAUS — statewide average</div>
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Foreclosure Risk</div>
@@ -1266,7 +1266,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
                 Colorado's affordable housing market is in transition: <strong>historic concessions and high vacancy</strong> reflect severe 2024 oversupply, but <strong>sharply declining new construction</strong> sets stage for 2027 recovery. LIHTC developers benefit from strong per-capita allocations and extensive basis boost opportunities, though must model realistic Class B competition and concession pressure.
             </p>
 <p style="line-height: 1.7; margin: 0; opacity: 0.95;">
-<strong>Key Advantage:</strong> Unemployment among nation's lowest (3.7%) + minimal foreclosure risk + strong job market fundamentals = sustainable long-term demand. Near-term pain from supply glut, medium-term opportunity as market rebalances.
+<strong>Key Advantage:</strong> Unemployment among nation's lowest (<span id="cddUnemploymentBottomLine">3.7%</span>) + minimal foreclosure risk + strong job market fundamentals = sustainable long-term demand. Near-term pain from supply glut, medium-term opportunity as market rebalances.
             </p>
 </div>
 <!-- Sources -->
@@ -2178,4 +2178,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 
 <footer id="site-footer"></footer>
+
+<script>
+// Load BLS unemployment data from co-county-economic-indicators.json and update
+// the three dynamic placeholders on this page.  Falls back to static values if
+// the file is unavailable or all unemployment_rate fields are null.
+(function () {
+  var ECON_URL = (window.DataService && typeof window.DataService.baseData === 'function')
+    ? window.DataService.baseData('co-county-economic-indicators.json')
+    : 'data/co-county-economic-indicators.json';
+
+  var IDS = ['cddUnemploymentInline', 'cddUnemploymentStat', 'cddUnemploymentBottomLine'];
+
+  function setAll(text) {
+    IDS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    });
+  }
+
+  var fetcher = (window.fetchWithTimeout || window.fetch).bind(window);
+  fetcher(ECON_URL)
+    .then(function (r) { return r.ok ? r.json() : Promise.reject('HTTP ' + r.status); })
+    .then(function (data) {
+      if (!data || !data.counties) return;
+      var vals = Object.values(data.counties)
+        .map(function (c) { return c.unemployment_rate; })
+        .filter(function (v) { return v != null && isFinite(v); });
+      if (!vals.length) return;
+      var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
+      setAll(avg.toFixed(1) + '%');
+    })
+    .catch(function () { /* leave static fallback values in place */ });
+}());
+</script>
 </body></html>

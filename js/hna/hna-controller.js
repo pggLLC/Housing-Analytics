@@ -1995,6 +1995,16 @@
     }
     window.HNARenderers.renderChasAffordabilityGap(contextCounty, window.HNAState.state.chasData);
 
+    // BLS Labour Market indicators (loaded once; keyed by county name)
+    if (!window.HNAState.state.blsEconData) {
+      try {
+        window.HNAState.state.blsEconData = await loadJson(window.HNAUtils.PATHS.blsEconIndicators);
+      } catch (_) {
+        window.HNAState.state.blsEconData = null;
+      }
+    }
+    window.HNARenderers.renderBlsLabourMarket(contextCounty, geoType, window.HNAState.state.blsEconData);
+
     // Prop 123 compliance section (uses ACS profile + geoType)
     window.HNARenderers.renderProp123Section(profile, geoType);
 
