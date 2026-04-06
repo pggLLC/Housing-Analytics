@@ -9,7 +9,6 @@ Solution:   Linear interpolation of Oct 2025 between Sept and Nov values.
 
 import json
 import os
-from bisect import insort
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'fred-data.json')
 
