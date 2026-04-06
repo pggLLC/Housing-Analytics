@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T12:55:40.504Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T13:12:15.356Z. Do not edit by hand.
 
 ---
 
@@ -150,7 +150,7 @@
 | `data/hna/dola_sya/08123.json` | 3.5 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 3.1 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
-| `data/hna/geography-registry.json` | 123.7 KB | ✅ | — |
+| `data/hna/geography-registry.json` | 124.0 KB | ✅ | — |
 | `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
@@ -903,7 +903,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 28.5 KB | ✅ | — |
+| `data/manifest.json` | 104.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
