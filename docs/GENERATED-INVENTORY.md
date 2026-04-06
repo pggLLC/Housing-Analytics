@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T13:30:56.308Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T13:48:32.680Z. Do not edit by hand.
 
 ---
 
@@ -1050,7 +1050,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
 | `.github/workflows/ci-checks.yml` | 7.1 KB |
-| `.github/workflows/configure-alerts-feeds.yml` | 5.1 KB |
+| `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
@@ -1075,7 +1075,7 @@
 | `.github/workflows/site-audit.yml` | 1.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 1.0 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 17.8 KB |
 
