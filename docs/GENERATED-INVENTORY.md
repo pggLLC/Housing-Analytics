@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T11:57:46.687Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T12:09:39.980Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | Redirecting… | 447 B |
+| `LIHTC-dashboard.html` | Redirecting… | 730 B |
 | `about.html` | About | COHO Analytics | 15.1 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.2 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.5 KB |
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 128.7 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 950.1 KB | ✅ | — |
+| `data/fred-data.json` | 1.78 MB | ✅ | — |
 | `data/glossary.json` | 8.9 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
