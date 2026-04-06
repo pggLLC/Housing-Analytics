@@ -5,7 +5,8 @@
     "county": 64,
     "place": 302,
     "cdp": 210,
-    "total": 576
+    "total": 576,
+    "places": 303
   },
   "geographies": [
     {
@@ -3153,6 +3154,15 @@
       "name": "Center (town)",
       "type": "place",
       "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812900",
+      "name": "Central (city)",
+      "type": "place",
+      "containingCounty": "08047",
       "hasHnaSummary": false,
       "hasRanking": false,
       "projectionMode": "county_scaled"
