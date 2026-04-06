@@ -63,7 +63,7 @@ jobs:
                    || echo "000")
             local ok="false"
             [[ "${code:0:1}" == "2" || "$code" == "301" || "$code" == "302" ]] && ok="true"
-            echo "  $label: HTTP $code (ok=$ok)"
+            echo "  $label: HTTP $code (ok=$ok)" >&2
             echo "$ok"
           }
           tw=$(probe "TIGERweb" "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer?f=json")

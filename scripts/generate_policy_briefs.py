@@ -155,8 +155,12 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
         with urllib.request.urlopen(req, timeout=30) as resp:
             result = json.loads(resp.read())
         content = result['choices'][0]['message']['content']
-        # Parse JSON from LLM response
-        llm_data = json.loads(content)
+        # Parse JSON from LLM response — strip markdown code fences if present
+        stripped = content.strip()
+        if stripped.startswith('```'):
+            lines = stripped.splitlines()
+            stripped = '\n'.join(lines[1:]).rstrip('`').strip()
+        llm_data = json.loads(stripped)
         sources = list({a.get('source', '') for a in recent if a.get('source')})[:5]
         regions = list({a.get('region', 'Colorado') for a in recent if a.get('region')})
         return {
@@ -196,14 +200,22 @@ def main() -> int:
     sorted_topics = sorted(groups.items(), key=lambda kv: len(kv[1]), reverse=True)
 
     briefs = []
+    llm_used = False
     for topic, topic_alerts in sorted_topics[:BRIEFS_MAX]:
         print(f'  Topic: {topic} ({len(topic_alerts)} alerts)')
         brief = None
         if api_key:
             brief = generate_llm_brief(topic, topic_alerts, api_key)
+            if brief is not None:
+                llm_used = True
         if brief is None:
             brief = build_rule_based_brief(topic, topic_alerts)
         briefs.append(brief)
+
+    if api_key:
+        print(f'  OPENAI_API_KEY present (length={len(api_key)}); LLM mode: {"active" if llm_used else "fell back to rule-based"}')
+    else:
+        print('  OPENAI_API_KEY not set — using rule-based mode')
 
     output = {
         'meta': {
@@ -211,9 +223,10 @@ def main() -> int:
             'brief_count': len(briefs),
             'source_alerts': len(alerts),
             'methodology': (
-                'Policy briefs are generated from aggregated RSS feed alerts. '
-                'LLM-assisted summaries use GPT-4o-mini when OPENAI_API_KEY is set; '
-                'otherwise rule-based summaries are produced from headline aggregation.'
+                'Policy briefs generated using GPT-4o-mini (LLM-assisted mode).'
+                if llm_used else
+                'Policy briefs generated using rule-based headline aggregation. '
+                'Set OPENAI_API_KEY to enable LLM-assisted summaries.'
             ),
         },
         'briefs': briefs,
