@@ -155,11 +155,16 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
         with urllib.request.urlopen(req, timeout=30) as resp:
             result = json.loads(resp.read())
         content = result['choices'][0]['message']['content']
-        # Parse JSON from LLM response — strip markdown code fences if present
+        # Parse JSON from LLM response — strip markdown code fences if present.
+        # GPT models often wrap output in ```json ... ``` blocks.
         stripped = content.strip()
-        if stripped.startswith('```'):
-            lines = stripped.splitlines()
-            stripped = '\n'.join(lines[1:]).rstrip('`').strip()
+        lines = stripped.splitlines()
+        if lines and lines[0].rstrip() in ('```', '```json'):
+            # Remove opening fence line; remove trailing closing fence line if present
+            inner = lines[1:]
+            if inner and inner[-1].strip() == '```':
+                inner = inner[:-1]
+            stripped = '\n'.join(inner).strip()
         llm_data = json.loads(stripped)
         sources = list({a.get('source', '') for a in recent if a.get('source')})[:5]
         regions = list({a.get('region', 'Colorado') for a in recent if a.get('region')})
@@ -213,7 +218,7 @@ def main() -> int:
         briefs.append(brief)
 
     if api_key:
-        print(f'  OPENAI_API_KEY present (length={len(api_key)}); LLM mode: {"active" if llm_used else "fell back to rule-based"}')
+        print(f'  OPENAI_API_KEY present; LLM mode: {"active" if llm_used else "fell back to rule-based"}')
     else:
         print('  OPENAI_API_KEY not set — using rule-based mode')
 
