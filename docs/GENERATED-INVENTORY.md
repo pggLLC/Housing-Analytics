@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T04:44:30.261Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T04:55:10.950Z. Do not edit by hand.
 
 ---
 
@@ -931,7 +931,7 @@
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
-| `data/policy/housing-policy-scorecard.json` | 178.9 KB | ✅ | — |
+| `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
