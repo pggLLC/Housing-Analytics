@@ -93,7 +93,7 @@ def _cache_key(url: str) -> Path:
 
 
 def fetch_url(url: str, retries: int = 3, timeout: int = 90,
-              headers: dict | None = None) -> bytes:
+              headers=None) -> bytes:
     cache_file = _cache_key(url)
     if cache_file.exists():
         age_hours = (time.time() - cache_file.stat().st_mtime) / 3600

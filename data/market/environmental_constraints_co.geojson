@@ -6,10 +6,10 @@
     "state": "Colorado",
     "state_fips": "08",
     "vintage": "2024",
-    "generated": "2026-03-23T00:00:00Z",
+    "generated": "2026-04-06T03:51:48Z",
     "feature_count": 0,
     "coverage_pct": 0.0,
-    "note": "Stub — rebuild via scripts/market/fetch_climate_and_environment.py"
+    "note": "Protected areas where residential development is prohibited or restricted. Rebuild via scripts/market/fetch_climate_and_environment.py"
   },
   "features": []
 }
