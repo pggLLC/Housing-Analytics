@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T02:12:26.917Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T03:32:48.336Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.0 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.8 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 41.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.2 KB |
@@ -38,7 +38,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.5 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 63.0 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 63.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
