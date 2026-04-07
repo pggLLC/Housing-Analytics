@@ -138,6 +138,7 @@
             Eligible Basis %: <strong id="dc-basis-pct-label">80</strong>%
           </span>
           <input id="dc-basis-pct" type="range" min="50" max="130" step="1" value="80"
+            aria-label="Eligible basis percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
         </label>
 
@@ -233,6 +234,7 @@
             Developer Fee Rate: <strong id="dc-devfee-pct-label">15</strong>% of TDC
           </span>
           <input id="dc-devfee-pct" type="range" min="0" max="25" step="0.5" value="15"
+            aria-label="Developer fee rate percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
           <span style="font-size:var(--tiny);color:var(--muted);">
             Typical CHFA range: 12–18% of TDC. Only a portion is includable in eligible basis.
@@ -243,6 +245,7 @@
             Deferred Developer Fee: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
           </span>
           <input id="dc-deferred-pct" type="range" min="0" max="100" step="5" value="40"
+            aria-label="Deferred developer fee percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
           <span style="font-size:var(--tiny);color:var(--muted);">
             Shown as a "soft source" in S&amp;U — this is a deferred developer obligation
@@ -706,6 +709,18 @@
     if (gapAmtEl && tdc > 0) {
       gapAmtEl.style.color = gap > 0 ? 'var(--chart-7)' : 'var(--accent)';
     }
+
+    // Dispatch soft-funding refresh so the breakdown panel updates
+    try {
+      var is4Pct = _creditRate < 0.05;
+      document.dispatchEvent(new CustomEvent('soft-funding:refresh', {
+        detail: {
+          countyFips: _countyFips,
+          executionType: is4Pct ? '4%' : '9%',
+          gapAmount: Math.max(0, gap)
+        }
+      }));
+    } catch (_) {}
   }
 
   // -------------------------------------------------------------------
@@ -905,7 +920,10 @@
       return r.json();
     }).then(function (data) {
       _amiGapData = data;
-    }).catch(function () {});
+    }).catch(function () {
+      console.warn('[deal-calculator] AMI gap data unavailable');
+      if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
+    });
     }
   }
 

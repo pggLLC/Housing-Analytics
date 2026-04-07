@@ -1994,6 +1994,7 @@
       }
     }
     window.HNARenderers.renderChasAffordabilityGap(contextCounty, window.HNAState.state.chasData);
+    window.HNARenderers.renderGapCoverageStats(contextCounty, window.HNAState.state.chasData);
 
     // BLS Labour Market indicators (loaded once; keyed by county name)
     if (!window.HNAState.state.blsEconData) {

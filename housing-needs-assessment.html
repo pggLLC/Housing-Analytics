@@ -44,6 +44,8 @@
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="js/site-state.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
@@ -65,6 +67,7 @@
   <script defer src="js/components/export-panel.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
@@ -171,6 +174,37 @@
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS GRAPI bins</div></div>
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801</div></div>
+        </div>
+        <!-- Affordability Gap Coverage — named metric from CHAS data -->
+        <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
+            <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
+            <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Estimated renter households with unmet affordable housing need, by income tier. Source: HUD CHAS + ACS cost burden data.</p>
+          <div class="stats" aria-label="Affordability gap indicators">
+            <div class="stat">
+              <div class="k">Gap: 30% AMI</div>
+              <div class="v" id="statGap30">—</div>
+              <div class="s">Extremely low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Gap: 50% AMI</div>
+              <div class="v" id="statGap50">—</div>
+              <div class="s">Very low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Gap: 60% AMI</div>
+              <div class="v" id="statGap60">—</div>
+              <div class="s">Low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Total Undersupply</div>
+              <div class="v" id="statGapTotal">—</div>
+              <div class="s">Combined affordable unit gap</div>
+            </div>
+          </div>
+          <div id="hnaGapCoverageBar" style="margin-top:.5rem;"></div>
         </div>
       </div>
 
@@ -1332,16 +1366,16 @@
 <script>
   CohoHelp.init({
     title: 'How to Use the Housing Needs Assessment',
-    description: 'This tool helps you quantify housing needs for any Colorado county or municipality using public data sources (Census ACS, DOLA, LEHD, and HUD).',
+    description: 'This tool helps you quantify housing needs for any Colorado county or incorporated place using public data sources (Census ACS, DOLA, LEHD, and HUD).',
     steps: [
-      { label: 'Select a geography', desc: 'Choose a county or municipality from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
+      { label: 'Select a geography', desc: 'Choose a county or incorporated place from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
       { label: 'Review demographic data', desc: 'Explore the population trends, age distribution, household formation rates, and income breakdowns to understand who needs housing.' },
       { label: 'Examine housing supply & affordability', desc: 'Review the AMI gap analysis, cost-burden rates (households spending >30% or >50% of income on housing), and existing stock by tenure.' },
       { label: 'Analyze economic indicators', desc: 'Check employment trends, wage levels, and job growth — these drive future housing demand projections.' },
       { label: 'Export your summary', desc: 'Use the PDF, CSV, or JSON export buttons to download data for use in LIHTC applications, grant proposals, or planning documents.' },
     ],
     tips: [
-      'Start with a county before drilling into a municipality — county data is more complete.',
+      'Start with a county before drilling into an incorporated place — county data is more complete.',
       'The CHAS affordability gap chart shows how many households are cost-burdened at each income tier.',
       'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
     ]
