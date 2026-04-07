@@ -190,11 +190,11 @@ class Config:
 
     # BLS PPI series IDs for construction inputs
     BLS_PPI_SERIES: Dict[str, str] = {
-        "WPUFD4": "Softwood Lumber",
-        "PCU236115236115": "New Single-Family Construction",
-        "PCU331111331111": "Iron & Steel Mills",
-        "PCU3313153313153": "Aluminium Sheet/Plate/Foil",
-        "PCU32731327313": "Concrete Products",
+        "WPUFD4111": "Construction Materials (Nonresidential Building)",
+        "PCU236200236200": "Nonresidential Building Construction",
+        "PCU331110331110": "Iron & Steel Mills",
+        "PCU331315331315": "Aluminium Sheet/Plate/Foil",
+        "PCU327310327310": "Ready-Mix Concrete",
     }
 
     # BLS QCEW county-level construction wages (NAICS 23)
@@ -1352,11 +1352,11 @@ Counties below the minimum transaction threshold are excluded.
 | `value` | PPI index value |
 
 Series fetched:
-- `WPUFD4` — Softwood Lumber
-- `PCU236115236115` — New Single-Family Construction
-- `PCU331111331111` — Iron & Steel Mills
-- `PCU3313153313153` — Aluminium Sheet/Plate/Foil
-- `PCU32731327313` — Concrete Products
+- `WPUFD4111` — Construction Materials (Nonresidential Building)
+- `PCU236200236200` — Nonresidential Building Construction
+- `PCU331110331110` — Iron & Steel Mills
+- `PCU331315331315` — Aluminium Sheet/Plate/Foil
+- `PCU327310327310` — Ready-Mix Concrete
 
 ---
 

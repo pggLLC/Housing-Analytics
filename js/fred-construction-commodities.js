@@ -9,11 +9,11 @@ class FREDCommodityPrices {
         // FRED Series IDs for Construction Materials
         this.series = {
             // Producer Price Index - Construction Materials
-            'ppi_steel': 'PCU331111331111',           // Steel Mill Products
+            'ppi_steel': 'PCU331110331110',           // Iron and Steel Mills
             'ppi_lumber': 'PCU32121132121103',        // Lumber and Wood Products
-            'ppi_concrete': 'PCU32731327313',         // Concrete Products
+            'ppi_concrete': 'PCU327310327310',        // Ready-Mix Concrete
             'ppi_copper': 'PCU33142033142012',        // Copper Wire & Cable
-            'ppi_aluminum': 'PCU3313153313153',       // Aluminum Sheet/Plate/Foil
+            'ppi_aluminum': 'PCU331315331315',        // Aluminum Sheet/Plate/Foil
             'ppi_gypsum': 'PCU32742032742012',        // Gypsum Products
             'ppi_asphalt': 'PCU32412132412121',       // Asphalt Paving
             'ppi_insulation': 'PCU32721432721412',    // Insulation Materials

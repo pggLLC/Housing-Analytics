@@ -8,8 +8,8 @@ const FREDCommodities = {
     
     series: {
         steelMillProducts: {
-            id: 'PCU331111331111',
-            name: 'Steel Mill Products PPI',
+            id: 'PCU331110331110',
+            name: 'Iron and Steel Mills PPI',
             category: 'Steel & Metal',
             impact: 'Structural framing, rebar',
             share: '12-15%'
@@ -36,8 +36,8 @@ const FREDCommodities = {
             share: '5-7%'
         },
         aluminumProducts: {
-            id: 'PCU3313153313153',
-            name: 'Aluminum Products PPI',
+            id: 'PCU331315331315',
+            name: 'Aluminum Sheet, Plate, and Foil PPI',
             category: 'Steel & Metal',
             impact: 'Windows, doors, cladding',
             share: '8-12%'
@@ -64,8 +64,8 @@ const FREDCommodities = {
             share: '5-8%'
         },
         concreteProducts: {
-            id: 'PCU32731327313',
-            name: 'Concrete Products PPI',
+            id: 'PCU327310327310',
+            name: 'Ready-Mix Concrete PPI',
             category: 'Concrete & Masonry',
             impact: 'Foundation, structural',
             share: '10-15%'
