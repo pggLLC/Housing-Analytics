@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-07T13:28:39.906Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-07T16:00:40.634Z. Do not edit by hand.
 
 ---
 
@@ -1039,7 +1039,7 @@
 
 ## GitHub Actions Workflows
 
-37 workflow files found.
+38 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1069,6 +1069,7 @@
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
 | `.github/workflows/generate-market-analysis-data.yml` | 10.7 KB |
 | `.github/workflows/market_data_build.yml` | 12.2 KB |
