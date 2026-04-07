@@ -89467,12 +89467,12 @@
         }
       ]
     },
-    "WPUFD4": {
-      "name": "PPI: Construction materials",
+    "WPUFD4111": {
+      "name": "PPI: Construction materials (nonresidential building)",
       "observations": []
     },
-    "PCU236115236115": {
-      "name": "PPI: New multifamily construction",
+    "PCU236200236200": {
+      "name": "PPI: Nonresidential building construction",
       "observations": []
     },
     "ECIALLCIV": {
@@ -91243,16 +91243,16 @@
         }
       ]
     },
-    "PCU331111331111": {
+    "PCU331110331110": {
       "name": "PPI: Iron and Steel Mills",
       "observations": []
     },
-    "PCU3313153313153": {
-      "name": "PPI: Aluminum",
+    "PCU331315331315": {
+      "name": "PPI: Aluminum Sheet, Plate, and Foil",
       "observations": []
     },
-    "PCU32731327313": {
-      "name": "PPI: Cement and Concrete Product Manufacturing",
+    "PCU327310327310": {
+      "name": "PPI: Ready-Mix Concrete Manufacturing",
       "observations": []
     },
     "WPU0811": {
@@ -93615,8 +93615,8 @@
         }
       ]
     },
-    "COUR08000000000000006": {
-      "name": "CO Unemployment Rate (BLS)",
+    "LAUST080000000000003": {
+      "name": "CO Unemployment Rate (BLS LAUS, SA)",
       "observations": []
     },
     "COCONS": {
@@ -94253,16 +94253,16 @@
         }
       ]
     },
-    "MEHOUCO": {
-      "name": "CO Median Household Income",
+    "MEHOINUSCOA646N": {
+      "name": "CO Real Median Household Income",
       "observations": []
     },
-    "COAHOMIDX": {
-      "name": "CO Home Price Index (FHFA)",
+    "ATNHPIUS08": {
+      "name": "CO All-Transactions House Price Index (FHFA)",
       "observations": []
     },
-    "COBP": {
-      "name": "CO Building Permits",
+    "COBPPRIV": {
+      "name": "CO Building Permits (Private Housing)",
       "observations": []
     }
   }

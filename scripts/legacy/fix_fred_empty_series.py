@@ -17,77 +17,81 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'fred-data.jso
 # Anchor values at 2026-01-01 and monthly growth rates based on BLS data
 # Index base: Dec 2009=100 for WPUFD4; Dec 2003=100 for PCU series
 ANCHOR_CONFIGS = {
-    'WPUFD4': {
-        # PPI: Final Demand Construction
-        # Anchor aligned with WPUFD49207 (nearby series) ~262 in Jan 2026
+    # NOTE: Series IDs were corrected in April 2026. Old IDs (WPUFD4,
+    # PCU236115236115, PCU331111331111, PCU3313153313153, PCU32731327313,
+    # COUR08000000000000006, MEHOUCO, COAHOMIDX, COBP) were invalid or
+    # retired. This legacy script should no longer be needed since the
+    # fetch workflow now uses correct IDs.
+    'WPUFD4111': {
+        # PPI: Final Demand Construction (nonresidential building)
         'anchor_date': '2026-01-01',
         'anchor_value': 128.4,
         'monthly_rate': 0.0022,  # ~2.7% annual
         'backfill_months': 24,
     },
-    'PCU236115236115': {
-        # PPI: New Multifamily Construction — elevated post-pandemic
+    'PCU236200236200': {
+        # PPI: Nonresidential Building Construction
         'anchor_date': '2026-01-01',
         'anchor_value': 178.6,
         'monthly_rate': 0.0025,  # ~3.0% annual
         'backfill_months': 24,
     },
-    'PCU331111331111': {
+    'PCU331110331110': {
         # PPI: Iron and Steel Mills — cyclical; elevated then correcting
         'anchor_date': '2026-01-01',
         'anchor_value': 133.2,
         'monthly_rate': -0.0015,  # slight downtrend
         'backfill_months': 24,
     },
-    'PCU3313153313153': {
+    'PCU331315331315': {
         # PPI: Aluminum Sheet, Plate, and Foil
         'anchor_date': '2026-01-01',
         'anchor_value': 118.7,
         'monthly_rate': 0.0018,  # ~2.2% annual
         'backfill_months': 24,
     },
-    'PCU32731327313': {
-        # PPI: Cement and Concrete — steady upward trend
+    'PCU327310327310': {
+        # PPI: Ready-Mix Concrete Manufacturing
         'anchor_date': '2026-01-01',
         'anchor_value': 167.9,
         'monthly_rate': 0.0030,  # ~3.6% annual
         'backfill_months': 24,
     },
-    'COUR08000000000000006': {
-        # CO Unemployment Rate (BLS LAUS via FRED) — percentage, not an index
+    'LAUST080000000000003': {
+        # CO Unemployment Rate (BLS LAUS, SA via FRED) — percentage, not an index
         # Anchor: ~3.5% in Jan 2026; slight upward drift from post-pandemic lows
         'anchor_date': '2026-01-01',
         'anchor_value': 3.5,
         'monthly_rate': 0.0010,  # very slow drift
         'backfill_months': 24,
-        'name': 'CO Unemployment Rate (BLS)',
+        'name': 'CO Unemployment Rate (BLS LAUS, SA)',
     },
-    'MEHOUCO': {
-        # CO Median Household Income (ACS 1-yr via FRED) — annual release
+    'MEHOINUSCOA646N': {
+        # CO Real Median Household Income (ACS 1-yr via FRED) — annual release
         # Anchor: ~$90,000 in 2025; moderate growth trend
         'anchor_date': '2026-01-01',
         'anchor_value': 90000.0,
         'monthly_rate': 0.0025,  # ~3.0% annual
         'backfill_months': 24,
-        'name': 'CO Median Household Income',
+        'name': 'CO Real Median Household Income',
     },
-    'COAHOMIDX': {
-        # CO Home Price Index (FHFA purchase-only, seasonally adjusted)
+    'ATNHPIUS08': {
+        # CO All-Transactions House Price Index (FHFA, quarterly)
         # Anchor: ~315 in Jan 2026; moderate appreciation trend
         'anchor_date': '2026-01-01',
         'anchor_value': 315.0,
         'monthly_rate': 0.0028,  # ~3.4% annual
         'backfill_months': 24,
-        'name': 'CO Home Price Index (FHFA)',
+        'name': 'CO All-Transactions House Price Index (FHFA)',
     },
-    'COBP': {
-        # CO Building Permits (monthly units authorized)
+    'COBPPRIV': {
+        # CO Building Permits, Private Housing (monthly units authorized)
         # Anchor: ~2100 in Jan 2026; slight seasonal/cyclical drift
         'anchor_date': '2026-01-01',
         'anchor_value': 2100.0,
         'monthly_rate': 0.0005,  # nearly flat
         'backfill_months': 24,
-        'name': 'CO Building Permits',
+        'name': 'CO Building Permits (Private Housing)',
     },
 }
 
