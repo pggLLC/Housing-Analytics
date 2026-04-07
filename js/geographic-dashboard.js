@@ -148,6 +148,7 @@
     }
 
     var map = L.map(mapId, { zoomControl: true }).setView([39.0, -105.5], 6);
+    if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.0, -105.5], zoom: 6 }); }
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',

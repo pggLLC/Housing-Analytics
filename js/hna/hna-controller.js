@@ -326,6 +326,7 @@
     }
 
     window.HNAState.map = L.map('hnaMap', { scrollWheelZoom: false });
+    if (window.addMapHomeButton) { addMapHomeButton(window.HNAState.map, { center: [39.0, -105.5], zoom: 7 }); }
 
     // --- Basemap tile providers ---
     const HNA_BASE_SESSION_KEY = 'hna-basemap';
