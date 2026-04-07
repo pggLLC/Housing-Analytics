@@ -170,7 +170,8 @@
     ],
     market: [
       { label: 'Download PMA Report (PDF)', icon: '\uD83D\uDCC4', primary: true,  action: 'pdf' },
-      { label: 'Export Score Data (CSV)',   icon: '\uD83D\uDCCA', primary: false, action: 'csv' }
+      { label: 'Export Score Data (CSV)',   icon: '\uD83D\uDCCA', primary: false, action: 'csv' },
+      { label: 'Export Market Data (JSON)', icon: '\uD83D\uDCBE', primary: false, action: 'json' }
     ],
     scenario: [
       { label: 'Download Scenario Report (PDF)', icon: '\uD83D\uDCC4', primary: true,  action: 'pdf'  },
@@ -179,6 +180,7 @@
     ],
     deal: [
       { label: 'Download Pro Forma (PDF)',   icon: '\uD83D\uDCC4', primary: true,  action: 'pdf'  },
+      { label: 'Export Capital Stack (CSV)', icon: '\uD83D\uDCCA', primary: false, action: 'csv'  },
       { label: 'Export Deal Model (JSON)',   icon: '\uD83D\uDCBE', primary: false, action: 'json' }
     ],
     full: [

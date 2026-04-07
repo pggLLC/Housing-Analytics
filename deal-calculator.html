@@ -26,13 +26,19 @@
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="5" data-step-label="deal_calculator"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
   <script src="js/site-state.js"></script>
   <!-- Deferred: navigation and UI -->
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
   <!-- Centralized financial constants (must load before deal-calculator.js) -->
   <script defer src="js/config/financial-constants.js"></script>
+  <!-- Live market rates from FRED (updates deal calc inputs with current rates) -->
+  <script defer src="js/config/live-market-rates.js"></script>
   <!-- Deferred: HUD FMR data connector (provides window.HudFmr for AMI rent limits) -->
   <script defer src="js/data-connectors/hud-fmr.js"></script>
   <!-- Deferred: LIHTC deal predictor + enhanced predictor -->
@@ -41,6 +47,16 @@
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
   <script defer src="js/deal-comparison.js"></script>
+  <script defer src="js/housing-outcome-score.js"></script>
+  <script defer src="js/components/hos-renderer.js"></script>
+  <script defer src="js/components/tornado-sensitivity.js"></script>
+  <script defer src="js/soft-funding-tracker.js"></script>
+  <script defer src="js/components/soft-funding-breakdown.js"></script>
+  <script defer src="js/forecasting.js"></script>
+  <script defer src="js/components/equity-forecast-panel.js"></script>
+  <script defer src="js/chfa-award-predictor.js"></script>
+  <script defer src="js/components/qap-competitiveness-panel.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
 </head>
 <body data-page-last-updated="2026-04-01"
       data-page-source="HUD FMR · CHFA · IRC §42">
@@ -117,6 +133,37 @@
       </div>
       <div id="dcComparisonBar"></div>
       <div id="dcComparisonPanel" style="display:none;"></div>
+    </div>
+
+    <!-- ── Scenario Sensitivity (Tornado Chart) ────────────────────────── -->
+    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" aria-labelledby="tornadoHeading">
+        <h2 id="tornadoHeading" style="margin:0 0 4px;font-size:1.1rem;">Scenario Sensitivity</h2>
+        <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
+          How key assumptions shift your deal outcome. Bars show the range of variation for equity proceeds, demand signal, and market saturation.
+        </p>
+        <div id="tornadoChartMount"></div>
+      </section>
+    </div>
+
+    <!-- ── Housing Outcome Score ─────────────────────────────────────── -->
+    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <h2 id="hosHeading" style="margin:0;font-size:1.1rem;">Housing Outcome Score</h2>
+          <span id="hosConfidenceBadge" class="data-reliability-badge">—</span>
+        </div>
+        <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .75rem;">
+          Composite metric integrating need coverage, policy alignment, financial feasibility, and site quality across your full workflow.
+        </p>
+        <div id="hosScoreDisplay" style="text-align:center;padding:1rem 0;">
+          <div style="font-size:2.5rem;font-weight:800;line-height:1;" id="hosScoreValue">—</div>
+          <div style="font-size:.85rem;font-weight:700;margin-top:4px;" id="hosGrade">—</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:2px;" id="hosDataComplete">—</div>
+        </div>
+        <div id="hosDimensions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;"></div>
+        <p id="hosSummary" style="font-size:.82rem;color:var(--muted);margin-top:.75rem;line-height:1.5;"></p>
+      </section>
     </div>
 
     <!-- LIHTC contextual tips (Deal Calculator step) -->
