@@ -313,12 +313,13 @@
    * ───────────────────────────────────────────────────────────────────────── */
 
   function renderCountyResults(matches) {
-    el.countyResults.innerHTML = '';
     if (!matches || matches.length === 0) {
+      el.countyResults.innerHTML = '';
       el.countyResults.hidden = true;
       el.countySearch.setAttribute('aria-expanded', 'false');
       return;
     }
+    var frag = document.createDocumentFragment();
     for (var i = 0; i < matches.length; i++) {
       (function (county, idx) {
         var li = document.createElement('li');
@@ -335,9 +336,11 @@
           e.preventDefault(); // prevent input blur before click registers
           selectCounty(county);
         });
-        el.countyResults.appendChild(li);
+        frag.appendChild(li);
       }(matches[i], i));
     }
+    el.countyResults.innerHTML = '';
+    el.countyResults.appendChild(frag);
     state.countyFocusIdx = -1;
     el.countyResults.hidden = false;
     el.countySearch.setAttribute('aria-expanded', 'true');
@@ -441,12 +444,13 @@
   }
 
   function renderCityResults(items) {
-    el.cityResults.innerHTML = '';
     if (!items || items.length === 0) {
+      el.cityResults.innerHTML = '';
       el.cityResults.hidden = true;
       el.citySearch.setAttribute('aria-expanded', 'false');
       return;
     }
+    var frag = document.createDocumentFragment();
     for (var i = 0; i < items.length; i++) {
       (function (cityName, idx) {
         var li = document.createElement('li');
@@ -457,9 +461,11 @@
           e.preventDefault();
           selectCity(cityName);
         });
-        el.cityResults.appendChild(li);
+        frag.appendChild(li);
       }(items[i], i));
     }
+    el.cityResults.innerHTML = '';
+    el.cityResults.appendChild(frag);
     state.cityFocusIdx = -1;
     el.cityResults.hidden = false;
     el.citySearch.setAttribute('aria-expanded', 'true');

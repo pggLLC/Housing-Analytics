@@ -58,6 +58,7 @@
       label: "Insights",
       items: [
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
+        { label: "Policy Briefs",         href: "policy-briefs.html",             desc: "Housing policy analysis & briefs" },
         { label: "LIHTC Guide",           href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics for all audiences" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
@@ -247,6 +248,7 @@
           <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
           <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
           <a href="${normalizeHref('insights.html')}">Market Insights</a>
+          <a href="${normalizeHref('policy-briefs.html')}">Policy Briefs</a>
         </div>
         <div class="footer-disclaimer">
           <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
