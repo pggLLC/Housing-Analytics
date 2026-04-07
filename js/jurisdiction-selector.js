@@ -647,6 +647,18 @@
         if (cityName) {
           payload.type        = 'city';
           payload.displayName = cityName;
+          // Look up geoid from geo-config for reliable HNA matching
+          if (state.geoConfig) {
+            var allP = (state.geoConfig.places || []).concat(state.geoConfig.cdps || []);
+            var stripSuffix = function (s) { return s.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase(); };
+            var target = stripSuffix(cityName);
+            for (var i = 0; i < allP.length; i++) {
+              if (stripSuffix(allP[i].label) === target) {
+                payload.placeGeoid = allP[i].geoid;
+                break;
+              }
+            }
+          }
         } else {
           payload.type = 'county';
         }

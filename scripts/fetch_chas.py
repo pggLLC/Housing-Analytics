@@ -41,7 +41,10 @@ CHAS_STATE_URL_FALLBACK = (
 )
 COLORADO_FIPS = '08'
 VINTAGE = '2017-2021'
-TIMEOUT = 120
+TIMEOUT = 300  # 234 MB download needs more time
+
+# Local cache so re-runs don't re-download 234 MB
+CACHE_PATH = os.path.join(REPO_ROOT, '.cache', 'chas_140_csv.zip')
 
 # CHAS Table 1 (2016-2020) column mapping for renter households by AMI × cost burden.
 # Source: HUD CHAS 2016-2020 data dictionary (Table 1, renter section).
@@ -154,6 +157,64 @@ def _int(value: str) -> int:
         return 0
 
 
+def _extract_fips_from_geoid(geoid: str) -> str:
+    """Extract the raw numeric FIPS from a CHAS geoid string.
+
+    CHAS geoid formats across vintages:
+      - '14000US08001012345'  (prefixed with summary-level + 'US')
+      - '08001012345'          (raw 11-digit tract FIPS)
+    Returns the numeric portion (e.g. '08001012345') or '' on failure.
+    """
+    geoid = str(geoid).strip()
+    # Strip any prefix like '14000US', '05000US', etc.
+    if 'US' in geoid:
+        geoid = geoid.split('US', 1)[1]
+    # Remove any remaining non-digit characters
+    digits = ''.join(c for c in geoid if c.isdigit())
+    return digits
+
+
+def build_county_fips(row: dict) -> str:
+    """Derive 5-digit county FIPS from a CHAS CSV row (Rule 1).
+
+    Tries multiple strategies:
+    1. 'st' + 'cnty' fields (some vintages have these)
+    2. geoid field (prefixed or raw) — extract first 5 digits of the numeric FIPS
+    """
+    # Strategy 1: separate st/cnty fields
+    st_raw   = row.get('st', row.get('state', row.get('stfips', '')))
+    cnty_raw = row.get('cnty', row.get('county', row.get('cntyfips', '')))
+    if st_raw and cnty_raw:
+        st   = str(st_raw).strip().zfill(2)
+        cnty = str(cnty_raw).strip().zfill(3)
+        if st == COLORADO_FIPS and len(cnty) == 3 and cnty.isdigit():
+            return st + cnty
+
+    # Strategy 2: extract from geoid (handles '14000US08001012345' format)
+    geoid = str(row.get('geoid', ''))
+    digits = _extract_fips_from_geoid(geoid)
+    if len(digits) >= 5 and digits[:2] == COLORADO_FIPS:
+        return digits[:5]
+
+    return ''
+
+
+def _is_colorado_row(row: dict) -> bool:
+    """Check if a CHAS CSV row belongs to Colorado using multiple strategies."""
+    # Strategy 1: direct state field
+    state_val = (row.get('st') or row.get('state') or
+                 row.get('stfips') or row.get('stateId') or '')
+    if state_val:
+        if str(state_val).strip().zfill(2) == COLORADO_FIPS:
+            return True
+    # Strategy 2: check geoid for Colorado prefix
+    geoid = str(row.get('geoid', ''))
+    digits = _extract_fips_from_geoid(geoid)
+    if len(digits) >= 2 and digits[:2] == COLORADO_FIPS:
+        return True
+    return False
+
+
 def extract_table1_records(zf: zipfile.ZipFile) -> list:
     """Return all rows from Table1.csv (or equivalent) in the CHAS ZIP.
 
@@ -162,12 +223,13 @@ def extract_table1_records(zf: zipfile.ZipFile) -> list:
     - Case variations (Table1, TABLE1, table1)
     - Vintage differences in state-field naming (st / state / stateId / stfips)
     """
-    names = zf.namelist()
-    # Primary: any CSV whose basename (not full path) contains 'table1'
     import posixpath
+    names = zf.namelist()
+
     def _norm(s):
         return s.lower().replace(' ', '').replace('-', '').replace('_', '')
 
+    # Primary: any CSV whose basename (not full path) contains 'table1'
     candidates = [n for n in names
                   if n.lower().endswith('.csv')
                   and 'table1' in _norm(posixpath.basename(n))]
@@ -183,31 +245,25 @@ def extract_table1_records(zf: zipfile.ZipFile) -> list:
     for csv_name in candidates[:1]:   # only Table 1
         print(f'  Reading CHAS CSV: {csv_name}')
         with zf.open(csv_name) as cf:
-            reader = csv.DictReader(io.TextIOWrapper(cf, encoding='utf-8-sig'))
+            reader = csv.DictReader(io.TextIOWrapper(cf, encoding='latin-1'))
+            # Log first row's keys to aid debugging column-name issues
+            peek = next(reader, None)
+            if peek is None:
+                print(f'  ⚠ CSV {csv_name} is empty', file=sys.stderr)
+                continue
+            print(f'  CSV columns (first 15): {list(peek.keys())[:15]}')
+            # Check if this first row is Colorado
+            if _is_colorado_row(peek):
+                records.append(dict(peek))
             for row in reader:
-                # Try multiple state-field names across vintages
-                state_val = (row.get('st') or row.get('state') or
-                             row.get('stfips') or row.get('stateId') or '')
-                if str(state_val).zfill(2) == COLORADO_FIPS:
+                if _is_colorado_row(row):
                     records.append(dict(row))
     if not records:
         print(f'  ⚠ No Colorado rows found in {candidates[:1]} '
               f'(files in ZIP: {names[:10]})', file=sys.stderr)
+    else:
+        print(f'  Found {len(records)} Colorado tract rows')
     return records
-
-
-def build_county_fips(row: dict) -> str:
-    """Derive 5-digit county FIPS from a CHAS CSV row (Rule 1)."""
-    # CHAS rows include 'st' (state, 2-digit) and 'cnty' (county, 3-digit) fields.
-    st   = str(row.get('st',   '')).zfill(2)
-    cnty = str(row.get('cnty', '')).zfill(3)
-    if st == COLORADO_FIPS and len(cnty) == 3:
-        return st + cnty
-    # Fallback: geoid may contain the full 11-digit tract FIPS; first 5 digits are county.
-    geoid = str(row.get('geoid', ''))
-    if len(geoid) >= 5:
-        return geoid[:5]
-    return ''
 
 
 def aggregate_to_counties(records: list) -> dict:
@@ -388,41 +444,66 @@ def load_existing_gap(path: str) -> dict:
         return {}
 
 
-def main() -> int:
-    print('Fetching HUD CHAS data for Colorado…')
+def _download_or_cache() -> bytes:
+    """Download the CHAS ZIP or return a cached copy."""
+    # Check cache first
+    if os.path.isfile(CACHE_PATH):
+        print(f'  Using cached ZIP: {CACHE_PATH}')
+        with open(CACHE_PATH, 'rb') as f:
+            return f.read()
+
     raw = None
     for url in (CHAS_STATE_URL, CHAS_STATE_URL_FALLBACK):
         try:
             print(f'  Trying {url}')
-            raw = http_get(url)
+            raw = http_get(url, timeout=TIMEOUT)
             print(f'  ✓ Downloaded {len(raw):,} bytes')
             break
         except Exception as exc:
             print(f'  ✗ {exc}', file=sys.stderr)
+    if raw:
+        os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+        with open(CACHE_PATH, 'wb') as f:
+            f.write(raw)
+        print(f'  Cached to {CACHE_PATH}')
+    return raw
+
+
+def main() -> int:
+    print('Fetching HUD CHAS data for Colorado…')
+    raw = _download_or_cache()
     if not raw:
         print('✗ All CHAS download URLs failed.', file=sys.stderr)
         return 1
+
     records = []
     try:
         with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            print(f'  ZIP contents ({len(zf.namelist())} files): {zf.namelist()[:10]}')
             records = extract_table1_records(zf)
-            # Also collect all Colorado CSV rows for the raw output file
-            all_co_records = records[:]
-            table1_files = set(n for n in zf.namelist() if 'table1' in n.lower())
-            other_tables = [n for n in zf.namelist() if n.endswith('.csv')
-                            and 'Table' in n and n not in table1_files]
-            for csv_name in other_tables[:2]:
-                with zf.open(csv_name) as cf:
-                    reader = csv.DictReader(io.TextIOWrapper(cf, encoding='utf-8-sig'))
-                    for row in reader:
-                        if str(row.get('st', '')).zfill(2) == COLORADO_FIPS:
-                            all_co_records.append(dict(row))
     except Exception as exc:
         print(f'⚠ Could not parse CHAS ZIP: {exc}', file=sys.stderr)
-        all_co_records = records
+        return 1
 
-    # ── Write raw Colorado CHAS data ───────────────────────────────────────
+    if not records:
+        print('✗ No Colorado tract records found in CHAS Table 1.', file=sys.stderr)
+        return 1
+
+    # ── Aggregate tracts to counties ──────────────────────────────────────
     generated = utc_now()
+    county_map = aggregate_to_counties(records)
+
+    if not county_map:
+        print('✗ Aggregation produced 0 counties (column mismatch?).', file=sys.stderr)
+        return 1
+
+    print(f'  Aggregated {len(records)} tracts into {len(county_map)} counties')
+
+    # ── Write county-level chas_co.json ───────────────────────────────────
+    county_records = []
+    for fips5 in sorted(county_map):
+        county_records.append(finalize_county_record(fips5, county_map[fips5]))
+
     raw_output = {
         'meta': {
             'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy)',
@@ -431,38 +512,27 @@ def main() -> int:
             'state_fips': COLORADO_FIPS,
             'vintage': VINTAGE,
             'generated': generated,
-            'record_count': len(all_co_records),
+            'record_count': len(county_records),
+            'note': 'County-level aggregation of tract-level CHAS Table 1 data. '
+                    'Rebuild via scripts/fetch_chas.py',
         },
-        'records': all_co_records,
+        'records': county_records,
     }
     os.makedirs(os.path.dirname(OUT_FILE), exist_ok=True)
     with open(OUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(raw_output, f)
-    print(f'✓ Wrote {len(all_co_records)} CHAS records to {OUT_FILE}')
+        json.dump(raw_output, f, ensure_ascii=False)
+    print(f'✓ Wrote {len(county_records)} county records to {OUT_FILE}')
 
     # ── Build and write county-level affordability gap summary ─────────────
     existing_gap = load_existing_gap(GAP_FILE)
-    county_map = aggregate_to_counties(records)
-
-    if county_map:
-        gap_output = build_gap_output(county_map, generated)
-        # Preserve stub counties that are missing from CHAS data
-        existing_counties = existing_gap.get('counties', {})
-        for fips5 in existing_counties:
-            if fips5 not in gap_output['counties']:
-                gap_output['counties'][fips5] = existing_counties[fips5]
-        gap_output['meta']['county_count'] = len(gap_output['counties'])
-        print(f'✓ Built county gap data for {len(county_map)} counties from CHAS Table 1')
-    else:
-        # CHAS columns not found or data empty — keep existing gap file intact,
-        # only update the generated timestamp.
-        gap_output = existing_gap
-        if gap_output:
-            gap_output.setdefault('meta', {})['generated'] = generated
-            print('⚠ No county-level CHAS cost-burden data found; existing gap file preserved')
-        else:
-            print('⚠ No gap data available and no existing file to preserve', file=sys.stderr)
-            return 1
+    gap_output = build_gap_output(county_map, generated)
+    # Preserve stub counties that are missing from CHAS data
+    existing_counties = existing_gap.get('counties', {})
+    for fips5 in existing_counties:
+        if fips5 not in gap_output['counties']:
+            gap_output['counties'][fips5] = existing_counties[fips5]
+    gap_output['meta']['county_count'] = len(gap_output['counties'])
+    print(f'✓ Built county gap data for {len(county_map)} counties from CHAS Table 1')
 
     os.makedirs(os.path.dirname(GAP_FILE), exist_ok=True)
     with open(GAP_FILE, 'w', encoding='utf-8') as f:

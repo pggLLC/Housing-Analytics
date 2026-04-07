@@ -1933,6 +1933,9 @@
       if (window.HNARenderers.renderExtendedAnalysis) {
         window.HNARenderers.renderExtendedAnalysis(profile, geoType);
       }
+      if (window.HNARenderers.renderHousingTypeFeasibility) {
+        window.HNARenderers.renderHousingTypeFeasibility(profile, geoType);
+      }
     }
 
     if (s0801){
@@ -2135,18 +2138,27 @@
       if (jx && jx.fips) {
         if (jx.type === 'city' && jx.displayName) {
           // City/town selection — find its GEOID in geo-config places
-          const cfg = window.__HNA_GEO_CONFIG;
-          const allPlaces = [...(cfg?.places || []), ...(cfg?.cdps || [])];
-          const nameMatch = allPlaces.find(p =>
-            p.label.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase() === jx.displayName.toLowerCase()
-          );
-          if (nameMatch) {
+          if (jx.placeGeoid) {
+            // Direct geoid from selector — most reliable
             restoredGeoType = 'place';
-            restoredGeoId   = nameMatch.geoid;
+            restoredGeoId   = jx.placeGeoid;
           } else {
-            // City not in geo-config — fall back to its containing county
-            restoredGeoType = 'county';
-            restoredGeoId   = jx.fips;
+            // Fallback: name matching
+            const cfg = window.__HNA_GEO_CONFIG;
+            const allPlaces = [...(cfg?.places || []), ...(cfg?.cdps || [])];
+            const stripSuffix = s => s.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase();
+            const targetName = stripSuffix(jx.displayName);
+            const nameMatch = allPlaces.find(p =>
+              stripSuffix(p.label) === targetName
+            );
+            if (nameMatch) {
+              restoredGeoType = 'place';
+              restoredGeoId   = nameMatch.geoid;
+            } else {
+              // City not in geo-config — fall back to its containing county
+              restoredGeoType = 'county';
+              restoredGeoId   = jx.fips;
+            }
           }
         } else {
           // County selection
