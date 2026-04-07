@@ -171,14 +171,19 @@
   }
 
   /**
-   * Score neighborhood amenity access.
-   * Lower distances to key amenities → higher score.
+   * Score neighborhood amenity access, optionally blended with EPA SLD
+   * walkability and bikeability scores.
+   *
+   * Without walkability context: pure distance-based scoring (backward compatible).
+   * With walkability context: 55% distance + 25% walkability + 20% bikeability.
    *
    * @param {object|null} amenities - Distances in miles.
    *   Keys: grocery, transit, parks, healthcare, schools.
+   * @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
+   *   Keys: walkScore (0-100), bikeScore (0-100).
    * @returns {number} 0–100
    */
-  function scoreAccess(amenities) {
+  function scoreAccess(amenities, walkabilityCtx) {
     if (!amenities || typeof amenities !== 'object') return 50;
 
     /**
@@ -198,7 +203,23 @@
     var healthcare = _distPts(_safe(amenities.healthcare, 3), 1.0,  3.0, 20);
     var schools    = _distPts(_safe(amenities.schools,    1), 0.5,  2.0, 15);
 
-    return _clamp(grocery + transit + parks + healthcare + schools);
+    var distanceScore = _clamp(grocery + transit + parks + healthcare + schools);
+
+    // If walkability context is available, blend it into the access score.
+    // This captures whether the measured distances are actually traversable
+    // on foot or bike (street network connectivity, intersection density,
+    // car-orientation of the built environment).
+    if (walkabilityCtx && typeof walkabilityCtx.walkScore === 'number') {
+      var walkPts = _clamp(walkabilityCtx.walkScore);
+      var bikePts = _clamp(_safe(walkabilityCtx.bikeScore, walkPts));
+      return _clamp(Math.round(
+        distanceScore * 0.55 +
+        walkPts       * 0.25 +
+        bikePts       * 0.20
+      ));
+    }
+
+    return distanceScore;
   }
 
   /**
@@ -294,7 +315,7 @@
     var demand_score      = Math.round(scoreDemand(i.acs));
     var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basisBoostEligible));
     var feasibility_score = Math.round(scoreFeasibility(i.floodRisk, i.soilScore, i.cleanupFlag));
-    var access_score      = Math.round(scoreAccess(i.amenities));
+    var access_score      = Math.round(scoreAccess(i.amenities, i.walkabilityCtx));
     var policy_score      = Math.round(scorePolicy(i.zoningCapacity, i.publicOwnership, i.overlayCount));
     var market_score      = Math.round(scoreMarket(i.rentTrend, i.jobTrend, i.concentration, i.serviceStrength));
 
