@@ -373,14 +373,17 @@
       }, DRAWER_TRANSITION_MS);
     }
 
-    var mobileToggle = document.getElementById('mobileNavToggle');
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', openDrawer);
-    }
-
-    var mobileClose = document.getElementById('mobileNavClose');
-    if (mobileClose) {
-      mobileClose.addEventListener('click', closeDrawer);
+    // Note: hamburger toggle + close handled by mobile-menu.js (toggleDrawer).
+    // Only attach here if mobile-menu.js is not loaded (fallback).
+    if (!window.__mobileMenuLoaded) {
+      var mobileToggle = document.getElementById('mobileNavToggle');
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', openDrawer);
+      }
+      var mobileClose = document.getElementById('mobileNavClose');
+      if (mobileClose) {
+        mobileClose.addEventListener('click', closeDrawer);
+      }
     }
 
     document.addEventListener('keydown', function(e) {
@@ -461,6 +464,8 @@
       var pillWrap = document.getElementById('jurisdictionPillWrap');
       if (pillWrap) {
         pillWrap.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
           if (_jxDropdown) { _closeJxDropdown(); return; }
           var root = relToRoot();
           var rows = '';
@@ -484,18 +489,20 @@
           _jxDropdown.innerHTML = rows;
           // Wire project load buttons
           _jxDropdown.querySelectorAll('[data-proj-id]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function (btnEvt) {
+              btnEvt.stopPropagation();
               try { window.WorkflowState && window.WorkflowState.loadProject(btn.getAttribute('data-proj-id')); } catch (_) {}
               _closeJxDropdown();
               _updateJurisdictionPill();
             });
           });
           pillWrap.appendChild(_jxDropdown);
+          // Delay listener registration so the current click doesn't immediately close it
           setTimeout(function () {
             document.addEventListener('click', function _outside(ev) {
               if (!pillWrap.contains(ev.target)) { _closeJxDropdown(); document.removeEventListener('click', _outside); }
             });
-          }, 0);
+          }, 10);
         });
       }
     }());
