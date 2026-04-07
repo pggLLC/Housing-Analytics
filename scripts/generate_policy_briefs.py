@@ -100,6 +100,17 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
         f"This data cluster suggests active public discourse and potential legislative or market developments."
     )
 
+    # Build articles list with title, source, link, date for each alert
+    articles = []
+    for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
+        art = {'title': a.get('title', ''), 'source': a.get('source', '')}
+        if a.get('link'):
+            art['link'] = a['link']
+        if a.get('date'):
+            art['date'] = a['date'][:10]
+        if art['title']:
+            articles.append(art)
+
     return {
         'title': f'{label} Policy Brief — {datetime.now(timezone.utc).strftime("%B %Y")}',
         'policy_topic': label,
@@ -107,6 +118,7 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
         'implications': implications,
         'related_data': RELATED_DATA_MAP.get(topic, ''),
         'sources': sources,
+        'articles': articles,
         'alert_count': len(alerts),
         'regions': regions,
         'generated': utc_now(),
@@ -168,6 +180,15 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
         llm_data = json.loads(stripped)
         sources = list({a.get('source', '') for a in recent if a.get('source')})[:5]
         regions = list({a.get('region', 'Colorado') for a in recent if a.get('region')})
+        articles = []
+        for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
+            art = {'title': a.get('title', ''), 'source': a.get('source', '')}
+            if a.get('link'):
+                art['link'] = a['link']
+            if a.get('date'):
+                art['date'] = a['date'][:10]
+            if art['title']:
+                articles.append(art)
         return {
             'title': llm_data.get('title', ''),
             'policy_topic': label,
@@ -175,6 +196,7 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
             'implications': llm_data.get('implications', ''),
             'related_data': RELATED_DATA_MAP.get(topic, ''),
             'sources': sources,
+            'articles': articles,
             'alert_count': len(alerts),
             'regions': regions,
             'generated': utc_now(),
