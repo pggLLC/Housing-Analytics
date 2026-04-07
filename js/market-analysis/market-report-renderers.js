@@ -394,8 +394,8 @@
   }
 
   /**
-   * Render the neighborhood access section.
-   * @param {object|null} accessData - e.g. { amenities: { grocery, transit, … }, access_score }.
+   * Render the neighborhood access section with walkability & bikeability.
+   * @param {object|null} accessData - { amenities, walkability, access_score }.
    */
   function renderNeighborhoodAccess(accessData) {
     if (!accessData || typeof accessData !== 'object') {
@@ -403,8 +403,9 @@
       return;
     }
 
-    var amenities = accessData.amenities || accessData;
-    var score     = accessData.access_score;
+    var amenities   = accessData.amenities || accessData;
+    var walkability = accessData.walkability || null;
+    var score       = accessData.access_score;
 
     function _distRow(label, dist) {
       var d = (dist !== null && dist !== undefined) ? _fmtN(dist, 2) + ' mi' : '—';
@@ -415,18 +416,82 @@
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Distance to Amenities') +
-        _distRow('Grocery Store',    amenities.grocery) +
-        _distRow('Transit Stop',     amenities.transit) +
+        _distRow('Grocery Store',     amenities.grocery) +
+        _distRow('Transit Stop',      amenities.transit) +
         _distRow('Park / Open Space', amenities.parks) +
-        _distRow('Healthcare',       amenities.healthcare) +
-        _distRow('School',           amenities.schools) +
-        (typeof score === 'number'
-          ? _metricRow('Access Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+        _distRow('Healthcare',        amenities.healthcare) +
+        _distRow('School',            amenities.schools)
     );
 
+    // Walkability & Bikeability section
+    if (walkability) {
+      html += '<div style="margin-top:0.75rem;"></div>' +
+        _sectionHeading('Walkability &amp; Bikeability') +
+        _walkBikeRow('Walkability', walkability.walkScore, walkability.walkLabel) +
+        _walkBikeRow('Bikeability', walkability.bikeScore, walkability.bikeLabel);
+
+      // Supporting EPA metrics
+      html += '<div style="margin-top:0.5rem;padding:0.6rem 0.75rem;background:var(--bg2);border-radius:var(--radius-sm,4px);font-size:var(--small);">' +
+        '<div style="font-weight:600;color:var(--muted);margin-bottom:0.35rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.04em;">EPA Smart Location Factors</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.25rem 1rem;">';
+
+      if (walkability.intersectionDensity != null) {
+        html += _miniMetric('Intersection Density', walkability.intersectionDensity);
+      }
+      if (walkability.transitFrequency != null) {
+        html += _miniMetric('Transit Frequency', walkability.transitFrequency);
+      }
+      if (walkability.landUseMix != null) {
+        html += _miniMetric('Land-Use Mix', walkability.landUseMix);
+      }
+      if (walkability.autoNetDensity != null) {
+        html += _miniMetric('Auto Network Density', walkability.autoNetDensity);
+      }
+
+      html += '</div></div>';
+    }
+
+    html += (typeof score === 'number'
+      ? _metricRow('Access Score', _scoreBadge(score))
+      : '') +
+    '</div>';
+
     _render('maNeighborhoodAccessContent', html);
+  }
+
+  /**
+   * Build a walkability/bikeability score row with gauge bar.
+   * @private
+   */
+  function _walkBikeRow(label, score, labelText) {
+    var s = typeof score === 'number' ? score : 0;
+    var color = (s >= 60) ? 'var(--good)' : (s >= 40) ? 'var(--warn)' : 'var(--bad)';
+    return (
+      '<div style="display:flex;justify-content:space-between;align-items:center;' +
+             'padding:0.45rem 0;border-bottom:1px solid var(--border);">' +
+        '<span style="color:var(--muted);font-size:var(--small);">' + label + '</span>' +
+        '<div style="display:flex;align-items:center;gap:0.5rem;">' +
+          '<div style="width:80px;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;">' +
+            '<div style="width:' + s + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.3s;"></div>' +
+          '</div>' +
+          '<span style="font-weight:700;color:' + color + ';min-width:28px;text-align:right;">' + s + '</span>' +
+          '<span style="font-size:0.7rem;color:var(--muted);min-width:55px;">' + (labelText || '') + '</span>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /**
+   * Build a compact metric for the EPA factors grid.
+   * @private
+   */
+  function _miniMetric(label, value) {
+    return (
+      '<div style="display:flex;justify-content:space-between;padding:0.15rem 0;">' +
+        '<span style="color:var(--muted);font-size:0.78rem;">' + label + '</span>' +
+        '<span style="font-weight:600;font-size:0.78rem;">' + value + '</span>' +
+      '</div>'
+    );
   }
 
   /**

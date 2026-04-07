@@ -86,8 +86,8 @@
           _rates.creditStress = creditSpread.value > 2.0; // >200bp = stress
         }
 
-        // 5. Construction PPI (WPUFD49207 or PCU236115236115)
-        var constructionPPI = _latestObs(s.PCU236115236115) || _latestObs(s.WPUFD49207);
+        // 5. Construction PPI (WPUFD49207 or PCU236200236200)
+        var constructionPPI = _latestObs(s.PCU236200236200) || _latestObs(s.WPUFD49207);
         if (constructionPPI) {
           _rates.constructionPPI = constructionPPI.value;
           _rates.constructionPPIDate = constructionPPI.date;

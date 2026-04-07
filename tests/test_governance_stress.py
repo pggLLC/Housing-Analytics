@@ -327,8 +327,8 @@ class TestProbe5FredMetadata:
     def test_production_fred_core_series_have_observations(self):
         """Core economic FRED series must have at least one observation.
 
-        Note: Five commodity PPI series (WPUFD4, PCU*) are known to have
-        empty observation arrays — a pre-existing Stage 2 data gap tracked
+        Note: Five commodity PPI series (WPUFD4111, PCU*) were previously
+        empty due to incorrect series IDs — now corrected. Tracked
         by tests/test_stage2_temporal.py::TestFredTemporalContinuity.
         This probe focuses on the core series that must always be populated.
         """

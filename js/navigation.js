@@ -58,6 +58,7 @@
       label: "Insights",
       items: [
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "News alerts & policy briefs" },
         { label: "LIHTC Guide",           href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics for all audiences" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
@@ -100,11 +101,15 @@
 
     // Try WorkflowState first, fall back to SiteState
     var county = null;
+    var city = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
       if (jx && (jx.name || jx.countyName)) {
         county = jx.name || jx.countyName;
+        if (jx.type === 'city' && jx.displayName) {
+          city = jx.displayName.replace(/\s*\((?:city|town|CDP)\)/i, '');
+        }
       }
     } catch (_) {}
 
@@ -116,11 +121,12 @@
     }
 
     var root = relToRoot();
+    var pillLabel = city ? county + ' · ' + city : county;
 
     if (county) {
       wrap.innerHTML =
         '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
-          '<span class="jurisdiction-pill__name">' + county + '</span>' +
+          '<span class="jurisdiction-pill__name">' + pillLabel + '</span>' +
           ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
         '</a>';
     } else {
@@ -247,6 +253,7 @@
           <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
           <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
           <a href="${normalizeHref('insights.html')}">Market Insights</a>
+          <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
         </div>
         <div class="footer-disclaimer">
           <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
@@ -371,14 +378,17 @@
       }, DRAWER_TRANSITION_MS);
     }
 
-    var mobileToggle = document.getElementById('mobileNavToggle');
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', openDrawer);
-    }
-
-    var mobileClose = document.getElementById('mobileNavClose');
-    if (mobileClose) {
-      mobileClose.addEventListener('click', closeDrawer);
+    // Note: hamburger toggle + close handled by mobile-menu.js (toggleDrawer).
+    // Only attach here if mobile-menu.js is not loaded (fallback).
+    if (!window.__mobileMenuLoaded) {
+      var mobileToggle = document.getElementById('mobileNavToggle');
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', openDrawer);
+      }
+      var mobileClose = document.getElementById('mobileNavClose');
+      if (mobileClose) {
+        mobileClose.addEventListener('click', closeDrawer);
+      }
     }
 
     document.addEventListener('keydown', function(e) {
@@ -459,6 +469,8 @@
       var pillWrap = document.getElementById('jurisdictionPillWrap');
       if (pillWrap) {
         pillWrap.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
           if (_jxDropdown) { _closeJxDropdown(); return; }
           var root = relToRoot();
           var rows = '';
@@ -482,18 +494,20 @@
           _jxDropdown.innerHTML = rows;
           // Wire project load buttons
           _jxDropdown.querySelectorAll('[data-proj-id]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function (btnEvt) {
+              btnEvt.stopPropagation();
               try { window.WorkflowState && window.WorkflowState.loadProject(btn.getAttribute('data-proj-id')); } catch (_) {}
               _closeJxDropdown();
               _updateJurisdictionPill();
             });
           });
           pillWrap.appendChild(_jxDropdown);
+          // Delay listener registration so the current click doesn't immediately close it
           setTimeout(function () {
             document.addEventListener('click', function _outside(ev) {
               if (!pillWrap.contains(ev.target)) { _closeJxDropdown(); document.removeEventListener('click', _outside); }
             });
-          }, 0);
+          }, 10);
         });
       }
     }());
