@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Policy Briefs | COHO Analytics</title>
-  <meta name="description" content="AI-assisted policy briefs on affordable housing in Colorado, generated from curated news alerts and housing datasets.">
-  <meta property="og:title" content="Policy Briefs | COHO Analytics">
-  <meta property="og:description" content="Affordable housing policy research and analysis summaries.">
+  <title>Housing News & Policy Briefs | COHO Analytics</title>
+  <meta name="description" content="AI-assisted housing news and policy briefs on affordable housing in Colorado, generated from curated news alerts and housing datasets.">
+  <meta property="og:title" content="Housing News & Policy Briefs | COHO Analytics">
+  <meta property="og:description" content="Colorado affordable housing news, policy research and analysis summaries.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,6 +75,23 @@
     }
     #briefsStatus { padding: var(--sp4); color: var(--muted); font-size: .9rem; }
     #briefsLiveRegion { position: absolute; left: -9999px; }
+    .brief-card { cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+    .brief-card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .brief-card[aria-expanded="true"] { border-color: var(--accent); }
+    .brief-articles { display: none; margin-top: .6rem; padding-top: .6rem; border-top: 1px solid var(--border); }
+    .brief-card[aria-expanded="true"] .brief-articles { display: block; }
+    .brief-articles__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .45rem; }
+    .brief-articles__item {
+      display: flex; gap: .5rem; align-items: baseline;
+      font-size: .82rem; line-height: 1.45; padding: 6px 8px;
+      border-radius: 6px; background: var(--bg2);
+    }
+    .brief-articles__item:hover { background: color-mix(in srgb, var(--accent) 8%, var(--bg2)); }
+    .brief-articles__date { color: var(--faint); font-size: .72rem; white-space: nowrap; min-width: 5.5em; }
+    .brief-articles__source { color: var(--muted); font-size: .72rem; white-space: nowrap; }
+    .brief-articles__link { color: var(--text); text-decoration: none; flex: 1; }
+    .brief-articles__link:hover { color: var(--accent); text-decoration: underline; }
+    .brief-expand-hint { font-size: .72rem; color: var(--faint); margin-top: .3rem; }
   </style>
 </head>
 <body data-page="policy-briefs.html">
@@ -84,10 +101,11 @@
     <section class="briefs-hero" aria-labelledby="pageTitleBriefs">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Intelligence</div>
-        <h1 id="pageTitleBriefs">Policy Briefs</h1>
+        <h1 id="pageTitleBriefs">Housing News & Policy Briefs</h1>
         <p>
           AI-assisted summaries of affordable housing news and policy trends in Colorado.
           Briefs are generated from curated RSS alerts and linked to relevant datasets.
+          Click any brief to explore individual articles.
         </p>
         <div id="alertPipelineStatus" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .65rem;" aria-live="polite" aria-atomic="true">
           ⏳ Checking pipeline status…
@@ -263,9 +281,54 @@
           return '<a href="' + escapeHtml(s) + '" target="_blank" rel="noopener">' + escapeHtml(s.replace(/^https?:\/\//, '').split('/')[0]) + '</a>';
         }).join(' &bull; ');
 
+        // Build articles panel
+        var articles = Array.isArray(brief.articles) ? brief.articles : [];
+        var articlesHtml = '';
+        if (articles.length) {
+          var items = articles.slice(0, 25).map(function (a) {
+            var title = escapeHtml(a.title || 'Untitled');
+            var linkEl = a.link
+              ? '<a class="brief-articles__link" href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' + title + '</a>'
+              : '<span class="brief-articles__link">' + title + '</span>';
+            return '<li class="brief-articles__item">' +
+              (a.date ? '<span class="brief-articles__date">' + escapeHtml(a.date) + '</span>' : '') +
+              linkEl +
+              '<span class="brief-articles__source">' + escapeHtml(a.source || '') + '</span>' +
+            '</li>';
+          }).join('');
+          articlesHtml = '<div class="brief-articles">' +
+            '<strong style="font-size:.8rem;color:var(--muted)">Articles (' + articles.length + ')</strong>' +
+            '<ul class="brief-articles__list">' + items + '</ul>' +
+            (articles.length > 25 ? '<p style="font-size:.72rem;color:var(--faint);margin:.4rem 0 0">Showing 25 of ' + articles.length + ' articles</p>' : '') +
+          '</div>';
+        }
+
+        // Parse headlines from summary for fallback article display
+        var fallbackArticles = '';
+        if (!articles.length && brief.summary) {
+          var headlineMatch = brief.summary.match(/Notable headlines include:\s*(.+?)(?:\.\s*Coverage|\.$)/);
+          if (headlineMatch) {
+            var headlines = headlineMatch[1].split(/;\s*/);
+            var fallbackItems = headlines.map(function (h) {
+              var parts = h.split(/\s*[-–]\s*/);
+              var title = parts.length > 1 ? parts.slice(0, -1).join(' - ') : h;
+              var source = parts.length > 1 ? parts[parts.length - 1] : '';
+              return '<li class="brief-articles__item">' +
+                '<span class="brief-articles__link">' + escapeHtml(title.trim()) + '</span>' +
+                (source ? '<span class="brief-articles__source">' + escapeHtml(source.trim()) + '</span>' : '') +
+              '</li>';
+            }).join('');
+            fallbackArticles = '<div class="brief-articles">' +
+              '<strong style="font-size:.8rem;color:var(--muted)">Headlines (' + headlines.length + ')</strong>' +
+              '<ul class="brief-articles__list">' + fallbackItems + '</ul>' +
+            '</div>';
+          }
+        }
+
         var card = document.createElement('article');
         card.className = 'brief-card';
         card.setAttribute('aria-label', brief.title || 'Policy Brief');
+        card.setAttribute('aria-expanded', 'false');
         card.innerHTML =
           '<div style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center">' +
             '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
@@ -281,7 +344,21 @@
             formatDate(brief.generated) +
             (brief.alert_count ? ' &bull; ' + brief.alert_count + ' alert(s)' : '') +
             (sourceLinks ? ' &bull; ' + sourceLinks : '') +
-          '</div>';
+          '</div>' +
+          '<div class="brief-expand-hint">Click to ' + ((articles.length || fallbackArticles) ? 'explore articles' : 'expand') + ' ▾</div>' +
+          (articlesHtml || fallbackArticles);
+
+        card.addEventListener('click', function (e) {
+          // Don't toggle when clicking links
+          if (e.target.tagName === 'A') return;
+          var expanded = card.getAttribute('aria-expanded') === 'true';
+          card.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          var hint = card.querySelector('.brief-expand-hint');
+          if (hint) hint.textContent = expanded
+            ? 'Click to explore articles ▾'
+            : 'Click to collapse ▴';
+        });
+
         gridEl.appendChild(card);
       });
     }
