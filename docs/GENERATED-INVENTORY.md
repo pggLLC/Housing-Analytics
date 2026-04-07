@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-07T11:41:25.361Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-07T13:28:39.906Z. Do not edit by hand.
 
 ---
 
@@ -32,16 +32,16 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.5 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 119.8 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 121.6 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 21.0 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.5 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 64.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 64.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
-| `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
+| `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 23.5 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.6 KB |
@@ -75,14 +75,14 @@
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
-| `data/derived/market-analysis/neighborhood_access.json` | 14.1 KB | ✅ | — |
+| `data/derived/market-analysis/neighborhood_access.json` | 2.31 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 128.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 950.3 KB | ✅ | — |
-| `data/glossary.json` | 12.2 KB | ✅ | — |
-| `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
+| `data/fred-data.json` | 1.78 MB | ✅ | — |
+| `data/glossary.json` | 13.6 KB | ✅ | — |
+| `data/hna/chas_affordability_gap.json` | 130.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 3.5 KB | ✅ | — |
@@ -903,20 +903,20 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 28.6 KB | ✅ | — |
+| `data/manifest.json` | 104.0 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 399.1 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
 | `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
 | `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
-| `data/market/chas_co.json` | 273 B | ✅ | — |
+| `data/market/chas_co.json` | 127.5 KB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 17.9 KB | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
-| `data/market/fmr_co.json` | 289 B | ✅ | — |
+| `data/market/fmr_co.json` | 16.9 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
