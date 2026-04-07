@@ -982,6 +982,27 @@
         </div>
       </section>
 
+      <!-- ── Housing Type Feasibility Analysis ── -->
+      <section id="housing-type-feasibility" class="chart-card span-12" aria-label="Housing type feasibility analysis">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Housing Type Feasibility Analysis</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Assesses local housing stock composition, building age trends, and market values to identify
+          which housing types (single-family, townhome, garden-style, mid-rise) are most viable for
+          new development. Combines Census ACS unit-type data with affordability metrics to project
+          feasible construction types for LIHTC and workforce housing.
+        </p>
+        <div id="htfContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to load housing type analysis.</p>
+        </div>
+        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+          <div class="chart-box"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
+          <div class="chart-box"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
+        </div>
+        <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
+      </section>
+
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
@@ -1881,9 +1902,13 @@
     document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
 
     // Fix #1: auto-select county if arriving from jurisdiction flow
-    var autoFips = _resolveAutoFips();
-    if (autoFips) {
-      setTimeout(function () { _tryAutoSelect(autoFips); }, 300);
+    // Skip if hna-controller already restored a sub-county (place/cdp) selection
+    var jxCheck = window.WorkflowState && window.WorkflowState.getJurisdiction();
+    if (!(jxCheck && jxCheck.type === 'city' && (jxCheck.placeGeoid || jxCheck.displayName))) {
+      var autoFips = _resolveAutoFips();
+      if (autoFips) {
+        setTimeout(function () { _tryAutoSelect(autoFips); }, 300);
+      }
     }
 
     // EduCallout init

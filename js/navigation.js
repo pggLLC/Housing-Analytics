@@ -101,11 +101,15 @@
 
     // Try WorkflowState first, fall back to SiteState
     var county = null;
+    var city = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
       if (jx && (jx.name || jx.countyName)) {
         county = jx.name || jx.countyName;
+        if (jx.type === 'city' && jx.displayName) {
+          city = jx.displayName.replace(/\s*\((?:city|town|CDP)\)/i, '');
+        }
       }
     } catch (_) {}
 
@@ -117,11 +121,12 @@
     }
 
     var root = relToRoot();
+    var pillLabel = city ? county + ' · ' + city : county;
 
     if (county) {
       wrap.innerHTML =
         '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
-          '<span class="jurisdiction-pill__name">' + county + '</span>' +
+          '<span class="jurisdiction-pill__name">' + pillLabel + '</span>' +
           ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
         '</a>';
     } else {

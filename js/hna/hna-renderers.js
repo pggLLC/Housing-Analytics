@@ -3183,6 +3183,234 @@
     panel.hidden = false;
   }
 
+  /* ─────────────────────────────────────────────────────────────────────────
+   * Housing Type Feasibility Analysis
+   * Combines ACS housing stock composition, building era, and market values
+   * to project viable construction types for new development.
+   * ───────────────────────────────────────────────────────────────────────── */
+  function renderHousingTypeFeasibility(profile, geoType) {
+    var container = document.getElementById('htfContainer');
+    var canvas1   = document.getElementById('chartHousingTypeComposition');
+    var canvas2   = document.getElementById('chartConstructionEra');
+    var matrix    = document.getElementById('htfFeasibilityMatrix');
+    if (!profile) return;
+
+    var t = chartTheme();
+    var fmt = U().fmtNum || function (n) { return Number(n).toLocaleString(); };
+    var fmtC = U().fmtCurr || function (n) { return '$' + Number(n).toLocaleString(); };
+
+    /* ── 1. Housing stock composition chart ── */
+    var stockTypes = [
+      { label: 'Single-Family Detached', v: Number(profile.DP04_0007E) || 0 },
+      { label: 'Single-Family Attached',  v: Number(profile.DP04_0008E) || 0 },
+      { label: 'Duplex (2 units)',         v: Number(profile.DP04_0009E) || 0 },
+      { label: 'Triplex/Fourplex',         v: Number(profile.DP04_0010E) || 0 },
+      { label: '5–9 Units',               v: Number(profile.DP04_0011E) || 0 },
+      { label: '10–19 Units',             v: Number(profile.DP04_0012E) || 0 },
+      { label: '20+ Units (Mid/High-Rise)', v: Number(profile.DP04_0013E) || 0 },
+      { label: 'Mobile Home / Other',     v: Number(profile.DP04_0014E) || 0 },
+    ].filter(function (d) { return d.v > 0; });
+
+    var totalUnits = stockTypes.reduce(function (s, d) { return s + d.v; }, 0);
+
+    if (canvas1 && stockTypes.length) {
+      makeChart(canvas1.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: stockTypes.map(function (d) { return d.label; }),
+          datasets: [{
+            data: stockTypes.map(function (d) { return d.v; }),
+            backgroundColor: stockTypes.map(function (_, i) { return t.chartColors[i % t.chartColors.length]; }),
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: 'Housing Units by Structure Type (ACS DP04)', color: t.text, font: { size: 12 } },
+            tooltip: { callbacks: { label: function (ctx) {
+              var pct = totalUnits ? (ctx.parsed / totalUnits * 100).toFixed(1) : 0;
+              return ctx.label + ': ' + fmt(ctx.parsed) + ' (' + pct + '%)';
+            }}},
+            legend: { position: 'right', labels: { color: t.muted, font: { size: 10 }, boxWidth: 12 } },
+          },
+        },
+      });
+    }
+
+    /* ── 2. Construction era stacked chart ── */
+    var eras = [
+      { label: '2020+',      v: Number(profile.DP04_0017E) || 0 },
+      { label: '2010–19',    v: Number(profile.DP04_0018E) || 0 },
+      { label: '2000–09',    v: Number(profile.DP04_0019E) || 0 },
+      { label: '1980–99',    v: (Number(profile.DP04_0020E) || 0) + (Number(profile.DP04_0021E) || 0) },
+      { label: '1960–79',    v: (Number(profile.DP04_0022E) || 0) + (Number(profile.DP04_0023E) || 0) },
+      { label: '1940–59',    v: (Number(profile.DP04_0024E) || 0) + (Number(profile.DP04_0025E) || 0) },
+      { label: 'Pre-1940',   v: Number(profile.DP04_0026E) || 0 },
+    ];
+    var eraTotal = eras.reduce(function (s, d) { return s + d.v; }, 0);
+    // Identify dominant construction era
+    var peakEra = eras.reduce(function (best, d) { return d.v > best.v ? d : best; }, eras[0]);
+    var recentPct = eraTotal ? ((eras[0].v + eras[1].v) / eraTotal * 100).toFixed(1) : 0;
+    var pre1980Pct = eraTotal ? ((eras[3].v + eras[4].v + eras[5].v + eras[6].v) / eraTotal * 100).toFixed(1) : 0;
+
+    if (canvas2 && eraTotal > 0) {
+      makeChart(canvas2.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: eras.map(function (d) { return d.label; }),
+          datasets: [{
+            label: 'Housing Units',
+            data: eras.map(function (d) { return d.v; }),
+            backgroundColor: eras.map(function (_, i) {
+              var colors = [t.accent, t.chartColors[0], t.chartColors[1], t.chartColors[2], t.chartColors[3], t.chartColors[4], t.chartColors[5]];
+              return colors[i] || t.chartColors[i % t.chartColors.length];
+            }),
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: {
+            title: { display: true, text: 'Housing Stock by Construction Era (ACS DP04)', color: t.text, font: { size: 12 } },
+            legend: { display: false },
+            tooltip: { callbacks: { label: function (ctx) {
+              var pct = eraTotal ? (ctx.parsed.x / eraTotal * 100).toFixed(1) : 0;
+              return fmt(ctx.parsed.x) + ' units (' + pct + '%)';
+            }}},
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.grid } },
+            y: { ticks: { color: t.muted }, grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    /* ── 3. Feasibility matrix — which housing types make sense here ── */
+    var medianValue = Number(profile.DP04_0089E) || 0;
+    var medianRent  = Number(profile.DP04_0134E) || 0;
+    var ownerPct    = Number(profile.DP04_0046PE) || 0;
+    var renterPct   = Number(profile.DP04_0047PE) || 0;
+    var sfPct = totalUnits ? ((stockTypes[0] ? stockTypes[0].v : 0) / totalUnits * 100) : 0;
+    var mfPct = totalUnits ? (stockTypes.filter(function (d) {
+      return d.label.indexOf('20+') >= 0 || d.label.indexOf('10–19') >= 0 || d.label.indexOf('5–9') >= 0;
+    }).reduce(function (s, d) { return s + d.v; }, 0) / totalUnits * 100) : 0;
+
+    // Simple feasibility scoring based on market characteristics
+    var types = [
+      {
+        type: 'Garden-Style Apartments',
+        desc: '2–3 story walk-up, wood-frame construction. Lowest per-unit cost. Typical 4% LIHTC.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Townhome / Rowhouse',
+        desc: 'Attached units with individual entries. Middle-density. Appeals to families.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Mid-Rise (4–6 stories)',
+        desc: 'Steel/concrete podium with wood-frame above. Higher density, higher cost per unit.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Adaptive Reuse',
+        desc: 'Converting existing non-residential or aging buildings. Leverages historic tax credits.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Single-Family Infill',
+        desc: 'Scattered-site new SFR construction on vacant lots. Community-scale.',
+        score: 0, factors: []
+      },
+    ];
+
+    // Garden-style: viable almost everywhere, especially where land is affordable
+    types[0].score = 70;
+    if (medianValue > 0 && medianValue < 400000) { types[0].score += 15; types[0].factors.push('Moderate land cost supports low-rise'); }
+    if (medianValue >= 400000) { types[0].score += 5; types[0].factors.push('High land cost — density may be needed'); }
+    if (renterPct > 40) { types[0].score += 10; types[0].factors.push('Strong rental demand (' + renterPct.toFixed(0) + '% renters)'); }
+    if (mfPct > 20) { types[0].score += 5; types[0].factors.push('Multifamily precedent in area'); }
+
+    // Townhome: good where SFR-dominant and moderate values
+    types[1].score = 50;
+    if (sfPct > 60) { types[1].score += 20; types[1].factors.push('SFR-dominant area — townhomes offer compatible density'); }
+    if (medianValue > 300000 && medianValue < 600000) { types[1].score += 15; types[1].factors.push('Mid-range values support attached product'); }
+    if (ownerPct > 55) { types[1].score += 10; types[1].factors.push('Ownership-oriented market (' + ownerPct.toFixed(0) + '% owners)'); }
+
+    // Mid-rise: viable in high-cost, dense, urban markets
+    types[2].score = 30;
+    if (medianValue >= 500000) { types[2].score += 25; types[2].factors.push('High land cost justifies vertical construction'); }
+    if (mfPct > 30) { types[2].score += 15; types[2].factors.push('Existing multifamily density precedent'); }
+    if (medianRent > 1500) { types[2].score += 10; types[2].factors.push('Rents support higher construction cost'); }
+    if (totalUnits > 50000) { types[2].score += 10; types[2].factors.push('Large housing market with absorption capacity'); }
+
+    // Adaptive reuse: good where old stock exists
+    types[3].score = 25;
+    if (Number(pre1980Pct) > 50) { types[3].score += 30; types[3].factors.push(pre1980Pct + '% of stock built before 1980'); }
+    else if (Number(pre1980Pct) > 30) { types[3].score += 15; types[3].factors.push(pre1980Pct + '% pre-1980 stock available'); }
+    if (peakEra.label === 'Pre-1940' || peakEra.label === '1940–59') { types[3].score += 15; types[3].factors.push('Historic building stock from ' + peakEra.label + ' era'); }
+
+    // SFR infill: good where SFR-dominant and lower values
+    types[4].score = 35;
+    if (sfPct > 70) { types[4].score += 20; types[4].factors.push('Predominantly single-family neighborhood character'); }
+    if (medianValue < 350000) { types[4].score += 15; types[4].factors.push('Affordable land for individual lot development'); }
+    if (totalUnits < 20000) { types[4].score += 10; types[4].factors.push('Smaller market suited to scattered-site approach'); }
+
+    // Cap at 100 and sort
+    types.forEach(function (t) { t.score = Math.min(100, t.score); });
+    types.sort(function (a, b) { return b.score - a.score; });
+
+    // Render summary container
+    if (container) {
+      var summaryHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1rem">';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Total Housing Units</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + fmt(totalUnits) + '</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Peak Construction Era</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + peakEra.label + '</div>' +
+        '<div style="color:var(--muted);font-size:.7rem">' + fmt(peakEra.v) + ' units (' + (eraTotal ? (peakEra.v / eraTotal * 100).toFixed(0) : 0) + '%)</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Median Home Value</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + (medianValue ? fmtC(medianValue) : 'N/A') + '</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Pre-1980 Stock</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + pre1980Pct + '%</div>' +
+        '<div style="color:var(--muted);font-size:.7rem">Potential rehab/adaptive reuse</div></div>';
+      summaryHtml += '</div>';
+      container.innerHTML = summaryHtml;
+    }
+
+    // Render feasibility matrix
+    if (matrix) {
+      var html = '<h3 style="font-size:1rem;margin:0 0 12px">Projected Housing Type Viability</h3>';
+      html += '<p style="color:var(--muted);font-size:.8rem;margin:0 0 12px">Based on current stock composition, market values, tenure mix, and building age. Higher scores indicate stronger market alignment for new development.</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:10px">';
+      types.forEach(function (item) {
+        var barColor = item.score >= 70 ? 'var(--good, #22c55e)' : item.score >= 45 ? 'var(--warn, #eab308)' : 'var(--muted)';
+        var label = item.score >= 70 ? 'Strong' : item.score >= 45 ? 'Moderate' : 'Limited';
+        html += '<div style="background:var(--surface);padding:14px 16px;border-radius:8px">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
+        html += '<strong style="font-size:.9rem">' + item.type + '</strong>';
+        html += '<span style="font-size:.8rem;color:' + barColor + ';font-weight:600">' + label + ' (' + item.score + ')</span>';
+        html += '</div>';
+        html += '<div style="background:var(--bg, #111);border-radius:4px;height:8px;margin-bottom:6px;overflow:hidden">';
+        html += '<div style="width:' + item.score + '%;height:100%;background:' + barColor + ';border-radius:4px;transition:width .5s"></div>';
+        html += '</div>';
+        html += '<div style="color:var(--muted);font-size:.78rem;margin-bottom:4px">' + item.desc + '</div>';
+        if (item.factors.length) {
+          html += '<div style="font-size:.75rem;color:var(--accent)">';
+          item.factors.forEach(function (f) { html += '• ' + f + '<br>'; });
+          html += '</div>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+      matrix.innerHTML = html;
+    }
+  }
+
   window.HNARenderers = {
     setBanner, clearStats, chartTheme, makeChart, renderBoundary,
     updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
@@ -3198,5 +3426,6 @@
     renderLocalResources, renderMethodology, renderFmrPanel,
     showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
     renderExtendedAnalysis, renderBlsLabourMarket,
+    renderHousingTypeFeasibility,
   };
 })();
