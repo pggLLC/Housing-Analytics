@@ -1256,6 +1256,7 @@
     if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
 
     map = L.map('pmaMap', { zoomControl: true, maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
+    if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.5501, -105.7821], zoom: 7 }); }
     // Expose map so the page's inline jurisdiction logic can flyTo county centroids (#13)
     window._cohoMap = map;
 
