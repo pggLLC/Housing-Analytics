@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Policy Briefs | COHO Analytics</title>
-  <meta name="description" content="AI-assisted policy briefs on affordable housing in Colorado, generated from curated news alerts and housing datasets.">
-  <meta property="og:title" content="Policy Briefs | COHO Analytics">
-  <meta property="og:description" content="Affordable housing policy research and analysis summaries.">
+  <title>Housing News & Policy Briefs | COHO Analytics</title>
+  <meta name="description" content="AI-assisted housing news and policy briefs on affordable housing in Colorado, generated from curated news alerts and housing datasets.">
+  <meta property="og:title" content="Housing News & Policy Briefs | COHO Analytics">
+  <meta property="og:description" content="Colorado affordable housing news, policy research and analysis summaries.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,6 +75,23 @@
     }
     #briefsStatus { padding: var(--sp4); color: var(--muted); font-size: .9rem; }
     #briefsLiveRegion { position: absolute; left: -9999px; }
+    .brief-card { cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+    .brief-card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .brief-card[aria-expanded="true"] { border-color: var(--accent); }
+    .brief-articles { display: none; margin-top: .6rem; padding-top: .6rem; border-top: 1px solid var(--border); }
+    .brief-card[aria-expanded="true"] .brief-articles { display: block; }
+    .brief-articles__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .45rem; }
+    .brief-articles__item {
+      display: flex; gap: .5rem; align-items: baseline;
+      font-size: .82rem; line-height: 1.45; padding: 6px 8px;
+      border-radius: 6px; background: var(--bg2);
+    }
+    .brief-articles__item:hover { background: color-mix(in srgb, var(--accent) 8%, var(--bg2)); }
+    .brief-articles__date { color: var(--faint); font-size: .72rem; white-space: nowrap; min-width: 5.5em; }
+    .brief-articles__source { color: var(--muted); font-size: .72rem; white-space: nowrap; }
+    .brief-articles__link { color: var(--text); text-decoration: none; flex: 1; }
+    .brief-articles__link:hover { color: var(--accent); text-decoration: underline; }
+    .brief-expand-hint { font-size: .72rem; color: var(--faint); margin-top: .3rem; }
   </style>
 </head>
 <body data-page="policy-briefs.html">
@@ -84,10 +101,11 @@
     <section class="briefs-hero" aria-labelledby="pageTitleBriefs">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Intelligence</div>
-        <h1 id="pageTitleBriefs">Policy Briefs</h1>
+        <h1 id="pageTitleBriefs">Housing News & Policy Briefs</h1>
         <p>
           AI-assisted summaries of affordable housing news and policy trends in Colorado.
           Briefs are generated from curated RSS alerts and linked to relevant datasets.
+          Click any brief to explore individual articles.
         </p>
         <div id="alertPipelineStatus" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .65rem;" aria-live="polite" aria-atomic="true">
           ⏳ Checking pipeline status…
@@ -96,13 +114,37 @@
     </section>
 
     <div class="briefs-controls" role="search" aria-label="Filter policy briefs">
-      <label for="topicFilter">Filter by topic:</label>
+      <label for="briefSearch">Search:</label>
+      <input id="briefSearch" type="search" placeholder="Search briefs..." aria-label="Search policy briefs"
+        style="padding:4px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.83rem;min-width:180px;">
+      <label for="topicFilter" style="margin-left:.5rem;">Topic:</label>
       <select id="topicFilter" aria-label="Select policy topic">
         <option value="">All Topics</option>
+      </select>
+      <label for="entityFilter" style="margin-left:.5rem;">Agency/Subject:</label>
+      <select id="entityFilter" aria-label="Filter by agency or subject">
+        <option value="">All Subjects</option>
+        <option value="CHFA">CHFA</option>
+        <option value="CDOH">CDOH (Division of Housing)</option>
+        <option value="HUD">HUD</option>
+        <option value="DOLA">DOLA</option>
+        <option value="LIHTC">LIHTC</option>
+        <option value="Section 8">Section 8 / HCV</option>
+        <option value="Prop 123">Proposition 123</option>
+        <option value="CRA">CRA</option>
       </select>
       <label for="regionFilter" style="margin-left:.5rem;">Region:</label>
       <select id="regionFilter" aria-label="Select region">
         <option value="">All Regions</option>
+      </select>
+      <label for="signalFilter" style="margin-left:.5rem;">Signal:</label>
+      <select id="signalFilter" aria-label="Filter by signal type">
+        <option value="">All Signals</option>
+        <option value="legislative">Legislative Action</option>
+        <option value="funding">Funding / Allocation</option>
+        <option value="market">Market Shift</option>
+        <option value="enforcement">Enforcement / Compliance</option>
+        <option value="community">Community Impact</option>
       </select>
       <span id="briefsCount" style="margin-left:auto;font-size:.82rem;color:var(--muted);"></span>
     </div>
@@ -132,12 +174,61 @@
       : 'data/policy_briefs.json';
 
     var briefs = [];
-    var topicFilter = document.getElementById('topicFilter');
+    var topicFilter  = document.getElementById('topicFilter');
     var regionFilter = document.getElementById('regionFilter');
+    var entityFilter = document.getElementById('entityFilter');
+    var signalFilter = document.getElementById('signalFilter');
+    var briefSearch  = document.getElementById('briefSearch');
     var statusEl = document.getElementById('briefsStatus');
     var gridEl = document.getElementById('briefsGrid');
     var countEl = document.getElementById('briefsCount');
     var liveEl = document.getElementById('briefsLiveRegion');
+
+    /* ── Entity & signal detection ── */
+    var ENTITY_PATTERNS = {
+      'CHFA':      /\bCHFA\b|Colorado Housing and Finance Authority/i,
+      'CDOH':      /\bCDOH\b|Division of Housing|Colorado Division of Housing/i,
+      'HUD':       /\bHUD\b|Department of Housing and Urban Development/i,
+      'DOLA':      /\bDOLA\b|Department of Local Affairs/i,
+      'LIHTC':     /\bLIHTC\b|Low.Income Housing Tax Credit|tax credit/i,
+      'Section 8': /\bSection 8\b|Housing Choice Voucher|HCV\b/i,
+      'Prop 123':  /\bProp(?:osition)?\s*123\b/i,
+      'CRA':       /\bCRA\b|Community Reinvestment Act/i,
+    };
+
+    var SIGNAL_PATTERNS = {
+      'legislative': /\bbill\b|legislat|statute|amendment|signed into law|passed|sponsor|senate|house\s+bill|HB\s*\d|SB\s*\d/i,
+      'funding':     /\ballocation|fund(?:ing|ed)|grant|award|subsidy|capital|invest|bond|credit.*alloc/i,
+      'market':      /\brent.*(?:increase|decrease|rise|fall)|vacancy|construction cost|permit|housing start|market shift|price/i,
+      'enforcement': /\bcompliance|enforcement|violation|audit|fair housing|discriminat|lawsuit/i,
+      'community':   /\bcommunity|neighborhood|resident|opposition|support|NIMBY|public hearing|town hall/i,
+    };
+
+    function detectEntities(brief) {
+      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
+      var entities = [];
+      for (var key in ENTITY_PATTERNS) {
+        if (ENTITY_PATTERNS[key].test(text)) entities.push(key);
+      }
+      return entities;
+    }
+
+    function detectSignals(brief) {
+      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
+      var signals = [];
+      for (var key in SIGNAL_PATTERNS) {
+        if (SIGNAL_PATTERNS[key].test(text)) signals.push(key);
+      }
+      return signals;
+    }
+
+    var SIGNAL_LABELS = {
+      'legislative': 'Legislative',
+      'funding': 'Funding',
+      'market': 'Market',
+      'enforcement': 'Enforcement',
+      'community': 'Community',
+    };
 
     function daysSince(dateObj) {
       return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
@@ -173,48 +264,142 @@
       list.forEach(function (brief) {
         var regions = Array.isArray(brief.regions) ? brief.regions : [];
         var sources = Array.isArray(brief.sources) ? brief.sources : [];
+        var entities = brief._entities || [];
+        var signals  = brief._signals || [];
+
         var regionTags = regions.map(function (r) {
           return '<span class="region-tag">' + escapeHtml(r) + '</span>';
+        }).join('');
+        var entityTags = entities.map(function (e) {
+          return '<span class="region-tag" style="background:color-mix(in srgb, var(--accent) 18%, transparent);color:var(--accent);font-weight:600">' + escapeHtml(e) + '</span>';
+        }).join('');
+        var signalTags = signals.map(function (s) {
+          var label = SIGNAL_LABELS[s] || s;
+          return '<span class="region-tag" style="background:color-mix(in srgb, var(--warn) 15%, transparent);color:var(--warn)">' + escapeHtml(label) + '</span>';
         }).join('');
         var sourceLinks = sources.slice(0, 3).map(function (s) {
           return '<a href="' + escapeHtml(s) + '" target="_blank" rel="noopener">' + escapeHtml(s.replace(/^https?:\/\//, '').split('/')[0]) + '</a>';
         }).join(' &bull; ');
 
+        // Build articles panel
+        var articles = Array.isArray(brief.articles) ? brief.articles : [];
+        var articlesHtml = '';
+        if (articles.length) {
+          var items = articles.slice(0, 25).map(function (a) {
+            var title = escapeHtml(a.title || 'Untitled');
+            var linkEl = a.link
+              ? '<a class="brief-articles__link" href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' + title + '</a>'
+              : '<span class="brief-articles__link">' + title + '</span>';
+            return '<li class="brief-articles__item">' +
+              (a.date ? '<span class="brief-articles__date">' + escapeHtml(a.date) + '</span>' : '') +
+              linkEl +
+              '<span class="brief-articles__source">' + escapeHtml(a.source || '') + '</span>' +
+            '</li>';
+          }).join('');
+          articlesHtml = '<div class="brief-articles">' +
+            '<strong style="font-size:.8rem;color:var(--muted)">Articles (' + articles.length + ')</strong>' +
+            '<ul class="brief-articles__list">' + items + '</ul>' +
+            (articles.length > 25 ? '<p style="font-size:.72rem;color:var(--faint);margin:.4rem 0 0">Showing 25 of ' + articles.length + ' articles</p>' : '') +
+          '</div>';
+        }
+
+        // Parse headlines from summary for fallback article display
+        var fallbackArticles = '';
+        if (!articles.length && brief.summary) {
+          var headlineMatch = brief.summary.match(/Notable headlines include:\s*(.+?)(?:\.\s*Coverage|\.$)/);
+          if (headlineMatch) {
+            var headlines = headlineMatch[1].split(/;\s*/);
+            var fallbackItems = headlines.map(function (h) {
+              var parts = h.split(/\s*[-–]\s*/);
+              var title = parts.length > 1 ? parts.slice(0, -1).join(' - ') : h;
+              var source = parts.length > 1 ? parts[parts.length - 1] : '';
+              return '<li class="brief-articles__item">' +
+                '<span class="brief-articles__link">' + escapeHtml(title.trim()) + '</span>' +
+                (source ? '<span class="brief-articles__source">' + escapeHtml(source.trim()) + '</span>' : '') +
+              '</li>';
+            }).join('');
+            fallbackArticles = '<div class="brief-articles">' +
+              '<strong style="font-size:.8rem;color:var(--muted)">Headlines (' + headlines.length + ')</strong>' +
+              '<ul class="brief-articles__list">' + fallbackItems + '</ul>' +
+            '</div>';
+          }
+        }
+
         var card = document.createElement('article');
         card.className = 'brief-card';
         card.setAttribute('aria-label', brief.title || 'Policy Brief');
+        card.setAttribute('aria-expanded', 'false');
         card.innerHTML =
-          '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center">' +
+            '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
+            signalTags +
+          '</div>' +
           '<h2 class="brief-title">' + escapeHtml(brief.title || '') + '</h2>' +
           (brief.summary ? '<p class="brief-summary">' + escapeHtml(brief.summary) + '</p>' : '') +
           (brief.implications ? '<blockquote class="brief-implications">' + escapeHtml(brief.implications) + '</blockquote>' : '') +
-          (regionTags ? '<div class="brief-regions" aria-label="Regions">' + regionTags + '</div>' : '') +
+          '<div class="brief-regions" aria-label="Tags">' +
+            entityTags + regionTags +
+          '</div>' +
           '<div class="brief-meta">' +
             formatDate(brief.generated) +
             (brief.alert_count ? ' &bull; ' + brief.alert_count + ' alert(s)' : '') +
             (sourceLinks ? ' &bull; ' + sourceLinks : '') +
-          '</div>';
+          '</div>' +
+          '<div class="brief-expand-hint">Click to ' + ((articles.length || fallbackArticles) ? 'explore articles' : 'expand') + ' ▾</div>' +
+          (articlesHtml || fallbackArticles);
+
+        card.addEventListener('click', function (e) {
+          // Don't toggle when clicking links
+          if (e.target.tagName === 'A') return;
+          var expanded = card.getAttribute('aria-expanded') === 'true';
+          card.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          var hint = card.querySelector('.brief-expand-hint');
+          if (hint) hint.textContent = expanded
+            ? 'Click to explore articles ▾'
+            : 'Click to collapse ▴';
+        });
+
         gridEl.appendChild(card);
       });
     }
 
     function applyFilters() {
-      var topic = topicFilter.value;
+      var topic  = topicFilter.value;
       var region = regionFilter.value;
+      var entity = entityFilter.value;
+      var signal = signalFilter.value;
+      var query  = (briefSearch.value || '').toLowerCase().trim();
+
       var filtered = briefs.filter(function (b) {
-        var topicMatch = !topic || (b.policy_topic || '') === topic;
+        var topicMatch  = !topic  || (b.policy_topic || '') === topic;
         var regionMatch = !region || (Array.isArray(b.regions) && b.regions.indexOf(region) !== -1);
-        return topicMatch && regionMatch;
+        var entityMatch = !entity || (b._entities && b._entities.indexOf(entity) !== -1);
+        var signalMatch = !signal || (b._signals && b._signals.indexOf(signal) !== -1);
+        var searchMatch = !query  || (
+          ((b.title || '') + ' ' + (b.summary || '') + ' ' + (b.implications || '') + ' ' +
+           (b._entities || []).join(' ') + ' ' + (b.sources || []).join(' '))
+            .toLowerCase().indexOf(query) !== -1
+        );
+        return topicMatch && regionMatch && entityMatch && signalMatch && searchMatch;
       });
       renderBriefs(filtered);
     }
 
     function populateFilters(list) {
+      // Enrich each brief with detected entities and signals
+      list.forEach(function (b) {
+        b._entities = detectEntities(b);
+        b._signals  = detectSignals(b);
+      });
+
       var topics = Array.from(new Set(list.map(function (b) { return b.policy_topic || ''; }).filter(Boolean)));
       var regions = Array.from(new Set(
         list.flatMap ? list.flatMap(function (b) { return Array.isArray(b.regions) ? b.regions : []; })
           : [].concat.apply([], list.map(function (b) { return Array.isArray(b.regions) ? b.regions : []; }))
       )).filter(Boolean);
+
+      topics.sort();
+      regions.sort();
 
       topics.forEach(function (t) {
         var opt = document.createElement('option');
@@ -231,6 +416,13 @@
 
       topicFilter.addEventListener('change', applyFilters);
       regionFilter.addEventListener('change', applyFilters);
+      entityFilter.addEventListener('change', applyFilters);
+      signalFilter.addEventListener('change', applyFilters);
+      var _searchTimer = null;
+      briefSearch.addEventListener('input', function () {
+        clearTimeout(_searchTimer);
+        _searchTimer = setTimeout(applyFilters, 250);
+      });
     }
 
     function loadBriefs() {

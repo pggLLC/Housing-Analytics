@@ -314,6 +314,18 @@
           }
         }
 
+        // Enrich with EPA walkability / bikeability when loaded.
+        var walkabilityCtx = null;
+        var epaWalk = window.EpaWalkability;
+        if (epaWalk && epaWalk.isLoaded()) {
+          walkabilityCtx = _safe(function () { return epaWalk.getScores(lat, lon); }, null);
+          if (walkabilityCtx) {
+            _log('walkability: walk=' + walkabilityCtx.walkScore +
+              ' (' + walkabilityCtx.walkLabel + '), bike=' + walkabilityCtx.bikeScore +
+              ' (' + walkabilityCtx.bikeLabel + ')');
+          }
+        }
+
         // Build scoring inputs from available data.
         var inputs = {
           acs:              acs,
@@ -325,6 +337,7 @@
           soilScore:        50,      // neutral default
           cleanupFlag:      false,
           amenities:        amenityInputs,
+          walkabilityCtx:   walkabilityCtx,
           zoningCapacity:   0,
           publicOwnership:  false,
           overlayCount:     0,
@@ -370,8 +383,9 @@
                   feasibility_score: scores ? scores.feasibility_score : null
                 },
                 access: {
-                  amenities:    inputs.amenities,
-                  access_score: scores ? scores.access_score : null
+                  amenities:      inputs.amenities,
+                  walkability:    walkabilityCtx,
+                  access_score:   scores ? scores.access_score : null
                 },
                 policy: {
                   zoningCapacity:  inputs.zoningCapacity,
@@ -424,6 +438,7 @@
             _log('rendering maNeighborhoodAccess');
             ren.renderNeighborhoodAccess({
               amenities:    inputs.amenities,
+              walkability:  walkabilityCtx,
               access_score: scores ? scores.access_score : null
             });
           });

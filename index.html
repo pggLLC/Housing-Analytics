@@ -386,7 +386,7 @@
     if (newBtn) {
       newBtn.addEventListener('click', function () {
         WorkflowState.newProject();
-        strip.hidden = true;
+        window.location.href = 'select-jurisdiction.html';
       });
     }
   }

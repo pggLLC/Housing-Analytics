@@ -172,8 +172,8 @@ class TestFredTemporalContinuity:
     # These commodity PPI series may be unavailable from the FRED API;
     # they are tracked separately and only validated when present.
     COMMODITY_SERIES = [
-        'WPUFD4', 'PCU236115236115', 'PCU331111331111',
-        'PCU3313153313153', 'PCU32731327313',
+        'WPUFD4111', 'PCU236200236200', 'PCU331110331110',
+        'PCU331315331315', 'PCU327310327310',
     ]
     # Maximum age in days before a series is considered stale
     MAX_AGE_DAYS = 60
