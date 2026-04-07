@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-06T08:16:49.944Z
+**Scan timestamp:** 2026-04-07T08:04:29.847Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 905 |
-| New (unregistered) | 874 |
+| Files scanned | 907 |
+| New (unregistered) | 876 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -23,10 +23,10 @@
 - `data/derived/market-analysis/neighborhood_access.json` (14 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (128 KB)
+- `data/discovery-reports/latest.json` (129 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
-- `data/glossary.json` (9 KB)
+- `data/glossary.json` (12 KB)
 - `data/hna/derived/geo-derived.json` (6 KB)
 - `data/hna/dola_sya/08.json` (4 KB)
 - `data/hna/dola_sya/08001.json` (3 KB)
@@ -865,6 +865,7 @@
 - `data/market/food_access_co.json` (432 KB)
 - `data/market/hud_egis_co.geojson` (55 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
+- `data/market/lihtc-equity-pricing-history.json` (2 KB)
 - `data/market/lodes_co.json` (663 KB)
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (0 KB)
@@ -882,8 +883,9 @@
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
-- `data/policy/soft-funding-status.json` (4 KB)
+- `data/policy/soft-funding-status.json` (12 KB)
 - `data/policy_briefs.json` (7 KB)
+- `data/polymarket-data.json` (20 KB)
 - `data/zillow/median_list_price_metro.csv` (798 KB)
 - `data/zillow/zhvi_metro.csv` (4271 KB)
 - `data/zillow/zori_metro.csv` (958 KB)
@@ -891,27 +893,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 826 days since last update
-- **undefined** — 460 days since last update
-- **undefined** — 460 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 827 days since last update
+- **undefined** — 461 days since last update
+- **undefined** — 461 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 370 days since last update
+- undefined — 371 days since last update
