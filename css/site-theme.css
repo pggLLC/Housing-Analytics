@@ -881,6 +881,129 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
   padding: 0 var(--sp4);
 }
 
+/* === Workflow "Recommended Next Action" banner === */
+.wf-next-action {
+  max-width: 1200px;
+  margin: 12px auto 0;
+  padding: 0 18px;
+}
+.wf-next-action__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.wf-next-action__icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+.wf-next-action__text {
+  flex: 1;
+  min-width: 200px;
+}
+.wf-next-action__heading {
+  display: block;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: 2px;
+}
+.wf-next-action__body {
+  display: block;
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.wf-next-action__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 16px;
+  font-size: .82rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+/* Variant: next (green accent — step complete, continue) */
+.wf-next-action--next .wf-next-action__inner {
+  background: color-mix(in oklab, var(--card) 60%, var(--good) 8%);
+  border-color: color-mix(in oklab, var(--border) 40%, var(--good) 30%);
+}
+.wf-next-action--next .wf-next-action__cta {
+  background: var(--good);
+  color: #fff !important;
+}
+.wf-next-action--next .wf-next-action__cta:hover {
+  background: color-mix(in oklab, var(--good) 85%, #000);
+}
+/* Variant: current (neutral) */
+.wf-next-action--current .wf-next-action__inner {
+  background: color-mix(in oklab, var(--card) 80%, var(--accent) 8%);
+  border-color: color-mix(in oklab, var(--border) 50%, var(--accent) 20%);
+}
+/* Variant: skipped (warning) */
+.wf-next-action--skipped .wf-next-action__inner {
+  background: color-mix(in oklab, var(--card) 60%, var(--warn) 8%);
+  border-color: color-mix(in oklab, var(--border) 40%, var(--warn) 30%);
+}
+.wf-next-action--skipped .wf-next-action__cta {
+  background: var(--warn);
+  color: #fff !important;
+}
+.wf-next-action--skipped .wf-next-action__cta:hover {
+  background: color-mix(in oklab, var(--warn) 85%, #000);
+}
+/* Variant: complete (celebration) */
+.wf-next-action--complete .wf-next-action__inner {
+  background: color-mix(in oklab, var(--card) 55%, var(--accent) 12%);
+  border-color: color-mix(in oklab, var(--border) 30%, var(--accent) 40%);
+}
+
+/* === Housing Outcome Score panel === */
+.hos-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.hos-dim {
+  background: var(--bg2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.hos-dim__label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.hos-dim__score {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-strong);
+}
+.hos-dim__bar {
+  height: 6px;
+  background: var(--bg3);
+  border-radius: 3px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.hos-dim__fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.hos-dim--unavailable .hos-dim__score { color: var(--faint); }
+
 /* === Platform disclaimer === */
 .platform-disclaimer{padding:10px 16px;background:color-mix(in oklab,var(--card) 90%,var(--accent) 10%);border-left:3px solid var(--accent);border-radius:4px;font-size:.85rem;color:var(--muted);margin-bottom:16px}
 

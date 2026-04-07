@@ -21,6 +21,16 @@
 .card-divider { height: 1px; background: var(--border, rgba(255,255,255,0.10)); margin: 1rem 0; }
 
 .map { height: 620px; }
+
+/* Constrain map height on tablets and phones so it doesn't push all
+   other content below the fold. */
+@media (max-width: 768px) {
+  .map { height: 380px; }
+}
+@media (max-width: 480px) {
+  .map { height: 260px; }
+}
+
 .status { padding: 0.75rem 1rem 1rem; }
 
 .controls { display:flex; gap: .75rem; align-items:center; flex-wrap: wrap; }

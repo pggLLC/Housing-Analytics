@@ -3095,6 +3095,94 @@
       kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS QCEW', jgColor);
   }
 
+  /**
+   * renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+   * stat cards in the Executive Snapshot.  Derives gap = cost_burdened
+   * households (those paying >30% income on housing) at each AMI tier.
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS or null for statewide
+   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json
+   */
+  function renderGapCoverageStats(countyFips5, chasData) {
+    var panel     = document.getElementById('hnaGapCoveragePanel');
+    var gap30El   = document.getElementById('statGap30');
+    var gap50El   = document.getElementById('statGap50');
+    var gap60El   = document.getElementById('statGap60');
+    var gapTotEl  = document.getElementById('statGapTotal');
+    var confEl    = document.getElementById('hnaGapConfidence');
+    var barEl     = document.getElementById('hnaGapCoverageBar');
+    if (!panel) return;
+
+    if (!chasData) { panel.hidden = true; return; }
+
+    var geoRecord = null;
+    if (countyFips5 && chasData.counties) {
+      var fips5 = String(countyFips5).padStart(5, '0');
+      geoRecord = chasData.counties[fips5] || null;
+    }
+    if (!geoRecord && chasData.state) geoRecord = chasData.state;
+    if (!geoRecord) { panel.hidden = true; return; }
+
+    var byAmi = geoRecord.renter_hh_by_ami || {};
+    var isStub = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+
+    // Gap = cost_burdened households at each tier
+    var g30  = (byAmi.lte30  && byAmi.lte30.cost_burdened)  || 0;
+    var g50  = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
+    var g60  = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
+    var gTot = g30 + g50 + g60;
+
+    var fmt = U().fmtNum || function (n) { return n.toLocaleString(); };
+    if (gap30El)  gap30El.textContent  = fmt(g30);
+    if (gap50El)  gap50El.textContent  = fmt(g50);
+    if (gap60El)  gap60El.textContent  = fmt(g60);
+    if (gapTotEl) gapTotEl.textContent = fmt(gTot);
+
+    // Confidence badge
+    if (confEl) {
+      if (isStub) {
+        confEl.textContent = 'Estimated';
+        confEl.className   = 'data-reliability-badge drb--warn';
+        confEl.title       = 'Gap derived from ACS cost-burden rates (stub). Actual CHAS data loads via workflow.';
+      } else {
+        confEl.textContent = 'HUD CHAS';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'Based on HUD CHAS ' + ((chasData.meta && chasData.meta.vintage) || '') + ' data.';
+      }
+    }
+
+    // Visual bar showing severity distribution
+    if (barEl && gTot > 0) {
+      var pct30 = Math.round((g30 / gTot) * 100);
+      var pct50 = Math.round((g50 / gTot) * 100);
+      var pct60 = 100 - pct30 - pct50;
+      barEl.innerHTML =
+        '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--bg2);" ' +
+          'role="img" aria-label="Gap distribution: ' + pct30 + '% at 30% AMI, ' + pct50 + '% at 50% AMI, ' + pct60 + '% at 60% AMI">' +
+          '<div style="width:' + pct30 + '%;background:var(--bad);"></div>' +
+          '<div style="width:' + pct50 + '%;background:var(--warn);"></div>' +
+          '<div style="width:' + pct60 + '%;background:var(--accent2);"></div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:2px;">' +
+          '<span>30% AMI (' + pct30 + '%)</span>' +
+          '<span>50% AMI (' + pct50 + '%)</span>' +
+          '<span>60% AMI (' + pct60 + '%)</span>' +
+        '</div>';
+    }
+
+    // Store gap data on HNAState for downstream use (market bridge, deal predictor)
+    if (window.HNAState) {
+      window.HNAState.state.affordabilityGap = {
+        ami30UnitsNeeded: g30,
+        ami50UnitsNeeded: g50,
+        ami60UnitsNeeded: g60,
+        totalUndersupply: gTot
+      };
+    }
+
+    panel.hidden = false;
+  }
+
   window.HNARenderers = {
     setBanner, clearStats, chartTheme, makeChart, renderBoundary,
     updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
@@ -3104,7 +3192,7 @@
     renderBaselineCard, renderGrowthChart, renderFastTrackCard, renderChecklist,
     renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection, renderHnaScorecardPanel,
     renderComplianceTable, renderSnapshot, renderHousingCharts, renderAffordChart,
-    renderRentBurdenBins, renderChasAffordabilityGap, renderModeShare, renderLehd,
+    renderRentBurdenBins, renderChasAffordabilityGap, renderGapCoverageStats, renderModeShare, renderLehd,
     renderDolaPyramid, clearProjectionsForStateLevel, _renderScenarioSection,
     renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
     renderLocalResources, renderMethodology, renderFmrPanel,

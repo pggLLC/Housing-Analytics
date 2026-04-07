@@ -924,3 +924,71 @@ label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
     align-items: center;
   }
 }
+
+/* ================================================================
+   Site Comparison Table
+   ================================================================ */
+.sc-table-wrap { margin-top: 0.5rem; }
+.sc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.sc-table th {
+  text-align: left;
+  font-weight: 700;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--border-strong);
+  white-space: nowrap;
+}
+.sc-table td {
+  padding: 8px 8px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.sc-table tbody tr:hover { background: var(--bg2); }
+.sc-row--best td { background: color-mix(in oklab, var(--card) 80%, var(--good) 8%); }
+.sc-site-label {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.sc-site-coords {
+  font-size: .72rem;
+  color: var(--faint);
+}
+.sc-band {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: .75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sc-band--high     { background: var(--good-dim); color: var(--good); }
+.sc-band--moderate  { background: var(--warn-dim); color: var(--warn); }
+.sc-band--lower     { background: var(--bad-dim);  color: var(--bad);  }
+.sc-dim-bar { margin-top: 2px; }
+.sc-remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--muted);
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+.sc-remove-btn:hover { background: var(--bad-dim); color: var(--bad); }
+.sc-save-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

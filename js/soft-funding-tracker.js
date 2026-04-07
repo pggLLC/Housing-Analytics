@@ -235,11 +235,116 @@
     return _loaded;
   }
 
+  /* ── Extended API: execution-type filtering ────────────────────── */
+
+  /**
+   * Return all eligible programs for a county + execution type (9%, 4%, non-LIHTC).
+   * Filters out exhausted market-source placeholders and volume-cap entries
+   * unless specifically requested.
+   *
+   * @param {string} countyFips    — 5-digit FIPS
+   * @param {string} executionType — '9%' | '4%' | 'non-LIHTC'
+   * @param {Object} [opts]
+   * @param {boolean} [opts.includeMarket]   — include OZ, NMTC, TIF (default false)
+   * @param {boolean} [opts.includeVolumeCap] — include PAB row (default false)
+   * @returns {Array<Object>} sorted by available descending
+   */
+  function getEligiblePrograms(countyFips, executionType, opts) {
+    opts = opts || {};
+    var fips = typeof countyFips === 'string' ? countyFips.padStart(5, '0') : null;
+    var results = [];
+
+    Object.keys(_programs).forEach(function (key) {
+      var prog = _programs[key];
+
+      // County match
+      if (prog.county !== 'All' && prog.county !== 'Selected' && prog.county !== fips) return;
+
+      // Execution type match
+      var eligible = prog.eligibleExecution || [];
+      if (executionType && eligible.indexOf(executionType) === -1) return;
+
+      // Skip market sources unless requested
+      if (prog.isMarketSource && !opts.includeMarket) return;
+
+      // Skip volume cap unless requested
+      if (prog.isVolumeCap && !opts.includeVolumeCap) return;
+
+      var days = _daysToDeadline(prog.deadline);
+      results.push({
+        key:              key,
+        name:             prog.name,
+        available:        typeof prog.available === 'number' ? prog.available : null,
+        awarded:          prog.awarded || null,
+        capacity:         prog.capacity || null,
+        maxPerProject:    prog.maxPerProject || null,
+        deadline:         prog.deadline || null,
+        daysRemaining:    days,
+        competitiveness:  prog.competitiveness || 'moderate',
+        adminEntity:      prog.adminEntity || null,
+        amiTargeting:     prog.amiTargeting || null,
+        warning:          prog.warning || null,
+        note:             prog.note || null,
+        confidence:       _computeConfidence(prog),
+        contactUrl:       prog.contactUrl || null,
+        description:      prog.description || ''
+      });
+    });
+
+    // Sort: available funds descending, then by deadline proximity
+    results.sort(function (a, b) {
+      return (b.available || 0) - (a.available || 0);
+    });
+
+    return results;
+  }
+
+  /**
+   * Return PAB volume cap status for the current year.
+   * @returns {Object|null}
+   */
+  function getPabStatus() {
+    var pab = _programs['PAB-CO'];
+    if (!pab) return null;
+    return {
+      totalCap:     pab.capacity || 0,
+      committed:    pab.awarded || 0,
+      remaining:    pab.available || 0,
+      pctCommitted: pab.capacity ? Math.round((pab.awarded || 0) / pab.capacity * 100) : 0,
+      warning:      pab.warning || null,
+      deadline:     pab.deadline || null
+    };
+  }
+
+  /**
+   * Compute total eligible soft funding for a county + execution type.
+   * Sums available amounts from all matching programs (excluding market & volume cap).
+   *
+   * @param {string} countyFips
+   * @param {string} executionType
+   * @returns {{total: number, programCount: number, programs: Array}}
+   */
+  function sumEligible(countyFips, executionType) {
+    var progs = getEligiblePrograms(countyFips, executionType);
+    var total = 0;
+    progs.forEach(function (p) {
+      if (p.available && p.available > 0) total += p.available;
+    });
+    return {
+      total: total,
+      programCount: progs.length,
+      programs: progs
+    };
+  }
+
   return {
-    load:           load,
-    check:          check,
-    getLastUpdated: getLastUpdated,
-    isLoaded:       isLoaded,
+    load:                 load,
+    check:                check,
+    getLastUpdated:       getLastUpdated,
+    isLoaded:             isLoaded,
+    getEligiblePrograms:  getEligiblePrograms,
+    getPabStatus:         getPabStatus,
+    sumEligible:          sumEligible,
     /* Exposed for testing */
     _daysToDeadline:      _daysToDeadline,
     _computeConfidence:   _computeConfidence,
