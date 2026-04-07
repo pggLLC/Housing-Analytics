@@ -3250,7 +3250,6 @@
     var eraTotal = eras.reduce(function (s, d) { return s + d.v; }, 0);
     // Identify dominant construction era
     var peakEra = eras.reduce(function (best, d) { return d.v > best.v ? d : best; }, eras[0]);
-    var recentPct = eraTotal ? ((eras[0].v + eras[1].v) / eraTotal * 100).toFixed(1) : 0;
     var pre1980Pct = eraTotal ? ((eras[3].v + eras[4].v + eras[5].v + eras[6].v) / eraTotal * 100).toFixed(1) : 0;
 
     if (canvas2 && eraTotal > 0) {
