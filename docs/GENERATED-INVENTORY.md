@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-06T19:07:52.824Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-07T07:42:00.975Z. Do not edit by hand.
 
 ---
 
@@ -27,25 +27,25 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.0 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 33.8 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 36.9 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 66.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 28.5 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.2 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 26.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 117.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 119.8 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 21.0 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.3 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.5 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 63.1 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 64.8 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Policy Briefs | COHO Analytics | 13.4 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 25.6 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 11.0 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 11.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
 
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-882 JSON files found.
+883 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -81,7 +81,7 @@
 | `data/discovery-reports/latest.json` | 128.7 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.78 MB | ✅ | — |
-| `data/glossary.json` | 8.9 KB | ✅ | — |
+| `data/glossary.json` | 12.2 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 30.6 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
@@ -919,6 +919,7 @@
 | `data/market/fmr_co.json` | 289 B | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
+| `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -934,7 +935,7 @@
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 3.6 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 11.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 7.0 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
@@ -1001,7 +1002,7 @@
 | `test/test_legislative_tracker.js` | 11.5 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
-| `test/test_soft_funding_tracker.js` | 9.6 KB |
+| `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 5.5 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
