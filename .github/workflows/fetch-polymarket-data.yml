@@ -1,0 +1,104 @@
+name: Fetch Polymarket Data
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # daily at 06:30 UTC (after FRED fetch)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Fetch Polymarket prediction market data
+        run: |
+          echo "── Starting Polymarket fetch at $(date -u) ──"
+          python3 - <<'PY'
+          import json, sys, datetime, urllib.request, urllib.error
+
+          API = "https://gamma-api.polymarket.com"
+
+          EVENTS = [
+              "us-recession-by-end-of-2026",
+              "fed-decision-in-april",
+              "how-many-fed-rate-cuts-in-2026",
+              "how-high-will-inflation-get-in-2026",
+              "gdp-growth-in-2026",
+              "what-will-the-median-home-value-in-the-us-be-on-april-30",
+              "what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30",
+              "april-unemployment-rate-372",
+              "fed-decision-in-june-825",
+              "what-will-the-median-home-value-in-chicago-be-on-april-30",
+              "tech-layoffs-up-or-down-in-2026",
+              "fed-decision-in-july-181",
+              "negative-gdp-growth-in-2026",
+              "us-gdp-growth-in-q1-2026",
+              "march-inflation-us-annual-higher-brackets",
+          ]
+
+          def fetch_event(slug):
+              url = f"{API}/events?slug={slug}"
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "housing-analytics-bot/1.0"})
+                  with urllib.request.urlopen(req, timeout=15) as resp:
+                      data = json.loads(resp.read().decode())
+                      if data and len(data) > 0:
+                          return data[0]
+              except Exception as e:
+                  print(f"  WARN: {slug}: {e}", file=sys.stderr)
+              return None
+
+          results = {}
+          ok_count = 0
+          for slug in EVENTS:
+              print(f"  Fetching {slug}...", end=" ")
+              event = fetch_event(slug)
+              if event:
+                  # Extract only the fields we need to keep the file small
+                  markets = []
+                  for m in (event.get("markets") or []):
+                      markets.append({
+                          "question": m.get("groupItemTitle") or m.get("question", ""),
+                          "outcomePrices": m.get("outcomePrices", "[]"),
+                          "volume": m.get("volume", "0"),
+                          "outcomes": m.get("outcomes", ""),
+                      })
+                  results[slug] = {
+                      "title": event.get("title", slug),
+                      "slug": slug,
+                      "markets": markets,
+                  }
+                  ok_count += 1
+                  print("OK")
+              else:
+                  print("SKIP")
+
+          output = {
+              "updated": datetime.datetime.utcnow().isoformat() + "Z",
+              "source": "Polymarket Gamma API",
+              "event_count": ok_count,
+              "events": results,
+          }
+
+          out_path = "data/polymarket-data.json"
+          with open(out_path, "w") as f:
+              json.dump(output, f, indent=2)
+          print(f"\n── Wrote {out_path} with {ok_count}/{len(EVENTS)} events ──")
+          PY
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/polymarket-data.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update cached Polymarket prediction market data"
+            git push
+          fi
