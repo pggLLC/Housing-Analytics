@@ -287,6 +287,7 @@ function initPolicyPanel(panelId) {
       if (!window.L || !document.getElementById(elId)) return null;
       var m = L.map(elId, { scrollWheelZoom: false, zoomControl: true })
                .setView([39.0, -105.5], 6);
+      if (window.addMapHomeButton) { addMapHomeButton(m, { center: [39.0, -105.5], zoom: 6 }); }
       _affGeoMaps.push(m);
       return m;
     }
