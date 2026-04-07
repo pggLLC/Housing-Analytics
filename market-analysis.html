@@ -20,6 +20,7 @@
   <script src="js/components/analytics.js" data-step="3" data-step-label="market_analysis"></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
   <!-- Leaflet (vendored locally) -->
@@ -37,12 +38,15 @@
   <link rel="stylesheet" href="css/pages/market-analysis.css">
   <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
   <script src="js/site-state.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/chart-fix.js"></script>
   <script defer src="js/market-data-quality.js"></script>
   <script defer src="js/market-analysis-enhancements.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">  <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -141,6 +145,7 @@
         <li><a href="#maNeighborhoodAccess" class="ma-section-nav-link">Neighborhood Access</a></li>
         <li><a href="#maPolicyOverlays" class="ma-section-nav-link">Policy Overlays</a></li>
         <li><a href="#maOpportunities" class="ma-section-nav-link">Opportunities</a></li>
+        <li><a href="#maSiteComparison" class="ma-section-nav-link">Compare Sites</a></li>
       </ul>
     </nav>
 
@@ -758,6 +763,26 @@
     <!-- Export panel (Market Analysis step) -->
     <div id="exportPanelMount-ma"></div>
 
+    <!-- ── Site Comparison ─────────────────────────────────────────────── -->
+    <section class="ma-report-section" id="maSiteComparison" aria-labelledby="maSiteCompHeading">
+      <h2 id="maSiteCompHeading">Site Comparison</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem;">
+        Save scored sites and compare them side by side. Each site captures its full 6-dimension score, location, QCT/DDA status, and gap coverage.
+      </p>
+      <div id="siteCompSetupBar">
+        <div class="sc-save-btns" id="scSaveButtons" style="display:none;">
+          <button type="button" class="btn btn-sm" id="scSaveSiteBtn" title="Save the current site analysis to the comparison table">Save Current Site</button>
+          <span id="scSaveConfirm" style="font-size:.82rem;color:var(--good);display:none;">Saved</span>
+        </div>
+      </div>
+      <div id="siteCompTable" style="margin-top:.75rem;">
+        <p class="ma-section-placeholder">Score a site above, then click "Save Current Site" to begin comparing locations.</p>
+      </div>
+      <div id="siteCompActions" style="margin-top:.5rem;display:none;">
+        <button type="button" class="btn btn-sm dc-comp-action--reset" id="scClearAllBtn">Clear All Sites</button>
+      </div>
+    </section>
+
     <!-- Market Analysis Save & Continue panel -->
     <section class="hna-continue-panel" id="maContinuePanel">
       <div class="hna-continue-panel__inner">
@@ -826,6 +851,7 @@
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
+  <script defer src="js/market-analysis/site-comparison.js"></script>
   <!-- Phase 2.1: Enhanced constraint screening modules -->
   <script defer src="js/environmental-screening.js"></script>
   <script defer src="js/public-land-overlay.js"></script>

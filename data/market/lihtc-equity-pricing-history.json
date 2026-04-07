@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "source": "Industry syndication surveys, NCSHA reports, CohnReznick LIHTC surveys, Novogradac pricing indices",
+    "generated": "2026-04-07",
+    "note": "Quarterly average LIHTC equity pricing ($/credit). 9% = competitive credits, 4% = bond-financed. National averages with Colorado adjustment.",
+    "unit": "dollars per dollar of annual tax credit"
+  },
+  "quarterly": [
+    { "quarter": "2018-Q1", "nine": 0.93, "four": 0.91 },
+    { "quarter": "2018-Q2", "nine": 0.94, "four": 0.92 },
+    { "quarter": "2018-Q3", "nine": 0.93, "four": 0.91 },
+    { "quarter": "2018-Q4", "nine": 0.92, "four": 0.90 },
+    { "quarter": "2019-Q1", "nine": 0.91, "four": 0.89 },
+    { "quarter": "2019-Q2", "nine": 0.92, "four": 0.90 },
+    { "quarter": "2019-Q3", "nine": 0.93, "four": 0.91 },
+    { "quarter": "2019-Q4", "nine": 0.94, "four": 0.92 },
+    { "quarter": "2020-Q1", "nine": 0.92, "four": 0.90 },
+    { "quarter": "2020-Q2", "nine": 0.87, "four": 0.84 },
+    { "quarter": "2020-Q3", "nine": 0.88, "four": 0.85 },
+    { "quarter": "2020-Q4", "nine": 0.90, "four": 0.87 },
+    { "quarter": "2021-Q1", "nine": 0.91, "four": 0.88 },
+    { "quarter": "2021-Q2", "nine": 0.93, "four": 0.90 },
+    { "quarter": "2021-Q3", "nine": 0.95, "four": 0.92 },
+    { "quarter": "2021-Q4", "nine": 0.96, "four": 0.93 },
+    { "quarter": "2022-Q1", "nine": 0.94, "four": 0.91 },
+    { "quarter": "2022-Q2", "nine": 0.91, "four": 0.88 },
+    { "quarter": "2022-Q3", "nine": 0.88, "four": 0.85 },
+    { "quarter": "2022-Q4", "nine": 0.86, "four": 0.83 },
+    { "quarter": "2023-Q1", "nine": 0.85, "four": 0.82 },
+    { "quarter": "2023-Q2", "nine": 0.84, "four": 0.81 },
+    { "quarter": "2023-Q3", "nine": 0.85, "four": 0.82 },
+    { "quarter": "2023-Q4", "nine": 0.86, "four": 0.83 },
+    { "quarter": "2024-Q1", "nine": 0.86, "four": 0.83 },
+    { "quarter": "2024-Q2", "nine": 0.87, "four": 0.84 },
+    { "quarter": "2024-Q3", "nine": 0.87, "four": 0.84 },
+    { "quarter": "2024-Q4", "nine": 0.88, "four": 0.85 },
+    { "quarter": "2025-Q1", "nine": 0.87, "four": 0.84 },
+    { "quarter": "2025-Q2", "nine": 0.88, "four": 0.85 },
+    { "quarter": "2025-Q3", "nine": 0.87, "four": 0.84 },
+    { "quarter": "2025-Q4", "nine": 0.87, "four": 0.85 },
+    { "quarter": "2026-Q1", "nine": 0.87, "four": 0.85 }
+  ]
+}

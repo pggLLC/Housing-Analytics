@@ -185,6 +185,59 @@ test('check(): null data returns empty result gracefully', function () {
   assert(result.available === 0,              'available = 0 when no programs');
 });
 
+/* ── getEligiblePrograms(): filters by county + execution type ───── */
+test('getEligiblePrograms(): returns 9% programs for Denver', function () {
+  tracker.load(data); // reload after null-data test above
+  var progs = tracker.getEligiblePrograms('08031', '9%');
+  assert(Array.isArray(progs), 'returns array');
+  assert(progs.length > 0, 'at least one program');
+  // Should include Denver AHTF (county-specific) and statewide programs
+  var names = progs.map(function (p) { return p.key; });
+  assert(names.indexOf('Denver-AHTF') >= 0, 'includes Denver AHTF (county-specific)');
+  assert(names.indexOf('CHFA-HTF') >= 0, 'includes CHFA HTF (statewide)');
+  // Should NOT include PAB (volume cap) or OZ (market source)
+  assert(names.indexOf('PAB-CO') === -1, 'excludes PAB volume cap by default');
+  assert(names.indexOf('OZ-EQUITY') === -1, 'excludes OZ market source by default');
+});
+
+test('getEligiblePrograms(): 4% filter excludes non-LIHTC-only programs', function () {
+  var progs = tracker.getEligiblePrograms('08001', '4%');
+  var keys = progs.map(function (p) { return p.key; });
+  // PROP123-LBTF is non-LIHTC only — should be excluded from 4%
+  assert(keys.indexOf('PROP123-LBTF') === -1, 'excludes non-LIHTC-only programs from 4%');
+  // CHFA-CCLA is eligible for 4% — should be included
+  assert(keys.indexOf('CHFA-CCLA') >= 0, 'includes CHFA CCLA for 4%');
+});
+
+test('getEligiblePrograms(): includes market sources when requested', function () {
+  var progs = tracker.getEligiblePrograms('08031', '9%', { includeMarket: true });
+  var keys = progs.map(function (p) { return p.key; });
+  assert(keys.indexOf('OZ-EQUITY') >= 0 || keys.indexOf('TIF-LOCAL') >= 0, 'includes at least one market source');
+});
+
+/* ── getPabStatus(): returns volume cap data ─────────────────────── */
+test('getPabStatus(): returns PAB volume cap data', function () {
+  var pab = tracker.getPabStatus();
+  assert(pab !== null, 'returns object');
+  assert(typeof pab.totalCap === 'number', 'totalCap is number');
+  assert(typeof pab.remaining === 'number', 'remaining is number');
+  assert(typeof pab.pctCommitted === 'number', 'pctCommitted is number');
+  assert(pab.totalCap > 0, 'totalCap > 0');
+  assert(pab.remaining <= pab.totalCap, 'remaining <= totalCap');
+});
+
+/* ── sumEligible(): totals available funding ─────────────────────── */
+test('sumEligible(): returns total for county + execution type', function () {
+  var result = tracker.sumEligible('08031', '9%');
+  assert(typeof result.total === 'number', 'total is number');
+  assert(result.total > 0, 'total > 0 for Denver 9%');
+  assert(result.programCount > 0, 'programCount > 0');
+  assert(Array.isArray(result.programs), 'programs is array');
+  // Denver should have more total than a rural county due to Denver AHTF
+  var ruralResult = tracker.sumEligible('08001', '9%');
+  assert(result.total > ruralResult.total, 'Denver total > rural total (Denver AHTF adds local funds)');
+});
+
 /* ── Summary ─────────────────────────────────────────────────────── */
 console.log('\n' + '='.repeat(50));
 console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
