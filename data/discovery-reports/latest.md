@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-07T08:04:29.847Z
+**Scan timestamp:** 2026-04-08T08:05:23.201Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 907 |
-| New (unregistered) | 876 |
+| Files scanned | 909 |
+| New (unregistered) | 878 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -15,18 +15,20 @@
 ## 🆕 New Unregistered Sources
 
 - `data/alerts/alerts_archive.json` (102 KB)
+- `data/amenities/parks_co.geojson` (1247 KB)
+- `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
 - `data/core/educational-content.json` (66 KB)
 - `data/core/neighborhood-context.json` (70 KB)
 - `data/derived/market-analysis/market_demand.json` (8 KB)
-- `data/derived/market-analysis/neighborhood_access.json` (14 KB)
+- `data/derived/market-analysis/neighborhood_access.json` (2363 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (129 KB)
+- `data/discovery-reports/latest.json` (128 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
-- `data/glossary.json` (12 KB)
+- `data/glossary.json` (14 KB)
 - `data/hna/derived/geo-derived.json` (6 KB)
 - `data/hna/dola_sya/08.json` (4 KB)
 - `data/hna/dola_sya/08001.json` (3 KB)
@@ -852,7 +854,7 @@
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
 - `data/market/cdot_traffic_co.json` (8 KB)
-- `data/market/chas_co.json` (0 KB)
+- `data/market/chas_co.json` (128 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
 - `data/market/data_quality_report.json` (11 KB)
@@ -861,7 +863,7 @@
 - `data/market/epa_sld_co.json` (716 KB)
 - `data/market/flood_zones_co.geojson` (0 KB)
 - `data/market/flood_zones_co.json` (605 KB)
-- `data/market/fmr_co.json` (0 KB)
+- `data/market/fmr_co.json` (17 KB)
 - `data/market/food_access_co.json` (432 KB)
 - `data/market/hud_egis_co.geojson` (55 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
@@ -893,27 +895,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 827 days since last update
-- **undefined** — 461 days since last update
-- **undefined** — 461 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 828 days since last update
+- **undefined** — 462 days since last update
+- **undefined** — 462 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 371 days since last update
+- undefined — 372 days since last update
