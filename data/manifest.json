@@ -1,4486 +1,923 @@
 {
-  "generated": "2026-04-07T09:12:01Z",
-  "files": {
-    "data/alerts/alerts_archive.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 104570
-    },
-    "data/allocations.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 12560
-    },
-    "data/amenities/grocery_co.geojson": {
-      "featureCount": 20,
-      "placeholder": false,
-      "bytes": 7835
-    },
-    "data/amenities/healthcare_co.geojson": {
-      "featureCount": 3075,
-      "placeholder": false,
-      "bytes": 1248403
-    },
-    "data/amenities/retail_nodes_co.geojson": {
-      "featureCount": 10017,
-      "placeholder": false,
-      "bytes": 3939265
-    },
-    "data/amenities/schools_co.geojson": {
-      "featureCount": 2944,
-      "placeholder": false,
-      "bytes": 1169532
-    },
-    "data/boundaries/counties_co.geojson": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 126391
-    },
-    "data/car-market-report-2026-02.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2272
-    },
-    "data/car-market-report-2026-03.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2273
-    },
-    "data/car-market-report-2026-04.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2325
-    },
-    "data/car-market.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 469
-    },
-    "data/census-acs-state.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 24892
-    },
-    "data/chfa-lihtc.json": {
-      "featureCount": 716,
-      "placeholder": false,
-      "bytes": 275523
-    },
-    "data/co-county-boundaries.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 126391
-    },
-    "data/co-county-demographics.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 24155
-    },
-    "data/co-county-economic-indicators.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 15301
-    },
-    "data/co-demographics.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 875
-    },
-    "data/co-historical-allocations.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 18521
-    },
-    "data/co_ami_gap_by_county.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 70651
-    },
-    "data/core/educational-content.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 67569
-    },
-    "data/core/neighborhood-context.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 71321
-    },
-    "data/dda-colorado.json": {
-      "featureCount": 10,
-      "placeholder": false,
-      "bytes": 341647
-    },
-    "data/derived/market-analysis/market_demand.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 8313
-    },
-    "data/derived/market-analysis/neighborhood_access.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 14416
-    },
-    "data/derived/market-analysis/site_opportunities.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 9505
-    },
-    "data/derived/market-analysis/subsidy_layers.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1872
-    },
-    "data/discovery-reports/latest.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 131775
-    },
-    "data/environmental/epa-superfund-co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2813
-    },
-    "data/environmental/fema-flood-co.geojson": {
-      "featureCount": 5,
-      "placeholder": false,
-      "bytes": 2580
-    },
-    "data/fred-data.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1868259
-    },
-    "data/glossary.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 9153
-    },
-    "data/hna/chas_affordability_gap.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 31304
-    },
-    "data/hna/derived/geo-derived.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 6329
-    },
-    "data/hna/dola_sya/08.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3753
-    },
-    "data/hna/dola_sya/08001.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3545
-    },
-    "data/hna/dola_sya/08003.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3233
-    },
-    "data/hna/dola_sya/08005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3558
-    },
-    "data/hna/dola_sya/08007.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3210
-    },
-    "data/hna/dola_sya/08009.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3142
-    },
-    "data/hna/dola_sya/08011.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3148
-    },
-    "data/hna/dola_sya/08013.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3543
-    },
-    "data/hna/dola_sya/08014.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3359
-    },
-    "data/hna/dola_sya/08015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3273
-    },
-    "data/hna/dola_sya/08017.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3072
-    },
-    "data/hna/dola_sya/08019.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3156
-    },
-    "data/hna/dola_sya/08021.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3157
-    },
-    "data/hna/dola_sya/08023.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3147
-    },
-    "data/hna/dola_sya/08025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3148
-    },
-    "data/hna/dola_sya/08027.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3155
-    },
-    "data/hna/dola_sya/08029.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3349
-    },
-    "data/hna/dola_sya/08031.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3558
-    },
-    "data/hna/dola_sya/08033.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3094
-    },
-    "data/hna/dola_sya/08035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3542
-    },
-    "data/hna/dola_sya/08037.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3336
-    },
-    "data/hna/dola_sya/08039.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3325
-    },
-    "data/hna/dola_sya/08041.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3561
-    },
-    "data/hna/dola_sya/08043.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3350
-    },
-    "data/hna/dola_sya/08045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3347
-    },
-    "data/hna/dola_sya/08047.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3149
-    },
-    "data/hna/dola_sya/08049.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3240
-    },
-    "data/hna/dola_sya/08051.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3232
-    },
-    "data/hna/dola_sya/08053.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2972
-    },
-    "data/hna/dola_sya/08055.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3160
-    },
-    "data/hna/dola_sya/08057.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2996
-    },
-    "data/hna/dola_sya/08059.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3563
-    },
-    "data/hna/dola_sya/08061.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3008
-    },
-    "data/hna/dola_sya/08063.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3156
-    },
-    "data/hna/dola_sya/08065.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3139
-    },
-    "data/hna/dola_sya/08067.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3355
-    },
-    "data/hna/dola_sya/08069.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3548
-    },
-    "data/hna/dola_sya/08071.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3201
-    },
-    "data/hna/dola_sya/08073.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3150
-    },
-    "data/hna/dola_sya/08075.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3277
-    },
-    "data/hna/dola_sya/08077.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3439
-    },
-    "data/hna/dola_sya/08079.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2979
-    },
-    "data/hna/dola_sya/08081.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3167
-    },
-    "data/hna/dola_sya/08083.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3329
-    },
-    "data/hna/dola_sya/08085.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3357
-    },
-    "data/hna/dola_sya/08087.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3327
-    },
-    "data/hna/dola_sya/08089.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3251
-    },
-    "data/hna/dola_sya/08091.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3152
-    },
-    "data/hna/dola_sya/08093.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3270
-    },
-    "data/hna/dola_sya/08095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3141
-    },
-    "data/hna/dola_sya/08097.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3254
-    },
-    "data/hna/dola_sya/08099.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3159
-    },
-    "data/hna/dola_sya/08101.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3463
-    },
-    "data/hna/dola_sya/08103.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3150
-    },
-    "data/hna/dola_sya/08105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3159
-    },
-    "data/hna/dola_sya/08107.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3326
-    },
-    "data/hna/dola_sya/08109.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3155
-    },
-    "data/hna/dola_sya/08111.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2976
-    },
-    "data/hna/dola_sya/08113.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3148
-    },
-    "data/hna/dola_sya/08115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3111
-    },
-    "data/hna/dola_sya/08117.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3314
-    },
-    "data/hna/dola_sya/08119.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3311
-    },
-    "data/hna/dola_sya/08121.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3153
-    },
-    "data/hna/dola_sya/08123.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3535
-    },
-    "data/hna/dola_sya/08125.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3157
-    },
-    "data/hna/geo-config.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 65551
-    },
-    "data/hna/geography-registry.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 126690
-    },
-    "data/hna/lehd/08.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2173
-    },
-    "data/hna/lehd/08001.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2719
-    },
-    "data/hna/lehd/08003.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2633
-    },
-    "data/hna/lehd/08005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2735
-    },
-    "data/hna/lehd/08007.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2628
-    },
-    "data/hna/lehd/08009.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2587
-    },
-    "data/hna/lehd/08011.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2569
-    },
-    "data/hna/lehd/08013.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2720
-    },
-    "data/hna/lehd/08014.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2640
-    },
-    "data/hna/lehd/08015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2651
-    },
-    "data/hna/lehd/08017.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2559
-    },
-    "data/hna/lehd/08019.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2601
-    },
-    "data/hna/lehd/08021.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2587
-    },
-    "data/hna/lehd/08023.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2568
-    },
-    "data/hna/lehd/08025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2560
-    },
-    "data/hna/lehd/08027.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2584
-    },
-    "data/hna/lehd/08029.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2639
-    },
-    "data/hna/lehd/08031.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2742
-    },
-    "data/hna/lehd/08033.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2544
-    },
-    "data/hna/lehd/08035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2708
-    },
-    "data/hna/lehd/08037.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2675
-    },
-    "data/hna/lehd/08039.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2610
-    },
-    "data/hna/lehd/08041.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2742
-    },
-    "data/hna/lehd/08043.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2650
-    },
-    "data/hna/lehd/08045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2672
-    },
-    "data/hna/lehd/08047.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2585
-    },
-    "data/hna/lehd/08049.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2634
-    },
-    "data/hna/lehd/08051.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2651
-    },
-    "data/hna/lehd/08053.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2538
-    },
-    "data/hna/lehd/08055.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2585
-    },
-    "data/hna/lehd/08057.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2567
-    },
-    "data/hna/lehd/08059.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2721
-    },
-    "data/hna/lehd/08061.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2561
-    },
-    "data/hna/lehd/08063.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2608
-    },
-    "data/hna/lehd/08065.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2602
-    },
-    "data/hna/lehd/08067.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2673
-    },
-    "data/hna/lehd/08069.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2719
-    },
-    "data/hna/lehd/08071.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2627
-    },
-    "data/hna/lehd/08073.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2587
-    },
-    "data/hna/lehd/08075.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2637
-    },
-    "data/hna/lehd/08077.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2717
-    },
-    "data/hna/lehd/08079.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2541
-    },
-    "data/hna/lehd/08081.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2629
-    },
-    "data/hna/lehd/08083.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2650
-    },
-    "data/hna/lehd/08085.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2655
-    },
-    "data/hna/lehd/08087.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2653
-    },
-    "data/hna/lehd/08089.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2635
-    },
-    "data/hna/lehd/08091.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2588
-    },
-    "data/hna/lehd/08093.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2603
-    },
-    "data/hna/lehd/08095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2601
-    },
-    "data/hna/lehd/08097.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2649
-    },
-    "data/hna/lehd/08099.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2627
-    },
-    "data/hna/lehd/08101.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2701
-    },
-    "data/hna/lehd/08103.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2607
-    },
-    "data/hna/lehd/08105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2611
-    },
-    "data/hna/lehd/08107.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2652
-    },
-    "data/hna/lehd/08109.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2585
-    },
-    "data/hna/lehd/08111.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2544
-    },
-    "data/hna/lehd/08113.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2626
-    },
-    "data/hna/lehd/08115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2568
-    },
-    "data/hna/lehd/08117.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2653
-    },
-    "data/hna/lehd/08119.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2635
-    },
-    "data/hna/lehd/08121.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2584
-    },
-    "data/hna/lehd/08123.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2718
-    },
-    "data/hna/lehd/08125.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2619
-    },
-    "data/hna/lihtc/08001.json": {
-      "featureCount": 49,
-      "placeholder": false,
-      "bytes": 18989
-    },
-    "data/hna/lihtc/08003.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1620
-    },
-    "data/hna/lihtc/08005.json": {
-      "featureCount": 63,
-      "placeholder": false,
-      "bytes": 24534
-    },
-    "data/hna/lihtc/08007.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08009.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08011.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08013.json": {
-      "featureCount": 60,
-      "placeholder": false,
-      "bytes": 23004
-    },
-    "data/hna/lihtc/08014.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1624
-    },
-    "data/hna/lihtc/08015.json": {
-      "featureCount": 6,
-      "placeholder": false,
-      "bytes": 2400
-    },
-    "data/hna/lihtc/08017.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08019.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 481
-    },
-    "data/hna/lihtc/08021.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1642
-    },
-    "data/hna/lihtc/08023.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08027.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 459
-    },
-    "data/hna/lihtc/08029.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1598
-    },
-    "data/hna/lihtc/08031.json": {
-      "featureCount": 198,
-      "placeholder": false,
-      "bytes": 75648
-    },
-    "data/hna/lihtc/08033.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08035.json": {
-      "featureCount": 9,
-      "placeholder": false,
-      "bytes": 3629
-    },
-    "data/hna/lihtc/08037.json": {
-      "featureCount": 8,
-      "placeholder": false,
-      "bytes": 3102
-    },
-    "data/hna/lihtc/08039.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08041.json": {
-      "featureCount": 34,
-      "placeholder": false,
-      "bytes": 13560
-    },
-    "data/hna/lihtc/08043.json": {
-      "featureCount": 14,
-      "placeholder": false,
-      "bytes": 5492
-    },
-    "data/hna/lihtc/08045.json": {
-      "featureCount": 7,
-      "placeholder": false,
-      "bytes": 2814
-    },
-    "data/hna/lihtc/08047.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 474
-    },
-    "data/hna/lihtc/08049.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 452
-    },
-    "data/hna/lihtc/08051.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 469
-    },
-    "data/hna/lihtc/08053.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08055.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 465
-    },
-    "data/hna/lihtc/08057.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08059.json": {
-      "featureCount": 45,
-      "placeholder": false,
-      "bytes": 17575
-    },
-    "data/hna/lihtc/08061.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08063.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 473
-    },
-    "data/hna/lihtc/08065.json": {
-      "featureCount": 2,
-      "placeholder": false,
-      "bytes": 835
-    },
-    "data/hna/lihtc/08067.json": {
-      "featureCount": 14,
-      "placeholder": false,
-      "bytes": 5468
-    },
-    "data/hna/lihtc/08069.json": {
-      "featureCount": 52,
-      "placeholder": false,
-      "bytes": 20210
-    },
-    "data/hna/lihtc/08071.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 469
-    },
-    "data/hna/lihtc/08073.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08075.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1608
-    },
-    "data/hna/lihtc/08077.json": {
-      "featureCount": 14,
-      "placeholder": false,
-      "bytes": 5426
-    },
-    "data/hna/lihtc/08079.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08081.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08083.json": {
-      "featureCount": 8,
-      "placeholder": false,
-      "bytes": 3130
-    },
-    "data/hna/lihtc/08085.json": {
-      "featureCount": 9,
-      "placeholder": false,
-      "bytes": 3507
-    },
-    "data/hna/lihtc/08087.json": {
-      "featureCount": 5,
-      "placeholder": false,
-      "bytes": 1964
-    },
-    "data/hna/lihtc/08089.json": {
-      "featureCount": 2,
-      "placeholder": false,
-      "bytes": 844
-    },
-    "data/hna/lihtc/08091.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08093.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 450
-    },
-    "data/hna/lihtc/08095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08097.json": {
-      "featureCount": 5,
-      "placeholder": false,
-      "bytes": 1980
-    },
-    "data/hna/lihtc/08099.json": {
-      "featureCount": 2,
-      "placeholder": false,
-      "bytes": 827
-    },
-    "data/hna/lihtc/08101.json": {
-      "featureCount": 35,
-      "placeholder": false,
-      "bytes": 13350
-    },
-    "data/hna/lihtc/08103.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08105.json": {
-      "featureCount": 4,
-      "placeholder": false,
-      "bytes": 1625
-    },
-    "data/hna/lihtc/08107.json": {
-      "featureCount": 3,
-      "placeholder": false,
-      "bytes": 1271
-    },
-    "data/hna/lihtc/08109.json": {
-      "featureCount": 5,
-      "placeholder": false,
-      "bytes": 2015
-    },
-    "data/hna/lihtc/08111.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08113.json": {
-      "featureCount": 3,
-      "placeholder": false,
-      "bytes": 1240
-    },
-    "data/hna/lihtc/08115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08117.json": {
-      "featureCount": 6,
-      "placeholder": false,
-      "bytes": 2383
-    },
-    "data/hna/lihtc/08119.json": {
-      "featureCount": 2,
-      "placeholder": false,
-      "bytes": 840
-    },
-    "data/hna/lihtc/08121.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 81
-    },
-    "data/hna/lihtc/08123.json": {
-      "featureCount": 22,
-      "placeholder": false,
-      "bytes": 8464
-    },
-    "data/hna/lihtc/08125.json": {
-      "featureCount": 1,
-      "placeholder": false,
-      "bytes": 449
-    },
-    "data/hna/local-notes.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 751
-    },
-    "data/hna/local-resources.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 70187
-    },
-    "data/hna/projections/08.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2491
-    },
-    "data/hna/projections/08001.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3682
-    },
-    "data/hna/projections/08003.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3560
-    },
-    "data/hna/projections/08005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3660
-    },
-    "data/hna/projections/08007.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3574
-    },
-    "data/hna/projections/08009.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3565
-    },
-    "data/hna/projections/08011.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3540
-    },
-    "data/hna/projections/08013.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3674
-    },
-    "data/hna/projections/08014.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3637
-    },
-    "data/hna/projections/08015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3587
-    },
-    "data/hna/projections/08017.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3533
-    },
-    "data/hna/projections/08019.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3540
-    },
-    "data/hna/projections/08021.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3519
-    },
-    "data/hna/projections/08023.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3555
-    },
-    "data/hna/projections/08025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3529
-    },
-    "data/hna/projections/08027.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3554
-    },
-    "data/hna/projections/08029.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3611
-    },
-    "data/hna/projections/08031.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3672
-    },
-    "data/hna/projections/08033.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3544
-    },
-    "data/hna/projections/08035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3696
-    },
-    "data/hna/projections/08037.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3613
-    },
-    "data/hna/projections/08039.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3621
-    },
-    "data/hna/projections/08041.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3666
-    },
-    "data/hna/projections/08043.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3613
-    },
-    "data/hna/projections/08045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3618
-    },
-    "data/hna/projections/08047.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3536
-    },
-    "data/hna/projections/08049.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3569
-    },
-    "data/hna/projections/08051.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3565
-    },
-    "data/hna/projections/08053.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3488
-    },
-    "data/hna/projections/08055.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3558
-    },
-    "data/hna/projections/08057.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3537
-    },
-    "data/hna/projections/08059.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3681
-    },
-    "data/hna/projections/08061.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3536
-    },
-    "data/hna/projections/08063.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3505
-    },
-    "data/hna/projections/08065.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3543
-    },
-    "data/hna/projections/08067.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3626
-    },
-    "data/hna/projections/08069.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3688
-    },
-    "data/hna/projections/08071.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3590
-    },
-    "data/hna/projections/08073.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3526
-    },
-    "data/hna/projections/08075.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3549
-    },
-    "data/hna/projections/08077.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3646
-    },
-    "data/hna/projections/08079.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3462
-    },
-    "data/hna/projections/08081.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3592
-    },
-    "data/hna/projections/08083.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3610
-    },
-    "data/hna/projections/08085.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3613
-    },
-    "data/hna/projections/08087.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3609
-    },
-    "data/hna/projections/08089.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3604
-    },
-    "data/hna/projections/08091.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3516
-    },
-    "data/hna/projections/08093.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3589
-    },
-    "data/hna/projections/08095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3533
-    },
-    "data/hna/projections/08097.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3590
-    },
-    "data/hna/projections/08099.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3578
-    },
-    "data/hna/projections/08101.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3632
-    },
-    "data/hna/projections/08103.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3569
-    },
-    "data/hna/projections/08105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3591
-    },
-    "data/hna/projections/08107.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3617
-    },
-    "data/hna/projections/08109.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3525
-    },
-    "data/hna/projections/08111.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3507
-    },
-    "data/hna/projections/08113.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3536
-    },
-    "data/hna/projections/08115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3542
-    },
-    "data/hna/projections/08117.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3594
-    },
-    "data/hna/projections/08119.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3607
-    },
-    "data/hna/projections/08121.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3571
-    },
-    "data/hna/projections/08123.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3697
-    },
-    "data/hna/projections/08125.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3566
-    },
-    "data/hna/ranking-index.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 364119
-    },
-    "data/hna/scenarios/baseline.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1313
-    },
-    "data/hna/scenarios/high-growth.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1319
-    },
-    "data/hna/scenarios/low-growth.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1307
-    },
-    "data/hna/summary/08.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 968
-    },
-    "data/hna/summary/08001.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1086
-    },
-    "data/hna/summary/08003.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0800320.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/08005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1095
-    },
-    "data/hna/summary/0800620.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/08007.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0800760.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0800870.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1086
-    },
-    "data/hna/summary/08009.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0800925.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0801090.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/08011.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0801145.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/08013.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1087
-    },
-    "data/hna/summary/08014.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1089
-    },
-    "data/hna/summary/0801420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/08015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0801530.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0801640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/08017.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0801740.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/08019.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0801915.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/08021.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/08023.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0802355.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/08025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0802575.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/08027.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0802850.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/08029.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0802905.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0803015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1089
-    },
-    "data/hna/summary/08031.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1090
-    },
-    "data/hna/summary/0803235.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/08033.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0803455.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/08035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1086
-    },
-    "data/hna/summary/0803620.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/08037.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0803730.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0803840.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/08039.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0803950.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0804000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1084
-    },
-    "data/hna/summary/08041.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1092
-    },
-    "data/hna/summary/0804110.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0804165.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/08043.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/08045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1084
-    },
-    "data/hna/summary/0804620.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/08047.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/08049.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0804935.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/08051.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/0805120.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1083
-    },
-    "data/hna/summary/0805265.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/08053.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/08055.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/08057.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/08059.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1098
-    },
-    "data/hna/summary/0806090.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/08061.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0806172.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0806255.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/08063.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/08065.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0806530.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0806602.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/08067.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/08069.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1088
-    },
-    "data/hna/summary/0806970.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1073
-    },
-    "data/hna/summary/0807025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/08071.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/0807190.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0807245.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/08073.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0807410.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0807420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0807455.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/08075.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0807571.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1116
-    },
-    "data/hna/summary/0807580.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1106
-    },
-    "data/hna/summary/08077.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0807795.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0807850.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/08079.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0808070.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/08081.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0808290.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1109
-    },
-    "data/hna/summary/08083.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0808345.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0808400.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/08085.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0808530.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0808620.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0808675.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/08087.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/08089.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0808950.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/08091.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0809115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0809280.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/08093.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/08095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0809555.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/08097.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/08099.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/08101.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0810105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/08103.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/08105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0810600.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/08107.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/08109.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1067
-    },
-    "data/hna/summary/0810985.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/08111.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0811260.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/08113.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/08115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0811645.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1041
-    },
-    "data/hna/summary/08117.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0811810.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1090
-    },
-    "data/hna/summary/08119.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0811975.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0812030.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1114
-    },
-    "data/hna/summary/0812045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/08121.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/08123.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0812325.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0812387.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0812393.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1100
-    },
-    "data/hna/summary/0812415.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1145
-    },
-    "data/hna/summary/0812450.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0812460.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0812470.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/08125.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0812635.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0812815.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0812855.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0812900.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0812910.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1263
-    },
-    "data/hna/summary/0812945.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0813460.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/0813590.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/0813845.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1098
-    },
-    "data/hna/summary/0814175.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0814587.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0814765.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0815165.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1094
-    },
-    "data/hna/summary/0815302.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0815330.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0815440.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0815550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0815605.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0815825.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0815935.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0816000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1115
-    },
-    "data/hna/summary/0816110.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0816385.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1083
-    },
-    "data/hna/summary/0816465.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0816495.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1147
-    },
-    "data/hna/summary/0816715.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1105
-    },
-    "data/hna/summary/0817100.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1041
-    },
-    "data/hna/summary/0817150.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1087
-    },
-    "data/hna/summary/0817375.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0817485.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0817760.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0817925.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0818310.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0818420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0818530.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1073
-    },
-    "data/hna/summary/0818585.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0818640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1036
-    },
-    "data/hna/summary/0818750.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0819080.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0819150.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/0819355.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0819630.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0819795.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0819850.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0820000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1086
-    },
-    "data/hna/summary/0820275.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0820440.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0820495.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0820605.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0820770.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0821155.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0821265.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0821330.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0821390.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1105
-    },
-    "data/hna/summary/0822035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0822145.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1040
-    },
-    "data/hna/summary/0822200.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0822575.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1087
-    },
-    "data/hna/summary/0822860.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0822882.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0823025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0823135.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0823300.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0823520.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1038
-    },
-    "data/hna/summary/0823575.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0823630.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1080
-    },
-    "data/hna/summary/0823740.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0823795.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0824235.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0824290.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0824620.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0824785.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1080
-    },
-    "data/hna/summary/0824950.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0825115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0825280.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0825390.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0825550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0825610.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0826270.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1089
-    },
-    "data/hna/summary/0826600.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/0826765.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0826875.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0827040.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0827095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0827175.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0827370.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0827425.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1095
-    },
-    "data/hna/summary/0827535.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0827700.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0827810.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1080
-    },
-    "data/hna/summary/0827865.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/0827950.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1097
-    },
-    "data/hna/summary/0827975.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0828105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0828250.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0828305.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0828360.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0828690.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0828745.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1091
-    },
-    "data/hna/summary/0828800.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0828830.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1107
-    },
-    "data/hna/summary/0829185.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0829240.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1117
-    },
-    "data/hna/summary/0829295.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1117
-    },
-    "data/hna/summary/0829625.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0829680.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0829735.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0829845.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0829955.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0830340.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0830350.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0830420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0830780.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1095
-    },
-    "data/hna/summary/0830835.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0830890.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0830945.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0831550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0831605.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0831660.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1129
-    },
-    "data/hna/summary/0831715.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0831935.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0832155.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/0832650.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0833035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1096
-    },
-    "data/hna/summary/0833310.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0833420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1110
-    },
-    "data/hna/summary/0833502.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0833640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0833695.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0834520.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0834630.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1105
-    },
-    "data/hna/summary/0834685.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1038
-    },
-    "data/hna/summary/0834740.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0834960.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0835070.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0835400.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0835860.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0836410.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1097
-    },
-    "data/hna/summary/0836610.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0836940.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0837215.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1040
-    },
-    "data/hna/summary/0837220.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/0837270.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0837380.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0837545.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0837600.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1090
-    },
-    "data/hna/summary/0837655.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0837820.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0837875.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1037
-    },
-    "data/hna/summary/0838370.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/0838425.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1038
-    },
-    "data/hna/summary/0838480.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0838535.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0838590.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1041
-    },
-    "data/hna/summary/0838810.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0838910.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0839160.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0839195.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0839250.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0839745.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1033
-    },
-    "data/hna/summary/0839800.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/0839855.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/0839965.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0840185.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0840377.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0840515.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0840550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0840570.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1037
-    },
-    "data/hna/summary/0840790.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0840900.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1035
-    },
-    "data/hna/summary/0841010.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0841065.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0841560.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0841835.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/0842000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1100
-    },
-    "data/hna/summary/0842055.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0842110.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0842165.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/0842330.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0842495.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0843000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1083
-    },
-    "data/hna/summary/0843110.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0843220.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0843550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0843605.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0843660.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0844100.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0844265.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0844270.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0844320.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0844375.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0844595.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0844695.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1102
-    },
-    "data/hna/summary/0844980.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0845145.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0845255.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/0845530.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0845680.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1080
-    },
-    "data/hna/summary/0845695.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/0845750.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0845955.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1073
-    },
-    "data/hna/summary/0845970.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1081
-    },
-    "data/hna/summary/0846355.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/0846410.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0846465.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0847015.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1096
-    },
-    "data/hna/summary/0847070.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0847235.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0847345.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1099
-    },
-    "data/hna/summary/0848060.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0848115.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0848445.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1087
-    },
-    "data/hna/summary/0848500.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0848555.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0848940.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1041
-    },
-    "data/hna/summary/0849215.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0849325.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0849490.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0849600.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0849875.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0850012.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0850026.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0850040.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0850380.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0850480.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0850920.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0851250.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0851635.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0851690.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0851745.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0851800.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0851975.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0852075.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0852210.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1084
-    },
-    "data/hna/summary/0852350.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0852550.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1089
-    },
-    "data/hna/summary/0852570.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1095
-    },
-    "data/hna/summary/0852820.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0853010.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0853120.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0853175.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0853395.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0853780.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0853875.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1046
-    },
-    "data/hna/summary/0853945.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1102
-    },
-    "data/hna/summary/0854330.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1082
-    },
-    "data/hna/summary/0854495.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1067
-    },
-    "data/hna/summary/0854750.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1083
-    },
-    "data/hna/summary/0854880.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0854935.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1041
-    },
-    "data/hna/summary/0855045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0855155.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0855540.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0855705.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0855870.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0855925.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0855980.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0856035.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1072
-    },
-    "data/hna/summary/0856145.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0856365.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1039
-    },
-    "data/hna/summary/0856420.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0856475.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1039
-    },
-    "data/hna/summary/0856695.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1111
-    },
-    "data/hna/summary/0856860.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1080
-    },
-    "data/hna/summary/0856970.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1093
-    },
-    "data/hna/summary/0857025.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0857245.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/0857300.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0857400.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0857445.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0857465.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0857630.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1128
-    },
-    "data/hna/summary/0857850.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0858235.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1040
-    },
-    "data/hna/summary/0858400.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0858510.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0858592.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0858675.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0858785.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0858960.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0859005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0859240.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0859520.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0859830.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0859885.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0860160.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0860600.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0860655.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0860765.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0861315.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0862000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0862220.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0862660.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0862880.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0863045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0863265.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0863320.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1084
-    },
-    "data/hna/summary/0863375.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0863650.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0863705.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0864090.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1040
-    },
-    "data/hna/summary/0864200.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0864255.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0864870.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0864970.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0865190.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0865685.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1077
-    },
-    "data/hna/summary/0865740.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/0866197.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1076
-    },
-    "data/hna/summary/0866895.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1038
-    },
-    "data/hna/summary/0866995.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1069
-    },
-    "data/hna/summary/0867005.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0867040.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1079
-    },
-    "data/hna/summary/0867142.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0867280.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0867445.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0867500.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1119
-    },
-    "data/hna/summary/0867830.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0868105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0868655.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0868847.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1098
-    },
-    "data/hna/summary/0868875.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0868930.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0868985.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0869040.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0869110.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0869150.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0869480.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0869645.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0869700.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0869810.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1073
-    },
-    "data/hna/summary/0870112.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0870195.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0870250.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0870360.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0870525.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1075
-    },
-    "data/hna/summary/0870580.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0870635.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0871625.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0871755.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1093
-    },
-    "data/hna/summary/0871790.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0871845.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0872320.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0872395.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0873330.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0873715.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1050
-    },
-    "data/hna/summary/0873825.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1102
-    },
-    "data/hna/summary/0873925.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1074
-    },
-    "data/hna/summary/0873935.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0873943.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0874080.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1062
-    },
-    "data/hna/summary/0874275.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1067
-    },
-    "data/hna/summary/0874375.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0874430.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1063
-    },
-    "data/hna/summary/0874485.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0874815.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1054
-    },
-    "data/hna/summary/0874980.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0875585.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0875640.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0875970.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1049
-    },
-    "data/hna/summary/0876190.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0876325.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0876795.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1073
-    },
-    "data/hna/summary/0877235.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1061
-    },
-    "data/hna/summary/0877290.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1083
-    },
-    "data/hna/summary/0877510.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0877757.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1064
-    },
-    "data/hna/summary/0878280.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0878335.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0878345.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1122
-    },
-    "data/hna/summary/0878610.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1068
-    },
-    "data/hna/summary/0879100.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1297
-    },
-    "data/hna/summary/0879105.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1271
-    },
-    "data/hna/summary/0879270.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1056
-    },
-    "data/hna/summary/0879785.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1078
-    },
-    "data/hna/summary/0879800.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1085
-    },
-    "data/hna/summary/0880040.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1059
-    },
-    "data/hna/summary/0880095.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1053
-    },
-    "data/hna/summary/0880370.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hna/summary/0880755.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1102
-    },
-    "data/hna/summary/0880865.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0881030.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/0881305.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0881690.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1035
-    },
-    "data/hna/summary/0882130.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1047
-    },
-    "data/hna/summary/0882350.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1065
-    },
-    "data/hna/summary/0882460.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1042
-    },
-    "data/hna/summary/0882735.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1040
-    },
-    "data/hna/summary/0882900.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1052
-    },
-    "data/hna/summary/0883120.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1058
-    },
-    "data/hna/summary/0883175.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1045
-    },
-    "data/hna/summary/0883230.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0883450.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1060
-    },
-    "data/hna/summary/0883500.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1057
-    },
-    "data/hna/summary/0883835.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1091
-    },
-    "data/hna/summary/0884000.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1107
-    },
-    "data/hna/summary/0884042.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1091
-    },
-    "data/hna/summary/0884440.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1086
-    },
-    "data/hna/summary/0884770.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1051
-    },
-    "data/hna/summary/0885045.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1044
-    },
-    "data/hna/summary/0885155.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0885485.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1071
-    },
-    "data/hna/summary/0885705.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1070
-    },
-    "data/hna/summary/0885760.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1105
-    },
-    "data/hna/summary/0886090.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1082
-    },
-    "data/hna/summary/0886117.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1055
-    },
-    "data/hna/summary/0886200.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1066
-    },
-    "data/hna/summary/0886310.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0886475.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1043
-    },
-    "data/hna/summary/0886750.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 1048
-    },
-    "data/hud-fmr-income-limits.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 48491
-    },
-    "data/insights-meta.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 970
-    },
-    "data/kalshi/prediction-market.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2716
-    },
-    "data/lihtc-trends-by-county.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 14037
-    },
-    "data/market/acs_tract_metrics_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 408696
-    },
-    "data/market/bridge_co_market_summary.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 253
-    },
-    "data/market/cde_schools_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 10620
-    },
-    "data/market/cdle_job_postings_co.json": {
-      "featureCount": 62,
-      "placeholder": false,
-      "bytes": 23720
-    },
-    "data/market/cdot_traffic_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 8388
-    },
-    "data/market/chas_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 273
-    },
-    "data/market/chfa_programs_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3918
-    },
-    "data/market/climate_hazards_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 2648
-    },
-    "data/market/data_quality_report.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 10836
-    },
-    "data/market/dola_demographics_co.json": {
-      "featureCount": 64,
-      "placeholder": false,
-      "bytes": 18280
-    },
-    "data/market/environmental_constraints_co.geojson": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 501
-    },
-    "data/market/epa_sld_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 733069
-    },
-    "data/market/flood_zones_co.geojson": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 418
-    },
-    "data/market/flood_zones_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 619727
-    },
-    "data/market/fmr_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 289
-    },
-    "data/market/food_access_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 442053
-    },
-    "data/market/hud_egis_co.geojson": {
-      "featureCount": 53,
-      "placeholder": false,
-      "bytes": 56257
-    },
-    "data/market/hud_lihtc_co.geojson": {
-      "featureCount": 716,
-      "placeholder": false,
-      "bytes": 574389
-    },
-    "data/market/inclusionary_zoning_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 6912
-    },
-    "data/market/lodes_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 678435
-    },
-    "data/market/nhpd_co.geojson": {
-      "featureCount": 20,
-      "placeholder": false,
-      "bytes": 12489
-    },
-    "data/market/opportunity_insights_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 167238
-    },
-    "data/market/opportunity_zones_co.geojson": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 433
-    },
-    "data/market/parcel_aggregates_co.json": {
-      "featureCount": 8,
-      "placeholder": false,
-      "bytes": 2888
-    },
-    "data/market/qct_dda_designations_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 480
-    },
-    "data/market/qct_dda_designations_co_normalized.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 698
-    },
-    "data/market/reference-projects.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 25321
-    },
-    "data/market/schools_co.geojson": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 428
-    },
-    "data/market/tract_boundaries_co.geojson": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 312
-    },
-    "data/market/tract_centroids_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 241844
-    },
-    "data/market/transit_routes_co.geojson": {
-      "featureCount": 508,
-      "placeholder": false,
-      "bytes": 53557962
-    },
-    "data/market/utility_capacity_co.geojson": {
-      "featureCount": 351,
-      "placeholder": false,
-      "bytes": 182611
-    },
-    "data/market/walkability_scores_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 449
-    },
-    "data/market/zillow_co_metros.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 105785
-    },
-    "data/market/zoning_compat_index_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3208
-    },
-    "data/policy/chfa-awards-historical.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 10552
-    },
-    "data/policy/county-ownership.json": {
-      "featureCount": 14,
-      "placeholder": false,
-      "bytes": 6253
-    },
-    "data/policy/housing-policy-scorecard.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 183736
-    },
-    "data/policy/lihtc-assumptions.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3080
-    },
-    "data/policy/prop123_jurisdictions.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 72403
-    },
-    "data/policy/soft-funding-status.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3714
-    },
-    "data/policy_briefs.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 7179
-    },
-    "data/qct-colorado.json": {
-      "featureCount": 224,
-      "placeholder": false,
-      "bytes": 446692
-    },
-    "data/states-10m.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 114554
-    }
-  }
-
+  "generated": "2026-04-08T08:13:47.070Z",
+  "files": [
+    "alerts/alerts_archive.json",
+    "allocations.json",
+    "amenities/grocery_co.geojson",
+    "amenities/healthcare_co.geojson",
+    "amenities/parks_co.geojson",
+    "amenities/retail_nodes_co.geojson",
+    "amenities/schools_co.geojson",
+    "amenities/transit_stops_co.geojson",
+    "boundaries/counties_co.geojson",
+    "car-market-report-2026-02.json",
+    "car-market-report-2026-03.json",
+    "car-market-report-2026-04.json",
+    "car-market.json",
+    "census-acs-state.json",
+    "chfa-lihtc.json",
+    "co-county-boundaries.json",
+    "co-county-demographics.json",
+    "co-county-economic-indicators.json",
+    "co-demographics.json",
+    "co-historical-allocations.json",
+    "co-housing-costs/README.md",
+    "co-housing-costs/acs_county_latest.parquet",
+    "co-housing-costs/bls_series.parquet",
+    "co-housing-costs/drivers_ranking.csv",
+    "co-housing-costs/fhfa_hpi_county_raw.parquet",
+    "co-housing-costs/permits_county.parquet",
+    "co-housing-costs/qcew_construction_county.parquet",
+    "co_ami_gap_by_county.json",
+    "core/educational-content.json",
+    "core/neighborhood-context.json",
+    "dda-colorado.json",
+    "derived/market-analysis/README.md",
+    "derived/market-analysis/market_demand.json",
+    "derived/market-analysis/neighborhood_access.json",
+    "derived/market-analysis/site_opportunities.json",
+    "derived/market-analysis/subsidy_layers.json",
+    "discovery-reports/latest.json",
+    "discovery-reports/latest.md",
+    "environmental/epa-superfund-co.json",
+    "environmental/fema-flood-co.geojson",
+    "fred-data.json",
+    "glossary.json",
+    "hna/acs_debug_log.txt",
+    "hna/chas_affordability_gap.json",
+    "hna/derived/geo-derived.json",
+    "hna/dola_sya/08.json",
+    "hna/dola_sya/08001.json",
+    "hna/dola_sya/08003.json",
+    "hna/dola_sya/08005.json",
+    "hna/dola_sya/08007.json",
+    "hna/dola_sya/08009.json",
+    "hna/dola_sya/08011.json",
+    "hna/dola_sya/08013.json",
+    "hna/dola_sya/08014.json",
+    "hna/dola_sya/08015.json",
+    "hna/dola_sya/08017.json",
+    "hna/dola_sya/08019.json",
+    "hna/dola_sya/08021.json",
+    "hna/dola_sya/08023.json",
+    "hna/dola_sya/08025.json",
+    "hna/dola_sya/08027.json",
+    "hna/dola_sya/08029.json",
+    "hna/dola_sya/08031.json",
+    "hna/dola_sya/08033.json",
+    "hna/dola_sya/08035.json",
+    "hna/dola_sya/08037.json",
+    "hna/dola_sya/08039.json",
+    "hna/dola_sya/08041.json",
+    "hna/dola_sya/08043.json",
+    "hna/dola_sya/08045.json",
+    "hna/dola_sya/08047.json",
+    "hna/dola_sya/08049.json",
+    "hna/dola_sya/08051.json",
+    "hna/dola_sya/08053.json",
+    "hna/dola_sya/08055.json",
+    "hna/dola_sya/08057.json",
+    "hna/dola_sya/08059.json",
+    "hna/dola_sya/08061.json",
+    "hna/dola_sya/08063.json",
+    "hna/dola_sya/08065.json",
+    "hna/dola_sya/08067.json",
+    "hna/dola_sya/08069.json",
+    "hna/dola_sya/08071.json",
+    "hna/dola_sya/08073.json",
+    "hna/dola_sya/08075.json",
+    "hna/dola_sya/08077.json",
+    "hna/dola_sya/08079.json",
+    "hna/dola_sya/08081.json",
+    "hna/dola_sya/08083.json",
+    "hna/dola_sya/08085.json",
+    "hna/dola_sya/08087.json",
+    "hna/dola_sya/08089.json",
+    "hna/dola_sya/08091.json",
+    "hna/dola_sya/08093.json",
+    "hna/dola_sya/08095.json",
+    "hna/dola_sya/08097.json",
+    "hna/dola_sya/08099.json",
+    "hna/dola_sya/08101.json",
+    "hna/dola_sya/08103.json",
+    "hna/dola_sya/08105.json",
+    "hna/dola_sya/08107.json",
+    "hna/dola_sya/08109.json",
+    "hna/dola_sya/08111.json",
+    "hna/dola_sya/08113.json",
+    "hna/dola_sya/08115.json",
+    "hna/dola_sya/08117.json",
+    "hna/dola_sya/08119.json",
+    "hna/dola_sya/08121.json",
+    "hna/dola_sya/08123.json",
+    "hna/dola_sya/08125.json",
+    "hna/geo-config.json",
+    "hna/geography-registry.json",
+    "hna/lehd/08.json",
+    "hna/lehd/08001.json",
+    "hna/lehd/08003.json",
+    "hna/lehd/08005.json",
+    "hna/lehd/08007.json",
+    "hna/lehd/08009.json",
+    "hna/lehd/08011.json",
+    "hna/lehd/08013.json",
+    "hna/lehd/08014.json",
+    "hna/lehd/08015.json",
+    "hna/lehd/08017.json",
+    "hna/lehd/08019.json",
+    "hna/lehd/08021.json",
+    "hna/lehd/08023.json",
+    "hna/lehd/08025.json",
+    "hna/lehd/08027.json",
+    "hna/lehd/08029.json",
+    "hna/lehd/08031.json",
+    "hna/lehd/08033.json",
+    "hna/lehd/08035.json",
+    "hna/lehd/08037.json",
+    "hna/lehd/08039.json",
+    "hna/lehd/08041.json",
+    "hna/lehd/08043.json",
+    "hna/lehd/08045.json",
+    "hna/lehd/08047.json",
+    "hna/lehd/08049.json",
+    "hna/lehd/08051.json",
+    "hna/lehd/08053.json",
+    "hna/lehd/08055.json",
+    "hna/lehd/08057.json",
+    "hna/lehd/08059.json",
+    "hna/lehd/08061.json",
+    "hna/lehd/08063.json",
+    "hna/lehd/08065.json",
+    "hna/lehd/08067.json",
+    "hna/lehd/08069.json",
+    "hna/lehd/08071.json",
+    "hna/lehd/08073.json",
+    "hna/lehd/08075.json",
+    "hna/lehd/08077.json",
+    "hna/lehd/08079.json",
+    "hna/lehd/08081.json",
+    "hna/lehd/08083.json",
+    "hna/lehd/08085.json",
+    "hna/lehd/08087.json",
+    "hna/lehd/08089.json",
+    "hna/lehd/08091.json",
+    "hna/lehd/08093.json",
+    "hna/lehd/08095.json",
+    "hna/lehd/08097.json",
+    "hna/lehd/08099.json",
+    "hna/lehd/08101.json",
+    "hna/lehd/08103.json",
+    "hna/lehd/08105.json",
+    "hna/lehd/08107.json",
+    "hna/lehd/08109.json",
+    "hna/lehd/08111.json",
+    "hna/lehd/08113.json",
+    "hna/lehd/08115.json",
+    "hna/lehd/08117.json",
+    "hna/lehd/08119.json",
+    "hna/lehd/08121.json",
+    "hna/lehd/08123.json",
+    "hna/lehd/08125.json",
+    "hna/lihtc/08001.json",
+    "hna/lihtc/08003.json",
+    "hna/lihtc/08005.json",
+    "hna/lihtc/08007.json",
+    "hna/lihtc/08009.json",
+    "hna/lihtc/08011.json",
+    "hna/lihtc/08013.json",
+    "hna/lihtc/08014.json",
+    "hna/lihtc/08015.json",
+    "hna/lihtc/08017.json",
+    "hna/lihtc/08019.json",
+    "hna/lihtc/08021.json",
+    "hna/lihtc/08023.json",
+    "hna/lihtc/08025.json",
+    "hna/lihtc/08027.json",
+    "hna/lihtc/08029.json",
+    "hna/lihtc/08031.json",
+    "hna/lihtc/08033.json",
+    "hna/lihtc/08035.json",
+    "hna/lihtc/08037.json",
+    "hna/lihtc/08039.json",
+    "hna/lihtc/08041.json",
+    "hna/lihtc/08043.json",
+    "hna/lihtc/08045.json",
+    "hna/lihtc/08047.json",
+    "hna/lihtc/08049.json",
+    "hna/lihtc/08051.json",
+    "hna/lihtc/08053.json",
+    "hna/lihtc/08055.json",
+    "hna/lihtc/08057.json",
+    "hna/lihtc/08059.json",
+    "hna/lihtc/08061.json",
+    "hna/lihtc/08063.json",
+    "hna/lihtc/08065.json",
+    "hna/lihtc/08067.json",
+    "hna/lihtc/08069.json",
+    "hna/lihtc/08071.json",
+    "hna/lihtc/08073.json",
+    "hna/lihtc/08075.json",
+    "hna/lihtc/08077.json",
+    "hna/lihtc/08079.json",
+    "hna/lihtc/08081.json",
+    "hna/lihtc/08083.json",
+    "hna/lihtc/08085.json",
+    "hna/lihtc/08087.json",
+    "hna/lihtc/08089.json",
+    "hna/lihtc/08091.json",
+    "hna/lihtc/08093.json",
+    "hna/lihtc/08095.json",
+    "hna/lihtc/08097.json",
+    "hna/lihtc/08099.json",
+    "hna/lihtc/08101.json",
+    "hna/lihtc/08103.json",
+    "hna/lihtc/08105.json",
+    "hna/lihtc/08107.json",
+    "hna/lihtc/08109.json",
+    "hna/lihtc/08111.json",
+    "hna/lihtc/08113.json",
+    "hna/lihtc/08115.json",
+    "hna/lihtc/08117.json",
+    "hna/lihtc/08119.json",
+    "hna/lihtc/08121.json",
+    "hna/lihtc/08123.json",
+    "hna/lihtc/08125.json",
+    "hna/local-notes.json",
+    "hna/local-resources.json",
+    "hna/projections/08.json",
+    "hna/projections/08001.json",
+    "hna/projections/08003.json",
+    "hna/projections/08005.json",
+    "hna/projections/08007.json",
+    "hna/projections/08009.json",
+    "hna/projections/08011.json",
+    "hna/projections/08013.json",
+    "hna/projections/08014.json",
+    "hna/projections/08015.json",
+    "hna/projections/08017.json",
+    "hna/projections/08019.json",
+    "hna/projections/08021.json",
+    "hna/projections/08023.json",
+    "hna/projections/08025.json",
+    "hna/projections/08027.json",
+    "hna/projections/08029.json",
+    "hna/projections/08031.json",
+    "hna/projections/08033.json",
+    "hna/projections/08035.json",
+    "hna/projections/08037.json",
+    "hna/projections/08039.json",
+    "hna/projections/08041.json",
+    "hna/projections/08043.json",
+    "hna/projections/08045.json",
+    "hna/projections/08047.json",
+    "hna/projections/08049.json",
+    "hna/projections/08051.json",
+    "hna/projections/08053.json",
+    "hna/projections/08055.json",
+    "hna/projections/08057.json",
+    "hna/projections/08059.json",
+    "hna/projections/08061.json",
+    "hna/projections/08063.json",
+    "hna/projections/08065.json",
+    "hna/projections/08067.json",
+    "hna/projections/08069.json",
+    "hna/projections/08071.json",
+    "hna/projections/08073.json",
+    "hna/projections/08075.json",
+    "hna/projections/08077.json",
+    "hna/projections/08079.json",
+    "hna/projections/08081.json",
+    "hna/projections/08083.json",
+    "hna/projections/08085.json",
+    "hna/projections/08087.json",
+    "hna/projections/08089.json",
+    "hna/projections/08091.json",
+    "hna/projections/08093.json",
+    "hna/projections/08095.json",
+    "hna/projections/08097.json",
+    "hna/projections/08099.json",
+    "hna/projections/08101.json",
+    "hna/projections/08103.json",
+    "hna/projections/08105.json",
+    "hna/projections/08107.json",
+    "hna/projections/08109.json",
+    "hna/projections/08111.json",
+    "hna/projections/08113.json",
+    "hna/projections/08115.json",
+    "hna/projections/08117.json",
+    "hna/projections/08119.json",
+    "hna/projections/08121.json",
+    "hna/projections/08123.json",
+    "hna/projections/08125.json",
+    "hna/ranking-index.json",
+    "hna/scenarios/baseline.json",
+    "hna/scenarios/high-growth.json",
+    "hna/scenarios/low-growth.json",
+    "hna/source/dola_components_county.csv",
+    "hna/source/dola_profiles_county.csv",
+    "hna/source/dola_sya_county.csv",
+    "hna/summary/08.json",
+    "hna/summary/08001.json",
+    "hna/summary/08003.json",
+    "hna/summary/0800320.json",
+    "hna/summary/08005.json",
+    "hna/summary/0800620.json",
+    "hna/summary/08007.json",
+    "hna/summary/0800760.json",
+    "hna/summary/0800870.json",
+    "hna/summary/08009.json",
+    "hna/summary/0800925.json",
+    "hna/summary/0801090.json",
+    "hna/summary/08011.json",
+    "hna/summary/0801145.json",
+    "hna/summary/08013.json",
+    "hna/summary/08014.json",
+    "hna/summary/0801420.json",
+    "hna/summary/08015.json",
+    "hna/summary/0801530.json",
+    "hna/summary/0801640.json",
+    "hna/summary/08017.json",
+    "hna/summary/0801740.json",
+    "hna/summary/08019.json",
+    "hna/summary/0801915.json",
+    "hna/summary/08021.json",
+    "hna/summary/08023.json",
+    "hna/summary/0802355.json",
+    "hna/summary/08025.json",
+    "hna/summary/0802575.json",
+    "hna/summary/08027.json",
+    "hna/summary/0802850.json",
+    "hna/summary/08029.json",
+    "hna/summary/0802905.json",
+    "hna/summary/0803015.json",
+    "hna/summary/08031.json",
+    "hna/summary/0803235.json",
+    "hna/summary/08033.json",
+    "hna/summary/0803455.json",
+    "hna/summary/08035.json",
+    "hna/summary/0803620.json",
+    "hna/summary/08037.json",
+    "hna/summary/0803730.json",
+    "hna/summary/0803840.json",
+    "hna/summary/08039.json",
+    "hna/summary/0803950.json",
+    "hna/summary/0804000.json",
+    "hna/summary/08041.json",
+    "hna/summary/0804110.json",
+    "hna/summary/0804165.json",
+    "hna/summary/08043.json",
+    "hna/summary/08045.json",
+    "hna/summary/0804620.json",
+    "hna/summary/08047.json",
+    "hna/summary/08049.json",
+    "hna/summary/0804935.json",
+    "hna/summary/08051.json",
+    "hna/summary/0805120.json",
+    "hna/summary/0805265.json",
+    "hna/summary/08053.json",
+    "hna/summary/08055.json",
+    "hna/summary/08057.json",
+    "hna/summary/08059.json",
+    "hna/summary/0806090.json",
+    "hna/summary/08061.json",
+    "hna/summary/0806172.json",
+    "hna/summary/0806255.json",
+    "hna/summary/08063.json",
+    "hna/summary/08065.json",
+    "hna/summary/0806530.json",
+    "hna/summary/0806602.json",
+    "hna/summary/08067.json",
+    "hna/summary/08069.json",
+    "hna/summary/0806970.json",
+    "hna/summary/0807025.json",
+    "hna/summary/08071.json",
+    "hna/summary/0807190.json",
+    "hna/summary/0807245.json",
+    "hna/summary/08073.json",
+    "hna/summary/0807410.json",
+    "hna/summary/0807420.json",
+    "hna/summary/0807455.json",
+    "hna/summary/08075.json",
+    "hna/summary/0807571.json",
+    "hna/summary/0807580.json",
+    "hna/summary/08077.json",
+    "hna/summary/0807795.json",
+    "hna/summary/0807850.json",
+    "hna/summary/08079.json",
+    "hna/summary/0808070.json",
+    "hna/summary/08081.json",
+    "hna/summary/0808290.json",
+    "hna/summary/08083.json",
+    "hna/summary/0808345.json",
+    "hna/summary/0808400.json",
+    "hna/summary/08085.json",
+    "hna/summary/0808530.json",
+    "hna/summary/0808620.json",
+    "hna/summary/0808675.json",
+    "hna/summary/08087.json",
+    "hna/summary/08089.json",
+    "hna/summary/0808950.json",
+    "hna/summary/08091.json",
+    "hna/summary/0809115.json",
+    "hna/summary/0809280.json",
+    "hna/summary/08093.json",
+    "hna/summary/08095.json",
+    "hna/summary/0809555.json",
+    "hna/summary/08097.json",
+    "hna/summary/08099.json",
+    "hna/summary/08101.json",
+    "hna/summary/0810105.json",
+    "hna/summary/08103.json",
+    "hna/summary/08105.json",
+    "hna/summary/0810600.json",
+    "hna/summary/08107.json",
+    "hna/summary/08109.json",
+    "hna/summary/0810985.json",
+    "hna/summary/08111.json",
+    "hna/summary/0811260.json",
+    "hna/summary/08113.json",
+    "hna/summary/08115.json",
+    "hna/summary/0811645.json",
+    "hna/summary/08117.json",
+    "hna/summary/0811810.json",
+    "hna/summary/08119.json",
+    "hna/summary/0811975.json",
+    "hna/summary/0812030.json",
+    "hna/summary/0812045.json",
+    "hna/summary/08121.json",
+    "hna/summary/08123.json",
+    "hna/summary/0812325.json",
+    "hna/summary/0812387.json",
+    "hna/summary/0812393.json",
+    "hna/summary/0812415.json",
+    "hna/summary/0812450.json",
+    "hna/summary/0812460.json",
+    "hna/summary/0812470.json",
+    "hna/summary/08125.json",
+    "hna/summary/0812635.json",
+    "hna/summary/0812815.json",
+    "hna/summary/0812855.json",
+    "hna/summary/0812900.json",
+    "hna/summary/0812910.json",
+    "hna/summary/0812945.json",
+    "hna/summary/0813460.json",
+    "hna/summary/0813590.json",
+    "hna/summary/0813845.json",
+    "hna/summary/0814175.json",
+    "hna/summary/0814587.json",
+    "hna/summary/0814765.json",
+    "hna/summary/0815165.json",
+    "hna/summary/0815302.json",
+    "hna/summary/0815330.json",
+    "hna/summary/0815440.json",
+    "hna/summary/0815550.json",
+    "hna/summary/0815605.json",
+    "hna/summary/0815825.json",
+    "hna/summary/0815935.json",
+    "hna/summary/0816000.json",
+    "hna/summary/0816110.json",
+    "hna/summary/0816385.json",
+    "hna/summary/0816465.json",
+    "hna/summary/0816495.json",
+    "hna/summary/0816715.json",
+    "hna/summary/0817100.json",
+    "hna/summary/0817150.json",
+    "hna/summary/0817375.json",
+    "hna/summary/0817485.json",
+    "hna/summary/0817760.json",
+    "hna/summary/0817925.json",
+    "hna/summary/0818310.json",
+    "hna/summary/0818420.json",
+    "hna/summary/0818530.json",
+    "hna/summary/0818585.json",
+    "hna/summary/0818640.json",
+    "hna/summary/0818750.json",
+    "hna/summary/0819080.json",
+    "hna/summary/0819150.json",
+    "hna/summary/0819355.json",
+    "hna/summary/0819630.json",
+    "hna/summary/0819795.json",
+    "hna/summary/0819850.json",
+    "hna/summary/0820000.json",
+    "hna/summary/0820275.json",
+    "hna/summary/0820440.json",
+    "hna/summary/0820495.json",
+    "hna/summary/0820605.json",
+    "hna/summary/0820770.json",
+    "hna/summary/0821155.json",
+    "hna/summary/0821265.json",
+    "hna/summary/0821330.json",
+    "hna/summary/0821390.json",
+    "hna/summary/0822035.json",
+    "hna/summary/0822145.json",
+    "hna/summary/0822200.json",
+    "hna/summary/0822575.json",
+    "hna/summary/0822860.json",
+    "hna/summary/0822882.json",
+    "hna/summary/0823025.json",
+    "hna/summary/0823135.json",
+    "hna/summary/0823300.json",
+    "hna/summary/0823520.json",
+    "hna/summary/0823575.json",
+    "hna/summary/0823630.json",
+    "hna/summary/0823740.json",
+    "hna/summary/0823795.json",
+    "hna/summary/0824235.json",
+    "hna/summary/0824290.json",
+    "hna/summary/0824620.json",
+    "hna/summary/0824785.json",
+    "hna/summary/0824950.json",
+    "hna/summary/0825115.json",
+    "hna/summary/0825280.json",
+    "hna/summary/0825390.json",
+    "hna/summary/0825550.json",
+    "hna/summary/0825610.json",
+    "hna/summary/0826270.json",
+    "hna/summary/0826600.json",
+    "hna/summary/0826765.json",
+    "hna/summary/0826875.json",
+    "hna/summary/0827040.json",
+    "hna/summary/0827095.json",
+    "hna/summary/0827175.json",
+    "hna/summary/0827370.json",
+    "hna/summary/0827425.json",
+    "hna/summary/0827535.json",
+    "hna/summary/0827700.json",
+    "hna/summary/0827810.json",
+    "hna/summary/0827865.json",
+    "hna/summary/0827950.json",
+    "hna/summary/0827975.json",
+    "hna/summary/0828105.json",
+    "hna/summary/0828250.json",
+    "hna/summary/0828305.json",
+    "hna/summary/0828360.json",
+    "hna/summary/0828690.json",
+    "hna/summary/0828745.json",
+    "hna/summary/0828800.json",
+    "hna/summary/0828830.json",
+    "hna/summary/0829185.json",
+    "hna/summary/0829240.json",
+    "hna/summary/0829295.json",
+    "hna/summary/0829625.json",
+    "hna/summary/0829680.json",
+    "hna/summary/0829735.json",
+    "hna/summary/0829845.json",
+    "hna/summary/0829955.json",
+    "hna/summary/0830340.json",
+    "hna/summary/0830350.json",
+    "hna/summary/0830420.json",
+    "hna/summary/0830780.json",
+    "hna/summary/0830835.json",
+    "hna/summary/0830890.json",
+    "hna/summary/0830945.json",
+    "hna/summary/0831550.json",
+    "hna/summary/0831605.json",
+    "hna/summary/0831660.json",
+    "hna/summary/0831715.json",
+    "hna/summary/0831935.json",
+    "hna/summary/0832155.json",
+    "hna/summary/0832650.json",
+    "hna/summary/0833035.json",
+    "hna/summary/0833310.json",
+    "hna/summary/0833420.json",
+    "hna/summary/0833502.json",
+    "hna/summary/0833640.json",
+    "hna/summary/0833695.json",
+    "hna/summary/0834520.json",
+    "hna/summary/0834630.json",
+    "hna/summary/0834685.json",
+    "hna/summary/0834740.json",
+    "hna/summary/0834960.json",
+    "hna/summary/0835070.json",
+    "hna/summary/0835400.json",
+    "hna/summary/0835860.json",
+    "hna/summary/0836410.json",
+    "hna/summary/0836610.json",
+    "hna/summary/0836940.json",
+    "hna/summary/0837215.json",
+    "hna/summary/0837220.json",
+    "hna/summary/0837270.json",
+    "hna/summary/0837380.json",
+    "hna/summary/0837545.json",
+    "hna/summary/0837600.json",
+    "hna/summary/0837655.json",
+    "hna/summary/0837820.json",
+    "hna/summary/0837875.json",
+    "hna/summary/0838370.json",
+    "hna/summary/0838425.json",
+    "hna/summary/0838480.json",
+    "hna/summary/0838535.json",
+    "hna/summary/0838590.json",
+    "hna/summary/0838810.json",
+    "hna/summary/0838910.json",
+    "hna/summary/0839160.json",
+    "hna/summary/0839195.json",
+    "hna/summary/0839250.json",
+    "hna/summary/0839745.json",
+    "hna/summary/0839800.json",
+    "hna/summary/0839855.json",
+    "hna/summary/0839965.json",
+    "hna/summary/0840185.json",
+    "hna/summary/0840377.json",
+    "hna/summary/0840515.json",
+    "hna/summary/0840550.json",
+    "hna/summary/0840570.json",
+    "hna/summary/0840790.json",
+    "hna/summary/0840900.json",
+    "hna/summary/0841010.json",
+    "hna/summary/0841065.json",
+    "hna/summary/0841560.json",
+    "hna/summary/0841835.json",
+    "hna/summary/0842000.json",
+    "hna/summary/0842055.json",
+    "hna/summary/0842110.json",
+    "hna/summary/0842165.json",
+    "hna/summary/0842330.json",
+    "hna/summary/0842495.json",
+    "hna/summary/0843000.json",
+    "hna/summary/0843110.json",
+    "hna/summary/0843220.json",
+    "hna/summary/0843550.json",
+    "hna/summary/0843605.json",
+    "hna/summary/0843660.json",
+    "hna/summary/0844100.json",
+    "hna/summary/0844265.json",
+    "hna/summary/0844270.json",
+    "hna/summary/0844320.json",
+    "hna/summary/0844375.json",
+    "hna/summary/0844595.json",
+    "hna/summary/0844695.json",
+    "hna/summary/0844980.json",
+    "hna/summary/0845145.json",
+    "hna/summary/0845255.json",
+    "hna/summary/0845530.json",
+    "hna/summary/0845680.json",
+    "hna/summary/0845695.json",
+    "hna/summary/0845750.json",
+    "hna/summary/0845955.json",
+    "hna/summary/0845970.json",
+    "hna/summary/0846355.json",
+    "hna/summary/0846410.json",
+    "hna/summary/0846465.json",
+    "hna/summary/0847015.json",
+    "hna/summary/0847070.json",
+    "hna/summary/0847235.json",
+    "hna/summary/0847345.json",
+    "hna/summary/0848060.json",
+    "hna/summary/0848115.json",
+    "hna/summary/0848445.json",
+    "hna/summary/0848500.json",
+    "hna/summary/0848555.json",
+    "hna/summary/0848940.json",
+    "hna/summary/0849215.json",
+    "hna/summary/0849325.json",
+    "hna/summary/0849490.json",
+    "hna/summary/0849600.json",
+    "hna/summary/0849875.json",
+    "hna/summary/0850012.json",
+    "hna/summary/0850026.json",
+    "hna/summary/0850040.json",
+    "hna/summary/0850380.json",
+    "hna/summary/0850480.json",
+    "hna/summary/0850920.json",
+    "hna/summary/0851250.json",
+    "hna/summary/0851635.json",
+    "hna/summary/0851690.json",
+    "hna/summary/0851745.json",
+    "hna/summary/0851800.json",
+    "hna/summary/0851975.json",
+    "hna/summary/0852075.json",
+    "hna/summary/0852210.json",
+    "hna/summary/0852350.json",
+    "hna/summary/0852550.json",
+    "hna/summary/0852570.json",
+    "hna/summary/0852820.json",
+    "hna/summary/0853010.json",
+    "hna/summary/0853120.json",
+    "hna/summary/0853175.json",
+    "hna/summary/0853395.json",
+    "hna/summary/0853780.json",
+    "hna/summary/0853875.json",
+    "hna/summary/0853945.json",
+    "hna/summary/0854330.json",
+    "hna/summary/0854495.json",
+    "hna/summary/0854750.json",
+    "hna/summary/0854880.json",
+    "hna/summary/0854935.json",
+    "hna/summary/0855045.json",
+    "hna/summary/0855155.json",
+    "hna/summary/0855540.json",
+    "hna/summary/0855705.json",
+    "hna/summary/0855870.json",
+    "hna/summary/0855925.json",
+    "hna/summary/0855980.json",
+    "hna/summary/0856035.json",
+    "hna/summary/0856145.json",
+    "hna/summary/0856365.json",
+    "hna/summary/0856420.json",
+    "hna/summary/0856475.json",
+    "hna/summary/0856695.json",
+    "hna/summary/0856860.json",
+    "hna/summary/0856970.json",
+    "hna/summary/0857025.json",
+    "hna/summary/0857245.json",
+    "hna/summary/0857300.json",
+    "hna/summary/0857400.json",
+    "hna/summary/0857445.json",
+    "hna/summary/0857465.json",
+    "hna/summary/0857630.json",
+    "hna/summary/0857850.json",
+    "hna/summary/0858235.json",
+    "hna/summary/0858400.json",
+    "hna/summary/0858510.json",
+    "hna/summary/0858592.json",
+    "hna/summary/0858675.json",
+    "hna/summary/0858785.json",
+    "hna/summary/0858960.json",
+    "hna/summary/0859005.json",
+    "hna/summary/0859240.json",
+    "hna/summary/0859520.json",
+    "hna/summary/0859830.json",
+    "hna/summary/0859885.json",
+    "hna/summary/0860160.json",
+    "hna/summary/0860600.json",
+    "hna/summary/0860655.json",
+    "hna/summary/0860765.json",
+    "hna/summary/0861315.json",
+    "hna/summary/0862000.json",
+    "hna/summary/0862220.json",
+    "hna/summary/0862660.json",
+    "hna/summary/0862880.json",
+    "hna/summary/0863045.json",
+    "hna/summary/0863265.json",
+    "hna/summary/0863320.json",
+    "hna/summary/0863375.json",
+    "hna/summary/0863650.json",
+    "hna/summary/0863705.json",
+    "hna/summary/0864090.json",
+    "hna/summary/0864200.json",
+    "hna/summary/0864255.json",
+    "hna/summary/0864870.json",
+    "hna/summary/0864970.json",
+    "hna/summary/0865190.json",
+    "hna/summary/0865685.json",
+    "hna/summary/0865740.json",
+    "hna/summary/0866197.json",
+    "hna/summary/0866895.json",
+    "hna/summary/0866995.json",
+    "hna/summary/0867005.json",
+    "hna/summary/0867040.json",
+    "hna/summary/0867142.json",
+    "hna/summary/0867280.json",
+    "hna/summary/0867445.json",
+    "hna/summary/0867500.json",
+    "hna/summary/0867830.json",
+    "hna/summary/0868105.json",
+    "hna/summary/0868655.json",
+    "hna/summary/0868847.json",
+    "hna/summary/0868875.json",
+    "hna/summary/0868930.json",
+    "hna/summary/0868985.json",
+    "hna/summary/0869040.json",
+    "hna/summary/0869110.json",
+    "hna/summary/0869150.json",
+    "hna/summary/0869480.json",
+    "hna/summary/0869645.json",
+    "hna/summary/0869700.json",
+    "hna/summary/0869810.json",
+    "hna/summary/0870112.json",
+    "hna/summary/0870195.json",
+    "hna/summary/0870250.json",
+    "hna/summary/0870360.json",
+    "hna/summary/0870525.json",
+    "hna/summary/0870580.json",
+    "hna/summary/0870635.json",
+    "hna/summary/0871625.json",
+    "hna/summary/0871755.json",
+    "hna/summary/0871790.json",
+    "hna/summary/0871845.json",
+    "hna/summary/0872320.json",
+    "hna/summary/0872395.json",
+    "hna/summary/0873330.json",
+    "hna/summary/0873715.json",
+    "hna/summary/0873825.json",
+    "hna/summary/0873925.json",
+    "hna/summary/0873935.json",
+    "hna/summary/0873943.json",
+    "hna/summary/0874080.json",
+    "hna/summary/0874275.json",
+    "hna/summary/0874375.json",
+    "hna/summary/0874430.json",
+    "hna/summary/0874485.json",
+    "hna/summary/0874815.json",
+    "hna/summary/0874980.json",
+    "hna/summary/0875585.json",
+    "hna/summary/0875640.json",
+    "hna/summary/0875970.json",
+    "hna/summary/0876190.json",
+    "hna/summary/0876325.json",
+    "hna/summary/0876795.json",
+    "hna/summary/0877235.json",
+    "hna/summary/0877290.json",
+    "hna/summary/0877510.json",
+    "hna/summary/0877757.json",
+    "hna/summary/0878280.json",
+    "hna/summary/0878335.json",
+    "hna/summary/0878345.json",
+    "hna/summary/0878610.json",
+    "hna/summary/0879100.json",
+    "hna/summary/0879105.json",
+    "hna/summary/0879270.json",
+    "hna/summary/0879785.json",
+    "hna/summary/0879800.json",
+    "hna/summary/0880040.json",
+    "hna/summary/0880095.json",
+    "hna/summary/0880370.json",
+    "hna/summary/0880755.json",
+    "hna/summary/0880865.json",
+    "hna/summary/0881030.json",
+    "hna/summary/0881305.json",
+    "hna/summary/0881690.json",
+    "hna/summary/0882130.json",
+    "hna/summary/0882350.json",
+    "hna/summary/0882460.json",
+    "hna/summary/0882735.json",
+    "hna/summary/0882900.json",
+    "hna/summary/0883120.json",
+    "hna/summary/0883175.json",
+    "hna/summary/0883230.json",
+    "hna/summary/0883450.json",
+    "hna/summary/0883500.json",
+    "hna/summary/0883835.json",
+    "hna/summary/0884000.json",
+    "hna/summary/0884042.json",
+    "hna/summary/0884440.json",
+    "hna/summary/0884770.json",
+    "hna/summary/0885045.json",
+    "hna/summary/0885155.json",
+    "hna/summary/0885485.json",
+    "hna/summary/0885705.json",
+    "hna/summary/0885760.json",
+    "hna/summary/0886090.json",
+    "hna/summary/0886117.json",
+    "hna/summary/0886200.json",
+    "hna/summary/0886310.json",
+    "hna/summary/0886475.json",
+    "hna/summary/0886750.json",
+    "hud-fmr-income-limits.json",
+    "insights-meta.json",
+    "kalshi/prediction-market.json",
+    "lihtc-trends-by-county.json",
+    "manifest.json",
+    "market/acs_tract_metrics_co.json",
+    "market/bridge_co_market_summary.json",
+    "market/cde_schools_co.json",
+    "market/cdle_job_postings_co.json",
+    "market/cdot_traffic_co.json",
+    "market/chas_co.json",
+    "market/chfa_programs_co.json",
+    "market/climate_hazards_co.json",
+    "market/data_quality_report.json",
+    "market/dola_demographics_co.json",
+    "market/environmental_constraints_co.geojson",
+    "market/epa_sld_co.json",
+    "market/flood_zones_co.geojson",
+    "market/flood_zones_co.json",
+    "market/fmr_co.json",
+    "market/food_access_co.json",
+    "market/hud_egis_co.geojson",
+    "market/hud_lihtc_co.geojson",
+    "market/inclusionary_zoning_co.json",
+    "market/lihtc-equity-pricing-history.json",
+    "market/lodes_co.json",
+    "market/nhpd_co.geojson",
+    "market/opportunity_insights_co.json",
+    "market/opportunity_zones_co.geojson",
+    "market/parcel_aggregates_co.json",
+    "market/qct_dda_designations_co.json",
+    "market/qct_dda_designations_co_normalized.json",
+    "market/reference-projects.json",
+    "market/schools_co.geojson",
+    "market/tract_boundaries_co.geojson",
+    "market/tract_centroids_co.json",
+    "market/transit_routes_co.geojson",
+    "market/utility_capacity_co.geojson",
+    "market/walkability_scores_co.json",
+    "market/zillow_co_metros.json",
+    "market/zoning_compat_index_co.json",
+    "policy/chfa-awards-historical.json",
+    "policy/county-ownership.json",
+    "policy/housing-policy-scorecard.json",
+    "policy/lihtc-assumptions.json",
+    "policy/prop123_jurisdictions.json",
+    "policy/soft-funding-status.json",
+    "policy_briefs.json",
+    "polymarket-data.json",
+    "qct-colorado.json",
+    "states-10m.json",
+    "zillow/median_list_price_metro.csv",
+    "zillow/zhvi_metro.csv",
+    "zillow/zori_metro.csv"
+  ],
+  "file_count": 917
 }
