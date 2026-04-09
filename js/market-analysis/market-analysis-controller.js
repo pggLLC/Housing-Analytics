@@ -233,6 +233,294 @@
     });
   }
 
+  /* ── Environmental / flood / policy enrichment helpers ────────────── */
+
+  var EARTH_R_MI = 3958.8;
+  function _toRad(d) { return d * Math.PI / 180; }
+  function _haversine(lat1, lon1, lat2, lon2) {
+    var dLat = _toRad(lat2 - lat1);
+    var dLon = _toRad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(_toRad(lat1)) * Math.cos(_toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return EARTH_R_MI * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /** @type {Array|null} Cached EJI features for proximity lookup */
+  var _ejiCache = null;
+
+  /**
+   * Load EJI features from the environmental_constraints layer on the map.
+   * Falls back to fetching the GeoJSON file directly.
+   */
+  function _getEjiFeatures() {
+    if (_ejiCache) return _ejiCache;
+
+    // Try the map layer cache first (populated by market-analysis.js)
+    var mapLayers = window._mapLayers || window._maMapLayers;
+    if (mapLayers && mapLayers.envJustice) {
+      var feats = [];
+      mapLayers.envJustice.eachLayer(function (layer) {
+        var ll = layer.getLatLng ? layer.getLatLng() : null;
+        var props = (layer.feature && layer.feature.properties) ? layer.feature.properties : {};
+        if (ll) feats.push({ lat: ll.lat, lon: ll.lng, props: props });
+      });
+      if (feats.length > 0) {
+        _ejiCache = feats;
+        return _ejiCache;
+      }
+    }
+
+    // Try DataService direct fetch (synchronous from cache)
+    var ds = _ds();
+    if (ds && ds._ejiCache) {
+      _ejiCache = ds._ejiCache;
+      return _ejiCache;
+    }
+
+    return null;
+  }
+
+  /**
+   * Get EJI environmental burden percentile for a site location.
+   * Finds the nearest census tract with EJI data.
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {{ envBurden: number|null, socialVuln: number|null, healthVuln: number|null,
+   *             ejiPercentile: number|null, riskCategory: string, tractGeoid: string }}
+   */
+  function _getEjiMetrics(lat, lon) {
+    var defaults = { envBurden: null, socialVuln: null, healthVuln: null,
+                     ejiPercentile: null, riskCategory: 'unknown', tractGeoid: '' };
+    var feats = _getEjiFeatures();
+    if (!feats || feats.length === 0) return defaults;
+
+    var nearest = null;
+    var minDist = Infinity;
+
+    for (var i = 0; i < feats.length; i++) {
+      var f = feats[i];
+      var d = _haversine(lat, lon, f.lat, f.lon);
+      if (d < minDist) {
+        minDist = d;
+        nearest = f;
+      }
+    }
+
+    if (!nearest || minDist > 5) return defaults;  // >5 miles away = no data
+
+    var p = nearest.props;
+    return {
+      envBurden:      p.env_burden != null ? p.env_burden : null,
+      socialVuln:     p.social_vuln != null ? p.social_vuln : null,
+      healthVuln:     p.health_vuln != null ? p.health_vuln : null,
+      ejiPercentile:  p.eji_percentile != null ? p.eji_percentile : null,
+      riskCategory:   p.risk_category || 'unknown',
+      tractGeoid:     p.geoid || ''
+    };
+  }
+
+  /**
+   * Convert CDC EJI environmental burden percentile (0-1) to a soil/environmental
+   * score (0-100) for the feasibility assessment.
+   * Higher EJI burden = LOWER site suitability score.
+   * @param {number|null} envBurden - EJI environmental burden percentile (0-1)
+   * @returns {number} Score 0-100 (100 = cleanest/best, 0 = worst burden)
+   */
+  function _envBurdenToScore(envBurden) {
+    if (envBurden == null || envBurden < 0) return 50;  // neutral default
+    return Math.round((1 - envBurden) * 100);
+  }
+
+  /**
+   * Estimate flood risk (0-3) from loaded flood zone GeoJSON data.
+   * Uses point-in-bbox approximation for speed.
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {number} 0=none, 1=low, 2=moderate, 3=high
+   */
+  function _getFloodRisk(lat, lon) {
+    var mapLayers = window._mapLayers || window._maMapLayers;
+    if (!mapLayers || !mapLayers.flood) return 0;
+
+    var highRisk = false;
+    var anyRisk = false;
+
+    try {
+      mapLayers.flood.eachLayer(function (layer) {
+        if (highRisk) return;  // short-circuit
+        var props = (layer.feature && layer.feature.properties) ? layer.feature.properties : {};
+        // Check if point is within the layer bounds (fast bbox check)
+        var bounds = layer.getBounds ? layer.getBounds() : null;
+        if (!bounds) return;
+        if (bounds.contains([lat, lon])) {
+          anyRisk = true;
+          if (props.sfha || props.risk_category === 'high' ||
+              props.FLD_ZONE === 'A' || props.FLD_ZONE === 'AE' ||
+              props.FLD_ZONE === 'AO' || props.FLD_ZONE === 'V' ||
+              props.FLD_ZONE === 'VE') {
+            highRisk = true;
+          }
+        }
+      });
+    } catch (e) {
+      _warn('_getFloodRisk() failed: ' + (e && e.message));
+    }
+
+    if (highRisk) return 3;
+    if (anyRisk) return 1;
+    return 0;
+  }
+
+  /** @type {Array|null} Cached tract centroids for county FIPS derivation */
+  var _tractCentroidCache = null;
+
+  /** @type {object|null} Cached scorecard data */
+  var _scorecardCache = null;
+  var _scorecardLoading = false;
+
+  /**
+   * Get housing policy scorecard data for the jurisdiction containing the site.
+   * Matches by county FIPS (5-digit) from the PMA buffer tracts.
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {{ overlayCount: number, overlays: Array.<string>, zoningCapacity: number,
+   *             publicOwnership: boolean, totalScore: number, jurisdictionName: string }}
+   */
+  function _getScorecardMetrics(lat, lon) {
+    var defaults = { overlayCount: 0, overlays: [], zoningCapacity: 0,
+                     publicOwnership: false, totalScore: 0, jurisdictionName: '' };
+
+    if (!_scorecardCache) return defaults;
+
+    // Derive county FIPS from PMA buffer
+    var countyFips = null;
+    try {
+      var pma = _pma();
+      if (pma && typeof pma.tractsInBuffer === 'function') {
+        var bufTracts = pma.tractsInBuffer(lat, lon, 5);
+        if (bufTracts && bufTracts.length) {
+          var fipsCount = {};
+          for (var i = 0; i < bufTracts.length; i++) {
+            var geoid = String(bufTracts[i].geoid || '');
+            if (geoid.length >= 5) {
+              var f = geoid.slice(0, 5);
+              fipsCount[f] = (fipsCount[f] || 0) + 1;
+            }
+          }
+          var maxCount = 0;
+          Object.keys(fipsCount).forEach(function (f) {
+            if (fipsCount[f] > maxCount) { maxCount = fipsCount[f]; countyFips = f; }
+          });
+        }
+      }
+    } catch (e) { /* ignore */ }
+
+    // Fallback: derive county FIPS from 5 nearest tract centroids (majority vote)
+    if (!countyFips && _tractCentroidCache && _tractCentroidCache.length > 0) {
+      var nearTracts = [];
+      for (var j = 0; j < _tractCentroidCache.length; j++) {
+        var tc = _tractCentroidCache[j];
+        var dist = _haversine(lat, lon, tc.lat, tc.lon);
+        if (nearTracts.length < 5 || dist < nearTracts[nearTracts.length - 1].dist) {
+          nearTracts.push({ geoid: tc.geoid, dist: dist });
+          nearTracts.sort(function (a, b) { return a.dist - b.dist; });
+          if (nearTracts.length > 5) nearTracts.pop();
+        }
+      }
+      if (nearTracts.length > 0) {
+        var fVotes = {};
+        for (var k = 0; k < nearTracts.length; k++) {
+          var cf = String(nearTracts[k].geoid).slice(0, 5);
+          fVotes[cf] = (fVotes[cf] || 0) + 1;
+        }
+        var bestCount = 0;
+        Object.keys(fVotes).forEach(function (cf) {
+          if (fVotes[cf] > bestCount) { bestCount = fVotes[cf]; countyFips = cf; }
+        });
+      }
+    }
+
+    if (!countyFips) return defaults;
+
+    var scores = _scorecardCache.scores || {};
+    var entry = scores[countyFips];
+    if (!entry) return defaults;
+
+    var dims = entry.dimensions || {};
+    var overlays = [];
+    if (dims.has_hna) overlays.push('Housing Needs Assessment');
+    if (dims.prop123_committed) overlays.push('Proposition 123 Committed');
+    if (dims.has_housing_authority) overlays.push('Housing Authority');
+    if (dims.has_housing_nonprofits) overlays.push('Housing Nonprofits');
+    if (dims.has_comp_plan) overlays.push('Housing in Comprehensive Plan');
+    if (dims.has_iz_ordinance) overlays.push('Inclusionary Zoning Ordinance');
+    if (dims.has_local_funding) overlays.push('Local Housing Funding');
+
+    return {
+      overlayCount:     overlays.length,
+      overlays:         overlays,
+      zoningCapacity:   dims.has_iz_ordinance ? 1 : 0,
+      publicOwnership:  dims.has_housing_authority || false,
+      totalScore:       entry.totalScore || 0,
+      jurisdictionName: entry.name || ''
+    };
+  }
+
+  /**
+   * Attempt to load scorecard data asynchronously at init time.
+   */
+  function _loadScorecard() {
+    if (_scorecardCache || _scorecardLoading) return;
+    _scorecardLoading = true;
+    var fetch = (typeof window.safeFetchJSON === 'function') ? window.safeFetchJSON : null;
+    if (!fetch) {
+      _scorecardLoading = false;
+      return;
+    }
+    fetch('data/policy/housing-policy-scorecard.json')
+      .then(function (data) {
+        if (data && data.scores) {
+          _scorecardCache = data;
+          _log('Scorecard loaded: ' + Object.keys(data.scores).length + ' jurisdictions');
+        }
+      })
+      .catch(function (e) {
+        _warn('Scorecard load failed: ' + (e && e.message));
+      })
+      .finally(function () { _scorecardLoading = false; });
+  }
+
+  /**
+   * Attempt to load and cache EJI features asynchronously at init time.
+   */
+  function _loadEji() {
+    var fetch = (typeof window.safeFetchJSON === 'function') ? window.safeFetchJSON : null;
+    if (!fetch) return;
+    fetch('data/market/environmental_constraints_co.geojson')
+      .then(function (data) {
+        if (data && data.features) {
+          _ejiCache = [];
+          for (var i = 0; i < data.features.length; i++) {
+            var feat = data.features[i];
+            var geom = feat.geometry;
+            var props = feat.properties || {};
+            if (geom && geom.type === 'Point' && geom.coordinates) {
+              _ejiCache.push({
+                lat: geom.coordinates[1],
+                lon: geom.coordinates[0],
+                props: props
+              });
+            }
+          }
+          _log('EJI data loaded: ' + _ejiCache.length + ' tracts');
+        }
+      })
+      .catch(function (e) {
+        _warn('EJI data load failed: ' + (e && e.message));
+      });
+  }
+
   /* ── Core analysis pipeline ─────────────────────────────────────── */
 
   /**
@@ -309,7 +597,9 @@
               transit:    accessResult.transit    != null ? accessResult.transit.distanceMiles    : null,
               parks:      accessResult.parks      != null ? accessResult.parks.distanceMiles      : null,
               healthcare: accessResult.healthcare != null ? accessResult.healthcare.distanceMiles : null,
-              schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null
+              schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null,
+              hospitals:  accessResult.hospitals  != null ? accessResult.hospitals.distanceMiles  : null,
+              childcare:  accessResult.childcare  != null ? accessResult.childcare.distanceMiles  : null
             };
           }
         }
@@ -326,6 +616,33 @@
           }
         }
 
+        // ── Enrich with EJI environmental data ──────────────────────
+        var ejiMetrics = _safe(function () { return _getEjiMetrics(lat, lon); },
+          { envBurden: null, socialVuln: null, healthVuln: null,
+            ejiPercentile: null, riskCategory: 'unknown', tractGeoid: '' });
+
+        if (ejiMetrics.envBurden != null) {
+          _log('EJI: envBurden=' + ejiMetrics.envBurden.toFixed(3) +
+            ' risk=' + ejiMetrics.riskCategory +
+            ' tract=' + ejiMetrics.tractGeoid);
+        }
+
+        // ── Enrich with flood zone proximity ──────────────────────────
+        var floodRisk = _safe(function () { return _getFloodRisk(lat, lon); }, 0);
+        if (floodRisk > 0) {
+          _log('Flood risk: level=' + floodRisk);
+        }
+
+        // ── Enrich with housing policy scorecard ──────────────────────
+        var policyMetrics = _safe(function () { return _getScorecardMetrics(lat, lon); },
+          { overlayCount: 0, overlays: [], zoningCapacity: 0,
+            publicOwnership: false, totalScore: 0, jurisdictionName: '' });
+
+        if (policyMetrics.overlayCount > 0) {
+          _log('Policy: ' + policyMetrics.jurisdictionName +
+            ' — ' + policyMetrics.overlayCount + ' supportive overlays, score=' + policyMetrics.totalScore);
+        }
+
         // Build scoring inputs from available data.
         var inputs = {
           acs:              acs,
@@ -333,14 +650,18 @@
           ddaFlag:          flags.ddaFlag,
           fmrRatio:         _computeFmrRatio(lat, lon, acs),
           nearbySubsidized: lihtc ? lihtc.length : 0,
-          floodRisk:        0,       // default safe value; enriched by overlay data
-          soilScore:        50,      // neutral default
-          cleanupFlag:      false,
+          floodRisk:        floodRisk,
+          soilScore:        _envBurdenToScore(ejiMetrics.envBurden),
+          cleanupFlag:      ejiMetrics.riskCategory === 'high',
           amenities:        amenityInputs,
           walkabilityCtx:   walkabilityCtx,
-          zoningCapacity:   0,
-          publicOwnership:  false,
-          overlayCount:     0,
+          ejiMetrics:       ejiMetrics,
+          zoningCapacity:   policyMetrics.zoningCapacity,
+          publicOwnership:  policyMetrics.publicOwnership,
+          overlayCount:     policyMetrics.overlayCount,
+          overlays:         policyMetrics.overlays,
+          policyJurisdiction: policyMetrics.jurisdictionName,
+          policyTotalScore: policyMetrics.totalScore,
           rentTrend:        0,
           jobTrend:         0,
           concentration:    0.5,
@@ -380,6 +701,7 @@
                   floodRisk:         inputs.floodRisk,
                   soilScore:         inputs.soilScore,
                   cleanupFlag:       inputs.cleanupFlag,
+                  ejiMetrics:        inputs.ejiMetrics,
                   feasibility_score: scores ? scores.feasibility_score : null
                 },
                 access: {
@@ -388,10 +710,13 @@
                   access_score:   scores ? scores.access_score : null
                 },
                 policy: {
-                  zoningCapacity:  inputs.zoningCapacity,
-                  publicOwnership: inputs.publicOwnership,
-                  overlayCount:    inputs.overlayCount,
-                  policy_score:    scores ? scores.policy_score : null
+                  zoningCapacity:    inputs.zoningCapacity,
+                  publicOwnership:   inputs.publicOwnership,
+                  overlayCount:      inputs.overlayCount,
+                  overlays:          inputs.overlays,
+                  jurisdictionName:  inputs.policyJurisdiction,
+                  policyTotalScore:  inputs.policyTotalScore,
+                  policy_score:      scores ? scores.policy_score : null
                 },
                 opportunities: _buildOpportunities(scores)
               }
@@ -431,6 +756,7 @@
               floodRisk:         inputs.floodRisk,
               soilScore:         inputs.soilScore,
               cleanupFlag:       inputs.cleanupFlag,
+              ejiMetrics:        inputs.ejiMetrics,
               feasibility_score: scores ? scores.feasibility_score : null
             });
           });
@@ -445,10 +771,13 @@
           _safe(function () {
             _log('rendering maPolicyOverlays');
             ren.renderPolicyOverlays({
-              zoningCapacity:  inputs.zoningCapacity,
-              publicOwnership: inputs.publicOwnership,
-              overlayCount:    inputs.overlayCount,
-              policy_score:    scores ? scores.policy_score : null
+              zoningCapacity:    inputs.zoningCapacity,
+              publicOwnership:   inputs.publicOwnership,
+              overlayCount:      inputs.overlayCount,
+              overlays:          inputs.overlays,
+              jurisdictionName:  inputs.policyJurisdiction,
+              policyTotalScore:  inputs.policyTotalScore,
+              policy_score:      scores ? scores.policy_score : null
             });
           });
           _safe(function () {
@@ -622,6 +951,29 @@
       }
     }
   }
+
+  /**
+   * Load tract centroids for county FIPS derivation fallback.
+   */
+  function _loadTractCentroids() {
+    var fetch = (typeof window.safeFetchJSON === 'function') ? window.safeFetchJSON : null;
+    if (!fetch) return;
+    fetch('data/market/tract_centroids_co.json')
+      .then(function (data) {
+        if (data && data.tracts) {
+          _tractCentroidCache = data.tracts;
+          _log('Tract centroids loaded: ' + _tractCentroidCache.length + ' tracts');
+        }
+      })
+      .catch(function (e) {
+        _warn('Tract centroids load failed: ' + (e && e.message));
+      });
+  }
+
+  /* ── Pre-load enrichment data ──────────────────────────────────── */
+  _loadScorecard();
+  _loadEji();
+  _loadTractCentroids();
 
   /* ── DOMContentLoaded hook ───────────────────────────────────────── */
   if (document.readyState === 'loading') {

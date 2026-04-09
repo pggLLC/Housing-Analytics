@@ -375,20 +375,43 @@
     var floodLabel  = floodLabels[Math.min(Math.max(Math.round(fd.floodRisk || 0), 0), 3)];
     var floodColor  = (fd.floodRisk >= 2) ? 'var(--bad)' : (fd.floodRisk >= 1) ? 'var(--warn)' : 'var(--good)';
 
+    var envScore = fd.soilScore;
+    var envColor = (envScore >= 70) ? 'var(--good)' : (envScore >= 40) ? 'var(--warn)' : 'var(--bad)';
+
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Physical Site Conditions') +
-        _metricRow('Flood Risk',        floodLabel, floodColor) +
-        _metricRow('Soil/Bearing Score', _fmtN(fd.soilScore, 0)) +
-        _metricRow('Cleanup Required',
+        _metricRow('FEMA Flood Risk', floodLabel, floodColor) +
+        _metricRow('Environmental Score', _fmtN(envScore, 0) + ' / 100', envColor) +
+        _metricRow('Cleanup Concern',
           fd.cleanupFlag
-            ? '<span class="pill warn">Yes</span>'
-            : '<span class="pill good">No</span>') +
-        (typeof score === 'number'
-          ? _metricRow('Feasibility Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+            ? '<span class="pill warn">Yes — High EJI</span>'
+            : '<span class="pill good">No</span>')
     );
+
+    // Show EJI breakdown if available
+    var eji = fd.ejiMetrics;
+    if (eji && eji.ejiPercentile != null) {
+      var riskColor = eji.riskCategory === 'high' ? 'var(--bad)' :
+                      eji.riskCategory === 'moderate' ? 'var(--warn)' : 'var(--good)';
+      html += '<div style="margin-top:0.75rem;"></div>' +
+        _sectionHeading('CDC Environmental Justice Index') +
+        _metricRow('EJI Percentile', _fmtPct(eji.ejiPercentile, 1), riskColor) +
+        _metricRow('Environmental Burden', eji.envBurden != null ? _fmtPct(eji.envBurden, 1) : '—') +
+        _metricRow('Social Vulnerability', eji.socialVuln != null ? _fmtPct(eji.socialVuln, 1) : '—') +
+        _metricRow('Health Vulnerability', eji.healthVuln != null ? _fmtPct(eji.healthVuln, 1) : '—') +
+        _metricRow('Risk Category',
+          '<span class="pill" style="background:' + riskColor + ';color:#fff;border-color:' + riskColor + ';">' +
+            (eji.riskCategory || 'unknown') + '</span>');
+      if (eji.tractGeoid) {
+        html += '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem;">Tract: ' + eji.tractGeoid + '</div>';
+      }
+    }
+
+    html += (typeof score === 'number'
+      ? _metricRow('Feasibility Score', _scoreBadge(score))
+      : '') +
+    '</div>';
 
     _render('maSiteFeasibilityContent', html);
   }
@@ -420,7 +443,9 @@
         _distRow('Transit Stop',      amenities.transit) +
         _distRow('Park / Open Space', amenities.parks) +
         _distRow('Healthcare',        amenities.healthcare) +
-        _distRow('School',            amenities.schools)
+        _distRow('School',            amenities.schools) +
+        _distRow('Hospital',          amenities.hospitals) +
+        _distRow('Child Care Center', amenities.childcare)
     );
 
     // Walkability & Bikeability section
@@ -509,28 +534,44 @@
 
     var overlayList = '';
     if (Array.isArray(pd.overlays) && pd.overlays.length > 0) {
-      overlayList = '<ul style="margin:0.5rem 0 0;padding-left:1.25rem;font-size:var(--small);color:var(--muted);">';
+      overlayList = '<div style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.35rem;">';
       pd.overlays.forEach(function (o) {
-        overlayList += '<li>' + o + '</li>';
+        overlayList += '<span class="pill good" style="font-size:0.7rem;">' + o + '</span>';
       });
-      overlayList += '</ul>';
+      overlayList += '</div>';
     }
 
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
-        _sectionHeading('Zoning &amp; Policy Context') +
-        _metricRow('By-Right Zoning Capacity', _fmtN(pd.zoningCapacity) + ' units') +
-        _metricRow('Public Ownership',
-          pd.publicOwnership
-            ? '<span class="pill good">Yes</span>'
-            : '<span class="pill">No</span>') +
-        _metricRow('Supportive Overlays', _fmtN(pd.overlayCount, 0)) +
-        overlayList +
-        (typeof score === 'number'
-          ? _metricRow('Policy Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+        _sectionHeading('Housing Policy Context')
     );
+
+    // Show jurisdiction name if available
+    if (pd.jurisdictionName) {
+      html += _metricRow('Jurisdiction', '<strong>' + pd.jurisdictionName + '</strong>');
+    }
+
+    html += _metricRow('Supportive Policy Dimensions', _fmtN(pd.overlayCount, 0) + ' / 7');
+
+    if (pd.policyTotalScore != null && pd.policyTotalScore > 0) {
+      var scColor = pd.policyTotalScore >= 5 ? 'var(--good)' :
+                    pd.policyTotalScore >= 3 ? 'var(--warn)' : 'var(--bad)';
+      html += _metricRow('Scorecard Total', _fmtN(pd.policyTotalScore, 0) + ' / 7', scColor);
+    }
+
+    html += _metricRow('Inclusionary Zoning',
+      pd.zoningCapacity > 0
+        ? '<span class="pill good">Yes</span>'
+        : '<span class="pill">No</span>') +
+      _metricRow('Housing Authority Present',
+        pd.publicOwnership
+          ? '<span class="pill good">Yes</span>'
+          : '<span class="pill">No</span>') +
+      overlayList +
+      (typeof score === 'number'
+        ? _metricRow('Policy Score', _scoreBadge(score))
+        : '') +
+    '</div>';
 
     _render('maPolicyOverlaysContent', html);
   }
