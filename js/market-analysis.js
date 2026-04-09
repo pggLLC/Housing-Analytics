@@ -1459,7 +1459,8 @@
                          pointStyle: { radius: 6, fillColor: '#dc2626', color: '#fff', weight: 2, fillOpacity: 0.9 } },
     childcare:         { src: 'market/childcare_co.geojson',
                          pointStyle: { radius: 4, fillColor: '#f97316', color: '#fff', weight: 1, fillOpacity: 0.8 } },
-    infrastructure:    { src: null },   // future
+    infrastructure:    { src: 'market/utility_capacity_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#0891b2', color: '#164e63', weight: 1, fillOpacity: 0.6 } },
     parcelZoning:      { src: null },   // future
     listings:          { src: null }    // handled externally (Bridge API)
   };
@@ -1654,6 +1655,16 @@
                         '<br>Env: ' + ((p.env_burden || 0) * 100).toFixed(1) + '%' +
                         ' · Social: ' + ((p.social_vuln || 0) * 100).toFixed(1) + '%' +
                         '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+
+                if (key === 'infrastructure' && p.utility_type) {
+                  var iName = p.NAME || p.name || '';
+                  tip = '<b>' + iName + '</b>' +
+                        '<br>Type: ' + (p.utility_type || '').replace(/_/g, ' ') +
+                        '<br>Constraint: ' + (p.constraint_level || '—') +
+                        (p.notes ? '<br><span style="font-size:0.8em;opacity:0.8;">' + p.notes.substring(0, 80) + '</span>' : '');
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }

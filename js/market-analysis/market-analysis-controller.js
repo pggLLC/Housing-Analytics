@@ -145,7 +145,9 @@
     // Aggregate matching ACS tracts
     var pop = 0, renterHh = 0, ownerHh = 0, totalHh = 0, vacant = 0;
     var rentSum = 0, rentN = 0, incSum = 0, incN = 0;
-    var burdenHh = 0, tractCount = 0;
+    // Weighted burden: sum(cost_burden_rate * renter_hh) / sum(renter_hh)
+    var burdenWeightedSum = 0, burdenWeightN = 0;
+    var tractCount = 0;
 
     for (var j = 0; j < _acsMetricsCache.length; j++) {
       var t = _acsMetricsCache[j];
@@ -157,12 +159,20 @@
       vacant   += t.vacant || 0;
       if (t.median_gross_rent > 0) { rentSum += t.median_gross_rent; rentN++; }
       if (t.median_hh_income > 0)  { incSum  += t.median_hh_income;  incN++;  }
-      if (t.cost_burdened_hh > 0)   burdenHh += t.cost_burdened_hh;
+      // Weighted cost-burden aggregation
+      var tRenterHh = t.renter_hh || 0;
+      var tBurdenRate = t.cost_burden_rate;
+      if (tBurdenRate > 0 && tRenterHh > 0) {
+        burdenWeightedSum += tBurdenRate * tRenterHh;
+        burdenWeightN += tRenterHh;
+      }
     }
 
     if (tractCount === 0) return null;
 
     ownerHh = Math.max(0, totalHh - renterHh);
+    var costBurdenRate = burdenWeightN > 0 ? burdenWeightedSum / burdenWeightN : null;
+
     return {
       pop:              pop,
       renter_hh:        renterHh,
@@ -173,7 +183,7 @@
       median_gross_rent: rentN > 0 ? Math.round(rentSum / rentN) : null,
       med_hh_income:    incN > 0 ? Math.round(incSum / incN) : null,
       median_hh_income: incN > 0 ? Math.round(incSum / incN) : null,
-      cost_burden_rate: totalHh > 0 ? burdenHh / totalHh : null,
+      cost_burden_rate: costBurdenRate,
       renter_share:     totalHh > 0 ? renterHh / totalHh : null,
       vacancy_rate:     (totalHh + vacant) > 0 ? vacant / (totalHh + vacant) : null,
       tract_count:      tractCount,
@@ -1014,6 +1024,19 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
         resetAll();
+      });
+    }
+
+    // Bind the "Export Report" button if present.
+    var exportBtn = document.getElementById('pmaExportBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        var ren = _rend();
+        if (ren && typeof ren.exportReport === 'function') {
+          ren.exportReport();
+        } else {
+          _warn('MARenderers.exportReport not available.');
+        }
       });
     }
 
