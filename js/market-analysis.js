@@ -1440,7 +1440,9 @@
                          tileService: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
                          tileLayers: '28',
                          tileLabel: 'FEMA Flood Zones' },
-    barriers:          { src: 'market/environmental_constraints_co.geojson',  style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
+    barriers:          { src: 'market/natural_barriers_co.geojson',           style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
+    envJustice:        { src: 'market/environmental_constraints_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#ef4444', weight: 1.5, fillOpacity: 0.7 } },
     commuting:         { src: null },   // LEHD/LODES — future
     employmentCenters: { src: 'market/employment_centers_co.geojson',
                          pointStyle: { radius: 4, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
