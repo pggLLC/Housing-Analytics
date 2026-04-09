@@ -38,15 +38,10 @@ STATE_ABBR = "CO"
 CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_schools_cache"
 CACHE_TTL_HOURS = 168  # 1 week
 
-# NCES CCD school universe API — public, no key required
-NCES_CCD_URL = (
-    "https://educationdata.urban.org/api/v1/schools/ccd/directory/"
-    "?year=2022&fips=8&per_page=10000"
-)
-
-# CDE school performance data (public download)
-CDE_SCHOOL_PERFORMANCE_URL = (
-    "https://www.cde.state.co.us/accountability/2023-24schoolaccreportcardspublic.xls"
+# NCES CCD school locations — official ArcGIS MapServer (public, no key required)
+NCES_ARCGIS_URL = (
+    "https://nces.ed.gov/opengis/rest/services/K12_School_Locations/"
+    "EDGE_ADMINDATA_PUBLICSCH_2122/MapServer/0"
 )
 
 
@@ -96,55 +91,91 @@ def fetch_json(url: str, **kw) -> dict:
     return json.loads(fetch_url(url, **kw))
 
 
+def arcgis_query_schools(offset: int = 0) -> dict:
+    """Query NCES ArcGIS MapServer for Colorado public schools.
+
+    Note: NCES MapServer does not support f=geojson, so we use f=json
+    and convert to GeoJSON features manually.
+    """
+    params = urllib.parse.urlencode({
+        "where": "LSTATE='CO'",
+        "outFields": "NCESSCH,SCH_NAME,SCHOOL_TYPE_TEXT,GSLO,GSHI,TOTAL,"
+                     "NMCNTY,LCITY,LZIP,CHARTER_TEXT,MAGNET_TEXT,"
+                     "TITLEI_TEXT,SY_STATUS_TEXT,LATCOD,LONCOD",
+        "returnGeometry": "true",
+        "f": "json",
+        "outSR": "4326",
+        "resultRecordCount": "2000",
+        "resultOffset": str(offset),
+    })
+    url = f"{NCES_ARCGIS_URL}/query?{params}"
+    data = json.loads(fetch_url(url, timeout=90))
+    if isinstance(data, dict) and "error" in data:
+        err = data["error"]
+        raise RuntimeError(f"ArcGIS error {err.get('code')}: {err.get('message')}")
+    return data
+
+
 def build_schools_geojson() -> dict:
-    """Fetch Colorado K-12 school locations from the Urban Institute Education Data API."""
-    log("Fetching Colorado K-12 school data from NCES/CCD via Urban Institute API…")
+    """Fetch Colorado K-12 school locations from NCES ArcGIS MapServer."""
+    log("Fetching Colorado K-12 school data from NCES ArcGIS MapServer…")
     generated = utc_now()
 
+    all_records = []
     try:
-        data = fetch_json(NCES_CCD_URL, timeout=90)
+        offset = 0
+        page = 0
+        while True:
+            page += 1
+            data = arcgis_query_schools(offset=offset)
+            records = data.get("features", [])
+            all_records.extend(records)
+            log(f"  Page {page}: {len(records)} records (total {len(all_records)})")
+            if not records or not data.get("exceededTransferLimit"):
+                break
+            offset += len(records)
+            time.sleep(0.3)
     except Exception as exc:
-        log(f"NCES CCD fetch failed: {exc}. Writing empty stub.", level="WARN")
-        return _empty_geojson(generated)
+        log(f"NCES ArcGIS fetch failed: {exc}. Writing empty stub.", level="WARN")
+        if not all_records:
+            return _empty_geojson(generated)
 
-    results = data.get("results", [])
-    if not results:
-        log("No results returned from NCES API.", level="WARN")
-        return _empty_geojson(generated)
-
+    # Convert ArcGIS JSON to GeoJSON features
     features = []
-    for school in results:
-        lat = school.get("latitude")
-        lon = school.get("longitude")
-        if lat is None or lon is None:
-            continue
-        try:
-            lat = float(lat)
-            lon = float(lon)
-        except (TypeError, ValueError):
-            continue
+    for rec in all_records:
+        attrs = rec.get("attributes") or {}
+        geom = rec.get("geometry")
+        lat = attrs.get("LATCOD")
+        lon = attrs.get("LONCOD")
 
-        county_fips_raw = str(school.get("fips_county_code", "") or "").zfill(5)
-        if not county_fips_raw.startswith("08"):
+        # Build GeoJSON point from geometry or lat/lon attributes
+        if geom and "x" in geom and "y" in geom:
+            point = {"type": "Point", "coordinates": [geom["x"], geom["y"]]}
+        elif lat and lon:
+            try:
+                point = {"type": "Point", "coordinates": [float(lon), float(lat)]}
+            except (TypeError, ValueError):
+                continue
+        else:
             continue
 
         features.append({
             "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [lon, lat]},
+            "geometry": point,
             "properties": {
-                "nces_id":          str(school.get("ncessch", "") or ""),
-                "school_name":      school.get("school_name", ""),
-                "school_type":      school.get("school_type_text", ""),
-                "grade_low":        school.get("lowest_grade_offered", ""),
-                "grade_high":       school.get("highest_grade_offered", ""),
-                "enrollment":       int(school.get("enrollment", 0) or 0),
-                "county_fips":      county_fips_raw,
-                "city":             school.get("city_location", ""),
-                "zip":              school.get("zip_mailing", ""),
-                "charter":          bool(school.get("charter_school_indicator", 0)),
-                "magnet":           bool(school.get("magnet_school_indicator", 0)),
-                "title1":           bool(school.get("title_i_school_status", 0)),
-                "status":           school.get("school_status", ""),
+                "nces_id":      str(attrs.get("NCESSCH", "") or ""),
+                "school_name":  attrs.get("SCH_NAME", ""),
+                "school_type":  attrs.get("SCHOOL_TYPE_TEXT", ""),
+                "grade_low":    attrs.get("GSLO", ""),
+                "grade_high":   attrs.get("GSHI", ""),
+                "enrollment":   int(attrs.get("TOTAL", 0) or 0),
+                "county_name":  attrs.get("NMCNTY", ""),
+                "city":         attrs.get("LCITY", ""),
+                "zip":          attrs.get("LZIP", ""),
+                "charter":      str(attrs.get("CHARTER_TEXT", "")).lower().startswith("yes"),
+                "magnet":       str(attrs.get("MAGNET_TEXT", "")).lower().startswith("yes"),
+                "title1":       str(attrs.get("TITLEI_TEXT", "")).lower().startswith("yes"),
+                "status":       attrs.get("SY_STATUS_TEXT", ""),
             },
         })
 
@@ -152,11 +183,11 @@ def build_schools_geojson() -> dict:
     return {
         "type": "FeatureCollection",
         "meta": {
-            "source": "NCES Common Core of Data via Urban Institute Education Data API",
-            "url": "https://educationdata.urban.org/",
+            "source": "NCES Common Core of Data — School Locations 2021-22",
+            "url": "https://nces.ed.gov/programs/edge/Geographic/SchoolLocations",
             "state": "Colorado",
             "state_fips": STATE_FIPS,
-            "vintage": "2022-23",
+            "vintage": "2021-22",
             "generated": generated,
             "feature_count": len(features),
             "coverage_pct": round(min(len(features) / 1800, 1.0) * 100, 1),
