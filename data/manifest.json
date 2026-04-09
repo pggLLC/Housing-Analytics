@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-11T02:37:58.692219Z",
+  "generated": "2026-04-09T13:04:44.018222Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -129,7 +129,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2855530
+      "bytes": 2419880
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
@@ -144,7 +144,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 133848
+      "bytes": 131534
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1869691
+      "bytes": 1869836
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -1164,7 +1164,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 70214
+      "bytes": 70187
     },
     "data/hna/projections/08.json": {
       "featureCount": 0,
@@ -4274,7 +4274,7 @@
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 395863
+      "bytes": 408696
     },
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
@@ -4306,20 +4306,10 @@
       "placeholder": false,
       "bytes": 3918
     },
-    "data/market/childcare_co.geojson": {
-      "featureCount": 2860,
-      "placeholder": false,
-      "bytes": 1944792
-    },
     "data/market/climate_hazards_co.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2648
-    },
-    "data/market/commuting_co.geojson": {
-      "featureCount": 1447,
-      "placeholder": false,
-      "bytes": 582520
     },
     "data/market/data_quality_report.json": {
       "featureCount": 0,
@@ -4331,15 +4321,10 @@
       "placeholder": false,
       "bytes": 18280
     },
-    "data/market/employment_centers_co.geojson": {
-      "featureCount": 1447,
-      "placeholder": false,
-      "bytes": 774302
-    },
     "data/market/environmental_constraints_co.geojson": {
-      "featureCount": 1070,
+      "featureCount": 0,
       "placeholder": false,
-      "bytes": 511275
+      "bytes": 501
     },
     "data/market/epa_sld_co.json": {
       "featureCount": 0,
@@ -4347,9 +4332,9 @@
       "bytes": 733069
     },
     "data/market/flood_zones_co.geojson": {
-      "featureCount": 12537,
+      "featureCount": 0,
       "placeholder": false,
-      "bytes": 28563340
+      "bytes": 418
     },
     "data/market/flood_zones_co.json": {
       "featureCount": 0,
@@ -4366,16 +4351,6 @@
       "placeholder": false,
       "bytes": 442053
     },
-    "data/market/hospitals_co.geojson": {
-      "featureCount": 121,
-      "placeholder": false,
-      "bytes": 76214
-    },
-    "data/market/housing_policy_jurisdictions_co.geojson": {
-      "featureCount": 336,
-      "placeholder": false,
-      "bytes": 1223927
-    },
     "data/market/hud_egis_co.geojson": {
       "featureCount": 53,
       "placeholder": false,
@@ -4391,11 +4366,6 @@
       "placeholder": false,
       "bytes": 6912
     },
-    "data/market/landuse_zoning_proxy_co.geojson": {
-      "featureCount": 28715,
-      "placeholder": false,
-      "bytes": 7185121
-    },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -4405,16 +4375,6 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 678435
-    },
-    "data/market/lodes_od_arcs_co.geojson": {
-      "featureCount": 750,
-      "placeholder": false,
-      "bytes": 190232
-    },
-    "data/market/natural_barriers_co.geojson": {
-      "featureCount": 11175,
-      "placeholder": false,
-      "bytes": 11359847
     },
     "data/market/nhpd_co.geojson": {
       "featureCount": 20,
@@ -4427,9 +4387,9 @@
       "bytes": 167238
     },
     "data/market/opportunity_zones_co.geojson": {
-      "featureCount": 1447,
+      "featureCount": 0,
       "placeholder": false,
-      "bytes": 79047286
+      "bytes": 433
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
@@ -4452,9 +4412,9 @@
       "bytes": 25321
     },
     "data/market/schools_co.geojson": {
-      "featureCount": 1941,
+      "featureCount": 0,
       "placeholder": false,
-      "bytes": 1243277
+      "bytes": 428
     },
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 0,
@@ -4476,15 +4436,10 @@
       "placeholder": false,
       "bytes": 182611
     },
-    "data/market/walkability_co.geojson": {
-      "featureCount": 1070,
-      "placeholder": false,
-      "bytes": 368283
-    },
     "data/market/walkability_scores_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 346242
+      "bytes": 449
     },
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
@@ -4509,7 +4464,7 @@
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 168323
+      "bytes": 183736
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -4534,7 +4489,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20192
+      "bytes": 20130
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
