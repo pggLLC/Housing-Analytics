@@ -1429,15 +1429,38 @@
     sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
     transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
     schools:           { src: 'market/schools_co.geojson',                    pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
-    opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 } },
-    flood:             { src: 'market/flood_zones_co.geojson',                style: { color: '#3b82f6', weight: 1, fillOpacity: 0.2 } },
+    opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 },
+                         arcgis: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Opportunity_Zones_2/FeatureServer/0',
+                         arcgisWhere: "STATEFP='08'" },
+    flood:             { src: 'market/flood_zones_co.geojson',                style: { color: '#3b82f6', weight: 1, fillOpacity: 0.2 },
+                         tileService: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
+                         tileLayers: '28',
+                         tileLabel: 'FEMA Flood Zones' },
     barriers:          { src: 'market/environmental_constraints_co.geojson',  style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
-    commuting:         { src: null },   // no GeoJSON available
-    employmentCenters: { src: null },   // no GeoJSON available
-    infrastructure:    { src: null },   // no GeoJSON available
-    parcelZoning:      { src: null },   // no GeoJSON available
+    commuting:         { src: null },   // LEHD/LODES — future
+    employmentCenters: { src: null },   // LEHD/LODES — future
+    infrastructure:    { src: null },   // future
+    parcelZoning:      { src: null },   // future
     listings:          { src: null }    // handled externally (Bridge API)
   };
+
+  /* ── Layer status toast ──────────────────────────────────────────── */
+  var _toastEl = null;
+  function _showLayerToast(msg, isError) {
+    if (!_toastEl) {
+      _toastEl = document.createElement('div');
+      _toastEl.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);' +
+        'padding:.65rem 1.2rem;border-radius:8px;font-size:.82rem;z-index:10000;' +
+        'box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center;';
+      document.body.appendChild(_toastEl);
+    }
+    _toastEl.style.background = isError ? '#dc2626' : 'var(--accent, #096e65)';
+    _toastEl.style.color = '#fff';
+    _toastEl.textContent = msg;
+    _toastEl.style.opacity = '1';
+    clearTimeout(_toastEl._timer);
+    _toastEl._timer = setTimeout(function () { _toastEl.style.opacity = '0'; }, isError ? 6000 : 3000);
+  }
 
   var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
 
@@ -1458,7 +1481,7 @@
         if (!cfg) return;
 
         // Disable checkboxes for layers with no data source and no special handling
-        if (!cfg.src && key !== 'lihtc' && key !== 'listings') {
+        if (!cfg.src && !cfg.tileService && !cfg.arcgis && key !== 'lihtc' && key !== 'listings') {
           cb.disabled = true;
           var noData = document.createElement('small');
           noData.textContent = ' (no data)';
@@ -1483,7 +1506,64 @@
         // Listings — skip, handled by external Bridge API integration
         if (key === 'listings') return;
 
-        // Standard GeoJSON layers
+        // ── Tile service layers (ArcGIS MapServer image tiles) ──
+        if (cfg.tileService) {
+          cb.addEventListener('change', function () {
+            if (cb.checked) {
+              if (_mapLayers[key]) {
+                if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
+                return;
+              }
+              // Build ArcGIS export-image tile URL
+              var tileUrl = cfg.tileService + '/export?bbox={xmin},{ymin},{xmax},{ymax}' +
+                '&bboxSR=4326&imageSR=4326&size=512,512&format=png32&transparent=true' +
+                '&layers=show:' + (cfg.tileLayers || '0') + '&f=image';
+              // Leaflet custom tile layer using ArcGIS export endpoint
+              var layer = L.tileLayer(
+                cfg.tileService + '/export?bbox={bbox}&bboxSR=4326&imageSR=4326' +
+                '&size=256,256&format=png32&transparent=true&layers=show:' +
+                (cfg.tileLayers || '0') + '&f=image',
+                { attribution: cfg.tileLabel || 'ArcGIS', opacity: 0.65, maxZoom: 18,
+                  // Custom bbox substitution for ArcGIS export
+                  // Leaflet doesn't natively support {bbox}, so we override getTileUrl
+                }
+              );
+              // Override getTileUrl to provide bbox from tile coords
+              layer.getTileUrl = function (coords) {
+                var tileSize = this.getTileSize();
+                var nw = this._map.unproject([coords.x * tileSize.x, coords.y * tileSize.y], coords.z);
+                var se = this._map.unproject([(coords.x + 1) * tileSize.x, (coords.y + 1) * tileSize.y], coords.z);
+                var bbox = [se.lng, se.lat, nw.lng, nw.lat].join(',');
+                return cfg.tileService + '/export?bbox=' + bbox +
+                  '&bboxSR=4326&imageSR=4326&size=' + tileSize.x + ',' + tileSize.y +
+                  '&format=png32&transparent=true&layers=show:' + (cfg.tileLayers || '0') + '&f=image';
+              };
+              // Detect errors (service down)
+              layer.on('tileerror', function (e) {
+                if (!layer._errorShown) {
+                  layer._errorShown = true;
+                  _showLayerToast('⚠ ' + (cfg.tileLabel || key) + ' service unavailable — try again later', true);
+                  // Disable checkbox and show status
+                  cb.checked = false;
+                  if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) map.removeLayer(_mapLayers[key]);
+                }
+              });
+              layer.on('load', function () {
+                if (!layer._loadShown) {
+                  layer._loadShown = true;
+                  _showLayerToast('✓ ' + (cfg.tileLabel || key) + ' loaded', false);
+                }
+              });
+              _mapLayers[key] = layer;
+              layer.addTo(map);
+            } else {
+              if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) map.removeLayer(_mapLayers[key]);
+            }
+          });
+          return;
+        }
+
+        // Standard GeoJSON layers (with optional ArcGIS FeatureServer primary + local fallback)
         cb.addEventListener('change', function () {
           if (cb.checked) {
             // Already cached — just re-add to map
@@ -1491,13 +1571,9 @@
               if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
               return;
             }
-            // Fetch and create layer
-            var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(cfg.src) : ('data/' + cfg.src);
-            var fetchPromise = (DS && typeof DS.getJSON === 'function')
-              ? DS.getJSON(url)
-              : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
 
-            fetchPromise.then(function (gj) {
+            // Helper to create GeoJSON layer from data
+            function _createLayer(gj) {
               if (!gj || !gj.features || gj.features.length === 0) {
                 console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
                 return;
@@ -1513,14 +1589,50 @@
               }
               opts.onEachFeature = function (feature, layer) {
                 var p = feature.properties || {};
-                var name = p.NAME || p.name || p.NAMELSAD || p.Name || '';
+                var name = p.NAME || p.name || p.NAMELSAD || p.Name || p.school_name || p.geoid || '';
                 if (name) layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
               };
               _mapLayers[key] = L.geoJSON(gj, opts);
               _mapLayers[key].addTo(map);
-            }).catch(function (err) {
-              console.warn('[market-analysis] Failed to load layer "' + key + '":', err);
-            });
+              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)', false);
+            }
+
+            // Helper to load from local GeoJSON file
+            function _loadLocal() {
+              if (!cfg.src) return;
+              var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(cfg.src) : ('data/' + cfg.src);
+              var fetchPromise = (DS && typeof DS.getJSON === 'function')
+                ? DS.getJSON(url)
+                : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+              fetchPromise.then(_createLayer).catch(function (err) {
+                console.warn('[market-analysis] Local fallback failed for "' + key + '":', err);
+                _showLayerToast('⚠ ' + key + ' — data unavailable', true);
+              });
+            }
+
+            // If ArcGIS FeatureServer is configured, try it first with local fallback
+            if (cfg.arcgis) {
+              var qs = 'where=' + encodeURIComponent(cfg.arcgisWhere || '1=1') +
+                '&outFields=*&returnGeometry=true&f=geojson&outSR=4326&resultRecordCount=5000';
+              fetch(cfg.arcgis + '/query?' + qs, { signal: AbortSignal.timeout(15000) })
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (gj) {
+                  if (gj.error) throw new Error(gj.error.message || 'ArcGIS error');
+                  if (gj.features && gj.features.length > 0) {
+                    _createLayer(gj);
+                  } else {
+                    throw new Error('empty response');
+                  }
+                })
+                .catch(function (err) {
+                  console.warn('[market-analysis] ArcGIS service failed for "' + key + '":', err.message, '— falling back to local');
+                  _showLayerToast('⚠ ' + key + ' live service down — loading cached data', true);
+                  _loadLocal();
+                });
+            } else {
+              // No ArcGIS — just load local
+              _loadLocal();
+            }
           } else {
             // Unchecked — remove from map
             if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) {
