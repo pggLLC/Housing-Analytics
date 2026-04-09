@@ -1450,6 +1450,10 @@
                          pointStyle: { radius: 4, fillColor: '#ef4444', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     parks:             { src: 'amenities/parks_co.geojson',
                          pointStyle: { radius: 4, fillColor: '#16a34a', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    hospitals:         { src: 'market/hospitals_co.geojson',
+                         pointStyle: { radius: 6, fillColor: '#dc2626', color: '#fff', weight: 2, fillOpacity: 0.9 } },
+    childcare:         { src: 'market/childcare_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#f97316', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     infrastructure:    { src: null },   // future
     parcelZoning:      { src: null },   // future
     listings:          { src: null }    // handled externally (Bridge API)
