@@ -14,7 +14,7 @@
    * Canonical amenity type identifiers used throughout the scoring logic.
    * @type {Array.<string>}
    */
-  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school'];
+  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare'];
 
   /**
    * Mapping from score-output keys to canonical amenity type identifiers.
@@ -25,7 +25,9 @@
     transit:    'transit_stop',
     parks:      'park',
     healthcare: 'healthcare',
-    schools:    'school'
+    schools:    'school',
+    hospitals:  'hospital',
+    childcare:  'childcare'
   };
 
   /**
@@ -167,6 +169,8 @@
       parks:      defaultEntry,
       healthcare: defaultEntry,
       schools:    defaultEntry,
+      hospitals:  defaultEntry,
+      childcare:  defaultEntry,
       overall:    0
     };
 
