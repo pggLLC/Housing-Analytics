@@ -1438,7 +1438,14 @@
                          tileLabel: 'FEMA Flood Zones' },
     barriers:          { src: 'market/environmental_constraints_co.geojson',  style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
     commuting:         { src: null },   // LEHD/LODES — future
-    employmentCenters: { src: null },   // LEHD/LODES — future
+    employmentCenters: { src: 'market/employment_centers_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    grocery:           { src: 'amenities/grocery_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#22c55e', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    healthcare:        { src: 'amenities/healthcare_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#ef4444', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    parks:             { src: 'amenities/parks_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#16a34a', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     infrastructure:    { src: null },   // future
     parcelZoning:      { src: null },   // future
     listings:          { src: null }    // handled externally (Bridge API)
