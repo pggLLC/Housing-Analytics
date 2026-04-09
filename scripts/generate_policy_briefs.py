@@ -20,6 +20,8 @@ Output:
     data/policy_briefs.json
 """
 
+from __future__ import annotations
+
 import json
 import os
 import sys
@@ -95,17 +97,12 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
     if regions:
         summary_parts.append(f"Coverage spans: {', '.join(regions[:4])}.")
 
-    implications = (
-        f"Policymakers should monitor {label.lower()} trends in Colorado. "
-        f"This data cluster suggests active public discourse and potential legislative or market developments."
-    )
-
     # Build articles list with title, source, link, date for each alert
     articles = []
     for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
         art = {'title': a.get('title', ''), 'source': a.get('source', '')}
-        if a.get('link'):
-            art['link'] = a['link']
+        if a.get('url') or a.get('link'):
+            art['link'] = a.get('url') or a['link']
         if a.get('date'):
             art['date'] = a['date'][:10]
         if art['title']:
@@ -115,7 +112,6 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
         'title': f'{label} Policy Brief — {datetime.now(timezone.utc).strftime("%B %Y")}',
         'policy_topic': label,
         'summary': ' '.join(summary_parts),
-        'implications': implications,
         'related_data': RELATED_DATA_MAP.get(topic, ''),
         'sources': sources,
         'articles': articles,
@@ -183,8 +179,8 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
         articles = []
         for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
             art = {'title': a.get('title', ''), 'source': a.get('source', '')}
-            if a.get('link'):
-                art['link'] = a['link']
+            if a.get('url') or a.get('link'):
+                art['link'] = a.get('url') or a['link']
             if a.get('date'):
                 art['date'] = a['date'][:10]
             if art['title']:
