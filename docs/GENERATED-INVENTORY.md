@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-09T14:44:48.361Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-09T23:00:01.749Z. Do not edit by hand.
 
 ---
 
@@ -75,7 +75,7 @@
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
-| `data/derived/market-analysis/neighborhood_access.json` | 2.31 MB | ✅ | — |
+| `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 128.5 KB | ✅ | — |
