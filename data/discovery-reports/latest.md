@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-08T08:05:23.201Z
+**Scan timestamp:** 2026-04-09T08:10:18.405Z
 
 ## Summary
 
@@ -886,7 +886,7 @@
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (12 KB)
-- `data/policy_briefs.json` (7 KB)
+- `data/policy_briefs.json` (82 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/zillow/median_list_price_metro.csv` (798 KB)
 - `data/zillow/zhvi_metro.csv` (4271 KB)
@@ -895,27 +895,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 828 days since last update
-- **undefined** — 462 days since last update
-- **undefined** — 462 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 829 days since last update
+- **undefined** — 463 days since last update
+- **undefined** — 463 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 372 days since last update
+- undefined — 373 days since last update
