@@ -107,7 +107,80 @@
       if (s && s.acs) return s.acs;
     }
 
+    // Tertiary: read from PMADataCache (populated by market-analysis.js loadData)
+    if (window.PMADataCache && window.PMADataCache.acs) {
+      _log('_getAcs(): using PMADataCache fallback');
+      return window.PMADataCache.acs;
+    }
+
+    // Quaternary: aggregate nearest tracts from cached ACS metrics
+    if (_acsMetricsCache && _acsMetricsCache.length > 0 && _currentSite) {
+      return _aggregateNearestAcs(_currentSite.lat, _currentSite.lon, _currentSite.bufferMiles || 5);
+    }
+
     return null;
+  }
+
+  /** @type {Array|null} Cached ACS tract metrics for direct aggregation */
+  var _acsMetricsCache = null;
+  /** @type {{lat:number,lon:number,bufferMiles:number}|null} Current site for ACS lookup */
+  var _currentSite = null;
+
+  /**
+   * Aggregate ACS metrics for tracts within buffer distance of a site.
+   * Used as last-resort fallback when PMAEngine hasn't run.
+   */
+  function _aggregateNearestAcs(lat, lon, bufferMiles) {
+    if (!_acsMetricsCache || !_tractCentroidCache) return null;
+
+    // Find tracts within buffer
+    var tractGeoids = {};
+    for (var i = 0; i < _tractCentroidCache.length; i++) {
+      var tc = _tractCentroidCache[i];
+      if (_haversine(lat, lon, tc.lat, tc.lon) <= bufferMiles) {
+        tractGeoids[tc.geoid] = true;
+      }
+    }
+
+    // Aggregate matching ACS tracts
+    var pop = 0, renterHh = 0, ownerHh = 0, totalHh = 0, vacant = 0;
+    var rentSum = 0, rentN = 0, incSum = 0, incN = 0;
+    var burdenHh = 0, tractCount = 0;
+
+    for (var j = 0; j < _acsMetricsCache.length; j++) {
+      var t = _acsMetricsCache[j];
+      if (!tractGeoids[t.geoid]) continue;
+      tractCount++;
+      pop      += t.pop || 0;
+      renterHh += t.renter_hh || 0;
+      totalHh  += t.total_hh || 0;
+      vacant   += t.vacant || 0;
+      if (t.median_gross_rent > 0) { rentSum += t.median_gross_rent; rentN++; }
+      if (t.median_hh_income > 0)  { incSum  += t.median_hh_income;  incN++;  }
+      if (t.cost_burdened_hh > 0)   burdenHh += t.cost_burdened_hh;
+    }
+
+    if (tractCount === 0) return null;
+
+    ownerHh = Math.max(0, totalHh - renterHh);
+    return {
+      pop:              pop,
+      renter_hh:        renterHh,
+      owner_hh:         ownerHh,
+      total_hh:         totalHh,
+      vacant:           vacant,
+      med_gross_rent:   rentN > 0 ? Math.round(rentSum / rentN) : null,
+      median_gross_rent: rentN > 0 ? Math.round(rentSum / rentN) : null,
+      med_hh_income:    incN > 0 ? Math.round(incSum / incN) : null,
+      median_hh_income: incN > 0 ? Math.round(incSum / incN) : null,
+      cost_burden_rate: totalHh > 0 ? burdenHh / totalHh : null,
+      renter_share:     totalHh > 0 ? renterHh / totalHh : null,
+      vacancy_rate:     (totalHh + vacant) > 0 ? vacant / (totalHh + vacant) : null,
+      tract_count:      tractCount,
+      severe_burden_rate: null,
+      poverty_rate:     null,
+      unemployment_rate: null
+    };
   }
 
   /**
@@ -541,6 +614,9 @@
     var scr = _scorer();
     var ren = _rend();
 
+    // Store current site for ACS fallback aggregation
+    _currentSite = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5 };
+
     _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
       ' — MAState=' + (st ? 'ok' : 'missing') +
       ', SiteSelectionScore=' + (scr ? 'ok' : 'missing') +
@@ -970,10 +1046,29 @@
       });
   }
 
+  /**
+   * Load ACS tract metrics for direct aggregation fallback.
+   */
+  function _loadAcsMetrics() {
+    var fetch = (typeof window.safeFetchJSON === 'function') ? window.safeFetchJSON : null;
+    if (!fetch) return;
+    fetch('data/market/acs_tract_metrics_co.json')
+      .then(function (data) {
+        if (data && data.tracts && data.tracts.length) {
+          _acsMetricsCache = data.tracts;
+          _log('ACS metrics loaded: ' + _acsMetricsCache.length + ' tracts');
+        }
+      })
+      .catch(function (e) {
+        _warn('ACS metrics load failed: ' + (e && e.message));
+      });
+  }
+
   /* ── Pre-load enrichment data ──────────────────────────────────── */
   _loadScorecard();
   _loadEji();
   _loadTractCentroids();
+  _loadAcsMetrics();
 
   /* ── DOMContentLoaded hook ───────────────────────────────────────── */
   if (document.readyState === 'loading') {

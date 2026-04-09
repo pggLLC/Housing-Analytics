@@ -1443,7 +1443,10 @@
     barriers:          { src: 'market/natural_barriers_co.geojson',           style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
     envJustice:        { src: 'market/environmental_constraints_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#ef4444', weight: 1.5, fillOpacity: 0.7 } },
-    commuting:         { src: null },   // LEHD/LODES — future
+    commuting:         { src: 'market/commuting_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#6366f1', color: '#312e81', weight: 1, fillOpacity: 0.6 } },
+    walkability:       { src: 'market/walkability_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#10b981', color: '#065f46', weight: 1, fillOpacity: 0.6 } },
     employmentCenters: { src: 'market/employment_centers_co.geojson',
                          pointStyle: { radius: 4, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     grocery:           { src: 'amenities/grocery_co.geojson',
@@ -1594,7 +1597,30 @@
               var opts = {};
               if (cfg.pointStyle) {
                 opts.pointToLayer = function (feature, latlng) {
-                  return L.circleMarker(latlng, cfg.pointStyle);
+                  var ps = Object.assign({}, cfg.pointStyle);
+                  var fp = feature.properties || {};
+
+                  // Dynamic styling for walkability (green gradient by score)
+                  if (key === 'walkability' && fp.walk_score != null) {
+                    var ws = fp.walk_score;
+                    ps.fillColor = ws >= 70 ? '#10b981' : ws >= 40 ? '#f59e0b' : '#ef4444';
+                    ps.radius = 4 + Math.round(ws / 25);
+                  }
+
+                  // Dynamic styling for commuting (size by volume, color by net flow)
+                  if (key === 'commuting' && fp.netFlow != null) {
+                    var total = (fp.inCommuters || 0) + (fp.outCommuters || 0);
+                    ps.radius = Math.max(3, Math.min(10, 3 + Math.log10(Math.max(total, 1)) * 1.5));
+                    ps.fillColor = fp.netFlow > 0 ? '#6366f1' : fp.netFlow < 0 ? '#f97316' : '#94a3b8';
+                  }
+
+                  // Dynamic styling for EJI (red gradient by risk)
+                  if (key === 'envJustice' && fp.eji_percentile != null) {
+                    var eji = fp.eji_percentile;
+                    ps.fillColor = eji >= 0.75 ? '#ef4444' : eji >= 0.5 ? '#f59e0b' : '#22c55e';
+                  }
+
+                  return L.circleMarker(latlng, ps);
                 };
               }
               if (cfg.style) {
@@ -1602,6 +1628,36 @@
               }
               opts.onEachFeature = function (feature, layer) {
                 var p = feature.properties || {};
+                var tip = '';
+
+                // Custom tooltips for enriched layers
+                if (key === 'walkability' && p.walk_score != null) {
+                  tip = '<b>Walk: ' + p.walk_score + '</b> · Transit: ' + (p.transit_score || '—') +
+                        ' · Bike: ' + (p.bike_score || '—') +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'commuting' && p.netFlow != null) {
+                  var arrow = p.netFlow > 0 ? '↑' : p.netFlow < 0 ? '↓' : '→';
+                  tip = '<b>Net: ' + arrow + ' ' + Math.abs(p.netFlow).toLocaleString() + '</b>' +
+                        '<br>In: ' + (p.inCommuters || 0).toLocaleString() +
+                        ' · Out: ' + (p.outCommuters || 0).toLocaleString() +
+                        '<br>Jobs: ' + (p.totalJobs || 0).toLocaleString() +
+                        ' · J/H: ' + (p.jobHousingRatio || 0) +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'envJustice' && p.eji_percentile != null) {
+                  tip = '<b>EJI: ' + (p.eji_percentile * 100).toFixed(1) + '%</b> (' + (p.risk_category || '') + ')' +
+                        '<br>Env: ' + ((p.env_burden || 0) * 100).toFixed(1) + '%' +
+                        ' · Social: ' + ((p.social_vuln || 0) * 100).toFixed(1) + '%' +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+
                 var name = p.NAME || p.name || p.NAMELSAD || p.Name || p.school_name || p.geoid || '';
                 if (name) layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
               };
