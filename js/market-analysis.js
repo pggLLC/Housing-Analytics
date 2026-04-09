@@ -46,6 +46,8 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
+  var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
+  var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var siteLatLng   = null;
   var bufferMiles  = 5;
   var lastResult   = null;
@@ -1428,6 +1430,8 @@
     lihtc:             { src: null, style: null },                                                           // handled by initOverlayLayers
     sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
     transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
+    transitStops:      { src: 'amenities/transit_stops_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#0ea5e9', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     schools:           { src: 'market/schools_co.geojson',                    pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 },
                          arcgis: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Opportunity_Zones_2/FeatureServer/0',
@@ -1710,6 +1714,8 @@
 
     if (siteMarker) map.removeLayer(siteMarker);
     if (bufferCircle) map.removeLayer(bufferCircle);
+    if (todCircle) map.removeLayer(todCircle);
+    if (todMarkers) map.removeLayer(todMarkers);
 
     siteMarker = L.circleMarker([lat, lon], {
       radius: 8, color: 'var(--accent)', fillColor: 'var(--accent)',
@@ -1723,7 +1729,92 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
+    // ½-mile TOD isochrone — CHFA awards 3 points for transit-oriented development
+    var HALF_MILE_M = 804.67;
+    todCircle = L.circle([lat, lon], {
+      radius: HALF_MILE_M,
+      color: '#0ea5e9', fillColor: '#0ea5e9',
+      fillOpacity: 0.06, weight: 2, dashArray: '4 4'
+    }).addTo(map);
+    todCircle.bindTooltip('½-mile TOD zone (CHFA 3 pts)', { sticky: true, className: 'pma-tooltip' });
+
+    // Highlight transit stops within ½ mile
+    _highlightTodTransit(lat, lon, HALF_MILE_M);
+
     setText('pmaSiteCoords', lat.toFixed(5) + ', ' + lon.toFixed(5));
+  }
+
+  /**
+   * Find transit stops within ½ mile and render as highlighted markers.
+   * Also counts them for the TOD score panel.
+   */
+  function _highlightTodTransit(lat, lon, radiusM) {
+    var L = window.L;
+    if (!L) return;
+    if (todMarkers) map.removeLayer(todMarkers);
+    todMarkers = L.layerGroup().addTo(map);
+
+    var halfMile = radiusM / 1609.34; // convert to miles for haversine
+    var count = 0;
+
+    // Check cached transit stops layer first
+    var transitStopsLayer = _mapLayers['transitStops'];
+    if (transitStopsLayer) {
+      transitStopsLayer.eachLayer(function (layer) {
+        var ll = layer.getLatLng ? layer.getLatLng() : null;
+        if (!ll) return;
+        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+          count++;
+          L.circleMarker([ll.lat, ll.lng], {
+            radius: 7, fillColor: '#facc15', color: '#0ea5e9',
+            weight: 2, fillOpacity: 0.9
+          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+            { sticky: true, className: 'pma-tooltip' }
+          ).addTo(todMarkers);
+        }
+      });
+    }
+
+    // Also check the neighborhood_access / OSM amenities data
+    if (!count) {
+      var amenities = window.OsmAmenities;
+      if (amenities && typeof amenities.getNearestByType === 'function') {
+        var nearby = amenities.getNearestByType('transit_stop', lat, lon, halfMile);
+        if (nearby && nearby.length) {
+          nearby.forEach(function (a) {
+            count++;
+            L.circleMarker([a.lat, a.lon], {
+              radius: 7, fillColor: '#facc15', color: '#0ea5e9',
+              weight: 2, fillOpacity: 0.9
+            }).bindTooltip(a.name || 'Transit stop', { sticky: true, className: 'pma-tooltip' })
+             .addTo(todMarkers);
+          });
+        }
+      }
+    }
+
+    // Update TOD panel
+    var todPanel = document.getElementById('pmaTodPanel');
+    var todContent = document.getElementById('pmaTodContent');
+    if (todPanel && todContent) {
+      todPanel.style.display = '';
+      var eligible = count > 0;
+      todContent.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
+          '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;' +
+          'background:' + (eligible ? 'var(--good,#16a34a)' : 'var(--bad,#dc2626)') + ';color:#fff;font-size:.85rem;font-weight:700">' +
+          (eligible ? '✓' : '✗') + '</span>' +
+          '<span style="font-weight:600;font-size:.95rem">' +
+          (eligible ? 'TOD Eligible — 3 CHFA points' : 'No transit within ½ mile') +
+          '</span>' +
+        '</div>' +
+        '<div style="font-size:.82rem;color:var(--muted)">' +
+          count + ' transit stop' + (count !== 1 ? 's' : '') + ' within ½-mile walking distance' +
+          (eligible ? '. Site qualifies for Transit-Oriented Development scoring under CHFA QAP §5.B.' : '.') +
+        '</div>';
+    }
+
+    return count;
   }
 
   /* ── Buffer selector ─────────────────────────────────────────────── */
