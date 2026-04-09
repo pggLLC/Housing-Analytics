@@ -1514,10 +1514,6 @@
                 if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
                 return;
               }
-              // Build ArcGIS export-image tile URL
-              var tileUrl = cfg.tileService + '/export?bbox={xmin},{ymin},{xmax},{ymax}' +
-                '&bboxSR=4326&imageSR=4326&size=512,512&format=png32&transparent=true' +
-                '&layers=show:' + (cfg.tileLayers || '0') + '&f=image';
               // Leaflet custom tile layer using ArcGIS export endpoint
               var layer = L.tileLayer(
                 cfg.tileService + '/export?bbox={bbox}&bboxSR=4326&imageSR=4326' +
