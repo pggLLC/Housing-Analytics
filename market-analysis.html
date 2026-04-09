@@ -250,7 +250,11 @@
             </label>
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="transit">
-              Transit
+              Transit routes
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="transitStops">
+              Transit stops <small>(7,888)</small>
             </label>
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="employmentCenters">
@@ -328,6 +332,21 @@
                  style="font-size:.72em;color:var(--faint,#888);margin-top:.25rem;">Step 0 of 9</div>
           </div>
 
+        </div>
+
+        <!-- TOD Eligibility (½-mile transit) -->
+        <div class="pma-card" id="pmaTodPanel" style="display:none">
+          <h2 style="display:flex;align-items:center;gap:8px">
+            Transit-Oriented Development
+            <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">CHFA 3 pts</small>
+          </h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">
+            Sites within ½-mile walking distance of a fixed-route transit stop qualify for 3 CHFA QAP points.
+            The blue dashed circle on the map shows the ½-mile radius.
+          </p>
+          <div id="pmaTodContent">
+            <p style="color:var(--muted);font-size:.9rem">Place a site marker to check TOD eligibility.</p>
+          </div>
         </div>
 
         <!-- Radar Chart + Dimensions -->
