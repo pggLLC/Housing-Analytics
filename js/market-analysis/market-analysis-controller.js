@@ -894,6 +894,11 @@
           });
           _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
 
+          // Notify map layers of site selection (for dynamic filtering)
+          document.dispatchEvent(new CustomEvent('pma-site-selected', {
+            detail: { lat: lat, lon: lon, bufferMiles: bufferMiles || 5 }
+          }));
+
           // Fetch live Regrid parcels for parcelZoning overlay when API key available
           if (window.RegridParcels && window.RegridParcels.isAvailable()) {
             _log('Fetching live Regrid parcels…');
