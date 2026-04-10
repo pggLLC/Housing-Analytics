@@ -168,7 +168,7 @@
       }
     ],
     "housingLead": {
-      "name": "Adams County Community & Support Services — Housing",
+      "name": "Adams County Community & Support Services \u2014 Housing",
       "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
     },
     "housingPlans": [
@@ -450,7 +450,7 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Broomfield — Housing Services",
+      "name": "City & County of Broomfield \u2014 Housing Services",
       "url": "https://www.broomfield.org/1344/Housing-Services"
     },
     "housingPlans": [
@@ -758,12 +758,12 @@
       }
     ],
     "housingLead": {
-      "name": "City & County of Denver — Housing Stability",
+      "name": "City & County of Denver \u2014 Housing Stability",
       "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability"
     },
     "housingPlans": [
       {
-        "name": "Housing an Inclusive Denver — 5-Year Action Plan",
+        "name": "Housing an Inclusive Denver \u2014 5-Year Action Plan",
         "type": "Housing Action Plan",
         "year": 2021,
         "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Housing-Plans"
@@ -974,7 +974,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Colorado Springs — Neighborhood Services",
+      "name": "City of Colorado Springs \u2014 Neighborhood Services",
       "url": "https://coloradosprings.gov/neighborhoods"
     },
     "housingPlans": [
@@ -1225,7 +1225,7 @@
     },
     "housingAuthority": [
       {
-        "name": "Hinsdale County (limited — administered through Gunnison County)",
+        "name": "Hinsdale County (limited \u2014 administered through Gunnison County)",
         "url": "https://www.hinsdalecounty.org/"
       }
     ],
@@ -1515,7 +1515,7 @@
       }
     ],
     "housingLead": {
-      "name": "Fort Collins Community Development — Housing",
+      "name": "Fort Collins Community Development \u2014 Housing",
       "url": "https://www.fcgov.com/commdev/housing.php"
     },
     "housingPlans": [
@@ -2024,7 +2024,7 @@
       }
     ],
     "housingLead": {
-      "name": "City of Pueblo — Development Services",
+      "name": "City of Pueblo \u2014 Development Services",
       "url": "https://www.pueblo.us/development"
     },
     "housingPlans": [
@@ -2184,7 +2184,7 @@
     },
     "housingAuthority": [
       {
-        "name": "San Juan County Housing (Silverton — limited)",
+        "name": "San Juan County Housing (Silverton \u2014 limited)",
         "url": "https://www.sanjuancountycolorado.us/"
       }
     ],
