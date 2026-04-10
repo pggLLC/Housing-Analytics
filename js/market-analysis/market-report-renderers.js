@@ -696,52 +696,85 @@
     var now = new Date();
     var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    var html = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8">' +
-      '<title>PMA Site Analysis Report</title>' +
-      '<style>' +
-        '* { box-sizing: border-box; margin: 0; padding: 0; }' +
-        'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; ' +
-        '  color: #1a1a2e; background: #fff; padding: 2rem; max-width: 900px; margin: 0 auto; line-height: 1.5; }' +
-        'h1 { font-size: 1.75rem; border-bottom: 3px solid #1e3a5f; padding-bottom: 0.5rem; margin-bottom: 0.5rem; }' +
-        'h2 { font-size: 1.15rem; color: #1e3a5f; margin: 1.5rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid #ddd; }' +
-        '.report-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }' +
-        '.report-score { font-size: 2.5rem; font-weight: 800; color: #1e3a5f; }' +
-        '.report-section { page-break-inside: avoid; margin-bottom: 0.5rem; }' +
-        '.badge, .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }' +
-        '.pill.good { background: #22c55e; color: #fff; }' +
-        '.pill.warn { background: #f59e0b; color: #fff; }' +
-        'table { border-collapse: collapse; width: 100%; }' +
-        'td, th { padding: 4px 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }' +
-        '.callout { border-left: 3px solid #ddd; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f9fa; }' +
-        '@media print { body { padding: 0.5in; } .no-print { display: none !important; } ' +
-        '  .report-section { page-break-inside: avoid; } }' +
-        '@page { margin: 0.75in; size: letter; }' +
-      '</style></head><body>' +
-      '<div class="report-header">' +
-        '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
-        '<div style="text-align:right;">' +
-          '<div class="report-score">' + scoreVal + '</div>' +
-          '<div style="font-size:0.85rem;color:#666;">' + tierVal + '</div>' +
-        '</div>' +
-      '</div>' +
-      body +
-      '<div style="margin-top:2rem;padding-top:1rem;border-top:1px solid #ddd;font-size:0.75rem;color:#999;">' +
-        'Generated ' + dateStr + ' by COHO Analytics &middot; PMA Screening Tool &middot; ' +
-        'Data: Census ACS, HUD LIHTC, CDC EJI, EPA SLD, FEMA NFHL, OSM, CDPHE, CDHS' +
-        '<br>This report is for early-stage site identification only and is not a substitute for a formal CHFA-required PMA.' +
-      '</div>' +
-      '<div class="no-print" style="margin-top:1rem;text-align:center;">' +
-        '<button onclick="window.print()" style="padding:0.6rem 2rem;font-size:1rem;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;">Print / Save as PDF</button>' +
-      '</div>' +
-      '</body></html>';
-
-    var win = window.open('', '_blank');
-    if (win) {
-      win.document.write(html);
-      win.document.close();
+    // Attempt to capture the map as an image
+    var mapEl = document.getElementById('map');
+    var capturePromise;
+    if (mapEl && window.html2canvas) {
+      capturePromise = window.html2canvas(mapEl, {
+        useCORS: true,
+        allowTaint: true,
+        scale: 1.5,
+        backgroundColor: '#fff',
+        logging: false
+      }).then(function (canvas) {
+        return canvas.toDataURL('image/png');
+      }).catch(function (err) {
+        console.warn('[exportReport] Map capture failed:', err);
+        return null;
+      });
     } else {
-      alert('Pop-up blocked. Please allow pop-ups for this site to export the report.');
+      capturePromise = Promise.resolve(null);
     }
+
+    capturePromise.then(function (mapDataUrl) {
+      var mapSection = '';
+      if (mapDataUrl) {
+        mapSection = '<div class="report-section">' +
+          '<h2>Site Map</h2>' +
+          '<img src="' + mapDataUrl + '" style="width:100%;max-height:500px;object-fit:contain;border:1px solid #ddd;border-radius:6px;" alt="PMA site map screenshot">' +
+          '</div>';
+      }
+
+      var html = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8">' +
+        '<title>PMA Site Analysis Report</title>' +
+        '<style>' +
+          '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+          'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; ' +
+          '  color: #1a1a2e; background: #fff; padding: 2rem; max-width: 900px; margin: 0 auto; line-height: 1.5; }' +
+          'h1 { font-size: 1.75rem; border-bottom: 3px solid #1e3a5f; padding-bottom: 0.5rem; margin-bottom: 0.5rem; }' +
+          'h2 { font-size: 1.15rem; color: #1e3a5f; margin: 1.5rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid #ddd; }' +
+          '.report-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }' +
+          '.report-score { font-size: 2.5rem; font-weight: 800; color: #1e3a5f; }' +
+          '.report-section { page-break-inside: avoid; margin-bottom: 0.5rem; }' +
+          '.badge, .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }' +
+          '.pill.good { background: #22c55e; color: #fff; }' +
+          '.pill.warn { background: #f59e0b; color: #fff; }' +
+          'table { border-collapse: collapse; width: 100%; }' +
+          'td, th { padding: 4px 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }' +
+          '.callout { border-left: 3px solid #ddd; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f9fa; }' +
+          '@media print { body { padding: 0.5in; } .no-print { display: none !important; } ' +
+          '  .report-section { page-break-inside: avoid; } ' +
+          '  img { max-height: 400px; } }' +
+          '@page { margin: 0.75in; size: letter; }' +
+        '</style></head><body>' +
+        '<div class="report-header">' +
+          '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="report-score">' + scoreVal + '</div>' +
+            '<div style="font-size:0.85rem;color:#666;">' + tierVal + '</div>' +
+          '</div>' +
+        '</div>' +
+        mapSection +
+        body +
+        '<div style="margin-top:2rem;padding-top:1rem;border-top:1px solid #ddd;font-size:0.75rem;color:#999;">' +
+          'Generated ' + dateStr + ' by COHO Analytics &middot; PMA Screening Tool &middot; ' +
+          'Data: Census ACS, HUD LIHTC, CDC EJI, EPA SLD, FEMA NFHL, OSM, CDPHE, CDHS' +
+          (mapDataUrl ? '' : '<br><em>Map screenshot unavailable — enable pop-ups and ensure html2canvas is loaded.</em>') +
+          '<br>This report is for early-stage site identification only and is not a substitute for a formal CHFA-required PMA.' +
+        '</div>' +
+        '<div class="no-print" style="margin-top:1rem;text-align:center;">' +
+          '<button onclick="window.print()" style="padding:0.6rem 2rem;font-size:1rem;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;">Print / Save as PDF</button>' +
+        '</div>' +
+        '</body></html>';
+
+      var win = window.open('', '_blank');
+      if (win) {
+        win.document.write(html);
+        win.document.close();
+      } else {
+        alert('Pop-up blocked. Please allow pop-ups for this site to export the report.');
+      }
+    });
   }
 
   /* ── Expose ─────────────────────────────────────────────────────── */
