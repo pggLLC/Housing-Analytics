@@ -923,6 +923,50 @@ label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
     display: flex;
     align-items: center;
   }
+
+  /* Layer panel: scrollable on mobile when sidebar stacks below map */
+  .pma-sidebar .map-layer-section {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Layer labels: full width on narrow screens for easy tapping */
+  .map-layer-grid {
+    flex-direction: column;
+  }
+
+  .map-layer-label {
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Report sections: tighter spacing on phones */
+  .ma-report-section {
+    padding: 0.75rem;
+  }
+
+  .ma-report-section > h2 {
+    font-size: 0.95rem;
+  }
+
+  /* Score circle: smaller on phones */
+  .pma-score-wrap {
+    transform: scale(0.85);
+    transform-origin: center top;
+  }
+
+  /* PMA method tabs: stack vertically */
+  .pma-method-tabs {
+    flex-direction: column;
+  }
+
+  .pma-tab {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /* ================================================================
