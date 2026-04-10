@@ -1461,7 +1461,8 @@
                          pointStyle: { radius: 4, fillColor: '#f97316', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     infrastructure:    { src: 'market/utility_capacity_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#0891b2', color: '#164e63', weight: 1, fillOpacity: 0.6 } },
-    parcelZoning:      { src: null },   // future
+    housingPolicy:     { src: 'market/housing_policy_jurisdictions_co.geojson' },
+    parcelZoning:      { src: null },   // future — requires per-county assessor data
     listings:          { src: null }    // handled externally (Bridge API)
   };
 
@@ -1627,6 +1628,26 @@
               if (cfg.style) {
                 opts.style = cfg.style;
               }
+              // Choropleth style for housing policy jurisdictions
+              if (key === 'housingPolicy') {
+                opts.style = function (feature) {
+                  var p = feature.properties || {};
+                  var score = p.totalScore || 0;
+                  var max = p.maxPossible || 7;
+                  var ratio = max > 0 ? score / max : 0;
+                  var fillColor = p.has_iz_ordinance ? '#10b981'
+                    : ratio >= 0.7 ? '#3b82f6'
+                    : ratio >= 0.4 ? '#f59e0b'
+                    : '#94a3b8';
+                  return {
+                    fillColor: fillColor,
+                    color: p.has_iz_ordinance ? '#059669' : '#6b7280',
+                    weight: p.geo_type === 'county' ? 1.5 : 1,
+                    fillOpacity: 0.15,
+                    opacity: 0.6
+                  };
+                };
+              }
               opts.onEachFeature = function (feature, layer) {
                 var p = feature.properties || {};
                 var tip = '';
@@ -1659,6 +1680,29 @@
                   return;
                 }
 
+                if (key === 'housingPolicy') {
+                  var pills = [];
+                  if (p.has_iz_ordinance)      pills.push('IZ');
+                  if (p.has_local_funding)     pills.push('Funding');
+                  if (p.has_housing_authority) pills.push('HA');
+                  if (p.has_comp_plan)         pills.push('Comp Plan');
+                  if (p.prop123_committed)     pills.push('Prop 123');
+                  if (p.has_hna)               pills.push('HNA');
+                  if (p.has_housing_nonprofits) pills.push('Nonprofits');
+                  var pillsHtml = pills.length > 0
+                    ? pills.map(function (l) { return '<span style="display:inline-block;padding:1px 5px;border-radius:3px;background:#e0f2fe;color:#0369a1;font-size:.72rem;margin:1px">' + l + '</span>'; }).join(' ')
+                    : '<span style="color:#94a3b8;font-size:.8em">No policy data</span>';
+                  var izDetail = '';
+                  if (p.iz_type) {
+                    izDetail = '<br><span style="font-size:.8em">IZ: ' + p.iz_type.replace(/_/g, ' ') +
+                      (p.iz_set_aside_pct ? ' (' + p.iz_set_aside_pct + '% set-aside)' : '') +
+                      (p.iz_ami_target ? ' @ ' + p.iz_ami_target : '') + '</span>';
+                  }
+                  tip = '<b>' + (p.name || '') + '</b> — ' + (p.totalScore || 0) + '/' + (p.maxPossible || 7) +
+                        '<br>' + pillsHtml + izDetail;
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
                 if (key === 'infrastructure' && p.utility_type) {
                   var iName = p.NAME || p.name || '';
                   tip = '<b>' + iName + '</b>' +
