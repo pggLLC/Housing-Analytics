@@ -893,6 +893,33 @@
             ren.renderOpportunities(_buildOpportunities(scores));
           });
           _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
+
+          // Fetch live Regrid parcels for parcelZoning overlay when API key available
+          if (window.RegridParcels && window.RegridParcels.isAvailable()) {
+            _log('Fetching live Regrid parcels…');
+            window.RegridParcels.fetchParcelsNearPoint(lat, lon, bufferMiles || 5)
+              .then(function (parcels) {
+                if (parcels && parcels.length > 0) {
+                  _log('Regrid: ' + parcels.length + ' parcels returned');
+                  // Classify each parcel for MF suitability
+                  parcels.forEach(function (f) {
+                    var cls = window.RegridParcels.classifyParcel(f);
+                    f.properties = f.properties || {};
+                    f.properties.mf_suitability = cls.score * 33; // 0-99 scale
+                    f.properties.zone_proxy = cls.mfCompatible ? 'multifamily_residential'
+                      : cls.vacantOrUnderutilized ? 'vacant_developable'
+                      : 'commercial';
+                    f.properties.data_source = 'regrid';
+                  });
+                  // Emit event for map layer to pick up
+                  var evt = new CustomEvent('regrid-parcels-loaded', {
+                    detail: { type: 'FeatureCollection', features: parcels }
+                  });
+                  document.dispatchEvent(evt);
+                }
+              })
+              .catch(function (e) { _warn('Regrid fetch failed: ' + (e && e.message)); });
+          }
         } else {
           _warn('MARenderers not loaded; skipping section rendering.');
         }
