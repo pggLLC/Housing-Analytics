@@ -1462,7 +1462,8 @@
     infrastructure:    { src: 'market/utility_capacity_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#0891b2', color: '#164e63', weight: 1, fillOpacity: 0.6 } },
     housingPolicy:     { src: 'market/housing_policy_jurisdictions_co.geojson' },
-    parcelZoning:      { src: null },   // future — requires per-county assessor data
+    parcelZoning:      { src: 'market/landuse_zoning_proxy_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     listings:          { src: null }    // handled externally (Bridge API)
   };
 
@@ -1616,6 +1617,18 @@
                     ps.fillColor = fp.netFlow > 0 ? '#6366f1' : fp.netFlow < 0 ? '#f97316' : '#94a3b8';
                   }
 
+                  // Dynamic styling for parcel zoning proxy (color by zone type)
+                  if (key === 'parcelZoning' && fp.zone_proxy) {
+                    var zp = fp.zone_proxy;
+                    ps.fillColor = zp === 'multifamily_residential' ? '#10b981'
+                      : zp === 'townhome_residential' ? '#3b82f6'
+                      : zp === 'mixed_use' ? '#8b5cf6'
+                      : zp === 'vacant_developable' ? '#f59e0b'
+                      : zp === 'commercial' ? '#6b7280'
+                      : zp === 'industrial' ? '#dc2626' : '#94a3b8';
+                    ps.radius = (fp.mf_suitability || 50) >= 70 ? 6 : 4;
+                  }
+
                   // Dynamic styling for EJI (red gradient by risk)
                   if (key === 'envJustice' && fp.eji_percentile != null) {
                     var eji = fp.eji_percentile;
@@ -1680,6 +1693,20 @@
                   return;
                 }
 
+                if (key === 'parcelZoning' && p.zone_proxy) {
+                  var zLabel = (p.zone_proxy || '').replace(/_/g, ' ');
+                  zLabel = zLabel.charAt(0).toUpperCase() + zLabel.slice(1);
+                  var suit = p.mf_suitability || 0;
+                  var suitColor = suit >= 70 ? '#10b981' : suit >= 40 ? '#f59e0b' : '#ef4444';
+                  tip = '<b>' + zLabel + '</b>' +
+                    (p.name ? '<br>' + p.name : '') +
+                    '<br>MF Suitability: <span style="color:' + suitColor + ';font-weight:600">' + suit + '/100</span>' +
+                    (p.building ? '<br>Building: ' + p.building : '') +
+                    (p.levels ? ' · Levels: ' + p.levels : '') +
+                    '<br><span style="font-size:0.75em;opacity:0.7">Source: ' + (p.data_source || 'OSM') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
                 if (key === 'housingPolicy') {
                   var pills = [];
                   if (p.has_iz_ordinance)      pills.push('IZ');
@@ -2280,6 +2307,47 @@
       if (!window[name]) {
         console.warn('[market-analysis] module not found: ' + name);
       }
+    });
+
+    // Listen for live Regrid parcel data from controller
+    document.addEventListener('regrid-parcels-loaded', function (e) {
+      var gj = e.detail;
+      if (!gj || !gj.features || !gj.features.length) return;
+      // Replace or merge into parcelZoning layer
+      if (_mapLayers['parcelZoning'] && map) {
+        map.removeLayer(_mapLayers['parcelZoning']);
+      }
+      var cfg = LAYER_CONFIG['parcelZoning'];
+      var opts = {};
+      if (cfg && cfg.pointStyle) {
+        opts.pointToLayer = function (feature, latlng) {
+          var ps = Object.assign({}, cfg.pointStyle);
+          var fp = feature.properties || {};
+          var zp = fp.zone_proxy || '';
+          ps.fillColor = zp === 'multifamily_residential' ? '#10b981'
+            : zp === 'vacant_developable' ? '#f59e0b'
+            : zp === 'commercial' ? '#6b7280' : '#8b5cf6';
+          ps.radius = (fp.mf_suitability || 50) >= 70 ? 6 : 4;
+          return L.circleMarker(latlng, ps);
+        };
+      }
+      opts.onEachFeature = function (feature, layer) {
+        var p = feature.properties || {};
+        var tip = '<b>' + (p.address || p.zone_proxy || 'Parcel').replace(/_/g, ' ') + '</b>' +
+          (p.zoning ? '<br>Zoning: ' + p.zoning : '') +
+          (p.landUseCode ? '<br>Use: ' + p.landUseCode : '') +
+          (p.acres ? '<br>Acres: ' + parseFloat(p.acres).toFixed(2) : '') +
+          '<br>MF Score: ' + (p.mf_suitability || 0) +
+          '<br><span style="font-size:.75em;opacity:.7">Source: Regrid API</span>';
+        layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+      };
+      _mapLayers['parcelZoning'] = L.geoJSON(gj, opts);
+      // Only add to map if the checkbox is checked
+      var cb = document.querySelector('[data-layer="parcelZoning"]');
+      if (cb && cb.checked) {
+        _mapLayers['parcelZoning'].addTo(map);
+      }
+      _showLayerToast('✓ Regrid parcels (' + gj.features.length + ')', false);
     });
 
     loadData().then(function () {

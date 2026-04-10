@@ -223,7 +223,7 @@
             </label>
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaParcelZoningToggle" data-layer="parcelZoning">
-              Parcel &amp; Zoning <small>(MF suitability)</small>
+              Parcel &amp; Zoning <small>(MF suitability · OSM + Regrid)</small>
             </label>
           </div>
         </details>
@@ -299,6 +299,10 @@
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="infrastructure">
               Infrastructure
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="housingPolicy">
+              Housing policy <small>(jurisdictions)</small>
             </label>
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="flood">
@@ -900,6 +904,7 @@
   <script defer src="js/pma-delineation.js"></script>
   <script defer src="js/pma-parcel-zoning.js"></script>
   <script defer src="js/data-connectors/regrid-parcels.js"></script>
+  <script defer src="js/data-connectors/regrid-zoning.js"></script>
   <script defer src="js/data-connectors/bridge-parcels.js"></script>
   <script defer src="js/data-connectors/bridge-listings.js"></script>
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
