@@ -545,6 +545,10 @@ ACS_VARIABLES = [
     "B25070_009E",  # 40-49.9%
     "B25070_010E",  # 50%+
     "B25070_001E",  # total renter HUs w/ rent
+    "B17001_001E",  # poverty universe (population for whom poverty status is determined)
+    "B17001_002E",  # below poverty level
+    "B23025_003E",  # in labor force
+    "B23025_005E",  # unemployed
 ]
 
 def build_acs_metrics(centroids: dict) -> dict:
@@ -594,17 +598,34 @@ def build_acs_metrics(centroids: dict) -> dict:
         universe  = total_hh + vacant
         vac_rate  = round(vacant / universe, 4) if universe > 0 else 0.0
 
+        # Severe cost burden (50%+ of income on rent)
+        severe_num = safe_int(row[idx.get("B25070_010E", -1)])
+        severe_rate = round(severe_num / cb_den, 4) if cb_den > 0 else 0.0
+
+        # Poverty rate
+        pov_universe = safe_int(row[idx.get("B17001_001E", -1)])
+        pov_below    = safe_int(row[idx.get("B17001_002E", -1)])
+        pov_rate     = round(pov_below / pov_universe, 4) if pov_universe > 0 else 0.0
+
+        # Unemployment rate
+        labor_force = safe_int(row[idx.get("B23025_003E", -1)])
+        unemployed  = safe_int(row[idx.get("B23025_005E", -1)])
+        unemp_rate  = round(unemployed / labor_force, 4) if labor_force > 0 else 0.0
+
         tracts.append({
-            "geoid":             geoid,
-            "pop":               safe_int(row[idx.get("B01003_001E", -1)]),
-            "renter_hh":         renter_hh,
-            "owner_hh":          owner_hh,
-            "vacant":            vacant,
-            "total_hh":          total_hh,
-            "median_gross_rent": safe_int(row[idx.get("B25064_001E", -1)]),
-            "median_hh_income":  safe_int(row[idx.get("B19013_001E", -1)]),
-            "cost_burden_rate":  cb_rate,
-            "vacancy_rate":      vac_rate,
+            "geoid":                geoid,
+            "pop":                  safe_int(row[idx.get("B01003_001E", -1)]),
+            "renter_hh":            renter_hh,
+            "owner_hh":             owner_hh,
+            "vacant":               vacant,
+            "total_hh":             total_hh,
+            "median_gross_rent":    safe_int(row[idx.get("B25064_001E", -1)]),
+            "median_hh_income":     safe_int(row[idx.get("B19013_001E", -1)]),
+            "cost_burden_rate":     cb_rate,
+            "severe_cost_burden_rate": severe_rate,
+            "poverty_rate":         pov_rate,
+            "unemployment_rate":    unemp_rate,
+            "vacancy_rate":         vac_rate,
         })
 
     log(f"[acs] {len(tracts)} tracts with ACS metrics")

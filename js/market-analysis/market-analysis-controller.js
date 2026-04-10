@@ -147,6 +147,11 @@
     var rentSum = 0, rentN = 0, incSum = 0, incN = 0;
     // Weighted burden: sum(cost_burden_rate * renter_hh) / sum(renter_hh)
     var burdenWeightedSum = 0, burdenWeightN = 0;
+    // Severe burden: sum(severe_cost_burden_rate * renter_hh) / sum(renter_hh)
+    var severeWeightedSum = 0, severeWeightN = 0;
+    // Population-weighted poverty & unemployment
+    var povWeightedSum = 0, povWeightN = 0;
+    var unempWeightedSum = 0, unempWeightN = 0;
     var tractCount = 0;
 
     for (var j = 0; j < _acsMetricsCache.length; j++) {
@@ -165,6 +170,23 @@
       if (tBurdenRate > 0 && tRenterHh > 0) {
         burdenWeightedSum += tBurdenRate * tRenterHh;
         burdenWeightN += tRenterHh;
+      }
+      // Weighted severe cost-burden
+      var tSevereRate = t.severe_cost_burden_rate;
+      if (tSevereRate > 0 && tRenterHh > 0) {
+        severeWeightedSum += tSevereRate * tRenterHh;
+        severeWeightN += tRenterHh;
+      }
+      // Population-weighted poverty rate
+      var tPop = t.pop || 0;
+      if (t.poverty_rate > 0 && tPop > 0) {
+        povWeightedSum += t.poverty_rate * tPop;
+        povWeightN += tPop;
+      }
+      // Labor-force-weighted unemployment rate (use pop as proxy weight)
+      if (t.unemployment_rate > 0 && tPop > 0) {
+        unempWeightedSum += t.unemployment_rate * tPop;
+        unempWeightN += tPop;
       }
     }
 
@@ -187,9 +209,9 @@
       renter_share:     totalHh > 0 ? renterHh / totalHh : null,
       vacancy_rate:     (totalHh + vacant) > 0 ? vacant / (totalHh + vacant) : null,
       tract_count:      tractCount,
-      severe_burden_rate: null,
-      poverty_rate:     null,
-      unemployment_rate: null
+      severe_burden_rate: severeWeightN > 0 ? severeWeightedSum / severeWeightN : null,
+      poverty_rate:     povWeightN > 0 ? povWeightedSum / povWeightN : null,
+      unemployment_rate: unempWeightN > 0 ? unempWeightedSum / unempWeightN : null
     };
   }
 
