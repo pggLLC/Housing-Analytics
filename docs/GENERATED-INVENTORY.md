@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-10T03:05:28.245Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-10T03:06:53.395Z. Do not edit by hand.
 
 ---
 
@@ -281,7 +281,7 @@
 | `data/hna/lihtc/08123.json` | 8.3 KB | ✅ | 22 features |
 | `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources.json` | 68.5 KB | ✅ | — |
+| `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
 | `data/hna/projections/08001.json` | 3.6 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 3.5 KB | ✅ | — |
@@ -932,7 +932,7 @@
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.3 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
-| `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
+| `data/policy/housing-policy-scorecard.json` | 164.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 11.6 KB | ✅ | — |
