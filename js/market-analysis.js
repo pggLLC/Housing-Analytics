@@ -2337,6 +2337,89 @@
       }
     });
 
+    // Filter commuting flow arcs to site buffer when PMA analysis runs
+    var _allFlowArcs = null; // cache full dataset
+    document.addEventListener('pma-site-selected', function (e) {
+      var site = e.detail;
+      if (!site || !site.lat || !site.lon) return;
+
+      // If commutingFlows layer isn't loaded yet, nothing to filter
+      if (!_mapLayers['commutingFlows'] && !_allFlowArcs) return;
+
+      // Cache full arc dataset on first filter
+      if (!_allFlowArcs && _mapLayers['commutingFlows']) {
+        _allFlowArcs = _mapLayers['commutingFlows'].toGeoJSON();
+      }
+      if (!_allFlowArcs || !_allFlowArcs.features) return;
+
+      var bufMi = site.bufferMiles || 5;
+      // Expand filter radius to catch arcs that start/end near the site
+      var filterRadius = Math.max(bufMi * 2, 15);
+
+      // Haversine for filtering
+      function _hav(lat1, lon1, lat2, lon2) {
+        var R = 3958.8;
+        var dL = (lat2 - lat1) * Math.PI / 180;
+        var dO = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dL / 2) * Math.sin(dL / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dO / 2) * Math.sin(dO / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      var filtered = _allFlowArcs.features.filter(function (f) {
+        if (!f.geometry || !f.geometry.coordinates || f.geometry.coordinates.length < 2) return false;
+        var home = f.geometry.coordinates[0]; // [lon, lat]
+        var work = f.geometry.coordinates[1];
+        var dHome = _hav(site.lat, site.lon, home[1], home[0]);
+        var dWork = _hav(site.lat, site.lon, work[1], work[0]);
+        // Keep arcs where either endpoint is within filter radius
+        return dHome <= filterRadius || dWork <= filterRadius;
+      });
+
+      // Remove old layer and replace with filtered
+      if (_mapLayers['commutingFlows'] && map.hasLayer(_mapLayers['commutingFlows'])) {
+        map.removeLayer(_mapLayers['commutingFlows']);
+      }
+
+      var cfg = LAYER_CONFIG['commutingFlows'];
+      var opts = {};
+      opts.style = function (feature) {
+        var p = feature.properties || {};
+        var jobs = p.jobs || 0;
+        var dist = p.distance_miles || 0;
+        var weight = Math.max(1.5, Math.min(6, 1 + Math.log10(Math.max(jobs, 1)) * 1.5));
+        var color = dist > 30 ? '#ef4444' : dist > 15 ? '#f59e0b' : '#6366f1';
+        var opacity = Math.max(0.25, Math.min(0.7, jobs / 500));
+        return { color: color, weight: weight, opacity: opacity };
+      };
+      opts.onEachFeature = function (feature, layer) {
+        var p = feature.properties || {};
+        var wageBreak = '';
+        if (p.low_wage || p.mid_wage || p.high_wage) {
+          wageBreak = '<br>Low: ' + (p.low_wage || 0).toLocaleString() +
+            ' · Mid: ' + (p.mid_wage || 0).toLocaleString() +
+            ' · High: ' + (p.high_wage || 0).toLocaleString();
+        }
+        var tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
+          '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
+          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak;
+        layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+      };
+
+      _mapLayers['commutingFlows'] = L.geoJSON(
+        { type: 'FeatureCollection', features: filtered },
+        opts
+      );
+
+      // Only add to map if checkbox is checked
+      var cb = document.querySelector('[data-layer="commutingFlows"]');
+      if (cb && cb.checked) {
+        _mapLayers['commutingFlows'].addTo(map);
+      }
+      _showLayerToast('✓ Commuting arcs: ' + filtered.length + ' near site (of ' + _allFlowArcs.features.length + ')', false);
+    });
+
     // Listen for live Regrid parcel data from controller
     document.addEventListener('regrid-parcels-loaded', function (e) {
       var gj = e.detail;
