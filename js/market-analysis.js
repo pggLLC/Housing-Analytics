@@ -1464,6 +1464,7 @@
     housingPolicy:     { src: 'market/housing_policy_jurisdictions_co.geojson' },
     parcelZoning:      { src: 'market/landuse_zoning_proxy_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    commutingFlows:    { src: 'market/lodes_od_arcs_co.geojson' },
     listings:          { src: null }    // handled externally (Bridge API)
   };
 
@@ -1641,6 +1642,19 @@
               if (cfg.style) {
                 opts.style = cfg.style;
               }
+              // Arc style for commuting OD flows
+              if (key === 'commutingFlows') {
+                opts.style = function (feature) {
+                  var p = feature.properties || {};
+                  var jobs = p.jobs || 0;
+                  var dist = p.distance_miles || 0;
+                  // Width by job count (log scale), color by distance
+                  var weight = Math.max(1.5, Math.min(6, 1 + Math.log10(Math.max(jobs, 1)) * 1.5));
+                  var color = dist > 30 ? '#ef4444' : dist > 15 ? '#f59e0b' : '#6366f1';
+                  var opacity = Math.max(0.25, Math.min(0.7, jobs / 500));
+                  return { color: color, weight: weight, opacity: opacity, dashArray: null };
+                };
+              }
               // Choropleth style for housing policy jurisdictions
               if (key === 'housingPolicy') {
                 opts.style = function (feature) {
@@ -1693,6 +1707,20 @@
                   return;
                 }
 
+                if (key === 'commutingFlows' && p.home_tract) {
+                  var wageBreak = '';
+                  if (p.low_wage || p.mid_wage || p.high_wage) {
+                    wageBreak = '<br>Low: ' + (p.low_wage || 0).toLocaleString() +
+                      ' · Mid: ' + (p.mid_wage || 0).toLocaleString() +
+                      ' · High: ' + (p.high_wage || 0).toLocaleString();
+                  }
+                  tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
+                    '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
+                    '<br>Distance: ' + (p.distance_miles || 0) + ' mi' +
+                    wageBreak;
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
                 if (key === 'parcelZoning' && p.zone_proxy) {
                   var zLabel = (p.zone_proxy || '').replace(/_/g, ' ');
                   zLabel = zLabel.charAt(0).toUpperCase() + zLabel.slice(1);
