@@ -243,7 +243,6 @@
           const urStr = ur != null ? ur.toFixed(1) + '%' : '—';
           return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}">${urStr}</td>`;
         }
-        }
         const val = entry.metrics[col.id];
         const unit = getMetricUnit(col.id);
         return `<td class="hca-td hca-td-num" data-label="${col.mobileLabel}">${fmt(val, unit)}</td>`;

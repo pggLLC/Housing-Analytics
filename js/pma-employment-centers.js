@@ -18,6 +18,7 @@
   var MIN_CLUSTER_JOBS_URBAN = 500;  // urban/suburban threshold
   var MIN_CLUSTER_JOBS_RURAL = 75;   // rural threshold (towns <5,000 total jobs)
   var RURAL_TOTAL_JOBS_THRESHOLD = 5000; // if total jobs in buffer < this, use rural threshold
+  var MIN_CLUSTER_JOBS    = MIN_CLUSTER_JOBS_URBAN; // legacy default (overridden dynamically)
   var CLUSTER_RADIUS_MILES = 2;    // merge workplaces within this radius
   var MAX_CENTERS         = 10;    // top N centers to retain
   var EARTH_RADIUS_MI     = 3958.8;

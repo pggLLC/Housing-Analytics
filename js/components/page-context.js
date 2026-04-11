@@ -26,7 +26,15 @@
   'use strict';
 
   function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /** Sanitize href — block javascript: URIs */
+  function safeHref(url) {
+    var s = String(url || '').trim();
+    if (/^javascript\s*:/i.test(s)) return '#';
+    return esc(s);
   }
 
   function render(containerId, opts) {
@@ -43,8 +51,7 @@
     var nextHtml = '';
     if (nextSteps.length) {
       var links = nextSteps.map(function (s) {
-        var safeHref = /^(https?:\/\/|\/)/.test(s.href || '') ? s.href : '#';
-        return '<a href="' + esc(safeHref) + '" class="pctx-next-link">' +
+        return '<a href="' + safeHref(s.href) + '" class="pctx-next-link">' +
           '<strong>' + esc(s.label) + '</strong>' +
           (s.desc ? ' <span class="pctx-next-desc">— ' + esc(s.desc) + '</span>' : '') +
           '</a>';
@@ -59,9 +66,9 @@
       '<details class="pctx-panel" open>' +
         '<summary class="pctx-summary">About this page</summary>' +
         '<div class="pctx-body">' +
-          (what ? '<div class="pctx-section"><div class="pctx-label">What this page does</div><p class="pctx-text">' + esc(what) + '</p></div>' : '') +
-          (why  ? '<div class="pctx-section"><div class="pctx-label">Why it matters</div><p class="pctx-text">' + esc(why) + '</p></div>' : '') +
-          (not  ? '<div class="pctx-section pctx-not"><div class="pctx-label">What this page does NOT do</div><p class="pctx-text">' + esc(not) + '</p></div>' : '') +
+          (what ? '<div class="pctx-section"><div class="pctx-label">What this page does</div><p class="pctx-text">' + what + '</p></div>' : '') +
+          (why  ? '<div class="pctx-section"><div class="pctx-label">Why it matters</div><p class="pctx-text">' + why + '</p></div>' : '') +
+          (not  ? '<div class="pctx-section pctx-not"><div class="pctx-label">What this page does NOT do</div><p class="pctx-text">' + not + '</p></div>' : '') +
           nextHtml +
         '</div>' +
       '</details>';
