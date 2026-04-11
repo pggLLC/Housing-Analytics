@@ -2293,6 +2293,18 @@
         workforceDataLoaded = true;
       });
 
+      // Load NHPD preservation data (for competitive set subsidy expiry analysis)
+      if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
+        DS.getJSON(DS.baseData('market/nhpd_co.geojson'))
+          .then(function (gj) {
+            if (gj && gj.features) {
+              window.Nhpd.loadFromGeoJSON(gj);
+              console.log('[market-analysis] NHPD loaded: ' + gj.features.length + ' properties');
+            }
+          })
+          .catch(function () { console.warn('[market-analysis] NHPD data unavailable (non-critical)'); });
+      }
+
       // Load DOLA county demographics (non-fatal — supplements ACS with more
       // current population/housing estimates from the CO State Demography Office).
       DS.getJSON(DS.baseData('market/dola_demographics_co.json'))

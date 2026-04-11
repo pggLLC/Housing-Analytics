@@ -532,7 +532,13 @@
 
       <!-- Scenario-based demographic projections -->
       <div class="chart-card span-12" id="scenario-projections-section">
-        <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+          <h2 style="margin:0;">Scenario-based demographic projections</h2>
+          <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.78rem;">
+            <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;">10-Year</button>
+            <button type="button" class="horizon-btn" data-horizon="20" style="padding:4px 12px;background:var(--bg2);color:var(--muted);border:none;cursor:pointer;">20-Year</button>
+          </div>
+        </div>
         <p>
           Cohort-component forward projections under three growth scenarios, aligned with
           <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DLG final HNA methodology and displacement risk assessment guidance (opens in new tab)">DLG HNA methodology</a>.
