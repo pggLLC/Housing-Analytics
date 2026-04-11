@@ -40,11 +40,6 @@
     stub:        { label: 'Stub Data',   icon: '◇', cls: 'dqs-warn' }
   };
 
-  /* ── HTML escaping helper ───────────────────────────────────────── */
-  function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
   /* ── Freshness helper ───────────────────────────────────────────── */
   function ageBadge(vintage) {
     if (!vintage) return '';
@@ -56,7 +51,7 @@
       if (age <= 2) return '<span class="dqs-recent">' + age + 'yr old</span>';
       return '<span class="dqs-stale">' + age + 'yr old</span>';
     }
-    return '<span class="dqs-recent">' + esc(vintage) + '</span>';
+    return '<span class="dqs-recent">' + vintage + '</span>';
   }
 
   /* ── Render ─────────────────────────────────────────────────────── */
@@ -88,10 +83,10 @@
     // Source rows
     var rows = sources.map(function (s) {
       var st = STATUS[s.status] || STATUS.primary;
-      var note = s.note ? '<span class="dqs-note">' + esc(s.note) + '</span>' : '';
-      var cov = s.coverage ? '<span class="dqs-coverage">' + esc(s.coverage) + '</span>' : '';
+      var note = s.note ? '<span class="dqs-note">' + s.note + '</span>' : '';
+      var cov = s.coverage ? '<span class="dqs-coverage">' + s.coverage + '</span>' : '';
       return '<tr class="' + st.cls + '">' +
-        '<td><span class="dqs-icon">' + st.icon + '</span> ' + esc(s.name || '—') + '</td>' +
+        '<td><span class="dqs-icon">' + st.icon + '</span> ' + (s.name || '—') + '</td>' +
         '<td>' + st.label + '</td>' +
         '<td>' + ageBadge(s.vintage) + '</td>' +
         '<td>' + cov + '</td>' +
@@ -100,11 +95,11 @@
     }).join('');
 
     var limHtml = limitations
-      ? '<div class="dqs-limitations"><strong>Known limitations:</strong> ' + esc(limitations) + '</div>'
+      ? '<div class="dqs-limitations"><strong>Known limitations:</strong> ' + limitations + '</div>'
       : '';
 
     var updatedHtml = lastUpdated
-      ? '<span class="dqs-updated">Page data as of ' + esc(lastUpdated) + '</span>'
+      ? '<span class="dqs-updated">Page data as of ' + lastUpdated + '</span>'
       : '';
 
     el.innerHTML =

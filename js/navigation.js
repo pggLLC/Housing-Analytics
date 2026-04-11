@@ -5,20 +5,20 @@
  *
  * Information Architecture:
  * ─────────────────────────────────────────────────────────────────────────
- * PRIMARY WORKFLOW (Scoping a Project group):
- *   Select Jurisdiction → Housing Needs Assessment → Market Analysis
+ * SCOPING A PROJECT (primary workflow):
+ *   LIHTC Guide (start here) → Select Jurisdiction → HNA → Market Analysis
  *   → Scenario Builder → Deal Calculator
  *
- * EXPLORE:
- *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
- *   LIHTC Allocations, CHFA Portfolio, Economic Dashboard
+ * EXPLORE (comparative & context):
+ *   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
+ *   Economic Dashboard, LIHTC Allocations, Preservation Tracking
  *
- * DATA:
- *   Data Health, Data Quality, Preservation Tracking, Data Review
+ * DATA (transparency & quality):
+ *   Data Health, Data Quality, Data Review, Census Explorer
  *
- * INSIGHTS:
- *   Market Insights, LIHTC Guide, Housing Legislation, CRA Expansion,
- *   About COHO
+ * INSIGHTS (news, policy & reference):
+ *   Housing News, Market Insights, Market Intelligence,
+ *   Housing Legislation, CRA Expansion, About COHO
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
@@ -26,43 +26,43 @@
     {
       label: "Scoping a Project",
       items: [
-        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Choose your county or city" },
-        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "HNA tool & county profile" },
-        { label: "Market Analysis",         href: "market-analysis.html",          desc: "PMA, comparables & feasibility" },
-        { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "20-year projection scenarios" },
-        { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "LIHTC pro forma & capital stack" },
+        { label: "LIHTC Guide",            href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Step 1: Choose your county or city" },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "Step 2: Community need evidence" },
+        { label: "Market Analysis",         href: "market-analysis.html",          desc: "Step 3: Site screening & PMA scoring" },
+        { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "Step 4: 20-year demographic projections" },
+        { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "Step 5: LIHTC pro forma & capital stack" },
       ]
     },
     {
       label: "Explore",
       items: [
-        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking & comparison" },
-        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level detail & market overview" },
-        { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide market data" },
-        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "State allocation maps & data" },
-        { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "CHFA LIHTC projects" },
-        { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED economic indicators" },
-        { label: "Census Explorer",      href: "census-dashboard.html",          desc: "Interactive ACS census data browser" },
+        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 547 geographies by housing need" },
+        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level LIHTC & market overview" },
+        { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
+        { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
+        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
+        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
     },
     {
       label: "Data",
       items: [
-        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline & data freshness" },
-        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Dataset coverage & freshness" },
-        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry" },
-        { label: "Data Review",           href: "data-review-hub.html",           desc: "Review & transparency" },
+        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline freshness & API status" },
+        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Coverage & validation checks" },
+        { label: "Data Review",           href: "data-review-hub.html",           desc: "Full inventory & transparency" },
+        { label: "Census Explorer",       href: "census-dashboard.html",          desc: "Interactive ACS data browser" },
       ]
     },
     {
       label: "Insights",
       items: [
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "AI-assisted policy briefs" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "News alerts & policy briefs" },
-        { label: "LIHTC Guide",           href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics for all audiences" },
+        { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
-        { label: "About COHO",            href: "about.html",                     desc: "Platform & methodology" },
+        { label: "About COHO",            href: "about.html",                     desc: "Platform, methodology & privacy" },
       ]
     }
   ];

@@ -258,7 +258,7 @@
     var now    = new Date().getFullYear();
     var recent = lihtcData.filter(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      var yr = parseInt(p.YEAR_ALLOC || p.year_alloc || 0, 10);
+      var yr = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
       return yr >= now - 10;
     }).length;
 
@@ -283,13 +283,13 @@
     var shown = Math.min(features.length, 10);
     for (var i = 0; i < shown; i++) {
       var p     = (features[i] && features[i].properties) ? features[i].properties : features[i];
-      var name  = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-      var city  = p.CITY || p.city || '—';
+      var name  = p.PROJECT_NAME || p.PROJECT || p.project_name || 'LIHTC Project';
+      var city  = p.CITY || p.PROJ_CTY || p.city || '—';
       // Parse unit count safely; any non-numeric value yields '—'.
       var rawUnits = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units;
       var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
         ? String(Number(rawUnits)) : '—';
-      var yr    = p.YEAR_ALLOC  || p.year_alloc  || '—';
+      var yr    = p.YEAR_ALLOC  || p.YR_ALLOC || p.year_alloc  || '—';
       rows += (
         '<tr>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +

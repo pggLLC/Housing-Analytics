@@ -40,6 +40,8 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/vendor/leaflet.js"></script>
   <script src="js/components/map-home-btn.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/co-lihtc-map.js"></script>
   <script src="js/geo-search.js"></script>
 
@@ -373,6 +375,21 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.25rem;">View diagnostics</a>
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
 </div>
+
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Comprehensive Colorado affordable housing dashboard: county-level LIHTC pipeline, AMI affordability gaps, CHFA allocation history, market trends, construction activity, and Prop 123 compliance tracking.',
+    why: 'Colorado-specific context is essential for LIHTC development. Statewide trends, CHFA priorities, Prop 123 dynamics, and competitive landscape all influence deal positioning. This page provides the state-level view that complements jurisdiction-level analysis.',
+    not: 'This is a data exploration page, not a scored analysis. It does not recommend specific sites or rank jurisdictions. Some data is manually updated (CAR reports) and may lag by 1-2 months. Historical allocation data from HUD has a 12-24 month reporting lag.',
+    nextSteps: [
+      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' },
+      { label: 'LIHTC Allocations', href: 'lihtc-allocations.html', desc: 'National allocation context' }
+    ]
+  });
+});
+</script>
 
 <!-- ── Outer tab navigation: Deep Dive | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">

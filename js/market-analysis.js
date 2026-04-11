@@ -21,8 +21,25 @@
   /* ── Constants ─────────────────────────────────────────────────── */
   var BUFFER_OPTIONS   = [3, 5, 10, 15]; // miles
   var AMI_60_PCT       = 0.60;           // default AMI threshold for affordable rent calc
-  var AREA_MEDIAN_INCOME_CO = 95000;     // approximate CO statewide AMI ($/yr)
+  var AREA_MEDIAN_INCOME_CO = 95000;     // statewide fallback AMI ($/yr) — prefer county-specific via HudFmr
   var MAX_AFFORDABLE_RENT_PCT = 0.30;    // 30% of gross income rule
+
+  /**
+   * Get county-specific AMI from HudFmr connector, falling back to statewide.
+   * @param {string|null} countyFips - 5-digit county FIPS code
+   * @returns {number} 4-person AMI in dollars
+   */
+  function _getCountyAmi(countyFips) {
+    if (countyFips && window.HudFmr) {
+      try {
+        var summary = window.HudFmr.getSummaryByFips(countyFips);
+        if (summary && summary.ami_4person && summary.ami_4person > 0) {
+          return summary.ami_4person;
+        }
+      } catch (e) { /* fall through to statewide */ }
+    }
+    return AREA_MEDIAN_INCOME_CO;
+  }
   var STATEWIDE_TRACT_COUNT = 1500;      // expected Colorado census tract count (~2020 Census)
   var COVERAGE_PRODUCTION_THRESHOLD = 0.80; // 80% = production-ready threshold
 
@@ -225,17 +242,33 @@
     return { score: Math.round(score), capture: capture };
   }
 
-  function scoreRentPressure(acs) {
-    var ami60Rent = (AREA_MEDIAN_INCOME_CO * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
+  /**
+   * Score rent pressure: how far market rents exceed 60% AMI affordable threshold.
+   * @param {Object} acs - Aggregated ACS tract metrics
+   * @param {number} [countyAmi] - County-specific 4-person AMI (falls back to statewide)
+   * @returns {{ score: number, ratio: number, amiUsed: number, amiSource: string }}
+   */
+  function scoreRentPressure(acs, countyAmi) {
+    var ami = (countyAmi && countyAmi > 0) ? countyAmi : AREA_MEDIAN_INCOME_CO;
+    var amiSource = (countyAmi && countyAmi > 0) ? 'county' : 'statewide-fallback';
+    var ami60Rent = (ami * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
     var ratio     = acs.median_gross_rent ? acs.median_gross_rent / ami60Rent : 0;
     // If market rent > affordable threshold, it signals unmet demand — higher score
     var score = Math.min(100, Math.max(0, (ratio - 0.70) / (1.50 - 0.70) * 100));
-    return { score: Math.round(score), ratio: ratio };
+    return { score: Math.round(score), ratio: ratio, amiUsed: ami, amiSource: amiSource };
   }
 
-  function scoreLandSupply(acs) {
+  /**
+   * Market tightness score based on vacancy rate.
+   * NOTE: This measures how fully-occupied the existing housing stock is.
+   * It does NOT measure land availability for new construction.
+   * Low vacancy = tight market = strong demand signal.
+   * @param {Object} acs
+   * @returns {number} 0-100 score
+   */
+  function scoreMarketTightness(acs) {
     var vac = acs.vacancy_rate || 0;
-    // Very low vacancy → high demand, strong site signal
+    // Very low vacancy → tight market → strong demand signal
     var score = Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
     return Math.round(score);
   }
@@ -340,20 +373,20 @@
     return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts).score;
   }
 
-  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts) {
+  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi) {
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
-    var rentPressureObj    = scoreRentPressure(acs);
-    // Enhance land-supply score with Bridge assessed land value data
+    var rentPressureObj    = scoreRentPressure(acs, countyAmi);
+    // Market tightness score (vacancy-based demand signal — NOT land availability)
     var _bridgeLandCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
       ? window.BridgeMarketSummary.getLandCostContext(lat, lon)
       : null;
     var SSS = window.SiteSelectionScore || {};
-    var landSupplyScore = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
+    var marketTightnessScore = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
       ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
-      : scoreLandSupply(acs);
+      : scoreMarketTightness(acs);
 
     // Enhance market score with Bridge transaction velocity
     var _bridgeVelCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
@@ -369,7 +402,7 @@
       demandScore          * WEIGHTS.demand +
       captureObj.score     * WEIGHTS.captureRisk +
       rentPressureObj.score * WEIGHTS.rentPressure +
-      landSupplyScore      * WEIGHTS.landSupply +
+      marketTightnessScore * WEIGHTS.landSupply +
       workforceScore       * WEIGHTS.workforce
     );
 
@@ -418,40 +451,61 @@
       rentPressureCoverage = 'full';
     }
 
-    var landSupplyCoverage;
+    var marketTightnessCoverage;
     if (!acs || acs.vacancy_rate == null) {
-      landSupplyCoverage = 'fallback';
-      fallbackReasons.land_supply = 'ACS vacancy_rate missing; defaulted to 0 (max land-supply score)';
+      marketTightnessCoverage = 'fallback';
+      fallbackReasons.market_tightness = 'ACS vacancy_rate missing; defaulted to 0';
     } else {
-      landSupplyCoverage = 'full';
+      marketTightnessCoverage = 'full';
     }
 
     var pmaDataCoverage = {
-      demand:       demandCoverage,
-      capture_risk: captureRiskCoverage,
-      rent_pressure: rentPressureCoverage,
-      land_supply:   landSupplyCoverage,
-      workforce:     wfResult.coverageLevel
+      demand:            demandCoverage,
+      capture_risk:      captureRiskCoverage,
+      rent_pressure:     rentPressureCoverage,
+      market_tightness:  marketTightnessCoverage,
+      // Backward compat alias
+      land_supply:       marketTightnessCoverage,
+      workforce:         wfResult.coverageLevel
     };
 
     return {
       overall:       Math.min(100, Math.max(0, overall)),
       dimensions: {
-        demand:        demandScore,
-        captureRisk:   captureObj.score,
-        rentPressure:  rentPressureObj.score,
-        landSupply:    landSupplyScore,
-        workforce:     workforceScore
+        demand:           demandScore,
+        captureRisk:      captureObj.score,
+        rentPressure:     rentPressureObj.score,
+        marketTightness:  marketTightnessScore,
+        // Backward compat alias — downstream may reference landSupply
+        landSupply:       marketTightnessScore,
+        workforce:        workforceScore
+      },
+      // User-facing labels for each dimension (used by renderers)
+      dimensionLabels: {
+        demand:          'Demand',
+        captureRisk:     'Competitive Density',
+        rentPressure:    'Rent Pressure',
+        marketTightness: 'Market Tightness',
+        workforce:       'Workforce'
+      },
+      // Proxy disclosures — what each metric actually measures
+      dimensionNotes: {
+        captureRisk:     'Ratio of total affordable units to renter households in buffer — not a traditional capture rate based on income-qualified annual demand',
+        marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
+        rentPressure:    'Market rent vs. 60% AMI affordable rent threshold' + (rentPressureObj.amiSource === 'county' ? ' (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')' : ' (statewide AMI fallback: $' + rentPressureObj.amiUsed.toLocaleString() + ')')
       },
       dimensionDataAvailable: {
-        demand:       demandCoverage !== 'fallback',
-        captureRisk:  captureRiskCoverage !== 'fallback',
-        rentPressure: rentPressureCoverage !== 'fallback',
-        landSupply:   landSupplyCoverage !== 'fallback',
-        workforce:    wfResult.coverageLevel !== 'fallback'
+        demand:          demandCoverage !== 'fallback',
+        captureRisk:     captureRiskCoverage !== 'fallback',
+        rentPressure:    rentPressureCoverage !== 'fallback',
+        marketTightness: marketTightnessCoverage !== 'fallback',
+        landSupply:      marketTightnessCoverage !== 'fallback',
+        workforce:       wfResult.coverageLevel !== 'fallback'
       },
       capture:         captureObj.capture,
       rentRatio:       rentPressureObj.ratio,
+      amiUsed:         rentPressureObj.amiUsed,
+      amiSource:       rentPressureObj.amiSource,
       flags:           flags,
       pma_data_coverage: pmaDataCoverage,
       fallback_reasons:  fallbackReasons,
@@ -518,13 +572,13 @@
 
     var dims = result.dimensions;
     var dimAvail = result.dimensionDataAvailable || {};
-    var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
-    var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
+    var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
+    var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
       'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
-      'Risk that the project cannot capture enough income-qualified renters to lease up. Lower capture rate needed = higher score.',
+      'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
       'Upward pressure on market rents vs. AMI-restricted limits. High rent pressure = strong affordability gap and demand for restricted units.',
-      'Availability of vacant, underdeveloped, or redevelopable land within the PMA. Also reflects development cost constraints.',
+      'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
     ];
     var listEl = el('pmaDimList');
@@ -634,9 +688,9 @@
 
     var dims = [
       { key: 'demand',       label: 'Demand' },
-      { key: 'capture_risk', label: 'Capture Risk' },
+      { key: 'capture_risk', label: 'Competitive Density' },
       { key: 'rent_pressure',label: 'Rent Pressure' },
-      { key: 'land_supply',  label: 'Land / Supply' },
+      { key: 'land_supply',  label: 'Market Tightness' },
       { key: 'workforce',    label: 'Workforce' }
     ];
 
@@ -726,12 +780,12 @@
     if (!canvas || !window.Chart) return;
 
     dimAvail = dimAvail || {};
-    var dimKeys = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
+    var dimKeys = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
     var data = [
       dims.demand,
       dims.captureRisk,
       dims.rentPressure,
-      dims.landSupply,
+      dims.marketTightness || dims.landSupply,
       dims.workforce
     ];
 
@@ -753,7 +807,7 @@
     });
 
     // Labels: append "(est.)" for estimated dimensions
-    var labels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'].map(function (lbl, i) {
+    var labels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'].map(function (lbl, i) {
       return dimAvail[dimKeys[i]] !== false ? lbl : lbl + ' (est.)';
     });
 
@@ -1030,7 +1084,23 @@
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts);
+    // Derive dominant county FIPS from buffer tracts for county-specific AMI
+    var _pmaCountyFips = null;
+    if (bufTracts.length) {
+      var _cfVotes = {};
+      bufTracts.forEach(function (t) {
+        var gid = t.geoid || t.GEOID || '';
+        var cf = gid.substring(0, 5);
+        if (cf.length === 5) { _cfVotes[cf] = (_cfVotes[cf] || 0) + 1; }
+      });
+      var _bestCf = null, _bestCfN = 0;
+      Object.keys(_cfVotes).forEach(function (k) {
+        if (_cfVotes[k] > _bestCfN) { _bestCfN = _cfVotes[k]; _bestCf = k; }
+      });
+      _pmaCountyFips = _bestCf;
+    }
+    var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
+    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi);
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;

@@ -1,6 +1,14 @@
 /**
  * js/pma-infrastructure.js
- * Infrastructure and environmental feasibility scorecard.
+ * Infrastructure and environmental feasibility INDICATORS.
+ *
+ * IMPORTANT: These scores are directional indicators from public datasets,
+ * NOT professional site assessments. They do not replace:
+ *  - Phase I Environmental Site Assessment (ESA)
+ *  - Geotechnical survey
+ *  - Utility will-serve letters
+ *  - FEMA LOMA/LOMR determination
+ *  - Traffic impact study
  *
  * Responsibilities:
  *  - fetchFEMAFloodData(boundingBox) — flood hazard zone coverage
@@ -275,7 +283,7 @@
    * @returns {object}
    */
   function getInfrastructureJustification() {
-    return lastScorecard
+    var base = lastScorecard
       ? Object.assign({}, lastScorecard)
       : {
           floodRiskPercent:       lastFloodRiskPct,
@@ -284,6 +292,12 @@
           foodAccessScore:        lastFoodAccessScore,
           compositeScore:         lastCompositeScore
         };
+    // Disclosure: these are indicators, not professional assessments
+    base._disclosure = 'Infrastructure scores are directional indicators from public datasets (FEMA, NOAA, EPA, USDA). ' +
+      'They do not replace Phase I ESA, geotechnical surveys, utility will-serve letters, or professional site due diligence. ' +
+      'Flood risk is based on FEMA NFHL zone boundaries, not parcel-level flood determination (LOMA/LOMR). ' +
+      'Utility capacity uses estimated headroom from municipal data, not capacity commitment letters.';
+    return base;
   }
 
   /* ── Public API ──────────────────────────────────────────────────── */
