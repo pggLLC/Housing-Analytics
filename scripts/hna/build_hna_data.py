@@ -1078,7 +1078,7 @@ def build_summary_cache():
 
 def build_lehd_by_county():
     # LODES8 CO OD main file index: https://lehd.ces.census.gov/data/lodes/LODES8/co/od/
-    year = os.environ.get('LODES_YEAR', '2022').strip() or '2022'
+    year = os.environ.get('LODES_YEAR', '2023').strip() or '2023'
     url = f"https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_{year}.csv.gz"
 
     print(f"Downloading LEHD LODES OD (CO) {year}...")

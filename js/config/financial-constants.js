@@ -61,11 +61,11 @@
     dcrMinimum:       1.20,        // debt coverage ratio floor
 
     // ── Data Source Metadata ────────────────────────────────────────
-    acsVintage:       '2024',      // ACS 5-year estimates vintage
+    acsVintage:       '2024',      // ACS 5-year estimates vintage (2025 pending Census release)
     acsYear:          '2024',      // for display labels
-    hudFmrYear:       'FY2025',    // HUD FMR fiscal year
+    hudFmrYear:       'FY2026',    // HUD FMR fiscal year (updated from FY2025)
     dolaProjectionYr: '2050',      // DOLA population projection horizon
-    lastReviewDate:   '2026-04-05',
+    lastReviewDate:   '2026-04-11',
   };
 
   // Freeze to prevent accidental mutation

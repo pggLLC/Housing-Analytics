@@ -184,7 +184,7 @@
             { name: 'ACS Commuting (S0801)', status: 'primary', vintage: '2024', coverage: 'Counties + places' },
             { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
             { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
-            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'degraded', vintage: '2017-2021', coverage: '64 counties', note: 'Some tiers have clamped values due to pipeline aggregation errors' },
+            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
             { name: 'AMI Gap (ACS B25063 + B19001)', status: 'primary', vintage: '2024', coverage: '64 counties' }
           ],
@@ -1049,7 +1049,7 @@
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
-          Land values, recent transactions, and property assessments by region — from Bridge Data Output public records. Updated weekly. Supports early-stage LIHTC site feasibility screening.
+          Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>
 
         <!-- Region summary cards grid -->
@@ -1212,17 +1212,121 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    if (typeof window.BridgeMarketSummary === 'undefined' || !window.BridgeMarketSummary || typeof window.BridgeMarketSummary.load !== 'function') {
-      showPending();
-      return;
+  /** Render CAR market report data as a fallback when Bridge MLS is unavailable. */
+  function renderCARFallback(car) {
+    var grid = document.getElementById('bridgeRegionGrid');
+    var sw = car.statewide || {};
+    var metros = car.metro_areas || {};
+    var metroKeys = Object.keys(metros);
+
+    // Build metro area cards
+    if (grid) {
+      var html = '';
+      for (var i = 0; i < metroKeys.length; i++) {
+        var m = metros[metroKeys[i]];
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (m.name || metroKeys[i]) + '</strong> ';
+        html += '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
+        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<div>Median sale price: <strong style="color:var(--text)">' + fmtK(m.median_sale_price) + '</strong></div>';
+        html += '<div>Days on market: ' + (m.median_days_on_market != null ? m.median_days_on_market : 'N/A') + '</div>';
+        html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
+        html += '</div></div>';
+      }
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.innerHTML = html;
     }
-    window.BridgeMarketSummary.load().then(function (summary) {
-      if (!summary) { showPending(); return; }
-      renderBridgeMarketSection(summary);
-    }).catch(function () {
-      showPending();
-    });
+
+    // Rural highlight — CAR data does not break out rural specifically
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR report does not break out rural regions. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for county-level data.</p>';
+      ruralEl.innerHTML = rHtml;
+    }
+
+    // Statewide card from CAR data
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) {
+      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+      swHtml += '<div style="margin-bottom:.3rem">Median sale price: <strong style="color:var(--text)">' + fmtK(sw.median_sale_price) + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Days on market: <strong style="color:var(--text)">' + (sw.median_days_on_market != null ? sw.median_days_on_market : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Months of supply: <strong style="color:var(--text)">' + (sw.months_of_supply != null ? sw.months_of_supply : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Active listings: <strong style="color:var(--text)">' + (sw.active_listings != null ? sw.active_listings.toLocaleString() : 'N/A') + '</strong></div>';
+      if (car.month) {
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Report period: ' + car.month + '</div>';
+      }
+      swHtml += '</div>';
+      swEl.innerHTML = swHtml;
+    }
+
+    // Update the description and data attribution
+    var detailEl = document.querySelector('#co-market-conditions .dq-detail');
+    if (detailEl) {
+      detailEl.innerHTML = 'Data: Colorado Association of REALTORS (CAR) &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
+    }
+  }
+
+  /** Show a no-data message when neither Bridge nor CAR data is available. */
+  function showNoDataMessage() {
+    var grid = document.getElementById('bridgeRegionGrid');
+    if (grid) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:.88rem;color:var(--muted)">' +
+        'Colorado market conditions require CAR or MLS data. Visit the ' +
+        '<a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of Realtors</a> for current market reports.' +
+        '</div>';
+    }
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) ruralEl.style.display = 'none';
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) swEl.style.display = 'none';
+  }
+
+  /** Try loading CAR report JSON as a fallback data source. */
+  function tryLoadCARFallback() {
+    return fetch('data/car-market-report-2026-04.json')
+      .then(function (resp) {
+        if (!resp.ok) return null;
+        return resp.json();
+      })
+      .then(function (car) {
+        if (car && car.statewide && car.statewide.median_sale_price) {
+          renderCARFallback(car);
+          return true;
+        }
+        return false;
+      })
+      .catch(function () { return false; });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Try Bridge MLS first
+    var hasBridge = typeof window.BridgeMarketSummary !== 'undefined' &&
+                    window.BridgeMarketSummary &&
+                    typeof window.BridgeMarketSummary.load === 'function';
+    if (hasBridge) {
+      window.BridgeMarketSummary.load().then(function (summary) {
+        if (summary) {
+          renderBridgeMarketSection(summary);
+        } else {
+          // Bridge returned no data — try CAR fallback
+          tryLoadCARFallback().then(function (ok) {
+            if (!ok) showNoDataMessage();
+          });
+        }
+      }).catch(function () {
+        tryLoadCARFallback().then(function (ok) {
+          if (!ok) showNoDataMessage();
+        });
+      });
+    } else {
+      // No Bridge module — try CAR fallback
+      tryLoadCARFallback().then(function (ok) {
+        if (!ok) showNoDataMessage();
+      });
+    }
   });
 }());
         </script>

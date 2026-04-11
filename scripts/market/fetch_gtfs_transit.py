@@ -133,6 +133,17 @@ def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> lis
                             "color":      row.get("route_color", ""),
                         }
 
+            # Load trips.txt to map shape_id → route_id (for route_type linkage)
+            shape_to_route: dict = {}
+            if "trips.txt" in names:
+                with zf.open("trips.txt") as tf:
+                    reader = csv.DictReader(io.TextIOWrapper(tf, encoding="utf-8-sig"))
+                    for row in reader:
+                        sid = row.get("shape_id", "")
+                        rid = row.get("route_id", "")
+                        if sid and rid and sid not in shape_to_route:
+                            shape_to_route[sid] = rid
+
             # Load shapes grouped by shape_id
             if "shapes.txt" not in names:
                 log(f"  ⚠ No shapes.txt in {agency_id} GTFS", level="WARN")
@@ -156,6 +167,12 @@ def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> lis
                 coords = [[p[1], p[2]] for p in pts]
                 if len(coords) < 2:
                     continue
+                # Look up actual route_type via shape→trip→route linkage
+                linked_route_id = shape_to_route.get(shape_id, "")
+                linked_route = routes_map.get(linked_route_id, {})
+                actual_route_type = linked_route.get("route_type", 3)  # GTFS: 0=tram, 1=subway, 2=rail, 3=bus
+                route_name = linked_route.get("short_name") or linked_route.get("long_name") or ""
+
                 features.append({
                     "type": "Feature",
                     "geometry": {"type": "LineString", "coordinates": coords},
@@ -163,7 +180,8 @@ def parse_gtfs_shapes(zip_bytes: bytes, agency_id: str, agency_name: str) -> lis
                         "shape_id":   shape_id,
                         "agency_id":  agency_id,
                         "agency":     agency_name,
-                        "route_type": 3,  # default bus
+                        "route_type": actual_route_type,
+                        "route_name": route_name,
                     },
                 })
 

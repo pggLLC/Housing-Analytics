@@ -32,15 +32,16 @@ GAP_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordability_gap.json')
 
 # HUD CHAS data — most recent available vintage (sub-county 140-jurisdiction download)
 # URL pattern: https://www.huduser.gov/portal/datasets/cp.html
+# 2018-2022 released December 23, 2025.  Prior vintage: 2017-2021 (September 2024).
 # Try newest vintage first; fall back to prior vintage if the primary URL 404s.
 CHAS_STATE_URL = (
-    'https://www.huduser.gov/portal/datasets/cp/2017thru2021-140-csv.zip'
+    'https://www.huduser.gov/portal/datasets/cp/2018thru2022-140-csv.zip'
 )
 CHAS_STATE_URL_FALLBACK = (
-    'https://www.huduser.gov/portal/datasets/cp/2016thru2020-140-csv.zip'
+    'https://www.huduser.gov/portal/datasets/cp/2017thru2021-140-csv.zip'
 )
 COLORADO_FIPS = '08'
-VINTAGE = '2017-2021'
+VINTAGE = '2018-2022'
 TIMEOUT = 300  # 234 MB download needs more time
 
 # Local cache so re-runs don't re-download 234 MB
