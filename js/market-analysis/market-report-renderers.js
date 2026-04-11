@@ -262,6 +262,31 @@
       return yr >= now - 10;
     }).length;
 
+    // Count projects by estimated pipeline stage.
+    var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
+    lihtcData.forEach(function (f) {
+      var p = (f && f.properties) ? f.properties : f;
+      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
+      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
+      else if (yrNum >= now - 1) { stageCounts.Construction++; }
+      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
+      else { stageCounts['Pre-Permit']++; }
+    });
+
+    var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
+    var pipelineHtml = '';
+    if (pipelineActive > 0) {
+      pipelineHtml = (
+        '<div style="margin-top:0.75rem;">' +
+          _sectionHeading('Construction Pipeline') +
+          (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
+          (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
+          (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+        '</div>'
+      );
+    }
+
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('LIHTC Supply Within Buffer') +
@@ -271,6 +296,7 @@
         (totalProj > 0
           ? '<div style="margin-top:0.75rem;">' + _sectionHeading('Project List') + _lihtcTable(lihtcData) + '</div>'
           : '') +
+        pipelineHtml +
       '</div>'
     );
 
@@ -290,18 +316,26 @@
       var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
         ? String(Number(rawUnits)) : '—';
       var yr    = p.YEAR_ALLOC  || p.YR_ALLOC || p.year_alloc  || '—';
+      var now = new Date().getFullYear();
+      var yrNum = parseInt(yr, 10) || 0;
+      var stage, stageColor;
+      if (!yrNum || yrNum <= now - 5) { stage = 'Complete'; stageColor = 'var(--muted)'; }
+      else if (yrNum >= now - 1) { stage = 'Construction'; stageColor = 'var(--warn)'; }
+      else if (yrNum >= now - 3) { stage = 'Entitled'; stageColor = '#2563eb'; }
+      else { stage = 'Pre-Permit'; stageColor = 'var(--accent)'; }
       rows += (
         '<tr>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + city + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + units + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + yr + '</td>' +
+          '<td style="padding:4px 6px;font-size:var(--small);"><span style="display:inline-block;padding:1px 6px;border-radius:999px;font-size:.65rem;font-weight:600;background:' + stageColor + ';color:#fff;">' + stage + '</span></td>' +
         '</tr>'
       );
     }
     if (features.length > shown) {
       rows += (
-        '<tr><td colspan="4" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
+        '<tr><td colspan="5" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
           '\u2026 and ' + (features.length - shown) + ' more.' +
         '</td></tr>'
       );
@@ -313,9 +347,11 @@
           '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">City</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Units</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Yr</th>' +
+          '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Est. Status</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
-      '</table>'
+      '</table>' +
+      '<div style="font-size:.68rem;color:var(--faint);margin-top:.4rem;font-style:italic;">Pipeline status estimated from CHFA allocation year only \u2014 not verified against actual construction status.</div>'
     );
   }
 
@@ -646,6 +682,44 @@
     );
   }
 
+  /**
+   * Render the infrastructure feasibility section (supplementary indicator).
+   * NOT part of the main 5-dimension scoring — supplementary from public data.
+   * @param {object|null} data - { score: number, justification: object }
+   */
+  function renderInfrastructure(data) {
+    if (!data || data.score == null) {
+      _render('maInfrastructureContent', _unavailableCard('Infrastructure Feasibility'));
+      return;
+    }
+    var j = data.justification || {};
+    var score = data.score;
+
+    var _infraRow = function (label, value, note) {
+      var display = value != null ? String(Math.round(value)) + '/100' : '—';
+      return '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid color-mix(in srgb, var(--border) 50%, transparent);">' +
+        '<span style="font-size:var(--small);color:var(--text);">' + label + '</span>' +
+        '<span style="font-size:var(--small);font-weight:600;">' + display +
+          (note ? ' <span style="color:var(--faint);font-weight:400;font-size:.72rem;">(' + note + ')</span>' : '') +
+        '</span></div>';
+    };
+
+    var html =
+      '<div style="display:grid;gap:0.5rem;">' +
+        _sectionHeading('Infrastructure Feasibility (Supplementary)') +
+        '<div style="font-size:.75rem;color:var(--warn);padding:4px 8px;background:color-mix(in srgb, var(--warn) 8%, transparent);border-radius:6px;margin-bottom:.4rem;">' +
+          'Directional indicators from public datasets. Does not replace Phase I ESA, geotechnical survey, utility will-serve letters, or FEMA flood determination.' +
+        '</div>' +
+        _infraRow('Composite Score', score) +
+        _infraRow('Flood Risk', 100 - (j.floodRiskPercent || 0) * 100, 'FEMA NFHL') +
+        _infraRow('Climate Resilience', j.climateResilienceScore, 'NOAA') +
+        _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null, 'est. headroom') +
+        _infraRow('Food Access', j.foodAccessScore, 'USDA Atlas') +
+      '</div>';
+
+    _render('maInfrastructureContent', html);
+  }
+
   /* ── Export / Print report ───────────────────────────────────────── */
 
   /**
@@ -787,6 +861,7 @@
     renderNeighborhoodAccess:  renderNeighborhoodAccess,
     renderPolicyOverlays:      renderPolicyOverlays,
     renderOpportunities:       renderOpportunities,
+    renderInfrastructure:      renderInfrastructure,
     showSectionLoading:        showSectionLoading,
     showSectionError:          showSectionError,
     exportReport:              exportReport

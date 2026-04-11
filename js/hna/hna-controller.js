@@ -2010,8 +2010,8 @@
     }
     window.HNARenderers.renderBlsLabourMarket(contextCounty, geoType, window.HNAState.state.blsEconData);
 
-    // Prop 123 compliance section (uses ACS profile + geoType)
-    window.HNARenderers.renderProp123Section(profile, geoType);
+    // Prop 123 compliance section (uses ACS profile + geoType + county FIPS for regional factor)
+    window.HNARenderers.renderProp123Section(profile, geoType, contextCounty);
 
     // Housing Policy Commitment scorecard (loads scorecard JSON, non-blocking)
     window.HNARenderers.renderHnaScorecardPanel(geoid);
