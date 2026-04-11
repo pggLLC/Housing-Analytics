@@ -31,6 +31,8 @@
   <script defer src="js/config/financial-constants.js"></script>
   <script defer src="js/hna/hna-ranking-index.js"></script>
   <script defer src="js/hna/hna-comparison.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -63,6 +65,21 @@
       </p>
       <small id="hcaDataTimestamp" class="data-timestamp"></small>
     </div>
+
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Ranks all 547 Colorado geographies (64 counties, 273 places, 210 CDPs) by a weighted housing need score: 50% affordability gap, 30% cost burden, 20% in-commuter pressure. Includes a policy scorecard showing which jurisdictions have supportive housing environments.',
+    why: 'Developers choosing between potential sites need a comparative framework. Policymakers allocating resources need to prioritize. This ranking helps both audiences identify where need is greatest and where local conditions support development.',
+    not: 'Rankings use percentile scoring across all 547 geographies, mixing large cities with small CDPs. A high percentile rank for a 500-person CDP may reflect noise, not signal. The 50/30/20 weights are defensible but not the only valid weighting. Place-level gaps are scaled from county data (proxy).',
+    nextSteps: [
+      { label: 'Select Jurisdiction', href: 'select-jurisdiction.html', desc: 'Choose a geography to analyze in depth' },
+      { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Full HNA for a selected geography' }
+    ]
+  });
+});
+</script>
 
     <!-- How-to guide (Phase IV) -->
     <details class="hca-how-to" id="hcaHowTo">

@@ -28,6 +28,7 @@
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="4" data-step-label="scenario_builder"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -98,6 +99,20 @@
       </p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;" role="note"><strong>Screening tool only.</strong> Projections are illustrative planning estimates based on public DOLA and Census data. They are not certified forecasts and do not substitute for a formal housing needs study or CHFA-required analysis.</p>
     </div>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Model 20-year demographic projections using a cohort-component model with adjustable fertility, migration, and mortality assumptions. Three presets (baseline, low-growth, high-growth) plus custom scenarios.',
+        why: 'LIHTC compliance periods are 15-30 years. Lenders, investors, and CHFA need confidence that housing demand will persist. Demographic projections help justify long-term viability and inform unit mix decisions.',
+        not: 'Projections are scenarios, not predictions. They use simplified cohort advancement with county-level DOLA base data. They do not model economic shocks, policy changes, or sub-county migration patterns. The baseline scenario reflects 2018-2023 trend averages.',
+        nextSteps: [
+          { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the financial feasibility' }
+        ]
+      });
+    });
+    </script>
 
     <!-- Geography selector -->
     <section class="card" style="margin-bottom:var(--sp4);padding:var(--sp4);" aria-label="Geography selection">

@@ -18,6 +18,7 @@
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="3" data-step-label="market_analysis"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
@@ -40,6 +41,10 @@
   <script src="js/site-state.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/components/map-layer-status.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
@@ -48,6 +53,7 @@
   <script defer src="js/market-analysis-enhancements.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
+  <script defer src="js/components/development-realism.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">  <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -132,6 +138,48 @@
       <div id="pmaCoverageWarning" class="pma-coverage-warning" style="display:none" role="alert"></div>
       <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
     </div>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment across 5 dimensions: demand, competitive density, rent pressure, market tightness, and workforce. Includes LIHTC concept recommendations.',
+        why: 'Site selection is the most consequential decision in LIHTC development. This tool helps narrow from hundreds of potential sites to a short list worth professional investigation, saving weeks of manual research.',
+        not: 'This is NOT a professionally delineated PMA. It uses a circular buffer, not commuting sheds or economic sub-markets. Scores are from public data only. Employment detection may fail in rural areas (<5,000 total jobs). Barrier analysis is heuristic — the PMA boundary is not spatially modified. This does not replace a CHFA-required market study ($15K-$40K) or professional site due diligence.',
+        nextSteps: [
+          { label: 'Scenario Builder', href: 'hna-scenario-builder.html', desc: '20-year demographic projections' },
+          { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the capital stack' }
+        ]
+      });
+    });
+    </script>
+
+    <!-- ── Data Transparency Panels ── -->
+    <div id="pmaDataQualitySummary"></div>
+    <div id="pmaApiHealth" data-api-health="auto"></div>
+    <div id="pmaLayerStatus"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('pmaDataQualitySummary', {
+          sources: [
+            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
+            { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2026', coverage: '716 projects statewide', note: 'Updated weekly via CI' },
+            { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'FEMA Flood Zones', status: 'cached', vintage: '2025', coverage: 'Colorado', note: 'Point-based lookup, not parcel-level' },
+            { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
+            { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2023', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
+            { name: 'NHPD Preservation', status: 'stub', vintage: '—', coverage: '—', note: 'Loaded but not yet integrated into scoring' }
+          ],
+          limitations: 'PMA uses a circular buffer, not a professionally delineated market area. Amenity distances are point-based approximations. Employment detection requires 500+ job clusters (may fail in rural areas). Barrier analysis is heuristic only — the PMA boundary is not spatially modified.'
+        });
+      }
+      if (window.MapLayerStatus) {
+        window.MapLayerStatus.render('pmaLayerStatus', window.MapLayerStatus.buildPMALayers());
+      }
+    });
+    </script>
 
     <!-- ── Report Section Navigation ── -->
     <nav class="ma-section-nav" aria-label="Report sections">
@@ -860,6 +908,20 @@
       </div>
       <div id="maSaveConfirmation" class="hna-save-confirmation" hidden>✓ PMA saved to project</div>
     </section>
+    <div style="max-width:1200px;margin:2rem auto;padding:0 var(--sp4);">
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:var(--muted);">Development Realism Checklists</h2>
+      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not captured by the PMA scoring model but affect whether a site is truly feasible. Screen early.</p>
+      <div id="pmaFatalFlaws"></div>
+      <div id="pmaCommunity"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DevRealism) {
+        DevRealism.renderFatalFlawChecklist('pmaFatalFlaws');
+        DevRealism.renderCommunityChecklist('pmaCommunity');
+      }
+    });
+    </script>
   </main>
 
   <script defer src="js/market-analysis/market-analysis-state.js"></script>

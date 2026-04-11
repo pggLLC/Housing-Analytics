@@ -128,6 +128,8 @@
         programType:     props.PROGRAM || props.programType || 'LIHTC',
         amiPercent:      toNum(props.AMI_PCT || props.amiPercent || 60),
         yearPlaced:      toNum(props.YR_PIS || props.yearPlaced || 0),
+        yearAllocated:   toNum(props.YR_ALLOC || props.YEAR_ALLOC || props.yearAllocated || 0),
+        creditType:      props.CREDIT || props.creditType || '',
         hasNhpd:         !!nhpdMatch,
         subsidyExpiryYear: expiryYear,
         atExpiryRisk:    expiryYear && expiryYear - CURRENT_YEAR <= SUBSIDY_EXPIRY_RISK_YEARS
@@ -258,12 +260,26 @@
    * @returns {object}
    */
   function getCompetitiveJustification() {
+    // Compute recency: most recent allocation year and count of projects funded in last 5 years
+    var recentYears = lastSet.filter(function (p) {
+      return p.yearAllocated && p.yearAllocated >= CURRENT_YEAR - 5;
+    });
+    var mostRecentAllocation = lastSet.reduce(function (max, p) {
+      return (p.yearAllocated && p.yearAllocated > max) ? p.yearAllocated : max;
+    }, 0);
+
     return {
-      lihtcCount:       lastLihtcCount,
-      nhpdAssisted:     lastNhpdAssisted,
-      subsidyExpiryRisk: lastExpiryRisk.slice(),
-      absorptionRisk:   lastAbsorptionRisk,
-      totalProperties:  lastSet.length
+      lihtcCount:         lastLihtcCount,
+      nhpdAssisted:       lastNhpdAssisted,
+      subsidyExpiryRisk:  lastExpiryRisk.slice(),
+      absorptionRisk:     lastAbsorptionRisk,
+      totalProperties:    lastSet.length,
+      // Recency metrics — visible to user for CHFA geographic distribution awareness
+      recentAllocations:  recentYears.length,
+      mostRecentYear:     mostRecentAllocation || null,
+      recentNote:         recentYears.length > 2
+        ? 'This PMA has received ' + recentYears.length + ' LIHTC allocations in the last 5 years. CHFA may consider geographic distribution in scoring.'
+        : null
     };
   }
 
