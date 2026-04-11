@@ -1002,5 +1002,34 @@
     countyFromGeoid,
     censusKey,
     lihtcFallbackForCounty,
+    isSmallGeography,
+    getSmallGeoWarning,
   };
+
+  /**
+   * Check if a geography has small population where ACS estimates
+   * may have high margins of error (30-50% for geographies <5,000).
+   * @param {object} profile - ACS profile data
+   * @returns {boolean}
+   */
+  function isSmallGeography(profile) {
+    if (!profile) return false;
+    var pop = Number(profile.DP05_0001E);
+    return Number.isFinite(pop) && pop > 0 && pop < 5000;
+  }
+
+  /**
+   * Get a user-facing warning message for small geographies.
+   * @param {object} profile - ACS profile data
+   * @returns {string|null} Warning message or null if not small
+   */
+  function getSmallGeoWarning(profile) {
+    if (!isSmallGeography(profile)) return null;
+    var pop = Number(profile.DP05_0001E);
+    return 'This geography has ' + fmtNum(pop) + ' residents. ACS 5-year estimates for populations under 5,000 ' +
+      'may have margins of error of 30\u201350%. Percentages and counts shown here should be treated as ' +
+      'approximate, not precise. For planning purposes, consider county-level data alongside place-level estimates.';
+  }
+
 })();
+

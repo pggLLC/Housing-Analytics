@@ -252,7 +252,9 @@
     return {
       originZones:   selected,
       totalWorkers:  totalJobs,
-      captureRate:   Math.min(lastCaptureRate, 1.0)
+      captureRate:   Math.min(lastCaptureRate, 1.0),
+      vintage:       '2021',
+      dataNote:      'LEHD LODES 2021 \u2014 employment data has 2\u20133 year lag'
     };
   }
 
@@ -323,7 +325,9 @@
       captureRate:        lastCaptureRate,
       totalFlowZones:     lastFlows.length,
       boundary:           lastBoundary,
-      dataCoverage:       lastDataCoverage
+      dataCoverage:       lastDataCoverage,
+      vintage:            '2021',
+      dataNote:           'LEHD LODES 2021 — employment data has 2\u20133 year lag'
     };
   }
 

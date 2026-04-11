@@ -102,12 +102,17 @@ def load_geojson(filepath: Path, amenity_type: str) -> list[dict]:
         name = props.get("name", "") or ""
         if not name:
             continue  # Skip unnamed amenities — they add noise without value
-        records.append({
+        record = {
             "type": amenity_type,
             "name": name,
             "lat": round(lat, 6),
             "lon": round(lon, 6),
-        })
+        }
+        # Preserve transit subtype if available (rail_station, tram_stop, bus_stop, etc.)
+        transit_type = props.get("transit_type", "")
+        if transit_type:
+            record["transit_type"] = transit_type
+        records.append(record)
     return records
 
 
