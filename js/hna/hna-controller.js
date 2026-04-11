@@ -2203,12 +2203,36 @@
     buildSelect();
     if (restoredGeoId) {
       window.HNAState.els.geoSelect.value = restoredGeoId;
+
+      // Validate: did the value actually set? (fails silently if geoid not in option list)
+      if (window.HNAState.els.geoSelect.value !== restoredGeoId) {
+        console.warn('[HNA] Geography geoid "' + restoredGeoId + '" not found in ' +
+          (restoredGeoType || 'county') + ' dropdown. Attempting name-based fallback.');
+
+        // Try matching by name from WorkflowState jurisdiction
+        var wfJurisdiction = (window.WorkflowState && typeof window.WorkflowState.getJurisdiction === 'function')
+          ? window.WorkflowState.getJurisdiction() : null;
+        var wfName = wfJurisdiction && (wfJurisdiction.displayName || wfJurisdiction.name || '');
+        if (wfName) {
+          var opts = window.HNAState.els.geoSelect.options;
+          for (var oi = 0; oi < opts.length; oi++) {
+            if (opts[oi].textContent.toLowerCase().indexOf(wfName.toLowerCase()) !== -1) {
+              window.HNAState.els.geoSelect.value = opts[oi].value;
+              console.info('[HNA] Name-based match found: "' + opts[oi].textContent + '" (' + opts[oi].value + ')');
+              break;
+            }
+          }
+        }
+      }
     }
 
     // For county type, ensure a county is selected (first in list when no match)
     if (window.HNAState.els.geoType.value === 'county' && !window.HNAState.els.geoSelect.value){
       const firstOpt = window.HNAState.els.geoSelect.options[0];
-      if (firstOpt) window.HNAState.els.geoSelect.value = firstOpt.value;
+      if (firstOpt) {
+        window.HNAState.els.geoSelect.value = firstOpt.value;
+        console.warn('[HNA] No geoid match found — defaulted to first county: ' + firstOpt.textContent);
+      }
     }
 
     window.HNAState.els.geoType.addEventListener('change', ()=>{

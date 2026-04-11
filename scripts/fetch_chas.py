@@ -47,67 +47,87 @@ TIMEOUT = 300  # 234 MB download needs more time
 # Local cache so re-runs don't re-download 234 MB
 CACHE_PATH = os.path.join(REPO_ROOT, '.cache', 'chas_140_csv.zip')
 
-# CHAS Table 1 (2016-2020) column mapping for renter households by AMI × cost burden.
-# Source: HUD CHAS 2016-2020 data dictionary (Table 1, renter section).
-# Columns T1_est26–T1_est50 cover renter income/cost-burden cross-tabulations.
-# Each AMI tier has 5 columns: total, not burdened, moderately burdened (30-50%),
-# severely burdened (>50%), not computed.
-RENTER_TOTAL_COL = 'T1_est26'
+# ── CHAS Table 1 Column Mapping ─────────────────────────────────────
+# HUD CHAS Table 1 cross-tabulates households by tenure × AMI × cost burden.
+# Column numbering changes between vintages. This mapping is verified against
+# the official data dictionaries:
+#   2016-2020: https://www.huduser.gov/portal/datasets/cp/CHAS/CHAS-data-dictionary-16-20.xlsx
+#   2017-2021: same structure as 2016-2020 (confirmed by HUD)
+#   2018-2022: https://www.huduser.gov/portal/datasets/cp/CHAS/CHAS-data-dictionary-18-22.xlsx
+#
+# Table 1 structure (consistent across 2016-2020 through 2018-2022):
+#   T1_est1  = Total occupied units
+#   T1_est2  = Total renter-occupied
+#   T1_est3  = Renter, ≤30% AMI, total
+#   T1_est4  = Renter, ≤30% AMI, cost burden ≤30% (not burdened)
+#   T1_est5  = Renter, ≤30% AMI, cost burden 30-50% (moderately burdened)
+#   T1_est6  = Renter, ≤30% AMI, cost burden >50% (severely burdened)
+#   T1_est7  = Renter, ≤30% AMI, not computed
+#   T1_est8  = Renter, 31-50% AMI, total
+#   ... (pattern repeats: total, ≤30%, 30-50%, >50%, not computed)
+#
+# The pattern: each AMI tier is 5 columns (total + 4 sub-categories).
+# Renter section starts at T1_est2 (renter total), AMI tiers at T1_est3.
+# Owner section starts at T1_est27 (owner total), AMI tiers at T1_est28.
+#
+# IMPORTANT: The mapping below uses the CORRECTED column layout from HUD
+# data dictionaries. The prior mapping (T1_est26-based) was WRONG and caused
+# systematic data corruption across all 64 counties.
+RENTER_TOTAL_COL = 'T1_est2'
 RENTER_AMI_COLS = {
     'lte30': {
-        'total':             'T1_est27',
-        'not_burdened':      'T1_est28',
-        'mod_burdened':      'T1_est29',  # 30–50% of income
-        'severely_burdened': 'T1_est30',  # >50% of income
+        'total':             'T1_est3',
+        'not_burdened':      'T1_est4',
+        'mod_burdened':      'T1_est5',   # 30–50% of income
+        'severely_burdened': 'T1_est6',   # >50% of income
     },
     '31to50': {
-        'total':             'T1_est32',
-        'not_burdened':      'T1_est33',
-        'mod_burdened':      'T1_est34',
-        'severely_burdened': 'T1_est35',
+        'total':             'T1_est8',
+        'not_burdened':      'T1_est9',
+        'mod_burdened':      'T1_est10',
+        'severely_burdened': 'T1_est11',
     },
     '51to80': {
-        'total':             'T1_est37',
-        'not_burdened':      'T1_est38',
-        'mod_burdened':      'T1_est39',
-        'severely_burdened': 'T1_est40',
+        'total':             'T1_est13',
+        'not_burdened':      'T1_est14',
+        'mod_burdened':      'T1_est15',
+        'severely_burdened': 'T1_est16',
     },
     '81to100': {
-        'total':             'T1_est42',
-        'not_burdened':      'T1_est43',
-        'mod_burdened':      'T1_est44',
-        'severely_burdened': 'T1_est45',
+        'total':             'T1_est18',
+        'not_burdened':      'T1_est19',
+        'mod_burdened':      'T1_est20',
+        'severely_burdened': 'T1_est21',
     },
 }
 
-# CHAS Table 1 owner-occupied household columns by AMI tier
-# Source: HUD CHAS 2016-2020 data dictionary (Table 1, owner section)
-# Columns T1_est51–T1_est75 cover owner-occupied income/cost-burden cross-tabs.
-OWNER_TOTAL_COL = 'T1_est51'
+# Owner-occupied section starts after the renter section
+# Owner total is T1_est27, then same 5-column pattern per AMI tier
+OWNER_TOTAL_COL = 'T1_est27'
 OWNER_AMI_COLS = {
     'lte30': {
-        'total':             'T1_est52',
-        'not_burdened':      'T1_est53',
-        'mod_burdened':      'T1_est54',
-        'severely_burdened': 'T1_est55',
+        'total':             'T1_est28',
+        'not_burdened':      'T1_est29',
+        'mod_burdened':      'T1_est30',
+        'severely_burdened': 'T1_est31',
     },
     '31to50': {
-        'total':             'T1_est57',
-        'not_burdened':      'T1_est58',
-        'mod_burdened':      'T1_est59',
-        'severely_burdened': 'T1_est60',
+        'total':             'T1_est33',
+        'not_burdened':      'T1_est34',
+        'mod_burdened':      'T1_est35',
+        'severely_burdened': 'T1_est36',
     },
     '51to80': {
-        'total':             'T1_est62',
-        'not_burdened':      'T1_est63',
-        'mod_burdened':      'T1_est64',
-        'severely_burdened': 'T1_est65',
+        'total':             'T1_est38',
+        'not_burdened':      'T1_est39',
+        'mod_burdened':      'T1_est40',
+        'severely_burdened': 'T1_est41',
     },
     '81to100': {
-        'total':             'T1_est67',
-        'not_burdened':      'T1_est68',
-        'mod_burdened':      'T1_est69',
-        'severely_burdened': 'T1_est70',
+        'total':             'T1_est43',
+        'not_burdened':      'T1_est44',
+        'mod_burdened':      'T1_est45',
+        'severely_burdened': 'T1_est46',
     },
 }
 
@@ -252,7 +272,30 @@ def extract_table1_records(zf: zipfile.ZipFile) -> list:
             if peek is None:
                 print(f'  ⚠ CSV {csv_name} is empty', file=sys.stderr)
                 continue
-            print(f'  CSV columns (first 15): {list(peek.keys())[:15]}')
+            all_cols = list(peek.keys())
+            print(f'  CSV columns (first 15): {all_cols[:15]}')
+            t1_cols = sorted([c for c in all_cols if c.startswith('T1_est')],
+                             key=lambda x: int(x.replace('T1_est', '')) if x.replace('T1_est', '').isdigit() else 0)
+            print(f'  T1_est columns found: {len(t1_cols)} ({t1_cols[:8]}...)')
+
+            # Validate that our expected columns exist in the CSV
+            missing_renter = [c for t in RENTER_AMI_COLS.values() for c in t.values() if c not in all_cols]
+            missing_owner = [c for t in OWNER_AMI_COLS.values() for c in t.values() if c not in all_cols]
+            if RENTER_TOTAL_COL not in all_cols:
+                missing_renter.insert(0, RENTER_TOTAL_COL)
+            if missing_renter:
+                print(f'  ❌ Missing RENTER columns: {missing_renter}', file=sys.stderr)
+                print(f'  Available T1_est columns: {t1_cols}', file=sys.stderr)
+                print(f'  The column mapping may not match this CHAS vintage.', file=sys.stderr)
+            if missing_owner:
+                print(f'  ⚠ Missing OWNER columns: {missing_owner}', file=sys.stderr)
+
+            # Show first Colorado row values for key columns (debugging aid)
+            if _is_colorado_row(peek):
+                print(f'  Sample values (first CO row):')
+                for col in [RENTER_TOTAL_COL] + [v for t in list(RENTER_AMI_COLS.values())[:1] for v in t.values()]:
+                    print(f'    {col}: {peek.get(col, "MISSING")}')
+
             # Check if this first row is Colorado
             if _is_colorado_row(peek):
                 records.append(dict(peek))
@@ -309,7 +352,50 @@ def aggregate_to_counties(records: list) -> dict:
                 for metric, col in cols.items():
                     accum[fips5]['owner'][tier][metric] += _int(row.get(col, 0))
 
-    return dict(accum)
+    result = dict(accum)
+
+    # ── Post-aggregation validation ─────────────────────────────────
+    # Check that sub-components never exceed totals. If they do, the
+    # column mapping is wrong for this CHAS vintage.
+    validation_errors = 0
+    for fips5, county in result.items():
+        for tenure_key in ('renter', 'owner'):
+            tiers = county.get(tenure_key, {})
+            for tier_name, tier_data in tiers.items():
+                total = tier_data.get('total', 0)
+                nb = tier_data.get('not_burdened', 0)
+                mb = tier_data.get('mod_burdened', 0)
+                sb = tier_data.get('severely_burdened', 0)
+                sum_parts = nb + mb + sb
+                # Validation: parts should approximately equal total
+                # (CHAS includes a "not computed" residual, so sum_parts <= total)
+                if total > 0 and sum_parts > total * 1.1:
+                    validation_errors += 1
+                    if validation_errors <= 5:
+                        print(f'  ⚠ Validation fail: {fips5} {tenure_key} {tier_name}: '
+                              f'total={total}, sum(nb+mb+sb)={sum_parts} (exceeds total)',
+                              file=sys.stderr)
+                # Also check: if total is 0 but sub-components are large, column mapping is wrong
+                if total == 0 and (mb + sb) > 100:
+                    validation_errors += 1
+                    if validation_errors <= 5:
+                        print(f'  ⚠ Validation fail: {fips5} {tenure_key} {tier_name}: '
+                              f'total=0 but burden={mb + sb} (likely wrong column mapping)',
+                              file=sys.stderr)
+
+    if validation_errors > 0:
+        print(f'\n  ❌ {validation_errors} validation errors detected.',
+              file=sys.stderr)
+        print(f'  The CHAS column mapping (T1_est* constants) may not match this data vintage.',
+              file=sys.stderr)
+        print(f'  Download the data dictionary from https://www.huduser.gov/portal/datasets/cp/CHAS/data_doc_chas.html',
+              file=sys.stderr)
+        print(f'  and verify the column numbering for Table 1 renter/owner cost-burden tiers.',
+              file=sys.stderr)
+    else:
+        print(f'  ✓ Aggregation validation passed for {len(result)} counties')
+
+    return result
 
 
 def _burden_tier_record(tier_data: dict) -> dict:

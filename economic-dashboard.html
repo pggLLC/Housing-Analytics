@@ -273,6 +273,9 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 
 <!-- Polymarket KPI strip -->
+<div id="pmDataNotice" style="font-size:.78rem;color:var(--warn);padding:.4rem .6rem;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 18%, transparent);border-radius:6px;margin-bottom:.5rem;">
+  <strong>Prediction market data unavailable.</strong> This section requires the Polymarket data pipeline to be active. Values shown as "—" indicate no data has been loaded. These are sentiment indicators only — not forecasts.
+</div>
 <div class="kpi-strip" role="region" aria-label="Polymarket key predictions" id="pm-kpi-strip" style="margin-bottom:var(--sp3);">
   <div class="kpi-strip-item">
     <div class="kpi-strip-value" id="pm-recession">—</div>
