@@ -31,6 +31,7 @@
   function _fmtAcre(n) { return '$' + Math.round(n).toLocaleString() + '/acre'; }
   function _fmtUnit(n) { return '$' + Math.round(n).toLocaleString() + '/unit'; }
   function _pct(n) { return (n * 100).toFixed(1) + '%'; }
+  function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
   /* ── Confidence scoring ──────────────────────────────────────────── */
   function computeConfidence(state) {

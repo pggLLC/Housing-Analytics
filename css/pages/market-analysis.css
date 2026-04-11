@@ -481,8 +481,8 @@
 /* ── Report section navigation (sticky horizontal pill nav) ── */
 .ma-section-nav {
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 58px; /* below site header */
+  z-index: 50; /* below nav dropdowns (header z: 9000) */
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;

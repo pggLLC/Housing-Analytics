@@ -92,6 +92,7 @@
   function renderColoradoFactors(containerId, opts) {
     var el = document.getElementById(containerId);
     if (!el) return;
+    opts = opts || {};
 
     var content =
       '<p class="devr-intro">Colorado has specific regulatory and financial mechanisms that materially affect LIHTC feasibility. These factors are not modeled in the calculator but should inform your development strategy.</p>' +
@@ -133,6 +134,7 @@
   function renderProjectTypeGuidance(containerId, opts) {
     var el = document.getElementById(containerId);
     if (!el) return;
+    opts = opts || {};
 
     var content =
       '<p class="devr-intro">Project type affects every aspect of development: unit mix, AMI targeting, operating costs, QAP scoring, and partnership structure. The deal calculator models 4 concept types — here is what to consider for each.</p>' +

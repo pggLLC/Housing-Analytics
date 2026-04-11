@@ -40,9 +40,10 @@
     stub:        { label: 'Stub Data',   icon: '◇', cls: 'dqs-warn' }
   };
 
-  /* ── HTML escaping helper ───────────────────────────────────────── */
+  /* ── HTML escaping ───────────────────────────────────────────────── */
   function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   /* ── Freshness helper ───────────────────────────────────────────── */
@@ -56,7 +57,7 @@
       if (age <= 2) return '<span class="dqs-recent">' + age + 'yr old</span>';
       return '<span class="dqs-stale">' + age + 'yr old</span>';
     }
-    return '<span class="dqs-recent">' + esc(vintage) + '</span>';
+    return '<span class="dqs-recent">' + vintage + '</span>';
   }
 
   /* ── Render ─────────────────────────────────────────────────────── */
@@ -92,7 +93,7 @@
       var cov = s.coverage ? '<span class="dqs-coverage">' + esc(s.coverage) + '</span>' : '';
       return '<tr class="' + st.cls + '">' +
         '<td><span class="dqs-icon">' + st.icon + '</span> ' + esc(s.name || '—') + '</td>' +
-        '<td>' + st.label + '</td>' +
+        '<td>' + esc(st.label) + '</td>' +
         '<td>' + ageBadge(s.vintage) + '</td>' +
         '<td>' + cov + '</td>' +
         '<td>' + note + '</td>' +

@@ -1571,20 +1571,39 @@
     const byAmi = geoRecord.renter_hh_by_ami || {};
 
     const labels = AMI_ORDER.map(k => tierLabels[k] || k);
+
+    // Sanitize CHAS data — pipeline may produce impossible values
+    // (cost_burdened > total) due to aggregation errors. Clamp and flag.
+    let hasCorruptTier = false;
     const totals           = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].total)              || 0);
-    const costBurdened     = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].cost_burdened)       || 0);
-    const severelyBurdened = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].severely_burdened)   || 0);
+    const costBurdened     = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].cost_burdened) || 0;
+      if (raw > totals[i] && totals[i] > 0) { hasCorruptTier = true; return totals[i]; }
+      return raw;
+    });
+    const severelyBurdened = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].severely_burdened) || 0;
+      return Math.min(raw, costBurdened[i]);
+    });
     // Moderately burdened = cost_burdened minus severely_burdened
     const modBurdened      = costBurdened.map((cb, i) => Math.max(0, cb - severelyBurdened[i]));
     const notBurdened      = totals.map((tot, i) => Math.max(0, tot - costBurdened[i]));
+
+    // If all totals are zero or tiny, the data is likely a stub
+    const allTotals = totals.reduce((a, b) => a + b, 0);
+    if (allTotals < 10) {
+      showPlaceholder('CHAS data for this geography has insufficient household counts. Awaiting next HUD CHAS release.');
+      return;
+    }
 
     const vintage = (chasData.meta && chasData.meta.vintage) || '';
     const isStub  = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
     const geoName = geoRecord.name || 'Selected area';
     if (statusEl) {
+      const corruptNote = hasCorruptTier ? ' · Some AMI tiers have been clamped due to data inconsistencies' : '';
       statusEl.textContent = isStub
         ? `Estimated from ACS data (actual CHAS ${vintage} figures load via weekly workflow)`
-        : `HUD CHAS ${vintage} data · ${geoName}`;
+        : `HUD CHAS ${vintage} data · ${geoName}${corruptNote}`;
     }
 
     const c = t.chartColors;
