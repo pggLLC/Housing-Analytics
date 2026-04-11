@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-11T15:26:40.401686Z",
+  "generated": "2026-04-11T17:45:14.083603Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 974398
+      "bytes": 1873989
     },
     "data/glossary.json": {
       "featureCount": 0,
