@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-11T03:48:55.887Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-11T04:29:22.738Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.5 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 72.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 73.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 26.0 KB |
@@ -82,7 +82,7 @@
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.78 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
-| `data/hna/chas_affordability_gap.json` | 130.7 KB | ✅ | — |
+| `data/hna/chas_affordability_gap.json` | 195.0 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 3.5 KB | ✅ | — |
