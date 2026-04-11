@@ -57,7 +57,12 @@
       '.pma-tab--active{background:var(--accent,#096e65)!important;color:#fff!important;',
       '  border-color:var(--accent,#096e65)!important;}',
       '.pma-tab:hover:not(.pma-tab--active){background:var(--border,#2a2a2a);}',
-      '#pmaProgressFill{will-change:width;}'
+      '#pmaProgressFill{will-change:width;}',
+      '.pma-restored-banner{padding:.4rem .75rem;background:var(--card-alt,rgba(9,110,101,.12));',
+      '  border-left:3px solid var(--accent,#096e65);border-radius:4px;font-size:.82rem;margin:.5rem 0;}',
+      '.pma-restored-banner__dismiss{margin-left:.5rem;font-size:.8rem;background:none;',
+      '  border:1px solid var(--accent,#096e65);border-radius:3px;',
+      '  color:var(--accent,#096e65);cursor:pointer;}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -558,12 +563,9 @@
     if (explainBtn) explainBtn.hidden = true;
 
     var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
+    var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
 
-    runner.run(lat, lon, {
-      method:        _method,
-      bufferMiles:   _bufferMiles,
-      proposedUnits: proposed
-    })
+    runner.run(lat, lon, runOptions)
     .on('progress', _progressUpdate)
     .on('complete', function (scoreRun) {
       _lastScoreRun = scoreRun;
@@ -573,6 +575,14 @@
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
+
+      // Persist result to localStorage (survives page refresh for 24 h)
+      if (window.PMADataCache && window.PMADataCache.saveLastResult) {
+        window.PMADataCache.saveLastResult(lat, lon, runOptions, scoreRun);
+      }
+
+      // Update URL hash so the run can be shared or bookmarked
+      _writePermalink(lat, lon, runOptions);
 
       // Render PMA delineation polygon and optional SMA ring
       var delineation = window.PMADelineation;
@@ -756,6 +766,152 @@
     });
   }
 
+  /* ── URL permalink helpers ───────────────────────────────────────── */
+
+  /**
+   * Encode analysis parameters into the URL hash so the run can be shared
+   * or bookmarked. Format: #pma=lat,lon,method,bufferMiles,proposedUnits
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @param {object} options
+   */
+  function _writePermalink(lat, lon, options) {
+    try {
+      if (typeof window === 'undefined' || !window.history || !window.history.replaceState) return;
+      var parts = [
+        lat.toFixed(6),
+        lon.toFixed(6),
+        options.method        || 'buffer',
+        options.bufferMiles   || 5,
+        options.proposedUnits || 100
+      ];
+      window.history.replaceState(null, '', '#pma=' + parts.join(','));
+    } catch (_) {}
+  }
+
+  /**
+   * Parse a PMA permalink from the URL hash and return an object with
+   * { lat, lon, method, bufferMiles, proposedUnits } or null when absent.
+   *
+   * @returns {{ lat:number, lon:number, method:string, bufferMiles:number, proposedUnits:number }|null}
+   */
+  function _readPermalink() {
+    try {
+      var hash = (typeof window !== 'undefined' && window.location.hash) || '';
+      var m = hash.match(/^#pma=([\d.\-]+),([\d.\-]+),(\w+),([\d.]+),([\d.]+)/);
+      if (!m) return null;
+      return {
+        lat:           parseFloat(m[1]),
+        lon:           parseFloat(m[2]),
+        method:        m[3],
+        bufferMiles:   parseInt(m[4], 10) || 5,
+        proposedUnits: parseInt(m[5], 10) || 100
+      };
+    } catch (_) { return null; }
+  }
+
+  /**
+   * On page load, restore the last PMA run from localStorage (if within TTL)
+   * OR from a URL permalink hash.  The URL hash takes priority so shared
+   * links always reproduce the correct analysis context.
+   *
+   * When a restorable state is found, the form controls are pre-populated
+   * and an informational banner is shown near the run button.
+   */
+  function _restoreLastRun() {
+    var permalink = _readPermalink();
+    var stored    = null;
+
+    if (!permalink && window.PMADataCache && window.PMADataCache.loadLastResult) {
+      stored = window.PMADataCache.loadLastResult();
+    }
+
+    // Resolve the source of restoration parameters (permalink has priority)
+    var source = null;
+    if (permalink) {
+      source = permalink;
+    } else if (stored) {
+      source = {
+        lat:           stored.lat,
+        lon:           stored.lon,
+        method:        stored.options.method,
+        bufferMiles:   stored.options.bufferMiles,
+        proposedUnits: stored.options.proposedUnits
+      };
+    }
+    if (!source || !source.lat || !source.lon) return;
+
+    // Pre-populate method tabs
+    if (source.method && source.method !== 'buffer') {
+      var tab = document.querySelector('[data-pma-method="' + source.method + '"]');
+      if (tab) tab.click();
+    }
+
+    // Pre-populate buffer select
+    var bufSel = $id('pmaBufferSelect');
+    if (bufSel && source.bufferMiles) {
+      bufSel.value = String(source.bufferMiles);
+      _bufferMiles = source.bufferMiles;
+    }
+
+    // Pre-populate proposed units
+    var unitsEl = $id('pmaProposedUnits');
+    if (unitsEl && source.proposedUnits) {
+      unitsEl.value = String(source.proposedUnits);
+    }
+
+    // Show a restoration banner so the user knows results were restored.
+    // Build the banner using DOM APIs only (no innerHTML) to avoid any XSS risk.
+    var banner = document.createElement('div');
+    banner.id = 'pmaRestoredBanner';
+    banner.setAttribute('role', 'status');
+    banner.setAttribute('aria-live', 'polite');
+    banner.className = 'pma-restored-banner';
+
+    var icon = document.createElement('span');
+    icon.textContent = '📍 ';
+
+    var strong = document.createElement('strong');
+    strong.textContent = 'Restoring analysis';
+
+    var originLabel = permalink ? 'shared link' : 'previous session';
+    var coords = ' from ' + originLabel + ' — lat ' +
+                 parseFloat(source.lat).toFixed(4) + ', lon ' +
+                 parseFloat(source.lon).toFixed(4) + '. ';
+
+    var coordText = document.createTextNode(coords);
+
+    var dismissBtn = document.createElement('button');
+    dismissBtn.type = 'button';
+    dismissBtn.className = 'pma-restored-banner__dismiss';
+    dismissBtn.textContent = 'Dismiss';
+    dismissBtn.addEventListener('click', function () {
+      var el = $id('pmaRestoredBanner');
+      if (el) el.remove();
+    });
+
+    banner.appendChild(icon);
+    banner.appendChild(strong);
+    banner.appendChild(coordText);
+    banner.appendChild(dismissBtn);
+
+    var runBtn = $id('pmaRunBtn');
+    if (runBtn && runBtn.parentNode) {
+      runBtn.parentNode.insertBefore(banner, runBtn);
+    }
+
+    // If we have a full scoreRun from storage, re-render the cards
+    if (stored && stored.scoreRun) {
+      _lastScoreRun = stored.scoreRun;
+      _renderJustification(stored.scoreRun);
+      _renderConceptCard(stored.scoreRun);
+      var explainBtn = $id('pmaExplainScoreBtn');
+      if (explainBtn) explainBtn.hidden = false;
+      console.log('[PMAUIController] Restored previous scoreRun from localStorage');
+    }
+  }
+
   /* ── Bootstrap ───────────────────────────────────────────────────── */
   function _init() {
     _injectStyle();
@@ -763,6 +919,7 @@
     _initRunButton();
     _initExplainScore();
     _initExportAudit();
+    _restoreLastRun();
   }
 
   if (typeof document !== 'undefined') {
@@ -776,11 +933,14 @@
   /* ── Public API (minimal, for testing) ──────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMAUIController = {
-      getMethod:       function () { return _method; },
-      getLastScoreRun: function () { return _lastScoreRun; },
-      runEnhanced:     _runEnhancedAnalysis,
+      getMethod:        function () { return _method; },
+      getLastScoreRun:  function () { return _lastScoreRun; },
+      runEnhanced:      _runEnhancedAnalysis,
       showChartLoading: _showChartLoading,
-      hideChartLoading: _hideChartLoading
+      hideChartLoading: _hideChartLoading,
+      writePermalink:   _writePermalink,
+      readPermalink:    _readPermalink,
+      restoreLastRun:   _restoreLastRun
     };
   }
 
