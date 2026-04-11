@@ -1086,8 +1086,8 @@
    * @param {string} geoType
    */
 
-  function renderProp123Section(profile, geoType) {
-    const baselineData = U().calculateBaseline(profile);
+  function renderProp123Section(profile, geoType, countyFips) {
+    const baselineData = U().calculateBaseline(profile, countyFips);
     const population   = profile ? Number(profile.DP05_0001E) : null;
     const eligibility  = U().checkFastTrackEligibility(population, geoType);
 

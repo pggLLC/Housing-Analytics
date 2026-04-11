@@ -114,8 +114,10 @@
     }
 
     // Quaternary: aggregate nearest tracts from cached ACS metrics
+    // Apply barrier exclusion if PMABarriers has identified excluded tracts
     if (_acsMetricsCache && _acsMetricsCache.length > 0 && _currentSite) {
-      return _aggregateNearestAcs(_currentSite.lat, _currentSite.lon, _currentSite.bufferMiles || 5);
+      var excludedByBarriers = _barrierExcludedGeoids || [];
+      return _aggregateNearestAcs(_currentSite.lat, _currentSite.lon, _currentSite.bufferMiles || 5, excludedByBarriers);
     }
 
     return null;
@@ -125,18 +127,33 @@
   var _acsMetricsCache = null;
   /** @type {{lat:number,lon:number,bufferMiles:number}|null} Current site for ACS lookup */
   var _currentSite = null;
+  /** @type {Array} Tract GEOIDs excluded by barrier analysis (populated by runAnalysis) */
+  var _barrierExcludedGeoids = [];
 
   /**
    * Aggregate ACS metrics for tracts within buffer distance of a site.
    * Used as last-resort fallback when PMAEngine hasn't run.
    */
-  function _aggregateNearestAcs(lat, lon, bufferMiles) {
+  /**
+   * @param {number} lat
+   * @param {number} lon
+   * @param {number} bufferMiles
+   * @param {Array}  [excludedGeoids] - GEOIDs excluded by barrier analysis
+   */
+  function _aggregateNearestAcs(lat, lon, bufferMiles, excludedGeoids) {
     if (!_acsMetricsCache || !_tractCentroidCache) return null;
 
-    // Find tracts within buffer
+    // Build exclusion lookup for O(1) checks
+    var _excluded = {};
+    if (excludedGeoids && excludedGeoids.length) {
+      excludedGeoids.forEach(function (g) { _excluded[g] = true; });
+    }
+
+    // Find tracts within buffer (excluding barrier-blocked tracts)
     var tractGeoids = {};
     for (var i = 0; i < _tractCentroidCache.length; i++) {
       var tc = _tractCentroidCache[i];
+      if (_excluded[tc.geoid]) continue; // barrier exclusion
       if (_haversine(lat, lon, tc.lat, tc.lon) <= bufferMiles) {
         tractGeoids[tc.geoid] = true;
       }
@@ -674,6 +691,29 @@
     // is used as the equivalent portable deferral mechanism.
     setTimeout(function () {
       try {
+        // ── 1b. Barrier-based tract exclusion ────────────────────────
+        // Identify tracts behind major barriers BEFORE ACS aggregation
+        // so they don't contribute to demand/vacancy calculations.
+        _barrierExcludedGeoids = [];
+        var pmaBarriers = window.PMABarriers;
+        if (pmaBarriers && typeof pmaBarriers.identifyExcludedTracts === 'function' && _tractCentroidCache) {
+          _safe(function () {
+            // Use cached barrier features from map layers if available
+            var barrierLayer = window._mapLayers && window._mapLayers.barriers;
+            var barrierFeatures = [];
+            if (barrierLayer && typeof barrierLayer.toGeoJSON === 'function') {
+              var gj = barrierLayer.toGeoJSON();
+              barrierFeatures = gj.features || [];
+            }
+            if (barrierFeatures.length) {
+              _barrierExcludedGeoids = pmaBarriers.identifyExcludedTracts(lat, lon, _tractCentroidCache, barrierFeatures);
+              if (_barrierExcludedGeoids.length) {
+                _log('Barrier exclusion: ' + _barrierExcludedGeoids.length + ' tracts excluded');
+              }
+            }
+          });
+        }
+
         // ── 2. Gather data ───────────────────────────────────────────
         var acs   = _getAcs();
         var lihtc = _getLihtc();
@@ -891,6 +931,17 @@
           _safe(function () {
             _log('rendering maOpportunities');
             ren.renderOpportunities(_buildOpportunities(scores));
+          });
+          // Infrastructure feasibility (supplementary — climate, flood, utility, food access)
+          _safe(function () {
+            var pmaInfra = window.PMAInfrastructure;
+            if (pmaInfra && typeof pmaInfra.getInfrastructureScore === 'function' && ren.renderInfrastructure) {
+              _log('rendering maInfrastructure (supplementary)');
+              ren.renderInfrastructure({
+                score: pmaInfra.getInfrastructureScore(),
+                justification: pmaInfra.getInfrastructureJustification()
+              });
+            }
           });
           _log('runAnalysis(): all sections rendered (final_score=' + (scores ? scores.final_score : 'n/a') + ')');
 
