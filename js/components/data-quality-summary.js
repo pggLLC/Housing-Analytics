@@ -40,6 +40,12 @@
     stub:        { label: 'Stub Data',   icon: '◇', cls: 'dqs-warn' }
   };
 
+  /* ── HTML escaping ───────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   /* ── Freshness helper ───────────────────────────────────────────── */
   function ageBadge(vintage) {
     if (!vintage) return '';
@@ -83,11 +89,11 @@
     // Source rows
     var rows = sources.map(function (s) {
       var st = STATUS[s.status] || STATUS.primary;
-      var note = s.note ? '<span class="dqs-note">' + s.note + '</span>' : '';
-      var cov = s.coverage ? '<span class="dqs-coverage">' + s.coverage + '</span>' : '';
+      var note = s.note ? '<span class="dqs-note">' + esc(s.note) + '</span>' : '';
+      var cov = s.coverage ? '<span class="dqs-coverage">' + esc(s.coverage) + '</span>' : '';
       return '<tr class="' + st.cls + '">' +
-        '<td><span class="dqs-icon">' + st.icon + '</span> ' + (s.name || '—') + '</td>' +
-        '<td>' + st.label + '</td>' +
+        '<td><span class="dqs-icon">' + st.icon + '</span> ' + esc(s.name || '—') + '</td>' +
+        '<td>' + esc(st.label) + '</td>' +
         '<td>' + ageBadge(s.vintage) + '</td>' +
         '<td>' + cov + '</td>' +
         '<td>' + note + '</td>' +
@@ -95,11 +101,11 @@
     }).join('');
 
     var limHtml = limitations
-      ? '<div class="dqs-limitations"><strong>Known limitations:</strong> ' + limitations + '</div>'
+      ? '<div class="dqs-limitations"><strong>Known limitations:</strong> ' + esc(limitations) + '</div>'
       : '';
 
     var updatedHtml = lastUpdated
-      ? '<span class="dqs-updated">Page data as of ' + lastUpdated + '</span>'
+      ? '<span class="dqs-updated">Page data as of ' + esc(lastUpdated) + '</span>'
       : '';
 
     el.innerHTML =

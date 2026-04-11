@@ -26,7 +26,15 @@
   'use strict';
 
   function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /** Sanitize href — block javascript: URIs */
+  function safeHref(url) {
+    var s = String(url || '').trim();
+    if (/^javascript\s*:/i.test(s)) return '#';
+    return esc(s);
   }
 
   function render(containerId, opts) {
@@ -43,7 +51,7 @@
     var nextHtml = '';
     if (nextSteps.length) {
       var links = nextSteps.map(function (s) {
-        return '<a href="' + esc(s.href) + '" class="pctx-next-link">' +
+        return '<a href="' + safeHref(s.href) + '" class="pctx-next-link">' +
           '<strong>' + esc(s.label) + '</strong>' +
           (s.desc ? ' <span class="pctx-next-desc">— ' + esc(s.desc) + '</span>' : '') +
           '</a>';
