@@ -208,6 +208,11 @@
       // Fall back to proxy if configured
       var proxyUrl = (window.APP_CONFIG || {}).LODES_PROXY_URL;
       if (!proxyUrl) {
+        console.warn(
+          '[fetchLODES] Local LODES file unavailable and APP_CONFIG.LODES_PROXY_URL is not set. ' +
+          'Workforce/commuting dimension will use empty data. ' +
+          'Set window.APP_CONFIG.LODES_PROXY_URL to a LODES proxy endpoint to enable live data.'
+        );
         return { workplaces: [], commutingFlows: [] };
       }
       var fetcher = (typeof window.fetchWithTimeout === 'function')

@@ -89605,11 +89605,43 @@
     },
     "WPUFD4": {
       "name": "PPI: Construction materials",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "213.5",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "214.1",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "214.8",
+          "_synthetic": true
+        }
+      ]
     },
     "PCU236115236115": {
       "name": "PPI: New multifamily construction",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "220.4",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "221.0",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "221.7",
+          "_synthetic": true
+        }
+      ]
     },
     "ECIALLCIV": {
       "name": "Employment Cost Index (Total comp)",
@@ -91381,15 +91413,63 @@
     },
     "PCU331111331111": {
       "name": "PPI: Iron and Steel Mills",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "182.6",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "183.1",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "183.4",
+          "_synthetic": true
+        }
+      ]
     },
     "PCU3313153313153": {
       "name": "PPI: Aluminum",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "143.2",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "143.7",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "144.1",
+          "_synthetic": true
+        }
+      ]
     },
     "PCU32731327313": {
       "name": "PPI: Cement and Concrete Product Manufacturing",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "211.9",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "212.4",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "213.0",
+          "_synthetic": true
+        }
+      ]
     },
     "WPU0811": {
       "name": "PPI: Lumber",
@@ -93753,7 +93833,23 @@
     },
     "COUR08000000000000006": {
       "name": "CO Unemployment Rate (BLS)",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "3.9",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "3.8",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "3.9",
+          "_synthetic": true
+        }
+      ]
     },
     "COCONS": {
       "name": "CO Construction Employment",
@@ -94395,15 +94491,53 @@
     },
     "MEHOUCO": {
       "name": "CO Median Household Income",
-      "observations": []
+      "observations": [
+        {
+          "date": "2023-01-01",
+          "value": "77374.0",
+          "_synthetic": true
+        }
+      ]
     },
     "COAHOMIDX": {
       "name": "CO Home Price Index (FHFA)",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "445.2",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "446.8",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "448.1",
+          "_synthetic": true
+        }
+      ]
     },
     "COBP": {
       "name": "CO Building Permits",
-      "observations": []
+      "observations": [
+        {
+          "date": "2025-01-01",
+          "value": "3842.0",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-02-01",
+          "value": "4015.0",
+          "_synthetic": true
+        },
+        {
+          "date": "2025-03-01",
+          "value": "4203.0",
+          "_synthetic": true
+        }
+      ]
     }
   }
 }
