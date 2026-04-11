@@ -1100,6 +1100,37 @@
     }
     window.__MAControllerInit = true;
 
+    // Check workflow prerequisite: HNA (Step 2) should be completed before Market Analysis (Step 3).
+    // Show a helpful notice if the user skipped ahead, but don't block — they may be exploring.
+    var WS = window.WorkflowState;
+    var _prerequisiteNotice = document.getElementById('maPrerequisiteNotice');
+    if (WS && typeof WS.getActiveProject === 'function') {
+      var proj = WS.getActiveProject();
+      var hnaComplete = proj && proj.hna && proj.hna.completedAt;
+      var jurisdictionSet = proj && proj.jurisdiction && proj.jurisdiction.fips;
+      if (!_prerequisiteNotice) {
+        _prerequisiteNotice = document.createElement('div');
+        _prerequisiteNotice.id = 'maPrerequisiteNotice';
+        _prerequisiteNotice.style.cssText = 'margin:0 var(--sp4) var(--sp3);padding:.6rem .8rem;border-radius:var(--radius);font-size:.82rem;';
+        var mainEl = document.getElementById('main-content');
+        var insertBefore = document.querySelector('.ma-section-nav') || (mainEl && mainEl.firstElementChild);
+        if (insertBefore && insertBefore.parentNode) {
+          insertBefore.parentNode.insertBefore(_prerequisiteNotice, insertBefore);
+        }
+      }
+      if (!jurisdictionSet) {
+        _prerequisiteNotice.innerHTML = '<div style="background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 25%, transparent);padding:.5rem .7rem;border-radius:6px;">' +
+          '<strong>Step 1 not complete:</strong> <a href="select-jurisdiction.html">Select a jurisdiction</a> first to anchor your analysis to a specific Colorado geography. ' +
+          'The market analysis will still work, but results won\'t be linked to your workflow.' +
+          '</div>';
+      } else if (!hnaComplete) {
+        _prerequisiteNotice.innerHTML = '<div style="background:color-mix(in srgb, var(--accent) 8%, transparent);border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);padding:.5rem .7rem;border-radius:6px;">' +
+          '<strong>Recommended:</strong> Complete the <a href="housing-needs-assessment.html">Housing Needs Assessment</a> (Step 2) before running a market analysis. ' +
+          'The HNA provides community need evidence that informs site selection and LIHTC concept recommendations.' +
+          '</div>';
+      }
+    }
+
     // Validate required modules.
     if (!_state())  _warn('MAState not found — state management disabled.');
     if (!_scorer()) _warn('SiteSelectionScore not found — scoring disabled.');

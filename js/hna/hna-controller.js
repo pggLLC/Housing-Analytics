@@ -1150,13 +1150,27 @@
       const proj = await loadJson(window.HNAUtils.PATHS.projections(countyFips5));
       window.HNAState.state.lastProj = proj;
 
-      // Initialize vacancy slider from projection default if user hasn't touched it yet
-      const defaultVac = window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy);
+      // Initialize vacancy slider from ACTUAL ACS vacancy rate (primary) or projection default (fallback).
+      // Priority: 1) ACS DP04_0005PE (current rental vacancy %), 2) projection default, 3) hardcoded 5%
+      var actualVacancy = null;
+      var currentProfile = window.HNAState.state.current;
+      if (currentProfile) {
+        var acsVac = Number(currentProfile.DP04_0005PE);
+        if (Number.isFinite(acsVac) && acsVac > 0 && acsVac < 50) {
+          actualVacancy = acsVac;
+        }
+      }
+      const defaultVac = actualVacancy || window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy);
       if (window.HNAState.els.assumpVacancy && defaultVac !== null){
         const cur = Number(window.HNAState.els.assumpVacancy.value);
         if (!Number.isFinite(cur) || cur === 5){
-          window.HNAState.els.assumpVacancy.value = String(Math.round(defaultVac*1000)/10);
-          window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy.value).toFixed(1)}%`;
+          // Clamp to slider range (2-12%)
+          var clampedVac = Math.min(12, Math.max(2, Math.round(defaultVac * 10) / 10));
+          window.HNAState.els.assumpVacancy.value = String(clampedVac);
+          window.HNAState.els.assumpVacancyVal.textContent = `${clampedVac.toFixed(1)}%`;
+          if (actualVacancy) {
+            window.HNAState.els.assumpVacancyVal.textContent += ' (ACS actual)';
+          }
         }
       }
       if (window.HNAState.els.assumpVacancyVal){
