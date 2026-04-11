@@ -1769,6 +1769,8 @@
     var ws = document.getElementById('hnaWaitingState');
     if (ws) ws.style.display = 'none';
     window.HNARenderers.showAllChartsLoading();
+    // Reset county-specific cached data so it reloads for new selection
+    window.HNAState.state.amiGapCounty = null;
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
 
@@ -1998,6 +2000,20 @@
       }
     }
     window.HNARenderers.renderChasAffordabilityGap(contextCounty, window.HNAState.state.chasData);
+
+    // Load AMI gap data (primary source for affordability gap stats — more current than CHAS)
+    if (!window.HNAState.state.amiGapCounty && contextCounty) {
+      try {
+        const amiGapAll = await loadJson('data/co_ami_gap_by_county.json');
+        const counties = amiGapAll.counties || (Array.isArray(amiGapAll) ? amiGapAll : []);
+        const fips5 = String(contextCounty).padStart(5, '0');
+        window.HNAState.state.amiGapCounty = counties.find(function (c) {
+          return c.fips === fips5;
+        }) || null;
+      } catch (_) {
+        window.HNAState.state.amiGapCounty = null;
+      }
+    }
     window.HNARenderers.renderGapCoverageStats(contextCounty, window.HNAState.state.chasData);
 
     // BLS Labour Market indicators (loaded once; keyed by county name)

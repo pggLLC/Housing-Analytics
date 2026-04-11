@@ -3173,14 +3173,29 @@
     if (!geoRecord && chasData.state) geoRecord = chasData.state;
     if (!geoRecord) { panel.hidden = true; return; }
 
-    var byAmi = geoRecord.renter_hh_by_ami || {};
-    var isStub = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+    // Primary source: AMI gap data (ACS B25063/B19001) — more current and reliable
+    // Fallback: CHAS renter cost-burden data
+    var amiGapData = window.HNAState && window.HNAState.state && window.HNAState.state.amiGapCounty;
+    var g30 = 0, g50 = 0, g60 = 0, gTot = 0;
+    var gapSource = 'unknown';
 
-    // Gap = cost_burdened households at each tier
-    var g30  = (byAmi.lte30  && byAmi.lte30.cost_burdened)  || 0;
-    var g50  = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
-    var g60  = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
-    var gTot = g30 + g50 + g60;
+    if (amiGapData && amiGapData.gap_units_minus_households_le_ami_pct) {
+      // Use AMI gap data (negative values = shortage, show as positive)
+      var gaps = amiGapData.gap_units_minus_households_le_ami_pct;
+      g30  = Math.abs(gaps['30'] || 0);
+      g50  = Math.abs(gaps['50'] || 0);
+      g60  = Math.abs(gaps['60'] || 0);
+      gTot = g30 + g50 + g60;
+      gapSource = 'ami-gap';
+    } else {
+      var byAmi = geoRecord.renter_hh_by_ami || {};
+      g30  = (byAmi.lte30  && byAmi.lte30.cost_burdened)  || 0;
+      g50  = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
+      g60  = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
+      gTot = g30 + g50 + g60;
+      gapSource = 'chas';
+    }
+    var isStub = gapSource === 'chas' && !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
 
     var fmt = U().fmtNum || function (n) { return n.toLocaleString(); };
     if (gap30El)  gap30El.textContent  = fmt(g30);
@@ -3190,7 +3205,11 @@
 
     // Confidence badge
     if (confEl) {
-      if (isStub) {
+      if (gapSource === 'ami-gap') {
+        confEl.textContent = 'ACS B25063';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'Affordability gap from ACS B25063 (rental units by gross rent) and B19001 (household income). Current vintage.';
+      } else if (isStub) {
         confEl.textContent = 'Estimated';
         confEl.className   = 'data-reliability-badge drb--warn';
         confEl.title       = 'Gap derived from ACS cost-burden rates (stub). Actual CHAS data loads via workflow.';
