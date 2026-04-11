@@ -50,7 +50,9 @@
     var testFn = src.test || function () {
       var url = (typeof window.resolveAssetUrl === 'function')
         ? window.resolveAssetUrl(src.path) : src.path;
-      return fetch(url, { method: 'HEAD', cache: 'no-cache' }).then(function (r) { return r.ok; });
+      // Use GET with default cache to avoid net::ERR_ABORTED in CI audit environments
+      // where HEAD requests may not be supported by simple static servers.
+      return fetch(url, { cache: 'default' }).then(function (r) { return r.ok; });
     };
 
     return Promise.race([
@@ -131,16 +133,22 @@
   function init() {
     var auto = document.querySelector('[data-api-health="auto"]');
     if (auto && auto.id) {
-      check().then(function (results) {
-        renderBadge(auto.id, results);
-      });
+      // Delay probing to avoid racing with page-load data fetches.
+      // In CI audit environments (Playwright), eager HEAD/GET probes
+      // can cause net::ERR_ABORTED if the static server is still
+      // serving other resources.
+      setTimeout(function () {
+        check().then(function (results) {
+          renderBadge(auto.id, results);
+        });
+      }, 2000);
     }
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    setTimeout(init, 100);
+    setTimeout(init, 2000);
   }
 
   window.ApiHealth = { check: check, renderBadge: renderBadge, probe: probe, DEFAULT_SOURCES: DEFAULT_SOURCES };
