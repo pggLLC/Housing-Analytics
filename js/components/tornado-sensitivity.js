@@ -84,34 +84,40 @@
     var container = document.createElement('div');
     container.className = 'tornado-chart';
     container.setAttribute('role', 'img');
-    container.setAttribute('aria-label', 'Sensitivity tornado chart showing equity pricing, demand signal, and saturation ranges');
+    container.setAttribute('aria-label', 'Sensitivity tornado chart showing how key assumptions affect the deal outcome');
 
-    var factors = [
-      {
-        label: 'Equity Proceeds',
-        low: eqLow, high: eqHigh, base: eqBase,
-        lowLabel: '$' + (eqLow / 1e6).toFixed(1) + 'M',
-        highLabel: '$' + (eqHigh / 1e6).toFixed(1) + 'M',
-        note: eqNote,
-        color: 'var(--accent)'
-      },
-      {
-        label: 'Demand Signal',
-        low: demLow, high: demHigh, base: demBase,
-        lowLabel: (data.demandSignalRange && data.demandSignalRange.low) || '—',
-        highLabel: (data.demandSignalRange && data.demandSignalRange.high) || '—',
-        note: demNote,
-        color: 'var(--info)'
-      },
-      {
-        label: 'Market Saturation',
-        low: satLow, high: satHigh, base: satBase,
-        lowLabel: (data.saturationRange && data.saturationRange.low) || '—',
-        highLabel: (data.saturationRange && data.saturationRange.high) || '—',
-        note: satNote,
-        color: 'var(--warn)'
-      }
-    ];
+    // Support generic factors array (from deal calculator) or legacy format (from predictor)
+    var factors;
+    if (Array.isArray(data.factors)) {
+      factors = data.factors;
+    } else {
+      factors = [
+        {
+          label: 'Equity Proceeds',
+          low: eqLow, high: eqHigh, base: eqBase,
+          lowLabel: '$' + (eqLow / 1e6).toFixed(1) + 'M',
+          highLabel: '$' + (eqHigh / 1e6).toFixed(1) + 'M',
+          note: eqNote,
+          color: 'var(--accent)'
+        },
+        {
+          label: 'Demand Signal',
+          low: demLow, high: demHigh, base: demBase,
+          lowLabel: (data.demandSignalRange && data.demandSignalRange.low) || '—',
+          highLabel: (data.demandSignalRange && data.demandSignalRange.high) || '—',
+          note: demNote,
+          color: 'var(--info)'
+        },
+        {
+          label: 'Market Saturation',
+          low: satLow, high: satHigh, base: satBase,
+          lowLabel: (data.saturationRange && data.saturationRange.low) || '—',
+          highLabel: (data.saturationRange && data.saturationRange.high) || '—',
+          note: satNote,
+          color: 'var(--warn)'
+        }
+      ];
+    }
 
     var html = '<div class="tornado-rows">';
     for (var i = 0; i < factors.length; i++) {

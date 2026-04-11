@@ -317,6 +317,13 @@ def _burden_tier_record(tier_data: dict) -> dict:
     mod_cb     = tier_data.get('mod_burdened', 0)    # 30–50% of income
     scb        = tier_data.get('severely_burdened', 0)  # >50% of income
     cb_30plus  = mod_cb + scb                           # ≥30% cost burden
+    # Guard: clamp cost-burdened counts to total (prevents ETL field-mapping corruption)
+    if total > 0 and cb_30plus > total:
+        cb_30plus = total
+    if total > 0 and scb > total:
+        scb = total
+    if cb_30plus > 0 and scb > cb_30plus:
+        scb = cb_30plus
     pct_cb_30  = round(cb_30plus / total, 4) if total > 0 else 0.0
     pct_cb_50  = round(scb / total, 4) if total > 0 else 0.0
     return {
