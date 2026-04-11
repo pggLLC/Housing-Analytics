@@ -103,12 +103,12 @@
    * @param {number} lat        - Site latitude
    * @param {number} lon        - Site longitude
    * @param {number} [radiusMiles] - Search radius (default 30 miles)
-   * @param {string} [vintage]  - LODES vintage year (default "2021")
+   * @param {string} [vintage]  - LODES vintage year (default "2023")
    * @returns {Promise<{workplaces: Array, commutingFlows: Array}>}
    */
   function fetchLODESWorkplaces(lat, lon, radiusMiles, vintage) {
     radiusMiles = radiusMiles || DEFAULT_RADIUS_MILES;
-    vintage     = vintage     || '2021';
+    vintage     = vintage     || '2023';
 
     var ds        = (typeof window !== 'undefined') ? window.DataService    : null;
     var lodesConn = (typeof window !== 'undefined') ? window.LodesCommute   : null;
@@ -253,8 +253,8 @@
       originZones:   selected,
       totalWorkers:  totalJobs,
       captureRate:   Math.min(lastCaptureRate, 1.0),
-      vintage:       '2021',
-      dataNote:      'LEHD LODES 2021 \u2014 employment data has 2\u20133 year lag'
+      vintage:       '2023',
+      dataNote:      'LEHD LODES 2023 \u2014 employment data has 2\u20133 year lag'
     };
   }
 
@@ -326,8 +326,8 @@
       totalFlowZones:     lastFlows.length,
       boundary:           lastBoundary,
       dataCoverage:       lastDataCoverage,
-      vintage:            '2021',
-      dataNote:           'LEHD LODES 2021 — employment data has 2\u20133 year lag'
+      vintage:            '2023',
+      dataNote:           'LEHD LODES 2023 — employment data has 2\u20133 year lag'
     };
   }
 

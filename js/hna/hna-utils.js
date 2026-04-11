@@ -12,7 +12,7 @@
   // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
   // Alias it locally so in-file calls work without modification.
 
-  const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
+  const ACS_VINTAGES = [2025, 2024, 2023, 2022, 2021];
   // Keep named constants so existing checks and references still work.
   const ACS_YEAR_PRIMARY  = ACS_VINTAGES[0];
   const ACS_YEAR_FALLBACK = ACS_VINTAGES[1];
