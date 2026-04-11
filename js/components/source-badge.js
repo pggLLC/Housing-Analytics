@@ -39,7 +39,14 @@
       badge.textContent = 'Source: ' + opts.source;
     }
 
-    el.appendChild(badge);
+    // Append to parent .chart-card (not inside .chart-box which has fixed height)
+    // to prevent source text from overflowing the chart container.
+    var target = el;
+    if (el.classList && el.classList.contains('chart-box')) {
+      var card = el.closest('.chart-card');
+      if (card) target = card;
+    }
+    target.appendChild(badge);
   }
 
   /**

@@ -2277,6 +2277,35 @@
     wireLayerToggles();
     wireScenarioControls();
     updateScenarioDescription();
+
+    // Wire horizon toggle (10-year / 20-year)
+    var horizonBtns = document.querySelectorAll('.horizon-btn');
+    horizonBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        horizonBtns.forEach(function (b) {
+          b.classList.remove('horizon-btn--active');
+          b.style.background = 'var(--bg2)';
+          b.style.color = 'var(--muted)';
+          b.style.fontWeight = '400';
+        });
+        btn.classList.add('horizon-btn--active');
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#fff';
+        btn.style.fontWeight = '600';
+        // Re-render projections with new horizon
+        var countyFips = window.HNAUtils.countyFromGeoid(
+          window.HNAState.els.geoType.value,
+          window.HNAState.els.geoSelect.value
+        );
+        if (countyFips) {
+          renderProjections(countyFips, {
+            geoType: window.HNAState.els.geoType.value,
+            geoid: window.HNAState.els.geoSelect.value
+          });
+        }
+      });
+    });
+
     ensureMap();
     update();
   }

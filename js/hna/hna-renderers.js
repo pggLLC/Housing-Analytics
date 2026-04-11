@@ -1520,6 +1520,22 @@
         }
       }
     });
+
+    // Add small-geography MOE warning for homeownership affordability
+    var affordMoeWarning = U().getSmallGeoWarning(profile);
+    if (affordMoeWarning) {
+      var chartEl = document.getElementById('chartAfford');
+      if (chartEl && chartEl.parentElement) {
+        var existingWarn = chartEl.parentElement.querySelector('.afford-moe-warn');
+        if (!existingWarn) {
+          var warnDiv = document.createElement('div');
+          warnDiv.className = 'afford-moe-warn';
+          warnDiv.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.3rem;';
+          warnDiv.textContent = 'Small geography — home values and income estimates may have high margins of error.';
+          chartEl.parentElement.appendChild(warnDiv);
+        }
+      }
+    }
   }
 
 
@@ -1967,7 +1983,9 @@
   }
 
   function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
-    const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
+    // Dynamic horizon — reads from toggle button state (default 10)
+    var horizonEl = document.querySelector('.horizon-btn--active');
+    var SCENARIO_HORIZON = (horizonEl && parseInt(horizonEl.getAttribute('data-horizon'), 10)) || 10;
 
     // Find the index of the base year in the years array
     const baseIdx = years.indexOf(baseYear);
