@@ -827,6 +827,8 @@
         console.warn('[deal-calculator] Tornado sensitivity error:', e.message);
       }
     }
+
+    try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
   }
 
   // -------------------------------------------------------------------

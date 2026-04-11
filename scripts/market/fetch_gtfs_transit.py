@@ -51,22 +51,22 @@ GTFS_FEEDS = [
     {
         "agency": "Bustang (CDOT)",
         "agency_id": "bustang",
-        "url": "https://www.ridebustang.com/wp-content/uploads/2024/gtfs.zip",
+        "url": "https://www.rtd-denver.com/files/gtfs/bustang-co-us.zip",
     },
     {
         "agency": "Mountain Metropolitan Transit",
         "agency_id": "mountain_metro",
-        "url": "https://www.mmtransit.com/files/gtfs.zip",
+        "url": "https://coloradosprings.gov/sites/default/files/google_transit_0.zip",
     },
     {
         "agency": "Transfort (Fort Collins)",
         "agency_id": "transfort",
-        "url": "https://www.ridetransfort.com/files/gtfs.zip",
+        "url": "https://ridetransfort.com/wp-content/uploads/transfort_gtfs.zip",
     },
     {
         "agency": "Greeley-Evans Transit",
         "agency_id": "get",
-        "url": "https://www.greeleygov.com/government/transit/files/gtfs.zip",
+        "url": "https://data.trilliumtransit.com/gtfs/greeleyevans-co-us/greeleyevans-co-us.zip",
     },
 ]
 

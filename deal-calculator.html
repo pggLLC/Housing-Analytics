@@ -57,10 +57,13 @@
   <script defer src="js/components/equity-forecast-panel.js"></script>
   <script defer src="js/chfa-award-predictor.js"></script>
   <script defer src="js/components/qap-competitiveness-panel.js"></script>
+  <script defer src="js/qap-simulator.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/source-badge.js"></script>
   <script defer src="js/components/data-quality-summary.js"></script>
   <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/pro-forma.js"></script>
   <script defer src="js/components/development-realism.js"></script>
   <script defer src="js/components/land-value-tool.js"></script>
 </head>
@@ -208,6 +211,16 @@
     <!-- LIHTC contextual tips (Deal Calculator step) -->
     <div id="lihtcTipsMount-dc"></div>
 
+    <!-- ── QAP Competitiveness Simulator ─────────────────────────────── -->
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="qapSimulatorMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.QAPSimulator) QAPSimulator.render('qapSimulatorMount');
+      });
+      </script>
+    </div>
+
     <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
     <section class="dc-edu-section" aria-labelledby="dcEduHeading">
       <h2 id="dcEduHeading">What makes LIHTC deals actually hard</h2>
@@ -280,6 +293,15 @@
       <script>
       document.addEventListener('DOMContentLoaded', function () {
         if (window.LandValueTool) LandValueTool.render('landValueTool');
+      });
+      </script>
+    </div>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="proFormaMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ProForma) ProForma.render('proFormaMount');
       });
       </script>
     </div>
