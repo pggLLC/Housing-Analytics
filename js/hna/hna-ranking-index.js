@@ -216,10 +216,14 @@
     const dqBadge = entry.hasIncompleteData
       ? `<span class="hca-dq-badge" title="This geography has incomplete data for some metrics (${entry.nullCriticalMetrics} of 5 critical fields missing)" aria-label="Incomplete data">⚠️</span>`
       : '';
+    const pop = entry.metrics && entry.metrics.population;
+    const smallGeoBadge = (pop && pop > 0 && pop < 5000)
+      ? `<span class="hca-dq-badge" title="Population ${Math.round(pop).toLocaleString()} — ACS estimates for geographies under 5,000 may have high margins of error (30-50%)" aria-label="Small geography" style="cursor:help;">📊</span>`
+      : '';
 
     tr.innerHTML = [
       `<td class="hca-td hca-td-num" data-label="Rank"><span class="hca-rank ${badgeClass}">#${entry.rank}</span></td>`,
-      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}</td>`,
+      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}</td>`,
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
       ...METRIC_COLUMNS.map(col => {

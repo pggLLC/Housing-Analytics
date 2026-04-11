@@ -741,13 +741,15 @@
             // distance-in-miles numbers, not the {name, distanceMiles, score}
             // objects returned by getAccessScore().
             amenityInputs = {
-              grocery:    accessResult.grocery    != null ? accessResult.grocery.distanceMiles    : null,
-              transit:    accessResult.transit    != null ? accessResult.transit.distanceMiles    : null,
-              parks:      accessResult.parks      != null ? accessResult.parks.distanceMiles      : null,
-              healthcare: accessResult.healthcare != null ? accessResult.healthcare.distanceMiles : null,
-              schools:    accessResult.schools    != null ? accessResult.schools.distanceMiles    : null,
-              hospitals:  accessResult.hospitals  != null ? accessResult.hospitals.distanceMiles  : null,
-              childcare:  accessResult.childcare  != null ? accessResult.childcare.distanceMiles  : null
+              grocery:      accessResult.grocery      != null ? accessResult.grocery.distanceMiles      : null,
+              transit:      accessResult.transit       != null ? accessResult.transit.distanceMiles      : null,
+              transit_rail: accessResult.transit_rail  != null ? accessResult.transit_rail.distanceMiles : null,
+              transit_bus:  accessResult.transit_bus   != null ? accessResult.transit_bus.distanceMiles  : null,
+              parks:        accessResult.parks         != null ? accessResult.parks.distanceMiles        : null,
+              healthcare:   accessResult.healthcare    != null ? accessResult.healthcare.distanceMiles   : null,
+              schools:      accessResult.schools       != null ? accessResult.schools.distanceMiles      : null,
+              hospitals:    accessResult.hospitals     != null ? accessResult.hospitals.distanceMiles    : null,
+              childcare:    accessResult.childcare     != null ? accessResult.childcare.distanceMiles    : null
             };
           }
         }

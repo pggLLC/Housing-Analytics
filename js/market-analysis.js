@@ -570,6 +570,43 @@
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
 
+    // Fallback disclosure: warn when dimensions lack real data
+    var _dimAvailCheck = result.dimensionDataAvailable || {};
+    var _dimKeysCheck  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
+    var fallbackCount  = _dimKeysCheck.filter(function (k) { return _dimAvailCheck[k] === false; }).length;
+    var fallbackNoteEl = el('pmaFallbackNote');
+    if (!fallbackNoteEl) {
+      // Create the warning container once, right after the score tier element
+      var tierEl = el('pmaScoreTier');
+      if (tierEl && tierEl.parentNode) {
+        fallbackNoteEl = document.createElement('div');
+        fallbackNoteEl.id = 'pmaFallbackNote';
+        fallbackNoteEl.style.cssText = 'margin-top:.4rem;font-size:.78rem;line-height:1.4;padding:.35rem .5rem;border-radius:4px;display:none';
+        tierEl.parentNode.insertBefore(fallbackNoteEl, tierEl.nextSibling);
+      }
+    }
+    if (fallbackNoteEl) {
+      if (fallbackCount >= 3) {
+        fallbackNoteEl.style.display = 'block';
+        fallbackNoteEl.style.background = 'rgba(192,57,43,.12)';
+        fallbackNoteEl.style.border = '1px solid var(--bad, #c0392b)';
+        fallbackNoteEl.style.color = 'var(--bad, #c0392b)';
+        fallbackNoteEl.innerHTML = '\u26A0 This score is preliminary — ' + fallbackCount +
+          ' of 5 dimensions lack data for this location.';
+      } else if (fallbackCount >= 1) {
+        fallbackNoteEl.style.display = 'block';
+        fallbackNoteEl.style.background = 'rgba(230,162,60,.12)';
+        fallbackNoteEl.style.border = '1px solid var(--warn, #e6a23c)';
+        fallbackNoteEl.style.color = 'var(--warn-text, #8a6914)';
+        fallbackNoteEl.innerHTML = 'Note: ' + fallbackCount +
+          ' dimension' + (fallbackCount > 1 ? 's' : '') +
+          ' using estimated defaults. See breakdown below.';
+      } else {
+        fallbackNoteEl.style.display = 'none';
+        fallbackNoteEl.innerHTML = '';
+      }
+    }
+
     var dims = result.dimensions;
     var dimAvail = result.dimensionDataAvailable || {};
     var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
@@ -600,7 +637,8 @@
             '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + ';opacity:' + barOpacity + '"></div>' +
           '</div>' +
           '<span class="pma-dim-score" style="' + (hasData ? '' : 'color:var(--muted,#666);font-style:italic') + '">' +
-            s + (hasData ? '' : '*') +
+            (hasData ? s : '<abbr title="No data available for this dimension" style="text-decoration:none;cursor:help">\u2014</abbr>' +
+              ' <span style="font-size:.65em;color:var(--muted,#888)">(no data)</span>') +
           '</span>' +
         '</li>';
       }).join('') +

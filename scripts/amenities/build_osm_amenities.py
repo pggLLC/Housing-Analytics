@@ -184,6 +184,20 @@ def osm_to_geojson(osm_result: dict, name_tag: str = "name") -> dict:
             continue
 
         tags = element.get("tags", {})
+
+        # Derive transit subtype from OSM tags when available
+        transit_type = ""
+        if tags.get("railway") in ("station", "halt", "tram_stop"):
+            transit_type = "rail_station" if tags["railway"] == "station" else ("tram_stop" if tags["railway"] == "tram_stop" else "rail_halt")
+        elif tags.get("public_transport") == "station":
+            transit_type = "transit_station"
+        elif tags.get("public_transport") == "platform":
+            transit_type = "platform"
+        elif tags.get("amenity") == "bus_station":
+            transit_type = "bus_station"
+        elif tags.get("highway") == "bus_stop":
+            transit_type = "bus_stop"
+
         props = {
             "osm_id": eid,
             "osm_type": etype,
@@ -192,6 +206,7 @@ def osm_to_geojson(osm_result: dict, name_tag: str = "name") -> dict:
             "shop": tags.get("shop", ""),
             "leisure": tags.get("leisure", ""),
             "healthcare": tags.get("healthcare", ""),
+            "transit_type": transit_type,
         }
         features.append({
             "type": "Feature",

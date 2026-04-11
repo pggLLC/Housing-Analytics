@@ -386,7 +386,10 @@
           '<tr><td>Out-commuters</td><td>' + fmt(metrics.outflow) + '</td><td>Residents who work in other areas</td></tr>' +
           '<tr><td>Live & work here</td><td>' + fmt(metrics.within) + '</td><td>Both live and work within this geography</td></tr>' +
         '</tbody>' +
-      '</table>';
+      '</table>' +
+      '<div style="font-size:.72rem;color:var(--warn);margin-top:.4rem;">' +
+        '<strong>LEHD LODES 2021</strong> \u2014 employment data has 2\u20133 year lag' +
+      '</div>';
   }
 
   /**
@@ -1401,6 +1404,25 @@
     if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${U().fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
     if (S().els.execNarrative) S().els.execNarrative.textContent = narrativeParts.join(' ');
 
+    // Small-geography ACS margin-of-error warning
+    var moeWarning = U().getSmallGeoWarning(profile);
+    var moeEl = document.getElementById('hnaMoeWarning');
+    if (!moeEl) {
+      moeEl = document.createElement('div');
+      moeEl.id = 'hnaMoeWarning';
+      moeEl.style.cssText = 'font-size:.78rem;color:var(--warn);padding:.5rem .7rem;margin:.5rem 0;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 20%, transparent);border-radius:6px;display:none;';
+      var narrativeEl = S().els.execNarrative;
+      if (narrativeEl && narrativeEl.parentNode) {
+        narrativeEl.parentNode.insertBefore(moeEl, narrativeEl.nextSibling);
+      }
+    }
+    if (moeWarning) {
+      moeEl.innerHTML = '<strong>⚠ Statistical Uncertainty:</strong> ' + moeWarning;
+      moeEl.style.display = 'block';
+    } else {
+      moeEl.style.display = 'none';
+    }
+
     // Afford assumptions
     if (S().els.affordAssumptions) S().els.affordAssumptions.innerHTML = `
       <ul>
@@ -1657,6 +1679,15 @@
         },
       },
     });
+
+    // Append CHAS vintage badge below the chart
+    const chasAgeBadge = document.createElement('div');
+    chasAgeBadge.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.4rem;';
+    // Read vintage from loaded CHAS data metadata if available
+    var chasVintage = (window.HNAState && window.HNAState.state && window.HNAState.state.chasData && window.HNAState.state.chasData.meta)
+      ? window.HNAState.state.chasData.meta.vintage : null;
+    chasAgeBadge.innerHTML = '<strong>HUD CHAS ' + (chasVintage || '2018\u20132022') + '</strong> \u2014 CHAS data is released with a 3\u20135 year lag from the ACS period it covers.';
+    canvas.parentElement.appendChild(chasAgeBadge);
   }
 
 
