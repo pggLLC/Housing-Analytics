@@ -1683,7 +1683,10 @@
     // Append CHAS vintage badge below the chart
     const chasAgeBadge = document.createElement('div');
     chasAgeBadge.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.4rem;';
-    chasAgeBadge.innerHTML = '<strong>HUD CHAS 2017\u20132021</strong> \u2014 most recent available. CHAS data is released with a 3\u20135 year lag from the ACS period it covers.';
+    // Read vintage from loaded CHAS data metadata if available
+    var chasVintage = (window.HNAState && window.HNAState.state && window.HNAState.state.chasData && window.HNAState.state.chasData.meta)
+      ? window.HNAState.state.chasData.meta.vintage : null;
+    chasAgeBadge.innerHTML = '<strong>HUD CHAS ' + (chasVintage || '2018\u20132022') + '</strong> \u2014 CHAS data is released with a 3\u20135 year lag from the ACS period it covers.';
     canvas.parentElement.appendChild(chasAgeBadge);
   }
 
