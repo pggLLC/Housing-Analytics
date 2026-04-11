@@ -272,31 +272,34 @@ const MANIFEST_FILE = path.join(OUT_DIR, 'manifest.json');
 async function rebuildManifest() {
   console.log('\n[pipeline] Step: Rebuild data/manifest.json');
   try {
-    const allFiles = [];
+    const REPO_ROOT = path.resolve(__dirname, '..');
+    const filesObj = {};
     function walk(dir) {
       for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, entry.name);
-        if (entry.isDirectory()) { walk(full); }
-        else { allFiles.push(path.relative(OUT_DIR, full)); }
+        if (entry.isDirectory()) {
+          walk(full);
+        } else {
+          // Use repo-root-relative paths (e.g. "data/chfa-lihtc.json")
+          const rel = path.relative(REPO_ROOT, full).replace(/\\/g, '/');
+          if (rel === 'data/manifest.json') continue;
+          let size = 0;
+          try { size = fs.statSync(full).size; } catch (_) { /* ignore */ }
+          filesObj[rel] = { bytes: size };
+        }
       }
     }
     walk(OUT_DIR);
 
-    // Preserve existing manifest fields; update generated + file_count
-    let existing = {};
-    if (fs.existsSync(MANIFEST_FILE)) {
-      try { existing = JSON.parse(fs.readFileSync(MANIFEST_FILE, 'utf8')); }
-      catch (_) { /* ignore */ }
-    }
-
-    const manifest = Object.assign({}, existing, {
+    const fileCount = Object.keys(filesObj).length;
+    const manifest = {
       generated:  new Date().toISOString(),
-      file_count: allFiles.length,
-      files:      allFiles.sort(),
-    });
+      file_count: fileCount,
+      files:      filesObj,
+    };
 
     fs.writeFileSync(MANIFEST_FILE, JSON.stringify(manifest, null, 2), 'utf8');
-    console.log(`  ✓ Manifest updated (${allFiles.length} files)`);
+    console.log(`  ✓ Manifest updated (${fileCount} files)`);
   } catch (e) {
     console.warn('[pipeline] WARNING: Could not rebuild manifest:', e.message);
   }
