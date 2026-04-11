@@ -43,7 +43,8 @@
     var nextHtml = '';
     if (nextSteps.length) {
       var links = nextSteps.map(function (s) {
-        return '<a href="' + esc(s.href) + '" class="pctx-next-link">' +
+        var safeHref = /^(https?:\/\/|\/)/.test(s.href || '') ? s.href : '#';
+        return '<a href="' + esc(safeHref) + '" class="pctx-next-link">' +
           '<strong>' + esc(s.label) + '</strong>' +
           (s.desc ? ' <span class="pctx-next-desc">— ' + esc(s.desc) + '</span>' : '') +
           '</a>';
