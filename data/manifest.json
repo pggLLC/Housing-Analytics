@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-12T05:49:31.643628Z",
+  "generated": "2026-04-12T06:16:35.840260Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -837,324 +837,324 @@
       "bytes": 2619
     },
     "data/hna/lihtc/08001.json": {
-      "featureCount": 0,
+      "featureCount": 49,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 18989
     },
     "data/hna/lihtc/08003.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1620
     },
     "data/hna/lihtc/08005.json": {
-      "featureCount": 0,
+      "featureCount": 63,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 24534
     },
     "data/hna/lihtc/08007.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08009.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08011.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08013.json": {
-      "featureCount": 0,
+      "featureCount": 60,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 23004
     },
     "data/hna/lihtc/08014.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1624
     },
     "data/hna/lihtc/08015.json": {
-      "featureCount": 0,
+      "featureCount": 6,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 2400
     },
     "data/hna/lihtc/08017.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08019.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 481
     },
     "data/hna/lihtc/08021.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1642
     },
     "data/hna/lihtc/08023.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08025.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08027.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 459
     },
     "data/hna/lihtc/08029.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1598
     },
     "data/hna/lihtc/08031.json": {
-      "featureCount": 0,
+      "featureCount": 198,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 75648
     },
     "data/hna/lihtc/08033.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08035.json": {
-      "featureCount": 0,
+      "featureCount": 9,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 3629
     },
     "data/hna/lihtc/08037.json": {
-      "featureCount": 0,
+      "featureCount": 8,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 3102
     },
     "data/hna/lihtc/08039.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08041.json": {
-      "featureCount": 0,
+      "featureCount": 34,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 13560
     },
     "data/hna/lihtc/08043.json": {
-      "featureCount": 0,
+      "featureCount": 14,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 5492
     },
     "data/hna/lihtc/08045.json": {
-      "featureCount": 0,
+      "featureCount": 7,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 2814
     },
     "data/hna/lihtc/08047.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 474
     },
     "data/hna/lihtc/08049.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 452
     },
     "data/hna/lihtc/08051.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 469
     },
     "data/hna/lihtc/08053.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08055.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 465
     },
     "data/hna/lihtc/08057.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08059.json": {
-      "featureCount": 0,
+      "featureCount": 45,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 17575
     },
     "data/hna/lihtc/08061.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08063.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 473
     },
     "data/hna/lihtc/08065.json": {
-      "featureCount": 0,
+      "featureCount": 2,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 835
     },
     "data/hna/lihtc/08067.json": {
-      "featureCount": 0,
+      "featureCount": 14,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 5468
     },
     "data/hna/lihtc/08069.json": {
-      "featureCount": 0,
+      "featureCount": 52,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 20210
     },
     "data/hna/lihtc/08071.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 469
     },
     "data/hna/lihtc/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08075.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1608
     },
     "data/hna/lihtc/08077.json": {
-      "featureCount": 0,
+      "featureCount": 14,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 5426
     },
     "data/hna/lihtc/08079.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08081.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08083.json": {
-      "featureCount": 0,
+      "featureCount": 8,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 3130
     },
     "data/hna/lihtc/08085.json": {
-      "featureCount": 0,
+      "featureCount": 9,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 3507
     },
     "data/hna/lihtc/08087.json": {
-      "featureCount": 0,
+      "featureCount": 5,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1964
     },
     "data/hna/lihtc/08089.json": {
-      "featureCount": 0,
+      "featureCount": 2,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 844
     },
     "data/hna/lihtc/08091.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08093.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 450
     },
     "data/hna/lihtc/08095.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08097.json": {
-      "featureCount": 0,
+      "featureCount": 5,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1980
     },
     "data/hna/lihtc/08099.json": {
-      "featureCount": 0,
+      "featureCount": 2,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 827
     },
     "data/hna/lihtc/08101.json": {
-      "featureCount": 0,
+      "featureCount": 35,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 13350
     },
     "data/hna/lihtc/08103.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08105.json": {
-      "featureCount": 0,
+      "featureCount": 4,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1625
     },
     "data/hna/lihtc/08107.json": {
-      "featureCount": 0,
+      "featureCount": 3,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1271
     },
     "data/hna/lihtc/08109.json": {
-      "featureCount": 0,
+      "featureCount": 5,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 2015
     },
     "data/hna/lihtc/08111.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08113.json": {
-      "featureCount": 0,
+      "featureCount": 3,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 1240
     },
     "data/hna/lihtc/08115.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08117.json": {
-      "featureCount": 0,
+      "featureCount": 6,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 2383
     },
     "data/hna/lihtc/08119.json": {
-      "featureCount": 0,
+      "featureCount": 2,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 840
     },
     "data/hna/lihtc/08121.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 81
     },
     "data/hna/lihtc/08123.json": {
-      "featureCount": 0,
+      "featureCount": 22,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 8464
     },
     "data/hna/lihtc/08125.json": {
-      "featureCount": 0,
+      "featureCount": 1,
       "placeholder": false,
-      "bytes": 42
+      "bytes": 449
     },
     "data/hna/local-notes.json": {
       "featureCount": 0,
