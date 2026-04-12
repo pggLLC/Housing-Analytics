@@ -58,7 +58,6 @@ jobs:
       - name: Fetch HUD QCT data (Colorado)
         run: |
           node - <<'EOF'
-          const fetch = require('node-fetch');
           const fs    = require('fs');
 
           const QCT_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0/query';
@@ -133,7 +132,6 @@ jobs:
       - name: Fetch HUD DDA data (Colorado only — pre-filtered to FIPS 08)
         run: |
           node - <<'EOF'
-          const fetch = require('node-fetch');
           const fs    = require('fs');
 
           const DDA_URL = 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0/query';
