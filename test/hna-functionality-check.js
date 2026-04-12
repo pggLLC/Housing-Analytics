@@ -457,7 +457,7 @@ test('JS: LIHTC layer is rendered with Leaflet markers', () => {
     assert(js.includes('bindPopup'),                 'LIHTC markers have popups');
     assert(js.includes('statLihtcCount'),            'LIHTC project count stat is updated');
     assert(js.includes('statLihtcUnits'),            'LIHTC unit count stat is updated');
-    assert(js.includes('lihtcDataSource') && (js.includes('Source: ${lihtcDataSource}') || js.includes('Source: ${S().lihtcDataSource}')), 'source label is displayed in updateLihtcInfoPanel');
+    assert(js.includes('lihtcDataSource') && (js.includes('Source: ${lihtcDataSource}') || js.includes('Source: ${S().lihtcDataSource}') || js.includes('Source: ${escHtml(S().lihtcDataSource)}')), 'source label is displayed in updateLihtcInfoPanel');
     assert(js.includes('sourceBadge'),               'source badge variable is used in LIHTC info panel');
 });
 
