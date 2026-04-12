@@ -70,6 +70,9 @@ jobs:
           fi
           echo "All critical data files are served."
 
+      - name: Download self-hosted fonts
+        run: bash scripts/download-fonts.sh
+
       - name: Run site audit
         run: npm run audit:site
         env:
