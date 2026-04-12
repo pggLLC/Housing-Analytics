@@ -50,9 +50,17 @@
     var testFn = src.test || function () {
       var url = (typeof window.resolveAssetUrl === 'function')
         ? window.resolveAssetUrl(src.path) : src.path;
-      // Use GET with default cache to avoid net::ERR_ABORTED in CI audit environments
-      // where HEAD requests may not be supported by simple static servers.
-      return fetch(url, { cache: 'default' }).then(function (r) { return r.ok; });
+      // Use GET with default cache. Immediately cancel the response body after
+      // reading the status so the HTTP connection is released cleanly. Without
+      // body cancellation the browser keeps the connection open until the full
+      // file is downloaded; when Playwright closes the browser context mid-download
+      // (as it does in the site-audit workflow) those open connections are aborted
+      // and appear as net::ERR_ABORTED hard failures in the audit report.
+      return fetch(url, { cache: 'default' }).then(function (r) {
+        var ok = r.ok;
+        if (r.body) { r.body.cancel().catch(function () {}); }
+        return ok;
+      });
     };
 
     return Promise.race([
