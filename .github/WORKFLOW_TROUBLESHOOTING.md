@@ -206,9 +206,90 @@ node scripts/validate-critical-data.js
 
 ---
 
+## Census Cartographic Boundary URL Scheme
+
+The Census Bureau publishes GeoJSON tract boundary files at:
+
+```
+https://www2.census.gov/geo/tiger/GENZ{year}/json/cb_{year}_08_tract_500k.json
+```
+
+The `{year}` segment matches the data vintage year (e.g. `2024`). The build script (`scripts/market/build_public_market_data.py`) tries these vintages **newest-first**:
+
+| Priority | URL | Notes |
+|----------|-----|-------|
+| 1 (primary) | `.../GENZ2024/json/cb_2024_08_tract_500k.json` | Default since April 2026 |
+| 2 (fallback) | `.../GENZ2023/json/cb_2023_08_tract_500k.json` | Secondary fallback |
+| 3 (fallback) | `.../GENZ2022/json/cb_2022_08_tract_500k.json` | Legacy fallback (404 as of 2026) |
+
+The `CENSUS_CB_URL` environment variable overrides the primary URL if set. The ordered fallback list is defined in `_CENSUS_CB_FALLBACK_URLS` in `build_public_market_data.py`.
+
+**Symptoms of a stale URL:**
+- Workflow log shows `HTTP 404` in the `[boundary-fallback]` lines
+- `data/market/tract_boundaries_co.geojson` has 0 features
+- Choropleth map in `market-analysis.html` shows no tract shading
+
+**Fix:**
+The build script will automatically try newer vintages first. If all known vintages return 404, check the Census FTP:
+```
+https://www2.census.gov/geo/tiger/
+```
+
 ---
 
-## Manifest Auto-Regeneration
+## HUD ArcGIS Temporary 403 Blocking
+
+HUD and ESRI ArcGIS endpoints (`hudgis-hud.opendata.arcgis.com`, `services.arcgis.com/VTyQ9soqVukalItT/…`) occasionally return `HTTP 403 Forbidden` during maintenance windows or IP-based throttling. This is **not a credential issue** and resolves on its own within hours.
+
+**Affected workflows:**
+- `cache-hud-gis-data.yml` (QCT / DDA fetches)
+- `build-market-data.yml` (HUD LIHTC fetch)
+
+**Cache fallback behavior:**
+
+Both workflows implement a cache fallback: when the live API returns an error, the workflow re-uses the **last successfully committed file** from the repository. No data is lost and GitHub Pages continues to serve the most-recent good data.
+
+| Workflow | API | Fallback file |
+|----------|-----|---------------|
+| `cache-hud-gis-data.yml` | QCT ArcGIS | `data/qct-colorado.json` |
+| `cache-hud-gis-data.yml` | DDA ArcGIS | `data/dda-colorado.json` |
+| `build-market-data.yml` | HUD LIHTC GeoJSON | `data/market/hud_lihtc_co.geojson` |
+
+**Status check:** <https://status.arcgis.com/>
+
+**Recovery:** Once the API is healthy, manually re-trigger the workflow to refresh the cache:
+```bash
+gh workflow run cache-hud-gis-data.yml --repo pggLLC/Housing-Analytics
+gh workflow run build-market-data.yml  --repo pggLLC/Housing-Analytics
+```
+
+---
+
+## Git Push Conflict Recovery
+
+**Error pattern:**
+```
+! [rejected]  main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/pggLLC/Housing-Analytics'
+hint: Updates were rejected because the remote contains work that you do not have locally.
+```
+
+**Root cause:** Two workflows commit to `main` concurrently (e.g. `build-market-data.yml` and `fetch-chfa-lihtc.yml` running at the same time). One push wins; the other is rejected.
+
+**Built-in fix:** All data workflows in this repository use the following pattern before `git push`:
+```bash
+git pull --rebase --autostash origin main
+git push
+```
+
+`--autostash` stashes any uncommitted local changes before the rebase and re-applies them after, preventing "cannot pull with rebase" errors when the workspace is dirty. `--rebase` avoids merge commits.
+
+**If a workflow still fails to push:**
+
+1. Re-run the failed workflow from the [Actions tab](../../actions) — it will re-commit its changes on top of the updated `main` and push successfully.
+2. If concurrent workflows keep colliding, stagger their cron schedules by at least 30 minutes.
+
+---
 
 `data/manifest.json` is automatically regenerated after every successful data build by calling `scripts/rebuild_manifest.py`. The updated manifest is committed back to the repository in the same workflow run.
 

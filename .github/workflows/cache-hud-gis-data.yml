@@ -113,7 +113,21 @@ jobs:
             throw new Error('All QCT WHERE filters exhausted with no results');
           }
 
-          run().catch(err => { console.error('QCT fetch failed:', err.message); process.exit(1); });
+          run().catch(err => {
+            console.error('QCT fetch failed:', err.message);
+            // Fall back to the existing cached file rather than failing the workflow.
+            const cached = 'data/qct-colorado.json';
+            if (fs.existsSync(cached)) {
+              try {
+                const saved = JSON.parse(fs.readFileSync(cached, 'utf8'));
+                if (saved.features && saved.features.length) {
+                  console.warn(`[fallback] API unavailable — keeping existing ${cached} (${saved.features.length} features)`);
+                  process.exit(0);
+                }
+              } catch(_) {}
+            }
+            process.exit(1);
+          });
           EOF
 
       - name: Fetch HUD DDA data (Colorado only — pre-filtered to FIPS 08)
@@ -177,7 +191,21 @@ jobs:
             throw new Error('All DDA WHERE filters exhausted with no Colorado results');
           }
 
-          run().catch(err => { console.error('DDA fetch failed:', err.message); process.exit(1); });
+          run().catch(err => {
+            console.error('DDA fetch failed:', err.message);
+            // Fall back to the existing cached file rather than failing the workflow.
+            const cached = 'data/dda-colorado.json';
+            if (fs.existsSync(cached)) {
+              try {
+                const saved = JSON.parse(fs.readFileSync(cached, 'utf8'));
+                if (saved.features && saved.features.length) {
+                  console.warn(`[fallback] API unavailable — keeping existing ${cached} (${saved.features.length} features)`);
+                  process.exit(0);
+                }
+              } catch(_) {}
+            }
+            process.exit(1);
+          });
           EOF
 
       - name: Normalize DDA data (map HUD field names to front-end schema)
@@ -235,6 +263,6 @@ jobs:
             echo "No changes to overlay cache files"
           else
             git commit -m "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push
           fi
