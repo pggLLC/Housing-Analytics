@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","fetchedAt":"2026-04-12T04:20:45.122Z","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-102.284338,39.304834]},"properties":{"PROJECT":"SENTER WEST VILLAGE APTS","PROJ_ADD":"2665 SENTER AVE","PROJ_CTY":"BURLINGTON","PROJ_ST":"CO","CNTY_NAME":"Kit Carson","CNTY_FIPS":"08063","STATEFP":"08","COUNTYFP":"063","N_UNITS":29,"LI_UNITS":17,"YR_PIS":"1999","YR_ALLOC":"1998","CREDIT":"4%","NON_PROF":"1","QCT":"2","DDA":null}}]}
+{"type":"FeatureCollection","features":[]}
