@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T12:36:37.827Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T14:35:48.297Z. Do not edit by hand.
 
 ---
 
@@ -1050,21 +1050,21 @@
 | `.github/workflows/build-hna-data.yml` | 6.1 KB |
 | `.github/workflows/build-market-data.yml` | 9.9 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
-| `.github/workflows/car-data-update.yml` | 1.1 KB |
+| `.github/workflows/car-data-update.yml` | 1.9 KB |
 | `.github/workflows/ci-checks.yml` | 7.1 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-quality-check.yml` | 6.0 KB |
-| `.github/workflows/data-refresh.yml` | 3.2 KB |
+| `.github/workflows/data-quality-check.yml` | 6.7 KB |
+| `.github/workflows/data-refresh.yml` | 3.9 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
-| `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
-| `.github/workflows/fetch-chas-data.yml` | 3.0 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 3.3 KB |
-| `.github/workflows/fetch-county-data.yml` | 3.2 KB |
+| `.github/workflows/fetch-census-acs.yml` | 5.9 KB |
+| `.github/workflows/fetch-chas-data.yml` | 3.8 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
+| `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.1 KB |
@@ -1080,7 +1080,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
-| `.github/workflows/zillow-data-sync.yml` | 17.8 KB |
+| `.github/workflows/zillow-data-sync.yml` | 18.6 KB |
 
 ---
 
