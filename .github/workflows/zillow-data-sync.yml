@@ -30,12 +30,30 @@ jobs:
         run: node scripts/fetch-zillow.js
         continue-on-error: true
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow zillow-data-sync.yml --run-id ${context.runId} --data-file data/zillow-median-list-price.json --details "Zillow data sync failed. Check ZILLOW_EMAIL/ZILLOW_PASSWORD secrets and Zillow data availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Commit and push data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ls data/zillow-*.json 1>/dev/null 2>&1; then
-            git add data/zillow-*.json
+            python3 scripts/rebuild_manifest.py
+            git add data/zillow-*.json data/manifest.json
             if git diff --cached --quiet; then
               echo "No changes to commit"
             else
