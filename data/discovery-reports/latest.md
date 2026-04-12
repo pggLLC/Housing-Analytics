@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-11T07:42:24.613Z
+**Scan timestamp:** 2026-04-12T07:56:25.081Z
 
 ## Summary
 
@@ -25,7 +25,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (131 KB)
+- `data/discovery-reports/latest.json` (130 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -854,7 +854,7 @@
 - `data/market/cde_schools_co.json` (10 KB)
 - `data/market/cdle_job_postings_co.json` (23 KB)
 - `data/market/cdot_traffic_co.json` (8 KB)
-- `data/market/chas_co.json` (128 KB)
+- `data/market/chas_co.json` (130 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
 - `data/market/childcare_co.geojson` (1899 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
@@ -884,7 +884,7 @@
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/tract_boundaries_co.geojson` (0 KB)
-- `data/market/transit_routes_co.geojson` (52303 KB)
+- `data/market/transit_routes_co.geojson` (70378 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
 - `data/market/walkability_co.geojson` (360 KB)
 - `data/market/walkability_scores_co.json` (338 KB)
@@ -904,27 +904,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 831 days since last update
-- **undefined** — 465 days since last update
-- **undefined** — 465 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 832 days since last update
+- **undefined** — 466 days since last update
+- **undefined** — 466 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 375 days since last update
+- undefined — 376 days since last update
