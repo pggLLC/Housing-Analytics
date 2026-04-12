@@ -22,6 +22,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           # Explicit list of data-creation workflows only.
           # Excludes non-data workflows: ci-checks, deploy, site-audit,
@@ -49,7 +50,13 @@ jobs:
           for workflow in "${DATA_WORKFLOWS[@]}"; do
             echo "▶ Triggering: $workflow"
             TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+            # Pass the Census API key as an input to build-market-data.yml so that
+            # the child workflow receives it (gh workflow run does not inherit secrets).
+            extra_inputs=""
+            if [ "$workflow" = "build-market-data.yml" ] && [ -n "$CENSUS_API_KEY" ]; then
+              extra_inputs="--input census_api_key=$CENSUS_API_KEY"
+            fi
+            if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
               echo "  ✅ Triggered"
               echo "${workflow}=${TRIGGER_TIME}" >> /tmp/trigger_times.txt
               triggered=$((triggered + 1))
@@ -96,6 +103,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           # Poll all triggered runs concurrently in a single loop.
           # Timeout: 45 minutes (90 polls × 30-second interval).
@@ -179,7 +187,12 @@ jobs:
             for workflow in "${retry_needed[@]}"; do
               echo "↩ Retry $retry_attempt: $workflow"
               TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+              # Pass the Census API key as an input to build-market-data.yml on retries too.
+              extra_inputs=""
+              if [ "$workflow" = "build-market-data.yml" ] && [ -n "$CENSUS_API_KEY" ]; then
+                extra_inputs="--input census_api_key=$CENSUS_API_KEY"
+              fi
+              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
                 echo "  ✅ Re-triggered"
                 echo "${workflow}=${TRIGGER_TIME}" >> "/tmp/retry_trigger_${retry_attempt}.txt"
                 echo "${workflow}: attempt $((retry_attempt + 1)) triggered" >> /tmp/retry_log.txt
