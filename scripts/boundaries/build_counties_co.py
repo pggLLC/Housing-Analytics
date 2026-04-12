@@ -91,7 +91,9 @@ def fetch_all_pages(base_url: str, base_params: dict) -> list[dict]:
             try:
                 data = http_get_json(url)
                 break
-            except (urllib.error.URLError, OSError) as exc:
+            except (urllib.error.URLError, OSError, ValueError) as exc:
+                # ValueError covers json.JSONDecodeError raised when TIGERweb
+                # returns an empty or malformed body during transient outages.
                 attempt += 1
                 wait = 2 ** attempt
                 print(f"    ⚠ attempt {attempt} failed ({exc}); retrying in {wait}s…", file=sys.stderr)
@@ -164,7 +166,7 @@ def main() -> int:
         print(f"  Trying WHERE: {where}")
         try:
             features = fetch_all_pages(TIGERWEB_BASE, params)
-        except RuntimeError as exc:
+        except (RuntimeError, ValueError) as exc:
             last_error = exc
             print(f"  ✗ Failed ({exc}); trying next candidate…", file=sys.stderr)
             continue
