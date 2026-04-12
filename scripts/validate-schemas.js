@@ -119,8 +119,8 @@ function validateFredData() {
     if (!s.name || typeof s.name !== 'string' || s.name.trim() === '') {
       blankNameCount++;
     }
-    // Rule 7: non-empty observations
-    if (!Array.isArray(s.observations) || s.observations.length === 0) {
+    // Rule 7: non-empty observations — exempt series marked pending:true
+    if (!s.pending && (!Array.isArray(s.observations) || s.observations.length === 0)) {
       emptyObsCount++;
     }
   }
