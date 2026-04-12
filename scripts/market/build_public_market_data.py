@@ -536,8 +536,10 @@ def build_tract_boundaries() -> dict:
                     level="WARN",
                 )
         if not features:
-            log("[boundary-fallback] All Census CB candidates exhausted with no features",
-                level="ERROR")
+            log(
+                "[boundary-fallback] All Census CB candidates exhausted with no features",
+                level="ERROR",
+            )
     else:
         source_note = "US Census TIGERweb ArcGIS REST (public)"
 
