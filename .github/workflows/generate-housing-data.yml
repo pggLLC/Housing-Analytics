@@ -30,7 +30,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install --omit=dev node-fetch@2
+        run: npm install node-fetch@2
 
       - name: Fetch HUD LIHTC data and split by county
         run: |
