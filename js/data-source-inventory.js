@@ -426,7 +426,7 @@
       provider: 'Colorado Association of Realtors',
       url: 'https://www.coloradorealtors.com/',
       localFile: 'data/car-market-report-2026-04.json',
-      lastUpdated: '2026-04-30',
+      lastUpdated: '2026-04-01',
       updateFrequency: 'Monthly',
       maxAgeDays: 45,
       geoUnit: 'Metro Area / Statewide',
