@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T04:49:28.450Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T04:59:32.410Z. Do not edit by hand.
 
 ---
 
@@ -1048,7 +1048,7 @@
 | `.github/workflows/audit-endpoints.yml` | 6.7 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
 | `.github/workflows/build-hna-data.yml` | 5.9 KB |
-| `.github/workflows/build-market-data.yml` | 9.5 KB |
+| `.github/workflows/build-market-data.yml` | 9.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
 | `.github/workflows/ci-checks.yml` | 7.1 KB |
@@ -1074,7 +1074,7 @@
 | `.github/workflows/generate-market-analysis-data.yml` | 10.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
-| `.github/workflows/run-all-workflows.yml` | 16.2 KB |
+| `.github/workflows/run-all-workflows.yml` | 17.0 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
