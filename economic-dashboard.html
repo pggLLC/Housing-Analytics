@@ -20,17 +20,23 @@
   <script src="js/api-config-wrapper.js"></script>
   <script src="js/data-quality-check.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.census.gov" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/predictions-dashboard.css">
   <style>main#main-content { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }</style>
+  <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
-  <script defer src="js/site-state.js"></script>
   <script defer src="js/chart-fix.js"></script>
 </head>
 <body class="no-shell" data-page="economic-dashboard.html"
@@ -71,6 +77,23 @@
 <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;margin-bottom:var(--sp4);">
         Construction PPIs feed feasibility models, Treasury yields and mortgage spreads set permanent debt terms, SOFR for variable-rate exposure, and vacancy and homeownership rates anchor market studies. All sourced from FRED, the Federal Reserve’s public data repository, and updated on each series’ schedule. In affordable housing finance, assumptions are made months before closing, and the market rarely waits.
       </p>
+<p style="font-size:.82rem;color:var(--muted);margin-bottom:var(--sp3);" role="note"><strong>Screening tool only.</strong> Macro indicators shown here are for early-stage deal context and market orientation. They are not investment advice, underwriting inputs, or a substitute for current lender quotes, appraisals, or professional financial analysis.</p>
+<div id="econDataQuality"></div>
+<div id="econApiHealth" data-api-health="auto"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.DataQualitySummary) {
+    window.DataQualitySummary.render('econDataQuality', {
+      sources: [
+        { name: 'FRED Economic Data', status: 'primary', vintage: '2026', coverage: '30+ series', note: 'CPI, unemployment, mortgage rates, housing starts' },
+        { name: 'Census ACS State Data', status: 'primary', vintage: '2024', coverage: 'Colorado statewide' },
+        { name: 'Prediction Markets', status: 'cached', vintage: '2026', coverage: 'Housing contracts', note: 'Kalshi + Polymarket — sentiment indicators only' }
+      ],
+      limitations: 'FRED data requires API key for live updates; falls back to cached JSON from CI pipeline. Prediction market data is for informational context only and should not be used for investment decisions.'
+    });
+  }
+});
+</script>
 <div class="toolbar">
 <div class="card control" style="flex-wrap:wrap;">
 <span class="pill">FRED connected: <strong id="conn">…</strong></span>
@@ -85,42 +108,50 @@
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statCpi">—</div>
 <div class="kpi-strip-label">Inflation (CPI YoY)</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaCpi">—</div>
+<div class="kpi-delta" id="deltaCpi">—</div>
+<div class="kpi-source">FRED CPIAUCSL</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statUnemp">—</div>
 <div class="kpi-strip-label">Unemployment Rate</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaUnemp">—</div>
+<div class="kpi-delta" id="deltaUnemp">—</div>
+<div class="kpi-source">FRED UNRATE</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="stat10y">—</div>
 <div class="kpi-strip-label">10-Year Treasury</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="delta10y">—</div>
+<div class="kpi-delta" id="delta10y">—</div>
+<div class="kpi-source">FRED DGS10</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statStarts">—</div>
 <div class="kpi-strip-label">Housing Starts (SAAR)</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaStarts">—</div>
+<div class="kpi-delta" id="deltaStarts">—</div>
+<div class="kpi-source">FRED HOUST</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statMfStarts">—</div>
 <div class="kpi-strip-label">Multifamily Starts</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaMfStarts">—</div>
+<div class="kpi-delta" id="deltaMfStarts">—</div>
+<div class="kpi-source">FRED HOUST5F</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statPermits">—</div>
 <div class="kpi-strip-label">Building Permits</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaPermits">—</div>
+<div class="kpi-delta" id="deltaPermits">—</div>
+<div class="kpi-source">FRED PERMIT</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statUnderConst">—</div>
 <div class="kpi-strip-label">Units Under Construction</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaUnderConst">—</div>
+<div class="kpi-delta" id="deltaUnderConst">—</div>
+<div class="kpi-source">FRED UNDCON5MUSA</div>
 </div>
 <div class="kpi-strip-item">
 <div class="kpi-strip-value" id="statCompletions">—</div>
 <div class="kpi-strip-label">Completions</div>
-<div style="font-size:var(--tiny);color:var(--faint);margin-top:2px;" id="deltaCompletions">—</div>
+<div class="kpi-delta" id="deltaCompletions">—</div>
+<div class="kpi-source">FRED COMPU5MUSA</div>
 </div>
 </div>
 <div style="padding:0 var(--sp4);">
@@ -128,7 +159,24 @@
         Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis. Data refreshed daily via automated workflow.
       </p>
 </div>
-</section><section id="census-stats" style="margin:18px 0; padding:18px;">
+</section>
+
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Real-time economic indicators from the Federal Reserve (FRED) that affect affordable housing deal timing: mortgage rates, inflation, unemployment, housing starts, construction costs, and commodity prices.',
+    why: 'LIHTC deal feasibility is sensitive to macro-economic conditions. A 50bp change in mortgage rates can shift supportable debt by $100K+. Construction cost trends affect hard cost assumptions. This dashboard helps developers time their applications and adjust underwriting assumptions.',
+    not: 'Economic indicators are trailing (released with 1-4 week lag) and do not predict future conditions. Prediction market data is for informational context only. This dashboard does not provide investment advice or economic forecasting.',
+    nextSteps: [
+      { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model how rates affect your deal' },
+      { label: 'Construction Commodities', href: 'construction-commodities.html', desc: 'Detailed cost trend analysis' }
+    ]
+  });
+});
+</script>
+
+<section id="census-stats" style="margin:18px 0; padding:18px;">
 <h2>Census snapshot</h2>
 <div class="census-controls">
   <label>Geography<select id="censusLevel">
@@ -208,6 +256,203 @@
     </div>
 
 <!-- ══════════════════════════════════════════════════════════════
+     POLYMARKET PREDICTION MARKETS — Real-time crowd consensus
+     ══════════════════════════════════════════════════════════════ -->
+<details class="card" open="" id="polymarket-section" style="margin-top:var(--sp4);">
+<summary>
+  Prediction Markets: Real Estate, Finance &amp; Economic Outlook
+  <span class="pill small">Polymarket</span>
+</summary>
+<div class="section-body">
+<p class="section-desc">
+  Live prediction market prices from <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> — crowd-consensus probabilities for economic outcomes that directly affect Colorado real estate, construction costs, and housing affordability.
+  Prices reflect real-money positions and update continuously.
+</p>
+<div class="hp-disclaimer" style="margin-bottom:1rem;">
+  <strong>Not financial advice.</strong> Prediction market prices represent crowd consensus, not forecasts. Use alongside FRED data above for context on rate environment, inflation trajectory, and recession risk when assessing Colorado housing deals.
+</div>
+
+<!-- Polymarket KPI strip -->
+<div class="kpi-strip" role="region" aria-label="Polymarket key predictions" id="pm-kpi-strip" style="margin-bottom:var(--sp3);">
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-recession">—</div>
+    <div class="kpi-strip-label">US Recession by 2026</div>
+    <div class="kpi-delta" id="pm-recession-vol">—</div>
+    <div class="kpi-source">Polymarket</div>
+  </div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-fed-april">—</div>
+    <div class="kpi-strip-label">Fed Holds in April</div>
+    <div class="kpi-delta" id="pm-fed-april-vol">—</div>
+    <div class="kpi-source">Polymarket</div>
+  </div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-fed-cuts">—</div>
+    <div class="kpi-strip-label">Most Likely Rate Cuts 2026</div>
+    <div class="kpi-delta" id="pm-fed-cuts-prob">—</div>
+    <div class="kpi-source">Polymarket</div>
+  </div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-inflation">—</div>
+    <div class="kpi-strip-label">Inflation &gt; 4% in 2026</div>
+    <div class="kpi-delta" id="pm-inflation-vol">—</div>
+    <div class="kpi-source">Polymarket</div>
+  </div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-gdp">—</div>
+    <div class="kpi-strip-label">GDP Growth 2026</div>
+    <div class="kpi-delta" id="pm-gdp-prob">—</div>
+    <div class="kpi-source">Polymarket</div>
+  </div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-value" id="pm-home">—</div>
+    <div class="kpi-strip-label">US Median Home Value (Apr)</div>
+    <div class="kpi-delta" id="pm-home-prob">—</div>
+    <div class="kpi-source">Polymarket · Parcl Labs</div>
+  </div>
+</div>
+
+<!-- Colorado Impact Analysis -->
+<h3 class="hp-section-heading">Colorado Real Estate &amp; Affordability Impact</h3>
+<div class="hp-co-grid" id="pm-co-grid" style="margin-bottom:1.25rem;">
+  <div class="hp-co-item">
+    <div class="hp-co-label">Denver Median Home (implied)</div>
+    <div class="hp-co-value" id="pm-co-denver">—</div>
+    <div class="hp-co-range">~1.35× national median</div>
+  </div>
+  <div class="hp-co-item">
+    <div class="hp-co-label">Monthly Payment (20% dn)</div>
+    <div class="hp-co-value" id="pm-co-payment">—</div>
+    <div class="hp-co-range">30yr @ current rate</div>
+  </div>
+  <div class="hp-co-item">
+    <div class="hp-co-label">Payment-to-Income</div>
+    <div class="hp-co-value" id="pm-co-ratio">—</div>
+    <div class="hp-co-range">CO median: $87,600</div>
+  </div>
+  <div class="hp-co-item">
+    <div class="hp-co-label">Construction Cost Pressure</div>
+    <div class="hp-co-value" id="pm-co-cost">—</div>
+    <div class="hp-co-range">Inflation &gt; 4% prob</div>
+  </div>
+  <div class="hp-co-item">
+    <div class="hp-co-label">Recession Risk</div>
+    <div class="hp-co-value" id="pm-co-recession">—</div>
+    <div class="hp-co-range">Deal pipeline impact</div>
+  </div>
+</div>
+
+<!-- Fed & Interest Rates -->
+<h3 class="hp-section-heading">Federal Reserve &amp; Interest Rates</h3>
+<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
+  <a class="hp-binary-card" href="https://polymarket.com/event/fed-decision-in-april" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
+    <div class="hp-category-badge">Fed Policy</div>
+    <div class="hp-binary-label">Fed Decision — April 2026</div>
+    <div class="hp-binary-desc">FOMC meeting April 28-29. Directly sets short-term rate environment for construction loans and variable-rate debt.</div>
+    <div id="pm-fed-april-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/how-many-fed-rate-cuts-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
+    <div class="hp-category-badge">Fed Policy</div>
+    <div class="hp-binary-label">Rate Cuts in 2026</div>
+    <div class="hp-binary-desc">Number of 25bp cuts expected this year. Fewer cuts = higher mortgage rates = tighter affordability for Colorado buyers.</div>
+    <div id="pm-fed-cuts-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/fed-decision-in-june-825" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
+    <div class="hp-category-badge">Fed Policy</div>
+    <div class="hp-binary-label">Fed Decision — June 2026</div>
+    <div class="hp-binary-desc">Next major decision point. Rate trajectory affects permanent debt terms and LIHTC equity pricing.</div>
+    <div class="hp-odds-row">
+      <div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-fed-june-yes">—</span><span class="hp-odds-lbl">No chg</span></div>
+      <div class="hp-odds-sep">|</div>
+      <div class="hp-odds-no"><span class="hp-odds-pct" id="pm-fed-june-no">—</span><span class="hp-odds-lbl">Cut</span></div>
+    </div>
+    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-fed-june-bar" style="width:0%"></div></div>
+  </a>
+</div>
+
+<!-- Housing & Home Values -->
+<h3 class="hp-section-heading">Real Estate &amp; Home Values</h3>
+<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
+  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-april-30" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
+    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
+    <div class="hp-binary-label">US Median Home Value — April 30</div>
+    <div class="hp-binary-desc">National benchmark via Parcl Labs index. Denver typically trades ~35% above national median.</div>
+    <div id="pm-home-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
+    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
+    <div class="hp-binary-label">LA Metro Median — April 30</div>
+    <div class="hp-binary-desc">Comparable high-cost metro. LA trends often lead Denver by 6-12 months.</div>
+    <div id="pm-la-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-chicago-be-on-april-30" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
+    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
+    <div class="hp-binary-label">Chicago Median — April 30</div>
+    <div class="hp-binary-desc">Comparable for Colorado Springs/Pueblo pricing context.</div>
+    <div class="hp-odds-row">
+      <div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-chi-top">—</span><span class="hp-odds-lbl" id="pm-chi-lbl">range</span></div>
+    </div>
+    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-chi-bar" style="width:0%"></div></div>
+  </a>
+</div>
+
+<!-- Recession & Growth -->
+<h3 class="hp-section-heading">Recession Risk &amp; Economic Growth</h3>
+<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
+  <a class="hp-binary-card" href="https://polymarket.com/event/us-recession-by-end-of-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#c62828;">
+    <div class="hp-category-badge" style="background:#c62828;">Recession</div>
+    <div class="hp-binary-label">US Recession by End of 2026?</div>
+    <div class="hp-binary-desc">Two consecutive negative GDP quarters or NBER announcement. A recession would sharply curtail new CO construction starts and LIHTC deal flow.</div>
+    <div id="pm-recession-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/gdp-growth-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1565c0;">
+    <div class="hp-category-badge" style="background:#1565c0;">GDP</div>
+    <div class="hp-binary-label">GDP Growth in 2026</div>
+    <div class="hp-binary-desc">Full-year real GDP growth. Stronger growth supports CO job market, in-migration, and housing demand along the Front Range.</div>
+    <div id="pm-gdp-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/how-high-will-inflation-get-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#e65100;">
+    <div class="hp-category-badge" style="background:#e65100;">Inflation</div>
+    <div class="hp-binary-label">Inflation Peak in 2026</div>
+    <div class="hp-binary-desc">CPI thresholds during any month. Higher inflation = rising construction material costs, eroding LIHTC rent affordability margins.</div>
+    <div id="pm-inflation-detail">Loading…</div>
+  </a>
+</div>
+
+<!-- Employment -->
+<h3 class="hp-section-heading">Employment &amp; Labor Market</h3>
+<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
+  <a class="hp-binary-card" href="https://polymarket.com/event/april-unemployment-rate-372" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#6a1b9a;">
+    <div class="hp-category-badge" style="background:#6a1b9a;">Labor</div>
+    <div class="hp-binary-label">April 2026 Unemployment Rate</div>
+    <div class="hp-binary-desc">National U-3 rate. CO unemployment tracks ~0.4pp below national. Higher unemployment weakens housing demand and rent collections.</div>
+    <div id="pm-unemp-detail">Loading…</div>
+  </a>
+  <a class="hp-binary-card" href="https://polymarket.com/event/tech-layoffs-up-or-down-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#6a1b9a;">
+    <div class="hp-category-badge" style="background:#6a1b9a;">Labor</div>
+    <div class="hp-binary-label">Tech Layoffs Up or Down in 2026?</div>
+    <div class="hp-binary-desc">Front Range tech employment is a key demand driver for Denver/Boulder housing. Rising layoffs weaken high-end rental absorption.</div>
+    <div class="hp-odds-row">
+      <div class="hp-odds-yes"><span class="hp-odds-pct" style="color:var(--color-error,#c62828);" id="pm-layoffs">—</span><span class="hp-odds-lbl">Up</span></div>
+    </div>
+    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-layoffs-bar" style="width:0%;background:var(--color-error,#c62828);"></div></div>
+    <div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: <span id="pm-layoffs-vol">—</span></div>
+  </a>
+</div>
+
+<div style="font-size:.82rem;color:var(--muted);margin-top:var(--sp3);line-height:1.6;">
+  <strong>Data:</strong> <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> via Gamma API. Prices are real-money prediction market contracts — not polls or models.
+  Updated on page load; click Refresh Polymarket to re-fetch. Home value markets resolve via <a href="https://parcllabs.com" target="_blank" rel="noopener">Parcl Labs</a> Sales Price Index.<br>
+  <strong>Colorado context:</strong> Denver Metro typically trades at ~1.35× the national median home price. CO unemployment runs ~0.4 percentage points below the national rate. Front Range tech employment is the key marginal demand driver for metro housing.
+</div>
+<div style="margin-top:var(--sp2);">
+  <button class="btn primary" id="pm-refresh" type="button">Refresh Polymarket</button>
+  <span style="font-size:.8rem;color:var(--muted);margin-left:.75rem;" id="pm-updated">—</span>
+</div>
+</div>
+</details>
+
+<!-- ══════════════════════════════════════════════════════════════
      METHODOLOGY & SOURCES (bottom of page)
      ══════════════════════════════════════════════════════════════ -->
 <details class="card" style="margin-top:var(--sp4);" id="methodology-sources">
@@ -215,7 +460,7 @@
 <div class="section-body">
   <h3 style="margin-bottom:var(--sp2)">Data Sources by Section</h3>
   <ul style="margin-bottom:var(--sp3)">
-    <li><strong>Construction Costs</strong> — BLS Producer Price Indices via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: WPUFD49207 (Inputs to construction), WPUFD4 (Construction materials), PCU236115236115 (New multifamily construction), WPU10170503 (Steel reinforcing bar), WPU0811 (Lumber), PCU32731327313 (Cement &amp; concrete products), CES2000000008 (Construction hourly earnings), ECIALLCIV (Employment Cost Index)</li>
+    <li><strong>Construction Costs</strong> — BLS Producer Price Indices via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: WPUFD49207 (Inputs to construction), WPUFD4111 (Construction materials — nonresidential building), PCU236200236200 (Nonresidential building construction), WPU10170503 (Steel reinforcing bar), WPU0811 (Lumber), PCU327310327310 (Ready-mix concrete), CES2000000008 (Construction hourly earnings), ECIALLCIV (Employment Cost Index)</li>
     <li><strong>Housing Market</strong> — Census Bureau / Census-HUD via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: HOUST (Total housing starts), HOUST5F (Multifamily 5+ unit starts), PERMIT (Total building permits), PERMIT5 (Multifamily permits), UNDCONTSA (Units under construction), COMPUTSA (Multifamily completions), CSUSHPISA (S&amp;P/Case-Shiller HPI), MSPUS (Median sales price), RHORUSQ156N (Homeownership rate), RRVRUSQ156N (Rental vacancy rate)</li>
     <li><strong>Financial &amp; Interest Rates</strong> — Federal Reserve / ICE via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: DGS10 (10-yr Treasury), DGS2 (2-yr Treasury), DFF (Fed Funds), SOFR (Secured Overnight Financing Rate), MORTGAGE30US (30-yr Fixed Mortgage), BAA10Y (Moody's Baa spread), T10Y2Y (Yield curve 10Y-2Y)</li>
     <li><strong>Labor Market</strong> — BLS via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: UNRATE (Unemployment rate), PAYEMS (Nonfarm payrolls), CIVPART (Labor force participation), CES0500000003 (Average hourly earnings), JTSJOL (JOLTS job openings), ICSA (Initial jobless claims), CPIAUCSL (CPI All Items), CUUR0000SAH1 (CPI Shelter)</li>
@@ -240,13 +485,13 @@
     // Construction (6)
     {section:"construction", id:"WPUFD49207", title:"PPI: Inputs to construction", units:"index", fmt:"index"},
     {section:"construction", id:"WPUSI012011", title:"PPI: Lumber & wood products", units:"index", fmt:"index"},
-    {section:"construction", id:"WPUFD4", title:"PPI: Construction materials", units:"index", fmt:"index"},
-    {section:"construction", id:"PCU236115236115", title:"PPI: New multifamily construction", units:"index", fmt:"index"},
+    {section:"construction", id:"WPUFD4111", title:"PPI: Construction materials (nonresidential)", units:"index", fmt:"index"},
+    {section:"construction", id:"PCU236200236200", title:"PPI: Nonresidential building construction", units:"index", fmt:"index"},
     {section:"construction", id:"CES2000000008", title:"Construction Avg Hourly Earnings", units:"$/hr", fmt:"usd"},
     {section:"construction", id:"ECIALLCIV", title:"Employment Cost Index (Total comp)", units:"index", fmt:"index"},
     {section:"construction", id:"WPU10170503", title:"PPI: Steel &amp; Metal Products", units:"index", fmt:"index"},
     {section:"construction", id:"WPU0811", title:"PPI: Lumber &amp; Wood Products (Softwood)", units:"index", fmt:"index"},
-    {section:"construction", id:"PCU32731327313", title:"PPI: Cement & Concrete Products", units:"index", fmt:"index"},
+    {section:"construction", id:"PCU327310327310", title:"PPI: Ready-Mix Concrete", units:"index", fmt:"index"},
 
     // Housing (6)
     {section:"housing", id:"HOUST", title:"Housing Starts (SAAR)", units:"thousands", fmt:"int"},
@@ -270,7 +515,8 @@
     {section:"finance", id:"SOFR", title:"SOFR (Secured Overnight Financing Rate)", units:"%", fmt:"pct"},
 
     // Labor (cached + shelter CPI in registry, hidden until cache populated)
-    {section:"labor", id:"UNRATE", title:"Unemployment Rate", units:"%", fmt:"pct"},
+    {section:"labor", id:"UNRATE", title:"Unemployment Rate (National)", units:"%", fmt:"pct"},
+    {section:"labor", id:"LAUST080000000000003", title:"Unemployment Rate (Colorado — BLS LAUS)", units:"%", fmt:"pct"},
     {section:"labor", id:"PAYEMS", title:"Nonfarm Payrolls", units:"thousands", fmt:"int"},
     {section:"labor", id:"CIVPART", title:"Labor Force Participation", units:"%", fmt:"pct"},
     {section:"labor", id:"CES0500000003", title:"Average Hourly Earnings", units:"$", fmt:"usd"},
@@ -403,10 +649,37 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
   });
 
+  /* Policy event annotations — only shown when the label range includes the date */
+  const POLICY_EVENTS = [
+    { label: 'COVID-19',    match: /^Mar\s*20$/i, color: 'rgba(220, 38, 38, 0.5)',  labelColor: 'rgba(220, 38, 38, 0.7)' },
+    { label: 'Prop 123',    match: /^Nov\s*22$/i, color: 'rgba(14, 165, 233, 0.5)', labelColor: 'rgba(14, 165, 233, 0.7)' },
+    { label: 'AHCIA',       match: /^Jan\s*23$/i, color: 'rgba(139, 92, 246, 0.5)', labelColor: 'rgba(139, 92, 246, 0.7)' }
+  ];
+
+  function buildAnnotations(labels) {
+    const annotations = {};
+    POLICY_EVENTS.forEach(function(evt) {
+      var matchLabel = labels.find(function(l) { return evt.match.test(l); });
+      if (matchLabel) {
+        annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
+          type: 'line',
+          xMin: matchLabel, xMax: matchLabel,
+          borderColor: evt.color,
+          borderWidth: 2,
+          borderDash: [6, 4],
+          label: { display: true, content: evt.label, position: 'start', color: evt.labelColor, font: { size: 10 } }
+        };
+      }
+    });
+    return annotations;
+  }
+
   function renderChart(canvas, labels, values){
     const ctx = canvas.getContext("2d");
     const existing = charts.get(canvas.id);
     if (existing) existing.destroy();
+
+    const annotations = buildAnnotations(labels);
 
     const ch = new Chart(ctx, {
       type: "line",
@@ -425,7 +698,8 @@ function getKey(){ return CONFIG_KEY || ""; }
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          tooltip: { mode: "index", intersect: false, bodyFont: { size: 12 }, titleFont: { size: 12 } }
+          tooltip: { mode: "index", intersect: false, bodyFont: { size: 12 }, titleFont: { size: 12 } },
+          annotation: { annotations: annotations }
         },
         scales: {
           x: { ticks: { maxTicksLimit: 6, font: { size: 11 } }, grid: { display: false } },
@@ -716,6 +990,296 @@ function getKey(){ return CONFIG_KEY || ""; }
         window.dataValidationStatus = null;
       });
   }());
+</script>
+
+<script>
+// ── Polymarket Prediction Markets ──
+// Reads pre-fetched data from data/polymarket-data.json (built daily by GitHub Action).
+// Falls back to live Gamma API if the cached file is unavailable.
+(function() {
+  'use strict';
+  var CACHE_URL = (typeof window.resolveAssetUrl === 'function')
+    ? window.resolveAssetUrl('data/polymarket-data.json')
+    : 'data/polymarket-data.json';
+  var API = 'https://gamma-api.polymarket.com';
+
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function fmtVol(n) {
+    if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
+    return '$' + Math.round(n);
+  }
+  function fmt$(n) { return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); }
+  function monthlyPayment(principal, rate, years) {
+    var r = rate / 12, n = years * 12;
+    return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function parseMarkets(event) {
+    if (!event || !event.markets) return [];
+    return event.markets.map(function(m) {
+      var prices = [0, 0];
+      try { prices = JSON.parse(m.outcomePrices); } catch(e) {}
+      return {
+        question: m.question || '',
+        prob: parseFloat(prices[0]) || 0,
+        volume: parseFloat(m.volume) || 0
+      };
+    }).sort(function(a, b) { return b.prob - a.prob; });
+  }
+
+  function renderBrackets(containerId, brackets) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    var maxProb = Math.max.apply(null, brackets.map(function(b) { return b.prob; }));
+    var html = '';
+    brackets.forEach(function(b) {
+      var isTop = b.prob === maxProb;
+      html += '<div class="hp-prob-row">' +
+        '<span class="hp-prob-label" title="' + b.label + '">' + b.label + '</span>' +
+        '<div class="hp-bar-wrap"><div class="hp-bar hp-bar--market" style="width:' + (maxProb > 0 ? (b.prob / maxProb * 100) : 0) + '%;' + (isTop ? '' : 'opacity:.6;') + '"></div></div>' +
+        '<span class="hp-prob-pct" style="' + (isTop ? 'color:var(--color-primary,#1a73e8);' : '') + '">' + pct(b.prob) + '</span>' +
+        '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  // Load from cached JSON, falling back to live API per-event
+  var _pmCache = null;
+  function loadCachedData() {
+    if (_pmCache) return Promise.resolve(_pmCache);
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function(u) { return fetch(u).then(function(r) { return r.ok ? r.json() : null; }); };
+    return fetcher(CACHE_URL).then(function(data) {
+      if (data && data.events) { _pmCache = data; return data; }
+      return null;
+    }).catch(function() { return null; });
+  }
+
+  function getEvent(slug) {
+    // Try cached data first
+    if (_pmCache && _pmCache.events && _pmCache.events[slug]) {
+      return Promise.resolve(_pmCache.events[slug]);
+    }
+    // Fallback to live API (may fail due to CORS on GitHub Pages)
+    return fetch(API + '/events?slug=' + slug)
+      .then(function(r) { return r.json(); })
+      .then(function(d) { return d[0] || null; })
+      .catch(function() { return null; });
+  }
+
+  function loadPolymarket() {
+    var btn = document.getElementById('pm-refresh');
+    if (btn) btn.disabled = true;
+
+    loadCachedData().then(function() {
+      return Promise.all([
+        getEvent('us-recession-by-end-of-2026'),
+        getEvent('fed-decision-in-april'),
+        getEvent('how-many-fed-rate-cuts-in-2026'),
+        getEvent('how-high-will-inflation-get-in-2026'),
+        getEvent('gdp-growth-in-2026'),
+        getEvent('what-will-the-median-home-value-in-the-us-be-on-april-30'),
+        getEvent('what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30'),
+        getEvent('april-unemployment-rate-372'),
+        getEvent('fed-decision-in-june-825'),
+        getEvent('what-will-the-median-home-value-in-chicago-be-on-april-30'),
+        getEvent('tech-layoffs-up-or-down-in-2026')
+      ]);
+    }).then(function(results) {
+      var recession = results[0], fedApril = results[1], fedCuts = results[2],
+          inflation = results[3], gdp = results[4], usHome = results[5],
+          laHome = results[6], unemp = results[7], fedJune = results[8],
+          chicago = results[9], techLayoffs = results[10];
+
+      // ── Recession ──
+      if (recession) {
+        var rm = parseMarkets(recession);
+        var rYes = rm.length ? rm[0].prob : 0;
+        // Find Yes market specifically
+        if (recession.markets) {
+          recession.markets.forEach(function(m) {
+            try {
+              var p = JSON.parse(m.outcomePrices);
+              rYes = parseFloat(p[0]) || 0;
+            } catch(e) {}
+          });
+        }
+        var totalVol = 0;
+        if (recession.markets) recession.markets.forEach(function(m) { totalVol += parseFloat(m.volume) || 0; });
+        setText('pm-recession', pct(rYes));
+        setText('pm-recession-vol', fmtVol(totalVol) + ' volume');
+        setText('pm-co-recession', pct(rYes));
+        var recEl = document.getElementById('pm-co-recession');
+        if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--color-error,#c62828)' : rYes > 0.25 ? 'var(--color-warning,#e65100)' : 'var(--color-success,#2e7d32)';
+
+        // Detail card
+        var recDetail = document.getElementById('pm-recession-detail');
+        if (recDetail) {
+          recDetail.innerHTML =
+            '<div class="hp-odds-row">' +
+              '<div class="hp-odds-yes"><span class="hp-odds-pct">' + pct(rYes) + '</span><span class="hp-odds-lbl">Yes</span></div>' +
+              '<div class="hp-odds-sep">|</div>' +
+              '<div class="hp-odds-no"><span class="hp-odds-pct">' + pct(1 - rYes) + '</span><span class="hp-odds-lbl">No</span></div>' +
+            '</div>' +
+            '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" style="width:' + (rYes * 100) + '%;background:var(--color-error,#c62828);"></div></div>' +
+            '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(totalVol) + '</div>';
+        }
+      }
+
+      // ── Fed April ──
+      if (fedApril) {
+        var faBrackets = parseMarkets(fedApril);
+        var noChange = faBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
+        if (noChange) {
+          setText('pm-fed-april', pct(noChange.prob));
+          setText('pm-fed-april-vol', fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
+        }
+        renderBrackets('pm-fed-april-detail', faBrackets.map(function(b) {
+          return { label: b.question.replace(/Fed decision in April:\s*/i, '').replace(/\?$/, ''), prob: b.prob };
+        }));
+      }
+
+      // ── Fed Cuts ──
+      if (fedCuts) {
+        var fcBrackets = parseMarkets(fedCuts);
+        if (fcBrackets.length) {
+          var topCut = fcBrackets[0];
+          var cutLabel = topCut.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim();
+          setText('pm-fed-cuts', cutLabel || '0 cuts');
+          setText('pm-fed-cuts-prob', pct(topCut.prob) + ' probability');
+        }
+        renderBrackets('pm-fed-cuts-detail', fcBrackets.slice(0, 8).map(function(b) {
+          return { label: b.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim(), prob: b.prob };
+        }));
+      }
+
+      // ── Inflation ──
+      if (inflation) {
+        var infBrackets = parseMarkets(inflation);
+        var gt4 = infBrackets.find(function(b) { return b.question.indexOf('4%') !== -1 || b.question.indexOf('4 %') !== -1; });
+        if (gt4) {
+          setText('pm-inflation', pct(gt4.prob));
+          setText('pm-inflation-vol', fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
+          setText('pm-co-cost', gt4.prob > 0.5 ? 'High' : 'Moderate');
+          var costEl = document.getElementById('pm-co-cost');
+          if (costEl) costEl.style.color = gt4.prob > 0.5 ? 'var(--color-error,#c62828)' : 'var(--color-warning,#e65100)';
+        }
+        renderBrackets('pm-inflation-detail', infBrackets.slice(0, 7).map(function(b) {
+          return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob };
+        }));
+      }
+
+      // ── GDP ──
+      if (gdp) {
+        var gdpBrackets = parseMarkets(gdp);
+        if (gdpBrackets.length) {
+          setText('pm-gdp', gdpBrackets[0].question.substring(0, 15));
+          setText('pm-gdp-prob', pct(gdpBrackets[0].prob) + ' probability');
+        }
+        renderBrackets('pm-gdp-detail', gdpBrackets.map(function(b) {
+          return { label: b.question, prob: b.prob };
+        }));
+      }
+
+      // ── US Home Value ──
+      if (usHome) {
+        var homeBrackets = parseMarkets(usHome);
+        if (homeBrackets.length) {
+          setText('pm-home', homeBrackets[0].question.substring(0, 20));
+          setText('pm-home-prob', pct(homeBrackets[0].prob) + ' probability');
+
+          // Colorado implied
+          var nationalMid = 433000;
+          var denverImplied = Math.round(nationalMid * 1.35);
+          setText('pm-co-denver', fmt$(denverImplied));
+
+          // Payment calc
+          var payment = monthlyPayment(denverImplied * 0.8, 0.0665, 30);
+          setText('pm-co-payment', fmt$(Math.round(payment)) + '/mo');
+          var ratio = ((payment * 12) / 87600 * 100).toFixed(1);
+          setText('pm-co-ratio', ratio + '%');
+          var ratioEl = document.getElementById('pm-co-ratio');
+          if (ratioEl) ratioEl.style.color = ratio > 35 ? 'var(--color-error,#c62828)' : ratio > 28 ? 'var(--color-warning,#e65100)' : 'var(--color-success,#2e7d32)';
+        }
+        renderBrackets('pm-home-detail', homeBrackets.map(function(b) {
+          return { label: b.question, prob: b.prob };
+        }));
+      }
+
+      // ── LA Home ──
+      if (laHome) {
+        var laBrackets = parseMarkets(laHome);
+        renderBrackets('pm-la-detail', laBrackets.map(function(b) {
+          return { label: b.question, prob: b.prob };
+        }));
+      }
+
+      // ── Unemployment ──
+      if (unemp) {
+        var unBrackets = parseMarkets(unemp);
+        renderBrackets('pm-unemp-detail', unBrackets.map(function(b) {
+          return { label: b.question, prob: b.prob };
+        }));
+      }
+
+      // ── Fed June ──
+      if (fedJune) {
+        var fjBrackets = parseMarkets(fedJune);
+        var fjNoChange = fjBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
+        if (fjNoChange) {
+          setText('pm-fed-june-yes', pct(fjNoChange.prob));
+          setText('pm-fed-june-no', pct(1 - fjNoChange.prob));
+          var fjBar = document.getElementById('pm-fed-june-bar');
+          if (fjBar) fjBar.style.width = (fjNoChange.prob * 100) + '%';
+        }
+      }
+
+      // ── Chicago ──
+      if (chicago) {
+        var chiBrackets = parseMarkets(chicago);
+        if (chiBrackets.length) {
+          setText('pm-chi-top', pct(chiBrackets[0].prob));
+          setText('pm-chi-lbl', chiBrackets[0].question.substring(0, 15));
+          var chiBar = document.getElementById('pm-chi-bar');
+          if (chiBar) chiBar.style.width = (chiBrackets[0].prob * 100) + '%';
+        }
+      }
+
+      // ── Tech Layoffs ──
+      if (techLayoffs) {
+        var tlBrackets = parseMarkets(techLayoffs);
+        var tlUp = tlBrackets.find(function(b) { return b.question.toLowerCase().indexOf('up') !== -1; });
+        if (tlUp) {
+          setText('pm-layoffs', pct(tlUp.prob));
+          setText('pm-layoffs-vol', fmtVol(tlUp.volume));
+          var tlBar = document.getElementById('pm-layoffs-bar');
+          if (tlBar) tlBar.style.width = (tlUp.prob * 100) + '%';
+        }
+      }
+
+      var src = _pmCache ? 'cached ' + (_pmCache.updated || '') : 'live';
+      setText('pm-updated', 'Data: ' + src + ' | Rendered ' + new Date().toLocaleString());
+    }).catch(function(err) {
+      console.warn('Polymarket fetch error:', err);
+      setText('pm-updated', 'Update failed — check browser console');
+    }).finally(function() {
+      var btn = document.getElementById('pm-refresh');
+      if (btn) btn.disabled = false;
+    });
+  }
+
+  function setText(id, text) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  // Bind refresh button and auto-load
+  var btn = document.getElementById('pm-refresh');
+  if (btn) btn.addEventListener('click', loadPolymarket);
+  loadPolymarket();
+})();
 </script>
 
 <footer id="site-footer"></footer>

@@ -144,19 +144,41 @@
     affhData  = affhData  || {};
     atlasData = atlasData || {};
 
-    lastFairHousingScore = clamp(toNum(affhData.opportunityIndex || 50), 0, 100);
-    lastMobilityPct      = clamp(toNum(atlasData.mobilityIndex   || 50), 0, 100);
+    // Track which data sources are real vs. stub
+    var affhIsStub  = affhData._stub  || affhData.opportunityIndex == null;
+    var atlasIsStub = atlasData._stub || atlasData.mobilityIndex == null;
+
+    lastFairHousingScore = affhIsStub  ? null : clamp(toNum(affhData.opportunityIndex), 0, 100);
+    lastMobilityPct      = atlasIsStub ? null : clamp(toNum(atlasData.mobilityIndex), 0, 100);
 
     var ozScore = clamp(lastOzShare * 100, 0, 100);
 
-    lastOpportunityScore = Math.round(
-      OPP_WEIGHTS.opportunityZone  * ozScore              +
-      OPP_WEIGHTS.fairHousing      * lastFairHousingScore +
-      OPP_WEIGHTS.economicMobility * lastMobilityPct
-    );
+    // Only include dimensions with real data in the composite
+    var totalWeight = OPP_WEIGHTS.opportunityZone;
+    var weightedSum = OPP_WEIGHTS.opportunityZone * ozScore;
 
-    return clamp(lastOpportunityScore, 0, 100);
+    if (lastFairHousingScore != null) {
+      totalWeight += OPP_WEIGHTS.fairHousing;
+      weightedSum += OPP_WEIGHTS.fairHousing * lastFairHousingScore;
+    }
+    if (lastMobilityPct != null) {
+      totalWeight += OPP_WEIGHTS.economicMobility;
+      weightedSum += OPP_WEIGHTS.economicMobility * lastMobilityPct;
+    }
+
+    lastOpportunityScore = totalWeight > 0 ? Math.round(weightedSum / totalWeight) : null;
+
+    // Store data availability
+    _lastDataSources = {
+      affh: affhIsStub ? 'unavailable' : 'live',
+      atlas: atlasIsStub ? 'unavailable' : 'live',
+      opportunityZones: lastOzShare > 0 ? 'live' : 'none'
+    };
+
+    return lastOpportunityScore != null ? clamp(lastOpportunityScore, 0, 100) : 0;
   }
+
+  var _lastDataSources = {};
 
   /**
    * Determine program incentive eligibility based on opportunity metrics.
@@ -171,10 +193,16 @@
     affhScore        = typeof affhScore        === 'number' ? affhScore        : lastFairHousingScore;
     atlasPercentile  = typeof atlasPercentile  === 'number' ? atlasPercentile  : lastMobilityPct;
 
+    // NMTC eligibility requires real AFFH/Atlas data — do not grant based on stubs
+    var canEvaluateNmtc = affhScore != null && atlasPercentile != null;
+
     lastEligibility = {
       lihtcBasisStepDown:    opportunityShare > OZ_BASIS_STEP_DOWN_THRESHOLD,
-      newMarketsTaxCredit:   affhScore < NMTC_SCORE_THRESHOLD || atlasPercentile < NMTC_SCORE_THRESHOLD,
-      qualifiedOpportunityZone: opportunityShare > 0
+      newMarketsTaxCredit:   canEvaluateNmtc
+        ? (affhScore < NMTC_SCORE_THRESHOLD || atlasPercentile < NMTC_SCORE_THRESHOLD)
+        : false,  // Cannot determine without real data
+      qualifiedOpportunityZone: opportunityShare > 0,
+      _dataLimitations: canEvaluateNmtc ? [] : ['AFFH/Atlas data unavailable — NMTC eligibility cannot be confirmed']
     };
     return lastEligibility;
   }
@@ -211,7 +239,8 @@
       fairHousingScore:          lastFairHousingScore,
       economicMobilityPercentile: lastMobilityPct,
       opportunityIndex:          lastOpportunityScore,
-      incentiveEligibility:      Object.assign({}, lastEligibility)
+      incentiveEligibility:      Object.assign({}, lastEligibility),
+      _dataSources: Object.assign({}, _lastDataSources)
     };
   }
 

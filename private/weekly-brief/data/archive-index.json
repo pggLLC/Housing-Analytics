@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "week_start": "2026-04-06",
+      "total_articles": 306,
+      "json_path": "archive/2026-04-06.json",
+      "html_path": "../archive/2026-04-06.html"
+    },
+    {
       "week_start": "2026-03-30",
       "total_articles": 330,
       "json_path": "archive/2026-03-30.json",
@@ -17,7 +23,925 @@
       "total_articles": 331,
       "json_path": "archive/2026-03-16.json",
       "html_path": "../archive/2026-03-16.html"
+    },
+    {
+      "week_start": "2026-03-09",
+      "total_articles": 0,
+      "json_path": "archive/2026-03-09.json",
+      "html_path": "../archive/2026-03-09.html"
+    },
+    {
+      "week_start": "2026-03-02",
+      "total_articles": 0,
+      "json_path": "archive/2026-03-02.json",
+      "html_path": "../archive/2026-03-02.html"
+    },
+    {
+      "week_start": "2026-02-23",
+      "total_articles": 0,
+      "json_path": "archive/2026-02-23.json",
+      "html_path": "../archive/2026-02-23.html"
+    },
+    {
+      "week_start": "2026-02-16",
+      "total_articles": 7,
+      "json_path": "archive/2026-02-16.json",
+      "html_path": "../archive/2026-02-16.html"
+    },
+    {
+      "week_start": "2026-02-09",
+      "total_articles": 1,
+      "json_path": "archive/2026-02-09.json",
+      "html_path": "../archive/2026-02-09.html"
+    },
+    {
+      "week_start": "2026-02-02",
+      "total_articles": 1,
+      "json_path": "archive/2026-02-02.json",
+      "html_path": "../archive/2026-02-02.html"
+    },
+    {
+      "week_start": "2026-01-26",
+      "total_articles": 0,
+      "json_path": "archive/2026-01-26.json",
+      "html_path": "../archive/2026-01-26.html"
+    },
+    {
+      "week_start": "2026-01-19",
+      "total_articles": 0,
+      "json_path": "archive/2026-01-19.json",
+      "html_path": "../archive/2026-01-19.html"
+    },
+    {
+      "week_start": "2026-01-12",
+      "total_articles": 0,
+      "json_path": "archive/2026-01-12.json",
+      "html_path": "../archive/2026-01-12.html"
+    },
+    {
+      "week_start": "2026-01-05",
+      "total_articles": 0,
+      "json_path": "archive/2026-01-05.json",
+      "html_path": "../archive/2026-01-05.html"
+    },
+    {
+      "week_start": "2025-12-29",
+      "total_articles": 0,
+      "json_path": "archive/2025-12-29.json",
+      "html_path": "../archive/2025-12-29.html"
+    },
+    {
+      "week_start": "2025-12-22",
+      "total_articles": 0,
+      "json_path": "archive/2025-12-22.json",
+      "html_path": "../archive/2025-12-22.html"
+    },
+    {
+      "week_start": "2025-12-15",
+      "total_articles": 0,
+      "json_path": "archive/2025-12-15.json",
+      "html_path": "../archive/2025-12-15.html"
+    },
+    {
+      "week_start": "2025-12-08",
+      "total_articles": 0,
+      "json_path": "archive/2025-12-08.json",
+      "html_path": "../archive/2025-12-08.html"
+    },
+    {
+      "week_start": "2025-12-01",
+      "total_articles": 0,
+      "json_path": "archive/2025-12-01.json",
+      "html_path": "../archive/2025-12-01.html"
+    },
+    {
+      "week_start": "2025-11-24",
+      "total_articles": 0,
+      "json_path": "archive/2025-11-24.json",
+      "html_path": "../archive/2025-11-24.html"
+    },
+    {
+      "week_start": "2025-11-17",
+      "total_articles": 0,
+      "json_path": "archive/2025-11-17.json",
+      "html_path": "../archive/2025-11-17.html"
+    },
+    {
+      "week_start": "2025-11-10",
+      "total_articles": 0,
+      "json_path": "archive/2025-11-10.json",
+      "html_path": "../archive/2025-11-10.html"
+    },
+    {
+      "week_start": "2025-11-03",
+      "total_articles": 0,
+      "json_path": "archive/2025-11-03.json",
+      "html_path": "../archive/2025-11-03.html"
+    },
+    {
+      "week_start": "2025-10-27",
+      "total_articles": 0,
+      "json_path": "archive/2025-10-27.json",
+      "html_path": "../archive/2025-10-27.html"
+    },
+    {
+      "week_start": "2025-10-20",
+      "total_articles": 0,
+      "json_path": "archive/2025-10-20.json",
+      "html_path": "../archive/2025-10-20.html"
+    },
+    {
+      "week_start": "2025-10-13",
+      "total_articles": 0,
+      "json_path": "archive/2025-10-13.json",
+      "html_path": "../archive/2025-10-13.html"
+    },
+    {
+      "week_start": "2025-10-06",
+      "total_articles": 0,
+      "json_path": "archive/2025-10-06.json",
+      "html_path": "../archive/2025-10-06.html"
+    },
+    {
+      "week_start": "2025-09-29",
+      "total_articles": 0,
+      "json_path": "archive/2025-09-29.json",
+      "html_path": "../archive/2025-09-29.html"
+    },
+    {
+      "week_start": "2025-09-22",
+      "total_articles": 0,
+      "json_path": "archive/2025-09-22.json",
+      "html_path": "../archive/2025-09-22.html"
+    },
+    {
+      "week_start": "2025-09-15",
+      "total_articles": 0,
+      "json_path": "archive/2025-09-15.json",
+      "html_path": "../archive/2025-09-15.html"
+    },
+    {
+      "week_start": "2025-09-08",
+      "total_articles": 0,
+      "json_path": "archive/2025-09-08.json",
+      "html_path": "../archive/2025-09-08.html"
+    },
+    {
+      "week_start": "2025-09-01",
+      "total_articles": 0,
+      "json_path": "archive/2025-09-01.json",
+      "html_path": "../archive/2025-09-01.html"
+    },
+    {
+      "week_start": "2025-08-25",
+      "total_articles": 0,
+      "json_path": "archive/2025-08-25.json",
+      "html_path": "../archive/2025-08-25.html"
+    },
+    {
+      "week_start": "2025-08-18",
+      "total_articles": 0,
+      "json_path": "archive/2025-08-18.json",
+      "html_path": "../archive/2025-08-18.html"
+    },
+    {
+      "week_start": "2025-08-11",
+      "total_articles": 0,
+      "json_path": "archive/2025-08-11.json",
+      "html_path": "../archive/2025-08-11.html"
+    },
+    {
+      "week_start": "2025-08-04",
+      "total_articles": 0,
+      "json_path": "archive/2025-08-04.json",
+      "html_path": "../archive/2025-08-04.html"
+    },
+    {
+      "week_start": "2025-07-28",
+      "total_articles": 0,
+      "json_path": "archive/2025-07-28.json",
+      "html_path": "../archive/2025-07-28.html"
+    },
+    {
+      "week_start": "2025-07-21",
+      "total_articles": 0,
+      "json_path": "archive/2025-07-21.json",
+      "html_path": "../archive/2025-07-21.html"
+    },
+    {
+      "week_start": "2025-07-14",
+      "total_articles": 0,
+      "json_path": "archive/2025-07-14.json",
+      "html_path": "../archive/2025-07-14.html"
+    },
+    {
+      "week_start": "2025-07-07",
+      "total_articles": 0,
+      "json_path": "archive/2025-07-07.json",
+      "html_path": "../archive/2025-07-07.html"
+    },
+    {
+      "week_start": "2025-06-30",
+      "total_articles": 0,
+      "json_path": "archive/2025-06-30.json",
+      "html_path": "../archive/2025-06-30.html"
+    },
+    {
+      "week_start": "2025-06-23",
+      "total_articles": 0,
+      "json_path": "archive/2025-06-23.json",
+      "html_path": "../archive/2025-06-23.html"
+    },
+    {
+      "week_start": "2025-06-16",
+      "total_articles": 0,
+      "json_path": "archive/2025-06-16.json",
+      "html_path": "../archive/2025-06-16.html"
+    },
+    {
+      "week_start": "2025-06-09",
+      "total_articles": 0,
+      "json_path": "archive/2025-06-09.json",
+      "html_path": "../archive/2025-06-09.html"
+    },
+    {
+      "week_start": "2025-06-02",
+      "total_articles": 0,
+      "json_path": "archive/2025-06-02.json",
+      "html_path": "../archive/2025-06-02.html"
+    },
+    {
+      "week_start": "2025-05-26",
+      "total_articles": 0,
+      "json_path": "archive/2025-05-26.json",
+      "html_path": "../archive/2025-05-26.html"
+    },
+    {
+      "week_start": "2025-05-19",
+      "total_articles": 0,
+      "json_path": "archive/2025-05-19.json",
+      "html_path": "../archive/2025-05-19.html"
+    },
+    {
+      "week_start": "2025-05-12",
+      "total_articles": 0,
+      "json_path": "archive/2025-05-12.json",
+      "html_path": "../archive/2025-05-12.html"
+    },
+    {
+      "week_start": "2025-05-05",
+      "total_articles": 0,
+      "json_path": "archive/2025-05-05.json",
+      "html_path": "../archive/2025-05-05.html"
+    },
+    {
+      "week_start": "2025-04-28",
+      "total_articles": 0,
+      "json_path": "archive/2025-04-28.json",
+      "html_path": "../archive/2025-04-28.html"
+    },
+    {
+      "week_start": "2025-04-21",
+      "total_articles": 0,
+      "json_path": "archive/2025-04-21.json",
+      "html_path": "../archive/2025-04-21.html"
+    },
+    {
+      "week_start": "2025-04-14",
+      "total_articles": 0,
+      "json_path": "archive/2025-04-14.json",
+      "html_path": "../archive/2025-04-14.html"
+    },
+    {
+      "week_start": "2025-04-07",
+      "total_articles": 0,
+      "json_path": "archive/2025-04-07.json",
+      "html_path": "../archive/2025-04-07.html"
+    },
+    {
+      "week_start": "2025-03-31",
+      "total_articles": 0,
+      "json_path": "archive/2025-03-31.json",
+      "html_path": "../archive/2025-03-31.html"
+    },
+    {
+      "week_start": "2025-03-24",
+      "total_articles": 0,
+      "json_path": "archive/2025-03-24.json",
+      "html_path": "../archive/2025-03-24.html"
+    },
+    {
+      "week_start": "2025-03-17",
+      "total_articles": 0,
+      "json_path": "archive/2025-03-17.json",
+      "html_path": "../archive/2025-03-17.html"
+    },
+    {
+      "week_start": "2025-03-10",
+      "total_articles": 0,
+      "json_path": "archive/2025-03-10.json",
+      "html_path": "../archive/2025-03-10.html"
+    },
+    {
+      "week_start": "2025-03-03",
+      "total_articles": 0,
+      "json_path": "archive/2025-03-03.json",
+      "html_path": "../archive/2025-03-03.html"
+    },
+    {
+      "week_start": "2025-02-24",
+      "total_articles": 0,
+      "json_path": "archive/2025-02-24.json",
+      "html_path": "../archive/2025-02-24.html"
+    },
+    {
+      "week_start": "2025-02-17",
+      "total_articles": 0,
+      "json_path": "archive/2025-02-17.json",
+      "html_path": "../archive/2025-02-17.html"
+    },
+    {
+      "week_start": "2025-02-10",
+      "total_articles": 0,
+      "json_path": "archive/2025-02-10.json",
+      "html_path": "../archive/2025-02-10.html"
+    },
+    {
+      "week_start": "2025-02-03",
+      "total_articles": 0,
+      "json_path": "archive/2025-02-03.json",
+      "html_path": "../archive/2025-02-03.html"
+    },
+    {
+      "week_start": "2025-01-27",
+      "total_articles": 0,
+      "json_path": "archive/2025-01-27.json",
+      "html_path": "../archive/2025-01-27.html"
+    },
+    {
+      "week_start": "2025-01-20",
+      "total_articles": 0,
+      "json_path": "archive/2025-01-20.json",
+      "html_path": "../archive/2025-01-20.html"
+    },
+    {
+      "week_start": "2025-01-13",
+      "total_articles": 0,
+      "json_path": "archive/2025-01-13.json",
+      "html_path": "../archive/2025-01-13.html"
+    },
+    {
+      "week_start": "2025-01-06",
+      "total_articles": 0,
+      "json_path": "archive/2025-01-06.json",
+      "html_path": "../archive/2025-01-06.html"
+    },
+    {
+      "week_start": "2024-12-30",
+      "total_articles": 0,
+      "json_path": "archive/2024-12-30.json",
+      "html_path": "../archive/2024-12-30.html"
+    },
+    {
+      "week_start": "2024-12-23",
+      "total_articles": 0,
+      "json_path": "archive/2024-12-23.json",
+      "html_path": "../archive/2024-12-23.html"
+    },
+    {
+      "week_start": "2024-12-16",
+      "total_articles": 0,
+      "json_path": "archive/2024-12-16.json",
+      "html_path": "../archive/2024-12-16.html"
+    },
+    {
+      "week_start": "2024-12-09",
+      "total_articles": 0,
+      "json_path": "archive/2024-12-09.json",
+      "html_path": "../archive/2024-12-09.html"
+    },
+    {
+      "week_start": "2024-12-02",
+      "total_articles": 0,
+      "json_path": "archive/2024-12-02.json",
+      "html_path": "../archive/2024-12-02.html"
+    },
+    {
+      "week_start": "2024-11-25",
+      "total_articles": 0,
+      "json_path": "archive/2024-11-25.json",
+      "html_path": "../archive/2024-11-25.html"
+    },
+    {
+      "week_start": "2024-11-18",
+      "total_articles": 0,
+      "json_path": "archive/2024-11-18.json",
+      "html_path": "../archive/2024-11-18.html"
+    },
+    {
+      "week_start": "2024-11-11",
+      "total_articles": 0,
+      "json_path": "archive/2024-11-11.json",
+      "html_path": "../archive/2024-11-11.html"
+    },
+    {
+      "week_start": "2024-11-04",
+      "total_articles": 0,
+      "json_path": "archive/2024-11-04.json",
+      "html_path": "../archive/2024-11-04.html"
+    },
+    {
+      "week_start": "2024-10-28",
+      "total_articles": 0,
+      "json_path": "archive/2024-10-28.json",
+      "html_path": "../archive/2024-10-28.html"
+    },
+    {
+      "week_start": "2024-10-21",
+      "total_articles": 0,
+      "json_path": "archive/2024-10-21.json",
+      "html_path": "../archive/2024-10-21.html"
+    },
+    {
+      "week_start": "2024-10-14",
+      "total_articles": 0,
+      "json_path": "archive/2024-10-14.json",
+      "html_path": "../archive/2024-10-14.html"
+    },
+    {
+      "week_start": "2024-10-07",
+      "total_articles": 0,
+      "json_path": "archive/2024-10-07.json",
+      "html_path": "../archive/2024-10-07.html"
+    },
+    {
+      "week_start": "2024-09-30",
+      "total_articles": 0,
+      "json_path": "archive/2024-09-30.json",
+      "html_path": "../archive/2024-09-30.html"
+    },
+    {
+      "week_start": "2024-09-23",
+      "total_articles": 0,
+      "json_path": "archive/2024-09-23.json",
+      "html_path": "../archive/2024-09-23.html"
+    },
+    {
+      "week_start": "2024-09-16",
+      "total_articles": 0,
+      "json_path": "archive/2024-09-16.json",
+      "html_path": "../archive/2024-09-16.html"
+    },
+    {
+      "week_start": "2024-09-09",
+      "total_articles": 0,
+      "json_path": "archive/2024-09-09.json",
+      "html_path": "../archive/2024-09-09.html"
+    },
+    {
+      "week_start": "2024-09-02",
+      "total_articles": 0,
+      "json_path": "archive/2024-09-02.json",
+      "html_path": "../archive/2024-09-02.html"
+    },
+    {
+      "week_start": "2024-08-26",
+      "total_articles": 0,
+      "json_path": "archive/2024-08-26.json",
+      "html_path": "../archive/2024-08-26.html"
+    },
+    {
+      "week_start": "2024-08-19",
+      "total_articles": 0,
+      "json_path": "archive/2024-08-19.json",
+      "html_path": "../archive/2024-08-19.html"
+    },
+    {
+      "week_start": "2024-08-12",
+      "total_articles": 0,
+      "json_path": "archive/2024-08-12.json",
+      "html_path": "../archive/2024-08-12.html"
+    },
+    {
+      "week_start": "2024-08-05",
+      "total_articles": 0,
+      "json_path": "archive/2024-08-05.json",
+      "html_path": "../archive/2024-08-05.html"
+    },
+    {
+      "week_start": "2024-07-29",
+      "total_articles": 0,
+      "json_path": "archive/2024-07-29.json",
+      "html_path": "../archive/2024-07-29.html"
+    },
+    {
+      "week_start": "2024-07-22",
+      "total_articles": 0,
+      "json_path": "archive/2024-07-22.json",
+      "html_path": "../archive/2024-07-22.html"
+    },
+    {
+      "week_start": "2024-07-15",
+      "total_articles": 0,
+      "json_path": "archive/2024-07-15.json",
+      "html_path": "../archive/2024-07-15.html"
+    },
+    {
+      "week_start": "2024-07-08",
+      "total_articles": 0,
+      "json_path": "archive/2024-07-08.json",
+      "html_path": "../archive/2024-07-08.html"
+    },
+    {
+      "week_start": "2024-07-01",
+      "total_articles": 0,
+      "json_path": "archive/2024-07-01.json",
+      "html_path": "../archive/2024-07-01.html"
+    },
+    {
+      "week_start": "2024-06-24",
+      "total_articles": 0,
+      "json_path": "archive/2024-06-24.json",
+      "html_path": "../archive/2024-06-24.html"
+    },
+    {
+      "week_start": "2024-06-17",
+      "total_articles": 0,
+      "json_path": "archive/2024-06-17.json",
+      "html_path": "../archive/2024-06-17.html"
+    },
+    {
+      "week_start": "2024-06-10",
+      "total_articles": 0,
+      "json_path": "archive/2024-06-10.json",
+      "html_path": "../archive/2024-06-10.html"
+    },
+    {
+      "week_start": "2024-06-03",
+      "total_articles": 0,
+      "json_path": "archive/2024-06-03.json",
+      "html_path": "../archive/2024-06-03.html"
+    },
+    {
+      "week_start": "2024-05-27",
+      "total_articles": 0,
+      "json_path": "archive/2024-05-27.json",
+      "html_path": "../archive/2024-05-27.html"
+    },
+    {
+      "week_start": "2024-05-20",
+      "total_articles": 0,
+      "json_path": "archive/2024-05-20.json",
+      "html_path": "../archive/2024-05-20.html"
+    },
+    {
+      "week_start": "2024-05-13",
+      "total_articles": 0,
+      "json_path": "archive/2024-05-13.json",
+      "html_path": "../archive/2024-05-13.html"
+    },
+    {
+      "week_start": "2024-05-06",
+      "total_articles": 0,
+      "json_path": "archive/2024-05-06.json",
+      "html_path": "../archive/2024-05-06.html"
+    },
+    {
+      "week_start": "2024-04-29",
+      "total_articles": 0,
+      "json_path": "archive/2024-04-29.json",
+      "html_path": "../archive/2024-04-29.html"
+    },
+    {
+      "week_start": "2024-04-22",
+      "total_articles": 0,
+      "json_path": "archive/2024-04-22.json",
+      "html_path": "../archive/2024-04-22.html"
+    },
+    {
+      "week_start": "2024-04-15",
+      "total_articles": 0,
+      "json_path": "archive/2024-04-15.json",
+      "html_path": "../archive/2024-04-15.html"
+    },
+    {
+      "week_start": "2024-04-08",
+      "total_articles": 0,
+      "json_path": "archive/2024-04-08.json",
+      "html_path": "../archive/2024-04-08.html"
+    },
+    {
+      "week_start": "2024-04-01",
+      "total_articles": 0,
+      "json_path": "archive/2024-04-01.json",
+      "html_path": "../archive/2024-04-01.html"
+    },
+    {
+      "week_start": "2024-03-25",
+      "total_articles": 0,
+      "json_path": "archive/2024-03-25.json",
+      "html_path": "../archive/2024-03-25.html"
+    },
+    {
+      "week_start": "2024-03-18",
+      "total_articles": 0,
+      "json_path": "archive/2024-03-18.json",
+      "html_path": "../archive/2024-03-18.html"
+    },
+    {
+      "week_start": "2024-03-11",
+      "total_articles": 0,
+      "json_path": "archive/2024-03-11.json",
+      "html_path": "../archive/2024-03-11.html"
+    },
+    {
+      "week_start": "2024-03-04",
+      "total_articles": 0,
+      "json_path": "archive/2024-03-04.json",
+      "html_path": "../archive/2024-03-04.html"
+    },
+    {
+      "week_start": "2024-02-26",
+      "total_articles": 0,
+      "json_path": "archive/2024-02-26.json",
+      "html_path": "../archive/2024-02-26.html"
+    },
+    {
+      "week_start": "2024-02-19",
+      "total_articles": 0,
+      "json_path": "archive/2024-02-19.json",
+      "html_path": "../archive/2024-02-19.html"
+    },
+    {
+      "week_start": "2024-02-12",
+      "total_articles": 0,
+      "json_path": "archive/2024-02-12.json",
+      "html_path": "../archive/2024-02-12.html"
+    },
+    {
+      "week_start": "2024-02-05",
+      "total_articles": 0,
+      "json_path": "archive/2024-02-05.json",
+      "html_path": "../archive/2024-02-05.html"
+    },
+    {
+      "week_start": "2024-01-29",
+      "total_articles": 0,
+      "json_path": "archive/2024-01-29.json",
+      "html_path": "../archive/2024-01-29.html"
+    },
+    {
+      "week_start": "2024-01-22",
+      "total_articles": 0,
+      "json_path": "archive/2024-01-22.json",
+      "html_path": "../archive/2024-01-22.html"
+    },
+    {
+      "week_start": "2024-01-15",
+      "total_articles": 0,
+      "json_path": "archive/2024-01-15.json",
+      "html_path": "../archive/2024-01-15.html"
+    },
+    {
+      "week_start": "2024-01-08",
+      "total_articles": 0,
+      "json_path": "archive/2024-01-08.json",
+      "html_path": "../archive/2024-01-08.html"
+    },
+    {
+      "week_start": "2024-01-01",
+      "total_articles": 0,
+      "json_path": "archive/2024-01-01.json",
+      "html_path": "../archive/2024-01-01.html"
+    },
+    {
+      "week_start": "2023-12-25",
+      "total_articles": 0,
+      "json_path": "archive/2023-12-25.json",
+      "html_path": "../archive/2023-12-25.html"
+    },
+    {
+      "week_start": "2023-12-18",
+      "total_articles": 0,
+      "json_path": "archive/2023-12-18.json",
+      "html_path": "../archive/2023-12-18.html"
+    },
+    {
+      "week_start": "2023-12-11",
+      "total_articles": 0,
+      "json_path": "archive/2023-12-11.json",
+      "html_path": "../archive/2023-12-11.html"
+    },
+    {
+      "week_start": "2023-12-04",
+      "total_articles": 0,
+      "json_path": "archive/2023-12-04.json",
+      "html_path": "../archive/2023-12-04.html"
+    },
+    {
+      "week_start": "2023-11-27",
+      "total_articles": 0,
+      "json_path": "archive/2023-11-27.json",
+      "html_path": "../archive/2023-11-27.html"
+    },
+    {
+      "week_start": "2023-11-20",
+      "total_articles": 0,
+      "json_path": "archive/2023-11-20.json",
+      "html_path": "../archive/2023-11-20.html"
+    },
+    {
+      "week_start": "2023-11-13",
+      "total_articles": 0,
+      "json_path": "archive/2023-11-13.json",
+      "html_path": "../archive/2023-11-13.html"
+    },
+    {
+      "week_start": "2023-11-06",
+      "total_articles": 0,
+      "json_path": "archive/2023-11-06.json",
+      "html_path": "../archive/2023-11-06.html"
+    },
+    {
+      "week_start": "2023-10-30",
+      "total_articles": 0,
+      "json_path": "archive/2023-10-30.json",
+      "html_path": "../archive/2023-10-30.html"
+    },
+    {
+      "week_start": "2023-10-23",
+      "total_articles": 0,
+      "json_path": "archive/2023-10-23.json",
+      "html_path": "../archive/2023-10-23.html"
+    },
+    {
+      "week_start": "2023-10-16",
+      "total_articles": 0,
+      "json_path": "archive/2023-10-16.json",
+      "html_path": "../archive/2023-10-16.html"
+    },
+    {
+      "week_start": "2023-10-09",
+      "total_articles": 0,
+      "json_path": "archive/2023-10-09.json",
+      "html_path": "../archive/2023-10-09.html"
+    },
+    {
+      "week_start": "2023-10-02",
+      "total_articles": 0,
+      "json_path": "archive/2023-10-02.json",
+      "html_path": "../archive/2023-10-02.html"
+    },
+    {
+      "week_start": "2023-09-25",
+      "total_articles": 0,
+      "json_path": "archive/2023-09-25.json",
+      "html_path": "../archive/2023-09-25.html"
+    },
+    {
+      "week_start": "2023-09-18",
+      "total_articles": 0,
+      "json_path": "archive/2023-09-18.json",
+      "html_path": "../archive/2023-09-18.html"
+    },
+    {
+      "week_start": "2023-09-11",
+      "total_articles": 0,
+      "json_path": "archive/2023-09-11.json",
+      "html_path": "../archive/2023-09-11.html"
+    },
+    {
+      "week_start": "2023-09-04",
+      "total_articles": 0,
+      "json_path": "archive/2023-09-04.json",
+      "html_path": "../archive/2023-09-04.html"
+    },
+    {
+      "week_start": "2023-08-28",
+      "total_articles": 0,
+      "json_path": "archive/2023-08-28.json",
+      "html_path": "../archive/2023-08-28.html"
+    },
+    {
+      "week_start": "2023-08-21",
+      "total_articles": 0,
+      "json_path": "archive/2023-08-21.json",
+      "html_path": "../archive/2023-08-21.html"
+    },
+    {
+      "week_start": "2023-08-14",
+      "total_articles": 0,
+      "json_path": "archive/2023-08-14.json",
+      "html_path": "../archive/2023-08-14.html"
+    },
+    {
+      "week_start": "2023-08-07",
+      "total_articles": 0,
+      "json_path": "archive/2023-08-07.json",
+      "html_path": "../archive/2023-08-07.html"
+    },
+    {
+      "week_start": "2023-07-31",
+      "total_articles": 0,
+      "json_path": "archive/2023-07-31.json",
+      "html_path": "../archive/2023-07-31.html"
+    },
+    {
+      "week_start": "2023-07-24",
+      "total_articles": 0,
+      "json_path": "archive/2023-07-24.json",
+      "html_path": "../archive/2023-07-24.html"
+    },
+    {
+      "week_start": "2023-07-17",
+      "total_articles": 0,
+      "json_path": "archive/2023-07-17.json",
+      "html_path": "../archive/2023-07-17.html"
+    },
+    {
+      "week_start": "2023-07-10",
+      "total_articles": 0,
+      "json_path": "archive/2023-07-10.json",
+      "html_path": "../archive/2023-07-10.html"
+    },
+    {
+      "week_start": "2023-07-03",
+      "total_articles": 0,
+      "json_path": "archive/2023-07-03.json",
+      "html_path": "../archive/2023-07-03.html"
+    },
+    {
+      "week_start": "2023-06-26",
+      "total_articles": 0,
+      "json_path": "archive/2023-06-26.json",
+      "html_path": "../archive/2023-06-26.html"
+    },
+    {
+      "week_start": "2023-06-19",
+      "total_articles": 0,
+      "json_path": "archive/2023-06-19.json",
+      "html_path": "../archive/2023-06-19.html"
+    },
+    {
+      "week_start": "2023-06-12",
+      "total_articles": 0,
+      "json_path": "archive/2023-06-12.json",
+      "html_path": "../archive/2023-06-12.html"
+    },
+    {
+      "week_start": "2023-06-05",
+      "total_articles": 0,
+      "json_path": "archive/2023-06-05.json",
+      "html_path": "../archive/2023-06-05.html"
+    },
+    {
+      "week_start": "2023-05-29",
+      "total_articles": 0,
+      "json_path": "archive/2023-05-29.json",
+      "html_path": "../archive/2023-05-29.html"
+    },
+    {
+      "week_start": "2023-05-22",
+      "total_articles": 0,
+      "json_path": "archive/2023-05-22.json",
+      "html_path": "../archive/2023-05-22.html"
+    },
+    {
+      "week_start": "2023-05-15",
+      "total_articles": 0,
+      "json_path": "archive/2023-05-15.json",
+      "html_path": "../archive/2023-05-15.html"
+    },
+    {
+      "week_start": "2023-05-08",
+      "total_articles": 0,
+      "json_path": "archive/2023-05-08.json",
+      "html_path": "../archive/2023-05-08.html"
+    },
+    {
+      "week_start": "2023-05-01",
+      "total_articles": 0,
+      "json_path": "archive/2023-05-01.json",
+      "html_path": "../archive/2023-05-01.html"
+    },
+    {
+      "week_start": "2023-04-24",
+      "total_articles": 0,
+      "json_path": "archive/2023-04-24.json",
+      "html_path": "../archive/2023-04-24.html"
+    },
+    {
+      "week_start": "2023-04-17",
+      "total_articles": 0,
+      "json_path": "archive/2023-04-17.json",
+      "html_path": "../archive/2023-04-17.html"
+    },
+    {
+      "week_start": "2023-04-10",
+      "total_articles": 0,
+      "json_path": "archive/2023-04-10.json",
+      "html_path": "../archive/2023-04-10.html"
     }
   ],
-  "updated": "2026-03-30T09:20:16.666801+00:00"
+  "updated": "2026-04-06T18:17:47.641177+00:00"
 }

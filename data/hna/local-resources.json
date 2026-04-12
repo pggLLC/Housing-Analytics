@@ -146,6 +146,11 @@
       {
         "name": "Aurora Housing Authority",
         "url": "https://www.aurora-housing.com/"
+      },
+      {
+        "name": "Housing Authority of the City of Brighton",
+        "contact": "adall@brightonhousing.org",
+        "totalUnits": 255
       }
     ],
     "advocacy": [
@@ -198,6 +203,11 @@
       {
         "name": "San Luis Valley Housing Coalition",
         "url": "https://www.slvhc.org/"
+      },
+      {
+        "name": "Housing Authority of the City of Alamosa",
+        "contact": "pha@gojade.org",
+        "totalUnits": 199
       }
     ],
     "advocacy": [
@@ -232,6 +242,16 @@
       {
         "name": "Englewood Housing Authority",
         "url": "https://www.englewoodco.gov/community/housing-authority"
+      },
+      {
+        "name": "Sheridan Housing Authority",
+        "contact": "jlambert@innovativehousingconcepts.org",
+        "totalUnits": 181
+      },
+      {
+        "name": "Littleton Housing Authority",
+        "contact": "creitz@smho.co",
+        "totalUnits": 624
       }
     ],
     "advocacy": [
@@ -324,6 +344,10 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Las Animas Housing Authority",
+        "totalUnits": 127
       }
     ],
     "advocacy": [
@@ -346,6 +370,11 @@
       {
         "name": "Longmont Housing Authority",
         "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority"
+      },
+      {
+        "name": "Boulder County Housing Authority",
+        "contact": "hofrontdesk@bouldercounty.org",
+        "totalUnits": 984
       }
     ],
     "advocacy": [
@@ -456,6 +485,11 @@
       {
         "name": "Chaffee Housing Trust",
         "url": "https://www.chaffeehousing.org/"
+      },
+      {
+        "name": "Housing Authority of the City of Salida",
+        "contact": "salidaha@bresnan.net",
+        "totalUnits": 50
       }
     ],
     "advocacy": [
@@ -500,6 +534,11 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Housing Authority for the Town of Cheyenne Wells",
+        "contact": "cwha5964@gmail.com",
+        "totalUnits": 25
       }
     ],
     "advocacy": [
@@ -556,6 +595,15 @@
       {
         "name": "San Luis Valley Housing Coalition",
         "url": "https://www.slvhc.org/"
+      },
+      {
+        "name": "Conejos County Housing Authority",
+        "contact": "karen@conejoshousing.org"
+      },
+      {
+        "name": "Housing Authority of Antonito",
+        "contact": "pchavez@antonitohousingauthority.com",
+        "totalUnits": 29
       }
     ],
     "advocacy": [
@@ -574,6 +622,11 @@
       {
         "name": "San Luis Valley Housing Coalition",
         "url": "https://www.slvhc.org/"
+      },
+      {
+        "name": "Costilla County Housing Authority",
+        "contact": "costcohousingjg@gojade.org",
+        "totalUnits": 57
       }
     ],
     "advocacy": [
@@ -628,6 +681,11 @@
       {
         "name": "Delta County Housing Authority",
         "url": "https://www.deltacounty.com/departments/housing/"
+      },
+      {
+        "name": "Delta Housing Authority",
+        "contact": "director@deltahousingauthority.org",
+        "totalUnits": 75
       }
     ],
     "advocacy": [
@@ -670,6 +728,11 @@
       {
         "name": "Denver Housing Authority",
         "url": "https://www.denverhousing.org/"
+      },
+      {
+        "name": "Housing Authority of the City and County of Denver",
+        "contact": "officials@denverhousing.org",
+        "totalUnits": 3700
       }
     ],
     "advocacy": [
@@ -880,6 +943,16 @@
       {
         "name": "El Paso County Housing Authority",
         "url": "https://www.elpasoco.com/housing-authority/"
+      },
+      {
+        "name": "Housing Authority of the City of Colorado Springs",
+        "contact": "info@csha.us",
+        "totalUnits": 706
+      },
+      {
+        "name": "Housing Authority of the City of Fountain",
+        "contact": "areeder@fountaincohousing.org",
+        "totalUnits": 40
       }
     ],
     "advocacy": [
@@ -1066,6 +1139,18 @@
       {
         "name": "Grand County Housing Authority",
         "url": "https://www.co.grand.co.us/388/Housing-Authority"
+      },
+      {
+        "name": "Housing Authority of the City of Brush",
+        "contact": "brushhousing@brushhousing.com",
+        "totalUnits": 30,
+        "phaCode": "CO044"
+      },
+      {
+        "name": "Fort Morgan Housing Authority",
+        "contact": "nancy@fmhousing.net",
+        "totalUnits": 86,
+        "phaCode": "CO011"
       }
     ],
     "advocacy": [
@@ -1160,6 +1245,11 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Housing Authority of the City of Walsenburg",
+        "contact": "jacque@walsenburghousing.org",
+        "totalUnits": 115
       }
     ],
     "advocacy": [
@@ -1200,6 +1290,11 @@
       {
         "name": "Lakewood Housing Authority",
         "url": "https://www.lakewood.org/Government/Departments/Community-Resources/Housing"
+      },
+      {
+        "name": "Arvada Housing Authority",
+        "contact": "housing@arvada.org",
+        "totalUnits": 562
       }
     ],
     "advocacy": [
@@ -1276,6 +1371,11 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Burlington Housing Authority",
+        "contact": "kstevens@citybha.com",
+        "totalUnits": 31
       }
     ],
     "advocacy": [
@@ -1378,6 +1478,26 @@
       {
         "name": "Loveland Housing Authority",
         "url": "https://www.lovgov.org/services/planning-building-development/housing-authority"
+      },
+      {
+        "name": "Housing Catalyst",
+        "contact": "jbrewen@housingcatalyst.com",
+        "totalUnits": 1627
+      },
+      {
+        "name": "Larimer County Housing Authority",
+        "contact": "jbrewen@housingcatalyst.com",
+        "totalUnits": 104
+      },
+      {
+        "name": "Wellington Housing Authority",
+        "contact": "jbrewen@housingcatalyst.com"
+      },
+      {
+        "name": "Fort Collins Housing Authority",
+        "contact": "jbrewen@housingcatalyst.com",
+        "totalUnits": 1177,
+        "phaCode": "CO041"
       }
     ],
     "advocacy": [
@@ -1442,6 +1562,22 @@
       {
         "name": "Las Animas/Trinidad Housing Authority",
         "url": "https://www.trinidadco.com/housing"
+      },
+      {
+        "name": "Trinidad Housing Authority",
+        "contact": "kadams@trinidadhousing.gov",
+        "totalUnits": 198
+      },
+      {
+        "name": "Housing Authority of the Town of Aguilar",
+        "contact": "aguilarhousing@gmail.com",
+        "totalUnits": 18
+      },
+      {
+        "name": "Housing Authority of the City of Lamar",
+        "contact": "executivedirector@lamarhousing.org",
+        "totalUnits": 137,
+        "phaCode": "CO006"
       }
     ],
     "advocacy": [
@@ -1468,6 +1604,11 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Housing Authority of the Town of Limon",
+        "contact": "lhauthority1001@gmail.com",
+        "totalUnits": 40
       }
     ],
     "advocacy": [
@@ -1486,6 +1627,11 @@
       {
         "name": "Logan County / Sterling Housing Authority",
         "url": "https://www.sterlingcolo.com/housing"
+      },
+      {
+        "name": "Housing Authority of the City of Sterling",
+        "contact": "brigadon@kci.net",
+        "totalUnits": 110
       }
     ],
     "advocacy": [
@@ -1548,6 +1694,11 @@
       {
         "name": "Cortez / Montezuma County Housing Authority",
         "url": "https://www.cortezco.gov/housing"
+      },
+      {
+        "name": "Housing Authority of the County of Montezuma",
+        "contact": "accounting@mc-ha.org",
+        "totalUnits": 31
       }
     ],
     "advocacy": [
@@ -1612,6 +1763,16 @@
       {
         "name": "Morgan County Housing Authority",
         "url": "https://www.morgancounty.com/housing-authority"
+      },
+      {
+        "name": "Fort Morgan Housing Authority",
+        "contact": "nancy@fmhousing.net",
+        "totalUnits": 86
+      },
+      {
+        "name": "Housing Authority of the City of Brush",
+        "contact": "brushhousing@brushhousing.com",
+        "totalUnits": 30
       }
     ],
     "advocacy": [
@@ -1634,6 +1795,21 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "La Junta Housing Authority",
+        "contact": "ljhous@yahoo.com",
+        "totalUnits": 86
+      },
+      {
+        "name": "Otero County Housing Authority",
+        "contact": "ljhous@yahoo.com",
+        "totalUnits": 46
+      },
+      {
+        "name": "Rocky Ford Housing Authority",
+        "contact": "tracylovato@yahoo.com",
+        "totalUnits": 53
       }
     ],
     "advocacy": [
@@ -1708,6 +1884,16 @@
       {
         "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
         "url": "https://www.necoha.org/"
+      },
+      {
+        "name": "Housing Authority of the Town of Haxtun",
+        "contact": "haxtunha@haxtuntel.net",
+        "totalUnits": 22
+      },
+      {
+        "name": "Holyoke Housing Authority",
+        "contact": "holyokehousing@outlook.com",
+        "totalUnits": 30
       }
     ],
     "advocacy": [
@@ -1780,6 +1966,16 @@
       {
         "name": "Southeast Colorado Housing (SECHA)",
         "url": "https://www.secha.net/"
+      },
+      {
+        "name": "Housing Authority of the City of Lamar",
+        "contact": "executivedirector@lamarhousing.org",
+        "totalUnits": 30
+      },
+      {
+        "name": "Housing Authority of the Town of Holly",
+        "contact": "holly074@centurytel.net",
+        "totalUnits": 16
       }
     ],
     "advocacy": [
@@ -1802,6 +1998,11 @@
       {
         "name": "Pueblo County Housing",
         "url": "https://www.pueblocounty.us/departments/pcd/housing"
+      },
+      {
+        "name": "Housing Authority of the City of Pueblo",
+        "contact": "steven.trujillo@hapueblo.org",
+        "totalUnits": 729
       }
     ],
     "advocacy": [
@@ -1962,6 +2163,11 @@
       {
         "name": "San Luis Valley Housing Coalition",
         "url": "https://www.slvhc.org/"
+      },
+      {
+        "name": "Center Housing Authority",
+        "contact": "centerhousinga@gmail.com",
+        "totalUnits": 30
       }
     ],
     "advocacy": [
@@ -2036,6 +2242,11 @@
       {
         "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
         "url": "https://www.necoha.org/"
+      },
+      {
+        "name": "Julesburg Housing Authority",
+        "contact": "julehous@julesburgha.com",
+        "totalUnits": 52
       }
     ],
     "advocacy": [
@@ -2150,6 +2361,12 @@
       {
         "name": "NE Colorado Housing Authority (rural eastern Colorado)",
         "url": "https://www.necoha.org/"
+      },
+      {
+        "name": "Housing Authority of the City of Sterling",
+        "contact": "brigadon@kci.net",
+        "totalUnits": 110,
+        "phaCode": "CO025"
       }
     ],
     "advocacy": [
@@ -2172,6 +2389,31 @@
       {
         "name": "Greeley Housing Authority",
         "url": "https://www.greeleygov.com/government/community-development/housing"
+      },
+      {
+        "name": "Housing Authority of Weld County",
+        "contact": "Vincent@Greeley-WeldHA.org",
+        "totalUnits": 433
+      },
+      {
+        "name": "Housing Authority of the Town of Kersey",
+        "contact": "kerseyha@mindspring.com",
+        "totalUnits": 20
+      },
+      {
+        "name": "Housing Authority of the City of Fort Lupton",
+        "contact": "info@FTLhousing.org",
+        "totalUnits": 50
+      },
+      {
+        "name": "Housing Authority of the City of Greeley",
+        "contact": "Vincent@Greeley-WeldHA.org",
+        "totalUnits": 86
+      },
+      {
+        "name": "Housing Authority of the Town of Keenesburg",
+        "contact": "keenehousing@aol.com",
+        "totalUnits": 20
       }
     ],
     "advocacy": [
@@ -2230,6 +2472,16 @@
       {
         "name": "NE Colorado Housing Authority (rural eastern Colorado)",
         "url": "https://www.necoha.org/"
+      },
+      {
+        "name": "Housing Authority of the City of Wray",
+        "contact": "wrayven@vistabeam.com",
+        "totalUnits": 41
+      },
+      {
+        "name": "Housing Authority of the Town of Yuma",
+        "contact": "yumahousingauthority@gmail.com",
+        "totalUnits": 50
       }
     ],
     "advocacy": [

@@ -59,7 +59,7 @@ LAUS_SUFFIX = "0000000000003"
 QCEW_API = "https://data.bls.gov/cew/data/api/{year}/a1/area/{area}.json"
 
 # ACS candidate years (newest first; try until one succeeds)
-ACS_CANDIDATES = [2024, 2023, 2022]
+ACS_CANDIDATES = [2025, 2024, 2023]
 
 
 # ---------------------------------------------------------------------------

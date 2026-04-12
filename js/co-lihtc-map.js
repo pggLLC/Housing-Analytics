@@ -564,8 +564,10 @@
       var onlyDda = cbFilterDda && cbFilterDda.checked;
       lihtcLayerGroup.eachLayer(function(layer) {
         var p = (layer.feature && layer.feature.properties) || {};
-        var inQct = Number(p.QCT) === 1;
-        var inDda = Number(p.DDA) === 1;
+        // QCT/DDA fields may be string "1", "2", number 1, or boolean —
+        // any truthy non-zero value indicates designation
+        var inQct = p.QCT != null && Number(p.QCT) > 0;
+        var inDda = p.DDA != null && Number(p.DDA) > 0;
         var visible = true;
         if (onlyQct && !inQct) visible = false;
         if (onlyDda && !inDda) visible = false;

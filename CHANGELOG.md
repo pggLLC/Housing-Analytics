@@ -1,5 +1,70 @@
 # CHANGELOG
 
+## Phase 3 (final): Constants Centralization, Test Infrastructure & Documentation
+**Date:** April 5, 2026
+
+### Deal Calculator Improvements
+- Equity price input now auto-switches when toggling 4% (0.85) / 9% (0.90) credit rate scenarios
+- `js/lihtc-deal-predictor.js` — replaced 3 hardcoded credit rate literals (0.09, 0.04) with `DEFAULT_ASSUMPTIONS.creditRate9Pct/creditRate4Pct` sourced from `COHO_DEFAULTS`
+- Wired `eligibleBasisPct` to `COHO_DEFAULTS` with graceful fallback
+
+### Test Infrastructure
+- `test/lighthouse-audit.js` — rewritten from Lighthouse/Chrome stub to zero-dependency HTML structure checker (49 pages, 6 checks: lang, h1, alt, handlers, viewport, title)
+- `test/website-monitor.js` — rewritten from axios/cheerio stub to zero-dependency local link checker (839 references validated)
+- Deleted `tools/copilot_apply_hardening.js` (empty 5-line stub)
+
+### CI & Data Pipeline
+- `build-hna-data.yml` — added `SKIP_GEO_CONFIG=true` to prevent CI overwrite of 546-geography geo-config.json
+- Added viewport meta to redirect pages (colorado-market.html, state-allocation-map.html)
+
+### Documentation
+- `README.md` — comprehensive update reflecting 38 pages, 37 workflows, 16 CSS files, 136 JS modules, 21 data sources
+- `docs/implementation-status.md` — critical gaps #2-5 marked resolved, stub count → 0, partial count → 0
+
+---
+
+## Phase 3 (continued): Data Integration, Deal Prediction & Documentation
+**Date:** April 2026
+
+### Data Pipeline Completions
+- **6 real Colorado data sources** replace PMA stubs — EPA SLD (walkability), USDA Food Access, FEMA NFHL (flood zones), LODES (workforce commuting), Opportunity Insights (mobility), DOLA (demographics)
+- All data loaded via **local-first pattern** with live API fallback
+- `fetchNOAAClimateData()` — now loads from `data/market/climate_hazards_co.json`, derives resilience score from 6 hazard categories (drought, wildfire, flood, hail, heat, freeze-thaw)
+- `fetchUtilityCapacity()` — now loads from `data/market/utility_capacity_co.geojson`, provides service-area-based capacity estimates with bbox overlap filtering
+- `fetchHudAFFH()` — derived fair housing index from Opportunity Insights mobility + incarceration data
+
+### Enhanced LIHTC Deal Prediction (#445)
+- Fixed `HudFmr.getByFips()` method name mismatch (→ `getFmrByFips()` + `getIncomeLimitsByFips()`)
+- Aligned hard cost constants with `data/lihtc-assumptions.json` by concept type
+- Wired CHFA historical awards, AMI gap data, and soft funding into predictor inputs
+- Added enhanced predictor graceful fallback on `market-analysis.html` and `deal-calculator.html`
+
+### Housing Policy Scorecard
+- 546 Colorado jurisdictions scored across 7 dimensions
+- Integrated into HNA Comparative Analysis page
+- CSV export includes all policy commitment columns
+- HUD eGIS housing authority data merged via `scripts/policy/merge_pha_resources.py`
+
+### Navigation & UX
+- Extracted 78 CSS rules from `js/navigation.js` into `css/navigation.css`
+- Added Census Explorer to nav Explore group
+- Chart policy annotations (COVID-19, Prop 123, AHCIA) on all time-series charts
+- HNA Comparative Analysis: searchable dropdown selectors replace A/B button pattern
+
+### Documentation Updates
+- `docs/LIHTC_FEASIBILITY_CALCULATOR.md` — updated to reflect implemented deal predictor
+- `docs/FEATURE_COMPLETE.md` — added "Recently Completed" section with all Phase 3 deliverables
+- `docs/implementation-status.md` — auto-synced via `scripts/sync-docs.mjs`
+
+### Bug Fixes
+- Fixed glossary/help modal z-index (raised to 9500 above sticky header)
+- Fixed sub-county jurisdiction passthrough to HNA page via URL params + SiteState
+- Fixed LIHTC allocations showing only Colorado (now uses `getAllStates()` for 50-state data)
+- Fixed PMA map layer toggles (11 checkboxes had zero event handlers)
+- Fixed `fetch_climate_and_environment.py` Python 3.9 compatibility (`dict | None` → `None` default)
+
+---
+
 ## Phase 3: Site Architecture, State Management & Data Pipeline
 **Date:** March 2026
 

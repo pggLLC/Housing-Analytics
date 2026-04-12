@@ -55,6 +55,17 @@ jobs:
           check_file "data/market/acs_tract_metrics_co.json"
           check_file "data/market/hud_lihtc_co.geojson"
 
+          echo ""
+          echo "=== Checking Phase 3 market data artifacts ==="
+          check_file "data/market/lodes_co.json"
+          check_file "data/market/food_access_co.json"
+          check_file "data/market/opportunity_insights_co.json"
+          check_file "data/market/flood_zones_co.json"
+          check_file "data/market/epa_sld_co.json"
+          check_file "data/market/dola_demographics_co.json"
+          check_file "data/market/climate_hazards_co.json"
+          check_file "data/market/utility_capacity_co.geojson"
+
           if [ $errors -gt 0 ]; then
             echo ""
             echo "::error::$errors required file(s) are missing."
@@ -82,7 +93,10 @@ jobs:
 
           echo "=== Checking script tag references ==="
           check_script_ref "market-analysis.html"          "js/market-analysis.js"
+          check_script_ref "market-analysis.html"          "js/lihtc-deal-predictor.js"
           check_script_ref "market-intelligence.html"      "js/market-intelligence.js"
+          check_script_ref "deal-calculator.html"          "js/deal-calculator.js"
+          check_script_ref "deal-calculator.html"          "js/lihtc-deal-predictor.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/data-source-inventory.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/temporal-dashboard.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/geographic-dashboard.js"
@@ -116,6 +130,14 @@ jobs:
           validate_json "data/market/tract_centroids_co.json"
           validate_json "data/market/acs_tract_metrics_co.json"
           validate_json "data/market/hud_lihtc_co.geojson"
+          validate_json "data/market/lodes_co.json"
+          validate_json "data/market/food_access_co.json"
+          validate_json "data/market/opportunity_insights_co.json"
+          validate_json "data/market/flood_zones_co.json"
+          validate_json "data/market/epa_sld_co.json"
+          validate_json "data/market/dola_demographics_co.json"
+          validate_json "data/market/climate_hazards_co.json"
+          validate_json "data/market/utility_capacity_co.geojson"
 
           if [ $errors -gt 0 ]; then
             echo ""

@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Leaflet map
     const map = L.map('map').setView([39.8283, -98.5795], 4);
-    
+    if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.8283, -98.5795], zoom: 4 }); }
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -190,6 +191,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         callbacks: {
                             label: function(context) {
                                 return context.dataset.label + ': $' + context.parsed.y + 'B';
+                            }
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            prop123: {
+                                type: 'line',
+                                xMin: '2022', xMax: '2022',
+                                borderColor: 'rgba(14, 165, 233, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [6, 4],
+                                label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14, 165, 233, 0.7)', font: { size: 11 } }
+                            },
+                            ahcia: {
+                                type: 'line',
+                                xMin: '2023', xMax: '2023',
+                                borderColor: 'rgba(139, 92, 246, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [6, 4],
+                                label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139, 92, 246, 0.7)', font: { size: 11 } }
                             }
                         }
                     }

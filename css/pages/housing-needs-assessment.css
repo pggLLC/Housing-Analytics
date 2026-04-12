@@ -51,6 +51,12 @@
    Map and chart containers
    ---------------------------------------------------------------- */
 #hnaMap { height: 62vh; min-height: 520px; width: 100%; border-radius: 14px; border: 1px solid var(--border); overflow: hidden; }
+
+@media (max-width: 640px) {
+  #hnaMap { height: 50vh; min-height: 260px; border-radius: 8px; }
+  .chart-box { height: 260px; min-height: 260px; }
+  .chart-box.tall { height: 320px; min-height: 320px; }
+}
 .chart-box { position: relative; height: 360px; min-height: 360px; }
 .chart-box.tall { height: 440px; min-height: 440px; }
 
@@ -313,22 +319,55 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 .compliance-checklist { margin: 0; padding: 0; list-style: none; width: 100%; box-sizing: border-box; overflow-y: auto; max-height: 600px; }
 .checklist-item {
-  display: flex;
+  display: grid;
+  /* icon | checkbox (both auto-width) | text fills remaining space */
+  grid-template-columns: auto auto 1fr;
   align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
+  column-gap: 8px;
+  padding: 10px 12px;
+  margin: 2px 0;
+  border-bottom: none;
+  border-radius: 8px;
+  border: 1px solid transparent;
   font-size: .9rem;
   color: var(--text);
   width: 100%;
   box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
   line-height: 1.5;
+  min-width: 0;
+  cursor: pointer;
+  transition: background .12s ease, border-color .12s ease;
 }
-.checklist-item:last-child { border-bottom: none; }
-.checklist-item input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); min-width: 16px; min-height: 16px; }
-.checklist-item label { cursor: pointer; flex: 1; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
+.checklist-item > .checklist-status-icon {
+  grid-column: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  padding-top: 2px;
+}
+.checklist-item > input[type="checkbox"]  { grid-column: 2; margin-top: 2px; }
+.checklist-item > .checklist-item-content { grid-column: 3; }
+.checklist-item:hover {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-color: color-mix(in oklab, var(--accent) 20%, var(--border) 80%);
+}
+.checklist-item + .checklist-item { border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+.checklist-item:first-child { border-radius: 8px 8px 0 0; }
+.checklist-item:last-child  { border-radius: 0 0 8px 8px; border-bottom: none; }
+.checklist-item:only-child  { border-radius: 8px; }
+.checklist-item input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0; /* safety if ever wrapped in flex */
+}
+.checklist-item label { cursor: pointer; display: block; overflow-wrap: break-word; word-break: break-word; }
+.checklist-item.done {
+  background: color-mix(in oklab, var(--good) 7%, var(--card) 93%);
+  border-color: color-mix(in oklab, var(--good) 25%, var(--border) 75%);
+}
 .checklist-item.done label { color: var(--muted); text-decoration: line-through; }
 
 /* Status icon (✓, ⏳, ⚠️) */
@@ -385,23 +424,22 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   .compliance-checklist { padding: 0; }
   .checklist-item {
     gap: 10px;
-    padding: 8px 0;
+    padding: 8px 10px;
     font-size: .88rem;
     line-height: 1.45;
   }
-  .checklist-item input[type="checkbox"] { min-width: 18px; min-height: 18px; }
+  .checklist-item input[type="checkbox"] { min-width: 20px; min-height: 20px; }
+  .chfa-checklist-item { padding: 8px 10px; gap: 10px; }
 }
 
 @media (max-width: 480px) {
-  .checklist-item {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .checklist-item input[type="checkbox"] { order: -1; }
+  .checklist-item { gap: 6px; }
+  .chfa-checklist-item { gap: 8px; }
 }
 
 @media (max-width: 400px) {
-  .checklist-item { font-size: .84rem; gap: 8px; }
+  .checklist-item { font-size: .84rem; }
+  .chfa-checklist-item { font-size: .84rem; }
 }
 
 .resources-section { margin-top: 0; }
@@ -432,26 +470,41 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
    Scenario projection view toggle labels (WCAG 2.5.5 touch targets)
    ---------------------------------------------------------------- */
 .proj-view-label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 5px;
   cursor: pointer;
-  font-size: .9rem;
+  font-size: .88rem;
+  font-weight: 500;
   min-height: 44px;
   min-width: 44px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  transition: background .15s, border-color .15s;
+  padding: 0 14px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  transition: background .15s, border-color .15s, color .15s;
+  user-select: none;
 }
-.proj-view-label:hover { background: var(--bg2); border-color: var(--border); }
+.proj-view-label:hover {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-color: color-mix(in oklab, var(--accent) 30%, var(--border) 70%);
+}
 .proj-view-label:has(input:checked) {
-  background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
+  color: #fff;
   font-weight: 700;
 }
-.proj-view-label input[type="radio"] { accent-color: var(--accent); }
+/* Hide the native radio dot — the label itself is the visual control */
+.proj-view-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
 
 /* Scenario assumption range slider (WCAG 2.5.5: min-height 44px) */
 .scenario-range {
@@ -639,36 +692,62 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
   margin: 10px 0;
 }
 .chfa-checklist-item {
-  display: flex;
+  /* Match compliance-checklist grid: checkbox | content */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
   align-items: flex-start;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 10px 12px;
+  margin: 2px 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px;
+  font-size: .9rem;
+  color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5;
+  min-width: 0;
+  cursor: pointer;
+  transition: background .12s ease, border-color .12s ease;
 }
-.chfa-checklist-item:last-child { border-bottom: none; }
-.chfa-checklist-item input[type="checkbox"] {
+.chfa-checklist-item:hover {
+  background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+  border-color: color-mix(in oklab, var(--accent) 20%, var(--border) 80%);
+}
+.chfa-checklist-item + .chfa-checklist-item { border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+.chfa-checklist-item:first-child { border-radius: 8px 8px 0 0; }
+.chfa-checklist-item:last-child  { border-radius: 0 0 8px 8px; }
+.chfa-checklist-item:only-child  { border-radius: 8px; }
+.chfa-checklist-item--done {
+  background: color-mix(in oklab, var(--good) 7%, var(--card) 93%);
+  border-color: color-mix(in oklab, var(--good) 25%, var(--border) 75%) !important;
+}
+.chfa-checklist-item > input[type="checkbox"] {
+  grid-column: 1;
   margin-top: 3px;
-  min-width: 18px;
-  min-height: 18px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--accent);
   cursor: pointer;
+  flex-shrink: 0;
 }
-.chfa-checklist-content { flex: 1; min-width: 0; }
+.chfa-checklist-content {
+  grid-column: 2;
+  min-width: 0;
+}
 .chfa-checklist-content label {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-weight: 700;
+  display: block;
+  font-weight: 600;
   font-size: .92rem;
   cursor: pointer;
   color: var(--text);
-  min-width: 0;
   overflow-wrap: break-word;
   word-break: break-word;
 }
-.chfa-checklist-note { display: block; font-size: .8rem; color: var(--muted); margin-top: 2px; }
+.chfa-checklist-note { display: block; font-size: .8rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 .chfa-checklist-item--done .chfa-checklist-content label { text-decoration: line-through; color: var(--muted); }
+.chfa-checklist-item--done .chfa-checklist-note { display: none; }
 .chfa-capture-rate-badge {
   font-size: .75rem;
   font-weight: 900;
@@ -710,3 +789,69 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 
 /* ── PMA methodology section heading ────────────────────── */
 .pma-methodology-section h2 { margin-bottom: 6px; }
+
+/* ── Scenario comparison enhancements ───────────────────── */
+.scenario-freshness-badge {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--accent) 12%, var(--card) 88%);
+  color: var(--accent);
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent 70%);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.scenario-need-summary {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+  font-size: .88rem;
+  color: var(--text);
+}
+.scenario-need-summary .scenario-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+@media (max-width: 600px) {
+  .scenario-need-summary .scenario-summary-grid { grid-template-columns: 1fr; }
+}
+.scenario-summary-col {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+}
+.scenario-summary-col .sc-label {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: 0 0 2px;
+}
+.scenario-summary-col .sc-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.scenario-data-quality {
+  margin: 6px 0 0;
+  font-size: .8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.scenario-data-quality.dq-warn {
+  color: var(--warn);
+}
+
+/* ── Scenario export button ──────────────────────────────── */
+.scenario-export-btn {
+  padding: 6px 12px;
+  font-size: .82rem;
+  cursor: pointer;
+  min-height: 44px;
+  white-space: nowrap;
+}

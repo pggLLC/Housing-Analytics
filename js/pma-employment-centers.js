@@ -15,7 +15,10 @@
   'use strict';
 
   /* ── Constants ────────────────────────────────────────────────────── */
-  var MIN_CLUSTER_JOBS    = 500;   // minimum jobs to qualify as employment center
+  var MIN_CLUSTER_JOBS_URBAN = 500;  // urban/suburban threshold
+  var MIN_CLUSTER_JOBS_RURAL = 75;   // rural threshold (towns <5,000 total jobs)
+  var RURAL_TOTAL_JOBS_THRESHOLD = 5000; // if total jobs in buffer < this, use rural threshold
+  var MIN_CLUSTER_JOBS    = MIN_CLUSTER_JOBS_URBAN; // legacy default (overridden dynamically)
   var CLUSTER_RADIUS_MILES = 2;    // merge workplaces within this radius
   var MAX_CENTERS         = 10;    // top N centers to retain
   var EARTH_RADIUS_MI     = 3958.8;
@@ -30,6 +33,7 @@
   var lastClusters    = [];
   var lastCorridors   = [];
   var lastAccessScore = 0;
+  var lastContext     = { isRural: false, totalJobs: 0, minJobsUsed: MIN_CLUSTER_JOBS_URBAN };
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toRad(deg) { return deg * Math.PI / 180; }
@@ -56,8 +60,15 @@
    * @returns {Array} clusters sorted by job count descending
    */
   function clusterByJobDensity(workplaces, minJobs) {
-    minJobs = minJobs || MIN_CLUSTER_JOBS;
     if (!workplaces || !workplaces.length) { return []; }
+
+    // Auto-detect rural context: if total jobs in the dataset are below
+    // the rural threshold, lower the minimum cluster size so small-town
+    // employment centers are not silently dropped.
+    var totalJobs = workplaces.reduce(function (s, w) { return s + toNum(w.jobCount); }, 0);
+    var isRuralContext = totalJobs < RURAL_TOTAL_JOBS_THRESHOLD;
+    var effectiveMin = minJobs || (isRuralContext ? MIN_CLUSTER_JOBS_RURAL : MIN_CLUSTER_JOBS_URBAN);
+    minJobs = effectiveMin;
 
     var assigned = new Array(workplaces.length).fill(false);
     var clusters = [];
@@ -106,6 +117,12 @@
 
     lastClusters = clusters.sort(function (a, b) { return b.jobCount - a.jobCount; })
                            .slice(0, MAX_CENTERS);
+    lastContext = { isRural: isRuralContext, totalJobs: totalJobs, minJobsUsed: minJobs };
+    if (isRuralContext) {
+      console.info('[PMAEmploymentCenters] Rural context detected (' + totalJobs +
+        ' total jobs < ' + RURAL_TOTAL_JOBS_THRESHOLD + '). Using ' + minJobs +
+        '-job minimum threshold instead of ' + MIN_CLUSTER_JOBS_URBAN + '.');
+    }
     return lastClusters;
   }
 
@@ -226,7 +243,8 @@
       identifyMajorCorridors:       identifyMajorCorridors,
       mapCommutingFlowsToCenters:   mapCommutingFlowsToCenters,
       scoreEmploymentAccessibility: scoreEmploymentAccessibility,
-      getEmploymentLayer:           getEmploymentLayer
+      getEmploymentLayer:           getEmploymentLayer,
+      getContext:                   function () { return lastContext; }
     };
   }
 

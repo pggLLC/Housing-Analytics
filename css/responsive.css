@@ -15,9 +15,14 @@
   /* --bp-xl: 1280px  */
 }
 
-/* Prevent horizontal overflow on small viewports */
-html, body {
-  overflow-x: hidden;
+/* Prevent horizontal overflow on small viewports.
+   Use clip (not hidden) so <body> doesn't become a scroll container,
+   which would break position:sticky on the site header and workflow bar. */
+html {
+  overflow-x: clip;
+  width: 100%;
+}
+body {
   width: 100%;
 }
 
@@ -63,7 +68,7 @@ select,
 label,
 summary,
 .btn,
-nav.site-nav a,
+nav.site-nav > a,
 .mobile-menu-toggle {
   min-height: 44px;
   min-width: 44px;
@@ -73,7 +78,7 @@ nav.site-nav a,
 }
 
 /* Navigation links are inline-flex but allow wrapping label text */
-nav.site-nav a {
+nav.site-nav > a {
   white-space: nowrap;
   padding: 10px 12px;
 }
@@ -99,7 +104,7 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     gap: 4px;
   }
 
-  nav.site-nav a {
+  nav.site-nav > a {
     font-size: var(--small);
     padding: 8px 8px;
   }
@@ -172,11 +177,17 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
   .metric { grid-column: span 12 !important; }
 }
 
-/* Feature / content grids: 1-column on mobile */
+/* Feature / content grids: 1-column on mobile.
+   Intentionally named classes only — the [class*="grid"] glob was removed
+   because it collapsed deal-calculator, scenario-builder, and HNA results
+   panels unintentionally on narrow screens. */
 @media (max-width: 639px) {
   .features-grid,
   .cards-grid,
-  [class*="grid"] {
+  .home-steps-grid,
+  .policy-grid,
+  .lender-grid,
+  .resource-grid {
     grid-template-columns: 1fr !important;
   }
 }

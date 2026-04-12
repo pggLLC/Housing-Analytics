@@ -43,15 +43,15 @@
       provider: 'HUD / ArcGIS',
       url: 'https://hudgis-hud.opendata.arcgis.com/',
       localFile: 'data/market/hud_lihtc_co.geojson',
-      lastUpdated: '2025-12-01',
-      updateFrequency: 'Annual',
-      maxAgeDays: 365,
+      lastUpdated: '2026-04-06',
+      updateFrequency: 'Weekly',
+      maxAgeDays: 10,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
-      features: 2800,
-      description: 'HUD LIHTC project-level GeoJSON for Colorado. Includes project location, unit counts, credit year, QCT/DDA status.',
+      features: 716,
+      description: 'HUD-schema LIHTC project GeoJSON for Colorado. Rebuilt weekly from data/chfa-lihtc.json by scripts/normalize-lihtc-to-hud-schema.js — includes all 716 projects with both CHFA and HUD-compatible field names. Primary source for the PMA market-analysis tool via window.HudLihtc.load().',
       tags: ['lihtc', 'affordable-housing', 'colorado'],
-      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Low_Income_Housing_Tax_Credit/FeatureServer/0',
+      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
       alternatives: [
         { title: 'HUD LIHTC Database', description: 'Download full national LIHTC dataset from HUD', url: 'https://lihtc.huduser.gov/' },
         { title: 'HUD EGIS Open Data', description: 'HUD geospatial open data portal with LIHTC layers', url: 'https://hudgis-hud.opendata.arcgis.com/' },
@@ -63,18 +63,18 @@
       name: 'CHFA LIHTC Portfolio',
       category: 'LIHTC / Housing',
       format: 'JSON',
-      provider: 'CHFA / Internal',
+      provider: 'CHFA ArcGIS FeatureServer (public)',
       url: 'https://www.chfainfo.com/',
       localFile: 'data/chfa-lihtc.json',
-      lastUpdated: '2025-11-01',
-      updateFrequency: 'Quarterly',
-      maxAgeDays: 120,
+      lastUpdated: '2026-04-06',
+      updateFrequency: 'Weekly',
+      maxAgeDays: 10,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
-      features: 1200,
-      description: 'CHFA-financed LIHTC projects with allocation amounts, developer info, and compliance dates.',
+      features: 716,
+      description: 'Canonical LIHTC project cache for Colorado (716 features). Fetched weekly from the CHFA ArcGIS FeatureServer by scripts/fetch-chfa-lihtc.js. Primary source for the HNA and LIHTC map pages. window.HudLihtc.load() tries this file first (Tier 1) before any fallback.',
       tags: ['chfa', 'lihtc', 'colorado'],
-      apiEndpoint: null
+      apiEndpoint: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0'
     },
     {
       id: 'lihtc-trends-county',
@@ -558,7 +558,7 @@
       format: 'JSON',
       provider: 'Bureau of Labor Statistics',
       url: 'https://www.bls.gov/cew/',
-      localFile: 'data/bls-qcew-co.json',
+      localFile: 'data/co-county-economic-indicators.json',
       lastUpdated: '2025-09-01',
       updateFrequency: 'Quarterly',
       maxAgeDays: 120,
@@ -1094,6 +1094,166 @@
       description: 'Zillow Home Value Index at county level for Colorado. Monthly series for top-25 counties by population.',
       tags: ['zillow', 'zhvi', 'county', 'home-values'],
       apiEndpoint: null
+    },
+
+    // ── FEMA Flood Zones ─────────────────────────────────────────
+    {
+      id: 'fema-flood-co',
+      name: 'FEMA National Flood Hazard Layer (NFHL) — Colorado',
+      category: 'Risk / Environmental',
+      format: 'GeoJSON',
+      provider: 'FEMA',
+      url: 'https://msc.fema.gov/portal/home',
+      localFile: 'data/market/fema_flood_co.geojson',
+      lastUpdated: '2025-10-01',
+      updateFrequency: 'Ongoing (FIRM amendments)',
+      maxAgeDays: 180,
+      geoUnit: 'Parcel / Census tract',
+      coverage: 'Colorado statewide',
+      features: null,
+      description: 'FEMA flood zone designations (AE, AH, X) from the National Flood Hazard Layer. Used for site risk scoring and environmental constraint screening.',
+      tags: ['fema', 'flood', 'risk', 'environmental', 'gis'],
+      apiEndpoint: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer'
+    },
+
+    // ── EPA Cleanup / Brownfields ─────────────────────────────────
+    {
+      id: 'epa-cleanup-co',
+      name: 'EPA Cleanup Sites — Colorado',
+      category: 'Risk / Environmental',
+      format: 'GeoJSON',
+      provider: 'EPA',
+      url: 'https://www.epa.gov/cleanups/cleanups-my-community',
+      localFile: 'data/market/epa_cleanup_co.geojson',
+      lastUpdated: '2025-09-01',
+      updateFrequency: 'Quarterly',
+      maxAgeDays: 120,
+      geoUnit: 'Site',
+      coverage: 'Colorado statewide',
+      features: null,
+      description: 'EPA Superfund, brownfield, and cleanup site locations. Used for environmental constraint screening during site feasibility analysis.',
+      tags: ['epa', 'brownfield', 'cleanup', 'superfund', 'risk', 'environmental'],
+      apiEndpoint: 'https://enviro.epa.gov/enviro/ef_metadata_json.ef_get_facility_info'
+    },
+
+    // ── EPA Smart Location Database ───────────────────────────────
+    {
+      id: 'epa-smart-location',
+      name: 'EPA Smart Location Database',
+      category: 'Transportation / Access',
+      format: 'GeoJSON / CSV',
+      provider: 'EPA',
+      url: 'https://www.epa.gov/smartgrowth/smart-location-mapping',
+      localFile: 'data/market/epa_smart_location_co.json',
+      lastUpdated: '2024-01-01',
+      updateFrequency: 'Every 5 years (decennial)',
+      maxAgeDays: 730,
+      geoUnit: 'Census block group',
+      coverage: 'Nationwide (Colorado extract)',
+      features: null,
+      description: 'EPA Smart Location Database block-group metrics: transit proximity, walkability, D-scores, auto accessibility. Used for PMA transit and opportunity scoring.',
+      tags: ['epa', 'smart-location', 'walkability', 'transit', 'accessibility', 'block-group'],
+      apiEndpoint: null
+    },
+
+    // ── OpenStreetMap Amenities ───────────────────────────────────
+    {
+      id: 'osm-amenities',
+      name: 'OpenStreetMap Amenities (Overpass API)',
+      category: 'Market / GIS',
+      format: 'GeoJSON (live query)',
+      provider: 'OpenStreetMap / Overpass API',
+      url: 'https://overpass-turbo.eu/',
+      localFile: null,
+      lastUpdated: null,
+      updateFrequency: 'Real-time',
+      maxAgeDays: 1,
+      geoUnit: 'Point of Interest',
+      coverage: 'Worldwide (queried per site)',
+      features: null,
+      description: 'Live Overpass API queries for nearby amenities (grocery, healthcare, transit stops, parks) within the PMA buffer. Used for neighborhood access scoring.',
+      tags: ['osm', 'openstreetmap', 'amenities', 'poi', 'walkability'],
+      apiEndpoint: 'https://overpass-api.de/api/interpreter'
+    },
+
+    // ── Opportunity Zones (HUD/Treasury) ─────────────────────────
+    {
+      id: 'hud-opportunity-zones',
+      name: 'Opportunity Zones — Colorado',
+      category: 'Policy / Tax Incentives',
+      format: 'GeoJSON',
+      provider: 'HUD / U.S. Treasury',
+      url: 'https://opportunityzones.hud.gov/',
+      localFile: 'data/market/opportunity_zones_co.geojson',
+      lastUpdated: '2024-01-01',
+      updateFrequency: 'Static (2018 designations, updated periodically)',
+      maxAgeDays: 365,
+      geoUnit: 'Census tract',
+      coverage: 'Colorado — 126 designated OZ tracts',
+      features: 126,
+      description: 'Federally designated Opportunity Zone census tracts in Colorado. Used for tax incentive overlay in PMA scoring and site feasibility analysis.',
+      tags: ['opportunity-zones', 'oz', 'tax-incentives', 'census-tract', 'hud', 'treasury'],
+      apiEndpoint: null
+    },
+
+    // ── USGS National Hydrography Dataset ────────────────────────
+    {
+      id: 'usgs-nhd-co',
+      name: 'USGS National Hydrography Dataset (NHD) — Colorado',
+      category: 'Risk / Environmental',
+      format: 'GeoJSON',
+      provider: 'USGS',
+      url: 'https://www.usgs.gov/national-hydrography/national-hydrography-dataset',
+      localFile: 'data/market/nhd_barriers_co.geojson',
+      lastUpdated: '2025-01-01',
+      updateFrequency: 'Annual',
+      maxAgeDays: 365,
+      geoUnit: 'Stream / Water body',
+      coverage: 'Colorado statewide',
+      features: null,
+      description: 'USGS NHD water body and stream network for Colorado. Used as natural barriers in PMA boundary delineation (rivers, lakes, major waterways).',
+      tags: ['usgs', 'nhd', 'hydrology', 'water', 'barriers', 'gis'],
+      apiEndpoint: 'https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer'
+    },
+
+    // ── NTD Transit (National Transit Database) ───────────────────
+    {
+      id: 'ntd-transit-co',
+      name: 'NTD Transit Routes &amp; Stops — Colorado',
+      category: 'Transportation / Access',
+      format: 'GeoJSON / GTFS',
+      provider: 'FTA / National Transit Database',
+      url: 'https://www.transit.dot.gov/ntd',
+      localFile: 'data/market/transit_stops_co.geojson',
+      lastUpdated: '2025-04-01',
+      updateFrequency: 'Annual (NTD) / Real-time (GTFS)',
+      maxAgeDays: 180,
+      geoUnit: 'Stop / Route',
+      coverage: 'Colorado transit agencies (RTD, CDOT, local)',
+      features: null,
+      description: 'Transit stops and routes from NTD/GTFS feeds for Colorado agencies. Used for transit access scoring and PMA commuting-based boundary delineation.',
+      tags: ['transit', 'ntd', 'gtfs', 'bus', 'rail', 'transportation'],
+      apiEndpoint: 'https://transit.land/api/v2/rest'
+    },
+
+    // ── Regrid Parcels API ────────────────────────────────────────
+    {
+      id: 'regrid-parcels',
+      name: 'Regrid Parcel &amp; Zoning Data — Colorado',
+      category: 'Market / GIS',
+      format: 'GeoJSON (API)',
+      provider: 'Loveland / Regrid',
+      url: 'https://regrid.com/',
+      localFile: 'data/market/parcel_aggregates_co.json',
+      lastUpdated: '2025-10-01',
+      updateFrequency: 'Quarterly',
+      maxAgeDays: 90,
+      geoUnit: 'Parcel',
+      coverage: 'Colorado statewide (aggregated by tract)',
+      features: null,
+      description: 'Regrid v2 Parcels API for Colorado. Provides parcel geometry, ownership, zoning classification, and land use codes. Used for multifamily suitability and vacant land analysis.',
+      tags: ['regrid', 'parcels', 'zoning', 'land-use', 'gis'],
+      apiEndpoint: 'https://app.regrid.com/api/v2/parcels/point'
     }
   ];
 

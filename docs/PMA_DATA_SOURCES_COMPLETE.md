@@ -7,7 +7,7 @@
 
 ## Overview
 
-The PMA pipeline ingests data from seven source categories:
+The PMA pipeline ingests data from seven core categories plus eight Phase 3 bulk datasets:
 
 | # | Category | Primary Source | Refresh |
 |---|---|---|---|
@@ -18,6 +18,7 @@ The PMA pipeline ingests data from seven source categories:
 | 5 | Economic Indicators | FRED (St. Louis Fed) | Daily |
 | 6 | Cost Burden (CHAS) | HUD CHAS | Every 2–3 years |
 | 7 | Preservation / NHPD | NHPD | Quarterly |
+| 8a–8i | Bulk Market Data (Phase 3) | EPA/USDA/FEMA/LODES/DOLA/NOAA | On demand |
 
 ---
 
@@ -204,9 +205,55 @@ The PMA pipeline ingests data from seven source categories:
 
 ---
 
+## 8. Phase 3 Bulk Market Data Sources (April 2026)
+
+The following Colorado-specific datasets are pre-fetched by scripts in `scripts/market/` and loaded locally by `js/data-service-portable.js` (local-first pattern — no live API calls at page load).
+
+| # | Dataset | Source | Output File | Records | Fetch Script |
+|---|---|---|---|---|---|
+| 8a | EPA Smart Location Database | EPA ArcGIS MapServer | `data/market/epa_sld_co.json` | ~3,500 block groups | `fetch_epa_sld.py` |
+| 8b | USDA Food Access Atlas | USDA ERS | `data/market/food_access_co.json` | ~1,200 tracts | `fetch_food_access.py` |
+| 8c | FEMA Flood Zones | FEMA NFHL ArcGIS | `data/market/flood_zones_co.json` | ~1,600 tracts | `fetch_fema_nfhl.py` |
+| 8d | LODES Commuting | Census LEHD LODES 8.x | `data/market/lodes_co.json` | ~1,400 tracts | `fetch_lodes.py` |
+| 8e | Opportunity Insights | Harvard/Brown | `data/market/opportunity_insights_co.json` | ~1,200 tracts | `fetch_opportunity_insights.py` |
+| 8f | DOLA Demographics | Colorado DOLA API | `data/market/dola_demographics_co.json` | 64 counties | `fetch_dola.py` |
+| 8g | Climate Hazards | NOAA/EPA EJI/CWCB | `data/market/climate_hazards_co.json` | 6 hazard categories + EJI tracts | `fetch_climate_and_environment.py` |
+| 8h | Utility Service Areas | CDSS/DWR/DOLA | `data/market/utility_capacity_co.geojson` | GeoJSON features | `fetch_utility_capacity.py` |
+| 8i | Environmental Constraints | CPW Protected Lands | `data/market/environmental_constraints_co.geojson` | GeoJSON features | `fetch_climate_and_environment.py` |
+
+### Data Loading Pattern
+
+All Phase 3 data uses the **local-first** pattern in `data-service-portable.js`:
+1. Load pre-fetched JSON from `data/market/` (zero CORS issues, works offline)
+2. If local data is empty/missing, fall back to live API query (where available)
+3. Return `_stub: true` with `_dataSource` metadata when data is unavailable
+4. All functions return Promises for consistent async API
+
+### Rebuild Command
+
+```bash
+python3 scripts/market/build_public_market_data.py
+```
+
+Or individually:
+```bash
+python3 scripts/market/fetch_epa_sld.py
+python3 scripts/market/fetch_food_access.py
+python3 scripts/market/fetch_fema_nfhl.py
+python3 scripts/market/fetch_lodes.py
+python3 scripts/market/fetch_opportunity_insights.py
+python3 scripts/market/fetch_dola.py
+python3 scripts/market/fetch_climate_and_environment.py
+python3 scripts/market/fetch_utility_capacity.py
+```
+
+---
+
 ## Data Quality Checks
 
 Run `python3 scripts/market/validate_qct_dda_co.py` to validate QCT/DDA output.
+
+Run `node scripts/validate-schemas.js` for comprehensive artifact validation (includes all Phase 3 market data).
 
 Run `node test/data-quality-check.test.js` for end-to-end data quality tests.
 
@@ -227,5 +274,11 @@ The following external endpoints must be accessible in CI/CD:
 | `services1.arcgis.com` | CHFA LIHTC ArcGIS |
 | `data.denvergov.org` | Local Denver open data (PR #422) |
 | `tigerweb.geo.census.gov` | TIGERweb boundaries |
+| `geodata.epa.gov` | EPA Smart Location Database |
+| `hazards.fema.gov` | FEMA NFHL flood data |
+| `lehd.ces.census.gov` | LODES commuting data |
+| `data2.nhgis.org` | Opportunity Insights tract data |
+| `gis.dola.colorado.gov` | DOLA demographics API |
+| `www.ncdc.noaa.gov` | NOAA climate data (optional token) |
 
 See `.github/COPILOT_ALLOWLIST` for firewall configuration notes.

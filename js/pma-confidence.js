@@ -22,7 +22,7 @@
   /* ── Configuration ─────────────────────────────────────────────── */
   var CONFIG = {
     // Target data vintage year (ACS 5-Year data); update when Census releases new data
-    TARGET_ACS_VINTAGE:       2022,
+    TARGET_ACS_VINTAGE:       2024,
     // Target statewide counts — TARGET_ACS_TRACTS matches STATEWIDE_TRACT_COUNT in market-analysis.js
     TARGET_ACS_TRACTS:        1500,
     TARGET_LIHTC_PROJECTS:    500,

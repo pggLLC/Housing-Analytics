@@ -35,21 +35,10 @@ STATE_FIPS = "08"
 CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_oz_cache"
 CACHE_TTL_HOURS = 720  # 30 days (OZ designations rarely change)
 
-# HUD CDFI Fund Opportunity Zones — public ArcGIS FeatureServer
+# HUD CDFI Fund Opportunity Zones — public ArcGIS FeatureServer (v2)
 OZ_ARCGIS_URL = (
     "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/"
-    "Opportunity_Zones/FeatureServer/0"
-)
-
-# Fallback: HUD CDFI Fund OZ GeoJSON download
-OZ_GEOJSON_URL = (
-    "https://www.cdfifund.gov/opportunity-zones"
-)
-
-# Alternative: Census/HUD OZ tract list
-OZ_CENSUS_URL = (
-    "https://hudgis-hud.opendata.arcgis.com/datasets/"
-    "0c9cec80b5f041289ffe0f2c818d6ded_0.geojson"
+    "Opportunity_Zones_2/FeatureServer/0"
 )
 
 
@@ -97,12 +86,12 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 60) -> bytes:
 
 def arcgis_query_oz(layer_url: str, offset: int = 0) -> dict:
     params = urllib.parse.urlencode({
-        "where": f"STATE_FIPS='{STATE_FIPS}'",
+        "where": f"STATEFP='{STATE_FIPS}'",
         "outFields": "*",
         "returnGeometry": "true",
         "f": "geojson",
         "outSR": "4326",
-        "resultRecordCount": "5000",
+        "resultRecordCount": "2000",
         "resultOffset": str(offset),
     })
     url = f"{layer_url}/query?{params}"
@@ -118,28 +107,19 @@ def build_opportunity_zones() -> dict:
     log("Fetching Colorado Opportunity Zone designations…")
     generated = utc_now()
 
-    # Try HUD OpenData GeoJSON first (simpler endpoint)
+    all_features = []
+    # Fetch from ArcGIS FeatureServer with pagination
     try:
-        raw = fetch_url(OZ_CENSUS_URL, timeout=120)
-        gj = json.loads(raw)
-        all_features = gj.get("features", [])
+        offset = 0
+        while True:
+            page = arcgis_query_oz(OZ_ARCGIS_URL, offset=offset)
+            page_features = page.get("features", [])
+            all_features.extend(page_features)
+            if not page_features or not page.get("exceededTransferLimit"):
+                break
+            offset += len(page_features)
     except Exception as exc:
-        log(f"HUD OZ GeoJSON fetch failed: {exc}. Trying ArcGIS…", level="WARN")
-        all_features = []
-
-    # Fall back to ArcGIS FeatureServer with pagination
-    if not all_features:
-        try:
-            offset = 0
-            while True:
-                page = arcgis_query_oz(OZ_ARCGIS_URL, offset=offset)
-                page_features = page.get("features", [])
-                all_features.extend(page_features)
-                if not page_features or not page.get("exceededTransferLimit"):
-                    break
-                offset += len(page_features)
-        except Exception as exc:
-            log(f"ArcGIS OZ fetch also failed: {exc}", level="WARN")
+        log(f"ArcGIS OZ fetch failed: {exc}", level="WARN")
 
     # Filter to Colorado and normalize
     co_features = []

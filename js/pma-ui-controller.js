@@ -21,6 +21,31 @@
 (function () {
   'use strict';
 
+  /* ── Chart loading-state helpers (self-contained for this page) ──── */
+  function _showChartLoading(canvasId) {
+    var el = document.getElementById(canvasId);
+    if (!el) return;
+    var box = el.closest('.chart-box') || el.parentElement;
+    if (!box) return;
+    box.style.position = 'relative';
+    var overlay = box.querySelector('.chart-loading');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'chart-loading';
+      overlay.innerHTML = '<div class="chart-spinner"></div><span class="chart-loading-label">Loading\u2026</span>';
+      box.appendChild(overlay);
+    }
+    overlay.hidden = false;
+  }
+  function _hideChartLoading(canvasId) {
+    var el = document.getElementById(canvasId);
+    if (!el) return;
+    var box = el.closest('.chart-box') || el.parentElement;
+    if (!box) return;
+    var overlay = box.querySelector('.chart-loading');
+    if (overlay) overlay.hidden = true;
+  }
+
   /* ── CSS for active tab state (injected once) ────────────────────── */
   var STYLE_INJECTED = false;
   function _injectStyle() {
@@ -32,7 +57,12 @@
       '.pma-tab--active{background:var(--accent,#096e65)!important;color:#fff!important;',
       '  border-color:var(--accent,#096e65)!important;}',
       '.pma-tab:hover:not(.pma-tab--active){background:var(--border,#2a2a2a);}',
-      '#pmaProgressFill{will-change:width;}'
+      '#pmaProgressFill{will-change:width;}',
+      '.pma-restored-banner{padding:.4rem .75rem;background:var(--card-alt,rgba(9,110,101,.12));',
+      '  border-left:3px solid var(--accent,#096e65);border-radius:4px;font-size:.82rem;margin:.5rem 0;}',
+      '.pma-restored-banner__dismiss{margin-left:.5rem;font-size:.8rem;background:none;',
+      '  border:1px solid var(--accent,#096e65);border-radius:3px;',
+      '  color:var(--accent,#096e65);cursor:pointer;}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -45,6 +75,73 @@
   var _bufferMiles  = 5;
   var _lastScoreRun = null;
   var _running      = false;
+
+  /* ── Preload CHFA LIHTC and AMI gap data for predictor enrichment ── */
+  (function _preloadPredictorData() {
+    if (typeof fetch !== 'function') return;
+    var resolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
+
+    // CHFA LIHTC awards
+    fetch(resolver('data/chfa-lihtc.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      window._chfaLihtcCache = data;
+    }).catch(function () {});
+
+    // AMI gap by county
+    fetch(resolver('data/co_ami_gap_by_county.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      window._amiGapCache = data;
+    }).catch(function () {});
+  })();
+
+  /**
+   * Count CHFA awards in a county from the last 5 years (2021-2026).
+   */
+  function _applyChfaAwards(dealInputs, countyFips, chfaData) {
+    if (!chfaData || !chfaData.features) return;
+    var count = 0;
+    var fips = String(countyFips).padStart(5, '0');
+    for (var i = 0; i < chfaData.features.length; i++) {
+      var props = chfaData.features[i].properties;
+      if (!props) continue;
+      var projFips = String(props.CNTY_FIPS || '').padStart(5, '0');
+      if (projFips !== fips) continue;
+      var yr = parseInt(props.YR_ALLOC, 10);
+      if (yr >= 2021 && yr <= 2026) count++;
+    }
+    dealInputs.chfaHistoricalAwards = count;
+  }
+
+  /**
+   * Look up the county affordability gap score from AMI gap data.
+   */
+  function _applyAmiGap(dealInputs, countyFips, amiGapData) {
+    if (!amiGapData || !amiGapData.counties) return;
+    var fips = String(countyFips).padStart(5, '0');
+    for (var i = 0; i < amiGapData.counties.length; i++) {
+      var c = amiGapData.counties[i];
+      if (String(c.fips).padStart(5, '0') === fips) {
+        // Compute a 0-100 affordability gap score from coverage at 50% AMI
+        // Lower coverage = higher gap
+        var coverage50 = c.coverage_le_ami_pct && c.coverage_le_ami_pct['50'];
+        if (coverage50 != null) {
+          dealInputs.countyAffordabilityGap = Math.round((1 - coverage50) * 100);
+        }
+        // Pass AMI-specific gap unit counts for the enhanced predictor
+        var gaps = c.gap_units_minus_households_le_ami_pct;
+        if (gaps) {
+          dealInputs.ami30UnitsNeeded = dealInputs.ami30UnitsNeeded || Math.abs(gaps['30'] || 0);
+          dealInputs.ami50UnitsNeeded = dealInputs.ami50UnitsNeeded || Math.abs(gaps['50'] || 0);
+          dealInputs.ami60UnitsNeeded = dealInputs.ami60UnitsNeeded || Math.abs(gaps['60'] || 0);
+        }
+        break;
+      }
+    }
+  }
 
   /* ── Progress bar helpers ────────────────────────────────────────── */
   function _progressShow() {
@@ -125,7 +222,48 @@
       if (elig.dda !== undefined) dealInputs.isDda = !!elig.dda;
     }
 
-    var rec = predictor.predictConcept(dealInputs);
+    // Wire CHFA historical awards — count projects in selected county with
+    // YR_ALLOC in last 5 years (2021-2026) from cached chfa-lihtc.json
+    var countyFips = dealInputs.geoid || null;
+    if (!countyFips) {
+      try {
+        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+        if (_jx && _jx.countyFips) countyFips = _jx.countyFips;
+      } catch (_) {}
+      if (!countyFips) {
+        try {
+          var _sc = window.SiteState && window.SiteState.getCounty();
+          if (_sc && _sc.fips) countyFips = _sc.fips;
+        } catch (_) {}
+      }
+    }
+    if (countyFips) {
+      dealInputs.geoid = countyFips;
+      // CHFA historical awards (from cached data if available)
+      if (window._chfaLihtcCache) {
+        _applyChfaAwards(dealInputs, countyFips, window._chfaLihtcCache);
+      }
+      // County affordability gap (from cached data if available)
+      if (window._amiGapCache) {
+        _applyAmiGap(dealInputs, countyFips, window._amiGapCache);
+      }
+    }
+
+    // Wire soft funding data from SoftFundingTracker if loaded
+    if (window.SoftFundingTracker && typeof window.SoftFundingTracker.check === 'function' && countyFips) {
+      try {
+        var fundResult = window.SoftFundingTracker.check(countyFips, new Date().getFullYear());
+        if (fundResult && typeof fundResult.available === 'number') {
+          dealInputs.softFundingAvailable = fundResult.available;
+        }
+      } catch (_) {}
+    }
+
+    // Use enhanced predictor when available, fall back to base
+    var rec = (window.LIHTCDealPredictorEnhanced
+      ? window.LIHTCDealPredictorEnhanced.predictEnhanced(dealInputs).base
+      : predictor.predictConcept(dealInputs));
 
     // Compute housing needs fit when HNA data is available
     var hnsFit = null;
@@ -341,6 +479,75 @@
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  /* ── Field validation helpers (Audit 5.2) ───────────────────────── */
+
+  /**
+   * Show an inline validation error for a form field.
+   * Sets aria-invalid on the input and un-hides the companion error span.
+   *
+   * @param {string} inputId - The input element's id (e.g. 'pmaAmi30')
+   * @param {string} msg     - Human-readable error message
+   */
+  function _showFieldError(inputId, msg) {
+    var inp  = $id(inputId);
+    var span = $id(inputId + '-error');
+    if (inp)  { inp.setAttribute('aria-invalid', 'true'); }
+    if (span) { span.textContent = msg; span.hidden = false; }
+  }
+
+  /**
+   * Clear an inline validation error for a form field.
+   *
+   * @param {string} inputId - The input element's id
+   */
+  function _clearFieldError(inputId) {
+    var inp  = $id(inputId);
+    var span = $id(inputId + '-error');
+    if (inp)  { inp.removeAttribute('aria-invalid'); }
+    if (span) { span.textContent = ''; span.hidden = true; }
+  }
+
+  /** Clear all AMI field errors. */
+  var _AMI_FIELDS = ['pmaProposedUnits','pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+  function _clearAllFieldErrors() {
+    _AMI_FIELDS.forEach(_clearFieldError);
+  }
+
+  /**
+   * Validate the capture-rate simulator inputs.
+   * Returns true when valid; shows inline errors and returns false otherwise.
+   */
+  function _validateAmiInputs() {
+    _clearAllFieldErrors();
+    var valid = true;
+
+    var proposedEl = $id('pmaProposedUnits');
+    var proposed   = parseInt((proposedEl || {}).value, 10);
+    if (!proposed || proposed < 1) {
+      _showFieldError('pmaProposedUnits', 'Enter at least 1 unit.');
+      valid = false;
+    }
+
+    var amiIds = ['pmaAmi30','pmaAmi40','pmaAmi50','pmaAmi60','pmaAmi80'];
+    var sum = 0;
+    amiIds.forEach(function (id) {
+      var el = $id(id);
+      var v  = parseInt((el || {}).value, 10) || 0;
+      if (v < 0) {
+        _showFieldError(id, 'Value cannot be negative.');
+        valid = false;
+      }
+      sum += v;
+    });
+
+    if (valid && proposed && sum > proposed) {
+      _showFieldError('pmaAmi30', 'AMI unit total (' + sum + ') exceeds proposed units (' + proposed + ').');
+      valid = false;
+    }
+
+    return valid;
+  }
+
   /* ── Main analysis trigger ───────────────────────────────────────── */
   function _runEnhancedAnalysis(lat, lon) {
     if (_running) return;
@@ -348,6 +555,7 @@
     if (!runner) return;   // fall through to existing buffer flow
 
     _running = true;
+    _showChartLoading('pmaRadarChart');
     _progressShow();
     _progressUpdate({ index: 0, total: 9, label: 'Starting analysis…', pct: 0 });
 
@@ -355,23 +563,48 @@
     if (explainBtn) explainBtn.hidden = true;
 
     var proposed = parseInt(($id('pmaProposedUnits') || {}).value || '100', 10) || 100;
+    var runOptions = { method: _method, bufferMiles: _bufferMiles, proposedUnits: proposed };
 
-    runner.run(lat, lon, {
-      method:        _method,
-      bufferMiles:   _bufferMiles,
-      proposedUnits: proposed
-    })
+    runner.run(lat, lon, runOptions)
     .on('progress', _progressUpdate)
     .on('complete', function (scoreRun) {
       _lastScoreRun = scoreRun;
       _running = false;
+      _hideChartLoading('pmaRadarChart');
       _progressComplete();
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
+
+      // Persist result to localStorage (survives page refresh for 24 h)
+      if (window.PMADataCache && window.PMADataCache.saveLastResult) {
+        window.PMADataCache.saveLastResult(lat, lon, runOptions, scoreRun);
+      }
+
+      // Update URL hash so the run can be shared or bookmarked
+      _writePermalink(lat, lon, runOptions);
+
+      // Render PMA delineation polygon and optional SMA ring
+      var delineation = window.PMADelineation;
+      var mapRef = window.PMAEngine && window.PMAEngine._map();
+      if (delineation && mapRef) {
+        delineation.renderPmaLayer(mapRef, lat, lon, _bufferMiles);
+
+        // If the analysis produced a commuting boundary, overlay it
+        if (scoreRun && scoreRun.boundary) {
+          delineation.renderCommutingBoundary(mapRef, scoreRun.boundary);
+        }
+
+        // Respect the SMA toggle
+        var smaCheck = $id('pmaSmaToggle');
+        if (smaCheck && smaCheck.checked) {
+          delineation.renderSmaLayer(mapRef, lat, lon, true);
+        }
+      }
     })
     .on('error', function (err) {
       _running = false;
+      _hideChartLoading('pmaRadarChart');
       _progressHide();
       console.error('[PMAUIController] Analysis error:', err);
     });
@@ -425,6 +658,9 @@
     if (!runBtn) return;
 
     runBtn.addEventListener('click', function () {
+      // Validate AMI inputs before any analysis mode
+      if (!_validateAmiInputs()) return;
+
       // Only intercept non-buffer modes (buffer flow handled by market-analysis.js)
       if (_method === 'buffer') return;
 
@@ -456,14 +692,50 @@
     var btn = $id('pmaExplainScoreBtn');
     if (!btn) return;
     btn.addEventListener('click', function () {
+      // In enhanced (commuting / hybrid) mode _lastScoreRun is set by the runner.
+      // In buffer mode, fall back to the result stored in PMAEngine._state.
+      var scoreRun = _lastScoreRun ||
+        (window.PMAEngine && window.PMAEngine._state && window.PMAEngine._state.getLastResult
+          ? window.PMAEngine._state.getLastResult()
+          : null);
+
+      if (!scoreRun) {
+        alert('No analysis has been run yet — click a location on the map first.');
+        return;
+      }
+
       var just = window.PMAJustification;
-      if (!just || !_lastScoreRun) { return; }
-      var trail = just.generateAuditTrail(_lastScoreRun);
+      if (!just) {
+        // Fallback summary when PMAJustification module is not loaded (buffer mode)
+        var r = scoreRun;
+        var lines = [
+          'Score: '            + (r.pma_score != null ? r.pma_score : '—'),
+          'Buffer radius: '    + (r.bufferMiles || '—') + ' miles',
+          'Tracts in buffer: ' + (r.tractCount  || '—'),
+          'Population: '       + (r.acs && r.acs.pop ? r.acs.pop.toLocaleString() : '—'),
+          'Renter households: '+ (r.acs && r.acs.renter_hh ? r.acs.renter_hh.toLocaleString() : '—'),
+          'Median gross rent: '+ (r.acs && r.acs.median_gross_rent
+              ? '$' + Math.round(r.acs.median_gross_rent).toLocaleString() : '—'),
+          'Median HH income: ' + (r.acs && r.acs.median_hh_income
+              ? '$' + Math.round(r.acs.median_hh_income).toLocaleString() : '—'),
+          'Cost burden rate: ' + (r.acs && r.acs.cost_burden_rate != null
+              ? (r.acs.cost_burden_rate * 100).toFixed(1) + '%' : '—'),
+          'LIHTC projects: '   + (r.lihtcCount  != null ? r.lihtcCount  : '—'),
+          'LIHTC units: '      + (r.lihtcUnits  != null ? r.lihtcUnits  : '—'),
+          '',
+          'See browser console for full result object.'
+        ];
+        console.log('[PMAExplainScore] Buffer-mode result:', r);
+        alert(lines.join('\n'));
+        return;
+      }
+
+      var trail = just.generateAuditTrail(scoreRun);
       var info = [
-        'Run ID: '      + trail.run_id,
-        'Data vintage: '+ trail.data_vintage,
-        'LODES vintage: '+ trail.lodes_vintage,
-        'Quality: '     + trail.data_quality,
+        'Run ID: '       + trail.run_id,
+        'Data vintage: ' + trail.data_vintage,
+        'LODES vintage: ' + trail.lodes_vintage,
+        'Quality: '      + trail.data_quality,
         '',
         'Decision layers: ' + (trail.layers || []).join(', '),
         '',
@@ -494,6 +766,152 @@
     });
   }
 
+  /* ── URL permalink helpers ───────────────────────────────────────── */
+
+  /**
+   * Encode analysis parameters into the URL hash so the run can be shared
+   * or bookmarked. Format: #pma=lat,lon,method,bufferMiles,proposedUnits
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @param {object} options
+   */
+  function _writePermalink(lat, lon, options) {
+    try {
+      if (typeof window === 'undefined' || !window.history || !window.history.replaceState) return;
+      var parts = [
+        lat.toFixed(6),
+        lon.toFixed(6),
+        options.method        || 'buffer',
+        options.bufferMiles   || 5,
+        options.proposedUnits || 100
+      ];
+      window.history.replaceState(null, '', '#pma=' + parts.join(','));
+    } catch (_) {}
+  }
+
+  /**
+   * Parse a PMA permalink from the URL hash and return an object with
+   * { lat, lon, method, bufferMiles, proposedUnits } or null when absent.
+   *
+   * @returns {{ lat:number, lon:number, method:string, bufferMiles:number, proposedUnits:number }|null}
+   */
+  function _readPermalink() {
+    try {
+      var hash = (typeof window !== 'undefined' && window.location.hash) || '';
+      var m = hash.match(/^#pma=([\d.\-]+),([\d.\-]+),(\w+),([\d.]+),([\d.]+)/);
+      if (!m) return null;
+      return {
+        lat:           parseFloat(m[1]),
+        lon:           parseFloat(m[2]),
+        method:        m[3],
+        bufferMiles:   parseInt(m[4], 10) || 5,
+        proposedUnits: parseInt(m[5], 10) || 100
+      };
+    } catch (_) { return null; }
+  }
+
+  /**
+   * On page load, restore the last PMA run from localStorage (if within TTL)
+   * OR from a URL permalink hash.  The URL hash takes priority so shared
+   * links always reproduce the correct analysis context.
+   *
+   * When a restorable state is found, the form controls are pre-populated
+   * and an informational banner is shown near the run button.
+   */
+  function _restoreLastRun() {
+    var permalink = _readPermalink();
+    var stored    = null;
+
+    if (!permalink && window.PMADataCache && window.PMADataCache.loadLastResult) {
+      stored = window.PMADataCache.loadLastResult();
+    }
+
+    // Resolve the source of restoration parameters (permalink has priority)
+    var source = null;
+    if (permalink) {
+      source = permalink;
+    } else if (stored) {
+      source = {
+        lat:           stored.lat,
+        lon:           stored.lon,
+        method:        stored.options.method,
+        bufferMiles:   stored.options.bufferMiles,
+        proposedUnits: stored.options.proposedUnits
+      };
+    }
+    if (!source || !source.lat || !source.lon) return;
+
+    // Pre-populate method tabs
+    if (source.method && source.method !== 'buffer') {
+      var tab = document.querySelector('[data-pma-method="' + source.method + '"]');
+      if (tab) tab.click();
+    }
+
+    // Pre-populate buffer select
+    var bufSel = $id('pmaBufferSelect');
+    if (bufSel && source.bufferMiles) {
+      bufSel.value = String(source.bufferMiles);
+      _bufferMiles = source.bufferMiles;
+    }
+
+    // Pre-populate proposed units
+    var unitsEl = $id('pmaProposedUnits');
+    if (unitsEl && source.proposedUnits) {
+      unitsEl.value = String(source.proposedUnits);
+    }
+
+    // Show a restoration banner so the user knows results were restored.
+    // Build the banner using DOM APIs only (no innerHTML) to avoid any XSS risk.
+    var banner = document.createElement('div');
+    banner.id = 'pmaRestoredBanner';
+    banner.setAttribute('role', 'status');
+    banner.setAttribute('aria-live', 'polite');
+    banner.className = 'pma-restored-banner';
+
+    var icon = document.createElement('span');
+    icon.textContent = '📍 ';
+
+    var strong = document.createElement('strong');
+    strong.textContent = 'Restoring analysis';
+
+    var originLabel = permalink ? 'shared link' : 'previous session';
+    var coords = ' from ' + originLabel + ' — lat ' +
+                 parseFloat(source.lat).toFixed(4) + ', lon ' +
+                 parseFloat(source.lon).toFixed(4) + '. ';
+
+    var coordText = document.createTextNode(coords);
+
+    var dismissBtn = document.createElement('button');
+    dismissBtn.type = 'button';
+    dismissBtn.className = 'pma-restored-banner__dismiss';
+    dismissBtn.textContent = 'Dismiss';
+    dismissBtn.addEventListener('click', function () {
+      var el = $id('pmaRestoredBanner');
+      if (el) el.remove();
+    });
+
+    banner.appendChild(icon);
+    banner.appendChild(strong);
+    banner.appendChild(coordText);
+    banner.appendChild(dismissBtn);
+
+    var runBtn = $id('pmaRunBtn');
+    if (runBtn && runBtn.parentNode) {
+      runBtn.parentNode.insertBefore(banner, runBtn);
+    }
+
+    // If we have a full scoreRun from storage, re-render the cards
+    if (stored && stored.scoreRun) {
+      _lastScoreRun = stored.scoreRun;
+      _renderJustification(stored.scoreRun);
+      _renderConceptCard(stored.scoreRun);
+      var explainBtn = $id('pmaExplainScoreBtn');
+      if (explainBtn) explainBtn.hidden = false;
+      console.log('[PMAUIController] Restored previous scoreRun from localStorage');
+    }
+  }
+
   /* ── Bootstrap ───────────────────────────────────────────────────── */
   function _init() {
     _injectStyle();
@@ -501,6 +919,7 @@
     _initRunButton();
     _initExplainScore();
     _initExportAudit();
+    _restoreLastRun();
   }
 
   if (typeof document !== 'undefined') {
@@ -514,9 +933,14 @@
   /* ── Public API (minimal, for testing) ──────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMAUIController = {
-      getMethod:      function () { return _method; },
-      getLastScoreRun: function () { return _lastScoreRun; },
-      runEnhanced:    _runEnhancedAnalysis
+      getMethod:        function () { return _method; },
+      getLastScoreRun:  function () { return _lastScoreRun; },
+      runEnhanced:      _runEnhancedAnalysis,
+      showChartLoading: _showChartLoading,
+      hideChartLoading: _hideChartLoading,
+      writePermalink:   _writePermalink,
+      readPermalink:    _readPermalink,
+      restoreLastRun:   _restoreLastRun
     };
   }
 

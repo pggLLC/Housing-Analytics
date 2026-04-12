@@ -1,0 +1,43 @@
+{
+  "week_start": "2025-11-17",
+  "generated_at": "2026-04-06T14:17:48.895732+00:00",
+  "total_articles": 0,
+  "total_signal_count": 0,
+  "sections": {
+    "Colorado": [],
+    "Western Slope": [],
+    "National": []
+  },
+  "section_summaries": {
+    "Colorado": "These stories track LIHTC award cycles, municipal affordability ordinances, and local housing developments that directly shape supply and cost-burden for Colorado renters and buyers.",
+    "Western Slope": "Coverage highlights workforce-housing shortages, resort-market price pressures, and rural development challenges that make affordability especially acute in mountain communities.",
+    "National": "Coverage monitors federal housing-finance policy, LIHTC program updates, construction-cost trends, and macroeconomic signals — interest rates, insurance premiums, and supply-chain pressures — that ripple through every local affordable housing market."
+  },
+  "signals": {
+    "Financing / Rates": {
+      "count": 0,
+      "top_terms": []
+    },
+    "LIHTC / Tax Credit": {
+      "count": 0,
+      "top_terms": []
+    },
+    "Supply / Pipeline": {
+      "count": 0,
+      "top_terms": []
+    },
+    "Costs / Insurance": {
+      "count": 0,
+      "top_terms": []
+    },
+    "Rent Pressure / Homelessness": {
+      "count": 0,
+      "top_terms": []
+    },
+    "Policy / Zoning": {
+      "count": 0,
+      "top_terms": []
+    }
+  },
+  "signals_explain": "Signal counts are keyword-based and measured across all fetched articles for this week."
+}

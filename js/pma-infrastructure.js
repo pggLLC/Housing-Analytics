@@ -1,6 +1,14 @@
 /**
  * js/pma-infrastructure.js
- * Infrastructure and environmental feasibility scorecard.
+ * Infrastructure and environmental feasibility INDICATORS.
+ *
+ * IMPORTANT: These scores are directional indicators from public datasets,
+ * NOT professional site assessments. They do not replace:
+ *  - Phase I Environmental Site Assessment (ESA)
+ *  - Geotechnical survey
+ *  - Utility will-serve letters
+ *  - FEMA LOMA/LOMR determination
+ *  - Traffic impact study
  *
  * Responsibilities:
  *  - fetchFEMAFloodData(boundingBox) — flood hazard zone coverage
@@ -98,16 +106,20 @@
 
   /**
    * Fetch USDA Food Access Atlas data.
+   * Delegates to DataService which loads local data/market/food_access_co.json
+   * and computes a proximity index (0-100) from tract-level food desert flags,
+   * low-access indicators, and poverty rates.
+   *
    * @param {{minLat,minLon,maxLat,maxLon}} boundingBox
-   * @returns {Promise<{foodDeserts: Array, proximityIndex: number}>}
+   * @returns {Promise<{foodDeserts: Array, proximityIndex: number, _stub: boolean, _dataSource: string}>}
    */
   function fetchFoodAccessAtlas(boundingBox) {
     var ds = (typeof window !== 'undefined') ? window.DataService : null;
     if (ds && typeof ds.fetchFoodAccessAtlas === 'function') {
       return ds.fetchFoodAccessAtlas(boundingBox);
     }
-    // FALLBACK: DataService.fetchFoodAccessAtlas unavailable. Using neutral proximityIndex 50 until USDA Food Access Atlas data is wired.
-    return Promise.resolve({ foodDeserts: [], proximityIndex: 50 });
+    // FALLBACK: DataService unavailable; return stub so scorecard omits this dimension.
+    return Promise.resolve({ foodDeserts: [], proximityIndex: null, _stub: true });
   }
 
   /**
@@ -125,34 +137,83 @@
     utilityData = utilityData || {};
     foodData    = foodData    || {};
 
+    // Track which data sources are real vs. stub
+    var _stubSources = [];
+    var _realSources = [];
+
     // Flood risk: inverse scale — lower hazard % = higher score
+    var floodIsStub = floodData._stub || (!floodData.floodZones || !floodData.floodZones.length);
     lastFloodRiskPct = clamp(
       floodData.hazardPercent != null ? toNum(floodData.hazardPercent) : 0.05,
       0, 1
     );
-    var floodScore   = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
+    var floodScore = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
+    if (floodIsStub && floodData.hazardPercent === 0.05) {
+      // Default value from failed API — mark as unavailable
+      _stubSources.push('flood');
+    } else {
+      _realSources.push('flood');
+    }
 
     // Climate resilience (already 0–100 or convert from raw)
-    var climateRaw = toNum(climateData.resilienceScore || 50);
+    var climateIsStub = climateData._stub || (climateData.resilienceScore === 50 && !climateData.normals);
+    var climateRaw = toNum(climateData.resilienceScore != null ? climateData.resilienceScore : 50);
     lastClimateScore = clamp(climateRaw <= 1 ? climateRaw * 100 : climateRaw, 0, 100);
+    if (climateIsStub) {
+      _stubSources.push('climate');
+    } else {
+      _realSources.push('climate');
+    }
 
-    // Utility capacity: headroom fraction → score
-    var sewerHeadroom  = clamp(toNum(utilityData.sewerHeadroom  || 0.5), 0, 1);
-    var waterCapacity  = clamp(toNum(utilityData.waterCapacity  || 0.5), 0, 1);
-    lastSewerAdequate  = sewerHeadroom >= UTILITY_CAPACITY_MIN;
-    lastUtilityScore   = clamp(Math.round(((sewerHeadroom + waterCapacity) / 2) * 100), 0, 100);
+    // Utility capacity: headroom fraction -> score
+    var utilityIsStub = utilityData._stub || (utilityData.sewerHeadroom == null);
+    if (utilityIsStub) {
+      // No real data — set neutral but flag it
+      lastUtilityScore = null;
+      lastSewerAdequate = null;
+      _stubSources.push('utility');
+    } else {
+      var sewerHeadroom  = clamp(toNum(utilityData.sewerHeadroom), 0, 1);
+      var waterCapacity  = clamp(toNum(utilityData.waterCapacity), 0, 1);
+      lastSewerAdequate  = sewerHeadroom >= UTILITY_CAPACITY_MIN;
+      lastUtilityScore   = clamp(Math.round(((sewerHeadroom + waterCapacity) / 2) * 100), 0, 100);
+      _realSources.push('utility');
+    }
 
-    // Food access (0–100 proximity index)
-    var foodRaw = toNum(foodData.proximityIndex || 50);
-    lastFoodAccessScore = clamp(foodRaw <= 1 ? foodRaw * 100 : foodRaw, 0, 100);
+    // Food access (0–100 proximity index from USDA Food Access Atlas)
+    // Higher proximityIndex = better food access; food desert tracts score lower.
+    var foodIsStub = foodData._stub || (foodData.proximityIndex == null);
+    if (foodIsStub) {
+      lastFoodAccessScore = null;
+      _stubSources.push('foodAccess');
+    } else {
+      var foodRaw = toNum(foodData.proximityIndex);
+      lastFoodAccessScore = clamp(foodRaw <= 1 ? foodRaw * 100 : foodRaw, 0, 100);
+      _realSources.push('foodAccess');
+    }
 
-    // Composite weighted score
-    lastCompositeScore = Math.round(
-      INFRA_WEIGHTS.floodRisk  * floodScore          +
-      INFRA_WEIGHTS.climate    * lastClimateScore    +
-      INFRA_WEIGHTS.utility    * lastUtilityScore    +
-      INFRA_WEIGHTS.foodAccess * lastFoodAccessScore
-    );
+    // Composite weighted score — only include dimensions with real data
+    var totalWeight = 0;
+    var weightedSum = 0;
+
+    if (_realSources.indexOf('flood') !== -1) {
+      totalWeight += INFRA_WEIGHTS.floodRisk;
+      weightedSum += INFRA_WEIGHTS.floodRisk * floodScore;
+    }
+    if (_realSources.indexOf('climate') !== -1) {
+      totalWeight += INFRA_WEIGHTS.climate;
+      weightedSum += INFRA_WEIGHTS.climate * lastClimateScore;
+    }
+    if (lastUtilityScore != null) {
+      totalWeight += INFRA_WEIGHTS.utility;
+      weightedSum += INFRA_WEIGHTS.utility * lastUtilityScore;
+    }
+    if (lastFoodAccessScore != null) {
+      totalWeight += INFRA_WEIGHTS.foodAccess;
+      weightedSum += INFRA_WEIGHTS.foodAccess * lastFoodAccessScore;
+    }
+
+    lastCompositeScore = totalWeight > 0 ? Math.round(weightedSum / totalWeight) : null;
 
     lastScorecard = {
       floodRiskPercent:       Math.round(lastFloodRiskPct * 100) / 100,
@@ -161,11 +222,18 @@
       sewerCapacityAdequate:  lastSewerAdequate,
       utilityScore:           lastUtilityScore,
       foodAccessScore:        lastFoodAccessScore,
-      compositeScore:         clamp(lastCompositeScore, 0, 100),
+      compositeScore:         lastCompositeScore != null ? clamp(lastCompositeScore, 0, 100) : null,
       flags: {
         highFloodRisk:        lastFloodRiskPct > HIGH_FLOOD_PCT,
-        utilityAtCapacity:    !lastSewerAdequate,
-        foodDesertPresent:    (foodData.foodDeserts || []).length > 0
+        utilityAtCapacity:    lastSewerAdequate === false,
+        foodDesertPresent:    (foodData.foodDeserts || []).length > 0,
+        foodDesertCount:      (foodData.foodDeserts || []).length,
+        foodAccessTractCount: foodData._tractCount || 0
+      },
+      _dataAvailability: {
+        realSources: _realSources,
+        stubSources: _stubSources,
+        coverageRatio: _realSources.length / (_realSources.length + _stubSources.length)
       }
     };
 
@@ -177,8 +245,8 @@
    * @returns {number}
    */
   function getInfrastructureScore() {
-    // FALLBACK: returns neutral 50 until buildInfrastructureScorecard() has been called with real data.
-    return lastScorecard ? clamp(lastScorecard.compositeScore, 0, 100) : 50;
+    if (!lastScorecard) return null;
+    return lastScorecard.compositeScore != null ? clamp(lastScorecard.compositeScore, 0, 100) : null;
   }
 
   /**
@@ -215,7 +283,7 @@
    * @returns {object}
    */
   function getInfrastructureJustification() {
-    return lastScorecard
+    var base = lastScorecard
       ? Object.assign({}, lastScorecard)
       : {
           floodRiskPercent:       lastFloodRiskPct,
@@ -224,6 +292,12 @@
           foodAccessScore:        lastFoodAccessScore,
           compositeScore:         lastCompositeScore
         };
+    // Disclosure: these are indicators, not professional assessments
+    base._disclosure = 'Infrastructure scores are directional indicators from public datasets (FEMA, NOAA, EPA, USDA). ' +
+      'They do not replace Phase I ESA, geotechnical surveys, utility will-serve letters, or professional site due diligence. ' +
+      'Flood risk is based on FEMA NFHL zone boundaries, not parcel-level flood determination (LOMA/LOMR). ' +
+      'Utility capacity uses estimated headroom from municipal data, not capacity commitment letters.';
+    return base;
   }
 
   /* ── Public API ──────────────────────────────────────────────────── */

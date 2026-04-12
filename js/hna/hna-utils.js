@@ -12,7 +12,7 @@
   // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
   // Alias it locally so in-file calls work without modification.
 
-  const ACS_VINTAGES = [2024, 2023, 2022, 2021, 2020];
+  const ACS_VINTAGES = [2025, 2024, 2023, 2022, 2021];
   // Keep named constants so existing checks and references still work.
   const ACS_YEAR_PRIMARY  = ACS_VINTAGES[0];
   const ACS_YEAR_FALLBACK = ACS_VINTAGES[1];
@@ -80,6 +80,7 @@
     acsDebugLog: 'data/hna/acs_debug_log.txt',
     lihtc: (countyFips5) => `data/hna/lihtc/${countyFips5}.json`,
     chasCostBurden: 'data/hna/chas_affordability_gap.json',
+    blsEconIndicators: 'data/co-county-economic-indicators.json',
   };
 
   const SOURCES = {
@@ -493,6 +494,14 @@
         entries.push({ label: NAICS_LABELS[key], count: count });
       }
     });
+    // Fallback: state-aggregate and pipeline-generated files may store industries as a
+    // pre-sorted array instead of flat CNS root fields (e.g. data/hna/lehd/08.json).
+    if (!entries.length && Array.isArray(lehd.industries)) {
+      return lehd.industries
+        .filter(function(d) { return d && Number.isFinite(Number(d.count)) && Number(d.count) > 0; })
+        .slice(0, topN)
+        .map(function(d) { return { label: d.label || d.naics, count: Number(d.count) }; });
+    }
     if (!entries.length) return [];
     entries.sort(function(a, b) { return b.count - a.count; });
     return entries.slice(0, topN);
@@ -500,14 +509,31 @@
 
   /**
    * Calculate wage distribution from LEHD WAC CE01/CE02/CE03 fields.
+   * Falls back to annualWages[latest year] when root CE fields are absent
+   * (e.g. state-aggregate file stores wage tiers under annualWages[year].low/medium/high).
    * @param {object} lehd
    * @returns {{low, medium, high, total}|null}
    */
   function calculateWageDistribution(lehd) {
     if (!lehd) return null;
-    const low    = Number(lehd.CE01);  // ≤ $1,250/month
-    const medium = Number(lehd.CE02);  // $1,251–$3,333/month
-    const high   = Number(lehd.CE03);  // > $3,333/month
+    var low    = Number(lehd.CE01);  // ≤ $1,250/month
+    var medium = Number(lehd.CE02);  // $1,251–$3,333/month
+    var high   = Number(lehd.CE03);  // > $3,333/month
+
+    // Fallback: use most-recent year from annualWages when root CE fields are absent.
+    if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) {
+      var wages = lehd.annualWages;
+      if (wages && typeof wages === 'object') {
+        var years = Object.keys(wages).sort();
+        var latest = wages[years[years.length - 1]];
+        if (latest) {
+          low    = Number(latest.low);
+          medium = Number(latest.medium);
+          high   = Number(latest.high);
+        }
+      }
+    }
+
     if (!Number.isFinite(low) && !Number.isFinite(medium) && !Number.isFinite(high)) return null;
     const l = Number.isFinite(low)    ? low    : 0;
     const m = Number.isFinite(medium) ? medium : 0;
@@ -529,6 +555,63 @@
   const PROP123_GROWTH_RATE = 0.03;
 
   /**
+   * Regional AMI factors for Prop 123 baseline estimation.
+   * Replaces the uniform 0.70 national approximation with county-specific
+   * factors based on HUD CHAS income-rent relationship analysis.
+   *
+   * High-cost markets: fewer not-burdened renters are actually at ≤60% AMI
+   * because local incomes are higher (many "not-burdened" households earn >60% AMI).
+   * Low-cost markets: more not-burdened renters are at ≤60% AMI.
+   *
+   * Methodology: derived from 2017-2021 CHAS B25106 cross-tabulations comparing
+   * not-burdened renter share to actual ≤60% AMI renter share by county group.
+   */
+  const REGIONAL_AMI_FACTORS = {
+    // High-cost resort/mountain (AMI >$100K) — factor 0.45-0.55
+    '08097': 0.50, // Pitkin (Aspen)
+    '08117': 0.50, // Summit (Breckenridge)
+    '08113': 0.50, // San Miguel (Telluride)
+    '08037': 0.55, // Eagle (Vail)
+    '08107': 0.55, // Routt (Steamboat)
+    '08019': 0.55, // Clear Creek
+    '08093': 0.55, // Park
+
+    // Metro/urban (AMI $75K-$100K) — factor 0.60-0.65
+    '08031': 0.63, // Denver
+    '08001': 0.63, // Adams
+    '08005': 0.63, // Arapahoe
+    '08059': 0.63, // Jefferson
+    '08035': 0.60, // Douglas (higher incomes)
+    '08014': 0.63, // Broomfield
+    '08013': 0.60, // Boulder
+    '08069': 0.65, // Larimer (Fort Collins)
+    '08123': 0.65, // Weld (Greeley)
+    '08041': 0.67, // El Paso (Colorado Springs)
+
+    // Mid-range metro/suburban (AMI $65K-$75K) — factor 0.68-0.72
+    '08077': 0.70, // Mesa (Grand Junction)
+    '08067': 0.70, // La Plata (Durango)
+    '08045': 0.68, // Garfield (Glenwood Springs)
+    '08043': 0.70, // Fremont
+    '08029': 0.70, // Delta
+
+    // Rural/low-cost (AMI <$65K) — factor 0.75-0.85
+    '08101': 0.75, // Pueblo
+    '08099': 0.78, // Prowers
+    '08089': 0.78, // Otero
+    '08025': 0.80, // Crowley
+    '08011': 0.80, // Bent
+    '08021': 0.80, // Conejos
+    '08023': 0.80, // Costilla
+    '08079': 0.82, // Mineral
+    '08083': 0.78, // Montezuma
+    '08003': 0.78, // Alamosa
+    '08105': 0.78, // Rio Grande
+    '08109': 0.78, // Saguache
+  };
+  const DEFAULT_AMI_FACTOR = 0.70;
+
+  /**
    * Estimate count of 60% AMI rental units from ACS profile data.
    * Uses ACS DP04 GRAPI bins as a proxy:
    *   - Total renter-occupied units (DP04_0003E - vacant, or derived from tenure pct)
@@ -538,7 +621,7 @@
    *
    * ACS DP04 fields used:
    *   DP04_0001E  - Total housing units
-   *   DP04_0046PE - Renter-occupied (%)
+   *   DP04_0047PE - Renter-occupied (%)
    *   DP04_0003E  - Occupied housing units
    *   DP04_0144PE - GRAPI <15%
    *   DP04_0145PE - GRAPI 15-19.9%
@@ -548,11 +631,15 @@
    * @returns {{baseline60Ami, totalRentals, pctOfStock, method}|null}
    */
 
-  function calculateBaseline(profile) {
+  /**
+   * @param {object} profile - ACS profile (DP04 fields)
+   * @param {string} [countyFips] - 5-digit county FIPS for regional AMI factor lookup
+   */
+  function calculateBaseline(profile, countyFips) {
     if (!profile) return null;
 
     const totalUnits  = Number(profile.DP04_0001E);
-    const renterPct   = Number(profile.DP04_0046PE);  // e.g. 27.5
+    const renterPct   = Number(profile.DP04_0047PE);  // e.g. 27.5
     const occupiedUnits = Number(profile.DP04_0003E);
 
     if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
@@ -581,7 +668,8 @@
       // HUD income/rent relationship analysis for moderate-income renter households nationally.
       // NOTE: This is a rough proxy only.  For a certified Prop 123 baseline, jurisdictions must
       // conduct a formal housing needs assessment using ACS B25106 cross-tabulations or local data.
-      baseline60Ami = Math.round(totalRentals * (notBurdenedPct / 100) * 0.70);
+      var amiFactor = (countyFips && REGIONAL_AMI_FACTORS[String(countyFips).padStart(5, '0')]) || DEFAULT_AMI_FACTOR;
+      baseline60Ami = Math.round(totalRentals * (notBurdenedPct / 100) * amiFactor);
       method = 'acs-grapi-proxy';
     } else {
       // Fallback national average: roughly 40% of renter-occupied units are estimated to be
@@ -592,8 +680,10 @@
       method = 'national-avg-proxy';
     }
 
+    var usedFactor = (typeof amiFactor !== 'undefined') ? amiFactor : DEFAULT_AMI_FACTOR;
+    var factorSource = (countyFips && REGIONAL_AMI_FACTORS[String(countyFips).padStart(5, '0')]) ? 'regional' : 'statewide-default';
     const pctOfStock = totalRentals > 0 ? (baseline60Ami / totalRentals) * 100 : 0;
-    return { baseline60Ami, totalRentals, pctOfStock, method };
+    return { baseline60Ami, totalRentals, pctOfStock, method, amiFactor: usedFactor, factorSource };
   }
 
   /**
@@ -706,8 +796,8 @@
    * }}
    */
 
-  function getJurisdictionComplianceStatus(geoid, geoType, profile) {
-    const baselineData = calculateBaseline(profile);
+  function getJurisdictionComplianceStatus(geoid, geoType, profile, countyFips) {
+    const baselineData = calculateBaseline(profile, countyFips);
     if (!baselineData) {
       return { baseline: null, current: null, target: null, pctComplete: null, status: 'no-data', lastFiled: null };
     }
@@ -912,5 +1002,34 @@
     countyFromGeoid,
     censusKey,
     lihtcFallbackForCounty,
+    isSmallGeography,
+    getSmallGeoWarning,
   };
+
+  /**
+   * Check if a geography has small population where ACS estimates
+   * may have high margins of error (30-50% for geographies <5,000).
+   * @param {object} profile - ACS profile data
+   * @returns {boolean}
+   */
+  function isSmallGeography(profile) {
+    if (!profile) return false;
+    var pop = Number(profile.DP05_0001E);
+    return Number.isFinite(pop) && pop > 0 && pop < 5000;
+  }
+
+  /**
+   * Get a user-facing warning message for small geographies.
+   * @param {object} profile - ACS profile data
+   * @returns {string|null} Warning message or null if not small
+   */
+  function getSmallGeoWarning(profile) {
+    if (!isSmallGeography(profile)) return null;
+    var pop = Number(profile.DP05_0001E);
+    return 'This geography has ' + fmtNum(pop) + ' residents. ACS 5-year estimates for populations under 5,000 ' +
+      'may have margins of error of 30\u201350%. Percentages and counts shown here should be treated as ' +
+      'approximate, not precise. For planning purposes, consider county-level data alongside place-level estimates.';
+  }
+
 })();
+

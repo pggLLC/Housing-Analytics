@@ -577,8 +577,10 @@ test('Deploy workflow: js/config.js is generated from secrets at deploy time', (
 test('Deploy workflow: data/hna directory is included in the Pages artifact', () => {
     const deployYml = path.join(ROOT, '.github', 'workflows', 'deploy.yml');
     const workflow  = fs.readFileSync(deployYml, 'utf8');
-    // The workflow uploads the entire repo root ('.') as the Pages artifact
-    assert(workflow.includes("path: '.'"), "Pages artifact path includes repo root ('.')");
+    // The workflow uploads the repo root as the Pages artifact (no _site/ staging step)
+    assert(workflow.includes("path: '.'"), "Pages artifact path is '.' (repo root)");
+    // Verify that data/ directory is present in the repo root (served directly)
+    assert(fs.existsSync(path.join(ROOT, 'data')), "data/ directory is present in the repo root (served directly)");
 });
 
 // ---------------------------------------------------------------------------
@@ -897,6 +899,102 @@ test('HTML: DLG methodology reference link is present', () => {
         html.includes('final-housing-needs-assessment-methodology'),
         'DLG HNA methodology reference link points to the correct URL'
     );
+});
+
+// ---------------------------------------------------------------------------
+// HNA Scenario Tool: CSV export, debouncing, and data quality enhancements
+// ---------------------------------------------------------------------------
+test('HTML: scenario export CSV button is present', () => {
+    assert(
+        html.includes('id="btnExportScenario"'),
+        'Export CSV button with id btnExportScenario is present in HTML'
+    );
+});
+
+test('HTML: scenario freshness badge element is present', () => {
+    assert(
+        html.includes('id="scenarioFreshnessBadge"'),
+        'Scenario freshness badge element is present in HTML'
+    );
+});
+
+test('HTML: scenario data quality indicator element is present', () => {
+    assert(
+        html.includes('id="scenarioDataQuality"'),
+        'Scenario data quality element is present in HTML'
+    );
+});
+
+test('JS: exportScenarioCSV function is defined', () => {
+    assert(
+        js.includes('function exportScenarioCSV') || js.includes('exportScenarioCSV ='),
+        'exportScenarioCSV function is defined in JS modules'
+    );
+});
+
+test('JS: btnExportScenario is wired to exportScenarioCSV', () => {
+    assert(
+        js.includes('btnExportScenario') && js.includes('exportScenarioCSV'),
+        'Export button is referenced and exportScenarioCSV is called'
+    );
+});
+
+test('JS: slider debouncing uses setTimeout (performance)', () => {
+    assert(
+        js.includes('_sliderDebounce') && js.includes('clearTimeout(_sliderDebounce)'),
+        'Slider input debounce uses clearTimeout/_sliderDebounce pattern'
+    );
+});
+
+test('JS: lastScenarioSeries is saved to state for CSV export', () => {
+    assert(
+        js.includes('lastScenarioSeries'),
+        'Scenario series are stored in state.lastScenarioSeries for CSV export'
+    );
+});
+
+test('JS: lastGeoLabel is stored in state', () => {
+    assert(
+        js.includes('lastGeoLabel'),
+        'Geography label is stored in state.lastGeoLabel for export file naming'
+    );
+});
+
+test('JS: scenario data quality notice distinguishes synthetic vs direct data', () => {
+    assert(
+        js.includes('isSynthetic') || js.includes('dq-warn'),
+        'Data quality indicator differentiates synthetic place/CDP projections from direct county data'
+    );
+});
+
+test('HTML: scenario summary uses div with role=region (structured comparison)', () => {
+    assert(
+        html.includes('id="scenarioNeedSummary"') &&
+        html.includes('role="region"') &&
+        html.includes('aria-label="Scenario comparison summary"'),
+        'Scenario summary uses <div> with ARIA role=region and descriptive aria-label'
+    );
+});
+
+test('CSS: .scenario-freshness-badge is defined', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.scenario-freshness-badge'), '.scenario-freshness-badge CSS rule exists');
+});
+
+test('CSS: .scenario-need-summary is defined', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.scenario-need-summary'), '.scenario-need-summary CSS rule exists');
+});
+
+test('CSS: .scenario-data-quality is defined', () => {
+    const css = fs.readFileSync(
+        path.join(ROOT, 'css', 'pages', 'housing-needs-assessment.css'), 'utf8'
+    );
+    assert(css.includes('.scenario-data-quality'), '.scenario-data-quality CSS rule exists');
 });
 
 

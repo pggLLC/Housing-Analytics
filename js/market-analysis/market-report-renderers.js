@@ -258,9 +258,34 @@
     var now    = new Date().getFullYear();
     var recent = lihtcData.filter(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      var yr = parseInt(p.YEAR_ALLOC || p.year_alloc || 0, 10);
+      var yr = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
       return yr >= now - 10;
     }).length;
+
+    // Count projects by estimated pipeline stage.
+    var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
+    lihtcData.forEach(function (f) {
+      var p = (f && f.properties) ? f.properties : f;
+      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
+      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
+      else if (yrNum >= now - 1) { stageCounts.Construction++; }
+      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
+      else { stageCounts['Pre-Permit']++; }
+    });
+
+    var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
+    var pipelineHtml = '';
+    if (pipelineActive > 0) {
+      pipelineHtml = (
+        '<div style="margin-top:0.75rem;">' +
+          _sectionHeading('Construction Pipeline') +
+          (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
+          (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
+          (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+        '</div>'
+      );
+    }
 
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
@@ -271,6 +296,7 @@
         (totalProj > 0
           ? '<div style="margin-top:0.75rem;">' + _sectionHeading('Project List') + _lihtcTable(lihtcData) + '</div>'
           : '') +
+        pipelineHtml +
       '</div>'
     );
 
@@ -283,25 +309,33 @@
     var shown = Math.min(features.length, 10);
     for (var i = 0; i < shown; i++) {
       var p     = (features[i] && features[i].properties) ? features[i].properties : features[i];
-      var name  = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-      var city  = p.CITY || p.city || '—';
+      var name  = p.PROJECT_NAME || p.PROJECT || p.project_name || 'LIHTC Project';
+      var city  = p.CITY || p.PROJ_CTY || p.city || '—';
       // Parse unit count safely; any non-numeric value yields '—'.
       var rawUnits = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units;
       var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
         ? String(Number(rawUnits)) : '—';
-      var yr    = p.YEAR_ALLOC  || p.year_alloc  || '—';
+      var yr    = p.YEAR_ALLOC  || p.YR_ALLOC || p.year_alloc  || '—';
+      var now = new Date().getFullYear();
+      var yrNum = parseInt(yr, 10) || 0;
+      var stage, stageColor;
+      if (!yrNum || yrNum <= now - 5) { stage = 'Complete'; stageColor = 'var(--muted)'; }
+      else if (yrNum >= now - 1) { stage = 'Construction'; stageColor = 'var(--warn)'; }
+      else if (yrNum >= now - 3) { stage = 'Entitled'; stageColor = '#2563eb'; }
+      else { stage = 'Pre-Permit'; stageColor = 'var(--accent)'; }
       rows += (
         '<tr>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + city + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + units + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + yr + '</td>' +
+          '<td style="padding:4px 6px;font-size:var(--small);"><span style="display:inline-block;padding:1px 6px;border-radius:999px;font-size:.65rem;font-weight:600;background:' + stageColor + ';color:#fff;">' + stage + '</span></td>' +
         '</tr>'
       );
     }
     if (features.length > shown) {
       rows += (
-        '<tr><td colspan="4" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
+        '<tr><td colspan="5" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
           '\u2026 and ' + (features.length - shown) + ' more.' +
         '</td></tr>'
       );
@@ -313,9 +347,11 @@
           '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">City</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Units</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Yr</th>' +
+          '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Est. Status</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
-      '</table>'
+      '</table>' +
+      '<div style="font-size:.68rem;color:var(--faint);margin-top:.4rem;font-style:italic;">Pipeline status estimated from CHFA allocation year only \u2014 not verified against actual construction status.</div>'
     );
   }
 
@@ -375,27 +411,50 @@
     var floodLabel  = floodLabels[Math.min(Math.max(Math.round(fd.floodRisk || 0), 0), 3)];
     var floodColor  = (fd.floodRisk >= 2) ? 'var(--bad)' : (fd.floodRisk >= 1) ? 'var(--warn)' : 'var(--good)';
 
+    var envScore = fd.soilScore;
+    var envColor = (envScore >= 70) ? 'var(--good)' : (envScore >= 40) ? 'var(--warn)' : 'var(--bad)';
+
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Physical Site Conditions') +
-        _metricRow('Flood Risk',        floodLabel, floodColor) +
-        _metricRow('Soil/Bearing Score', _fmtN(fd.soilScore, 0)) +
-        _metricRow('Cleanup Required',
+        _metricRow('FEMA Flood Risk', floodLabel, floodColor) +
+        _metricRow('Environmental Score', _fmtN(envScore, 0) + ' / 100', envColor) +
+        _metricRow('Cleanup Concern',
           fd.cleanupFlag
-            ? '<span class="pill warn">Yes</span>'
-            : '<span class="pill good">No</span>') +
-        (typeof score === 'number'
-          ? _metricRow('Feasibility Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+            ? '<span class="pill warn">Yes — High EJI</span>'
+            : '<span class="pill good">No</span>')
     );
+
+    // Show EJI breakdown if available
+    var eji = fd.ejiMetrics;
+    if (eji && eji.ejiPercentile != null) {
+      var riskColor = eji.riskCategory === 'high' ? 'var(--bad)' :
+                      eji.riskCategory === 'moderate' ? 'var(--warn)' : 'var(--good)';
+      html += '<div style="margin-top:0.75rem;"></div>' +
+        _sectionHeading('CDC Environmental Justice Index') +
+        _metricRow('EJI Percentile', _fmtPct(eji.ejiPercentile, 1), riskColor) +
+        _metricRow('Environmental Burden', eji.envBurden != null ? _fmtPct(eji.envBurden, 1) : '—') +
+        _metricRow('Social Vulnerability', eji.socialVuln != null ? _fmtPct(eji.socialVuln, 1) : '—') +
+        _metricRow('Health Vulnerability', eji.healthVuln != null ? _fmtPct(eji.healthVuln, 1) : '—') +
+        _metricRow('Risk Category',
+          '<span class="pill" style="background:' + riskColor + ';color:#fff;border-color:' + riskColor + ';">' +
+            (eji.riskCategory || 'unknown') + '</span>');
+      if (eji.tractGeoid) {
+        html += '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem;">Tract: ' + eji.tractGeoid + '</div>';
+      }
+    }
+
+    html += (typeof score === 'number'
+      ? _metricRow('Feasibility Score', _scoreBadge(score))
+      : '') +
+    '</div>';
 
     _render('maSiteFeasibilityContent', html);
   }
 
   /**
-   * Render the neighborhood access section.
-   * @param {object|null} accessData - e.g. { amenities: { grocery, transit, … }, access_score }.
+   * Render the neighborhood access section with walkability & bikeability.
+   * @param {object|null} accessData - { amenities, walkability, access_score }.
    */
   function renderNeighborhoodAccess(accessData) {
     if (!accessData || typeof accessData !== 'object') {
@@ -403,8 +462,9 @@
       return;
     }
 
-    var amenities = accessData.amenities || accessData;
-    var score     = accessData.access_score;
+    var amenities   = accessData.amenities || accessData;
+    var walkability = accessData.walkability || null;
+    var score       = accessData.access_score;
 
     function _distRow(label, dist) {
       var d = (dist !== null && dist !== undefined) ? _fmtN(dist, 2) + ' mi' : '—';
@@ -415,18 +475,84 @@
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Distance to Amenities') +
-        _distRow('Grocery Store',    amenities.grocery) +
-        _distRow('Transit Stop',     amenities.transit) +
+        _distRow('Grocery Store',     amenities.grocery) +
+        _distRow('Transit Stop',      amenities.transit) +
         _distRow('Park / Open Space', amenities.parks) +
-        _distRow('Healthcare',       amenities.healthcare) +
-        _distRow('School',           amenities.schools) +
-        (typeof score === 'number'
-          ? _metricRow('Access Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+        _distRow('Healthcare',        amenities.healthcare) +
+        _distRow('School',            amenities.schools) +
+        _distRow('Hospital',          amenities.hospitals) +
+        _distRow('Child Care Center', amenities.childcare)
     );
 
+    // Walkability & Bikeability section
+    if (walkability) {
+      html += '<div style="margin-top:0.75rem;"></div>' +
+        _sectionHeading('Walkability &amp; Bikeability') +
+        _walkBikeRow('Walkability', walkability.walkScore, walkability.walkLabel) +
+        _walkBikeRow('Bikeability', walkability.bikeScore, walkability.bikeLabel);
+
+      // Supporting EPA metrics
+      html += '<div style="margin-top:0.5rem;padding:0.6rem 0.75rem;background:var(--bg2);border-radius:var(--radius-sm,4px);font-size:var(--small);">' +
+        '<div style="font-weight:600;color:var(--muted);margin-bottom:0.35rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.04em;">EPA Smart Location Factors</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.25rem 1rem;">';
+
+      if (walkability.intersectionDensity != null) {
+        html += _miniMetric('Intersection Density', walkability.intersectionDensity);
+      }
+      if (walkability.transitFrequency != null) {
+        html += _miniMetric('Transit Frequency', walkability.transitFrequency);
+      }
+      if (walkability.landUseMix != null) {
+        html += _miniMetric('Land-Use Mix', walkability.landUseMix);
+      }
+      if (walkability.autoNetDensity != null) {
+        html += _miniMetric('Auto Network Density', walkability.autoNetDensity);
+      }
+
+      html += '</div></div>';
+    }
+
+    html += (typeof score === 'number'
+      ? _metricRow('Access Score', _scoreBadge(score))
+      : '') +
+    '</div>';
+
     _render('maNeighborhoodAccessContent', html);
+  }
+
+  /**
+   * Build a walkability/bikeability score row with gauge bar.
+   * @private
+   */
+  function _walkBikeRow(label, score, labelText) {
+    var s = typeof score === 'number' ? score : 0;
+    var color = (s >= 60) ? 'var(--good)' : (s >= 40) ? 'var(--warn)' : 'var(--bad)';
+    return (
+      '<div style="display:flex;justify-content:space-between;align-items:center;' +
+             'padding:0.45rem 0;border-bottom:1px solid var(--border);">' +
+        '<span style="color:var(--muted);font-size:var(--small);">' + label + '</span>' +
+        '<div style="display:flex;align-items:center;gap:0.5rem;">' +
+          '<div style="width:80px;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;">' +
+            '<div style="width:' + s + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.3s;"></div>' +
+          '</div>' +
+          '<span style="font-weight:700;color:' + color + ';min-width:28px;text-align:right;">' + s + '</span>' +
+          '<span style="font-size:0.7rem;color:var(--muted);min-width:55px;">' + (labelText || '') + '</span>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /**
+   * Build a compact metric for the EPA factors grid.
+   * @private
+   */
+  function _miniMetric(label, value) {
+    return (
+      '<div style="display:flex;justify-content:space-between;padding:0.15rem 0;">' +
+        '<span style="color:var(--muted);font-size:0.78rem;">' + label + '</span>' +
+        '<span style="font-weight:600;font-size:0.78rem;">' + value + '</span>' +
+      '</div>'
+    );
   }
 
   /**
@@ -444,28 +570,44 @@
 
     var overlayList = '';
     if (Array.isArray(pd.overlays) && pd.overlays.length > 0) {
-      overlayList = '<ul style="margin:0.5rem 0 0;padding-left:1.25rem;font-size:var(--small);color:var(--muted);">';
+      overlayList = '<div style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.35rem;">';
       pd.overlays.forEach(function (o) {
-        overlayList += '<li>' + o + '</li>';
+        overlayList += '<span class="pill good" style="font-size:0.7rem;">' + o + '</span>';
       });
-      overlayList += '</ul>';
+      overlayList += '</div>';
     }
 
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
-        _sectionHeading('Zoning &amp; Policy Context') +
-        _metricRow('By-Right Zoning Capacity', _fmtN(pd.zoningCapacity) + ' units') +
-        _metricRow('Public Ownership',
-          pd.publicOwnership
-            ? '<span class="pill good">Yes</span>'
-            : '<span class="pill">No</span>') +
-        _metricRow('Supportive Overlays', _fmtN(pd.overlayCount, 0)) +
-        overlayList +
-        (typeof score === 'number'
-          ? _metricRow('Policy Score', _scoreBadge(score))
-          : '') +
-      '</div>'
+        _sectionHeading('Housing Policy Context')
     );
+
+    // Show jurisdiction name if available
+    if (pd.jurisdictionName) {
+      html += _metricRow('Jurisdiction', '<strong>' + pd.jurisdictionName + '</strong>');
+    }
+
+    html += _metricRow('Supportive Policy Dimensions', _fmtN(pd.overlayCount, 0) + ' / 7');
+
+    if (pd.policyTotalScore != null && pd.policyTotalScore > 0) {
+      var scColor = pd.policyTotalScore >= 5 ? 'var(--good)' :
+                    pd.policyTotalScore >= 3 ? 'var(--warn)' : 'var(--bad)';
+      html += _metricRow('Scorecard Total', _fmtN(pd.policyTotalScore, 0) + ' / 7', scColor);
+    }
+
+    html += _metricRow('Inclusionary Zoning',
+      pd.zoningCapacity > 0
+        ? '<span class="pill good">Yes</span>'
+        : '<span class="pill">No</span>') +
+      _metricRow('Housing Authority Present',
+        pd.publicOwnership
+          ? '<span class="pill good">Yes</span>'
+          : '<span class="pill">No</span>') +
+      overlayList +
+      (typeof score === 'number'
+        ? _metricRow('Policy Score', _scoreBadge(score))
+        : '') +
+    '</div>';
 
     _render('maPolicyOverlaysContent', html);
   }
@@ -540,6 +682,175 @@
     );
   }
 
+  /**
+   * Render the infrastructure feasibility section (supplementary indicator).
+   * NOT part of the main 5-dimension scoring — supplementary from public data.
+   * @param {object|null} data - { score: number, justification: object }
+   */
+  function renderInfrastructure(data) {
+    if (!data || data.score == null) {
+      _render('maInfrastructureContent', _unavailableCard('Infrastructure Feasibility'));
+      return;
+    }
+    var j = data.justification || {};
+    var score = data.score;
+
+    var _infraRow = function (label, value, note) {
+      var display = value != null ? String(Math.round(value)) + '/100' : '—';
+      return '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid color-mix(in srgb, var(--border) 50%, transparent);">' +
+        '<span style="font-size:var(--small);color:var(--text);">' + label + '</span>' +
+        '<span style="font-size:var(--small);font-weight:600;">' + display +
+          (note ? ' <span style="color:var(--faint);font-weight:400;font-size:.72rem;">(' + note + ')</span>' : '') +
+        '</span></div>';
+    };
+
+    var html =
+      '<div style="display:grid;gap:0.5rem;">' +
+        _sectionHeading('Infrastructure Feasibility (Supplementary)') +
+        '<div style="font-size:.75rem;color:var(--warn);padding:4px 8px;background:color-mix(in srgb, var(--warn) 8%, transparent);border-radius:6px;margin-bottom:.4rem;">' +
+          'Directional indicators from public datasets. Does not replace Phase I ESA, geotechnical survey, utility will-serve letters, or FEMA flood determination.' +
+        '</div>' +
+        _infraRow('Composite Score', score) +
+        _infraRow('Flood Risk', 100 - (j.floodRiskPercent || 0) * 100, 'FEMA NFHL') +
+        _infraRow('Climate Resilience', j.climateResilienceScore, 'NOAA') +
+        _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null, 'est. headroom') +
+        _infraRow('Food Access', j.foodAccessScore, 'USDA Atlas') +
+      '</div>';
+
+    _render('maInfrastructureContent', html);
+  }
+
+  /* ── Export / Print report ───────────────────────────────────────── */
+
+  /**
+   * Collect rendered report HTML and open in a new print-ready window.
+   * Captures the current state of all 8 report sections plus site metadata.
+   */
+  function exportReport() {
+    var sections = [
+      { id: 'maExecSummaryContent',       title: 'Executive Summary' },
+      { id: 'maMarketDemandContent',       title: 'Market Demand Analysis' },
+      { id: 'maAffordableSupplyContent',   title: 'Existing Affordable Supply' },
+      { id: 'maSubsidyOppContent',         title: 'Subsidy & Finance Opportunities' },
+      { id: 'maSiteFeasibilityContent',    title: 'Site Feasibility Constraints' },
+      { id: 'maNeighborhoodAccessContent', title: 'Neighborhood Access & Services' },
+      { id: 'maPolicyOverlaysContent',     title: 'Policy & Eligibility Overlays' },
+      { id: 'maOpportunitiesContent',      title: 'Ranked Development Opportunities' }
+    ];
+
+    // Gather site info
+    var siteInfo = '';
+    var st = window.MAState;
+    if (st) {
+      var s = (typeof st.getState === 'function') ? st.getState() : null;
+      if (s && s.site) {
+        siteInfo = '<p style="color:#666;font-size:14px;">Site: ' +
+          s.site.lat.toFixed(5) + ', ' + s.site.lon.toFixed(5) +
+          ' &middot; Buffer: ' + (s.site.bufferMiles || 5) + ' mi</p>';
+      }
+    }
+
+    // Collect score from the circle
+    var scoreEl = document.getElementById('pmaScoreCircle');
+    var scoreVal = scoreEl ? scoreEl.textContent : '—';
+    var tierEl = document.getElementById('pmaScoreTier');
+    var tierVal = tierEl ? tierEl.textContent : '';
+
+    // Build report body
+    var body = '';
+    for (var i = 0; i < sections.length; i++) {
+      var el = _el(sections[i].id);
+      var content = el ? el.innerHTML : '<p style="color:#999;">Section not generated.</p>';
+      body += '<div class="report-section">' +
+        '<h2>' + sections[i].title + '</h2>' +
+        content +
+        '</div>';
+    }
+
+    var now = new Date();
+    var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Attempt to capture the map as an image
+    var mapEl = document.getElementById('map');
+    var capturePromise;
+    if (mapEl && window.html2canvas) {
+      capturePromise = window.html2canvas(mapEl, {
+        useCORS: true,
+        allowTaint: true,
+        scale: 1.5,
+        backgroundColor: '#fff',
+        logging: false
+      }).then(function (canvas) {
+        return canvas.toDataURL('image/png');
+      }).catch(function (err) {
+        console.warn('[exportReport] Map capture failed:', err);
+        return null;
+      });
+    } else {
+      capturePromise = Promise.resolve(null);
+    }
+
+    capturePromise.then(function (mapDataUrl) {
+      var mapSection = '';
+      if (mapDataUrl) {
+        mapSection = '<div class="report-section">' +
+          '<h2>Site Map</h2>' +
+          '<img src="' + mapDataUrl + '" style="width:100%;max-height:500px;object-fit:contain;border:1px solid #ddd;border-radius:6px;" alt="PMA site map screenshot">' +
+          '</div>';
+      }
+
+      var html = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8">' +
+        '<title>PMA Site Analysis Report</title>' +
+        '<style>' +
+          '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+          'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; ' +
+          '  color: #1a1a2e; background: #fff; padding: 2rem; max-width: 900px; margin: 0 auto; line-height: 1.5; }' +
+          'h1 { font-size: 1.75rem; border-bottom: 3px solid #1e3a5f; padding-bottom: 0.5rem; margin-bottom: 0.5rem; }' +
+          'h2 { font-size: 1.15rem; color: #1e3a5f; margin: 1.5rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 1px solid #ddd; }' +
+          '.report-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }' +
+          '.report-score { font-size: 2.5rem; font-weight: 800; color: #1e3a5f; }' +
+          '.report-section { page-break-inside: avoid; margin-bottom: 0.5rem; }' +
+          '.badge, .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }' +
+          '.pill.good { background: #22c55e; color: #fff; }' +
+          '.pill.warn { background: #f59e0b; color: #fff; }' +
+          'table { border-collapse: collapse; width: 100%; }' +
+          'td, th { padding: 4px 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }' +
+          '.callout { border-left: 3px solid #ddd; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f9fa; }' +
+          '@media print { body { padding: 0.5in; } .no-print { display: none !important; } ' +
+          '  .report-section { page-break-inside: avoid; } ' +
+          '  img { max-height: 400px; } }' +
+          '@page { margin: 0.75in; size: letter; }' +
+        '</style></head><body>' +
+        '<div class="report-header">' +
+          '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="report-score">' + scoreVal + '</div>' +
+            '<div style="font-size:0.85rem;color:#666;">' + tierVal + '</div>' +
+          '</div>' +
+        '</div>' +
+        mapSection +
+        body +
+        '<div style="margin-top:2rem;padding-top:1rem;border-top:1px solid #ddd;font-size:0.75rem;color:#999;">' +
+          'Generated ' + dateStr + ' by COHO Analytics &middot; PMA Screening Tool &middot; ' +
+          'Data: Census ACS, HUD LIHTC, CDC EJI, EPA SLD, FEMA NFHL, OSM, CDPHE, CDHS' +
+          (mapDataUrl ? '' : '<br><em>Map screenshot unavailable — enable pop-ups and ensure html2canvas is loaded.</em>') +
+          '<br>This report is for early-stage site identification only and is not a substitute for a formal CHFA-required PMA.' +
+        '</div>' +
+        '<div class="no-print" style="margin-top:1rem;text-align:center;">' +
+          '<button onclick="window.print()" style="padding:0.6rem 2rem;font-size:1rem;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;">Print / Save as PDF</button>' +
+        '</div>' +
+        '</body></html>';
+
+      var win = window.open('', '_blank');
+      if (win) {
+        win.document.write(html);
+        win.document.close();
+      } else {
+        alert('Pop-up blocked. Please allow pop-ups for this site to export the report.');
+      }
+    });
+  }
+
   /* ── Expose ─────────────────────────────────────────────────────── */
   window.MARenderers = {
     renderExecutiveSummary:    renderExecutiveSummary,
@@ -550,8 +861,10 @@
     renderNeighborhoodAccess:  renderNeighborhoodAccess,
     renderPolicyOverlays:      renderPolicyOverlays,
     renderOpportunities:       renderOpportunities,
+    renderInfrastructure:      renderInfrastructure,
     showSectionLoading:        showSectionLoading,
-    showSectionError:          showSectionError
+    showSectionError:          showSectionError,
+    exportReport:              exportReport
   };
 
 }());

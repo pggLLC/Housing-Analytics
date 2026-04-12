@@ -1,0 +1,311 @@
+name: Build Market Data
+
+# Orchestrated market data pipeline with:
+#   1. Health Check  — validate upstream data source availability
+#   2. Data Fetch    — run the core market data builder (centroids, ACS, LIHTC, boundaries)
+#   3. BBox Fix      — fill missing bbox fields in all GeoJSON output artifacts
+#   4. Artifact Upload — save outputs for review without committing
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'   # Mondays at 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      allow_partial:
+        description: 'Allow build to succeed even when non-core sources (TIGERweb/HUD) are unavailable'
+        required: false
+        default: 'true'
+      skip_health_check:
+        description: 'Skip the health check stage (useful when sources are known-down)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write   # needed for gh pr create
+
+jobs:
+  # ── Stage 1: Health Check ───────────────────────────────────────────────────
+  health-check:
+    name: Health Check — validate data source availability
+    runs-on: ubuntu-latest
+
+    outputs:
+      tigerweb_ok: ${{ steps.check.outputs.tigerweb_ok }}
+      hud_ok:      ${{ steps.check.outputs.hud_ok }}
+      census_cb_ok: ${{ steps.check.outputs.census_cb_ok }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run health check
+        id: check
+        run: |
+          if [[ "${{ github.event.inputs.skip_health_check }}" == "true" ]]; then
+            echo "Health check skipped by workflow input."
+            echo "tigerweb_ok=unknown" >> "$GITHUB_OUTPUT"
+            echo "hud_ok=unknown"      >> "$GITHUB_OUTPUT"
+            echo "census_cb_ok=unknown" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          bash scripts/health_check.sh --warn-only 2>&1
+          # Probe individual sources and export outputs for downstream jobs
+          probe() {
+            local label="$1" url="$2"
+            local code
+            code=$(curl --silent --head --max-time 15 --write-out '%{http_code}' \
+                        --output /dev/null --user-agent "pma-health-check/1.0" "$url" 2>/dev/null \
+                   || echo "000")
+            local ok="false"
+            [[ "${code:0:1}" == "2" || "$code" == "301" || "$code" == "302" ]] && ok="true"
+            echo "  $label: HTTP $code (ok=$ok)" >&2
+            echo "$ok"
+          }
+          tw=$(probe "TIGERweb" "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer?f=json")
+          hd=$(probe "HUD LIHTC" "https://hudgis-hud.opendata.arcgis.com/datasets/8c3c3b26-38f1-4e06-a8f7-a0f2a60cc4d2_0.geojson")
+          cb=$(probe "Census CB (2024)" "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json")
+          echo "tigerweb_ok=$tw"   >> "$GITHUB_OUTPUT"
+          echo "hud_ok=$hd"        >> "$GITHUB_OUTPUT"
+          echo "census_cb_ok=$cb"  >> "$GITHUB_OUTPUT"
+
+  # ── Stage 2: Data Fetch ─────────────────────────────────────────────────────
+  build:
+    name: Fetch and build market data artifacts
+    runs-on: ubuntu-latest
+    needs: health-check
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install tenacity
+
+      - name: Pre-flight diagnostics
+        run: |
+          echo "── Python ──"
+          python3 --version
+          echo "── TIGERweb ok  : ${{ needs.health-check.outputs.tigerweb_ok }}"
+          echo "── HUD ok       : ${{ needs.health-check.outputs.hud_ok }}"
+          echo "── Census CB ok : ${{ needs.health-check.outputs.census_cb_ok }}"
+          echo "── Disk space ──"
+          df -h .
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+
+      - name: Probe Census Cartographic Boundary URL (dynamic year detection)
+        id: census-cb
+        run: |
+          python3 scripts/market/census_scraper.py 2>&1 | tee /tmp/census_scraper.log || true
+          # Extract the found URL (last non-error line) for the summary
+          url=$(grep '^\[census_scraper\] Found:' /tmp/census_scraper.log | tail -1 | sed 's/\[census_scraper\] Found: //')
+          echo "census_cb_url=${url:-not-found}" >> "$GITHUB_OUTPUT"
+          echo "Detected census CB URL: ${url:-not-found}"
+
+      - name: Run market data builder
+        id: build
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          # Pass the dynamically-discovered Census CB URL so the builder
+          # uses the latest available vintage instead of its hardcoded default.
+          CENSUS_CB_URL: ${{ steps.census-cb.outputs.census_cb_url }}
+        run: |
+          echo "── Starting market data build at $(date -u) ──"
+          echo "── Census CB URL override: ${CENSUS_CB_URL:-<none>} ──"
+          python scripts/market/build_public_market_data.py --allow-partial
+          echo "── Build completed at $(date -u) ──"
+        timeout-minutes: 20
+
+      - name: Upload raw build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-data-raw
+          path: data/market/
+          retention-days: 7
+          if-no-files-found: warn
+
+  # ── Stage 3: BBox Fix ───────────────────────────────────────────────────────
+  bbox-fix:
+    name: Fix missing bbox fields in GeoJSON artifacts
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: market-data-raw
+          path: data/market/
+
+      - name: Fix bbox — tract boundaries GeoJSON
+        run: |
+          if [ -f data/market/tract_boundaries_co.geojson ]; then
+            python scripts/market/bbox_fix.py data/market/tract_boundaries_co.geojson
+          else
+            echo "tract_boundaries_co.geojson not found — skipping bbox fix for boundaries"
+          fi
+
+      - name: Fix bbox — LIHTC GeoJSON
+        run: |
+          if [ -f data/market/hud_lihtc_co.geojson ]; then
+            python scripts/market/bbox_fix.py data/market/hud_lihtc_co.geojson
+          else
+            echo "hud_lihtc_co.geojson not found — skipping"
+          fi
+
+      - name: Fix bbox — tract centroids JSON
+        run: |
+          if [ -f data/market/tract_centroids_co.json ]; then
+            python scripts/market/bbox_fix.py data/market/tract_centroids_co.json
+          else
+            echo "tract_centroids_co.json not found — skipping"
+          fi
+
+      - name: Validate artifact completeness
+        id: validate
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          from pathlib import Path
+
+          ROOT = Path("data/market")
+          MIN_TRACTS = 1200
+          MIN_LIHTC  = 50
+          errors = []
+          warnings = []
+
+          def check(fname, key, minimum, label):
+              p = ROOT / fname
+              if not p.exists():
+                  errors.append(f"Missing: {fname}")
+                  return
+              try:
+                  obj = json.loads(p.read_bytes())
+              except Exception as e:
+                  errors.append(f"Invalid JSON in {fname}: {e}")
+                  return
+              items = obj.get(key, [])
+              count = len(items)
+              if count < minimum:
+                  (errors if "lihtc" not in fname.lower() else warnings).append(
+                      f"{fname}: {count} {key} (need ≥{minimum})"
+                  )
+              else:
+                  print(f"  ✓ {fname}: {count} {key}")
+
+          check("tract_centroids_co.json",   "tracts",   MIN_TRACTS, "Centroids")
+          check("acs_tract_metrics_co.json",  "tracts",   MIN_TRACTS, "ACS metrics")
+          check("hud_lihtc_co.geojson",       "features", MIN_LIHTC,  "LIHTC")
+
+          if warnings:
+              for w in warnings: print(f"  ⚠ {w}")
+          if errors:
+              for e in errors: print(f"  ✗ {e}", file=sys.stderr)
+              sys.exit(1)
+          print("All core artifacts validated ✓")
+          PY
+
+      - name: Upload bbox-fixed artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-data-bbox-fixed
+          path: data/market/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Push updated artifacts to a PR branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          BRANCH="chore/market-data-rebuild-$(date -u '+%Y%m%d')"
+          git checkout -b "$BRANCH"
+          git commit -m "chore(data): rebuild market data artifacts [skip ci]"
+          git push --set-upstream origin "$BRANCH"
+
+          gh pr create \
+            --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \
+            --body "Automated market data rebuild from the **Build Market Data** workflow run [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." \
+            --base main \
+            --head "$BRANCH" \
+            --label "market-data" \
+            || echo "PR may already exist for this branch — skipping creation."
+
+  # ── Failure notification ────────────────────────────────────────────────────
+  notify-failure:
+    name: Notify on build failure
+    runs-on: ubuntu-latest
+    needs: [health-check, build, bbox-fix]
+    if: failure()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Open GitHub issue on build failure
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const title = `[Market Data Build] Pipeline failed — run #${context.runId}`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'market-data-build-failure',
+            });
+            if (existing.data.length > 0) {
+              console.log('Build failure issue already open — skipping duplicate creation.');
+              return;
+            }
+            const body = [
+              `The **Build Market Data** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              '### Common causes',
+              '- `CENSUS_API_KEY` secret missing or expired',
+              '- TIGERweb ArcGIS REST service temporarily unavailable',
+              '- HUD LIHTC endpoint returning persistent 403 errors',
+              '- Census Cartographic Boundary URL returning 404 (year mismatch)',
+              '',
+              '### Recovery steps',
+              '1. Check the health-check job output for which sources failed',
+              '2. Verify `CENSUS_API_KEY` in [Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions)',
+              '3. Re-run the workflow once upstream services recover',
+              '',
+              'See `.github/WORKFLOW_TROUBLESHOOTING.md` for the full guide.',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['market-data-build-failure'],
+            });

@@ -1,11 +1,12 @@
 {
-  "generated": "2026-03-23T05:58:40Z",
+  "generated": "2026-04-04T17:29:39Z",
   "description": "Canonical geography registry for HNA selector and ranking coverage. GEOID is always a 5- or 7-digit string. hasHnaSummary indicates a full HNA summary file exists. hasRanking indicates the geography appears in the comparative ranking index. projectionMode: direct=DOLA SYA data available, county_scaled=projections derived from county totals, none=no projection data.",
   "counts": {
     "county": 64,
-    "place": 55,
-    "cdp": 208,
-    "total": 327
+    "place": 302,
+    "cdp": 210,
+    "total": 576,
+    "places": 303
   },
   "geographies": [
     {
@@ -2885,6 +2886,2256 @@
       "containingCounty": "",
       "hasHnaSummary": true,
       "hasRanking": true,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0800760",
+      "name": "Aguilar (town)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0800925",
+      "name": "Akron (town)",
+      "type": "place",
+      "containingCounty": "08121",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0801090",
+      "name": "Alamosa (city)",
+      "type": "place",
+      "containingCounty": "08003",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0801530",
+      "name": "Alma (town)",
+      "type": "place",
+      "containingCounty": "08093",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0802355",
+      "name": "Antonito (town)",
+      "type": "place",
+      "containingCounty": "08021",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0803235",
+      "name": "Arriba (town)",
+      "type": "place",
+      "containingCounty": "08073",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0803950",
+      "name": "Ault (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0804110",
+      "name": "Avon (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0805265",
+      "name": "Bayfield (town)",
+      "type": "place",
+      "containingCounty": "08067",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0806090",
+      "name": "Bennett (town)",
+      "type": "place",
+      "containingCounty": "08001",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0806255",
+      "name": "Berthoud (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0806530",
+      "name": "Bethune (town)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0807025",
+      "name": "Black Hawk (city)",
+      "type": "place",
+      "containingCounty": "08047",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0807190",
+      "name": "Blanca (town)",
+      "type": "place",
+      "containingCounty": "08023",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0807410",
+      "name": "Blue River (town)",
+      "type": "place",
+      "containingCounty": "08117",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0807571",
+      "name": "Bonanza (town)",
+      "type": "place",
+      "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0807795",
+      "name": "Boone (town)",
+      "type": "place",
+      "containingCounty": "08101",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0808070",
+      "name": "Bow Mar (town)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0808345",
+      "name": "Branson (town)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0809115",
+      "name": "Brookside (town)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0809555",
+      "name": "Brush (city)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0810105",
+      "name": "Buena Vista (town)",
+      "type": "place",
+      "containingCounty": "08015",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0810600",
+      "name": "Burlington (city)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0811260",
+      "name": "Calhan (town)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0811645",
+      "name": "Campo (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812030",
+      "name": "Carbonate (town)",
+      "type": "place",
+      "containingCounty": "08045",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812387",
+      "name": "Castle Pines (city)",
+      "type": "place",
+      "containingCounty": "08035",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0811810",
+      "name": "Ca\u00f1on City (city)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812635",
+      "name": "Cedaredge (town)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812855",
+      "name": "Center (town)",
+      "type": "place",
+      "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812900",
+      "name": "Central (city)",
+      "type": "place",
+      "containingCounty": "08047",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0812910",
+      "name": "Central City (city)",
+      "type": "place",
+      "containingCounty": "08047",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0813460",
+      "name": "Cheraw (town)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0813845",
+      "name": "Cherry Hills Village (city)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0814175",
+      "name": "Cheyenne Wells (town)",
+      "type": "place",
+      "containingCounty": "08017",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0814765",
+      "name": "City of Creede (town)",
+      "type": "place",
+      "containingCounty": "08079",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0815330",
+      "name": "Coal Creek (town)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0815550",
+      "name": "Cokedale (town)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0815605",
+      "name": "Collbran (town)",
+      "type": "place",
+      "containingCounty": "08077",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0816385",
+      "name": "Columbine Valley (town)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0816495",
+      "name": "Commerce City (city)",
+      "type": "place",
+      "containingCounty": "08001",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0817375",
+      "name": "Cortez (city)",
+      "type": "place",
+      "containingCounty": "08083",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0817760",
+      "name": "Craig (city)",
+      "type": "place",
+      "containingCounty": "08081",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0817925",
+      "name": "Crawford (town)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0818310",
+      "name": "Crested Butte (town)",
+      "type": "place",
+      "containingCounty": "08051",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0818420",
+      "name": "Crestone (town)",
+      "type": "place",
+      "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0818530",
+      "name": "Cripple Creek (city)",
+      "type": "place",
+      "containingCounty": "08119",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0818640",
+      "name": "Crook (town)",
+      "type": "place",
+      "containingCounty": "08075",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0818750",
+      "name": "Crowley (town)",
+      "type": "place",
+      "containingCounty": "08025",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0819080",
+      "name": "Dacono (city)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0819355",
+      "name": "De Beque (town)",
+      "type": "place",
+      "containingCounty": "08077",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0819630",
+      "name": "Deer Trail (town)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0819795",
+      "name": "Del Norte (town)",
+      "type": "place",
+      "containingCounty": "08105",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0819850",
+      "name": "Delta (city)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0820440",
+      "name": "Dillon (town)",
+      "type": "place",
+      "containingCounty": "08117",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0820495",
+      "name": "Dinosaur (town)",
+      "type": "place",
+      "containingCounty": "08081",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0820770",
+      "name": "Dolores (town)",
+      "type": "place",
+      "containingCounty": "08083",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0821265",
+      "name": "Dove Creek (town)",
+      "type": "place",
+      "containingCounty": "08033",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "type": "place",
+      "containingCounty": "08067",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0822145",
+      "name": "Eads (town)",
+      "type": "place",
+      "containingCounty": "08061",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0822200",
+      "name": "Eagle (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0822860",
+      "name": "Eaton (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0823025",
+      "name": "Eckley (town)",
+      "type": "place",
+      "containingCounty": "08125",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0823135",
+      "name": "Edgewater (city)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0823740",
+      "name": "Elizabeth (town)",
+      "type": "place",
+      "containingCounty": "08039",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0824620",
+      "name": "Empire (town)",
+      "type": "place",
+      "containingCounty": "08019",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0824785",
+      "name": "Englewood (city)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0824950",
+      "name": "Erie (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0825115",
+      "name": "Estes Park (town)",
+      "type": "place",
+      "containingCounty": "08069",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0825280",
+      "name": "Evans (city)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0825610",
+      "name": "Fairplay (town)",
+      "type": "place",
+      "containingCounty": "08093",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0826270",
+      "name": "Federal Heights (city)",
+      "type": "place",
+      "containingCounty": "08001",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0826600",
+      "name": "Firestone (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0826765",
+      "name": "Flagler (town)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0826875",
+      "name": "Fleming (town)",
+      "type": "place",
+      "containingCounty": "08075",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0827040",
+      "name": "Florence (city)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0827700",
+      "name": "Fort Lupton (city)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0827810",
+      "name": "Fort Morgan (city)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0827865",
+      "name": "Fountain (city)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0827975",
+      "name": "Fowler (town)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0828105",
+      "name": "Foxfield (town)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0828305",
+      "name": "Fraser (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0828360",
+      "name": "Frederick (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0828690",
+      "name": "Frisco (town)",
+      "type": "place",
+      "containingCounty": "08117",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0829185",
+      "name": "Garden City (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0829680",
+      "name": "Genoa (town)",
+      "type": "place",
+      "containingCounty": "08073",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0829735",
+      "name": "Georgetown (town)",
+      "type": "place",
+      "containingCounty": "08019",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0829955",
+      "name": "Gilcrest (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0830340",
+      "name": "Glendale (city)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0830780",
+      "name": "Glenwood Springs (city)",
+      "type": "place",
+      "containingCounty": "08097",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0830835",
+      "name": "Golden (city)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0831550",
+      "name": "Granada (town)",
+      "type": "place",
+      "containingCounty": "08099",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0831605",
+      "name": "Granby (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0831715",
+      "name": "Grand Lake (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0832650",
+      "name": "Green Mountain Falls (town)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0833035",
+      "name": "Greenwood Village (city)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0833310",
+      "name": "Grover (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0833640",
+      "name": "Gunnison (city)",
+      "type": "place",
+      "containingCounty": "08051",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0833695",
+      "name": "Gypsum (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0834520",
+      "name": "Hartman (town)",
+      "type": "place",
+      "containingCounty": "08099",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0834740",
+      "name": "Haswell (town)",
+      "type": "place",
+      "containingCounty": "08061",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0834960",
+      "name": "Haxtun (town)",
+      "type": "place",
+      "containingCounty": "08095",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0835070",
+      "name": "Hayden (town)",
+      "type": "place",
+      "containingCounty": "08107",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0836610",
+      "name": "Hillrose (town)",
+      "type": "place",
+      "containingCounty": "08087",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837215",
+      "name": "Holly (town)",
+      "type": "place",
+      "containingCounty": "08099",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837270",
+      "name": "Holyoke (city)",
+      "type": "place",
+      "containingCounty": "08095",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837380",
+      "name": "Hooper (town)",
+      "type": "place",
+      "containingCounty": "08003",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837600",
+      "name": "Hot Sulphur Springs (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837545",
+      "name": "Hotchkiss (town)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837820",
+      "name": "Hudson (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0837875",
+      "name": "Hugo (town)",
+      "type": "place",
+      "containingCounty": "08073",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0838370",
+      "name": "Idaho Springs (city)",
+      "type": "place",
+      "containingCounty": "08019",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0838535",
+      "name": "Ignacio (town)",
+      "type": "place",
+      "containingCounty": "08067",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0838590",
+      "name": "Iliff (town)",
+      "type": "place",
+      "containingCounty": "08075",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0839195",
+      "name": "Jamestown (town)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0839855",
+      "name": "Johnstown (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0839965",
+      "name": "Julesburg (town)",
+      "type": "place",
+      "containingCounty": "08115",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0840185",
+      "name": "Keenesburg (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0840515",
+      "name": "Kersey (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0840570",
+      "name": "Kim (town)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0840790",
+      "name": "Kiowa (town)",
+      "type": "place",
+      "containingCounty": "08039",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0841010",
+      "name": "Kit Carson (town)",
+      "type": "place",
+      "containingCounty": "08017",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0841560",
+      "name": "Kremmling (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0842055",
+      "name": "La Jara (town)",
+      "type": "place",
+      "containingCounty": "08021",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0842110",
+      "name": "La Junta (city)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0843605",
+      "name": "La Salle (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0844100",
+      "name": "La Veta (town)",
+      "type": "place",
+      "containingCounty": "08055",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0841835",
+      "name": "Lafayette (city)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0842330",
+      "name": "Lake City (town)",
+      "type": "place",
+      "containingCounty": "08053",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0842495",
+      "name": "Lakeside (town)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0843110",
+      "name": "Lamar (city)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0843550",
+      "name": "Larkspur (town)",
+      "type": "place",
+      "containingCounty": "08035",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0843660",
+      "name": "Las Animas (city)",
+      "type": "place",
+      "containingCounty": "08011",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0844320",
+      "name": "Leadville (city)",
+      "type": "place",
+      "containingCounty": "08065",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0844980",
+      "name": "Limon (town)",
+      "type": "place",
+      "containingCounty": "08073",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0845530",
+      "name": "Lochbuie (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0845695",
+      "name": "Log Lane Village (town)",
+      "type": "place",
+      "containingCounty": "08087",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0845955",
+      "name": "Lone Tree (city)",
+      "type": "place",
+      "containingCounty": "08035",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0846355",
+      "name": "Louisville (city)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0847070",
+      "name": "Lyons (town)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0848060",
+      "name": "Manassa (town)",
+      "type": "place",
+      "containingCounty": "08021",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0848115",
+      "name": "Mancos (town)",
+      "type": "place",
+      "containingCounty": "08083",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0848445",
+      "name": "Manitou Springs (city)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0848500",
+      "name": "Manzanola (town)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0848555",
+      "name": "Marble (town)",
+      "type": "place",
+      "containingCounty": "08051",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0849600",
+      "name": "Mead (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0849875",
+      "name": "Meeker (town)",
+      "type": "place",
+      "containingCounty": "08103",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0850040",
+      "name": "Merino (town)",
+      "type": "place",
+      "containingCounty": "08075",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0850480",
+      "name": "Milliken (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0850920",
+      "name": "Minturn (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0851250",
+      "name": "Moffat (town)",
+      "type": "place",
+      "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0851635",
+      "name": "Monte Vista (city)",
+      "type": "place",
+      "containingCounty": "08105",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0851690",
+      "name": "Montezuma (town)",
+      "type": "place",
+      "containingCounty": "08117",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0851745",
+      "name": "Montrose (city)",
+      "type": "place",
+      "containingCounty": "08085",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0851800",
+      "name": "Monument (town)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0852075",
+      "name": "Morrison (town)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0852570",
+      "name": "Mount Crested Butte (town)",
+      "type": "place",
+      "containingCounty": "08051",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0852350",
+      "name": "Mountain View (town)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0852550",
+      "name": "Mountain Village (town)",
+      "type": "place",
+      "containingCounty": "08113",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0853120",
+      "name": "Naturita (town)",
+      "type": "place",
+      "containingCounty": "08085",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0853175",
+      "name": "Nederland (town)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0853395",
+      "name": "New Castle (town)",
+      "type": "place",
+      "containingCounty": "08045",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0854880",
+      "name": "Norwood (town)",
+      "type": "place",
+      "containingCounty": "08113",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0854935",
+      "name": "Nucla (town)",
+      "type": "place",
+      "containingCounty": "08085",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855045",
+      "name": "Nunn (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855155",
+      "name": "Oak Creek (town)",
+      "type": "place",
+      "containingCounty": "08107",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855540",
+      "name": "Olathe (town)",
+      "type": "place",
+      "containingCounty": "08085",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855705",
+      "name": "Olney Springs (town)",
+      "type": "place",
+      "containingCounty": "08025",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855870",
+      "name": "Ophir (town)",
+      "type": "place",
+      "containingCounty": "08113",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0855980",
+      "name": "Orchard City (town)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0856145",
+      "name": "Ordway (town)",
+      "type": "place",
+      "containingCounty": "08025",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0856365",
+      "name": "Otis (town)",
+      "type": "place",
+      "containingCounty": "08121",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0856420",
+      "name": "Ouray (city)",
+      "type": "place",
+      "containingCounty": "08091",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0856475",
+      "name": "Ovid (town)",
+      "type": "place",
+      "containingCounty": "08115",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0856860",
+      "name": "Pagosa Springs (town)",
+      "type": "place",
+      "containingCounty": "08007",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0857025",
+      "name": "Palmer Lake (town)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0857245",
+      "name": "Paoli (town)",
+      "type": "place",
+      "containingCounty": "08095",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0857300",
+      "name": "Paonia (town)",
+      "type": "place",
+      "containingCounty": "08029",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0857400",
+      "name": "Parachute (town)",
+      "type": "place",
+      "containingCounty": "08045",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0857630",
+      "name": "Parker (town)",
+      "type": "place",
+      "containingCounty": "08035",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0858235",
+      "name": "Peetz (town)",
+      "type": "place",
+      "containingCounty": "08075",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0859005",
+      "name": "Pierce (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0859830",
+      "name": "Pitkin (town)",
+      "type": "place",
+      "containingCounty": "08051",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0860160",
+      "name": "Platteville (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0860600",
+      "name": "Poncha Springs (town)",
+      "type": "place",
+      "containingCounty": "08015",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0861315",
+      "name": "Pritchett (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0862000",
+      "name": "Pueblo (city)",
+      "type": "place",
+      "containingCounty": "08101",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0862660",
+      "name": "Ramah (town)",
+      "type": "place",
+      "containingCounty": "08041",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0862880",
+      "name": "Rangely (town)",
+      "type": "place",
+      "containingCounty": "08103",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0863045",
+      "name": "Raymer (New Raymer) (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0863265",
+      "name": "Red Cliff (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0864090",
+      "name": "Rico (town)",
+      "type": "place",
+      "containingCounty": "08033",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0864200",
+      "name": "Ridgway (town)",
+      "type": "place",
+      "containingCounty": "08091",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0864255",
+      "name": "Rifle (city)",
+      "type": "place",
+      "containingCounty": "08045",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0864970",
+      "name": "Rockvale (town)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0865190",
+      "name": "Rocky Ford (city)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0865740",
+      "name": "Romeo (town)",
+      "type": "place",
+      "containingCounty": "08021",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0866895",
+      "name": "Rye (town)",
+      "type": "place",
+      "containingCounty": "08101",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0867005",
+      "name": "Saguache (town)",
+      "type": "place",
+      "containingCounty": "08109",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0867280",
+      "name": "Salida (city)",
+      "type": "place",
+      "containingCounty": "08015",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0868105",
+      "name": "San Luis (town)",
+      "type": "place",
+      "containingCounty": "08023",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0867830",
+      "name": "Sanford (town)",
+      "type": "place",
+      "containingCounty": "08021",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0868655",
+      "name": "Sawpit (town)",
+      "type": "place",
+      "containingCounty": "08113",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0868930",
+      "name": "Sedgwick (town)",
+      "type": "place",
+      "containingCounty": "08115",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0869040",
+      "name": "Seibert (town)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0869150",
+      "name": "Severance (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0869645",
+      "name": "Sheridan (city)",
+      "type": "place",
+      "containingCounty": "08005",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0869700",
+      "name": "Sheridan Lake (town)",
+      "type": "place",
+      "containingCounty": "08061",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870195",
+      "name": "Silt (town)",
+      "type": "place",
+      "containingCounty": "08045",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870250",
+      "name": "Silver Cliff (town)",
+      "type": "place",
+      "containingCounty": "08027",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870360",
+      "name": "Silver Plume (town)",
+      "type": "place",
+      "containingCounty": "08019",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870525",
+      "name": "Silverthorne (town)",
+      "type": "place",
+      "containingCounty": "08117",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870580",
+      "name": "Silverton (town)",
+      "type": "place",
+      "containingCounty": "08111",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0870635",
+      "name": "Simla (town)",
+      "type": "place",
+      "containingCounty": "08039",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0871755",
+      "name": "Snowmass Village (town)",
+      "type": "place",
+      "containingCounty": "08097",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0872395",
+      "name": "South Fork (town)",
+      "type": "place",
+      "containingCounty": "08105",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0873330",
+      "name": "Springfield (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0873715",
+      "name": "Starkville (town)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0873825",
+      "name": "Steamboat Springs (city)",
+      "type": "place",
+      "containingCounty": "08107",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0873935",
+      "name": "Sterling (city)",
+      "type": "place",
+      "containingCounty": "08121",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0874485",
+      "name": "Stratton (town)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0874815",
+      "name": "Sugar City (town)",
+      "type": "place",
+      "containingCounty": "08025",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0875640",
+      "name": "Superior (town)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0875970",
+      "name": "Swink (town)",
+      "type": "place",
+      "containingCounty": "08089",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0876795",
+      "name": "Telluride (town)",
+      "type": "place",
+      "containingCounty": "08113",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0877510",
+      "name": "Timnath (town)",
+      "type": "place",
+      "containingCounty": "08069",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0878610",
+      "name": "Trinidad (city)",
+      "type": "place",
+      "containingCounty": "08071",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0879270",
+      "name": "Two Buttes (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0880040",
+      "name": "Vail (town)",
+      "type": "place",
+      "containingCounty": "08037",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0880865",
+      "name": "Victor (city)",
+      "type": "place",
+      "containingCounty": "08119",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0881030",
+      "name": "Vilas (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0881690",
+      "name": "Vona (town)",
+      "type": "place",
+      "containingCounty": "08063",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0882130",
+      "name": "Walden (town)",
+      "type": "place",
+      "containingCounty": "08057",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0882350",
+      "name": "Walsenburg (city)",
+      "type": "place",
+      "containingCounty": "08055",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0882460",
+      "name": "Walsh (town)",
+      "type": "place",
+      "containingCounty": "08009",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0882735",
+      "name": "Ward (town)",
+      "type": "place",
+      "containingCounty": "08013",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0883230",
+      "name": "Wellington (town)",
+      "type": "place",
+      "containingCounty": "08069",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0883450",
+      "name": "Westcliffe (town)",
+      "type": "place",
+      "containingCounty": "08027",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0884440",
+      "name": "Wheat Ridge (city)",
+      "type": "place",
+      "containingCounty": "08059",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0884770",
+      "name": "Wiggins (town)",
+      "type": "place",
+      "containingCounty": "08087",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0885045",
+      "name": "Wiley (town)",
+      "type": "place",
+      "containingCounty": "08099",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0885155",
+      "name": "Williamsburg (town)",
+      "type": "place",
+      "containingCounty": "08043",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0885485",
+      "name": "Windsor (town)",
+      "type": "place",
+      "containingCounty": "08123",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0885705",
+      "name": "Winter Park (town)",
+      "type": "place",
+      "containingCounty": "08049",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0886090",
+      "name": "Woodland Park (city)",
+      "type": "place",
+      "containingCounty": "08119",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0886310",
+      "name": "Wray (city)",
+      "type": "place",
+      "containingCounty": "08125",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0886475",
+      "name": "Yampa (town)",
+      "type": "place",
+      "containingCounty": "08107",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0886750",
+      "name": "Yuma (city)",
+      "type": "place",
+      "containingCounty": "08125",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0879100",
+      "name": "Twin Lakes CDP (Adams County)",
+      "type": "cdp",
+      "containingCounty": "08001",
+      "hasHnaSummary": false,
+      "hasRanking": false,
+      "projectionMode": "county_scaled"
+    },
+    {
+      "geoid": "0879105",
+      "name": "Twin Lakes CDP (Lake County)",
+      "type": "cdp",
+      "containingCounty": "08065",
+      "hasHnaSummary": false,
+      "hasRanking": false,
       "projectionMode": "county_scaled"
     }
   ]

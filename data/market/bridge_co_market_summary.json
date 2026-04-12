@@ -1,0 +1,5 @@
+{
+  "_note": "Bridge MLS data requires a paid API subscription (BRIDGE_BROWSER_TOKEN). Set APP_CONFIG.BRIDGE_BROWSER_TOKEN in js/config.js to enable live market data. This stub prevents 404 errors on page load.",
+  "available": false,
+  "markets": []
+}

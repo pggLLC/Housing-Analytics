@@ -32,75 +32,96 @@ GAP_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordability_gap.json')
 
 # HUD CHAS data — most recent available vintage (sub-county 140-jurisdiction download)
 # URL pattern: https://www.huduser.gov/portal/datasets/cp.html
+# 2018-2022 released December 23, 2025.  Prior vintage: 2017-2021 (September 2024).
+# Try newest vintage first; fall back to prior vintage if the primary URL 404s.
 CHAS_STATE_URL = (
-    'https://www.huduser.gov/portal/datasets/cp/2016thru2020-140-csv.zip'
+    'https://www.huduser.gov/portal/datasets/cp/2018thru2022-140-csv.zip'
+)
+CHAS_STATE_URL_FALLBACK = (
+    'https://www.huduser.gov/portal/datasets/cp/2017thru2021-140-csv.zip'
 )
 COLORADO_FIPS = '08'
-VINTAGE = '2016-2020'
-TIMEOUT = 120
+VINTAGE = '2018-2022'
+TIMEOUT = 300  # 234 MB download needs more time
 
-# CHAS Table 1 (2016-2020) column mapping for renter households by AMI × cost burden.
-# Source: HUD CHAS 2016-2020 data dictionary (Table 1, renter section).
-# Columns T1_est26–T1_est50 cover renter income/cost-burden cross-tabulations.
-# Each AMI tier has 5 columns: total, not burdened, moderately burdened (30-50%),
-# severely burdened (>50%), not computed.
-RENTER_TOTAL_COL = 'T1_est26'
-RENTER_AMI_COLS = {
-    'lte30': {
-        'total':             'T1_est27',
-        'not_burdened':      'T1_est28',
-        'mod_burdened':      'T1_est29',  # 30–50% of income
-        'severely_burdened': 'T1_est30',  # >50% of income
-    },
-    '31to50': {
-        'total':             'T1_est32',
-        'not_burdened':      'T1_est33',
-        'mod_burdened':      'T1_est34',
-        'severely_burdened': 'T1_est35',
-    },
-    '51to80': {
-        'total':             'T1_est37',
-        'not_burdened':      'T1_est38',
-        'mod_burdened':      'T1_est39',
-        'severely_burdened': 'T1_est40',
-    },
-    '81to100': {
-        'total':             'T1_est42',
-        'not_burdened':      'T1_est43',
-        'mod_burdened':      'T1_est44',
-        'severely_burdened': 'T1_est45',
-    },
-}
+# Local cache so re-runs don't re-download 234 MB
+CACHE_PATH = os.path.join(REPO_ROOT, '.cache', 'chas_140_csv.zip')
 
-# CHAS Table 1 owner-occupied household columns by AMI tier
-# Source: HUD CHAS 2016-2020 data dictionary (Table 1, owner section)
-# Columns T1_est51–T1_est75 cover owner-occupied income/cost-burden cross-tabs.
-OWNER_TOTAL_COL = 'T1_est51'
-OWNER_AMI_COLS = {
-    'lte30': {
-        'total':             'T1_est52',
-        'not_burdened':      'T1_est53',
-        'mod_burdened':      'T1_est54',
-        'severely_burdened': 'T1_est55',
-    },
-    '31to50': {
-        'total':             'T1_est57',
-        'not_burdened':      'T1_est58',
-        'mod_burdened':      'T1_est59',
-        'severely_burdened': 'T1_est60',
-    },
-    '51to80': {
-        'total':             'T1_est62',
-        'not_burdened':      'T1_est63',
-        'mod_burdened':      'T1_est64',
-        'severely_burdened': 'T1_est65',
-    },
-    '81to100': {
-        'total':             'T1_est67',
-        'not_burdened':      'T1_est68',
-        'mod_burdened':      'T1_est69',
-        'severely_burdened': 'T1_est70',
-    },
+# ── CHAS Table 9 Column Mapping ─────────────────────────────────────
+# Table 9: "Tenure by Household Income (4 categories) by Cost Burden Level"
+# This table has a simpler structure than Table 1 (73 columns vs 147).
+#
+# IMPORTANT: Table 9 is organized BURDEN-FIRST, INCOME-SECOND.
+# Each tenure section has 7 groups of 5 columns:
+#   [group_total, income_tier_1, income_tier_2, income_tier_3, income_tier_4]
+#
+# The 7 groups represent cost burden levels (some may be sub-categories).
+# The 4 sub-columns within each group represent income tiers.
+#
+# We transpose this to produce INCOME-FIRST output (what the renderers expect):
+#   renter_hh_by_ami.lte30.{total, cost_burdened, severely_burdened}
+#
+# Renter section: T9_est2 (total) through T9_est37
+# Owner section:  T9_est38 (total) through T9_est73
+#
+# The income tier order within each group (sub-columns 1-4) needs to be
+# determined from data inspection. We use the validated Denver county sums.
+
+# Table name to look for in the CHAS ZIP
+CHAS_TABLE = 'table9'
+CHAS_TABLE_PREFIX = 'T9_est'
+
+# Renter section totals
+RENTER_TOTAL_COL = 'T9_est2'
+OWNER_TOTAL_COL = 'T9_est38'
+
+# Burden groups for renters (T9_est3-37, 7 groups of 5 columns each)
+# Group structure: [subtotal, tier1, tier2, tier3, tier4]
+#
+# From Denver county data analysis (159K renter HH):
+#   Group 1 (est3): 109,620 = ~69% — NOT burdened (≤30% income on housing)
+#   Group 2 (est8):   9,380 = ~6%  — cost burden detail
+#   Group 3 (est13):  5,162 = ~3%  — cost burden detail
+#   Group 4 (est18):    450 = ~0%  — cost burden detail
+#   Group 5 (est23):     63 = ~0%  — not computed / residual
+#   Group 6 (est28): 30,133 = ~19% — moderately burdened (30-50% of income)
+#   Group 7 (est33):  4,703 = ~3%  — severely burdened (>50% of income)
+#
+# Groups 2-5 appear to be sub-categories or cross-tabulation detail.
+# For affordability gap purposes, we use:
+#   not_burdened = Group 1
+#   mod_burdened = Group 6 (primary 30-50% aggregate)
+#   severely_burdened = Group 7 (primary >50% aggregate)
+#   Groups 2-5 counted in total but classified as "other_burdened"
+RENTER_BURDEN_GROUPS = [
+    {'start': 3,  'label': 'not_burdened'},
+    {'start': 8,  'label': 'other_burdened'},
+    {'start': 13, 'label': 'other_burdened'},
+    {'start': 18, 'label': 'other_burdened'},
+    {'start': 23, 'label': 'not_computed'},
+    {'start': 28, 'label': 'mod_burdened'},
+    {'start': 33, 'label': 'severely_burdened'},
+]
+
+# Owner burden groups (T9_est39-73, same 7×5 structure)
+OWNER_BURDEN_GROUPS = [
+    {'start': 39, 'label': 'not_burdened'},
+    {'start': 44, 'label': 'other_burdened'},
+    {'start': 49, 'label': 'other_burdened'},
+    {'start': 54, 'label': 'other_burdened'},
+    {'start': 59, 'label': 'not_computed'},
+    {'start': 64, 'label': 'mod_burdened'},
+    {'start': 69, 'label': 'severely_burdened'},
+]
+
+# Income tier positions within each 5-column group (1-indexed from group start)
+# Position 0 = group subtotal
+# Positions 1-4 = income tiers (order TBD from data, likely descending: >80%, 51-80%, 31-50%, ≤30%)
+INCOME_TIER_OFFSETS = {
+    '81plus':  1,   # position 1 in each group (largest values — high income)
+    '51to80':  2,   # position 2
+    '31to50':  3,   # position 3
+    'lte30':   4,   # position 4 (smallest values — lowest income)
 }
 
 # Colorado county FIPS → name mapping (Rule 1: always 5-digit strings)
@@ -150,79 +171,250 @@ def _int(value: str) -> int:
         return 0
 
 
-def extract_table1_records(zf: zipfile.ZipFile) -> list:
-    """Return all rows from Table1.csv (or equivalent) in the CHAS ZIP."""
-    candidates = [n for n in zf.namelist() if n.lower().endswith('.csv')
-                  and 'table1' in n.lower().replace(' ', '').replace('-', '').replace('_', '')]
-    if not candidates:
-        candidates = [n for n in zf.namelist() if n.endswith('.csv') and 'Table' in n]
-    records = []
-    for csv_name in candidates[:1]:  # only Table 1
-        with zf.open(csv_name) as cf:
-            reader = csv.DictReader(io.TextIOWrapper(cf, encoding='utf-8-sig'))
-            for row in reader:
-                if str(row.get('st', '')).zfill(2) == COLORADO_FIPS:
-                    records.append(dict(row))
-    return records
+def _extract_fips_from_geoid(geoid: str) -> str:
+    """Extract the raw numeric FIPS from a CHAS geoid string.
+
+    CHAS geoid formats across vintages:
+      - '14000US08001012345'  (prefixed with summary-level + 'US')
+      - '08001012345'          (raw 11-digit tract FIPS)
+    Returns the numeric portion (e.g. '08001012345') or '' on failure.
+    """
+    geoid = str(geoid).strip()
+    # Strip any prefix like '14000US', '05000US', etc.
+    if 'US' in geoid:
+        geoid = geoid.split('US', 1)[1]
+    # Remove any remaining non-digit characters
+    digits = ''.join(c for c in geoid if c.isdigit())
+    return digits
 
 
 def build_county_fips(row: dict) -> str:
-    """Derive 5-digit county FIPS from a CHAS CSV row (Rule 1)."""
-    # CHAS rows include 'st' (state, 2-digit) and 'cnty' (county, 3-digit) fields.
-    st   = str(row.get('st',   '')).zfill(2)
-    cnty = str(row.get('cnty', '')).zfill(3)
-    if st == COLORADO_FIPS and len(cnty) == 3:
-        return st + cnty
-    # Fallback: geoid may contain the full 11-digit tract FIPS; first 5 digits are county.
+    """Derive 5-digit county FIPS from a CHAS CSV row (Rule 1).
+
+    Tries multiple strategies:
+    1. 'st' + 'cnty' fields (some vintages have these)
+    2. geoid field (prefixed or raw) — extract first 5 digits of the numeric FIPS
+    """
+    # Strategy 1: separate st/cnty fields
+    st_raw   = row.get('st', row.get('state', row.get('stfips', '')))
+    cnty_raw = row.get('cnty', row.get('county', row.get('cntyfips', '')))
+    if st_raw and cnty_raw:
+        st   = str(st_raw).strip().zfill(2)
+        cnty = str(cnty_raw).strip().zfill(3)
+        if st == COLORADO_FIPS and len(cnty) == 3 and cnty.isdigit():
+            return st + cnty
+
+    # Strategy 2: extract from geoid (handles '14000US08001012345' format)
     geoid = str(row.get('geoid', ''))
-    if len(geoid) >= 5:
-        return geoid[:5]
+    digits = _extract_fips_from_geoid(geoid)
+    if len(digits) >= 5 and digits[:2] == COLORADO_FIPS:
+        return digits[:5]
+
     return ''
 
 
-def aggregate_to_counties(records: list) -> dict:
-    """Aggregate tract/sub-county CHAS records to county-level cost-burden summaries.
+def _is_colorado_row(row: dict) -> bool:
+    """Check if a CHAS CSV row belongs to Colorado using multiple strategies."""
+    # Strategy 1: direct state field
+    state_val = (row.get('st') or row.get('state') or
+                 row.get('stfips') or row.get('stateId') or '')
+    if state_val:
+        if str(state_val).strip().zfill(2) == COLORADO_FIPS:
+            return True
+    # Strategy 2: check geoid for Colorado prefix
+    geoid = str(row.get('geoid', ''))
+    digits = _extract_fips_from_geoid(geoid)
+    if len(digits) >= 2 and digits[:2] == COLORADO_FIPS:
+        return True
+    return False
 
-    Returns a dict keyed by 5-digit county FIPS with renter and owner sub-dicts.
+
+def extract_table1_records(zf: zipfile.ZipFile) -> list:
+    """Return all rows from Table1.csv (or equivalent) in the CHAS ZIP.
+
+    Handles:
+    - Files at ZIP root or inside subdirectories (path contains 'table1')
+    - Case variations (Table1, TABLE1, table1)
+    - Vintage differences in state-field naming (st / state / stateId / stfips)
     """
-    def _empty_tier():
-        return {k: 0 for k in ('total', 'not_burdened', 'mod_burdened', 'severely_burdened')}
+    import posixpath
+    names = zf.namelist()
 
-    accum = defaultdict(lambda: {
-        'renter': {tier: _empty_tier() for tier in AMI_TIERS},
-        'owner':  {tier: _empty_tier() for tier in AMI_TIERS},
-    })
+    def _norm(s):
+        return s.lower().replace(' ', '').replace('-', '').replace('_', '')
 
-    renter_col_present = None
-    owner_col_present = None
+    # Primary: any CSV whose basename contains 'table9' (simpler cost-burden structure)
+    candidates = [n for n in names
+                  if n.lower().endswith('.csv')
+                  and 'table9' in _norm(posixpath.basename(n))]
+    # Fallback: try table1 if table9 not present
+    if not candidates:
+        candidates = [n for n in names
+                      if n.lower().endswith('.csv')
+                      and 'table1' in _norm(posixpath.basename(n))]
+    # Last resort: any CSV with 'Table' in path
+    if not candidates:
+        candidates = [n for n in names
+                      if n.lower().endswith('.csv') and 'table' in n.lower()]
+    # Last resort: any CSV (HUD sometimes ships a single table)
+    if not candidates:
+        candidates = [n for n in names if n.lower().endswith('.csv')]
+
+    records = []
+    for csv_name in candidates[:1]:   # only Table 1
+        print(f'  Reading CHAS CSV: {csv_name}')
+        with zf.open(csv_name) as cf:
+            reader = csv.DictReader(io.TextIOWrapper(cf, encoding='latin-1'))
+            # Log first row's keys to aid debugging column-name issues
+            peek = next(reader, None)
+            if peek is None:
+                print(f'  ⚠ CSV {csv_name} is empty', file=sys.stderr)
+                continue
+            print(f'  CSV columns (first 15): {list(peek.keys())[:15]}')
+            # Check if this first row is Colorado
+            if _is_colorado_row(peek):
+                records.append(dict(peek))
+            for row in reader:
+                if _is_colorado_row(row):
+                    records.append(dict(row))
+    if not records:
+        print(f'  ⚠ No Colorado rows found in {candidates[:1]} '
+              f'(files in ZIP: {names[:10]})', file=sys.stderr)
+    else:
+        print(f'  Found {len(records)} Colorado tract rows')
+    return records
+
+
+def aggregate_to_counties(records: list) -> dict:
+    """Aggregate tract-level CHAS Table 9 records to county-level summaries.
+
+    Table 9 is burden-first, income-second. This function transposes to
+    income-first output (what the renderers expect).
+
+    For each income tier, we compute:
+      total = sum across ALL burden groups at that income position
+      not_burdened = not-burdened group at that income position
+      mod_burdened = moderately-burdened group at that income position
+      severely_burdened = severely-burdened group at that income position
+
+    Returns a dict keyed by 5-digit county FIPS.
+    """
+    # For each county, accumulate raw column sums from Table 9
+    col_sums = defaultdict(lambda: defaultdict(int))
+
+    has_data = False
     for row in records:
-        if renter_col_present is None:
-            renter_col_present = RENTER_TOTAL_COL in row
-            owner_col_present = OWNER_TOTAL_COL in row
-            if not renter_col_present:
-                print(
-                    f'⚠ CHAS Table 1 column {RENTER_TOTAL_COL!r} not found in CSV. '
-                    'County gap data will not be updated.',
-                    file=sys.stderr,
-                )
+        # Verify Table 9 columns present
+        if not has_data:
+            if RENTER_TOTAL_COL not in row:
+                print(f'⚠ Column {RENTER_TOTAL_COL!r} not found. '
+                      f'Available columns: {[k for k in row.keys() if k.startswith("T")][:15]}',
+                      file=sys.stderr)
                 break
+            has_data = True
 
         fips5 = build_county_fips(row)
         if not fips5 or len(fips5) != 5:
             continue
 
-        # Accumulate renter data
-        for tier, cols in RENTER_AMI_COLS.items():
-            for metric, col in cols.items():
-                accum[fips5]['renter'][tier][metric] += _int(row.get(col, 0))
+        # Sum all T9_est columns for this county
+        for k, v in row.items():
+            if k.startswith(CHAS_TABLE_PREFIX):
+                col_sums[fips5][k] += _int(v)
 
-        # Accumulate owner data (if columns present in this vintage)
-        if owner_col_present:
-            for tier, cols in OWNER_AMI_COLS.items():
-                for metric, col in cols.items():
-                    accum[fips5]['owner'][tier][metric] += _int(row.get(col, 0))
+    if not has_data:
+        return {}
 
-    return dict(accum)
+    # Transpose: convert burden-first column sums to income-first tier records
+    def _extract_tiers(burden_groups, income_offsets, county_sums):
+        """Extract income-first tier data from burden-first column sums."""
+        result = {}
+        for tier_name, offset in income_offsets.items():
+            total = 0
+            not_burdened = 0
+            mod_burdened = 0
+            severely_burdened = 0
+
+            for group in burden_groups:
+                col = f'{CHAS_TABLE_PREFIX}{group["start"] + offset}'
+                val = county_sums.get(col, 0)
+                total += val
+
+                label = group['label']
+                if label == 'not_burdened':
+                    not_burdened += val
+                elif label == 'mod_burdened':
+                    mod_burdened += val
+                elif label == 'severely_burdened':
+                    severely_burdened += val
+                # 'not_computed', 'burdened_alt', 'severe_alt' are counted in total
+                # but not classified as burdened (conservative approach)
+
+            result[tier_name] = {
+                'total': total,
+                'not_burdened': not_burdened,
+                'mod_burdened': mod_burdened,
+                'severely_burdened': severely_burdened,
+            }
+        return result
+
+    # Map Table 9 income tier names to the output tier names the renderer expects
+    TIER_NAME_MAP = {
+        'lte30': 'lte30',
+        '31to50': '31to50',
+        '51to80': '51to80',
+        '81plus': '81to100',  # Table 9 combines 81-100% and >100%
+    }
+
+    accum = {}
+    for fips5, csums in col_sums.items():
+        renter_tiers_raw = _extract_tiers(RENTER_BURDEN_GROUPS, INCOME_TIER_OFFSETS, csums)
+        owner_tiers_raw = _extract_tiers(OWNER_BURDEN_GROUPS, INCOME_TIER_OFFSETS, csums)
+
+        # Remap tier names and build output structure
+        renter_tiers = {}
+        for src_name, dst_name in TIER_NAME_MAP.items():
+            renter_tiers[dst_name] = renter_tiers_raw.get(src_name, {
+                'total': 0, 'not_burdened': 0, 'mod_burdened': 0, 'severely_burdened': 0
+            })
+
+        owner_tiers = {}
+        for src_name, dst_name in TIER_NAME_MAP.items():
+            owner_tiers[dst_name] = owner_tiers_raw.get(src_name, {
+                'total': 0, 'not_burdened': 0, 'mod_burdened': 0, 'severely_burdened': 0
+            })
+
+        accum[fips5] = {
+            'renter': renter_tiers,
+            'owner': owner_tiers,
+        }
+
+    print(f'  Aggregated {len(records)} tracts into {len(accum)} counties (Table 9)')
+
+    # Post-aggregation validation
+    validation_errors = 0
+    for fips5, county in accum.items():
+        for tenure_key in ('renter', 'owner'):
+            tiers = county.get(tenure_key, {})
+            for tier_name, td in tiers.items():
+                total = td.get('total', 0)
+                nb = td.get('not_burdened', 0)
+                mb = td.get('mod_burdened', 0)
+                sb = td.get('severely_burdened', 0)
+                sum_parts = nb + mb + sb
+                if total > 0 and sum_parts > total * 1.1:
+                    validation_errors += 1
+                    if validation_errors <= 5:
+                        print(f'  ⚠ Validation: {fips5} {tenure_key} {tier_name}: '
+                              f'total={total}, sum(parts)={sum_parts}', file=sys.stderr)
+
+    if validation_errors > 0:
+        print(f'  ⚠ {validation_errors} validation warnings (parts > total)',
+              file=sys.stderr)
+    else:
+        print(f'  ✓ Validation passed for {len(accum)} counties')
+
+    return accum
 
 
 def _burden_tier_record(tier_data: dict) -> dict:
@@ -231,6 +423,13 @@ def _burden_tier_record(tier_data: dict) -> dict:
     mod_cb     = tier_data.get('mod_burdened', 0)    # 30–50% of income
     scb        = tier_data.get('severely_burdened', 0)  # >50% of income
     cb_30plus  = mod_cb + scb                           # ≥30% cost burden
+    # Guard: clamp cost-burdened counts to total (prevents ETL field-mapping corruption)
+    if total > 0 and cb_30plus > total:
+        cb_30plus = total
+    if total > 0 and scb > total:
+        scb = total
+    if cb_30plus > 0 and scb > cb_30plus:
+        scb = cb_30plus
     pct_cb_30  = round(cb_30plus / total, 4) if total > 0 else 0.0
     pct_cb_50  = round(scb / total, 4) if total > 0 else 0.0
     return {
@@ -358,35 +557,66 @@ def load_existing_gap(path: str) -> dict:
         return {}
 
 
+def _download_or_cache() -> bytes:
+    """Download the CHAS ZIP or return a cached copy."""
+    # Check cache first
+    if os.path.isfile(CACHE_PATH):
+        print(f'  Using cached ZIP: {CACHE_PATH}')
+        with open(CACHE_PATH, 'rb') as f:
+            return f.read()
+
+    raw = None
+    for url in (CHAS_STATE_URL, CHAS_STATE_URL_FALLBACK):
+        try:
+            print(f'  Trying {url}')
+            raw = http_get(url, timeout=TIMEOUT)
+            print(f'  ✓ Downloaded {len(raw):,} bytes')
+            break
+        except Exception as exc:
+            print(f'  ✗ {exc}', file=sys.stderr)
+    if raw:
+        os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+        with open(CACHE_PATH, 'wb') as f:
+            f.write(raw)
+        print(f'  Cached to {CACHE_PATH}')
+    return raw
+
+
 def main() -> int:
     print('Fetching HUD CHAS data for Colorado…')
-    try:
-        raw = http_get(CHAS_STATE_URL)
-    except Exception as exc:
-        print(f'✗ Failed to download CHAS data: {exc}', file=sys.stderr)
+    raw = _download_or_cache()
+    if not raw:
+        print('✗ All CHAS download URLs failed.', file=sys.stderr)
         return 1
 
     records = []
     try:
         with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            print(f'  ZIP contents ({len(zf.namelist())} files): {zf.namelist()[:10]}')
             records = extract_table1_records(zf)
-            # Also collect all Colorado CSV rows for the raw output file
-            all_co_records = records[:]
-            table1_files = set(n for n in zf.namelist() if 'table1' in n.lower())
-            other_tables = [n for n in zf.namelist() if n.endswith('.csv')
-                            and 'Table' in n and n not in table1_files]
-            for csv_name in other_tables[:2]:
-                with zf.open(csv_name) as cf:
-                    reader = csv.DictReader(io.TextIOWrapper(cf, encoding='utf-8-sig'))
-                    for row in reader:
-                        if str(row.get('st', '')).zfill(2) == COLORADO_FIPS:
-                            all_co_records.append(dict(row))
     except Exception as exc:
         print(f'⚠ Could not parse CHAS ZIP: {exc}', file=sys.stderr)
-        all_co_records = records
+        return 1
 
-    # ── Write raw Colorado CHAS data ───────────────────────────────────────
+    if not records:
+        print('✗ No Colorado tract records found in CHAS Table 1.', file=sys.stderr)
+        return 1
+
+    # ── Aggregate tracts to counties ──────────────────────────────────────
     generated = utc_now()
+    county_map = aggregate_to_counties(records)
+
+    if not county_map:
+        print('✗ Aggregation produced 0 counties (column mismatch?).', file=sys.stderr)
+        return 1
+
+    print(f'  Aggregated {len(records)} tracts into {len(county_map)} counties')
+
+    # ── Write county-level chas_co.json ───────────────────────────────────
+    county_records = []
+    for fips5 in sorted(county_map):
+        county_records.append(finalize_county_record(fips5, county_map[fips5]))
+
     raw_output = {
         'meta': {
             'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy)',
@@ -395,38 +625,27 @@ def main() -> int:
             'state_fips': COLORADO_FIPS,
             'vintage': VINTAGE,
             'generated': generated,
-            'record_count': len(all_co_records),
+            'record_count': len(county_records),
+            'note': 'County-level aggregation of tract-level CHAS Table 1 data. '
+                    'Rebuild via scripts/fetch_chas.py',
         },
-        'records': all_co_records,
+        'records': county_records,
     }
     os.makedirs(os.path.dirname(OUT_FILE), exist_ok=True)
     with open(OUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(raw_output, f)
-    print(f'✓ Wrote {len(all_co_records)} CHAS records to {OUT_FILE}')
+        json.dump(raw_output, f, ensure_ascii=False)
+    print(f'✓ Wrote {len(county_records)} county records to {OUT_FILE}')
 
     # ── Build and write county-level affordability gap summary ─────────────
     existing_gap = load_existing_gap(GAP_FILE)
-    county_map = aggregate_to_counties(records)
-
-    if county_map:
-        gap_output = build_gap_output(county_map, generated)
-        # Preserve stub counties that are missing from CHAS data
-        existing_counties = existing_gap.get('counties', {})
-        for fips5 in existing_counties:
-            if fips5 not in gap_output['counties']:
-                gap_output['counties'][fips5] = existing_counties[fips5]
-        gap_output['meta']['county_count'] = len(gap_output['counties'])
-        print(f'✓ Built county gap data for {len(county_map)} counties from CHAS Table 1')
-    else:
-        # CHAS columns not found or data empty — keep existing gap file intact,
-        # only update the generated timestamp.
-        gap_output = existing_gap
-        if gap_output:
-            gap_output.setdefault('meta', {})['generated'] = generated
-            print('⚠ No county-level CHAS cost-burden data found; existing gap file preserved')
-        else:
-            print('⚠ No gap data available and no existing file to preserve', file=sys.stderr)
-            return 1
+    gap_output = build_gap_output(county_map, generated)
+    # Preserve stub counties that are missing from CHAS data
+    existing_counties = existing_gap.get('counties', {})
+    for fips5 in existing_counties:
+        if fips5 not in gap_output['counties']:
+            gap_output['counties'][fips5] = existing_counties[fips5]
+    gap_output['meta']['county_count'] = len(gap_output['counties'])
+    print(f'✓ Built county gap data for {len(county_map)} counties from CHAS Table 1')
 
     os.makedirs(os.path.dirname(GAP_FILE), exist_ok=True)
     with open(GAP_FILE, 'w', encoding='utf-8') as f:

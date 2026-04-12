@@ -5,63 +5,64 @@
  *
  * Information Architecture:
  * ─────────────────────────────────────────────────────────────────────────
- * PRIMARY WORKFLOW (Platform group):
- *   Home → Housing Needs Assessment → Market Analysis → Colorado Deep Dive
- *   → Economic Dashboard → LIHTC Allocations
+ * SCOPING A PROJECT (primary workflow):
+ *   LIHTC Guide (start here) → Select Jurisdiction → HNA → Market Analysis
+ *   → Scenario Builder → Deal Calculator
  *
- * SECONDARY / DATA PAGES (Data & Research group):
- *   Market Intelligence, CHFA Portfolio, Preservation Tracking, Data Health
+ * EXPLORE (comparative & context):
+ *   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
+ *   Economic Dashboard, LIHTC Allocations, Preservation Tracking
  *
- * ARCHIVED / STUB PAGES (not in primary nav):
- *   colorado-market.html — stub (redirect to colorado-deep-dive.html)
- *   census-dashboard.html — secondary reference page
- *   dashboard.html — superseded by Economic Dashboard
+ * DATA (transparency & quality):
+ *   Data Health, Data Quality, Data Review, Census Explorer
+ *
+ * INSIGHTS (news, policy & reference):
+ *   Housing News, Market Insights, Market Intelligence,
+ *   Housing Legislation, CRA Expansion, About COHO
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
   const GROUPS = [
     {
-      label: "Platform",
+      label: "Scoping a Project",
       items: [
-        { label: "Housing Needs Assessment", href: "housing-needs-assessment.html", desc: "County & municipal HNA tool" },
-        { label: "HNA Comparative Ranking", href: "hna-comparative-analysis.html", desc: "Statewide needs ranking" },
-        { label: "Projection Scenarios", href: "hna-scenario-builder.html", desc: "20-year demographic scenario builder" },
-        { label: "Market Analysis", href: "market-analysis.html", desc: "PMA & feasibility" },
-        { label: "Colorado Deep Dive", href: "colorado-deep-dive.html", desc: "County-level detail & market overview" },
-        { label: "Economic Dashboard", href: "economic-dashboard.html", desc: "FRED indicators" },
-        { label: "LIHTC Allocations", href: "lihtc-allocations.html", desc: "State allocation maps & data" },
+        { label: "LIHTC Guide",            href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Step 1: Choose your county or city" },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "Step 2: Community need evidence" },
+        { label: "Market Analysis",         href: "market-analysis.html",          desc: "Step 3: Site screening & PMA scoring" },
+        { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "Step 4: 20-year demographic projections" },
+        { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "Step 5: LIHTC pro forma & capital stack" },
       ]
     },
     {
-      label: "Data &amp; Research",
+      label: "Explore",
       items: [
-        { label: "Market Intelligence", href: "market-intelligence.html", desc: "Statewide market data" },
-        { label: "CHFA Portfolio", href: "chfa-portfolio.html", desc: "CHFA LIHTC projects" },
-        { label: "Preservation Tracking", href: "preservation.html", desc: "NHPD subsidy expiry" },
-        { label: "Data Health", href: "data-status.html", desc: "Pipeline & data freshness" },
+        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 547 geographies by housing need" },
+        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level LIHTC & market overview" },
+        { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
+        { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
+        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
+        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
     },
     {
-      label: "Policy &amp; Insights",
+      label: "Data",
       items: [
-        { label: "Market Insights", href: "insights.html", desc: "Analysis & commentary" },
-        { label: "Weekly Housing Brief", href: "private/weekly-brief/index.html", desc: "Weekly intelligence brief" },
-        { label: "LIHTC Guide", href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics" },
-        { label: "LIHTC Enhancement (AHCIA)", href: "lihtc-enhancement-ahcia.html", desc: "AHCIA provisions" },
-        { label: "Housing Legislation", href: "housing-legislation-2026.html", desc: "2026 bills tracker" },
-        { label: "Policy Briefs", href: "policy-briefs.html", desc: "Research summaries" },
-        { label: "CRA Expansion", href: "cra-expansion-analysis.html", desc: "CRA opportunity areas" },
+        { label: "Data Health",           href: "data-status.html",               desc: "Pipeline freshness & API status" },
+        { label: "Data Quality",          href: "dashboard-data-quality.html",    desc: "Coverage & validation checks" },
+        { label: "Data Review",           href: "data-review-hub.html",           desc: "Full inventory & transparency" },
+        { label: "Census Explorer",       href: "census-dashboard.html",          desc: "Interactive ACS data browser" },
       ]
     },
     {
-      label: "About",
+      label: "Insights",
       items: [
-        { label: "Home", href: "index.html", desc: "Platform overview" },
-        { label: "About COHO", href: "about.html", desc: "Platform & methodology" },
-        { label: "Regional Overview", href: "regional.html", desc: "Regional comparisons" },
-        { label: "Compliance Dashboard", href: "compliance-dashboard.html", desc: "Prop 123 compliance" },
-        { label: "Sitemap", href: "sitemap.html", desc: "All pages" },
-        { label: "Privacy Policy", href: "privacy-policy.html", desc: "Data & privacy" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "AI-assisted policy briefs" },
+        { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
+        { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
+        { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
+        { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
+        { label: "About COHO",            href: "about.html",                     desc: "Platform, methodology & privacy" },
       ]
     }
   ];
@@ -87,57 +88,67 @@
 
   function ensureHeaderStyles() {
     if (document.getElementById('nav-injected-styles')) return;
-    const s = document.createElement('style');
-    s.id = 'nav-injected-styles';
-    s.textContent = `
-      header.site-header{position:sticky;top:0;z-index:1000;background:var(--card);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.2) blur(10px)}
-      .nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:14px}
-      .brand{display:flex;flex-direction:column;gap:2px}
-      .brand a{font-weight:800;letter-spacing:.2px;color:var(--text);text-decoration:none}
-      .brand small{color:var(--muted);font-weight:600}
-      nav.site-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-      nav.site-nav a{padding:8px 10px;border-radius:999px;border:1px solid transparent;color:var(--text);text-decoration:none;font-weight:700;font-size:.92rem}
-      nav.site-nav a:hover{background:color-mix(in oklab, var(--card) 70%, var(--accent) 30%);border-color:color-mix(in oklab, var(--border) 60%, var(--accent) 40%)}
-      nav.site-nav a.is-active{background:color-mix(in oklab, var(--card) 60%, var(--accent) 40%);border-color:color-mix(in oklab, var(--border) 40%, var(--accent) 60%)}
-      footer.site-footer{margin-top:32px;border-top:1px solid var(--border);background:var(--bg2)}
-      main{max-width:1200px;margin:0 auto;padding:18px}
-      .mobile-menu-btn{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:8px}
-      .mobile-menu-btn span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.2s,opacity 0.2s}
-      .mobile-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-      .mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
-      .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-      .nav-group{position:relative}
-      .nav-group-btn{background:none;border:none;cursor:pointer;color:var(--text);font-weight:700;font-size:.92rem;padding:8px 10px;border-radius:999px;border:1px solid transparent;display:flex;align-items:center;gap:4px}
-      .nav-group-btn:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%);border-color:color-mix(in oklab,var(--border) 60%,var(--accent) 40%)}
-      .nav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:6px;z-index:2000}
-      .nav-dropdown a{display:flex;flex-direction:column;padding:8px 10px;border-radius:6px;color:var(--text);text-decoration:none}
-      .nav-dropdown a:hover{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%)}
-      .nav-link-label{font-weight:700;font-size:.9rem}
-      .nav-link-desc{font-size:.78rem;color:var(--muted)}
-      .nav-caret{font-size:.7em;transition:transform .2s}
-      [aria-expanded="true"] .nav-caret{transform:rotate(180deg)}
-      .mobile-nav-section-btn{width:100%;text-align:left;background:none;border:none;padding:12px 16px;font-weight:700;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)}
-      .mobile-nav-section-items a{display:block;padding:10px 24px;color:var(--text);text-decoration:none}
-      .footer-wrap{max-width:1200px;margin:0 auto;padding:24px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-      .footer-col{display:flex;flex-direction:column;gap:8px}
-      .footer-col strong{font-size:.95rem;color:var(--text)}
-      .footer-col a{color:var(--muted);text-decoration:none;font-size:.88rem}
-      .footer-col a:hover{color:var(--text)}
-      .footer-col p{color:var(--muted);font-size:.82rem;margin:0}
-      .footer-disclaimer{grid-column:1/-1;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);font-size:.8rem}
-      @media(max-width:768px){
-        .mobile-menu-btn{display:flex}
-        nav.site-nav{display:none}
-        .footer-wrap{grid-template-columns:1fr}
+    var link = document.createElement('link');
+    link.id = 'nav-injected-styles';
+    link.rel = 'stylesheet';
+    link.href = relToRoot() + 'css/navigation.css';
+    document.head.appendChild(link);
+  }
+
+  function _updateJurisdictionPill() {
+    var wrap = document.getElementById('jurisdictionPillWrap');
+    if (!wrap) return;
+
+    // Try WorkflowState first, fall back to SiteState
+    var county = null;
+    var city = null;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx && (jx.name || jx.countyName)) {
+        county = jx.name || jx.countyName;
+        if (jx.type === 'city' && jx.displayName) {
+          city = jx.displayName.replace(/\s*\((?:city|town|CDP)\)/i, '');
+        }
       }
-    `;
-    document.head.appendChild(s);
+    } catch (_) {}
+
+    if (!county) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.name) county = sc.name;
+      } catch (_) {}
+    }
+
+    var root = relToRoot();
+    var pillLabel = city ? county + ' · ' + city : county;
+
+    if (county) {
+      wrap.innerHTML =
+        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
+          '<span class="jurisdiction-pill__name">' + pillLabel + '</span>' +
+          ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
+        '</a>';
+    } else {
+      wrap.innerHTML =
+        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill jurisdiction-pill--empty">' +
+          '+ Choose jurisdiction' +
+        '</a>';
+    }
   }
 
   function inject() {
-    // Prevent duplicate navigation injection
-    if (document.querySelector('header.site-header')) {
+    // Prevent duplicate navigation injection.
+    // An existing header is only considered "already injected" when it has content
+    // (i.e. contains a .nav-wrap). Empty placeholder headers (e.g. in scenario-builder.html)
+    // are replaced so navigation is always present.
+    const existingHeader = document.querySelector('header.site-header');
+    if (existingHeader && existingHeader.querySelector('.nav-wrap')) {
       return;
+    }
+    // Remove the empty placeholder so we can insert the full header below
+    if (existingHeader) {
+      existingHeader.parentNode.removeChild(existingHeader);
     }
 
     ensureHeaderStyles();
@@ -160,6 +171,14 @@
         <div class="brand">
           <a href="${normalizeHref('index.html')}">COHO Analytics</a>
           <small>Colorado Housing Intelligence</small>
+        </div>
+        <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
+          <!-- populated by _updateJurisdictionPill() after DOM is ready -->
+        </div>
+        <div class="audience-toggle" id="audienceToggleWrap" aria-label="Audience view">
+          <button class="audience-toggle__btn" type="button" data-audience="elected" aria-pressed="false">Elected</button>
+          <button class="audience-toggle__btn" type="button" data-audience="developer" aria-pressed="true">Developer</button>
+          <button class="audience-toggle__btn" type="button" data-audience="financier" aria-pressed="false">Financier</button>
         </div>
         <nav class="site-nav" aria-label="Primary">
           ${GROUPS.map(g => `
@@ -223,16 +242,18 @@
           <p>Colorado Housing Intelligence — data-driven insights for affordable housing professionals.</p>
         </div>
         <div class="footer-col">
-          <strong>Platform</strong>
+          <strong>Scoping a Project</strong>
+          <a href="${normalizeHref('select-jurisdiction.html')}">Select Jurisdiction</a>
           <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
           <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
-          <a href="${normalizeHref('colorado-deep-dive.html')}">Colorado Deep Dive</a>
+          <a href="${normalizeHref('deal-calculator.html')}">Deal Calculator</a>
         </div>
         <div class="footer-col">
-          <strong>Data</strong>
-          <a href="${normalizeHref('economic-dashboard.html')}">Economic Dashboard</a>
-          <a href="${normalizeHref('lihtc-allocations.html')}">LIHTC Allocations</a>
-          <a href="${normalizeHref('market-intelligence.html')}">Market Intelligence</a>
+          <strong>Explore &amp; Learn</strong>
+          <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
+          <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
+          <a href="${normalizeHref('insights.html')}">Market Insights</a>
+          <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
         </div>
         <div class="footer-disclaimer">
           <small>COHO Analytics is an independent research platform. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA). Not financial or legal advice.</small>
@@ -249,12 +270,17 @@
       document.body.insertBefore(header, document.body.firstChild);
     }
 
-    // Append footer after main (or at end)
-    const main = document.querySelector('main');
-    if (main && main.parentElement) {
-      main.parentElement.insertBefore(footer, main.nextSibling);
-    } else {
-      document.body.appendChild(footer);
+    // Replace any empty footer placeholder (class OR id based), otherwise insert after main
+    const existingFooter = document.querySelector('footer.site-footer, footer#site-footer');
+    if (existingFooter && !existingFooter.querySelector('.footer-wrap')) {
+      existingFooter.parentNode.replaceChild(footer, existingFooter);
+    } else if (!existingFooter) {
+      const main = document.querySelector('main');
+      if (main && main.parentElement) {
+        main.parentElement.insertBefore(footer, main.nextSibling);
+      } else {
+        document.body.appendChild(footer);
+      }
     }
 
     // Inject drawer into body
@@ -352,14 +378,17 @@
       }, DRAWER_TRANSITION_MS);
     }
 
-    var mobileToggle = document.getElementById('mobileNavToggle');
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', openDrawer);
-    }
-
-    var mobileClose = document.getElementById('mobileNavClose');
-    if (mobileClose) {
-      mobileClose.addEventListener('click', closeDrawer);
+    // Note: hamburger toggle + close handled by mobile-menu.js (toggleDrawer).
+    // Only attach here if mobile-menu.js is not loaded (fallback).
+    if (!window.__mobileMenuLoaded) {
+      var mobileToggle = document.getElementById('mobileNavToggle');
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', openDrawer);
+      }
+      var mobileClose = document.getElementById('mobileNavClose');
+      if (mobileClose) {
+        mobileClose.addEventListener('click', closeDrawer);
+      }
     }
 
     document.addEventListener('keydown', function(e) {
@@ -404,6 +433,88 @@
       var msg = (ev && ev.reason && ev.reason.message) ? ev.reason.message : 'An unhandled error occurred.';
       window.__navShowError(msg);
     });
+
+    // #11 — Audience toggle: restore saved preference, wire buttons
+    (function () {
+      var saved = '';
+      try { saved = localStorage.getItem('coho_audience') || 'developer'; } catch (_) {}
+      var toggleWrap = document.getElementById('audienceToggleWrap');
+      if (toggleWrap) {
+        toggleWrap.querySelectorAll('[data-audience]').forEach(function (btn) {
+          var aud = btn.getAttribute('data-audience');
+          btn.setAttribute('aria-pressed', String(aud === saved));
+          btn.addEventListener('click', function () {
+            try { localStorage.setItem('coho_audience', aud); } catch (_) {}
+            toggleWrap.querySelectorAll('[data-audience]').forEach(function (b) {
+              b.setAttribute('aria-pressed', String(b === btn));
+            });
+            if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(aud);
+            if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(aud);
+          });
+        });
+        // Apply saved audience to modules when they load
+        document.addEventListener('DOMContentLoaded', function () {
+          if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(saved);
+          if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(saved);
+        });
+      }
+    }());
+
+    // #12 — Project switcher: click pill → show dropdown with recent projects + New Project
+    (function () {
+      var _jxDropdown = null;
+      function _closeJxDropdown() {
+        if (_jxDropdown) { _jxDropdown.remove(); _jxDropdown = null; }
+      }
+      var pillWrap = document.getElementById('jurisdictionPillWrap');
+      if (pillWrap) {
+        pillWrap.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (_jxDropdown) { _closeJxDropdown(); return; }
+          var root = relToRoot();
+          var rows = '';
+          try {
+            var projects = window.WorkflowState && window.WorkflowState.listProjects() || [];
+            var active   = window.WorkflowState && window.WorkflowState.getActiveProject();
+            var activeId = active && active.id;
+            if (projects.length) {
+              rows += '<div class="jx-dropdown__label">Recent projects</div>';
+              projects.slice(0, 3).forEach(function (p) {
+                var isCur = p.id === activeId;
+                rows += '<button class="jx-dropdown__item' + (isCur ? '" style="font-weight:700' : '') +
+                  '" data-proj-id="' + p.id + '">' + (isCur ? '● ' : '') +
+                  (p.name || 'Untitled project').slice(0, 28) + '</button>';
+              });
+            }
+          } catch (_) {}
+          rows += '<a class="jx-dropdown__item jx-dropdown__item--new" href="' + root + 'select-jurisdiction.html?new=1">＋ New Project</a>';
+          _jxDropdown = document.createElement('div');
+          _jxDropdown.className = 'jx-dropdown';
+          _jxDropdown.innerHTML = rows;
+          // Wire project load buttons
+          _jxDropdown.querySelectorAll('[data-proj-id]').forEach(function (btn) {
+            btn.addEventListener('click', function (btnEvt) {
+              btnEvt.stopPropagation();
+              try { window.WorkflowState && window.WorkflowState.loadProject(btn.getAttribute('data-proj-id')); } catch (_) {}
+              _closeJxDropdown();
+              _updateJurisdictionPill();
+            });
+          });
+          pillWrap.appendChild(_jxDropdown);
+          // Delay listener registration so the current click doesn't immediately close it
+          setTimeout(function () {
+            document.addEventListener('click', function _outside(ev) {
+              if (!pillWrap.contains(ev.target)) { _closeJxDropdown(); document.removeEventListener('click', _outside); }
+            });
+          }, 10);
+        });
+      }
+    }());
+
+    _updateJurisdictionPill();
+    document.addEventListener('workflow:step-updated', _updateJurisdictionPill);
+    document.addEventListener('sitestate:county-changed', _updateJurisdictionPill);
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }

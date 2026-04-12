@@ -14,7 +14,7 @@
    * Canonical amenity type identifiers used throughout the scoring logic.
    * @type {Array.<string>}
    */
-  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school'];
+  var AMENITY_TYPES = ['grocery', 'transit_stop', 'park', 'healthcare', 'school', 'hospital', 'childcare'];
 
   /**
    * Mapping from score-output keys to canonical amenity type identifiers.
@@ -25,7 +25,9 @@
     transit:    'transit_stop',
     parks:      'park',
     healthcare: 'healthcare',
-    schools:    'school'
+    schools:    'school',
+    hospitals:  'hospital',
+    childcare:  'childcare'
   };
 
   /**
@@ -167,6 +169,8 @@
       parks:      defaultEntry,
       healthcare: defaultEntry,
       schools:    defaultEntry,
+      hospitals:  defaultEntry,
+      childcare:  defaultEntry,
       overall:    0
     };
 
@@ -191,6 +195,33 @@
     }
 
     result.overall = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+
+    // Add typed transit distances for rail vs bus differentiation.
+    // transit_rail = nearest rail/tram/light rail stop
+    // transit_bus  = nearest bus stop
+    var RAIL_TYPES = { rail_station: true, tram_stop: true, rail_halt: true, transit_station: true };
+    var BUS_TYPES  = { bus_stop: true, bus_station: true, platform: true };
+    var nearestRail = null, nearestBus = null;
+    var railDist = Infinity, busDist = Infinity;
+
+    for (var ti = 0; ti < amenities.length; ti++) {
+      var ta = amenities[ti];
+      if (ta.type !== 'transit_stop') continue;
+      var td = haversine(lat, lon, ta.lat, ta.lon);
+      var tt = ta.transit_type || '';
+      if (RAIL_TYPES[tt] && td < railDist) { railDist = td; nearestRail = ta; }
+      if (BUS_TYPES[tt] && td < busDist) { busDist = td; nearestBus = ta; }
+      // If no transit_type field, treat as bus (conservative)
+      if (!tt && td < busDist) { busDist = td; nearestBus = ta; }
+    }
+
+    result.transit_rail = nearestRail
+      ? { name: nearestRail.name, distanceMiles: parseFloat(railDist.toFixed(2)), transit_type: nearestRail.transit_type || 'rail' }
+      : { name: '', distanceMiles: null, transit_type: 'none' };
+    result.transit_bus = nearestBus
+      ? { name: nearestBus.name, distanceMiles: parseFloat(busDist.toFixed(2)), transit_type: nearestBus.transit_type || 'bus' }
+      : { name: '', distanceMiles: null, transit_type: 'none' };
+
     return result;
   }
 

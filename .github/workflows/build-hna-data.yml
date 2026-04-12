@@ -51,6 +51,7 @@ jobs:
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           LODES_YEAR: '2022'
+          SKIP_GEO_CONFIG: 'true'
         run: |
           set -x
           python3 scripts/hna/build_hna_data.py 2>&1
@@ -87,6 +88,11 @@ jobs:
         run: |
           echo "── Validating DOLA SYA and FRED data ──"
           python3 scripts/hna/validate_dola_fred_data.py 2>&1 || echo "::warning::Data validation warnings found — see output above"
+
+      - name: Phase 6 — Build Housing Policy Scorecard
+        run: |
+          echo "── Building housing policy scorecard ──"
+          python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
       - name: Post-build verification
         id: verify
@@ -135,11 +141,16 @@ jobs:
               console.error('Alert script failed:', e.message);
             }
 
+      - name: Rebuild manifest.json
+        run: |
+          echo "── Regenerating data/manifest.json ──"
+          python scripts/rebuild_manifest.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/market/tract_centroids_co.json data/tract-centroids.json 2>/dev/null || true
+          git add data/hna data/policy/housing-policy-scorecard.json data/market/tract_centroids_co.json data/tract-centroids.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push

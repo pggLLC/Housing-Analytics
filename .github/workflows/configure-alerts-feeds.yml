@@ -91,6 +91,16 @@ jobs:
           print(f"  Generated   : {meta.get('generated', 'unknown')}")
           PY
 
+      - name: Debug OPENAI_API_KEY presence
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -n "$OPENAI_API_KEY" ]; then
+            echo "✓ OPENAI_API_KEY is set — LLM-assisted mode will be attempted"
+          else
+            echo "⚠ OPENAI_API_KEY is NOT set — briefs will use rule-based mode"
+          fi
+
       - name: Generate policy briefs
         id: generate_briefs
         env:
@@ -109,7 +119,7 @@ jobs:
           print(f"  Brief count    : {meta.get('brief_count', 0)}")
           print(f"  Source alerts  : {meta.get('source_alerts', 0)}")
           print(f"  Generated      : {meta.get('generated', 'unknown')}")
-          mode = "LLM-assisted" if "openai" in meta.get("methodology", "").lower() else "Rule-based"
+          mode = "LLM-assisted" if "LLM-assisted" in meta.get("methodology", "") else "Rule-based"
           print(f"  Mode           : {mode}")
           PY
 

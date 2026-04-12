@@ -156,6 +156,7 @@
     if (!toggle || !drawer) return false;  // fall through to legacy
 
     backdrop = createBackdrop();
+    window.__mobileMenuLoaded = true;
 
     toggle.addEventListener('click', toggleDrawer);
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);

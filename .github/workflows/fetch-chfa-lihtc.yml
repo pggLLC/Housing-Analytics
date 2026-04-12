@@ -5,6 +5,10 @@ on:
     - cron: '0 5 * * 1'   # Every Monday at 05:00 UTC
   workflow_dispatch:        # Allow manual triggering
 
+concurrency:
+  group: fetch-chfa-lihtc
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -79,16 +83,37 @@ jobs:
               console.error('Alert script failed:', e.message);
             }
 
+      - name: Rebuild hud_lihtc_co.geojson derivative
+        run: |
+          echo "── Rebuilding data/market/hud_lihtc_co.geojson from chfa-lihtc.json ──"
+          node scripts/normalize-lihtc-to-hud-schema.js
+
       - name: Commit and push data file
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/chfa-lihtc.json data/hna/lihtc/*.json data/manifest.json
+          git add data/chfa-lihtc.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "chore: update CHFA LIHTC data [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash origin main
-            git push
+            exit 0
           fi
+
+          git commit -m "chore: update CHFA LIHTC data [$(date -u '+%Y-%m-%d')]"
+
+          echo "── Fetching latest origin/main ──"
+          git fetch origin main
+
+          echo "── Merging origin/main into local branch ──"
+          if ! git merge origin/main --no-edit; then
+            echo "::error::Merge conflict detected. Aborting merge."
+            git merge --abort
+            exit 1
+          fi
+
+          echo "── Git status before push ──"
+          git --no-pager log --oneline -5
+          git --no-pager diff --stat HEAD~1 HEAD || true
+
+          echo "── Pushing changes ──"
+          git push origin HEAD:main

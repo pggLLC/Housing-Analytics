@@ -1,0 +1,3284 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "HIFLD (NASA NCCS) + CDPHE Trauma Center Designation",
+    "urls": [
+      "https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals",
+      "https://data-cdphe.opendata.arcgis.com/"
+    ],
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-04-09T14:06:53Z",
+    "feature_count": 121,
+    "note": "Rebuild via scripts/market/fetch_hospitals.py"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.87071199999997,
+          37.24861900000002
+        ]
+      },
+      "properties": {
+        "name": "ANIMAS SURGICAL HOSPITAL, LLC",
+        "address": "575 RIVERGATE LANE",
+        "city": "DURANGO",
+        "zip": "81301",
+        "county": "LA PLATA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.54880499999996,
+          37.97689100000008
+        ]
+      },
+      "properties": {
+        "name": "ARKANSAS VALLEY REGIONAL MEDICAL CENTER",
+        "address": "1100 CARSON AVENUE",
+        "city": "LA JUNTA",
+        "zip": "81050",
+        "county": "OTERO",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.837715,
+          39.18985700000002
+        ]
+      },
+      "properties": {
+        "name": "ASPEN VALLEY HOSPITAL",
+        "address": "0401 CASTLE CREEK ROAD",
+        "city": "ASPEN",
+        "zip": "81611",
+        "county": "PITKIN",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.01079600000003,
+          40.52115200000014
+        ]
+      },
+      "properties": {
+        "name": "BANNER FORT COLLINS MEDICAL CENTER",
+        "address": "4700 LADY MOON DR",
+        "city": "FORT COLLINS",
+        "zip": "80528",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.79283900000001,
+          40.40666599999997
+        ]
+      },
+      "properties": {
+        "name": "BANNER NORTH COLORADO EMERGENCY CARE",
+        "address": "2000 70TH AVENUE",
+        "city": "GREELEY",
+        "zip": "80634",
+        "county": "WELD",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.23630500000002,
+          40.01486200000011
+        ]
+      },
+      "properties": {
+        "name": "BOULDER COMMUNITY FOOTHILLS HOSPITAL",
+        "address": "4747 ARAPAHOE AVENUE",
+        "city": "BOULDER",
+        "zip": "80304",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.89025100000003,
+          39.408142000000055
+        ]
+      },
+      "properties": {
+        "name": "CASTLE ROCK ADVENTIST HOSPITAL",
+        "address": "2350 MEADOWS BLVD",
+        "city": "CASTLE ROCK",
+        "zip": "80109",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.82258599999989,
+          39.59483300000011
+        ]
+      },
+      "properties": {
+        "name": "CENTENNIAL MEDICAL PLAZA",
+        "address": "14200 E ARAPAHOE ROAD",
+        "city": "CENTENNIAL",
+        "zip": "80112",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.21063200000003,
+          39.72840099999996
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE",
+        "address": "760 WARNER DRIVE",
+        "city": "GOLDEN",
+        "zip": "80401",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.18227399999995,
+          39.81257600000009
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE ARVADA",
+        "address": "16320 WEST 64TH STREET",
+        "city": "ARVADA",
+        "zip": "80007",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.52262099999996,
+          39.64010200000007
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE AVON",
+        "address": "50 BUCK CREEK LANE",
+        "city": "AVON",
+        "zip": "81620",
+        "county": "EAGLE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99194299999994,
+          39.549034000000006
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE HIGHLANDS RANCH",
+        "address": "9205 S BROADWAY",
+        "city": "HIGHLANDS RANCH",
+        "zip": "80129",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96179199999995,
+          40.08778000000001
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE INDIAN PEAKS",
+        "address": "4943 HWY 52",
+        "city": "DACANO",
+        "zip": "80514",
+        "county": "WELD",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08122300000002,
+          39.655987000000096
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE LAKEWOOD",
+        "address": "3280 S WADSWORTH BLVD",
+        "city": "LAKEWOOD",
+        "zip": "80227",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.85191299999991,
+          39.53555299999999
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH EMERGENCY & URGENT CARE MERIDIAN",
+        "address": "9949 S OSWEGO STREET",
+        "city": "PARKER",
+        "zip": "80134",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.01845600000001,
+          39.849064
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-84th AVENUE NEIGHBORHOOD HEALTH CENTER",
+        "address": "2551 W 84TH AVENUE",
+        "city": "WESTMINSTER",
+        "zip": "80031",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.14802600000002,
+          39.95074499999998
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-AVISTA ADVENTIST HOSPITAL",
+        "address": "100 HEALTH PARK DRIVE",
+        "city": "LOUISVILLE",
+        "zip": "80027",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98841900000002,
+          39.57648500000005
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-LITTLETON ADVENTIST HOSPITAL",
+        "address": "7700 S BROADWAY",
+        "city": "LITTLETON",
+        "zip": "80122",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.82018999999997,
+          38.8656390000001
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-PENROSE ST FRANCIS HEALTH SERVICES",
+        "address": "2222 N NEVADA AVE",
+        "city": "COLORADO SPRINGS",
+        "zip": "80907",
+        "county": "EL PASO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.97354899999999,
+          39.67065400000001
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-PORTER ADVENTIST HOSPITAL",
+        "address": "2525 S DOWNING ST",
+        "city": "DENVER",
+        "zip": "80210",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.12757899999991,
+          39.717899000000045
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-ST ANTHONY HOSPITAL",
+        "address": "11600 WEST 2ND PLACE",
+        "city": "LAKEWOOD",
+        "zip": "80228",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "I",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.71559899999994,
+          38.94022400000006
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-ST FRANCIS MEDICAL CENTER",
+        "address": "6001 E WOODMEN ROAD",
+        "city": "COLORADO SPRINGS",
+        "zip": "80923",
+        "county": "EL PASO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.62278700000002,
+          38.23326500000002
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-ST MARY CORWIN MEDICAL CENTER",
+        "address": "1008 MINNEQUA AVE",
+        "city": "PUEBLO",
+        "zip": "81004",
+        "county": "PUEBLO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.23029299999996,
+          38.45569200000011
+        ]
+      },
+      "properties": {
+        "name": "CENTURA HEALTH-ST THOMAS MORE HOSPITAL",
+        "address": "1338 PHAY AVE",
+        "city": "CANON CITY",
+        "zip": "81212",
+        "county": "FREEMONT",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.83648700000003,
+          39.74111600000009
+        ]
+      },
+      "properties": {
+        "name": "CHILDREN'S HOSPITAL COLORADO",
+        "address": "13123 EAST 16TH AVENUE",
+        "city": "AURORA",
+        "zip": "80045",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "RPTC",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.76976000000002,
+          39.54968600000012
+        ]
+      },
+      "properties": {
+        "name": "CHILDREN'S HOSPITAL COLORADO AT PARKER ADVENTISIT HOSPITAL",
+        "address": "9395 CROWN CREST BLVD",
+        "city": "PARKER",
+        "zip": "80138",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "OCL",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96837599999998,
+          39.74522399999995
+        ]
+      },
+      "properties": {
+        "name": "CHILDREN'S HOSPITAL COLORADO URGENT CARE, UPTOWN",
+        "address": "1830 FRANKLIN",
+        "city": "DENVER",
+        "zip": "80218",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.00849900000003,
+          39.55575600000003
+        ]
+      },
+      "properties": {
+        "name": "CHILDRENS HOSPITAL COLORADO SOUTH CAMPUS",
+        "address": "1811 PLAZA DRIVE",
+        "city": "HIGHLANDS RANCH",
+        "zip": "80129",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.076164,
+          39.88371300000006
+        ]
+      },
+      "properties": {
+        "name": "CHURCH RANCH EMERGENCY ROOM",
+        "address": "7233 CHURCH RANCH BLVD",
+        "city": "WESTMINSTER",
+        "zip": "80021",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.73599200000001,
+          39.16428400000012
+        ]
+      },
+      "properties": {
+        "name": "COLORADO CANYONS HOSPITAL AND MEDICAL CENTER",
+        "address": "300 WEST OTTLEY AVENUE",
+        "city": "FRUITA",
+        "zip": "81521",
+        "county": "MESA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.79613499999999,
+          40.25941500000005
+        ]
+      },
+      "properties": {
+        "name": "COLORADO PLAINS MEDICAL CENTER",
+        "address": "1000 LINCOLN ST",
+        "city": "FORT MORGAN",
+        "zip": "80701",
+        "county": "MORGAN",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.55241399999994,
+          39.085743000000036
+        ]
+      },
+      "properties": {
+        "name": "COMMUNITY HOSPITAL",
+        "address": "2021 N 12TH ST",
+        "city": "GRAND JUNCTION",
+        "zip": "81501",
+        "county": "MESA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10259200000002,
+          39.986877000000106
+        ]
+      },
+      "properties": {
+        "name": "COMMUNITY MEDICAL CENTER EMERGENCY DEPARTMENT",
+        "address": "1000 W SOUTH BOULDER ROAD",
+        "city": "LAFAYETTE",
+        "zip": "80026",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.04742399999992,
+          38.743221000000005
+        ]
+      },
+      "properties": {
+        "name": "DELTA COUNTY MEMORIAL HOSPITAL",
+        "address": "1501 E 3RD STREET",
+        "city": "DELTA",
+        "zip": "81416",
+        "county": "DELTA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.76207699999998,
+          39.88641000000007
+        ]
+      },
+      "properties": {
+        "name": "DENVER HEALTH EAST GRAND COMMUNITY CLINIC AND EMERGENCY CENTER",
+        "address": "145 PARSENN ROAD",
+        "city": "WINTER PARK",
+        "zip": "80482",
+        "county": "GRAND",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "V",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99025699999999,
+          39.72813400000007
+        ]
+      },
+      "properties": {
+        "name": "DENVER HEALTH MEDICAL CENTER",
+        "address": "777 BANNOCK ST",
+        "city": "DENVER",
+        "zip": "80204",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "I",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.64926899999995,
+          40.25479100000007
+        ]
+      },
+      "properties": {
+        "name": "EAST MORGAN COUNTY HOSPITAL",
+        "address": "2400 W EDISON ST",
+        "city": "BRUSH",
+        "zip": "80723",
+        "county": "MORGAN",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.51386300000001,
+          40.37234100000012
+        ]
+      },
+      "properties": {
+        "name": "ESTES PARK MEDICAL CENTER",
+        "address": "555 PROSPECT AVENUE",
+        "city": "ESTES PARK",
+        "zip": "80517",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08312999999998,
+          39.969784000000004
+        ]
+      },
+      "properties": {
+        "name": "GOOD SAMARITAN MEDICAL CENTER",
+        "address": "200 EXEMPLA CIRCLE",
+        "city": "LAFAYETTE",
+        "zip": "80026",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.77191899999997,
+          39.52253300000007
+        ]
+      },
+      "properties": {
+        "name": "GRAND RIVER MEDICAL CENTER",
+        "address": "501 AIRPORT ROAD",
+        "city": "RIFLE",
+        "zip": "81650",
+        "county": "GARFIELD",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.792282,
+          40.42138299999999
+        ]
+      },
+      "properties": {
+        "name": "GREELEY EMERGENCY CENTER",
+        "address": "6906 10TH STREET",
+        "city": "GREELEY",
+        "zip": "80634",
+        "county": "WELD",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.96668999999997,
+          38.89834999999999
+        ]
+      },
+      "properties": {
+        "name": "GUNNISON VALLEY HEALTH MOUNTAIN CLINIC",
+        "address": "12 SNOWMASS RD, # 101B",
+        "city": "CRESTED BUTTE",
+        "zip": "81224",
+        "county": "GUNNISON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.92439300000001,
+          38.55114700000007
+        ]
+      },
+      "properties": {
+        "name": "GUNNISON VALLEY HOSPITAL",
+        "address": "711 N TAYLOR STREET",
+        "city": "GUNNISON",
+        "zip": "81230",
+        "county": "GUNNISON",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.63079099999999,
+          40.64143800000011
+        ]
+      },
+      "properties": {
+        "name": "HAXTUN HOSPITAL DISTRICT",
+        "address": "235 W FLETCHER STREET",
+        "city": "HAXTUN",
+        "zip": "80731",
+        "county": "PHILLIPS",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.00760700000001,
+          38.542903999999965
+        ]
+      },
+      "properties": {
+        "name": "HEART OF THE ROCKIES REGIONAL MEDICAL CENTER",
+        "address": "1000 RUSH DRIVE",
+        "city": "SALIDA",
+        "zip": "81201",
+        "county": "CHAFFEE",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.3549009717679,
+          38.82576140790786
+        ]
+      },
+      "properties": {
+        "name": "KEEFE MEMORIAL HOSPITAL",
+        "address": "602 N 6TH W ST",
+        "city": "CHEYENNE WELLS",
+        "zip": "80810",
+        "county": "CHEYENNE",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.27069899999998,
+          39.302841000000114
+        ]
+      },
+      "properties": {
+        "name": "KIT CARSON COUNTY MEMORIAL HOSPITAL",
+        "address": "286 16TH STREET",
+        "city": "BURLINGTON",
+        "zip": "80807",
+        "county": "KIT CARSON",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.47321299999993,
+          39.13773700000007
+        ]
+      },
+      "properties": {
+        "name": "LINCOLN COMMUNITY HOSPITAL",
+        "address": "111 6TH ST",
+        "city": "HUGO",
+        "zip": "80821",
+        "county": "LINCOLN",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.12521399999991,
+          40.181377000000055
+        ]
+      },
+      "properties": {
+        "name": "LONGMONT UNITED HOSPITAL",
+        "address": "1950 MOUNTAIN VIEW AVENUE",
+        "city": "LONGMONT",
+        "zip": "80501",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.05816774812126,
+          40.16193406431921
+        ]
+      },
+      "properties": {
+        "name": "LONGS PEAK HOSPITAL",
+        "address": "1750 E. PRATT BLVD",
+        "city": "LONGMONT",
+        "zip": "80501",
+        "county": "BOULDER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08936299999999,
+          39.769272
+        ]
+      },
+      "properties": {
+        "name": "LUTHERAN MEDICAL CENTER",
+        "address": "8300 W 38TH AVE",
+        "city": "WHEAT RIDGE",
+        "zip": "80033",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.05352800000003,
+          40.41364700000008
+        ]
+      },
+      "properties": {
+        "name": "MCKEE MEDICAL CENTER",
+        "address": "2000 BOISE AVE",
+        "city": "LOVELAND",
+        "zip": "80538",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.83121499999993,
+          39.68926600000003
+        ]
+      },
+      "properties": {
+        "name": "MEDICAL CENTER OF AURORA, THE",
+        "address": "1501 S POTOMAC ST",
+        "city": "AURORA",
+        "zip": "80012",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.29022199999997,
+          40.57848400000006
+        ]
+      },
+      "properties": {
+        "name": "MELISSA MEMORIAL HOSPITAL",
+        "address": "1001 E JOHNSON STREET",
+        "city": "HOLYOKE",
+        "zip": "80734",
+        "county": "PHILLIPS",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.5787049999999,
+          40.51835300000005
+        ]
+      },
+      "properties": {
+        "name": "MEMORIAL HOSPITAL, THE",
+        "address": "750 HOSPITAL LOOP",
+        "city": "CRAIG",
+        "zip": "81625",
+        "county": "MOFFAT",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.82480599999991,
+          37.23514200000011
+        ]
+      },
+      "properties": {
+        "name": "MERCY REGIONAL MEDICAL CENTER",
+        "address": "1010 THREE SPRINGS BLVD",
+        "city": "DURANGO",
+        "zip": "81301",
+        "county": "LA PLATA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.39110599999998,
+          40.05738800000012
+        ]
+      },
+      "properties": {
+        "name": "MIDDLE PARK MEDICAL CENTER- KREMMLING",
+        "address": "214 S 4TH STREET",
+        "city": "KREMMLING",
+        "zip": "80459",
+        "county": "GRAND",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.92565069522868,
+          40.07587995083753
+        ]
+      },
+      "properties": {
+        "name": "MIDDLE PARK MEDICAL CENTER-GRANBY",
+        "address": "1000 GRANBY PARK DRIVE SOUTH",
+        "city": "GRANBY",
+        "zip": "80446",
+        "county": "GRAND",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.86981200000002,
+          38.48009500000006
+        ]
+      },
+      "properties": {
+        "name": "MONTROSE MEMORIAL HOSPITAL",
+        "address": "800 S 3RD ST",
+        "city": "MONTROSE",
+        "zip": "81401",
+        "county": "MONTROSE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.48871600000001,
+          37.17338200000012
+        ]
+      },
+      "properties": {
+        "name": "MT SAN RAFAEL HOSPITAL",
+        "address": "410 BENEDICTA AVENUE",
+        "city": "TRINIDAD",
+        "zip": "81082",
+        "county": "LAS ANIMAS",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.70903800000002,
+          40.413891000000035
+        ]
+      },
+      "properties": {
+        "name": "NORTH COLORADO MEDICAL CENTER",
+        "address": "1801 16TH STREET",
+        "city": "GREELEY",
+        "zip": "80631",
+        "county": "WELD",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98477199999991,
+          39.864292000000034
+        ]
+      },
+      "properties": {
+        "name": "NORTH SUBURBAN MEDICAL CENTER",
+        "address": "9191 GRANT ST",
+        "city": "THORNTON",
+        "zip": "80229",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.92193599999996,
+          39.92824900000011
+        ]
+      },
+      "properties": {
+        "name": "NORTH SUBURBAN MEDICAL CENTER - NORTHEAST ER",
+        "address": "12793 HOLLY STREET",
+        "city": "THORNTON",
+        "zip": "80602",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.05503099999993,
+          39.89941800000008
+        ]
+      },
+      "properties": {
+        "name": "NORTH SUBURBAN MEDICAL CENTER- NORTHWEST ER",
+        "address": "11230 N BENTON STREET",
+        "city": "WESTMINSTER",
+        "zip": "80020",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.07718699999998,
+          37.25217800000013
+        ]
+      },
+      "properties": {
+        "name": "PAGOSA SPRINGS MEDICAL CENTER",
+        "address": "95 SOUTH PAGOSA BOULEVARD",
+        "city": "PAGOSA SPRINGS",
+        "zip": "81147",
+        "county": "ARCHULETA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.76976000000002,
+          39.54968600000012
+        ]
+      },
+      "properties": {
+        "name": "PARKER ADVENTIST HOSPITAL",
+        "address": "9395 CROWN CREST BLVD",
+        "city": "PARKER",
+        "zip": "80138",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.70102699999995,
+          38.32757200000003
+        ]
+      },
+      "properties": {
+        "name": "PARKVIEW EMERGENCY SERVICES AT PUEBLO WEST",
+        "address": "899 E INDUSTRIAL BLVD",
+        "city": "PUEBLO WEST",
+        "zip": "81007",
+        "county": "PUEBLO",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.61222099999992,
+          38.28162400000002
+        ]
+      },
+      "properties": {
+        "name": "PARKVIEW MEDICAL CENTER INC",
+        "address": "400 W 16TH STREET",
+        "city": "PUEBLO",
+        "zip": "81003",
+        "county": "PUEBLO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.91739699999994,
+          40.04130200000003
+        ]
+      },
+      "properties": {
+        "name": "PIONEERS MEDICAL CENTER",
+        "address": "100 PIONEERS MEDICAL CENTER DRIVE",
+        "city": "MEEKER",
+        "zip": "81641",
+        "county": "RIO BLANCO",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.770851,
+          39.96545400000002
+        ]
+      },
+      "properties": {
+        "name": "PLATTE VALLEY MEDICAL CENTER",
+        "address": "1600 PRAIRIE CENTER PARKWAY",
+        "city": "BRIGHTON",
+        "zip": "80601",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96673599999991,
+          39.74614299999996
+        ]
+      },
+      "properties": {
+        "name": "PRESBYTERIAN ST LUKES MEDICAL CENTER",
+        "address": "1719 E 19TH AVE",
+        "city": "DENVER",
+        "zip": "80218",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.61026800000002,
+          38.06910700000009
+        ]
+      },
+      "properties": {
+        "name": "PROWERS MEDICAL CENTER",
+        "address": "401 KENDALL DRIVE",
+        "city": "LAMAR",
+        "zip": "81052",
+        "county": "PROWERS",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.80581699999999,
+          40.08022699999998
+        ]
+      },
+      "properties": {
+        "name": "RANGELY DISTRICT HOSPITAL",
+        "address": "225 EAGLECREST",
+        "city": "RANGELY",
+        "zip": "81648",
+        "county": "RIO BLANCO",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.36468499999995,
+          37.67438100000004
+        ]
+      },
+      "properties": {
+        "name": "RIO GRANDE HOSPITAL",
+        "address": "310 COUNTY RD 14",
+        "city": "DEL NORTE",
+        "zip": "81132",
+        "county": "RIO GRANDE",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.93433400000004,
+          39.731129000000124
+        ]
+      },
+      "properties": {
+        "name": "ROSE MEDICAL CENTER",
+        "address": "4567 E 9TH AVENUE",
+        "city": "DENVER",
+        "zip": "80220",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.88915299999996,
+          39.785915000000045
+        ]
+      },
+      "properties": {
+        "name": "ROSE MEDICAL CENTER STAPLETON ER",
+        "address": "4930 N WABASH STREET",
+        "city": "DENVER",
+        "zip": "80216",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.72608899999994,
+          39.58009299999998
+        ]
+      },
+      "properties": {
+        "name": "SADDLEROCK EMERGENCY ROOM",
+        "address": "22500 EAST DRY CREEK ROAD",
+        "city": "AURORA",
+        "zip": "80016",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.97116899999997,
+          39.74581100000006
+        ]
+      },
+      "properties": {
+        "name": "SAINT JOSEPH HOSPITAL",
+        "address": "1375 EAST 19TH AVE",
+        "city": "DENVER",
+        "zip": "80218",
+        "county": "DENVER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.88363600000002,
+          37.472301000000016
+        ]
+      },
+      "properties": {
+        "name": "SAN LUIS VALLEY HEALTH",
+        "address": "106 BLANCA AVE",
+        "city": "ALAMOSA",
+        "zip": "81101",
+        "county": "ALAMOSA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.96418799999992,
+          37.26368000000002
+        ]
+      },
+      "properties": {
+        "name": "SAN LUIS VALLEY HEALTH CONEJOS COUNTY HOSPITAL",
+        "address": "19021 US HWY 285",
+        "city": "LA JARA",
+        "zip": "81140",
+        "county": "CONEJOS",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.06842,
+          39.88806199999999
+        ]
+      },
+      "properties": {
+        "name": "SCL HEALTH COMMUNITY HOSPITAL",
+        "address": "6500 WEST 104TH AVE",
+        "city": "WESTMINSTER",
+        "zip": "80020",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.09310199999993,
+          39.59536700000007
+        ]
+      },
+      "properties": {
+        "name": "SCL HEALTH COMMUNITY HOSPITAL - SOUTHWEST",
+        "address": "8515 W COAL MINE AVE",
+        "city": "LITTLETON",
+        "zip": "80123",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.71177699999998,
+          39.60001
+        ]
+      },
+      "properties": {
+        "name": "SCL HEALTH COMMUNITY HOSPITAL -AURORA",
+        "address": "23770 EAST SMOKY HILL ROAD",
+        "city": "AURORA",
+        "zip": "80016",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "LICGEN",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98619099999996,
+          39.91176200000001
+        ]
+      },
+      "properties": {
+        "name": "SCL HEALTH COMMUNITY HOSPITAL -NORTHGLENN",
+        "address": "11900 GRANT STREET",
+        "city": "DENVER",
+        "zip": "80233",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "LICGEN",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.26878399999998,
+          40.993336
+        ]
+      },
+      "properties": {
+        "name": "SEDGWICK COUNTY MEMORIAL HOSPITAL",
+        "address": "900 CEDAR STREET",
+        "city": "JULESBERG",
+        "zip": "80737",
+        "county": "SEDGWICK",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.873085,
+          39.52827100000002
+        ]
+      },
+      "properties": {
+        "name": "SKY RIDGE MEDICAL CENTER",
+        "address": "10101 RIDGE GATE PARKWAY",
+        "city": "LONE TREE",
+        "zip": "80124",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.61245699999995,
+          37.404221000000064
+        ]
+      },
+      "properties": {
+        "name": "SOUTHEAST COLORADO HOSPITAL",
+        "address": "373 E TENTH AVE",
+        "city": "SPRINGFIELD",
+        "zip": "81073",
+        "county": "BACA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.71108200000003,
+          39.604298000000085
+        ]
+      },
+      "properties": {
+        "name": "SOUTHLAND ER PARKER ADVENTIST CENTURA HEALTH",
+        "address": "6159 S SOUTHLAND PARKWAY",
+        "city": "AURORA",
+        "zip": "80016",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.57279999999997,
+          37.362071999999955
+        ]
+      },
+      "properties": {
+        "name": "SOUTHWEST MEMORIAL HOSPITAL",
+        "address": "1311 N MILDRED RD",
+        "city": "CORTEZ",
+        "zip": "81321",
+        "county": "MONTEZUMA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.81980899999996,
+          37.60761600000001
+        ]
+      },
+      "properties": {
+        "name": "SPANISH PEAKS REGIONAL HEALTH CENTER",
+        "address": "23500 US HWY 160",
+        "city": "WALSENBERG",
+        "zip": "81089",
+        "county": "HUERFANO",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.04730211219959,
+          39.47661428132744
+        ]
+      },
+      "properties": {
+        "name": "ST ANTHONY BRECKENRIDGE COMMUNITY CLINIC EMERGENCY CENTER",
+        "address": "555 S PARK AVE - PLAZA II",
+        "city": "BRECKENRIDGE",
+        "zip": "80424",
+        "county": "SUMMIT",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "V",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.15622699999994,
+          39.50247999999999
+        ]
+      },
+      "properties": {
+        "name": "ST ANTHONY COPPER MOUNTAIN CLINIC",
+        "address": "860 COPPER RD",
+        "city": "COPPER MOUNTAIN",
+        "zip": "80443",
+        "county": "SUMMIT",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.95294999999999,
+          39.60543100000001
+        ]
+      },
+      "properties": {
+        "name": "ST ANTHONY KEYSTONE MEDICAL CLINIC",
+        "address": "1252 COUNTY RD 8",
+        "city": "KEYSTONE",
+        "zip": "80435",
+        "county": "SUMMT",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "V",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9935989999999,
+          39.9558110000001
+        ]
+      },
+      "properties": {
+        "name": "ST ANTHONY NORTH HEALTH CAMPUS",
+        "address": "14300 ORCHARD PARKWAY",
+        "city": "WESTMINSTER",
+        "zip": "80023",
+        "county": "BROOMFIELD",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.07815599999998,
+          39.569976999999994
+        ]
+      },
+      "properties": {
+        "name": "ST ANTHONY SUMMIT MEDICAL CENTER",
+        "address": "340 PEAK ONE DRIVE",
+        "city": "FRISCO",
+        "zip": "80443",
+        "county": "SUMMIT",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.56147799999997,
+          39.09052300000013
+        ]
+      },
+      "properties": {
+        "name": "ST MARYS MEDICAL CENTER",
+        "address": "2635 N 7TH STREET",
+        "city": "GRAND JUNCTION,",
+        "zip": "81502",
+        "county": "MESA",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.30132300000002,
+          39.2448960000001
+        ]
+      },
+      "properties": {
+        "name": "ST VINCENT GENERAL HOSPITAL DISTRICT",
+        "address": "822 W 4TH STREET",
+        "city": "LEADVILLE",
+        "zip": "80461",
+        "county": "LAKE",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.82703399999997,
+          40.46399699999995
+        ]
+      },
+      "properties": {
+        "name": "STEAMBOAT EMERGENCY CENTER",
+        "address": "1600 MID VALLEY DR",
+        "city": "STEAMBOAT SPRINGS",
+        "zip": "80487",
+        "county": "ROUTT",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.22009300000002,
+          40.61364000000009
+        ]
+      },
+      "properties": {
+        "name": "STERLING REGIONAL MEDCENTER",
+        "address": "615 FAIRHURST ST",
+        "city": "STERLING",
+        "zip": "80751",
+        "county": "LOGAN",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98161299999998,
+          39.65319099999999
+        ]
+      },
+      "properties": {
+        "name": "SWEDISH MEDICAL CENTER",
+        "address": "501 E HAMPDEN AVENUE",
+        "city": "ENGLEWOOD",
+        "zip": "80113",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "I",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08132199999994,
+          39.71218099999999
+        ]
+      },
+      "properties": {
+        "name": "SWEDISH MEDICAL CENTER BELMAR ER",
+        "address": "260 S WADSWORTH BLVD",
+        "city": "LAKEWOOD",
+        "zip": "80226",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08972899999992,
+          39.60324499999996
+        ]
+      },
+      "properties": {
+        "name": "SWEDISH SOUTHWEST ER",
+        "address": "6196 SOUTH AMMONS WAY",
+        "city": "LITTLETON",
+        "zip": "80123",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.81603999999999,
+          37.93755700000003
+        ]
+      },
+      "properties": {
+        "name": "TELLURIDE MEDICAL CENTER",
+        "address": "500 W PACIFIC AVE",
+        "city": "TELLURIDE",
+        "zip": "81435",
+        "county": "SAN MIGUEL",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "V",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.09302499999995,
+          39.90935899999994
+        ]
+      },
+      "properties": {
+        "name": "UC HEALTH BROOMFIELD HOSPITAL LLC",
+        "address": "11820 DESTINATION DRIVE",
+        "city": "BROOMFIELD",
+        "zip": "80021",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.94435099999998,
+          39.54455200000007
+        ]
+      },
+      "properties": {
+        "name": "UC HEALTH ER",
+        "address": "9475 S UNIVERSITY BLVD",
+        "city": "HIGHLANDS RANCH",
+        "zip": "80126",
+        "county": "DOUGLAS",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.816483,
+          38.91032000000007
+        ]
+      },
+      "properties": {
+        "name": "UC HEALTH GRANDVIEW HOSPITAL",
+        "address": "5623 PULPIT PEAK",
+        "city": "COLORADO SPRINGS",
+        "zip": "80918",
+        "county": "EL PASO",
+        "county_fips": "",
+        "type": "LICGEN",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.031815,
+          40.52375799999993
+        ]
+      },
+      "properties": {
+        "name": "UCHEALTH HARMONY ROAD ER",
+        "address": "4630 SNOW MESA DRIVE",
+        "city": "FORT COLLINS",
+        "zip": "80528",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.00142700000004,
+          40.415107999999975
+        ]
+      },
+      "properties": {
+        "name": "UCHEALTH MEDICAL CENTER OF THE ROCKIES",
+        "address": "2500 ROCKY MOUNTAIN AVENUE",
+        "city": "LOVELAND",
+        "zip": "80538",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "II",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.0746584826797,
+          38.97441764043066
+        ]
+      },
+      "properties": {
+        "name": "UCHEALTH PIKES PEAK REGIONAL HOSPITAL",
+        "address": "16420 HIGHWAY 24",
+        "city": "WOODLAND PARK",
+        "zip": "80863",
+        "county": "TELLER",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.05778499999997,
+          40.573753000000124
+        ]
+      },
+      "properties": {
+        "name": "UCHEALTH POUDRE VALLEY HOSPITAL",
+        "address": "1024 S LEMAY AVE",
+        "city": "FORT COLLINS",
+        "zip": "80524",
+        "county": "LARIMER",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.81446799999998,
+          40.46245600000003
+        ]
+      },
+      "properties": {
+        "name": "UCHEALTH YAMPA VALLEY MEDICAL CENTER",
+        "address": "1024 CENTRAL PARK DR",
+        "city": "STEAMBOAT SPRINGS",
+        "zip": "80487",
+        "county": "ROUTT",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.79984300000001,
+          38.83886300000012
+        ]
+      },
+      "properties": {
+        "name": "UNIVERSITY OF COLORADO HEALTH AT MEMORIAL HOSPITAL CENTRAL",
+        "address": "1400 E BOULDER ST",
+        "city": "COLORADO SPRINGS",
+        "zip": "80909",
+        "county": "EL PASO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "I",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.758148,
+          38.966019000000074
+        ]
+      },
+      "properties": {
+        "name": "UNIVERSITY OF COLORADO HEALTH AT MEMORIAL HOSPITAL NORTH",
+        "address": "4050 BRIARGATE PARKWAY",
+        "city": "COLORADO SPRINGS",
+        "zip": "80920",
+        "county": "EL PASO",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.84151500000002,
+          39.74142100000006
+        ]
+      },
+      "properties": {
+        "name": "UNIVERSITY OF COLORADO HOSPITAL AUTHORITY (ANSCHUTZ)",
+        "address": "12605 EAST 16TH AVENUE",
+        "city": "AURORA",
+        "zip": "80045",
+        "county": "ADAMS",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "I",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.38166799999988,
+          39.642872000000125
+        ]
+      },
+      "properties": {
+        "name": "VAIL HEALTH HOSPITAL",
+        "address": "181 W MEADOW DRIVE",
+        "city": "VAIL",
+        "zip": "81657",
+        "county": "EAGLE",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.322723,
+          39.53278399999999
+        ]
+      },
+      "properties": {
+        "name": "VALLEY VIEW HOSPITAL ASSOCIATION",
+        "address": "1906 BLAKE AVE",
+        "city": "GLENWOOD SPRINGS",
+        "zip": "81601",
+        "county": "GARFIELD",
+        "county_fips": "",
+        "type": "HOSP",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "III",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.78453100000002,
+          38.480858000000126
+        ]
+      },
+      "properties": {
+        "name": "WEISBROD MEMORIAL COUNTY HOSPITAL",
+        "address": "1208 LUTHER STREET",
+        "city": "EADS",
+        "zip": "81036",
+        "county": "KIOWA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.23465699999997,
+          40.07545899999997
+        ]
+      },
+      "properties": {
+        "name": "WRAY COMMUNITY DISTRICT HOSPITAL",
+        "address": "1017 W 7TH ST",
+        "city": "WRAY",
+        "zip": "80758",
+        "county": "YUMA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.73663299999998,
+          40.11849999999998
+        ]
+      },
+      "properties": {
+        "name": "YUMA DISTRICT HOSPITAL",
+        "address": "1000 WEST 8TH AVENUE",
+        "city": "YUMA",
+        "zip": "80759",
+        "county": "YUMA",
+        "county_fips": "",
+        "type": "CAH",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "IV",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.71181499999994,
+          39.60001799999998
+        ]
+      },
+      "properties": {
+        "name": "SCLHEALTH EMERGENCY CENTER-AURORA",
+        "address": "23770 East Smoky Hill Road Suite 100",
+        "city": "AURORA",
+        "zip": "80016",
+        "county": "ARAPAHOE",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10761300000001,
+          39.596438999999975
+        ]
+      },
+      "properties": {
+        "name": "WEST LITTLETON EMERGENCY DEPARTMENT",
+        "address": "9670 WEST COAL MINE AVENUE, SUITE 100",
+        "city": "LITTLETON",
+        "zip": "80123",
+        "county": "JEFFERSON",
+        "county_fips": "",
+        "type": "CCEC",
+        "status": "OPEN",
+        "beds": 0,
+        "trauma": "NonD",
+        "helipad": "",
+        "owner": "",
+        "phone": "",
+        "website": "",
+        "source": "CDPHE"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-04-01 by `scripts/sync-docs.mjs` · 36 pages · 869 data files · 35 workflows*
+> *Auto-synced 2026-04-12 by `scripts/sync-docs.mjs` · 38 pages · 883 data files · 38 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.
@@ -93,7 +93,7 @@
 | `js/policy-simulator.js` | ✅ Implemented | Policy impact simulator |
 | `js/map-overlay.js` | ✅ Implemented | Map overlay utilities |
 | `js/ui-interactions.js` | ✅ Implemented | UI interaction handlers |
-| `js/deal-calculator.js` | 🔶 Partial | Mounts into `#dealCalcMount`; readable but limited: fixed 9% credit, fixed equity price, no sources-and-uses, no first mortgage, no 4% bond scenario, no site linkage, no basis boost from QCT/DDA |
+| `js/deal-calculator.js` | ✅ Implemented | Full LIHTC feasibility calculator: 4% vs 9% credit toggle with auto-switching equity pricing, first mortgage sizing (DCR/rate/term), sources-and-uses table, QCT/DDA basis boost checkbox wired to HudEgis overlay, county-specific AMI limits via HudFmr |
 | `js/app.js` | 📦 Legacy | Original dashboard entry point using ES module imports; likely superseded |
 | `js/data.js` | 📦 Legacy | Simple data loader using DataService; likely superseded by data-service-portable |
 | `js/fetch-helper.js` | ✅ Implemented | `safeFetchJSON` / `fetchWithTimeout` utilities |
@@ -108,8 +108,8 @@
 
 | File | Status | Notes |
 |------|--------|-------|
-| `js/market-analysis/market-analysis-controller.js` | 🔶 Partial | Orchestration layer. `_getDesignationFlags()` returns hardcoded `qctFlag: false`, `ddaFlag: false` — subsidy logic not fully wired to real designation overlays |
-| `js/market-analysis/site-selection-score.js` | 🔶 Partial | 6-component weighted scoring model (demand/subsidy/feasibility/access/policy/market). Transparent and readable but uses neutral fallbacks when data absent. Planning heuristic, not underwriting-grade |
+| `js/market-analysis/market-analysis-controller.js` | ✅ Implemented | Full orchestration layer. `_getDesignationFlags()` calls HudEgis.checkDesignation() with point-in-polygon against QCT/DDA GeoJSON overlays (224 QCT tracts). Returns qctFlag, ddaFlag, basisBoostEligible. Passes to deal calculator via setDesignationContext() |
+| `js/market-analysis/site-selection-score.js` | ✅ Implemented | 6-component weighted scoring model (demand/subsidy/feasibility/access/policy/market). QCT/DDA basis boost awards 40-point unified bonus (IRC §42(d)(5)(B)). Uses neutral fallbacks when data absent — planning heuristic with transparent scoring |
 | `js/market-analysis/market-report-renderers.js` | ✅ Implemented | Section-level HTML rendering with graceful degradation |
 | `js/market-analysis/market-analysis-state.js` | ✅ Implemented | Global state container with get/set/subscribe pattern |
 | `js/market-analysis/market-analysis-utils.js` | ✅ Implemented | Haversine, normalization, weighted scoring, formatting utilities |
@@ -194,8 +194,8 @@
 | `test/demographic_projections_test.py` | ✅ Implemented | Python tests for cohort component model, headship rates, housing demand projections |
 | `test/economic_indicators_test.py` | ✅ Implemented | Python tests for employment growth, wage trends, industry concentration, job accessibility |
 | `test/build_counties_co_test.py` | ✅ Implemented | Python tests for county boundary builder resilience |
-| `test/lighthouse-audit.js` | 🟡 Stub | Lighthouse runner — hardcoded to `colorado-deep-dive.html`, no CI integration |
-| `test/website-monitor.js` | 🟡 Stub | Link crawler scaffold — `startUrl` is a placeholder, scan logic incomplete |
+| `test/lighthouse-audit.js` | ✅ Implemented | Zero-dependency HTML structure and accessibility checker — scans all pages for lang, h1, alt text, viewport, title |
+| `test/website-monitor.js` | ✅ Implemented | Zero-dependency local link checker — validates all asset references across all HTML pages |
 
 > **Note:** `test/` and `tests/` are split directories. `test/` uses plain Node.js/Python harnesses; `tests/` uses pytest. These should be consolidated into a single `tests/` directory.
 
@@ -230,7 +230,7 @@
 |------|--------|-------|
 | `tools/check-links.mjs` | ✅ Implemented | Dead-link checker for GitHub Pages |
 | `tools/streamline-preflight.js` | ✅ Implemented | SEO/compliance preflight verification |
-| `tools/copilot_apply_hardening.js` | 🟡 Stub | Placeholder — contains only comment lines, no implementation |
+| `tools/copilot_apply_hardening.js` | 🗑 Deleted | Removed — was empty comment-only stub with no implementation |
 
 ---
 
@@ -261,9 +261,9 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ Implemented | 117 |
-| 🔶 Partial | 3 |
-| 🟡 Stub | 3 |
+| ✅ Implemented | 120 |
+| 🔶 Partial | 0 |
+| 🟡 Stub | 0 |
 | 📦 Legacy | 10 |
 | 🔧 Needs Refactor | 4 |
 | **Total** | **137** |
@@ -277,17 +277,17 @@ The following items represent the highest-priority gaps identified during this a
 ### 1. `js/housing-needs-assessment.js` Decomposition *(#1 Priority)*
 At **~4,657 lines**, this is the single largest maintainability liability in the platform. The file acts as monolithic page orchestrator covering tenure, burden, projections, LEHD employment, Prop 123 compliance, exports, and chart rendering. It must be decomposed into focused section modules (e.g., `hna-tenure.js`, `hna-burden.js`, `hna-projections.js`, `hna-compliance.js`) that can be individually tested and updated.
 
-### 2. QCT/DDA Wiring in `market-analysis-controller.js`
-`_getDesignationFlags()` is hardcoded to return `{ qctFlag: false, ddaFlag: false }`. Until this is wired to real HUD QCT/DDA GeoJSON overlays, the subsidy boost logic in the deal calculator and site-selection scoring are both inoperative. Fix requires: (a) load `data/hud-qct.geojson` and `data/hud-dda.geojson`, (b) point-in-polygon test against the site's lat/lng, (c) propagate boolean flags into score and deal model.
+### 2. ~~QCT/DDA Wiring in `market-analysis-controller.js`~~ ✅ RESOLVED
+`_getDesignationFlags()` now calls `HudEgis.checkDesignation(lat, lon)` with ray-casting point-in-polygon against 224 QCT and 2,902 DDA polygon features loaded from `data/qct-colorado.json` and `data/dda-colorado.json`. Returns `{qctFlag, ddaFlag, basisBoostEligible}` and propagates to deal calculator via `setDesignationContext()`. Fallback returns all-false when HudEgis is unavailable. Unit tested (60 tests pass).
 
-### 3. Deal Calculator Upgrade
-`js/deal-calculator.js` is a planning widget, not a feasibility tool. Missing capabilities: variable credit rate (9% vs. 4%), first-mortgage debt sizing, sources-and-uses statement, equity pricing that varies by investor, QCT/DDA basis boost, and site linkage from the PMA address input. Needs a full rewrite to support underwriting-grade analysis.
+### 3. ~~Deal Calculator Upgrade~~ ✅ RESOLVED
+`js/deal-calculator.js` now supports: 4% vs 9% credit rate toggle with auto-switching equity pricing (0.90/0.85), first-mortgage debt sizing (DCR/rate/term inputs), sources-and-uses table (equity/mortgage/deferred fee/gap/TDC), QCT/DDA basis boost checkbox wired to HudEgis overlay, county-specific AMI limits via HudFmr. Financial constants centralized in `js/config/financial-constants.js` (COHO_DEFAULTS).
 
-### 4. PMA Scoring Doc vs. Implementation Mismatch
-`docs/PMA_SCORING.md` documents a **5-dimension** model (Demand, Supply, Affordability, Regulatory, Infrastructure). `js/market-analysis/site-selection-score.js` implements a **6-component** model (demand, subsidy, feasibility, access, policy, market). Until these are reconciled, the documentation cannot be trusted. Either update the doc to reflect the 6-component model, or realign the implementation with the documented model.
+### 4. ~~PMA Scoring Doc vs. Implementation Mismatch~~ ✅ RESOLVED
+`docs/PMA_SCORING.md` updated to document the actual 5-dimension weighted model (Demand 30%, Capture Risk 25%, Rent Pressure 15%, Land/Supply 15%, Workforce 15%) with the 5-source workforce composite (LODES 25%, ACS 25%, CDLE 20%, CDE 15%, CDOT 15%). `site-selection-score.js` implements a separate 6-component site selection model — both are now accurately documented.
 
-### 5. README Modernization
-`README.md` describes an earlier version of the platform: ~17 pages (actual: 30+), ~6 CSS files (actual: 10+), only 1 GitHub Actions workflow (actual: 24+), and an outdated project structure tree. It should be updated to reflect the current page inventory, CSS architecture, workflow catalog, and module structure.
+### 5. ~~README Modernization~~ ✅ RESOLVED
+`README.md` updated to reflect: 38 pages, 16 CSS files, 136 JS modules, 37 GitHub Actions workflows, 21 data sources, and accurate project structure tree including `data/hna/`, `data/market/`, `data/policy/`, `scripts/`, `test/`, and CI workflow directories.
 
 ### 6. Test Directory Consolidation
 The repository has two parallel test directories: `test/` (plain Node.js/Python harnesses, no framework) and `tests/` (pytest suite). This split creates confusion about where new tests should live and makes it difficult to run the full test suite with a single command. Both directories should be consolidated under `tests/`, with Node.js test scripts invoked from `tests/js/`.
@@ -312,12 +312,10 @@ The following files are candidates for archival to `_dev/` or outright deletion:
 | `js/data.js` | Superseded by `data-service-portable.js` |
 | `docs/EXAMPLE-USAGE.html` | Unreferenced old-style usage example |
 
-### 10. Stub Completion
-Three files are pure stubs with no implementation:
-
-- **`tools/copilot_apply_hardening.js`** — Contains only comment lines. Should either be implemented (security-hardening automation) or deleted.
-- **`test/lighthouse-audit.js`** — Hardcoded to a single page, not wired to CI. Should be generalized to test all critical pages and added to the CI gate.
-- **`test/website-monitor.js`** — `startUrl` is a placeholder, scan logic incomplete. Should complete the link crawler and add to CI.
+### 10. ~~Stub Completion~~ ✅ RESOLVED
+- **`tools/copilot_apply_hardening.js`** — Deleted (was empty comment-only stub).
+- **`test/lighthouse-audit.js`** — Rewritten as zero-dependency HTML structure and accessibility checker. Scans all 49 HTML pages for lang attributes, heading structure, alt text, inline handlers, viewport meta, and title elements.
+- **`test/website-monitor.js`** — Rewritten as zero-dependency local link checker. Validates 839 asset references (CSS, JS, data, images) across all HTML pages.
 
 ---
 
