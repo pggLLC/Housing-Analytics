@@ -138,7 +138,8 @@
         <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
       </tr>`;
     }).join('');
-    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${escHtml(S().lihtcDataSource)}</span>`;
+    const lihtcDataSource = escHtml(S().lihtcDataSource);
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${lihtcDataSource}</span>`;
     S().els.lihtcInfoPanel.innerHTML = rows ? `
       <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in jurisdiction (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
