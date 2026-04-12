@@ -192,6 +192,8 @@ jobs:
           node test/smoke-fmr.test.js
           node test/data-quality-check.test.js
           node test/fetch-chfa-lihtc-fips.js
+          node test/qap-simulator.test.js
+          node test/pro-forma.test.js
 
       # ── Python test suites ──
       - name: Set up Python
