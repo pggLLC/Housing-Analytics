@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T04:59:32.410Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T05:44:19.222Z. Do not edit by hand.
 
 ---
 
@@ -1047,8 +1047,8 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 6.7 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 5.9 KB |
-| `.github/workflows/build-market-data.yml` | 9.7 KB |
+| `.github/workflows/build-hna-data.yml` | 6.1 KB |
+| `.github/workflows/build-market-data.yml` | 9.9 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 9.7 KB |
 | `.github/workflows/car-data-update.yml` | 1.1 KB |
 | `.github/workflows/ci-checks.yml` | 7.1 KB |
@@ -1067,7 +1067,7 @@
 | `.github/workflows/fetch-county-data.yml` | 3.2 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-lihtc-data.yml` | 9.8 KB |
+| `.github/workflows/fetch-lihtc-data.yml` | 9.1 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
