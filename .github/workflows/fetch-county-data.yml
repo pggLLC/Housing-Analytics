@@ -72,11 +72,29 @@ jobs:
           fi
         continue-on-error: true
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-county-data.yml --run-id ${context.runId} --data-file data/co-county-demographics.json --details "County demographics/economic data fetch failed. Check Census API and data sources."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Commit and push updated data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/co-county-demographics.json data/co-county-economic-indicators.json
+          python3 scripts/rebuild_manifest.py
+          git add data/co-county-demographics.json data/co-county-economic-indicators.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to county data files"
           else

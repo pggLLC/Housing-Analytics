@@ -58,11 +58,29 @@ jobs:
           print(f'  Record count validation passed ({count} records)')
           PYEOF
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-chas-data.yml --run-id ${context.runId} --data-file data/hna/chas_affordability_gap.json --details "HUD CHAS data fetch or validation failed. Check HUD data availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Commit and push data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/market/chas_co.json data/hna/chas_affordability_gap.json
+          python3 scripts/rebuild_manifest.py
+          git add data/market/chas_co.json data/hna/chas_affordability_gap.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

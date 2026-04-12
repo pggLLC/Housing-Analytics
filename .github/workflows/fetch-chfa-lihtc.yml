@@ -66,6 +66,23 @@ jobs:
       - name: Split LIHTC data by county
         run: node scripts/split-lihtc-by-county.js
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-chfa-lihtc.yml --run-id ${context.runId} --data-file data/chfa-lihtc.json --details "CHFA LIHTC fetch or validation failed. Check CHFA ArcGIS availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Rebuild hud_lihtc_co.geojson derivative
         run: |
           echo "── Rebuilding data/market/hud_lihtc_co.geojson from chfa-lihtc.json ──"
@@ -75,7 +92,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/chfa-lihtc.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson
+          python3 scripts/rebuild_manifest.py
+          git add data/chfa-lihtc.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
