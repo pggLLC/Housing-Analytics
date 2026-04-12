@@ -141,11 +141,16 @@ jobs:
               console.error('Alert script failed:', e.message);
             }
 
+      - name: Rebuild manifest.json
+        run: |
+          echo "── Regenerating data/manifest.json ──"
+          python scripts/rebuild_manifest.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/policy/housing-policy-scorecard.json data/market/tract_centroids_co.json data/tract-centroids.json 2>/dev/null || true
+          git add data/hna data/policy/housing-policy-scorecard.json data/market/tract_centroids_co.json data/tract-centroids.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push
