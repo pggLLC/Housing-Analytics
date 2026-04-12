@@ -113,8 +113,10 @@
         return bounds.contains([lat, lng]);
       });
     }
-    // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined
-    const safeCell = v => (v != null && v !== '') ? String(v) : '—';
+    // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined.
+    // HTML-encodes the value to prevent XSS when data comes from external API sources.
+    const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const safeCell = v => (v != null && v !== '') ? escHtml(v) : '—';
     const sorted = [...visible].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
     const rows = sorted.slice(0, 10).map(f => {
       const p = f.properties || {};
@@ -127,7 +129,7 @@
         <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
       </tr>`;
     }).join('');
-    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${S().lihtcDataSource}</span>`;
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${escHtml(S().lihtcDataSource)}</span>`;
     S().els.lihtcInfoPanel.innerHTML = rows ? `
       <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">

@@ -52,6 +52,9 @@ function withCorsHeaders(env, headers = {}) {
     "Access-Control-Allow-Headers": "Content-Type",
     "Cache-Control": headers["Cache-Control"] || "no-store",
     "Content-Type": headers["Content-Type"] || "application/json; charset=utf-8",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
   };
 }
 
