@@ -4,6 +4,44 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ---
 
+## Weekly Data Sync Failures (`run-all-workflows.yml`)
+
+### Symptoms
+- The **Run All Data Workflows** orchestration job fails on Sunday
+- One or more of the 13 child workflows did not complete successfully
+- GitHub issue tagged `market-data-build-failure` appears automatically
+
+### Diagnosis steps
+
+1. **Find the failed run** in [Actions → Run All Data Workflows](../../actions/workflows/run-all-workflows.yml)
+2. Click the failed run and expand the **Trigger child workflows** step
+3. Identify which child workflow failed (look for red ❌ icons)
+4. Open that child workflow's run and expand the failed step for the error message
+
+### Most common culprits
+
+| Workflow | Required secret | Failure symptom |
+|----------|----------------|-----------------|
+| `build-market-data.yml` | `CENSUS_API_KEY` | Pre-flight check exits with "secret is not set" |
+| `fetch-census-acs.yml` | `CENSUS_API_KEY` | API request returns 401 Unauthorized |
+| `fetch-fred-data.yml` | `FRED_API_KEY` | Series fetch returns empty observations |
+| `fetch-kalshi.yml` | Kalshi credentials | Auth failure |
+| `zillow-data-sync.yml` | Zillow credentials | Auth failure |
+
+### Recovery steps
+
+1. Verify the required secret is set (see sections below for each key)
+2. Re-trigger only the failed child workflow:
+   ```bash
+   gh workflow run <failed-workflow>.yml --repo pggLLC/Housing-Analytics
+   ```
+3. Once the child workflow succeeds, re-trigger the full orchestration:
+   ```bash
+   gh workflow run run-all-workflows.yml --repo pggLLC/Housing-Analytics
+   ```
+
+---
+
 ## Market Data Not Populating (`build-market-data.yml`)
 
 ### Symptoms
@@ -25,11 +63,13 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ## Setting up the Census API Key
 
-The `build-market-data.yml` workflow requires a free Census API key to fetch ACS tract-level data. Without it the workflow will **fail in the pre-flight step** with:
+The `build-market-data.yml` and `fetch-census-acs.yml` workflows require a free Census API key to fetch ACS tract-level data. Without it, the workflow will **fail in the pre-flight step** with:
 
 ```
 CENSUS_API_KEY secret is not set.
 ```
+
+> **Key expiration note:** Census API keys do not automatically expire, but GitHub Actions secrets should be rotated periodically. If your last key was set more than 90 days ago and the workflow is failing with 401 errors, request a new key and update the secret.
 
 ### Steps to add the key
 
@@ -39,9 +79,9 @@ CENSUS_API_KEY secret is not set.
 
 2. **Add the key to GitHub Secrets**
    - Go to your repository → **Settings** → **Secrets and variables** → **Actions**
-   - Click **New repository secret**
+   - Click **New repository secret** (or **Update** if it already exists)
    - Name: `CENSUS_API_KEY`
-   - Value: paste the key you received by email
+   - Value: paste the 40-character key you received by email
    - Click **Add secret**
 
 3. **Re-run the workflow**
@@ -58,6 +98,26 @@ CENSUS_API_KEY: set (40 chars) ✅
 ```
 
 If you see `CENSUS_API_KEY secret is not set` the key is missing from Secrets.
+
+---
+
+## Setting up the FRED API Key
+
+The `fetch-fred-data.yml` workflow requires a free FRED API key to fetch economic time-series data. Without it, series will be fetched without authentication (rate-limited to 120 requests/min) and may fail intermittently.
+
+### Steps to add the key
+
+1. **Get a free key** at <https://fredaccount.stlouisfed.org/apikey>
+   - Create a free account at <https://fred.stlouisfed.org/> if you do not have one.
+   - Go to **My Account** → **API Keys** → **Request API Key**.
+   - The key is available immediately in your account dashboard.
+
+2. **Add the key to GitHub Secrets**
+   - Go to your repository → **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret** (or **Update** if it already exists)
+   - Name: `FRED_API_KEY`
+   - Value: paste the 32-character key
+   - Click **Add secret**
 
 ---
 
@@ -143,6 +203,33 @@ node scripts/validate-critical-data.js
 | `run-all-workflows.yml` | Every Sunday at 00:00 UTC | `0 0 * * 0` |
 
 > **Note:** `run-all-workflows.yml` also triggers `build-market-data.yml` as part of its orchestration, so the market data build effectively runs twice on Sundays. This is intentional — the standalone 23:00 UTC run ensures fresh data before the new week, and the midnight orchestration verifies all workflows complete together.
+
+---
+
+---
+
+## Manifest Auto-Regeneration
+
+`data/manifest.json` is automatically regenerated after every successful data build by calling `scripts/rebuild_manifest.py`. The updated manifest is committed back to the repository in the same workflow run.
+
+### Workflows that regenerate the manifest
+
+| Workflow | When manifest is regenerated |
+|----------|------------------------------|
+| `build-market-data.yml` | After market artifact validation passes |
+| `build-hna-data.yml` | After all HNA data phases complete |
+| `fetch-lihtc-data.yml` | After QCT/DDA data is fetched and validated |
+
+### Manual manifest regeneration
+
+If the manifest is stale (e.g., files were added outside a workflow), regenerate it locally:
+
+```bash
+python scripts/rebuild_manifest.py
+git add data/manifest.json
+git commit -m "chore(data): regenerate manifest.json"
+git push
+```
 
 ---
 
