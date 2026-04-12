@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T14:35:48.297Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T14:41:23.859Z. Do not edit by hand.
 
 ---
 
@@ -23,7 +23,7 @@
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.8 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.0 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.0 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 129.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 951.6 KB | ✅ | — |
+| `data/fred-data.json` | 951.7 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
