@@ -1,11 +1,1 @@
-{
-  "type": "FeatureCollection",
-  "meta": {
-    "source": "US Census TIGERweb ArcGIS REST (public) — unavailable",
-    "state": "Colorado",
-    "state_fips": "08",
-    "generated": "2026-04-12T06:16:29.656593+00:00",
-    "note": "Rebuild via scripts/market/build_public_market_data.py"
-  },
-  "features": []
-}
+{"type":"FeatureCollection","meta":{"source":"US Census TIGERweb ArcGIS REST (public) \u2014 unavailable","state":"Colorado","state_fips":"08","generated":"2026-04-12T06:55:51.305035+00:00","note":"Rebuild via scripts/market/build_public_market_data.py"},"features":[]}
