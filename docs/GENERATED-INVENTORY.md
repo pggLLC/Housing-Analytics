@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T04:18:23.229Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T04:24:52.369Z. Do not edit by hand.
 
 ---
 
@@ -1071,7 +1071,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/generate-housing-data.yml` | 6.2 KB |
-| `.github/workflows/generate-market-analysis-data.yml` | 10.7 KB |
+| `.github/workflows/generate-market-analysis-data.yml` | 10.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 16.2 KB |
