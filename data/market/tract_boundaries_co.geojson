@@ -4,7 +4,7 @@
     "source": "US Census TIGERweb ArcGIS REST (public) — unavailable",
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-04-12T06:16:29.656593+00:00",
+    "generated": "2026-04-12T23:28:32.809405+00:00",
     "note": "Rebuild via scripts/market/build_public_market_data.py"
   },
   "features": []
