@@ -47,8 +47,15 @@ TIGERWEB_TRACTS = (
 # Census Cartographic Boundary GeoJSON — used as fallback when TIGERweb returns 0 features.
 # 500k-resolution polygon file for Colorado tracts (≈3 MB, one request, no pagination).
 CENSUS_CB_TRACTS_URL = os.environ.get("CENSUS_CB_URL") or (
-    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json"
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json"
 )
+# Ordered fallback list (newest-first) used when the primary URL fails.
+# The build script tries these in order until one succeeds.
+_CENSUS_CB_FALLBACK_URLS = [
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
+    "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json",
+    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json",
+]
 ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
@@ -475,44 +482,62 @@ def build_tract_boundaries() -> dict:
     # TIGERweb's Tracts_Blocks/MapServer/0 endpoint has intermittently returned
     # 0 features.  When that happens, fetch the pre-built 500k-resolution
     # polygon file from Census FTP — a single GeoJSON, no pagination required.
+    # Try candidate URLs newest-first (GENZ2024 → GENZ2023 → GENZ2022) so the
+    # pipeline is not broken by a stale hardcoded URL.
     if not features:
         log(
             "[boundary-fallback] TIGERweb returned 0 features; "
-            "trying Census Cartographic Boundary GeoJSON…",
+            "trying Census Cartographic Boundary GeoJSON (newest vintage first)…",
             level="WARN",
         )
-        try:
-            raw_cb = fetch_url(CENSUS_CB_TRACTS_URL)
-            cb = json.loads(raw_cb)
-            cb_features = cb.get("features", [])
-            for f in cb_features:
-                props = f.get("properties") or {}
-                geoid = str(props.get("GEOID") or props.get("GEOID20") or "")
-                geom = f.get("geometry")
-                if not geoid or not geom:
-                    continue
-                county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
-                features.append({
-                    "type": "Feature",
-                    "geometry": geom,
-                    "properties": {
-                        "GEOID": geoid,
-                        "geoid": geoid,
-                        "NAME": props.get("NAMELSAD", f"Tract {geoid[-6:]}"),
-                        "county_fips": county_fips,
-                    },
-                })
-            log(
-                f"[boundary-fallback] Census Cartographic Boundary: "
-                f"{len(features)} features loaded",
-            )
-            source_note = "Census Cartographic Boundary 500k (cb_2022_08_tract_500k.json) — fallback"
-        except Exception as cb_exc:
-            log(
-                f"[boundary-fallback] Census Cartographic Boundary fetch failed: {cb_exc}",
-                level="ERROR",
-            )
-            source_note = "US Census TIGERweb ArcGIS REST (public) — unavailable"
+        # Build the ordered candidate list: env-override first, then the standard
+        # fallback list (deduped so the env URL is not attempted twice).
+        cb_candidates = [CENSUS_CB_TRACTS_URL] + [
+            u for u in _CENSUS_CB_FALLBACK_URLS if u != CENSUS_CB_TRACTS_URL
+        ]
+        source_note = "US Census TIGERweb ArcGIS REST (public) — unavailable"
+        for cb_url in cb_candidates:
+            if features:
+                break
+            try:
+                log(f"[boundary-fallback] Trying {cb_url} …")
+                raw_cb = fetch_url(cb_url)
+                cb = json.loads(raw_cb)
+                cb_features = cb.get("features", [])
+                for f in cb_features:
+                    props = f.get("properties") or {}
+                    geoid = str(props.get("GEOID") or props.get("GEOID20") or "")
+                    geom = f.get("geometry")
+                    if not geoid or not geom:
+                        continue
+                    county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
+                    features.append({
+                        "type": "Feature",
+                        "geometry": geom,
+                        "properties": {
+                            "GEOID": geoid,
+                            "geoid": geoid,
+                            "NAME": props.get("NAMELSAD", f"Tract {geoid[-6:]}"),
+                            "county_fips": county_fips,
+                        },
+                    })
+                if features:
+                    cb_filename = cb_url.split("/")[-1]
+                    log(
+                        f"[boundary-fallback] Census Cartographic Boundary: "
+                        f"{len(features)} features loaded from {cb_filename}",
+                    )
+                    source_note = f"Census Cartographic Boundary 500k ({cb_filename}) — fallback"
+                else:
+                    log(f"[boundary-fallback] {cb_url} returned 0 features", level="WARN")
+            except Exception as cb_exc:
+                log(
+                    f"[boundary-fallback] {cb_url} failed: {cb_exc}",
+                    level="WARN",
+                )
+        if not features:
+            log("[boundary-fallback] All Census CB candidates exhausted with no features",
+                level="ERROR")
     else:
         source_note = "US Census TIGERweb ArcGIS REST (public)"
 
