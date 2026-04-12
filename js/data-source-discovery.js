@@ -51,6 +51,7 @@
     'data/car-market.json',
     'data/car-market-report-2026-02.json',
     'data/car-market-report-2026-03.json',
+    'data/car-market-report-2026-04.json',
     'data/census-acs-state.json',
     'data/co-county-boundaries.json',
     'data/co-county-demographics.json',
