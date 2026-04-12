@@ -44,6 +44,18 @@ CACHE_TTL_HOURS = 24
 TIGERWEB_TRACTS = (
     "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer/0"
 )
+# Census Cartographic Boundary GeoJSON — used as fallback when TIGERweb returns 0 features.
+# 500k-resolution polygon file for Colorado tracts (≈3 MB, one request, no pagination).
+CENSUS_CB_TRACTS_URL = os.environ.get("CENSUS_CB_URL") or (
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json"
+)
+# Ordered fallback list (newest-first) used when the primary URL fails.
+# The build script tries these in order until one succeeds.
+_CENSUS_CB_FALLBACK_URLS = [
+    "https://www2.census.gov/geo/tiger/GENZ2024/json/cb_2024_08_tract_500k.json",
+    "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json",
+    "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json",
+]
 ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
@@ -465,10 +477,76 @@ def build_tract_boundaries() -> dict:
         offset += len(raw_features)
 
     log(f"[arcgis] {len(features)} tract boundary features built")
+
+    # ── Census Cartographic Boundary fallback ─────────────────────────────────
+    # TIGERweb's Tracts_Blocks/MapServer/0 endpoint has intermittently returned
+    # 0 features.  When that happens, fetch the pre-built 500k-resolution
+    # polygon file from Census FTP — a single GeoJSON, no pagination required.
+    # Try candidate URLs newest-first (GENZ2024 → GENZ2023 → GENZ2022) so the
+    # pipeline is not broken by a stale hardcoded URL.
+    if not features:
+        log(
+            "[boundary-fallback] TIGERweb returned 0 features; "
+            "trying Census Cartographic Boundary GeoJSON (newest vintage first)…",
+            level="WARN",
+        )
+        # Build the ordered candidate list: env-override first, then the standard
+        # fallback list (deduped so the env URL is not attempted twice).
+        cb_candidates = [CENSUS_CB_TRACTS_URL] + [
+            u for u in _CENSUS_CB_FALLBACK_URLS if u != CENSUS_CB_TRACTS_URL
+        ]
+        source_note = "US Census TIGERweb ArcGIS REST (public) — unavailable"
+        for cb_url in cb_candidates:
+            if features:
+                break
+            try:
+                log(f"[boundary-fallback] Trying {cb_url} …")
+                raw_cb = fetch_url(cb_url)
+                cb = json.loads(raw_cb)
+                cb_features = cb.get("features", [])
+                for f in cb_features:
+                    props = f.get("properties") or {}
+                    geoid = str(props.get("GEOID") or props.get("GEOID20") or "")
+                    geom = f.get("geometry")
+                    if not geoid or not geom:
+                        continue
+                    county_fips = geoid[:5].zfill(5) if len(geoid) >= 5 else ""
+                    features.append({
+                        "type": "Feature",
+                        "geometry": geom,
+                        "properties": {
+                            "GEOID": geoid,
+                            "geoid": geoid,
+                            "NAME": props.get("NAMELSAD", f"Tract {geoid[-6:]}"),
+                            "county_fips": county_fips,
+                        },
+                    })
+                if features:
+                    cb_filename = cb_url.split("/")[-1]
+                    log(
+                        f"[boundary-fallback] Census Cartographic Boundary: "
+                        f"{len(features)} features loaded from {cb_filename}",
+                    )
+                    source_note = f"Census Cartographic Boundary 500k ({cb_filename}) — fallback"
+                else:
+                    log(f"[boundary-fallback] {cb_url} returned 0 features", level="WARN")
+            except Exception as cb_exc:
+                log(
+                    f"[boundary-fallback] {cb_url} failed: {cb_exc}",
+                    level="WARN",
+                )
+        if not features:
+            log(
+                "[boundary-fallback] All Census CB candidates exhausted with no features",
+                level="ERROR",
+            )
+    else:
+        source_note = "US Census TIGERweb ArcGIS REST (public)"
+
     return {
         "type": "FeatureCollection",
         "meta": {
-            "source": "US Census TIGERweb ArcGIS REST (public)",
+            "source": source_note,
             "state": "Colorado",
             "state_fips": STATE_FIPS,
             "generated": datetime.now(timezone.utc).isoformat(),
@@ -494,6 +572,10 @@ ACS_VARIABLES = [
     "B25070_009E",  # 40-49.9%
     "B25070_010E",  # 50%+
     "B25070_001E",  # total renter HUs w/ rent
+    "B17001_001E",  # poverty universe (population for whom poverty status is determined)
+    "B17001_002E",  # below poverty level
+    "B23025_003E",  # in labor force
+    "B23025_005E",  # unemployed
 ]
 
 def build_acs_metrics(centroids: dict) -> dict:
@@ -543,17 +625,34 @@ def build_acs_metrics(centroids: dict) -> dict:
         universe  = total_hh + vacant
         vac_rate  = round(vacant / universe, 4) if universe > 0 else 0.0
 
+        # Severe cost burden (50%+ of income on rent)
+        severe_num = safe_int(row[idx.get("B25070_010E", -1)])
+        severe_rate = round(severe_num / cb_den, 4) if cb_den > 0 else 0.0
+
+        # Poverty rate
+        pov_universe = safe_int(row[idx.get("B17001_001E", -1)])
+        pov_below    = safe_int(row[idx.get("B17001_002E", -1)])
+        pov_rate     = round(pov_below / pov_universe, 4) if pov_universe > 0 else 0.0
+
+        # Unemployment rate
+        labor_force = safe_int(row[idx.get("B23025_003E", -1)])
+        unemployed  = safe_int(row[idx.get("B23025_005E", -1)])
+        unemp_rate  = round(unemployed / labor_force, 4) if labor_force > 0 else 0.0
+
         tracts.append({
-            "geoid":             geoid,
-            "pop":               safe_int(row[idx.get("B01003_001E", -1)]),
-            "renter_hh":         renter_hh,
-            "owner_hh":          owner_hh,
-            "vacant":            vacant,
-            "total_hh":          total_hh,
-            "median_gross_rent": safe_int(row[idx.get("B25064_001E", -1)]),
-            "median_hh_income":  safe_int(row[idx.get("B19013_001E", -1)]),
-            "cost_burden_rate":  cb_rate,
-            "vacancy_rate":      vac_rate,
+            "geoid":                geoid,
+            "pop":                  safe_int(row[idx.get("B01003_001E", -1)]),
+            "renter_hh":            renter_hh,
+            "owner_hh":             owner_hh,
+            "vacant":               vacant,
+            "total_hh":             total_hh,
+            "median_gross_rent":    safe_int(row[idx.get("B25064_001E", -1)]),
+            "median_hh_income":     safe_int(row[idx.get("B19013_001E", -1)]),
+            "cost_burden_rate":     cb_rate,
+            "severe_cost_burden_rate": severe_rate,
+            "poverty_rate":         pov_rate,
+            "unemployment_rate":    unemp_rate,
+            "vacancy_rate":         vac_rate,
         })
 
     log(f"[acs] {len(tracts)} tracts with ACS metrics")

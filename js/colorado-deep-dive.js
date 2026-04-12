@@ -287,6 +287,7 @@ function initPolicyPanel(panelId) {
       if (!window.L || !document.getElementById(elId)) return null;
       var m = L.map(elId, { scrollWheelZoom: false, zoomControl: true })
                .setView([39.0, -105.5], 6);
+      if (window.addMapHomeButton) { addMapHomeButton(m, { center: [39.0, -105.5], zoom: 6 }); }
       _affGeoMaps.push(m);
       return m;
     }
@@ -429,6 +430,24 @@ function initPolicyPanel(panelId) {
             var name = info.name || feat.properties.NAME || fips;
             layer.bindTooltip('<strong>' + escapeHtml(name) + ' County</strong><br>Cost-burdened renters: ' +
               (info.rate * 100).toFixed(1) + '%');
+
+            /* Map → Chart sync: clicking a county updates the AMI gap select */
+            layer.on('click', function () {
+              var sel = document.getElementById('amiGapCountySelect');
+              if (!sel) return;
+              /* Try matching by 5-digit FIPS */
+              var matched = false;
+              for (var i = 0; i < sel.options.length; i++) {
+                if (sel.options[i].value === fips) {
+                  sel.value = fips;
+                  matched = true;
+                  break;
+                }
+              }
+              if (matched) {
+                sel.dispatchEvent(new Event('change', { bubbles: true }));
+              }
+            });
           }
         }).addTo(map);
 

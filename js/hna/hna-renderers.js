@@ -57,14 +57,19 @@
 
   function chartTheme(){
     const style = getComputedStyle(document.documentElement);
-    const text = style.getPropertyValue('--text').trim() || '#111';
-    const muted = style.getPropertyValue('--muted').trim() || '#555';
+    const text   = style.getPropertyValue('--text').trim()   || '#111';
+    const muted  = style.getPropertyValue('--muted').trim()  || '#555';
     const border = style.getPropertyValue('--border').trim() || '#ddd';
-    // Chart palette tokens (var(--chart-1) … var(--chart-7), Rule 10)
+    const good   = style.getPropertyValue('--good').trim()   || '#047857';
+    const bad    = style.getPropertyValue('--bad').trim()    || '#991b1b';
+    const warn   = style.getPropertyValue('--warn').trim()   || '#a84608';
+    const accent = style.getPropertyValue('--accent').trim() || '#096e65';
+    // Chart palette tokens — resolved via getComputedStyle so canvas 2D context
+    // can actually use them (canvas cannot resolve CSS var() strings directly).
     const chartColors = [1,2,3,4,5,6,7].map(n =>
       style.getPropertyValue(`--chart-${n}`).trim() || ['#1e5799','#0369a1','#096e65','#7c3d00','#166534','#92400e','#991b1b'][n-1]
     );
-    return { text, muted, border, chartColors };
+    return { text, muted, border, grid: border, good, bad, warn, accent, chartColors };
   }
 
 
@@ -104,7 +109,11 @@
 
   function updateLihtcInfoPanel() {
     if (!S().els.lihtcInfoPanel || !S().allLihtcFeatures.length) return;
-    const bounds = S().map && S().map.getBounds ? S().map.getBounds() : null;
+    // Use the selected geography's boundary (not the viewport) to filter projects.
+    // This ensures the project list reflects the jurisdiction, not the map zoom level.
+    const boundaryBounds = S().boundaryLayer && S().boundaryLayer.getBounds ? S().boundaryLayer.getBounds() : null;
+    const fallbackBounds = S().map && S().map.getBounds ? S().map.getBounds() : null;
+    const bounds = boundaryBounds || fallbackBounds;
     let visible = S().allLihtcFeatures;
     if (bounds) {
       visible = S().allLihtcFeatures.filter(f => {
@@ -131,7 +140,7 @@
     }).join('');
     const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${escHtml(S().lihtcDataSource)}</span>`;
     S().els.lihtcInfoPanel.innerHTML = rows ? `
-      <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in area (top 10 by units):${sourceBadge}</p>
+      <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in jurisdiction (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
         <table style="width:100%;border-collapse:collapse;font-size:.83rem">
           <thead><tr style="color:var(--muted)">
@@ -182,13 +191,23 @@
     // Visibility toggle
     if (S().els.layerLihtc && !S().els.layerLihtc.checked) S().lihtcLayer.remove();
 
-    // Update stats
-    const count = geojson.features.length;
-    const units = geojson.features.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
+    // Update stats — use boundary-filtered features when a boundary exists,
+    // so place/CDP selections show only projects within the jurisdiction.
+    const boundaryBounds = S().boundaryLayer && S().boundaryLayer.getBounds ? S().boundaryLayer.getBounds() : null;
+    let statsFeatures = geojson.features;
+    if (boundaryBounds) {
+      statsFeatures = geojson.features.filter(f => {
+        if (!f.geometry || f.geometry.type !== 'Point') return false;
+        const [lng, lat] = f.geometry.coordinates;
+        return boundaryBounds.contains([lat, lng]);
+      });
+    }
+    const count = statsFeatures.length;
+    const units = statsFeatures.reduce((s, f) => s + (Number(f.properties?.N_UNITS) || 0), 0);
     if (S().els.statLihtcCount) S().els.statLihtcCount.textContent = count.toLocaleString();
     if (S().els.statLihtcUnits) S().els.statLihtcUnits.textContent = units.toLocaleString();
 
-    // Build the info panel for the current viewport
+    // Build the info panel filtered to the jurisdiction boundary
     updateLihtcInfoPanel();
   }
 
@@ -244,9 +263,13 @@
     }
 
     // Always show DDA status from static lookup or fetched data
-    const isDda = !!(ddaInfo?.status || (ddaGeojson?.features?.length));
-    const areaName = ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '';
-    if (S().els.statDdaStatus) S().els.statDdaStatus.textContent = isDda ? 'Yes ✓' : 'No';
+    const featureCount = ddaGeojson?.features?.length || 0;
+    const isDda = !!(ddaInfo?.status || featureCount);
+    const isState = countyFips5 === '08';
+    const areaName = isState
+      ? `${featureCount} DDA counties`
+      : (ddaInfo?.area || (ddaGeojson?.features?.[0]?.properties?.DDA_NAME) || '');
+    if (S().els.statDdaStatus) S().els.statDdaStatus.textContent = isState ? `${featureCount} areas` : (isDda ? 'Yes ✓' : 'No');
     if (S().els.statDdaNote) S().els.statDdaNote.textContent = isDda ? (areaName || 'HUD DDA') : 'Not designated';
   }
 
@@ -293,7 +316,10 @@
         datasets: [{
           label: 'Jobs',
           data: [dist.low, dist.medium, dist.high],
-          backgroundColor: ['rgba(239,68,68,.7)', 'rgba(251,191,36,.7)', 'rgba(34,163,111,.7)'],
+          // Low=bad (chart-7 red), Medium=warn (chart-6 burnt-orange), High=good (chart-3 teal)
+          backgroundColor: [t.chartColors[6] + 'B3', t.chartColors[5] + 'B3', t.chartColors[2] + 'B3'],
+          borderColor:     [t.chartColors[6],         t.chartColors[5],         t.chartColors[2]        ],
+          borderWidth: 1,
         }]
       },
       options: {
@@ -324,7 +350,9 @@
         datasets: [{
           label: 'Jobs',
           data: industries.map(function(d){ return d.count; }),
-          backgroundColor: 'rgba(59,130,246,.7)',
+          backgroundColor: industries.map(function(_, i) { return t.chartColors[i % t.chartColors.length] + 'B3'; }),
+          borderColor:     industries.map(function(_, i) { return t.chartColors[i % t.chartColors.length]; }),
+          borderWidth: 1,
         }]
       },
       options: {
@@ -360,7 +388,10 @@
           '<tr><td>Out-commuters</td><td>' + fmt(metrics.outflow) + '</td><td>Residents who work in other areas</td></tr>' +
           '<tr><td>Live & work here</td><td>' + fmt(metrics.within) + '</td><td>Both live and work within this geography</td></tr>' +
         '</tbody>' +
-      '</table>';
+      '</table>' +
+      '<div style="font-size:.72rem;color:var(--warn);margin-top:.4rem;">' +
+        '<strong>LEHD LODES 2021</strong> \u2014 employment data has 2\u20133 year lag' +
+      '</div>';
   }
 
   /**
@@ -431,8 +462,8 @@
         datasets: [{
           label: 'Total Jobs',
           data: counts,
-          borderColor: 'rgba(59,130,246,.9)',
-          backgroundColor: 'rgba(59,130,246,.15)',
+          borderColor: t.chartColors[0],
+          backgroundColor: t.chartColors[0] + '26',
           fill: true,
           tension: 0.3,
           pointRadius: 5,
@@ -536,8 +567,8 @@
         datasets: [{
           label: 'Avg Annual Wage (est.)',
           data: wageSeries,
-          borderColor: 'rgba(34,163,111,.9)',
-          backgroundColor: 'rgba(34,163,111,.1)',
+          borderColor: t.chartColors[2],
+          backgroundColor: t.chartColors[2] + '1A',
           fill: true,
           tension: 0.3,
           yAxisID: 'yWage',
@@ -618,13 +649,10 @@
 
     var t = chartTheme();
     var colors = industries.map(function(_, i) {
-      var palette = [
-        'rgba(59,130,246,.75)', 'rgba(34,163,111,.75)', 'rgba(251,191,36,.75)',
-        'rgba(239,68,68,.75)',  'rgba(168,85,247,.75)', 'rgba(20,184,166,.75)',
-        'rgba(249,115,22,.75)', 'rgba(236,72,153,.75)', 'rgba(99,102,241,.75)',
-        'rgba(156,163,175,.75)',
-      ];
-      return palette[i % palette.length];
+      return t.chartColors[i % t.chartColors.length] + 'BF';
+    });
+    var borderColors = industries.map(function(_, i) {
+      return t.chartColors[i % t.chartColors.length];
     });
 
     makeChart(document.getElementById('chartIndustryAnalysis').getContext('2d'), {
@@ -635,6 +663,8 @@
           label: 'Jobs',
           data: industries.map(function(d) { return d.count || 0; }),
           backgroundColor: colors,
+          borderColor: borderColors,
+          borderWidth: 1,
         }]
       },
       options: {
@@ -914,8 +944,8 @@
           {
             label: 'Required target (3% growth)',
             data: targetData,
-            borderColor: 'rgba(34,163,111,0.85)',
-            backgroundColor: 'rgba(34,163,111,0.12)',
+            borderColor: t.chartColors[2],
+            backgroundColor: t.chartColors[2] + '1F',
             borderDash: [],
             tension: 0.3,
             fill: false,
@@ -923,8 +953,8 @@
           {
             label: 'Baseline',
             data: baselineData_flat,
-            borderColor: 'rgba(251,191,36,0.75)',
-            backgroundColor: 'rgba(251,191,36,0.10)',
+            borderColor: t.chartColors[5],
+            backgroundColor: t.chartColors[5] + '1A',
             borderDash: [5, 5],
             tension: 0,
             fill: false,
@@ -1061,8 +1091,8 @@
    * @param {string} geoType
    */
 
-  function renderProp123Section(profile, geoType) {
-    const baselineData = U().calculateBaseline(profile);
+  function renderProp123Section(profile, geoType, countyFips) {
+    const baselineData = U().calculateBaseline(profile, countyFips);
     const population   = profile ? Number(profile.DP05_0001E) : null;
     const eligibility  = U().checkFastTrackEligibility(population, geoType);
 
@@ -1082,6 +1112,67 @@
     const geoid = (profile && profile._geoid) ? profile._geoid : '';
     renderHistoricalSection(baselineData, geoType, geoid);
     renderFastTrackCalculatorSection();
+
+    // Phase 4: Housing Policy Commitment scorecard
+    if (geoid) {
+      renderHnaScorecardPanel(geoid);
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Housing Policy Commitment Scorecard (on HNA page)
+  // ---------------------------------------------------------------
+
+  var _hnaScorecardCache = null;
+
+  function renderHnaScorecardPanel(geoid) {
+    var panel = document.getElementById('hnaScorecardPanel');
+    var content = document.getElementById('hnaScorecardContent');
+    if (!panel || !content) return;
+
+    function render(scores) {
+      var sc = scores[geoid];
+      if (!sc || sc.knownDimensions < 1) {
+        panel.style.display = 'none';
+        return;
+      }
+      var labels = {
+        has_hna: 'Housing Needs Assessment',
+        prop123_committed: 'Proposition 123 Committed',
+        has_housing_authority: 'Housing Authority',
+        has_housing_nonprofits: 'Housing Nonprofits',
+        has_comp_plan: 'Housing in Comprehensive Plan',
+        has_iz_ordinance: 'Zoning Incentives / IZ Ordinance',
+        has_local_funding: 'Affordable Housing Funding',
+      };
+      var items = Object.keys(sc.dimensions).map(function (id) {
+        var val = sc.dimensions[id];
+        var label = labels[id] || id;
+        if (val === true)  return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--good,#16a34a);color:#fff;font-size:.72rem;font-weight:700">&#10003;</span> ' + label + '</div>';
+        if (val === false) return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted)"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bad,#dc2626);color:#fff;font-size:.72rem;font-weight:700">&#10007;</span> ' + label + '</div>';
+        return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.85rem;color:var(--muted);font-style:italic"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--muted);font-size:.72rem;font-weight:700">?</span> ' + label + '</div>';
+      }).join('');
+      var cta = sc.knownDimensions < 7
+        ? '<p style="margin-top:.5rem;font-size:.78rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
+        : '';
+      content.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">' + items + '</div>' +
+        '<div style="margin-top:.6rem;font-size:.82rem;font-weight:600;color:var(--accent)">' + sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed</div>' + cta;
+      panel.style.display = '';
+    }
+
+    if (_hnaScorecardCache) {
+      render(_hnaScorecardCache);
+      return;
+    }
+    var fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }); };
+    fetcher('data/policy/housing-policy-scorecard.json')
+      .then(function (data) {
+        _hnaScorecardCache = (data && data.scores) || {};
+        render(_hnaScorecardCache);
+      })
+      .catch(function () { panel.style.display = 'none'; });
   }
 
   // ---------------------------------------------------------------
@@ -1285,8 +1376,8 @@
     if (S().els.statRentSrc) S().els.statRentSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
     setYoy(S().els.statRentYoy, rent, prevProfile?.DP04_0134E);
 
-    const owner = Number(profile?.DP04_0047PE);
-    const renter = Number(profile?.DP04_0046PE);
+    const owner = Number(profile?.DP04_0046PE);
+    const renter = Number(profile?.DP04_0047PE);
     if (S().els.statTenure) S().els.statTenure.textContent = (Number.isFinite(owner) && Number.isFinite(renter)) ? `${owner.toFixed(1)}% / ${renter.toFixed(1)}%` : '—';
     if (S().els.statTenureSrc) S().els.statTenureSrc.innerHTML = U().srcLink('DP04', yr, sr, 'DP04', gt, gid);
 
@@ -1315,6 +1406,25 @@
     if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${U().fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
     if (S().els.execNarrative) S().els.execNarrative.textContent = narrativeParts.join(' ');
 
+    // Small-geography ACS margin-of-error warning
+    var moeWarning = U().getSmallGeoWarning(profile);
+    var moeEl = document.getElementById('hnaMoeWarning');
+    if (!moeEl) {
+      moeEl = document.createElement('div');
+      moeEl.id = 'hnaMoeWarning';
+      moeEl.style.cssText = 'font-size:.78rem;color:var(--warn);padding:.5rem .7rem;margin:.5rem 0;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 20%, transparent);border-radius:6px;display:none;';
+      var narrativeEl = S().els.execNarrative;
+      if (narrativeEl && narrativeEl.parentNode) {
+        narrativeEl.parentNode.insertBefore(moeEl, narrativeEl.nextSibling);
+      }
+    }
+    if (moeWarning) {
+      moeEl.innerHTML = '<strong>⚠ Statistical Uncertainty:</strong> ' + moeWarning;
+      moeEl.style.display = 'block';
+    } else {
+      moeEl.style.display = 'none';
+    }
+
     // Afford assumptions
     if (S().els.affordAssumptions) S().els.affordAssumptions.innerHTML = `
       <ul>
@@ -1331,16 +1441,21 @@
     const t = chartTheme();
 
     // Stock by structure (counts)
+    // ACS 2023 confirmed codes (DP04 UNITS IN STRUCTURE starts at DP04_0007E):
+    //   DP04_0007E=1-unit detached, DP04_0008E=1-unit attached, DP04_0009E=2 units,
+    //   DP04_0010E=3-4 units, DP04_0011E=5-9 units, DP04_0012E=10-19 units,
+    //   DP04_0013E=20+ units, DP04_0014E=mobile home
+    // Note: in older ACS years this section started at DP04_0003E (now vacancy codes).
     const stock = [
-      { k:'1-unit detached', v:Number(profile?.DP04_0003E) },
-      { k:'1-unit attached', v:Number(profile?.DP04_0004E) },
-      { k:'2 units', v:Number(profile?.DP04_0005E) },
-      { k:'3–4 units', v:Number(profile?.DP04_0006E) },
-      { k:'5–9 units', v:Number(profile?.DP04_0007E) },
-      { k:'10–19 units', v:Number(profile?.DP04_0008E) },
-      { k:'20+ units', v:Number(profile?.DP04_0009E) },
-      { k:'Mobile home', v:Number(profile?.DP04_0010E) },
-    ].filter(d=>Number.isFinite(d.v));
+      { k:'1-unit detached', v:Number(profile?.DP04_0007E) },
+      { k:'1-unit attached', v:Number(profile?.DP04_0008E) },
+      { k:'2 units',         v:Number(profile?.DP04_0009E) },
+      { k:'3–4 units',       v:Number(profile?.DP04_0010E) },
+      { k:'5–9 units',       v:Number(profile?.DP04_0011E) },
+      { k:'10–19 units',     v:Number(profile?.DP04_0012E) },
+      { k:'20+ units',       v:Number(profile?.DP04_0013E) },
+      { k:'Mobile home',     v:Number(profile?.DP04_0014E) },
+    ].filter(d=>Number.isFinite(d.v) && d.v > 0);
 
     makeChart(document.getElementById('chartStock').getContext('2d'), {
       type:'bar',
@@ -1364,8 +1479,9 @@
     });
 
     // Tenure donut
-    const owner = Number(profile?.DP04_0047PE);
-    const renter = Number(profile?.DP04_0046PE);
+    // ACS 2023: DP04_0046PE = owner-occupied %, DP04_0047PE = renter-occupied %
+    const owner = Number(profile?.DP04_0046PE);
+    const renter = Number(profile?.DP04_0047PE);
     makeChart(document.getElementById('chartTenure').getContext('2d'), {
       type:'doughnut',
       data:{
@@ -1406,6 +1522,22 @@
         }
       }
     });
+
+    // Add small-geography MOE warning for homeownership affordability
+    var affordMoeWarning = U().getSmallGeoWarning(profile);
+    if (affordMoeWarning) {
+      var chartEl = document.getElementById('chartAfford');
+      if (chartEl && chartEl.parentElement) {
+        var existingWarn = chartEl.parentElement.querySelector('.afford-moe-warn');
+        if (!existingWarn) {
+          var warnDiv = document.createElement('div');
+          warnDiv.className = 'afford-moe-warn';
+          warnDiv.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.3rem;';
+          warnDiv.textContent = 'Small geography — home values and income estimates may have high margins of error.';
+          chartEl.parentElement.appendChild(warnDiv);
+        }
+      }
+    }
   }
 
 
@@ -1479,20 +1611,39 @@
     const byAmi = geoRecord.renter_hh_by_ami || {};
 
     const labels = AMI_ORDER.map(k => tierLabels[k] || k);
+
+    // Sanitize CHAS data — pipeline may produce impossible values
+    // (cost_burdened > total) due to aggregation errors. Clamp and flag.
+    let hasCorruptTier = false;
     const totals           = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].total)              || 0);
-    const costBurdened     = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].cost_burdened)       || 0);
-    const severelyBurdened = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].severely_burdened)   || 0);
+    const costBurdened     = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].cost_burdened) || 0;
+      if (raw > totals[i] && totals[i] > 0) { hasCorruptTier = true; return totals[i]; }
+      return raw;
+    });
+    const severelyBurdened = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].severely_burdened) || 0;
+      return Math.min(raw, costBurdened[i]);
+    });
     // Moderately burdened = cost_burdened minus severely_burdened
     const modBurdened      = costBurdened.map((cb, i) => Math.max(0, cb - severelyBurdened[i]));
     const notBurdened      = totals.map((tot, i) => Math.max(0, tot - costBurdened[i]));
+
+    // If all totals are zero or tiny, the data is likely a stub
+    const allTotals = totals.reduce((a, b) => a + b, 0);
+    if (allTotals < 10) {
+      showPlaceholder('CHAS data for this geography has insufficient household counts. Awaiting next HUD CHAS release.');
+      return;
+    }
 
     const vintage = (chasData.meta && chasData.meta.vintage) || '';
     const isStub  = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
     const geoName = geoRecord.name || 'Selected area';
     if (statusEl) {
+      const corruptNote = hasCorruptTier ? ' · Some AMI tiers have been clamped due to data inconsistencies' : '';
       statusEl.textContent = isStub
         ? `Estimated from ACS data (actual CHAS ${vintage} figures load via weekly workflow)`
-        : `HUD CHAS ${vintage} data · ${geoName}`;
+        : `HUD CHAS ${vintage} data · ${geoName}${corruptNote}`;
     }
 
     const c = t.chartColors;
@@ -1546,6 +1697,15 @@
         },
       },
     });
+
+    // Append CHAS vintage badge below the chart
+    const chasAgeBadge = document.createElement('div');
+    chasAgeBadge.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.4rem;';
+    // Read vintage from loaded CHAS data metadata if available
+    var chasVintage = (window.HNAState && window.HNAState.state && window.HNAState.state.chasData && window.HNAState.state.chasData.meta)
+      ? window.HNAState.state.chasData.meta.vintage : null;
+    chasAgeBadge.innerHTML = '<strong>HUD CHAS ' + (chasVintage || '2018\u20132022') + '</strong> \u2014 CHAS data is released with a 3\u20135 year lag from the ACS period it covers.';
+    canvas.parentElement.appendChild(chasAgeBadge);
   }
 
 
@@ -1825,7 +1985,9 @@
   }
 
   function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
-    const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
+    // Dynamic horizon — reads from toggle button state (default 10)
+    var horizonEl = document.querySelector('.horizon-btn--active');
+    var SCENARIO_HORIZON = (horizonEl && parseInt(horizonEl.getAttribute('data-horizon'), 10)) || 10;
 
     // Find the index of the base year in the years array
     const baseIdx = years.indexOf(baseYear);
@@ -2012,7 +2174,39 @@
       });
     }
 
-    // Update the scenario need summary note panel
+    // Save seriesByScenario to shared state so the CSV export function can read it.
+    if (S().state) {
+      S().state.lastScenarioSeries = seriesByScenario;
+      S().state.lastBaseYear = baseYear;
+    }
+
+    // Update freshness badge with the data vintage year.
+    const freshnessBadge = document.getElementById('scenarioFreshnessBadge');
+    if (freshnessBadge && baseYear) {
+      freshnessBadge.textContent = `${baseYear} vintage`;
+      freshnessBadge.hidden = false;
+    }
+
+    // Show a data quality notice when the projection is synthesised from DOLA
+    // county baselines (i.e. the geography is a place or CDP, not a county).
+    const dqEl = document.getElementById('scenarioDataQuality');
+    if (dqEl) {
+    // Detect synthetic projections: shareFactors < 1 when geography is a place
+    // or CDP (where popSel is scaled from the containing county's DOLA baseline).
+    // For county/state selections popSel === popCounty so all share factors = 1.
+    const isSynthetic = shareFactors.some(sf => sf < 1);
+      if (isSynthetic) {
+        dqEl.textContent = '⚠ Projections are estimated by scaling county-level DOLA data. Place/CDP-specific data may differ.';
+        dqEl.className = 'scenario-data-quality dq-warn';
+        dqEl.hidden = false;
+      } else {
+        dqEl.textContent = '✓ Projections use county-level DOLA SDO cohort-component data directly.';
+        dqEl.className = 'scenario-data-quality';
+        dqEl.hidden = false;
+      }
+    }
+
+    // Update the scenario need summary panel with structured comparison data.
     const summaryEl = document.getElementById('scenarioNeedSummary');
     if (summaryEl && seriesByScenario.baseline && seriesByScenario.baseline.length) {
       const endIdx = seriesByScenario.baseline.length - 1;
@@ -2022,10 +2216,22 @@
       const highPop = (seriesByScenario.high_growth || [])[endIdx]?.population;
       const fmt = U().fmtNum;
       const vintage = baseYear || new Date().getFullYear();
-      const parts = [`By ${endYear}: Baseline population ${fmt(baselinePop)}`];
-      if (lowPop !== undefined) parts.push(`Low growth ${fmt(lowPop)}`);
-      if (highPop !== undefined) parts.push(`High growth ${fmt(highPop)}`);
-      summaryEl.textContent = parts.join(' · ') + `. Source: DOLA SDO ${vintage} vintage, cohort-component model.`;
+
+      // Build structured comparison grid (one column per scenario)
+      const cols = [
+        { sc: 'baseline',    label: 'Baseline',    pop: baselinePop },
+        { sc: 'low_growth',  label: 'Low growth',  pop: lowPop },
+        { sc: 'high_growth', label: 'High growth', pop: highPop },
+      ].filter(c => c.pop !== undefined && c.pop !== null);
+
+      const gridHTML = cols.map(c =>
+        `<div class="scenario-summary-col"><p class="sc-label">${c.label}</p><p class="sc-value">${fmt(c.pop)}</p></div>`
+      ).join('');
+
+      summaryEl.innerHTML =
+        `<strong>By ${endYear} projected population</strong>` +
+        `<div class="scenario-summary-grid">${gridHTML}</div>` +
+        `<p style="margin:6px 0 0;font-size:.8rem;color:var(--muted)">Source: DOLA SDO ${vintage} vintage, cohort-component model.</p>`;
       summaryEl.style.display = '';
     }
   }
@@ -2572,7 +2778,7 @@
       { label: '$200k+',    v: Number(profile.DP03_0060E) },
     ].filter(b => b.v > 0);
     if (!brackets.length) return;
-    const colors = brackets.map((_, i) => `var(--chart-${(i % 7) + 1})`);
+    const colors = brackets.map((_, i) => t.chartColors[i % 7]);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -2593,6 +2799,19 @@
 
   /**
    * renderHousingAgeChart — Age of housing stock (DP04 year built)
+   *
+   * ACS 5-year 2023 confirmed variable codes (DP04 YEAR STRUCTURE BUILT):
+   *   DP04_0017E = Built 2020 or later
+   *   DP04_0018E = Built 2010 to 2019
+   *   DP04_0019E = Built 2000 to 2009
+   *   DP04_0020E = Built 1990 to 1999
+   *   DP04_0021E = Built 1980 to 1989
+   *   DP04_0022E = Built 1970 to 1979
+   *   DP04_0023E = Built 1960 to 1969
+   *   DP04_0024E = Built 1950 to 1959
+   *   DP04_0025E = Built 1940 to 1949
+   *   DP04_0026E = Built 1939 or earlier
+   * Note: DP04_0027E–DP04_0032E are ROOMS variables, not year-built.
    */
   function renderHousingAgeChart(profile) {
     const canvas = document.getElementById('chartHousingAge');
@@ -2600,19 +2819,19 @@
     const t = chartTheme();
     const eras = [
       { label: 'Pre-1940',  v: Number(profile.DP04_0026E) },
-      { label: '1940–1959', v: Number(profile.DP04_0027E) },
-      { label: '1960–1979', v: Number(profile.DP04_0028E) },
-      { label: '1980–1999', v: Number(profile.DP04_0029E) },
-      { label: '2000–2009', v: Number(profile.DP04_0030E) },
-      { label: '2010–2019', v: Number(profile.DP04_0031E) },
-      { label: '2020+',     v: Number(profile.DP04_0032E) },
+      { label: '1940–1959', v: (Number(profile.DP04_0025E) || 0) + (Number(profile.DP04_0024E) || 0) },
+      { label: '1960–1979', v: (Number(profile.DP04_0023E) || 0) + (Number(profile.DP04_0022E) || 0) },
+      { label: '1980–1999', v: (Number(profile.DP04_0021E) || 0) + (Number(profile.DP04_0020E) || 0) },
+      { label: '2000–2009', v: Number(profile.DP04_0019E) },
+      { label: '2010–2019', v: Number(profile.DP04_0018E) },
+      { label: '2020+',     v: Number(profile.DP04_0017E) },
     ].filter(e => e.v > 0);
     if (!eras.length) return;
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
         labels: eras.map(e => e.label),
-        datasets: [{ label: 'Units', data: eras.map(e => e.v), backgroundColor: 'var(--chart-3, #0891b2)' }],
+        datasets: [{ label: 'Units', data: eras.map(e => e.v), backgroundColor: t.chartColors[2] }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -2628,29 +2847,59 @@
 
   /**
    * renderBedroomMixChart — Bedroom mix (DP04 bedrooms)
+   *
+   * ACS 5-year 2023 confirmed variable codes (DP04 BEDROOMS):
+   *   DP04_0039E = No bedroom
+   *   DP04_0040E = 1 bedroom
+   *   DP04_0041E = 2 bedrooms
+   *   DP04_0042E = 3 bedrooms
+   *   DP04_0043E = 4 bedrooms
+   *   DP04_0044E = 5 or more bedrooms
+   * Note: DP04_0045E–DP04_0047E are HOUSING TENURE variables, not bedrooms.
    */
   function renderBedroomMixChart(profile) {
     const canvas = document.getElementById('chartBedroomMix');
     if (!canvas || !profile) return;
     const t = chartTheme();
     const mix = [
-      { label: 'No bedroom', v: Number(profile.DP04_0042E) },
-      { label: '1 bedroom',  v: Number(profile.DP04_0043E) },
-      { label: '2 bedrooms', v: Number(profile.DP04_0044E) },
-      { label: '3 bedrooms', v: Number(profile.DP04_0045E) },
-      { label: '4+ bedrooms',v: Number(profile.DP04_0046E) },
+      { label: 'No bedroom', v: Number(profile.DP04_0039E) },
+      { label: '1 bedroom',  v: Number(profile.DP04_0040E) },
+      { label: '2 bedrooms', v: Number(profile.DP04_0041E) },
+      { label: '3 bedrooms', v: Number(profile.DP04_0042E) },
+      { label: '4+ bedrooms',v: (Number(profile.DP04_0043E) || 0) + (Number(profile.DP04_0044E) || 0) },
     ].filter(m => m.v > 0);
     if (!mix.length) return;
     makeChart(canvas.getContext('2d'), {
       type: 'doughnut',
       data: {
         labels: mix.map(m => m.label),
-        datasets: [{ data: mix.map(m => m.v), backgroundColor: ['var(--chart-1)','var(--chart-2)','var(--chart-3)','var(--chart-4)','var(--chart-5)'] }],
+        datasets: [{ data: mix.map(m => m.v), backgroundColor: t.chartColors.slice(0, 5) }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'right', labels: { color: t.text, font: { size: 11 } } },
+          legend: {
+            position: 'right',
+            labels: {
+              color: t.text,
+              font: { size: 11 },
+              generateLabels: function (chart) {
+                var data = chart.data;
+                if (!data.labels || !data.labels.length) return [];
+                return data.labels.map(function (label, i) {
+                  var val = (data.datasets[0] && data.datasets[0].data[i]) || 0;
+                  return {
+                    text: label + ': ' + Number(val).toLocaleString(),
+                    fillStyle: (data.datasets[0].backgroundColor || [])[i] || '#ccc',
+                    strokeStyle: 'transparent',
+                    lineWidth: 0,
+                    hidden: false,
+                    index: i
+                  };
+                });
+              }
+            }
+          },
           title: { display: true, text: 'Housing Units by Bedroom Count (ACS DP04)', color: t.text, font: { size: 12 } },
           tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toLocaleString() + ' units' } },
         },
@@ -2673,7 +2922,7 @@
       { label: '35%+',   v: Number(profile.DP04_0115PE) },
     ].filter(b => b.v > 0);
     if (!bins.length) return;
-    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? 'var(--bad, #ef4444)' : 'var(--good, #10b981)');
+    const colors = bins.map(b => (b.label === '30–35%' || b.label === '35%+') ? t.bad : t.good);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -2703,13 +2952,21 @@
     const el = document.getElementById('housingGapSummary');
     if (!el || !profile) return;
 
-    const rentVac      = Number(profile.DP04_0005PE) || 0;
-    // ACS DP04 rent burden fields:
-    // DP04_0136PE = gross rent ≥30% of income (cost-burdened, includes severely burdened)
-    // DP04_0141PE = gross rent ≥50% of income (severely burdened)
-    const rentBurden30 = Number(profile.DP04_0136PE) || 0; // ≥30% (cost-burdened)
-    const rentBurden50 = Number(profile.DP04_0141PE) || 0; // ≥50% (severely burdened)
-    const renterHH     = Number(profile.DP04_0047E)  || 0;
+    // ACS 2023 DP04: DP04_0005E is the rental vacancy rate (%) in current ACS.
+    // Old cached summary files (generated before the 2023 DP04 restructuring) may have
+    // stored DP04_0005E as a unit COUNT (2-unit buildings under old code mapping), so
+    // any value ≥ 100 is treated as a stale count rather than a valid rate.
+    let rentVac = Number(profile.DP04_0005E) || Number(profile.DP04_0005PE) || 0;
+    if (rentVac >= 100) rentVac = 0; // guard: vacancy rates are 0–100%; ≥100 = stale count
+    // ACS 2023 GRAPI rent burden:
+    // DP04_0141PE = 30.0–34.9% of income; DP04_0142PE = 35%+ of income
+    // DP04_0136PE = pre-computed ≥30% (stored by B-series fallback in pipeline)
+    // For live profile fetches: ≥30% = DP04_0141PE + DP04_0142PE
+    const grapi_30_34 = Number(profile.DP04_0141PE) || 0;
+    const grapi_35p   = Number(profile.DP04_0142PE) || 0;
+    const rentBurden30 = Number(profile.DP04_0136PE) || (grapi_30_34 + grapi_35p) || 0; // ≥30% cost-burdened
+    const rentBurden50 = grapi_35p || 0; // ≥35% (best DP04 proxy; ACS DP04 has no 50% bin)
+    const renterHH     = Number(profile.DP04_0047E) || 0;
 
     // Estimate households at each AMI tier using ACS income brackets.
     // These are rough approximations: actual AMI thresholds vary by county and are
@@ -2725,12 +2982,12 @@
     el.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
         <div class="stat">
-          <div class="k">Severely burdened renters (≥50%)</div>
+          <div class="k">Severely burdened renters (≥35%)</div>
           <div class="v" style="color:var(--bad,#ef4444)">${sevBurdened > 0 ? sevBurdened.toLocaleString() : '—'}</div>
-          <div class="s">Est. households</div>
+          <div class="s">Est. households (ACS GRAPI 35%+ bin)</div>
         </div>
         <div class="stat">
-          <div class="k">Moderately burdened renters (30–50%)</div>
+          <div class="k">Cost-burdened renters (≥30%)</div>
           <div class="v" style="color:var(--warn,#d97706)">${modBurdened > 0 ? modBurdened.toLocaleString() : '—'}</div>
           <div class="s">Est. households</div>
         </div>
@@ -2757,7 +3014,8 @@
       </div>
       <p style="font-size:.82rem;color:var(--muted);margin-top:8px">
         AMI tier estimates based on household income brackets from ACS DP03.
-        Severely burdened = renter households spending ≥50% of income on housing (ACS GRAPI).
+        Cost-burdened = renters spending ≥30% of income on housing (ACS GRAPI DP04_0141+0142).
+        Severely burdened = renters spending ≥35% (ACS DP04 finest available bin; HUD standard is 50%).
       </p>
     `;
   }
@@ -2770,8 +3028,10 @@
     if (!el || !profile) return;
 
     const totalPop    = Number(profile.DP05_0001E) || 0;
-    const pop65plus   = Number(profile.DP05_0029E) || Number(profile.DP05_0030E) || 0;
-    const pop75plus   = Number(profile.DP05_0031E) || 0;
+    const pop65plus   = Number(profile.DP05_0024E) || Number(profile.DP05_0029E) || 0;
+    // 75+ = sum of ACS age bins: DP05_0016E (75–84) + DP05_0017E (85+)
+    // DP05_0031E is "65 years and over, Female" — NOT a 75+ aggregate
+    const pop75plus   = (Number(profile.DP05_0016E) || 0) + (Number(profile.DP05_0017E) || 0);
     const disabledPop = Number(profile.DP02_0072E) || 0;
     const childrenU18 = Number(profile.DP05_0019E) || 0;
     const familyHH    = Number(profile.DP02_0003E) || 0;
@@ -2829,6 +3089,397 @@
     renderSpecialNeedsPanel(profile);
   }
 
+  /**
+   * Render BLS Labour Market KPI cards (unemployment rate + 5-yr job growth)
+   * into #blsLabourMarketCards using data from co-county-economic-indicators.json.
+   *
+   * @param {string|null} countyFips5 - 5-digit county FIPS for the selected geography
+   * @param {string} geoType - 'county' | 'place' | 'cdp' | 'state'
+   * @param {object|null} econData - parsed co-county-economic-indicators.json
+   */
+  function renderBlsLabourMarket(countyFips5, geoType, econData) {
+    var container = document.getElementById('blsLabourMarketCards');
+    if (!container) return;
+
+    // Derive county name from geo-config for lookup in econData.counties (keyed by name)
+    var countyName = null;
+    if (geoType !== 'state' && countyFips5) {
+      var geoConf = window.__HNA_GEO_CONFIG;
+      var countyEntry = geoConf && Array.isArray(geoConf.counties)
+        ? geoConf.counties.find(function (c) { return c.geoid === countyFips5; })
+        : null;
+      if (countyEntry && countyEntry.label) {
+        // Labels are like "Adams County" — strip " County" suffix for the lookup key
+        countyName = countyEntry.label.replace(/\s+County$/i, '').trim();
+      }
+    }
+
+    var countyData = econData && econData.counties && countyName
+      ? (econData.counties[countyName] || null)
+      : null;
+
+    // For state-level: compute averages across all counties
+    if (geoType === 'state' && econData && econData.counties) {
+      var allCounties = Object.values(econData.counties);
+      var avg = function (field) {
+        var vals = allCounties.map(function (c) { return c[field]; }).filter(function (v) { return v != null; });
+        return vals.length ? vals.reduce(function (s, v) { return s + v; }, 0) / vals.length : null;
+      };
+      countyData = {
+        unemployment_rate: avg('unemployment_rate'),
+        job_growth_5yr_pct: avg('job_growth_5yr_pct'),
+      };
+    }
+
+    var ur = countyData ? countyData.unemployment_rate : null;
+    var jg = countyData ? countyData.job_growth_5yr_pct : null;
+
+    // Thresholds for unemployment rate (BLS LAUS): <3.8% = low/healthy, ≤5.5% = moderate, >5.5% = elevated.
+    // These align with the thresholds used in market-intelligence.js renderEconomicKpis() setBadge() calls.
+    var UR_LOW = 3.8;
+    var UR_HIGH = 5.5;
+    // Thresholds for 5-year job growth (BLS QCEW): ≥8% = strong, ≥2% = moderate, <2% = weak.
+    // These align with the market-intelligence.js thresholds for the job-growth badge.
+    var JG_STRONG = 8;
+    var JG_MODERATE = 2;
+
+    // Helper to build a KPI card
+    function kpiCard(label, value, sub, colorVar) {
+      return '<div class="metric-card">' +
+        '<div class="mc-label">' + label + '</div>' +
+        '<div class="mc-value"' + (colorVar ? ' style="color:' + colorVar + '"' : '') + '>' + value + '</div>' +
+        '<div class="mc-sub">' + sub + '</div>' +
+        '</div>';
+    }
+
+    var urValue = ur != null ? ur.toFixed(1) + '%' : '—';
+    var urColor = ur != null ? (ur < UR_LOW ? 'var(--success,#22a36f)' : ur <= UR_HIGH ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var urSub = ur != null ? (ur < UR_LOW ? 'Low — healthy labour market' : ur <= UR_HIGH ? 'Moderate' : 'Elevated') : 'Data not yet available';
+
+    var jgValue = jg != null ? (jg > 0 ? '+' : '') + jg.toFixed(1) + '%' : '—';
+    var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
+    var jgSub = jg != null ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
+
+    container.innerHTML =
+      kpiCard('Unemployment Rate', urValue, urSub + ' · BLS LAUS', urColor) +
+      kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS QCEW', jgColor);
+  }
+
+  /**
+   * renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
+   * stat cards in the Executive Snapshot.  Derives gap = cost_burdened
+   * households (those paying >30% income on housing) at each AMI tier.
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS or null for statewide
+   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json
+   */
+  function renderGapCoverageStats(countyFips5, chasData) {
+    var panel     = document.getElementById('hnaGapCoveragePanel');
+    var gap30El   = document.getElementById('statGap30');
+    var gap50El   = document.getElementById('statGap50');
+    var gap60El   = document.getElementById('statGap60');
+    var gapTotEl  = document.getElementById('statGapTotal');
+    var confEl    = document.getElementById('hnaGapConfidence');
+    var barEl     = document.getElementById('hnaGapCoverageBar');
+    if (!panel) return;
+
+    if (!chasData) { panel.hidden = true; return; }
+
+    var geoRecord = null;
+    if (countyFips5 && chasData.counties) {
+      var fips5 = String(countyFips5).padStart(5, '0');
+      geoRecord = chasData.counties[fips5] || null;
+    }
+    if (!geoRecord && chasData.state) geoRecord = chasData.state;
+    if (!geoRecord) { panel.hidden = true; return; }
+
+    var byAmi = geoRecord.renter_hh_by_ami || {};
+    var isStub = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
+
+    // Gap = cost_burdened households at each tier
+    var g30  = (byAmi.lte30  && byAmi.lte30.cost_burdened)  || 0;
+    var g50  = (byAmi['31to50'] && byAmi['31to50'].cost_burdened) || 0;
+    var g60  = (byAmi['51to80'] && byAmi['51to80'].cost_burdened) || 0;
+    var gTot = g30 + g50 + g60;
+
+    var fmt = U().fmtNum || function (n) { return n.toLocaleString(); };
+    if (gap30El)  gap30El.textContent  = fmt(g30);
+    if (gap50El)  gap50El.textContent  = fmt(g50);
+    if (gap60El)  gap60El.textContent  = fmt(g60);
+    if (gapTotEl) gapTotEl.textContent = fmt(gTot);
+
+    // Confidence badge
+    if (confEl) {
+      if (isStub) {
+        confEl.textContent = 'Estimated';
+        confEl.className   = 'data-reliability-badge drb--warn';
+        confEl.title       = 'Gap derived from ACS cost-burden rates (stub). Actual CHAS data loads via workflow.';
+      } else {
+        confEl.textContent = 'HUD CHAS';
+        confEl.className   = 'data-reliability-badge drb--ok';
+        confEl.title       = 'Based on HUD CHAS ' + ((chasData.meta && chasData.meta.vintage) || '') + ' data.';
+      }
+    }
+
+    // Visual bar showing severity distribution
+    if (barEl && gTot > 0) {
+      var pct30 = Math.round((g30 / gTot) * 100);
+      var pct50 = Math.round((g50 / gTot) * 100);
+      var pct60 = 100 - pct30 - pct50;
+      barEl.innerHTML =
+        '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--bg2);" ' +
+          'role="img" aria-label="Gap distribution: ' + pct30 + '% at 30% AMI, ' + pct50 + '% at 50% AMI, ' + pct60 + '% at 60% AMI">' +
+          '<div style="width:' + pct30 + '%;background:var(--bad);"></div>' +
+          '<div style="width:' + pct50 + '%;background:var(--warn);"></div>' +
+          '<div style="width:' + pct60 + '%;background:var(--accent2);"></div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:2px;">' +
+          '<span>30% AMI (' + pct30 + '%)</span>' +
+          '<span>50% AMI (' + pct50 + '%)</span>' +
+          '<span>60% AMI (' + pct60 + '%)</span>' +
+        '</div>';
+    }
+
+    // Store gap data on HNAState for downstream use (market bridge, deal predictor)
+    if (window.HNAState) {
+      window.HNAState.state.affordabilityGap = {
+        ami30UnitsNeeded: g30,
+        ami50UnitsNeeded: g50,
+        ami60UnitsNeeded: g60,
+        totalUndersupply: gTot
+      };
+    }
+
+    panel.hidden = false;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+   * Housing Type Feasibility Analysis
+   * Combines ACS housing stock composition, building era, and market values
+   * to project viable construction types for new development.
+   * ───────────────────────────────────────────────────────────────────────── */
+  function renderHousingTypeFeasibility(profile, geoType) {
+    var container = document.getElementById('htfContainer');
+    var canvas1   = document.getElementById('chartHousingTypeComposition');
+    var canvas2   = document.getElementById('chartConstructionEra');
+    var matrix    = document.getElementById('htfFeasibilityMatrix');
+    if (!profile) return;
+
+    var t = chartTheme();
+    var fmt = U().fmtNum || function (n) { return Number(n).toLocaleString(); };
+    var fmtC = U().fmtCurr || function (n) { return '$' + Number(n).toLocaleString(); };
+
+    /* ── 1. Housing stock composition chart ── */
+    var stockTypes = [
+      { label: 'Single-Family Detached', v: Number(profile.DP04_0007E) || 0 },
+      { label: 'Single-Family Attached',  v: Number(profile.DP04_0008E) || 0 },
+      { label: 'Duplex (2 units)',         v: Number(profile.DP04_0009E) || 0 },
+      { label: 'Triplex/Fourplex',         v: Number(profile.DP04_0010E) || 0 },
+      { label: '5–9 Units',               v: Number(profile.DP04_0011E) || 0 },
+      { label: '10–19 Units',             v: Number(profile.DP04_0012E) || 0 },
+      { label: '20+ Units (Mid/High-Rise)', v: Number(profile.DP04_0013E) || 0 },
+      { label: 'Mobile Home / Other',     v: Number(profile.DP04_0014E) || 0 },
+    ].filter(function (d) { return d.v > 0; });
+
+    var totalUnits = stockTypes.reduce(function (s, d) { return s + d.v; }, 0);
+
+    if (canvas1 && stockTypes.length) {
+      makeChart(canvas1.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: stockTypes.map(function (d) { return d.label; }),
+          datasets: [{
+            data: stockTypes.map(function (d) { return d.v; }),
+            backgroundColor: stockTypes.map(function (_, i) { return t.chartColors[i % t.chartColors.length]; }),
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: 'Housing Units by Structure Type (ACS DP04)', color: t.text, font: { size: 12 } },
+            tooltip: { callbacks: { label: function (ctx) {
+              var pct = totalUnits ? (ctx.parsed / totalUnits * 100).toFixed(1) : 0;
+              return ctx.label + ': ' + fmt(ctx.parsed) + ' (' + pct + '%)';
+            }}},
+            legend: { position: 'right', labels: { color: t.muted, font: { size: 10 }, boxWidth: 12 } },
+          },
+        },
+      });
+    }
+
+    /* ── 2. Construction era stacked chart ── */
+    var eras = [
+      { label: '2020+',      v: Number(profile.DP04_0017E) || 0 },
+      { label: '2010–19',    v: Number(profile.DP04_0018E) || 0 },
+      { label: '2000–09',    v: Number(profile.DP04_0019E) || 0 },
+      { label: '1980–99',    v: (Number(profile.DP04_0020E) || 0) + (Number(profile.DP04_0021E) || 0) },
+      { label: '1960–79',    v: (Number(profile.DP04_0022E) || 0) + (Number(profile.DP04_0023E) || 0) },
+      { label: '1940–59',    v: (Number(profile.DP04_0024E) || 0) + (Number(profile.DP04_0025E) || 0) },
+      { label: 'Pre-1940',   v: Number(profile.DP04_0026E) || 0 },
+    ];
+    var eraTotal = eras.reduce(function (s, d) { return s + d.v; }, 0);
+    // Identify dominant construction era
+    var peakEra = eras.reduce(function (best, d) { return d.v > best.v ? d : best; }, eras[0]);
+    var pre1980Pct = eraTotal ? ((eras[3].v + eras[4].v + eras[5].v + eras[6].v) / eraTotal * 100).toFixed(1) : 0;
+
+    if (canvas2 && eraTotal > 0) {
+      makeChart(canvas2.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: eras.map(function (d) { return d.label; }),
+          datasets: [{
+            label: 'Housing Units',
+            data: eras.map(function (d) { return d.v; }),
+            backgroundColor: eras.map(function (_, i) {
+              var colors = [t.accent, t.chartColors[0], t.chartColors[1], t.chartColors[2], t.chartColors[3], t.chartColors[4], t.chartColors[5]];
+              return colors[i] || t.chartColors[i % t.chartColors.length];
+            }),
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: {
+            title: { display: true, text: 'Housing Stock by Construction Era (ACS DP04)', color: t.text, font: { size: 12 } },
+            legend: { display: false },
+            tooltip: { callbacks: { label: function (ctx) {
+              var pct = eraTotal ? (ctx.parsed.x / eraTotal * 100).toFixed(1) : 0;
+              return fmt(ctx.parsed.x) + ' units (' + pct + '%)';
+            }}},
+          },
+          scales: {
+            x: { ticks: { color: t.muted }, grid: { color: t.grid } },
+            y: { ticks: { color: t.muted }, grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    /* ── 3. Feasibility matrix — which housing types make sense here ── */
+    var medianValue = Number(profile.DP04_0089E) || 0;
+    var medianRent  = Number(profile.DP04_0134E) || 0;
+    var ownerPct    = Number(profile.DP04_0046PE) || 0;
+    var renterPct   = Number(profile.DP04_0047PE) || 0;
+    var sfPct = totalUnits ? ((stockTypes[0] ? stockTypes[0].v : 0) / totalUnits * 100) : 0;
+    var mfPct = totalUnits ? (stockTypes.filter(function (d) {
+      return d.label.indexOf('20+') >= 0 || d.label.indexOf('10–19') >= 0 || d.label.indexOf('5–9') >= 0;
+    }).reduce(function (s, d) { return s + d.v; }, 0) / totalUnits * 100) : 0;
+
+    // Simple feasibility scoring based on market characteristics
+    var types = [
+      {
+        type: 'Garden-Style Apartments',
+        desc: '2–3 story walk-up, wood-frame construction. Lowest per-unit cost. Typical 4% LIHTC.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Townhome / Rowhouse',
+        desc: 'Attached units with individual entries. Middle-density. Appeals to families.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Mid-Rise (4–6 stories)',
+        desc: 'Steel/concrete podium with wood-frame above. Higher density, higher cost per unit.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Adaptive Reuse',
+        desc: 'Converting existing non-residential or aging buildings. Leverages historic tax credits.',
+        score: 0, factors: []
+      },
+      {
+        type: 'Single-Family Infill',
+        desc: 'Scattered-site new SFR construction on vacant lots. Community-scale.',
+        score: 0, factors: []
+      },
+    ];
+
+    // Garden-style: viable almost everywhere, especially where land is affordable
+    types[0].score = 70;
+    if (medianValue > 0 && medianValue < 400000) { types[0].score += 15; types[0].factors.push('Moderate land cost supports low-rise'); }
+    if (medianValue >= 400000) { types[0].score += 5; types[0].factors.push('High land cost — density may be needed'); }
+    if (renterPct > 40) { types[0].score += 10; types[0].factors.push('Strong rental demand (' + renterPct.toFixed(0) + '% renters)'); }
+    if (mfPct > 20) { types[0].score += 5; types[0].factors.push('Multifamily precedent in area'); }
+
+    // Townhome: good where SFR-dominant and moderate values
+    types[1].score = 50;
+    if (sfPct > 60) { types[1].score += 20; types[1].factors.push('SFR-dominant area — townhomes offer compatible density'); }
+    if (medianValue > 300000 && medianValue < 600000) { types[1].score += 15; types[1].factors.push('Mid-range values support attached product'); }
+    if (ownerPct > 55) { types[1].score += 10; types[1].factors.push('Ownership-oriented market (' + ownerPct.toFixed(0) + '% owners)'); }
+
+    // Mid-rise: viable in high-cost, dense, urban markets
+    types[2].score = 30;
+    if (medianValue >= 500000) { types[2].score += 25; types[2].factors.push('High land cost justifies vertical construction'); }
+    if (mfPct > 30) { types[2].score += 15; types[2].factors.push('Existing multifamily density precedent'); }
+    if (medianRent > 1500) { types[2].score += 10; types[2].factors.push('Rents support higher construction cost'); }
+    if (totalUnits > 50000) { types[2].score += 10; types[2].factors.push('Large housing market with absorption capacity'); }
+
+    // Adaptive reuse: good where old stock exists
+    types[3].score = 25;
+    if (Number(pre1980Pct) > 50) { types[3].score += 30; types[3].factors.push(pre1980Pct + '% of stock built before 1980'); }
+    else if (Number(pre1980Pct) > 30) { types[3].score += 15; types[3].factors.push(pre1980Pct + '% pre-1980 stock available'); }
+    if (peakEra.label === 'Pre-1940' || peakEra.label === '1940–59') { types[3].score += 15; types[3].factors.push('Historic building stock from ' + peakEra.label + ' era'); }
+
+    // SFR infill: good where SFR-dominant and lower values
+    types[4].score = 35;
+    if (sfPct > 70) { types[4].score += 20; types[4].factors.push('Predominantly single-family neighborhood character'); }
+    if (medianValue < 350000) { types[4].score += 15; types[4].factors.push('Affordable land for individual lot development'); }
+    if (totalUnits < 20000) { types[4].score += 10; types[4].factors.push('Smaller market suited to scattered-site approach'); }
+
+    // Cap at 100 and sort
+    types.forEach(function (t) { t.score = Math.min(100, t.score); });
+    types.sort(function (a, b) { return b.score - a.score; });
+
+    // Render summary container
+    if (container) {
+      var summaryHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1rem">';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Total Housing Units</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + fmt(totalUnits) + '</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Peak Construction Era</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + peakEra.label + '</div>' +
+        '<div style="color:var(--muted);font-size:.7rem">' + fmt(peakEra.v) + ' units (' + (eraTotal ? (peakEra.v / eraTotal * 100).toFixed(0) : 0) + '%)</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Median Home Value</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + (medianValue ? fmtC(medianValue) : 'N/A') + '</div></div>';
+      summaryHtml += '<div style="background:var(--surface);padding:12px 16px;border-radius:8px;border-left:3px solid var(--accent)">' +
+        '<div style="color:var(--muted);font-size:.75rem">Pre-1980 Stock</div>' +
+        '<div style="font-size:1.4rem;font-weight:700">' + pre1980Pct + '%</div>' +
+        '<div style="color:var(--muted);font-size:.7rem">Potential rehab/adaptive reuse</div></div>';
+      summaryHtml += '</div>';
+      container.innerHTML = summaryHtml;
+    }
+
+    // Render feasibility matrix
+    if (matrix) {
+      var html = '<h3 style="font-size:1rem;margin:0 0 12px">Projected Housing Type Viability</h3>';
+      html += '<p style="color:var(--muted);font-size:.8rem;margin:0 0 12px">Based on current stock composition, market values, tenure mix, and building age. Higher scores indicate stronger market alignment for new development.</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:10px">';
+      types.forEach(function (item) {
+        var barColor = item.score >= 70 ? 'var(--good, #22c55e)' : item.score >= 45 ? 'var(--warn, #eab308)' : 'var(--muted)';
+        var label = item.score >= 70 ? 'Strong' : item.score >= 45 ? 'Moderate' : 'Limited';
+        html += '<div style="background:var(--surface);padding:14px 16px;border-radius:8px">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
+        html += '<strong style="font-size:.9rem">' + item.type + '</strong>';
+        html += '<span style="font-size:.8rem;color:' + barColor + ';font-weight:600">' + label + ' (' + item.score + ')</span>';
+        html += '</div>';
+        html += '<div style="background:var(--bg, #111);border-radius:4px;height:8px;margin-bottom:6px;overflow:hidden">';
+        html += '<div style="width:' + item.score + '%;height:100%;background:' + barColor + ';border-radius:4px;transition:width .5s"></div>';
+        html += '</div>';
+        html += '<div style="color:var(--muted);font-size:.78rem;margin-bottom:4px">' + item.desc + '</div>';
+        if (item.factors.length) {
+          html += '<div style="font-size:.75rem;color:var(--accent)">';
+          item.factors.forEach(function (f) { html += '• ' + f + '<br>'; });
+          html += '</div>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+      matrix.innerHTML = html;
+    }
+  }
+
   window.HNARenderers = {
     setBanner, clearStats, chartTheme, makeChart, renderBoundary,
     updateLihtcInfoPanel, renderLihtcLayer, renderQctLayer, renderDdaLayer,
@@ -2836,13 +3487,14 @@
     renderLaborMarketSection, renderEmploymentTrend, renderWageTrend,
     renderIndustryAnalysis, renderEconomicIndicators, renderWageGaps,
     renderBaselineCard, renderGrowthChart, renderFastTrackCard, renderChecklist,
-    renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection,
+    renderProp123Section, renderFastTrackCalculatorSection, renderHistoricalSection, renderHnaScorecardPanel,
     renderComplianceTable, renderSnapshot, renderHousingCharts, renderAffordChart,
-    renderRentBurdenBins, renderChasAffordabilityGap, renderModeShare, renderLehd,
+    renderRentBurdenBins, renderChasAffordabilityGap, renderGapCoverageStats, renderModeShare, renderLehd,
     renderDolaPyramid, clearProjectionsForStateLevel, _renderScenarioSection,
     renderProjectionChart, renderScenarioComparison, renderHouseholdDemand,
     renderLocalResources, renderMethodology, renderFmrPanel,
     showChartLoading, hideChartLoading, showAllChartsLoading, getAssumptions,
-    renderExtendedAnalysis,
+    renderExtendedAnalysis, renderBlsLabourMarket,
+    renderHousingTypeFeasibility,
   };
 })();

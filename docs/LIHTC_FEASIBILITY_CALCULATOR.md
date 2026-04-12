@@ -37,18 +37,20 @@ Outputs are highly sensitive to:
 
 ---
 
-## Future Deal Predictor
+## Deal Prediction Module (Implemented)
 
-A more comprehensive deal prediction module is scaffolded in `js/lihtc-deal-predictor.js`. When implemented, it will incorporate:
-- PMA demand score from the site analysis pipeline
-- Affordability gap data (30% AMI units needed by county)
-- HUD FMR / AMI data for the selected county
-- QCT/DDA designation
-- 4% vs 9% logic including Private Activity Bond volume cap
-- Risk modeling and scenario sensitivity
-- CHFA historical award pattern analysis
+The **Enhanced Deal Predictor** (`js/lihtc-deal-predictor-enhanced.js`) extends the base predictor (`js/lihtc-deal-predictor.js`) with live data integration:
 
-Until that module is complete, the Feasibility Calculator should be treated as a **planning-level conversation starter**, not a deal predictor.
+- **PMA demand score** from the site analysis pipeline (auto-populated when a PMA is run)
+- **AMI gap data** — county-level affordability gap (30%/50%/60% AMI units needed)
+- **HUD FMR / AMI data** for the selected county via `js/data-connectors/hud-fmr.js`
+- **QCT/DDA designation** awareness (displayed for basis boost eligibility)
+- **4% vs 9% credit path** logic with concept-type-specific hard cost assumptions
+- **CHFA historical award patterns** loaded from `data/chfa/chfa_lihtc_co.geojson`
+- **Soft funding sources** (HOME, CDBG, local trust fund) wired from market data
+- **Runtime assumptions** loaded from `data/lihtc-assumptions.json` (no more hardcoded constants)
+
+The enhanced predictor is available on both `market-analysis.html` and `deal-calculator.html`, with graceful fallback to the base predictor if enhanced initialization fails.
 
 ---
 

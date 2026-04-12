@@ -1,0 +1,1762 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "source": "HUD eGIS Public Housing Authorities (MapServer)",
+    "url": "https://egis.hud.gov/arcgis/rest/services/gotit/PublicHousing/MapServer/0",
+    "state": "Colorado",
+    "state_fips": "08",
+    "generated": "2026-04-10T02:32:41Z",
+    "feature_count": 53
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 789,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.73320299980232,
+          40.123563999324574
+        ]
+      },
+      "properties": {
+        "OBJECTID": 789,
+        "PARTICIPANT_CODE": "CO009",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the Town of Yuma",
+        "HA_PHN_NUM": "9708485590",
+        "HA_FAX_NUM": "9708485611",
+        "HA_EMAIL_ADDR_TEXT": "yumahousingauthority@gmail.com",
+        "EXEC_DIR_PHONE": "9708485590",
+        "EXEC_DIR_FAX": "9708485611",
+        "EXEC_DIR_EMAIL": "yumahousingauthority@gmail.com",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 50,
+        "ACC_UNITS": 50,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "700 W 3rd Ave",
+        "STD_CITY": "Yuma",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80759"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 870,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.78320500029629,
+          39.54285699875245
+        ]
+      },
+      "properties": {
+        "OBJECTID": 870,
+        "PARTICIPANT_CODE": "CO095",
+        "FORMAL_PARTICIPANT_NAME": "Garfield County Housing Authority",
+        "HA_PHN_NUM": "9706253589",
+        "HA_FAX_NUM": "9706250859",
+        "HA_EMAIL_ADDR_TEXT": "gchauthority@qwestoffice.net",
+        "EXEC_DIR_PHONE": "9706253589",
+        "EXEC_DIR_FAX": "9706250859",
+        "EXEC_DIR_EMAIL": "kate@garfieldhousing.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 434,
+        "STD_ADDR": "1430 Railroad Ave Ste F",
+        "STD_CITY": "Rifle",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81650"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1035,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.63091399980664,
+          40.25946099931022
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1035,
+        "PARTICIPANT_CODE": "CO044",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Brush",
+        "HA_PHN_NUM": "9708425046",
+        "HA_FAX_NUM": "9708425007",
+        "HA_EMAIL_ADDR_TEXT": "brushhousing@brushhousing.com",
+        "EXEC_DIR_PHONE": "9708425046",
+        "EXEC_DIR_FAX": "9708425007",
+        "EXEC_DIR_EMAIL": "stacie@brushhousing.com",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 30,
+        "ACC_UNITS": 30,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "612 Ray St",
+        "STD_CITY": "Brush",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80723"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1036,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.63251800007649,
+          40.641934999188976
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1036,
+        "PARTICIPANT_CODE": "CO017",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the Town of Haxtun",
+        "HA_PHN_NUM": "9707747251",
+        "HA_FAX_NUM": "9707746646",
+        "HA_EMAIL_ADDR_TEXT": "haxtunha@haxtuntel.net",
+        "EXEC_DIR_PHONE": "9707747251",
+        "EXEC_DIR_FAX": "9707746646",
+        "EXEC_DIR_EMAIL": "haxtunha@haxtuntel.net",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 22,
+        "ACC_UNITS": 22,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "136 S Miller Ave",
+        "STD_CITY": "Haxtun",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80731"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1037,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.30575900000571,
+          40.57945499903509
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1037,
+        "PARTICIPANT_CODE": "CO023",
+        "FORMAL_PARTICIPANT_NAME": "Holyoke Housing Authority",
+        "HA_PHN_NUM": "9708542289",
+        "HA_FAX_NUM": "9708542245",
+        "HA_EMAIL_ADDR_TEXT": "holyokeha@pctelcom.coop",
+        "EXEC_DIR_PHONE": "9708542289",
+        "EXEC_DIR_FAX": "9708542245",
+        "EXEC_DIR_EMAIL": "holyokeha@pctelcom.coop",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 30,
+        "ACC_UNITS": 30,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "330 W Kellogg St",
+        "STD_CITY": "Holyoke",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80734"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1039,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.58008199971354,
+          37.34908299907515
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1039,
+        "PARTICIPANT_CODE": "CO079",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the County of Montezuma",
+        "HA_PHN_NUM": "9705653831",
+        "HA_FAX_NUM": "9705650860",
+        "HA_EMAIL_ADDR_TEXT": "hamntz@mc-ha.org",
+        "EXEC_DIR_PHONE": "9705653831",
+        "EXEC_DIR_FAX": "9705650860",
+        "EXEC_DIR_EMAIL": "hamntz@mc-ha.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 31,
+        "ACC_UNITS": 31,
+        "SECTION8_UNITS_CNT": 262,
+        "STD_ADDR": "37 N Madison St",
+        "STD_CITY": "Cortez",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81321"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1040,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.06494599979693,
+          38.72880699890504
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1040,
+        "PARTICIPANT_CODE": "CO040",
+        "FORMAL_PARTICIPANT_NAME": "Delta Housing Authority",
+        "HA_PHN_NUM": "9708747266",
+        "HA_FAX_NUM": "9708748612",
+        "HA_EMAIL_ADDR_TEXT": "director@deltahousingauthority.org",
+        "EXEC_DIR_PHONE": "9708747266",
+        "EXEC_DIR_FAX": "9708748612",
+        "EXEC_DIR_EMAIL": "director@deltahousingauthority.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 75,
+        "ACC_UNITS": 75,
+        "SECTION8_UNITS_CNT": 226,
+        "STD_ADDR": "501 E 14th St",
+        "STD_CITY": "Delta",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81416"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1041,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -107.98714400000084,
+          38.606314999090266
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1041,
+        "PARTICIPANT_CODE": "CO087",
+        "FORMAL_PARTICIPANT_NAME": "Montrose County Housing Authority",
+        "HA_PHN_NUM": "9703235445",
+        "HA_FAX_NUM": "9703236179",
+        "HA_EMAIL_ADDR_TEXT": "Accountant@montroseha.com",
+        "EXEC_DIR_PHONE": "9703233961",
+        "EXEC_DIR_FAX": "9703236179",
+        "EXEC_DIR_EMAIL": "director@montroseha.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 192,
+        "STD_ADDR": "222 Hap Ct",
+        "STD_CITY": "Olathe",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81425"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1046,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.5173150001781,
+          40.109156999335106
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1046,
+        "PARTICIPANT_CODE": "CO020",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the Town of Keenesburg",
+        "HA_PHN_NUM": "3037324221",
+        "HA_FAX_NUM": "3037320979",
+        "HA_EMAIL_ADDR_TEXT": "keenehousing@aol.com",
+        "EXEC_DIR_PHONE": "3037324221",
+        "EXEC_DIR_FAX": "3037320979",
+        "EXEC_DIR_EMAIL": "keenehousing@aol.com",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 20,
+        "ACC_UNITS": 20,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "250 E Woodward Ave",
+        "STD_CITY": "Keenesburg",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80643"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1051,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.78702499956204,
+          40.2602999989259
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1051,
+        "PARTICIPANT_CODE": "CO011",
+        "FORMAL_PARTICIPANT_NAME": "Fort Morgan Housing Authority",
+        "HA_PHN_NUM": "9708672734",
+        "HA_FAX_NUM": "9708677303",
+        "HA_EMAIL_ADDR_TEXT": "nancy@fmhousing.net",
+        "EXEC_DIR_PHONE": "9708672734",
+        "EXEC_DIR_FAX": "9708677303",
+        "EXEC_DIR_EMAIL": "nancy@fmhousing.net",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 86,
+        "ACC_UNITS": 86,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "1100 Linda St",
+        "STD_CITY": "Fort Morgan",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80701"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1123,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.27393099958321,
+          40.99063799905106
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1123,
+        "PARTICIPANT_CODE": "CO021",
+        "FORMAL_PARTICIPANT_NAME": "Julesburg Housing Authority",
+        "HA_PHN_NUM": "9704743675",
+        "HA_FAX_NUM": "9704742072",
+        "HA_EMAIL_ADDR_TEXT": "julehous@julesburgha.com",
+        "EXEC_DIR_PHONE": "9704743675",
+        "EXEC_DIR_FAX": "9704742072",
+        "EXEC_DIR_EMAIL": "julehous@julesburgha.com",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 52,
+        "ACC_UNITS": 52,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "520 W 9th St",
+        "STD_CITY": "Julesburg",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80737"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1124,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.20556300006184,
+          40.63695999887621
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1124,
+        "PARTICIPANT_CODE": "CO025",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Sterling",
+        "HA_PHN_NUM": "9705220869",
+        "HA_FAX_NUM": "9705226902",
+        "HA_EMAIL_ADDR_TEXT": "brigadon@kci.net",
+        "EXEC_DIR_PHONE": "9705220869",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "brigadon@kci.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 110,
+        "ACC_UNITS": 110,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "1200 N 5th St",
+        "STD_CITY": "Sterling",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80751"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1135,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -108.58753400020409,
+          39.094290999011534
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1135,
+        "PARTICIPANT_CODE": "CO051",
+        "FORMAL_PARTICIPANT_NAME": "Grand Junction Housing Authority",
+        "HA_PHN_NUM": "9702450388",
+        "HA_FAX_NUM": "9702415514",
+        "HA_EMAIL_ADDR_TEXT": "jkole@gjha.org",
+        "EXEC_DIR_PHONE": "9702450388",
+        "EXEC_DIR_FAX": "9702548347",
+        "EXEC_DIR_EMAIL": "jkole@gjha.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 1083,
+        "STD_ADDR": "8 Foresight Cir",
+        "STD_CITY": "Grand Junction",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81505"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1138,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10731700011512,
+          40.58692999875605
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1138,
+        "PARTICIPANT_CODE": "CO103",
+        "FORMAL_PARTICIPANT_NAME": "Larimer County Housing Authority",
+        "HA_PHN_NUM": "9704162910",
+        "HA_FAX_NUM": "9702210821",
+        "HA_EMAIL_ADDR_TEXT": "jbrewen@housingcatalyst.com",
+        "EXEC_DIR_PHONE": "9704162917",
+        "EXEC_DIR_FAX": "9702210821",
+        "EXEC_DIR_EMAIL": "jbrewen@housingcatalyst.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 100,
+        "STD_ADDR": "1715 W Mountain Ave",
+        "STD_CITY": "Ft Collins",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80521"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1139,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10731700011512,
+          40.58692999875605
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1139,
+        "PARTICIPANT_CODE": "CO041",
+        "FORMAL_PARTICIPANT_NAME": "Fort Collins Housing Authority",
+        "HA_PHN_NUM": "9704162910",
+        "HA_FAX_NUM": "9702210821",
+        "HA_EMAIL_ADDR_TEXT": "jbrewen@housingcatalyst.com",
+        "EXEC_DIR_PHONE": "9704162917",
+        "EXEC_DIR_FAX": "9702210821",
+        "EXEC_DIR_EMAIL": "jbrewen@housingcatalyst.com",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 70,
+        "ACC_UNITS": 70,
+        "SECTION8_UNITS_CNT": 1107,
+        "STD_ADDR": "1715 W Mountain Ave",
+        "STD_CITY": "Fort Collins",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80521"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1143,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.81426600008331,
+          40.08126099886931
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1143,
+        "PARTICIPANT_CODE": "CO029",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Fort Lupton",
+        "HA_PHN_NUM": "3038574400",
+        "HA_FAX_NUM": "3038576847",
+        "HA_EMAIL_ADDR_TEXT": "fortluptonhousing@comcast.net",
+        "EXEC_DIR_PHONE": "3038574400",
+        "EXEC_DIR_FAX": "3038576847",
+        "EXEC_DIR_EMAIL": "vincent@ftlhousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 50,
+        "ACC_UNITS": 50,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "400 2nd St",
+        "STD_CITY": "Fort Lupton",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80621"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1157,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08105800019362,
+          40.43066099934355
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1157,
+        "PARTICIPANT_CODE": "CO034",
+        "FORMAL_PARTICIPANT_NAME": "Loveland Housing Authority",
+        "HA_PHN_NUM": "9706673232",
+        "HA_FAX_NUM": "9706672860",
+        "HA_EMAIL_ADDR_TEXT": "info@lovelandhousing.org",
+        "EXEC_DIR_PHONE": "9706673232",
+        "EXEC_DIR_FAX": "9706243615",
+        "EXEC_DIR_EMAIL": "sbett@lovelandhousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 647,
+        "STD_ADDR": "375 W 37th St",
+        "STD_CITY": "Loveland",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80538"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1158,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.8179209997343,
+          39.98638499923377
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1158,
+        "PARTICIPANT_CODE": "CO019",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Brighton",
+        "HA_PHN_NUM": "3036552160",
+        "HA_FAX_NUM": "3036552164",
+        "HA_EMAIL_ADDR_TEXT": "bha@brightonco.gov",
+        "EXEC_DIR_PHONE": "3036552166",
+        "EXEC_DIR_FAX": "3036552164",
+        "EXEC_DIR_EMAIL": "jespinosa@brightonhousing.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 240,
+        "STD_ADDR": "22 S 4th Ave Ste 202",
+        "STD_CITY": "Brighton",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80601"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1308,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.69294999958993,
+          40.42738399893125
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1308,
+        "PARTICIPANT_CODE": "CO090",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of Weld County",
+        "HA_PHN_NUM": "9703537437",
+        "HA_FAX_NUM": "9703537463",
+        "HA_EMAIL_ADDR_TEXT": "Tom@greeley-weldha.org",
+        "EXEC_DIR_PHONE": "9703537437",
+        "EXEC_DIR_FAX": "9703537463",
+        "EXEC_DIR_EMAIL": "tom@greeley-weldha.org",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 427,
+        "STD_ADDR": "903 6th St",
+        "STD_CITY": "Greeley",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80631"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1309,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.69294999958993,
+          40.42738399893125
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1309,
+        "PARTICIPANT_CODE": "CO035",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Greeley",
+        "HA_PHN_NUM": "9703537437",
+        "HA_FAX_NUM": "9703537463",
+        "HA_EMAIL_ADDR_TEXT": "Tom@greeley-weldha.org",
+        "EXEC_DIR_PHONE": "9703537437",
+        "EXEC_DIR_FAX": "9703537463",
+        "EXEC_DIR_EMAIL": "tom@greeley-weldha.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 86,
+        "ACC_UNITS": 86,
+        "SECTION8_UNITS_CNT": 446,
+        "STD_ADDR": "903 6th St",
+        "STD_CITY": "Greeley",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80631"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1317,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.95814400017646,
+          37.27793599892055
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1317,
+        "PARTICIPANT_CODE": "CO038",
+        "FORMAL_PARTICIPANT_NAME": "Conejos County Housing Authority",
+        "HA_PHN_NUM": "7192745417",
+        "HA_FAX_NUM": "7192740417",
+        "HA_EMAIL_ADDR_TEXT": "karen@conejoshousing.org",
+        "EXEC_DIR_PHONE": "7192745417",
+        "EXEC_DIR_FAX": "7192740417",
+        "EXEC_DIR_EMAIL": "karen@conejoshousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "510 Richfield Rd",
+        "STD_CITY": "La Jara",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81140"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1319,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.00858999988401,
+          38.52626099896556
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1319,
+        "PARTICIPANT_CODE": "CO013",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Salida",
+        "HA_PHN_NUM": "7195396243",
+        "HA_FAX_NUM": "7195395317",
+        "HA_EMAIL_ADDR_TEXT": "salidaha@bresnan.net",
+        "EXEC_DIR_PHONE": "7195396243",
+        "EXEC_DIR_FAX": "7195395317",
+        "EXEC_DIR_EMAIL": "salidaha@bresnan.net",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 50,
+        "ACC_UNITS": 50,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "525 W 16th St",
+        "STD_CITY": "Salida",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81201"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1436,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98505099976774,
+          39.73711799876866
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1436,
+        "PARTICIPANT_CODE": "CO911",
+        "FORMAL_PARTICIPANT_NAME": "Colorado Division of Housing",
+        "HA_PHN_NUM": "3038647845",
+        "HA_FAX_NUM": "3037896955",
+        "HA_EMAIL_ADDR_TEXT": "katherine.helgerson@state.co.us",
+        "EXEC_DIR_PHONE": "3038647818",
+        "EXEC_DIR_FAX": "3037896947",
+        "EXEC_DIR_EMAIL": "Katherine.Helgerson@state.co.us",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "EXTRA LARGE (5,000+)",
+        "HA_COMBINED_SIZE_CATEGORY": "EXTRA LARGE (5,000+)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 6904,
+        "STD_ADDR": "1313 N Sherman St Ste 500",
+        "STD_CITY": "Denver",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80203"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1437,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98361899986489,
+          39.72862699893579
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1437,
+        "PARTICIPANT_CODE": "CO001",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City and County of Denver",
+        "HA_PHN_NUM": "7209323000",
+        "HA_FAX_NUM": "7209323001",
+        "HA_EMAIL_ADDR_TEXT": "officials@denverhousing.org",
+        "EXEC_DIR_PHONE": "7209323105",
+        "EXEC_DIR_FAX": "7209323008",
+        "EXEC_DIR_EMAIL": "officials@denverhousing.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_SECTION_8_SIZE_CATEGORY": "EXTRA LARGE (5,000+)",
+        "HA_COMBINED_SIZE_CATEGORY": "EXTRA LARGE (5,000+)",
+        "TOTAL_UNITS": 4620,
+        "ACC_UNITS": 3936,
+        "SECTION8_UNITS_CNT": 6861,
+        "STD_ADDR": "777 N Grant St",
+        "STD_CITY": "Denver",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80203"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1438,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.13231200036326,
+          39.72398299874374
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1438,
+        "PARTICIPANT_CODE": "CO049",
+        "FORMAL_PARTICIPANT_NAME": "Lakewood Housing Authority",
+        "HA_PHN_NUM": "3039877580",
+        "HA_FAX_NUM": "3039877693",
+        "HA_EMAIL_ADDR_TEXT": "sabpie@mwhsolutions.org",
+        "EXEC_DIR_PHONE": "3039877813",
+        "EXEC_DIR_FAX": "3039877869",
+        "EXEC_DIR_EMAIL": "tamfis@mwhsolutions.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 1411,
+        "STD_ADDR": "575 Union Blvd Ste 100",
+        "STD_CITY": "Lakewood",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80228"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1543,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.61475600015666,
+          38.265175998825534
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1543,
+        "PARTICIPANT_CODE": "CO002",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Pueblo",
+        "HA_PHN_NUM": "7195446230",
+        "HA_FAX_NUM": "7195465364",
+        "HA_EMAIL_ADDR_TEXT": "ted.ortiviz@hapueblo.org",
+        "EXEC_DIR_PHONE": "7195868967",
+        "EXEC_DIR_FAX": "7195465398",
+        "EXEC_DIR_EMAIL": "ted.ortiviz@hapueblo.org",
+        "PHAS_DESIGNATION": "Substandard Financial",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 901,
+        "ACC_UNITS": 901,
+        "SECTION8_UNITS_CNT": 1646,
+        "STD_ADDR": "201 S Victoria Ave",
+        "STD_CITY": "Pueblo",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81003"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1599,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99475899961841,
+          39.7541839989656
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1599,
+        "PARTICIPANT_CODE": "CO921",
+        "FORMAL_PARTICIPANT_NAME": "Colorado Housing Finance Authority",
+        "HA_PHN_NUM": "3032977489",
+        "HA_FAX_NUM": "3032970911",
+        "HA_EMAIL_ADDR_TEXT": "bmiller@chfainfo.com",
+        "EXEC_DIR_PHONE": "3032977400",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "cwhite@chfainfo.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 731,
+        "STD_ADDR": "1981 Blake St",
+        "STD_CITY": "Denver",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80202"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1632,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.12987599999845,
+          38.05432799908154
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1632,
+        "PARTICIPANT_CODE": "CO007",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the Town of Holly",
+        "HA_PHN_NUM": "7195370191",
+        "HA_FAX_NUM": "7195370191",
+        "HA_EMAIL_ADDR_TEXT": "holly074@centurytel.net",
+        "EXEC_DIR_PHONE": "7195370191",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "holly074@centurytel.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 16,
+        "ACC_UNITS": 16,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "876 W Cliff St",
+        "STD_CITY": "Holly",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81047"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1633,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.53877899966506,
+          37.98414499873727
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1633,
+        "PARTICIPANT_CODE": "CO101",
+        "FORMAL_PARTICIPANT_NAME": "Otero County Housing Authority",
+        "HA_PHN_NUM": "7193849055",
+        "HA_FAX_NUM": "7193847221",
+        "HA_EMAIL_ADDR_TEXT": "ljhous@yahoo.com",
+        "EXEC_DIR_PHONE": "7193849055",
+        "EXEC_DIR_FAX": "7193847221",
+        "EXEC_DIR_EMAIL": "ljhous@yahoo.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 46,
+        "STD_ADDR": "315 E 5th St",
+        "STD_CITY": "La Junta",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81050"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1658,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.53877899966506,
+          37.98414499873727
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1658,
+        "PARTICIPANT_CODE": "CO031",
+        "FORMAL_PARTICIPANT_NAME": "La Junta Housing Authority",
+        "HA_PHN_NUM": "7193849055",
+        "HA_FAX_NUM": "7193847221",
+        "HA_EMAIL_ADDR_TEXT": "ljhous@yahoo.com",
+        "EXEC_DIR_PHONE": "7193849055",
+        "EXEC_DIR_FAX": "7193847221",
+        "EXEC_DIR_EMAIL": "ljhous@yahoo.com",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 86,
+        "ACC_UNITS": 86,
+        "SECTION8_UNITS_CNT": 102,
+        "STD_ADDR": "315 E 5th St",
+        "STD_CITY": "La Junta",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81050"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1659,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.61901199956135,
+          38.08138299883897
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1659,
+        "PARTICIPANT_CODE": "CO006",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Lamar",
+        "HA_PHN_NUM": "7193369575",
+        "HA_FAX_NUM": "7193369529",
+        "HA_EMAIL_ADDR_TEXT": "executivedirector@lamarhousing.org",
+        "EXEC_DIR_PHONE": "7193369575",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "accounting@lamarhousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 30,
+        "ACC_UNITS": 30,
+        "SECTION8_UNITS_CNT": 107,
+        "STD_ADDR": "804 S Main St",
+        "STD_CITY": "Lamar",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81052"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1862,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.3623900001574,
+          38.82083199876832
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1862,
+        "PARTICIPANT_CODE": "CO026",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority for the Town of Cheyenne Wells",
+        "HA_PHN_NUM": "7197675964",
+        "HA_FAX_NUM": "7197675396",
+        "HA_EMAIL_ADDR_TEXT": "cwha@rebeltec.net",
+        "EXEC_DIR_PHONE": "7197675964",
+        "EXEC_DIR_FAX": "7197675396",
+        "EXEC_DIR_EMAIL": "cwha@rebeltec.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 25,
+        "ACC_UNITS": 25,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "1245 N 1st St W Lot 36",
+        "STD_CITY": "Cheyenne Wells",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80810"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1863,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.69551299999505,
+          38.68413399882571
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1863,
+        "PARTICIPANT_CODE": "CO071",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Fountain",
+        "HA_PHN_NUM": "7193825639",
+        "HA_FAX_NUM": "7193824113",
+        "HA_EMAIL_ADDR_TEXT": "Kroby@fountaincohousing.org",
+        "EXEC_DIR_PHONE": "7193825639",
+        "EXEC_DIR_FAX": "7193824113",
+        "EXEC_DIR_EMAIL": "kroby@fountaincohousing.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 40,
+        "ACC_UNITS": 40,
+        "SECTION8_UNITS_CNT": 240,
+        "STD_ADDR": "501 E Iowa Ave",
+        "STD_CITY": "Fountain",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80817"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1864,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.70031499998142,
+          39.26717499911151
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1864,
+        "PARTICIPANT_CODE": "CO012",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the Town of Limon",
+        "HA_PHN_NUM": "7197759309",
+        "HA_FAX_NUM": "7197759309",
+        "HA_EMAIL_ADDR_TEXT": "lhauthority1001@qwestoffice.net",
+        "EXEC_DIR_PHONE": "7197759309",
+        "EXEC_DIR_FAX": "7197759309",
+        "EXEC_DIR_EMAIL": "lhauthority1001@qwestoffice.net",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 40,
+        "ACC_UNITS": 40,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "1880 Circle Ln",
+        "STD_CITY": "Limon",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80828"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1865,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.82209900034036,
+          38.82221999874844
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1865,
+        "PARTICIPANT_CODE": "CO028",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Colorado Springs",
+        "HA_PHN_NUM": "7193876700",
+        "HA_FAX_NUM": "7196327807",
+        "HA_EMAIL_ADDR_TEXT": "info@csha.us",
+        "EXEC_DIR_PHONE": "7193876741",
+        "EXEC_DIR_FAX": "7196327807",
+        "EXEC_DIR_EMAIL": "cew@csha.us",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 706,
+        "ACC_UNITS": 706,
+        "SECTION8_UNITS_CNT": 2296,
+        "STD_ADDR": "831 S Nevada Ave",
+        "STD_CITY": "Colorado Springs",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80903"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1866,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.6074090001464,
+          38.26894999904298
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1866,
+        "PARTICIPANT_CODE": "CO888",
+        "FORMAL_PARTICIPANT_NAME": "Colorado Bluesky Enterprises, Inc.",
+        "HA_PHN_NUM": "7195460574",
+        "HA_FAX_NUM": "7195463056",
+        "HA_EMAIL_ADDR_TEXT": "terrilfear@coloradoblueskyenterprises.org",
+        "EXEC_DIR_PHONE": "7195460572",
+        "EXEC_DIR_FAX": "7195460577",
+        "EXEC_DIR_EMAIL": "mikeaa@coloradobluesky.org",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 75,
+        "STD_ADDR": "115 W 2nd St",
+        "STD_CITY": "Pueblo",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81003"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2418,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.28190799996159,
+          40.06183499925911
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2418,
+        "PARTICIPANT_CODE": "CO016",
+        "FORMAL_PARTICIPANT_NAME": "Boulder Housing Partners",
+        "HA_PHN_NUM": "7205644610",
+        "HA_FAX_NUM": "3039399569",
+        "HA_EMAIL_ADDR_TEXT": "bhpinfo@boulderhousing.org",
+        "EXEC_DIR_PHONE": "7205644644",
+        "EXEC_DIR_FAX": "3039399569",
+        "EXEC_DIR_EMAIL": "durhamj@boulderhousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 49,
+        "ACC_UNITS": 49,
+        "SECTION8_UNITS_CNT": 1122,
+        "STD_ADDR": "4800 Broadway St",
+        "STD_CITY": "Boulder",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80304"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2419,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.28185600008307,
+          40.03707199909918
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2419,
+        "PARTICIPANT_CODE": "CO061",
+        "FORMAL_PARTICIPANT_NAME": "Boulder County Housing Authority",
+        "HA_PHN_NUM": "3034413929",
+        "HA_FAX_NUM": "3034411537",
+        "HA_EMAIL_ADDR_TEXT": "falexander@co.boulder.co.us",
+        "EXEC_DIR_PHONE": "3034411405",
+        "EXEC_DIR_FAX": "7205642283",
+        "EXEC_DIR_EMAIL": "falexander@bouldercounty.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 854,
+        "STD_ADDR": "3482 Broadway St",
+        "STD_CITY": "Boulder",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80304"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2420,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10262300002333,
+          40.18034999937861
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2420,
+        "PARTICIPANT_CODE": "CO070",
+        "FORMAL_PARTICIPANT_NAME": "Longmont Housing Authority",
+        "HA_PHN_NUM": "3036518581",
+        "HA_FAX_NUM": "3036822899",
+        "HA_EMAIL_ADDR_TEXT": "info@longmontha.com",
+        "EXEC_DIR_PHONE": "3036518581",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "jillian.baldwin@longmontha.com",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 509,
+        "STD_ADDR": "1228 Main St",
+        "STD_CITY": "Longmont",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80501"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2421,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.10731700011512,
+          40.58692999875605
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2421,
+        "PARTICIPANT_CODE": "CO014",
+        "FORMAL_PARTICIPANT_NAME": "Wellington Housing Authority",
+        "HA_PHN_NUM": "9704162910",
+        "HA_FAX_NUM": "9702210821",
+        "HA_EMAIL_ADDR_TEXT": "jbrewen@housingcatalyst.com",
+        "EXEC_DIR_PHONE": "9704162917",
+        "EXEC_DIR_FAX": "9702210821",
+        "EXEC_DIR_EMAIL": "jbrewen@housingcatalyst.com",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 42,
+        "ACC_UNITS": 42,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "1715 W Mountain Ave",
+        "STD_CITY": "Fort Collins",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80521"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2472,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.72002600013388,
+          38.05698799927531
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2472,
+        "PARTICIPANT_CODE": "CO045",
+        "FORMAL_PARTICIPANT_NAME": "Rocky Ford Housing Authority",
+        "HA_PHN_NUM": "7192546902",
+        "HA_FAX_NUM": "7192546867",
+        "HA_EMAIL_ADDR_TEXT": "tracylovato@yahoo.com",
+        "EXEC_DIR_PHONE": "7192546902",
+        "EXEC_DIR_FAX": "7192546867",
+        "EXEC_DIR_EMAIL": "tracylovato@yahoo.com",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 50,
+        "STD_ADDR": "806 Catalpa Ave",
+        "STD_CITY": "Rocky Ford",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81067"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2473,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.50543899993251,
+          37.16762199919732
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2473,
+        "PARTICIPANT_CODE": "CO005",
+        "FORMAL_PARTICIPANT_NAME": "Trinidad Housing Authority",
+        "HA_PHN_NUM": "7198467204",
+        "HA_FAX_NUM": "7198468217",
+        "HA_EMAIL_ADDR_TEXT": "trinipop@qwestoffice.net",
+        "EXEC_DIR_PHONE": "7198467204",
+        "EXEC_DIR_FAX": "7198468217",
+        "EXEC_DIR_EMAIL": "trinipop@qwestoffice.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_SECTION_8_SIZE_CATEGORY": "SMALL (50-99)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 198,
+        "ACC_UNITS": 198,
+        "SECTION8_UNITS_CNT": 83,
+        "STD_ADDR": "128 W First St",
+        "STD_CITY": "Trinidad",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81082"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2474,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.78093299996304,
+          37.627780999068506
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2474,
+        "PARTICIPANT_CODE": "CO003",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Walsenburg",
+        "HA_PHN_NUM": "7197382720",
+        "HA_FAX_NUM": "7197382258",
+        "HA_EMAIL_ADDR_TEXT": "1wha@bresnan.net",
+        "EXEC_DIR_PHONE": "7197382720",
+        "EXEC_DIR_FAX": "7197382258",
+        "EXEC_DIR_EMAIL": "jacque@walsenburghousing.org",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 129,
+        "ACC_UNITS": 129,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "220 Russell Ave",
+        "STD_CITY": "Walsenburg",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81089"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2475,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.8848420003034,
+          37.47306899930511
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2475,
+        "PARTICIPANT_CODE": "CO004",
+        "FORMAL_PARTICIPANT_NAME": "Housing Authority of the City of Alamosa",
+        "HA_PHN_NUM": "7195896694",
+        "HA_FAX_NUM": "7195898474",
+        "HA_EMAIL_ADDR_TEXT": "pha@gojade.org",
+        "EXEC_DIR_PHONE": "7195896694",
+        "EXEC_DIR_FAX": "7195898474",
+        "EXEC_DIR_EMAIL": "adavid@alamosaha.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 199,
+        "ACC_UNITS": 199,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "213 Murphy Dr",
+        "STD_CITY": "Alamosa",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81101"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2495,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.83225800027778,
+          39.675578998927875
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2495,
+        "PARTICIPANT_CODE": "CO052",
+        "FORMAL_PARTICIPANT_NAME": "Aurora Housing Authority",
+        "HA_PHN_NUM": "7202512100",
+        "HA_FAX_NUM": "3033401972",
+        "HA_EMAIL_ADDR_TEXT": "info@aurorahousing.org",
+        "EXEC_DIR_PHONE": "7202512077",
+        "EXEC_DIR_FAX": "3033417708",
+        "EXEC_DIR_EMAIL": "cmaraschky@aurorahousing.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 1852,
+        "STD_ADDR": "2280 S Xanadu Way",
+        "STD_CITY": "Aurora",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80014"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2619,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.02092399982857,
+          39.82530399927708
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2619,
+        "PARTICIPANT_CODE": "CO058",
+        "FORMAL_PARTICIPANT_NAME": "Adams County Housing Authority",
+        "HA_PHN_NUM": "3032272075",
+        "HA_FAX_NUM": "3032272098",
+        "HA_EMAIL_ADDR_TEXT": null,
+        "EXEC_DIR_PHONE": "3032272078",
+        "EXEC_DIR_FAX": "3032272098",
+        "EXEC_DIR_EMAIL": "plifari@unisonhp.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 42,
+        "ACC_UNITS": 42,
+        "SECTION8_UNITS_CNT": 1505,
+        "STD_ADDR": "3033 W 71st Ave",
+        "STD_CITY": "Westminster",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80030"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2620,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08035000018897,
+          39.778261999203345
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2620,
+        "PARTICIPANT_CODE": "CO072",
+        "FORMAL_PARTICIPANT_NAME": "Jefferson County Housing Authority",
+        "HA_PHN_NUM": "3034228600",
+        "HA_FAX_NUM": "3034223229",
+        "HA_EMAIL_ADDR_TEXT": "lrosendahl@jcha.org",
+        "EXEC_DIR_PHONE": "3034035420",
+        "EXEC_DIR_FAX": "3034223229",
+        "EXEC_DIR_EMAIL": "lrosendahl@jcha.org",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "HA_COMBINED_SIZE_CATEGORY": "LARGE (1,000-4,999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 1583,
+        "STD_ADDR": "7490 W 45th Ave",
+        "STD_CITY": "Wheat Ridge",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80033"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2621,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.98500999975985,
+          39.65387199896343
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2621,
+        "PARTICIPANT_CODE": "CO057",
+        "FORMAL_PARTICIPANT_NAME": "Sheridan Housing Authority",
+        "HA_PHN_NUM": "3037616200",
+        "HA_FAX_NUM": "3037815503",
+        "HA_EMAIL_ADDR_TEXT": "jtucker@englwewoodhousing.org",
+        "EXEC_DIR_PHONE": "3033176701",
+        "EXEC_DIR_FAX": "3037815503",
+        "EXEC_DIR_EMAIL": "jgraber@englewoodhousing.org",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 177,
+        "STD_ADDR": "3460 S Sherman St Ste 101",
+        "STD_CITY": "Englewood",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80113"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2640,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.08611299996042,
+          39.802175999195384
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2640,
+        "PARTICIPANT_CODE": "CO050",
+        "FORMAL_PARTICIPANT_NAME": "Arvada Housing Authority",
+        "HA_PHN_NUM": "7208987494",
+        "HA_FAX_NUM": "7208987490",
+        "HA_EMAIL_ADDR_TEXT": "ed-t@arvada.org",
+        "EXEC_DIR_PHONE": "7208987484",
+        "EXEC_DIR_FAX": "7208987490",
+        "EXEC_DIR_EMAIL": "ed-t@arvada.org",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 508,
+        "STD_ADDR": "8001 Ralston Rd",
+        "STD_CITY": "Arvada",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80002"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2682,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.10878099986542,
+          37.75642199927832
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2682,
+        "PARTICIPANT_CODE": "CO043",
+        "FORMAL_PARTICIPANT_NAME": "Center Housing Authority",
+        "HA_PHN_NUM": "7197542537",
+        "HA_FAX_NUM": "7197542477",
+        "HA_EMAIL_ADDR_TEXT": "housing000@centurytel.net",
+        "EXEC_DIR_PHONE": "7197542537",
+        "EXEC_DIR_FAX": "7197542477",
+        "EXEC_DIR_EMAIL": "housing000@centurytel.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "SMALL (50-99)",
+        "TOTAL_UNITS": 30,
+        "ACC_UNITS": 30,
+        "SECTION8_UNITS_CNT": 25,
+        "STD_ADDR": "138 Worth St",
+        "STD_CITY": "Center",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81125"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2686,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99023500030427,
+          39.61275399895673
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2686,
+        "PARTICIPANT_CODE": "CO036",
+        "FORMAL_PARTICIPANT_NAME": "Littleton Housing Authority",
+        "HA_PHN_NUM": "3037949608",
+        "HA_FAX_NUM": "3037940806",
+        "HA_EMAIL_ADDR_TEXT": "creitz@smho.co",
+        "EXEC_DIR_PHONE": "3039915310",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "creitz@smho.co",
+        "PHAS_DESIGNATION": "High Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM HIGH (300-999)",
+        "TOTAL_UNITS": 143,
+        "ACC_UNITS": 143,
+        "SECTION8_UNITS_CNT": 497,
+        "STD_ADDR": "5745 S Bannock St",
+        "STD_CITY": "Littleton",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80120"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2695,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.26201099985502,
+          39.30357799904572
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2695,
+        "PARTICIPANT_CODE": "CO030",
+        "FORMAL_PARTICIPANT_NAME": "Burlington Housing Authority",
+        "HA_PHN_NUM": "7193465464",
+        "HA_FAX_NUM": "7193465077",
+        "HA_EMAIL_ADDR_TEXT": null,
+        "EXEC_DIR_PHONE": "7193465464",
+        "EXEC_DIR_FAX": null,
+        "EXEC_DIR_EMAIL": "erker@centurytel.net",
+        "PHAS_DESIGNATION": "Standard Performer",
+        "HA_LOW_RENT_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_SECTION_8_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "HA_COMBINED_SIZE_CATEGORY": "VERY SMALL (0-49)",
+        "TOTAL_UNITS": 31,
+        "ACC_UNITS": 31,
+        "SECTION8_UNITS_CNT": 0,
+        "STD_ADDR": "944 Lowell Ave",
+        "STD_CITY": "Burlington",
+        "STD_ST": "CO",
+        "STD_ZIP5": "80807"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2714,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.22166300004592,
+          38.06623199906613
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2714,
+        "PARTICIPANT_CODE": "CO024",
+        "FORMAL_PARTICIPANT_NAME": "Las Animas Housing Authority",
+        "HA_PHN_NUM": "7194562748",
+        "HA_FAX_NUM": "7194562744",
+        "HA_EMAIL_ADDR_TEXT": null,
+        "EXEC_DIR_PHONE": "7192634223",
+        "EXEC_DIR_FAX": "7192635460",
+        "EXEC_DIR_EMAIL": "scordova@tchcdc.org",
+        "PHAS_DESIGNATION": null,
+        "HA_LOW_RENT_SIZE_CATEGORY": null,
+        "HA_SECTION_8_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "HA_COMBINED_SIZE_CATEGORY": "MEDIUM LOW (100-299)",
+        "TOTAL_UNITS": 0,
+        "ACC_UNITS": 0,
+        "SECTION8_UNITS_CNT": 124,
+        "STD_ADDR": "427 6th St",
+        "STD_CITY": "Las Animas",
+        "STD_ST": "CO",
+        "STD_ZIP5": "81054"
+      }
+    }
+  ]
+}

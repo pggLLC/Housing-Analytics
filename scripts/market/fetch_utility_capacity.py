@@ -2,13 +2,14 @@
 """
 scripts/market/fetch_utility_capacity.py
 
-Fetch Colorado utility capacity data (water/sewer service areas) to support
-infrastructure feasibility scoring in the PMA engine.
+Fetch Colorado utility infrastructure capacity proxy data to support
+feasibility scoring in the PMA engine.
 
 Sources:
-  - Colorado Decision Support Systems (CDSS) water district polygons
-  - Colorado Division of Water Resources service area GIS data
-  - Municipal utility service area boundary layers
+  1. Colorado DWR — 78 water districts with lat/lon coordinates
+     (https://dwr.state.co.us/Rest/GET/api/v2/)
+  2. Census TIGERweb — incorporated place boundaries (layer 4)
+     (https://tigerweb.geo.census.gov/arcgis/rest/services/)
 
 Output:
     data/market/utility_capacity_co.geojson
@@ -33,38 +34,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 OUT_FILE = ROOT / "data" / "market" / "utility_capacity_co.geojson"
 
-STATE_FIPS = "08"
-
 CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_utility_cache"
 CACHE_TTL_HOURS = 720  # 30 days
 
-# Colorado CDSS / DWR public ArcGIS REST endpoints
-SOURCES = [
-    {
-        "name": "CDSS Water Districts",
-        "url": (
-            "https://geoserver.state.co.us/geoserver/cwcb/wfs?"
-            "service=WFS&version=2.0.0&request=GetFeature"
-            "&typeNames=cwcb:water_districts&outputFormat=application/json"
-        ),
-        "utility_type": "water_district",
-    },
-    {
-        "name": "DOLA Service Areas",
-        "url": (
-            "https://services.arcgis.com/jsIt88o09Q0r1j8h/arcgis/rest/services/"
-            "Colorado_Municipal_Boundaries/FeatureServer/0"
-        ),
-        "utility_type": "municipal_boundary",
-    },
-]
+# Colorado DWR structures API — water delivery infrastructure
+DWR_API_BASE = "https://dwr.state.co.us/Rest/GET/api/v2"
 
-# Capacity index lookup by utility type (normalized 0–1)
-# Higher = more constrained capacity
-CAPACITY_CONSTRAINTS = {
-    "water_district":    {"constraint_level": "variable", "notes": "Check local tap fees"},
-    "municipal_boundary": {"constraint_level": "moderate", "notes": "Refer to capital improvement plan"},
-}
+# Census TIGERweb — incorporated places (layer 4)
+TIGERWEB_PLACES_URL = (
+    "https://tigerweb.geo.census.gov/arcgis/rest/services/"
+    "TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4"
+)
 
 
 def utc_now() -> str:
@@ -109,65 +89,141 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 90) -> bytes:
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
 
 
-def arcgis_query_features(layer_url: str, offset: int = 0, limit: int = 2000) -> dict:
-    """Query an ArcGIS FeatureServer and return GeoJSON."""
-    params = urllib.parse.urlencode({
-        "where": "1=1",
-        "outFields": "*",
-        "returnGeometry": "true",
-        "f": "geojson",
-        "outSR": "4326",
-        "resultRecordCount": str(limit),
-        "resultOffset": str(offset),
-        "geometryPrecision": "5",
-    })
-    url = f"{layer_url}/query?{params}"
-    raw = fetch_url(url, timeout=90)
-    data = json.loads(raw)
-    if isinstance(data, dict) and "error" in data:
-        err = data["error"]
-        raise RuntimeError(f"ArcGIS error {err.get('code')}: {err.get('message')}")
-    return data
+def fetch_dwr_water_districts() -> list:
+    """Fetch Colorado water districts from DWR REST API."""
+    log("Fetching Colorado DWR water districts…")
+    url = f"{DWR_API_BASE}/referencetables/waterdistrict?format=json"
+    try:
+        raw = fetch_url(url, timeout=60)
+        data = json.loads(raw)
+        districts = data.get("ResultList", [])
+        log(f"  {len(districts)} water districts from DWR API")
+        return districts
+    except Exception as exc:
+        log(f"  DWR water districts failed: {exc}", level="WARN")
+        return []
 
 
-def fetch_source_features(source: dict) -> list:
-    """Fetch features from one utility data source."""
-    name = source["name"]
-    url = source["url"]
-    utility_type = source["utility_type"]
-    meta = CAPACITY_CONSTRAINTS.get(utility_type, {})
+def fetch_dwr_structures_by_county(county: str) -> list:
+    """Fetch water structures for a county from DWR REST API."""
+    url = (
+        f"{DWR_API_BASE}/structures"
+        f"?format=json&county={urllib.parse.quote(county)}&pageSize=500"
+    )
+    try:
+        raw = fetch_url(url, timeout=90)
+        data = json.loads(raw)
+        return data.get("ResultList", [])
+    except Exception:
+        return []
 
-    log(f"Fetching {name}…")
+
+def fetch_tigerweb_places() -> list:
+    """Fetch Colorado incorporated place boundaries from TIGERweb."""
+    log("Fetching CO incorporated places from TIGERweb…")
     features = []
     offset = 0
     page = 0
+
     while True:
         page += 1
+        params = urllib.parse.urlencode({
+            "where": "STATE = '08'",
+            "outFields": "GEOID,NAME,FUNCSTAT,CENTLAT,CENTLON,AREALAND",
+            "returnGeometry": "false",
+            "f": "json",
+            "resultRecordCount": "100",
+            "resultOffset": str(offset),
+        })
+        url = f"{TIGERWEB_PLACES_URL}/query?{params}"
         try:
-            if "/query" in url or "FeatureServer" in url:
-                data = arcgis_query_features(url, offset=offset)
-            else:
-                # WFS or direct GeoJSON
-                raw = fetch_url(url, timeout=120)
-                data = json.loads(raw)
+            raw = fetch_url(url, timeout=120)
+            data = json.loads(raw)
+
+            if isinstance(data, dict) and "error" in data:
+                log(f"  TIGERweb error: {data['error']}", level="WARN")
+                break
+
             raw_feats = data.get("features", [])
+            for f in raw_feats:
+                attrs = f.get("attributes") or {}
+                lat = _safe_float(attrs.get("CENTLAT"))
+                lon = _safe_float(attrs.get("CENTLON"))
+                area_sqm = _safe_float(attrs.get("AREALAND"))
+
+                # Create a point-geometry GeoJSON feature from centroid
+                geom = None
+                if lat is not None and lon is not None:
+                    geom = {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}
+
+                # Estimate bounding box from area (approximate as circle)
+                import math
+                radius_deg = 0.01  # ~1km default
+                if area_sqm and area_sqm > 0:
+                    radius_m = math.sqrt(area_sqm / math.pi)
+                    radius_deg = radius_m / 111000  # approx degrees
+
+                features.append({
+                    "type": "Feature",
+                    "properties": {
+                        "GEOID": attrs.get("GEOID"),
+                        "NAME": attrs.get("NAME"),
+                        "FUNCSTAT": attrs.get("FUNCSTAT"),
+                        "area_sqm": area_sqm,
+                        "radius_deg": round(radius_deg, 4) if radius_deg else None,
+                        "utility_type": "municipal_boundary",
+                        "data_source": "Census TIGERweb",
+                        "constraint_level": "moderate",
+                        "notes": "Municipal service area — refer to local capital improvement plan",
+                    },
+                    "geometry": geom,
+                })
+
+            log(f"  Page {page}: {len(raw_feats)} places (total {len(features)})")
+
+            exceeded = data.get("exceededTransferLimit", False)
+            if not raw_feats or not exceeded:
+                break
+            offset += len(raw_feats)
+            time.sleep(0.3)
         except Exception as exc:
-            log(f"  ✗ {name} page {page}: {exc}", level="WARN")
+            log(f"  TIGERweb page {page} failed: {exc}", level="WARN")
             break
 
-        for f in raw_feats:
-            props = f.get("properties") or {}
-            props["utility_type"] = utility_type
-            props["data_source"] = name
-            props["constraint_level"] = meta.get("constraint_level", "unknown")
-            props["notes"] = meta.get("notes", "")
-            features.append(f)
+    return features
 
-        log(f"  Page {page}: {len(raw_feats)} features (total {len(features)})")
-        if not raw_feats or not data.get("exceededTransferLimit"):
-            break
-        offset += len(raw_feats)
 
+def _safe_float(val):
+    """Convert a string or number to float, return None on failure."""
+    if val is None:
+        return None
+    try:
+        f = float(val)
+        if f == 0 or abs(f) < 0.001:
+            return None
+        return f
+    except (ValueError, TypeError):
+        return None
+
+
+def water_districts_to_features(districts: list) -> list:
+    """Convert DWR water district records to GeoJSON point features."""
+    features = []
+    for d in districts:
+        # DWR districts don't have geometry directly — create metadata features
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "NAME": d.get("waterDistrictName", "Unknown"),
+                "waterDistrict": d.get("waterDistrict"),
+                "division": d.get("division"),
+                "utility_type": "water_district",
+                "data_source": "Colorado DWR",
+                "constraint_level": "variable",
+                "notes": "DWR water district — check local tap fees and availability",
+            },
+            "geometry": None  # No polygon geometry available from DWR API
+        })
     return features
 
 
@@ -178,33 +234,39 @@ def main() -> int:
     all_features = []
     sources_ok = []
 
-    for source in SOURCES:
-        feats = fetch_source_features(source)
-        if feats:
-            all_features.extend(feats)
-            sources_ok.append(source["name"])
-        time.sleep(0.5)
+    # 1. TIGERweb incorporated place boundaries (with polygon geometry)
+    places = fetch_tigerweb_places()
+    if places:
+        all_features.extend(places)
+        sources_ok.append("Census TIGERweb Incorporated Places")
+
+    # 2. DWR water districts (metadata only — no polygon geometry)
+    districts = fetch_dwr_water_districts()
+    if districts:
+        district_features = water_districts_to_features(districts)
+        all_features.extend(district_features)
+        sources_ok.append("Colorado DWR Water Districts")
 
     result = {
         "type": "FeatureCollection",
         "meta": {
-            "source": "Colorado CDSS / DWR / DOLA utility service areas (public)",
+            "source": "Census TIGERweb + Colorado DWR water districts",
             "state": "Colorado",
-            "state_fips": STATE_FIPS,
+            "state_fips": "08",
             "vintage": generated[:10],
             "generated": generated,
             "feature_count": len(all_features),
             "sources_successful": sources_ok,
-            "coverage_pct": round(len(sources_ok) / len(SOURCES) * 100, 1),
+            "coverage_pct": round(len(sources_ok) / 2 * 100, 1),
             "note": (
-                "Water/sewer service area boundaries for infrastructure feasibility. "
+                "Municipal boundaries from TIGERweb + DWR water district metadata. "
                 "Rebuild via scripts/market/fetch_utility_capacity.py"
             ),
         },
         "features": all_features,
     }
 
-    # Fallback to existing file
+    # Fallback to existing file if both sources failed
     if not all_features and OUT_FILE.exists():
         existing = json.loads(OUT_FILE.read_text())
         if existing.get("features"):

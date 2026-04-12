@@ -104,6 +104,10 @@
         buildIndex(_counties);
         _loaded = true;
         console.log('[HudFmr] Loaded ' + _counties.length + ' county FMR records');
+        // Emit custom event so downstream modules (deal-calculator, etc.)
+        // can react without polling.
+        try { document.dispatchEvent(new CustomEvent('HudFmr:loaded')); }
+        catch (_) { /* IE11 guard — polling fallback still works */ }
       })
       .catch(function (err) {
         console.warn('[HudFmr] Failed to load FMR data:', err);

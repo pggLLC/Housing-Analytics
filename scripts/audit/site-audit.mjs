@@ -268,17 +268,25 @@ async function auditPage(browser, pageConfig) {
   page.on('requestfailed', (req) => {
     const reqUrl = req.url();
     const failure = req.failure();
+    const errorText = failure ? failure.errorText : 'unknown';
     const entry = {
       url: reqUrl,
-      errorText: failure ? failure.errorText : 'unknown',
+      errorText,
       isLocal: isLocalUrl(reqUrl),
       isHardFail: isHardFailUrl(reqUrl),
     };
     result.failedRequests.push(entry);
-    if (entry.isLocal || entry.isHardFail) {
-      result.hardFailures.push(`Request failed: ${reqUrl} (${entry.errorText})`);
+    // net::ERR_ABORTED on a local request means the browser context closed while a
+    // response body was still streaming (e.g. an API-health probe that checked r.ok
+    // but never consumed the body).  Real missing files produce HTTP 4xx responses
+    // that are caught by the response handler below, so we demote ERR_ABORTED on
+    // local URLs to a warning to avoid false-positive hard failures.
+    if (entry.isLocal && errorText === 'net::ERR_ABORTED') {
+      result.warnings.push(`Local request aborted (body download interrupted): ${reqUrl}`);
+    } else if (entry.isLocal || entry.isHardFail) {
+      result.hardFailures.push(`Request failed: ${reqUrl} (${errorText})`);
     } else {
-      result.warnings.push(`External request failed: ${reqUrl} (${entry.errorText})`);
+      result.warnings.push(`External request failed: ${reqUrl} (${errorText})`);
     }
   });
 
@@ -310,8 +318,20 @@ async function auditPage(browser, pageConfig) {
     result.hardFailures.push(`Page load failed: ${e.message}`);
   }
 
-  // Wait a bit more for lazy-loaded requests
+  // Wait a bit more for lazy-loaded requests (e.g. API health probes fired by
+  // setTimeout 2 s after DOMContentLoaded).
   await page.waitForTimeout(3000);
+
+  // Wait for any fetches that were started during the above wait to finish before
+  // closing the context.  This prevents open response-body streams from being
+  // aborted and falsely reported as hard failures.
+  try {
+    await page.waitForLoadState('networkidle', { timeout: 10000 });
+  } catch (_timeoutErr) {
+    // If networkidle is never reached (e.g. pages with continuous polling) proceed
+    // anyway — the ERR_ABORTED guard in the requestfailed handler handles any
+    // remaining in-flight body downloads.
+  }
 
   // Detect Leaflet presence
   result.leafletDetected = await page.evaluate(() => typeof window.L !== 'undefined');

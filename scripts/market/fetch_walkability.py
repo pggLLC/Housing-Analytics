@@ -36,15 +36,10 @@ STATE_FIPS = "08"
 CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_walkability_cache"
 CACHE_TTL_HOURS = 720  # 30 days (SLD updated annually)
 
-# EPA Smart Location Database ArcGIS REST service (public)
+# EPA National Walkability Index — public ArcGIS MapServer (confirmed working)
 EPA_SLD_URL = (
-    "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/"
-    "SmartLocationDatabase_v3/FeatureServer/0"
-)
-
-# Alternative: EPA SLD bulk download (geodatabase)
-EPA_SLD_DOWNLOAD = (
-    "https://edg.epa.gov/EPADataCommons/public/OA/SLD/SmartLocationDatabaseV3.zip"
+    "https://geodata.epa.gov/arcgis/rest/services/"
+    "OA/WalkabilityIndex/MapServer/0"
 )
 
 
@@ -95,8 +90,8 @@ def arcgis_query_sld(offset: int = 0, limit: int = 2000) -> dict:
     params = urllib.parse.urlencode({
         "where": f"STATEFP='{STATE_FIPS}'",
         "outFields": (
-            "GEOID20,STATEFP,COUNTYFP,TRACTCE,NatWalkInd,"
-            "D1A,D2A_WRKEMP,D3bpo4,D4a,D5ar,Ac_Total"
+            "GEOID20,STATEFP,COUNTYFP,TRACTCE,BLKGRPCE,NatWalkInd,"
+            "D3B,D3B_Ranked,D4A,D4A_Ranked,D2A_Ranked,D2B_Ranked"
         ),
         "returnGeometry": "false",
         "f": "json",
@@ -152,47 +147,60 @@ def build_walkability_scores() -> dict:
         )
 
         walk = float(attrs.get("NatWalkInd", 0) or 0)
-        d1a  = float(attrs.get("D1A", 0) or 0)   # residential density
-        d2a  = float(attrs.get("D2A_WRKEMP", 0) or 0)  # employment mix
-        d3b  = float(attrs.get("D3bpo4", 0) or 0)  # street network
-        d4a  = float(attrs.get("D4a", 0) or 0)    # transit frequency
-        d5ar = float(attrs.get("D5ar", 0) or 0)   # destination accessibility
-        ac   = float(attrs.get("Ac_Total", 0) or 0)
+        d3b  = float(attrs.get("D3B", 0) or 0)       # intersection density
+        d4a  = float(attrs.get("D4A", -99999) or -99999)  # transit distance (m)
+        d3b_r = float(attrs.get("D3B_Ranked", 0) or 0)
+        d4a_r = float(attrs.get("D4A_Ranked", 0) or 0)
+        d2a_r = float(attrs.get("D2A_Ranked", 0) or 0)
 
         if tract_geoid not in tract_accum:
             tract_accum[tract_geoid] = {
                 "county_fips": county_fips,
                 "n": 0,
                 "walk_sum": 0.0,
-                "d1a_sum": 0.0,
-                "d2a_sum": 0.0,
                 "d3b_sum": 0.0,
-                "d4a_sum": 0.0,
-                "d5ar_sum": 0.0,
-                "ac_sum": 0.0,
+                "d4a_vals": [],
+                "d3b_rank": [],
+                "d4a_rank": [],
+                "d2a_rank": [],
             }
         acc = tract_accum[tract_geoid]
         acc["n"] += 1
-        acc["walk_sum"] += walk
-        acc["d1a_sum"] += d1a
-        acc["d2a_sum"] += d2a
-        acc["d3b_sum"] += d3b
-        acc["d4a_sum"] += d4a
-        acc["d5ar_sum"] += d5ar
-        acc["ac_sum"] += ac
+        if walk > 0:
+            acc["walk_sum"] += walk
+        if d3b >= 0:
+            acc["d3b_sum"] += d3b
+        if d4a >= 0:
+            acc["d4a_vals"].append(d4a)
+        if d3b_r > 0:
+            acc["d3b_rank"].append(d3b_r)
+        if d4a_r > 0:
+            acc["d4a_rank"].append(d4a_r)
+        if d2a_r > 0:
+            acc["d2a_rank"].append(d2a_r)
 
     tracts = []
     for geoid, acc in sorted(tract_accum.items()):
         n = acc["n"] or 1
+        walk_idx = round(acc["walk_sum"] / n, 2)
+        # Map NatWalkInd (1-20) to 0-100 scale for Walk Score equivalent
+        walk_score = round((walk_idx - 1) / 19 * 100) if walk_idx > 0 else None
+        # Transit: distance to nearest stop, inverted to score
+        d4a_avg = round(sum(acc["d4a_vals"]) / len(acc["d4a_vals"])) if acc["d4a_vals"] else None
+        transit_score = max(0, min(100, round((1 - d4a_avg / 1600) * 100))) if d4a_avg is not None and d4a_avg >= 0 else None
+        # Bike: intersection density rank as proxy
+        d3b_r_avg = round(sum(acc["d3b_rank"]) / len(acc["d3b_rank"]), 1) if acc["d3b_rank"] else None
+        bike_score = round((d3b_r_avg - 1) / 19 * 100) if d3b_r_avg else None
+
         tracts.append({
             "geoid":              geoid,
             "county_fips":        acc["county_fips"],
-            "walkability_index":  round(acc["walk_sum"] / n, 2),
-            "residential_density": round(acc["d1a_sum"] / n, 2),
-            "employment_mix":     round(acc["d2a_sum"] / n, 2),
-            "street_network":     round(acc["d3b_sum"] / n, 2),
-            "transit_freq":       round(acc["d4a_sum"] / n, 2),
-            "destination_access": round(acc["d5ar_sum"] / n, 2),
+            "walkability_index":  walk_idx,
+            "walk_score":         walk_score,
+            "transit_score":      transit_score,
+            "bike_score":         bike_score,
+            "transit_distance_m": d4a_avg,
+            "intersection_density": round(acc["d3b_sum"] / n, 2),
             "block_groups":       acc["n"],
         })
 

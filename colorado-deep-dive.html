@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
-  <link rel="stylesheet" href="css/colorado-deep-dive.css">
+  <link rel="stylesheet" href="css/pages/colorado-deep-dive.css">
   <link rel="stylesheet" href="css/colorado-regional-predictions.css">
     <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
@@ -27,10 +27,10 @@
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script src="js/data-quality-check.js"></script>
-<script defer="" src="js/navigation.js"></script>
-  <script defer="" src="js/dark-mode-toggle.js"></script>
-  <script defer="" src="js/mobile-menu.js"></script>
-  <script defer src="js/site-state.js"></script>
+  <script src="js/site-state.js"></script>
+<script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/chart-fix.js"></script>
 
   
@@ -39,11 +39,15 @@
   <!-- Leaflet (vendored locally — no CDN required) -->
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/vendor/leaflet.js"></script>
+  <script src="js/components/map-home-btn.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/co-lihtc-map.js"></script>
   <script src="js/geo-search.js"></script>
 
   <!-- Chart.js for existing canvases -->
   <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <script>
   // Set Chart.js defaults using CSS custom properties for legibility
   document.addEventListener('DOMContentLoaded', function () {
@@ -355,17 +359,6 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <div id="statusPanel" aria-live="polite"></div>
 <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell">
-<div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
-  <a class="workflow-step" href="housing-needs-assessment.html">1. Housing Needs Assessment</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="market-analysis.html">2. Market Analysis</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <span class="workflow-step workflow-step--active">3. Deep Dive</span>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
-</div>
 <div class="platform-disclaimer" role="note">
   <strong>COHO Analytics</strong> provides data-driven research tools. Analysis represents independent research using public datasets. Not financial or legal advice. <strong>Screening tool only</strong> — map overlays, KPI cards, and market metrics are for early-stage identification. They do not replace a formal CHFA-required PMA or independent due diligence.
 </div>
@@ -382,6 +375,21 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.25rem;">View diagnostics</a>
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
 </div>
+
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Comprehensive Colorado affordable housing dashboard: county-level LIHTC pipeline, AMI affordability gaps, CHFA allocation history, market trends, construction activity, and Prop 123 compliance tracking.',
+    why: 'Colorado-specific context is essential for LIHTC development. Statewide trends, CHFA priorities, Prop 123 dynamics, and competitive landscape all influence deal positioning. This page provides the state-level view that complements jurisdiction-level analysis.',
+    not: 'This is a data exploration page, not a scored analysis. It does not recommend specific sites or rank jurisdictions. Some data is manually updated (CAR reports) and may lag by 1-2 months. Historical allocation data from HUD has a 12-24 month reporting lag.',
+    nextSteps: [
+      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' },
+      { label: 'LIHTC Allocations', href: 'lihtc-allocations.html', desc: 'National allocation context' }
+    ]
+  });
+});
+</script>
 
 <!-- ── Outer tab navigation: Deep Dive | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
@@ -977,7 +985,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 <div style="margin-bottom: 1.5rem;">
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-success);">✓ Employment</div>
-<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at 3.7% (4th lowest among 50 largest markets)</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at <span id="cddUnemploymentInline">3.7%</span> (BLS LAUS statewide avg)</div>
 </div>
 <div>
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-warning);">⚠ Normalizing</div>
@@ -1223,8 +1231,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Unemployment Rate</div>
-<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;">3.7%</div>
-<div style="font-size: 0.875rem; color: var(--color-success);">↓ 4th lowest in nation</div>
+<div style="font-size: 2rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.25rem;" id="cddUnemploymentStat">3.7%</div>
+<div style="font-size: 0.875rem; color: var(--color-success);">BLS LAUS — statewide average</div>
 </div>
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Foreclosure Risk</div>
@@ -1276,7 +1284,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
                 Colorado's affordable housing market is in transition: <strong>historic concessions and high vacancy</strong> reflect severe 2024 oversupply, but <strong>sharply declining new construction</strong> sets stage for 2027 recovery. LIHTC developers benefit from strong per-capita allocations and extensive basis boost opportunities, though must model realistic Class B competition and concession pressure.
             </p>
 <p style="line-height: 1.7; margin: 0; opacity: 0.95;">
-<strong>Key Advantage:</strong> Unemployment among nation's lowest (3.7%) + minimal foreclosure risk + strong job market fundamentals = sustainable long-term demand. Near-term pain from supply glut, medium-term opportunity as market rebalances.
+<strong>Key Advantage:</strong> Unemployment among nation's lowest (<span id="cddUnemploymentBottomLine">3.7%</span>) + minimal foreclosure risk + strong job market fundamentals = sustainable long-term demand. Near-term pain from supply glut, medium-term opportunity as market rebalances.
             </p>
 </div>
 <!-- Sources -->
@@ -1488,16 +1496,52 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           <input type="checkbox" class="pma-layer-toggle" data-layer="schools" /> Schools
         </label>
         <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
-          <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit
+          <input type="checkbox" class="pma-layer-toggle" data-layer="transit" /> Transit routes
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="transitStops" /> Transit stops
         </label>
         <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
           <input type="checkbox" class="pma-layer-toggle" data-layer="employmentCenters" /> Employment centers
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="grocery" /> Grocery stores
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="healthcare" /> Healthcare facilities
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="parks" /> Parks &amp; recreation
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="hospitals" /> Hospitals
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="childcare" /> Child care
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="envJustice" /> Environmental justice
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="walkability" /> Walkability (EPA)
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="commuting" /> Commuting (LODES)
         </label>
         <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
           <input type="checkbox" class="pma-layer-toggle" data-layer="opportunities" /> Opportunities/OZ
         </label>
         <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
           <input type="checkbox" class="pma-layer-toggle" data-layer="infrastructure" /> Infrastructure
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="housingPolicy" /> Housing policy
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="parcelZoning" /> Parcel &amp; Zoning
+        </label>
+        <label class="dot-wrap" style="display:flex;align-items:center;gap:.35rem;cursor:pointer;min-height:44px;min-width:44px;">
+          <input type="checkbox" class="pma-layer-toggle" data-layer="commutingFlows" /> Commuting OD arcs
         </label>
       </div>
     </fieldset>
@@ -1739,7 +1783,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           labels: ["2022","2023","2024","2025"],
           datasets: [{ label:"Avg monthly concession ($)", data:[45, 65, 110, 169], tension:.35 }]
         },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  annotation: { annotations: {
+                    prop123: { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } },
+                    ahcia:   { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
+                  } } },
                   scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
       });
       safeChart("foreclosure-chart", {
@@ -1748,7 +1796,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
           labels: ["2023","2024","2025","2026"],
           datasets: [{ label:"Filings (index)", data:[70, 55, 62, 68], tension:.35 }]
         },
-        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } } },
+        options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
+                  annotation: { annotations: {
+                    ahcia: { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
+                  } } },
                   scales: { x: { ticks: { color:"rgba(255,255,255,.75)" } }, y: { ticks: { color:"rgba(255,255,255,.75)" } } } }
       });
       safeChart("confidence-chart", {
@@ -1815,6 +1866,34 @@ h3 { font-size: 1.05rem; font-weight: 700; }
                 tooltip: {
                   callbacks: {
                     footer: function () { return 'Source: HUD LIHTC Database'; }
+                  }
+                },
+                annotation: {
+                  annotations: {
+                    covid: {
+                      type: 'line',
+                      xMin: '2020', xMax: '2020',
+                      borderColor: 'rgba(220, 38, 38, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220, 38, 38, 0.7)', font: { size: 11 } }
+                    },
+                    prop123: {
+                      type: 'line',
+                      xMin: '2022', xMax: '2022',
+                      borderColor: 'rgba(14, 165, 233, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14, 165, 233, 0.7)', font: { size: 11 } }
+                    },
+                    ahcia: {
+                      type: 'line',
+                      xMin: '2023', xMax: '2023',
+                      borderColor: 'rgba(139, 92, 246, 0.5)',
+                      borderWidth: 2,
+                      borderDash: [6, 4],
+                      label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139, 92, 246, 0.7)', font: { size: 11 } }
+                    }
                   }
                 }
               },
@@ -2153,4 +2232,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 
 
 <footer id="site-footer"></footer>
+
+<script>
+// Load BLS unemployment data from co-county-economic-indicators.json and update
+// the three dynamic placeholders on this page.  Falls back to static values if
+// the file is unavailable or all unemployment_rate fields are null.
+(function () {
+  var ECON_URL = (window.DataService && typeof window.DataService.baseData === 'function')
+    ? window.DataService.baseData('co-county-economic-indicators.json')
+    : 'data/co-county-economic-indicators.json';
+
+  var IDS = ['cddUnemploymentInline', 'cddUnemploymentStat', 'cddUnemploymentBottomLine'];
+
+  function setAll(text) {
+    IDS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    });
+  }
+
+  var fetcher = (window.fetchWithTimeout || window.fetch).bind(window);
+  fetcher(ECON_URL)
+    .then(function (r) { return r.ok ? r.json() : Promise.reject('HTTP ' + r.status); })
+    .then(function (data) {
+      if (!data || !data.counties) return;
+      var vals = Object.values(data.counties)
+        .map(function (c) { return c.unemployment_rate; })
+        .filter(function (v) { return v != null && isFinite(v); });
+      if (!vals.length) return;
+      var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
+      setAll(avg.toFixed(1) + '%');
+    })
+    .catch(function () { /* leave static fallback values in place */ });
+}());
+</script>
 </body></html>

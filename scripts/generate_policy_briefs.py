@@ -20,6 +20,8 @@ Output:
     data/policy_briefs.json
 """
 
+from __future__ import annotations
+
 import json
 import os
 import sys
@@ -95,18 +97,24 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
     if regions:
         summary_parts.append(f"Coverage spans: {', '.join(regions[:4])}.")
 
-    implications = (
-        f"Policymakers should monitor {label.lower()} trends in Colorado. "
-        f"This data cluster suggests active public discourse and potential legislative or market developments."
-    )
+    # Build articles list with title, source, link, date for each alert
+    articles = []
+    for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
+        art = {'title': a.get('title', ''), 'source': a.get('source', '')}
+        if a.get('url') or a.get('link'):
+            art['link'] = a.get('url') or a['link']
+        if a.get('date'):
+            art['date'] = a['date'][:10]
+        if art['title']:
+            articles.append(art)
 
     return {
         'title': f'{label} Policy Brief — {datetime.now(timezone.utc).strftime("%B %Y")}',
         'policy_topic': label,
         'summary': ' '.join(summary_parts),
-        'implications': implications,
         'related_data': RELATED_DATA_MAP.get(topic, ''),
         'sources': sources,
+        'articles': articles,
         'alert_count': len(alerts),
         'regions': regions,
         'generated': utc_now(),
@@ -155,10 +163,28 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
         with urllib.request.urlopen(req, timeout=30) as resp:
             result = json.loads(resp.read())
         content = result['choices'][0]['message']['content']
-        # Parse JSON from LLM response
-        llm_data = json.loads(content)
+        # Parse JSON from LLM response — strip markdown code fences if present.
+        # GPT models often wrap output in ```json ... ``` blocks.
+        stripped = content.strip()
+        lines = stripped.splitlines()
+        if lines and lines[0].rstrip() in ('```', '```json'):
+            # Remove opening fence line; remove trailing closing fence line if present
+            inner = lines[1:]
+            if inner and inner[-1].strip() == '```':
+                inner = inner[:-1]
+            stripped = '\n'.join(inner).strip()
+        llm_data = json.loads(stripped)
         sources = list({a.get('source', '') for a in recent if a.get('source')})[:5]
         regions = list({a.get('region', 'Colorado') for a in recent if a.get('region')})
+        articles = []
+        for a in sorted(alerts, key=lambda x: x.get('date') or '', reverse=True):
+            art = {'title': a.get('title', ''), 'source': a.get('source', '')}
+            if a.get('url') or a.get('link'):
+                art['link'] = a.get('url') or a['link']
+            if a.get('date'):
+                art['date'] = a['date'][:10]
+            if art['title']:
+                articles.append(art)
         return {
             'title': llm_data.get('title', ''),
             'policy_topic': label,
@@ -166,6 +192,7 @@ def generate_llm_brief(topic: str, alerts: list[dict], api_key: str) -> dict | N
             'implications': llm_data.get('implications', ''),
             'related_data': RELATED_DATA_MAP.get(topic, ''),
             'sources': sources,
+            'articles': articles,
             'alert_count': len(alerts),
             'regions': regions,
             'generated': utc_now(),
@@ -196,14 +223,22 @@ def main() -> int:
     sorted_topics = sorted(groups.items(), key=lambda kv: len(kv[1]), reverse=True)
 
     briefs = []
+    llm_used = False
     for topic, topic_alerts in sorted_topics[:BRIEFS_MAX]:
         print(f'  Topic: {topic} ({len(topic_alerts)} alerts)')
         brief = None
         if api_key:
             brief = generate_llm_brief(topic, topic_alerts, api_key)
+            if brief is not None:
+                llm_used = True
         if brief is None:
             brief = build_rule_based_brief(topic, topic_alerts)
         briefs.append(brief)
+
+    if api_key:
+        print(f'  OPENAI_API_KEY present; LLM mode: {"active" if llm_used else "fell back to rule-based"}')
+    else:
+        print('  OPENAI_API_KEY not set — using rule-based mode')
 
     output = {
         'meta': {
@@ -211,9 +246,10 @@ def main() -> int:
             'brief_count': len(briefs),
             'source_alerts': len(alerts),
             'methodology': (
-                'Policy briefs are generated from aggregated RSS feed alerts. '
-                'LLM-assisted summaries use GPT-4o-mini when OPENAI_API_KEY is set; '
-                'otherwise rule-based summaries are produced from headline aggregation.'
+                'Policy briefs generated using GPT-4o-mini (LLM-assisted mode).'
+                if llm_used else
+                'Policy briefs generated using rule-based headline aggregation. '
+                'Set OPENAI_API_KEY to enable LLM-assisted summaries.'
             ),
         },
         'briefs': briefs,

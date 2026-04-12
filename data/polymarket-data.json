@@ -1,0 +1,643 @@
+{
+  "updated": "2026-04-12T07:47:39.987332Z",
+  "source": "Polymarket Gamma API",
+  "event_count": 15,
+  "events": {
+    "us-recession-by-end-of-2026": {
+      "title": "US recession by end of 2026?",
+      "slug": "us-recession-by-end-of-2026",
+      "markets": [
+        {
+          "question": "US recession by end of 2026?",
+          "outcomePrices": "[\"0.285\", \"0.715\"]",
+          "volume": "1273878.8051209946",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "fed-decision-in-april": {
+      "title": "Fed decision in April?",
+      "slug": "fed-decision-in-april",
+      "markets": [
+        {
+          "question": "50+ bps decrease",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "26623872.211475827",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps decrease",
+          "outcomePrices": "[\"0.0105\", \"0.9895\"]",
+          "volume": "16247161.616806025",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "No change",
+          "outcomePrices": "[\"0.9815\", \"0.0185\"]",
+          "volume": "15698286.765147852",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25+ bps increase",
+          "outcomePrices": "[\"0.0055\", \"0.9945\"]",
+          "volume": "16398372.651876098",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "how-many-fed-rate-cuts-in-2026": {
+      "title": "How many Fed rate cuts in 2026?",
+      "slug": "how-many-fed-rate-cuts-in-2026",
+      "markets": [
+        {
+          "question": "0 (0 bps)",
+          "outcomePrices": "[\"0.4035\", \"0.5965\"]",
+          "volume": "3085201.625339011",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1 (25 bps)",
+          "outcomePrices": "[\"0.255\", \"0.745\"]",
+          "volume": "1018806.4268560027",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2 (50 bps)",
+          "outcomePrices": "[\"0.185\", \"0.815\"]",
+          "volume": "937647.0077889967",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3 (75 bps)",
+          "outcomePrices": "[\"0.095\", \"0.905\"]",
+          "volume": "905651.4705950002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4 (100 bps)",
+          "outcomePrices": "[\"0.024\", \"0.976\"]",
+          "volume": "904090.7457610004",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "5 (125 bps)",
+          "outcomePrices": "[\"0.0125\", \"0.9875\"]",
+          "volume": "1009552.1121469982",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "6 (150 bps)",
+          "outcomePrices": "[\"0.0065\", \"0.9935\"]",
+          "volume": "2052523.372462989",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "7 (175 bps)",
+          "outcomePrices": "[\"0.0045\", \"0.9955\"]",
+          "volume": "892995.1958159994",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "8 (200 bps)",
+          "outcomePrices": "[\"0.0045\", \"0.9955\"]",
+          "volume": "1164067.4608420045",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "9 (225 bps)",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "1123377.8471289992",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "10 (250 bps)",
+          "outcomePrices": "[\"0.0045\", \"0.9955\"]",
+          "volume": "1573432.4715110012",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "11 (275 bps)",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "1727392.7633100466",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "12+ (300+ bps)",
+          "outcomePrices": "[\"0.0065\", \"0.9935\"]",
+          "volume": "1770970.687012013",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "how-high-will-inflation-get-in-2026": {
+      "title": "How high will inflation get in 2026?",
+      "slug": "how-high-will-inflation-get-in-2026",
+      "markets": [
+        {
+          "question": "Above 4%",
+          "outcomePrices": "[\"0.475\", \"0.525\"]",
+          "volume": "83535.0679529999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 10%",
+          "outcomePrices": "[\"0.0795\", \"0.9205\"]",
+          "volume": "18833.691405999998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 5%",
+          "outcomePrices": "[\"0.245\", \"0.755\"]",
+          "volume": "40587.059978000005",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 3%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "280044.82733599906",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 8%",
+          "outcomePrices": "[\"0.1155\", \"0.8845\"]",
+          "volume": "26829.691575000008",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 6%",
+          "outcomePrices": "[\"0.155\", \"0.845\"]",
+          "volume": "24128.686082999997",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "Above 3.5%",
+          "outcomePrices": "[\"0.85\", \"0.15\"]",
+          "volume": "47658.43551900002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "gdp-growth-in-2026": {
+      "title": "GDP growth in 2026",
+      "slug": "gdp-growth-in-2026",
+      "markets": [
+        {
+          "question": "<0.5%",
+          "outcomePrices": "[\"0.0995\", \"0.9005\"]",
+          "volume": "3700.887455999999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.0\u20131.5%",
+          "outcomePrices": "[\"0.085\", \"0.915\"]",
+          "volume": "1458.9813040000001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2.0\u20132.5%",
+          "outcomePrices": "[\"0.1\", \"0.9\"]",
+          "volume": "1338.4840609999997",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "0.5\u20131.0%",
+          "outcomePrices": "[\"0.053\", \"0.947\"]",
+          "volume": "15045.392074",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.5\u20132.0%",
+          "outcomePrices": "[\"0.1385\", \"0.8615\"]",
+          "volume": "0",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": ">2.5%",
+          "outcomePrices": "[\"0.495\", \"0.505\"]",
+          "volume": "3785.359614999999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "what-will-the-median-home-value-in-the-us-be-on-april-30": {
+      "title": "What will the median home value in the US be on April 30?",
+      "slug": "what-will-the-median-home-value-in-the-us-be-on-april-30",
+      "markets": [
+        {
+          "question": "<429k",
+          "outcomePrices": "[\"0.22\", \"0.78\"]",
+          "volume": "735.453631",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "435 - 437k",
+          "outcomePrices": "[\"0.135\", \"0.865\"]",
+          "volume": "56",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "429 - 431k",
+          "outcomePrices": "[\"0.17\", \"0.83\"]",
+          "volume": "326",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "437 - 439k",
+          "outcomePrices": "[\"0.08\", \"0.92\"]",
+          "volume": "0",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "433 - 435k",
+          "outcomePrices": "[\"0.185\", \"0.815\"]",
+          "volume": "341.14",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": ">441k",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "11.29",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "431 - 433k",
+          "outcomePrices": "[\"0.18\", \"0.82\"]",
+          "volume": "35.83",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "439 - 441k",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "0",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30": {
+      "title": "What will the median home value in the Los Angeles Metro area be on April 30?",
+      "slug": "what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30",
+      "markets": [
+        {
+          "question": "<1.17m",
+          "outcomePrices": "[\"0.165\", \"0.835\"]",
+          "volume": "478.41999999999996",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.18 - 1.19m",
+          "outcomePrices": "[\"0.265\", \"0.735\"]",
+          "volume": "863.225805",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.2 - 1.21m",
+          "outcomePrices": "[\"0.115\", \"0.885\"]",
+          "volume": "1297",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": ">1.22m",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "213.08",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.17 - 1.18m",
+          "outcomePrices": "[\"0.2\", \"0.8\"]",
+          "volume": "308",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.19 - 1.2m",
+          "outcomePrices": "[\"0.255\", \"0.745\"]",
+          "volume": "1722",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.21 - 1.22m",
+          "outcomePrices": "[\"0.07\", \"0.93\"]",
+          "volume": "5.33",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "april-unemployment-rate-372": {
+      "title": "April Unemployment Rate",
+      "slug": "april-unemployment-rate-372",
+      "markets": [
+        {
+          "question": "\u22643.9%",
+          "outcomePrices": "[\"0.009\", \"0.991\"]",
+          "volume": "1172.9349289999998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.1%",
+          "outcomePrices": "[\"0.0615\", \"0.9385\"]",
+          "volume": "422.9115309999999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.3%",
+          "outcomePrices": "[\"0.31\", \"0.69\"]",
+          "volume": "1226.6464130000002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.5%",
+          "outcomePrices": "[\"0.115\", \"0.885\"]",
+          "volume": "533.4180859999999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "\u22654.7%",
+          "outcomePrices": "[\"0.041\", \"0.959\"]",
+          "volume": "1453.272605",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.0%",
+          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
+          "volume": "269.91999999999996",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.2%",
+          "outcomePrices": "[\"0.175\", \"0.825\"]",
+          "volume": "1322.0295649999998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.4%",
+          "outcomePrices": "[\"0.225\", \"0.775\"]",
+          "volume": "2526.583904",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "4.6%",
+          "outcomePrices": "[\"0.046\", \"0.954\"]",
+          "volume": "535.2618510000001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "fed-decision-in-june-825": {
+      "title": "Fed Decision in June?",
+      "slug": "fed-decision-in-june-825",
+      "markets": [
+        {
+          "question": "25 bps decrease",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "1013637.4601450035",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps increase",
+          "outcomePrices": "[\"0.0225\", \"0.9775\"]",
+          "volume": "1389407.944263002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "50+ bps decrease",
+          "outcomePrices": "[\"0.0075\", \"0.9925\"]",
+          "volume": "1947780.852409999",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "No change",
+          "outcomePrices": "[\"0.905\", \"0.095\"]",
+          "volume": "1318782.412030007",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "50+ bps increase",
+          "outcomePrices": "[\"0.0065\", \"0.9935\"]",
+          "volume": "1135927.3082159983",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "what-will-the-median-home-value-in-chicago-be-on-april-30": {
+      "title": "What will the median home value in Chicago be on April 30?",
+      "slug": "what-will-the-median-home-value-in-chicago-be-on-april-30",
+      "markets": [
+        {
+          "question": "<336k",
+          "outcomePrices": "[\"0.4\", \"0.6\"]",
+          "volume": "1317.162675",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "338 - 340k",
+          "outcomePrices": "[\"0.22\", \"0.78\"]",
+          "volume": "77.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "342 - 344k",
+          "outcomePrices": "[\"0.07\", \"0.93\"]",
+          "volume": "99.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "346 - 348k",
+          "outcomePrices": "[\"0.0485\", \"0.9515\"]",
+          "volume": "77.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "336 - 338k",
+          "outcomePrices": "[\"0.15\", \"0.85\"]",
+          "volume": "77.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "340 - 342k",
+          "outcomePrices": "[\"0.115\", \"0.885\"]",
+          "volume": "117.99",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "344 - 346k",
+          "outcomePrices": "[\"0.0485\", \"0.9515\"]",
+          "volume": "77.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": ">348k",
+          "outcomePrices": "[\"0.045\", \"0.955\"]",
+          "volume": "87.5",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "tech-layoffs-up-or-down-in-2026": {
+      "title": "Tech Layoffs Up or Down in 20\u200b26?",
+      "slug": "tech-layoffs-up-or-down-in-2026",
+      "markets": [
+        {
+          "question": "Tech Layoffs Up or Down in 20\u200b26?",
+          "outcomePrices": "[\"0.905\", \"0.095\"]",
+          "volume": "14153.681021999999",
+          "outcomes": "[\"Up\", \"Down\"]"
+        }
+      ]
+    },
+    "fed-decision-in-july-181": {
+      "title": "Fed Decision in July?",
+      "slug": "fed-decision-in-july-181",
+      "markets": [
+        {
+          "question": "No change",
+          "outcomePrices": "[\"0.845\", \"0.155\"]",
+          "volume": "141115.00376500023",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps increase",
+          "outcomePrices": "[\"0.0165\", \"0.9835\"]",
+          "volume": "2982635.1898260084",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "50+ bps decrease",
+          "outcomePrices": "[\"0.0205\", \"0.9795\"]",
+          "volume": "138745.756163",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "50+ bps increase",
+          "outcomePrices": "[\"0.007\", \"0.993\"]",
+          "volume": "152692.6658540001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "25 bps decrease",
+          "outcomePrices": "[\"0.11\", \"0.89\"]",
+          "volume": "92825.433698",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "negative-gdp-growth-in-2026": {
+      "title": "Negative GDP growth in 2026?",
+      "slug": "negative-gdp-growth-in-2026",
+      "markets": [
+        {
+          "question": "Negative GDP growth in 2026?",
+          "outcomePrices": "[\"0.1085\", \"0.8915\"]",
+          "volume": "17853.795378999985",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "us-gdp-growth-in-q1-2026": {
+      "title": "US GDP growth in Q1 2026?",
+      "slug": "us-gdp-growth-in-q1-2026",
+      "markets": [
+        {
+          "question": "<1.0%",
+          "outcomePrices": "[\"0.1015\", \"0.8985\"]",
+          "volume": "25167.515383000016",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.5\u20132.0%",
+          "outcomePrices": "[\"0.224\", \"0.776\"]",
+          "volume": "20912.571406",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2.5\u20133.0%",
+          "outcomePrices": "[\"0.1215\", \"0.8785\"]",
+          "volume": "24036.631683999996",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "\u22653.5%",
+          "outcomePrices": "[\"0.0495\", \"0.9505\"]",
+          "volume": "73859.02532800002",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "1.0\u20131.5%",
+          "outcomePrices": "[\"0.201\", \"0.799\"]",
+          "volume": "6069.799272999998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2.0\u20132.5%",
+          "outcomePrices": "[\"0.193\", \"0.807\"]",
+          "volume": "43582.003876999974",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3.0\u20133.5%",
+          "outcomePrices": "[\"0.125\", \"0.875\"]",
+          "volume": "87816.96287700007",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    },
+    "march-inflation-us-annual-higher-brackets": {
+      "title": "March Inflation US - Annual (Higher Brackets)",
+      "slug": "march-inflation-us-annual-higher-brackets",
+      "markets": [
+        {
+          "question": "2.9%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "76093.54163100001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "\u22642.6%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "145060.27962499988",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2.8%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "71603.56343599998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3.2%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "72547.66812199984",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3.3%",
+          "outcomePrices": "[\"1\", \"0\"]",
+          "volume": "216587.2860720001",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "\u22653.4%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "308290.3319040008",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "2.7%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "136762.86453300013",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3.0%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "81093.79807199998",
+          "outcomes": "[\"Yes\", \"No\"]"
+        },
+        {
+          "question": "3.1%",
+          "outcomePrices": "[\"0\", \"1\"]",
+          "volume": "134628.06591599985",
+          "outcomes": "[\"Yes\", \"No\"]"
+        }
+      ]
+    }
+  }
+}

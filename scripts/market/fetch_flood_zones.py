@@ -88,10 +88,15 @@ def fetch_url(url: str, retries: int = 3, timeout: int = 90) -> bytes:
     raise RuntimeError(f"Failed after {retries} attempts: {last_err}")
 
 
-def arcgis_query_nfhl(offset: int = 0, limit: int = 1000) -> dict:
-    """Query FEMA NFHL for Colorado flood hazard areas."""
+def arcgis_query_nfhl(offset: int = 0, limit: int = 1000, bbox: str = None) -> dict:
+    """Query FEMA NFHL for Colorado flood hazard areas using bbox geometry."""
+    co_bbox = bbox or "-109.06,36.99,-102.04,41.00"
     params = urllib.parse.urlencode({
-        "where": f"STATE_FIPS='{STATE_FIPS}'",
+        "where": "1=1",
+        "geometry": co_bbox,
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
         "outFields": "DFIRM_ID,FLD_ZONE,ZONE_SUBTY,SFHA_TF,STATIC_BFE,STUDY_TYP",
         "returnGeometry": "true",
         "f": "geojson",
@@ -119,33 +124,54 @@ def classify_risk(zone: str) -> str:
     return "low"
 
 
+def _co_bbox_tiles() -> list:
+    """Split Colorado bbox into smaller tiles to avoid server timeouts."""
+    # Colorado: lon -109.06 to -102.04, lat 36.99 to 41.00
+    tiles = []
+    lon_step = 1.0
+    lat_step = 1.0
+    lon = -109.06
+    while lon < -102.04:
+        lat = 36.99
+        while lat < 41.00:
+            tiles.append(f"{lon},{lat},{min(lon+lon_step, -102.04)},{min(lat+lat_step, 41.00)}")
+            lat += lat_step
+        lon += lon_step
+    return tiles
+
+
 def build_flood_zones() -> dict:
-    """Fetch Colorado FEMA flood zone polygons with pagination."""
+    """Fetch Colorado FEMA flood zone polygons using tiled bbox queries."""
     log("Fetching FEMA NFHL flood zone data for Colorado…")
     generated = utc_now()
 
+    tiles = _co_bbox_tiles()
     all_features = []
-    offset = 0
-    page = 0
-    while True:
-        page += 1
-        try:
-            data = arcgis_query_nfhl(offset=offset)
-        except Exception as exc:
-            log(f"NFHL page {page} failed: {exc}", level="WARN")
-            break
-        feats = data.get("features", [])
-        for f in feats:
-            props = f.get("properties") or {}
-            zone = str(props.get("FLD_ZONE", "") or "")
-            props["risk_category"] = classify_risk(zone)
-            props["sfha"] = bool(props.get("SFHA_TF", "") == "T")
-        all_features.extend(feats)
-        log(f"  Page {page}: {len(feats)} features (total {len(all_features)})")
-        if not feats or not data.get("exceededTransferLimit"):
-            break
-        offset += len(feats)
-        time.sleep(0.5)
+    for ti, bbox in enumerate(tiles, 1):
+        offset = 0
+        tile_count = 0
+        while True:
+            try:
+                data = arcgis_query_nfhl(offset=offset, bbox=bbox)
+            except Exception as exc:
+                log(f"  Tile {ti}/{len(tiles)} offset {offset} failed: {exc}", level="WARN")
+                break
+            feats = data.get("features", [])
+            for f in feats:
+                props = f.get("properties") or {}
+                zone = str(props.get("FLD_ZONE", "") or "")
+                props["risk_category"] = classify_risk(zone)
+                props["sfha"] = bool(props.get("SFHA_TF", "") == "T")
+            all_features.extend(feats)
+            tile_count += len(feats)
+            if not feats or not data.get("exceededTransferLimit"):
+                break
+            offset += len(feats)
+            time.sleep(0.3)
+        if tile_count:
+            log(f"  Tile {ti}/{len(tiles)} [{bbox}]: {tile_count} features")
+        # Rate limit between tiles
+        time.sleep(0.2)
 
     high_risk = sum(1 for f in all_features
                     if (f.get("properties") or {}).get("risk_category") == "high")

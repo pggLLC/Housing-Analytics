@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
@@ -401,7 +402,7 @@
           <p style="margin:0 0 0.3rem;font-size:var(--small);"><strong>Data Source:</strong>
             <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state" rel="noopener" target="_blank" style="color:var(--link);">Novogradac — 2026 Federal LIHTC Information by State</a>
           </p>
-          <p style="margin:0;font-size:var(--tiny);color: #0f172a;">Last Updated: February 2026 · Update Frequency: Quarterly · 27 states confirmed, 23 states estimated pending official confirmation.</p>
+          <p style="margin:0;font-size:var(--tiny);color:var(--muted);">Last Updated: February 2026 · Update Frequency: Quarterly · 27 states confirmed, 23 states estimated pending official confirmation.</p>
         </div>
       </section>
 
@@ -555,24 +556,13 @@
       const yr = parseInt(year, 10);
       if (window.StateAllocationsHistorical && yr >= 2010 && yr <= 2023) {
         const hist = window.StateAllocationsHistorical;
-        const coRow = hist.getColorado(yr);
+        const states = hist.getAllStates(yr) || {};
         const natRow = (hist.national || []).find(d => d.year === yr);
-        const states = {};
-        if (coRow) {
-          states['CO'] = {
-            name: 'Colorado',
-            allocation: coRow.allocation,
-            population: coRow.population,
-            perCapita: coRow.perCapita,
-            status: coRow.status,
-            source: 'HUD / CHFA',
-          };
-        }
         return {
           source: hist.source,
           year: yr,
           states,
-          _historicalNote: 'Historical data — Colorado detail available; other states use IRS per-capita estimates.',
+          _historicalNote: 'Historical data — CO uses confirmed CHFA data; other states use IRS per-capita estimates.',
           _national: natRow,
         };
       }

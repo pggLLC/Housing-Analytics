@@ -83,11 +83,13 @@
 
   /**
    * Calculate a comprehensive 0–100 transit accessibility score.
+   * When EPA data is unavailable (null values from failed API), the score
+   * is based solely on local route data and flagged accordingly.
    *
    * @param {number} siteLat
    * @param {number} siteLon
-   * @param {Array}  routes   - NTD transit routes with stops/headways
-   * @param {object} epaData  - EPA Smart Location metrics
+   * @param {Array}  routes   - Transit routes with stops/headways
+   * @param {object} epaData  - EPA Smart Location metrics (may have null values)
    * @returns {number} 0–100 score
    */
   function calculateTransitScore(siteLat, siteLon, routes, epaData) {
@@ -97,7 +99,14 @@
     lastRoutes  = routes;
     lastEpaData = epaData;
 
-    // Frequency score: based on nearby routes with headway ≤ HIGH_FREQUENCY_MIN
+    // Track which data sources are available
+    var hasRoutes = routes && routes.length > 0;
+    var epaSource = epaData._dataSource || '';
+    var epaAvail  = epaSource === 'epa-live' || epaSource === 'epa-sld-local';
+    var hasEpa = epaData.transitAccessibility != null && epaAvail;
+    var hasWalk = epaData.walkScore != null && epaAvail;
+
+    // Frequency score: based on nearby routes with headway <= HIGH_FREQUENCY_MIN
     var nearbyRoutes = (routes || []).filter(function (r) {
       var stops = r.stops || [];
       return stops.some(function (s) {
@@ -115,23 +124,51 @@
     // Coverage score: number of distinct routes within walk distance
     var coverageScore = clamp(nearbyRoutes.length * 15, 0, 100);
 
-    // EPA index (already 0–100 if normalised, or scale from 0–20 EPA range)
-    var epaRaw  = toNum(epaData.transitAccessibility || epaData.D4a || 50);
-    var epaScore = epaRaw <= 20 ? clamp(epaRaw * 5, 0, 100) : clamp(epaRaw, 0, 100);
+    // EPA index — use real data if available, otherwise exclude from weighting
+    var epaScore = 0;
+    var walkScore = 0;
+    var effectiveWeights = Object.assign({}, TRANSIT_WEIGHTS);
 
-    // Walk score
-    var walkRaw   = toNum(epaData.walkScore || epaData.D3b || 50);
-    lastWalkScore = walkRaw <= 20 ? clamp(walkRaw * 5, 0, 100) : clamp(walkRaw, 0, 100);
+    if (hasEpa) {
+      var epaRaw  = toNum(epaData.transitAccessibility || epaData.D4a);
+      epaScore = epaRaw <= 20 ? clamp(epaRaw * 5, 0, 100) : clamp(epaRaw, 0, 100);
+    } else {
+      // Redistribute EPA weight to frequency and coverage
+      effectiveWeights.frequency += effectiveWeights.epaIndex / 2;
+      effectiveWeights.coverage  += effectiveWeights.epaIndex / 2;
+      effectiveWeights.epaIndex   = 0;
+    }
+
+    if (hasWalk) {
+      var walkRaw = toNum(epaData.walkScore || epaData.D3b);
+      walkScore = walkRaw <= 20 ? clamp(walkRaw * 5, 0, 100) : clamp(walkRaw, 0, 100);
+    } else {
+      // Redistribute walk weight to frequency and coverage
+      effectiveWeights.frequency += effectiveWeights.walkScore / 2;
+      effectiveWeights.coverage  += effectiveWeights.walkScore / 2;
+      effectiveWeights.walkScore  = 0;
+    }
+    lastWalkScore = walkScore;
 
     lastScore = Math.round(
-      TRANSIT_WEIGHTS.frequency * freqScore  +
-      TRANSIT_WEIGHTS.coverage  * coverageScore +
-      TRANSIT_WEIGHTS.epaIndex  * epaScore   +
-      TRANSIT_WEIGHTS.walkScore * lastWalkScore
+      effectiveWeights.frequency * freqScore  +
+      effectiveWeights.coverage  * coverageScore +
+      effectiveWeights.epaIndex  * epaScore   +
+      effectiveWeights.walkScore * walkScore
     );
+
+    // Store data availability for justification
+    _lastDataSources = {
+      routeData: hasRoutes ? 'local-gtfs' : 'none',
+      epaData: hasEpa ? epaSource : 'unavailable',
+      walkData: hasWalk ? epaSource : 'unavailable',
+      nearbyRouteCount: nearbyRoutes.length
+    };
 
     return clamp(lastScore, 0, 100);
   }
+
+  var _lastDataSources = {};
 
   /**
    * Identify transit deserts — zones within the PMA that lack route coverage.
@@ -205,17 +242,29 @@
 
   /**
    * Export transit analysis for ScoreRun audit trail.
+   * Includes _dataSources so the UI can distinguish real vs. unavailable data.
    * @returns {object}
    */
   function getTransitJustification() {
+    var epaAvailable = _lastDataSources.epaData === 'epa-live' || _lastDataSources.epaData === 'epa-sld-local';
+    var walkAvailable = _lastDataSources.walkData === 'epa-live' || _lastDataSources.walkData === 'epa-sld-local';
+    var epa = lastEpaData || {};
     return {
       transitAccessibilityScore: lastScore,
       walkScore:                 lastWalkScore,
-      nearbyRouteCount:          lastRoutes.length,
+      walkScoreAvailable:        walkAvailable,
+      epaDataAvailable:          epaAvailable,
+      nearbyRouteCount:          _lastDataSources.nearbyRouteCount || lastRoutes.length,
       serviceGaps:               lastDeserts.length,
       hasHighFrequencyService:   lastRoutes.some(function (r) {
         return toNum(r.headwayMinutes || 60) <= HIGH_FREQUENCY_MIN;
-      })
+      }),
+      // Extended EPA SLD metrics (available when _dataSource is epa-sld-local)
+      jobAccess:                 epa.jobAccess != null ? epa.jobAccess : null,
+      landUseMix:                epa.landUseMix != null ? epa.landUseMix : null,
+      empDensity:                epa.empDensity != null ? epa.empDensity : null,
+      blockGroupCount:           epa.blockGroupCount || null,
+      _dataSources: _lastDataSources
     };
   }
 

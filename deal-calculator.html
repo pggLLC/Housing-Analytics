@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Deal Calculator | COHO Analytics</title>
+  <meta name="description" content="LIHTC pro forma and capital stack calculator for Colorado affordable housing development. Model eligible basis, tax credit equity, gap financing, and debt service." />
+  <meta property="og:title" content="Deal Calculator | COHO Analytics">
+  <meta property="og:description" content="LIHTC pro forma and capital stack tool for Colorado affordable housing development.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Sync: required before deferred modules -->
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/export-panel.js" defer></script>
+  <script src="js/components/analytics.js" data-step="5" data-step-label="deal_calculator"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
+  <script src="js/site-state.js"></script>
+  <!-- Deferred: navigation and UI -->
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
+  <!-- Centralized financial constants (must load before deal-calculator.js) -->
+  <script defer src="js/config/financial-constants.js"></script>
+  <!-- Live market rates from FRED (updates deal calc inputs with current rates) -->
+  <script defer src="js/config/live-market-rates.js"></script>
+  <!-- Deferred: HUD FMR data connector (provides window.HudFmr for AMI rent limits) -->
+  <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <!-- Deferred: LIHTC deal predictor + enhanced predictor -->
+  <script defer src="js/lihtc-deal-predictor.js"></script>
+  <script defer src="js/lihtc-deal-predictor-enhanced.js"></script>
+  <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
+  <script defer src="js/deal-calculator.js"></script>
+  <script defer src="js/deal-comparison.js"></script>
+  <script defer src="js/housing-outcome-score.js"></script>
+  <script defer src="js/components/hos-renderer.js"></script>
+  <script defer src="js/components/tornado-sensitivity.js"></script>
+  <script defer src="js/soft-funding-tracker.js"></script>
+  <script defer src="js/components/soft-funding-breakdown.js"></script>
+  <script defer src="js/forecasting.js"></script>
+  <script defer src="js/components/equity-forecast-panel.js"></script>
+  <script defer src="js/chfa-award-predictor.js"></script>
+  <script defer src="js/components/qap-competitiveness-panel.js"></script>
+  <script defer src="js/qap-simulator.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/pro-forma.js"></script>
+  <script defer src="js/components/development-realism.js"></script>
+  <script defer src="js/components/land-value-tool.js"></script>
+</head>
+<body data-page-last-updated="2026-04-01"
+      data-page-source="HUD FMR · CHFA · IRC §42">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <!-- ── Workflow progress bar (Step 5 of 5 active) — outside <main> so it sticks independently -->
+  <div class="wf-progress-wrap" id="dcWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="housing-needs-assessment.html" data-step="2">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="3">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="4">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="5" aria-current="step">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Deal Calculator</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- ── Jurisdiction context banner ───────────────────────────────── -->
+    <div id="dcJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info">
+          <span class="hna-jurisdiction-banner__label">Analyzing</span>
+          <strong id="dcJurisdictionName">—</strong>
+          <span id="dcJurisdictionSub" class="hna-jurisdiction-banner__sub"></span>
+        </div>
+        <div class="hna-jurisdiction-banner__actions">
+          <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Editorial header ───────────────────────────────────────────── -->
+    <div class="dc-hero">
+      <div class="kicker">Step 5 of 5 &middot; Deal Calculator</div>
+      <h1>LIHTC Pro Forma &amp; Capital Stack</h1>
+      <p class="dc-lead">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Uses HUD FMR rent limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
+    </div>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Uses HUD FMR rent limits for your selected county.',
+        why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
+        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), applicable fraction, or investor-specific underwriting requirements. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
+        nextSteps: [
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
+          { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
+        ]
+      });
+    });
+    </script>
+
+    <div id="dealDataQuality"></div>
+    <div id="dealApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('dealDataQuality', {
+          sources: [
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'AMI Gap by County', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q1 2026', coverage: 'Colorado', note: 'Hard costs, equity pricing, soft funding — point-in-time estimates' },
+            { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015-2025', coverage: '110 awards', note: 'Pattern matching, not forward prediction' }
+          ],
+          limitations: 'Concept-stage estimates only. Does not model construction financing, applicable fraction, or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
+        });
+      }
+    });
+    </script>
+
+    <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
+    <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
+      <div id="dealCalcMount"></div>
+    </div>
+
+    <!-- ── Scenario Save / Comparison ─────────────────────────────────── -->
+    <div style="max-width:1200px;margin:16px auto 0;padding:0 18px;">
+      <div class="dc-scenario-actions">
+        <button type="button" class="dc-scenario-btn dc-scenario-btn--a" id="dcSaveAsA">Save current as Scenario A</button>
+        <button type="button" class="dc-scenario-btn dc-scenario-btn--b" id="dcSaveAsB">Save current as Scenario B</button>
+      </div>
+      <div id="dcComparisonBar"></div>
+      <div id="dcComparisonPanel" style="display:none;"></div>
+    </div>
+
+    <!-- ── Scenario Sensitivity (Tornado Chart) ────────────────────────── -->
+    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" aria-labelledby="tornadoHeading">
+        <h2 id="tornadoHeading" style="margin:0 0 4px;font-size:1.1rem;">Scenario Sensitivity</h2>
+        <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
+          How key assumptions shift your deal outcome. Bars show the range of variation for equity proceeds, demand signal, and market saturation.
+        </p>
+        <div id="tornadoChartMount"></div>
+      </section>
+    </div>
+
+    <!-- ── Housing Outcome Score ─────────────────────────────────────── -->
+    <div style="max-width:1200px;margin:24px auto 0;padding:0 18px;">
+      <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <h2 id="hosHeading" style="margin:0;font-size:1.1rem;">Housing Outcome Score</h2>
+          <span id="hosConfidenceBadge" class="data-reliability-badge">—</span>
+        </div>
+        <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .75rem;">
+          Composite metric integrating need coverage, policy alignment, financial feasibility, and site quality across your full workflow.
+        </p>
+        <div id="hosScoreDisplay" style="text-align:center;padding:1rem 0;">
+          <div style="font-size:2.5rem;font-weight:800;line-height:1;" id="hosScoreValue">—</div>
+          <div style="font-size:.85rem;font-weight:700;margin-top:4px;" id="hosGrade">—</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:2px;" id="hosDataComplete">—</div>
+        </div>
+        <div id="hosDimensions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;"></div>
+        <p id="hosSummary" style="font-size:.82rem;color:var(--muted);margin-top:.75rem;line-height:1.5;"></p>
+      </section>
+    </div>
+
+    <!-- LIHTC contextual tips (Deal Calculator step) -->
+    <div id="lihtcTipsMount-dc"></div>
+
+    <!-- ── QAP Competitiveness Simulator ─────────────────────────────── -->
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="qapSimulatorMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.QAPSimulator) QAPSimulator.render('qapSimulatorMount');
+      });
+      </script>
+    </div>
+
+    <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
+    <section class="dc-edu-section" aria-labelledby="dcEduHeading">
+      <h2 id="dcEduHeading">What makes LIHTC deals actually hard</h2>
+      <p class="dc-edu-intro">The tax credit program is the most effective affordable housing production tool in U.S. history &mdash; and one of the most technically demanding. Here is what the pro forma above does not show you.</p>
+
+      <div class="dc-edu-grid">
+
+        <div class="dc-edu-item">
+          <h3>Credit pricing is a market &mdash; and it moves</h3>
+          <p>The equity price per dollar of annual credit (the "credit price") is determined by what tax credit investors will pay. In strong markets, this approaches $1.10&ndash;$1.15. In volatile periods, it can drop to $0.85 or below. A 10-cent swing on a $1M annual credit changes your equity by $1M. LIHTC equity closes 12&ndash;18 months after allocation, during which your project's financial structure is locked &mdash; but market conditions are not.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Eligible basis is not total development cost</h3>
+          <p>Only "residential" costs qualify: construction, some soft costs, architect fees, developer overhead up to a limit. Land, commercial space, excess developer fee, and many financing costs are excluded. HUD's basis boost (130% in QCTs and DDAs) can add meaningful credit but requires specific HUD certification. The QCT/DDA overlay on the Housing Needs Assessment map shows your project's eligibility.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>9% credits are competitive &mdash; not guaranteed</h3>
+          <p>CHFA allocates 9% credits through a competitive QAP process. Colorado receives roughly $3.90 per capita in annual allocation authority &mdash; about $24M/year. A typical 60-unit LIHTC project needs $1.2&ndash;$1.8M in annual credits. Demand routinely exceeds supply by 3:1 or more. Applications score on: site control, readiness, community support, income targeting, green standards, nonprofit involvement, and design quality. Rejection does not mean the project is bad &mdash; it often means it is early.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>The "gap" problem is structural</h3>
+          <p>LIHTC rents are capped below market to serve low-income residents &mdash; which is the point. But lower revenue means lower debt capacity. The gap between total development cost and available financing (tax credit equity + first mortgage) is filled by: CHFA subordinate loans, HOME funds, CDBG, local housing trust funds, seller-carry notes, and deferred developer fee. Stacking these sources requires coordinated closings and subordination agreements. A typical 60-unit deal has 5&ndash;8 financing sources.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Compliance runs 30+ years</h3>
+          <p>The initial compliance period is 15 years. The extended use period adds another 15 (30 total). During this time, units must be rent-restricted and income-qualified. Annual CHFA compliance audits, IRS Form 8609, tenant income certifications (TICs), and annual owner's certificates are all required. A compliance violation can trigger credit recapture &mdash; the investor gets back the credits they claimed, plus interest and penalties. This liability runs through the full compliance period.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Working with banks: CRA and the capital stack</h3>
+          <p>Community Reinvestment Act (CRA) obligations incentivize banks to invest in affordable housing &mdash; either as LIHTC equity investors, construction lenders, or permanent lenders. Banks under CRA examination pressure are often the best sources of below-market subordinate debt. Identifying your local CRA lenders early &mdash; before allocation &mdash; can open financing that is not available through standard channels. See the lender guide below.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CRA Lender Partnership Guide ───────────────────────────────── -->
+    <section class="dc-cra-section" aria-labelledby="dcCraHeading">
+      <h2 id="dcCraHeading">Finding CRA lenders for your project</h2>
+      <p class="dc-cra-intro">Banks with Community Reinvestment Act obligations are among the most consistent sources of affordable housing capital &mdash; equity, construction debt, and subordinate permanent debt. The following Colorado-active lenders have established LIHTC and affordable housing programs.</p>
+
+      <div class="dc-cra-grid" id="dcCraGrid">
+        <!-- Populated by inline JS -->
+      </div>
+
+      <p class="dc-cra-note">This list reflects publicly reported CRA activity and program descriptions. Not an endorsement or guarantee of availability. Contact your CHFA relationship manager for current lender referrals before beginning preliminary conversations.</p>
+    </section>
+
+    <!-- ── Save & Export panel ────────────────────────────────────────── -->
+    <section class="hna-continue-panel" id="dcSavePanel">
+      <div class="hna-continue-panel__inner">
+        <div class="hna-continue-panel__text">
+          <strong>Save your deal model?</strong>
+          <span>Save key assumptions and results to your project for reference and export.</span>
+        </div>
+        <div class="hna-continue-panel__actions">
+          <button class="btn hna-save-btn" id="dcSaveBtn" type="button">Save to Project</button>
+          <button class="btn hna-save-btn" id="dcExportBtn" type="button">Export PDF</button>
+        </div>
+      </div>
+      <div id="dcSaveConfirm" class="hna-save-confirmation" hidden>&#10003; Deal model saved to project</div>
+    </section>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="landValueTool"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.LandValueTool) LandValueTool.render('landValueTool');
+      });
+      </script>
+    </div>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="proFormaMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ProForma) ProForma.render('proFormaMount');
+      });
+      </script>
+    </div>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:var(--muted);">Development Realism Checklists</h2>
+      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not modeled in the calculator but materially affect deal feasibility. Review before investing in predevelopment.</p>
+      <div id="dealPPP"></div>
+      <div id="dealColorado"></div>
+      <div id="dealProjectTypes"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DevRealism) {
+        DevRealism.renderPartnershipPanel('dealPPP');
+        DevRealism.renderColoradoFactors('dealColorado');
+        DevRealism.renderProjectTypeGuidance('dealProjectTypes');
+      }
+    });
+    </script>
+  </main>
+
+  <footer class="site-footer">
+    <!-- Injected by navigation.js -->
+  </footer>
+
+  <!-- ── Inline styles ─────────────────────────────────────────────────── -->
+  <style>
+    /* Hero / editorial header */
+    .dc-hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 18px 20px;
+    }
+    .dc-lead {
+      max-width: 680px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-top: .5rem;
+      margin-bottom: .25rem;
+      line-height: 1.55;
+    }
+
+    /* Education section */
+    .dc-edu-section {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 18px;
+    }
+    .dc-edu-section h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .dc-edu-intro {
+      color: var(--muted);
+      margin-bottom: 24px;
+      max-width: 760px;
+      line-height: 1.55;
+    }
+    .dc-edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) {
+      .dc-edu-grid { grid-template-columns: 1fr; }
+    }
+    .dc-edu-item {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+    }
+    .dc-edu-item h3 {
+      font-size: 1rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .dc-edu-item p {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* CRA section */
+    .dc-cra-section {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 18px;
+    }
+    .dc-cra-intro {
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .dc-cra-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) {
+      .dc-cra-grid { grid-template-columns: 1fr; }
+    }
+    .dc-cra-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+    .dc-cra-card__name {
+      font-weight: 700;
+      font-size: .95rem;
+    }
+    .dc-cra-card__role {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .dc-cra-card__tag {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .dc-cra-note {
+      font-size: .82rem;
+      color: var(--muted);
+      border-left: 3px solid var(--border);
+      padding-left: 12px;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    /* ── Scenario comparison styles ──────────────────────────────── */
+    .dc-scenario-actions {
+      display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .dc-scenario-btn {
+      padding: 8px 18px; font-size: .85rem; font-weight: 600;
+      border-radius: 6px; cursor: pointer; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); transition: all .15s;
+    }
+    .dc-scenario-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .dc-scenario-btn--a { border-left: 3px solid var(--accent); }
+    .dc-scenario-btn--b { border-left: 3px solid var(--info, #2563eb); }
+
+    .dc-comp-bar {
+      padding: 12px 16px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .dc-comp-bar__title {
+      font-size: .9rem; font-weight: 700; color: var(--text-strong, var(--text));
+      margin: 0; flex-shrink: 0;
+    }
+    .dc-comp-bar__slots { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+    .dc-comp-vs { font-size: .82rem; font-weight: 700; color: var(--muted); }
+    .dc-comp-slot {
+      flex: 1; min-width: 0; padding: 8px 12px; background: var(--bg);
+      border: 1px dashed var(--border); border-radius: 6px; font-size: .85rem;
+      display: flex; align-items: center; gap: 6px; overflow: hidden;
+    }
+    .dc-comp-slot__empty { color: var(--muted); font-style: italic; font-size: .82rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dc-comp-slot__label { font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .dc-comp-slot__name { color: var(--text-strong, var(--text)); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; }
+    .dc-comp-slot__clear { background: none; border: none; font-size: .9rem;
+      cursor: pointer; color: var(--muted); padding: 2px 4px; margin-left: auto;
+      flex-shrink: 0; line-height: 1; }
+    .dc-comp-slot__clear:hover { color: var(--bad, #dc2626); }
+    .dc-comp-bar__actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .dc-comp-action {
+      padding: 6px 14px; font-size: .82rem; font-weight: 600;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+      cursor: pointer; color: var(--text); transition: all .15s;
+    }
+    .dc-comp-action:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .dc-comp-action:disabled { opacity: .4; cursor: default; }
+    .dc-comp-action--reset:hover:not(:disabled) { border-color: var(--bad, #dc2626); color: var(--bad, #dc2626); }
+
+    /* Comparison panel */
+    #dcComparisonPanel {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 20px 24px; margin-bottom: 16px;
+    }
+    .dc-cp-header { display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; }
+    .dc-cp-title { font-size: 1rem; font-weight: 700; margin: 0; }
+    .dc-cp-close { background: none; border: none; font-size: 1.1rem; cursor: pointer;
+      color: var(--muted); padding: 4px 6px; line-height: 1; }
+    .dc-cp-close:hover { color: var(--text); }
+    .dc-cp-names {
+      display: grid; grid-template-columns: 180px 1fr 60px 1fr; gap: 8px;
+      align-items: center; margin-bottom: 14px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .dc-cp-names__label { font-size: .78rem; font-weight: 600; color: var(--muted); }
+    .dc-cp-names__a { font-weight: 700; font-size: .95rem; color: var(--accent); }
+    .dc-cp-names__b { font-weight: 700; font-size: .95rem; color: var(--info, #2563eb); }
+    .dc-cp-names__vs { text-align: center; font-weight: 700; font-size: .82rem; color: var(--muted); }
+    .dc-cp-section-title {
+      font-size: .82rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px;
+      padding-bottom: 4px; border-bottom: 1px solid var(--border);
+    }
+    .dc-cp-metrics { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+    .dc-cp-row {
+      display: grid; grid-template-columns: 180px 1fr 80px 1fr; gap: 8px;
+      align-items: center; padding: 5px 0;
+      border-bottom: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
+    }
+    .dc-cp-row:last-child { border-bottom: none; }
+    .dc-cp-row__label { font-size: .82rem; font-weight: 600; color: var(--muted); }
+    .dc-cp-row__val { display: flex; flex-direction: column; gap: 3px; }
+    .dc-cp-row__num { font-size: .88rem; font-weight: 700; font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono); color: var(--text-strong, var(--text)); }
+    .dc-cp-row__bar-wrap { height: 5px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+    .dc-cp-row__bar { height: 100%; border-radius: 3px; transition: width .4s ease; }
+    .dc-cp-row__bar--a { background: var(--accent); }
+    .dc-cp-row__bar--b { background: var(--info, #2563eb); }
+    .dc-cp-row__delta { text-align: center; font-size: .75rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .dc-cp-row__delta--better { color: var(--good, #16a34a); }
+    .dc-cp-row__delta--worse { color: var(--bad, #dc2626); }
+
+    .dc-cp-need-align { margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--border); }
+    .dc-cp-need-desc { font-size: .82rem; color: var(--muted); margin: 0 0 12px; }
+
+    @media (max-width: 640px) {
+      .dc-cp-names, .dc-cp-row { grid-template-columns: 1fr; gap: 4px; }
+      .dc-cp-names__vs, .dc-cp-row__delta { display: none; }
+      .dc-comp-bar { flex-direction: column; align-items: stretch; }
+      .dc-comp-bar__slots { flex-direction: column; }
+      .dc-scenario-actions { flex-direction: column; }
+    }
+  </style>
+
+  <!-- ── Inline JavaScript ─────────────────────────────────────────────── -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Inject workflow progress bar styles ─────────────────────────── */
+    var s = document.createElement('style');
+    s.textContent = [
+      '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+      '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
+      '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
+      '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
+      '.wf-step--active .wf-step__num{background:var(--accent);color:#fff;border-color:var(--accent);}',
+      '.wf-step--active .wf-step__label{color:var(--accent);}',
+      '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
+      '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
+      '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+      '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+      '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+      '.hna-jurisdiction-banner__info{display:flex;align-items:baseline;gap:4px;flex-wrap:wrap;}',
+      '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+      '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
+      '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+      '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
+      '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 48px;}',
+      '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
+      '.hna-continue-panel__text{flex:1;min-width:200px;}',
+      '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
+      '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
+      '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
+      '.hna-save-btn{padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text);}',
+      '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent);}',
+      '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
+      '@media(max-width:640px){',
+      '  .wf-progress-steps{gap:0;overflow-x:auto;}',
+      '  .wf-step{min-width:60px;}',
+      '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
+      '}'
+    ].join('');
+    document.head.appendChild(s);
+
+    /* ── Jurisdiction banner ─────────────────────────────────────────── */
+    function updateJurisdictionBanner() {
+      var banner = document.getElementById('dcJurisdictionBanner');
+      var nameEl = document.getElementById('dcJurisdictionName');
+      var subEl  = document.getElementById('dcJurisdictionSub');
+      if (!banner || !nameEl) return;
+
+      var countyName = null;
+      var cityName   = null;
+
+      try {
+        var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        if (jx) {
+          countyName = jx.name || jx.countyName || null;
+          cityName   = jx.displayName || jx.cityName   || null;
+        }
+      } catch (_) {}
+
+      if (!countyName) {
+        try {
+          var sc = window.SiteState && window.SiteState.getCounty();
+          if (sc && sc.name) countyName = sc.name;
+        } catch (_) {}
+      }
+
+      if (countyName) {
+        nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
+        if (subEl) subEl.textContent = cityName ? '\u00b7 ' + cityName : '';
+        banner.removeAttribute('hidden');
+      }
+    }
+
+    /* ── CRA lender grid ─────────────────────────────────────────────── */
+    var CRA_LENDERS = [
+      {
+        name: 'Wells Fargo',
+        role: 'National LIHTC syndicator and construction lender. One of the largest affordable housing equity investors in the country. Active in Colorado new construction and preservation.',
+        tags: ['Equity', 'Construction', 'Permanent']
+      },
+      {
+        name: 'U.S. Bancorp Community Development Corporation',
+        role: 'Major LIHTC syndicator through USBCDC. Consistent equity investor in Colorado 9% and 4% deals. Also provides construction financing.',
+        tags: ['Equity', 'Construction']
+      },
+      {
+        name: 'JPMorgan Chase',
+        role: 'Affordable housing equity investment and construction lending. CRA-active nationally and in Colorado Front Range markets.',
+        tags: ['Equity', 'Construction']
+      },
+      {
+        name: 'FirstBank Colorado',
+        role: 'Colorado-headquartered bank with strong CRA presence. Provides construction financing for affordable multifamily. Active along the Front Range.',
+        tags: ['Construction', 'CRA-active']
+      },
+      {
+        name: 'Vectra Bank Colorado',
+        role: 'Regional bank providing construction and mini-perm lending for affordable housing. Front Range and mountain community focus. CRA-motivated lending.',
+        tags: ['Construction']
+      },
+      {
+        name: 'Colorado Housing Assistance Corporation (CHAC)',
+        role: 'Non-bank CDFI providing subordinate debt for affordable homeownership and rental projects. Frequently stacked in LIHTC capital structures as gap filler.',
+        tags: ['Subordinate Debt', 'CDFI']
+      },
+      {
+        name: 'Colorado Housing and Finance Authority (CHFA)',
+        role: 'State HFA providing subordinate loans, HOME funds, and construction-to-perm financing. CHFA is typically the allocating agency and a key program lender in every Colorado LIHTC deal.',
+        tags: ['Subordinate Debt', 'HOME', 'Program Lender']
+      },
+      {
+        name: 'Colorado CDFI Coalition',
+        role: 'Directory of Colorado-based Community Development Financial Institutions offering flexible, mission-driven capital. Not a single lender — see cdficoalition.org for member directory.',
+        tags: ['CDFI Directory'],
+        link: 'https://www.coloradocdfi.org'
+      }
+    ];
+
+    function populateCraGrid() {
+      var grid = document.getElementById('dcCraGrid');
+      if (!grid) return;
+      var html = '';
+      CRA_LENDERS.forEach(function (l) {
+        var tagsHtml = (l.tags || []).map(function (t) {
+          return '<span class="dc-cra-card__tag">' + t + '</span>';
+        }).join(' ');
+        var nameHtml = l.link
+          ? '<a href="' + l.link + '" class="dc-cra-card__name" target="_blank" rel="noopener">' + l.name + '</a>'
+          : '<div class="dc-cra-card__name">' + l.name + '</div>';
+        html += '<div class="dc-cra-card">' +
+          nameHtml +
+          '<div class="dc-cra-card__role">' + l.role + '</div>' +
+          '<div style="margin-top:8px;">' + tagsHtml + '</div>' +
+          '</div>';
+      });
+      grid.innerHTML = html;
+    }
+
+    /* ── Read current deal calculator state from DOM ─────────────────── */
+    function readDealState() {
+      function safeVal(id) {
+        var el = document.getElementById(id);
+        return el ? el.value : null;
+      }
+      function safeChecked(id) {
+        var el = document.getElementById(id);
+        return el ? el.checked : null;
+      }
+      return {
+        completedAt:  new Date().toISOString(),
+        creditType:   safeChecked('dc-rate-9') ? '9%' : '4%',
+        tdc:          safeVal('dc-tdc'),
+        units:        safeVal('dc-units'),
+        basisPct:     safeVal('dc-basis-pct'),
+        qctDda:       safeChecked('dc-qct-dda'),
+        equityPrice:  safeVal('dc-equity-price'),
+        noi:          safeVal('dc-noi'),
+        dcr:          safeVal('dc-dcr'),
+        interestRate: safeVal('dc-rate'),
+        loanTerm:     safeVal('dc-term'),
+        countyFips:   safeVal('dc-county-select'),
+        unitMix: {
+          30: { units: safeVal('dc-units-30'), enabled: safeChecked('dc-chk-30') },
+          40: { units: safeVal('dc-units-40'), enabled: safeChecked('dc-chk-40') },
+          50: { units: safeVal('dc-units-50'), enabled: safeChecked('dc-chk-50') },
+          60: { units: safeVal('dc-units-60'), enabled: safeChecked('dc-chk-60') }
+        },
+        outputs: {
+          eligibleBasis:   (document.getElementById('dc-r-basis')    || {}).textContent || null,
+          annualCredits:   (document.getElementById('dc-r-credits')  || {}).textContent || null,
+          creditEquity:    (document.getElementById('dc-r-equity')   || {}).textContent || null,
+          annualRents:     (document.getElementById('dc-r-rents')    || {}).textContent || null,
+          mortgageConst:   (document.getElementById('dc-r-mc')       || {}).textContent || null,
+          firstMortgage:   (document.getElementById('dc-r-mortgage') || {}).textContent || null,
+          gap:             (document.getElementById('dc-su-gap')     || {}).textContent || null
+        }
+      };
+    }
+
+    // Expose for deal-comparison.js to capture snapshots
+    window._dcReadDealState = readDealState;
+
+    /* ── Save to project ─────────────────────────────────────────────── */
+    function saveDealToProject() {
+      if (!window.WorkflowState) return false;
+      try {
+        var snapshot = readDealState();
+        WorkflowState.setStep('deal', snapshot);
+        return true;
+      } catch (e) {
+        console.warn('[DealCalc] Failed to save to WorkflowState:', e);
+        return false;
+      }
+    }
+
+    /* ── Wire save + export buttons ──────────────────────────────────── */
+    function wireSaveExport() {
+      var saveBtn    = document.getElementById('dcSaveBtn');
+      var exportBtn  = document.getElementById('dcExportBtn');
+      var confirm    = document.getElementById('dcSaveConfirm');
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function () {
+          var ok = saveDealToProject();
+          if (confirm) {
+            confirm.hidden = false;
+            if (!ok) confirm.textContent = 'Save failed — WorkflowState not available.';
+            setTimeout(function () { confirm.hidden = true; }, 3500);
+          }
+        });
+      }
+
+      if (exportBtn) {
+        exportBtn.addEventListener('click', function () {
+          // Use ExportPanel if available, fallback to print
+          if (window.ExportPanel) {
+            ExportPanel.exportDeal({});
+          } else {
+            window.print();
+          }
+        });
+      }
+    }
+
+    /* ── Init ────────────────────────────────────────────────────────── */
+    function init() {
+      updateJurisdictionBanner();
+      populateCraGrid();
+      wireSaveExport();
+      // Fix #2: update progress bar step completion from WorkflowState
+      if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 5);
+      // LIHTC contextual tips for this step
+      if (window.LihtcTips) {
+        LihtcTips.render('lihtcTipsMount-dc',
+          ['eligible_basis', 'equity_price', 'dscr', 'capital_stack'],
+          { heading: 'Deal Structure Concepts' });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  }());
+  </script>
+
+</body>
+</html>

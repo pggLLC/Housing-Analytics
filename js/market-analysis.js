@@ -21,8 +21,25 @@
   /* ── Constants ─────────────────────────────────────────────────── */
   var BUFFER_OPTIONS   = [3, 5, 10, 15]; // miles
   var AMI_60_PCT       = 0.60;           // default AMI threshold for affordable rent calc
-  var AREA_MEDIAN_INCOME_CO = 95000;     // approximate CO statewide AMI ($/yr)
+  var AREA_MEDIAN_INCOME_CO = 95000;     // statewide fallback AMI ($/yr) — prefer county-specific via HudFmr
   var MAX_AFFORDABLE_RENT_PCT = 0.30;    // 30% of gross income rule
+
+  /**
+   * Get county-specific AMI from HudFmr connector, falling back to statewide.
+   * @param {string|null} countyFips - 5-digit county FIPS code
+   * @returns {number} 4-person AMI in dollars
+   */
+  function _getCountyAmi(countyFips) {
+    if (countyFips && window.HudFmr) {
+      try {
+        var summary = window.HudFmr.getSummaryByFips(countyFips);
+        if (summary && summary.ami_4person && summary.ami_4person > 0) {
+          return summary.ami_4person;
+        }
+      } catch (e) { /* fall through to statewide */ }
+    }
+    return AREA_MEDIAN_INCOME_CO;
+  }
   var STATEWIDE_TRACT_COUNT = 1500;      // expected Colorado census tract count (~2020 Census)
   var COVERAGE_PRODUCTION_THRESHOLD = 0.80; // 80% = production-ready threshold
 
@@ -46,6 +63,8 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
+  var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
+  var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var siteLatLng   = null;
   var bufferMiles  = 5;
   var lastResult   = null;
@@ -56,6 +75,7 @@
   var lihtcFeatures       = null;
   var lihtcLoadError      = false;  // true when LIHTC data failed to load
   var prop123Jurisdictions = null;
+  var dolaData            = null;   // DOLA county demographics (more current than ACS)
   var referenceProjects   = null;   // benchmark reference set
   var lastQuality         = null;   // last data quality assessment
   var lastBenchmark       = null;   // last benchmark result
@@ -118,13 +138,6 @@
       if (inBuf) { (t.bbox && t.bbox.length === 4) ? bboxCount++ : centroidCount++; }
       return inBuf;
     });
-    // Diagnostic: log method breakdown so operators can confirm bbox data is
-    // being used (bbox=0 means all tracts are falling back to centroid distance).
-    console.log(
-      '[market-analysis] tractsInBuffer(' + miles + 'mi): ' +
-      included.length + ' tracts included ' +
-      '(bbox=' + bboxCount + ', centroid-fallback=' + centroidCount + ')'
-    );
     return included;
   }
 
@@ -229,17 +242,33 @@
     return { score: Math.round(score), capture: capture };
   }
 
-  function scoreRentPressure(acs) {
-    var ami60Rent = (AREA_MEDIAN_INCOME_CO * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
+  /**
+   * Score rent pressure: how far market rents exceed 60% AMI affordable threshold.
+   * @param {Object} acs - Aggregated ACS tract metrics
+   * @param {number} [countyAmi] - County-specific 4-person AMI (falls back to statewide)
+   * @returns {{ score: number, ratio: number, amiUsed: number, amiSource: string }}
+   */
+  function scoreRentPressure(acs, countyAmi) {
+    var ami = (countyAmi && countyAmi > 0) ? countyAmi : AREA_MEDIAN_INCOME_CO;
+    var amiSource = (countyAmi && countyAmi > 0) ? 'county' : 'statewide-fallback';
+    var ami60Rent = (ami * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
     var ratio     = acs.median_gross_rent ? acs.median_gross_rent / ami60Rent : 0;
     // If market rent > affordable threshold, it signals unmet demand — higher score
     var score = Math.min(100, Math.max(0, (ratio - 0.70) / (1.50 - 0.70) * 100));
-    return { score: Math.round(score), ratio: ratio };
+    return { score: Math.round(score), ratio: ratio, amiUsed: ami, amiSource: amiSource };
   }
 
-  function scoreLandSupply(acs) {
+  /**
+   * Market tightness score based on vacancy rate.
+   * NOTE: This measures how fully-occupied the existing housing stock is.
+   * It does NOT measure land availability for new construction.
+   * Low vacancy = tight market = strong demand signal.
+   * @param {Object} acs
+   * @returns {number} 0-100 score
+   */
+  function scoreMarketTightness(acs) {
     var vac = acs.vacancy_rate || 0;
-    // Very low vacancy → high demand, strong site signal
+    // Very low vacancy → tight market → strong demand signal
     var score = Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
     return Math.round(score);
   }
@@ -344,21 +373,36 @@
     return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts).score;
   }
 
-  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts) {
+  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi) {
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
-    var rentPressureObj    = scoreRentPressure(acs);
-    var landSupplyScore    = scoreLandSupply(acs);
+    var rentPressureObj    = scoreRentPressure(acs, countyAmi);
+    // Market tightness score (vacancy-based demand signal — NOT land availability)
+    var _bridgeLandCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
+      ? window.BridgeMarketSummary.getLandCostContext(lat, lon)
+      : null;
+    var SSS = window.SiteSelectionScore || {};
+    var marketTightnessScore = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
+      ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
+      : scoreMarketTightness(acs);
+
+    // Enhance market score with Bridge transaction velocity
+    var _bridgeVelCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
+      ? window.BridgeMarketSummary.getMarketVelocity(lat, lon)
+      : null;
     var wfResult           = _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts);
     var workforceScore     = wfResult.score;
+
+    // Bridge market velocity (used in result metadata)
+    var _bridgeVelocityLabel = _bridgeVelCtx ? _bridgeVelCtx.label : 'unknown';
 
     var overall = Math.round(
       demandScore          * WEIGHTS.demand +
       captureObj.score     * WEIGHTS.captureRisk +
       rentPressureObj.score * WEIGHTS.rentPressure +
-      landSupplyScore      * WEIGHTS.landSupply +
+      marketTightnessScore * WEIGHTS.landSupply +
       workforceScore       * WEIGHTS.workforce
     );
 
@@ -407,38 +451,66 @@
       rentPressureCoverage = 'full';
     }
 
-    var landSupplyCoverage;
+    var marketTightnessCoverage;
     if (!acs || acs.vacancy_rate == null) {
-      landSupplyCoverage = 'fallback';
-      fallbackReasons.land_supply = 'ACS vacancy_rate missing; defaulted to 0 (max land-supply score)';
+      marketTightnessCoverage = 'fallback';
+      fallbackReasons.market_tightness = 'ACS vacancy_rate missing; defaulted to 0';
     } else {
-      landSupplyCoverage = 'full';
+      marketTightnessCoverage = 'full';
     }
 
     var pmaDataCoverage = {
-      demand:       demandCoverage,
-      capture_risk: captureRiskCoverage,
-      rent_pressure: rentPressureCoverage,
-      land_supply:   landSupplyCoverage,
-      workforce:     wfResult.coverageLevel
+      demand:            demandCoverage,
+      capture_risk:      captureRiskCoverage,
+      rent_pressure:     rentPressureCoverage,
+      market_tightness:  marketTightnessCoverage,
+      // Backward compat alias
+      land_supply:       marketTightnessCoverage,
+      workforce:         wfResult.coverageLevel
     };
-
-    console.log('[pma-runner] Data coverage:', JSON.stringify({ pma_data_coverage: pmaDataCoverage, fallback_reasons: fallbackReasons }));
 
     return {
       overall:       Math.min(100, Math.max(0, overall)),
       dimensions: {
-        demand:        demandScore,
-        captureRisk:   captureObj.score,
-        rentPressure:  rentPressureObj.score,
-        landSupply:    landSupplyScore,
-        workforce:     workforceScore
+        demand:           demandScore,
+        captureRisk:      captureObj.score,
+        rentPressure:     rentPressureObj.score,
+        marketTightness:  marketTightnessScore,
+        // Backward compat alias — downstream may reference landSupply
+        landSupply:       marketTightnessScore,
+        workforce:        workforceScore
+      },
+      // User-facing labels for each dimension (used by renderers)
+      dimensionLabels: {
+        demand:          'Demand',
+        captureRisk:     'Competitive Density',
+        rentPressure:    'Rent Pressure',
+        marketTightness: 'Market Tightness',
+        workforce:       'Workforce'
+      },
+      // Proxy disclosures — what each metric actually measures
+      dimensionNotes: {
+        captureRisk:     'Ratio of total affordable units to renter households in buffer — not a traditional capture rate based on income-qualified annual demand',
+        marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
+        rentPressure:    'Market rent vs. 60% AMI affordable rent threshold' + (rentPressureObj.amiSource === 'county' ? ' (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')' : ' (statewide AMI fallback: $' + rentPressureObj.amiUsed.toLocaleString() + ')')
+      },
+      dimensionDataAvailable: {
+        demand:          demandCoverage !== 'fallback',
+        captureRisk:     captureRiskCoverage !== 'fallback',
+        rentPressure:    rentPressureCoverage !== 'fallback',
+        marketTightness: marketTightnessCoverage !== 'fallback',
+        landSupply:      marketTightnessCoverage !== 'fallback',
+        workforce:       wfResult.coverageLevel !== 'fallback'
       },
       capture:         captureObj.capture,
       rentRatio:       rentPressureObj.ratio,
+      amiUsed:         rentPressureObj.amiUsed,
+      amiSource:       rentPressureObj.amiSource,
       flags:           flags,
       pma_data_coverage: pmaDataCoverage,
-      fallback_reasons:  fallbackReasons
+      fallback_reasons:  fallbackReasons,
+      bridgeLandContext:  _bridgeLandCtx,
+      bridgeVelocity:    _bridgeVelCtx
     };
   }
 
@@ -498,21 +570,120 @@
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
 
+    // Fallback disclosure: warn when dimensions lack real data
+    var _dimAvailCheck = result.dimensionDataAvailable || {};
+    var _dimKeysCheck  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
+    var fallbackCount  = _dimKeysCheck.filter(function (k) { return _dimAvailCheck[k] === false; }).length;
+    var fallbackNoteEl = el('pmaFallbackNote');
+    if (!fallbackNoteEl) {
+      // Create the warning container once, right after the score tier element
+      var tierEl = el('pmaScoreTier');
+      if (tierEl && tierEl.parentNode) {
+        fallbackNoteEl = document.createElement('div');
+        fallbackNoteEl.id = 'pmaFallbackNote';
+        fallbackNoteEl.style.cssText = 'margin-top:.4rem;font-size:.78rem;line-height:1.4;padding:.35rem .5rem;border-radius:4px;display:none';
+        tierEl.parentNode.insertBefore(fallbackNoteEl, tierEl.nextSibling);
+      }
+    }
+    if (fallbackNoteEl) {
+      if (fallbackCount >= 3) {
+        fallbackNoteEl.style.display = 'block';
+        fallbackNoteEl.style.background = 'rgba(192,57,43,.12)';
+        fallbackNoteEl.style.border = '1px solid var(--bad, #c0392b)';
+        fallbackNoteEl.style.color = 'var(--bad, #c0392b)';
+        fallbackNoteEl.innerHTML = '\u26A0 This score is preliminary — ' + fallbackCount +
+          ' of 5 dimensions lack data for this location.';
+      } else if (fallbackCount >= 1) {
+        fallbackNoteEl.style.display = 'block';
+        fallbackNoteEl.style.background = 'rgba(230,162,60,.12)';
+        fallbackNoteEl.style.border = '1px solid var(--warn, #e6a23c)';
+        fallbackNoteEl.style.color = 'var(--warn-text, #8a6914)';
+        fallbackNoteEl.innerHTML = 'Note: ' + fallbackCount +
+          ' dimension' + (fallbackCount > 1 ? 's' : '') +
+          ' using estimated defaults. See breakdown below.';
+      } else {
+        fallbackNoteEl.style.display = 'none';
+        fallbackNoteEl.innerHTML = '';
+      }
+    }
+
     var dims = result.dimensions;
-    var dimNames = ['demand', 'captureRisk', 'rentPressure', 'landSupply', 'workforce'];
-    var dimLabels = ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'];
+    var dimAvail = result.dimensionDataAvailable || {};
+    var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
+    var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
+    var dimDescs  = [
+      'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
+      'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
+      'Upward pressure on market rents vs. AMI-restricted limits. High rent pressure = strong affordability gap and demand for restricted units.',
+      'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
+      'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
+    ];
     var listEl = el('pmaDimList');
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
         var s = dims[k] || 0;
-        return '<li class="pma-dim-item">' +
-          '<span class="pma-dim-name">' + dimLabels[i] + '</span>' +
+        var hasData = dimAvail[k] !== false;
+        var barColor = !hasData ? 'var(--muted, #666)' :
+          s >= 70 ? 'var(--good)' : s >= 45 ? 'var(--accent)' : s >= 25 ? 'var(--warn)' : 'var(--bad)';
+        var barOpacity = hasData ? '1' : '0.4';
+        var stubLabel = hasData ? '' :
+          ' <span style="font-size:.7em;color:var(--warn,#c0392b);font-weight:600;margin-left:.25rem" ' +
+          'title="Score based on fallback defaults — real data not available">(estimated)</span>';
+        return '<li class="pma-dim-item" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">' +
+          '<span class="pma-dim-name">' + dimLabels[i] + stubLabel +
+            '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
+          '</span>' +
           '<div class="pma-dim-bar-wrap" style="flex:1">' +
-            '<div class="pma-dim-bar" style="width:' + s + '%"></div>' +
+            '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + ';opacity:' + barOpacity + '"></div>' +
           '</div>' +
-          '<span class="pma-dim-score">' + s + '</span>' +
+          '<span class="pma-dim-score" style="' + (hasData ? '' : 'color:var(--muted,#666);font-style:italic') + '">' +
+            (hasData ? s : '<abbr title="No data available for this dimension" style="text-decoration:none;cursor:help">\u2014</abbr>' +
+              ' <span style="font-size:.65em;color:var(--muted,#888)">(no data)</span>') +
+          '</span>' +
         '</li>';
-      }).join('');
+      }).join('') +
+      '<li style="margin-top:.5rem;padding:.5rem .3rem;border-top:1px solid var(--border)">' +
+        '<details style="font-size:.75rem;color:var(--muted)">' +
+          '<summary style="cursor:pointer;font-weight:600;color:var(--text)">What do these scores mean?</summary>' +
+          '<dl style="margin:.4rem 0 0;display:flex;flex-direction:column;gap:.35rem">' +
+            dimNames.map(function (k, i) {
+              return '<div><dt style="font-weight:600;color:var(--text)">' + dimLabels[i] + '</dt>' +
+                     '<dd style="margin:0;color:var(--muted)">' + dimDescs[i] + '</dd></div>';
+            }).join('') +
+            '<div><dt style="font-weight:600;color:var(--text)">Score range</dt>' +
+              '<dd style="margin:0;color:var(--muted)">0–100. ' +
+                '<span style="color:var(--good)">■ 70–100 Strong</span> · ' +
+                '<span style="color:var(--accent)">■ 45–69 Moderate</span> · ' +
+                '<span style="color:var(--warn)">■ 25–44 Marginal</span> · ' +
+                '<span style="color:var(--bad)">■ 0–24 Weak</span>' +
+              '</dd></div>' +
+            '<div><dt style="font-weight:600;color:var(--warn,#c0392b)">* Estimated scores</dt>' +
+              '<dd style="margin:0;color:var(--muted)">Scores marked with * or (estimated) are based on ' +
+                'fallback defaults because real data was not available. Check the Data Coverage panel below ' +
+                'for details on which data sources are live vs. unavailable.</dd></div>' +
+          '</dl>' +
+        '</details>' +
+      '</li>';
+    }
+
+    // Bridge market context card
+    if (result.bridgeLandContext || result.bridgeVelocity) {
+      var bridgeCardEl = el('pmaBridgeContext');
+      if (bridgeCardEl) {
+        var lc = result.bridgeLandContext || {};
+        var mv = result.bridgeVelocity || {};
+        var tierColor = lc.tier === 'low' ? 'var(--good)' : lc.tier === 'high' ? 'var(--bad)' : 'var(--accent)';
+        bridgeCardEl.innerHTML =
+          '<div style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Market Context · Bridge Data</div>' +
+          '<div style="display:flex;gap:.75rem;flex-wrap:wrap">' +
+            (lc.tier ? '<span style="background:' + tierColor + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600">Land: ' + lc.tier.charAt(0).toUpperCase() + lc.tier.slice(1) + ' cost</span>' : '') +
+            (lc.regionName ? '<span style="font-size:.78rem;color:var(--muted)">' + lc.regionName + '</span>' : '') +
+            (mv.label && mv.label !== 'unknown' ? '<span style="font-size:.78rem;color:var(--muted)">Market: ' + mv.label + '</span>' : '') +
+            (lc.isRural ? '<span style="background:var(--accent);color:#fff;padding:2px 7px;border-radius:10px;font-size:.75rem;font-weight:600">Rural market</span>' : '') +
+          '</div>' +
+          (lc.note ? '<div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">' + lc.note + '</div>' : '');
+        bridgeCardEl.style.display = '';
+      }
     }
 
     var flagsEl = el('pmaFlags');
@@ -531,7 +702,7 @@
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
     renderDataCoverage(result);
-    updateRadarChart(result.dimensions);
+    updateRadarChart(result.dimensions, result.dimensionDataAvailable);
     updateSimulator(result);
     renderBenchmark(result);
     renderPipeline(result);
@@ -555,9 +726,9 @@
 
     var dims = [
       { key: 'demand',       label: 'Demand' },
-      { key: 'capture_risk', label: 'Capture Risk' },
+      { key: 'capture_risk', label: 'Competitive Density' },
       { key: 'rent_pressure',label: 'Rent Pressure' },
-      { key: 'land_supply',  label: 'Land / Supply' },
+      { key: 'land_supply',  label: 'Market Tightness' },
       { key: 'workforce',    label: 'Workforce' }
     ];
 
@@ -571,6 +742,58 @@
       '</tr>';
     }).join('');
 
+    // Enhanced pipeline data sources (from PMA Analysis Runner)
+    var pipelineSources = [
+      { label: 'Transit Routes', source: result._transitDataSource || null },
+      { label: 'EPA Walkability', source: result._epaDataSource || null },
+      { label: 'HUD AFFH', source: null },
+      { label: 'HUD Opp. Atlas', source: null },
+      { label: 'Utility Capacity', source: null },
+      { label: 'USDA Food Access', source: null }
+    ];
+
+    // Derive source info from the analysis runner results if available
+    var ar = result._analysisResults || {};
+    if (ar.transit) {
+      pipelineSources[0].source = ar.transit._ntdDataSource || (ar.transit.nearbyRouteCount > 0 ? 'local-gtfs' : 'stub');
+      pipelineSources[1].source = ar.transit._epaDataSource || (ar.transit.epaDataAvailable ? 'epa-live' : 'unavailable');
+    }
+    if (ar.opportunities && ar.opportunities._dataSources) {
+      pipelineSources[2].source = ar.opportunities._dataSources.affh || 'unavailable';
+      pipelineSources[3].source = ar.opportunities._dataSources.atlas || 'unavailable';
+    }
+    if (ar.infrastructure && ar.infrastructure._dataAvailability) {
+      var infraAvail = ar.infrastructure._dataAvailability;
+      pipelineSources[4].source = infraAvail.stubSources.indexOf('utility') === -1 ? 'live' : 'unavailable';
+      pipelineSources[5].source = infraAvail.stubSources.indexOf('foodAccess') === -1 ? 'live' : 'unavailable';
+    }
+
+    var pipelineRows = pipelineSources.map(function (ps) {
+      var src = ps.source || 'unavailable';
+      var isLive = src === 'live' || src === 'local-gtfs' || src === 'epa-live';
+      var levelStr = isLive ? 'live' : (src === 'stub' ? 'stub' : 'unavailable');
+      var icon = isLive ? '✓' : '—';
+      var color = isLive ? 'var(--good)' : 'var(--muted, #888)';
+      var note = isLive ? src : 'Data not available';
+      return '<tr>' +
+        '<td style="padding:.15rem .4rem;color:var(--faint)">' + ps.label + '</td>' +
+        '<td style="padding:.15rem .4rem;font-weight:600;color:' + color + '">' + icon + ' ' + levelStr + '</td>' +
+        '<td style="padding:.15rem .4rem;font-size:.78em;color:var(--faint)">' + note + '</td>' +
+      '</tr>';
+    }).join('');
+
+    var fallbackNote = '';
+    var fallbackCount = dims.filter(function (d) { return (cov[d.key] || 'fallback') === 'fallback'; }).length;
+    var pipelineUnavail = pipelineSources.filter(function (ps) {
+      var src = ps.source || 'unavailable';
+      return src === 'unavailable' || src === 'stub' || !src;
+    }).length;
+    if (fallbackCount > 0 || pipelineUnavail > 0) {
+      fallbackNote = '<p style="margin:.5rem 0 0;font-size:.75em;color:var(--warn,#c0392b);font-style:italic;">' +
+        'Scores marked (est.) or with unavailable data sources use default assumptions. ' +
+        'See fallback reasons above for details.</p>';
+    }
+
     coverageEl.innerHTML =
       '<table style="width:100%;border-collapse:collapse;font-size:.82em">' +
         '<thead><tr>' +
@@ -579,45 +802,75 @@
           '<th style="text-align:left;padding:.15rem .4rem;color:var(--faint);font-weight:400">Notes</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
-      '</table>';
+      '</table>' +
+      '<h5 style="margin:.75rem 0 .25rem;font-size:.82em;color:var(--faint)">Enhanced Pipeline Sources</h5>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:.82em">' +
+        '<tbody>' + pipelineRows + '</tbody>' +
+      '</table>' +
+      fallbackNote;
   }
 
   /* ── Radar chart ─────────────────────────────────────────────────── */
   var radarChart = null;
 
-  function updateRadarChart(dims) {
+  function updateRadarChart(dims, dimAvail) {
     var canvas = el('pmaRadarChart');
     if (!canvas || !window.Chart) return;
 
+    dimAvail = dimAvail || {};
+    var dimKeys = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
     var data = [
       dims.demand,
       dims.captureRisk,
       dims.rentPressure,
-      dims.landSupply,
+      dims.marketTightness || dims.landSupply,
       dims.workforce
     ];
+
+    // Per-point colors: muted for estimated, accent for real data
     var cs = getComputedStyle(document.documentElement);
     var accent = cs.getPropertyValue('--accent').trim() || '#0a7e74';
     var muted  = cs.getPropertyValue('--muted').trim()  || '#476080';
     var border = cs.getPropertyValue('--border').trim() || 'rgba(13,31,53,.11)';
+    var warnColor = cs.getPropertyValue('--warn').trim() || '#c0392b';
+
+    var pointColors = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? accent : (muted || '#999');
+    });
+    var pointStyles = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? 'circle' : 'triangle';
+    });
+    var pointRadii = dimKeys.map(function (k) {
+      return dimAvail[k] !== false ? 3 : 5;
+    });
+
+    // Labels: append "(est.)" for estimated dimensions
+    var labels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'].map(function (lbl, i) {
+      return dimAvail[dimKeys[i]] !== false ? lbl : lbl + ' (est.)';
+    });
 
     if (radarChart) {
+      radarChart.data.labels = labels;
       radarChart.data.datasets[0].data = data;
+      radarChart.data.datasets[0].pointBackgroundColor = pointColors;
+      radarChart.data.datasets[0].pointStyle = pointStyles;
+      radarChart.data.datasets[0].pointRadius = pointRadii;
       radarChart.update();
       return;
     }
     radarChart = new window.Chart(canvas, {
       type: 'radar',
       data: {
-        labels: ['Demand', 'Capture Risk', 'Rent Pressure', 'Land/Supply', 'Workforce'],
+        labels: labels,
         datasets: [{
           label: 'PMA Score',
           data: data,
           borderColor: accent,
           backgroundColor: 'rgba(14,165,160,.15)',
-          pointBackgroundColor: accent,
-          borderWidth: 2,
-          pointRadius: 3
+          pointBackgroundColor: pointColors,
+          pointStyle: pointStyles,
+          pointRadius: pointRadii,
+          borderWidth: 2
         }]
       },
       options: {
@@ -793,7 +1046,9 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon) {
-    console.log('[market-analysis] runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi');
+    // Show chart loading overlay (uses PMAUIController helpers when available)
+    var _uic = window.PMAUIController;
+    if (_uic && _uic.showChartLoading) _uic.showChartLoading('pmaRadarChart');
 
     // ── Recover from global cache if module-level variables are stale ──
     // This fixes the "No ACS data" error on the second (and subsequent) map
@@ -803,12 +1058,10 @@
       if ((!tractCentroids || !(tractCentroids.tracts || tractCentroids).length) &&
           _cache.has('tractCentroids')) {
         tractCentroids = _cache.get('tractCentroids');
-        console.log('[market-analysis] runAnalysis(): restored tractCentroids from PMADataCache');
       }
       if ((!acsMetrics || !(acsMetrics.tracts || []).length) &&
           _cache.has('acsMetrics')) {
         acsMetrics = _cache.get('acsMetrics');
-        console.log('[market-analysis] runAnalysis(): restored acsMetrics from PMADataCache (cache: ' + _cache.debugSummary() + ')');
       }
     }
 
@@ -831,9 +1084,9 @@
     var bufTracts = tractsInBuffer(lat, lon, bufferMiles);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
-    // If no ACS matches in this buffer, try expanding to the next available radius.
+    // If no ACS matches (or no centroids found) try expanding to larger radii.
     var effectiveBuffer = bufferMiles;
-    if (!acs && bufTracts.length > 0) {
+    if (!acs) {
       var fallbackSizes = BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; });
       for (var fi = 0; fi < fallbackSizes.length; fi++) {
         var fallbackMiles = fallbackSizes[fi];
@@ -850,11 +1103,12 @@
     }
 
     if (!acs) {
-      if (bufTracts.length > 0) {
-        console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
-          [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
-      }
-      showEmpty('pmaScoreWrap', 'No ACS tract data found in this buffer. Try a larger radius.');
+      console.warn('[market-analysis] ACS data not found at any buffer radius (checked: ' +
+        [bufferMiles].concat(BUFFER_OPTIONS.filter(function (s) { return s > bufferMiles; })).join(', ') + ' mi)');
+      showEmpty('pmaScoreWrap',
+        'No ACS tract data found within ' +
+        (BUFFER_OPTIONS[BUFFER_OPTIONS.length - 1] || bufferMiles) + ' miles. ' +
+        'Try a different location, or run the "Generate Market Analysis Data" workflow to refresh coverage.');
       return;
     }
 
@@ -866,9 +1120,25 @@
       return;
     }
     var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && f.properties.TOTAL_UNITS) || 0); }, 0);
+    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts);
+    // Derive dominant county FIPS from buffer tracts for county-specific AMI
+    var _pmaCountyFips = null;
+    if (bufTracts.length) {
+      var _cfVotes = {};
+      bufTracts.forEach(function (t) {
+        var gid = t.geoid || t.GEOID || '';
+        var cf = gid.substring(0, 5);
+        if (cf.length === 5) { _cfVotes[cf] = (_cfVotes[cf] || 0) + 1; }
+      });
+      var _bestCf = null, _bestCfN = 0;
+      Object.keys(_cfVotes).forEach(function (k) {
+        if (_cfVotes[k] > _bestCfN) { _bestCfN = _cfVotes[k]; _bestCf = k; }
+      });
+      _pmaCountyFips = _bestCf;
+    }
+    var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
+    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi);
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -887,17 +1157,75 @@
       CONF.renderConfidenceBadge('pmaHeuristicConfidence', confidence);
     }
 
+    // Enrich with DOLA county-level demographics if available.
+    // DOLA provides more current population/housing estimates than ACS
+    // (annual vs. 5-year rolling average).
+    var dolaEnrichment = null;
+    if (dolaData && dolaData.counties) {
+      var pmaCountyFips = {};
+      bufTracts.forEach(function (t) { pmaCountyFips[t.geoid.slice(0, 5)] = true; });
+      var dolaCounties = {};
+      var dolaTotalPop = 0, dolaTotalHU = 0, dolaTotalVacant = 0;
+      Object.keys(pmaCountyFips).forEach(function (fips) {
+        var cd = dolaData.counties[fips];
+        if (cd && !cd._noData) {
+          dolaCounties[fips] = cd;
+          dolaTotalPop    += cd.population    || 0;
+          dolaTotalHU     += cd.housingUnits  || 0;
+          dolaTotalVacant += cd.vacantUnits   || 0;
+        }
+      });
+      if (Object.keys(dolaCounties).length) {
+        dolaEnrichment = {
+          year: dolaData.meta.year,
+          counties: dolaCounties,
+          aggregated: {
+            population:   dolaTotalPop,
+            housingUnits: dolaTotalHU,
+            vacantUnits:  dolaTotalVacant,
+            vacancyRate:  dolaTotalHU > 0 ? Math.round((dolaTotalVacant / dolaTotalHU) * 10000) / 10000 : null
+          },
+          _source: 'DOLA State Demography Office'
+        };
+      }
+    }
+
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
       prop123Count: prop123Count,
       confidence: confidence,
+      dolaContext: dolaEnrichment,
       _tractIds: bufTracts.map(function (t) { return t.geoid; })
     });
 
     renderScore(lastResult);
+    // Hide chart loading overlay after rendering
+    var _uic2 = window.PMAUIController;
+    if (_uic2 && _uic2.hideChartLoading) _uic2.hideChartLoading('pmaRadarChart');
     setText('pmaRunBtn', 'Re-run Analysis');
+
+    // Make the Explain Score button visible and functional in buffer mode.
+    // pma-ui-controller.js _initExplainScore will pick up lastResult via PMAEngine.
+    var explainBtn = document.getElementById('pmaExplainScoreBtn');
+    if (explainBtn) { explainBtn.hidden = false; }
+
+    // Render PMA boundary polygon (buffer mode) and SMA ring if toggled.
+    (function () {
+      var delineation = window.PMADelineation;
+      if (!delineation) return;
+      delineation.renderPmaLayer(map, lat, lon, effectiveBuffer);
+      var smaCheck = document.getElementById('pmaSmaToggle');
+      if (smaCheck && smaCheck.checked) {
+        delineation.renderSmaLayer(map, lat, lon, true);
+      }
+      // Update parcel/zoning layer if already visible
+      var parcelCheck = document.getElementById('pmaParcelZoningToggle');
+      if (parcelCheck && parcelCheck.checked && window.PMAParcelZoning) {
+        window.PMAParcelZoning.renderParcelZoningLayer(map, lat, lon, effectiveBuffer);
+      }
+    }());
 
     // ── Trigger concept recommendation for buffer mode ───────────────
     (function () {
@@ -1000,7 +1328,6 @@
     // and SiteSelectionScore expect, then push the data into MAState before
     // calling MAController.runAnalysis() so that _getAcs() / _getLihtc()
     // can retrieve it through the secondary (MAState) path.
-    console.log('[market-analysis] runAnalysis(): delegating to MAController.runAnalysis()');
     var MAC = window.MAController;
     if (MAC && typeof MAC.runAnalysis === 'function') {
       var MA = window.MAState;
@@ -1039,6 +1366,9 @@
     if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
 
     map = L.map('pmaMap', { zoomControl: true, maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
+    if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.5501, -105.7821], zoom: 7 }); }
+    // Expose map so the page's inline jurisdiction logic can flyTo county centroids (#13)
+    window._cohoMap = map;
 
     // Restrict pan/zoom tightly to Colorado state boundary + minimal padding.
     // Colorado extent: N 41.0°, S 37.0°, W -109.05°, E -102.05°.
@@ -1149,9 +1479,9 @@
         },
         onEachFeature: function (f, layer) {
           var p = f.properties || {};
-          var name = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-          var units = p.TOTAL_UNITS || p.total_units || '?';
-          var year  = p.YEAR_ALLOC  || p.year_alloc  || '';
+          var name = p.PROJECT || p.PROJECT_NAME || p.project_name || 'LIHTC Project';
+          var units = p.N_UNITS || p.TOTAL_UNITS || p.total_units || '?';
+          var year  = p.YR_ALLOC || p.YEAR_ALLOC  || p.year_alloc  || '';
           var prop123Badge = isInProp123Jurisdiction(f) ? '<br><span style="color:#7c3aed;font-weight:600">✓ Prop 123 Jurisdiction</span>' : '';
           layer.bindTooltip(
             name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : '') + prop123Badge,
@@ -1201,6 +1531,404 @@
       return div;
     };
     legend.addTo(map);
+  }
+
+  /* ── PMA layer toggle wiring ───────────────────────────────────── */
+  var LAYER_CONFIG = {
+    lihtc:             { src: null, style: null },                                                           // handled by initOverlayLayers
+    sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
+    transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
+    transitStops:      { src: 'amenities/transit_stops_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#0ea5e9', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    schools:           { src: 'market/schools_co.geojson',                    pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 },
+                         arcgis: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Opportunity_Zones_2/FeatureServer/0',
+                         arcgisWhere: "STATEFP='08'" },
+    flood:             { src: 'market/flood_zones_co.geojson',                style: { color: '#3b82f6', weight: 1, fillOpacity: 0.2 },
+                         tileService: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
+                         tileLayers: '28',
+                         tileLabel: 'FEMA Flood Zones' },
+    barriers:          { src: 'market/natural_barriers_co.geojson',           style: { color: '#ef4444', weight: 1.5, fillOpacity: 0.15 } },
+    envJustice:        { src: 'market/environmental_constraints_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#ef4444', weight: 1.5, fillOpacity: 0.7 } },
+    commuting:         { src: 'market/commuting_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#6366f1', color: '#312e81', weight: 1, fillOpacity: 0.6 } },
+    walkability:       { src: 'market/walkability_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#10b981', color: '#065f46', weight: 1, fillOpacity: 0.6 } },
+    employmentCenters: { src: 'market/employment_centers_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    grocery:           { src: 'amenities/grocery_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#22c55e', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    healthcare:        { src: 'amenities/healthcare_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#ef4444', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    parks:             { src: 'amenities/parks_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#16a34a', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    hospitals:         { src: 'market/hospitals_co.geojson',
+                         pointStyle: { radius: 6, fillColor: '#dc2626', color: '#fff', weight: 2, fillOpacity: 0.9 } },
+    childcare:         { src: 'market/childcare_co.geojson',
+                         pointStyle: { radius: 4, fillColor: '#f97316', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    infrastructure:    { src: 'market/utility_capacity_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#0891b2', color: '#164e63', weight: 1, fillOpacity: 0.6 } },
+    housingPolicy:     { src: 'market/housing_policy_jurisdictions_co.geojson' },
+    parcelZoning:      { src: 'market/landuse_zoning_proxy_co.geojson',
+                         pointStyle: { radius: 5, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    commutingFlows:    { src: 'market/lodes_od_arcs_co.geojson' },
+    listings:          { src: null }    // handled externally (Bridge API)
+  };
+
+  /* ── Layer status toast ──────────────────────────────────────────── */
+  var _toastEl = null;
+  function _showLayerToast(msg, isError) {
+    if (!_toastEl) {
+      _toastEl = document.createElement('div');
+      _toastEl.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);' +
+        'padding:.65rem 1.2rem;border-radius:8px;font-size:.82rem;z-index:10000;' +
+        'box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center;';
+      document.body.appendChild(_toastEl);
+    }
+    _toastEl.style.background = isError ? '#dc2626' : 'var(--accent, #096e65)';
+    _toastEl.style.color = '#fff';
+    _toastEl.textContent = msg;
+    _toastEl.style.opacity = '1';
+    clearTimeout(_toastEl._timer);
+    _toastEl._timer = setTimeout(function () { _toastEl.style.opacity = '0'; }, isError ? 6000 : 3000);
+  }
+
+  var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
+
+  function initLayerToggles() {
+    var L = window.L;
+    var DS = window.DataService;
+    if (!L || !map) { console.warn('[market-analysis] initLayerToggles: Leaflet or map not ready'); return; }
+
+    var checkboxes = document.querySelectorAll('.pma-layer-toggle');
+    for (var i = 0; i < checkboxes.length; i++) {
+      (function (cb) {
+        var key = cb.getAttribute('data-layer');
+        if (!key) return;
+
+        var cfg = LAYER_CONFIG[key];
+
+        // Skip keys not in config (e.g. future additions)
+        if (!cfg) return;
+
+        // Disable checkboxes for layers with no data source and no special handling
+        if (!cfg.src && !cfg.tileService && !cfg.arcgis && key !== 'lihtc' && key !== 'listings') {
+          cb.disabled = true;
+          var noData = document.createElement('small');
+          noData.textContent = ' (no data)';
+          noData.style.color = 'var(--muted, #94a3b8)';
+          cb.parentNode.appendChild(noData);
+          return;
+        }
+
+        // LIHTC toggle — wire to existing lihtcLayer from initOverlayLayers
+        if (key === 'lihtc') {
+          cb.addEventListener('change', function () {
+            if (!lihtcLayer) return;
+            if (cb.checked) {
+              if (!map.hasLayer(lihtcLayer)) lihtcLayer.addTo(map);
+            } else {
+              map.removeLayer(lihtcLayer);
+            }
+          });
+          return;
+        }
+
+        // Listings — skip, handled by external Bridge API integration
+        if (key === 'listings') return;
+
+        // ── Tile service layers (ArcGIS MapServer image tiles) ──
+        if (cfg.tileService) {
+          cb.addEventListener('change', function () {
+            if (cb.checked) {
+              if (_mapLayers[key]) {
+                if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
+                return;
+              }
+              // Leaflet custom tile layer using ArcGIS export endpoint
+              var layer = L.tileLayer(
+                cfg.tileService + '/export?bbox={bbox}&bboxSR=4326&imageSR=4326' +
+                '&size=256,256&format=png32&transparent=true&layers=show:' +
+                (cfg.tileLayers || '0') + '&f=image',
+                { attribution: cfg.tileLabel || 'ArcGIS', opacity: 0.65, maxZoom: 18,
+                  // Custom bbox substitution for ArcGIS export
+                  // Leaflet doesn't natively support {bbox}, so we override getTileUrl
+                }
+              );
+              // Override getTileUrl to provide bbox from tile coords
+              layer.getTileUrl = function (coords) {
+                var tileSize = this.getTileSize();
+                var nw = this._map.unproject([coords.x * tileSize.x, coords.y * tileSize.y], coords.z);
+                var se = this._map.unproject([(coords.x + 1) * tileSize.x, (coords.y + 1) * tileSize.y], coords.z);
+                var bbox = [se.lng, se.lat, nw.lng, nw.lat].join(',');
+                return cfg.tileService + '/export?bbox=' + bbox +
+                  '&bboxSR=4326&imageSR=4326&size=' + tileSize.x + ',' + tileSize.y +
+                  '&format=png32&transparent=true&layers=show:' + (cfg.tileLayers || '0') + '&f=image';
+              };
+              // Detect errors (service down)
+              layer.on('tileerror', function (e) {
+                if (!layer._errorShown) {
+                  layer._errorShown = true;
+                  _showLayerToast('⚠ ' + (cfg.tileLabel || key) + ' service unavailable — try again later', true);
+                  // Disable checkbox and show status
+                  cb.checked = false;
+                  if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) map.removeLayer(_mapLayers[key]);
+                }
+              });
+              layer.on('load', function () {
+                if (!layer._loadShown) {
+                  layer._loadShown = true;
+                  _showLayerToast('✓ ' + (cfg.tileLabel || key) + ' loaded', false);
+                }
+              });
+              _mapLayers[key] = layer;
+              layer.addTo(map);
+            } else {
+              if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) map.removeLayer(_mapLayers[key]);
+            }
+          });
+          return;
+        }
+
+        // Standard GeoJSON layers (with optional ArcGIS FeatureServer primary + local fallback)
+        cb.addEventListener('change', function () {
+          if (cb.checked) {
+            // Already cached — just re-add to map
+            if (_mapLayers[key]) {
+              if (!map.hasLayer(_mapLayers[key])) _mapLayers[key].addTo(map);
+              return;
+            }
+
+            // Helper to create GeoJSON layer from data
+            function _createLayer(gj) {
+              if (!gj || !gj.features || gj.features.length === 0) {
+                console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
+                return;
+              }
+              var opts = {};
+              if (cfg.pointStyle) {
+                opts.pointToLayer = function (feature, latlng) {
+                  var ps = Object.assign({}, cfg.pointStyle);
+                  var fp = feature.properties || {};
+
+                  // Dynamic styling for walkability (green gradient by score)
+                  if (key === 'walkability' && fp.walk_score != null) {
+                    var ws = fp.walk_score;
+                    ps.fillColor = ws >= 70 ? '#10b981' : ws >= 40 ? '#f59e0b' : '#ef4444';
+                    ps.radius = 4 + Math.round(ws / 25);
+                  }
+
+                  // Dynamic styling for commuting (size by volume, color by net flow)
+                  if (key === 'commuting' && fp.netFlow != null) {
+                    var total = (fp.inCommuters || 0) + (fp.outCommuters || 0);
+                    ps.radius = Math.max(3, Math.min(10, 3 + Math.log10(Math.max(total, 1)) * 1.5));
+                    ps.fillColor = fp.netFlow > 0 ? '#6366f1' : fp.netFlow < 0 ? '#f97316' : '#94a3b8';
+                  }
+
+                  // Dynamic styling for parcel zoning proxy (color by zone type)
+                  if (key === 'parcelZoning' && fp.zone_proxy) {
+                    var zp = fp.zone_proxy;
+                    ps.fillColor = zp === 'multifamily_residential' ? '#10b981'
+                      : zp === 'townhome_residential' ? '#3b82f6'
+                      : zp === 'mixed_use' ? '#8b5cf6'
+                      : zp === 'vacant_developable' ? '#f59e0b'
+                      : zp === 'commercial' ? '#6b7280'
+                      : zp === 'industrial' ? '#dc2626' : '#94a3b8';
+                    ps.radius = (fp.mf_suitability || 50) >= 70 ? 6 : 4;
+                  }
+
+                  // Dynamic styling for EJI (red gradient by risk)
+                  if (key === 'envJustice' && fp.eji_percentile != null) {
+                    var eji = fp.eji_percentile;
+                    ps.fillColor = eji >= 0.75 ? '#ef4444' : eji >= 0.5 ? '#f59e0b' : '#22c55e';
+                  }
+
+                  return L.circleMarker(latlng, ps);
+                };
+              }
+              if (cfg.style) {
+                opts.style = cfg.style;
+              }
+              // Arc style for commuting OD flows
+              if (key === 'commutingFlows') {
+                opts.style = function (feature) {
+                  var p = feature.properties || {};
+                  var jobs = p.jobs || 0;
+                  var dist = p.distance_miles || 0;
+                  // Width by job count (log scale), color by distance
+                  var weight = Math.max(1.5, Math.min(6, 1 + Math.log10(Math.max(jobs, 1)) * 1.5));
+                  var color = dist > 30 ? '#ef4444' : dist > 15 ? '#f59e0b' : '#6366f1';
+                  var opacity = Math.max(0.25, Math.min(0.7, jobs / 500));
+                  return { color: color, weight: weight, opacity: opacity, dashArray: null };
+                };
+              }
+              // Choropleth style for housing policy jurisdictions
+              if (key === 'housingPolicy') {
+                opts.style = function (feature) {
+                  var p = feature.properties || {};
+                  var score = p.totalScore || 0;
+                  var max = p.maxPossible || 7;
+                  var ratio = max > 0 ? score / max : 0;
+                  var fillColor = p.has_iz_ordinance ? '#10b981'
+                    : ratio >= 0.7 ? '#3b82f6'
+                    : ratio >= 0.4 ? '#f59e0b'
+                    : '#94a3b8';
+                  return {
+                    fillColor: fillColor,
+                    color: p.has_iz_ordinance ? '#059669' : '#6b7280',
+                    weight: p.geo_type === 'county' ? 1.5 : 1,
+                    fillOpacity: 0.15,
+                    opacity: 0.6
+                  };
+                };
+              }
+              opts.onEachFeature = function (feature, layer) {
+                var p = feature.properties || {};
+                var tip = '';
+
+                // Custom tooltips for enriched layers
+                if (key === 'walkability' && p.walk_score != null) {
+                  tip = '<b>Walk: ' + p.walk_score + '</b> · Transit: ' + (p.transit_score || '—') +
+                        ' · Bike: ' + (p.bike_score || '—') +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'commuting' && p.netFlow != null) {
+                  var arrow = p.netFlow > 0 ? '↑' : p.netFlow < 0 ? '↓' : '→';
+                  tip = '<b>Net: ' + arrow + ' ' + Math.abs(p.netFlow).toLocaleString() + '</b>' +
+                        '<br>In: ' + (p.inCommuters || 0).toLocaleString() +
+                        ' · Out: ' + (p.outCommuters || 0).toLocaleString() +
+                        '<br>Jobs: ' + (p.totalJobs || 0).toLocaleString() +
+                        ' · J/H: ' + (p.jobHousingRatio || 0) +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'envJustice' && p.eji_percentile != null) {
+                  tip = '<b>EJI: ' + (p.eji_percentile * 100).toFixed(1) + '%</b> (' + (p.risk_category || '') + ')' +
+                        '<br>Env: ' + ((p.env_burden || 0) * 100).toFixed(1) + '%' +
+                        ' · Social: ' + ((p.social_vuln || 0) * 100).toFixed(1) + '%' +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+
+                if (key === 'commutingFlows' && p.home_tract) {
+                  var wageBreak = '';
+                  if (p.low_wage || p.mid_wage || p.high_wage) {
+                    wageBreak = '<br>Low: ' + (p.low_wage || 0).toLocaleString() +
+                      ' · Mid: ' + (p.mid_wage || 0).toLocaleString() +
+                      ' · High: ' + (p.high_wage || 0).toLocaleString();
+                  }
+                  tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
+                    '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
+                    '<br>Distance: ' + (p.distance_miles || 0) + ' mi' +
+                    wageBreak;
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'parcelZoning' && p.zone_proxy) {
+                  var zLabel = (p.zone_proxy || '').replace(/_/g, ' ');
+                  zLabel = zLabel.charAt(0).toUpperCase() + zLabel.slice(1);
+                  var suit = p.mf_suitability || 0;
+                  var suitColor = suit >= 70 ? '#10b981' : suit >= 40 ? '#f59e0b' : '#ef4444';
+                  tip = '<b>' + zLabel + '</b>' +
+                    (p.name ? '<br>' + p.name : '') +
+                    '<br>MF Suitability: <span style="color:' + suitColor + ';font-weight:600">' + suit + '/100</span>' +
+                    (p.building ? '<br>Building: ' + p.building : '') +
+                    (p.levels ? ' · Levels: ' + p.levels : '') +
+                    '<br><span style="font-size:0.75em;opacity:0.7">Source: ' + (p.data_source || 'OSM') + '</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'housingPolicy') {
+                  var pills = [];
+                  if (p.has_iz_ordinance)      pills.push('IZ');
+                  if (p.has_local_funding)     pills.push('Funding');
+                  if (p.has_housing_authority) pills.push('HA');
+                  if (p.has_comp_plan)         pills.push('Comp Plan');
+                  if (p.prop123_committed)     pills.push('Prop 123');
+                  if (p.has_hna)               pills.push('HNA');
+                  if (p.has_housing_nonprofits) pills.push('Nonprofits');
+                  var pillsHtml = pills.length > 0
+                    ? pills.map(function (l) { return '<span style="display:inline-block;padding:1px 5px;border-radius:3px;background:#e0f2fe;color:#0369a1;font-size:.72rem;margin:1px">' + l + '</span>'; }).join(' ')
+                    : '<span style="color:#94a3b8;font-size:.8em">No policy data</span>';
+                  var izDetail = '';
+                  if (p.iz_type) {
+                    izDetail = '<br><span style="font-size:.8em">IZ: ' + p.iz_type.replace(/_/g, ' ') +
+                      (p.iz_set_aside_pct ? ' (' + p.iz_set_aside_pct + '% set-aside)' : '') +
+                      (p.iz_ami_target ? ' @ ' + p.iz_ami_target : '') + '</span>';
+                  }
+                  tip = '<b>' + (p.name || '') + '</b> — ' + (p.totalScore || 0) + '/' + (p.maxPossible || 7) +
+                        '<br>' + pillsHtml + izDetail;
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+                if (key === 'infrastructure' && p.utility_type) {
+                  var iName = p.NAME || p.name || '';
+                  tip = '<b>' + iName + '</b>' +
+                        '<br>Type: ' + (p.utility_type || '').replace(/_/g, ' ') +
+                        '<br>Constraint: ' + (p.constraint_level || '—') +
+                        (p.notes ? '<br><span style="font-size:0.8em;opacity:0.8;">' + p.notes.substring(0, 80) + '</span>' : '');
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+
+                var name = p.NAME || p.name || p.NAMELSAD || p.Name || p.school_name || p.geoid || '';
+                if (name) layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
+              };
+              _mapLayers[key] = L.geoJSON(gj, opts);
+              _mapLayers[key].addTo(map);
+              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)', false);
+            }
+
+            // Helper to load from local GeoJSON file
+            function _loadLocal() {
+              if (!cfg.src) return;
+              var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(cfg.src) : ('data/' + cfg.src);
+              var fetchPromise = (DS && typeof DS.getJSON === 'function')
+                ? DS.getJSON(url)
+                : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+              fetchPromise.then(_createLayer).catch(function (err) {
+                console.warn('[market-analysis] Local fallback failed for "' + key + '":', err);
+                _showLayerToast('⚠ ' + key + ' — data unavailable', true);
+              });
+            }
+
+            // If ArcGIS FeatureServer is configured, try it first with local fallback
+            if (cfg.arcgis) {
+              var qs = 'where=' + encodeURIComponent(cfg.arcgisWhere || '1=1') +
+                '&outFields=*&returnGeometry=true&f=geojson&outSR=4326&resultRecordCount=5000';
+              fetch(cfg.arcgis + '/query?' + qs, { signal: AbortSignal.timeout(15000) })
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (gj) {
+                  if (gj.error) throw new Error(gj.error.message || 'ArcGIS error');
+                  if (gj.features && gj.features.length > 0) {
+                    _createLayer(gj);
+                  } else {
+                    throw new Error('empty response');
+                  }
+                })
+                .catch(function (err) {
+                  console.warn('[market-analysis] ArcGIS service failed for "' + key + '":', err.message, '— falling back to local');
+                  _showLayerToast('⚠ ' + key + ' live service down — loading cached data', true);
+                  _loadLocal();
+                });
+            } else {
+              // No ArcGIS — just load local
+              _loadLocal();
+            }
+          } else {
+            // Unchecked — remove from map
+            if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) {
+              map.removeLayer(_mapLayers[key]);
+            }
+          }
+        });
+      })(checkboxes[i]);
+    }
   }
 
   /* ── Load overlay GeoJSON files ──────────────────────────────────── */
@@ -1256,11 +1984,18 @@
 
   function placeSiteMarker(lat, lon) {
     siteLatLng = { lat: lat, lon: lon };
+    // Keep PMAEngine shim up-to-date so other modules can read last site coords.
+    if (window.PMAEngine) {
+      window.PMAEngine._lastLat = lat;
+      window.PMAEngine._lastLon = lon;
+    }
     var L = window.L;
     if (!L) return;
 
     if (siteMarker) map.removeLayer(siteMarker);
     if (bufferCircle) map.removeLayer(bufferCircle);
+    if (todCircle) map.removeLayer(todCircle);
+    if (todMarkers) map.removeLayer(todMarkers);
 
     siteMarker = L.circleMarker([lat, lon], {
       radius: 8, color: 'var(--accent)', fillColor: 'var(--accent)',
@@ -1274,7 +2009,92 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
+    // ½-mile TOD isochrone — CHFA awards 3 points for transit-oriented development
+    var HALF_MILE_M = 804.67;
+    todCircle = L.circle([lat, lon], {
+      radius: HALF_MILE_M,
+      color: '#0ea5e9', fillColor: '#0ea5e9',
+      fillOpacity: 0.06, weight: 2, dashArray: '4 4'
+    }).addTo(map);
+    todCircle.bindTooltip('½-mile TOD zone (CHFA 3 pts)', { sticky: true, className: 'pma-tooltip' });
+
+    // Highlight transit stops within ½ mile
+    _highlightTodTransit(lat, lon, HALF_MILE_M);
+
     setText('pmaSiteCoords', lat.toFixed(5) + ', ' + lon.toFixed(5));
+  }
+
+  /**
+   * Find transit stops within ½ mile and render as highlighted markers.
+   * Also counts them for the TOD score panel.
+   */
+  function _highlightTodTransit(lat, lon, radiusM) {
+    var L = window.L;
+    if (!L) return;
+    if (todMarkers) map.removeLayer(todMarkers);
+    todMarkers = L.layerGroup().addTo(map);
+
+    var halfMile = radiusM / 1609.34; // convert to miles for haversine
+    var count = 0;
+
+    // Check cached transit stops layer first
+    var transitStopsLayer = _mapLayers['transitStops'];
+    if (transitStopsLayer) {
+      transitStopsLayer.eachLayer(function (layer) {
+        var ll = layer.getLatLng ? layer.getLatLng() : null;
+        if (!ll) return;
+        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+          count++;
+          L.circleMarker([ll.lat, ll.lng], {
+            radius: 7, fillColor: '#facc15', color: '#0ea5e9',
+            weight: 2, fillOpacity: 0.9
+          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+            { sticky: true, className: 'pma-tooltip' }
+          ).addTo(todMarkers);
+        }
+      });
+    }
+
+    // Also check the neighborhood_access / OSM amenities data
+    if (!count) {
+      var amenities = window.OsmAmenities;
+      if (amenities && typeof amenities.getNearestByType === 'function') {
+        var nearby = amenities.getNearestByType('transit_stop', lat, lon, halfMile);
+        if (nearby && nearby.length) {
+          nearby.forEach(function (a) {
+            count++;
+            L.circleMarker([a.lat, a.lon], {
+              radius: 7, fillColor: '#facc15', color: '#0ea5e9',
+              weight: 2, fillOpacity: 0.9
+            }).bindTooltip(a.name || 'Transit stop', { sticky: true, className: 'pma-tooltip' })
+             .addTo(todMarkers);
+          });
+        }
+      }
+    }
+
+    // Update TOD panel
+    var todPanel = document.getElementById('pmaTodPanel');
+    var todContent = document.getElementById('pmaTodContent');
+    if (todPanel && todContent) {
+      todPanel.style.display = '';
+      var eligible = count > 0;
+      todContent.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
+          '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;' +
+          'background:' + (eligible ? 'var(--good,#16a34a)' : 'var(--bad,#dc2626)') + ';color:#fff;font-size:.85rem;font-weight:700">' +
+          (eligible ? '✓' : '✗') + '</span>' +
+          '<span style="font-weight:600;font-size:.95rem">' +
+          (eligible ? 'TOD Eligible — 3 CHFA points' : 'No transit within ½ mile') +
+          '</span>' +
+        '</div>' +
+        '<div style="font-size:.82rem;color:var(--muted)">' +
+          count + ' transit stop' + (count !== 1 ? 's' : '') + ' within ½-mile walking distance' +
+          (eligible ? '. Site qualifies for Transit-Oriented Development scoring under CHFA QAP §5.B.' : '.') +
+        '</div>';
+    }
+
+    return count;
   }
 
   /* ── Buffer selector ─────────────────────────────────────────────── */
@@ -1392,8 +2212,6 @@
   function loadData() {
     var DS = window.DataService;
     if (!DS) { console.error('[market-analysis] DataService not available'); return Promise.reject(new Error('DataService missing')); }
-    console.log('[market-analysis] loadData(): starting data load');
-
     // Load Prop 123 jurisdictions in parallel (non-fatal if unavailable)
     DS.getJSON(DS.baseData('policy/prop123_jurisdictions.json')).then(function (data) {
       var list = (data && data.jurisdictions) ? data.jurisdictions : (Array.isArray(data) ? data : []);
@@ -1418,7 +2236,9 @@
     return Promise.all([
       fetchFile('market/tract_centroids_co.json'),
       fetchFile('market/acs_tract_metrics_co.json'),
-      fetchFile('market/hud_lihtc_co.geojson')
+      (window.HudLihtc ? window.HudLihtc.load() : fetchFile('market/hud_lihtc_co.geojson')).catch(function (e) {
+        return { _loadError: true, _missing: true, _msg: e && e.message };
+      })
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -1462,12 +2282,6 @@
       // Hide the map loading overlay now that data is ready.
       var mapOverlay = document.getElementById('pmaMapLoadingOverlay');
       if (mapOverlay) mapOverlay.style.display = 'none';
-      console.log('[market-analysis] loadData(): complete' +
-        ' — centroids=' + (((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length) +
-        ', acs='        + ((acsMetrics && acsMetrics.tracts) || []).length +
-        ', lihtc='      + (lihtcFeatures || []).length +
-        (statusParts.length ? ', warnings: ' + statusParts.join('; ') : ''));
-
       // Load workforce data connectors in parallel (non-fatal if any fail)
       var workforcePromises = [
         window.LodesCommute  ? window.LodesCommute.loadMetrics().catch(function () {}) : Promise.resolve(),
@@ -1478,6 +2292,35 @@
       Promise.all(workforcePromises).then(function () {
         workforceDataLoaded = true;
       });
+
+      // Load NHPD preservation data (for competitive set subsidy expiry analysis)
+      if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
+        DS.getJSON(DS.baseData('market/nhpd_co.geojson'))
+          .then(function (gj) {
+            if (gj && gj.features) {
+              window.Nhpd.loadFromGeoJSON(gj);
+              console.log('[market-analysis] NHPD loaded: ' + gj.features.length + ' properties');
+            }
+          })
+          .catch(function () { console.warn('[market-analysis] NHPD data unavailable (non-critical)'); });
+      }
+
+      // Load DOLA county demographics (non-fatal — supplements ACS with more
+      // current population/housing estimates from the CO State Demography Office).
+      DS.getJSON(DS.baseData('market/dola_demographics_co.json'))
+        .then(function (data) {
+          if (data && data.counties && !data.meta.error) {
+            dolaData = data;
+            if (window.PMADataCache) {
+              window.PMADataCache.set('dolaData', data);
+            }
+            console.log('[market-analysis] DOLA data loaded: ' +
+              Object.keys(data.counties).length + ' counties (' + (data.meta.year || '?') + ')');
+          }
+        })
+        .catch(function () {
+          console.warn('[market-analysis] DOLA demographics unavailable (optional enrichment)');
+        });
 
       // Load OSM amenity seed data into OsmAmenities connector (non-fatal).
       if (window.OsmAmenities && DS) {
@@ -1601,6 +2444,7 @@
   /* ── Init ───────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     initMap();
+    initLayerToggles();
     bindBufferSelect();
     bindRunBtn();
     bindAmiInputs();
@@ -1610,9 +2454,131 @@
     ['DataService', 'MAState', 'MARenderers', 'SiteSelectionScore', 'MAController'].forEach(function (name) {
       if (!window[name]) {
         console.warn('[market-analysis] module not found: ' + name);
-      } else {
-        console.log('[market-analysis] module ready: ' + name);
       }
+    });
+
+    // Filter commuting flow arcs to site buffer when PMA analysis runs
+    var _allFlowArcs = null; // cache full dataset
+    document.addEventListener('pma-site-selected', function (e) {
+      var site = e.detail;
+      if (!site || !site.lat || !site.lon) return;
+
+      // If commutingFlows layer isn't loaded yet, nothing to filter
+      if (!_mapLayers['commutingFlows'] && !_allFlowArcs) return;
+
+      // Cache full arc dataset on first filter
+      if (!_allFlowArcs && _mapLayers['commutingFlows']) {
+        _allFlowArcs = _mapLayers['commutingFlows'].toGeoJSON();
+      }
+      if (!_allFlowArcs || !_allFlowArcs.features) return;
+
+      var bufMi = site.bufferMiles || 5;
+      // Expand filter radius to catch arcs that start/end near the site
+      var filterRadius = Math.max(bufMi * 2, 15);
+
+      // Haversine for filtering
+      function _hav(lat1, lon1, lat2, lon2) {
+        var R = 3958.8;
+        var dL = (lat2 - lat1) * Math.PI / 180;
+        var dO = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dL / 2) * Math.sin(dL / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dO / 2) * Math.sin(dO / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      var filtered = _allFlowArcs.features.filter(function (f) {
+        if (!f.geometry || !f.geometry.coordinates || f.geometry.coordinates.length < 2) return false;
+        var home = f.geometry.coordinates[0]; // [lon, lat]
+        var work = f.geometry.coordinates[1];
+        var dHome = _hav(site.lat, site.lon, home[1], home[0]);
+        var dWork = _hav(site.lat, site.lon, work[1], work[0]);
+        // Keep arcs where either endpoint is within filter radius
+        return dHome <= filterRadius || dWork <= filterRadius;
+      });
+
+      // Remove old layer and replace with filtered
+      if (_mapLayers['commutingFlows'] && map.hasLayer(_mapLayers['commutingFlows'])) {
+        map.removeLayer(_mapLayers['commutingFlows']);
+      }
+
+      var cfg = LAYER_CONFIG['commutingFlows'];
+      var opts = {};
+      opts.style = function (feature) {
+        var p = feature.properties || {};
+        var jobs = p.jobs || 0;
+        var dist = p.distance_miles || 0;
+        var weight = Math.max(1.5, Math.min(6, 1 + Math.log10(Math.max(jobs, 1)) * 1.5));
+        var color = dist > 30 ? '#ef4444' : dist > 15 ? '#f59e0b' : '#6366f1';
+        var opacity = Math.max(0.25, Math.min(0.7, jobs / 500));
+        return { color: color, weight: weight, opacity: opacity };
+      };
+      opts.onEachFeature = function (feature, layer) {
+        var p = feature.properties || {};
+        var wageBreak = '';
+        if (p.low_wage || p.mid_wage || p.high_wage) {
+          wageBreak = '<br>Low: ' + (p.low_wage || 0).toLocaleString() +
+            ' · Mid: ' + (p.mid_wage || 0).toLocaleString() +
+            ' · High: ' + (p.high_wage || 0).toLocaleString();
+        }
+        var tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
+          '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
+          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak;
+        layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+      };
+
+      _mapLayers['commutingFlows'] = L.geoJSON(
+        { type: 'FeatureCollection', features: filtered },
+        opts
+      );
+
+      // Only add to map if checkbox is checked
+      var cb = document.querySelector('[data-layer="commutingFlows"]');
+      if (cb && cb.checked) {
+        _mapLayers['commutingFlows'].addTo(map);
+      }
+      _showLayerToast('✓ Commuting arcs: ' + filtered.length + ' near site (of ' + _allFlowArcs.features.length + ')', false);
+    });
+
+    // Listen for live Regrid parcel data from controller
+    document.addEventListener('regrid-parcels-loaded', function (e) {
+      var gj = e.detail;
+      if (!gj || !gj.features || !gj.features.length) return;
+      // Replace or merge into parcelZoning layer
+      if (_mapLayers['parcelZoning'] && map) {
+        map.removeLayer(_mapLayers['parcelZoning']);
+      }
+      var cfg = LAYER_CONFIG['parcelZoning'];
+      var opts = {};
+      if (cfg && cfg.pointStyle) {
+        opts.pointToLayer = function (feature, latlng) {
+          var ps = Object.assign({}, cfg.pointStyle);
+          var fp = feature.properties || {};
+          var zp = fp.zone_proxy || '';
+          ps.fillColor = zp === 'multifamily_residential' ? '#10b981'
+            : zp === 'vacant_developable' ? '#f59e0b'
+            : zp === 'commercial' ? '#6b7280' : '#8b5cf6';
+          ps.radius = (fp.mf_suitability || 50) >= 70 ? 6 : 4;
+          return L.circleMarker(latlng, ps);
+        };
+      }
+      opts.onEachFeature = function (feature, layer) {
+        var p = feature.properties || {};
+        var tip = '<b>' + (p.address || p.zone_proxy || 'Parcel').replace(/_/g, ' ') + '</b>' +
+          (p.zoning ? '<br>Zoning: ' + p.zoning : '') +
+          (p.landUseCode ? '<br>Use: ' + p.landUseCode : '') +
+          (p.acres ? '<br>Acres: ' + parseFloat(p.acres).toFixed(2) : '') +
+          '<br>MF Score: ' + (p.mf_suitability || 0) +
+          '<br><span style="font-size:.75em;opacity:.7">Source: Regrid API</span>';
+        layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+      };
+      _mapLayers['parcelZoning'] = L.geoJSON(gj, opts);
+      // Only add to map if the checkbox is checked
+      var cb = document.querySelector('[data-layer="parcelZoning"]');
+      if (cb && cb.checked) {
+        _mapLayers['parcelZoning'].addTo(map);
+      }
+      _showLayerToast('✓ Regrid parcels (' + gj.features.length + ')', false);
     });
 
     loadData().then(function () {
@@ -1688,6 +2654,7 @@
 
   // Expose for testing
   window.PMAEngine = {
+    _map:                    function () { return map; },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     computePma:              computePma,
@@ -1705,12 +2672,14 @@
     OVERLAY_STYLES:          OVERLAY_STYLES,
     _state: {
       getLihtcLoadError:    function () { return lihtcLoadError; },
+      getLastResult:        function () { return lastResult; },
       getLastQuality:       function () { return lastQuality; },
       getLastBenchmark:     function () { return lastBenchmark; },
       getLastPipeline:      function () { return lastPipeline; },
       getLastScenarios:     function () { return lastScenarios; },
       getLastConfidence:    function () { return lastConfidence; },
-      getReferenceProjects: function () { return referenceProjects; }
+      getReferenceProjects: function () { return referenceProjects; },
+      getDolaData:          function () { return dolaData; }
     }
   };
 

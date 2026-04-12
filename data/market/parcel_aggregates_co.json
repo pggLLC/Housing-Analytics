@@ -4,11 +4,100 @@
     "state": "Colorado",
     "state_fips": "08",
     "vintage": "2025",
-    "generated": "2026-03-23T00:00:00Z",
+    "generated": "2026-04-05T04:41:26Z",
     "counties_attempted": 8,
     "counties_successful": 0,
     "coverage_pct": 0.0,
-    "note": "Stub — rebuild via scripts/market/fetch_parcel_data.py"
+    "note": "Aggregated parcel statistics per county. Rebuild via scripts/market/fetch_parcel_data.py"
   },
-  "counties": []
+  "counties": [
+    {
+      "county_fips": "08059",
+      "county_name": "Jefferson",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08031",
+      "county_name": "Denver",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08005",
+      "county_name": "Arapahoe",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08001",
+      "county_name": "Adams",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08013",
+      "county_name": "Boulder",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08041",
+      "county_name": "El Paso",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08123",
+      "county_name": "Weld",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    },
+    {
+      "county_fips": "08069",
+      "county_name": "Larimer",
+      "total_parcels": 0,
+      "residential_parcels": 0,
+      "vacant_residential": 0,
+      "pct_residential": 0.0,
+      "avg_area_sqft": 0.0,
+      "data_source": null,
+      "note": "fetch failed — check county ArcGIS endpoint"
+    }
+  ]
 }

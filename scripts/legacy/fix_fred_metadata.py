@@ -195,15 +195,15 @@ SERIES_METADATA = {
         'category': 'construction_costs',
         'seasonal_adjustment': 'Not Seasonally Adjusted',
     },
-    'WPUFD4': {
-        'title': 'PPI: Final Demand Construction',
+    'WPUFD4111': {
+        'title': 'PPI: Final Demand Construction (Nonresidential Building)',
         'units': 'Index Dec 2009=100',
         'frequency': 'Monthly',
         'category': 'construction_costs',
         'seasonal_adjustment': 'Not Seasonally Adjusted',
     },
-    'PCU236115236115': {
-        'title': 'PPI: New Multifamily Housing Construction (Except For-Sale Builders)',
+    'PCU236200236200': {
+        'title': 'PPI: Nonresidential Building Construction',
         'units': 'Index Dec 2003=100',
         'frequency': 'Monthly',
         'category': 'construction_costs',
@@ -237,22 +237,22 @@ SERIES_METADATA = {
         'category': 'construction_costs',
         'seasonal_adjustment': 'Not Seasonally Adjusted',
     },
-    'PCU331111331111': {
+    'PCU331110331110': {
         'title': 'PPI: Iron and Steel Mills and Ferroalloy Manufacturing',
         'units': 'Index Dec 2003=100',
         'frequency': 'Monthly',
         'category': 'construction_costs',
         'seasonal_adjustment': 'Not Seasonally Adjusted',
     },
-    'PCU3313153313153': {
+    'PCU331315331315': {
         'title': 'PPI: Aluminum Sheet, Plate, and Foil Manufacturing',
         'units': 'Index Dec 2003=100',
         'frequency': 'Monthly',
         'category': 'construction_costs',
         'seasonal_adjustment': 'Not Seasonally Adjusted',
     },
-    'PCU32731327313': {
-        'title': 'PPI: Cement and Concrete Product Manufacturing',
+    'PCU327310327310': {
+        'title': 'PPI: Ready-Mix Concrete Manufacturing',
         'units': 'Index Dec 2003=100',
         'frequency': 'Monthly',
         'category': 'construction_costs',

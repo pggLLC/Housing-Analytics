@@ -36,6 +36,77 @@
 .hca-hero-sub a:hover { text-decoration: underline; }
 
 /* ----------------------------------------------------------------
+   How-to guide (Phase IV)
+   ---------------------------------------------------------------- */
+.hca-how-to {
+  margin-bottom: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 8px);
+  overflow: hidden;
+}
+.hca-how-to__toggle {
+  padding: 10px 16px;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+}
+.hca-how-to__toggle::-webkit-details-marker { display: none; }
+.hca-how-to__toggle::before { content: '▸ '; }
+.hca-how-to[open] .hca-how-to__toggle::before { content: '▾ '; }
+.hca-how-to__content {
+  padding: 0 16px 14px;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--text2, var(--text));
+}
+.hca-how-to__steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.hca-how-to__step {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hca-how-to__step strong {
+  color: var(--text);
+  font-size: .84rem;
+}
+.hca-how-to__step kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: .75rem;
+  font-family: var(--font-mono, monospace);
+  background: var(--bg2, #eee);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.hca-how-to__metrics {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+.hca-how-to__metrics dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 6px 0 0;
+  font-size: .8rem;
+}
+.hca-how-to__metrics dt {
+  font-weight: 700;
+  color: var(--text);
+}
+.hca-how-to__metrics dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------------
    KPI strip
    ---------------------------------------------------------------- */
 .hca-kpi-strip {
@@ -67,6 +138,12 @@
   color: var(--muted);
   margin-top: 4px;
   font-weight: 600;
+}
+.hca-kpi-source {
+  font-size: 0.65rem;
+  color: var(--faint, #999);
+  margin-top: 3px;
+  font-style: italic;
 }
 
 /* ----------------------------------------------------------------
@@ -167,7 +244,7 @@
 }
 .hca-table thead {
   position: sticky;
-  top: 0;
+  top: 58px; /* below site header */
   z-index: 2;
   background: var(--card);
 }
@@ -247,9 +324,10 @@
 .hca-type-place  { background: var(--accent-dim); color: var(--accent); }
 .hca-type-cdp    { background: var(--accent2-dim); color: var(--accent2); }
 
-/* HNA link */
+/* HNA link in table */
 .hca-hna-link {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--accent);
   text-decoration: none;
   white-space: nowrap;
@@ -508,4 +586,667 @@
   font-weight: 600;
   text-align: right;
   color: var(--text);
+}
+
+/* ----------------------------------------------------------------
+   Housing Commitment Scorecard — table badge
+   ---------------------------------------------------------------- */
+.hca-commit-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.hca-commit-high  { background: color-mix(in oklab, var(--good, #16a34a) 18%, transparent); color: var(--good, #16a34a); }
+.hca-commit-mid   { background: color-mix(in oklab, var(--warn, #d97706) 18%, transparent); color: var(--warn, #d97706); }
+.hca-commit-low   { background: color-mix(in oklab, var(--bad, #dc2626) 18%, transparent);  color: var(--bad, #dc2626); }
+.hca-commit-none  { color: var(--muted); font-weight: 400; }
+
+/* ----------------------------------------------------------------
+   Housing Commitment Scorecard — detail panel
+   ---------------------------------------------------------------- */
+.hca-scorecard-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.hca-scorecard-panel h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.6rem;
+}
+.hca-scorecard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
+@media (max-width: 640px) {
+  .hca-scorecard-grid { grid-template-columns: 1fr; }
+}
+.hca-sc-item {
+  font-size: 0.83rem;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hca-sc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hca-sc-yes  { color: var(--text); }
+.hca-sc-yes  .hca-sc-icon { background: var(--good, #16a34a); color: #fff; }
+.hca-sc-no   { color: var(--muted); }
+.hca-sc-no   .hca-sc-icon { background: var(--bad, #dc2626); color: #fff; }
+.hca-sc-unknown       { color: var(--muted); font-style: italic; }
+.hca-sc-unknown .hca-sc-icon { background: var(--border); color: var(--muted); }
+.hca-scorecard-summary {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------
+   Scorecard Coverage Dashboard
+   ---------------------------------------------------------------- */
+.hca-coverage-dashboard {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.hca-cov-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 50px;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+.hca-cov-label { font-weight: 600; color: var(--text); }
+.hca-cov-bar-wrap {
+  height: 14px;
+  background: var(--bg2);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.hca-cov-bar {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.hca-cov-pct { font-weight: 700; text-align: right; color: var(--text); }
+@media (max-width: 640px) {
+  .hca-cov-row { grid-template-columns: 1fr 1fr 40px; }
+}
+
+/* ----------------------------------------------------------------
+   Comparison workspace — setup bar
+   ---------------------------------------------------------------- */
+.hca-comp-bar__county {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 0.75rem;
+}
+.hca-comp-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.hca-comp-select {
+  min-width: 180px;
+}
+.hca-comp-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+.hca-comp-vs {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  align-self: center;
+  padding-top: 1.1rem;
+}
+.hca-comp-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  align-self: center;
+  padding-top: 1.1rem;
+}
+.hca-comp-action {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.hca-comp-action:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.hca-comp-action:disabled { opacity: 0.4; cursor: default; }
+.hca-comp-action--reset:hover:not(:disabled) { border-color: var(--bad, #dc2626); color: var(--bad, #dc2626); }
+
+/* ── Comparison selectors ─────────────────────────── */
+.hca-comp-selector {
+  flex: 1;
+  min-width: 200px;
+}
+.hca-comp-selector__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+.hca-comp-selector__wrap {
+  position: relative;
+}
+.hca-comp-selector__search {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 4px);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.88rem;
+  margin-bottom: 0.35rem;
+  box-sizing: border-box;
+}
+.hca-comp-selector__search:focus {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  outline-offset: -1px;
+}
+.hca-comp-selector__select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 4px);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.85rem;
+  max-height: 200px;
+  box-sizing: border-box;
+}
+.hca-comp-selector__select option[hidden] {
+  display: none;
+}
+
+/* Selector A highlight */
+.hca-comp-selector:first-of-type .hca-comp-selector__label {
+  color: var(--accent, #0ea5e9);
+}
+/* Selector B highlight */
+.hca-comp-selector:last-of-type .hca-comp-selector__label {
+  color: var(--info, #3b82f6);
+}
+
+@media (max-width: 640px) {
+  .hca-comp-bar { flex-direction: column; align-items: stretch; }
+  .hca-comp-vs { padding-top: 0; text-align: center; }
+  .hca-comp-actions { justify-content: flex-end; padding-top: 0; }
+}
+
+/* ----------------------------------------------------------------
+   Comparison workspace — A/B row highlights
+   ---------------------------------------------------------------- */
+.hca-tr.hca-comp-a {
+  background: color-mix(in oklab, var(--accent) 8%, var(--card)) !important;
+  border-left: 3px solid var(--accent);
+}
+.hca-tr.hca-comp-b {
+  background: color-mix(in oklab, var(--info, #2563eb) 8%, var(--card)) !important;
+  border-left: 3px solid var(--info, #2563eb);
+}
+
+/* ----------------------------------------------------------------
+   Comparison panel — side-by-side metric view
+   ---------------------------------------------------------------- */
+.hca-comparison-panel {
+  padding: 20px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+.hca-comparison-panel[style*="display: none"],
+.hca-comparison-panel[style*="display:none"] { margin: 0; }
+
+.hca-cp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.hca-cp-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-strong, var(--text));
+  margin: 0;
+}
+.hca-cp-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 4px 6px;
+  line-height: 1;
+}
+.hca-cp-close:hover { color: var(--text); }
+
+/* Names row */
+.hca-cp-names {
+  display: grid;
+  grid-template-columns: 180px 1fr 60px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.hca-cp-names__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.hca-cp-names__a,
+.hca-cp-names__b {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.hca-cp-names__a { color: var(--accent); }
+.hca-cp-names__b { color: var(--info, #2563eb); }
+.hca-cp-names__vs {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.hca-cp-rank {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Metric rows */
+.hca-cp-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hca-cp-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 80px 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+}
+.hca-cp-row:last-child { border-bottom: none; }
+.hca-cp-row__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.hca-cp-row__val {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hca-cp-row__num {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  color: var(--text-strong, var(--text));
+}
+.hca-cp-row__bar-wrap {
+  height: 6px;
+  background: var(--bg2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.hca-cp-row__bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.hca-cp-row__bar--a { background: var(--accent); }
+.hca-cp-row__bar--b { background: var(--info, #2563eb); }
+.hca-cp-row__delta {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.hca-cp-row__delta--better { color: var(--good, #16a34a); }
+.hca-cp-row__delta--worse  { color: var(--bad, #dc2626); }
+
+/* Scorecard comparison row */
+.hca-cp-scorecard {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid var(--border);
+}
+.hca-cp-scorecard .hca-cp-row {
+  border-bottom: none;
+}
+
+@media (max-width: 640px) {
+  .hca-cp-names,
+  .hca-cp-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .hca-cp-names__vs,
+  .hca-cp-row__delta {
+    display: none;
+  }
+  .hca-cp-names__a::before { content: "A: "; font-weight: 400; color: var(--muted); }
+  .hca-cp-names__b::before { content: "B: "; font-weight: 400; color: var(--muted); }
+  .hca-cp-row__label {
+    font-weight: 700;
+    color: var(--text);
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* ----------------------------------------------------------------
+   Comparison panel — AMI Mix section
+   ---------------------------------------------------------------- */
+.hca-cp-ami {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 2px solid var(--border);
+}
+.hca-cp-ami__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-strong, var(--text));
+  margin: 0 0 12px;
+}
+.hca-cp-ami__bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+.hca-cp-ami__side-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.hca-cp-ami__side-label--a { color: var(--accent); }
+.hca-cp-ami__side-label--b { color: var(--info, #2563eb); }
+.hca-cp-ami__stack {
+  display: flex;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.hca-cp-ami__seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  min-width: 2px;
+  transition: width 0.4s ease;
+}
+.hca-cp-ami__seg--t0 { background: #dc2626; }  /* ≤30% deep need */
+.hca-cp-ami__seg--t1 { background: #d97706; }  /* 31–50% moderate */
+.hca-cp-ami__seg--t2 { background: #16a34a; }  /* 51–60% workforce */
+.hca-cp-ami__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text);
+}
+.hca-cp-ami__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.hca-cp-ami__legend-item small {
+  color: var(--muted);
+}
+.hca-cp-ami__legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.hca-cp-ami__no-data {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+/* Cost burden by tier */
+.hca-cp-ami__burden {
+  margin-bottom: 12px;
+}
+.hca-cp-ami__burden-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.hca-cp-ami__burden-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 0.82rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
+}
+.hca-cp-ami__burden-row:last-child { border-bottom: none; }
+.hca-cp-ami__burden-label {
+  font-weight: 600;
+  color: var(--text);
+}
+.hca-cp-ami__burden-val {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+.hca-cp-ami__burden-val--a { color: var(--accent); }
+.hca-cp-ami__burden-val--b { color: var(--info, #2563eb); }
+
+/* Missing tiers */
+.hca-cp-ami__missing {
+  margin-top: 10px;
+}
+.hca-cp-ami__missing-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.hca-cp-ami__missing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.hca-cp-ami__missing-name {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.hca-cp-ami__missing-name--a { color: var(--accent); }
+.hca-cp-ami__missing-name--b { color: var(--info, #2563eb); }
+
+@media (max-width: 640px) {
+  .hca-cp-ami__bars { grid-template-columns: 1fr; }
+  .hca-cp-ami__burden-row { grid-template-columns: 1fr 1fr 1fr; }
+  .hca-cp-ami__missing-grid { grid-template-columns: 1fr; }
+}
+
+/* ================================================================
+   Housing Gap & Homeownership Affordability sections
+   ================================================================ */
+
+.hca-cp-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.hca-cp-section__title {
+  font-size: .88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.hca-cp-subsection {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.hca-cp-subsection__title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text2, var(--muted));
+  margin-bottom: 8px;
+}
+
+.hca-cp-row--compact {
+  padding: 4px 0;
+  min-height: auto;
+}
+
+.hca-cp-row--compact .hca-cp-row__label {
+  font-size: .8rem;
+}
+
+.hca-cp-row--compact .hca-cp-row__num {
+  font-size: .82rem;
+}
+
+.hca-cp-loading {
+  text-align: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: .85rem;
+  font-style: italic;
+}
+
+/* Source citation inline with section titles */
+.hca-cp-source {
+  font-size: .65rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--faint, #999);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+
+/* ── AMI-to-Purchase grid ─────────────────────────────────────── */
+
+.hca-cp-purchase__note {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.hca-cp-purchase__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.hca-cp-purchase__scenario {
+  background: var(--bg2, #f5f5f5);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.hca-cp-purchase__scenario-title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hca-cp-purchase__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  font-size: .82rem;
+}
+
+.hca-cp-purchase__label {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.hca-cp-purchase__val {
+  font-family: var(--font-mono, 'SF Mono', 'Consolas', monospace);
+  font-weight: 700;
+  text-align: right;
+  min-width: 90px;
+}
+
+.hca-cp-purchase__val--a { color: var(--accent); }
+.hca-cp-purchase__val--b { color: var(--info, #2563eb); }
+
+/* AMI level color coding */
+.hca-cp-ami-ok      { color: var(--color-success, #16a34a) !important; }
+.hca-cp-ami-stretch  { color: var(--color-warning, #d97706) !important; }
+.hca-cp-ami-out      { color: var(--color-error, #dc2626) !important; }
+
+@media (max-width: 640px) {
+  .hca-cp-purchase__grid { grid-template-columns: 1fr; }
+  .hca-cp-purchase__val { min-width: 70px; font-size: .78rem; }
 }

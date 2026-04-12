@@ -59,7 +59,7 @@
 /* Fallback for browsers without color-mix */
 @supports not (background: color-mix(in srgb, red 10%, transparent)) {
   .hp-disclaimer {
-    background: #fff3e0;
+    background: var(--bg2, #fff3e0);
   }
 }
 
@@ -83,11 +83,11 @@
 }
 
 .hp-legend-market {
-  color: rgba(26, 115, 232, 1);
+  color: var(--color-primary, #1a73e8);
 }
 
 .hp-legend-expert {
-  color: rgba(251, 140, 0, 1);
+  color: var(--color-warning, #fb8c00);
 }
 
 /* ================================================================
@@ -183,13 +183,13 @@
 }
 
 .hp-bar--market {
-  background: rgba(26, 115, 232, 0.8);
+  background: color-mix(in srgb, var(--color-primary, #1a73e8) 80%, transparent);
   z-index: 1;
 }
 
 .hp-bar--expert {
   background: transparent;
-  border: 2px dashed rgba(251, 140, 0, 0.9);
+  border: 2px dashed var(--color-warning, #fb8c00);
   z-index: 2;
   box-sizing: border-box;
 }

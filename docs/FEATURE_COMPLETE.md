@@ -95,8 +95,8 @@ tested, and deployed. CI checks pass. No live API keys are required for page loa
   reflect survey period, not current market conditions.
 - **Placeholder data at initial deploy:** The `data/market/` files are small
   placeholders until the weekly build pipeline runs with a valid `CENSUS_API_KEY`.
-- **Workforce dimension placeholder:** The `workforce` radar dimension uses a
-  constant proxy (0.60) until LODES commute data is integrated.
+- **Workforce dimension:** LODES commute data now available locally via
+  `data/market/lodes_co.json` (block→tract aggregation from LEHD LODES 8.x).
 - **No parcel/zoning layer:** Site-level land availability uses a proxy score;
   full parcel/zoning integration is a future enhancement.
 
@@ -104,11 +104,25 @@ tested, and deployed. CI checks pass. No live API keys are required for page loa
 
 ## Future Enhancements
 
-- LODES workforce integration for real commuter-shed scoring
 - Parcel and zoning layer for land availability subscore
 - Deeper site selection with comparable rent roll benchmarking
 - Historical trend charts in Market Intelligence
 - Multi-county aggregation view
+
+## Recently Completed (April 2026)
+
+- **LODES workforce integration** — local commuter-shed data via `data/market/lodes_co.json`
+- **EPA Smart Location Database** — walkability/transit via `data/market/epa_sld_co.json`
+- **USDA Food Access Atlas** — food desert/proximity via `data/market/food_access_co.json`
+- **FEMA Flood Zones** — tract-level hazard data via `data/market/flood_zones_co.json`
+- **Opportunity Insights** — economic mobility metrics via `data/market/opportunity_insights_co.json`
+- **DOLA Demographics** — county population/housing via `data/market/dola_demographics_co.json`
+- **Climate hazard scoring** — local-first from `data/market/climate_hazards_co.json`
+- **Utility capacity** — local-first from `data/market/utility_capacity_co.geojson`
+- **Enhanced LIHTC Deal Predictor** — live data integration with CHFA awards, AMI gaps, soft funding
+- **Housing Policy Scorecard** — 7-dimension policy commitment index for 546 jurisdictions
+- **Navigation CSS extraction** — styles moved from JS to `css/navigation.css`
+- **Chart policy annotations** — COVID-19, Prop 123, AHCIA vertical markers on all time-series
 
 ---
 

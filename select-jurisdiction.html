@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Select Jurisdiction | COHO Analytics</title>
+  <meta name="description" content="Choose a Colorado county — and optionally a city or CDP — to begin your LIHTC housing needs assessment and feasibility analysis.">
+  <meta property="og:title" content="Select Jurisdiction | COHO Analytics">
+  <meta property="og:description" content="Step 1 of the COHO Analytics LIHTC workflow: select your Colorado jurisdiction to begin a housing needs assessment.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/site-state.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script src="js/components/workflow-progress.js"></script>
+  <script src="js/components/edu-callout.js"></script>
+  <script src="js/components/lihtc-tips.js"></script>
+  <script src="js/components/analytics.js" data-step="1" data-step-label="jurisdiction_selector"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script defer src="js/jurisdiction-selector.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Step progress bar — outside <main> so it sticks independently -->
+  <div class="workflow-progress" id="workflowProgress">
+    <div class="workflow-progress__steps">
+      <div class="wf-step wf-step--active" data-step="1">
+        <span class="wf-step__num">1</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </div>
+      <div class="wf-step" data-step="2">
+        <span class="wf-step__num">2</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </div>
+      <div class="wf-step" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </div>
+      <div class="wf-step" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Scenarios</span>
+      </div>
+      <div class="wf-step" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Deal</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- Page header -->
+    <div class="sj-header">
+      <h1>Where are you working?</h1>
+      <p class="sj-lead">Select a Colorado county to begin your housing needs assessment and LIHTC feasibility analysis. Your jurisdiction choice shapes every piece of data that follows — AMI limits, market conditions, allocation history, and comparable projects.</p>
+    </div>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Choose the Colorado geography (county, incorporated place, or CDP) you want to analyze. This selection carries forward through all 5 workflow steps.',
+        why: 'LIHTC development is hyper-local. The same project concept can score differently depending on county AMI limits, QAP geography preferences, local policy environment, and competitive landscape. Starting with the right geography anchors your entire analysis.',
+        not: 'This page does not evaluate or rank geographies. To compare jurisdictions by housing need before choosing, use the Compare Jurisdictions page under Explore.',
+        nextSteps: [
+          { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank all 546 geographies by need' },
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'New to LIHTC? Start here' }
+        ]
+      });
+    });
+    </script>
+
+    <!-- Two entry paths -->
+    <div class="sj-paths">
+      <div class="sj-path sj-path--primary" id="sjKnowPath">
+        <div class="sj-path__header">
+          <h2>Select Jurisdiction</h2>
+          <p>Choose a Colorado county — and optionally a city or CDP — to begin.</p>
+        </div>
+
+        <!-- County search/select -->
+        <div class="sj-field-group">
+          <label class="sj-label" for="countySearch">County</label>
+          <div class="sj-search-wrap">
+            <input
+              type="text"
+              id="countySearch"
+              class="sj-input"
+              placeholder="Search Colorado counties…"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="countyResults"
+              aria-expanded="false"
+            />
+            <ul class="sj-results" id="countyResults" role="listbox" hidden></ul>
+          </div>
+          <p class="sj-hint" id="countyHint">All 64 Colorado counties</p>
+        </div>
+
+        <!-- City/CDP (optional, shown after county selected) -->
+        <div class="sj-field-group" id="cityFieldGroup" hidden>
+          <label class="sj-label" for="citySearch">
+            City or CDP <span class="sj-optional">(optional)</span>
+          </label>
+          <div class="sj-search-wrap">
+            <input
+              type="text"
+              id="citySearch"
+              class="sj-input"
+              placeholder="Search cities in selected county…"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="cityResults"
+              aria-expanded="false"
+            />
+            <ul class="sj-results" id="cityResults" role="listbox" hidden></ul>
+          </div>
+          <p class="sj-hint">You can skip this and analyze at the county level.</p>
+        </div>
+
+        <!-- Selected jurisdiction summary -->
+        <div class="sj-selection" id="sjSelection" hidden>
+          <div class="sj-selection__badge">
+            <strong id="sjSelectionName">Adams County</strong>
+            <span id="sjSelectionSub" class="sj-selection__sub"></span>
+          </div>
+          <button class="sj-selection__clear" id="sjClearBtn" type="button">Change</button>
+        </div>
+
+        <!-- Continue button -->
+        <div class="sj-actions">
+          <button class="btn btn-primary sj-continue" id="sjContinueBtn" type="button" disabled>
+            Begin Housing Needs Assessment →
+          </button>
+          <p class="sj-actions__note" id="sjActionNote">Select a county above to continue.</p>
+        </div>
+      </div>
+
+      <div class="sj-divider">
+        <span>or</span>
+      </div>
+
+      <div class="sj-path sj-path--secondary" id="sjExplorePath">
+        <div class="sj-path__header">
+          <h2>Don't know your jurisdiction yet?</h2>
+          <p>Explore the statewide ranking to find which communities have the greatest housing gaps, then return here to begin your project.</p>
+        </div>
+        <div class="sj-explore-links">
+          <a href="hna-comparative-analysis.html" class="sj-explore-link">
+            <span class="sj-explore-link__title">Compare all jurisdictions →</span>
+            <span class="sj-explore-link__desc">Rank Colorado counties by housing need, cost burden, vacancy, and AMI gap</span>
+          </a>
+          <a href="colorado-deep-dive.html" class="sj-explore-link">
+            <span class="sj-explore-link__title">Colorado market overview →</span>
+            <span class="sj-explore-link__desc">Regional housing conditions, construction costs, and market velocity</span>
+          </a>
+          <a href="lihtc-guide-for-stakeholders.html" class="sj-explore-link">
+            <span class="sj-explore-link__title">What is LIHTC? →</span>
+            <span class="sj-explore-link__desc">Plain-language guide to the Low-Income Housing Tax Credit program</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent projects (shown if WorkflowState has projects) -->
+    <div class="sj-recent" id="sjRecent" hidden>
+      <h3>Recent projects</h3>
+      <div class="sj-recent__list" id="sjRecentList"></div>
+    </div>
+
+    <!-- LIHTC contextual tips for Step 1 -->
+    <div id="lihtcTipsMount-sj" style="margin-top:2rem;max-width:760px;margin-left:auto;margin-right:auto;padding:0 1rem 0;"></div>
+
+    <!-- Persistent continue footer — matches Step 2–5 pattern.
+         Starts disabled; jurisdiction-selector.js enables sjContinueBtn,
+         which we mirror here via MutationObserver. -->
+    <section class="hna-continue-panel" id="sjContinuePanel" style="max-width:1200px;margin:28px auto 0;padding:0 18px 40px;">
+      <div class="hna-continue-panel__inner" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;">
+        <div class="hna-continue-panel__text" style="flex:1;min-width:200px;">
+          <strong style="display:block;margin-bottom:4px;font-size:1rem;">Ready to continue?</strong>
+          <span id="sjContinuePanelDesc" style="font-size:.88rem;color:var(--muted);">Select a county above to begin your Housing Needs Assessment.</span>
+        </div>
+        <div class="hna-continue-panel__actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" id="sjContinuePanelBtn" type="button" disabled
+                  style="opacity:.5;cursor:not-allowed;">
+            Continue to Needs Assessment →
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Sync workflow progress bar with WorkflowState
+      if (window.WorkflowProgress && window.WorkflowProgress.refreshSteps) {
+        window.WorkflowProgress.refreshSteps('workflowProgress', 1);
+      }
+      // Render LIHTC contextual tips for jurisdiction selection
+      if (window.LihtcTips && window.LihtcTips.render) {
+        window.LihtcTips.render('lihtcTipsMount-sj', ['lihtc_basics', 'qap', 'site_selection'], {
+          heading: 'LIHTC Essentials for Site Selection'
+        });
+      }
+
+      // Mirror sjContinueBtn enabled/disabled state to the footer panel button.
+      // jurisdiction-selector.js owns sjContinueBtn; we observe it here so
+      // the footer stays in sync without touching that file.
+      var primaryBtn = document.getElementById('sjContinueBtn');
+      var panelBtn   = document.getElementById('sjContinuePanelBtn');
+      var panelDesc  = document.getElementById('sjContinuePanelDesc');
+
+      if (primaryBtn && panelBtn) {
+        // Initial state sync (in case selector already restored a county)
+        function syncPanelBtn() {
+          var enabled = !primaryBtn.disabled;
+          panelBtn.disabled = !enabled;
+          panelBtn.style.opacity = enabled ? '1' : '.5';
+          panelBtn.style.cursor  = enabled ? 'pointer' : 'not-allowed';
+          if (enabled && panelDesc) {
+            panelDesc.textContent = 'Your jurisdiction is set. Continue to Housing Needs Assessment.';
+          } else if (panelDesc) {
+            panelDesc.textContent = 'Select a county above to begin your Housing Needs Assessment.';
+          }
+        }
+
+        syncPanelBtn();
+
+        // Watch for disability changes on the primary button
+        var obs = new MutationObserver(syncPanelBtn);
+        obs.observe(primaryBtn, { attributes: true, attributeFilter: ['disabled'] });
+
+        // Clicking the panel button triggers the same action as the primary button
+        panelBtn.addEventListener('click', function () {
+          if (!panelBtn.disabled) primaryBtn.click();
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

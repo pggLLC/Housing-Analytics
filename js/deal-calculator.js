@@ -1,13 +1,14 @@
 (function () {
   'use strict';
 
-  // HUD FY2025 Colorado AMI gross rent limits — Denver-Aurora-Lakewood MSA default.
-  // These are overridden dynamically when HudFmr is loaded and a county is selected.
-  // Formula: (AMI × %AMI × 0.30) / 12
-  var _amiLimits = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
+  // Financial defaults from centralized config (js/config/financial-constants.js).
+  // Overridden dynamically when HudFmr loads and a county is selected.
+  var _cfg = window.COHO_DEFAULTS || {};
+  var _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
-  var _creditRate = 0.09;   // current credit rate — updated by scenario toggle
-  const EQUITY_PRICE_DEFAULT = 0.90;  // per dollar of annual credit (default)
+  var _creditRate = _cfg.creditRate9Pct || 0.09;
+  var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
+  var _amiGapData = null;   // cached co_ami_gap_by_county.json
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
@@ -137,6 +138,7 @@
             Eligible Basis %: <strong id="dc-basis-pct-label">80</strong>%
           </span>
           <input id="dc-basis-pct" type="range" min="50" max="130" step="1" value="80"
+            aria-label="Eligible basis percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
         </label>
 
@@ -156,6 +158,13 @@
           </p>
         </div>
 
+        <!-- Unit-sync warning: shown when Total Units ≠ sum of AMI-tier units -->
+        <div id="dc-units-sync-warn" hidden
+          style="margin:0.5rem 0 var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);
+                 background:#fef3c7;border:1px solid #fcd34d;color:#92400e;
+                 font-size:var(--tiny);line-height:1.5;">
+        </div>
+
         <label style="display:block;margin-bottom:var(--sp2);margin-top:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">County (sets HUD FMR gross rent limits)</span>
           <select id="dc-county-select"
@@ -169,24 +178,119 @@
       </fieldset>
 
       <!-- Debt / Mortgage Inputs -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing Inputs</legend>
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Operating Income &amp; NOI</legend>
 
+        <!-- Auto-compute NOI toggle -->
+        <div style="margin-bottom:var(--sp2);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
+            <input id="dc-auto-noi" type="checkbox" style="width:16px;height:16px;flex-shrink:0;">
+            <span style="font-size:var(--small);font-weight:600;">Auto-compute NOI from rent &amp; expense inputs</span>
+          </label>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
+            When checked, NOI = Gross Rents × (1 − Vacancy) − Operating Expenses − Replacement Reserve − Net Property Tax
+          </p>
+        </div>
+
+        <!-- Manual NOI override (hidden when auto-compute is on) -->
+        <div id="dc-noi-manual-wrap" style="margin-bottom:var(--sp2);">
+          <label style="display:block;">
+            <span style="font-size:var(--small);color:var(--muted);">Net Operating Income (NOI) ($/year)</span>
+            <input id="dc-noi" type="number" min="0" step="1000" value="0"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+        </div>
+
+        <!-- Auto-NOI inputs (hidden until auto-compute is checked) -->
+        <div id="dc-noi-auto-wrap" style="display:none;">
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Vacancy Rate (%)</span>
+            <input id="dc-vacancy" type="number" min="0" max="50" step="0.5" value="7"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
+            <input id="dc-opex" type="number" min="0" step="10" value="450"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance — property tax broken out below)</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
+            <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Property Tax ($/unit/year)</span>
+            <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">Typical range: $600–$1,200/unit/year (broken out from OpEx for exemption modeling)</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Tax Exemption</span>
+            <select id="dc-tax-exempt"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
+              <option value="0">None (0%)</option>
+              <option value="50">Partial (50%) — nonprofit</option>
+              <option value="100">Full (100%) — housing authority</option>
+            </select>
+            <span style="font-size:var(--tiny);color:var(--muted);">Housing authority ownership or nonprofit partnerships may qualify for property tax exemption</span>
+          </label>
+          <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
+            Computed NOI: <span id="dc-noi-computed">—</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Developer Fee -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Developer Fee</legend>
         <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Estimated Net Operating Income (NOI) ($/year)</span>
-          <input id="dc-noi" type="number" min="0" step="1000" value="0"
-            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <span style="font-size:var(--small);color:var(--muted);">
+            Developer Fee Rate: <strong id="dc-devfee-pct-label">15</strong>% of TDC
+          </span>
+          <input id="dc-devfee-pct" type="range" min="0" max="25" step="0.5" value="15"
+            aria-label="Developer fee rate percentage"
+            style="display:block;width:100%;margin-top:0.25rem;">
+          <span style="font-size:var(--tiny);color:var(--muted);">
+            Typical CHFA range: 12–18% of TDC. Only a portion is includable in eligible basis.
+          </span>
         </label>
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">
+            Deferred Developer Fee: <strong id="dc-deferred-pct-label">40</strong>% of dev fee
+          </span>
+          <input id="dc-deferred-pct" type="range" min="0" max="100" step="5" value="40"
+            aria-label="Deferred developer fee percentage"
+            style="display:block;width:100%;margin-top:0.25rem;">
+          <span style="font-size:var(--tiny);color:var(--muted);">
+            Shown as a "soft source" in S&amp;U — this is a deferred developer obligation
+            paid from operating cash flow over time, <em>not</em> cash available at closing.
+            CHFA and lenders will require a repayment pro forma to verify supportability.
+          </span>
+        </label>
+        <div id="dc-devfee-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin-top:var(--sp2);">
+          <span style="color:var(--muted);">Total Developer Fee</span>
+          <span id="dc-r-devfee" style="font-weight:700;text-align:right;">—</span>
+          <span style="color:var(--muted);">Deferred (gap fill)</span>
+          <span id="dc-r-deferred" style="font-weight:700;text-align:right;color:var(--accent);">—</span>
+          <span style="color:var(--muted);">Paid at closing</span>
+          <span id="dc-r-devfee-closing" style="font-weight:700;text-align:right;">—</span>
+        </div>
+      </fieldset>
+
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing</legend>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
-          <input id="dc-dcr" type="number" min="1" step="0.05" value="1.20"
+          <input id="dc-dcr" type="number" min="1.05" max="2.0" step="0.05" value="1.20"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
-          <input id="dc-rate" type="number" min="0" max="30" step="0.1" value="6.5"
+          <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
@@ -230,7 +334,20 @@
 
           <dt style="color:var(--muted);">Supportable First Mortgage</dt>
           <dd id="dc-r-mortgage" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
+
+          <dt style="color:var(--muted);">Cap Rate (NOI / TDC)</dt>
+          <dd id="dc-r-cap-rate" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Break-Even Occupancy</dt>
+          <dd id="dc-r-beo" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt id="dc-r-proptax-label" style="color:var(--muted);display:none;">Net Property Tax</dt>
+          <dd id="dc-r-proptax" style="font-weight:700;text-align:right;display:none;">—</dd>
+
+          <dt id="dc-r-taxsave-label" style="color:var(--accent);display:none;">Tax Savings (exemption)</dt>
+          <dd id="dc-r-taxsave" style="font-weight:700;text-align:right;color:var(--accent);display:none;">—</dd>
         </dl>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">Cap rate and break-even occupancy require auto-compute NOI to be enabled.</p>
       </fieldset>
 
       <!-- Sources & Uses Panel -->
@@ -257,6 +374,16 @@
               <td style="padding:0.3rem 0.25rem;">Supportable First Mortgage</td>
               <td id="dc-su-mortgage" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-mortgage-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">
+                Deferred Developer Fee
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Soft source — developer obligation paid from future cash flow, not cash at closing
+                </span>
+              </td>
+              <td id="dc-su-deferred" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-deferred-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
             <tr>
               <td style="padding:0.3rem 0.25rem;color:var(--muted);">Gap / Subordinate Debt / Grants Needed</td>
@@ -330,20 +457,66 @@
     const ids = ['dc-tdc', 'dc-units', 'dc-basis-pct',
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
-      'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price'];
+      'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
+      'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
+    // Select elements also need 'change' listener for reliable cross-browser support
+    var taxExemptSel = document.getElementById('dc-tax-exempt');
+    if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
 
-    // Credit rate scenario toggle
+    // Auto-NOI toggle
+    var autoNoiChk = document.getElementById('dc-auto-noi');
+    var noiManualWrap = document.getElementById('dc-noi-manual-wrap');
+    var noiAutoWrap = document.getElementById('dc-noi-auto-wrap');
+    if (autoNoiChk) {
+      autoNoiChk.addEventListener('change', function () {
+        var on = autoNoiChk.checked;
+        if (noiManualWrap) noiManualWrap.style.display = on ? 'none' : 'block';
+        if (noiAutoWrap) noiAutoWrap.style.display = on ? 'block' : 'none';
+        recalculate();
+      });
+    }
+
+    // Developer fee slider label sync
+    var devfeePctSlider = document.getElementById('dc-devfee-pct');
+    var devfeePctLabel  = document.getElementById('dc-devfee-pct-label');
+    if (devfeePctSlider && devfeePctLabel) {
+      devfeePctSlider.addEventListener('input', function () {
+        devfeePctLabel.textContent = parseFloat(devfeePctSlider.value).toFixed(1);
+        recalculate();
+      });
+    }
+    // Deferred % slider label sync
+    var deferredPctSlider = document.getElementById('dc-deferred-pct');
+    var deferredPctLabel  = document.getElementById('dc-deferred-pct-label');
+    if (deferredPctSlider && deferredPctLabel) {
+      deferredPctSlider.addEventListener('input', function () {
+        deferredPctLabel.textContent = parseInt(deferredPctSlider.value, 10);
+        recalculate();
+      });
+    }
+
+    // Credit rate scenario toggle — also switches equity price default
     ['dc-rate-9', 'dc-rate-4'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) {
         el.addEventListener('change', function () {
           _creditRate = parseFloat(this.value);
+          var is4Pct = (this.value === '0.04');
           var pabNote = document.getElementById('dc-rate-pab-note');
-          if (pabNote) pabNote.style.display = (this.value === '0.04') ? 'block' : 'none';
+          if (pabNote) pabNote.style.display = is4Pct ? 'block' : 'none';
+
+          // Update equity price default to match credit rate scenario
+          var newDefault = is4Pct
+            ? (_cfg.equityPrice4Pct || 0.85)
+            : (_cfg.equityPrice9Pct || 0.90);
+          EQUITY_PRICE_DEFAULT = newDefault;
+          var eqInput = document.getElementById('dc-equity-price');
+          if (eqInput) eqInput.value = newDefault.toFixed(2);
+
           recalculate();
         });
       }
@@ -409,6 +582,7 @@
     }
 
     var tdc = safeVal('dc-tdc') || 0;
+    var units = safeVal('dc-units') || 0;
     var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
@@ -418,31 +592,101 @@
     var annualCredits = eligibleBasis * _creditRate;
     var equity = annualCredits * CREDIT_YEARS * equityPrice;
 
-    // Rent income
+    // Rent income — sum checked AMI-tier units
     var annualRents = 0;
+    var amiUnitSum = 0;
     [30, 40, 50, 60].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
-      if (chk && chk.checked && uInput) {
+      if (chk && uInput) {
         var u = parseInt(uInput.value, 10) || 0;
-        annualRents += u * _amiLimits[pct] * 12;
+        if (chk.checked) {
+          annualRents += u * _amiLimits[pct] * 12;
+        }
+        amiUnitSum += u; // count all tier units regardless of checkbox
       }
     });
 
+    // Warn when Total Units ≠ sum of AMI-tier units (auto-NOI uses Total Units
+    // for operating expenses; rent uses AMI-tier units — divergence = wrong NOI).
+    var syncWarn = document.getElementById('dc-units-sync-warn');
+    if (syncWarn && units > 0 && amiUnitSum > 0 && units !== amiUnitSum) {
+      syncWarn.textContent =
+        '⚠ Total Units (' + units + ') ≠ sum of AMI-tier units (' + amiUnitSum +
+        '). Auto-NOI operating expenses use Total Units; rents use AMI-tier units. ' +
+        'Align both inputs for an accurate NOI.';
+      syncWarn.hidden = false;
+    } else if (syncWarn) {
+      syncWarn.hidden = true;
+    }
+
+    // Developer fee
+    var devfeePctEl = document.getElementById('dc-devfee-pct');
+    var devfeePct = devfeePctEl ? (parseFloat(devfeePctEl.value) || 15) / 100 : 0.15;
+    var devFeeTotal = tdc * devfeePct;
+    var deferredPctEl = document.getElementById('dc-deferred-pct');
+    var deferredPct = deferredPctEl ? (parseFloat(deferredPctEl.value) || 40) / 100 : 0.40;
+    var deferredDevFee = devFeeTotal * deferredPct;
+    var devFeeAtClosing = devFeeTotal - deferredDevFee;
+
+    // Developer fee display
+    var devfeeEl = document.getElementById('dc-r-devfee');
+    var deferredEl = document.getElementById('dc-r-deferred');
+    var devfeeClosingEl = document.getElementById('dc-r-devfee-closing');
+    if (devfeeEl) devfeeEl.textContent = tdc > 0 ? fmt(devFeeTotal) : '—';
+    if (deferredEl) deferredEl.textContent = tdc > 0 ? fmt(deferredDevFee) : '—';
+    if (devfeeClosingEl) devfeeClosingEl.textContent = tdc > 0 ? fmt(devFeeAtClosing) : '—';
+
+    // Auto-NOI or manual NOI
+    var autoNoi = document.getElementById('dc-auto-noi');
+    var noi;
+    var annualOpex = null;
+    var annualRepReserve = null;
+    var netPropTax = null;
+    var taxSavings = 0;
+    if (autoNoi && autoNoi.checked) {
+      var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
+      var opexPerUnitMonth = safeVal('dc-opex') || 450;
+      var repReservePerUnit = safeVal('dc-rep-reserve') || 350;
+      var effectiveGrossIncome = annualRents * (1 - vacancyPct);
+      annualOpex = opexPerUnitMonth * 12 * (units || 60);
+      annualRepReserve = repReservePerUnit * (units || 60);
+      var propTaxPerUnit = safeVal('dc-prop-tax') || 900;
+      var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
+      var annualPropTax = propTaxPerUnit * (units || 60);
+      taxSavings = annualPropTax * taxExemptPct;
+      netPropTax = annualPropTax - taxSavings;
+      noi = effectiveGrossIncome - annualOpex - annualRepReserve - netPropTax;
+      var noiComputedEl = document.getElementById('dc-noi-computed');
+      if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
+    } else {
+      noi = safeVal('dc-noi') || 0;
+    }
+
     // Supportable first mortgage
-    var noi = safeVal('dc-noi') || 0;
     var dcr = safeVal('dc-dcr');
-    if (!isFinite(dcr) || dcr <= 0) dcr = 1.20;
+    if (!isFinite(dcr) || dcr < 1.05) dcr = 1.20;
+    if (dcr > 2.0) dcr = 2.0;
     var interestRate = safeVal('dc-rate');
-    if (!isFinite(interestRate) || interestRate <= 0) interestRate = 6.5;
+    if (!isFinite(interestRate) || interestRate < 3.0) interestRate = 6.5;
+    if (interestRate > 12.0) interestRate = 12.0;
     var term = safeVal('dc-term');
     if (!isFinite(term) || term <= 0) term = 35;
 
     var mc = mortgageConstant(interestRate / 100, term);
     var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
 
-    // Sources & uses
-    var gap = tdc - equity - mortgage;
+    // Cap rate and break-even occupancy
+    var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
+    var annualDebtService = mc > 0 ? mortgage * mc : 0;
+    var breakEvenOcc = annualRents > 0
+      ? (annualOpex != null && annualRepReserve != null
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + annualDebtService) / annualRents, 1)
+          : null)
+      : null;
+
+    // Sources & uses — deferred dev fee fills gap before subordinate debt is needed
+    var gap = tdc - equity - mortgage - deferredDevFee;
 
     // Update LIHTC results
     document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
@@ -453,6 +697,28 @@
     // Update mortgage results
     document.getElementById('dc-r-mc').textContent = mc > 0 ? (mc * 100).toFixed(4) + '%' : '—';
     document.getElementById('dc-r-mortgage').textContent = noi > 0 ? fmt(mortgage) : '—';
+
+    // Update cap rate and break-even occupancy
+    var capRateEl = document.getElementById('dc-r-cap-rate');
+    if (capRateEl) capRateEl.textContent = capRate != null ? (capRate * 100).toFixed(2) + '%' : '—';
+    var beoEl = document.getElementById('dc-r-beo');
+    if (beoEl) beoEl.textContent = breakEvenOcc != null ? (breakEvenOcc * 100).toFixed(1) + '%' : '—';
+
+    // Update property tax display (only visible in auto-NOI mode)
+    var showPropTax = (netPropTax != null);
+    var showTaxSavings = (showPropTax && taxSavings > 0);
+    ['dc-r-proptax-label', 'dc-r-proptax'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = showPropTax ? '' : 'none';
+    });
+    ['dc-r-taxsave-label', 'dc-r-taxsave'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = showTaxSavings ? '' : 'none';
+    });
+    var propTaxEl = document.getElementById('dc-r-proptax');
+    if (propTaxEl && showPropTax) propTaxEl.textContent = fmt(netPropTax);
+    var taxSaveEl = document.getElementById('dc-r-taxsave');
+    if (taxSaveEl && showTaxSavings) taxSaveEl.textContent = fmt(taxSavings);
 
     // Update gap note (legacy)
     var note = document.getElementById('dc-gap-note');
@@ -472,12 +738,13 @@
 
     // Update Sources & Uses table
     var su = {
-      equity:      { amt: equity,   id: 'dc-su-equity' },
-      mortgage:    { amt: mortgage,  id: 'dc-su-mortgage' },
-      gap:         { amt: gap,       id: 'dc-su-gap' },
-      tdc:         { amt: tdc,       id: 'dc-su-tdc' }
+      equity:   { amt: equity,        id: 'dc-su-equity' },
+      mortgage: { amt: mortgage,       id: 'dc-su-mortgage' },
+      deferred: { amt: deferredDevFee, id: 'dc-su-deferred' },
+      gap:      { amt: gap,            id: 'dc-su-gap' },
+      tdc:      { amt: tdc,            id: 'dc-su-tdc' }
     };
-    ['equity', 'mortgage', 'gap', 'tdc'].forEach(function (key) {
+    ['equity', 'mortgage', 'deferred', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
       var amtEl = document.getElementById(row.id);
       var pctEl = document.getElementById(row.id + '-pct');
@@ -490,6 +757,184 @@
     if (gapAmtEl && tdc > 0) {
       gapAmtEl.style.color = gap > 0 ? 'var(--chart-7)' : 'var(--accent)';
     }
+
+    // Dispatch soft-funding refresh so the breakdown panel updates
+    try {
+      var is4Pct = _creditRate < 0.05;
+      document.dispatchEvent(new CustomEvent('soft-funding:refresh', {
+        detail: {
+          countyFips: _countyFips,
+          executionType: is4Pct ? '4%' : '9%',
+          gapAmount: Math.max(0, gap)
+        }
+      }));
+    } catch (_) {}
+
+    // ── Tornado sensitivity chart ───────────────────────────────────
+    // Renders 4 sensitivity bars showing how key variables affect the deal.
+    if (window.TornadoSensitivity && tdc > 0 && document.getElementById('tornadoChartMount')) {
+      try {
+        var eqP = equityPrice || 0.90;
+        var ir  = interestRate || 6.5;
+        var vu  = safeVal('dc-vacancy') || 7;
+        var ou  = safeVal('dc-opex') || 450;
+        var u   = units || 60;
+        var acr = annualCredits || 0;
+
+        // Equity pricing: ±$0.03
+        var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
+        var eqHi  = acr * CREDIT_YEARS * Math.min(1.05, eqP + 0.03);
+
+        // Interest rate: ±1% (lower rate = higher mortgage, higher rate = lower)
+        var mcLo  = mortgageConstant(Math.min(0.12, (ir + 1)) / 100, term || 35);
+        var mcHi  = mortgageConstant(Math.max(0.03, (ir - 1)) / 100, term || 35);
+        var mortLo = (mcLo > 0 && noi > 0) ? (noi / dcr) / mcLo : 0;
+        var mortHi = (mcHi > 0 && noi > 0) ? (noi / dcr) / mcHi : 0;
+
+        // Compute EGI from available scope variables
+        var _egi = (annualRents || 0) * (1 - (vu / 100));
+        var _repRes = (safeVal('dc-rep-reserve') || 350) * u;
+
+        // OpEx: ±$50/unit/month
+        var noiLo = _egi - ((ou + 50) * 12 * u) - _repRes - (netPropTax || 0);
+        var noiHi = _egi - (Math.max(200, ou - 50) * 12 * u) - _repRes - (netPropTax || 0);
+
+        // Vacancy: ±2%
+        var vacLoEgi = (annualRents || 0) * (1 - Math.min(0.15, (vu + 2) / 100));
+        var vacHiEgi = (annualRents || 0) * (1 - Math.max(0.01, (vu - 2) / 100));
+
+        window.TornadoSensitivity.render({
+          factors: [
+            { label: 'Equity Price', low: eqLo, high: eqHi, base: equity,
+              lowLabel: fmt(eqLo), highLabel: fmt(eqHi),
+              note: '$' + Math.max(0.70, eqP - 0.03).toFixed(2) + ' to $' + Math.min(1.05, eqP + 0.03).toFixed(2) + '/credit',
+              color: 'var(--accent)' },
+            { label: 'First Mortgage', low: mortLo, high: mortHi, base: mortgage,
+              lowLabel: fmt(mortLo), highLabel: fmt(mortHi),
+              note: 'Rate ' + Math.max(3, ir - 1).toFixed(1) + '% to ' + Math.min(12, ir + 1).toFixed(1) + '%',
+              color: '#2563eb' },
+            { label: 'NOI (OpEx)', low: noiLo, high: noiHi, base: noi,
+              lowLabel: fmt(noiLo), highLabel: fmt(noiHi),
+              note: 'OpEx $' + Math.max(200, ou - 50) + ' to $' + (ou + 50) + '/unit/mo',
+              color: 'var(--warn)' },
+            { label: 'NOI (Vacancy)', low: vacLoEgi, high: vacHiEgi, base: noi,
+              lowLabel: fmt(vacLoEgi), highLabel: fmt(vacHiEgi),
+              note: 'Vacancy ' + Math.max(1, vu - 2) + '% to ' + Math.min(15, vu + 2) + '%',
+              color: '#059669' }
+          ]
+        }, 'tornadoChartMount');
+      } catch (e) {
+        console.warn('[deal-calculator] Tornado sensitivity error:', e.message);
+      }
+    }
+
+    try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
+  }
+
+  // -------------------------------------------------------------------
+  // AMI gap display + deal predictor integration
+  // -------------------------------------------------------------------
+
+  /**
+   * Find the county record in the AMI gap data by FIPS.
+   */
+  function _findAmiGapCounty(fips) {
+    if (!_amiGapData || !_amiGapData.counties || !fips) return null;
+    var target = String(fips).padStart(5, '0');
+    for (var i = 0; i < _amiGapData.counties.length; i++) {
+      if (String(_amiGapData.counties[i].fips).padStart(5, '0') === target) {
+        return _amiGapData.counties[i];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Render AMI gap info panel when a county is selected.
+   */
+  function _renderAmiGapInfo(fips) {
+    var container = document.getElementById('dc-ami-gap-info');
+    if (!container) {
+      // Create the container after the FMR note
+      var fmrNote = document.getElementById('dc-fmr-note');
+      if (!fmrNote) return;
+      container = document.createElement('div');
+      container.id = 'dc-ami-gap-info';
+      container.style.cssText = 'font-size:var(--tiny);color:var(--muted);margin-bottom:var(--sp2);' +
+        'padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
+      fmrNote.parentNode.insertBefore(container, fmrNote.nextSibling);
+    }
+    var county = _findAmiGapCounty(fips);
+    if (!county) {
+      container.hidden = true;
+      return;
+    }
+    var gaps = county.gap_units_minus_households_le_ami_pct || {};
+    var gap30 = Math.abs(gaps['30'] || 0);
+    var gap50 = Math.abs(gaps['50'] || 0);
+    var gap60 = Math.abs(gaps['60'] || 0);
+    container.innerHTML =
+      '<strong style="color:var(--accent);">Affordability Gap — ' + (county.county_name || '') + '</strong><br>' +
+      '30% AMI: ' + gap30.toLocaleString() + ' units needed' +
+      ' &bull; 50% AMI: ' + gap50.toLocaleString() + ' units needed' +
+      ' &bull; 60% AMI: ' + gap60.toLocaleString() + ' units needed';
+    container.hidden = false;
+  }
+
+  /**
+   * Call the deal predictor (enhanced or base) when county changes,
+   * passing AMI gap data from the calculator inputs.
+   */
+  function _runDealPredictor(fips) {
+    var predictor = window.LIHTCDealPredictor;
+    if (!predictor) return;
+
+    var units = parseInt((document.getElementById('dc-units') || {}).value, 10) || 60;
+    var dealInputs = {
+      geoid: fips || undefined,
+      proposedUnits: units,
+      isQct: !!(document.getElementById('dc-qct-dda') || {}).checked
+    };
+
+    // AMI gap data
+    var county = _findAmiGapCounty(fips);
+    if (county) {
+      var gaps = county.gap_units_minus_households_le_ami_pct || {};
+      dealInputs.ami30UnitsNeeded = Math.abs(gaps['30'] || 0);
+      dealInputs.ami50UnitsNeeded = Math.abs(gaps['50'] || 0);
+      dealInputs.ami60UnitsNeeded = Math.abs(gaps['60'] || 0);
+    }
+
+    // Use enhanced predictor when available
+    var result;
+    if (window.LIHTCDealPredictorEnhanced) {
+      result = window.LIHTCDealPredictorEnhanced.predictEnhanced(dealInputs);
+    } else {
+      result = { base: predictor.predictConcept(dealInputs) };
+    }
+
+    // Render a compact concept recommendation below the calculator
+    var recCard = document.getElementById('dc-concept-rec');
+    if (!recCard) {
+      var mount = document.getElementById('dealCalcMount');
+      if (!mount) return;
+      recCard = document.createElement('div');
+      recCard.id = 'dc-concept-rec';
+      recCard.style.cssText = 'margin-top:var(--sp3);padding:var(--sp2) var(--sp3);' +
+        'border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
+      mount.appendChild(recCard);
+    }
+    var rec = result.base;
+    recCard.innerHTML =
+      '<h3 style="margin:0 0 0.5rem;font-size:0.95rem;">' +
+      (rec.confidenceBadge || '') + ' Concept Recommendation: <strong>' +
+      rec.recommendedExecution + ' ' + (rec.conceptType || '').charAt(0).toUpperCase() +
+      (rec.conceptType || '').slice(1) + ' Housing</strong>' +
+      ' <span style="font-size:0.75em;color:var(--muted);">' + rec.confidence + ' confidence</span></h3>' +
+      '<ul style="margin:0;padding-left:1.25rem;font-size:var(--small);">' +
+      (rec.keyRationale || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') +
+      '</ul>';
+    recCard.hidden = false;
   }
 
   // -------------------------------------------------------------------
@@ -503,25 +948,64 @@
     // Wire up county selector
     var countySel = document.getElementById('dc-county-select');
     if (countySel) {
-      // Populate options once HudFmr is ready
-      var tryPopulate = function () {
-        if (window.HudFmr && window.HudFmr.isLoaded()) {
-          populateCountySelector(countySel);
-        } else if (window.HudFmr) {
-          window.HudFmr.load().then(function () {
-            populateCountySelector(countySel);
-          });
+      // Fix #8: retry until HudFmr deferred script initialises (up to ~7.5 s).
+      // After populating, pre-select the county from WorkflowState / SiteState.
+      var _populateRetries = 0;
+      var _afterPopulate = function () {
+        // Pre-select jurisdiction county so user doesn't re-enter it
+        var fips = null;
+        try {
+          var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+          var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+          if (_jx && _jx.countyFips) fips = _jx.countyFips;
+        } catch (_) {}
+        if (!fips) {
+          try {
+            var _sc = window.SiteState && window.SiteState.getCounty();
+            if (_sc && _sc.fips) fips = _sc.fips;
+          } catch (_) {}
+        }
+        if (fips) {
+          for (var _i = 0; _i < countySel.options.length; _i++) {
+            if (countySel.options[_i].value === fips) {
+              countySel.value = fips;
+              countySel.dispatchEvent(new Event('change', { bubbles: true }));
+              break;
+            }
+          }
         }
       };
-      // Retry after a short delay to allow deferred scripts to initialise
-      setTimeout(tryPopulate, 200);
+      var _populated = false;
+      var _doPopulate = function () {
+        if (_populated) return;          // already done
+        if (window.HudFmr) {
+          if (window.HudFmr.isLoaded()) {
+            _populated = true;
+            populateCountySelector(countySel);
+            _afterPopulate();
+          } else {
+            window.HudFmr.load().then(function () {
+              if (_populated) return;
+              _populated = true;
+              populateCountySelector(countySel);
+              _afterPopulate();
+            });
+          }
+        } else if (++_populateRetries < 15) {
+          // HudFmr script hasn't initialised yet — retry
+          setTimeout(_doPopulate, 500);
+        }
+      };
+      // Listen for the custom event (faster path) AND keep polling as fallback
+      document.addEventListener('HudFmr:loaded', _doPopulate);
+      setTimeout(_doPopulate, 200);
 
       countySel.addEventListener('change', function () {
         var fips = this.value;
         if (fips) {
           updateAmiLimitsFromFmr(fips);
         } else {
-          _amiLimits = { 30: 930, 40: 1240, 50: 1550, 60: 1860 };
+          _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
           _countyFips = null;
         }
         // Update the FMR note
@@ -532,8 +1016,22 @@
               return p + '% AMI = $' + _amiLimits[p].toLocaleString();
             }).join(' \u2022 ');
         }
+        _renderAmiGapInfo(fips);
+        _runDealPredictor(fips);
         recalculate();
       });
+
+    // Load AMI gap data
+    var _gapResolver = (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl : function (p) { return p; };
+    fetch(_gapResolver('data/co_ami_gap_by_county.json')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      _amiGapData = data;
+    }).catch(function () {
+      console.warn('[deal-calculator] AMI gap data unavailable');
+      if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
+    });
     }
   }
 
@@ -567,7 +1065,7 @@
   // eligible basis, annual credits, rough equity, and gap-to-subsidy estimates.
   //
   // A full 4%/9% deal-predictor (CHFA QAP scoring, soft-debt layering, investor
-  // pricing) is out of scope here and requires explicit product decision before
+  // pricing) is out of scope here and requires an explicit product decision before
   // implementation. Adding automated award-probability scoring or parcel-level
   // conclusions would cross the platform's "screening, not certainty" boundary.
   window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };

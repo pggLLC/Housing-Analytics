@@ -1,34 +1,80 @@
-name: Weekly Zillow Data Sync
+name: Weekly Market Data Sync (Bridge + Zillow Research)
 
 on:
   schedule:
-    - cron: '0 2 * * 1'  # Runs every Monday at 2:00 AM UTC
-  workflow_dispatch:       # Allow manual triggering
+    - cron: '0 2 * * 1'   # Every Monday 2:00 AM UTC
+  workflow_dispatch:        # Manual trigger
 
 jobs:
-  sync:
+  # ──────────────────────────────────────────────────────────────────────────
+  # 1. Zillow Research Data  — public bulk CSVs, no auth, no scraping
+  # ──────────────────────────────────────────────────────────────────────────
+  zillow-research:
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '18'
+      - name: Download Zillow Research bulk CSVs
+        run: |
+          mkdir -p data/zillow
+          # ZHVI (Zillow Home Value Index) — All Homes, Metro & US
+          curl -fsSL "https://files.zillowstatic.com/research/public_csvs/zhvi/Metro_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv" \
+               -o data/zillow/zhvi_metro.csv || echo "ZHVI metro download failed"
 
-      - name: Install dependencies
-        run: npm install puppeteer csv-parse
+          # ZORI (Zillow Observed Rent Index) — Metro
+          curl -fsSL "https://files.zillowstatic.com/research/public_csvs/zori/Metro_zori_uc_sfrcondomfr_sm_month.csv" \
+               -o data/zillow/zori_metro.csv || echo "ZORI metro download failed"
 
-      - name: Run Zillow fetch script
-        env:
-          ZILLOW_EMAIL: ${{ secrets.ZILLOW_EMAIL }}
-          ZILLOW_PASSWORD: ${{ secrets.ZILLOW_PASSWORD }}
-        run: node scripts/fetch-zillow.js
-        continue-on-error: true
+          # Median list price — Metro
+          curl -fsSL "https://files.zillowstatic.com/research/public_csvs/mlp/Metro_mlp_uc_sfrcondo_sm_month.csv" \
+               -o data/zillow/median_list_price_metro.csv || echo "Median list price download failed"
+
+          # Days on market — Metro
+          curl -fsSL "https://files.zillowstatic.com/research/public_csvs/days_to_close/Metro_days_to_close_uc_sfrcondo_month.csv" \
+               -o data/zillow/days_to_close_metro.csv || echo "Days to close download failed"
+
+          ls -lh data/zillow/
+
+      - name: Convert Zillow CSVs to JSON (Colorado metros only)
+        run: |
+          python3 << 'PYEOF'
+          import csv, json, os, glob
+
+          CO_METROS = {
+            "Denver-Aurora-Lakewood, CO",
+            "Colorado Springs, CO",
+            "Fort Collins, CO",
+            "Boulder, CO",
+            "Greeley, CO",
+            "Pueblo, CO",
+            "Grand Junction, CO",
+          }
+
+          out = {}
+          for csvpath in glob.glob("data/zillow/*.csv"):
+            key = os.path.splitext(os.path.basename(csvpath))[0]
+            records = []
+            try:
+              with open(csvpath, newline='', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                  # Region column is typically "RegionName"
+                  region = row.get("RegionName", "")
+                  if any(m in region for m in CO_METROS):
+                    records.append(row)
+            except Exception as e:
+              print(f"  Warning: could not parse {csvpath}: {e}")
+            out[key] = records
+            print(f"  {key}: {len(records)} CO metro rows")
+
+          os.makedirs("data/market", exist_ok=True)
+          with open("data/market/zillow_co_metros.json", "w") as f:
+            json.dump(out, f, separators=(',', ':'))
+          print("Wrote data/market/zillow_co_metros.json")
+          PYEOF
 
       - name: Alert on failure
         if: failure()
@@ -40,28 +86,234 @@ jobs:
             const { execSync } = require('child_process');
             try {
               execSync(
-                `node scripts/monitoring/alert.js --mode empty-dataset --workflow zillow-data-sync.yml --run-id ${context.runId} --data-file data/zillow-median-list-price.json --details "Zillow data sync failed. Check ZILLOW_EMAIL/ZILLOW_PASSWORD secrets and Zillow data availability."`,
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow zillow-data-sync.yml --run-id ${context.runId} --data-file data/market/zillow_co_metros.json --details "Zillow data sync failed. Check Zillow public CSV availability."`,
                 { stdio: 'inherit', env: { ...process.env } }
               );
             } catch (e) {
               console.error('Alert script failed:', e.message);
             }
 
-      - name: Commit and push data files
+      - name: Commit Zillow Research data
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ls data/zillow-*.json 1>/dev/null 2>&1; then
-            python3 scripts/rebuild_manifest.py
-            git add data/zillow-*.json data/manifest.json
-            if git diff --cached --quiet; then
-              echo "No changes to commit"
-            else
-              git commit -m "chore: update Zillow data [$(date -u '+%Y-%m-%d')]"
-              git restore .
-              git pull --rebase origin main
-              git push
-            fi
+          python3 scripts/rebuild_manifest.py
+          git add data/zillow/ data/market/zillow_co_metros.json data/manifest.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No Zillow Research changes to commit"
           else
-            echo "No Zillow data files found; skipping commit."
+            git commit -m "chore: update Zillow Research bulk data [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase origin main
+            git push
+          fi
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # 2. Bridge Public Data  — assessments & transactions for ALL of Colorado
+  #    including rural areas across 13 regions
+  #    Uses BRIDGE_SERVER_TOKEN (GitHub Secret — never exposed client-side)
+  # ──────────────────────────────────────────────────────────────────────────
+  bridge-public-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Bridge assessments — all 13 Colorado regions
+        env:
+          BRIDGE_TOKEN: ${{ secrets.BRIDGE_SERVER_TOKEN }}
+        run: |
+          if [ -z "$BRIDGE_TOKEN" ]; then
+            echo "BRIDGE_SERVER_TOKEN secret not set — skipping Bridge fetch"
+            exit 0
+          fi
+          mkdir -p data/market/bridge
+
+          # ── Northern Front Range (40.58, -105.08, 40 mi) ──────────────────
+          echo "Fetching assessments: front_range_north..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=40.58,-105.08&nearDistance=40&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_front_range_north.json || true
+
+          # ── Denver Metro (39.74, -104.99, 30 mi) ──────────────────────────
+          echo "Fetching assessments: denver_metro..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=39.74,-104.99&nearDistance=30&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_denver_metro.json || true
+
+          # ── Boulder Area (40.01, -105.27, 20 mi) ──────────────────────────
+          echo "Fetching assessments: boulder..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=40.01,-105.27&nearDistance=20&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_boulder.json || true
+
+          # ── Colorado Springs (38.83, -104.82, 25 mi) ──────────────────────
+          echo "Fetching assessments: front_range_south..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=38.83,-104.82&nearDistance=25&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_front_range_south.json || true
+
+          # ── Pueblo & South Central (38.26, -104.61, 35 mi) ────────────────
+          echo "Fetching assessments: pueblo_south_central..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=38.26,-104.61&nearDistance=35&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_pueblo_south_central.json || true
+
+          # ── Western Slope (39.06, -108.55, 45 mi) ─────────────────────────
+          echo "Fetching assessments: western_slope..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=39.06,-108.55&nearDistance=45&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_western_slope.json || true
+
+          # ── Southwest Colorado (37.27, -107.88, 40 mi) ────────────────────
+          echo "Fetching assessments: southwest..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=37.27,-107.88&nearDistance=40&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_southwest.json || true
+
+          # ── Northwest Colorado (40.52, -107.55, 45 mi) ────────────────────
+          echo "Fetching assessments: northwest..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=40.52,-107.55&nearDistance=45&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_northwest.json || true
+
+          # ── San Luis Valley (37.47, -105.87, 40 mi) ───────────────────────
+          echo "Fetching assessments: san_luis_valley..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=37.47,-105.87&nearDistance=40&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_san_luis_valley.json || true
+
+          # ── Eastern Plains North (40.62, -103.21, 55 mi) ──────────────────
+          echo "Fetching assessments: eastern_plains_north..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=40.62,-103.21&nearDistance=55&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_eastern_plains_north.json || true
+
+          # ── Eastern Plains Central (39.26, -103.69, 55 mi) ────────────────
+          echo "Fetching assessments: eastern_plains_central..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=39.26,-103.69&nearDistance=55&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_eastern_plains_central.json || true
+
+          # ── Eastern Plains South (38.09, -102.62, 55 mi) ──────────────────
+          echo "Fetching assessments: eastern_plains_south..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=38.09,-102.62&nearDistance=55&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_eastern_plains_south.json || true
+
+          # ── Mountain & Resort (39.61, -106.09, 35 mi) ─────────────────────
+          echo "Fetching assessments: mountain..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/assessments?near=39.61,-106.09&nearDistance=35&limit=200&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/assessments_mountain.json || true
+
+          ls -lh data/market/bridge/
+
+      - name: Fetch Bridge transactions — all 13 Colorado regions (last 12 months)
+        env:
+          BRIDGE_TOKEN: ${{ secrets.BRIDGE_SERVER_TOKEN }}
+        run: |
+          if [ -z "$BRIDGE_TOKEN" ]; then
+            exit 0
+          fi
+
+          SINCE=$(date -u -d '12 months ago' '+%Y-%m-%d' 2>/dev/null || python3 -c "from datetime import date, timedelta; print((date.today().replace(year=date.today().year-1)).isoformat())")
+          echo "Fetching transactions since ${SINCE}..."
+
+          # ── Northern Front Range (40.58, -105.08, 40 mi) ──────────────────
+          echo "Fetching transactions: front_range_north..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=40.58,-105.08&nearDistance=40&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_front_range_north.json || true
+
+          # ── Denver Metro (39.74, -104.99, 30 mi) ──────────────────────────
+          echo "Fetching transactions: denver_metro..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=39.74,-104.99&nearDistance=30&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_denver_metro.json || true
+
+          # ── Boulder Area (40.01, -105.27, 20 mi) ──────────────────────────
+          echo "Fetching transactions: boulder..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=40.01,-105.27&nearDistance=20&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_boulder.json || true
+
+          # ── Colorado Springs (38.83, -104.82, 25 mi) ──────────────────────
+          echo "Fetching transactions: front_range_south..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=38.83,-104.82&nearDistance=25&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_front_range_south.json || true
+
+          # ── Pueblo & South Central (38.26, -104.61, 35 mi) ────────────────
+          echo "Fetching transactions: pueblo_south_central..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=38.26,-104.61&nearDistance=35&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_pueblo_south_central.json || true
+
+          # ── Western Slope (39.06, -108.55, 45 mi) ─────────────────────────
+          echo "Fetching transactions: western_slope..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=39.06,-108.55&nearDistance=45&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_western_slope.json || true
+
+          # ── Southwest Colorado (37.27, -107.88, 40 mi) ────────────────────
+          echo "Fetching transactions: southwest..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=37.27,-107.88&nearDistance=40&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_southwest.json || true
+
+          # ── Northwest Colorado (40.52, -107.55, 45 mi) ────────────────────
+          echo "Fetching transactions: northwest..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=40.52,-107.55&nearDistance=45&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_northwest.json || true
+
+          # ── San Luis Valley (37.47, -105.87, 40 mi) ───────────────────────
+          echo "Fetching transactions: san_luis_valley..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=37.47,-105.87&nearDistance=40&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_san_luis_valley.json || true
+
+          # ── Eastern Plains North (40.62, -103.21, 55 mi) ──────────────────
+          echo "Fetching transactions: eastern_plains_north..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=40.62,-103.21&nearDistance=55&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_eastern_plains_north.json || true
+
+          # ── Eastern Plains Central (39.26, -103.69, 55 mi) ────────────────
+          echo "Fetching transactions: eastern_plains_central..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=39.26,-103.69&nearDistance=55&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_eastern_plains_central.json || true
+
+          # ── Eastern Plains South (38.09, -102.62, 55 mi) ──────────────────
+          echo "Fetching transactions: eastern_plains_south..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=38.09,-102.62&nearDistance=55&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_eastern_plains_south.json || true
+
+          # ── Mountain & Resort (39.61, -106.09, 35 mi) ─────────────────────
+          echo "Fetching transactions: mountain..."
+          curl -fsSL --max-time 30 \
+            "https://api.bridgedataoutput.com/api/v2/pub/transactions?near=39.61,-106.09&nearDistance=35&limit=200&RecordingDateFrom=${SINCE}&access_token=${BRIDGE_TOKEN}" \
+            -o data/market/bridge/transactions_mountain.json || true
+
+          ls -lh data/market/bridge/
+
+      - name: Aggregate Bridge data into statewide summary
+        run: |
+          python3 scripts/aggregate-bridge-co.py
+
+      - name: Commit Bridge public data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/bridge/*.json data/market/bridge_co_market_summary.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No Bridge data changes to commit"
+          else
+            git commit -m "chore: update Bridge public data — all CO regions [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase origin main
+            git push
           fi

@@ -502,7 +502,11 @@
       }
 
       const sel = $("#amiGapCountySelect");
-      if (sel) sel.addEventListener("change", update);
+      if (sel) sel.addEventListener("change", function () {
+        update();
+        /* Chart → Map sync: highlight selected county on burden map */
+        highlightCountyOnMap(sel.value);
+      });
       update();
 
       // Supplement with demographics data if housing-data-integration is available
@@ -533,6 +537,53 @@
     } else {
       loadData();
     }
+  }
+
+  /* ── Chart → Map sync: highlight a county polygon on the Leaflet burden map ── */
+  let _prevHighlight = null;
+  const SELECTED_STYLE = { weight: 3, color: '#fbbf24', fillOpacity: 0.85 };
+
+  function highlightCountyOnMap(fips) {
+    /* Clear previous selection */
+    if (_prevHighlight) {
+      try { _prevHighlight.setStyle(_prevHighlight._origStyle || { weight: 1, color: '#555', fillOpacity: 0.75 }); }
+      catch (e) { /* ignore */ }
+      _prevHighlight = null;
+    }
+    if (!fips || fips === 'STATE' || !window.L) return;
+
+    /* Walk through all Leaflet map instances looking for the burden map layers */
+    var maps = [];
+    document.querySelectorAll('#affBurdenMap').forEach(function (el) {
+      if (el._leaflet_id) {
+        /* Retrieve the Leaflet map instance from the DOM element */
+        var mapObj = null;
+        try {
+          // L.Map instances attach themselves to the container element
+          Object.keys(el).forEach(function (k) {
+            if (k.indexOf('leaflet') !== -1 && el[k] && el[k]._layers) mapObj = el[k];
+          });
+        } catch (e) { /* ignore */ }
+        if (mapObj) maps.push(mapObj);
+      }
+    });
+
+    /* Also check the global _affGeoMaps array if available */
+    if (window._affGeoMaps) maps = maps.concat(window._affGeoMaps);
+
+    maps.forEach(function (m) {
+      if (!m || !m.eachLayer) return;
+      m.eachLayer(function (layer) {
+        if (!layer.feature) return;
+        var geoid = layer.feature.properties && (layer.feature.properties.GEOID || layer.feature.properties.geoid);
+        if (geoid === fips) {
+          layer._origStyle = { weight: 1, color: '#555', fillOpacity: 0.75 };
+          layer.setStyle(SELECTED_STYLE);
+          layer.bringToFront();
+          _prevHighlight = layer;
+        }
+      });
+    });
   }
 
   window.CoAmiGap = { init };

@@ -51,8 +51,8 @@ HUD_DDA_URL = (
 # HUD API (normalized) — QCT endpoint
 HUD_API_QCT = "https://hudgis-hud.opendata.arcgis.com/api/search/v1/collections/qcts"
 
-# Current designation year
-DESIGNATION_YEAR = 2025
+# Current designation year (HUD typically releases new designations in January)
+DESIGNATION_YEAR = 2026
 
 
 def utc_now() -> str:

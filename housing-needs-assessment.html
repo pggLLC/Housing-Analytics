@@ -14,14 +14,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://api.census.gov" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
   <!-- Leaflet (vendored locally — no CDN required) -->
   <link rel="stylesheet" href="js/vendor/leaflet.css" />
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/analytics.js" data-step="2" data-step-label="housing_needs_assessment"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -30,44 +38,94 @@
   <!-- Vendor scripts -->
   <script src="js/vendor/leaflet.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <!-- chart-fix: re-renders charts when <details> sections open or containers become visible -->
   <script defer src="js/chart-fix.js"></script>
   <!-- PDF export (client-side) -->
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="js/site-state.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
-  <!-- HNA export utilities (provides window.__HNA_exportPdf/Csv/Json) -->
   <script defer src="js/hna-export.js"></script>
-  <!-- HNA modules (split from housing-needs-assessment.js) -->
+  <!-- HNA modules (split from the main HNA script) -->
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
-  <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <script defer src="js/data-connectors/bridge-market-summary.js"></script>
+  <!-- New modules: projections, neighborhood context, educational callouts, export -->
+  <script defer src="js/housing-need-projector.js"></script>
+  <script defer src="js/neighborhood-context.js"></script>
+  <script defer src="js/components/edu-callout.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/components/export-panel.js"></script>
+  <script src="js/components/map-home-btn.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/site-state.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
   <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <!-- Workflow progress bar (Step 2 of 5) — outside <main> so it sticks independently -->
+  <div class="wf-progress-wrap" id="hnaWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="2" aria-current="step">
+        <span class="wf-step__num">2</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="market-analysis.html" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
+    </div>
+  </div>
+
   <main id="main-content">
-    <div class="workflow-steps" role="navigation" aria-label="Analysis workflow">
-  <span class="workflow-step workflow-step--active">1. Housing Needs Assessment</span>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="market-analysis.html">2. Market Analysis</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="colorado-deep-dive.html">3. Deep Dive</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="economic-dashboard.html">4. Economic Dashboard</a>
-  <span class="workflow-step-arrow" aria-hidden="true">→</span>
-  <a class="workflow-step" href="lihtc-allocations.html">5. LIHTC Allocations</a>
-</div>
+    <!-- Jurisdiction context banner (populated by JS from WorkflowState/SiteState) -->
+    <div id="hnaJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info">
+          <span class="hna-jurisdiction-banner__label">Analyzing</span>
+          <strong id="hnaJurisdictionName">—</strong>
+          <span id="hnaJurisdictionSub" class="hna-jurisdiction-banner__sub"></span>
+        </div>
+        <div class="hna-jurisdiction-banner__actions">
+          <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change jurisdiction</a>
+        </div>
+      </div>
+    </div>
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
@@ -76,6 +134,7 @@
           A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
           commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
         </p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
         <div id="hnaBanner" class="banner"></div>
         <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
         <small id="hnaDataTimestamp" class="data-timestamp"></small>
@@ -84,8 +143,7 @@
           <select id="geoType">
             <option value="state" selected>State of Colorado</option>
             <option value="county">County</option>
-            <option value="place">Municipality (Incorporated Place)</option>
-            <option value="cdp">Census-Designated Place (CDP)</option>
+            <option value="place">Incorporated Place (+ CDP)</option>
           </select>
 
           <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
@@ -99,6 +157,43 @@
         </div>
       </div>
     </section>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
+        why: 'CHFA QAP scoring rewards projects that demonstrate documented community need. This assessment provides the evidence base for your LIHTC application narrative and helps identify which AMI tiers and housing types are most needed.',
+        not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level affordability gaps are scaled from county data (proxy). CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
+        nextSteps: [
+          { label: 'Market Analysis', href: 'market-analysis.html', desc: 'Score a specific site within this geography' },
+          { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'See how this geography ranks statewide' }
+        ]
+      });
+    });
+    </script>
+
+    <div id="hnaDataQuality"></div>
+    <div id="hnaApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('hnaDataQuality', {
+          sources: [
+            { name: 'ACS 5-Year Profiles (DP04, DP05, DP03)', status: 'primary', vintage: '2024', coverage: 'All CO geographies' },
+            { name: 'ACS Commuting (S0801)', status: 'primary', vintage: '2024', coverage: 'Counties + places' },
+            { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
+            { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'AMI Gap (ACS B25063 + B19001)', status: 'primary', vintage: '2024', coverage: '64 counties' }
+          ],
+          limitations: 'Place-level affordability gaps are scaled by population share from county data (proxy, not direct measurement). CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',
+          lastUpdated: document.body.getAttribute('data-page-last-updated') || ''
+        });
+      }
+    });
+    </script>
 
     <section class="hna-grid">
       <div class="chart-card span-12">
@@ -122,6 +217,37 @@
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801</div></div>
         </div>
+        <!-- Affordability Gap Coverage — named metric from CHAS data -->
+        <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
+            <h3 style="margin:0;font-size:.95rem;">Affordability Gap by AMI Tier</h3>
+            <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;">Estimated renter households with unmet affordable housing need, by income tier. Source: HUD CHAS + ACS cost burden data.</p>
+          <div class="stats" aria-label="Affordability gap indicators">
+            <div class="stat">
+              <div class="k">Gap: 30% AMI</div>
+              <div class="v" id="statGap30">—</div>
+              <div class="s">Extremely low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Gap: 50% AMI</div>
+              <div class="v" id="statGap50">—</div>
+              <div class="s">Very low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Gap: 60% AMI</div>
+              <div class="v" id="statGap60">—</div>
+              <div class="s">Low income units needed</div>
+            </div>
+            <div class="stat">
+              <div class="k">Total Undersupply</div>
+              <div class="v" id="statGapTotal">—</div>
+              <div class="s">Combined affordable unit gap</div>
+            </div>
+          </div>
+          <div id="hnaGapCoverageBar" style="margin-top:.5rem;"></div>
+        </div>
       </div>
 
       <div class="chart-card span-8">
@@ -133,30 +259,55 @@
           <label class="layer-toggle">
             <input type="checkbox" id="layerLihtc" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-dot" style="background:#e84545"></span>
+              <span class="legend-dot" style="background:var(--bad)"></span>
               LIHTC
             </span>
           </label>
           <label class="layer-toggle">
             <input type="checkbox" id="layerQct" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-swatch" style="background:rgba(251,191,36,.35);border-color:#d97706"></span>
+              <span class="legend-swatch" style="background:rgba(var(--warn-rgb,251,191,36),.35);border-color:var(--warn)"></span>
               QCT tracts
             </span>
           </label>
           <label class="layer-toggle">
             <input type="checkbox" id="layerDda" checked>
             <span class="layer-toggle-pill">
-              <span class="legend-swatch" style="background:rgba(139,92,246,.2);border-color:#7c3aed"></span>
+              <span class="legend-swatch" style="background:rgba(var(--chart-6-rgb,139,92,246),.2);border-color:var(--chart-6,#7c3aed)"></span>
               DDA
             </span>
           </label>
           <span id="lihtcMapStatus" class="hna-layer-status"></span>
         </div>
         <div style="margin-top:10px">
-          <details>
-            <summary>Local commitments &amp; resources</summary>
+          <details id="localCommitmentsDetails" open>
+            <summary style="font-weight:600;cursor:pointer;margin-bottom:6px">Local commitments &amp; resources</summary>
             <div id="localResources" style="margin-top:8px;color:var(--muted)">—</div>
+
+            <!-- Housing authority lookup -->
+            <div style="margin-top:12px;padding:10px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
+              <p style="font-size:.82rem;font-weight:600;margin:0 0 6px;color:var(--text)">Housing Authorities &amp; Contacts</p>
+              <p style="font-size:.78rem;color:var(--muted);margin:0 0 8px">
+                Colorado public housing authorities, CHFA partners, and local housing contacts for the selected geography.
+              </p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+                <button id="btnSearchHousingAuthorities" type="button"
+                        style="padding:.35rem .85rem;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer">
+                  Search housing authorities
+                </button>
+                <a id="linkHudPhaFinder" href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts"
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;padding:.35rem .85rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);text-decoration:none">
+                  HUD PHA Finder ↗
+                </a>
+                <a id="linkChfaContact" href="https://www.chfainfo.com/about/contact"
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;padding:.35rem .85rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);text-decoration:none">
+                  CHFA Contact ↗
+                </a>
+              </div>
+              <div id="housingAuthorityResults" style="font-size:.82rem;color:var(--muted)"></div>
+            </div>
           </details>
         </div>
       </div>
@@ -194,19 +345,19 @@
       <div class="chart-card span-6">
         <h2>Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
-        <div class="chart-box"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
-        <div class="chart-box"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Affordability</h2>
         <p>What income is needed to afford the typical home value using a simple, transparent mortgage model (assumptions shown below).</p>
-        <div class="chart-box"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 + HUD FMR"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
         <details style="margin-top:10px">
           <summary>Affordability assumptions (editable in JS)</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -219,13 +370,13 @@
           Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
         </p>
-        <div class="chart-box"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Cost burden by AMI tier (HUD CHAS)</h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).</p>
-        <div class="chart-box"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
+        <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://www.huduser.gov/portal/datasets/cp.html"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
         <p id="chasGapStatus" style="margin-top:6px;color:var(--muted);font-size:.82rem">—</p>
       </div>
@@ -233,7 +384,7 @@
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
         <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS S0801 Commuting"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
@@ -246,7 +397,7 @@
         <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
           <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
         </p>
-        <div class="chart-box"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
+        <div class="chart-box" data-source="LEHD LODES Origin-Destination"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
       </div>
 
@@ -263,7 +414,7 @@
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Senior growth pressure</h2>
-            <div class="chart-box"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
+            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
         </div>
@@ -341,14 +492,14 @@
       <div class="chart-card span-6">
         <h2>Household Income Distribution</h2>
         <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
-        <div class="chart-box"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP03"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
       </div>
 
       <!-- Age of Housing Stock -->
       <div class="chart-card span-6">
         <h2>Age of Housing Stock</h2>
         <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
-        <div class="chart-box"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
       </div>
 
       <!-- Bedroom Mix -->
@@ -362,7 +513,7 @@
       <div class="chart-card span-8">
         <h2>Owner Housing Cost Burden</h2>
         <p>Owner households by monthly housing costs as a percentage of household income. Costs exceeding 30% indicate a cost burden. Source: ACS DP04.</p>
-        <div class="chart-box"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
       </div>
 
       <!-- Housing Gap Summary -->
@@ -381,7 +532,13 @@
 
       <!-- Scenario-based demographic projections -->
       <div class="chart-card span-12" id="scenario-projections-section">
-        <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+          <h2 style="margin:0;">Scenario-based demographic projections</h2>
+          <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.78rem;">
+            <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;">10-Year</button>
+            <button type="button" class="horizon-btn" data-horizon="20" style="padding:4px 12px;background:var(--bg2);color:var(--muted);border:none;cursor:pointer;">20-Year</button>
+          </div>
+        </div>
         <p>
           Cohort-component forward projections under three growth scenarios, aligned with
           <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DLG final HNA methodology and displacement risk assessment guidance (opens in new tab)">DLG HNA methodology</a>.
@@ -399,7 +556,7 @@
               <option value="high_growth">High growth (economic expansion)</option>
             </select>
           </div>
-          <div class="span-8" style="display:flex;align-items:center">
+          <div class="span-6" style="display:flex;align-items:center">
             <div>
               <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
                 Moderate growth following recent historical trends.
@@ -407,8 +564,14 @@
               <p style="margin:4px 0 0;font-size:.82rem;color:var(--muted)">
                 Source: DOLA State Demography Office — Components of Change (current vintage).
                 <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DOLA State Demography Office website (opens in new tab)">DOLA SDO</a>
+                <span id="scenarioFreshnessBadge" class="scenario-freshness-badge" hidden></span>
               </p>
             </div>
+          </div>
+          <div class="span-2" style="display:flex;align-items:flex-end;justify-content:flex-end">
+            <button id="btnExportScenario" class="control scenario-export-btn" title="Export scenario comparison data as CSV" aria-label="Export scenario comparison to CSV">
+              ⬇ Export CSV
+            </button>
           </div>
         </div>
 
@@ -520,9 +683,11 @@
         </details>
 
         <!-- Scenario summary note -->
-        <p id="scenarioNeedSummary" style="margin:12px 0 0;padding:10px 12px;background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);border-radius:8px;border-left:3px solid var(--accent);font-size:.88rem;color:var(--text);display:none">
+        <div id="scenarioNeedSummary" class="scenario-need-summary" style="display:none" role="region" aria-label="Scenario comparison summary">
           <!-- Populated by JS when data is available -->
-        </p>
+        </div>
+        <!-- Scenario data quality indicator -->
+        <p id="scenarioDataQuality" class="scenario-data-quality" hidden></p>
       </div>
 
       <!-- Labor Market Metrics -->
@@ -540,14 +705,14 @@
             <h2 style="font-size:1rem">Wage Distribution</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC Wage Tiers"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Top Industries by Employment</h2>
             <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
             <div id="industryChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC by NAICS"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -574,12 +739,14 @@
         </p>
         <!-- Metric cards populated by renderEconomicIndicators() -->
         <div id="econIndicatorCards" class="metric-cards metric-cards-4" style="margin-bottom:14px"></div>
+        <!-- BLS Labour Market KPIs (unemployment rate + 5-yr job growth) populated by renderBlsLabourMarket() -->
+        <div id="blsLabourMarketCards" class="metric-cards metric-cards-2" style="margin-bottom:14px" data-source-id="bls-qcew"></div>
         <div class="hna-grid" style="margin-top:0">
           <div id="employmentTrendContainer" class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Employment Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
+              <div class="chart-box" data-source="BLS LAUS / DOLA"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
@@ -677,7 +844,7 @@
               Jurisdiction Type
               <select id="ftGeoType"
                 style="margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
-                <option value="place">Municipality</option>
+                <option value="place">Incorporated Place</option>
                 <option value="county">County</option>
                 <option value="cdp">CDP (unincorporated)</option>
               </select>
@@ -690,6 +857,19 @@
           <div id="ftResult"></div>
           <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
             <a href="compliance-dashboard.html">View full compliance dashboard →</a>
+          </p>
+        </div>
+
+        <!-- Housing Policy Commitment Scorecard -->
+        <div id="hnaScorecardPanel" class="chart-card" style="margin-top:0;padding:14px;display:none;">
+          <h3>Housing Policy Commitment</h3>
+          <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
+            How this jurisdiction compares on 7 housing policy dimensions.
+            Data from Prop 123 filings, housing authority registries, inclusionary zoning ordinances, and local housing plans.
+          </p>
+          <div id="hnaScorecardContent"></div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:8px;">
+            <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
           </p>
         </div>
 
@@ -790,182 +970,372 @@
         </div>
       </section>
 
-      <!-- ── PMA Definition Tool / CHFA Requirements ── -->
-      <section id="pma-methodology-section" class="chart-card span-12 pma-methodology-section">
-        <h2>PMA Definition Tool &amp; CHFA Requirements</h2>
-        <p style="color:var(--muted)">
-          A Primary Market Area (PMA) is the census-tract-based geography from which a proposed
-          development is expected to draw most of its tenants. CHFA requires PMA approval before a
-          market study begins for any LIHTC application in Colorado.
+      <!-- ── PMA → Market Analysis redirect ── -->
+      <section id="pma-methodology-section" class="chart-card span-12 pma-methodology-section" style="display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap">
+        <div style="flex:0 0 auto;font-size:2rem;line-height:1">📍</div>
+        <div style="flex:1;min-width:220px">
+          <h2 style="margin:0 0 .4rem">PMA Delineation &amp; CHFA Requirements</h2>
+          <p style="color:var(--muted);font-size:.9rem;margin:0 0 .9rem">
+            All Primary Market Area tools — boundary delineation, CHFA requirements summary, workflow steps,
+            and the CHFA PMA checklist — are consolidated on the Market Analysis &amp; PMA page.
+          </p>
+          <a href="market-analysis.html#maChfaRequirements"
+             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#fff;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
+            Go to PMA Delineation &amp; CHFA Checklist →
+          </a>
+        </div>
+      </section>
+
+      <!-- ── Projected Housing Need & AMI Recommendation ── -->
+      <section id="housing-need-projection" class="chart-card span-12" aria-label="Projected housing need">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Projected Housing Need</h2>
+          <span class="pill" id="projectionGeoPill" style="display:none"></span>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and current housing gap.
+          <span data-edu="dola_projections"></span>
+        </p>
+        <!-- Projection table — rendered by HousingNeedProjector -->
+        <div id="hnpProjectionContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate projections.</p>
+        </div>
+
+        <!-- AMI Distribution Recommendation -->
+        <div style="margin-top:28px;border-top:1px solid var(--border);padding-top:20px">
+          <h3 style="margin:0 0 6px">Recommended AMI Distribution
+            <span data-edu="ami"></span>
+          </h3>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+            Based on current income distribution and cost burden, the following AMI targeting mix is recommended for a new LIHTC project in this jurisdiction.
+            <span data-edu="lihtc"></span>
+          </p>
+          <div id="hnpAmiContainer">
+            <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Neighborhood & Architectural Context ── -->
+      <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Neighborhood & Architectural Context</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
+        </p>
+        <!-- Neighborhood context card — rendered by NeighborhoodContext -->
+        <div id="ncContextContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
+        </div>
+      </section>
+
+      <!-- ── Housing Type Feasibility Analysis ── -->
+      <section id="housing-type-feasibility" class="chart-card span-12" aria-label="Housing type feasibility analysis">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Housing Type Feasibility Analysis</h2>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Assesses local housing stock composition, building age trends, and market values to identify
+          which housing types (single-family, townhome, garden-style, mid-rise) are most viable for
+          new development. Combines Census ACS unit-type data with affordability metrics to project
+          feasible construction types for LIHTC and workforce housing.
+        </p>
+        <div id="htfContainer">
+          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to load housing type analysis.</p>
+        </div>
+        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+          <div class="chart-box"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
+          <div class="chart-box"><canvas id="chartConstructionEra" role="img" aria-label="Construction era trend by housing type"></canvas></div>
+        </div>
+        <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
+      </section>
+
+      <!-- ── Colorado Market Conditions ── -->
+      <section id="co-market-conditions" class="chart-card span-12">
+        <h2>Colorado Market Conditions</h2>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>
 
-        <!-- Coverage label -->
-        <div id="hnaPmaCoverageBar" class="pma-coverage-bar" aria-live="polite" aria-atomic="true">
-          <span class="pma-coverage-label">Tract data:</span>
-          <span id="hnaPmaCoverageLabel" class="pma-coverage-pill">Loading…</span>
-          <span id="hnaPmaCoverageWarning" class="pma-coverage-warn" style="display:none" role="alert">
-            ⚠ Data coverage is below production scale — results may not represent the full statewide PMA.
-          </span>
-        </div>
-
-        <!-- CHFA Requirements Summary -->
-        <div class="chfa-requirements-panel">
-          <h3>CHFA PMA Requirements Summary</h3>
-          <p style="color:var(--muted);font-size:.9rem;margin-bottom:.75rem">
-            Per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">Qualified Allocation Plan</a>
-            and <a href="https://developers-guide.chfainfo.com/market-feasibility" target="_blank" rel="noopener">Market Study Guide</a>:
-          </p>
-          <ol class="chfa-req-list">
-            <li><strong>Census-tract geography</strong> — The PMA must be defined as specific census tracts most likely to supply tenants to the proposed project.</li>
-            <li><strong>CHFA pre-approval required</strong> — A CHFA-approved market analyst must consult with CHFA and obtain PMA boundary approval <em>before</em> the market study begins.</li>
-            <li><strong>Engagement letter</strong> — Must include the proposed PMA with a detailed census tract list.</li>
-            <li><strong>Market study must analyze:</strong>
-              <ul>
-                <li>Income-qualified demand and capture rates (should be as low as possible)</li>
-                <li>Evidence the project will not negatively impact existing LIHTC properties in the PMA</li>
-                <li>Achievable rents and realistic absorption projections</li>
-              </ul>
-            </li>
-          </ol>
-          <p class="chfa-req-disclaimer">
-            <strong>Note:</strong> This tool assists with preliminary PMA research and does <em>not</em> replace formal CHFA PMA approval or review by a CHFA-approved market analyst.
-          </p>
-        </div>
-
-        <!-- PMA Workflow diagram -->
-        <div class="pma-workflow">
-          <h3>PMA Definition Workflow</h3>
-          <div class="pma-workflow-steps" role="list" aria-label="PMA definition process steps">
-            <div class="pma-workflow-step" role="listitem">
-              <div class="pma-step-num">1</div>
-              <div class="pma-step-body">
-                <strong>Site Selection</strong>
-                <p>Identify proposed development site and approximate service area.</p>
-              </div>
-            </div>
-            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
-            <div class="pma-workflow-step" role="listitem">
-              <div class="pma-step-num">2</div>
-              <div class="pma-step-body">
-                <strong>Engage Analyst</strong>
-                <p>Retain a CHFA-approved market analyst to propose PMA census tracts.</p>
-              </div>
-            </div>
-            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
-            <div class="pma-workflow-step" role="listitem">
-              <div class="pma-step-num">3</div>
-              <div class="pma-step-body">
-                <strong>CHFA PMA Approval</strong>
-                <p>Analyst submits proposed census tract list to CHFA for review and approval.</p>
-              </div>
-            </div>
-            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
-            <div class="pma-workflow-step" role="listitem">
-              <div class="pma-step-num">4</div>
-              <div class="pma-step-body">
-                <strong>Market Study</strong>
-                <p>Analyst conducts full study within the approved PMA: demand, capture rate, competitive impact, rents, absorption.</p>
-              </div>
-            </div>
-            <div class="pma-workflow-arrow" aria-hidden="true">→</div>
-            <div class="pma-workflow-step" role="listitem">
-              <div class="pma-step-num">5</div>
-              <div class="pma-step-body">
-                <strong>Application</strong>
-                <p>Submit LIHTC application with approved PMA, market study, and engagement letter.</p>
-              </div>
-            </div>
+        <!-- Region summary cards grid -->
+        <div id="bridgeRegionGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem">
+          <!-- Skeleton loading state -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
           </div>
-          <p class="pma-workflow-note">
-            <strong>This tool automates:</strong> tract selection by radius or drive-time, demographic scoring, competitive LIHTC overlay, and capture rate estimation.
-            It does <em>not</em> replace CHFA-approved analyst review or formal CHFA PMA approval.
-          </p>
-        </div>
-
-        <!-- CHFA PMA Checklist -->
-        <div class="chfa-checklist-panel">
-          <h3>CHFA PMA Checklist</h3>
-          <p style="color:var(--muted);font-size:.9rem">Track your LIHTC application PMA progress. Check items as you complete them.</p>
-          <div aria-live="polite" aria-atomic="true" id="chfaChecklistAnnouncer" class="sr-only"></div>
-          <ul class="chfa-checklist" id="chfaChecklist">
-            <li class="chfa-checklist-item" id="chfaChkTracts">
-              <input type="checkbox" id="chfaChkTractsInput" aria-label="Census tracts selected and justified">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkTractsInput">Census tracts selected and justified</label>
-                <span class="chfa-checklist-note">Define the specific census tracts that form the PMA boundary.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkAnalyst">
-              <input type="checkbox" id="chfaChkAnalystInput" aria-label="CHFA-approved market analyst engaged">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkAnalystInput">CHFA-approved market analyst engaged</label>
-                <span class="chfa-checklist-note">Retain an analyst from the CHFA-approved list before beginning the study.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkApproval">
-              <input type="checkbox" id="chfaChkApprovalInput" aria-label="PMA boundary approved by CHFA">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkApprovalInput">PMA boundary approved by CHFA</label>
-                <span class="chfa-checklist-note">Analyst submits census tract list to CHFA; receive written approval before study begins.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkDemand">
-              <input type="checkbox" id="chfaChkDemandInput" aria-label="Income-qualified demand analysis complete">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkDemandInput">Income-qualified demand analysis complete</label>
-                <span class="chfa-checklist-note">Document households at each AMI tier within the PMA.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkCapture">
-              <input type="checkbox" id="chfaChkCaptureInput" aria-label="Capture rate calculated">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkCaptureInput">Capture rate calculated
-                  <span id="chfaCaptureRateDisplay" class="chfa-capture-rate-badge" style="display:none"></span>
-                </label>
-                <span class="chfa-checklist-note">Capture rate = proposed units ÷ income-qualified renter households. Should be as low as possible.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkCompetitive">
-              <input type="checkbox" id="chfaChkCompetitiveInput" aria-label="Competitive property impact assessed">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkCompetitiveInput">Competitive property impact assessed</label>
-                <span class="chfa-checklist-note">Evaluate existing LIHTC properties in the PMA — confirm project will not cause material vacancy.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkRents">
-              <input type="checkbox" id="chfaChkRentsInput" aria-label="Achievable rent analysis complete">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkRentsInput">Achievable rent analysis complete</label>
-                <span class="chfa-checklist-note">Document market-achievable rents relative to AMI-restricted rent limits.</span>
-              </div>
-            </li>
-            <li class="chfa-checklist-item" id="chfaChkAbsorption">
-              <input type="checkbox" id="chfaChkAbsorptionInput" aria-label="Absorption projection documented">
-              <div class="chfa-checklist-content">
-                <label for="chfaChkAbsorptionInput">Absorption projection documented</label>
-                <span class="chfa-checklist-note">Provide realistic lease-up timeline based on comparable projects in the market.</span>
-              </div>
-            </li>
-          </ul>
-          <div id="chfaChecklistCompletionStatus" style="display:none;color:var(--good);font-weight:700;margin-bottom:8px;font-size:.95rem" role="status" aria-live="polite"></div>
-          <div class="chfa-checklist-progress">
-            <div class="chfa-progress-bar-wrap">
-              <div id="chfaProgressFill" class="chfa-progress-fill" style="width:0%" role="progressbar"
-                   aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="CHFA checklist progress"></div>
-            </div>
-            <span id="chfaProgressLabel" class="chfa-progress-label">0 of 8 complete</span>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
+            <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;margin-bottom:.35rem;width:50%"></div>
+            <div style="height:.75rem;background:var(--border);border-radius:4px;width:60%"></div>
           </div>
         </div>
 
-        <!-- Resources -->
-        <div class="chfa-resources">
-          <h3>CHFA Resources</h3>
-          <ul>
-            <li><a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">CHFA LIHTC Application Page</a> — QAP, market study requirements, and approved analyst list</li>
-            <li><a href="https://developers-guide.chfainfo.com/market-feasibility" target="_blank" rel="noopener">CHFA Developer's Guide: Market Feasibility</a> — PMA designation guidance</li>
-            <li><a href="market-analysis.html">Market Analysis Tool →</a> — Buffer-based PMA scoring with ACS, LIHTC, and demographic data</li>
-          </ul>
+        <!-- Two-column: Rural Markets + Statewide Context -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div id="bridgeRuralHighlight" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
+            <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading rural market data…</p>
+          </div>
+          <div id="bridgeStatewideCard" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
+            <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading statewide data…</p>
+          </div>
         </div>
+
+        <p class="dq-detail" style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">
+          Data: Bridge Data Output public assessments &amp; transactions · Updated weekly via GitHub Actions · <a href="dashboard-data-quality.html">Data Quality Dashboard</a>
+        </p>
+
+        <!-- Data pending banner (hidden until needed) -->
+        <div id="bridgeDataStatus" style="display:none;margin-top:.75rem;padding:.6rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.85rem;color:var(--muted)">
+          Market data pending. The weekly workflow has not yet run.
+        </div>
+
+        <script>
+(function () {
+  function fmtK(val) {
+    if (val == null || isNaN(val)) return 'N/A';
+    var n = Number(val);
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+    if (n >= 1000) return '$' + Math.round(n / 1000) + 'k';
+    return '$' + n.toLocaleString();
+  }
+
+  function tierBadge(tier) {
+    if (!tier) return '';
+    var bg = '#6b7280';
+    var label = tier;
+    var tl = String(tier).toLowerCase();
+    if (tl === 'low') { bg = 'var(--good)'; }
+    else if (tl === 'moderate') { bg = 'var(--warn)'; }
+    else if (tl === 'high') { bg = 'var(--bad)'; }
+    return '<span style="display:inline-block;background:' + bg + ';color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;margin-left:.35rem;vertical-align:middle">' + label + '</span>';
+  }
+
+  function dataBadge(available) {
+    if (available) {
+      return '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">data</span>';
+    }
+    return '<span style="display:inline-block;background:var(--muted);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">pending</span>';
+  }
+
+  function renderBridgeMarketSection(summary) {
+    if (!summary) { showPending(); return; }
+
+    // ── Region grid ──
+    var grid = document.getElementById('bridgeRegionGrid');
+    var regions = Array.isArray(summary.regions) ? summary.regions : [];
+    if (grid && regions.length) {
+      var html = '';
+      for (var i = 0; i < regions.length; i++) {
+        var r = regions[i];
+        var avail = !!r.data_available;
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (r.region_name || 'Region') + '</strong> ' + dataBadge(avail) + '</div>';
+        if (avail) {
+          html += '<div style="font-size:.78rem;color:var(--muted)">';
+          html += '<div>Median assessed: <strong style="color:var(--text)">' + fmtK(r.median_assessed_value) + '</strong>' + tierBadge(r.land_cost_tier) + '</div>';
+          html += '<div>Transactions (12mo): ' + (r.transaction_count_12mo != null ? r.transaction_count_12mo.toLocaleString() : 'N/A') + '</div>';
+          if (r.is_rural) {
+            html += '<div><span style="display:inline-block;background:var(--accent);color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:4px;margin-top:.25rem">rural</span></div>';
+          }
+          html += '</div>';
+        } else {
+          html += '<div style="font-size:.78rem;color:var(--muted)">Awaiting first data run.</div>';
+        }
+        html += '</div>';
+      }
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.innerHTML = html;
+    }
+
+    // ── Rural highlight ──
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      var ruralRegions = regions.filter(function (r) { return r.is_rural && r.data_available; });
+      var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets, making it a priority for affordable housing investment.</p>';
+      if (ruralRegions.length) {
+        rHtml += '<ul style="margin:.4rem 0;padding-left:1.1rem;font-size:.8rem;color:var(--muted)">';
+        for (var j = 0; j < ruralRegions.length; j++) {
+          var rr = ruralRegions[j];
+          rHtml += '<li><strong style="color:var(--text)">' + rr.region_name + '</strong> — ' + fmtK(rr.median_assessed_value) + tierBadge(rr.land_cost_tier) + '</li>';
+        }
+        rHtml += '</ul>';
+      } else {
+        rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">Rural region data pending first workflow run.</p>';
+      }
+      rHtml += '<p style="font-size:.78rem;color:var(--muted);margin:.5rem 0 0;border-top:1px solid var(--border);padding-top:.4rem">Note: The <strong>Eastern Plains</strong> and <strong>San Luis Valley</strong> show particularly strong LIHTC eligibility indicators — low land costs combined with persistent housing cost burden.</p>';
+      ruralEl.innerHTML = rHtml;
+    }
+
+    // ── Statewide card ──
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl && summary.statewide) {
+      var sw = summary.statewide;
+      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+      swHtml += '<div style="margin-bottom:.3rem">Statewide median assessed value: <strong style="color:var(--text)">' + fmtK(sw.median_assessed_value) + '</strong>' + tierBadge(sw.land_cost_tier) + '</div>';
+      swHtml += '<div style="margin-bottom:.3rem">Total transactions (12mo): <strong style="color:var(--text)">' + (sw.transaction_count_12mo != null ? sw.transaction_count_12mo.toLocaleString() : 'N/A') + '</strong></div>';
+      if (sw.data_generated) {
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Data generated: ' + sw.data_generated + '</div>';
+      }
+      swHtml += '</div>';
+      swEl.innerHTML = swHtml;
+    }
+  }
+
+  function showPending() {
+    var statusEl = document.getElementById('bridgeDataStatus');
+    if (statusEl) {
+      statusEl.style.display = 'block';
+      statusEl.innerHTML = 'Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a>';
+    }
+    var grid = document.getElementById('bridgeRegionGrid');
+    if (grid) {
+      grid.innerHTML = '<p style="color:var(--muted);font-size:.85rem;grid-column:1/-1">Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
+    }
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      ruralEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Rural Markets</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+    }
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) {
+      swEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Statewide Context</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+    }
+  }
+
+  /** Render CAR market report data as a fallback when Bridge MLS is unavailable. */
+  function renderCARFallback(car) {
+    var grid = document.getElementById('bridgeRegionGrid');
+    var sw = car.statewide || {};
+    var metros = car.metro_areas || {};
+    var metroKeys = Object.keys(metros);
+
+    // Build metro area cards
+    if (grid) {
+      var html = '';
+      for (var i = 0; i < metroKeys.length; i++) {
+        var m = metros[metroKeys[i]];
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (m.name || metroKeys[i]) + '</strong> ';
+        html += '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
+        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<div>Median sale price: <strong style="color:var(--text)">' + fmtK(m.median_sale_price) + '</strong></div>';
+        html += '<div>Days on market: ' + (m.median_days_on_market != null ? m.median_days_on_market : 'N/A') + '</div>';
+        html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
+        html += '</div></div>';
+      }
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.innerHTML = html;
+    }
+
+    // Rural highlight — CAR data does not break out rural specifically
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR report does not break out rural regions. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for county-level data.</p>';
+      ruralEl.innerHTML = rHtml;
+    }
+
+    // Statewide card from CAR data
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) {
+      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+      swHtml += '<div style="margin-bottom:.3rem">Median sale price: <strong style="color:var(--text)">' + fmtK(sw.median_sale_price) + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Days on market: <strong style="color:var(--text)">' + (sw.median_days_on_market != null ? sw.median_days_on_market : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Months of supply: <strong style="color:var(--text)">' + (sw.months_of_supply != null ? sw.months_of_supply : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Active listings: <strong style="color:var(--text)">' + (sw.active_listings != null ? sw.active_listings.toLocaleString() : 'N/A') + '</strong></div>';
+      if (car.month) {
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Report period: ' + car.month + '</div>';
+      }
+      swHtml += '</div>';
+      swEl.innerHTML = swHtml;
+    }
+
+    // Update the description and data attribution
+    var detailEl = document.querySelector('#co-market-conditions .dq-detail');
+    if (detailEl) {
+      detailEl.innerHTML = 'Data: Colorado Association of REALTORS (CAR) &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
+    }
+  }
+
+  /** Show a no-data message when neither Bridge nor CAR data is available. */
+  function showNoDataMessage() {
+    var grid = document.getElementById('bridgeRegionGrid');
+    if (grid) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:.88rem;color:var(--muted)">' +
+        'Colorado market conditions require CAR or MLS data. Visit the ' +
+        '<a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of Realtors</a> for current market reports.' +
+        '</div>';
+    }
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) ruralEl.style.display = 'none';
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) swEl.style.display = 'none';
+  }
+
+  /** Try loading CAR report JSON as a fallback data source. */
+  function tryLoadCARFallback() {
+    return fetch('data/car-market-report-2026-04.json')
+      .then(function (resp) {
+        if (!resp.ok) return null;
+        return resp.json();
+      })
+      .then(function (car) {
+        if (car && car.statewide && car.statewide.median_sale_price) {
+          renderCARFallback(car);
+          return true;
+        }
+        return false;
+      })
+      .catch(function () { return false; });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Try Bridge MLS first
+    var hasBridge = typeof window.BridgeMarketSummary !== 'undefined' &&
+                    window.BridgeMarketSummary &&
+                    typeof window.BridgeMarketSummary.load === 'function';
+    if (hasBridge) {
+      window.BridgeMarketSummary.load().then(function (summary) {
+        if (summary) {
+          renderBridgeMarketSection(summary);
+        } else {
+          // Bridge returned no data — try CAR fallback
+          tryLoadCARFallback().then(function (ok) {
+            if (!ok) showNoDataMessage();
+          });
+        }
+      }).catch(function () {
+        tryLoadCARFallback().then(function (ok) {
+          if (!ok) showNoDataMessage();
+        });
+      });
+    } else {
+      // No Bridge module — try CAR fallback
+      tryLoadCARFallback().then(function (ok) {
+        if (!ok) showNoDataMessage();
+      });
+    }
+  });
+}());
+        </script>
       </section>
 
       <!-- ── Housing Action Plan ── -->
@@ -1072,12 +1442,57 @@
       </section>
 
       <div class="chart-card span-12 methodology">
-        <h2>Methodology & data sources (dynamic)</h2>
+        <h2>Methodology & Data Sources</h2>
         <p style="color:var(--muted)">
           This section updates as you change geographies and as cached datasets become available.
           All sources link to the primary publisher.
         </p>
         <div id="methodology"></div>
+
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <h3 style="font-size:.95rem;margin:0 0 .6rem">Primary Data Sources</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
+            <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
+            <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
+            <div><strong>LEHD LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+            <div><strong>DOLA/SDO</strong> — <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">Population Projections</a></div>
+            <div><strong>HUD LIHTC</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Database</a></div>
+            <div><strong>HUD QCT/DDA</strong> — <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT</a> · <a href="https://www.huduser.gov/portal/datasets/dda.html" target="_blank" rel="noopener">DDA</a></div>
+            <div><strong>HUD FMR</strong> — <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">Fair Market Rents</a></div>
+            <div><strong>CHFA</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado Housing Finance Authority</a></div>
+            <div><strong>Prop 123</strong> — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings</a></div>
+            <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb.html" target="_blank" rel="noopener">Geographic Boundaries</a></div>
+          </div>
+          <p style="margin-top:.8rem;font-size:.82rem;color:var(--muted)">
+            Data refreshes automatically via GitHub Actions.
+            <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+            <a href="data-status.html">Data freshness status</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIHTC contextual tips (HNA step) -->
+    <div id="lihtcTipsMount-hna"></div>
+
+    <!-- HNA Save & Continue panel -->
+    <section class="hna-continue-panel" id="hnaContinuePanel">
+      <div class="hna-continue-panel__inner">
+        <div class="hna-continue-panel__text">
+          <strong>Step 2 complete?</strong>
+          <span id="hnaContinueDesc">Save your Housing Needs Assessment findings to this project, then continue to Market Analysis.</span>
+        </div>
+        <div class="hna-continue-panel__actions">
+          <button class="btn hna-save-btn" id="hnaSaveProjectBtn" type="button">
+            Save to Project
+          </button>
+          <a class="btn btn-primary hna-continue-btn" href="market-analysis.html">
+            Continue to Market Analysis →
+          </a>
+        </div>
+      </div>
+      <div id="hnaSaveConfirmation" class="hna-save-confirmation" hidden>
+        ✓ HNA saved to project
       </div>
     </section>
   </main>
@@ -1124,16 +1539,16 @@
 <script>
   CohoHelp.init({
     title: 'How to Use the Housing Needs Assessment',
-    description: 'This tool helps you quantify housing needs for any Colorado county or municipality using public data sources (Census ACS, DOLA, LEHD, and HUD).',
+    description: 'This tool helps you quantify housing needs for any Colorado county or incorporated place using public data sources (Census ACS, DOLA, LEHD, and HUD).',
     steps: [
-      { label: 'Select a geography', desc: 'Choose a county or municipality from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
+      { label: 'Select a geography', desc: 'Choose a county or incorporated place from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
       { label: 'Review demographic data', desc: 'Explore the population trends, age distribution, household formation rates, and income breakdowns to understand who needs housing.' },
       { label: 'Examine housing supply & affordability', desc: 'Review the AMI gap analysis, cost-burden rates (households spending >30% or >50% of income on housing), and existing stock by tenure.' },
       { label: 'Analyze economic indicators', desc: 'Check employment trends, wage levels, and job growth — these drive future housing demand projections.' },
       { label: 'Export your summary', desc: 'Use the PDF, CSV, or JSON export buttons to download data for use in LIHTC applications, grant proposals, or planning documents.' },
     ],
     tips: [
-      'Start with a county before drilling into a municipality — county data is more complete.',
+      'Start with a county before drilling into an incorporated place — county data is more complete.',
       'The CHAS affordability gap chart shows how many households are cost-burdened at each income tier.',
       'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
     ]
@@ -1319,5 +1734,521 @@
   }
 }());
 </script>
+
+<!-- ── Housing Authority Search ── -->
+<script>
+(function () {
+  'use strict';
+
+  // Static list of Colorado public housing authorities (PHAs) + key partners.
+  // Keyed by county FIPS (08XXX). "statewide" applies when no county match.
+  var CO_HOUSING_AUTHORITIES = {
+    statewide: [
+      { name: 'Colorado Housing and Finance Authority (CHFA)', role: 'State housing finance agency — LIHTC allocator, funder', url: 'https://www.chfainfo.com/', phone: '(303) 297-7305' },
+      { name: 'Colorado Division of Housing (CDOH)', role: 'State rental assistance, HTF, and housing policy', url: 'https://cdola.colorado.gov/housing', phone: '(303) 864-7810' },
+      { name: 'Colorado Coalition for the Homeless', role: 'Supportive housing, PSH financing partner', url: 'https://www.coloradocoalition.org/', phone: '(303) 293-2217' },
+    ],
+    '08031': [ // Denver
+      { name: 'Denver Housing Authority (DHA)', role: 'Public housing authority — Section 8, LIHTC developer', url: 'https://www.denverhousing.org/', phone: '(720) 932-3000' },
+      { name: 'Denver Office of Housing Stability', role: 'City affordable housing fund, inclusionary policy', url: 'https://www.denvergov.org/housing', phone: '(720) 913-1653' },
+    ],
+    '08041': [ // El Paso (Colorado Springs)
+      { name: 'Colorado Springs Housing Authority (CSHA)', role: 'Public housing authority — Section 8, HCV', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+    ],
+    '08013': [ // Boulder
+      { name: 'Boulder Housing Partners', role: 'Public housing authority — LIHTC developer, HCV', url: 'https://www.boulderhousing.org/', phone: '(720) 564-4610' },
+    ],
+    '08001': [ // Adams
+      { name: 'Adams County Housing Authority', role: 'Section 8 HCV, public housing', url: 'https://www.adcogov.org/housing-authority', phone: '(303) 227-2085' },
+    ],
+    '08005': [ // Arapahoe
+      { name: 'Arapahoe County Housing Authority', role: 'HCV, supportive housing', url: 'https://www.arapahoegov.com/housing', phone: '(303) 738-8080' },
+    ],
+    '08059': [ // Jefferson
+      { name: 'Jefferson County Housing Authority', role: 'Section 8 HCV, senior housing', url: 'https://www.jeffco.us/1286/Housing-Authority', phone: '(303) 271-4100' },
+    ],
+    '08123': [ // Weld
+      { name: 'Weld County Housing Authority', role: 'HCV, rural housing programs', url: 'https://www.weldgov.com/departments/housing', phone: '(970) 304-6430' },
+    ],
+    '08069': [ // Larimer (Fort Collins)
+      { name: 'Housing Catalyst (Fort Collins)', role: 'Public housing authority — LIHTC developer', url: 'https://www.housingcatalyst.com/', phone: '(970) 416-2910' },
+    ],
+    '08101': [ // Pueblo
+      { name: 'Pueblo Housing Authority', role: 'Public housing, Section 8 HCV', url: 'https://www.pueblo.us/292/Housing-Authority', phone: '(719) 544-7662' },
+    ],
+    '08045': [ // Garfield (Glenwood Springs)
+      { name: 'Garfield County Housing Authority', role: 'Workforce housing, LIHTC developer in mountain region', url: 'https://www.garfield-county.com/housing/', phone: '(970) 945-1377' },
+    ],
+    '08097': [ // Pitkin (Aspen)
+      { name: 'Aspen/Pitkin County Housing Authority', role: 'Deed-restricted workforce housing, employee units', url: 'https://www.apcha.org/', phone: '(970) 920-5050' },
+    ],
+    '08077': [ // Mesa (Grand Junction)
+      { name: 'Grand Junction Housing Authority', role: 'Public housing, HCV, LIHTC', url: 'https://www.gjha.org/', phone: '(970) 245-0388' },
+    ],
+    '08035': [ // Douglas
+      { name: 'Douglas County Housing Authority', role: 'HCV, workforce housing programs', url: 'https://www.douglas.co.us/housing-authority/', phone: '(303) 660-7374' },
+    ],
+    '08014': [ // Broomfield
+      { name: 'Broomfield Housing Authority', role: 'Section 8 HCV, affordable unit coordination', url: 'https://www.broomfield.org/housing', phone: '(303) 438-6370' },
+    ]
+  };
+
+  function renderAuthorityResults(fips) {
+    var resultsEl = document.getElementById('housingAuthorityResults');
+    if (!resultsEl) return;
+
+    var matches = (fips && CO_HOUSING_AUTHORITIES[fips]) ? CO_HOUSING_AUTHORITIES[fips] : [];
+    var all = matches.concat(CO_HOUSING_AUTHORITIES.statewide);
+
+    if (all.length === 0) {
+      resultsEl.innerHTML = '<p style="color:var(--muted)">No local housing authorities found. See HUD PHA Finder for contacts in your area.</p>';
+      return;
+    }
+
+    resultsEl.innerHTML = '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
+      all.map(function (a) {
+        return '<li style="padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
+            '<div>' +
+              '<a href="' + a.url + '" target="_blank" rel="noopener" style="font-weight:600;color:var(--accent);font-size:.85rem">' + a.name + ' ↗</a>' +
+              '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
+            '</div>' +
+            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
+          '</div>' +
+        '</li>';
+      }).join('') +
+    '</ul>' +
+    '<p style="margin-top:8px;font-size:.75rem;color:var(--faint)">Showing ' + all.length + ' results. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Search all PHAs on HUD ↗</a></p>';
+  }
+
+  function getSelectedFips() {
+    // Try to read from SiteState or the county select
+    if (window.SiteState && window.SiteState.get) {
+      var s = window.SiteState.get();
+      if (s && s.geoid) return '08' + s.geoid.slice(-3); // approximate county FIPS
+    }
+    var sel = document.getElementById('hnaCountySelect') || document.getElementById('countySelect');
+    if (sel && sel.value) return sel.value;
+    return null;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('btnSearchHousingAuthorities');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var fips = getSelectedFips();
+        renderAuthorityResults(fips);
+        btn.textContent = 'Refresh results';
+      });
+    }
+
+    // Also auto-populate when a county is selected
+    var countySelectors = document.querySelectorAll('#hnaCountySelect, #countySelect');
+    countySelectors.forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        var resultsEl = document.getElementById('housingAuthorityResults');
+        if (resultsEl && resultsEl.innerHTML) {
+          renderAuthorityResults(sel.value);
+        }
+      });
+    });
+  });
+}());
+</script>
+
+<!-- Projected housing need + neighborhood context + edu callouts integration -->
+<script>
+(function () {
+  'use strict';
+
+  var _debounceTimer = null;
+
+  /* ── County demographics cache (for HousingNeedProjector) ─────────── */
+  // co-county-demographics.json is keyed by county name ("Adams", "Boulder", …).
+  // We preload it once so onGeoChange() can do a synchronous lookup.
+  var _demogCache = null;
+  (function _preloadDemog() {
+    var url = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/co-county-demographics.json')
+      : 'data/co-county-demographics.json';
+    fetch(url).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (d) {
+      if (d && d.counties) _demogCache = d;
+    }).catch(function () {});
+  }());
+
+  /* ── Render projections + neighborhood when geography is loaded ───── */
+  function onGeoChange() {
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) return;
+
+    var geoType    = geoTypeEl.value;
+    var geoid      = geoSelectEl.value;
+
+    // Fix #5: derive the correct county FIPS for all geo types.
+    // County GEOIDs are 5-digit and equal the FIPS directly.
+    // Place/CDP GEOIDs are 7-digit (stateCode + placeCode); slicing to 5 chars
+    // produces a garbage value (e.g. "0804000".slice(0,5) → "08040", not a county).
+    // Use containingCounty from geo-config for places, or HNAUtils as a fallback.
+    var countyFips = '';
+    if (geoid) {
+      if (geoType === 'county') {
+        countyFips = geoid;   // county GEOID === FIPS
+      } else if (geoType === 'place' || geoType === 'cdp') {
+        // Look up containingCounty from the loaded geo config.
+        // For the combined 'place' dropdown, check both places and CDPs arrays.
+        try {
+          var _gc  = window.__HNA_GEO_CONFIG;
+          // Try places first, then CDPs (CDPs may lack containingCounty — fall through to subtype check)
+          var _placeRec = (_gc && Array.isArray(_gc.places)) ? _gc.places.filter(function (p) { return p.geoid === geoid; })[0] : null;
+          var _cdpRec   = (_gc && Array.isArray(_gc.cdps))   ? _gc.cdps.filter(function (c) { return c.geoid === geoid; })[0]   : null;
+          var _rec = _placeRec || _cdpRec;
+          countyFips = (_rec && (_rec.containingCounty || _rec.county_fips)) || '';
+        } catch (_e1) {}
+        // Fallback: HNAUtils if available
+        if (!countyFips && window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+          try { countyFips = window.HNAUtils.countyFromGeoid(geoType, geoid) || ''; } catch (_e2) {}
+        }
+      } else {
+        countyFips = geoid.slice(0, 5);   // unexpected type — best effort
+      }
+    }
+
+    var _reset = function () {
+      var p1 = document.getElementById('hnpProjectionContainer');
+      var p2 = document.getElementById('hnpAmiContainer');
+      var p3 = document.getElementById('ncContextContainer');
+      if (p1) p1.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
+      if (p2) p2.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above.</p>';
+      if (p3) p3.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
+    };
+
+    if (!geoid || geoType === 'state') { _reset(); return; }
+
+    // Pull county demographic data from co-county-demographics.json for projections.
+    // HNAState.state.current has a different shape (geoType/geoid/profile) and must NOT
+    // be passed to HousingNeedProjector, which expects {households, vacancy_rate, …}.
+    var countyData = {};
+    try {
+      if (_demogCache && _demogCache.counties && countyFips && countyFips.length === 5) {
+        // Map FIPS → county name via __HNA_GEO_CONFIG, then look up in demographics
+        var _gc = window.__HNA_GEO_CONFIG;
+        var _countyName = '';
+        if (_gc && Array.isArray(_gc.counties)) {
+          var _match = _gc.counties.filter(function (c) { return c.geoid === countyFips; })[0];
+          if (_match) {
+            // Labels are "Adams County", "El Paso County", etc. — strip " County" suffix.
+            _countyName = _match.label.replace(/\s+County$/i, '');
+          }
+        }
+        if (_countyName && _demogCache.counties[_countyName]) {
+          countyData = _demogCache.counties[_countyName];
+        }
+      }
+    } catch (_) {}
+
+    // Housing need projections + AMI recommendation
+    if (window.HousingNeedProjector) {
+      var pill     = document.getElementById('projectionGeoPill');
+      var geoLabel = geoSelectEl.options[geoSelectEl.selectedIndex]
+        ? geoSelectEl.options[geoSelectEl.selectedIndex].text : countyFips;
+      if (pill) { pill.style.display = ''; pill.textContent = geoLabel; }
+      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData);
+      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
+    }
+
+    // Neighborhood context card
+    if (window.NeighborhoodContext) {
+      NeighborhoodContext.load().then(function () {
+        NeighborhoodContext.renderContextCard('ncContextContainer', countyFips);
+      });
+    }
+  }
+
+  function _debouncedOnGeoChange() {
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(onGeoChange, 350);
+  }
+
+  /* ── Fix #1: Auto-select geography from URL params or WorkflowState ── */
+  // After jurisdiction is set (e.g., from comparative analysis redirect with
+  // ?fips=08001&auto=1), pre-populate #geoType and #geoSelect so the user
+  // doesn't have to re-enter their jurisdiction on this page.
+  function _resolveAutoFips() {
+    // 1. Prefer explicit URL param (e.g. ?fips=08001&auto=1)
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      var f  = sp.get('fips');
+      if (f && /^\d{5}$/.test(f)) return f;
+    } catch (_) {}
+    // 2. WorkflowState jurisdiction
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx   = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx && (jx.fips || jx.countyFips)) return jx.fips || jx.countyFips;
+    } catch (_) {}
+    // 3. SiteState legacy county
+    try {
+      var sc = window.SiteState && window.SiteState.getCounty();
+      if (sc && sc.fips) return sc.fips;
+    } catch (_) {}
+    return null;
+  }
+
+  function _tryAutoSelect(targetFips, attempts) {
+    if (!targetFips) return;
+    attempts = attempts || 0;
+    if (attempts > 12) return;   // give up after ~6 s
+
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) {
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 400);
+      return;
+    }
+
+    // Ensure we're showing the county view
+    if (geoTypeEl.value !== 'county') {
+      geoTypeEl.value = 'county';
+      geoTypeEl.dispatchEvent(new Event('change', { bubbles: true }));
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+      return;
+    }
+
+    // Find an option whose value matches the county FIPS
+    var opts  = geoSelectEl.options;
+    var found = false;
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i].value === targetFips) {
+        geoSelectEl.value = opts[i].value;
+        geoSelectEl.dispatchEvent(new Event('change', { bubbles: true }));
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      setTimeout(function () { _tryAutoSelect(targetFips, attempts + 1); }, 500);
+    }
+  }
+
+  /* ── Watch #geoContextPill for HNA controller completion signal ───── */
+  // The controller updates the pill text when a geography finishes loading.
+  // Using MutationObserver avoids modifying hna-controller.js.
+  document.addEventListener('DOMContentLoaded', function () {
+    var pill = document.getElementById('geoContextPill');
+    if (pill) {
+      new MutationObserver(_debouncedOnGeoChange)
+        .observe(pill, { childList: true, characterData: true, subtree: true });
+    }
+
+    // Also wire directly to geo selects for immediate debounce on user input
+    var geoSelectEl = document.getElementById('geoSelect');
+    var geoTypeEl   = document.getElementById('geoType');
+    if (geoSelectEl) geoSelectEl.addEventListener('change', _debouncedOnGeoChange);
+    if (geoTypeEl)   geoTypeEl.addEventListener('change',   _debouncedOnGeoChange);
+
+    // SiteState fallback
+    document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
+
+    // Fix #1: auto-select county if arriving from jurisdiction flow
+    // Skip if hna-controller already restored a sub-county (place/cdp) selection
+    var jxCheck = window.WorkflowState && window.WorkflowState.getJurisdiction();
+    if (!(jxCheck && jxCheck.type === 'city' && (jxCheck.placeGeoid || jxCheck.displayName))) {
+      var autoFips = _resolveAutoFips();
+      if (autoFips) {
+        setTimeout(function () { _tryAutoSelect(autoFips); }, 300);
+      }
+    }
+
+    // EduCallout init
+    if (window.EduCallout) {
+      EduCallout.load().then(function () { EduCallout.init({ audience: 'developer' }); });
+    }
+  });
+}());
+</script>
+
+<!-- Workflow: jurisdiction banner, step progress, save-to-project -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Inline styles for workflow elements ─────────────────────────── */
+  var s = document.createElement('style');
+  s.textContent = [
+    /* Progress bar */
+    '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:14px 18px 0;}',
+    '.wf-progress-steps{display:flex;align-items:center;gap:0;}',
+    '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
+    '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
+    '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
+    '.wf-step--active .wf-step__num{background:var(--accent);color:#fff;border-color:var(--accent);}',
+    '.wf-step--active .wf-step__label{color:var(--accent);}',
+    '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
+    '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
+    '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+    /* Jurisdiction banner */
+    '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+    '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+    '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+    '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
+    '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+    '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
+    /* Continue panel */
+    '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
+    '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
+    '.hna-continue-panel__text{flex:1;min-width:200px;}',
+    '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
+    '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
+    '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
+    '.hna-save-btn{padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text);}',
+    '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent);}',
+    '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
+    '.hna-continue-btn:hover{opacity:.9;}',
+    '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
+    '@media(max-width:640px){',
+    '  .wf-progress-steps{gap:0;overflow-x:auto;}',
+    '  .wf-step{min-width:60px;}',
+    '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
+    '}'
+  ].join('');
+  document.head.appendChild(s);
+
+  /* ── Jurisdiction banner ──────────────────────────────────────────── */
+  function updateJurisdictionBanner() {
+    var banner = document.getElementById('hnaJurisdictionBanner');
+    var nameEl = document.getElementById('hnaJurisdictionName');
+    var subEl  = document.getElementById('hnaJurisdictionSub');
+    if (!banner || !nameEl) return;
+
+    var countyName = null;
+    var cityName   = null;
+
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        countyName = jx.name || jx.countyName || null;
+        cityName   = jx.displayName || jx.cityName || null;
+      }
+    } catch (_) {}
+
+    if (!countyName) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.name) countyName = sc.name;
+      } catch (_) {}
+    }
+
+    if (countyName) {
+      // Avoid "Denver County County" — name may already include " County"
+      var displayName = /county$/i.test(countyName) ? countyName : countyName + ' County';
+      nameEl.textContent = displayName;
+      if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
+      banner.removeAttribute('hidden');
+    }
+  }
+
+  /* ── Step 1 connector: mark done if jurisdiction set ─────────────── */
+  function updateWorkflowStepState() {
+    var step1 = document.querySelector('.wf-step[data-step="1"]');
+    if (!step1) return;
+    var hasJurisdiction = false;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      if (proj && proj.jurisdiction && (proj.jurisdiction.fips || proj.jurisdiction.countyFips)) {
+        hasJurisdiction = true;
+      }
+    } catch (_) {}
+    if (!hasJurisdiction) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.fips) hasJurisdiction = true;
+      } catch (_) {}
+    }
+    if (!hasJurisdiction) {
+      // No jurisdiction — step 1 not done yet; mark as empty
+      step1.classList.remove('wf-step--done');
+    }
+  }
+
+  /* ── Save to project ──────────────────────────────────────────────── */
+  function saveHnaToProject() {
+    if (!window.WorkflowState) return false;
+    try {
+      // Auto-create a project if none is active so saves never silently fail
+      if (!WorkflowState.getActiveProject()) {
+        var _pill = document.getElementById('geoContextPill');
+        var _autoName = (_pill && _pill.textContent.trim())
+          ? _pill.textContent.trim() + ' Analysis'
+          : null;
+        WorkflowState.newProject(_autoName || undefined);
+      }
+
+      // Collect headline stats from DOM
+      var pop      = document.getElementById('statPop');
+      var rent     = document.getElementById('statRent');
+      var burden   = document.getElementById('statRentBurden');
+      var geoCtx   = document.getElementById('geoContextPill');
+      var narrative = document.getElementById('execNarrative');
+
+      var snapshot = {
+        completedAt:   new Date().toISOString(),
+        geography:     geoCtx    ? geoCtx.textContent.trim()    : null,
+        population:    pop       ? pop.textContent.trim()       : null,
+        medianRent:    rent      ? rent.textContent.trim()      : null,
+        costBurden:    burden    ? burden.textContent.trim()    : null,
+        narrative:     narrative ? narrative.textContent.trim().slice(0, 400) : null
+      };
+
+      WorkflowState.setStep('hsa', snapshot);
+      return true;
+    } catch (e) {
+      console.warn('[HNA] Failed to save to WorkflowState:', e);
+      return false;
+    }
+  }
+
+  /* ── Wire up save button ──────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    updateJurisdictionBanner();
+    updateWorkflowStepState();
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 2);
+
+    var saveBtn = document.getElementById('hnaSaveProjectBtn');
+    var confirm = document.getElementById('hnaSaveConfirmation');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function () {
+        var ok = saveHnaToProject();
+        if (ok && confirm) {
+          confirm.removeAttribute('hidden');
+          saveBtn.textContent = 'Saved ✓';
+          saveBtn.disabled = true;
+          setTimeout(function () { confirm.setAttribute('hidden', ''); }, 3000);
+        }
+      });
+    }
+
+    // Re-run banner update if SiteState changes county
+    document.addEventListener('sitestate:county-changed', updateJurisdictionBanner);
+    document.addEventListener('workflow:step-updated', updateJurisdictionBanner);
+
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-hna',
+        ['ami', 'cost_burden', 'housing_gap', 'dola_projections'],
+        { heading: 'HNA Concepts' });
+    }
+  });
+}());
+</script>
+
+  <footer class="site-footer">
+    <!-- Injected by navigation.js -->
+  </footer>
 </body>
 </html>

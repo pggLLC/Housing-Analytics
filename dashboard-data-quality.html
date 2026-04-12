@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
@@ -95,6 +96,56 @@
       color: var(--muted, #476080);
       margin-bottom: 1.5rem;
     }
+    .dq-key-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-top: .75rem;
+    }
+    .dq-key-row {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+    .dq-key-row label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted, #476080);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .dq-key-input-wrap {
+      display: flex;
+      gap: .4rem;
+    }
+    .dq-key-input {
+      flex: 1;
+      padding: .4rem .65rem;
+      border: 1px solid var(--border, #dde3ec);
+      border-radius: 6px;
+      background: var(--card, #fff);
+      color: var(--text, #1a1a2e);
+      font-size: .85rem;
+      font-family: monospace;
+      min-width: 0;
+    }
+    .dq-key-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(9,110,101,.25); border-color: #096e65; }
+    .dq-key-save {
+      padding: .4rem .85rem;
+      background: var(--accent, #096e65);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .dq-key-save:hover { opacity: .88; }
+    .dq-key-note { font-size: .75rem; color: var(--muted, #476080); }
+    .dq-key-status { font-size: .75rem; font-weight: 600; margin-top: .15rem; }
+    .dq-key-status--ok  { color: #2e7d32; }
+    .dq-key-status--off { color: #546e7a; }
     .dq-table {
       width: 100%;
       border-collapse: collapse;
@@ -139,6 +190,18 @@
     <h2>API Configuration</h2>
     <div class="dq-grid" id="apiStatusGrid">
       <!-- Cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- API Key Entry -->
+  <div class="dq-section">
+    <h2>API Key Setup</h2>
+    <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
+      Keys entered here are saved to your browser's localStorage and loaded automatically on each visit.
+      They are <strong>never sent to any server</strong>. For CI/CD, add them as GitHub Secrets.
+    </p>
+    <div class="dq-key-form" id="apiKeyForm">
+      <!-- Rows injected by JS -->
     </div>
   </div>
 
@@ -216,33 +279,49 @@
     return { configured: false, source: 'none' };
   }
 
+  function detectRegridApiConfig() {
+    if (window.APP_CONFIG && window.APP_CONFIG.REGRID_API_KEY) {
+      return { configured: true, source: 'APP_CONFIG' };
+    }
+    return { configured: false, source: 'none' };
+  }
+
   // -------------------------------------------------------------------------
   // Render API status cards
   // -------------------------------------------------------------------------
   function renderApiCards() {
     var census = detectCensusApiConfig();
     var fred   = detectFredApiConfig();
+    var regrid = detectRegridApiConfig();
 
     var cards = [
       {
         title: 'Census API Key',
         key:   'CENSUS_API_KEY',
         state: census.configured ? 'ok' : 'warn',
-        label: census.configured ? 'Configured' : 'Not detected',
+        label: census.configured ? 'Configured' : 'Not set',
         detail: census.configured
-          ? 'Key present via ' + census.source + '. Authenticated Census requests enabled.'
-          : 'Key not detected in browser config. CI/CD uses GitHub Secrets. ' +
-            'Unauthenticated requests will be used (rate-limited). ' +
-            'See SETUP-DATA-SOURCES.md for instructions.',
+          ? 'Key present via ' + census.source + '. Authenticated Census ACS requests enabled.'
+          : 'Not set. Unauthenticated requests will be used (rate-limited to 500/day). ' +
+            'Free key: api.census.gov/data/key_signup.html',
       },
       {
         title: 'FRED API Key',
         key:   'FRED_API_KEY',
         state: fred.configured ? 'ok' : 'warn',
-        label: fred.configured ? 'Configured' : 'Not detected',
+        label: fred.configured ? 'Configured' : 'Not set',
         detail: fred.configured
-          ? 'Key present via ' + fred.source + '. FRED economic data enabled.'
-          : 'Key not detected in browser config. CI/CD uses GitHub Secrets.',
+          ? 'Key present via ' + fred.source + '. FRED economic indicator series enabled.'
+          : 'Not set. Economic dashboard will use cached data only. Free key: fred.stlouisfed.org/docs/api/',
+      },
+      {
+        title: 'Regrid API Key',
+        key:   'REGRID_API_KEY',
+        state: regrid.configured ? 'ok' : 'pending',
+        label: regrid.configured ? 'Configured' : 'Not set',
+        detail: regrid.configured
+          ? 'Key present via ' + regrid.source + '. Live parcel & zoning data enabled on PMA map.'
+          : 'Not set. PMA map will fall back to pre-aggregated parcel data. Key: regrid.com/plans',
       },
     ];
 
@@ -260,9 +339,9 @@
       '</div>';
     }).join('');
 
-    var censusState = census.configured ? 'ok' : 'warn';
-    emit('Census API key: ' + (census.configured ? 'configured (' + census.source + ')' : 'NOT detected in browser config'));
-    emit('FRED API key: '   + (fred.configured   ? 'configured (' + fred.source + ')'   : 'NOT detected in browser config'));
+    emit('Census API key: ' + (census.configured ? 'configured (' + census.source + ')' : 'NOT set'));
+    emit('FRED API key: '   + (fred.configured   ? 'configured (' + fred.source + ')'   : 'NOT set'));
+    emit('Regrid API key: ' + (regrid.configured  ? 'configured (' + regrid.source + ')' : 'NOT set'));
 
     // Top-level notice
     var notice = document.getElementById('dqNotice');
@@ -288,36 +367,43 @@
   // -------------------------------------------------------------------------
   // Render data source table
   // -------------------------------------------------------------------------
+  // maxAgeDays: warn with "Stale" badge if last-refreshed timestamp exceeds this many days.
+  // Set to null to skip staleness checking (e.g. annually-updated reference files).
   var DATA_SOURCES = [
     {
-      name:   'Census ACS (state)',
-      file:   'data/census-acs-state.json',
-      tsPath: ['meta', 'pulled_at_utc'],
-      notes:  'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
+      name:       'Census ACS (state)',
+      file:       'census-acs-state.json',
+      tsPath:     ['meta', 'pulled_at_utc'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by fetch-census-acs.yml. Requires CENSUS_API_KEY.',
     },
     {
-      name:   'CO County Demographics',
-      file:   'data/co-county-demographics.json',
-      tsPath: ['meta', 'refreshed_utc'],
-      notes:  'Updated daily by data-refresh.yml. Graceful fallback if key missing.',
+      name:       'CO County Demographics',
+      file:       'co-county-demographics.json',
+      tsPath:     ['meta', 'refreshed_utc'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by data-refresh.yml. Graceful fallback if key missing.',
     },
     {
-      name:   'CHFA LIHTC',
-      file:   'data/chfa-lihtc.json',
-      tsPath: ['fetchedAt'],
-      notes:  'Updated weekly by fetch-chfa-lihtc.yml. No API key required.',
+      name:       'CHFA LIHTC',
+      file:       'chfa-lihtc.json',
+      tsPath:     ['fetchedAt'],
+      maxAgeDays: 10,
+      notes:      'Updated weekly by fetch-chfa-lihtc.yml. No API key required.',
     },
     {
-      name:   'FRED Economic Data',
-      file:   'data/fred-data.json',
-      tsPath: ['updated'],
-      notes:  'Updated daily by fetch-fred-data.yml. Requires FRED_API_KEY.',
+      name:       'FRED Economic Data',
+      file:       'fred-data.json',
+      tsPath:     ['updated'],
+      maxAgeDays: 3,
+      notes:      'Updated daily by fetch-fred-data.yml. Requires FRED_API_KEY.',
     },
     {
-      name:   'Data Manifest',
-      file:   'data/manifest.json',
-      tsPath: ['generated'],
-      notes:  'Rebuilt by data-refresh.yml after each successful data fetch.',
+      name:       'Data Manifest',
+      file:       'manifest.json',
+      tsPath:     ['generated'],
+      maxAgeDays: 3,
+      notes:      'Rebuilt by data-refresh.yml after each successful data fetch.',
     },
   ];
 
@@ -381,15 +467,116 @@
         })
         .then(function (data) {
           var ts = deepGet(data, src.tsPath);
-          fileCell.innerHTML = '<span class="dq-badge dq-badge--ok">Present</span>';
+          var stale = false;
+          if (ts && src.maxAgeDays != null) {
+            var ageDays = (Date.now() - new Date(ts).getTime()) / 86400000;
+            stale = ageDays > src.maxAgeDays;
+          }
+          if (stale) {
+            fileCell.innerHTML = '<span class="dq-badge dq-badge--warn">Stale</span>';
+            emit(src.name + ': STALE — last refreshed ' + (ts || 'unknown') + ' (exceeds ' + src.maxAgeDays + '-day threshold)');
+          } else {
+            fileCell.innerHTML = '<span class="dq-badge dq-badge--ok">Present</span>';
+            emit(src.name + ': present — last refreshed ' + (ts || 'unknown'));
+          }
           tsCell.textContent = fmtTs(ts);
-          emit(src.name + ': present — last refreshed ' + (ts || 'unknown'));
         })
         .catch(function (e) {
           fileCell.innerHTML = '<span class="dq-badge dq-badge--missing">Missing</span>';
           tsCell.textContent = '—';
           emit(src.name + ': ' + e.message);
         });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // API Key Entry Form
+  // -------------------------------------------------------------------------
+  var API_KEY_DEFS = [
+    {
+      key:   'CENSUS_API_KEY',
+      label: 'Census API Key',
+      placeholder: 'e.g. 1a2b3c4d5e6f…',
+      note:  'Free — api.census.gov/data/key_signup.html',
+      link:  'https://api.census.gov/data/key_signup.html'
+    },
+    {
+      key:   'FRED_API_KEY',
+      label: 'FRED API Key',
+      placeholder: 'e.g. abcdef1234…',
+      note:  'Free — fred.stlouisfed.org/docs/api/',
+      link:  'https://fred.stlouisfed.org/docs/api/api_key.html'
+    },
+    {
+      key:   'REGRID_API_KEY',
+      label: 'Regrid Parcel API Key',
+      placeholder: 'Regrid v2 API key',
+      note:  'Paid — regrid.com/plans (parcel & zoning map layer)',
+      link:  'https://regrid.com/plans'
+    },
+    {
+      key:   'BRIDGE_BROWSER_TOKEN',
+      label: 'Bridge Interactive Browser Token',
+      placeholder: 'Bridge browser-side access token',
+      note:  'bridgeinteractive.com — browser token from your API dashboard',
+      link:  'https://bridgedataoutput.com/docs/explorer'
+    },
+    {
+      key:   'BRIDGE_DATASET',
+      label: 'Bridge Dataset Code',
+      placeholder: 'Default: test — override when MLS access granted',
+      note:  'Leave blank for "test" sample data; enter e.g. ires_co when approved',
+      link:  'https://bridgedataoutput.com/docs/explorer/reso-web-api'
+    }
+  ];
+
+  function renderKeyForm() {
+    var form = document.getElementById('apiKeyForm');
+    if (!form) return;
+
+    form.innerHTML = API_KEY_DEFS.map(function (def) {
+      var saved = '';
+      try { saved = localStorage.getItem('coho_api_' + def.key) || ''; } catch (_) {}
+      var masked = saved ? (saved.slice(0, 6) + '••••••••') : '';
+      var isSet = !!saved;
+      return '<div class="dq-key-row">' +
+        '<label for="keyInput_' + def.key + '">' + escHtml(def.label) + '</label>' +
+        '<div class="dq-key-input-wrap">' +
+          '<input id="keyInput_' + def.key + '" class="dq-key-input" type="password" ' +
+            'placeholder="' + (isSet ? masked : escHtml(def.placeholder)) + '" ' +
+            'autocomplete="off" data-key="' + def.key + '">' +
+          '<button class="dq-key-save" data-key="' + def.key + '">Save</button>' +
+        '</div>' +
+        '<span class="dq-key-status ' + (isSet ? 'dq-key-status--ok' : 'dq-key-status--off') + '" id="keyStatus_' + def.key + '">' +
+          (isSet ? '✓ Saved in browser' : 'Not saved') +
+        '</span>' +
+        '<span class="dq-key-note">→ <a href="' + def.link + '" target="_blank" rel="noopener">' + escHtml(def.note) + '</a></span>' +
+      '</div>';
+    }).join('');
+
+    form.addEventListener('click', function (e) {
+      if (!e.target.classList.contains('dq-key-save')) return;
+      var keyName = e.target.dataset.key;
+      var input   = document.getElementById('keyInput_' + keyName);
+      var statusEl = document.getElementById('keyStatus_' + keyName);
+      if (!input) return;
+      var val = input.value.trim();
+      if (!val) {
+        // Clear key
+        try { localStorage.removeItem('coho_api_' + keyName); } catch (_) {}
+        if (window.APP_CONFIG) window.APP_CONFIG[keyName] = '';
+        if (statusEl) { statusEl.textContent = 'Cleared'; statusEl.className = 'dq-key-status dq-key-status--off'; }
+        emit(keyName + ': cleared from localStorage');
+      } else {
+        try { localStorage.setItem('coho_api_' + keyName, val); } catch (_) {}
+        if (window.APP_CONFIG) window.APP_CONFIG[keyName] = val;
+        input.value = '';
+        input.placeholder = val.slice(0, 6) + '••••••••';
+        if (statusEl) { statusEl.textContent = '✓ Saved in browser'; statusEl.className = 'dq-key-status dq-key-status--ok'; }
+        emit(keyName + ': saved to localStorage (' + val.slice(0, 4) + '…)');
+      }
+      // Refresh status cards
+      renderApiCards();
     });
   }
 
@@ -402,6 +589,7 @@
 
     emit('Data Quality Dashboard initialized');
     renderApiCards();
+    renderKeyForm();
     renderSourceTable();
   }
 
@@ -412,7 +600,11 @@
   }
 
   // Expose for testing
-  window.__DQ = { detectCensusApiConfig: detectCensusApiConfig, detectFredApiConfig: detectFredApiConfig };
+  window.__DQ = {
+    detectCensusApiConfig: detectCensusApiConfig,
+    detectFredApiConfig:   detectFredApiConfig,
+    detectRegridApiConfig: detectRegridApiConfig
+  };
 })();
 </script>
 </body>

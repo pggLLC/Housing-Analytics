@@ -47,17 +47,19 @@ CO_BBOX = "36.9,-109.1,41.1,-102.0"
 THROTTLE_S = 3.0
 
 # Timeout for each Overpass request (seconds)
-TIMEOUT_S = 60
+TIMEOUT_S = 180
 
 CATEGORIES = {
     "schools": {
         "query": f"""
 [out:json][timeout:{TIMEOUT_S}];
 (
-  node["amenity"="school"]({CO_BBOX});
-  node["amenity"="kindergarten"]({CO_BBOX});
+  nwr["amenity"="school"]({CO_BBOX});
+  nwr["amenity"="kindergarten"]({CO_BBOX});
+  nwr["amenity"="college"]({CO_BBOX});
+  nwr["amenity"="university"]({CO_BBOX});
 );
-out body;
+out center;
 """,
         "output": "schools_co.geojson",
         "name_tag": "name",
@@ -66,11 +68,14 @@ out body;
         "query": f"""
 [out:json][timeout:{TIMEOUT_S}];
 (
-  node["shop"="supermarket"]({CO_BBOX});
-  node["shop"="grocery"]({CO_BBOX});
-  node["shop"="convenience"]({CO_BBOX});
+  nwr["shop"="supermarket"]({CO_BBOX});
+  nwr["shop"="grocery"]({CO_BBOX});
+  nwr["shop"="convenience"]({CO_BBOX});
+  nwr["shop"="greengrocer"]({CO_BBOX});
+  nwr["shop"="wholesale"]({CO_BBOX});
+  nwr["shop"="general"]({CO_BBOX});
 );
-out body;
+out center;
 """,
         "output": "grocery_co.geojson",
         "name_tag": "name",
@@ -79,27 +84,57 @@ out body;
         "query": f"""
 [out:json][timeout:{TIMEOUT_S}];
 (
-  node["amenity"="hospital"]({CO_BBOX});
-  node["amenity"="clinic"]({CO_BBOX});
-  node["amenity"="doctors"]({CO_BBOX});
-  node["amenity"="pharmacy"]({CO_BBOX});
+  nwr["amenity"="hospital"]({CO_BBOX});
+  nwr["amenity"="clinic"]({CO_BBOX});
+  nwr["amenity"="doctors"]({CO_BBOX});
+  nwr["amenity"="pharmacy"]({CO_BBOX});
+  nwr["amenity"="dentist"]({CO_BBOX});
+  nwr["healthcare"]({CO_BBOX});
+);
+out center;
+""",
+        "output": "healthcare_co.geojson",
+        "name_tag": "name",
+    },
+    "parks": {
+        "query": f"""
+[out:json][timeout:{TIMEOUT_S}];
+(
+  nwr["leisure"="park"]["name"]({CO_BBOX});
+  nwr["leisure"="playground"]["name"]({CO_BBOX});
+);
+out center;
+""",
+        "output": "parks_co.geojson",
+        "name_tag": "name",
+    },
+    "transit_stops": {
+        "query": f"""
+[out:json][timeout:{TIMEOUT_S}];
+(
+  node["highway"="bus_stop"]["name"]({CO_BBOX});
+  node["public_transport"="platform"]["name"]({CO_BBOX});
+  node["railway"="station"]({CO_BBOX});
+  node["railway"="halt"]({CO_BBOX});
+  node["railway"="tram_stop"]({CO_BBOX});
+  node["amenity"="bus_station"]({CO_BBOX});
 );
 out body;
 """,
-        "output": "healthcare_co.geojson",
+        "output": "transit_stops_co.geojson",
         "name_tag": "name",
     },
     "retail_nodes": {
         "query": f"""
 [out:json][timeout:{TIMEOUT_S}];
 (
-  node["shop"="mall"]({CO_BBOX});
-  node["shop"="department_store"]({CO_BBOX});
-  node["shop"="clothes"]({CO_BBOX});
-  node["amenity"="restaurant"]({CO_BBOX});
-  node["amenity"="fast_food"]({CO_BBOX});
+  nwr["shop"="mall"]({CO_BBOX});
+  nwr["shop"="department_store"]({CO_BBOX});
+  nwr["shop"="clothes"]({CO_BBOX});
+  nwr["amenity"="restaurant"]({CO_BBOX});
+  nwr["amenity"="fast_food"]({CO_BBOX});
 );
-out body;
+out center;
 """,
         "output": "retail_nodes_co.geojson",
         "name_tag": "name",
@@ -118,21 +153,60 @@ def overpass_query(query: str) -> dict:
 
 
 def osm_to_geojson(osm_result: dict, name_tag: str = "name") -> dict:
-    """Convert Overpass JSON (nodes only) to a GeoJSON FeatureCollection."""
+    """Convert Overpass JSON (nodes, ways, relations) to a GeoJSON FeatureCollection.
+
+    For ways and relations queried with ``out center;``, the centroid is available
+    in the ``center`` sub-object.  For plain nodes the lat/lon are top-level.
+    """
     features = []
+    seen_ids = set()
     for element in osm_result.get("elements", []):
-        if element.get("type") != "node":
+        etype = element.get("type")
+        eid = element.get("id")
+
+        # Deduplicate (nwr queries can return the same entity multiple times)
+        dedup_key = f"{etype}_{eid}"
+        if dedup_key in seen_ids:
             continue
-        lat = element.get("lat")
-        lon = element.get("lon")
+        seen_ids.add(dedup_key)
+
+        # Extract coordinates: nodes have top-level lat/lon; ways/relations
+        # queried with ``out center;`` have a ``center`` sub-object.
+        if etype == "node":
+            lat = element.get("lat")
+            lon = element.get("lon")
+        else:
+            center = element.get("center", {})
+            lat = center.get("lat")
+            lon = center.get("lon")
+
         if lat is None or lon is None:
             continue
+
         tags = element.get("tags", {})
+
+        # Derive transit subtype from OSM tags when available
+        transit_type = ""
+        if tags.get("railway") in ("station", "halt", "tram_stop"):
+            transit_type = "rail_station" if tags["railway"] == "station" else ("tram_stop" if tags["railway"] == "tram_stop" else "rail_halt")
+        elif tags.get("public_transport") == "station":
+            transit_type = "transit_station"
+        elif tags.get("public_transport") == "platform":
+            transit_type = "platform"
+        elif tags.get("amenity") == "bus_station":
+            transit_type = "bus_station"
+        elif tags.get("highway") == "bus_stop":
+            transit_type = "bus_stop"
+
         props = {
-            "osm_id": element.get("id"),
+            "osm_id": eid,
+            "osm_type": etype,
             "name": tags.get(name_tag) or tags.get("name") or "",
             "amenity": tags.get("amenity", ""),
             "shop": tags.get("shop", ""),
+            "leisure": tags.get("leisure", ""),
+            "healthcare": tags.get("healthcare", ""),
+            "transit_type": transit_type,
         }
         features.append({
             "type": "Feature",

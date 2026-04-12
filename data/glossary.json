@@ -100,6 +100,86 @@
       "term": "PPI",
       "full": "Producer Price Index",
       "definition": "A family of indexes that measures the average change over time in the selling prices received by domestic producers for their output. In housing finance, construction PPIs (for lumber, steel, concrete, etc.) are tracked to forecast development cost trends and change-order exposure."
+    },
+    {
+      "term": "CDP",
+      "full": "Census Designated Place",
+      "definition": "An unincorporated community identified by the U.S. Census Bureau as a concentrated population center for statistical purposes. CDPs are not legally incorporated municipalities but are used to collect and report demographic and housing data, making them important geographies for housing needs assessments in rural and suburban Colorado."
+    },
+    {
+      "term": "TDC",
+      "full": "Total Development Cost",
+      "definition": "The complete cost of developing a housing project, including land acquisition, hard construction costs, soft costs (architecture, engineering, legal), financing fees, and reserves. TDC is a key metric in LIHTC underwriting, as it determines the eligible basis for calculating tax credit amounts."
+    },
+    {
+      "term": "DCR",
+      "full": "Debt Coverage Ratio",
+      "definition": "The ratio of a property's net operating income to its annual debt service payments. A DCR of 1.15 or higher is typically required by lenders for affordable housing projects, ensuring sufficient cash flow to cover mortgage payments with a margin of safety."
+    },
+    {
+      "term": "PAB",
+      "full": "Private Activity Bond",
+      "definition": "A tax-exempt bond issued by state or local governments to finance projects with a private purpose, including affordable housing. In LIHTC financing, projects using at least 50% PAB financing automatically qualify for 4% tax credits without competing in the 9% allocation process."
+    },
+    {
+      "term": "LEHD",
+      "full": "Longitudinal Employer-Household Dynamics",
+      "definition": "A Census Bureau program that combines federal, state, and Census data to create statistics on employment, earnings, and job flows. LEHD Origin-Destination Employment Statistics (LODES) data is used in housing needs assessments to analyze commute patterns and job-housing balance."
+    },
+    {
+      "term": "QAP",
+      "full": "Qualified Allocation Plan",
+      "definition": "A state housing agency's plan, required by IRC §42, that describes the criteria used to allocate 9% LIHTC credits to projects. CHFA's QAP defines scoring categories including community need, local support, site quality, and developer track record. Updated annually."
+    },
+    {
+      "term": "LTV",
+      "full": "Loan-to-Value Ratio",
+      "definition": "The ratio of a mortgage loan amount to the appraised value of the property. LIHTC lenders typically require LTV of 80% or less for permanent financing, ensuring sufficient equity cushion against potential property value declines."
+    },
+    {
+      "term": "IRR",
+      "full": "Internal Rate of Return",
+      "definition": "The annualized effective compounded return rate that makes the net present value of all cash flows (including tax credits) equal to zero. LIHTC investors typically target IRRs of 5-7% over the 10-year credit period, with higher targets in volatile markets."
+    },
+    {
+      "term": "NOI",
+      "full": "Net Operating Income",
+      "definition": "A property's annual gross income minus operating expenses (excluding debt service). NOI is the foundation for sizing permanent debt: Supportable Mortgage = NOI ÷ (DCR × Mortgage Constant). CHFA typically requires a minimum DCR of 1.15-1.20."
+    },
+    {
+      "term": "ARIMA",
+      "full": "AutoRegressive Integrated Moving Average",
+      "definition": "A statistical model used for time-series forecasting that combines autoregression (past values), differencing (stationarity), and moving average (past forecast errors). Used in this platform to project LIHTC equity pricing trends with confidence intervals."
+    },
+    {
+      "term": "OZ",
+      "full": "Opportunity Zone",
+      "definition": "A federally designated census tract where investments in new businesses and real estate qualify for capital gains tax benefits under IRC §1400Z-2. Colorado has 126 designated OZ tracts. OZ equity can layer with LIHTC but requires complex dual-structure legal arrangements. Designation expires 12/31/2028."
+    },
+    {
+      "term": "NMTC",
+      "full": "New Markets Tax Credit",
+      "definition": "A federal tax credit program providing 39% tax credit over 7 years for qualified investments in low-income communities. Administered by the CDFI Fund. Can be combined with LIHTC in mixed-use developments with commercial components, though dual-credit structures require specialized legal counsel."
+    },
+    {
+      "term": "TIF",
+      "full": "Tax Increment Financing",
+      "definition": "A municipal financing tool that captures the increase in property tax revenue generated by new development within a designated district. TIF can provide gap financing for affordable housing projects. Denver, Aurora, Colorado Springs, and Fort Collins have active TIF programs."
+    },
+    {
+      "term": "EPA SLD",
+      "full": "EPA Smart Location Database",
+      "definition": "A nationwide dataset from the U.S. Environmental Protection Agency that summarizes land use, transit access, walkability, and employment characteristics at the census block-group level. COHO uses SLD metrics (intersection density, transit frequency, land-use mix, auto network density) to compute walkability and bikeability scores for site screening."
+    },
+    {
+      "term": "Walkability Score",
+      "full": "Walkability Score (0–100)",
+      "definition": "A composite score derived from EPA Smart Location Database metrics: pedestrian-oriented intersection density (60% weight), transit service frequency (20%), and land-use mix (20%). Higher scores indicate areas where destinations are reachable on foot via connected street networks. Scores above 60 are considered 'Good'; above 80 is 'Excellent'."
+    },
+    {
+      "term": "Bikeability Score",
+      "full": "Bikeability Score (0–100)",
+      "definition": "A proxy score estimating how conducive an area is to cycling, derived from EPA Smart Location Database metrics: low auto-oriented network density (40% weight), land-use mix (30%), and pedestrian intersection density (30%). Higher scores indicate areas with less car-dependent infrastructure and more mixed-use development. This is a proxy — it does not measure actual bike lane presence."
     }
   ]
 }
