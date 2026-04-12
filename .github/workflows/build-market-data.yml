@@ -10,6 +10,10 @@ on:
         description: 'Force refresh even if cache is fresh'
         required: false
         default: 'false'
+      census_api_key:
+        description: 'Census API key (passed by orchestrator; falls back to CENSUS_API_KEY secret)'
+        required: false
+        default: ''
 
 jobs:
   build:
@@ -53,12 +57,12 @@ jobs:
               sys.exit(1)
           EOF
         env:
-          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          CENSUS_API_KEY: ${{ inputs.census_api_key || secrets.CENSUS_API_KEY }}
 
       - name: Run market data builder
         id: build
         env:
-          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          CENSUS_API_KEY: ${{ inputs.census_api_key || secrets.CENSUS_API_KEY }}
         run: |
           echo "── Starting market data build at $(date -u) ──"
           python scripts/market/build_public_market_data.py --allow-partial
