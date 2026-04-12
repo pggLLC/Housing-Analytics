@@ -1,0 +1,6 @@
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.openstreetmap.fr; connect-src 'self' https://api.census.gov https://tigerweb.geo.census.gov https://services.arcgis.com https://services1.arcgis.com https://services2.arcgis.com https://api.stlouisfed.org https://fred.stlouisfed.org https://api.hud.gov https://hudgis-hud.opendata.arcgis.com https://geo.fcc.gov https://www2.census.gov; frame-ancestors 'none'; object-src 'none'; base-uri 'self'

@@ -43,7 +43,6 @@
     if (data === null || data === undefined) return;
     _store[key] = data;
     if (!_hits[key]) _hits[key] = 0;
-    console.log('[PMADataCache] cached "' + key + '"');
   }
 
   /**
@@ -57,7 +56,6 @@
     if (!key) return null;
     if (!Object.prototype.hasOwnProperty.call(_store, key)) return null;
     _hits[key] = (_hits[key] || 0) + 1;
-    console.log('[PMADataCache] cache HIT "' + key + '" (hits=' + _hits[key] + ')');
     return _store[key];
   }
 

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T12:36:37.827Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-12T14:41:23.859Z. Do not edit by hand.
 
 ---
 
@@ -23,7 +23,7 @@
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.3 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.9 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.8 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.0 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.0 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.4 KB |
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 129.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 951.6 KB | ✅ | — |
+| `data/fred-data.json` | 951.7 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1050,21 +1050,21 @@
 | `.github/workflows/build-hna-data.yml` | 6.1 KB |
 | `.github/workflows/build-market-data.yml` | 9.9 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
-| `.github/workflows/car-data-update.yml` | 1.1 KB |
+| `.github/workflows/car-data-update.yml` | 1.9 KB |
 | `.github/workflows/ci-checks.yml` | 7.1 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-quality-check.yml` | 6.0 KB |
-| `.github/workflows/data-refresh.yml` | 3.2 KB |
+| `.github/workflows/data-quality-check.yml` | 6.7 KB |
+| `.github/workflows/data-refresh.yml` | 3.9 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
-| `.github/workflows/fetch-census-acs.yml` | 5.2 KB |
-| `.github/workflows/fetch-chas-data.yml` | 3.0 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 3.3 KB |
-| `.github/workflows/fetch-county-data.yml` | 3.2 KB |
+| `.github/workflows/fetch-census-acs.yml` | 5.9 KB |
+| `.github/workflows/fetch-chas-data.yml` | 3.8 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
+| `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.6 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-lihtc-data.yml` | 9.1 KB |
@@ -1080,7 +1080,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
-| `.github/workflows/zillow-data-sync.yml` | 17.8 KB |
+| `.github/workflows/zillow-data-sync.yml` | 18.6 KB |
 
 ---
 

@@ -132,11 +132,29 @@ jobs:
           print(f"Wrote data/census-acs-state.json using ACS {used_year} 5-year.")
           PY
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-census-acs.yml --run-id ${context.runId} --data-file data/census-acs-state.json --details "Census ACS fetch failed. Check CENSUS_API_KEY secret and Census API availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Commit and push updated Census data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/census-acs-state.json
+          python3 scripts/rebuild_manifest.py
+          git add data/census-acs-state.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
