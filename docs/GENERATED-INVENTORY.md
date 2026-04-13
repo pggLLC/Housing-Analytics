@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T08:49:37.840Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T08:53:18.416Z. Do not edit by hand.
 
 ---
 
@@ -1041,7 +1041,7 @@
 
 ## GitHub Actions Workflows
 
-38 workflow files found.
+39 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1055,6 +1055,7 @@
 | `.github/workflows/car-data-update.yml` | 1.9 KB |
 | `.github/workflows/ci-checks.yml` | 7.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
+| `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
