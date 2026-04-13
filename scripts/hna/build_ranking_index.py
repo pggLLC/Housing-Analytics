@@ -30,15 +30,15 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 REGIONS: dict[str, list[str]] = {
     "Front Range":   ["08001", "08005", "08013", "08014", "08019", "08031",
                       "08035", "08041", "08059", "08069", "08101", "08123"],
-    "Western Slope": ["08007", "08021", "08029", "08045", "08051", "08053",
-                      "08077", "08085", "08113", "08121"],
-    "Mountains":     ["08009", "08015", "08037", "08047", "08065", "08097",
-                      "08107", "08117", "08119", "08049"],
+    "Western Slope": ["08007", "08029", "08045", "08051", "08053",
+                      "08077", "08085", "08103", "08113", "08121"],
+    "Mountains":     ["08009", "08015", "08037", "08047", "08049", "08065",
+                      "08093", "08097", "08107", "08117", "08119"],
     "Eastern Plains":["08011", "08017", "08023", "08025", "08039", "08057",
                       "08061", "08063", "08071", "08073", "08075", "08079",
-                      "08087", "08089", "08099", "08111", "08115", "08125"],
+                      "08087", "08089", "08095", "08099", "08111", "08115", "08125"],
     "San Luis Valley":["08003", "08021", "08055", "08083", "08105", "08109"],
-    "Southwest":     ["08033", "08043", "08067", "08081", "08091"],
+    "Southwest":     ["08027", "08033", "08043", "08067", "08081", "08091"],
 }
 
 # Build reversed lookup: county fips -> region
@@ -148,6 +148,32 @@ def load_projection(county_fips5: str) -> dict | None:
     return _load_json(path)
 
 
+def load_county_populations() -> dict[str, int]:
+    """Return dict keyed by 5-digit county FIPS with ACS population.
+
+    Reads DP05_0001E from each county summary file so that place/CDP
+    in-commuter counts can be scaled by the place's share of county
+    population rather than being assigned the full county inflow.
+    """
+    summary_dir = os.path.join(ROOT, "data", "hna", "summary")
+    result: dict[str, int] = {}
+    if not os.path.isdir(summary_dir):
+        return result
+    for fname in os.listdir(summary_dir):
+        if not fname.endswith(".json"):
+            continue
+        fips = fname[:-5]
+        # Only 5-digit county FIPS files (e.g. 08013.json)
+        if len(fips) != 5:
+            continue
+        data = _load_json(os.path.join(summary_dir, fname))
+        if data and isinstance(data, dict):
+            pop = safe_float(data.get("acsProfile", {}).get("DP05_0001E", 0))
+            if pop > 0:
+                result[fips] = int(pop)
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Metric computation
 # ---------------------------------------------------------------------------
@@ -165,6 +191,7 @@ def compute_metrics(
     ami_gap_by_county: dict[str, dict],
     chas_by_county: dict[str, dict],
     lehd_by_county: dict[str, dict],
+    county_populations: dict[str, int] | None = None,
 ) -> dict:
     """Derive ranking metrics from a summary record.
 
@@ -253,12 +280,15 @@ def compute_metrics(
             ami_gap_50 = county_gap_50
             ami_gap_60 = county_gap_60
         else:
-            # Scale by population share within county
-            county_pop_fallback = safe_float(
-                county_data.get("households_le_ami_pct", {}).get("100", households or 1)
-            )
+            # Scale by this place's share of county population.
+            # Prefer ACS county population (from county_populations); fall back
+            # to households_le_ami_pct["100"] when the county summary is absent.
+            county_total = float((county_populations or {}).get(county_fips5, 0))
+            if county_total <= 0:
+                county_total = safe_float(
+                    county_data.get("households_le_ami_pct", {}).get("100", households or 1)
+                )
             place_pop = population or 0
-            county_total = county_pop_fallback or 1
             share = min(place_pop / county_total, 1.0) if county_total else 0.0
             housing_gap_units = int(county_gap_30 * share)
             ami_gap_50 = int(county_gap_50 * share)
@@ -270,10 +300,18 @@ def compute_metrics(
                             ("60", "60%"), ("70", "70%"), ("80", "80%")]:
             cov = safe_float(coverage_dict.get(band, 1.0))
             raw_deficit = int(abs(safe_float(gap_dict.get(band, 0))))
-            # Scale deficit to place/CDP size if needed
-            deficit = raw_deficit if geo_type == "county" else int(
-                raw_deficit * (min(population / max(county_pop_fallback, 1), 1.0) if county_pop_fallback else 0.0)
-            )
+            # Scale deficit to place/CDP size using the same share already computed
+            if geo_type == "county":
+                deficit = raw_deficit
+            else:
+                county_total_miss = float((county_populations or {}).get(county_fips5, 0))
+                if county_total_miss <= 0:
+                    county_total_miss = safe_float(
+                        county_data.get("households_le_ami_pct", {}).get("100", 1)
+                    )
+                place_pop_miss = population or 0
+                share_miss = min(place_pop_miss / county_total_miss, 1.0) if county_total_miss else 0.0
+                deficit = int(raw_deficit * share_miss)
             if cov < 0.75 and deficit > 100:
                 missing_ami_tiers.append(label)
 
@@ -305,17 +343,27 @@ def compute_metrics(
             if total_renter_hh > 0:
                 pct_cost_burdened = round((total_burdened / total_renter_hh) * 100, 1)
 
-    # --- LEHD in-commuting stats (county level; places inherit containing county) ---
+    # --- LEHD in-commuting stats (county level; places scale by population share) ---
     in_commuters = 0
     commute_ratio = 0.0
     if county_fips5 and county_fips5 in lehd_by_county:
         lehd = lehd_by_county[county_fips5]
         raw_inflow  = int(safe_float(lehd.get("inflow",  0)))
         raw_within  = int(safe_float(lehd.get("within",  0)))
-        in_commuters = raw_inflow
         total_employed = raw_inflow + raw_within
         if total_employed > 0:
             commute_ratio = round((raw_inflow / total_employed) * 100, 1)
+        if geo_type == "county":
+            in_commuters = raw_inflow
+        else:
+            # Scale county inflow by this place's share of county population.
+            # county_populations is keyed by 5-digit county FIPS and holds the
+            # ACS total population loaded from the county's summary file.
+            county_pop = (county_populations or {}).get(county_fips5, 0)
+            if county_pop > 0 and population > 0:
+                share = min(population / county_pop, 1.0)
+                in_commuters = int(raw_inflow * share)
+            # else: in_commuters stays 0 (county population unknown)
 
     # --- 20-year population projection ---
     population_projection_20yr = 0
@@ -398,9 +446,11 @@ def build() -> None:
     ami_gap = load_ami_gap()
     chas = load_chas()
     lehd = load_lehd_index()
+    county_pops = load_county_populations()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
     print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
+    print(f"  County populations: {len(county_pops)}", file=sys.stderr)
 
     # Load all summary files
     all_files = sorted(glob.glob(os.path.join(summary_dir, "*.json")))
@@ -435,7 +485,7 @@ def build() -> None:
         region = COUNTY_REGION.get(county_fips5, "Other")
 
         try:
-            metrics = compute_metrics(summary, ami_gap, chas, lehd)
+            metrics = compute_metrics(summary, ami_gap, chas, lehd, county_pops)
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
             metrics = {

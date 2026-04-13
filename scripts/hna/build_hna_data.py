@@ -1027,10 +1027,16 @@ def build_summary_cache():
                 all_geos.append({'type': 'county', 'geoid': c['geoid'], 'label': c['label']})
         for p in gc.get('places', []):
             if p['geoid'] not in featured_geoids:
-                all_geos.append({'type': 'place', 'geoid': p['geoid'], 'label': p['label']})
+                entry: dict = {'type': 'place', 'geoid': p['geoid'], 'label': p['label']}
+                if p.get('containingCounty'):
+                    entry['containingCounty'] = p['containingCounty']
+                all_geos.append(entry)
         for cdp in gc.get('cdps', []):
             if cdp['geoid'] not in featured_geoids:
-                all_geos.append({'type': 'cdp', 'geoid': cdp['geoid'], 'label': cdp['label']})
+                entry = {'type': 'cdp', 'geoid': cdp['geoid'], 'label': cdp['label']}
+                if cdp.get('containingCounty'):
+                    entry['containingCounty'] = cdp['containingCounty']
+                all_geos.append(entry)
     except Exception as e:
         print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
 
