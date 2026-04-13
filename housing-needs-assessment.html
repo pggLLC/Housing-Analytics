@@ -49,13 +49,12 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
-  <script defer src="js/hna-export.js"></script>
-  <script defer src="js/housing-needs-assessment.js"></script>
-  <!-- HNA modules (split from the main HNA script) -->
+  <!-- HNA modules — load order: utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
+  <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
@@ -70,8 +69,6 @@
   <script defer src="js/components/export-panel.js"></script>
   <script src="js/components/map-home-btn.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
-  <script defer src="js/housing-needs-assessment.js"></script>
-  <script defer src="js/site-state.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
