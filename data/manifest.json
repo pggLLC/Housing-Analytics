@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-13T08:13:16.208857Z",
+  "generated": "2026-04-13T08:26:35.087348Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1871394
+      "bytes": 974398
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4534,7 +4534,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20145
+      "bytes": 20189
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
