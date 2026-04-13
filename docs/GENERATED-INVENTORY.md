@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T08:04:32.137Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T08:53:18.416Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
 | `census-dashboard.html` | Census Data | COHO Analytics | 4.8 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.4 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.0 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 122.1 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 916 B |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
@@ -32,7 +32,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 29.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 131.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 131.6 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 23.7 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
@@ -66,7 +66,7 @@
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
+| `data/co-county-demographics.json` | 22.8 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 129.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.78 MB | ✅ | — |
+| `data/fred-data.json` | 951.6 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -903,7 +903,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 105.7 KB | ✅ | — |
+| `data/manifest.json` | 105.6 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -969,7 +969,7 @@
 | `test/economic_indicators_test.py` | 24.3 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/hna-functionality-check.js` | 52.2 KB |
+| `test/hna-functionality-check.js` | 52.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
@@ -1041,7 +1041,7 @@
 
 ## GitHub Actions Workflows
 
-38 workflow files found.
+39 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1055,6 +1055,7 @@
 | `.github/workflows/car-data-update.yml` | 1.9 KB |
 | `.github/workflows/ci-checks.yml` | 7.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
+| `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |

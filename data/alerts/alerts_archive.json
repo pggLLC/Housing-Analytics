@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated": "2026-04-13T04:19:20Z",
+    "generated": "2026-04-13T10:01:10Z",
     "feed_count": 9,
-    "alert_count": 181,
+    "alert_count": 184,
     "max_age_days": 90
   },
   "alerts": [
@@ -32,6 +32,15 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Full Text: Rural Housing Association's Remarks at W&M Hearing on Low- Income Housing Credit \u00a0\u00a0 Tax Notes"
+    },
+    {
+      "title": "Hickenlooper visits Montbello FreshLo Hub, talks affordability and war with Iran - Denver7",
+      "date": "2026-04-09T22:08:14Z",
+      "source": "Denver7",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPemh2VkVzOG5yYTVlSDNTbVRhZXVMNnB5b3BNeHQydzRWM2xFdVpUcEhIUkJ3V2ZkOW9zb2tZXzdBdEVkQTRCaVVvVGlHbWs5cFhfWU91SlhwQmxvMVJoU1kxMGk4VmFBYzd6dXduV0pvN2p0UGFkcTkwOU9EeS1ZZVJBSlpWU2xJaGtMeFpReGRfZmtDQXFRRzBidjBrNXVwNzBHSlBYWXFlc2ozZVlXSEwzU2dmLWhMUXFObGxiMGJUc0tFYmc?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Hickenlooper visits Montbello FreshLo Hub, talks affordability and war with Iran \u00a0\u00a0 Denver7"
     },
     {
       "title": "Colorado budget would cut money from state\u2019s affordable housing funds - Colorado Newsline",
@@ -113,6 +122,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Closing low-income housing loophole could be difficult, says NC housing advocate \u00a0\u00a0 NC Newsline"
+    },
+    {
+      "title": "Lakewood special election: Preliminary numbers show majority of residents voted to repeal new zoning laws - Denver7",
+      "date": "2026-04-08T04:31:43Z",
+      "source": "Denver7",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNUEo5dVZlWElSbzIwMjlPNUtkR3laQlk5UkdkS0ZIWWtMWFFIZzhJd08yQWNVSUpPaTVPa3hWQ2JMeDhUbUJZWFh3OXdHc0ptenRsdWh1YVp1THpNd3pBY1dJNUxzbkRucThOaUNxMzgyY09VYjZLX096NVVjc3hhQTRSNFFnbkIxdm80S0s4N2g4V2hUOXhyQ09kdVF2NUFQQnp0eXo3bFNQSTZNdG5nbmRvM1Jva2NsUlhCSHpoMjNpc21ObG9iOGtRbENoVzRCdVYxbGxpRUJWNkp3WVNmVWI0bGdEaDhXOGc?oc=5",
+      "topic": "zoning",
+      "region": "Denver",
+      "summary": "Lakewood special election: Preliminary numbers show majority of residents voted to repeal new zoning laws \u00a0\u00a0 Denver7"
     },
     {
       "title": "Full Text: Housing Tax Credit Coalition's Testimony at W&M Hearing on Low-Income Housing Credit - Tax Notes",
@@ -727,6 +745,15 @@
       "summary": "Denver neighborhood near Federal Boulevard to get new affordable family housing complex \u00a0\u00a0 CBS News"
     },
     {
+      "title": "Fort Collins purchases two more acres for affordable housing development - Denver7",
+      "date": "2026-02-25T08:00:00Z",
+      "source": "Denver7",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNbnZjOEd5NVhObzBZT2lDRGY2a3lSRkF6Q0xkbGhfcW5YWjc1OXZVQTh0Ul9lR3VVZ25GM3V4X1FubkY2X1hLZ1YtTVdhV3NKQUE5c01oMjk1RHdfTFJJdl9YUTEwYnBkRU5HdjlkcFljQ2h0YnpJdUdNUWdFdVkybXlRQUlrY05FOFFFY1VJVFZDSGhEVFdNazBqRl9WcTIyYTJxa2pITjVsTXRLU2xDTWxuUHFLamtCT3BtcXE2WUlUbGdz?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "Fort Collins purchases two more acres for affordable housing development \u00a0\u00a0 Denver7"
+    },
+    {
       "title": "Colorado\u2019s Distinct Trends in Affordable Housing Development - kansascityfed.org",
       "date": "2026-02-25T08:00:00Z",
       "source": "kansascityfed.org",
@@ -1040,6 +1067,15 @@
       "topic": "zoning",
       "region": "Denver",
       "summary": "Colorado House passes bill allowing nonprofits, schools to sidestep local zoning rules to build housing \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Pro-density housing bill clears Colorado House, moves to Senate - AspenTimes.com",
+      "date": "2026-02-07T08:00:00Z",
+      "source": "AspenTimes.com",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOZHFHTHhzN2NPWkFmQTdDX1h0cUtES2xFYl9uckk2VHZtVzN3cDZndmkzd0JWQ1paQ2NNdXB0TlJaRW9JNlhmbDBNZmZPc2U4X0lEMXFBWE56bXRMbE44YmZZQndzb0ZOdFJNeHZNYVA4VENmZ3VYWUJCbi1Kdm1Eeg?oc=5",
+      "topic": "zoning",
+      "region": "Statewide",
+      "summary": "Pro-density housing bill clears Colorado House, moves to Senate \u00a0\u00a0 AspenTimes.com"
     },
     {
       "title": "Pro-density housing bill clears Colorado House, moves to Senate - Post Independent",
@@ -1411,6 +1447,15 @@
       "summary": "Officials hold press conference for affordable housing \u00a0\u00a0 kdvr.com"
     },
     {
+      "title": "Sharp decline in apartment construction is among Denver mayor\u2019s \u2018biggest fears\u2019 - Denverite",
+      "date": "2026-01-21T08:00:00Z",
+      "source": "Denverite",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOQ0FjN2hSVWFCZEY2alUydlNZVV9xTDItREpMdmlXOXg0S3pFSU0wQ0J1YzZyNHI4R2k5TWh1aGlwenFzMzRqNUNoMUFyamNJUUU0b0R0a3JXRnZNR0JkanhXYkdac1hiWFlIY1h4bzh5UUROdldDN0NIWVhJTDQ4OUtGNl9nSlRPMC1WamhB?oc=5",
+      "topic": "construction",
+      "region": "Denver",
+      "summary": "Sharp decline in apartment construction is among Denver mayor\u2019s \u2018biggest fears\u2019 \u00a0\u00a0 Denverite"
+    },
+    {
       "title": "JOINT RELEASE: Gov. Polis and Democratic Lawmakers Introduce Legislation to Reduce Housing Costs - Colorado Senate Democrats",
       "date": "2026-01-21T08:00:00Z",
       "source": "Colorado Senate Democrats",
@@ -1616,24 +1661,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado House introduces first 20 bills of 2026 session, prioritizing housing, labor and consumer protections \u00a0\u00a0 Colorado Politics"
-    },
-    {
-      "title": "Silverton first in Colorado to reach voter-mandated affordable housing commitment - The Durango Herald",
-      "date": "2026-01-13T08:00:00Z",
-      "source": "The Durango Herald",
-      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNdUZzNjZKWXQ5M1ZKOW5jT0lqSGNFc09VM2FxLVNGTG9YZHBpeVdXZ1JVOTZvTVFPNHZhNE80dG52TmU4VGtQT0dCaGRtWk9ybVZxLTN0RVFYRUQ5cXdLMUlySEpsNHBXZzUzbnQ4X3RyRGdxZE14MXRZTkpaakptSmhRaHFkS0RKdEZIZUtKX1dNbW81V1JSR3otUEV3NXpWM0FKQ3lXdUFOdzhsNm40Uk9udnRnZUFPVklWcEVB?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Silverton first in Colorado to reach voter-mandated affordable housing commitment \u00a0\u00a0 The Durango Herald"
-    },
-    {
-      "title": "Large afforable housing complex proposed at 2155 E. Colorado Blvd. in Pasadena - Urbanize LA",
-      "date": "2026-01-13T08:00:00Z",
-      "source": "Urbanize LA",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPa25idTZiUjdRN2N3Y21fZUxDSzl6TEJ3UnRDYjNDZHhhbWpVa04wdGNrZFlkNzZTUlViMm93Qzd2X1QtN1g1Y2VSUkcyakZiNXdXMS1SR2U0LTVTeFVkaFlORWU0Z1dlVEIzZlkxaUNZbW5sc28xN2U5WnJsOUtFbzNoRTRHRm5FQ3gtTGJIOUlBOHBsS0doalVIV1YtU2dNdUE?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Large afforable housing complex proposed at 2155 E. Colorado Blvd. in Pasadena \u00a0\u00a0 Urbanize LA"
     }
   ]
 }

@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "week_start": "2026-04-13",
+      "total_articles": 308,
+      "json_path": "archive/2026-04-13.json",
+      "html_path": "../archive/2026-04-13.html"
+    },
+    {
       "week_start": "2026-04-06",
       "total_articles": 306,
       "json_path": "archive/2026-04-06.json",
@@ -943,5 +949,5 @@
       "html_path": "../archive/2023-04-10.html"
     }
   ],
-  "updated": "2026-04-06T18:17:47.641177+00:00"
+  "updated": "2026-04-13T10:01:40.291054+00:00"
 }

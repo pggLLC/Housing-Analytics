@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-12T07:56:25.081Z
+**Scan timestamp:** 2026-04-13T08:57:51.664Z
 
 ## Summary
 
@@ -14,7 +14,7 @@
 
 ## 🆕 New Unregistered Sources
 
-- `data/alerts/alerts_archive.json` (102 KB)
+- `data/alerts/alerts_archive.json` (126 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
@@ -162,69 +162,69 @@
 - `data/hna/lehd/08121.json` (3 KB)
 - `data/hna/lehd/08123.json` (3 KB)
 - `data/hna/lehd/08125.json` (3 KB)
-- `data/hna/lihtc/08001.json` (19 KB)
-- `data/hna/lihtc/08003.json` (2 KB)
-- `data/hna/lihtc/08005.json` (24 KB)
+- `data/hna/lihtc/08001.json` (0 KB)
+- `data/hna/lihtc/08003.json` (0 KB)
+- `data/hna/lihtc/08005.json` (0 KB)
 - `data/hna/lihtc/08007.json` (0 KB)
 - `data/hna/lihtc/08009.json` (0 KB)
 - `data/hna/lihtc/08011.json` (0 KB)
-- `data/hna/lihtc/08013.json` (22 KB)
-- `data/hna/lihtc/08014.json` (2 KB)
-- `data/hna/lihtc/08015.json` (2 KB)
+- `data/hna/lihtc/08013.json` (0 KB)
+- `data/hna/lihtc/08014.json` (0 KB)
+- `data/hna/lihtc/08015.json` (0 KB)
 - `data/hna/lihtc/08017.json` (0 KB)
 - `data/hna/lihtc/08019.json` (0 KB)
-- `data/hna/lihtc/08021.json` (2 KB)
+- `data/hna/lihtc/08021.json` (0 KB)
 - `data/hna/lihtc/08023.json` (0 KB)
 - `data/hna/lihtc/08025.json` (0 KB)
 - `data/hna/lihtc/08027.json` (0 KB)
-- `data/hna/lihtc/08029.json` (2 KB)
-- `data/hna/lihtc/08031.json` (74 KB)
+- `data/hna/lihtc/08029.json` (0 KB)
+- `data/hna/lihtc/08031.json` (0 KB)
 - `data/hna/lihtc/08033.json` (0 KB)
-- `data/hna/lihtc/08035.json` (4 KB)
-- `data/hna/lihtc/08037.json` (3 KB)
+- `data/hna/lihtc/08035.json` (0 KB)
+- `data/hna/lihtc/08037.json` (0 KB)
 - `data/hna/lihtc/08039.json` (0 KB)
-- `data/hna/lihtc/08041.json` (13 KB)
-- `data/hna/lihtc/08043.json` (5 KB)
-- `data/hna/lihtc/08045.json` (3 KB)
+- `data/hna/lihtc/08041.json` (0 KB)
+- `data/hna/lihtc/08043.json` (0 KB)
+- `data/hna/lihtc/08045.json` (0 KB)
 - `data/hna/lihtc/08047.json` (0 KB)
 - `data/hna/lihtc/08049.json` (0 KB)
 - `data/hna/lihtc/08051.json` (0 KB)
 - `data/hna/lihtc/08053.json` (0 KB)
 - `data/hna/lihtc/08055.json` (0 KB)
 - `data/hna/lihtc/08057.json` (0 KB)
-- `data/hna/lihtc/08059.json` (17 KB)
+- `data/hna/lihtc/08059.json` (0 KB)
 - `data/hna/lihtc/08061.json` (0 KB)
 - `data/hna/lihtc/08063.json` (0 KB)
-- `data/hna/lihtc/08065.json` (1 KB)
-- `data/hna/lihtc/08067.json` (5 KB)
-- `data/hna/lihtc/08069.json` (20 KB)
+- `data/hna/lihtc/08065.json` (0 KB)
+- `data/hna/lihtc/08067.json` (0 KB)
+- `data/hna/lihtc/08069.json` (0 KB)
 - `data/hna/lihtc/08071.json` (0 KB)
 - `data/hna/lihtc/08073.json` (0 KB)
-- `data/hna/lihtc/08075.json` (2 KB)
-- `data/hna/lihtc/08077.json` (5 KB)
+- `data/hna/lihtc/08075.json` (0 KB)
+- `data/hna/lihtc/08077.json` (0 KB)
 - `data/hna/lihtc/08079.json` (0 KB)
 - `data/hna/lihtc/08081.json` (0 KB)
-- `data/hna/lihtc/08083.json` (3 KB)
-- `data/hna/lihtc/08085.json` (3 KB)
-- `data/hna/lihtc/08087.json` (2 KB)
-- `data/hna/lihtc/08089.json` (1 KB)
+- `data/hna/lihtc/08083.json` (0 KB)
+- `data/hna/lihtc/08085.json` (0 KB)
+- `data/hna/lihtc/08087.json` (0 KB)
+- `data/hna/lihtc/08089.json` (0 KB)
 - `data/hna/lihtc/08091.json` (0 KB)
 - `data/hna/lihtc/08093.json` (0 KB)
 - `data/hna/lihtc/08095.json` (0 KB)
-- `data/hna/lihtc/08097.json` (2 KB)
-- `data/hna/lihtc/08099.json` (1 KB)
-- `data/hna/lihtc/08101.json` (13 KB)
+- `data/hna/lihtc/08097.json` (0 KB)
+- `data/hna/lihtc/08099.json` (0 KB)
+- `data/hna/lihtc/08101.json` (0 KB)
 - `data/hna/lihtc/08103.json` (0 KB)
-- `data/hna/lihtc/08105.json` (2 KB)
-- `data/hna/lihtc/08107.json` (1 KB)
-- `data/hna/lihtc/08109.json` (2 KB)
+- `data/hna/lihtc/08105.json` (0 KB)
+- `data/hna/lihtc/08107.json` (0 KB)
+- `data/hna/lihtc/08109.json` (0 KB)
 - `data/hna/lihtc/08111.json` (0 KB)
-- `data/hna/lihtc/08113.json` (1 KB)
+- `data/hna/lihtc/08113.json` (0 KB)
 - `data/hna/lihtc/08115.json` (0 KB)
-- `data/hna/lihtc/08117.json` (2 KB)
-- `data/hna/lihtc/08119.json` (1 KB)
+- `data/hna/lihtc/08117.json` (0 KB)
+- `data/hna/lihtc/08119.json` (0 KB)
 - `data/hna/lihtc/08121.json` (0 KB)
-- `data/hna/lihtc/08123.json` (8 KB)
+- `data/hna/lihtc/08123.json` (0 KB)
 - `data/hna/lihtc/08125.json` (0 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources.json` (69 KB)
@@ -895,7 +895,7 @@
 - `data/policy/housing-policy-scorecard.json` (164 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (12 KB)
-- `data/policy_briefs.json` (82 KB)
+- `data/policy_briefs.json` (105 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/zillow/median_list_price_metro.csv` (798 KB)
 - `data/zillow/zhvi_metro.csv` (4271 KB)
@@ -904,27 +904,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 832 days since last update
-- **undefined** — 466 days since last update
-- **undefined** — 466 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 833 days since last update
+- **undefined** — 467 days since last update
+- **undefined** — 467 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 376 days since last update
+- undefined — 377 days since last update
