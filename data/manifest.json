@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-13T08:26:35.087348Z",
+  "generated": "2026-04-13T09:01:23.089836Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -82,9 +82,9 @@
       "bytes": 126391
     },
     "data/co-county-demographics.json": {
-      "featureCount": 65,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 23366
+      "bytes": 24155
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -144,7 +144,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 132969
+      "bytes": 132888
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
