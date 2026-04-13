@@ -131,7 +131,7 @@ test('HTML: Leaflet and Chart.js are loaded from vendored local files', () => {
 
 test('HTML: site scripts are loaded', () => {
     assert(html.includes('js/config.js'),                    'js/config.js is loaded');
-    assert(html.includes('js/housing-needs-assessment.js'), 'js/housing-needs-assessment.js is loaded');
+    assert(html.includes('js/housing-needs-assessment.js') || html.includes('js/hna/hna-controller.js'), 'hna controller is loaded');
 });
 
 // ---------------------------------------------------------------------------
@@ -376,14 +376,19 @@ test('hna-export.js: CSV rows include required housing metric labels', () => {
 });
 
 test('HTML: hna-export.js script tag is present', () => {
-    assert(html.includes('js/hna-export.js'), 'housing-needs-assessment.html loads hna-export.js');
+    assert(html.includes('js/hna/hna-export.js') || html.includes('js/hna-export.js'), 'housing-needs-assessment.html loads hna-export.js');
 });
 
-test('HTML: hna-export.js loads before housing-needs-assessment.js', () => {
-    const exportIdx = html.indexOf('hna-export.js');
-    const hnaIdx    = html.indexOf('housing-needs-assessment.js');
-    assert(exportIdx !== -1 && hnaIdx !== -1 && exportIdx < hnaIdx,
-        'hna-export.js script appears before housing-needs-assessment.js');
+test('HTML: hna-export.js loads before hna-controller.js', () => {
+    // Accept both the legacy root path and the new modular path
+    const exportIdx = html.includes('js/hna/hna-export.js')
+        ? html.indexOf('js/hna/hna-export.js')
+        : html.indexOf('js/hna-export.js');
+    const controllerIdx = html.includes('js/hna/hna-controller.js')
+        ? html.indexOf('js/hna/hna-controller.js')
+        : html.indexOf('housing-needs-assessment.js');
+    assert(exportIdx !== -1 && controllerIdx !== -1 && exportIdx < controllerIdx,
+        'hna-export.js script appears before hna-controller.js');
 });
 
 test('HTML: CSV and JSON download buttons are present', () => {
