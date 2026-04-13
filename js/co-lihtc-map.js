@@ -500,7 +500,7 @@
       outFields: 'NAME,NAMELSAD,GEOID,LSADC,STATEFP',
       f: 'geojson',
       outSR: '4326',               // Rule 9: always outSR=4326 for ArcGIS queries
-      resultRecordCount: '5000',
+      resultRecordCount: '200',
       returnExceededLimitFeatures: 'true',
     });
 
