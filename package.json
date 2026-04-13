@@ -19,6 +19,7 @@
     "audit:data": "node scripts/audit/data-inventory.mjs",
     "audit:data:manifest": "node scripts/audit/data-inventory.mjs --json",
     "audit:site": "node scripts/audit/site-audit.mjs",
+    "audit:console": "node scripts/audit/console-error-reporter.mjs",
     "audit:install": "npx playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
     "validate:data": "node scripts/validate-critical-data.js",
