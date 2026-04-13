@@ -167,23 +167,26 @@
 
   function _getEntries() {
     if (!_rankingIndex) return [];
-    // ranking-index.json may have entries at top level or nested
+    // ranking-index.json stores the list under the "rankings" key
     if (Array.isArray(_rankingIndex)) return _rankingIndex;
+    if (Array.isArray(_rankingIndex.rankings)) return _rankingIndex.rankings;
     if (Array.isArray(_rankingIndex.entries)) return _rankingIndex.entries;
     return [];
   }
 
   function _extractMetrics(entry) {
+    // ranking-index.json stores all metrics under entry.metrics
+    const m = (entry && entry.metrics) ? entry.metrics : entry;
     return {
-      population:       entry.population       ?? null,
-      populationGrowth: entry.populationGrowth ?? entry.pop_growth_pct ?? null,
-      medianIncome:     entry.medianIncome     ?? entry.mhi ?? null,
-      medianRent:       entry.medianRent       ?? entry.median_rent ?? null,
-      rentBurden:       entry.rentBurden       ?? entry.rent_burden_pct ?? null,
-      vacancyRate:      entry.vacancyRate      ?? entry.vacancy_rate ?? null,
-      unitsNeeded:      entry.unitsNeeded      ?? entry.units_needed ?? null,
-      housingGap:       entry.housingGap       ?? entry.housing_gap ?? null,
-      needScore:        entry.needScore        ?? entry.need_score ?? null,
+      population:       m.population                ?? null,
+      populationGrowth: m.populationGrowth           ?? m.pop_growth_pct          ?? null,
+      medianIncome:     m.median_hh_income           ?? m.medianIncome             ?? m.mhi ?? null,
+      medianRent:       m.gross_rent_median          ?? m.medianRent               ?? m.median_rent ?? null,
+      rentBurden:       m.pct_cost_burdened          ?? m.rentBurden               ?? m.rent_burden_pct ?? null,
+      vacancyRate:      m.vacancy_rate               ?? m.vacancyRate              ?? null,
+      unitsNeeded:      m.housing_gap_units          ?? m.unitsNeeded              ?? m.units_needed ?? null,
+      housingGap:       m.ami_gap_30pct              ?? m.housingGap               ?? m.housing_gap ?? null,
+      needScore:        m.overall_need_score         ?? m.needScore                ?? m.need_score ?? null,
     };
   }
 
