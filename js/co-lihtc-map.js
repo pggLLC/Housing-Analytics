@@ -282,6 +282,11 @@
         coords = item.coordinates;
         props = {};
       } else {
+        // GeoJSON Features with geometry: null are valid records without a mapped location
+        // (e.g. HUD records where no site coordinates are on file).  Skip them silently.
+        if (item && item.type === 'Feature' && item.geometry === null) {
+          return;
+        }
         console.warn('[co-lihtc-map] Invalid item (no coordinates):', item);
         return;
       }
@@ -708,7 +713,12 @@
 
     function onSourceFail(name, err) {
       results.push({ name: name, elapsed: null, features: 0, ok: false, error: err.message });
-      console.warn('[co-lihtc-map] County source "' + name + '" failed:', err.message);
+      // Demote to info when another source has already rendered the county layer successfully.
+      if (rendered) {
+        console.info('[co-lihtc-map] County source "' + name + '" skipped (map already rendered): ' + err.message);
+      } else {
+        console.warn('[co-lihtc-map] County source "' + name + '" failed: ' + err.message);
+      }
     }
 
     function checkAllSettled() {
