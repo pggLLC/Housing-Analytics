@@ -4,59 +4,81 @@
    Single source of truth. All pages must link this CSS LAST.
    ================================================================ */
 
-/* Self-hosted fonts — no external CDN dependency */
+/* ── Self-hosted fonts (run scripts/download-fonts.sh to populate assets/fonts/) ──
+   Removing the Google Fonts CDN import eliminates the external dependency,
+   prevents GDPR-relevant third-party requests, and removes a render-blocking
+   resource.  The @font-face blocks below load from assets/fonts/ with
+   font-display:swap so pages remain readable even when the files are absent.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Plus Jakarta Sans — Regular 400 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Regular.woff2') format('woff2');
+  src: local('Plus Jakarta Sans Regular'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+/* Plus Jakarta Sans — Regular Italic 400 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Italic.woff2') format('woff2');
+  src: local('Plus Jakarta Sans Italic'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
+/* Plus Jakarta Sans — Medium 500 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Medium.woff2') format('woff2');
+  src: local('Plus Jakarta Sans Medium'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
+/* Plus Jakarta Sans — SemiBold 600 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-SemiBold.woff2') format('woff2');
+  src: local('Plus Jakarta Sans SemiBold'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-SemiBold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
+/* Plus Jakarta Sans — Bold 700 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Bold.woff2') format('woff2');
+  src: local('Plus Jakarta Sans Bold'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
+/* Plus Jakarta Sans — ExtraBold 800 */
 @font-face {
   font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-ExtraBold.woff2') format('woff2');
+  src: local('Plus Jakarta Sans ExtraBold'),
+       url('../assets/fonts/plus-jakarta-sans/PlusJakartaSans-ExtraBold.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
+/* DM Mono — Regular 400 */
 @font-face {
   font-family: 'DM Mono';
-  src: url('../assets/fonts/dm-mono/DMMono-Regular.woff2') format('woff2');
+  src: local('DM Mono Regular'),
+       url('../assets/fonts/dm-mono/DMMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+/* DM Mono — Medium 500 */
 @font-face {
   font-family: 'DM Mono';
-  src: url('../assets/fonts/dm-mono/DMMono-Medium.woff2') format('woff2');
+  src: local('DM Mono Medium'),
+       url('../assets/fonts/dm-mono/DMMono-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
