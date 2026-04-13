@@ -1,6 +1,62 @@
 {
   "history": [
     {
+      "week_start": "2026-04-13",
+      "total_articles": 308,
+      "signals": {
+        "Financing / Rates": {
+          "count": 16,
+          "top_terms": [
+            "interest rate",
+            "mortgage rate",
+            "yield",
+            "federal reserve"
+          ]
+        },
+        "LIHTC / Tax Credit": {
+          "count": 27,
+          "top_terms": [
+            "lihtc",
+            "tax credit",
+            "low-income housing tax credit",
+            "housing credit",
+            "hfa"
+          ]
+        },
+        "Supply / Pipeline": {
+          "count": 20,
+          "top_terms": [
+            "development",
+            "housing start",
+            "apartment construction",
+            "housing production",
+            "building permit"
+          ]
+        },
+        "Costs / Insurance": {
+          "count": 3,
+          "top_terms": [
+            "lumber",
+            "tariff"
+          ]
+        },
+        "Rent Pressure / Homelessness": {
+          "count": 53,
+          "top_terms": [
+            "homelessness",
+            "voucher",
+            "unhoused"
+          ]
+        },
+        "Policy / Zoning": {
+          "count": 42,
+          "top_terms": [
+            "zoning"
+          ]
+        }
+      }
+    },
+    {
       "week_start": "2026-04-06",
       "total_articles": 306,
       "signals": {
@@ -4756,37 +4812,7 @@
           "top_terms": []
         }
       }
-    },
-    {
-      "week_start": "2023-04-17",
-      "total_articles": 0,
-      "signals": {
-        "Financing / Rates": {
-          "count": 0,
-          "top_terms": []
-        },
-        "LIHTC / Tax Credit": {
-          "count": 0,
-          "top_terms": []
-        },
-        "Supply / Pipeline": {
-          "count": 0,
-          "top_terms": []
-        },
-        "Costs / Insurance": {
-          "count": 0,
-          "top_terms": []
-        },
-        "Rent Pressure / Homelessness": {
-          "count": 0,
-          "top_terms": []
-        },
-        "Policy / Zoning": {
-          "count": 0,
-          "top_terms": []
-        }
-      }
     }
   ],
-  "updated": "2026-04-06T18:17:47.642809+00:00"
+  "updated": "2026-04-13T10:01:40.292447+00:00"
 }
