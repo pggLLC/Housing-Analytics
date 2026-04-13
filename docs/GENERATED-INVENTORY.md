@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T08:53:18.416Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T11:51:42.829Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/alerts/alerts_archive.json` | 126.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 128.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -66,7 +66,7 @@
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 22.8 KB | ✅ | — |
+| `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
@@ -78,7 +78,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 129.9 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 129.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 951.6 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -936,7 +936,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 11.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 105.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 106.9 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
