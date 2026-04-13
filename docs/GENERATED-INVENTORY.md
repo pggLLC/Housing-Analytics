@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T11:54:41.748Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T12:03:50.292Z. Do not edit by hand.
 
 ---
 
@@ -992,7 +992,7 @@
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.3 KB |
-| `test/smoke.test.js` | 9.8 KB |
+| `test/smoke.test.js` | 9.9 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
