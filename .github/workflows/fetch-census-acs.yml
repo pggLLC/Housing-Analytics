@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   fetch-census:
     runs-on: ubuntu-latest
