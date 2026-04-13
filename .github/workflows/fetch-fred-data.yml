@@ -83,27 +83,26 @@ jobs:
             "RRVRUSQ156N": "Rental Vacancy Rate",
             # Construction / commodities
             "WPUFD49207": "PPI: Inputs to construction",
-            "WPUFD4": "PPI: Construction materials",
-            "PCU236115236115": "PPI: New multifamily construction",
+            "WPUFD4111": "PPI: Final Demand Construction (Nonresidential Building)",
+            "PCU236200236200": "PPI: New multifamily construction",
             "ECIALLCIV": "Employment Cost Index (Total comp)",
             "CES2000000008": "Construction Avg Hourly Earnings",
             "WPUSI012011": "PPI: Lumber & wood products",
             "WPU10170503": "Steel Reinforcing Bar",
-            "PCU331111331111": "PPI: Iron and Steel Mills",
-            "PCU3313153313153": "PPI: Aluminum",
-            "PCU32731327313": "PPI: Cement and Concrete Product Manufacturing",
+            "PCU331110331110": "PPI: Iron and Steel Mills",
+            "PCU331315331315": "PPI: Aluminum",
+            "PCU327310327310": "PPI: Cement and Concrete Product Manufacturing",
             "WPU0811": "PPI: Lumber",
             "WPU0812": "PPI: Plywood",
-            
             "WPU057303": "PPI: Diesel Fuel",
             "CES2000000003": "Construction Avg Hourly Earnings",
             # Colorado-specific series
-            "COUR08000000000000006": "CO Unemployment Rate (BLS)",
+            "LAUST080000000000003": "CO Unemployment Rate (BLS)",
             "COCONS": "CO Construction Employment",
             "COPOP": "CO Population",
-            "MEHOUCO": "CO Median Household Income",
-            "COAHOMIDX": "CO Home Price Index (FHFA)",
-            "COBP": "CO Building Permits",
+            "MEHOINUSCOA646N": "CO Median Household Income",
+            "ATNHPIUS08": "CO Home Price Index (FHFA)",
+            "COBPPRIV": "CO Building Permits",
           }
 
           def fetch_observations(series_id: str):
@@ -141,6 +140,7 @@ jobs:
 
           if errors:
             print(f"\n⚠️  {len(errors)} series failed: {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}", file=sys.stderr)
+            sys.exit(1)
 
           output = {
             "updated": datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
