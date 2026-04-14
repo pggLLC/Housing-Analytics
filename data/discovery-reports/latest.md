@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-13T08:57:51.664Z
+**Scan timestamp:** 2026-04-14T08:20:00.596Z
 
 ## Summary
 
@@ -14,7 +14,7 @@
 
 ## 🆕 New Unregistered Sources
 
-- `data/alerts/alerts_archive.json` (126 KB)
+- `data/alerts/alerts_archive.json` (128 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
@@ -293,7 +293,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (4 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (356 KB)
+- `data/hna/ranking-index.json` (511 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -895,7 +895,7 @@
 - `data/policy/housing-policy-scorecard.json` (164 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (12 KB)
-- `data/policy_briefs.json` (105 KB)
+- `data/policy_briefs.json` (107 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/zillow/median_list_price_metro.csv` (798 KB)
 - `data/zillow/zhvi_metro.csv` (4271 KB)
@@ -904,27 +904,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 833 days since last update
-- **undefined** — 467 days since last update
-- **undefined** — 467 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 834 days since last update
+- **undefined** — 468 days since last update
+- **undefined** — 468 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 377 days since last update
+- undefined — 378 days since last update
