@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-15T08:08:14.749Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-15T19:12:34.031Z. Do not edit by hand.
 
 ---
 
@@ -1041,7 +1041,7 @@
 
 ## GitHub Actions Workflows
 
-40 workflow files found.
+36 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1049,8 +1049,7 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 6.7 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 6.1 KB |
-| `.github/workflows/build-market-data.yml` | 9.9 KB |
+| `.github/workflows/build-hna-data.yml` | 5.4 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
 | `.github/workflows/car-data-update.yml` | 1.9 KB |
 | `.github/workflows/ci-checks.yml` | 7.2 KB |
@@ -1064,20 +1063,17 @@
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
-| `.github/workflows/fetch-census-acs.yml` | 5.9 KB |
-| `.github/workflows/fetch-chas-data.yml` | 3.8 KB |
+| `.github/workflows/fetch-census-acs.yml` | 6.0 KB |
+| `.github/workflows/fetch-chas-data.yml` | 3.9 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fred-data.yml` | 8.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-lihtc-data.yml` | 9.1 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
-| `.github/workflows/generate-housing-data.yml` | 6.2 KB |
-| `.github/workflows/generate-market-analysis-data.yml` | 10.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.2 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
-| `.github/workflows/run-all-workflows.yml` | 17.0 KB |
+| `.github/workflows/run-all-workflows.yml` | 16.1 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
