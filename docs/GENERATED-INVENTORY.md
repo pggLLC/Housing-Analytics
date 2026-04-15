@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-13T13:55:33.839Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-15T08:08:14.749Z. Do not edit by hand.
 
 ---
 
@@ -1041,7 +1041,7 @@
 
 ## GitHub Actions Workflows
 
-39 workflow files found.
+40 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1080,6 +1080,7 @@
 | `.github/workflows/run-all-workflows.yml` | 17.0 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
+| `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
