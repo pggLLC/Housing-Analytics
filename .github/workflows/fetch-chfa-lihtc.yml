@@ -6,7 +6,7 @@ on:
   workflow_dispatch:        # Allow manual triggering
 
 concurrency:
-  group: fetch-chfa-lihtc
+  group: data-commits
   cancel-in-progress: false
 
 permissions:

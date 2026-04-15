@@ -29,7 +29,6 @@ jobs:
           #   contrast-audit, daily-monitoring, redeploy-zip.
           DATA_WORKFLOWS=(
             "build-hna-data.yml"
-            "build-market-data.yml"
             "cache-hud-gis-data.yml"
             "car-data-update.yml"
             "fetch-census-acs.yml"
@@ -37,9 +36,7 @@ jobs:
             "fetch-county-data.yml"
             "fetch-fred-data.yml"
             "fetch-kalshi.yml"
-            "fetch-lihtc-data.yml"
-            "generate-housing-data.yml"
-            "generate-market-analysis-data.yml"
+            "market_data_build.yml"
             "zillow-data-sync.yml"
           )
 
@@ -50,12 +47,7 @@ jobs:
           for workflow in "${DATA_WORKFLOWS[@]}"; do
             echo "▶ Triggering: $workflow"
             TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            # Pass the Census API key as an input to build-market-data.yml so that
-            # the child workflow receives it (gh workflow run does not inherit secrets).
             extra_inputs=""
-            if [ "$workflow" = "build-market-data.yml" ] && [ -n "$CENSUS_API_KEY" ]; then
-              extra_inputs="--input census_api_key=$CENSUS_API_KEY"
-            fi
             if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
               echo "  ✅ Triggered"
               echo "${workflow}=${TRIGGER_TIME}" >> /tmp/trigger_times.txt
@@ -187,11 +179,7 @@ jobs:
             for workflow in "${retry_needed[@]}"; do
               echo "↩ Retry $retry_attempt: $workflow"
               TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-              # Pass the Census API key as an input to build-market-data.yml on retries too.
               extra_inputs=""
-              if [ "$workflow" = "build-market-data.yml" ] && [ -n "$CENSUS_API_KEY" ]; then
-                extra_inputs="--input census_api_key=$CENSUS_API_KEY"
-              fi
               if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
                 echo "  ✅ Re-triggered"
                 echo "${workflow}=${TRIGGER_TIME}" >> "/tmp/retry_trigger_${retry_attempt}.txt"
@@ -354,10 +342,9 @@ jobs:
               '',
               '### Next steps',
               '1. Open the run link above and inspect each failed child workflow.',
-              '2. For **build-market-data** failures: verify `CENSUS_API_KEY` is set in [Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions).',
-              '3. Re-trigger individual workflows with:',
+              '2. Re-trigger individual workflows with:',
               '   ```bash',
-              `   gh workflow run build-market-data.yml --repo ${context.repo.owner}/${context.repo.repo}`,
+              `   gh workflow run market_data_build.yml --repo ${context.repo.owner}/${context.repo.repo}`,
               '   ```',
               '',
               'See `.github/WORKFLOW_TROUBLESHOOTING.md` for a full troubleshooting guide.',
