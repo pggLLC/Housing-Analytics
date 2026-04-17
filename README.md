@@ -17,6 +17,13 @@ COHO Analytics is a static web application providing comprehensive data insights
 - **Legislative Tracker** — AHCIA, CRA expansion, housing policy updates
 - **Regional Analysis** — Multifamily trends, CRA footprints, national allocation maps
 
+## What's Next?
+
+For the current prioritized work queue, see:
+- [`docs/NEXT-STEPS.md`](docs/NEXT-STEPS.md)
+
+When choosing the next issue, start with the **P0** and **P1** items listed there, then proceed in the documented execution order.
+
 ## Live Pages (38 total)
 
 | Page | Description |
