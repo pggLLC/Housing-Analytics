@@ -173,7 +173,7 @@ jobs:
 
           with_data = sum(1 for v in result.values() if v["observations"])
           print(f"\nWrote data/fred-data.json — {with_data}/{total} series have observations")
-          if total == 0 or with_data == 0:
+          if with_data == 0:
             print("\n❌ CRITICAL: No usable FRED data collected", file=sys.stderr)
             sys.exit(1)
           PY
