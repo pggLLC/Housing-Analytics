@@ -45,7 +45,7 @@ console.log('Critical data validation passed.');
  *   - 50 LIHTC properties       (placeholder data typically has < 15)
  *
  * Failing on placeholder data prevents the map from shipping stale results.
- * Run `gh workflow run build-market-data.yml` or trigger the workflow via the
+ * Run `gh workflow run market_data_build.yml` or trigger the workflow via the
  * GitHub UI to populate real data (requires CENSUS_API_KEY secret).
  */
 

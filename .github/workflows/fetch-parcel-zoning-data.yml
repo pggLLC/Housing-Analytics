@@ -20,7 +20,7 @@ name: Fetch Parcel & Zoning Data
 #   Set REGRID_API_KEY in repository secrets to enable per-parcel detail.
 #   When absent, county-level aggregates are built from public sources.
 #
-# Schedule: Sundays at 02:00 UTC (offset from generate-market-analysis-data.yml
+# Schedule: Sundays at 02:00 UTC (offset from market_data_build.yml
 # which runs Mondays at 04:00 UTC to avoid resource contention).
 
 on:

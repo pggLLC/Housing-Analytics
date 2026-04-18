@@ -16,7 +16,7 @@ BUG-08  data/prop123_jurisdictions.json – Remove root duplicate; update JS ref
 BUG-09  js/path-resolver.js         – Replace indexOf('.') with file-extension regex
 
 BUG-06 (market tract stubs) requires live Census API access and is handled by
-the .github/workflows/build-market-data.yml GitHub Actions workflow.
+the .github/workflows/market_data_build.yml GitHub Actions workflow.
 
 Usage
 -----
@@ -273,7 +273,7 @@ def main():
     fix_bug_03(args.dry_run)
     fix_bug_04(args.dry_run)
     fix_bug_05(args.dry_run)
-    # BUG-06 requires live Census API — handled by build-market-data.yml workflow
+    # BUG-06 requires live Census API — handled by market_data_build.yml workflow
     fix_bug_07(args.dry_run)
     fix_bug_08(args.dry_run)
     fix_bug_09(args.dry_run)

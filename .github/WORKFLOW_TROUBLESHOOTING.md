@@ -22,7 +22,7 @@ This guide covers common failure modes for the data-building workflows in this r
 
 | Workflow | Required secret | Failure symptom |
 |----------|----------------|-----------------|
-| `build-market-data.yml` | `CENSUS_API_KEY` | Pre-flight check exits with "secret is not set" |
+| `market_data_build.yml` | `CENSUS_API_KEY` | Pre-flight check exits with "secret is not set" |
 | `fetch-census-acs.yml` | `CENSUS_API_KEY` | API request returns 401 Unauthorized |
 | `fetch-fred-data.yml` | `FRED_API_KEY` | Series fetch returns empty observations |
 | `fetch-kalshi.yml` | Kalshi credentials | Auth failure |
@@ -42,7 +42,7 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ---
 
-## Market Data Not Populating (`build-market-data.yml`)
+## Market Data Not Populating (`market_data_build.yml`)
 
 ### Symptoms
 - `market-analysis.html` map shows no tracts or very few pins
@@ -55,7 +55,7 @@ This guide covers common failure modes for the data-building workflows in this r
 | # | Check | How to verify |
 |---|-------|---------------|
 | 1 | `CENSUS_API_KEY` secret is set | Settings → Secrets and variables → Actions → look for `CENSUS_API_KEY` |
-| 2 | Build workflow ran recently | [Actions → Build Market Data](../../actions/workflows/build-market-data.yml) |
+| 2 | Build workflow ran recently | [Actions → Build Market Data](../../actions/workflows/market_data_build.yml) |
 | 3 | Build workflow completed successfully | Click the latest run and check all steps are green |
 | 4 | Artifacts were committed back to `main` | Check recent commits for `chore(data): rebuild market data artifacts` |
 
@@ -63,7 +63,7 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ## Setting up the Census API Key
 
-The `build-market-data.yml` and `fetch-census-acs.yml` workflows require a free Census API key to fetch ACS tract-level data. Without it, the workflow will **fail in the pre-flight step** with:
+The `market_data_build.yml` and `fetch-census-acs.yml` workflows require a free Census API key to fetch ACS tract-level data. Without it, the workflow will **fail in the pre-flight step** with:
 
 ```
 CENSUS_API_KEY secret is not set.
@@ -86,7 +86,7 @@ CENSUS_API_KEY secret is not set.
 
 3. **Re-run the workflow**
    ```bash
-   gh workflow run build-market-data.yml --repo <owner>/<repo>
+   gh workflow run market_data_build.yml --repo <owner>/<repo>
    ```
 
 ### Verifying the key is set
@@ -127,7 +127,7 @@ The `fetch-fred-data.yml` workflow requires a free FRED API key to fetch economi
 
 ```bash
 # Rebuild market data
-gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+gh workflow run market_data_build.yml --repo pggLLC/Housing-Analytics
 
 # Rebuild all data workflows at once
 gh workflow run run-all-workflows.yml --repo pggLLC/Housing-Analytics
@@ -141,7 +141,7 @@ Post a comment on any open issue containing exactly:
 @github-actions rebuild-market-data
 ```
 
-The bot will acknowledge and dispatch `build-market-data.yml` automatically.  
+The bot will acknowledge and dispatch `market_data_build.yml` automatically.  
 _Only repository members (collaborator or above) can trigger this._
 
 ### Option C — GitHub Actions UI
@@ -179,7 +179,7 @@ node scripts/validate-critical-data.js
 
 ## Minimum Data Thresholds
 
-The `scripts/validate-critical-data.js` script and the **Validate artifacts** step in `build-market-data.yml` both enforce these minimums. Builds that produce fewer records are treated as failures:
+The `scripts/validate-critical-data.js` script and the **Validate artifacts** step in `market_data_build.yml` both enforce these minimums. Builds that produce fewer records are treated as failures:
 
 | File | Minimum records | Why |
 |------|----------------|-----|
@@ -199,10 +199,10 @@ node scripts/validate-critical-data.js
 
 | Workflow | Schedule | Cron |
 |----------|----------|------|
-| `build-market-data.yml` | Every Sunday at 23:00 UTC | `0 23 * * 0` |
+| `market_data_build.yml` | Every Sunday at 23:00 UTC | `0 23 * * 0` |
 | `run-all-workflows.yml` | Every Sunday at 00:00 UTC | `0 0 * * 0` |
 
-> **Note:** `run-all-workflows.yml` also triggers `build-market-data.yml` as part of its orchestration, so the market data build effectively runs twice on Sundays. This is intentional — the standalone 23:00 UTC run ensures fresh data before the new week, and the midnight orchestration verifies all workflows complete together.
+> **Note:** `run-all-workflows.yml` also triggers `market_data_build.yml` as part of its orchestration, so the market data build effectively runs twice on Sundays. This is intentional — the standalone 23:00 UTC run ensures fresh data before the new week, and the midnight orchestration verifies all workflows complete together.
 
 ---
 
@@ -243,7 +243,7 @@ HUD and ESRI ArcGIS endpoints (`hudgis-hud.opendata.arcgis.com`, `services.arcgi
 
 **Affected workflows:**
 - `cache-hud-gis-data.yml` (QCT / DDA fetches)
-- `build-market-data.yml` (HUD LIHTC fetch)
+- `market_data_build.yml` (HUD LIHTC fetch)
 
 **Cache fallback behavior:**
 
@@ -253,14 +253,14 @@ Both workflows implement a cache fallback: when the live API returns an error, t
 |----------|-----|---------------|
 | `cache-hud-gis-data.yml` | QCT ArcGIS | `data/qct-colorado.json` |
 | `cache-hud-gis-data.yml` | DDA ArcGIS | `data/dda-colorado.json` |
-| `build-market-data.yml` | HUD LIHTC GeoJSON | `data/market/hud_lihtc_co.geojson` |
+| `market_data_build.yml` | HUD LIHTC GeoJSON | `data/market/hud_lihtc_co.geojson` |
 
 **Status check:** <https://status.arcgis.com/>
 
 **Recovery:** Once the API is healthy, manually re-trigger the workflow to refresh the cache:
 ```bash
 gh workflow run cache-hud-gis-data.yml --repo pggLLC/Housing-Analytics
-gh workflow run build-market-data.yml  --repo pggLLC/Housing-Analytics
+gh workflow run market_data_build.yml  --repo pggLLC/Housing-Analytics
 ```
 
 ---
@@ -274,7 +274,7 @@ error: failed to push some refs to 'https://github.com/pggLLC/Housing-Analytics'
 hint: Updates were rejected because the remote contains work that you do not have locally.
 ```
 
-**Root cause:** Two workflows commit to `main` concurrently (e.g. `build-market-data.yml` and `fetch-chfa-lihtc.yml` running at the same time). One push wins; the other is rejected.
+**Root cause:** Two workflows commit to `main` concurrently (e.g. `market_data_build.yml` and `fetch-chfa-lihtc.yml` running at the same time). One push wins; the other is rejected.
 
 **Built-in fix:** All data workflows in this repository use the following pattern before `git push`:
 ```bash
@@ -297,7 +297,7 @@ git push
 
 | Workflow | When manifest is regenerated |
 |----------|------------------------------|
-| `build-market-data.yml` | After market artifact validation passes |
+| `market_data_build.yml` | After market artifact validation passes |
 | `build-hna-data.yml` | After all HNA data phases complete |
 | `fetch-lihtc-data.yml` | After QCT/DDA data is fetched and validated |
 

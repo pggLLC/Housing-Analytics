@@ -351,8 +351,8 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 | `fetch-chfa-lihtc.yml` | Weekly | `data/chfa-lihtc.json` | ✅ Active (CNTY_FIPS null — see §6.1) |
 | `fetch-county-data.yml` | Monthly | `data/co-county-demographics.json`, `data/co-county-economic-indicators.json` | ✅ Active |
 | `build-hna-data.yml` | Manual / on push | `data/hna/` directory | ✅ Active |
-| `build-market-data.yml` | Manual | `data/market/` directory | ⚠️ Placeholder data not yet populated |
-| `generate-market-analysis-data.yml` | Manual | `data/market/` | ⚠️ See §6.4 |
+| `market_data_build.yml` | Manual | `data/market/` directory | ⚠️ Placeholder data not yet populated |
+| `market_data_build.yml` | Manual | `data/market/` | ⚠️ See §6.4 |
 | `fetch-kalshi.yml` | Daily | `data/kalshi/prediction-market.json` | ⚠️ Credentials missing |
 | `car-data-update.yml` | 1st of month 04:00 UTC | `data/car-market-report-*.json` | ✅ Active |
 | `ci-checks.yml` | Every push / PR | Validation only | ✅ Active |

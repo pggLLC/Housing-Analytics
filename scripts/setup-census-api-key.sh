@@ -90,7 +90,7 @@ SECRET_STATUS=$(gh secret list --repo "$REPO" 2>/dev/null | grep -c "^${SECRET_N
 if [[ "$SECRET_STATUS" -gt 0 ]]; then
   success "${SECRET_NAME} is already configured in GitHub Secrets"
   info "To verify the key works, re-run the workflow:"
-  echo "  gh workflow run build-market-data.yml --repo $REPO"
+  echo "  gh workflow run market_data_build.yml --repo $REPO"
   exit 0
 fi
 
@@ -171,7 +171,7 @@ success "${SECRET_NAME} added to $REPO"
 header "Next steps"
 
 echo "  1. Re-run the market data build:"
-echo "     gh workflow run build-market-data.yml --repo $REPO"
+echo "     gh workflow run market_data_build.yml --repo $REPO"
 echo ""
 echo "  2. Monitor the run:"
 echo "     gh run watch --repo $REPO"

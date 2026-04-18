@@ -155,7 +155,7 @@ jobs:
               },
               {
                 title: 'Automated tests for all new and updated GitHub Actions workflows',
-                body: `## Overview\nCreate automated tests that validate GitHub Actions workflow files and verify workflow behavior on known inputs.\n\n## Features\n- Workflow YAML schema validation\n- Workflow smoke tests: confirm jobs run and produce expected artifacts\n- Integration with CI checks\n\n## Acceptance Criteria\n- All new Phase 3 workflows pass schema validation\n- Smoke test for \`build-market-data.yml\` with mock Census API response\n- Workflow failures auto-create GitHub issues (existing pattern)\n\n## References\n- \`.github/workflows/ci-checks.yml\`\n- \`test/daily-audit-system.js\`\n\n_Parent epic: #447_`,
+                body: `## Overview\nCreate automated tests that validate GitHub Actions workflow files and verify workflow behavior on known inputs.\n\n## Features\n- Workflow YAML schema validation\n- Workflow smoke tests: confirm jobs run and produce expected artifacts\n- Integration with CI checks\n\n## Acceptance Criteria\n- All new Phase 3 workflows pass schema validation\n- Smoke test for \`market_data_build.yml\` with mock Census API response\n- Workflow failures auto-create GitHub issues (existing pattern)\n\n## References\n- \`.github/workflows/ci-checks.yml\`\n- \`test/daily-audit-system.js\`\n\n_Parent epic: #447_`,
                 labels: ['enhancement'],
                 parentEpic: 447
               }

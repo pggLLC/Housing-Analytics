@@ -67,12 +67,12 @@ The following validation issues were resolved as part of this analysis:
 ### P0 — Critical (blocking or data-impacting)
 
 #### 4.1 Build Market Data CI — Census API Key Required
-**Impact:** The `build-market-data.yml` workflow fails because `CENSUS_API_KEY` is missing.  
+**Impact:** The `market_data_build.yml` workflow fails because `CENSUS_API_KEY` is missing.  
 `tract_boundaries_co.geojson` is empty; tract centroid data (1605 records) comes from a prior run.
 
 **Action:**
 1. Set `CENSUS_API_KEY` in [GitHub Settings → Secrets → Actions](https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions)
-2. Manually trigger: `gh workflow run build-market-data.yml`
+2. Manually trigger: `gh workflow run market_data_build.yml`
 3. The workflow will populate `data/market/tract_boundaries_co.geojson` with full CO census tract polygons
 
 #### 4.2 `data/co-county-boundaries.json` Has 0 Features
@@ -195,7 +195,7 @@ The one exception is `audit-fixes-comprehensive` — verify its content before d
 For maximum impact with minimum risk, address items in this order:
 
 1. ✅ **[DONE]** Fix h1 on redirect pages + validate-site.js false positives (this PR)
-2. **Add `CENSUS_API_KEY` secret** → trigger `build-market-data.yml` → commit `tract_boundaries_co.geojson`
+2. **Add `CENSUS_API_KEY` secret** → trigger `market_data_build.yml` → commit `tract_boundaries_co.geojson`
 3. **Run `build_counties_co.py`** → commit `data/co-county-boundaries.json` with 64 features
 4. **Archive `census-dashboard.html`** → update navigation to remove dead page
 5. **Add breadcrumbs** to the 4 remaining analysis pages

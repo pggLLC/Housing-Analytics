@@ -189,7 +189,7 @@ always shown when live credentials or data are unavailable.
 
 The files under `data/market/` (`acs_tract_metrics_co.json`,
 `tract_centroids_co.json`, `hud_lihtc_co.geojson`) are populated by the
-**Build Market Data** workflow (`build-market-data.yml`) which runs every
+**Build Market Data** workflow (`market_data_build.yml`) which runs every
 Sunday at 23:00 UTC.  A free [Census API key](https://api.census.gov/data/key_signup.html)
 must be stored as the `CENSUS_API_KEY` repository secret for the workflow to succeed.
 Running `node scripts/validate-critical-data.js` validates that the files meet
@@ -222,7 +222,7 @@ build workflow has not successfully populated the files.
 
 **Manually trigger a rebuild:**
 ```bash
-gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+gh workflow run market_data_build.yml --repo pggLLC/Housing-Analytics
 ```
 
 Or post this comment on any open issue:
