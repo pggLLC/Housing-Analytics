@@ -8,7 +8,7 @@ This document explains how to configure GitHub Actions secrets, troubleshoot dat
 
 | Secret | Where Used | How to Obtain |
 |--------|-----------|---------------|
-| `CENSUS_API_KEY` | `build-hna-data.yml`, `build-market-data.yml` | Free key at https://api.census.gov/data/key_signup.html |
+| `CENSUS_API_KEY` | `build-hna-data.yml`, `market_data_build.yml` | Free key at https://api.census.gov/data/key_signup.html |
 | `SLACK_WEBHOOK_URL` | Alert workflows | Optional — Slack workspace webhook for failure notifications |
 
 ---
@@ -46,7 +46,7 @@ If you see `CENSUS_API_KEY: NOT SET`, the key is missing from Secrets.
 | Workflow | Schedule | Purpose |
 |----------|----------|---------|
 | `build-hna-data.yml` | Mon 06:30 UTC | Fetches ACS + DOLA + LEHD data; generates HNA projections |
-| `build-market-data.yml` | Sun 23:00 UTC | Fetches tract-level ACS data; rebuilds LIHTC GeoJSON |
+| `market_data_build.yml` | Sun 23:00 UTC | Fetches tract-level ACS data; rebuilds LIHTC GeoJSON |
 | `fetch-fred-data.yml` | (varies) | Fetches FRED economic indicator series |
 | `fetch-chas-data.yml` | Mon 03:00 UTC | Fetches CHAS affordability gap data |
 | `cache-hud-gis-data.yml` | Mon 04:00 UTC | Fetches HUD QCT/DDA GeoJSON data |
@@ -61,7 +61,7 @@ To trigger any workflow on demand (requires write access to the repository):
 ```bash
 # Using GitHub CLI
 gh workflow run build-hna-data.yml --repo pggLLC/Housing-Analytics
-gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+gh workflow run market_data_build.yml --repo pggLLC/Housing-Analytics
 ```
 
 Or navigate to **Actions** → select the workflow → click **Run workflow**.

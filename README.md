@@ -170,7 +170,7 @@ Housing-Analytics/
     ├── deploy.yml                 # GitHub Pages deploy
     ├── ci-checks.yml              # Schema validation + artifact checks
     ├── build-hna-data.yml         # HNA data pipeline
-    ├── build-market-data.yml      # Market data pipeline
+    ├── market_data_build.yml      # Market data pipeline
     ├── site-audit.yml             # Playwright site audit
     ├── accessibility.yml          # WCAG contrast/a11y audit
     └── ...                        # 31 additional data + monitoring workflows

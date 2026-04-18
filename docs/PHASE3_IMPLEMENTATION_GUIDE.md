@@ -203,15 +203,15 @@ Both failures stem from an expired or missing `CENSUS_API_KEY` GitHub Actions se
 1. Obtain a new Census API key: https://api.census.gov/data/key_signup.html
 2. Navigate to: Repository → Settings → Secrets and variables → Actions
 3. Update the `CENSUS_API_KEY` secret with the new key value
-4. Re-run the `build-market-data.yml` workflow:
+4. Re-run the `market_data_build.yml` workflow:
    ```
-   gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+   gh workflow run market_data_build.yml --repo pggLLC/Housing-Analytics
    ```
 5. Verify the workflow passes, then re-run `run-all-workflows.yml` to resolve #409
 
 ### Preventing Future Failures
 
-The `build-market-data.yml` workflow already includes a pre-flight key validation step.
+The `market_data_build.yml` workflow already includes a pre-flight key validation step.
 To add key expiry alerting, consider adding a scheduled check in `daily-audit-system.yml`
 that tests the Census API endpoint and creates an issue if it returns 403.
 

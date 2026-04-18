@@ -235,7 +235,7 @@ bash scripts/setup-census-api-key.sh
 # Manual steps:
 # 1. Get a free key at https://api.census.gov/data/key_signup.html
 # 2. Add CENSUS_API_KEY to GitHub Settings → Secrets → Actions
-# 3. Re-run: gh workflow run build-market-data.yml --repo pggLLC/Housing-Analytics
+# 3. Re-run: gh workflow run market_data_build.yml --repo pggLLC/Housing-Analytics
 ```
 
 See `.github/WORKFLOW_TROUBLESHOOTING.md` for the full troubleshooting guide.

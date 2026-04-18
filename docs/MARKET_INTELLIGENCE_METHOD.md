@@ -122,4 +122,4 @@ All sections function without live API calls when data artifacts are present:
 - `data/market/hud_lihtc_co.geojson`
 - `data/policy/prop123_jurisdictions.json`
 
-To refresh: run `python scripts/market/build_public_market_data.py` or trigger the GitHub Actions workflow `build-market-data.yml`.
+To refresh: run `python scripts/market/build_public_market_data.py` or trigger the GitHub Actions workflow `market_data_build.yml`.

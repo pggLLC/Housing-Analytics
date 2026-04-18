@@ -169,21 +169,21 @@ if (fileExists('js/navigation.js')) {
 // ─── 6. Build workflow present ───────────────────────────────────────────────
 console.log('\n── 6. Build workflow present ──');
 
-if (fileExists('.github/workflows/build-market-data.yml')) {
-  const yml = readFile('.github/workflows/build-market-data.yml');
+if (fileExists('.github/workflows/market_data_build.yml')) {
+  const yml = readFile('.github/workflows/market_data_build.yml');
   const ymlChecks = [
     { pattern: /workflow_dispatch/,                     label: 'Has workflow_dispatch trigger' },
     { pattern: /schedule/,                              label: 'Has schedule trigger' },
     { pattern: /build_public_market_data\.py/,          label: 'Runs build_public_market_data.py' },
     { pattern: /git commit/,                            label: 'Commits artifacts back to repo' },
   ];
-  pass('.github/workflows/build-market-data.yml exists');
+  pass('.github/workflows/market_data_build.yml exists');
   ymlChecks.forEach(function (c) {
     if (c.pattern.test(yml)) pass(c.label);
-    else fail(c.label + ' — not found in build-market-data.yml');
+    else fail(c.label + ' — not found in market_data_build.yml');
   });
 } else {
-  fail('.github/workflows/build-market-data.yml not found');
+  fail('.github/workflows/market_data_build.yml not found');
 }
 
 // ─── 7. CSS file exists ───────────────────────────────────────────────────────
@@ -261,11 +261,11 @@ if (fileExists('css/site-theme.css')) {
   }
 }
 
-// ─── 11. generate-market-analysis-data workflow ───────────────────────────────
-console.log('\n── 11. generate-market-analysis-data workflow ──');
+// ─── 11. market_data_build workflow checks ───────────────────────────────────
+console.log('\n── 11. market_data_build workflow checks ──');
 
-if (fileExists('.github/workflows/generate-market-analysis-data.yml')) {
-  const yml = readFile('.github/workflows/generate-market-analysis-data.yml');
+if (fileExists('.github/workflows/market_data_build.yml')) {
+  const yml = readFile('.github/workflows/market_data_build.yml');
   const ymlChecks = [
     { pattern: /workflow_dispatch/,             label: 'Has workflow_dispatch trigger' },
     { pattern: /schedule/,                      label: 'Has schedule trigger' },
@@ -273,13 +273,13 @@ if (fileExists('.github/workflows/generate-market-analysis-data.yml')) {
     { pattern: /co-county-boundaries\.json/,    label: 'Generates co-county-boundaries.json' },
     { pattern: /git commit/,                    label: 'Commits artifacts back to repo' },
   ];
-  pass('.github/workflows/generate-market-analysis-data.yml exists');
+  pass('.github/workflows/market_data_build.yml exists');
   ymlChecks.forEach(function (c) {
     if (c.pattern.test(yml)) pass(c.label);
-    else fail(c.label + ' — not found in generate-market-analysis-data.yml');
+    else fail(c.label + ' — not found in market_data_build.yml');
   });
 } else {
-  fail('.github/workflows/generate-market-analysis-data.yml not found');
+  fail('.github/workflows/market_data_build.yml not found');
 }
 
 // ─── 12. Overlay data files ───────────────────────────────────────────────────

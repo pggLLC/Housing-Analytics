@@ -33,14 +33,14 @@ jobs:
 
           **Root cause:** Workflow run [#24019124215](https://github.com/pggLLC/Housing-Analytics/actions/runs/24019124215) failed on 2026-04-06 because the health-check bash script echoed multi-line ANSI output into `$GITHUB_OUTPUT`, triggering: `Unable to process file command '\''output'\'' successfully. Invalid format '\''true'\''`.
 
-          **Resolution:** This incident is now closed. Subsequent `build-market-data.yml` runs are green:
+          **Resolution:** This incident is now closed. Subsequent `market_data_build.yml` runs are green:
           - Run #40 (2026-04-13) → **success** ✅
           - Run #39 (2026-04-13) → **success** ✅
           - Run #38 (2026-04-12) → **success** ✅
 
           The health-check output-handling was patched in a later commit. No active build failures exist.
 
-          > **Reopen this issue only if the workflow auto-opens a new `market-data-build-failure` issue.** The deduplication logic in `build-market-data.yml` ensures at most one open incident issue exists at a time.
+          > **Reopen this issue only if the workflow auto-opens a new `market-data-build-failure` issue.** The deduplication logic in `market_data_build.yml` ensures at most one open incident issue exists at a time.
 
           _Closed by automated triage — 2026-04-15_'
 
@@ -324,7 +324,7 @@ jobs:
 
           | Item | Status |
           |------|--------|
-          | \`build-market-data.yml\` | ✅ Last run: 2026-04-13 — success (run #40) |
+          | \`market_data_build.yml\` | ✅ Last run: 2026-04-13 — success (run #40) |
           | \`build-hna-data.yml\` | ✅ Last run: 2026-04-13 — success (run #37) |
           | JS + Python tests | ✅ pro-forma: 24/24 · qap-simulator: 64/64 · CI: 28/28 |
           | Fonts (WOFF2) | ✅ 8 files in \`assets/fonts/\` |
@@ -335,7 +335,7 @@ jobs:
           ### ⚠️ Known Data Issues (tracked in sub-issues)
 
           - **\`data/fred-data.json\` size** (952 KB vs expected ≥1.7 MB): investigate missing series → tracked in #$A447
-          - **\`data/market/tract_boundaries_co.geojson\` has 0 features**: requires \`CENSUS_API_KEY\` secret to be set, then re-trigger \`build-market-data.yml\`
+          - **\`data/market/tract_boundaries_co.geojson\` has 0 features**: requires \`CENSUS_API_KEY\` secret to be set, then re-trigger \`market_data_build.yml\`
 
           ### 🔗 Sub-Issues Created (Remaining Roadmap Work)
 
@@ -350,7 +350,7 @@ jobs:
 
           ### 🏁 Remaining Roadmap Items (not yet sub-issued)
 
-          - [ ] Add \`CENSUS_API_KEY\` secret → re-trigger \`build-market-data.yml\` to populate \`tract_boundaries_co.geojson\`
+          - [ ] Add \`CENSUS_API_KEY\` secret → re-trigger \`market_data_build.yml\` to populate \`tract_boundaries_co.geojson\`
           - [ ] Build multi-county aggregation for PMA views
           - [ ] Parcel/zoning integration (see \`docs/FEATURE_COMPLETE.md\`)
           - [ ] Historical trends, rent roll benchmarking (UI polish phase 3c)
