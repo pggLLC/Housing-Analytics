@@ -187,7 +187,10 @@ test('Run-all-workflows: run-all-workflows.yml exists and is properly configured
     assert(content.includes('build-hna-data.yml'),        'build-hna-data.yml in data list');
     assert(content.includes('fetch-census-acs.yml'),      'fetch-census-acs.yml in data list');
     assert(content.includes('fetch-fred-data.yml'),       'fetch-fred-data.yml in data list');
-    assert(content.includes('generate-market-analysis-data.yml'), 'generate-market-analysis-data.yml in data list');
+    assert(
+        content.includes('market_data_build.yml') || content.includes('generate-market-analysis-data.yml'),
+        'market data workflow in data list'
+    );
     assert(!content.includes('ci-checks.yml'),            'ci-checks.yml excluded from data list');
     assert(!content.includes('deploy.yml'),               'deploy.yml excluded from data list');
     assert(!content.includes('site-audit.yml'),           'site-audit.yml excluded from data list');
