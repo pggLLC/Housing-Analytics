@@ -142,8 +142,8 @@
 | `site-audit.yml` | ✅ Implemented | Site audit workflow for PR checks |
 | `deploy.yml` | ✅ Implemented | Auto-deploy to GitHub Pages |
 | `build-hna-data.yml` | ✅ Implemented | Builds HNA cached data artifacts (Census API) |
-| `build-market-data.yml` | ✅ Implemented | Builds market analysis data artifacts |
-| `generate-market-analysis-data.yml` | ✅ Implemented | Extended market data generation |
+| `market_data_build.yml` | ✅ Implemented | Builds market analysis data artifacts |
+| `market_data_build.yml` | ✅ Implemented | Extended market data generation |
 | `generate-housing-data.yml` | ✅ Implemented | Housing data generation pipeline |
 | `fetch-fred-data.yml` | ✅ Implemented | FRED API data fetch with monitoring |
 | `fetch-census-acs.yml` | ✅ Implemented | Census ACS data fetch |

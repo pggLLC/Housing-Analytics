@@ -85,7 +85,7 @@ tested, and deployed. CI checks pass. No live API keys are required for page loa
 | `data/market/hud_lihtc_co.geojson` | 10 placeholder features | Expanded by CI builder |
 
 > **Note:** Placeholder datasets ship with the repo. The weekly CI workflow
-> (`build-market-data.yml`) replaces them with full ACS + HUD data.
+> (`market_data_build.yml`) replaces them with full ACS + HUD data.
 
 ---
 

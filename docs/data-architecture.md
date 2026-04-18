@@ -124,7 +124,7 @@ Workflows live in `.github/workflows/`:
 |----------|---------|---------|
 | `ci-checks.yml` | Push / PR | Validates required files, JSON validity, no raw fetch paths |
 | `build-hna-data.yml` | Manual / Schedule | Runs `build_hna_data.py` |
-| `build-market-data.yml` | Manual / Schedule | Runs `build_public_market_data.py` |
+| `market_data_build.yml` | Manual / Schedule | Runs `build_public_market_data.py` |
 | `fetch-fred-data.yml` | Schedule | Updates FRED economic data |
 | `cache-hud-gis-data.yml` | Schedule | Caches HUD/Esri GIS responses |
 | `fetch-car-data.js` workflow | Schedule | Downloads CAR market reports |
