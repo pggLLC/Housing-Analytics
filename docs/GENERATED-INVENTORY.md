@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-18T12:24:08.813Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-18T18:15:49.706Z. Do not edit by hand.
 
 ---
 
@@ -979,7 +979,7 @@
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
-| `test/pages-availability-check.js` | 10.0 KB |
+| `test/pages-availability-check.js` | 9.9 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 11.8 KB |
 | `test/preservation.test.js` | 16.7 KB |
@@ -991,7 +991,7 @@
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
-| `test/smoke-market-analysis.js` | 34.3 KB |
+| `test/smoke-market-analysis.js` | 34.2 KB |
 | `test/smoke.test.js` | 9.9 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
