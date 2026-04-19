@@ -43,7 +43,7 @@ jobs:
           > /tmp/trigger_times.txt
           triggered=0
           failed_trigger=0
-          # Allow up to 30 seconds for a newly-dispatched workflow run to appear.
+          # Allow up to 30 seconds (10 attempts × 3 seconds) for a newly-dispatched workflow run to appear.
           RUN_ID_LOOKUP_ATTEMPTS=10
           RUN_ID_LOOKUP_SLEEP_SECONDS=3
 
@@ -69,7 +69,7 @@ jobs:
                 if gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1; then
                   echo "  ✅ $workflow run #$run_id completed"
                 else
-                  echo "  ⚠️  Could not watch $workflow run #$run_id to completion; continuing"
+                  echo "  ⚠️  Failed to watch $workflow run #$run_id (may have timed out or been cancelled); continuing"
                 fi
               else
                 echo "  ⚠️  Could not resolve run ID for $workflow immediately; continuing"
@@ -123,7 +123,7 @@ jobs:
           # Poll all triggered runs concurrently in a single loop.
           # Timeout: 45 minutes (90 polls × 30-second interval).
           MAX_POLLS=90
-          # Allow up to 30 seconds for a newly-dispatched retry run to appear.
+          # Allow up to 30 seconds (10 attempts × 3 seconds) for a newly-dispatched retry run to appear.
           RUN_ID_LOOKUP_ATTEMPTS=10
           RUN_ID_LOOKUP_SLEEP_SECONDS=3
           > /tmp/conclusions.txt
@@ -224,7 +224,7 @@ jobs:
                   if gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1; then
                     echo "  ✅ Retry run #$run_id completed"
                   else
-                    echo "  ⚠️  Could not watch retry run #$run_id to completion; continuing"
+                    echo "  ⚠️  Failed to watch retry run #$run_id (may have timed out or been cancelled); continuing"
                   fi
                 else
                   echo "  ⚠️  Could not resolve retry run ID for $workflow immediately; continuing"
