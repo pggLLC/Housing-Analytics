@@ -58,8 +58,8 @@ jobs:
               run_id=""
               for _ in $(seq 1 "$RUN_ID_LOOKUP_ATTEMPTS"); do
                 run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-                  --limit 5 --json databaseId,createdAt \
-                  --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\")] | .[0].databaseId // empty" \
+                  --limit 5 --json databaseId,createdAt,event,headBranch \
+                  --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
                   2>/dev/null)
                 [ -n "$run_id" ] && break
                 sleep "$RUN_ID_LOOKUP_SLEEP_SECONDS"
@@ -92,6 +92,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
         run: |
           # Allow GitHub enough time to queue the triggered runs.
           sleep 15
@@ -100,8 +101,8 @@ jobs:
           while IFS='=' read -r workflow trigger_time; do
             [ -z "$workflow" ] && continue
             run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-              --limit 5 --json databaseId,createdAt \
-              --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+              --limit 5 --json databaseId,createdAt,event,headBranch \
+              --jq "[.[] | select(.createdAt >= \"$trigger_time\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
               2>/dev/null)
             if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
               echo "$workflow=$run_id" >> /tmp/run_ids.txt
@@ -212,8 +213,8 @@ jobs:
                 run_id=""
                 for _ in $(seq 1 "$RUN_ID_LOOKUP_ATTEMPTS"); do
                   run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-                    --limit 5 --json databaseId,createdAt \
-                    --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\")] | .[0].databaseId // empty" \
+                    --limit 5 --json databaseId,createdAt,event,headBranch \
+                    --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
                     2>/dev/null)
                   [ -n "$run_id" ] && break
                   sleep "$RUN_ID_LOOKUP_SLEEP_SECONDS"
@@ -243,8 +244,8 @@ jobs:
             while IFS='=' read -r workflow trigger_time; do
               [ -z "$workflow" ] && continue
               run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-                --limit 5 --json databaseId,createdAt \
-                --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+                --limit 5 --json databaseId,createdAt,event,headBranch \
+                --jq "[.[] | select(.createdAt >= \"$trigger_time\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
                 2>/dev/null)
               if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
                 echo "$workflow=$run_id" >> "/tmp/retry_ids_${retry_attempt}.txt"
