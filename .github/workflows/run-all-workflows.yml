@@ -52,6 +52,21 @@ jobs:
               echo "  ✅ Triggered"
               echo "${workflow}=${TRIGGER_TIME}" >> /tmp/trigger_times.txt
               triggered=$((triggered + 1))
+              run_id=""
+              for _ in $(seq 1 10); do
+                run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+                  --limit 5 --json databaseId,createdAt \
+                  --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\")] | .[0].databaseId // empty" \
+                  2>/dev/null)
+                [ -n "$run_id" ] && break
+                sleep 3
+              done
+              if [ -n "$run_id" ]; then
+                echo "  ⏳ Waiting for $workflow run #$run_id to complete before triggering the next workflow"
+                gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1 || true
+              else
+                echo "  ⚠️  Could not resolve run ID for $workflow immediately; continuing"
+              fi
             else
               echo "  ❌ Failed to trigger"
               echo "::error::Failed to trigger data workflow: $workflow"
@@ -184,6 +199,21 @@ jobs:
                 echo "  ✅ Re-triggered"
                 echo "${workflow}=${TRIGGER_TIME}" >> "/tmp/retry_trigger_${retry_attempt}.txt"
                 echo "${workflow}: attempt $((retry_attempt + 1)) triggered" >> /tmp/retry_log.txt
+                run_id=""
+                for _ in $(seq 1 10); do
+                  run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+                    --limit 5 --json databaseId,createdAt \
+                    --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\")] | .[0].databaseId // empty" \
+                    2>/dev/null)
+                  [ -n "$run_id" ] && break
+                  sleep 3
+                done
+                if [ -n "$run_id" ]; then
+                  echo "  ⏳ Waiting for retry run #$run_id to complete before triggering the next retry workflow"
+                  gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1 || true
+                else
+                  echo "  ⚠️  Could not resolve retry run ID for $workflow immediately; continuing"
+                fi
               else
                 echo "  ❌ Failed to re-trigger"
                 echo "${workflow}: attempt $((retry_attempt + 1)) trigger failed" >> /tmp/retry_log.txt
