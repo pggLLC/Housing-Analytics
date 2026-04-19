@@ -518,6 +518,15 @@
       <div class="chart-card span-12">
         <h2>Housing Gap &amp; Affordability Analysis</h2>
         <p>Estimated number of households by income tier and cost burden — the foundation of any housing needs assessment. Identifies the gap between affordable units needed and those available.</p>
+        <details class="accordion-section" style="margin-bottom:.75rem">
+          <summary style="font-size:.88rem;font-weight:600;cursor:pointer;color:var(--accent)">How these metrics combine to estimate housing need →</summary>
+          <div style="font-size:.84rem;color:var(--muted);padding:.75rem 0 .25rem;line-height:1.6;max-width:700px">
+            <p><strong>Cost burden</strong> (ACS GRAPI / HUD CHAS) counts how many renter households pay ≥30% of income on housing. Households paying ≥50% are <em>severely</em> burdened. High cost-burden rates signal that existing affordable housing stock cannot meet demand at current income levels.</p>
+            <p style="margin-top:.5rem"><strong>AMI gap</strong> (HUD CHAS + ACS income distribution) measures the deficit of rental units priced for households at each AMI tier (30%, 50%, 60%). A gap of −5,000 at ≤50% AMI means the area needs 5,000 more affordable units than currently exist for that income range.</p>
+            <p style="margin-top:.5rem"><strong>20-year projection</strong> (DOLA SDO cohort-component model) estimates additional households the area will gain through 2044. Combined with the current gap, this produces a forward-looking estimate of total housing production needed.</p>
+            <p style="margin-top:.5rem"><strong>For place and CDP selections:</strong> AMI gap and CHAS cost-burden data are scaled proportionally from the containing county using population share. These are proxies — county-level data is the authoritative source for CHFA Prop 123 compliance filings.</p>
+          </div>
+        </details>
         <div id="housingGapSummary"><p style="color:var(--muted)">Select a geography to view housing gap analysis.</p></div>
       </div>
 
@@ -691,6 +700,8 @@
       <!-- Labor Market Metrics -->
       <section id="labor-market-section" class="chart-card span-12 labor-market-section">
         <h2>Labor Market Context</h2>
+        <p id="laborMarketCountyContext" class="hna-county-context-note" hidden
+           style="font-size:.82rem;color:var(--warn);background:var(--warn-bg,#fef9ec);border-left:3px solid var(--warn);padding:.4rem .75rem;margin-bottom:.75rem;border-radius:0 4px 4px 0;"></p>
         <p style="color:var(--muted)">
           Workplace-area employment estimates from LEHD LODES. Job totals, wage distribution, and top industries
           display when the LEHD WAC cache is populated; commuting flows are available now from the OD summary.

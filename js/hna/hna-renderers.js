@@ -399,12 +399,28 @@
    * Main Labor Market section renderer.
    * @param {object|null} lehd
    * @param {object|null} profile
+   * @param {string} geoType
+   * @param {string} [containingCounty] - 5-digit county FIPS when geoType is place/CDP
    */
 
-  function renderLaborMarketSection(lehd, profile, geoType) {
+  function renderLaborMarketSection(lehd, profile, geoType, containingCounty) {
     const metrics     = U().calculateJobMetrics(lehd, profile);
     const wageDist    = U().calculateWageDistribution(lehd);
     const industries  = U().parseIndustries(lehd, 5);
+
+    // Show a county-context notice for place/CDP selections so users understand
+    // the LEHD data reflects the containing county, not just the selected city/town.
+    const laborContextEl = document.getElementById('laborMarketCountyContext');
+    if (laborContextEl) {
+      if (geoType !== 'county' && geoType !== 'state' && containingCounty) {
+        laborContextEl.textContent = 'Labor market data below is at the containing county level' +
+          ' (' + containingCounty + '). Place-level LEHD crosswalk is not yet available.';
+        laborContextEl.hidden = false;
+      } else {
+        laborContextEl.textContent = '';
+        laborContextEl.hidden = true;
+      }
+    }
 
     renderJobMetrics(document.getElementById('jobMetrics'), metrics, geoType);
 

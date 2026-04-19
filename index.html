@@ -263,21 +263,21 @@
         <div class="home-snapshot__grid" role="list">
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">9% Credit Rate</span>
-            <span class="home-snapshot__val" id="snapCreditRate">9.00%</span>
-            <span class="home-snapshot__note"><a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42</a> · Fixed by statute</span>
+            <span class="home-snapshot__key">CO Housing Deficit (≤30% AMI)</span>
+            <span class="home-snapshot__val" id="snapGap30">—</span>
+            <span class="home-snapshot__note"><a href="hna-comparative-analysis.html">HUD CHAS · ACS 2023</a> · Statewide rental unit shortfall</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">Denver Metro 1BR FMR</span>
-            <span class="home-snapshot__val" id="snapFmr1br">—</span>
-            <span class="home-snapshot__note"><a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR</a> · FY 2025</span>
+            <span class="home-snapshot__key">CO Housing Deficit (≤60% AMI)</span>
+            <span class="home-snapshot__val" id="snapGap60">—</span>
+            <span class="home-snapshot__note"><a href="hna-comparative-analysis.html">HUD CHAS · ACS 2023</a> · Statewide rental unit shortfall</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">Denver 60% AMI (4-person)</span>
-            <span class="home-snapshot__val" id="snapAmi60">—</span>
-            <span class="home-snapshot__note"><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a></span>
+            <span class="home-snapshot__key">20-yr Units Needed (Statewide)</span>
+            <span class="home-snapshot__val" id="snapUnitsNeeded">—</span>
+            <span class="home-snapshot__note"><a href="housing-needs-assessment.html">DOLA SDO forecast</a> · 2024–2044 incremental</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
@@ -354,9 +354,9 @@
 (function () {
   'use strict';
 
-  function fmtCurrency(n) {
-    if (!n) return '—';
-    return '$' + Number(n).toLocaleString();
+  function fmtNum(n) {
+    if (n == null) return '—';
+    return Number(n).toLocaleString();
   }
   function fmtPct(n) {
     if (n == null) return '—';
@@ -393,35 +393,52 @@
     }
   }
 
+  function fmtNum(n) {
+    if (n == null) return '—';
+    return Number(n).toLocaleString();
+  }
+
   // 2. Data snapshot
   function loadSnapshot() {
     var DS = window.DataService;
     if (!DS) return;
 
-    // FMR + income limits (keyed by counties[])
-    DS.getJSON(DS.baseData('hud-fmr-income-limits.json'))
+    // AMI gap: statewide housing deficit at ≤30% and ≤60% AMI from statewide summary
+    DS.getJSON(DS.baseData('co_ami_gap_by_county.json'))
       .then(function (data) {
-        var counties = data && data.counties;
-        if (!Array.isArray(counties)) return;
-        // Find Denver County (FIPS 08031)
-        var denver = counties.find(function (c) {
-          return c && (c.fips === '08031' ||
-            (c.county_name || '').toLowerCase().indexOf('denver') !== -1);
-        });
-        if (!denver) return;
+        // Use the top-level statewide aggregate when available; otherwise sum counties
+        var sw = data && data.statewide;
+        var gap30, gap60;
+        if (sw && sw.gap_units_minus_households_le_ami_pct) {
+          gap30 = sw.gap_units_minus_households_le_ami_pct['30'] || 0;
+          gap60 = sw.gap_units_minus_households_le_ami_pct['60'] || 0;
+        } else {
+          var counties = data && data.counties;
+          if (!Array.isArray(counties)) return;
+          gap30 = 0; gap60 = 0;
+          counties.forEach(function (c) {
+            var g = c.gap_units_minus_households_le_ami_pct || {};
+            gap30 += (g['30'] || 0);
+            gap60 += (g['60'] || 0);
+          });
+        }
+        var el30 = document.getElementById('snapGap30');
+        var el60 = document.getElementById('snapGap60');
+        if (el30) el30.textContent = gap30 < 0 ? '−' + fmtNum(Math.abs(Math.round(gap30))) : fmtNum(Math.round(gap30));
+        if (el60) el60.textContent = gap60 < 0 ? '−' + fmtNum(Math.abs(Math.round(gap60))) : fmtNum(Math.round(gap60));
+      })
+      .catch(function () { /* graceful: defaults show */ });
 
-        // 1BR FMR
-        var fmr = denver.fmr || {};
-        var fmr1 = fmr.one_br || fmr['1br'] || fmr.fmr_1 || null;
-        var el = document.getElementById('snapFmr1br');
-        if (el && fmr1) el.textContent = fmtCurrency(fmr1);
-
-        // 60% AMI (4-person) = ami_4person * 0.6
-        var il = denver.income_limits || {};
-        var ami100 = il.ami_4person || null;
-        var ami60 = ami100 ? Math.round(ami100 * 0.6) : (il.il60_4person || null);
-        var el2 = document.getElementById('snapAmi60');
-        if (el2 && ami60) el2.textContent = fmtCurrency(ami60);
+    // 20-year statewide units needed from state projection file
+    DS.getJSON(DS.baseData('hna/projections/08.json'))
+      .then(function (data) {
+        var hn = data && data.housing_need;
+        var inc = hn && hn.incremental_units_needed_dola;
+        var last = Array.isArray(inc) ? inc[inc.length - 1] : null;
+        var el = document.getElementById('snapUnitsNeeded');
+        if (el && last != null) {
+          el.textContent = '~' + fmtNum(Math.round(last / 1000) * 1000);
+        }
       })
       .catch(function () { /* graceful: defaults show */ });
 
@@ -490,6 +507,22 @@
           })
           .catch(function () {});
       });
+
+    // Data vintage: show AMI gap generated date when available
+    DS.getJSON(DS.baseData('co_ami_gap_by_county.json'))
+      .then(function (data) {
+        var gen = data && data.meta && data.meta.generated_at;
+        if (!gen) return;
+        var el = document.getElementById('snapVintage');
+        if (el) {
+          try {
+            var d = new Date(gen + 'T00:00:00Z');
+            var mo = d.toLocaleString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+            el.textContent = 'ACS ' + (data.meta.acs_year || '2023') + ' · HUD FY' + (data.meta.hud_income_limits_year || '2025') + ' · Gap data: ' + mo;
+          } catch (_) {}
+        }
+      })
+      .catch(function () {});
   }
 
   function init() {

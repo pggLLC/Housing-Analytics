@@ -17,7 +17,32 @@
 
 const fs   = require('fs');
 const path = require('path');
-const glob = require('glob');
+
+// Use Node.js built-in fs.readdirSync instead of the glob package
+// to avoid hard dependency on devDependencies in non-npm-ci environments.
+function globSync(pattern, opts) {
+  const cwd = opts && opts.cwd ? opts.cwd : process.cwd();
+  const ignore = (opts && opts.ignore) ? [].concat(opts.ignore) : [];
+  const ext = (pattern.match(/\*\.(\w+)$/) || [])[1];
+  const dir = pattern.includes('/') ? path.join(cwd, pattern.split('*')[0]) : cwd;
+
+  function readDir(d) {
+    try { return fs.readdirSync(d, { withFileTypes: true }); } catch (_) { return []; }
+  }
+  function matches(file) {
+    if (ext && !file.endsWith('.' + ext)) return false;
+    for (var ig of ignore) {
+      if (file.replace(/\\/g, '/').includes(ig.replace(/\*\*\//g, ''))) return false;
+    }
+    return true;
+  }
+
+  var base = pattern.includes('/') ? path.join(cwd, path.dirname(pattern.replace(/\*/g, '_x_'))) : cwd;
+  if (!fs.existsSync(base)) return [];
+  return readDir(base)
+    .filter(function (e) { return e.isFile() && matches(e.name); })
+    .map(function (e) { return path.relative(cwd, path.join(base, e.name)).replace(/\\/g, '/'); });
+}
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -66,7 +91,7 @@ REQUIRED_JSON.forEach(function (f) {
 
 // ─── 2. Link validation ───────────────────────────────────────────────────────
 console.log('\n── 2. Link validation ──');
-var htmlFiles = glob.sync('*.html', { cwd: ROOT });
+var htmlFiles = globSync('*.html', { cwd: ROOT });
 var emptyHrefs = 0;
 var jsVoidHrefs = 0;
 
@@ -96,7 +121,7 @@ if (emptyHrefs === 0 && jsVoidHrefs === 0) {
 
 // ─── 3. Hardcoded fetch pattern check ────────────────────────────────────────
 console.log('\n── 3. Hardcoded data-path fetch check ──');
-var jsFiles = glob.sync('js/*.js', { cwd: ROOT, ignore: ['js/vendor/**'] });
+var jsFiles = globSync('js/*.js', { cwd: ROOT, ignore: ['js/vendor/**'] });
 var hardcodedFetches = [];
 
 jsFiles.forEach(function (jsFile) {

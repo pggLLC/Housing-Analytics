@@ -438,6 +438,44 @@
     (function () {
       var saved = '';
       try { saved = localStorage.getItem('coho_audience') || 'developer'; } catch (_) {}
+
+      // Curated entry links per audience
+      var AUDIENCE_ROUTES = {
+        elected:    { href: 'housing-needs-assessment.html', label: 'Elected officials — start with the Housing Needs Assessment to understand your community\u2019s housing gap.' },
+        developer:  { href: 'select-jurisdiction.html',     label: 'Developers \u2014 start by selecting a jurisdiction to begin your workflow.' },
+        financier:  { href: 'deal-calculator.html',         label: 'Financiers \u2014 jump directly to the Deal Calculator to model your capital stack.' },
+      };
+
+      // Inject a dismissable audience context banner below the header
+      function _showAudienceBanner(aud) {
+        var route = AUDIENCE_ROUTES[aud];
+        if (!route) return;
+        var existing = document.getElementById('audienceContextBanner');
+        if (existing) existing.remove();
+
+        var banner = document.createElement('div');
+        banner.id = 'audienceContextBanner';
+        banner.setAttribute('role', 'status');
+        banner.setAttribute('aria-live', 'polite');
+        banner.style.cssText = 'position:relative;z-index:800;background:var(--accent);color:#fff;padding:.45rem 1.25rem .45rem 1rem;font-size:.82rem;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;';
+        var root = relToRoot();
+        banner.innerHTML =
+          '<span>' + route.label + ' <a href="' + root + route.href + '" style="color:#fff;text-decoration:underline;margin-left:.35rem">Get started \u2192</a></span>' +
+          '<button type="button" aria-label="Dismiss" style="background:transparent;border:none;color:#fff;font-size:1rem;cursor:pointer;padding:0 0 0 .5rem;line-height:1;">\u00d7</button>';
+        banner.querySelector('button').addEventListener('click', function () { banner.remove(); });
+
+        var headerEl = document.querySelector('header.site-header');
+        if (headerEl && headerEl.parentNode) {
+          if (headerEl.nextSibling) {
+            headerEl.parentNode.insertBefore(banner, headerEl.nextSibling);
+          } else {
+            headerEl.parentNode.appendChild(banner);
+          }
+        }
+        // Auto-dismiss after 8 s
+        setTimeout(function () { if (banner.parentNode) banner.remove(); }, 8000);
+      }
+
       var toggleWrap = document.getElementById('audienceToggleWrap');
       if (toggleWrap) {
         toggleWrap.querySelectorAll('[data-audience]').forEach(function (btn) {
@@ -450,6 +488,7 @@
             });
             if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(aud);
             if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(aud);
+            _showAudienceBanner(aud);
           });
         });
         // Apply saved audience to modules when they load

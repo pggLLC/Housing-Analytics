@@ -1976,7 +1976,7 @@
     }
 
     // Labor Market section (uses LEHD + ACS profile)
-    window.HNARenderers.renderLaborMarketSection(lehd, profile, geoType);
+    window.HNARenderers.renderLaborMarketSection(lehd, profile, geoType, contextCounty);
 
     // Economic indicators — trend charts and affordability gap table
     // For state type use '08'; for county use geoid; for places use contextCounty.
@@ -2173,7 +2173,8 @@
     if (!restoredGeoType) {
       const urlParams = new URLSearchParams(window.location.search);
       const urlGeoType = urlParams.get('geoType');
-      const urlGeoid   = urlParams.get('geoid');
+      // Accept both 'geoid' (preferred) and legacy 'fips' param names
+      const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
       if (urlGeoType && urlGeoid) {
         restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
         restoredGeoId   = urlGeoid;
