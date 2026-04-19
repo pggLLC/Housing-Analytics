@@ -413,8 +413,17 @@
     const laborContextEl = document.getElementById('laborMarketCountyContext');
     if (laborContextEl) {
       if (geoType !== 'county' && geoType !== 'state' && containingCounty) {
+        // Try to resolve a human-readable county name from geo-config
+        var countyLabel = containingCounty;
+        try {
+          var cfg = window.__HNA_GEO_CONFIG;
+          if (cfg && Array.isArray(cfg.counties)) {
+            var c = cfg.counties.find(function (x) { return x.geoid === containingCounty; });
+            if (c && c.label) countyLabel = c.label;
+          }
+        } catch (_) {}
         laborContextEl.textContent = 'Labor market data below is at the containing county level' +
-          ' (' + containingCounty + '). Place-level LEHD crosswalk is not yet available.';
+          ' (' + countyLabel + '). Place-level LEHD crosswalk is not yet available.';
         laborContextEl.hidden = false;
       } else {
         laborContextEl.textContent = '';
