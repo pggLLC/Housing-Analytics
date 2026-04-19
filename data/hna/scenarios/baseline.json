@@ -5,7 +5,7 @@
   "source": "DOLA State Demography Office — Components of Change (2024 vintage)",
   "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
   "fredSeriesRef": null,
-  "createdAt": "2026-03-23T04:48:07Z",
+  "createdAt": "2026-04-19T04:26:49Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "Hold at recent ACS-derived rates",
