@@ -1737,19 +1737,23 @@ def build_dola_projections_by_county():
 
         hh_dola = []
         units_needed = []
-        inc_units = []
 
         for p in pop_dola:
             if p is None or headship is None:
                 hh_dola.append(None)
                 units_needed.append(None)
-                inc_units.append(None)
                 continue
             hh = p * headship
             hh_dola.append(hh)
             need = hh / (1.0 - target_vac)
             units_needed.append(need)
-            inc_units.append((need - base_units) if base_units is not None else None)
+
+        base_idx = out_years.index(base_year) if base_year in out_years else 0
+        base_need = units_needed[base_idx] if units_needed and len(units_needed) > base_idx else None
+        inc_units = [
+            (need - base_need) if (need is not None and base_need is not None) else None
+            for need in units_needed
+        ]
 
         netmig_20y = None
         try:
@@ -1870,7 +1874,7 @@ def _build_state_projection_aggregate():
 
     # Derived statewide vacancy rate: percentage of units that are vacant.
     state_vacancy_rate = round(
-        (1 - total_base_hh / total_base_units) * 100, 4
+        (1 - total_base_hh / total_base_units) * 100, 5
     ) if total_base_units else 0.0
 
     payload = {
