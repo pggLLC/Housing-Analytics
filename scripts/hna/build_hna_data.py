@@ -1748,7 +1748,9 @@ def build_dola_projections_by_county():
             need = hh / (1.0 - target_vac)
             units_needed.append(need)
 
-        base_idx = out_years.index(base_year) if base_year in out_years else 0
+        if base_year not in out_years:
+            raise ValueError(f'Projection baseYear {base_year} missing from years for {cf}')
+        base_idx = out_years.index(base_year)
         base_need = units_needed[base_idx] if units_needed and len(units_needed) > base_idx else None
         inc_units = [
             (need - base_need) if (need is not None and base_need is not None) else None
