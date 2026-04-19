@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-19T04:28:25.367384Z",
+  "generated": "2026-04-19T07:52:33.013459Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -4472,9 +4472,9 @@
       "bytes": 241844
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 597,
+      "featureCount": 587,
       "placeholder": false,
-      "bytes": 72066641
+      "bytes": 70524705
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4539,7 +4539,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20208
+      "bytes": 20225
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
