@@ -1994,6 +1994,16 @@
     var horizonEl = document.querySelector('.horizon-btn--active');
     var SCENARIO_HORIZON = (horizonEl && parseInt(horizonEl.getAttribute('data-horizon'), 10)) || 10;
 
+    // Keep descriptive copy in sync with the selected horizon
+    var detailDesc = document.getElementById('scenarioDetailDesc');
+    if (detailDesc) {
+      detailDesc.textContent = 'Single-scenario population trend over the ' + SCENARIO_HORIZON + '-year horizon.';
+    }
+    var demandDesc = document.getElementById('demandTierDesc');
+    if (demandDesc) {
+      demandDesc.textContent = 'Estimated renter households by AMI tier over the ' + SCENARIO_HORIZON + '-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).';
+    }
+
     // Find the index of the base year in the years array
     const baseIdx = years.indexOf(baseYear);
     const basePop0 = (baseIdx >= 0 && popSel[baseIdx] !== null) ? popSel[baseIdx]
