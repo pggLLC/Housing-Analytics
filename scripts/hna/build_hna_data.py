@@ -1897,7 +1897,7 @@ def _build_state_projection_aggregate():
     vacancy_fraction = state_vacancy_rate / 100.0
     vacancy_denominator = 1.0 - vacancy_fraction
     statewide_housing_units = round(
-        rounded_total_base_hh / vacancy_denominator, 2
+        rounded_total_base_hh / vacancy_denominator, 1
     ) if vacancy_denominator > 0 else 0.0
 
     households_dola = _sum_housing_series('households_dola')
@@ -1907,8 +1907,7 @@ def _build_state_projection_aggregate():
     base_year_idx = years.index(HNA_BASE_YEAR)
     base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
     incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
-    if incremental_units_needed_dola:
-        incremental_units_needed_dola[base_year_idx] = 0.0
+    incremental_units_needed_dola[base_year_idx] = 0.0
 
     payload = {
         'updated': utc_now_z(),
