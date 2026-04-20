@@ -84,7 +84,7 @@
   };
 
   const SOURCES = {
-    tigerweb: 'https://www.census.gov/data/developers/data-sets/TIGERweb.html',
+    tigerweb: 'https://www.census.gov/data/developers/data-sets/TIGERweb-map-service.html',
     acsProfile: 'https://api.census.gov/data/2023/acs/acs1/profile/groups.html',
     acsS0801: 'https://api.census.gov/data/2023/acs/acs1/subject/groups/S0801.html',
     lodesRoot: 'https://lehd.ces.census.gov/data/lodes/LODES8/',
@@ -94,7 +94,7 @@
     prop123Commitments: 'https://cdola.colorado.gov/commitment-filings',
     lihtcDb: 'https://lihtc.huduser.gov/',
     hudQct: 'https://www.huduser.gov/portal/datasets/qct.html',
-    hudDda: 'https://www.huduser.gov/portal/datasets/dda.html',
+    hudDda: 'https://www.huduser.gov/portal/datasets/qct.html',
     chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
     hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // Update year annually (e.g. Qualified_Census_Tracts_2027 when HUD publishes next cycle)
@@ -239,7 +239,7 @@
 
   // Colorado DDA (Difficult Development Area) designation lookup
   // Based on HUD 2025 DDA list; covers counties within HUD Metro FMR Areas that qualify.
-  // Source: https://www.huduser.gov/portal/datasets/dda.html
+  // Source: https://www.huduser.gov/portal/datasets/qct.html
   const CO_DDA = {
     '08001': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Adams
     '08005': { status: true,  area: 'Denver-Aurora-Lakewood HUD Metro FMR Area' },   // Arapahoe

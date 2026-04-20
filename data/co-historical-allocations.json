@@ -14,7 +14,7 @@
     },
     "allocationAuthority": {
       "name": "IRS Section 42 per-capita floor / CHFA / HUD Annual Reports / Novogradac",
-      "url": "https://www.irs.gov/credits-deductions/businesses/low-income-housing-credit",
+      "url": "https://www.irs.gov/forms-pubs/about-form-8586",
       "note": "Allocation authority is the IRS ceiling each state may award. Confirmed figures sourced from CHFA and HUD annual reports; estimated figures use IRS per-capita x CO population."
     },
     "nationalContext": {

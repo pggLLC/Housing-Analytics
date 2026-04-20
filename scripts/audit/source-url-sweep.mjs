@@ -21,9 +21,6 @@
  *   1  — at least one URL returned 404 or a hard failure
  *   2  — internal script error (bad inputs)
  *
- * Currently-known-broken URLs tracked in issue #648 (not allow-listed on
- * purpose — they should be surfaced until fixed, just not block PRs).
- *
  * Usage:
  *   node scripts/audit/source-url-sweep.mjs
  *   node scripts/audit/source-url-sweep.mjs --quiet   (only print failures)

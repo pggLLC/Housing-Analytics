@@ -56,7 +56,7 @@ production pipeline**, not a precise count of units available in a given year.
 
 ### 2. IRS Section 42 Per-Capita Floor (allocation authority)
 
-- **URL:** <https://www.irs.gov/credits-deductions/businesses/low-income-housing-credit>
+- **URL:** <https://www.irs.gov/forms-pubs/about-form-8586>
 - **Fields derived:** `irsPerCapita`, `allocationAuthority`,
   `perCapitaAuthority`, `authorityStatus`
 - **Method:** Colorado allocation authority = IRS per-capita floor ×
