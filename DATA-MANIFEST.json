@@ -86,7 +86,7 @@
     {
       "file_path": "data/policy/prop123_jurisdictions.json",
       "source_name": "Colorado Proposition 123 \u2014 DOLA Jurisdiction Opt-In Registry",
-      "source_url": "https://dola.colorado.gov/prop123",
+      "source_url": "https://cdola.colorado.gov/prop123",
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display all Colorado jurisdictions without Prop 123 compliance status overlay",
@@ -206,7 +206,7 @@
     {
       "file_path": "data/co_ami_gap_by_county.json",
       "source_name": "CHFA / HUD \u2014 Colorado AMI Gap Analysis by County",
-      "source_url": "https://www.chfainfo.com/arh/ami",
+      "source_url": "https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits",
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display statewide AMI gap only; disable county-level choropleth",

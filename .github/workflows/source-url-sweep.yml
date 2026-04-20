@@ -43,20 +43,9 @@ jobs:
           node-version: '20'
 
       - name: Run URL sweep
-        id: sweep
-        # Non-blocking for now — a tracking issue (see audit item #1) lists
-        # ~9 known-broken URLs that predate this workflow. Flip this to a
-        # hard failure once that list is down to zero. Until then, the
-        # workflow outcome is "success" but the log surfaces new breakage
-        # for oncall review.
-        continue-on-error: true
+        # Hard-blocking: any new 404 / server-error / fetch-error on a cited
+        # source URL fails CI. Timeouts are soft (the script exits 0 on
+        # timeouts only). To skip a URL that legitimately blocks bots,
+        # add it to ALLOW_LIST in scripts/audit/source-url-sweep.mjs with
+        # a short justification comment.
         run: node scripts/audit/source-url-sweep.mjs --quiet
-
-      - name: Summarize sweep outcome
-        if: always()
-        run: |
-          if [ "${{ steps.sweep.outcome }}" = "failure" ]; then
-            echo "::warning::source-url-sweep reported broken URLs — see step log. Track fixes in the follow-up issue linked from scripts/audit/source-url-sweep.mjs."
-          else
-            echo "All cited URLs resolved (including allow-listed)."
-          fi
