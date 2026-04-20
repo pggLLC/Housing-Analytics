@@ -1909,10 +1909,10 @@ def _build_state_projection_aggregate():
     base_year_idx = years.index(HNA_BASE_YEAR)
     base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
     incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
-    if not (0 <= base_year_idx < len(incremental_units_needed_dola)):
+    if len(incremental_units_needed_dola) != len(years):
         raise ValueError(
-            f'Base year {HNA_BASE_YEAR} not found in state projection years '
-            f'(index {base_year_idx}, length {len(incremental_units_needed_dola)})'
+            f'State projection years/units length mismatch '
+            f'({len(years)} years vs {len(incremental_units_needed_dola)} unit values)'
         )
     incremental_units_needed_dola[base_year_idx] = 0.0
 
