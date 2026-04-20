@@ -25,7 +25,7 @@
       "elected": "DDAs are HUD's way of recognizing that some housing markets are simply more expensive to build in. The Denver metro was a DDA for several years. The designation allows more federal subsidy to flow to projects in these markets, making affordable units feasible where they otherwise wouldn't be.",
       "developer": "DDAs are designated by HUD for entire metropolitan statistical areas (MSAs) or non-metropolitan counties where construction costs are high relative to incomes. Unlike QCTs (which are tract-level), a DDA covers the entire metro. If your site is in a DDA, you get the same 130% basis multiplier as a QCT. Check whether your county/MSA qualifies — you cannot claim both QCT and DDA on the same project, so apply the more favorable one.",
       "financier": "DDA designation is determined by HUD using FMR data and construction cost indices. The 30% basis boost functions identically to the QCT mechanism. Because DDAs cover entire MSAs, there is less geographic targeting advantage — but for projects in high-cost metros without QCT-eligible tracts, DDA is often the only route to the basis boost. Monitor HUD's annual November publication for DDA list changes.",
-      "learnMore": "https://www.huduser.gov/portal/datasets/dda.html",
+      "learnMore": "https://www.huduser.gov/portal/datasets/qct.html",
       "tags": ["dda", "basis-boost", "hud", "high-cost"]
     },
     "eligible_basis": {
@@ -259,7 +259,7 @@
       "elected": "HOME is one of the federal government's most flexible affordable housing tools. Congress appropriates funds to HUD, which distributes them to states (via CHFA) and large cities (via local housing programs). Communities use HOME as low-interest or zero-interest loans in affordable housing deals. It's a critical piece of the puzzle for deeply affordable units serving the lowest incomes.",
       "developer": "HOME funds are administered by CHFA (state HOME) and participating local jurisdictions. HOME loans are typically soft — zero or low interest, deferred repayment from cash flow. HOME units must serve households at ≤80% AMI, with a portion serving ≤50% AMI. HOME requires an initial affordability period of 15–20 years and annual monitoring. Coordinate HOME applications with your LIHTC timeline — the two programs have different application cycles.",
       "financier": "HOME is subordinate debt with deferred payment, so it doesn't affect DSCR calculations when structured properly. HOME has a per-unit maximum subsidy limit ($30,000–$60,000+ depending on project type and bedroom count). Track the HOME total subsidy limit carefully — exceeding it requires HUD approval. HOME also imposes income targeting requirements that may constrain unit mix flexibility.",
-      "learnMore": "https://www.hud.gov/program_offices/comm_planning/home",
+      "learnMore": "https://www.hud.gov/hud-partners/community-affordable-housing-programs",
       "tags": ["home", "hud", "soft-debt", "subordinate", "gap-financing"]
     },
     "cdbg": {
