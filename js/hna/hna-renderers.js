@@ -3167,11 +3167,18 @@
 
     var urValue = ur != null ? ur.toFixed(1) + '%' : '—';
     var urColor = ur != null ? (ur < UR_LOW ? 'var(--success,#22a36f)' : ur <= UR_HIGH ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
-    var urSub = ur != null ? (ur < UR_LOW ? 'Low — healthy labour market' : ur <= UR_HIGH ? 'Moderate' : 'Elevated') : 'Data not yet available';
+    // When BLS data is missing, explain *why* rather than showing a dead-end
+    // "Data not yet available". Users then know it's a pipeline state, not a
+    // UI bug, and can consult the public source directly.
+    var urSub = ur != null
+      ? (ur < UR_LOW ? 'Low — healthy labour market' : ur <= UR_HIGH ? 'Moderate' : 'Elevated')
+      : 'Pending BLS feed refresh — see <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">bls.gov/lau</a>';
 
     var jgValue = jg != null ? (jg > 0 ? '+' : '') + jg.toFixed(1) + '%' : '—';
     var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
-    var jgSub = jg != null ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
+    var jgSub = jg != null
+      ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth')
+      : 'QCEW endpoint currently unavailable — see <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">bls.gov/cew</a>';
 
     var countyContextBanner = '';
     if (geoType === 'place' || geoType === 'cdp') {
