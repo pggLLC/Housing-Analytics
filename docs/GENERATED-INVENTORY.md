@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T18:54:57.350Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T19:50:27.749Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 | `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
-| `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
+| `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 875 B | ✅ | — |
 | `data/co-historical-allocations.json` | 18.1 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 69.0 KB | ✅ | — |
@@ -958,7 +958,6 @@
 | `test/audit-modules/logic-validation.js` | 11.2 KB |
 | `test/audit-modules/report-generator.js` | 13.7 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
-| `test/build_counties_co_test.py` | 11.4 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
@@ -966,8 +965,6 @@
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
-| `test/demographic_projections_test.py` | 19.3 KB |
-| `test/economic_indicators_test.py` | 24.3 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hna-functionality-check.js` | 52.5 KB |
@@ -1027,7 +1024,10 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
+| `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 3.0 KB |
+| `tests/demographic_projections_test.py` | 19.4 KB |
+| `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
@@ -1049,12 +1049,12 @@
 |------|------|
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
-| `.github/workflows/audit-endpoints.yml` | 6.7 KB |
+| `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
 | `.github/workflows/build-hna-data.yml` | 5.4 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
 | `.github/workflows/car-data-update.yml` | 1.9 KB |
-| `.github/workflows/ci-checks.yml` | 7.2 KB |
+| `.github/workflows/ci-checks.yml` | 7.5 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
