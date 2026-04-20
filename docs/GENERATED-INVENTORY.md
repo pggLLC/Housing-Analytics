@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T12:18:35.437Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T12:32:21.980Z. Do not edit by hand.
 
 ---
 
@@ -291,7 +291,7 @@
 | `data/hna/projections/08009.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08011.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08013.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08014.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08014.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08015.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08017.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08019.json` | 2.8 KB | ✅ | — |
@@ -307,7 +307,7 @@
 | `data/hna/projections/08039.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08041.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08043.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08045.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08045.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08047.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08049.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08051.json` | 2.8 KB | ✅ | — |
@@ -324,7 +324,7 @@
 | `data/hna/projections/08073.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08075.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08077.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08079.json` | 2.8 KB | ✅ | — |
+| `data/hna/projections/08079.json` | 2.7 KB | ✅ | — |
 | `data/hna/projections/08081.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08083.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08085.json` | 2.9 KB | ✅ | — |
@@ -333,11 +333,11 @@
 | `data/hna/projections/08091.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08093.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08095.json` | 2.8 KB | ✅ | — |
-| `data/hna/projections/08097.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08097.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08099.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08101.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08103.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08105.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08103.json` | 2.8 KB | ✅ | — |
+| `data/hna/projections/08105.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08107.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08109.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08111.json` | 2.8 KB | ✅ | — |
