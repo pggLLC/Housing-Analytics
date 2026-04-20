@@ -52,14 +52,17 @@
       if (e.type === 'county') {
         _countyMap[e.geoid] = e.geoid;
         _countyNames[e.geoid] = e.name;
+      } else if (e.containingCounty) {
+        _countyMap[e.geoid] = e.containingCounty;
       }
     });
 
-    // Apply geo-config if cached
+    // Apply geo-config if cached (legacy fallback for featured places lacking
+    // containingCounty on the ranking entry)
     var geoConfig = window._geoConfigCache || null;
     if (geoConfig && Array.isArray(geoConfig.featured)) {
       geoConfig.featured.forEach(function (g) {
-        if (g.containingCounty && g.geoid) {
+        if (g.containingCounty && g.geoid && !_countyMap[g.geoid]) {
           _countyMap[g.geoid] = g.containingCounty;
         }
       });
