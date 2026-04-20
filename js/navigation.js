@@ -175,10 +175,16 @@
         <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
           <!-- populated by _updateJurisdictionPill() after DOM is ready -->
         </div>
-        <div class="audience-toggle" id="audienceToggleWrap" aria-label="Audience view">
-          <button class="audience-toggle__btn" type="button" data-audience="elected" aria-pressed="false">Elected</button>
-          <button class="audience-toggle__btn" type="button" data-audience="developer" aria-pressed="true">Developer</button>
-          <button class="audience-toggle__btn" type="button" data-audience="financier" aria-pressed="false">Financier</button>
+        <div class="audience-toggle" id="audienceToggleWrap"
+             role="group"
+             aria-label="Choose audience view to personalize tips, callouts, and starting-point CTA">
+          <span class="audience-toggle__label" aria-hidden="true">View as:</span>
+          <button class="audience-toggle__btn" type="button" data-audience="elected" aria-pressed="false"
+                  title="Elected officials &amp; staff: simplified summaries, policy framing, jurisdiction-level metrics">Elected</button>
+          <button class="audience-toggle__btn" type="button" data-audience="developer" aria-pressed="true"
+                  title="Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing">Developer</button>
+          <button class="audience-toggle__btn" type="button" data-audience="financier" aria-pressed="false"
+                  title="Financiers, lenders &amp; investors: capital stack sizing, debt service coverage, deal economics">Financier</button>
         </div>
         <nav class="site-nav" aria-label="Primary">
           ${GROUPS.map(g => `

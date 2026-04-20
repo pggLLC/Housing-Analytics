@@ -389,6 +389,23 @@ main {
   align-items: center;
 }
 
+/* Inline "View as:" label so users can see at a glance what the
+   persona buttons control. Hidden on narrow viewports — the buttons
+   themselves carry per-persona title tooltips. */
+.audience-toggle__label {
+  font-size: .65rem;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-right: 6px;
+  user-select: none;
+}
+
+@media (max-width: 900px) {
+  .audience-toggle__label { display: none; }
+}
+
 .audience-toggle__btn {
   padding: 4px 9px;
   font-size: .72rem;
