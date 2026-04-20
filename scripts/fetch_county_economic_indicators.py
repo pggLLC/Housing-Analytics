@@ -52,10 +52,22 @@ BOUNDARIES_FILE = ROOT / "data" / "co-county-boundaries.json"
 STATE_FIPS = "08"
 
 BLS_API_BASE = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
-# BLS LAUS county series: LAUCN{fips5}0000000000003 = unemployment rate
-LAUS_SUFFIX = "0000000000003"
+# BLS LAUS county series ID: LA + U + CN + <state-county FIPS, 5 digits>
+# + <9 zero-pad chars> + <measure code, "3" = unemployment rate>.
+# Total = 20 chars. The previous "0000000000003" suffix was 13 chars,
+# producing 23-char IDs that BLS rejected (returned no data for any
+# county). The correct 10-char suffix (9 zeros + "3") yields working IDs
+# like "LAUCN080010000000003" (Adams County unemployment rate).
+LAUS_SUFFIX = "0000000003"
 
-# BLS QCEW public data API — annual totals
+# BLS QCEW public data API — annual totals.
+# NOTE: As of 2026, the data.bls.gov/cew/data/api/<year>/<qtr>/area/<fips>.json
+# endpoint returns 404 for every URL pattern tried (a1, a, A, annual, q1,
+# numeric quarters). The QCEW API appears to have been deprecated or moved.
+# Fetcher now skips QCEW gracefully; job_growth_5yr_pct is left null until
+# we either (a) find the new QCEW endpoint or (b) migrate to FRED's series
+# COBPPRIVSAUS (CO private employment) for the same signal. Tracking issue
+# to be filed.
 QCEW_API = "https://data.bls.gov/cew/data/api/{year}/a1/area/{area}.json"
 
 # ACS candidate years (newest first; try until one succeeds)
@@ -177,6 +189,11 @@ def fetch_laus_unemployment(county_fips_map: dict[str, str]) -> dict[str, float]
             "seriesid": batch,
             "startyear": str(start_year),
             "endyear": str(end_year),
+            # BLS v2 does NOT return annual-average (period="M13") entries by
+            # default — only monthly observations (M01..M12). The downstream
+            # code below filters specifically for M13, so without this flag
+            # every series looks empty and LAUS coverage silently stays 0/64.
+            "annualaverage": True,
         }
         if api_key:
             payload["registrationkey"] = api_key
