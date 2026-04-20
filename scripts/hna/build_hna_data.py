@@ -1891,6 +1891,21 @@ def _build_state_projection_aggregate():
     state_vacancy_rate = round(
         (1 - rounded_total_base_hh / rounded_total_base_units) * 100, 5
     ) if rounded_total_base_units else 0.0
+    vacancy_fraction = state_vacancy_rate / 100.0
+    vacancy_denominator = 1.0 - vacancy_fraction
+    statewide_housing_units = round(
+        rounded_total_base_hh / vacancy_denominator, 2
+    ) if vacancy_denominator > 0 else 0.0
+
+    households_dola = _sum_housing_series('households_dola')
+    units_needed_dola = _sum_housing_series('units_needed_dola')
+    if HNA_BASE_YEAR not in years:
+        raise ValueError(f'State projection years missing base year {HNA_BASE_YEAR}')
+    base_year_idx = years.index(HNA_BASE_YEAR)
+    base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
+    incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
+    if incremental_units_needed_dola:
+        incremental_units_needed_dola[base_year_idx] = 0.0
 
     payload = {
         'updated': utc_now_z(),
@@ -1907,15 +1922,15 @@ def _build_state_projection_aggregate():
         'base': {
             'population': round(total_base_pop, 2),
             'households': rounded_total_base_hh,
-            'housing_units': rounded_total_base_units,
+            'housing_units': statewide_housing_units,
             'vacancy_rate': state_vacancy_rate,
             'headship_rate': base_headship,
         },
         'housing_need': {
             'target_vacancy': state_target_vac,
-            'households_dola': _sum_housing_series('households_dola'),
-            'units_needed_dola': _sum_housing_series('units_needed_dola'),
-            'incremental_units_needed_dola': _sum_housing_series('incremental_units_needed_dola'),
+            'households_dola': households_dola,
+            'units_needed_dola': units_needed_dola,
+            'incremental_units_needed_dola': incremental_units_needed_dola,
         },
         'source': {
             'components_change_url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
