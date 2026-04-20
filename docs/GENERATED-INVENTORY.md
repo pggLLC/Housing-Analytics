@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T13:59:57.115Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T14:11:51.785Z. Do not edit by hand.
 
 ---
 
@@ -27,13 +27,13 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 41.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 42.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 68.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 29.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 131.6 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 23.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 132.8 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 18.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
@@ -1020,7 +1020,7 @@
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 19.6 KB |
-| `test/validate-site.js` | 9.1 KB |
+| `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
