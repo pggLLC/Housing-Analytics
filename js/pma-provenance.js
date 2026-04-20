@@ -8,10 +8,9 @@
  *
  * Exposed as window.PMAProvenance.
  *
- * TODO (Future PR): wire provenance records into the PMA confidence badge
- *   rendered by js/pma-confidence.js renderConfidenceBadge().  Integration
- *   point: call PMAProvenance.getRecord(runId) after PMAAnalysisRunner
- *   emits 'complete', then pass the record to renderConfidenceBadge().
+ * Provenance records are wired into the PMA confidence badge via
+ * js/market-analysis.js — after PMAConfidence.compute() runs, a provenance
+ * record is created and its disclosure note rendered in #pmaProvenanceNote.
  *
  * @module pma-provenance
  */

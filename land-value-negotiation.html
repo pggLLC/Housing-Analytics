@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Land Value &amp; Negotiation | COHO Analytics</title>
+  <meta name="description" content="Educational land value estimation and negotiation support tool for Colorado affordable housing development. Not a formal appraisal.">
+  <meta property="og:title" content="Land Value & Negotiation | COHO Analytics">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/site-state.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/data-connectors/bridge-market-summary.js"></script>
+  <script defer src="js/public-land-overlay.js"></script>
+  <script defer src="js/config/financial-constants.js"></script>
+  <script defer src="js/citations.js"></script>
+  <style>
+    .lvn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.25rem 0; }
+    .lvn-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius, 8px); padding: 1.1rem; }
+    .lvn-card h3 { margin: 0 0 .75rem; font-size: 1rem; color: var(--accent, #60a5fa); }
+    .lvn-input-group { margin-bottom: .75rem; }
+    .lvn-input-group label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: .25rem; }
+    .lvn-input-group input, .lvn-input-group select {
+      width: 100%; padding: .45rem .6rem; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--surface, #1a1a2e); color: var(--text); font-size: .9rem;
+    }
+    .lvn-bar { position: relative; height: 2.5rem; background: var(--surface, #1a1a2e); border-radius: 8px; margin: .75rem 0; overflow: visible; }
+    .lvn-bar-segment { position: absolute; top: 0; height: 100%; border-radius: 8px; transition: all .3s ease; }
+    .lvn-bar-label { position: absolute; top: -1.2rem; font-size: .72rem; white-space: nowrap; color: var(--muted); }
+    .lvn-bar-value { position: absolute; bottom: -1.3rem; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+    .lvn-metric { text-align: center; padding: .75rem .5rem; }
+    .lvn-metric-value { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .lvn-metric-label { font-size: .78rem; color: var(--muted); margin-top: .15rem; }
+    .lvn-result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .75rem; margin: 1rem 0; }
+    .lvn-disclaimer { font-size: .78rem; color: var(--muted); line-height: 1.55; padding: .75rem 1rem; background: var(--surface, #1a1a2e); border-left: 3px solid var(--warn, #f59e0b); border-radius: 6px; margin: 1rem 0; }
+    .lvn-band { margin: 2rem 0 1rem; padding: 0 .5rem; }
+    .lvn-btn { padding: .5rem 1.2rem; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; font-size: .88rem; font-weight: 600; }
+    .lvn-btn:hover { opacity: .85; }
+    .lvn-btn--secondary { background: transparent; color: var(--accent); }
+    @media (max-width: 768px) { .lvn-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header id="site-header"></header>
+<main id="main-content" class="page-container content-shell">
+
+  <section class="hero">
+    <span class="kicker">Educational Tool</span>
+    <h1>Land Value &amp; Negotiation Support</h1>
+    <p class="sub">Estimate market land value, compute developer-supportable land cost, and visualize the negotiation band for affordable housing sites in Colorado.</p>
+  </section>
+
+  <div class="lvn-disclaimer" role="note">
+    <strong>Not a formal appraisal.</strong> This tool provides educational estimates based on regional market data, comparable assessments, and standard LIHTC pro forma assumptions.
+    Land values shown are approximate ranges for planning and negotiation context only.
+    A certified appraisal is required for any CHFA LIHTC application or real estate transaction.
+  </div>
+
+  <!-- ── Site Inputs ── -->
+  <div class="lvn-grid">
+    <div class="lvn-card">
+      <h3>Site Information</h3>
+      <div class="lvn-input-group">
+        <label for="lvnLat">Latitude</label>
+        <input type="number" id="lvnLat" step="0.0001" value="39.7392" placeholder="39.7392">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnLon">Longitude</label>
+        <input type="number" id="lvnLon" step="0.0001" value="-104.9903" placeholder="-104.9903">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnAcres">Parcel Size (acres)</label>
+        <input type="number" id="lvnAcres" step="0.1" value="2.0" min="0.1" max="100">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnOwnership">Land Ownership</label>
+        <select id="lvnOwnership">
+          <option value="private">Private</option>
+          <option value="municipal">Municipal / City-owned</option>
+          <option value="county">County-owned</option>
+          <option value="housing-authority">Housing Authority</option>
+          <option value="clt">Community Land Trust</option>
+          <option value="federal">Federal / BLM</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnZoning">Zoning</label>
+        <select id="lvnZoning">
+          <option value="mf-entitled">Multifamily — entitled / by-right</option>
+          <option value="mf-rezone">Multifamily — rezone required</option>
+          <option value="mixed-use">Mixed-use</option>
+          <option value="commercial">Commercial (conversion potential)</option>
+          <option value="industrial">Industrial (adaptive reuse)</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+      <button class="lvn-btn" id="lvnRunBtn" type="button" style="margin-top:.5rem;">Estimate Land Value</button>
+    </div>
+
+    <div class="lvn-card">
+      <h3>Development Assumptions</h3>
+      <div class="lvn-input-group">
+        <label for="lvnUnits">Proposed Units</label>
+        <input type="number" id="lvnUnits" value="60" min="10" max="500">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnCreditType">Tax Credit Type</label>
+        <select id="lvnCreditType">
+          <option value="9pct">9% LIHTC</option>
+          <option value="4pct">4% LIHTC + Bonds</option>
+        </select>
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnTdc">Estimated TDC per Unit ($)</label>
+        <input type="number" id="lvnTdc" value="350000" min="100000" max="800000" step="5000">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnInvestorPrice">Investor Price (per $1 credit)</label>
+        <input type="number" id="lvnInvestorPrice" value="0.92" min="0.50" max="1.10" step="0.01">
+      </div>
+      <div class="lvn-input-group">
+        <label for="lvnSoftDebt">Soft Debt / Grants ($)</label>
+        <input type="number" id="lvnSoftDebt" value="500000" min="0" step="25000">
+      </div>
+      <div id="lvnMarketContext" style="margin-top:.75rem;font-size:.82rem;color:var(--muted);padding:.5rem;background:var(--surface,#1a1a2e);border-radius:6px;">
+        Enter coordinates and click "Estimate" to see regional market context.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Results ── -->
+  <section id="lvnResults" style="display:none;">
+    <h2 style="font-size:1.15rem;margin-bottom:.5rem;">Estimated Land Value Range</h2>
+
+    <div class="lvn-result-grid">
+      <div class="lvn-metric">
+        <div class="lvn-metric-value" id="lvnMarketLow">—</div>
+        <div class="lvn-metric-label">Market Low</div>
+      </div>
+      <div class="lvn-metric">
+        <div class="lvn-metric-value" id="lvnMarketMid" style="color:var(--accent)">—</div>
+        <div class="lvn-metric-label">Market Estimate</div>
+      </div>
+      <div class="lvn-metric">
+        <div class="lvn-metric-value" id="lvnMarketHigh">—</div>
+        <div class="lvn-metric-label">Market High</div>
+      </div>
+      <div class="lvn-metric">
+        <div class="lvn-metric-value" id="lvnSupportable" style="color:var(--good,#10b981)">—</div>
+        <div class="lvn-metric-label">Developer Supportable</div>
+      </div>
+    </div>
+
+    <!-- Negotiation Band Visualization -->
+    <div class="lvn-band">
+      <h3 style="font-size:.95rem;margin-bottom:1.5rem;">Negotiation Band</h3>
+      <div class="lvn-bar" id="lvnBarChart" style="height:2.5rem;margin:2rem 0 2.5rem;">
+        <!-- Segments injected by JS -->
+      </div>
+      <div id="lvnBandNarrative" style="font-size:.85rem;color:var(--text);line-height:1.55;margin-top:1rem;"></div>
+    </div>
+
+    <!-- Detailed Breakdown -->
+    <div class="lvn-grid" style="margin-top:1.25rem;">
+      <div class="lvn-card">
+        <h3>Market Value Basis</h3>
+        <div id="lvnMarketBasis" style="font-size:.85rem;line-height:1.6;"></div>
+      </div>
+      <div class="lvn-card">
+        <h3>Residual Land Value Calculation</h3>
+        <div id="lvnResidualCalc" style="font-size:.85rem;line-height:1.6;"></div>
+      </div>
+    </div>
+
+    <!-- Public Land & Policy Adjustments -->
+    <div class="lvn-card" style="margin-top:1rem;">
+      <h3>Policy & Ownership Adjustments</h3>
+      <div id="lvnPolicyAdjust" style="font-size:.85rem;line-height:1.6;"></div>
+    </div>
+
+    <div class="lvn-disclaimer" style="margin-top:1.25rem;">
+      <strong>Key assumptions:</strong> Estimates use regional median assessed values from Bridge Data Output, standard LIHTC eligible basis calculations (CHFA 2025-2026 QAP),
+      and typical investor pricing for Colorado deals. Actual land values depend on specific site conditions, environmental status, entitlements, infrastructure access,
+      and seller motivation — all factors that require professional due diligence.
+    </div>
+  </section>
+
+</main>
+<footer id="site-footer"></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Formatting helpers ───────────────────────────────────────────── */
+  function fmt$(v) {
+    if (v == null || isNaN(v)) return '—';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(2) + 'M';
+    if (v >= 1e3) return '$' + Math.round(v).toLocaleString();
+    return '$' + v.toFixed(0);
+  }
+
+  function pct(v) { return v != null ? (v * 100).toFixed(1) + '%' : '—'; }
+
+  /* ── Pre-populate from workflow state ──────────────────────────────── */
+  function prefill() {
+    var WF = window.WorkflowStateAPI;
+    var SS = window.SiteState;
+    if (WF) {
+      var site = WF.getStepData('site') || {};
+      if (site.lat) document.getElementById('lvnLat').value = site.lat;
+      if (site.lon) document.getElementById('lvnLon').value = site.lon;
+      if (site.parcelAcres) document.getElementById('lvnAcres').value = site.parcelAcres;
+    }
+    if (SS) {
+      var s = SS.get();
+      if (s && s.lat && !document.getElementById('lvnLat').value) {
+        document.getElementById('lvnLat').value = s.lat;
+        document.getElementById('lvnLon').value = s.lon;
+      }
+    }
+  }
+
+  /* ── Regional land cost tiers (fallback when Bridge unavailable) ── */
+  var REGIONAL_DEFAULTS = {
+    denver_metro:           { medianPerAcre: 800000, low: 500000, high: 1500000 },
+    boulder:                { medianPerAcre: 900000, low: 550000, high: 1800000 },
+    front_range_north:      { medianPerAcre: 400000, low: 200000, high: 700000 },
+    front_range_south:      { medianPerAcre: 350000, low: 180000, high: 600000 },
+    mountain:               { medianPerAcre: 600000, low: 300000, high: 1200000 },
+    western_slope:          { medianPerAcre: 150000, low: 75000,  high: 350000 },
+    pueblo_south_central:   { medianPerAcre: 80000,  low: 30000,  high: 180000 },
+    southwest:              { medianPerAcre: 120000, low: 50000,  high: 300000 },
+    northwest:              { medianPerAcre: 100000, low: 40000,  high: 250000 },
+    san_luis_valley:        { medianPerAcre: 40000,  low: 15000,  high: 100000 },
+    eastern_plains_north:   { medianPerAcre: 25000,  low: 10000,  high: 60000 },
+    eastern_plains_central: { medianPerAcre: 20000,  low: 8000,   high: 50000 },
+    eastern_plains_south:   { medianPerAcre: 18000,  low: 7000,   high: 45000 }
+  };
+
+  /* ── Zoning adjustment multipliers ─────────────────────────────────── */
+  var ZONING_MULT = {
+    'mf-entitled': 1.0,       // by-right = full value
+    'mf-rezone':   0.85,      // rezone uncertainty = 15% discount
+    'mixed-use':   0.95,      // slight premium for flexibility
+    'commercial':  0.70,      // conversion costs reduce land value
+    'industrial':  0.55,      // significant adaptive reuse costs
+    'unknown':     0.80       // uncertainty discount
+  };
+
+  /* ── Ownership adjustments ────────────────────────────────────────── */
+  var OWNERSHIP_ADJUST = {
+    'private':            { discount: 0.0,  narrative: 'Private land — full market value negotiation.' },
+    'municipal':          { discount: 0.50, narrative: 'Municipal land — cities often offer 50-100% land cost reduction for affordable housing to meet housing element goals.' },
+    'county':             { discount: 0.40, narrative: 'County-owned — may qualify for housing trust fund layering and deferred land cost arrangements.' },
+    'housing-authority':  { discount: 0.70, narrative: 'Housing authority land — strongest cost reduction; HA mission-aligned disposition at below-market or nominal cost.' },
+    'clt':                { discount: 0.60, narrative: 'Community Land Trust — ground lease model eliminates land acquisition; ongoing affordability restriction.' },
+    'federal':            { discount: 0.30, narrative: 'Federal land — BLM/GSA disposal for affordable housing possible but complex; McKinney-Vento or FLPMA processes.' },
+    'unknown':            { discount: 0.0,  narrative: 'Ownership unknown — determine ownership via county assessor before negotiating.' }
+  };
+
+  /* ── Compute ──────────────────────────────────────────────────────── */
+  function compute() {
+    var lat      = parseFloat(document.getElementById('lvnLat').value);
+    var lon      = parseFloat(document.getElementById('lvnLon').value);
+    var acres    = parseFloat(document.getElementById('lvnAcres').value) || 2.0;
+    var owner    = document.getElementById('lvnOwnership').value;
+    var zoning   = document.getElementById('lvnZoning').value;
+    var units    = parseInt(document.getElementById('lvnUnits').value) || 60;
+    var creditType = document.getElementById('lvnCreditType').value;
+    var tdcPerUnit = parseFloat(document.getElementById('lvnTdc').value) || 350000;
+    var investorPrice = parseFloat(document.getElementById('lvnInvestorPrice').value) || 0.92;
+    var softDebt = parseFloat(document.getElementById('lvnSoftDebt').value) || 0;
+
+    if (isNaN(lat) || isNaN(lon) || lat < 36 || lat > 42 || lon < -110 || lon > -101) {
+      var ctx = document.getElementById('lvnMarketContext');
+      if (ctx) ctx.innerHTML = '<span style="color:var(--warn)">⚠ Please enter valid Colorado coordinates (lat 36–42, lon −110 to −101).</span>';
+      return;
+    }
+
+    // ── 1. Market land value estimate ─────────────────────────────────
+    var Bridge = window.BridgeMarketSummary;
+    var regionKey = null;
+    var regionName = 'Unknown Region';
+    var bridgeCtx = null;
+    var marketSource = 'Regional defaults (Bridge Data unavailable)';
+
+    if (Bridge && Bridge.isAvailable()) {
+      bridgeCtx = Bridge.getLandCostContext(lat, lon);
+      if (bridgeCtx) {
+        regionName = bridgeCtx.regionName || 'Unknown';
+        regionKey = bridgeCtx._regionKey || null;
+        marketSource = 'Bridge Data Output — ' + regionName + ' region';
+      }
+    }
+
+    // Fall back to regional defaults
+    if (!regionKey) {
+      regionKey = _findNearestRegion(lat, lon);
+      regionName = regionKey ? regionKey.replace(/_/g, ' ') : 'Colorado';
+    }
+
+    var regional = REGIONAL_DEFAULTS[regionKey] || REGIONAL_DEFAULTS.pueblo_south_central;
+    var medianPerAcre = (bridgeCtx && bridgeCtx.medianLandValue) ? bridgeCtx.medianLandValue / 0.5 : regional.medianPerAcre; // assume median is for ~0.5 acre
+    var zoneMult = ZONING_MULT[zoning] || 1.0;
+
+    var marketLow  = Math.round(regional.low * acres * zoneMult);
+    var marketMid  = Math.round(medianPerAcre * acres * zoneMult);
+    var marketHigh = Math.round(regional.high * acres * zoneMult);
+
+    // ── 2. Residual land value (developer supportable) ─────────────────
+    var totalTDC = units * tdcPerUnit;
+    // Eligible basis: ~85% of TDC for 9%, ~65% for 4% (simplified)
+    var basisPct = creditType === '9pct' ? 0.85 : 0.65;
+    var eligibleBasis = totalTDC * basisPct;
+    // Annual credit: 9% → ~9% of basis, 4% → ~3.5% of basis
+    var annualCreditRate = creditType === '9pct' ? 0.09 : 0.035;
+    var annualCredit = eligibleBasis * annualCreditRate;
+    var totalCredit10yr = annualCredit * 10;
+    var taxCreditEquity = totalCredit10yr * investorPrice;
+    // Hard debt capacity (~65% LTV at current rates, simplified)
+    var hardDebtCapacity = totalTDC * 0.30; // conservative
+    // Sources of funds (excluding land)
+    var totalSources = taxCreditEquity + softDebt + hardDebtCapacity;
+    // Residual = sources minus construction costs (TDC minus land)
+    var constructionCost = totalTDC * 0.90; // 90% of TDC is non-land
+    var residualLandValue = Math.max(0, totalSources - constructionCost);
+    // Per-unit check
+    var supportablePerUnit = units > 0 ? residualLandValue / units : 0;
+
+    // ── 3. Ownership adjustment ────────────────────────────────────────
+    var ownerAdj = OWNERSHIP_ADJUST[owner] || OWNERSHIP_ADJUST.private;
+    var adjustedMarketMid = Math.round(marketMid * (1 - ownerAdj.discount));
+    var publicSubsidy = Math.round(marketMid * ownerAdj.discount);
+
+    // ── 4. Negotiation band ───────────────────────────────────────────
+    var negotiationFloor = Math.min(residualLandValue, adjustedMarketMid);
+    var negotiationCeiling = adjustedMarketMid;
+    var negotiationTarget = Math.round((negotiationFloor + negotiationCeiling) / 2);
+    var gap = marketMid - residualLandValue;
+    var gapPct = marketMid > 0 ? gap / marketMid : 0;
+
+    // ── Render ────────────────────────────────────────────────────────
+    document.getElementById('lvnResults').style.display = '';
+
+    document.getElementById('lvnMarketLow').textContent = fmt$(marketLow);
+    document.getElementById('lvnMarketMid').textContent = fmt$(marketMid);
+    document.getElementById('lvnMarketHigh').textContent = fmt$(marketHigh);
+    document.getElementById('lvnSupportable').textContent = fmt$(residualLandValue);
+
+    // Market context panel
+    document.getElementById('lvnMarketContext').innerHTML =
+      '<strong>' + regionName + '</strong><br>' +
+      'Land cost tier: ' + (bridgeCtx ? bridgeCtx.tier : 'estimated') + '<br>' +
+      'Source: ' + marketSource;
+
+    // Negotiation bar
+    renderBar(marketLow, marketHigh, marketMid, residualLandValue, adjustedMarketMid);
+
+    // Band narrative
+    var narrative = '';
+    if (residualLandValue >= marketMid) {
+      narrative = '<span style="color:var(--good)"><strong>Strong position.</strong></span> ' +
+        'The developer can support ' + fmt$(residualLandValue) + ', which exceeds the estimated market value of ' + fmt$(marketMid) + '. ' +
+        'This deal has positive land cost headroom — the site is financially feasible at market price.';
+    } else if (residualLandValue >= marketLow) {
+      narrative = '<span style="color:var(--accent)"><strong>Negotiable.</strong></span> ' +
+        'The developer can support ' + fmt$(residualLandValue) + ' vs. market estimate of ' + fmt$(marketMid) + ' — a gap of ' + fmt$(gap) + ' (' + pct(gapPct) + '). ' +
+        'This gap can potentially be closed through: seller concessions, public land disposition, deferred payment, tax abatements, or additional soft funding.';
+    } else {
+      narrative = '<span style="color:var(--warn)"><strong>Challenging.</strong></span> ' +
+        'The developer can support only ' + fmt$(residualLandValue) + ' vs. market range of ' + fmt$(marketLow) + '–' + fmt$(marketHigh) + '. ' +
+        'Significant gap of ' + fmt$(gap) + '. Consider: public land donation, below-market lease, land trust partnership, or alternative sites.';
+    }
+    if (owner !== 'private' && owner !== 'unknown') {
+      narrative += '<br><br><strong>Ownership adjustment:</strong> ' + ownerAdj.narrative +
+        ' Adjusted market value: ' + fmt$(adjustedMarketMid) + ' (public subsidy equivalent: ' + fmt$(publicSubsidy) + ').';
+    }
+    document.getElementById('lvnBandNarrative').innerHTML = narrative;
+
+    // Market basis
+    document.getElementById('lvnMarketBasis').innerHTML =
+      '<div><strong>Region:</strong> ' + regionName + '</div>' +
+      '<div><strong>Median per acre:</strong> ' + fmt$(medianPerAcre) + '</div>' +
+      '<div><strong>Parcel size:</strong> ' + acres.toFixed(1) + ' acres</div>' +
+      '<div><strong>Zoning adjustment:</strong> ' + (zoneMult * 100).toFixed(0) + '%' +
+      (zoneMult < 1 ? ' <span style="color:var(--muted)">(discount for ' + zoning.replace(/-/g, ' ') + ')</span>' : '') + '</div>' +
+      '<div style="margin-top:.5rem;border-top:1px solid var(--border);padding-top:.5rem;">' +
+      '<strong>Market range:</strong> ' + fmt$(marketLow) + ' – ' + fmt$(marketHigh) + '</div>' +
+      '<div><strong>Market estimate:</strong> ' + fmt$(marketMid) + '</div>';
+
+    // Residual calc
+    document.getElementById('lvnResidualCalc').innerHTML =
+      '<div><strong>Total Development Cost:</strong> ' + fmt$(totalTDC) + ' (' + units + ' units × ' + fmt$(tdcPerUnit) + ')</div>' +
+      '<div><strong>Eligible Basis:</strong> ' + fmt$(eligibleBasis) + ' (' + (basisPct * 100).toFixed(0) + '% of TDC)</div>' +
+      '<div><strong>Annual Credit:</strong> ' + fmt$(annualCredit) + '</div>' +
+      '<div><strong>10-yr Credit:</strong> ' + fmt$(totalCredit10yr) + '</div>' +
+      '<div><strong>Tax Credit Equity:</strong> ' + fmt$(taxCreditEquity) + ' (@ ' + investorPrice.toFixed(2) + '/credit)</div>' +
+      '<div><strong>Soft Debt / Grants:</strong> ' + fmt$(softDebt) + '</div>' +
+      '<div><strong>Hard Debt Capacity:</strong> ' + fmt$(hardDebtCapacity) + ' (~30% TDC)</div>' +
+      '<div style="margin-top:.5rem;border-top:1px solid var(--border);padding-top:.5rem;">' +
+      '<strong>Total Sources:</strong> ' + fmt$(totalSources) + '</div>' +
+      '<div><strong>Construction Cost:</strong> ' + fmt$(constructionCost) + ' (90% of TDC)</div>' +
+      '<div style="color:var(--good);font-weight:700"><strong>Residual (Supportable) Land Value:</strong> ' + fmt$(residualLandValue) + '</div>' +
+      '<div><strong>Per unit:</strong> ' + fmt$(supportablePerUnit) + '/unit</div>';
+
+    // Policy adjustments
+    var policyHtml = '<div><strong>Ownership:</strong> ' + owner.replace(/-/g, ' ') + '</div>' +
+      '<div>' + ownerAdj.narrative + '</div>';
+    if (ownerAdj.discount > 0) {
+      policyHtml += '<div style="margin-top:.5rem"><strong>Effective discount:</strong> ' + (ownerAdj.discount * 100).toFixed(0) + '% → ' +
+        'Adjusted value: ' + fmt$(adjustedMarketMid) + '</div>' +
+        '<div><strong>Implied public subsidy:</strong> ' + fmt$(publicSubsidy) + '</div>';
+    }
+    policyHtml += '<div style="margin-top:.5rem;color:var(--muted);font-size:.8rem;">Public land disposition typically requires council/board action, may include deed restrictions or right of first refusal.</div>';
+    document.getElementById('lvnPolicyAdjust').innerHTML = policyHtml;
+  }
+
+  /* ── Bar chart ────────────────────────────────────────────────────── */
+  function renderBar(low, high, market, supportable, adjusted) {
+    var container = document.getElementById('lvnBarChart');
+    var maxVal = Math.max(high, market, supportable) * 1.15;
+    if (maxVal <= 0) return;
+
+    function pos(v) { return Math.max(0, Math.min(95, (v / maxVal) * 100)); }
+
+    container.innerHTML =
+      // Market range (gray)
+      '<div class="lvn-bar-segment" style="left:' + pos(low) + '%;width:' + (pos(high) - pos(low)) + '%;background:rgba(148,163,184,0.25);border:1px dashed rgba(148,163,184,0.5);"></div>' +
+      // Market estimate marker
+      '<div style="position:absolute;left:' + pos(market) + '%;top:-2px;bottom:-2px;width:3px;background:var(--accent,#60a5fa);border-radius:2px;z-index:2;"></div>' +
+      '<div class="lvn-bar-label" style="left:' + pos(market) + '%;transform:translateX(-50%);color:var(--accent);">Market</div>' +
+      '<div class="lvn-bar-value" style="left:' + pos(market) + '%;transform:translateX(-50%);color:var(--accent);">' + fmt$(market) + '</div>' +
+      // Supportable marker
+      '<div style="position:absolute;left:' + pos(supportable) + '%;top:-2px;bottom:-2px;width:3px;background:var(--good,#10b981);border-radius:2px;z-index:2;"></div>' +
+      '<div class="lvn-bar-label" style="left:' + Math.min(pos(supportable), 85) + '%;transform:translateX(-50%);color:var(--good);">Supportable</div>' +
+      '<div class="lvn-bar-value" style="left:' + Math.min(pos(supportable), 85) + '%;transform:translateX(-50%);color:var(--good);">' + fmt$(supportable) + '</div>' +
+      // Negotiation zone (green fill between supportable and market/adjusted)
+      (supportable < market
+        ? '<div class="lvn-bar-segment" style="left:' + pos(supportable) + '%;width:' + (pos(market) - pos(supportable)) + '%;background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);z-index:1;"></div>'
+        : '<div class="lvn-bar-segment" style="left:' + pos(market) + '%;width:' + (pos(supportable) - pos(market)) + '%;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);z-index:1;"></div>');
+  }
+
+  /* ── Region finder (fallback) ─────────────────────────────────────── */
+  var REGION_CENTROIDS = {
+    front_range_north: [40.58, -105.08], denver_metro: [39.74, -104.99],
+    front_range_south: [38.83, -104.82], pueblo_south_central: [38.26, -104.61],
+    western_slope: [39.06, -108.55], southwest: [37.27, -107.88],
+    northwest: [40.52, -107.55], san_luis_valley: [37.47, -105.87],
+    eastern_plains_north: [40.62, -103.21], eastern_plains_central: [39.26, -103.69],
+    eastern_plains_south: [38.09, -102.62], mountain: [39.61, -106.09],
+    boulder: [40.01, -105.27]
+  };
+
+  function _findNearestRegion(lat, lon) {
+    var best = null, bestDist = Infinity;
+    for (var key in REGION_CENTROIDS) {
+      var c = REGION_CENTROIDS[key];
+      var d = Math.pow(lat - c[0], 2) + Math.pow(lon - c[1], 2);
+      if (d < bestDist) { bestDist = d; best = key; }
+    }
+    return best;
+  }
+
+  /* ── Init ──────────────────────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    prefill();
+    document.getElementById('lvnRunBtn').addEventListener('click', compute);
+
+    // Load Bridge data in background
+    if (window.BridgeMarketSummary) {
+      window.BridgeMarketSummary.load().catch(function () {
+        console.warn('[land-value] Bridge data unavailable — using regional defaults');
+      });
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

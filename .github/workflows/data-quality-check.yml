@@ -102,6 +102,25 @@ jobs:
           print(f'✅ CHFA-LIHTC: {features} features')
           "
 
+      - name: Check CHFA Affordable Housing data
+        shell: bash
+        run: |
+          python3 -c "
+          import json, sys
+          try:
+              with open('data/chfa-affordable-housing.json') as f:
+                  d = json.load(f)
+              features = len(d.get('features', []))
+              if features < 1000:
+                  print(f'::warning::CHFA Affordable Housing has only {features} features (expected ~1688)')
+              else:
+                  print(f'✅ CHFA Affordable Housing: {features} features')
+          except FileNotFoundError:
+              print('::warning::data/chfa-affordable-housing.json not found')
+          except Exception as e:
+              print(f'::warning::CHFA Affordable Housing check failed: {e}')
+          "
+
       - name: Check AMI gap data
         shell: bash
         run: |
@@ -120,6 +139,74 @@ jobs:
               print(f'::warning::AMI gap data check failed: {e}')
           " || true
 
+      - name: Check policy briefs and alerts freshness
+        shell: bash
+        run: |
+          python3 - << 'EOF'
+          import json, sys
+          from datetime import datetime, timedelta, timezone
+
+          now = datetime.now(timezone.utc)
+          stale_days = 14  # Briefs older than 14 days warrant a warning
+
+          # Check alerts archive
+          try:
+              with open('data/alerts/alerts_archive.json') as f:
+                  d = json.load(f)
+              alerts = d.get('alerts', [])
+              gen = d.get('meta', {}).get('generated', '')
+              count = len(alerts)
+              if count == 0:
+                  print('::warning::Alerts archive is empty — run fetch_google_alerts.py')
+              else:
+                  print(f'✅ Alerts archive: {count} alerts')
+              if gen:
+                  gen_dt = datetime.fromisoformat(gen.replace('Z', '+00:00'))
+                  age = (now - gen_dt).days
+                  if age > stale_days:
+                      print(f'::warning::Alerts archive is {age} days old (generated {gen[:10]})')
+          except FileNotFoundError:
+              print('::warning::data/alerts/alerts_archive.json not found')
+          except Exception as e:
+              print(f'::warning::Alerts archive check failed: {e}')
+
+          # Check policy briefs
+          try:
+              with open('data/policy_briefs.json') as f:
+                  d = json.load(f)
+              briefs = d.get('briefs', [])
+              gen = d.get('meta', {}).get('generated', '')
+              count = len(briefs)
+              if count == 0:
+                  print('::warning::Policy briefs file has 0 briefs — run generate_policy_briefs.py')
+              else:
+                  print(f'✅ Policy briefs: {count} briefs')
+              if gen:
+                  gen_dt = datetime.fromisoformat(gen.replace('Z', '+00:00'))
+                  age = (now - gen_dt).days
+                  if age > stale_days:
+                      print(f'::warning::Policy briefs are {age} days old (generated {gen[:10]})')
+          except FileNotFoundError:
+              print('::warning::data/policy_briefs.json not found')
+          except Exception as e:
+              print(f'::warning::Policy briefs check failed: {e}')
+
+          # Check insights verification date
+          try:
+              with open('data/insights-meta.json') as f:
+                  d = json.load(f)
+              verified = d.get('lastVerified', '')
+              if verified:
+                  v_dt = datetime.fromisoformat(verified)
+                  age = (now.date() - v_dt.date()).days
+                  if age > 30:
+                      print(f'::warning::Insights verification is {age} days old ({verified}) — review recommended')
+                  else:
+                      print(f'✅ Insights verified: {verified} ({age} days ago)')
+          except Exception as e:
+              print(f'::warning::Insights meta check failed: {e}')
+          EOF
+
       - name: Open GitHub issue on failure
         if: failure()
         uses: actions/github-script@v8
@@ -136,7 +223,10 @@ jobs:
               '### What to check',
               '- [ ] `data/co-county-boundaries.json` — should have 64 features',
               '- [ ] `data/fred-data.json` — FRED series should have observations',
-              '- [ ] `data/chfa-lihtc.json` — should have LIHTC features',
+              '- [ ] `data/chfa-lihtc.json` — should have ~716 LIHTC features',
+              '- [ ] `data/chfa-affordable-housing.json` — should have ~1688 affordable housing features',
+              '- [ ] `data/policy_briefs.json` — should have recent briefs (run `generate_policy_briefs.py`)',
+              '- [ ] `data/alerts/alerts_archive.json` — should have recent alerts (run `fetch_google_alerts.py`)',
               '',
               '### Next steps',
               '1. Review the failed step logs linked above.',

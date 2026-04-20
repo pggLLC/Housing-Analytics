@@ -34,3 +34,6 @@ _site/
 
 # Claude Code local session state
 .claude/
+
+# Local build / fetch caches (e.g., CHAS, ACS download artifacts)
+.cache/

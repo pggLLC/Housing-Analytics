@@ -12,6 +12,7 @@
   var ddaLayerGroup     = null;
   var qctLayerGroup     = null;
   var countyLayerGroup  = null;
+  var otherAffordableLayer = null;
 
   // ── Colorado default view ────────────────────────────────────────────────────
   var CO_DEFAULT_CENTER = [39.5501, -105.7821];
@@ -555,6 +556,53 @@
     bind('layerQCT',     function() { return qctLayerGroup; });
     bind('layerCounties', function() { return countyLayerGroup; });
     bind('layerCounty',  function() { return countyLayerGroup; });
+
+    // Other Affordable Housing layer (CHFA Affordable Housing Database)
+    bind('layerOtherAffordable', function() { return otherAffordableLayer; });
+    var cbOther = document.getElementById('layerOtherAffordable');
+    if (cbOther) {
+      cbOther.addEventListener('change', function () {
+        if (!cbOther.checked) {
+          if (otherAffordableLayer && map.hasLayer(otherAffordableLayer)) map.removeLayer(otherAffordableLayer);
+          return;
+        }
+        if (otherAffordableLayer) {
+          if (!map.hasLayer(otherAffordableLayer)) otherAffordableLayer.addTo(map);
+          return;
+        }
+        // Lazy-load the CHFA affordable housing GeoJSON
+        fetch('data/chfa-affordable-housing.json')
+          .then(function (r) { return r.ok ? r.json() : Promise.reject('HTTP ' + r.status); })
+          .then(function (gj) {
+            if (!gj || !gj.features || gj.features.length === 0) return;
+            otherAffordableLayer = L.geoJSON(gj, {
+              pointToLayer: function (f, latlng) {
+                return L.circleMarker(latlng, {
+                  radius: 4, fillColor: '#f472b6', color: '#fff', weight: 1, fillOpacity: 0.7
+                });
+              },
+              onEachFeature: function (f, layer) {
+                var p = f.properties || {};
+                var name = p.PROJECT || 'Affordable Housing';
+                var units = p.N_UNITS ? p.N_UNITS + ' units' : '';
+                var addr = p.PROJ_ADD || '';
+                var city = p.PROJ_CTY || '';
+                var tip = '<b>' + name + '</b>' +
+                  (units ? '<br>' + units : '') +
+                  (addr ? '<br>' + addr : '') +
+                  (city ? ', ' + city : '') +
+                  '<br><span style="font-size:0.75em;opacity:0.7;color:#f472b6">CHFA Affordable Housing Database</span>';
+                layer.bindTooltip(tip, { sticky: true });
+              }
+            });
+            if (cbOther.checked) otherAffordableLayer.addTo(map);
+            console.log('[co-lihtc-map] Loaded ' + gj.features.length + ' other affordable housing features');
+          })
+          .catch(function (err) {
+            console.warn('[co-lihtc-map] Failed to load other affordable housing:', err);
+          });
+      });
+    }
     // filterQCT / filterDDA checkboxes — show only projects in QCT/DDA zones
     var cbFilterQct = document.getElementById('filterQCT');
     var cbFilterDda = document.getElementById('filterDDA');

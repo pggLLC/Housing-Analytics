@@ -609,12 +609,31 @@
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
+    // Recent competitive supply breakdown
+    var recentEl = el('pmaRecentLihtc');
+    if (recentEl) {
+      var recentCount = result.recentLihtcCount || 0;
+      var veryRecentCount = result.veryRecentLihtcCount || 0;
+      var recentUnitsVal = result.recentLihtcUnits || 0;
+      var veryRecentUnitsVal = result.veryRecentLihtcUnits || 0;
+      var recentColor = veryRecentCount >= 3 ? 'var(--warn,#f59e0b)' : recentCount >= 5 ? 'var(--warn,#f59e0b)' : 'var(--ok,#10b981)';
+      recentEl.innerHTML =
+        '<span style="color:' + recentColor + ';font-weight:600">' + recentCount + '</span> projects (' +
+        recentUnitsVal + ' units) allocated in last 10 yr' +
+        (veryRecentCount > 0 ? ' · <span style="color:var(--warn,#f59e0b);font-weight:600">' + veryRecentCount + '</span> in last 5 yr (' + veryRecentUnitsVal + ' units)' : '');
+    }
+
     renderDataCoverage(result);
     updateRadarChart(result.dimensions, result.dimensionDataAvailable);
     updateSimulator(result);
     renderBenchmark(result);
     renderPipeline(result);
     renderScenarios(result);
+
+    // Show the recency row
+    var recentRow = el('pmaRecentLihtc');
+    if (recentRow && recentRow.innerHTML) recentRow.style.display = 'block';
+    try { document.dispatchEvent(new Event('pma:score-rendered')); } catch (e) { /* IE11 */ }
   }
 
   /* ── Data Coverage panel ────────────────────────────────────────── */
@@ -759,10 +778,12 @@
 
     if (radarChart) {
       radarChart.data.labels = labels;
-      radarChart.data.datasets[0].data = data;
-      radarChart.data.datasets[0].pointBackgroundColor = pointColors;
-      radarChart.data.datasets[0].pointStyle = pointStyles;
-      radarChart.data.datasets[0].pointRadius = pointRadii;
+      if (radarChart.data.datasets && radarChart.data.datasets[0]) {
+        radarChart.data.datasets[0].data = data;
+        radarChart.data.datasets[0].pointBackgroundColor = pointColors;
+        radarChart.data.datasets[0].pointStyle = pointStyles;
+        radarChart.data.datasets[0].pointRadius = pointRadii;
+      }
       radarChart.update();
       return;
     }
@@ -1030,6 +1051,27 @@
     var lihtcCount   = nearbyLihtc.length;
     var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
     var prop123Count = nearbyLihtc.filter(function (f) { return isInProp123Jurisdiction(f); }).length;
+
+    // ── Recency-weighted competitive supply analysis ──────────────────
+    // Recent LIHTC projects (allocated in last 10 years) carry more weight
+    // for CHFA award probability — they signal active supply competition.
+    var currentYear = new Date().getFullYear();
+    var recentCutoff = currentYear - 10;  // last 10 years
+    var veryRecentCutoff = currentYear - 5;  // last 5 years
+    var recentLihtc = [];
+    var veryRecentLihtc = [];
+    var recentUnits = 0;
+    var veryRecentUnits = 0;
+    nearbyLihtc.forEach(function (f) {
+      var p = f.properties || {};
+      var yr = p.YR_ALLOC || p.YEAR_ALLOC || p.yr_alloc || 0;
+      if (yr > 2000 && yr <= currentYear) {  // exclude HUD placeholder codes (8888, 9999)
+        var units = p.N_UNITS || p.TOTAL_UNITS || 0;
+        if (yr >= recentCutoff) { recentLihtc.push(f); recentUnits += units; }
+        if (yr >= veryRecentCutoff) { veryRecentLihtc.push(f); veryRecentUnits += units; }
+      }
+    });
+
     var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts);
 
     // Heuristic confidence score
@@ -1047,6 +1089,27 @@
       });
       lastConfidence = confidence;
       CONF.renderConfidenceBadge('pmaHeuristicConfidence', confidence);
+
+      // Wire PMA provenance into confidence disclosure
+      var PROV = window.PMAProvenance;
+      if (PROV) {
+        var lihtcSrc = window.HudLihtc && window.HudLihtc.getSource ? window.HudLihtc.getSource() : 'unknown';
+        var lihtcMode = (lihtcSrc === 'chfa-arcgis' || lihtcSrc === 'hud-arcgis') ? PROV.MODES.LIVE
+          : (lihtcSrc === 'embedded') ? PROV.MODES.PLACEHOLDER : PROV.MODES.CACHED;
+        var acsMode = (acsMetrics && acsMetrics.tracts && acsMetrics.tracts.length > 0) ? PROV.MODES.CACHED : PROV.MODES.PLACEHOLDER;
+        var provRecord = PROV.createRecord('pma-' + Date.now(), {
+          acs: acsMode,
+          lihtc: lihtcMode,
+          commuting: window.LodesCommute ? PROV.MODES.CACHED : PROV.MODES.PLACEHOLDER,
+          schools: window.CdeSchools ? PROV.MODES.CACHED : PROV.MODES.PLACEHOLDER,
+          traffic: window.CdotTraffic ? PROV.MODES.CACHED : PROV.MODES.PLACEHOLDER
+        });
+        var discEl = document.getElementById('pmaProvenanceNote');
+        if (discEl) {
+          discEl.textContent = PROV.getDisclosureNote(provRecord);
+          discEl.style.display = 'block';
+        }
+      }
     }
 
     // Enrich with DOLA county-level demographics if available.
@@ -1082,10 +1145,19 @@
       }
     }
 
+    // Add recency risk flags to PMA result
+    if (veryRecentLihtc.length >= 3) {
+      pma.flags.push({ level: 'warn', text: veryRecentLihtc.length + ' LIHTC projects allocated in last 5 years (' + veryRecentUnits + ' units) — high recent competition' });
+    } else if (recentLihtc.length >= 5) {
+      pma.flags.push({ level: 'warn', text: recentLihtc.length + ' LIHTC projects allocated in last 10 years (' + recentUnits + ' units) — moderate competition' });
+    }
+
     lastResult = Object.assign({}, pma, {
       lat: lat, lon: lon, bufferMiles: effectiveBuffer,
       tractCount: bufTracts.length, acs: acs,
       lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      recentLihtcCount: recentLihtc.length, recentLihtcUnits: recentUnits,
+      veryRecentLihtcCount: veryRecentLihtc.length, veryRecentLihtcUnits: veryRecentUnits,
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -1356,16 +1428,25 @@
       overlayMaps['Difficult Dev Areas'] = ddaLayer;
     }
 
-    // LIHTC project markers (circle markers)
+    // LIHTC project markers (circle markers, color-coded by recency)
     if (lihtcFeatures && lihtcFeatures.length > 0) {
+      var _curYear = new Date().getFullYear();
       var lihtcGj = { type: 'FeatureCollection', features: lihtcFeatures };
       lihtcLayer = L.geoJSON(lihtcGj, {
         pointToLayer: function (f, latlng) {
+          var p = f.properties || {};
+          var yr = p.YR_ALLOC || p.YEAR_ALLOC || p.yr_alloc || 0;
+          var isRecent = yr > 2000 && yr >= _curYear - 5;
+          var isModern = yr > 2000 && yr >= _curYear - 10;
           var inProp123 = isInProp123Jurisdiction(f);
+          // Color: red = very recent (5yr), orange = recent (10yr), teal = older, purple = Prop 123
+          var color = inProp123 ? '#7c3aed'
+            : isRecent ? '#ef4444'
+            : isModern ? '#f59e0b'
+            : '#0a7e74';
           return window.L.circleMarker(latlng, {
-            radius: 5,
-            color: inProp123 ? '#7c3aed' : '#0a7e74',
-            fillColor: inProp123 ? '#7c3aed' : '#0a7e74',
+            radius: isRecent ? 6 : 5,
+            color: color, fillColor: color,
             fillOpacity: 0.7, weight: 1.5
           });
         },
@@ -1373,10 +1454,18 @@
           var p = f.properties || {};
           var name = p.PROJECT || p.PROJECT_NAME || p.project_name || 'LIHTC Project';
           var units = p.N_UNITS || p.TOTAL_UNITS || p.total_units || '?';
-          var year  = p.YR_ALLOC || p.YEAR_ALLOC  || p.year_alloc  || '';
-          var prop123Badge = isInProp123Jurisdiction(f) ? '<br><span style="color:#7c3aed;font-weight:600">✓ Prop 123 Jurisdiction</span>' : '';
+          var yr = p.YR_ALLOC || p.YEAR_ALLOC || p.yr_alloc || 0;
+          var yearStr = (yr > 0 && yr < 8000) ? String(yr) : 'unknown';
+          var isRecent = yr > 2000 && yr >= _curYear - 5;
+          var recencyTag = isRecent
+            ? '<br><span style="color:#ef4444;font-weight:600">⚠ Recent allocation — competitive risk</span>'
+            : '';
+          var prop123Badge = isInProp123Jurisdiction(f)
+            ? '<br><span style="color:#7c3aed;font-weight:600">✓ Prop 123 Jurisdiction</span>'
+            : '';
+          var credit = p.CREDIT ? ' · ' + p.CREDIT : '';
           layer.bindTooltip(
-            name + '<br>' + units + ' units' + (year ? ' (' + year + ')' : '') + prop123Badge,
+            name + '<br>' + units + ' units · Allocated ' + yearStr + credit + prop123Badge + recencyTag,
             { sticky: true, className: 'pma-tooltip' }
           );
         }
@@ -1465,6 +1554,8 @@
     parcelZoning:      { src: 'market/landuse_zoning_proxy_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     commutingFlows:    { src: 'market/lodes_od_arcs_co.geojson' },
+    otherAffordable:   { src: 'chfa-affordable-housing.json',
+                         pointStyle: { radius: 4, fillColor: '#f472b6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     listings:          { src: null }    // handled externally (Bridge API)
   };
 
@@ -1768,6 +1859,20 @@
                   return;
                 }
 
+                if (key === 'otherAffordable') {
+                  var aName = p.PROJECT || 'Affordable Housing';
+                  var aUnits = p.N_UNITS ? p.N_UNITS + ' units' : '';
+                  var aAddr = p.PROJ_ADD || '';
+                  var aCity = p.PROJ_CTY || '';
+                  tip = '<b>' + aName + '</b>' +
+                    (aUnits ? '<br>' + aUnits : '') +
+                    (aAddr ? '<br>' + aAddr : '') +
+                    (aCity ? ', ' + aCity : '') +
+                    '<br><span style="font-size:0.75em;opacity:0.7;color:#f472b6">CHFA Affordable Housing Database</span>';
+                  layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
+                  return;
+                }
+
                 var name = p.NAME || p.name || p.NAMELSAD || p.Name || p.school_name || p.geoid || '';
                 if (name) layer.bindTooltip(name, { sticky: true, className: 'pma-tooltip' });
               };
@@ -2051,6 +2156,10 @@
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
+      ['lihtc_recent_10yr_count', r.recentLihtcCount],
+      ['lihtc_recent_10yr_units', r.recentLihtcUnits],
+      ['lihtc_recent_5yr_count', r.veryRecentLihtcCount],
+      ['lihtc_recent_5yr_units', r.veryRecentLihtcUnits],
       ['capture_rate', r.capture],
       ['dim_demand', d.demand],
       ['dim_capture_risk', d.captureRisk],

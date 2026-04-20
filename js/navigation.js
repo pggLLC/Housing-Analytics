@@ -29,6 +29,7 @@
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",     desc: "Choose your county or city" },
         { label: "Housing Needs Assessment",href: "housing-needs-assessment.html", desc: "HNA tool & county profile" },
         { label: "Market Analysis",         href: "market-analysis.html",          desc: "PMA, comparables & feasibility" },
+        { label: "Land Value Negotiation",  href: "land-value-negotiation.html",   desc: "Residual land value & negotiation" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",     desc: "20-year projection scenarios" },
         { label: "Deal Calculator",         href: "deal-calculator.html",          desc: "LIHTC pro forma & capital stack" },
       ]

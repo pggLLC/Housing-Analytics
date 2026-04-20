@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css" />
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/site-state.js"></script>
   <script src="js/workflow-state-core.js"></script>
   <script src="js/workflow-state-api.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
@@ -43,7 +44,7 @@
   <!-- PDF export (client-side) -->
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script src="js/site-state.js"></script>
+  <!-- site-state.js loaded above (before workflow-state-core.js) -->
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
   <script defer src="js/navigation.js"></script>
@@ -69,6 +70,7 @@
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
+  <script defer src="js/citations.js"></script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
@@ -937,6 +939,18 @@
             Go to PMA Delineation &amp; CHFA Checklist →
           </a>
         </div>
+      </section>
+
+      <!-- ── Statewide Context (Phase C) ── -->
+      <section id="statewide-context-section" class="chart-card span-12" aria-label="Statewide comparison" style="display:none">
+        <h2 style="margin:0 0 .4rem">Statewide Context</h2>
+        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          How this jurisdiction compares to all 547 Colorado geographies in the ranking index.
+        </p>
+        <div id="statewideContextGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem;">
+          <!-- Populated by statewide-context script -->
+        </div>
+        <p id="statewideContextNote" style="font-size:.72rem;color:var(--faint);margin-top:.6rem;"></p>
       </section>
 
       <!-- ── Projected Housing Need & AMI Recommendation ── -->
@@ -2095,6 +2109,153 @@
   });
 }());
 </script>
+
+  <!-- Phase C: Statewide context panel -->
+  <script>
+  (function () {
+    'use strict';
+    var RANKING_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/hna/ranking-index.json')
+      : 'data/hna/ranking-index.json';
+
+    function pctile(val, allVals) {
+      if (val == null || !allVals.length) return null;
+      var below = allVals.filter(function (v) { return v < val; }).length;
+      return Math.round((below / allVals.length) * 100);
+    }
+
+    function buildContextCard(label, value, pctRank, fmt, colorFn) {
+      var fmtVal;
+      if (value == null) { fmtVal = '—'; }
+      else if (fmt === '$') { fmtVal = '$' + Math.round(value).toLocaleString(); }
+      else if (fmt === 'pct') { fmtVal = (value > 1 ? value : value * 100).toFixed(1) + '%'; }
+      else if (fmt === 'n') { fmtVal = Math.round(value).toLocaleString(); }
+      else { fmtVal = (typeof value === 'number') ? value.toFixed(1) : String(value); }
+      var pctStr = pctRank != null ? pctRank + 'th percentile' : '';
+      var color = colorFn ? colorFn(value) : 'var(--text)';
+      return '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.65rem .8rem">' +
+        '<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">' + label + '</div>' +
+        '<div style="font-size:1.15rem;font-weight:700;color:' + color + ';margin:.15rem 0">' + fmtVal + '</div>' +
+        (pctStr ? '<div style="font-size:.68rem;color:var(--faint)">' + pctStr + '</div>' : '') +
+      '</div>';
+    }
+
+    function renderStatewideContext(geoid) {
+      var sec = document.getElementById('statewide-context-section');
+      var grid = document.getElementById('statewideContextGrid');
+      var note = document.getElementById('statewideContextNote');
+      if (!sec || !grid) return;
+
+      var fetcher = window.fetchWithTimeout || fetch;
+      fetcher(RANKING_URL, {}, 10000)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var rankings = data.rankings || [];
+          if (!rankings.length) return;
+
+          var entry = rankings.find(function (e) { return e.geoid === geoid; });
+          if (!entry || !entry.metrics) return;
+
+          var m = entry.metrics;
+          var allScores = rankings.map(function (e) { return e.metrics.overall_need_score; }).filter(function (v) { return v != null; });
+          var allBurden = rankings.map(function (e) { return e.metrics.pct_cost_burdened; }).filter(function (v) { return v != null; });
+          var allRent   = rankings.map(function (e) { return e.metrics.gross_rent_median; }).filter(function (v) { return v != null; });
+          var allGap    = rankings.map(function (e) { return e.metrics.housing_gap_units; }).filter(function (v) { return v != null; });
+          var allVac    = rankings.map(function (e) { return e.metrics.vacancy_rate; }).filter(function (v) { return v != null; });
+          var allInc    = rankings.map(function (e) { return e.metrics.median_hh_income; }).filter(function (v) { return v != null; });
+
+          var burdenFn = function (v) { return v >= 50 ? 'var(--bad)' : v >= 35 ? 'var(--warn)' : 'var(--good)'; };
+          var vacFn = function (v) { return v != null && v < 5 ? 'var(--warn)' : 'var(--text)'; };
+
+          grid.innerHTML =
+            buildContextCard('Need Score', m.overall_need_score, pctile(m.overall_need_score, allScores), 'score', null) +
+            buildContextCard('Cost-Burdened', m.pct_cost_burdened, pctile(m.pct_cost_burdened, allBurden), 'pct', burdenFn) +
+            buildContextCard('Housing Gap (30% AMI)', m.housing_gap_units, pctile(m.housing_gap_units, allGap), 'n', null) +
+            buildContextCard('Median Rent', m.gross_rent_median, pctile(m.gross_rent_median, allRent), '$', null) +
+            buildContextCard('Vacancy Rate', m.vacancy_rate, pctile(m.vacancy_rate, allVac), 'pct', vacFn) +
+            buildContextCard('Median HH Income', m.median_hh_income, pctile(m.median_hh_income, allInc), '$', null);
+
+          var rank = entry.rank || entry.percentileRank;
+          note.textContent = entry.name + ' ranks #' + (rank || '—') + ' of ' + rankings.length +
+            ' Colorado jurisdictions by overall housing need. ' +
+            'Source: COHO Ranking Index (ACS 2024, HUD CHAS, LEHD LODES). ' +
+            'Percentiles show position relative to all ' + rankings.length + ' geographies.';
+
+          sec.style.display = '';
+        })
+        .catch(function () { /* graceful degradation — section stays hidden */ });
+    }
+
+    // Listen for jurisdiction selection
+    function tryRender() {
+      var geoid = null;
+      // Try workflow state
+      if (window.WorkflowState) {
+        var j = window.WorkflowState.getJurisdiction && window.WorkflowState.getJurisdiction();
+        if (j && j.fips) geoid = j.fips;
+      }
+      // Try site state
+      if (!geoid && window.SiteState) {
+        var c = window.SiteState.getCounty && window.SiteState.getCounty();
+        if (c && c.fips) geoid = c.fips;
+      }
+      // Try URL params
+      if (!geoid) {
+        var params = new URLSearchParams(window.location.search);
+        geoid = params.get('geoid') || params.get('fips') || params.get('county');
+      }
+      if (geoid) renderStatewideContext(geoid);
+    }
+
+    // Debounce — run after HNA controller has initialized
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(tryRender, 1500); });
+    } else {
+      setTimeout(tryRender, 1500);
+    }
+    // Also listen for jurisdiction change events
+    document.addEventListener('hna:jurisdiction-changed', function (e) {
+      var geoid = e.detail && (e.detail.geoid || e.detail.fips);
+      if (geoid) renderStatewideContext(geoid);
+    });
+  })();
+  </script>
+
+  <!-- Phase B: Source attribution badges (non-invasive, stamps after render) -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof addSourceBadge !== 'function') return;
+    // Demographics & housing stock sections
+    var demoSection = document.querySelector('.hna-stats-grid, .stat-grid');
+    if (demoSection) addSourceBadge(demoSection, ['acs5yr', 'hudChas'], { showVintage: true });
+    // Labor market
+    var laborSec = document.getElementById('labor-market-section');
+    if (laborSec) addSourceBadge(laborSec, 'lehd', { showVintage: true, showGeo: true });
+    // Economic indicators
+    var econSec = document.getElementById('economicIndicatorsContainer');
+    if (econSec) addSourceBadge(econSec, 'fred', { showVintage: true });
+    // Prop 123
+    var p123 = document.getElementById('prop123-section');
+    if (p123) addSourceBadge(p123, 'prop123', { showVintage: true });
+    // Projections
+    var projSec = document.getElementById('housing-need-projection');
+    if (projSec) addSourceBadge(projSec, ['dola', 'acs5yr'], { showVintage: true });
+    // Neighborhood context
+    var nbrSec = document.getElementById('neighborhood-context-section');
+    if (nbrSec) addSourceBadge(nbrSec, 'osmAmenities', { showVintage: true });
+    // Data quality summary at bottom
+    var mainEl = document.getElementById('main-content');
+    if (mainEl && typeof addDataQualitySummary === 'function') {
+      addDataQualitySummary(mainEl, {
+        primary: ['acs5yr', 'hudChas', 'lehd', 'dola', 'fred'],
+        fallback: 'Cached JSON files when Census/HUD APIs are unavailable',
+        geography: 'Colorado — county, place, CDP, and tract level',
+        freshness: 'ACS 2024 (annual) · LEHD 2023 (400+ day lag) · FRED live daily · DOLA 2023',
+        limitations: 'LEHD employment data has 2-year publication lag. ACS estimates carry margins of error (MOE). Small-population CDPs may have high MOE.'
+      });
+    }
+  });
+  </script>
 
   <footer class="site-footer">
     <!-- Injected by navigation.js -->

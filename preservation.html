@@ -438,5 +438,19 @@
   </script>
   <script defer src="js/audit-hook.js"></script>
   <script src="js/data-status-footer.js"></script>
+  <script defer src="js/citations.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof addDataQualitySummary !== 'function') return;
+    var main = document.querySelector('main') || document.body;
+    addDataQualitySummary(main, {
+      primary: ['nhpd', 'hud'],
+      fallback: 'Cached NHPD GeoJSON when live API unavailable',
+      geography: 'Colorado — all federally assisted properties (Section 8, HOME, LIHTC, Section 202)',
+      freshness: 'NHPD 2026 Q1 · HUD LIHTC DB 2024',
+      limitations: 'Expiration dates reflect contract terms, not actual disposition. Some properties may have renewed contracts not yet reflected in NHPD.'
+    });
+  });
+  </script>
 </body>
 </html>

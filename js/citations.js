@@ -94,6 +94,126 @@ const DataSources = {
             "Probability-weighted scenario analysis"
         ],
         disclaimer: "Forecasts are estimates based on current market conditions and may vary"
+    },
+
+    /* ── Colorado-specific sources (Phase B) ────────────────────────── */
+    acs5yr: {
+        primary: "U.S. Census Bureau — American Community Survey 5-Year Estimates",
+        url: "https://data.census.gov",
+        updateFrequency: "Annual (Dec release)",
+        lastUpdate: "2020–2024 (ACS 2024)",
+        methodology: "5-year pooled survey estimates with margins of error",
+        coverage: "All CO tracts, places, counties",
+        geography: "Census tract / place / county",
+        vintage: "2024"
+    },
+    hudFmr: {
+        primary: "HUD Fair Market Rents",
+        url: "https://www.huduser.gov/portal/datasets/fmr.html",
+        updateFrequency: "Annual (Oct)",
+        lastUpdate: "FY2025",
+        methodology: "40th percentile gross rent from ACS + CPI adjustment",
+        coverage: "All CO counties and metro areas",
+        geography: "County / CBSA"
+    },
+    hudIl: {
+        primary: "HUD Income Limits",
+        url: "https://www.huduser.gov/portal/datasets/il.html",
+        updateFrequency: "Annual (Apr)",
+        lastUpdate: "FY2025",
+        methodology: "Area Median Income derived from ACS",
+        coverage: "All CO counties and metro areas",
+        geography: "County / CBSA"
+    },
+    hudChas: {
+        primary: "HUD CHAS (Comprehensive Housing Affordability Strategy)",
+        url: "https://www.huduser.gov/portal/datasets/cp.html",
+        updateFrequency: "Annual",
+        lastUpdate: "2017–2021",
+        methodology: "Custom tabulations of ACS data for housing need categories",
+        coverage: "All CO counties, tracts",
+        geography: "County / tract"
+    },
+    fred: {
+        primary: "Federal Reserve Economic Data (FRED)",
+        url: "https://fred.stlouisfed.org",
+        updateFrequency: "Daily (rates) / Monthly (CPI, employment)",
+        lastUpdate: "Live",
+        methodology: "Official government statistics aggregated by Federal Reserve Bank of St. Louis",
+        coverage: "National / state / MSA",
+        geography: "National / state"
+    },
+    lehd: {
+        primary: "LEHD LODES Origin-Destination Employment Statistics",
+        url: "https://lehd.ces.census.gov/data/",
+        updateFrequency: "Annual (Apr/May release, 2-year lag)",
+        lastUpdate: "2023",
+        methodology: "Administrative records linked to Census geographies",
+        coverage: "All CO census blocks → aggregated to tracts",
+        geography: "Census block / tract"
+    },
+    dola: {
+        primary: "Colorado State Demography Office (DOLA SDO)",
+        url: "https://demography.dola.colorado.gov/",
+        updateFrequency: "Annual",
+        lastUpdate: "2023",
+        methodology: "Component-method population estimates and projections",
+        coverage: "All CO counties",
+        geography: "County"
+    },
+    nhpd: {
+        primary: "National Housing Preservation Database (NHPD)",
+        url: "https://preservationdatabase.org/",
+        updateFrequency: "Quarterly",
+        lastUpdate: "2026 Q1",
+        methodology: "Consolidated federal subsidy records (Section 8, HOME, LIHTC, Section 202)",
+        coverage: "All federally assisted properties in CO",
+        geography: "Property-level (geocoded)"
+    },
+    chfa: {
+        primary: "Colorado Housing and Finance Authority (CHFA)",
+        url: "https://www.chfainfo.com",
+        updateFrequency: "Ongoing (allocation rounds)",
+        lastUpdate: "2026",
+        methodology: "Official LIHTC awards, QAP scoring, multifamily portfolio",
+        coverage: "All CHFA-administered programs",
+        geography: "Project-level / county"
+    },
+    chfaAffordableHousing: {
+        primary: "CHFA Colorado Affordable Housing Database",
+        url: "https://chfa.maps.arcgis.com/apps/instant/basic/index.html?appid=d90075bcf7e041b99b219e7b241a21db",
+        updateFrequency: "Ongoing",
+        lastUpdate: "Apr 2026",
+        methodology: "Comprehensive inventory of affordable multifamily properties across Colorado including LIHTC, Section 8, HOME, public housing, and other subsidized projects",
+        coverage: "1,688 affordable housing properties statewide",
+        geography: "Property-level (geocoded)"
+    },
+    osmAmenities: {
+        primary: "OpenStreetMap Contributors",
+        url: "https://www.openstreetmap.org",
+        updateFrequency: "Weekly refresh via Overpass API",
+        lastUpdate: "Apr 2026",
+        methodology: "Community-contributed POI data (schools, transit, grocery, healthcare, parks)",
+        coverage: "All CO",
+        geography: "Point locations"
+    },
+    blsPpi: {
+        primary: "Bureau of Labor Statistics — Producer Price Index",
+        url: "https://www.bls.gov/ppi/",
+        updateFrequency: "Monthly",
+        lastUpdate: "Mar 2026",
+        methodology: "Survey of producers for commodity input costs",
+        coverage: "National (steel, lumber, concrete, copper, cement)",
+        geography: "National"
+    },
+    prop123: {
+        primary: "Colorado DOLA — Proposition 123 Compliance",
+        url: "https://cdola.colorado.gov/proposition-123",
+        updateFrequency: "Annual filings",
+        lastUpdate: "2025 filings",
+        methodology: "Jurisdiction-reported housing production vs. baseline growth targets",
+        coverage: "265 opt-in jurisdictions",
+        geography: "Municipality / county"
     }
 };
 
@@ -230,11 +350,84 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+/**
+ * addSourceBadge — lightweight source attribution for any container.
+ * Usage:  addSourceBadge('containerId', 'acs5yr')             — single source
+ *         addSourceBadge('containerId', ['acs5yr', 'hudFmr']) — multiple sources
+ *         addSourceBadge(domElement, 'fred', { showGeo: true, showVintage: true })
+ */
+function addSourceBadge(target, sourceKeys, opts) {
+    opts = opts || {};
+    var container = typeof target === 'string' ? document.getElementById(target) : target;
+    if (!container) return;
+    if (container.querySelector('.kpi-source, .chart-source')) return; // already has one
+
+    var keys = Array.isArray(sourceKeys) ? sourceKeys : [sourceKeys];
+    var parts = [];
+    keys.forEach(function (k) {
+        var s = DataSources[k] || { primary: k };
+        var label = s.primary || k;
+        var link = s.url ? '<a href="' + s.url + '" target="_blank" rel="noopener">' + label + '</a>' : label;
+        var extra = '';
+        if (opts.showVintage && s.vintage)  extra += ' · ' + s.vintage;
+        if (opts.showVintage && s.lastUpdate && !s.vintage) extra += ' · ' + s.lastUpdate;
+        if (opts.showGeo && s.geography)    extra += ' · ' + s.geography;
+        if (opts.showFreq && s.updateFrequency) extra += ' · ' + s.updateFrequency;
+        parts.push(link + extra);
+    });
+
+    var badge = document.createElement('div');
+    badge.className = opts.className || 'kpi-source';
+    badge.innerHTML = 'Source: ' + parts.join(' | ');
+    container.appendChild(badge);
+}
+
+/**
+ * addDataQualitySummary — drop-in panel showing primary/fallback data and freshness.
+ * Appended to the target container.
+ */
+function addDataQualitySummary(target, config) {
+    var container = typeof target === 'string' ? document.getElementById(target) : target;
+    if (!container || container.querySelector('.dq-summary')) return;
+
+    var html = '<div class="dq-summary" style="margin-top:var(--sp3);padding:var(--sp3);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);font-size:.78rem;color:var(--muted);line-height:1.7;">';
+    html += '<strong style="color:var(--text)">Data Sources & Quality</strong>';
+
+    if (config.primary) {
+        html += '<div style="margin-top:.4rem">🟢 <strong>Primary:</strong> ';
+        config.primary.forEach(function (p, i) {
+            var s = DataSources[p] || { primary: p };
+            var link = s.url ? '<a href="' + s.url + '" target="_blank" rel="noopener" style="color:var(--accent)">' + s.primary + '</a>' : s.primary;
+            html += (i > 0 ? ' · ' : '') + link;
+        });
+        html += '</div>';
+    }
+    if (config.fallback) {
+        html += '<div>🟡 <strong>Fallback:</strong> ' + config.fallback + '</div>';
+    }
+    if (config.geography) {
+        html += '<div>📍 <strong>Coverage:</strong> ' + config.geography + '</div>';
+    }
+    if (config.freshness) {
+        html += '<div>🕐 <strong>Freshness:</strong> ' + config.freshness + '</div>';
+    }
+    if (config.limitations) {
+        html += '<div>⚠️ <strong>Limitations:</strong> ' + config.limitations + '</div>';
+    }
+    html += '</div>';
+
+    var el = document.createElement('div');
+    el.innerHTML = html;
+    container.appendChild(el.firstChild);
+}
+
 // Make available globally
 if (typeof window !== 'undefined') {
     window.DataSources = DataSources;
     window.addChartCitation = addChartCitation;
     window.addArticleAttribution = addArticleAttribution;
+    window.addSourceBadge = addSourceBadge;
+    window.addDataQualitySummary = addDataQualitySummary;
 }
 
 // Export for module systems

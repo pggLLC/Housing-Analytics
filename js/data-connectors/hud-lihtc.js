@@ -3,7 +3,7 @@
  * Centralized LIHTC data connector.
  *
  * Source priority (most complete first):
- *   1. data/chfa-lihtc.json          — 716 CO projects, weekly CI (CHFA schema)
+ *   1. data/chfa-lihtc.json          — ~716 CO LIHTC projects, weekly CI (CHFA schema, YR_ALLOC 1988–2019)
  *   2. data/market/hud_lihtc_co.geojson — normalized derivative (HUD schema)
  *   3. Live CHFA ArcGIS FeatureServer  — 15 s timeout, public
  *   4. Live HUD ArcGIS FeatureServer   — 15 s timeout, public
@@ -235,7 +235,7 @@
   /**
    * Loads LIHTC features from the highest-priority source available.
    * Implements a 5-tier fallback:
-   *   Tier 1 – data/chfa-lihtc.json          (716 projects, CHFA schema)
+   *   Tier 1 – data/chfa-lihtc.json          (~716 LIHTC projects, CHFA schema)
    *   Tier 2 – data/market/hud_lihtc_co.geojson (normalized derivative)
    *   Tier 3 – Live CHFA ArcGIS FeatureServer (15 s timeout)
    *   Tier 4 – Live HUD ArcGIS FeatureServer  (15 s timeout)

@@ -95,13 +95,23 @@
     },
     {
       "file_path": "data/chfa-lihtc.json",
-      "source_name": "Colorado Housing and Finance Authority (CHFA) \u2014 LIHTC Allocation Data",
-      "source_url": "https://www.chfainfo.com/arh/lihtc",
-      "update_method": "manual",
+      "source_name": "Colorado Housing and Finance Authority (CHFA) \u2014 LIHTC Allocation Data via HUD EGIS",
+      "source_url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0",
+      "update_method": "ci",
       "status": "cached",
       "fallback_rule": "Hide CHFA allocation chart; display statewide HUD totals only",
-      "last_update": "2025-01-01T00:00:00Z",
-      "description": "Annual LIHTC allocation data from CHFA including award amounts, project counts, and unit totals by year. Used to populate the LIHTC allocation trend charts on the dashboard."
+      "last_update": "2026-04-10T00:00:00Z",
+      "description": "716 Colorado LIHTC projects with allocation year (1988\u20132019), credit type, unit counts, and geocoded locations. Primary competitive supply layer for PMA analysis. Fetched by scripts/fetch-chfa-lihtc.js."
+    },
+    {
+      "file_path": "data/chfa-affordable-housing.json",
+      "source_name": "CHFA Colorado Affordable Housing Database",
+      "source_url": "https://chfa.maps.arcgis.com/apps/instant/basic/index.html?appid=d90075bcf7e041b99b219e7b241a21db",
+      "update_method": "ci",
+      "status": "cached",
+      "fallback_rule": "Hide Other Affordable Housing layer; LIHTC layer remains available",
+      "last_update": "2026-04-10T00:00:00Z",
+      "description": "1,688 affordable housing properties across Colorado from CHFA\u2019s comprehensive preservation database. Includes LIHTC, Section 8, HOME, public housing, and other subsidized projects. Shown as a supplementary map layer alongside the primary LIHTC dataset. Fetched by scripts/fetch-chfa-affordable-housing.js."
     },
     {
       "file_path": "data/fred-data.json",

@@ -306,8 +306,10 @@
       return;
     }
     container.innerHTML = '<div class="chart-box"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>';
+    const wageCanvas = document.getElementById('chartWage');
+    if (!wageCanvas) return;
     const t = chartTheme();
-    makeChart(document.getElementById('chartWage').getContext('2d'), {
+    makeChart(wageCanvas.getContext('2d'), {
       type: 'bar',
       data: {
         labels: ['Low wage\n(≤$1,250/mo)', 'Medium wage\n($1,251–$3,333/mo)', 'High wage\n(>$3,333/mo)'],
@@ -340,8 +342,10 @@
       return;
     }
     container.innerHTML = '<div class="chart-box"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>';
+    const indCanvas = document.getElementById('chartIndustry');
+    if (!indCanvas) return;
     const t = chartTheme();
-    makeChart(document.getElementById('chartIndustry').getContext('2d'), {
+    makeChart(indCanvas.getContext('2d'), {
       type: 'bar',
       data: {
         labels: industries.map(function(d){ return d.label; }),

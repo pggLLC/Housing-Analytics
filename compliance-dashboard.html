@@ -397,6 +397,20 @@
 })();
 </script>
 
+<script defer src="js/citations.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof addDataQualitySummary !== 'function') return;
+  var main = document.querySelector('main') || document.body;
+  addDataQualitySummary(main, {
+    primary: ['prop123', 'dola', 'acs5yr'],
+    fallback: 'Cached jurisdiction data from data/policy/prop123_jurisdictions.json',
+    geography: 'Colorado — 265 Prop 123 opt-in jurisdictions',
+    freshness: 'DOLA filings 2025 · ACS 2024 baseline',
+    limitations: 'Compliance percentages are self-reported by jurisdictions. Some annual filings may lag. Growth targets derived from 2022 baseline.'
+  });
+});
+</script>
 <footer id="site-footer"></footer>
 </body>
 </html>

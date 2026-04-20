@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -39,6 +40,8 @@
       background: var(--bg2);
     }
     .briefs-controls label { color: var(--muted); font-size: .83rem; font-weight: 600; }
+    .briefs-controls select,
+    .briefs-controls input[type="search"] { max-width: 220px; }
     .briefs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -75,6 +78,30 @@
     }
     #briefsStatus { padding: var(--sp4); color: var(--muted); font-size: .9rem; }
     #briefsLiveRegion { position: absolute; left: -9999px; }
+    .signal-stats {
+      display: flex; flex-wrap: wrap; gap: .6rem;
+      padding: var(--sp2) var(--sp4);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .signal-stat {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: .78rem; color: var(--muted);
+      padding: .2rem .65rem;
+      border-radius: 999px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+    }
+    .signal-stat__count {
+      font-weight: 700; color: var(--text);
+    }
+    .signal-stat--active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    @media (max-width: 480px) {
+      .briefs-grid { grid-template-columns: 1fr; padding: var(--sp2); }
+      .briefs-controls { flex-direction: column; align-items: stretch; }
+      .briefs-controls label { margin-left: 0 !important; }
+      .signal-stats { gap: .35rem; padding: var(--sp2); }
+    }
     .brief-card { cursor: pointer; transition: border-color .2s, box-shadow .2s; }
     .brief-card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
     .brief-card[aria-expanded="true"] { border-color: var(--accent); }
@@ -112,6 +139,8 @@
         </div>
       </div>
     </section>
+
+    <div id="signalStats" class="signal-stats" aria-label="Signal summary" style="display:none;"></div>
 
     <div class="briefs-controls" role="search" aria-label="Filter policy briefs">
       <label for="briefSearch">Search:</label>
@@ -154,7 +183,18 @@
     <div id="briefsStatus" role="status">Loading policy briefs…</div>
     <div id="briefsGrid" class="briefs-grid" aria-label="Policy briefs"></div>
 
-    <section style="padding:var(--sp4);border-top:1px solid var(--border);margin-top:var(--sp4);">
+    <section id="briefsDataQuality" style="padding:var(--sp4);border-top:1px solid var(--border);margin-top:var(--sp2);">
+      <div class="dq-summary" style="padding:var(--sp3);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);font-size:.78rem;color:var(--muted);line-height:1.7;">
+        <strong style="color:var(--text)">Data Sources & Quality</strong>
+        <div style="margin-top:.4rem">🟢 <strong>Primary:</strong> Google News RSS alerts (curated housing-related feeds) · Rule-based headline aggregation</div>
+        <div>🟡 <strong>AI summaries:</strong> Available when OPENAI_API_KEY configured; otherwise rule-based extraction</div>
+        <div>📍 <strong>Coverage:</strong> Colorado statewide + national LIHTC policy</div>
+        <div>🕐 <strong>Freshness:</strong> Briefs regenerated weekly from RSS alerts pipeline</div>
+        <div>⚠️ <strong>Limitations:</strong> Briefs are AI-assisted summaries, not original reporting. Source articles should be consulted for complete context. Google News links may expire.</div>
+      </div>
+    </section>
+
+    <section style="padding:var(--sp4);border-top:1px solid var(--border);margin-top:var(--sp2);">
       <h2 style="font-size:1rem;margin:0 0 .5rem;">Related Datasets</h2>
       <ul style="font-size:.85rem;color:var(--muted);line-height:2;">
         <li><a href="colorado-deep-dive.html">Colorado LIHTC Deep Dive Map</a></li>
@@ -229,6 +269,35 @@
       'enforcement': 'Enforcement',
       'community': 'Community',
     };
+    var SIGNAL_ICONS = {
+      'legislative': '📜',
+      'funding': '💰',
+      'market': '📊',
+      'enforcement': '⚖️',
+      'community': '🏘️',
+    };
+
+    function renderSignalStats(list) {
+      var statsEl = document.getElementById('signalStats');
+      if (!statsEl) return;
+      var counts = {};
+      for (var key in SIGNAL_LABELS) counts[key] = 0;
+      list.forEach(function (b) {
+        (b._signals || []).forEach(function (s) {
+          if (s in counts) counts[s]++;
+        });
+      });
+      var html = '<span style="font-size:.78rem;font-weight:600;color:var(--muted);">Signals:</span>';
+      for (var sig in SIGNAL_LABELS) {
+        var active = counts[sig] > 0 ? ' signal-stat--active' : '';
+        html += '<span class="signal-stat' + active + '">' +
+          (SIGNAL_ICONS[sig] || '') + ' ' + SIGNAL_LABELS[sig] +
+          ' <span class="signal-stat__count">' + counts[sig] + '</span></span>';
+      }
+      html += '<span class="signal-stat"><span class="signal-stat__count">' + list.length + '</span> total briefs</span>';
+      statsEl.innerHTML = html;
+      statsEl.style.display = 'flex';
+    }
 
     function daysSince(dateObj) {
       return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
@@ -249,8 +318,14 @@
       } catch (e) { return iso.slice(0, 7); }
     }
 
+    var PAGE_SIZE = 12;
+    var _currentPage = 0;
+    var _currentList = [];
+
     function renderBriefs(list) {
       gridEl.innerHTML = '';
+      _currentList = list;
+      _currentPage = 0;
       if (!list.length) {
         statusEl.textContent = 'No briefs match the selected filters.';
         statusEl.style.display = 'block';
@@ -261,7 +336,38 @@
       countEl.textContent = list.length + ' brief' + (list.length === 1 ? '' : 's');
       if (liveEl) liveEl.textContent = countEl.textContent + ' displayed';
 
-      list.forEach(function (brief) {
+      _renderPage(list, 0);
+    }
+
+    function _renderPage(list, page) {
+      var start = page * PAGE_SIZE;
+      var end = Math.min(start + PAGE_SIZE, list.length);
+      var slice = list.slice(start, end);
+
+      // Remove existing "Show more" button if present
+      var existing = document.getElementById('briefsShowMore');
+      if (existing) existing.remove();
+
+      slice.forEach(function (brief) {
+        _renderBriefCard(brief);
+      });
+
+      // Add "Show more" button if there are more briefs
+      if (end < list.length) {
+        var btn = document.createElement('button');
+        btn.id = 'briefsShowMore';
+        btn.className = 'btn';
+        btn.style.cssText = 'margin:var(--sp3) auto;display:block;';
+        btn.textContent = 'Show more (' + (list.length - end) + ' remaining)';
+        btn.addEventListener('click', function () {
+          _currentPage++;
+          _renderPage(_currentList, _currentPage);
+        });
+        gridEl.appendChild(btn);
+      }
+    }
+
+    function _renderBriefCard(brief) {
         var regions = Array.isArray(brief.regions) ? brief.regions : [];
         var sources = Array.isArray(brief.sources) ? brief.sources : [];
         var entities = brief._entities || [];
@@ -360,7 +466,6 @@
         });
 
         gridEl.appendChild(card);
-      });
     }
 
     function applyFilters() {
@@ -442,7 +547,7 @@
           if (pipelineEl && data && data.meta) {
             var meta = data.meta;
             var generated  = meta.generated ? new Date(meta.generated) : null;
-            var feedCount  = meta.feed_count || 0;
+            var feedCount  = meta.feed_count != null ? meta.feed_count : null;
             var alertCount = meta.source_alerts || meta.alert_count || 0;
             var briefCount = meta.brief_count || list.length;
             var ageDays    = generated ? daysSince(generated) : null;
@@ -450,14 +555,16 @@
               ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
               : '—';
 
-            var isActive = feedCount > 0 || alertCount > 0;
+            var isActive = alertCount > 0 || briefCount > 0;
             var isStale = ageDays !== null && ageDays > 30;
 
             if (isActive && !isStale) {
-              pipelineEl.textContent = '✓ Pipeline active · ' + feedCount + ' feed' + (feedCount === 1 ? '' : 's') +
-                ' · ' + alertCount + ' alert' + (alertCount === 1 ? '' : 's') +
-                ' · ' + briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
-                ' · Last fetch: ' + dateStr;
+              var parts = ['✓ Pipeline active'];
+              if (feedCount !== null) parts.push(feedCount + ' feed' + (feedCount === 1 ? '' : 's'));
+              parts.push(alertCount + ' alert' + (alertCount === 1 ? '' : 's'));
+              parts.push(briefCount + ' brief' + (briefCount === 1 ? '' : 's'));
+              parts.push('Last fetch: ' + dateStr);
+              pipelineEl.textContent = parts.join(' · ');
               pipelineEl.style.borderColor = 'var(--good)';
               pipelineEl.style.color = 'var(--good)';
             } else if (isStale) {
@@ -476,6 +583,7 @@
             return;
           }
           populateFilters(list);
+          renderSignalStats(list);
           renderBriefs(list);
         })
         .catch(function (err) {

@@ -150,7 +150,8 @@
     _wireSearchFilter('hcaCompSearchB', 'hcaCompSelectB', 'B');
 
     // Wire swap
-    document.getElementById('hcaCompSwap').addEventListener('click', function () {
+    var swapBtn = document.getElementById('hcaCompSwap');
+    if (swapBtn) swapBtn.addEventListener('click', function () {
       var tmp = _compA;
       _compA = _compB;
       _compB = tmp;
@@ -162,7 +163,8 @@
     });
 
     // Wire reset
-    document.getElementById('hcaCompReset').addEventListener('click', function () {
+    var resetBtn = document.getElementById('hcaCompReset');
+    if (resetBtn) resetBtn.addEventListener('click', function () {
       _compA = null;
       _compB = null;
       _persist();

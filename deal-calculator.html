@@ -711,6 +711,21 @@
 
   }());
   </script>
+  <script defer src="js/citations.js"></script>
+  <!-- Phase B: Source attribution -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof addDataQualitySummary !== 'function') return;
+    var main = document.querySelector('main') || document.body;
+    addDataQualitySummary(main, {
+      primary: ['hudFmr', 'hudIl', 'chfa', 'fred'],
+      fallback: 'Cached FMR/IL data when HUD API unavailable. FRED rates fall back to last-known values.',
+      geography: 'Colorado — county-level FMR & income limits, project-level CHFA data',
+      freshness: 'HUD FMR FY2025 · HUD IL FY2025 · FRED rates live · CHFA QAP 2025-2026',
+      limitations: 'Calculator produces screening-level estimates only. Not a substitute for formal underwriting. Tax credit pricing uses market averages; actual investor pricing varies by deal characteristics.'
+    });
+  });
+  </script>
 
 </body>
 </html>

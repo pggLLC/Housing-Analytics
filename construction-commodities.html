@@ -258,6 +258,20 @@
 })();
 </script>
 
+<script defer src="js/citations.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof addDataQualitySummary !== 'function') return;
+  var main = document.querySelector('main') || document.body;
+  addDataQualitySummary(main, {
+    primary: ['blsPpi', 'fred'],
+    fallback: 'Cached FRED series when API unavailable',
+    geography: 'National — Producer Price Index series for construction materials',
+    freshness: 'FRED PPI series updated monthly (latest: Mar 2026)',
+    limitations: 'PPI reflects national wholesale prices. Regional construction costs vary significantly. Forecasts based on futures markets and analyst consensus.'
+  });
+});
+</script>
 <footer id="site-footer"></footer>
 </body>
 </html>

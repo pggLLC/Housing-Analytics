@@ -223,6 +223,7 @@
         _metricRow('Median HH Income',     _fmtCur(acs.med_hh_income)) +
         _metricRow('Median Gross Rent',    _fmtCur(acs.med_gross_rent)) +
         _metricRow('Unemployment Rate',    _fmtPct(acs.unemployment_rate)) +
+        _metricRow('Vacancy Rate',        _fmtPct(acs.vacancy_rate), acs.vacancy_rate != null && acs.vacancy_rate < 0.05 ? 'var(--warn)' : null) +
       '</div>'
     );
 
@@ -254,20 +255,32 @@
       totalUnits += parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || 0, 10);
     });
 
-    // Recent projects (allocated in last 10 years).
+    // Recent projects (allocated in last 5 and 10 years).
     var now    = new Date().getFullYear();
-    var recent = lihtcData.filter(function (f) {
+    var recent10 = 0;
+    var recent5  = 0;
+    var recentUnits5 = 0;
+    lihtcData.forEach(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      var yr = parseInt(p.YEAR_ALLOC || p.year_alloc || 0, 10);
-      return yr >= now - 10;
-    }).length;
+      var yr = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || p.year_alloc || 0, 10);
+      if (yr > 2000 && yr <= now) {
+        var u = parseInt(p.N_UNITS || p.TOTAL_UNITS || p.total_units || 0, 10);
+        if (yr >= now - 10) recent10++;
+        if (yr >= now - 5) { recent5++; recentUnits5 += u; }
+      }
+    });
+    var recentWarning = recent5 >= 3
+      ? _metricRow('⚠ Recent Competition', recent5 + ' projects / ' + _fmtN(recentUnits5) + ' units in last 5 yr — reduces award probability', '#f59e0b')
+      : '';
 
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('LIHTC Supply Within Buffer') +
         _metricRow('Total LIHTC Projects', _fmtN(totalProj)) +
         _metricRow('Total Affordable Units', _fmtN(totalUnits)) +
-        _metricRow('Projects (last 10 yrs)', _fmtN(recent)) +
+        _metricRow('Projects (last 10 yrs)', _fmtN(recent10)) +
+        _metricRow('Projects (last 5 yrs)', _fmtN(recent5)) +
+        recentWarning +
         (totalProj > 0
           ? '<div style="margin-top:0.75rem;">' + _sectionHeading('Project List') + _lihtcTable(lihtcData) + '</div>'
           : '') +
@@ -283,13 +296,14 @@
     var shown = Math.min(features.length, 10);
     for (var i = 0; i < shown; i++) {
       var p     = (features[i] && features[i].properties) ? features[i].properties : features[i];
-      var name  = p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-      var city  = p.CITY || p.city || '—';
+      var name  = p.PROJECT || p.PROJECT_NAME || p.project_name || 'LIHTC Project';
+      var city  = p.PROJ_CTY || p.CITY || p.city || '—';
       // Parse unit count safely; any non-numeric value yields '—'.
-      var rawUnits = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units;
+      var rawUnits = p.N_UNITS || p.n_units || p.TOTAL_UNITS || p.total_units;
       var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
         ? String(Number(rawUnits)) : '—';
-      var yr    = p.YEAR_ALLOC  || p.year_alloc  || '—';
+      var rawYr = p.YR_ALLOC || p.YEAR_ALLOC || p.year_alloc || 0;
+      var yr = (rawYr > 0 && rawYr < 8000) ? String(rawYr) : '—';
       rows += (
         '<tr>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +

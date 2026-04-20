@@ -139,6 +139,17 @@
         </div>
       </section>
 
+      <!-- Latest from Housing News (dynamic from policy_briefs.json) -->
+      <section aria-labelledby="latest-briefs-heading" style="margin-top:var(--sp4);" id="latestBriefsSection">
+        <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 id="latest-briefs-heading">Latest from Housing News</h2>
+          <a href="policy-briefs.html" style="font-size:var(--small);color:var(--accent);">View all briefs →</a>
+        </div>
+        <div id="latestBriefsGrid" style="display:grid;gap:var(--sp3);">
+          <p style="color:var(--muted);font-size:var(--small);">Loading latest briefs…</p>
+        </div>
+      </section>
+
       <!-- Key Market Trends -->
       <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="trends-heading">
         <div class="chart-header">
@@ -334,6 +345,51 @@
   <script>
   (function () {
     'use strict';
+
+    /* ── Dynamic briefs section ──────────────────────────────────────── */
+    var BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy_briefs.json')
+      : 'data/policy_briefs.json';
+    var briefsGrid = document.getElementById('latestBriefsGrid');
+
+    if (briefsGrid) {
+      fetch(BRIEFS_URL)
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (data) {
+          var briefs = (data && data.briefs) || [];
+          if (!briefs.length) {
+            briefsGrid.innerHTML = '<p style="color:var(--muted);font-size:var(--small);">No policy briefs available yet. <a href="policy-briefs.html">Configure feeds</a> to start generating briefs.</p>';
+            return;
+          }
+          // Show up to 3 most recent briefs
+          var html = '';
+          briefs.slice(0, 3).forEach(function (b) {
+            var topic = b.policy_topic || 'General';
+            var summary = b.summary || '';
+            if (summary.length > 220) summary = summary.substring(0, 220) + '…';
+            var articleCount = (b.articles && b.articles.length) || 0;
+            var sources = (b.sources && b.sources.length) ? b.sources.slice(0, 3).join(', ') : '';
+            var tagColor = topic.toLowerCase().indexOf('lihtc') !== -1 ? 'tag-green'
+              : topic.toLowerCase().indexOf('zoning') !== -1 ? 'tag-blue'
+              : topic.toLowerCase().indexOf('rent') !== -1 ? 'tag-red'
+              : 'tag-orange';
+            html += '<div class="chart-card" style="border-left:3px solid var(--accent2);">' +
+              '<span class="tag ' + tagColor + '" style="margin-bottom:var(--sp2);display:inline-block;">' + topic + '</span>' +
+              '<h3 style="font-size:.95rem;margin:0 0 var(--sp2);color:var(--text-strong);">' + (b.title || 'Policy Brief') + '</h3>' +
+              '<p style="color:var(--muted);font-size:var(--small);line-height:1.55;">' + summary + '</p>' +
+              '<div style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp2);">' +
+              (articleCount ? articleCount + ' articles' : '') +
+              (sources ? ' · Sources: ' + sources : '') +
+              '</div></div>';
+          });
+          briefsGrid.innerHTML = html;
+        })
+        .catch(function () {
+          briefsGrid.innerHTML = '<p style="color:var(--muted);font-size:var(--small);">Policy briefs unavailable. <a href="policy-briefs.html">View Housing News →</a></p>';
+        });
+    }
+
+    /* ── Verification badge ──────────────────────────────────────────── */
     var STALE_DAYS = 30;
     var META_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/insights-meta.json')

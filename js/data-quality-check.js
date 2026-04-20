@@ -48,6 +48,20 @@
       minFeatures: 0,        // object-based file; custom check below
       validate: _validateAmiGap,
       critical: false
+    },
+    {
+      key: 'chfa-affordable-housing',
+      label: 'CHFA Affordable Housing DB',
+      path: 'data/chfa-affordable-housing.json',
+      minFeatures: 1000,     // expect ~1,688 properties
+      critical: false
+    },
+    {
+      key: 'acs-tract-metrics',
+      label: 'ACS tract metrics',
+      path: 'data/market/acs_tract_metrics_co.json',
+      minFeatures: 1000,     // expect ~1,300+ CO tracts
+      critical: true
     }
   ];
 

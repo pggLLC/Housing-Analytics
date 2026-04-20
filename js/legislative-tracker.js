@@ -63,9 +63,10 @@
       stage:       STAGES.CONFERENCE,
       houseVote:   '390-9',
       targetPassage: 'Q2 2026',
-      lastUpdated: '2026-02-09',
+      lastUpdated: '2026-04-03',
       summary:     'Sweeping bipartisan housing reform incorporating 43 individual bills, ' +
-                   'including AHCIA LIHTC improvements, FHA limit increases, and NEPA streamlining.',
+                   'including AHCIA LIHTC improvements, FHA limit increases, and NEPA streamlining. ' +
+                   'Conference committee is reconciling House and Senate versions; final vote expected Q2 2026.',
       lihtcImpact: {
         score:       9,
         description: 'Direct LIHTC credit amount increase (+12.5%), expanded basis boost eligibility, ' +
@@ -92,9 +93,10 @@
       title:       'Affordable Housing Credit Improvement Act',
       shortTitle:  'AHCIA 2025',
       stage:       STAGES.CONFERENCE,
-      lastUpdated: '2026-01-15',
+      lastUpdated: '2026-04-03',
       summary:     'Standalone bill incorporated into H.R. 6644. Increases LIHTC allocations, ' +
-                   'expands income averaging, and improves 4% credit feasibility.',
+                   'expands income averaging, and improves 4% credit feasibility. ' +
+                   'Key provisions being finalized in conference committee.',
       lihtcImpact: {
         score:       10,
         description: 'Core LIHTC improvement legislation — largest credit enhancement in a decade.',
@@ -113,9 +115,9 @@
       title:       'Revitalizing Opportunities for America\'s Development Act',
       shortTitle:  'ROAD Act',
       stage:       STAGES.SENATE_COMMITTEE,
-      lastUpdated: '2026-01-30',
-      summary:     'Senate companion to H.R. 6644. In conference committee to resolve differences. ' +
-                   'Includes additional rural housing provisions and community development focus.',
+      lastUpdated: '2026-03-22',
+      summary:     'Senate companion to H.R. 6644. Referred to Senate Banking Committee with rural housing ' +
+                   'provisions and community development focus. Expected to advance after conference reconciliation.',
       lihtcImpact: {
         score:       7,
         description: 'Complements AHCIA with rural set-asides and community development area targeting.',
@@ -141,9 +143,10 @@
       title:       'Community Reinvestment Act Modernization Provisions',
       shortTitle:  'CRA Modernization',
       stage:       STAGES.CONFERENCE,
-      lastUpdated: '2026-02-01',
+      lastUpdated: '2026-04-01',
       summary:     'Embedded CRA reform provisions across H.R. 6644 and ROAD Act. ' +
-                   'Expands CRA to insurance companies and FinTech lenders for LIHTC investments.',
+                   'Expands CRA to insurance companies and FinTech lenders for LIHTC investments. ' +
+                   'Conference committee finalizing scope of institution coverage.',
       lihtcImpact: {
         score:       8,
         description: 'Expands investor base for LIHTC equity by broadening CRA incentives to non-bank entities.',
@@ -334,6 +337,7 @@
       { date: '2026-01-28', event: 'H.R. 6644 passes House Financial Services Committee', billId: 'HR6644', stage: STAGES.COMMITTEE },
       { date: '2026-02-09', event: 'H.R. 6644 passes House 390-9 — strongest housing vote in a decade', billId: 'HR6644', stage: STAGES.HOUSE_PASSED },
       { date: '2026-02-15', event: 'Conference committee convened to reconcile H.R. 6644 and ROAD Act', billId: 'HR6644', stage: STAGES.CONFERENCE },
+      { date: '2026-04-03', event: 'Conference committee continues markup; LIHTC 12.5% increase retained in draft report', billId: 'HR6644', stage: STAGES.CONFERENCE },
       { date: '2026-Q2',    event: 'Target: Conference report released and final vote expected', billId: 'HR6644', stage: STAGES.ENROLLED, projected: true },
       { date: '2026-Q3',    event: 'Target: President signature and implementation begins', billId: 'HR6644', stage: STAGES.SIGNED, projected: true }
     ];

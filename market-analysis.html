@@ -129,6 +129,7 @@
         <span class="pma-quality-label" style="margin-left:auto">Heuristic Confidence:</span>
         <span id="pmaHeuristicConfidence" class="pma-confidence-badge" title="Click the map to compute heuristic confidence">—</span>
       </div>
+      <div id="pmaProvenanceNote" style="display:none;font-size:.78rem;color:var(--muted);padding:.3rem .75rem;margin-top:.25rem;" role="note"></div>
       <div id="pmaCoverageWarning" class="pma-coverage-warning" style="display:none" role="alert"></div>
       <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
     </div>
@@ -152,6 +153,14 @@
 
     <section class="ma-report-section" id="maPmaTool">
       <h2>Primary Market Area (PMA) Delineation</h2>
+      <details class="pma-explainer" style="margin-bottom:1rem;background:var(--card,#1e1e2e);border:1px solid var(--border,#333);border-radius:8px;padding:.75rem 1rem;">
+        <summary style="cursor:pointer;font-weight:600;color:var(--accent,#60a5fa);">What is a PMA and why does it matter?</summary>
+        <div style="margin-top:.5rem;font-size:.88rem;line-height:1.55;color:var(--text,#ccc);">
+          <p style="margin:0 0 .5rem">A <strong>Primary Market Area (PMA)</strong> is the geographic area from which the majority of a proposed housing development's residents are expected to be drawn. For LIHTC (Low-Income Housing Tax Credit) applications, CHFA requires an independent third-party market study that delineates the PMA and demonstrates sufficient demand within that area.</p>
+          <p style="margin:0 0 .5rem">PMA boundaries are typically defined by factors including commuting patterns, natural and man-made barriers (rivers, highways, rail lines), school district boundaries, neighborhood identity, and transit accessibility. The delineation methods below implement these industry-standard approaches using publicly available data from the Census Bureau (LEHD/LODES), TIGER/Line, and the National Transit Database.</p>
+          <p style="margin:0"><strong>This tool provides screening-level analysis only.</strong> Scores and boundaries generated here are for early-stage site identification and feasibility assessment. They do not replace the formal market study required by CHFA, which must be conducted by a qualified independent analyst following NH&amp;RA / Novogradac standards.</p>
+        </div>
+      </details>
       <p class="pma-intro-note" style="margin-bottom:.75rem;">
         Define the PMA boundary using commuting flows, barriers, school districts, and transit — meeting NH&amp;RA / Novogradac industry standards for LIHTC market studies. Click the map to place a site, then select a delineation method and run the analysis.
       </p>
@@ -236,6 +245,10 @@
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="lihtc" checked>
               LIHTC properties
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="otherAffordable">
+              Other affordable housing <small>(CHFA, 1,688)</small>
             </label>
             <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commuting">
@@ -439,6 +452,14 @@
               <div class="kpi-source">DOLA Prop 123</div>
             </div>
           </div>
+          <div id="pmaRecentLihtc" style="font-size:.82rem;margin-top:.5rem;padding:.5rem .75rem;background:var(--surface,#1a1a2e);border-radius:6px;border-left:3px solid var(--accent,#60a5fa);display:none;"></div>
+          <script>
+            // Show recency row once PMA analysis runs
+            document.addEventListener('pma:score-rendered', function () {
+              var el = document.getElementById('pmaRecentLihtc');
+              if (el && el.innerHTML) el.style.display = 'block';
+            });
+          </script>
         </div>
 
         <!-- Capture-rate Simulator -->
@@ -922,6 +943,7 @@
   <script defer src="js/soft-funding-tracker.js"></script>
   <script defer src="js/chfa-award-predictor.js"></script>
 
+<script defer src="js/citations.js"></script>
 <script src="js/help-modal.js"></script>
 <script src="js/data-status-footer.js"></script>
 <script>
@@ -1254,5 +1276,25 @@
     }
   });
 }());
+</script>
+<!-- Phase B: Source attribution badges -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof addSourceBadge !== 'function') return;
+  // PMA score section
+  var scoreWrap = document.getElementById('pmaScoreWrap');
+  if (scoreWrap) addSourceBadge(scoreWrap, ['acs5yr', 'hud', 'fred'], { showVintage: true, className: 'chart-source' });
+  // Map layer data quality note
+  var mapWrap = document.querySelector('.pma-map-wrap') || document.querySelector('main');
+  if (mapWrap && typeof addDataQualitySummary === 'function') {
+    addDataQualitySummary(mapWrap, {
+      primary: ['acs5yr', 'hud', 'lehd', 'osmAmenities'],
+      fallback: 'Cached GeoJSON layers when live APIs are unavailable. Layers show "data unavailable" badge if missing.',
+      geography: 'Colorado statewide — tract-level ACS, point-level amenities, project-level LIHTC',
+      freshness: 'ACS 2024 · LIHTC DB 2026 · LEHD 2023 · OSM Apr 2026 · FRED live',
+      limitations: 'PMA scores use screening-level estimates. Not a substitute for a formal market study. Capture rates are modeled, not surveyed.'
+    });
+  }
+});
 </script>
 </html>
