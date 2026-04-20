@@ -10,7 +10,8 @@ Tests:
 
 Usage
 -----
-    python test/economic_indicators_test.py
+    pytest tests/economic_indicators_test.py -v
+    # (or, standalone) python tests/economic_indicators_test.py
 """
 
 import sys
