@@ -3101,6 +3101,14 @@
   function renderBlsLabourMarket(countyFips5, geoType, econData) {
     var container = document.getElementById('blsLabourMarketCards');
     if (!container) return;
+    function escapeHtml(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
     // Derive county name from geo-config for lookup in econData.counties (keyed by name)
     var countyName = null;
@@ -3171,7 +3179,7 @@
         '<div style="grid-column:1/-1;margin:0 0 .5rem;padding:.55rem .7rem;border:1px solid var(--border);' +
         'border-radius:var(--radius);background:var(--bg2);font-size:var(--tiny);color:var(--muted);">' +
         '<strong style="color:var(--text);">County context:</strong> labour market metrics are shown for ' +
-        countyDisplayName + ' because place/CDP-level LEHD/BLS series are reported at county scope.' +
+        escapeHtml(countyDisplayName) + ' because place/CDP-level LEHD/BLS series are reported at county scope.' +
         '</div>';
     }
 
