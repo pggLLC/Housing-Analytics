@@ -60,12 +60,31 @@
   function _propName(f) {
     if (!f) return 'Unknown Property';
     var p = f.properties || f;
-    return p.PROJECT_NAME || p.projectName || p.name || p.PROPERTY_NAME || 'Unknown Property';
+    // Handles HUD LIHTC (PROJECT_NAME), NHPD (property_name), and internal shapes
+    return p.PROJECT_NAME || p.projectName || p.name
+        || p.PROPERTY_NAME || p.property_name || 'Unknown Property';
   }
 
   function _propUnits(f) {
     var p = (f && f.properties) ? f.properties : f;
-    return toNum(p && (p.LI_UNITS || p.N_UNITS || p.totalUnits || p.units) || 0);
+    // LI_UNITS/N_UNITS = HUD LIHTC; total_units/assisted_units = NHPD
+    return toNum(p && (p.LI_UNITS || p.N_UNITS || p.totalUnits || p.units
+                    || p.total_units || p.assisted_units) || 0);
+  }
+
+  // Extract expiry year from LIHTC numeric fields or NHPD date strings
+  function _propExpiryYear(f) {
+    var p = (f && f.properties) ? f.properties : f;
+    if (!p) return null;
+    var direct = toNum(p.expiryYear || p.EXPIRY_YEAR || 0);
+    if (direct) return direct;
+    // NHPD subsidy_expiration is a date string like "2027-09-30"
+    var iso = p.subsidy_expiration || p.subsidyExpiration;
+    if (iso) {
+      var y = parseInt(String(iso).slice(0, 4), 10);
+      if (y >= 1900 && y <= 2100) return y;
+    }
+    return null;
   }
 
   /* ── Core API ────────────────────────────────────────────────────── */
@@ -115,8 +134,7 @@
       var props   = f.properties || f;
       var expiryYear = null;
       if (nhpdMatch) {
-        var nhpdProps = nhpdMatch.properties || nhpdMatch;
-        expiryYear = toNum(nhpdProps.expiryYear || nhpdProps.EXPIRY_YEAR || 0) || null;
+        expiryYear = _propExpiryYear(nhpdMatch);
       }
       return {
         id:              props.HUDID || props.id || ('lihtc-' + Math.random().toString(36).slice(2)),
@@ -145,15 +163,15 @@
       if (!alreadyMerged) {
         var dist = haversine(siteLat, siteLon, _propLat(f), _propLon(f));
         var props = f.properties || f;
-        var expYear = toNum(props.expiryYear || props.EXPIRY_YEAR || 0) || null;
+        var expYear = _propExpiryYear(f);
         merged.push({
-          id:              props.id || ('nhpd-' + Math.random().toString(36).slice(2)),
+          id:              props.id || props.nhpd_id || ('nhpd-' + Math.random().toString(36).slice(2)),
           name:            _propName(f),
           lat:             _propLat(f),
           lon:             _propLon(f),
           distanceMiles:   Math.round(dist * 10) / 10,
           units:           _propUnits(f),
-          programType:     props.program || props.PROGRAM || 'Section 8',
+          programType:     props.program || props.PROGRAM || props.subsidy_type || 'Section 8',
           amiPercent:      toNum(props.amiPercent || 60),
           yearPlaced:      toNum(props.yearPlaced || 0),
           hasNhpd:         true,
@@ -182,8 +200,7 @@
 
     lastExpiryRisk = nhpdFeatures
       .map(function (f) {
-        var props = f.properties || f;
-        var expiry = toNum(props.expiryYear || props.EXPIRY_YEAR || 0);
+        var expiry = _propExpiryYear(f) || 0;
         return {
           property:    _propName(f),
           lat:         _propLat(f),
