@@ -28,8 +28,8 @@
     "monitor:report:json": "node scripts/monitoring/generate-report.js --json",
     "monitor:check": "python3 scripts/monitoring/data-quality-check.py",
     "docs:sync": "node scripts/sync-docs.mjs",
-    "_comment_test_ci": "CI entry point: runs asset validation (31 HTML pages), data threshold checks, fetch-helper tests (19/19), HNA functionality (647/651 pass), and site validation.",
-    "test:ci": "npm run validate && npm run validate:data && npm run test:fetch-helper && npm run test:hna && npm run test:validate",
+    "_comment_test_ci": "CI entry point: runs asset validation (31 HTML pages), data threshold checks, fetch-helper tests (19/19), HNA functionality (647/651 pass), site validation, pro-forma (24 assertions), and QAP simulator (64 assertions).",
+    "test:ci": "npm run validate && npm run validate:data && npm run test:fetch-helper && npm run test:hna && npm run test:validate && npm run test:pro-forma && npm run test:qap-simulator",
     "test:pro-forma": "node test/pro-forma.test.js",
     "test:qap-simulator": "node test/qap-simulator.test.js",
     "test:all": "npm run test:ci && node test/smoke.test.js && node test/smoke-fmr.test.js && node test/data-quality-check.test.js && node test/pro-forma.test.js && node test/qap-simulator.test.js && python3 -m pytest tests/ -v --tb=short"
