@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T18:24:07.392Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T18:45:32.604Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.9 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 42.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.2 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 68.6 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 29.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.3 KB |
@@ -936,7 +936,7 @@
 | `data/policy/housing-policy-scorecard.json` | 179.4 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 11.6 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 12.4 KB | ✅ | — |
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
