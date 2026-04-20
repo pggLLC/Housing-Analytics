@@ -3151,8 +3151,10 @@
     // These align with the thresholds used in market-intelligence.js renderEconomicKpis() setBadge() calls.
     var UR_LOW = 3.8;
     var UR_HIGH = 5.5;
-    // Thresholds for 5-year job growth (BLS QCEW): ≥8% = strong, ≥2% = moderate, <2% = weak.
-    // These align with the market-intelligence.js thresholds for the job-growth badge.
+    // Thresholds for 5-year residential employment growth (BLS LAUS, replaces
+    // deprecated BLS QCEW endpoint): ≥8% = strong, ≥2% = moderate, <2% = weak.
+    // Aligned with market-intelligence.js thresholds for the job-growth badge.
+    // Source change documented in scripts/fetch_county_economic_indicators.py.
     var JG_STRONG = 8;
     var JG_MODERATE = 2;
 
@@ -3178,7 +3180,7 @@
     var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
     var jgSub = jg != null
       ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth')
-      : 'QCEW endpoint currently unavailable — see <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">bls.gov/cew</a>';
+      : 'Pending BLS LAUS feed refresh — see <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">bls.gov/lau</a>';
 
     var countyContextBanner = '';
     if (geoType === 'place' || geoType === 'cdp') {
@@ -3192,7 +3194,7 @@
 
     container.innerHTML = countyContextBanner +
       kpiCard('Unemployment Rate', urValue, urSub + ' · BLS LAUS', urColor) +
-      kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS QCEW', jgColor);
+      kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS LAUS (residential)', jgColor);
   }
 
   /**
