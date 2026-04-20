@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-20T07:15:19.751962Z",
+  "generated": "2026-04-20T09:08:07.915692Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -144,7 +144,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 133033
+      "bytes": 133115
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4539,7 +4539,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20225
+      "bytes": 20237
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
