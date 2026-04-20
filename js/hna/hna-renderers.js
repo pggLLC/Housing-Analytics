@@ -3104,16 +3104,20 @@
 
     // Derive county name from geo-config for lookup in econData.counties (keyed by name)
     var countyName = null;
+    var countyDisplayName = null;
     if (geoType !== 'state' && countyFips5) {
       var geoConf = window.__HNA_GEO_CONFIG;
       var countyEntry = geoConf && Array.isArray(geoConf.counties)
         ? geoConf.counties.find(function (c) { return c.geoid === countyFips5; })
         : null;
       if (countyEntry && countyEntry.label) {
+        countyDisplayName = countyEntry.label;
         // Labels are like "Adams County" — strip " County" suffix for the lookup key
         countyName = countyEntry.label.replace(/\s+County$/i, '').trim();
       }
     }
+    if (!countyDisplayName && countyName) countyDisplayName = countyName + ' County';
+    if (!countyDisplayName && countyFips5) countyDisplayName = 'FIPS ' + countyFips5;
 
     var countyData = econData && econData.counties && countyName
       ? (econData.counties[countyName] || null)
@@ -3161,7 +3165,17 @@
     var jgColor = jg != null ? (jg >= JG_STRONG ? 'var(--success,#22a36f)' : jg >= JG_MODERATE ? 'var(--warning,#f59e0b)' : 'var(--danger,#ef4444)') : '';
     var jgSub = jg != null ? (jg >= JG_STRONG ? 'Strong 5-yr growth' : jg >= JG_MODERATE ? 'Moderate 5-yr growth' : 'Weak 5-yr growth') : 'Data not yet available';
 
-    container.innerHTML =
+    var countyContextBanner = '';
+    if (geoType === 'place' || geoType === 'cdp') {
+      countyContextBanner =
+        '<div style="grid-column:1/-1;margin:0 0 .5rem;padding:.55rem .7rem;border:1px solid var(--border);' +
+        'border-radius:var(--radius);background:var(--bg2);font-size:var(--tiny);color:var(--muted);">' +
+        '<strong style="color:var(--text);">County context:</strong> labour market metrics are shown for ' +
+        countyDisplayName + ' because place/CDP-level LEHD/BLS series are reported at county scope.' +
+        '</div>';
+    }
+
+    container.innerHTML = countyContextBanner +
       kpiCard('Unemployment Rate', urValue, urSub + ' · BLS LAUS', urColor) +
       kpiCard('5-Year Job Growth', jgValue, jgSub + ' · BLS QCEW', jgColor);
   }
