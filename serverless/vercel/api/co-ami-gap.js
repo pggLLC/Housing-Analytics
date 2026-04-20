@@ -162,8 +162,28 @@ export default async function handler(req, res) {
     const hudToken = process.env.HUD_USER_TOKEN;
     if (!hudToken) return res.status(500).json({ error: "Missing HUD_USER_TOKEN" });
 
-    const hudYear = Number(req.query.hudYear || DEFAULT_HUD_YEAR);
-    const acsYear = Number(req.query.acsYear || DEFAULT_ACS_YEAR);
+    // Validate query-param years before passing them downstream to HUD/Census.
+    // Anything outside a sane range is a malformed request — return 400 rather
+    // than constructing nonsense URLs and silently swallowing the failures.
+    const MIN_YEAR = 2010;
+    const MAX_YEAR = new Date().getUTCFullYear() + 1;
+    const parseYear = (raw, fallback, name) => {
+      if (raw === undefined || raw === null || raw === "") return fallback;
+      const n = Number(raw);
+      if (!Number.isInteger(n) || n < MIN_YEAR || n > MAX_YEAR) {
+        const err = new Error(`Invalid ${name}=${raw}; expected integer in [${MIN_YEAR}, ${MAX_YEAR}]`);
+        err.status = 400;
+        throw err;
+      }
+      return n;
+    };
+    let hudYear, acsYear;
+    try {
+      hudYear = parseYear(req.query.hudYear, DEFAULT_HUD_YEAR, "hudYear");
+      acsYear = parseYear(req.query.acsYear, DEFAULT_ACS_YEAR, "acsYear");
+    } catch (validationErr) {
+      return res.status(validationErr.status || 400).json({ error: validationErr.message });
+    }
     const censusKey = process.env.CENSUS_API_KEY || null;
 
     const counties = await hudFetch(`fmr/listCounties/CO?updated=2025`, hudToken);
