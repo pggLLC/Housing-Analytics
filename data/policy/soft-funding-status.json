@@ -29,6 +29,19 @@
       "description": "Below-market first mortgage financing for affordable housing. Available year-round with rolling applications.",
       "contactUrl": "https://www.chfainfo.com/"
     },
+    "CHFA-CMF": {
+      "name": "CHFA Capital Magnet Fund",
+      "county": "All",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "high",
+      "eligibleExecution": ["9%", "4%"],
+      "maxPerProject": 2000000,
+      "description": "Federal U.S. Treasury CDFI Fund program re-granted by CHFA to Colorado affordable-housing projects for gap financing, predevelopment, and acquisition. Awarded to CHFA on a periodic NOFA cycle (most recent CHFA award: 2023, ~$10M). Exact available dollars vary by award cycle; verify current balance with CHFA before underwriting. Layers with LIHTC equity and first mortgage.",
+      "contactUrl": "https://www.chfainfo.com/multifamily-finance/capital-magnet-fund"
+    },
     "DOLA-HTF": {
       "name": "Colorado DOLA Housing Trust Fund",
       "county": "All",
