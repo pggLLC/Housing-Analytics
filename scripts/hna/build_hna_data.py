@@ -1877,8 +1877,9 @@ def _build_state_projection_aggregate():
     rounded_total_base_units = round(total_base_units, 2)
 
     # Derived statewide vacancy rate: percentage of units that are vacant.
-    # Compute from the rounded aggregate base totals used in payload to keep
-    # housing_units ~= households / (1 - vacancy_rate/100) within test tolerance.
+    # Compute from the rounded aggregate base totals used in payload, and keep
+    # 5 decimal places so housing_units ~= households / (1 - vacancy_rate/100)
+    # remains within tolerance after serialization/rounding.
     state_vacancy_rate = round(
         (1 - rounded_total_base_hh / rounded_total_base_units) * 100, 5
     ) if rounded_total_base_units else 0.0
