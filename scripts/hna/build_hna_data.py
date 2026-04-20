@@ -1895,6 +1895,11 @@ def _build_state_projection_aggregate():
         (1 - rounded_total_base_hh / rounded_total_base_units) * 100, 5
     ) if rounded_total_base_units else 0.0
 
+    incremental_units_needed_dola = _sum_housing_series('incremental_units_needed_dola')
+    if incremental_units_needed_dola:
+        # Base year is the reference point for incremental need and must be zero.
+        incremental_units_needed_dola[0] = 0.0
+
     payload = {
         'updated': utc_now_z(),
         'countyFips': STATE_FIPS_CO,
@@ -1918,7 +1923,7 @@ def _build_state_projection_aggregate():
             'target_vacancy': state_target_vac,
             'households_dola': _sum_housing_series('households_dola'),
             'units_needed_dola': _sum_housing_series('units_needed_dola'),
-            'incremental_units_needed_dola': _sum_housing_series('incremental_units_needed_dola'),
+            'incremental_units_needed_dola': incremental_units_needed_dola,
         },
         'source': {
             'components_change_url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
