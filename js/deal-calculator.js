@@ -304,6 +304,43 @@
           This is a planning-level estimate. Actual terms depend on lender underwriting.
         </p>
       </fieldset>
+
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Source</legend>
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Primary soft-funding program</span>
+          <select id="dc-soft-source"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
+            <option value="chfa_htf">CHFA HTF</option>
+            <option value="dola_htf">DOLA HTF</option>
+            <option value="home">HOME</option>
+            <option value="cdbg">CDBG</option>
+            <option value="local_trust">Local housing trust fund</option>
+            <option value="nhtf">NHTF</option>
+            <option value="impact_fee_loan">Impact Fee Loan</option>
+            <option value="historic_tc">Historic Tax Credit</option>
+            <option value="nmtc">NMTC</option>
+            <option value="seller_carry">Seller-carry</option>
+          </select>
+        </label>
+        <div id="dc-impact-fee-wrap" style="display:none;">
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Amount ($)</span>
+            <input id="dc-impact-fee-amount" type="number" min="0" step="10000" value="0"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Rate (%)</span>
+            <input id="dc-impact-fee-rate" type="number" min="0" max="20" step="0.1" value="3.5"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+          <label style="display:block;">
+            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Term (years)</span>
+            <input id="dc-impact-fee-term" type="number" min="1" max="50" step="1" value="20"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          </label>
+        </div>
+      </fieldset>
     </div>
 
     <!-- Outputs column -->
@@ -386,6 +423,16 @@
               <td id="dc-su-deferred-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
             </tr>
             <tr>
+              <td style="padding:0.3rem 0.25rem;">
+                Impact Fee Loan Debt Service (annual)
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Included when Impact Fee Loan is selected as a soft-funding source
+                </span>
+              </td>
+              <td id="dc-su-impact-ds" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-su-impact-ds-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
               <td style="padding:0.3rem 0.25rem;color:var(--muted);">Gap / Subordinate Debt / Grants Needed</td>
               <td id="dc-su-gap" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
               <td id="dc-su-gap-pct" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
@@ -458,7 +505,8 @@
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
-      'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt'];
+      'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
+      'dc-impact-fee-amount', 'dc-impact-fee-rate', 'dc-impact-fee-term'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
@@ -466,6 +514,19 @@
     // Select elements also need 'change' listener for reliable cross-browser support
     var taxExemptSel = document.getElementById('dc-tax-exempt');
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
+    var softSourceSel = document.getElementById('dc-soft-source');
+    var impactFeeWrap = document.getElementById('dc-impact-fee-wrap');
+    var syncSoftFundingUi = function () {
+      var showImpact = softSourceSel && softSourceSel.value === 'impact_fee_loan';
+      if (impactFeeWrap) impactFeeWrap.style.display = showImpact ? 'block' : 'none';
+    };
+    if (softSourceSel) {
+      softSourceSel.addEventListener('change', function () {
+        syncSoftFundingUi();
+        recalculate();
+      });
+      syncSoftFundingUi();
+    }
 
     // Auto-NOI toggle
     var autoNoiChk = document.getElementById('dc-auto-noi');
@@ -685,6 +746,19 @@
           : null)
       : null;
 
+    var softSource = (document.getElementById('dc-soft-source') || {}).value || '';
+    var impactDebtService = 0;
+    if (softSource === 'impact_fee_loan') {
+      var impactAmt = Math.max(0, safeVal('dc-impact-fee-amount') || 0);
+      var impactRatePct = Math.max(0, safeVal('dc-impact-fee-rate') || 0);
+      var impactTerm = Math.max(1, safeVal('dc-impact-fee-term') || 20);
+      if (impactAmt > 0) {
+        var impactMc = mortgageConstant(impactRatePct / 100, impactTerm);
+        // Zero-interest public loans are amortized here as straight-line annual principal.
+        impactDebtService = impactRatePct > 0 ? (impactAmt * impactMc) : (impactAmt / impactTerm);
+      }
+    }
+
     // Sources & uses — deferred dev fee fills gap before subordinate debt is needed
     var gap = tdc - equity - mortgage - deferredDevFee;
 
@@ -741,10 +815,11 @@
       equity:   { amt: equity,        id: 'dc-su-equity' },
       mortgage: { amt: mortgage,       id: 'dc-su-mortgage' },
       deferred: { amt: deferredDevFee, id: 'dc-su-deferred' },
+      impactds: { amt: impactDebtService, id: 'dc-su-impact-ds' },
       gap:      { amt: gap,            id: 'dc-su-gap' },
       tdc:      { amt: tdc,            id: 'dc-su-tdc' }
     };
-    ['equity', 'mortgage', 'deferred', 'gap', 'tdc'].forEach(function (key) {
+    ['equity', 'mortgage', 'deferred', 'impactds', 'gap', 'tdc'].forEach(function (key) {
       var row = su[key];
       var amtEl = document.getElementById(row.id);
       var pctEl = document.getElementById(row.id + '-pct');

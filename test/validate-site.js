@@ -17,7 +17,6 @@
 
 const fs   = require('fs');
 const path = require('path');
-const glob = require('glob');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -35,6 +34,19 @@ function fileExists(rel) {
 
 function readFile(rel) {
   return fs.readFileSync(path.join(ROOT, rel), 'utf8');
+}
+
+function listRootHtmlFiles() {
+  return fs.readdirSync(ROOT, { withFileTypes: true })
+    .filter(function (ent) { return ent.isFile() && ent.name.toLowerCase().endsWith('.html'); })
+    .map(function (ent) { return ent.name; });
+}
+
+function listTopLevelJsFiles() {
+  var jsRoot = path.join(ROOT, 'js');
+  return fs.readdirSync(jsRoot, { withFileTypes: true })
+    .filter(function (ent) { return ent.isFile() && ent.name.toLowerCase().endsWith('.js'); })
+    .map(function (ent) { return path.posix.join('js', ent.name); });
 }
 
 // ─── 1. Required JSON data files ──────────────────────────────────────────────
@@ -66,7 +78,7 @@ REQUIRED_JSON.forEach(function (f) {
 
 // ─── 2. Link validation ───────────────────────────────────────────────────────
 console.log('\n── 2. Link validation ──');
-var htmlFiles = glob.sync('*.html', { cwd: ROOT });
+var htmlFiles = listRootHtmlFiles();
 var emptyHrefs = 0;
 var jsVoidHrefs = 0;
 
@@ -96,7 +108,7 @@ if (emptyHrefs === 0 && jsVoidHrefs === 0) {
 
 // ─── 3. Hardcoded fetch pattern check ────────────────────────────────────────
 console.log('\n── 3. Hardcoded data-path fetch check ──');
-var jsFiles = glob.sync('js/*.js', { cwd: ROOT, ignore: ['js/vendor/**'] });
+var jsFiles = listTopLevelJsFiles();
 var hardcodedFetches = [];
 
 jsFiles.forEach(function (jsFile) {
