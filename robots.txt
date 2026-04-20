@@ -9,4 +9,4 @@ Disallow: /test/
 Disallow: /tools/
 Disallow: /Housing-Analytics/private/
 
-Sitemap: https://housinganalytics.pgg.llc/sitemap.xml
+Sitemap: https://pggllc.github.io/Housing-Analytics/sitemap.xml
