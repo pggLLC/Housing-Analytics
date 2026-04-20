@@ -1544,12 +1544,16 @@
 
   function renderRentBurdenBins(profile){
     const t = chartTheme();
+    // ACS DP04 GRAPI bins (gross rent as % of household income):
+    // DP04_0137PE = <15%, _0138PE = 15–19.9%, _0139PE = 20–24.9%,
+    // _0140PE = 25–29.9%, _0141PE = 30–34.9%, _0142PE = 35%+
     const bins = [
-      { k:'<20%', v:Number(profile?.DP04_0142PE) },
-      { k:'20–24.9%', v:Number(profile?.DP04_0143PE) },
-      { k:'25–29.9%', v:Number(profile?.DP04_0144PE) },
-      { k:'30–34.9%', v:Number(profile?.DP04_0145PE) },
-      { k:'35%+', v:Number(profile?.DP04_0146PE) },
+      { k:'<15%', v:Number(profile?.DP04_0137PE) },
+      { k:'15–19.9%', v:Number(profile?.DP04_0138PE) },
+      { k:'20–24.9%', v:Number(profile?.DP04_0139PE) },
+      { k:'25–29.9%', v:Number(profile?.DP04_0140PE) },
+      { k:'30–34.9%', v:Number(profile?.DP04_0141PE) },
+      { k:'35%+', v:Number(profile?.DP04_0142PE) },
     ].filter(d=>Number.isFinite(d.v));
 
     makeChart(document.getElementById('chartRentBurdenBins').getContext('2d'), {
