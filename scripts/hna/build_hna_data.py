@@ -1907,7 +1907,10 @@ def _build_state_projection_aggregate():
     base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
     incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
     if base_year_idx >= len(incremental_units_needed_dola):
-        raise ValueError(f'State projection housing need series missing base year index {base_year_idx}')
+        raise ValueError(
+            'State projection units_needed_dola array length mismatch: '
+            f'expected at least {base_year_idx + 1} elements, got {len(incremental_units_needed_dola)}'
+        )
     incremental_units_needed_dola[base_year_idx] = 0.0
 
     payload = {
