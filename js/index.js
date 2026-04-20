@@ -75,6 +75,31 @@
       })
       .catch(function () {});
 
+    // Statewide renter cost burden — weighted average of tract-level
+    // cost_burden_rate (0–1 fraction) by renter household count.
+    // Source: data/market/acs_tract_metrics_co.json (ACS B25070 derived).
+    DS.getJSON(DS.baseData('market/acs_tract_metrics_co.json'))
+      .then(function (data) {
+        var tracts = data && data.tracts;
+        if (!Array.isArray(tracts)) return;
+        var sum = 0, weight = 0;
+        for (var i = 0; i < tracts.length; i++) {
+          var t = tracts[i];
+          var rh  = Number(t.renter_hh) || 0;
+          var cbr = Number(t.cost_burden_rate) || 0;
+          if (rh > 0 && cbr > 0) {
+            sum    += cbr * rh;
+            weight += rh;
+          }
+        }
+        if (weight > 0) {
+          // cost_burden_rate is stored 0–1; render as percentage.
+          var pct = (sum / weight) * 100;
+          setText('snapCostBurden', pct.toFixed(1) + '%');
+        }
+      })
+      .catch(function () {});
+
     DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
       .then(function (data) {
         var count = data && data.features ? data.features.length : null;
