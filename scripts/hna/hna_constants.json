@@ -1,0 +1,4 @@
+{
+  "base_year": 2024,
+  "_doc": "Source vintage of DOLA SYA + projection inputs. Single source of truth for the HNA base year. Read by scripts/hna/build_hna_data.py (writes pyramidYear/baseYear into per-county JSON), scripts/pre_commit_check.py (governance Check 7), and tests/test_governance_stress.py (Probe 6). Bump this when DOLA publishes a new SYA vintage."
+}
