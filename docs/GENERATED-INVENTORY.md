@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T03:08:25.943Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T08:08:15.479Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/alerts/alerts_archive.json` | 128.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 144.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -217,70 +217,70 @@
 | `data/hna/lehd/08121.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08123.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08125.json` | 2.6 KB | ✅ | — |
-| `data/hna/lihtc/08001.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08003.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08005.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08007.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08009.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08011.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08013.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08014.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08015.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08017.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08019.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08021.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08023.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08025.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08027.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08029.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08031.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08033.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08035.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08037.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08039.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08041.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08043.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08045.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08047.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08049.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08051.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08053.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08055.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08057.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08059.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08061.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08063.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08065.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08067.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08069.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08071.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08073.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08075.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08077.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08079.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08081.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08083.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08085.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08087.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08089.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08091.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08093.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08095.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08097.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08099.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08101.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08103.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08105.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08107.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08109.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08111.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08113.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08115.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08117.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08119.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08121.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08123.json` | 42 B | ✅ | 0 features |
-| `data/hna/lihtc/08125.json` | 42 B | ✅ | 0 features |
+| `data/hna/lihtc/08001.json` | 18.5 KB | ✅ | 49 features |
+| `data/hna/lihtc/08003.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08005.json` | 24.0 KB | ✅ | 63 features |
+| `data/hna/lihtc/08007.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08009.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08011.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08013.json` | 22.5 KB | ✅ | 60 features |
+| `data/hna/lihtc/08014.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08015.json` | 2.3 KB | ✅ | 6 features |
+| `data/hna/lihtc/08017.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08019.json` | 481 B | ✅ | 1 features |
+| `data/hna/lihtc/08021.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08023.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08025.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08027.json` | 459 B | ✅ | 1 features |
+| `data/hna/lihtc/08029.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08031.json` | 73.9 KB | ✅ | 198 features |
+| `data/hna/lihtc/08033.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08035.json` | 3.5 KB | ✅ | 9 features |
+| `data/hna/lihtc/08037.json` | 3.0 KB | ✅ | 8 features |
+| `data/hna/lihtc/08039.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08041.json` | 13.2 KB | ✅ | 34 features |
+| `data/hna/lihtc/08043.json` | 5.4 KB | ✅ | 14 features |
+| `data/hna/lihtc/08045.json` | 2.7 KB | ✅ | 7 features |
+| `data/hna/lihtc/08047.json` | 474 B | ✅ | 1 features |
+| `data/hna/lihtc/08049.json` | 452 B | ✅ | 1 features |
+| `data/hna/lihtc/08051.json` | 469 B | ✅ | 1 features |
+| `data/hna/lihtc/08053.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08055.json` | 465 B | ✅ | 1 features |
+| `data/hna/lihtc/08057.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08059.json` | 17.2 KB | ✅ | 45 features |
+| `data/hna/lihtc/08061.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08063.json` | 473 B | ✅ | 1 features |
+| `data/hna/lihtc/08065.json` | 835 B | ✅ | 2 features |
+| `data/hna/lihtc/08067.json` | 5.3 KB | ✅ | 14 features |
+| `data/hna/lihtc/08069.json` | 19.7 KB | ✅ | 52 features |
+| `data/hna/lihtc/08071.json` | 469 B | ✅ | 1 features |
+| `data/hna/lihtc/08073.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08075.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08077.json` | 5.3 KB | ✅ | 14 features |
+| `data/hna/lihtc/08079.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08081.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08083.json` | 3.1 KB | ✅ | 8 features |
+| `data/hna/lihtc/08085.json` | 3.4 KB | ✅ | 9 features |
+| `data/hna/lihtc/08087.json` | 1.9 KB | ✅ | 5 features |
+| `data/hna/lihtc/08089.json` | 844 B | ✅ | 2 features |
+| `data/hna/lihtc/08091.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08093.json` | 450 B | ✅ | 1 features |
+| `data/hna/lihtc/08095.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08097.json` | 1.9 KB | ✅ | 5 features |
+| `data/hna/lihtc/08099.json` | 827 B | ✅ | 2 features |
+| `data/hna/lihtc/08101.json` | 13.0 KB | ✅ | 35 features |
+| `data/hna/lihtc/08103.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08105.json` | 1.6 KB | ✅ | 4 features |
+| `data/hna/lihtc/08107.json` | 1.2 KB | ✅ | 3 features |
+| `data/hna/lihtc/08109.json` | 2.0 KB | ✅ | 5 features |
+| `data/hna/lihtc/08111.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08113.json` | 1.2 KB | ✅ | 3 features |
+| `data/hna/lihtc/08115.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08117.json` | 2.3 KB | ✅ | 6 features |
+| `data/hna/lihtc/08119.json` | 840 B | ✅ | 2 features |
+| `data/hna/lihtc/08121.json` | 81 B | ✅ | 0 features |
+| `data/hna/lihtc/08123.json` | 8.3 KB | ✅ | 22 features |
+| `data/hna/lihtc/08125.json` | 449 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources.json` | 68.6 KB | ✅ | — |
 | `data/hna/projections/08.json` | 2.4 KB | ✅ | — |
@@ -904,7 +904,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 105.7 KB | ✅ | — |
+| `data/manifest.json` | 105.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -937,7 +937,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 11.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 106.9 KB | ✅ | — |
+| `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
