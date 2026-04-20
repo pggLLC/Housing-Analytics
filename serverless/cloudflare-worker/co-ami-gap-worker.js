@@ -74,11 +74,16 @@ const RENT_BINS = [
   [2500, Infinity]
 ];
 
+// Default to the production GitHub Pages origin instead of wildcard.
+// Override per-call by passing { "access-control-allow-origin": "..." } in headers.
+const DEFAULT_CORS_ORIGIN = "https://pggllc.github.io";
+
 function jsonResponse(obj, headers = {}) {
   return new Response(JSON.stringify(obj), {
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "access-control-allow-origin": "*",
+      "access-control-allow-origin": DEFAULT_CORS_ORIGIN,
+      "vary": "Origin",
       "cache-control": "public, max-age=3600",
       ...headers
     }

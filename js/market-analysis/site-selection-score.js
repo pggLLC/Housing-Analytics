@@ -148,19 +148,28 @@
   }
 
   /**
-   * Score the physical site feasibility.
+   * Score the physical site feasibility — INDICATOR ONLY.
    *
-   * @param {number}  floodRisk   - 0 (none) – 3 (high); higher = worse.
-   * @param {number}  soilScore   - 0–100; higher = better bearing capacity.
-   * @param {boolean} cleanupFlag - True when a brownfield/cleanup action is required.
+   * NOTE: "soilScore" is actually derived from CDC Environmental Justice
+   * Index (EJI) environmental burden, NOT from geotechnical soil data.
+   * A high EJI burden → low "soil" score. This is a proxy for
+   * environmental risk, not foundation engineering suitability.
+   *
+   * These scores are directional flags from public data. They do NOT
+   * replace Phase I ESA, geotechnical survey, or FEMA LOMA determination.
+   *
+   * @param {number}  floodRisk   - 0 (none) – 3 (high); FEMA zone indicator.
+   * @param {number}  soilScore   - 0–100; EJI environmental burden proxy (NOT geotechnical).
+   * @param {boolean} cleanupFlag - True when EJI burden is in high percentile.
    * @returns {number} 0–100
    */
   function scoreFeasibility(floodRisk, soilScore, cleanupFlag) {
     // Flood risk penalty: each level removes 20 pts from a 60-pt base.
+    // NOTE: Flood levels are a platform construct (0-3), not FEMA categories
     var flood    = _safe(floodRisk, 0);
     var floodPts = _clamp(60 - (flood * 20));
 
-    // Soil score contributes up to 30 pts.
+    // Environmental burden proxy (from EJI, not soil geotechnics)
     var soil    = _safe(soilScore, 50);
     var soilPts = _clamp((soil / 100) * 30);
 
@@ -198,12 +207,32 @@
     }
 
     var grocery    = _distPts(_safe(amenities.grocery,    2), 0.5, 2.0, 25);
-    var transit    = _distPts(_safe(amenities.transit,    1), 0.25, 1.0, 25);
     var parks      = _distPts(_safe(amenities.parks,      1), 0.25, 1.0, 15);
     var healthcare = _distPts(_safe(amenities.healthcare, 3), 1.0,  3.0, 20);
     var schools    = _distPts(_safe(amenities.schools,    1), 0.5,  2.0, 15);
 
-    var distanceScore = _clamp(grocery + transit + parks + healthcare + schools);
+    // Transit scoring: differentiate fixed rail/tram from bus stops.
+    // Rail/tram within 0.5mi earns full points; bus requires closer proximity.
+    // Falls back to generic transit distance if no type data available.
+    var transitPts = 0;
+    var railDist  = _safe(amenities.transit_rail, 99);
+    var busDist   = _safe(amenities.transit_bus, 99);
+    var anyDist   = _safe(amenities.transit, 1);
+
+    if (railDist < 99) {
+      // Rail/tram: best within 0.5mi, good within 1.5mi
+      transitPts = Math.max(transitPts, _distPts(railDist, 0.5, 1.5, 25));
+    }
+    if (busDist < 99) {
+      // Bus: best within 0.25mi, good within 1mi
+      transitPts = Math.max(transitPts, _distPts(busDist, 0.25, 1.0, 20));
+    }
+    if (transitPts === 0) {
+      // No typed transit data — use generic distance (legacy behavior)
+      transitPts = _distPts(anyDist, 0.25, 1.0, 25);
+    }
+
+    var distanceScore = _clamp(grocery + transitPts + parks + healthcare + schools);
 
     // If walkability context is available, blend it into the access score.
     // This captures whether the measured distances are actually traversable
@@ -398,10 +427,11 @@
   }
 
   /**
-   * Base land-supply score derived from ACS vacancy rate.
-   * Very low vacancy → strong demand / tight supply → higher score.
-   * Mirrors the implementation in market-analysis.js so both code paths
-   * use the same formula.
+   * Market tightness score derived from ACS vacancy rate.
+   * NOTE: Despite the legacy function name, this measures how fully
+   * occupied the existing housing stock is — NOT land availability
+   * for new construction. Low vacancy = tight market = demand signal.
+   * Function name retained for backward compatibility.
    *
    * @param {object|null} acs - ACS aggregate. Expected key: vacancy_rate (0–1 decimal).
    * @returns {number} 0–100

@@ -21,8 +21,6 @@
   <script src="js/data-quality-check.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
   <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.census.gov" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -31,6 +29,10 @@
   <style>main#main-content { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }</style>
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/chart-fix.js"></script>
@@ -74,6 +76,22 @@
         Construction PPIs feed feasibility models, Treasury yields and mortgage spreads set permanent debt terms, SOFR for variable-rate exposure, and vacancy and homeownership rates anchor market studies. All sourced from FRED, the Federal Reserve’s public data repository, and updated on each series’ schedule. In affordable housing finance, assumptions are made months before closing, and the market rarely waits.
       </p>
 <p style="font-size:.82rem;color:var(--muted);margin-bottom:var(--sp3);" role="note"><strong>Screening tool only.</strong> Macro indicators shown here are for early-stage deal context and market orientation. They are not investment advice, underwriting inputs, or a substitute for current lender quotes, appraisals, or professional financial analysis.</p>
+<div id="econDataQuality"></div>
+<div id="econApiHealth" data-api-health="auto"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.DataQualitySummary) {
+    window.DataQualitySummary.render('econDataQuality', {
+      sources: [
+        { name: 'FRED Economic Data', status: 'primary', vintage: '2026', coverage: '30+ series', note: 'CPI, unemployment, mortgage rates, housing starts' },
+        { name: 'Census ACS State Data', status: 'primary', vintage: '2024', coverage: 'Colorado statewide' },
+        { name: 'Prediction Markets', status: 'cached', vintage: '2026', coverage: 'Housing contracts', note: 'Kalshi + Polymarket — sentiment indicators only' }
+      ],
+      limitations: 'FRED data requires API key for live updates; falls back to cached JSON from CI pipeline. Prediction market data is for informational context only and should not be used for investment decisions.'
+    });
+  }
+});
+</script>
 <div class="toolbar">
 <div class="card control" style="flex-wrap:wrap;">
 <span class="pill">FRED connected: <strong id="conn">…</strong></span>
@@ -139,7 +157,24 @@
         Data source: <a href="https://fred.stlouisfed.org" rel="noopener" target="_blank">FRED</a>, Federal Reserve Bank of St. Louis. Data refreshed daily via automated workflow.
       </p>
 </div>
-</section><section id="census-stats" style="margin:18px 0; padding:18px;">
+</section>
+
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Real-time economic indicators from the Federal Reserve (FRED) that affect affordable housing deal timing: mortgage rates, inflation, unemployment, housing starts, construction costs, and commodity prices.',
+    why: 'LIHTC deal feasibility is sensitive to macro-economic conditions. A 50bp change in mortgage rates can shift supportable debt by $100K+. Construction cost trends affect hard cost assumptions. This dashboard helps developers time their applications and adjust underwriting assumptions.',
+    not: 'Economic indicators are trailing (released with 1-4 week lag) and do not predict future conditions. Prediction market data is for informational context only. This dashboard does not provide investment advice or economic forecasting.',
+    nextSteps: [
+      { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model how rates affect your deal' },
+      { label: 'Construction Commodities', href: 'construction-commodities.html', desc: 'Detailed cost trend analysis' }
+    ]
+  });
+});
+</script>
+
+<section id="census-stats" style="margin:18px 0; padding:18px;">
 <h2>Census snapshot</h2>
 <div class="census-controls">
   <label>Geography<select id="censusLevel">

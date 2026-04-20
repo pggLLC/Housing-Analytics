@@ -223,7 +223,6 @@
         _metricRow('Median HH Income',     _fmtCur(acs.med_hh_income)) +
         _metricRow('Median Gross Rent',    _fmtCur(acs.med_gross_rent)) +
         _metricRow('Unemployment Rate',    _fmtPct(acs.unemployment_rate)) +
-        _metricRow('Vacancy Rate',        _fmtPct(acs.vacancy_rate), acs.vacancy_rate != null && acs.vacancy_rate < 0.05 ? 'var(--warn)' : null) +
       '</div>'
     );
 
@@ -255,35 +254,49 @@
       totalUnits += parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units || 0, 10);
     });
 
-    // Recent projects (allocated in last 5 and 10 years).
+    // Recent projects (allocated in last 10 years).
     var now    = new Date().getFullYear();
-    var recent10 = 0;
-    var recent5  = 0;
-    var recentUnits5 = 0;
+    var recent = lihtcData.filter(function (f) {
+      var p = (f && f.properties) ? f.properties : f;
+      var yr = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
+      return yr >= now - 10;
+    }).length;
+
+    // Count projects by estimated pipeline stage.
+    var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
     lihtcData.forEach(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      var yr = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || p.year_alloc || 0, 10);
-      if (yr > 2000 && yr <= now) {
-        var u = parseInt(p.N_UNITS || p.TOTAL_UNITS || p.total_units || 0, 10);
-        if (yr >= now - 10) recent10++;
-        if (yr >= now - 5) { recent5++; recentUnits5 += u; }
-      }
+      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
+      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
+      else if (yrNum >= now - 1) { stageCounts.Construction++; }
+      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
+      else { stageCounts['Pre-Permit']++; }
     });
-    var recentWarning = recent5 >= 3
-      ? _metricRow('⚠ Recent Competition', recent5 + ' projects / ' + _fmtN(recentUnits5) + ' units in last 5 yr — reduces award probability', '#f59e0b')
-      : '';
+
+    var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
+    var pipelineHtml = '';
+    if (pipelineActive > 0) {
+      pipelineHtml = (
+        '<div style="margin-top:0.75rem;">' +
+          _sectionHeading('Construction Pipeline') +
+          (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
+          (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
+          (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+        '</div>'
+      );
+    }
 
     var html = (
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('LIHTC Supply Within Buffer') +
         _metricRow('Total LIHTC Projects', _fmtN(totalProj)) +
         _metricRow('Total Affordable Units', _fmtN(totalUnits)) +
-        _metricRow('Projects (last 10 yrs)', _fmtN(recent10)) +
-        _metricRow('Projects (last 5 yrs)', _fmtN(recent5)) +
-        recentWarning +
+        _metricRow('Projects (last 10 yrs)', _fmtN(recent)) +
         (totalProj > 0
           ? '<div style="margin-top:0.75rem;">' + _sectionHeading('Project List') + _lihtcTable(lihtcData) + '</div>'
           : '') +
+        pipelineHtml +
       '</div>'
     );
 
@@ -296,26 +309,33 @@
     var shown = Math.min(features.length, 10);
     for (var i = 0; i < shown; i++) {
       var p     = (features[i] && features[i].properties) ? features[i].properties : features[i];
-      var name  = p.PROJECT || p.PROJECT_NAME || p.project_name || 'LIHTC Project';
-      var city  = p.PROJ_CTY || p.CITY || p.city || '—';
+      var name  = p.PROJECT_NAME || p.PROJECT || p.project_name || 'LIHTC Project';
+      var city  = p.CITY || p.PROJ_CTY || p.city || '—';
       // Parse unit count safely; any non-numeric value yields '—'.
-      var rawUnits = p.N_UNITS || p.n_units || p.TOTAL_UNITS || p.total_units;
+      var rawUnits = p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.n_units;
       var units = (rawUnits !== null && rawUnits !== undefined && !isNaN(Number(rawUnits)))
         ? String(Number(rawUnits)) : '—';
-      var rawYr = p.YR_ALLOC || p.YEAR_ALLOC || p.year_alloc || 0;
-      var yr = (rawYr > 0 && rawYr < 8000) ? String(rawYr) : '—';
+      var yr    = p.YEAR_ALLOC  || p.YR_ALLOC || p.year_alloc  || '—';
+      var now = new Date().getFullYear();
+      var yrNum = parseInt(yr, 10) || 0;
+      var stage, stageColor;
+      if (!yrNum || yrNum <= now - 5) { stage = 'Complete'; stageColor = 'var(--muted)'; }
+      else if (yrNum >= now - 1) { stage = 'Construction'; stageColor = 'var(--warn)'; }
+      else if (yrNum >= now - 3) { stage = 'Entitled'; stageColor = '#2563eb'; }
+      else { stage = 'Pre-Permit'; stageColor = 'var(--accent)'; }
       rows += (
         '<tr>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);">' + city + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + units + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + yr + '</td>' +
+          '<td style="padding:4px 6px;font-size:var(--small);"><span style="display:inline-block;padding:1px 6px;border-radius:999px;font-size:.65rem;font-weight:600;background:' + stageColor + ';color:#fff;">' + stage + '</span></td>' +
         '</tr>'
       );
     }
     if (features.length > shown) {
       rows += (
-        '<tr><td colspan="4" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
+        '<tr><td colspan="5" style="padding:4px 6px;font-size:var(--small);color:var(--muted);">' +
           '\u2026 and ' + (features.length - shown) + ' more.' +
         '</td></tr>'
       );
@@ -327,9 +347,11 @@
           '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">City</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Units</th>' +
           '<th style="text-align:right;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Yr</th>' +
+          '<th style="text-align:left;padding:4px 6px;font-size:var(--small);border-bottom:1px solid var(--border);">Est. Status</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
-      '</table>'
+      '</table>' +
+      '<div style="font-size:.68rem;color:var(--faint);margin-top:.4rem;font-style:italic;">Pipeline status estimated from CHFA allocation year only \u2014 not verified against actual construction status.</div>'
     );
   }
 
@@ -660,6 +682,44 @@
     );
   }
 
+  /**
+   * Render the infrastructure feasibility section (supplementary indicator).
+   * NOT part of the main 5-dimension scoring — supplementary from public data.
+   * @param {object|null} data - { score: number, justification: object }
+   */
+  function renderInfrastructure(data) {
+    if (!data || data.score == null) {
+      _render('maInfrastructureContent', _unavailableCard('Infrastructure Feasibility'));
+      return;
+    }
+    var j = data.justification || {};
+    var score = data.score;
+
+    var _infraRow = function (label, value, note) {
+      var display = value != null ? String(Math.round(value)) + '/100' : '—';
+      return '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid color-mix(in srgb, var(--border) 50%, transparent);">' +
+        '<span style="font-size:var(--small);color:var(--text);">' + label + '</span>' +
+        '<span style="font-size:var(--small);font-weight:600;">' + display +
+          (note ? ' <span style="color:var(--faint);font-weight:400;font-size:.72rem;">(' + note + ')</span>' : '') +
+        '</span></div>';
+    };
+
+    var html =
+      '<div style="display:grid;gap:0.5rem;">' +
+        _sectionHeading('Infrastructure Feasibility (Supplementary)') +
+        '<div style="font-size:.75rem;color:var(--warn);padding:4px 8px;background:color-mix(in srgb, var(--warn) 8%, transparent);border-radius:6px;margin-bottom:.4rem;">' +
+          'Directional indicators from public datasets. Does not replace Phase I ESA, geotechnical survey, utility will-serve letters, or FEMA flood determination.' +
+        '</div>' +
+        _infraRow('Composite Score', score) +
+        _infraRow('Flood Risk', 100 - (j.floodRiskPercent || 0) * 100, 'FEMA NFHL') +
+        _infraRow('Climate Resilience', j.climateResilienceScore, 'NOAA') +
+        _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null, 'est. headroom') +
+        _infraRow('Food Access', j.foodAccessScore, 'USDA Atlas') +
+      '</div>';
+
+    _render('maInfrastructureContent', html);
+  }
+
   /* ── Export / Print report ───────────────────────────────────────── */
 
   /**
@@ -801,6 +861,7 @@
     renderNeighborhoodAccess:  renderNeighborhoodAccess,
     renderPolicyOverlays:      renderPolicyOverlays,
     renderOpportunities:       renderOpportunities,
+    renderInfrastructure:      renderInfrastructure,
     showSectionLoading:        showSectionLoading,
     showSectionError:          showSectionError,
     exportReport:              exportReport

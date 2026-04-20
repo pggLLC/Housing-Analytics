@@ -9,6 +9,10 @@ permissions:
   contents: write
   issues: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
@@ -46,7 +50,7 @@ jobs:
         run: |
           echo "── Starting FRED fetch at $(date -u) ──"
           python3 - <<'PY'
-          import json, os, sys, datetime, urllib.request, urllib.parse
+          import json, os, sys, time, datetime, urllib.request, urllib.parse
 
           api_key = os.environ.get("FRED_API_KEY", "").strip()
           if not api_key:
@@ -83,30 +87,29 @@ jobs:
             "RRVRUSQ156N": "Rental Vacancy Rate",
             # Construction / commodities
             "WPUFD49207": "PPI: Inputs to construction",
-            "WPUFD4": "PPI: Construction materials",
-            "PCU236115236115": "PPI: New multifamily construction",
+            "WPUFD4111": "PPI: Final Demand Construction (Nonresidential Building)",
+            "PCU236200236200": "PPI: New multifamily construction",
             "ECIALLCIV": "Employment Cost Index (Total comp)",
             "CES2000000008": "Construction Avg Hourly Earnings",
             "WPUSI012011": "PPI: Lumber & wood products",
             "WPU10170503": "Steel Reinforcing Bar",
-            "PCU331111331111": "PPI: Iron and Steel Mills",
-            "PCU3313153313153": "PPI: Aluminum",
-            "PCU32731327313": "PPI: Cement and Concrete Product Manufacturing",
+            "PCU331110331110": "PPI: Iron and Steel Mills",
+            "PCU331315331315": "PPI: Aluminum",
+            "PCU327310327310": "PPI: Cement and Concrete Product Manufacturing",
             "WPU0811": "PPI: Lumber",
             "WPU0812": "PPI: Plywood",
-            
             "WPU057303": "PPI: Diesel Fuel",
             "CES2000000003": "Construction Avg Hourly Earnings",
             # Colorado-specific series
-            "COUR08000000000000006": "CO Unemployment Rate (BLS)",
+            "LAUST080000000000003": "CO Unemployment Rate (BLS)",
             "COCONS": "CO Construction Employment",
             "COPOP": "CO Population",
-            "MEHOUCO": "CO Median Household Income",
-            "COAHOMIDX": "CO Home Price Index (FHFA)",
-            "COBP": "CO Building Permits",
+            "MEHOINUSCOA646N": "CO Median Household Income",
+            "ATNHPIUS08": "CO Home Price Index (FHFA)",
+            "COBPPRIV": "CO Building Permits",
           }
 
-          def fetch_observations(series_id: str):
+          def fetch_observations(series_id: str, max_retries: int = 3):
             base = "https://api.stlouisfed.org/fred/series/observations"
             params = {
               "series_id": series_id,
@@ -117,30 +120,47 @@ jobs:
               "limit": "5000"
             }
             url = base + "?" + urllib.parse.urlencode(params)
-            with urllib.request.urlopen(url, timeout=30) as r:
-              d = json.loads(r.read().decode("utf-8"))
-            obs = []
-            for o in d.get("observations", []):
-              v = o.get("value")
-              if v in (None, "", "."):
-                continue
-              obs.append({"date": o.get("date"), "value": v})
-            return obs
+            for attempt in range(max_retries + 1):
+              try:
+                with urllib.request.urlopen(url, timeout=30) as r:
+                  d = json.loads(r.read().decode("utf-8"))
+                obs = []
+                for o in d.get("observations", []):
+                  v = o.get("value")
+                  if v in (None, "", "."):
+                    continue
+                  obs.append({"date": o.get("date"), "value": v})
+                return obs
+              except Exception as e:
+                if attempt < max_retries:
+                  delay_seconds = 2 ** attempt
+                  print(
+                    f"  ⚠️ {series_id}: attempt {attempt + 1}/{max_retries + 1} failed ({e}); retrying in {delay_seconds}s",
+                    file=sys.stderr,
+                  )
+                  time.sleep(delay_seconds)
+                else:
+                  raise
 
           result = {}
           errors = []
+          total = len(SERIES)
           for sid, name in SERIES.items():
             try:
               obs = fetch_observations(sid)
               result[sid] = {"name": name, "observations": obs}
               print(f"✓ {sid}: {len(obs)} observations")
             except Exception as e:
-              print(f"✗ {sid}: {e}", file=sys.stderr)
+              print(f"⚠️ {sid}: failed after retries ({e})", file=sys.stderr)
               result[sid] = {"name": name, "observations": []}
               errors.append(sid)
+            time.sleep(0.5)  # 500ms pacing between API requests
 
           if errors:
-            print(f"\n⚠️  {len(errors)} series failed: {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}", file=sys.stderr)
+            print(
+              f"\n⚠️  {len(errors)}/{total} series failed: {', '.join(errors[:10])}{'...' if len(errors) > 10 else ''}",
+              file=sys.stderr,
+            )
 
           output = {
             "updated": datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
@@ -151,9 +171,11 @@ jobs:
           with open("data/fred-data.json", "w", encoding="utf-8") as f:
             json.dump(output, f)
 
-          total = len(result)
           with_data = sum(1 for v in result.values() if v["observations"])
           print(f"\nWrote data/fred-data.json — {with_data}/{total} series have observations")
+          if with_data == 0:
+            print("\n❌ CRITICAL: No usable FRED data collected", file=sys.stderr)
+            sys.exit(1)
           PY
           echo "── FRED fetch completed at $(date -u) ──"
 
@@ -194,7 +216,7 @@ jobs:
           PY
 
       - name: Alert on empty dataset
-        if: failure()
+        if: ${{ failure() && (steps.fetch.conclusion == 'failure' || steps.validate.conclusion == 'failure') }}
         uses: actions/github-script@v8
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -203,7 +225,7 @@ jobs:
             const { execSync } = require('child_process');
             try {
               execSync(
-                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-fred-data.yml --run-id ${context.runId} --data-file data/fred-data.json --details "FRED API fetch or validation failed. Check FRED_API_KEY secret and API availability."`,
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-fred-data.yml --run-id ${context.runId} --data-file data/fred-data.json --details "FRED fetch produced no usable dataset (0 populated series). Check API availability and secret configuration."`,
                 { stdio: 'inherit', env: { ...process.env } }
               );
             } catch (e) {

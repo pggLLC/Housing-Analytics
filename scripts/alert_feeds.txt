@@ -1,6 +1,5 @@
 # RSS feed URLs for housing news alerts (one per line)
-# Auto-populated by configure-alerts-feeds.yml — do not edit manually
-# Last updated: by GitHub Actions on $(date -u '+%Y-%m-%d')
+# Auto-populated by weekly_housing_brief.yml — do not edit manually
 
 # ── Google News: Colorado affordable housing topics ──
 https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
@@ -8,24 +7,6 @@ https://news.google.com/rss/search?q=colorado+zoning+land+use+housing&hl=en-US&g
 https://news.google.com/rss/search?q=colorado+housing+policy+legislature&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=LIHTC+tax+credit+affordable+housing&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=CHFA+Colorado+housing+finance&hl=en-US&gl=US&ceid=US:en
-
-# ── CHFA & CDOH: State agency-specific searches ──
-https://news.google.com/rss/search?q=%22Colorado+Housing+and+Finance+Authority%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=%22Division+of+Housing%22+Colorado+DOLA&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=%22Colorado+Division+of+Housing%22+affordable&hl=en-US&gl=US&ceid=US:en
-
-# ── Key affordable housing signals ──
-https://news.google.com/rss/search?q=colorado+%22housing+trust+fund%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22Proposition+123%22+housing&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22rent+control%22+OR+%22rent+stabilization%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22housing+authority%22+waitlist+OR+voucher&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22inclusionary+zoning%22+OR+%22density+bonus%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22housing+shortage%22+OR+%22housing+crisis%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22tax+credit%22+%22affordable+housing%22+allocation&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22homeless%22+OR+%22homelessness%22+housing+program&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22Section+8%22+OR+%22housing+choice+voucher%22&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22fair+housing%22+discrimination+OR+enforcement&hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/search?q=colorado+%22construction+costs%22+OR+%22building+permits%22+housing&hl=en-US&gl=US&ceid=US:en
 
 # ── NCSHA: National Council of State Housing Agencies ──
 https://www.ncsha.org/feed/

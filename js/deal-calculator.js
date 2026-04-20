@@ -188,7 +188,7 @@
             <span style="font-size:var(--small);font-weight:600;">Auto-compute NOI from rent &amp; expense inputs</span>
           </label>
           <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0 1.6rem;">
-            When checked, NOI = Gross Rents × (1 − Vacancy) − Operating Expenses − Replacement Reserve
+            When checked, NOI = Gross Rents × (1 − Vacancy) − Operating Expenses − Replacement Reserve − Net Property Tax
           </p>
         </div>
 
@@ -212,13 +212,29 @@
             <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
             <input id="dc-opex" type="number" min="0" step="10" value="450"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance, taxes)</span>
+            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance — property tax broken out below)</span>
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
             <input id="dc-rep-reserve" type="number" min="0" step="25" value="350"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
             <span style="font-size:var(--tiny);color:var(--muted);">CHFA minimum: $250–$400/unit/year</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Property Tax ($/unit/year)</span>
+            <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <span style="font-size:var(--tiny);color:var(--muted);">Typical range: $600–$1,200/unit/year (broken out from OpEx for exemption modeling)</span>
+          </label>
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Tax Exemption</span>
+            <select id="dc-tax-exempt"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
+              <option value="0">None (0%)</option>
+              <option value="50">Partial (50%) — nonprofit</option>
+              <option value="100">Full (100%) — housing authority</option>
+            </select>
+            <span style="font-size:var(--tiny);color:var(--muted);">Housing authority ownership or nonprofit partnerships may qualify for property tax exemption</span>
           </label>
           <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
             Computed NOI: <span id="dc-noi-computed">—</span>
@@ -324,6 +340,12 @@
 
           <dt style="color:var(--muted);">Break-Even Occupancy</dt>
           <dd id="dc-r-beo" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt id="dc-r-proptax-label" style="color:var(--muted);display:none;">Net Property Tax</dt>
+          <dd id="dc-r-proptax" style="font-weight:700;text-align:right;display:none;">—</dd>
+
+          <dt id="dc-r-taxsave-label" style="color:var(--accent);display:none;">Tax Savings (exemption)</dt>
+          <dd id="dc-r-taxsave" style="font-weight:700;text-align:right;color:var(--accent);display:none;">—</dd>
         </dl>
         <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">Cap rate and break-even occupancy require auto-compute NOI to be enabled.</p>
       </fieldset>
@@ -436,11 +458,14 @@
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
-      'dc-vacancy', 'dc-opex', 'dc-rep-reserve'];
+      'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
+    // Select elements also need 'change' listener for reliable cross-browser support
+    var taxExemptSel = document.getElementById('dc-tax-exempt');
+    if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
 
     // Auto-NOI toggle
     var autoNoiChk = document.getElementById('dc-auto-noi');
@@ -617,6 +642,8 @@
     var noi;
     var annualOpex = null;
     var annualRepReserve = null;
+    var netPropTax = null;
+    var taxSavings = 0;
     if (autoNoi && autoNoi.checked) {
       var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
       var opexPerUnitMonth = safeVal('dc-opex') || 450;
@@ -624,7 +651,12 @@
       var effectiveGrossIncome = annualRents * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);
-      noi = effectiveGrossIncome - annualOpex - annualRepReserve;
+      var propTaxPerUnit = safeVal('dc-prop-tax') || 900;
+      var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
+      var annualPropTax = propTaxPerUnit * (units || 60);
+      taxSavings = annualPropTax * taxExemptPct;
+      netPropTax = annualPropTax - taxSavings;
+      noi = effectiveGrossIncome - annualOpex - annualRepReserve - netPropTax;
       var noiComputedEl = document.getElementById('dc-noi-computed');
       if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
     } else {
@@ -649,7 +681,7 @@
     var annualDebtService = mc > 0 ? mortgage * mc : 0;
     var breakEvenOcc = annualRents > 0
       ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + annualDebtService) / annualRents, 1)
+          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + annualDebtService) / annualRents, 1)
           : null)
       : null;
 
@@ -671,6 +703,22 @@
     if (capRateEl) capRateEl.textContent = capRate != null ? (capRate * 100).toFixed(2) + '%' : '—';
     var beoEl = document.getElementById('dc-r-beo');
     if (beoEl) beoEl.textContent = breakEvenOcc != null ? (breakEvenOcc * 100).toFixed(1) + '%' : '—';
+
+    // Update property tax display (only visible in auto-NOI mode)
+    var showPropTax = (netPropTax != null);
+    var showTaxSavings = (showPropTax && taxSavings > 0);
+    ['dc-r-proptax-label', 'dc-r-proptax'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = showPropTax ? '' : 'none';
+    });
+    ['dc-r-taxsave-label', 'dc-r-taxsave'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = showTaxSavings ? '' : 'none';
+    });
+    var propTaxEl = document.getElementById('dc-r-proptax');
+    if (propTaxEl && showPropTax) propTaxEl.textContent = fmt(netPropTax);
+    var taxSaveEl = document.getElementById('dc-r-taxsave');
+    if (taxSaveEl && showTaxSavings) taxSaveEl.textContent = fmt(taxSavings);
 
     // Update gap note (legacy)
     var note = document.getElementById('dc-gap-note');
@@ -721,6 +769,66 @@
         }
       }));
     } catch (_) {}
+
+    // ── Tornado sensitivity chart ───────────────────────────────────
+    // Renders 4 sensitivity bars showing how key variables affect the deal.
+    if (window.TornadoSensitivity && tdc > 0 && document.getElementById('tornadoChartMount')) {
+      try {
+        var eqP = equityPrice || 0.90;
+        var ir  = interestRate || 6.5;
+        var vu  = safeVal('dc-vacancy') || 7;
+        var ou  = safeVal('dc-opex') || 450;
+        var u   = units || 60;
+        var acr = annualCredits || 0;
+
+        // Equity pricing: ±$0.03
+        var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
+        var eqHi  = acr * CREDIT_YEARS * Math.min(1.05, eqP + 0.03);
+
+        // Interest rate: ±1% (lower rate = higher mortgage, higher rate = lower)
+        var mcLo  = mortgageConstant(Math.min(0.12, (ir + 1)) / 100, term || 35);
+        var mcHi  = mortgageConstant(Math.max(0.03, (ir - 1)) / 100, term || 35);
+        var mortLo = (mcLo > 0 && noi > 0) ? (noi / dcr) / mcLo : 0;
+        var mortHi = (mcHi > 0 && noi > 0) ? (noi / dcr) / mcHi : 0;
+
+        // Compute EGI from available scope variables
+        var _egi = (annualRents || 0) * (1 - (vu / 100));
+        var _repRes = (safeVal('dc-rep-reserve') || 350) * u;
+
+        // OpEx: ±$50/unit/month
+        var noiLo = _egi - ((ou + 50) * 12 * u) - _repRes - (netPropTax || 0);
+        var noiHi = _egi - (Math.max(200, ou - 50) * 12 * u) - _repRes - (netPropTax || 0);
+
+        // Vacancy: ±2%
+        var vacLoEgi = (annualRents || 0) * (1 - Math.min(0.15, (vu + 2) / 100));
+        var vacHiEgi = (annualRents || 0) * (1 - Math.max(0.01, (vu - 2) / 100));
+
+        window.TornadoSensitivity.render({
+          factors: [
+            { label: 'Equity Price', low: eqLo, high: eqHi, base: equity,
+              lowLabel: fmt(eqLo), highLabel: fmt(eqHi),
+              note: '$' + Math.max(0.70, eqP - 0.03).toFixed(2) + ' to $' + Math.min(1.05, eqP + 0.03).toFixed(2) + '/credit',
+              color: 'var(--accent)' },
+            { label: 'First Mortgage', low: mortLo, high: mortHi, base: mortgage,
+              lowLabel: fmt(mortLo), highLabel: fmt(mortHi),
+              note: 'Rate ' + Math.max(3, ir - 1).toFixed(1) + '% to ' + Math.min(12, ir + 1).toFixed(1) + '%',
+              color: '#2563eb' },
+            { label: 'NOI (OpEx)', low: noiLo, high: noiHi, base: noi,
+              lowLabel: fmt(noiLo), highLabel: fmt(noiHi),
+              note: 'OpEx $' + Math.max(200, ou - 50) + ' to $' + (ou + 50) + '/unit/mo',
+              color: 'var(--warn)' },
+            { label: 'NOI (Vacancy)', low: vacLoEgi, high: vacHiEgi, base: noi,
+              lowLabel: fmt(vacLoEgi), highLabel: fmt(vacHiEgi),
+              note: 'Vacancy ' + Math.max(1, vu - 2) + '% to ' + Math.min(15, vu + 2) + '%',
+              color: '#059669' }
+          ]
+        }, 'tornadoChartMount');
+      } catch (e) {
+        console.warn('[deal-calculator] Tornado sensitivity error:', e.message);
+      }
+    }
+
+    try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
   }
 
   // -------------------------------------------------------------------

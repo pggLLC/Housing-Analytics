@@ -9,6 +9,10 @@ permissions:
   contents: write
   issues: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   build-hna:
     runs-on: ubuntu-latest
@@ -64,20 +68,6 @@ jobs:
         run: |
           echo "── Parsing LEHD WAC files (multi-year) ──"
           python3 scripts/hna/parse_lehd_wac.py 2>&1 || echo "::warning::LEHD WAC parse failed (non-critical; will retry next run)"
-
-      - name: Phase 3 — Generate tract centroids (if cache is stale)
-        run: |
-          echo "── Generating tract centroids ──"
-          CENTROID_FILE="data/market/tract_centroids_co.json"
-          if [ -f "$CENTROID_FILE" ]; then
-            age_days=$(( ( $(date +%s) - $(stat -c %Y "$CENTROID_FILE" 2>/dev/null || echo 0) ) / 86400 ))
-            echo "  Existing file age: ${age_days} days"
-            if [ "$age_days" -lt 30 ]; then
-              echo "  Cache is fresh (< 30 days) — skipping rebuild"
-              exit 0
-            fi
-          fi
-          python3 scripts/generate_tract_centroids.py 2>&1 || echo "::warning::Tract centroid generation failed (non-critical; using existing file)"
 
       - name: Phase 4 — Generate scenario data files (baseline / low / high growth)
         run: |
@@ -141,11 +131,16 @@ jobs:
               console.error('Alert script failed:', e.message);
             }
 
+      - name: Rebuild manifest.json
+        run: |
+          echo "── Regenerating data/manifest.json ──"
+          python scripts/rebuild_manifest.py
+
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/policy/housing-policy-scorecard.json data/market/tract_centroids_co.json data/tract-centroids.json 2>/dev/null || true
+          git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push

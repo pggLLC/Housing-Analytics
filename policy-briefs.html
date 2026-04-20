@@ -11,8 +11,6 @@
   <meta property="og:description" content="Colorado affordable housing news, policy research and analysis summaries.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
@@ -44,7 +42,7 @@
     .briefs-controls input[type="search"] { max-width: 220px; }
     .briefs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
       gap: 1rem;
       padding: var(--sp4);
     }
@@ -179,6 +177,8 @@
     </div>
 
     <div id="briefsLiveRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <div id="signalStats" style="display:none;padding:.5rem var(--sp4);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.5rem;" aria-label="Signal summary"></div>
 
     <div id="briefsStatus" role="status">Loading policy briefs…</div>
     <div id="briefsGrid" class="briefs-grid" aria-label="Policy briefs"></div>
@@ -368,7 +368,7 @@
     }
 
     function _renderBriefCard(brief) {
-        var regions = Array.isArray(brief.regions) ? brief.regions : [];
+        var regions = Array.isArray(brief._regions) ? brief._regions : (Array.isArray(brief.regions) ? brief.regions : []);
         var sources = Array.isArray(brief.sources) ? brief.sources : [];
         var entities = brief._entities || [];
         var signals  = brief._signals || [];
@@ -477,7 +477,7 @@
 
       var filtered = briefs.filter(function (b) {
         var topicMatch  = !topic  || (b.policy_topic || '') === topic;
-        var regionMatch = !region || (Array.isArray(b.regions) && b.regions.indexOf(region) !== -1);
+        var regionMatch = !region || (Array.isArray(b._regions) && b._regions.indexOf(region) !== -1);
         var entityMatch = !entity || (b._entities && b._entities.indexOf(entity) !== -1);
         var signalMatch = !signal || (b._signals && b._signals.indexOf(signal) !== -1);
         var searchMatch = !query  || (
@@ -490,17 +490,39 @@
       renderBriefs(filtered);
     }
 
+    // Auto-detect Colorado regions from brief text when data lacks explicit regions
+    var CO_REGION_PATTERNS = {
+      'Denver Metro':    /\bDenver|Aurora|Lakewood|Centennial|Westminster|Thornton|Arvada|Broomfield\b/i,
+      'Front Range':     /\bFront Range|Colorado Springs|El Paso County|Pueblo|Fort Collins|Loveland|Larimer|Boulder\b/i,
+      'Western Slope':   /\bWestern Slope|Grand Junction|Mesa County|Montrose|Delta|Glenwood|Aspen|Pitkin|Eagle\b/i,
+      'Mountain':        /\bSummit County|Vail|Steamboat|Breckenridge|Telluride|San Miguel|Routt\b/i,
+      'Eastern Plains':  /\bEastern Plains|Greeley|Weld County|Morgan|Logan|Sterling|Yuma\b/i,
+      'San Luis Valley': /\bSan Luis|Alamosa|Costilla|Conejos|Saguache\b/i,
+      'Southwest':       /\bDurango|La Plata|Cortez|Montezuma|Archuleta|Pagosa\b/i,
+    };
+
+    function detectRegions(brief) {
+      if (Array.isArray(brief.regions) && brief.regions.length) return brief.regions;
+      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
+      var found = [];
+      for (var key in CO_REGION_PATTERNS) {
+        if (CO_REGION_PATTERNS[key].test(text)) found.push(key);
+      }
+      return found;
+    }
+
     function populateFilters(list) {
-      // Enrich each brief with detected entities and signals
+      // Enrich each brief with detected entities, signals, and regions
       list.forEach(function (b) {
         b._entities = detectEntities(b);
         b._signals  = detectSignals(b);
+        b._regions  = detectRegions(b);
       });
 
       var topics = Array.from(new Set(list.map(function (b) { return b.policy_topic || ''; }).filter(Boolean)));
       var regions = Array.from(new Set(
-        list.flatMap ? list.flatMap(function (b) { return Array.isArray(b.regions) ? b.regions : []; })
-          : [].concat.apply([], list.map(function (b) { return Array.isArray(b.regions) ? b.regions : []; }))
+        list.flatMap ? list.flatMap(function (b) { return b._regions || []; })
+          : [].concat.apply([], list.map(function (b) { return b._regions || []; }))
       )).filter(Boolean);
 
       topics.sort();

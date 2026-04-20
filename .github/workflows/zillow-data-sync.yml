@@ -76,11 +76,29 @@ jobs:
           print("Wrote data/market/zillow_co_metros.json")
           PYEOF
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow zillow-data-sync.yml --run-id ${context.runId} --data-file data/market/zillow_co_metros.json --details "Zillow data sync failed. Check Zillow public CSV availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Commit Zillow Research data
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/zillow/ data/market/zillow_co_metros.json 2>/dev/null || true
+          python3 scripts/rebuild_manifest.py
+          git add data/zillow/ data/market/zillow_co_metros.json data/manifest.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No Zillow Research changes to commit"
           else

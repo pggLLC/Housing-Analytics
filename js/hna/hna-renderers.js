@@ -122,8 +122,10 @@
         return bounds.contains([lat, lng]);
       });
     }
-    // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined
-    const safeCell = v => (v != null && v !== '') ? String(v) : '—';
+    // safeCell: renders 0 correctly (unlike `|| '—'`) while still showing '—' for null/undefined.
+    // HTML-encodes the value to prevent XSS when data comes from external API sources.
+    const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const safeCell = v => (v != null && v !== '') ? escHtml(v) : '—';
     const sorted = [...visible].sort((a,b) => (b.properties?.N_UNITS||0) - (a.properties?.N_UNITS||0));
     const rows = sorted.slice(0, 10).map(f => {
       const p = f.properties || {};
@@ -136,7 +138,8 @@
         <td style="padding:4px 6px">${safeCell(p.CREDIT)}</td>
       </tr>`;
     }).join('');
-    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${S().lihtcDataSource}</span>`;
+    const lihtcDataSource = escHtml(S().lihtcDataSource);
+    const sourceBadge = `<span style="display:inline-block;padding:1px 7px;border-radius:9px;font-size:.75rem;font-weight:700;background:${U().lihtcSourceInfo(S().lihtcDataSource).color};color:#fff;margin-left:8px">Source: ${lihtcDataSource}</span>`;
     S().els.lihtcInfoPanel.innerHTML = rows ? `
       <p style="margin:8px 0 4px;font-weight:700">LIHTC projects in jurisdiction (top 10 by units):${sourceBadge}</p>
       <div style="overflow-x:auto">
@@ -390,7 +393,10 @@
           '<tr><td>Out-commuters</td><td>' + fmt(metrics.outflow) + '</td><td>Residents who work in other areas</td></tr>' +
           '<tr><td>Live & work here</td><td>' + fmt(metrics.within) + '</td><td>Both live and work within this geography</td></tr>' +
         '</tbody>' +
-      '</table>';
+      '</table>' +
+      '<div style="font-size:.72rem;color:var(--warn);margin-top:.4rem;">' +
+        '<strong>LEHD LODES 2021</strong> \u2014 employment data has 2\u20133 year lag' +
+      '</div>';
   }
 
   /**
@@ -1090,8 +1096,8 @@
    * @param {string} geoType
    */
 
-  function renderProp123Section(profile, geoType) {
-    const baselineData = U().calculateBaseline(profile);
+  function renderProp123Section(profile, geoType, countyFips) {
+    const baselineData = U().calculateBaseline(profile, countyFips);
     const population   = profile ? Number(profile.DP05_0001E) : null;
     const eligibility  = U().checkFastTrackEligibility(population, geoType);
 
@@ -1405,6 +1411,25 @@
     if (incomeNeed) narrativeParts.push(`A simple mortgage model suggests roughly ${U().fmtMoney(incomeNeed.annualIncome)} annual income to afford the median home value.`);
     if (S().els.execNarrative) S().els.execNarrative.textContent = narrativeParts.join(' ');
 
+    // Small-geography ACS margin-of-error warning
+    var moeWarning = U().getSmallGeoWarning(profile);
+    var moeEl = document.getElementById('hnaMoeWarning');
+    if (!moeEl) {
+      moeEl = document.createElement('div');
+      moeEl.id = 'hnaMoeWarning';
+      moeEl.style.cssText = 'font-size:.78rem;color:var(--warn);padding:.5rem .7rem;margin:.5rem 0;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 20%, transparent);border-radius:6px;display:none;';
+      var narrativeEl = S().els.execNarrative;
+      if (narrativeEl && narrativeEl.parentNode) {
+        narrativeEl.parentNode.insertBefore(moeEl, narrativeEl.nextSibling);
+      }
+    }
+    if (moeWarning) {
+      moeEl.innerHTML = '<strong>⚠ Statistical Uncertainty:</strong> ' + moeWarning;
+      moeEl.style.display = 'block';
+    } else {
+      moeEl.style.display = 'none';
+    }
+
     // Afford assumptions
     if (S().els.affordAssumptions) S().els.affordAssumptions.innerHTML = `
       <ul>
@@ -1502,6 +1527,22 @@
         }
       }
     });
+
+    // Add small-geography MOE warning for homeownership affordability
+    var affordMoeWarning = U().getSmallGeoWarning(profile);
+    if (affordMoeWarning) {
+      var chartEl = document.getElementById('chartAfford');
+      if (chartEl && chartEl.parentElement) {
+        var existingWarn = chartEl.parentElement.querySelector('.afford-moe-warn');
+        if (!existingWarn) {
+          var warnDiv = document.createElement('div');
+          warnDiv.className = 'afford-moe-warn';
+          warnDiv.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.3rem;';
+          warnDiv.textContent = 'Small geography — home values and income estimates may have high margins of error.';
+          chartEl.parentElement.appendChild(warnDiv);
+        }
+      }
+    }
   }
 
 
@@ -1575,20 +1616,39 @@
     const byAmi = geoRecord.renter_hh_by_ami || {};
 
     const labels = AMI_ORDER.map(k => tierLabels[k] || k);
+
+    // Sanitize CHAS data — pipeline may produce impossible values
+    // (cost_burdened > total) due to aggregation errors. Clamp and flag.
+    let hasCorruptTier = false;
     const totals           = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].total)              || 0);
-    const costBurdened     = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].cost_burdened)       || 0);
-    const severelyBurdened = AMI_ORDER.map(k => (byAmi[k] && byAmi[k].severely_burdened)   || 0);
+    const costBurdened     = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].cost_burdened) || 0;
+      if (raw > totals[i] && totals[i] > 0) { hasCorruptTier = true; return totals[i]; }
+      return raw;
+    });
+    const severelyBurdened = AMI_ORDER.map((k, i) => {
+      const raw = (byAmi[k] && byAmi[k].severely_burdened) || 0;
+      return Math.min(raw, costBurdened[i]);
+    });
     // Moderately burdened = cost_burdened minus severely_burdened
     const modBurdened      = costBurdened.map((cb, i) => Math.max(0, cb - severelyBurdened[i]));
     const notBurdened      = totals.map((tot, i) => Math.max(0, tot - costBurdened[i]));
+
+    // If all totals are zero or tiny, the data is likely a stub
+    const allTotals = totals.reduce((a, b) => a + b, 0);
+    if (allTotals < 10) {
+      showPlaceholder('CHAS data for this geography has insufficient household counts. Awaiting next HUD CHAS release.');
+      return;
+    }
 
     const vintage = (chasData.meta && chasData.meta.vintage) || '';
     const isStub  = !!(chasData.meta && chasData.meta.note && chasData.meta.note.includes('Stub'));
     const geoName = geoRecord.name || 'Selected area';
     if (statusEl) {
+      const corruptNote = hasCorruptTier ? ' · Some AMI tiers have been clamped due to data inconsistencies' : '';
       statusEl.textContent = isStub
         ? `Estimated from ACS data (actual CHAS ${vintage} figures load via weekly workflow)`
-        : `HUD CHAS ${vintage} data · ${geoName}`;
+        : `HUD CHAS ${vintage} data · ${geoName}${corruptNote}`;
     }
 
     const c = t.chartColors;
@@ -1642,6 +1702,15 @@
         },
       },
     });
+
+    // Append CHAS vintage badge below the chart
+    const chasAgeBadge = document.createElement('div');
+    chasAgeBadge.style.cssText = 'font-size:.72rem;color:var(--warn);margin-top:.4rem;';
+    // Read vintage from loaded CHAS data metadata if available
+    var chasVintage = (window.HNAState && window.HNAState.state && window.HNAState.state.chasData && window.HNAState.state.chasData.meta)
+      ? window.HNAState.state.chasData.meta.vintage : null;
+    chasAgeBadge.innerHTML = '<strong>HUD CHAS ' + (chasVintage || '2018\u20132022') + '</strong> \u2014 CHAS data is released with a 3\u20135 year lag from the ACS period it covers.';
+    canvas.parentElement.appendChild(chasAgeBadge);
   }
 
 
@@ -1921,7 +1990,9 @@
   }
 
   function _renderScenarioSection(proj, popSel, years, baseYear, geoid, t){
-    const SCENARIO_HORIZON = 10; // years forward for the 5–10 year section
+    // Dynamic horizon — reads from toggle button state (default 10)
+    var horizonEl = document.querySelector('.horizon-btn--active');
+    var SCENARIO_HORIZON = (horizonEl && parseInt(horizonEl.getAttribute('data-horizon'), 10)) || 10;
 
     // Find the index of the base year in the years array
     const baseIdx = years.indexOf(baseYear);

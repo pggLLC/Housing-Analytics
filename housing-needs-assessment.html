@@ -11,8 +11,6 @@
   <meta property="og:description" content="Interactive Housing Needs Assessment tool for Colorado communities.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://api.census.gov" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
@@ -30,6 +28,7 @@
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/analytics.js" data-step="2" data-step-label="housing_needs_assessment"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/data-service-portable.js"></script>
@@ -51,12 +50,12 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
-  <script defer src="js/hna-export.js"></script>
-  <!-- HNA modules (split from the main HNA script) -->
+  <!-- HNA modules — load order: utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/hna/hna-utils.js"></script>
   <script defer src="js/hna/hna-narratives.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
+  <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
@@ -65,6 +64,9 @@
   <script defer src="js/housing-need-projector.js"></script>
   <script defer src="js/neighborhood-context.js"></script>
   <script defer src="js/components/edu-callout.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
   <script defer src="js/components/export-panel.js"></script>
   <script src="js/components/map-home-btn.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
@@ -155,6 +157,43 @@
         </div>
       </div>
     </section>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
+        why: 'CHFA QAP scoring rewards projects that demonstrate documented community need. This assessment provides the evidence base for your LIHTC application narrative and helps identify which AMI tiers and housing types are most needed.',
+        not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level affordability gaps are scaled from county data (proxy). CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
+        nextSteps: [
+          { label: 'Market Analysis', href: 'market-analysis.html', desc: 'Score a specific site within this geography' },
+          { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'See how this geography ranks statewide' }
+        ]
+      });
+    });
+    </script>
+
+    <div id="hnaDataQuality"></div>
+    <div id="hnaApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('hnaDataQuality', {
+          sources: [
+            { name: 'ACS 5-Year Profiles (DP04, DP05, DP03)', status: 'primary', vintage: '2024', coverage: 'All CO geographies' },
+            { name: 'ACS Commuting (S0801)', status: 'primary', vintage: '2024', coverage: 'Counties + places' },
+            { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
+            { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'AMI Gap (ACS B25063 + B19001)', status: 'primary', vintage: '2024', coverage: '64 counties' }
+          ],
+          limitations: 'Place-level affordability gaps are scaled by population share from county data (proxy, not direct measurement). CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',
+          lastUpdated: document.body.getAttribute('data-page-last-updated') || ''
+        });
+      }
+    });
+    </script>
 
     <section class="hna-grid">
       <div class="chart-card span-12">
@@ -306,19 +345,19 @@
       <div class="chart-card span-6">
         <h2>Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
-        <div class="chart-box"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
-        <div class="chart-box"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Affordability</h2>
         <p>What income is needed to afford the typical home value using a simple, transparent mortgage model (assumptions shown below).</p>
-        <div class="chart-box"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 + HUD FMR"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
         <details style="margin-top:10px">
           <summary>Affordability assumptions (editable in JS)</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -331,13 +370,13 @@
           Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
         </p>
-        <div class="chart-box"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Cost burden by AMI tier (HUD CHAS)</h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).</p>
-        <div class="chart-box"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
+        <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://www.huduser.gov/portal/datasets/cp.html"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
         <p id="chasGapStatus" style="margin-top:6px;color:var(--muted);font-size:.82rem">—</p>
       </div>
@@ -345,7 +384,7 @@
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
         <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS S0801 Commuting"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
@@ -358,7 +397,7 @@
         <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
           <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
         </p>
-        <div class="chart-box"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
+        <div class="chart-box" data-source="LEHD LODES Origin-Destination"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
       </div>
 
@@ -375,7 +414,7 @@
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Senior growth pressure</h2>
-            <div class="chart-box"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
+            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
         </div>
@@ -453,14 +492,14 @@
       <div class="chart-card span-6">
         <h2>Household Income Distribution</h2>
         <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
-        <div class="chart-box"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP03"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
       </div>
 
       <!-- Age of Housing Stock -->
       <div class="chart-card span-6">
         <h2>Age of Housing Stock</h2>
         <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
-        <div class="chart-box"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
       </div>
 
       <!-- Bedroom Mix -->
@@ -474,7 +513,7 @@
       <div class="chart-card span-8">
         <h2>Owner Housing Cost Burden</h2>
         <p>Owner households by monthly housing costs as a percentage of household income. Costs exceeding 30% indicate a cost burden. Source: ACS DP04.</p>
-        <div class="chart-box"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
       </div>
 
       <!-- Housing Gap Summary -->
@@ -493,7 +532,13 @@
 
       <!-- Scenario-based demographic projections -->
       <div class="chart-card span-12" id="scenario-projections-section">
-        <h2>Scenario-based demographic projections (5–10 year horizon)</h2>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+          <h2 style="margin:0;">Scenario-based demographic projections</h2>
+          <div id="horizonToggle" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:.78rem;">
+            <button type="button" class="horizon-btn horizon-btn--active" data-horizon="10" style="padding:4px 12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;">10-Year</button>
+            <button type="button" class="horizon-btn" data-horizon="20" style="padding:4px 12px;background:var(--bg2);color:var(--muted);border:none;cursor:pointer;">20-Year</button>
+          </div>
+        </div>
         <p>
           Cohort-component forward projections under three growth scenarios, aligned with
           <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DLG final HNA methodology and displacement risk assessment guidance (opens in new tab)">DLG HNA methodology</a>.
@@ -660,14 +705,14 @@
             <h2 style="font-size:1rem">Wage Distribution</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC Wage Tiers"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Top Industries by Employment</h2>
             <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
             <div id="industryChartContainer" class="chart-container">
-              <div class="chart-box"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC by NAICS"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -701,7 +746,7 @@
             <h2 style="font-size:1rem">Employment Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
-              <div class="chart-box"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
+              <div class="chart-box" data-source="BLS LAUS / DOLA"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
@@ -1022,7 +1067,7 @@
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
-          Land values, recent transactions, and property assessments by region — from Bridge Data Output public records. Updated weekly. Supports early-stage LIHTC site feasibility screening.
+          Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>
 
         <!-- Region summary cards grid -->
@@ -1185,17 +1230,121 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    if (typeof window.BridgeMarketSummary === 'undefined' || !window.BridgeMarketSummary || typeof window.BridgeMarketSummary.load !== 'function') {
-      showPending();
-      return;
+  /** Render CAR market report data as a fallback when Bridge MLS is unavailable. */
+  function renderCARFallback(car) {
+    var grid = document.getElementById('bridgeRegionGrid');
+    var sw = car.statewide || {};
+    var metros = car.metro_areas || {};
+    var metroKeys = Object.keys(metros);
+
+    // Build metro area cards
+    if (grid) {
+      var html = '';
+      for (var i = 0; i < metroKeys.length; i++) {
+        var m = metros[metroKeys[i]];
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">';
+        html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (m.name || metroKeys[i]) + '</strong> ';
+        html += '<span style="display:inline-block;background:var(--good);color:#fff;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
+        html += '<div style="font-size:.78rem;color:var(--muted)">';
+        html += '<div>Median sale price: <strong style="color:var(--text)">' + fmtK(m.median_sale_price) + '</strong></div>';
+        html += '<div>Days on market: ' + (m.median_days_on_market != null ? m.median_days_on_market : 'N/A') + '</div>';
+        html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
+        html += '</div></div>';
+      }
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.innerHTML = html;
     }
-    window.BridgeMarketSummary.load().then(function (summary) {
-      if (!summary) { showPending(); return; }
-      renderBridgeMarketSection(summary);
-    }).catch(function () {
-      showPending();
-    });
+
+    // Rural highlight — CAR data does not break out rural specifically
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) {
+      var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
+      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR report does not break out rural regions. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for county-level data.</p>';
+      ruralEl.innerHTML = rHtml;
+    }
+
+    // Statewide card from CAR data
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) {
+      var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
+      swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
+      swHtml += '<div style="margin-bottom:.3rem">Median sale price: <strong style="color:var(--text)">' + fmtK(sw.median_sale_price) + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Days on market: <strong style="color:var(--text)">' + (sw.median_days_on_market != null ? sw.median_days_on_market : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Months of supply: <strong style="color:var(--text)">' + (sw.months_of_supply != null ? sw.months_of_supply : 'N/A') + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Active listings: <strong style="color:var(--text)">' + (sw.active_listings != null ? sw.active_listings.toLocaleString() : 'N/A') + '</strong></div>';
+      if (car.month) {
+        swHtml += '<div style="margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem;font-size:.76rem">Report period: ' + car.month + '</div>';
+      }
+      swHtml += '</div>';
+      swEl.innerHTML = swHtml;
+    }
+
+    // Update the description and data attribution
+    var detailEl = document.querySelector('#co-market-conditions .dq-detail');
+    if (detailEl) {
+      detailEl.innerHTML = 'Data: Colorado Association of REALTORS (CAR) &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
+    }
+  }
+
+  /** Show a no-data message when neither Bridge nor CAR data is available. */
+  function showNoDataMessage() {
+    var grid = document.getElementById('bridgeRegionGrid');
+    if (grid) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:.88rem;color:var(--muted)">' +
+        'Colorado market conditions require CAR or MLS data. Visit the ' +
+        '<a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">Colorado Association of Realtors</a> for current market reports.' +
+        '</div>';
+    }
+    var ruralEl = document.getElementById('bridgeRuralHighlight');
+    if (ruralEl) ruralEl.style.display = 'none';
+    var swEl = document.getElementById('bridgeStatewideCard');
+    if (swEl) swEl.style.display = 'none';
+  }
+
+  /** Try loading CAR report JSON as a fallback data source. */
+  function tryLoadCARFallback() {
+    return fetch('data/car-market-report-2026-04.json')
+      .then(function (resp) {
+        if (!resp.ok) return null;
+        return resp.json();
+      })
+      .then(function (car) {
+        if (car && car.statewide && car.statewide.median_sale_price) {
+          renderCARFallback(car);
+          return true;
+        }
+        return false;
+      })
+      .catch(function () { return false; });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Try Bridge MLS first
+    var hasBridge = typeof window.BridgeMarketSummary !== 'undefined' &&
+                    window.BridgeMarketSummary &&
+                    typeof window.BridgeMarketSummary.load === 'function';
+    if (hasBridge) {
+      window.BridgeMarketSummary.load().then(function (summary) {
+        if (summary) {
+          renderBridgeMarketSection(summary);
+        } else {
+          // Bridge returned no data — try CAR fallback
+          tryLoadCARFallback().then(function (ok) {
+            if (!ok) showNoDataMessage();
+          });
+        }
+      }).catch(function () {
+        tryLoadCARFallback().then(function (ok) {
+          if (!ok) showNoDataMessage();
+        });
+      });
+    } else {
+      // No Bridge module — try CAR fallback
+      tryLoadCARFallback().then(function (ok) {
+        if (!ok) showNoDataMessage();
+      });
+    }
   });
 }());
         </script>

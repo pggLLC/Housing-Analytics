@@ -11,8 +11,6 @@
   <meta property="og:description" content="LIHTC pro forma and capital stack tool for Colorado affordable housing development.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
@@ -26,6 +24,7 @@
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="5" data-step-label="deal_calculator"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-freshness.js"></script>
   <script src="js/site-state.js"></script>
@@ -56,7 +55,15 @@
   <script defer src="js/components/equity-forecast-panel.js"></script>
   <script defer src="js/chfa-award-predictor.js"></script>
   <script defer src="js/components/qap-competitiveness-panel.js"></script>
+  <script defer src="js/qap-simulator.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/pro-forma.js"></script>
+  <script defer src="js/components/development-realism.js"></script>
+  <script defer src="js/components/land-value-tool.js"></script>
 </head>
 <body data-page-last-updated="2026-04-01"
       data-page-source="HUD FMR · CHFA · IRC §42">
@@ -120,6 +127,39 @@
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
     </div>
 
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Uses HUD FMR rent limits for your selected county.',
+        why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
+        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), applicable fraction, or investor-specific underwriting requirements. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
+        nextSteps: [
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
+          { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
+        ]
+      });
+    });
+    </script>
+
+    <div id="dealDataQuality"></div>
+    <div id="dealApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('dealDataQuality', {
+          sources: [
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'AMI Gap by County', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q1 2026', coverage: 'Colorado', note: 'Hard costs, equity pricing, soft funding — point-in-time estimates' },
+            { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015-2025', coverage: '110 awards', note: 'Pattern matching, not forward prediction' }
+          ],
+          limitations: 'Concept-stage estimates only. Does not model construction financing, applicable fraction, or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
+        });
+      }
+    });
+    </script>
+
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1200px;margin:0 auto;padding:0 18px;">
       <div id="dealCalcMount"></div>
@@ -168,6 +208,16 @@
 
     <!-- LIHTC contextual tips (Deal Calculator step) -->
     <div id="lihtcTipsMount-dc"></div>
+
+    <!-- ── QAP Competitiveness Simulator ─────────────────────────────── -->
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="qapSimulatorMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.QAPSimulator) QAPSimulator.render('qapSimulatorMount');
+      });
+      </script>
+    </div>
 
     <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
     <section class="dc-edu-section" aria-labelledby="dcEduHeading">
@@ -236,6 +286,40 @@
       <div id="dcSaveConfirm" class="hna-save-confirmation" hidden>&#10003; Deal model saved to project</div>
     </section>
 
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="landValueTool"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.LandValueTool) LandValueTool.render('landValueTool');
+      });
+      </script>
+    </div>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div id="proFormaMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ProForma) ProForma.render('proFormaMount');
+      });
+      </script>
+    </div>
+
+    <div style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:var(--muted);">Development Realism Checklists</h2>
+      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not modeled in the calculator but materially affect deal feasibility. Review before investing in predevelopment.</p>
+      <div id="dealPPP"></div>
+      <div id="dealColorado"></div>
+      <div id="dealProjectTypes"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DevRealism) {
+        DevRealism.renderPartnershipPanel('dealPPP');
+        DevRealism.renderColoradoFactors('dealColorado');
+        DevRealism.renderProjectTypeGuidance('dealProjectTypes');
+      }
+    });
+    </script>
   </main>
 
   <footer class="site-footer">

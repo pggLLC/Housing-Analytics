@@ -5,6 +5,10 @@ on:
     - cron: '0 5 * * 1'   # Every Monday at 05:00 UTC
   workflow_dispatch:        # Allow manual triggering
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -68,6 +72,23 @@ jobs:
       - name: Split LIHTC data by county
         run: node scripts/split-lihtc-by-county.js
 
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-chfa-lihtc.yml --run-id ${context.runId} --data-file data/chfa-lihtc.json --details "CHFA LIHTC fetch or validation failed. Check CHFA ArcGIS availability."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }
+
       - name: Rebuild hud_lihtc_co.geojson derivative
         run: |
           echo "── Rebuilding data/market/hud_lihtc_co.geojson from chfa-lihtc.json ──"
@@ -77,11 +98,28 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/chfa-lihtc.json data/chfa-affordable-housing.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson
+          python3 scripts/rebuild_manifest.py
+          git add data/chfa-lihtc.json data/chfa-affordable-housing.json data/hna/lihtc/*.json data/market/hud_lihtc_co.geojson data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "chore: update CHFA LIHTC data [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash origin main
-            git push
+            exit 0
           fi
+
+          git commit -m "chore: update CHFA LIHTC data [$(date -u '+%Y-%m-%d')]"
+
+          echo "── Fetching latest origin/main ──"
+          git fetch origin main
+
+          echo "── Merging origin/main into local branch ──"
+          if ! git merge origin/main --no-edit; then
+            echo "::error::Merge conflict detected. Aborting merge."
+            git merge --abort
+            exit 1
+          fi
+
+          echo "── Git status before push ──"
+          git --no-pager log --oneline -5
+          git --no-pager diff --stat HEAD~1 HEAD || true
+
+          echo "── Pushing changes ──"
+          git push origin HEAD:main

@@ -259,3 +259,20 @@ jobs:
                 labels: ['data-quality'],
               });
             }
+
+      - name: Alert on failure
+        if: failure()
+        uses: actions/github-script@v8
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync(
+                `node scripts/monitoring/alert.js --mode empty-dataset --workflow data-quality-check.yml --run-id ${context.runId} --data-file data/co-county-boundaries.json --details "Data quality validation failed. Review co-county-boundaries.json, fred-data.json, and chfa-lihtc.json."`,
+                { stdio: 'inherit', env: { ...process.env } }
+              );
+            } catch (e) {
+              console.error('Alert script failed:', e.message);
+            }

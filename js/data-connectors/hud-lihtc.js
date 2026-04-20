@@ -227,6 +227,9 @@
     if (!p.N_UNITS   && p.TOTAL_UNITS)  { p.N_UNITS   = toNum(p.TOTAL_UNITS); }
     if (!p.YR_ALLOC  && p.YEAR_ALLOC)   { p.YR_ALLOC  = toNum(p.YEAR_ALLOC); }
     if (!p.CREDIT    && p.CREDIT_PCT)   { p.CREDIT    = p.CREDIT_PCT; }
+    // Normalize QCT/DDA to numeric 0/1 — source data may contain string "1", "2", null
+    if (p.QCT != null) { p.QCT = Number(p.QCT) > 0 ? 1 : 0; }
+    if (p.DDA != null) { p.DDA = Number(p.DDA) > 0 ? 1 : 0; }
     return f;
   }
 

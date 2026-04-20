@@ -22,13 +22,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           # Explicit list of data-creation workflows only.
           # Excludes non-data workflows: ci-checks, deploy, site-audit,
           #   contrast-audit, daily-monitoring, redeploy-zip.
           DATA_WORKFLOWS=(
             "build-hna-data.yml"
-            "build-market-data.yml"
             "cache-hud-gis-data.yml"
             "car-data-update.yml"
             "fetch-census-acs.yml"
@@ -36,23 +36,44 @@ jobs:
             "fetch-county-data.yml"
             "fetch-fred-data.yml"
             "fetch-kalshi.yml"
-            "fetch-lihtc-data.yml"
-            "generate-housing-data.yml"
-            "generate-market-analysis-data.yml"
+            "market_data_build.yml"
             "zillow-data-sync.yml"
           )
 
           > /tmp/trigger_times.txt
           triggered=0
           failed_trigger=0
+          # Allow up to 30 seconds (10 attempts × 3 seconds) for a newly-dispatched workflow run to appear.
+          RUN_ID_LOOKUP_ATTEMPTS=10
+          RUN_ID_LOOKUP_SLEEP_SECONDS=3
 
           for workflow in "${DATA_WORKFLOWS[@]}"; do
             echo "▶ Triggering: $workflow"
             TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+            extra_inputs=""
+            if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
               echo "  ✅ Triggered"
               echo "${workflow}=${TRIGGER_TIME}" >> /tmp/trigger_times.txt
               triggered=$((triggered + 1))
+              run_id=""
+              for _ in $(seq 1 "$RUN_ID_LOOKUP_ATTEMPTS"); do
+                run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+                  --limit 5 --json databaseId,createdAt,event,headBranch \
+                  --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
+                  2>/dev/null)
+                [ -n "$run_id" ] && break
+                sleep "$RUN_ID_LOOKUP_SLEEP_SECONDS"
+              done
+              if [ -n "$run_id" ]; then
+                echo "  ⏳ Waiting for $workflow run #$run_id to complete before triggering the next workflow"
+                if gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1; then
+                  echo "  ✅ $workflow run #$run_id completed"
+                else
+                  echo "  ⚠️  Failed to watch $workflow run #$run_id (may have timed out or been cancelled); continuing"
+                fi
+              else
+                echo "  ⚠️  Could not resolve run ID for $workflow immediately; continuing"
+              fi
             else
               echo "  ❌ Failed to trigger"
               echo "::error::Failed to trigger data workflow: $workflow"
@@ -71,6 +92,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
         run: |
           # Allow GitHub enough time to queue the triggered runs.
           sleep 15
@@ -79,8 +101,8 @@ jobs:
           while IFS='=' read -r workflow trigger_time; do
             [ -z "$workflow" ] && continue
             run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-              --limit 5 --json databaseId,createdAt \
-              --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+              --limit 5 --json databaseId,createdAt,event,headBranch \
+              --jq "[.[] | select(.createdAt >= \"$trigger_time\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
               2>/dev/null)
             if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
               echo "$workflow=$run_id" >> /tmp/run_ids.txt
@@ -96,10 +118,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           REF: ${{ github.ref_name }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: |
           # Poll all triggered runs concurrently in a single loop.
           # Timeout: 45 minutes (90 polls × 30-second interval).
           MAX_POLLS=90
+          # Allow up to 30 seconds (10 attempts × 3 seconds) for a newly-dispatched retry run to appear.
+          RUN_ID_LOOKUP_ATTEMPTS=10
+          RUN_ID_LOOKUP_SLEEP_SECONDS=3
           > /tmp/conclusions.txt
 
           for poll in $(seq 1 "$MAX_POLLS"); do
@@ -179,10 +205,30 @@ jobs:
             for workflow in "${retry_needed[@]}"; do
               echo "↩ Retry $retry_attempt: $workflow"
               TRIGGER_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" 2>&1; then
+              extra_inputs=""
+              if gh workflow run "$workflow" --repo "$REPO" --ref "$REF" $extra_inputs 2>&1; then
                 echo "  ✅ Re-triggered"
                 echo "${workflow}=${TRIGGER_TIME}" >> "/tmp/retry_trigger_${retry_attempt}.txt"
                 echo "${workflow}: attempt $((retry_attempt + 1)) triggered" >> /tmp/retry_log.txt
+                run_id=""
+                for _ in $(seq 1 "$RUN_ID_LOOKUP_ATTEMPTS"); do
+                  run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
+                    --limit 5 --json databaseId,createdAt,event,headBranch \
+                    --jq "[.[] | select(.createdAt >= \"$TRIGGER_TIME\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
+                    2>/dev/null)
+                  [ -n "$run_id" ] && break
+                  sleep "$RUN_ID_LOOKUP_SLEEP_SECONDS"
+                done
+                if [ -n "$run_id" ]; then
+                  echo "  ⏳ Waiting for retry run #$run_id to complete before triggering the next retry workflow"
+                  if gh run watch "$run_id" --repo "$REPO" --interval 30 >/dev/null 2>&1; then
+                    echo "  ✅ Retry run #$run_id completed"
+                  else
+                    echo "  ⚠️  Failed to watch retry run #$run_id (may have timed out or been cancelled); continuing"
+                  fi
+                else
+                  echo "  ⚠️  Could not resolve retry run ID for $workflow immediately; continuing"
+                fi
               else
                 echo "  ❌ Failed to re-trigger"
                 echo "${workflow}: attempt $((retry_attempt + 1)) trigger failed" >> /tmp/retry_log.txt
@@ -198,8 +244,8 @@ jobs:
             while IFS='=' read -r workflow trigger_time; do
               [ -z "$workflow" ] && continue
               run_id=$(gh run list --workflow "$workflow" --repo "$REPO" \
-                --limit 5 --json databaseId,createdAt \
-                --jq "[.[] | select(.createdAt >= \"$trigger_time\")] | .[0].databaseId // empty" \
+                --limit 5 --json databaseId,createdAt,event,headBranch \
+                --jq "[.[] | select(.createdAt >= \"$trigger_time\" and .event == \"workflow_dispatch\" and .headBranch == \"$REF\")] | .[0].databaseId // empty" \
                 2>/dev/null)
               if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
                 echo "$workflow=$run_id" >> "/tmp/retry_ids_${retry_attempt}.txt"
@@ -341,10 +387,9 @@ jobs:
               '',
               '### Next steps',
               '1. Open the run link above and inspect each failed child workflow.',
-              '2. For **build-market-data** failures: verify `CENSUS_API_KEY` is set in [Settings → Secrets](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/settings/secrets/actions).',
-              '3. Re-trigger individual workflows with:',
+              '2. Re-trigger individual workflows with:',
               '   ```bash',
-              `   gh workflow run build-market-data.yml --repo ${context.repo.owner}/${context.repo.repo}`,
+              `   gh workflow run market_data_build.yml --repo ${context.repo.owner}/${context.repo.repo}`,
               '   ```',
               '',
               'See `.github/WORKFLOW_TROUBLESHOOTING.md` for a full troubleshooting guide.',

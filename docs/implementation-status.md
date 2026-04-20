@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-04-10 by `scripts/sync-docs.mjs` · 38 pages · 883 data files · 38 workflows*
+> *Auto-synced 2026-04-20 by `scripts/sync-docs.mjs` · 38 pages · 884 data files · 36 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.
@@ -120,7 +120,7 @@
 
 | File | Status | Notes |
 |------|--------|-------|
-| `css/site-theme.css` | ✅ Implemented | Single source of truth for design tokens, light/dark mode, typography. Note: still imports external Google Fonts |
+| `css/site-theme.css` | ✅ Implemented | Single source of truth for design tokens, light/dark mode, typography. Fonts self-hosted in `assets/fonts/` |
 | `css/layout.css` | ✅ Implemented | Containers, grids, sidebar, breadcrumbs, print styles |
 | `css/pages.css` | ✅ Implemented | Comprehensive shared component library (buttons, cards, hero, etc.) |
 | `css/styles.css` | 📦 Legacy | Original stylesheet; now theme-aware via CSS vars. Candidate for merge into pages.css |
@@ -142,8 +142,8 @@
 | `site-audit.yml` | ✅ Implemented | Site audit workflow for PR checks |
 | `deploy.yml` | ✅ Implemented | Auto-deploy to GitHub Pages |
 | `build-hna-data.yml` | ✅ Implemented | Builds HNA cached data artifacts (Census API) |
-| `build-market-data.yml` | ✅ Implemented | Builds market analysis data artifacts |
-| `generate-market-analysis-data.yml` | ✅ Implemented | Extended market data generation |
+| `market_data_build.yml` | ✅ Implemented | Builds market analysis data artifacts |
+| `market_data_build.yml` | ✅ Implemented | Extended market data generation |
 | `generate-housing-data.yml` | ✅ Implemented | Housing data generation pipeline |
 | `fetch-fred-data.yml` | ✅ Implemented | FRED API data fetch with monitoring |
 | `fetch-census-acs.yml` | ✅ Implemented | Census ACS data fetch |
@@ -295,8 +295,8 @@ The repository has two parallel test directories: `test/` (plain Node.js/Python 
 ### 7. CI Unification
 No single PR gate currently runs the full JS + Python + browser test stack together. `ci-checks.yml` covers artifact and reference checks; the pytest suite runs separately; Lighthouse and link-crawler stubs have no CI integration at all. A unified `ci.yml` gate should run: (1) `node test/smoke.test.js`, (2) `pytest tests/`, (3) `node tools/check-links.mjs`, (4) `node tools/streamline-preflight.js`.
 
-### 8. Google Fonts External Dependency
-`css/site-theme.css` still imports fonts from `fonts.googleapis.com`. This introduces a third-party dependency that: (a) fails in offline/air-gapped environments, (b) adds render-blocking latency, (c) raises GDPR/privacy concerns for EU visitors. Fonts should be self-hosted in `assets/fonts/` and loaded via `@font-face`.
+### 8. Google Fonts External Dependency ✅ Resolved
+Fonts are now self-hosted in `assets/fonts/plus-jakarta-sans/` and `assets/fonts/dm-mono/` via `@font-face` declarations in `css/site-theme.css`. The Google Fonts CDN import has been removed.
 
 ### 9. Legacy File Cleanup
 The following files are candidates for archival to `_dev/` or outright deletion:

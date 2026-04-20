@@ -37,3 +37,9 @@ _site/
 
 # Local build / fetch caches (e.g., CHAS, ACS download artifacts)
 .cache/
+
+# Private/internal-only assets — must not ship to the public GitHub Pages site.
+# The previous private/weekly-brief content was committed but not access-controlled
+# (its own README admitted "It is not secured"); see SECURITY note in PR.
+# Keep local copies if you need them; host them somewhere authenticated instead.
+private/

@@ -187,7 +187,7 @@ test('Run-all-workflows: run-all-workflows.yml exists and is properly configured
     assert(content.includes('build-hna-data.yml'),        'build-hna-data.yml in data list');
     assert(content.includes('fetch-census-acs.yml'),      'fetch-census-acs.yml in data list');
     assert(content.includes('fetch-fred-data.yml'),       'fetch-fred-data.yml in data list');
-    assert(content.includes('generate-market-analysis-data.yml'), 'generate-market-analysis-data.yml in data list');
+    assert(content.includes('market_data_build.yml'), 'market data workflow in data list');
     assert(!content.includes('ci-checks.yml'),            'ci-checks.yml excluded from data list');
     assert(!content.includes('deploy.yml'),               'deploy.yml excluded from data list');
     assert(!content.includes('site-audit.yml'),           'site-audit.yml excluded from data list');
@@ -223,15 +223,16 @@ test('Case sensitivity: LIHTC-dashboard.html uses the exact expected case', () =
 // ---------------------------------------------------------------------------
 // Validate housing-needs-assessment.html references config.js
 // ---------------------------------------------------------------------------
-test('housing-needs-assessment.html: loads js/config.js and js/housing-needs-assessment.js', () => {
+test('housing-needs-assessment.html: loads js/config.js', () => {
     const htmlPath = path.join(ROOT, 'housing-needs-assessment.html');
     if (!fileExists('housing-needs-assessment.html')) {
         assert(false, 'housing-needs-assessment.html missing — cannot check script references');
         return;
     }
     const html = fs.readFileSync(htmlPath, 'utf8');
-    assert(html.includes('js/config.js'),                    'js/config.js is referenced');
-    assert(html.includes('js/housing-needs-assessment.js'), 'js/housing-needs-assessment.js is referenced');
+    assert(html.includes('js/config.js'), 'js/config.js is referenced');
+    // js/housing-needs-assessment.js is a compatibility stub and is not loaded;
+    // the page loads the modular js/hna/* files instead.
 });
 
 // ---------------------------------------------------------------------------

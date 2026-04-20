@@ -40,19 +40,19 @@ jobs:
               body: [
                 `👷 Rebuilding market data — triggered by @${context.actor}.`,
                 '',
-                `Workflow dispatch: [Build Market Data](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/build-market-data.yml)`,
+                `Workflow dispatch: [Build Market Data](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/market_data_build.yml)`,
                 '',
                 '_This comment was posted automatically. The build typically takes 10–15 minutes._',
               ].join('\n'),
             });
 
-      - name: Dispatch build-market-data workflow
+      - name: Dispatch market_data_build workflow
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          gh workflow run build-market-data.yml --repo "$REPO" --ref main
-          echo "build-market-data.yml dispatched ✅"
+          gh workflow run market_data_build.yml --repo "$REPO" --ref main
+          echo "market_data_build.yml dispatched ✅"
 
       - name: Notify on dispatch failure
         if: failure() && github.event_name == 'issue_comment'
@@ -64,11 +64,11 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: [
-                `⚠️ **Workflow dispatch failed** for \`build-market-data.yml\`.`,
+                `⚠️ **Workflow dispatch failed** for \`market_data_build.yml\`.`,
                 '',
                 `Triggered by: @${context.actor}`,
                 `Run: [Workflow Comment Trigger #${context.runNumber}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
                 '',
-                'Please check that the `GITHUB_TOKEN` has `actions: write` permission and that `build-market-data.yml` exists on the `main` branch. A repository owner can also trigger the build manually from the [Actions tab](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/workflows/build-market-data.yml).',
+                'Please check that the `GITHUB_TOKEN` has `actions: write` permission and that `market_data_build.yml` exists on the `main` branch. A repository owner can also trigger the build manually from the [Actions tab](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/workflows/market_data_build.yml).',
               ].join('\n'),
             });

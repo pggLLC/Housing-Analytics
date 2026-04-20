@@ -40,6 +40,8 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/vendor/leaflet.js"></script>
   <script src="js/components/map-home-btn.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script src="js/co-lihtc-map.js"></script>
   <script src="js/geo-search.js"></script>
 
@@ -132,23 +134,6 @@
   height: 78vh; min-height: 580px; width: 100%;
   border-radius: 0;
 }
-.map-controls {
-  display: flex; flex-wrap: wrap; gap: 0.6rem;
-  align-items: center; padding: 0.65rem 1.25rem;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-}
-.map-controls label {
-  display: flex; gap: 0.4rem; align-items: center;
-  color: var(--muted); font-size: 0.83rem; font-weight: 600;
-  cursor: pointer; padding: 4px 10px;
-  border-radius: 999px; border: 1px solid var(--border);
-  background: var(--card); transition: background 0.15s;
-}
-.map-controls label:hover { background: rgba(95,168,255,0.1); color: var(--text); }
-.map-controls input[type="checkbox"] { accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; }
-.map-controls label { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 .25rem; cursor: pointer; }
 
 /* ── Map legend ── */
 .map-legend {
@@ -237,6 +222,13 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .map-controls label:hover { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--text); }
 .map-controls input[type="checkbox"] { accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; }
 .map-controls label { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 .25rem; cursor: pointer; }
+
+/* Layer toggle bar sits below the map */
+.map-layer-toggles {
+  border-top: none;
+  border-bottom: 1px solid var(--border);
+  margin-top: 0;
+}
 
 .map-legend {
   background: color-mix(in srgb, var(--card) 92%, transparent) !important;
@@ -374,6 +366,21 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
 </div>
 
+<div id="pageContext"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.PageContext) PageContext.render('pageContext', {
+    what: 'Comprehensive Colorado affordable housing dashboard: county-level LIHTC pipeline, AMI affordability gaps, CHFA allocation history, market trends, construction activity, and Prop 123 compliance tracking.',
+    why: 'Colorado-specific context is essential for LIHTC development. Statewide trends, CHFA priorities, Prop 123 dynamics, and competitive landscape all influence deal positioning. This page provides the state-level view that complements jurisdiction-level analysis.',
+    not: 'This is a data exploration page, not a scored analysis. It does not recommend specific sites or rank jurisdictions. Some data is manually updated (CAR reports) and may lag by 1-2 months. Historical allocation data from HUD has a 12-24 month reporting lag.',
+    nextSteps: [
+      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' },
+      { label: 'LIHTC Allocations', href: 'lihtc-allocations.html', desc: 'National allocation context' }
+    ]
+  });
+});
+</script>
+
 <!-- ── Outer tab navigation: Deep Dive | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
@@ -478,17 +485,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <h2>Interactive Map: DDAs, QCTs &amp; LIHTC Projects</h2>
       <p class="chart-subtitle">Zoomable Colorado-only map with counties, places, LIHTC projects (HUD), and HUD 2026 QCT/DDA overlays.</p>
     </div>
-    <div class="map-controls" role="group" aria-label="Map layers and filters">
-      <label><input type="checkbox" id="layerCounties" checked=""> Counties</label>
-      <label><input type="checkbox" id="layerPlaces"> Places</label>
-      <label><input type="checkbox" id="layerLIHTC" checked=""> LIHTC Projects</label>
-      <label><input type="checkbox" id="layerOtherAffordable"> Other Affordable Housing <small>(1,688)</small></label>
-      <label><input type="checkbox" id="layerQCT" checked=""> QCT 2026</label>
-      <label><input type="checkbox" id="layerDDA" checked=""> DDA 2026</label>
-      <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
-      <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
-      <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
-      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: var(--text);"></span></label>
+    <!-- Top bar: county filter + basemap theme + geocoder search + status (navigation controls only) -->
+    <div class="map-controls" role="group" aria-label="Map navigation controls">
       <label for="countyGeoSelect" style="gap:.5rem;">
         County:
         <select id="countyGeoSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem; min-width:130px;" aria-label="Filter overlays by county">
@@ -523,6 +521,19 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       <span id="mapLoadingSpinner" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:mapSpin .7s linear infinite;" aria-hidden="true"></span>
       <span id="mapLoadingText">Loading map data…</span>
     </div>
+    <!-- Layer toggle controls (below map) -->
+    <div class="map-controls map-layer-toggles" role="group" aria-label="Map layer toggles">
+      <label><input type="checkbox" id="layerCounties" checked=""> Counties</label>
+      <label><input type="checkbox" id="layerPlaces"> Places</label>
+      <label><input type="checkbox" id="layerLIHTC" checked=""> LIHTC Projects</label>
+      <label><input type="checkbox" id="layerOtherAffordable"> Other Affordable Housing <small>(1,688)</small></label>
+      <label><input type="checkbox" id="layerQCT" checked=""> QCT 2026</label>
+      <label><input type="checkbox" id="layerDDA" checked=""> DDA 2026</label>
+      <label><input type="checkbox" id="layerTransport"> DDA (Transportation Only)</label>
+      <label><input type="checkbox" id="filterQCT"> Only QCT projects</label>
+      <label><input type="checkbox" id="filterDDA"> Only DDA projects</label>
+      <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: var(--text);"></span></label>
+    </div>
     <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
@@ -536,6 +547,10 @@ h3 { font-size: 1.05rem; font-weight: 700; }
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
           <span class="dot" style="background:#5fa8ff;"></span>
           <span><strong>LIHTC Projects</strong> — HUD LIHTC Database (mapped)</span>
+        </div>
+        <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
+          <span class="swatch" style="background:rgba(95,168,255,.12); border-color:rgba(95,168,255,.4);"></span>
+          <span><strong>Places</strong> — Colorado incorporated places</span>
         </div>
       </div>
       <div style="margin-top:.75rem; font-size: 12px; color: var(--muted); line-height:1.5;">
@@ -1296,11 +1311,13 @@ h3 { font-size: 1.05rem; font-weight: 700; }
        Colorado vs Peer States — Trend Analysis
        Powered by js/trend-analysis.js
        ══════════════════════════════════════════════════════════════ -->
+  <div id="trend-analysis-section"></div>
 
   <!-- ══════════════════════════════════════════════════════════════
        LIHTC Policy Scenario Simulator
        Powered by js/policy-simulator.js
        ══════════════════════════════════════════════════════════════ -->
+  <div id="policy-simulator-section"></div>
   </div><!-- /tab-state-comparison -->
 
   <!-- Tab 3: Market Conditions -->

@@ -183,15 +183,138 @@
     };
   }
 
+  /* ── Tract-level barrier exclusion ────────────────────────────────── */
+
+  /**
+   * Minimum AADT (Annual Average Daily Traffic) to qualify as a significant
+   * barrier. Below this threshold, roads are not considered barriers to
+   * market area continuity.
+   */
+  var MIN_BARRIER_AADT = 10000;
+
+  /**
+   * Test whether two line segments intersect using the cross-product method.
+   * Returns true if segment (p1→p2) crosses segment (p3→p4).
+   */
+  function _segmentsIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+    var d1x = x2 - x1, d1y = y2 - y1;
+    var d2x = x4 - x3, d2y = y4 - y3;
+    var denom = d1x * d2y - d1y * d2x;
+    if (Math.abs(denom) < 1e-12) return false; // parallel or collinear
+
+    var t = ((x3 - x1) * d2y - (y3 - y1) * d2x) / denom;
+    var u = ((x3 - x1) * d1y - (y3 - y1) * d1x) / denom;
+    return t >= 0 && t <= 1 && u >= 0 && u <= 1;
+  }
+
+  /**
+   * Extract line segments from barrier GeoJSON features.
+   * Only includes highways with AADT >= MIN_BARRIER_AADT and all water bodies.
+   * @param {Array} features - barrier features from natural_barriers_co.geojson
+   * @returns {Array} [{x1,y1,x2,y2}]
+   */
+  function _extractBarrierSegments(features) {
+    var segments = [];
+    if (!features || !features.length) return segments;
+
+    features.forEach(function (f) {
+      if (!f || !f.geometry) return;
+      var props = f.properties || {};
+
+      // Skip minor roads (AADT below threshold)
+      if (props.barrier_type === 'highway') {
+        var aadt = parseInt(props.aadt, 10) || 0;
+        if (aadt < MIN_BARRIER_AADT) return;
+      }
+
+      var coords = f.geometry.coordinates;
+      if (!coords) return;
+
+      // Handle LineString
+      if (f.geometry.type === 'LineString' && coords.length >= 2) {
+        for (var i = 0; i < coords.length - 1; i++) {
+          segments.push({ x1: coords[i][0], y1: coords[i][1], x2: coords[i + 1][0], y2: coords[i + 1][1] });
+        }
+      }
+      // Handle MultiLineString
+      else if (f.geometry.type === 'MultiLineString') {
+        coords.forEach(function (line) {
+          for (var j = 0; j < line.length - 1; j++) {
+            segments.push({ x1: line[j][0], y1: line[j][1], x2: line[j + 1][0], y2: line[j + 1][1] });
+          }
+        });
+      }
+    });
+
+    return segments;
+  }
+
+  /**
+   * Identify census tracts that are "behind" a significant barrier
+   * relative to the site location. A tract is excluded if any major
+   * barrier segment intersects the straight line from the site to
+   * the tract centroid.
+   *
+   * This is a practical approximation: it does NOT clip the PMA polygon
+   * (which would require turf.js), but instead removes tracts from the
+   * ACS aggregation that are on the far side of a highway or water body.
+   *
+   * @param {number} siteLat
+   * @param {number} siteLon
+   * @param {Array}  tractCentroids - [{geoid, lat, lon}]
+   * @param {Array}  barrierFeatures - GeoJSON features from natural_barriers_co.geojson
+   * @returns {Array} GEOIDs of excluded tracts
+   */
+  function identifyExcludedTracts(siteLat, siteLon, tractCentroids, barrierFeatures) {
+    if (!tractCentroids || !tractCentroids.length || !barrierFeatures || !barrierFeatures.length) {
+      return [];
+    }
+
+    var segments = _extractBarrierSegments(barrierFeatures);
+    if (!segments.length) return [];
+
+    // Performance optimization: only test segments within a reasonable
+    // bounding box around the PMA (avoid testing distant barriers)
+    var maxDist = 0.25; // ~15 miles in degrees at Colorado latitudes
+    var relevantSegments = segments.filter(function (seg) {
+      return Math.abs(seg.x1 - siteLon) < maxDist && Math.abs(seg.y1 - siteLat) < maxDist;
+    });
+
+    if (!relevantSegments.length) return [];
+
+    var excluded = [];
+    tractCentroids.forEach(function (tc) {
+      var tcLat = parseFloat(tc.lat) || 0;
+      var tcLon = parseFloat(tc.lon) || 0;
+      if (!tcLat || !tcLon) return;
+
+      // Test if any barrier segment crosses the site→tract line
+      for (var i = 0; i < relevantSegments.length; i++) {
+        var seg = relevantSegments[i];
+        if (_segmentsIntersect(
+          siteLon, siteLat, tcLon, tcLat,
+          seg.x1, seg.y1, seg.x2, seg.y2
+        )) {
+          excluded.push(tc.geoid || tc.GEOID || '');
+          break; // one blocking barrier is enough
+        }
+      }
+    });
+
+    return excluded;
+  }
+
   /* ── Public API ──────────────────────────────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMABarriers = {
-      fetchUSGSHydrology:  fetchUSGSHydrology,
-      fetchNLCDLandCover:  fetchNLCDLandCover,
-      fetchStateHighways:  fetchStateHighways,
-      subtractBarriers:    subtractBarriers,
-      getBarrierSummary:   getBarrierSummary,
-      BARRIER_LAND_COVER:  BARRIER_LAND_COVER
+      fetchUSGSHydrology:       fetchUSGSHydrology,
+      fetchNLCDLandCover:       fetchNLCDLandCover,
+      fetchStateHighways:       fetchStateHighways,
+      subtractBarriers:         subtractBarriers,
+      getBarrierSummary:        getBarrierSummary,
+      identifyExcludedTracts:   identifyExcludedTracts,
+      BARRIER_LAND_COVER:       BARRIER_LAND_COVER,
+      MIN_BARRIER_AADT:         MIN_BARRIER_AADT
     };
   }
 

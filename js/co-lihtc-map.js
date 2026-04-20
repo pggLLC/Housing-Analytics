@@ -13,6 +13,7 @@
   var qctLayerGroup     = null;
   var countyLayerGroup  = null;
   var otherAffordableLayer = null;
+  var placesLayerGroup  = null;
 
   // ── Colorado default view ────────────────────────────────────────────────────
   var CO_DEFAULT_CENTER = [39.5501, -105.7821];
@@ -283,6 +284,11 @@
         coords = item.coordinates;
         props = {};
       } else {
+        // GeoJSON Features with geometry: null are valid records without a mapped location
+        // (e.g. HUD records where no site coordinates are on file).  Skip them silently.
+        if (item && item.type === 'Feature' && item.geometry === null) {
+          return;
+        }
         console.warn('[co-lihtc-map] Invalid item (no coordinates):', item);
         return;
       }
@@ -420,7 +426,102 @@
     });
   }
 
-  // ── Basemap switch ───────────────────────────────────────────────────────────
+  // ── Render Colorado incorporated places (municipalities) overlay ──────────────
+  function renderPlacesLayer(map, geojson) {
+    if (placesLayerGroup) { placesLayerGroup.clearLayers(); }
+    else { placesLayerGroup = L.layerGroup(); }
+
+    var computed = window.getComputedStyle ? window.getComputedStyle(document.documentElement) : null;
+    var color  = (computed && computed.getPropertyValue('--map-boundary-stroke').trim()) || '#5fa8ff';
+
+    L.geoJSON(geojson, {
+      style: {
+        color: color,
+        weight: 1.2,
+        opacity: 0.75,
+        fillColor: color,
+        fillOpacity: 0.06,
+        dashArray: '3 3',
+      },
+      onEachFeature: function(f, layer) {
+        var p = f.properties || {};
+        var name = p.NAME || p.NAMELSAD || 'Place';
+        var lsadc = p.LSADC || '';
+        var label = lsadc ? name + ' (' + lsadc + ')' : name;
+        layer.bindTooltip(label, { sticky: true });
+      },
+    }).addTo(placesLayerGroup);
+
+    var cbPlaces = document.getElementById('layerPlaces');
+    var show = cbPlaces && cbPlaces.checked;
+    if (show) placesLayerGroup.addTo(map);
+  }
+
+  // ── Fetch Colorado incorporated places from TIGERweb ─────────────────────────
+  // Uses Places_CouSub_ConCity_SubMCD MapServer layer 4 (2025 vintage — Incorporated Places).
+  var PLACES_CACHE_KEY = 'co-lihtc-map:tigerweb-co-places';
+  var PLACES_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  function placesCacheGet() {
+    try {
+      var raw = localStorage.getItem(PLACES_CACHE_KEY);
+      if (!raw) return null;
+      var entry = JSON.parse(raw);
+      if (!entry || !entry.ts || !entry.data) return null;
+      if ((Date.now() - entry.ts) > PLACES_CACHE_TTL) {
+        localStorage.removeItem(PLACES_CACHE_KEY);
+        return null;
+      }
+      if (!Array.isArray(entry.data.features) || entry.data.features.length < 50) {
+        localStorage.removeItem(PLACES_CACHE_KEY);
+        return null;
+      }
+      return entry.data;
+    } catch(e) { return null; }
+  }
+
+  function placesCacheSet(gj) {
+    if (!gj || !Array.isArray(gj.features) || gj.features.length < 50) return;
+    try {
+      localStorage.setItem(PLACES_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: gj }));
+    } catch(e) { /* quota exceeded — ignore */ }
+  }
+
+  function loadPlacesLayer(map) {
+    var cached = placesCacheGet();
+    if (cached) {
+      renderPlacesLayer(map, cached);
+      console.info('[co-lihtc-map] Places layer: served from 24h localStorage cache (' + cached.features.length + ' features)');
+      return;
+    }
+
+    var PLACES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query';
+    var PLACES_PARAMS = new URLSearchParams({
+      where: "STATEFP='08'",
+      outFields: 'NAME,NAMELSAD,GEOID,LSADC,STATEFP',
+      f: 'geojson',
+      outSR: '4326',               // Rule 9: always outSR=4326 for ArcGIS queries
+      resultRecordCount: '200',
+      returnExceededLimitFeatures: 'true',
+    });
+
+    fetchWithTimeout(PLACES_URL + '?' + PLACES_PARAMS.toString(), {}, 15000)
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(gj) {
+        if (!gj || !Array.isArray(gj.features) || gj.features.length < 50) {
+          throw new Error('Places: got ' + (gj && gj.features ? gj.features.length : 0) + ' features (need ≥ 50)');
+        }
+        placesCacheSet(gj);
+        renderPlacesLayer(map, gj);
+        console.info('[co-lihtc-map] Places layer loaded from TIGERweb (' + gj.features.length + ' features)');
+      })
+      .catch(function(err) {
+        console.warn('[co-lihtc-map] Places layer unavailable:', err.message);
+      });
+  }
   function applyBasemap(map, name) {
     var def = TILE_DEFS[name] || TILE_DEFS.osm;
     if (currentTileLayer) {
@@ -556,6 +657,7 @@
     bind('layerQCT',     function() { return qctLayerGroup; });
     bind('layerCounties', function() { return countyLayerGroup; });
     bind('layerCounty',  function() { return countyLayerGroup; });
+    bind('layerPlaces',  function() { return placesLayerGroup; });
 
     // Other Affordable Housing layer (CHFA Affordable Housing Database)
     bind('layerOtherAffordable', function() { return otherAffordableLayer; });
@@ -612,8 +714,10 @@
       var onlyDda = cbFilterDda && cbFilterDda.checked;
       lihtcLayerGroup.eachLayer(function(layer) {
         var p = (layer.feature && layer.feature.properties) || {};
-        var inQct = Number(p.QCT) === 1;
-        var inDda = Number(p.DDA) === 1;
+        // QCT/DDA fields may be string "1", "2", number 1, or boolean —
+        // any truthy non-zero value indicates designation
+        var inQct = p.QCT != null && Number(p.QCT) > 0;
+        var inDda = p.DDA != null && Number(p.DDA) > 0;
         var visible = true;
         if (onlyQct && !inQct) visible = false;
         if (onlyDda && !inDda) visible = false;
@@ -662,7 +766,7 @@
     // Responses are cached in localStorage for 24 hours to avoid redundant round-trips
     // when data/co-county-boundaries.json is absent or empty.
     var TIGERWEB_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
-    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP%2CCOUNTYFP%2CGEOID&f=geojson&outSR=4326';
+    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP%2CCOUNTYFP%2CGEOID&f=geojson&outSR=4326&resultRecordCount=100&returnExceededLimitFeatures=true';
     var TIGERWEB_CACHE_KEY = 'co-lihtc-map:tigerweb-co-counties';
     var TIGERWEB_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in ms
     function tWebCacheGet() {
@@ -754,7 +858,12 @@
 
     function onSourceFail(name, err) {
       results.push({ name: name, elapsed: null, features: 0, ok: false, error: err.message });
-      console.warn('[co-lihtc-map] County source "' + name + '" failed:', err.message);
+      // Demote to info when another source has already rendered the county layer successfully.
+      if (rendered) {
+        console.info('[co-lihtc-map] County source "' + name + '" skipped (map already rendered): ' + err.message);
+      } else {
+        console.warn('[co-lihtc-map] County source "' + name + '" failed: ' + err.message);
+      }
     }
 
     function checkAllSettled() {
@@ -790,6 +899,9 @@
 
     // County boundaries — dynamic multi-source selection
     loadCountyBoundariesDynamic(map, resolveUrl);
+
+    // Places layer — Colorado incorporated places (loaded on demand; only shown when checked)
+    loadPlacesLayer(map);
 
     // QCT — try local cache first
     fetchWithTimeout(resolveUrl('data/qct-colorado.json'), {}, 15000)

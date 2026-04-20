@@ -60,7 +60,7 @@ const PAGES = [
   },
   {
     html:       'housing-needs-assessment.html',
-    jsScript:   'js/housing-needs-assessment.js',
+    jsScript:   null,  // loads modular js/hna/* files; stub js/housing-needs-assessment.js is not used
     tsId:       'hnaDataTimestamp',
   },
   {

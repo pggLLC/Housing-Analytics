@@ -11,8 +11,6 @@
   <meta property="og:description" content="Step 1 of the COHO Analytics LIHTC workflow: select your Colorado jurisdiction to begin a housing needs assessment.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
@@ -31,6 +29,7 @@
   <script src="js/components/edu-callout.js"></script>
   <script src="js/components/lihtc-tips.js"></script>
   <script src="js/components/analytics.js" data-step="1" data-step-label="jurisdiction_selector"></script>
+  <script defer src="js/components/page-context.js"></script>
   <script defer src="js/jurisdiction-selector.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
 </head>
@@ -70,6 +69,21 @@
       <h1>Where are you working?</h1>
       <p class="sj-lead">Select a Colorado county to begin your housing needs assessment and LIHTC feasibility analysis. Your jurisdiction choice shapes every piece of data that follows — AMI limits, market conditions, allocation history, and comparable projects.</p>
     </div>
+
+    <div id="pageContext"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Choose the Colorado geography (county, incorporated place, or CDP) you want to analyze. This selection carries forward through all 5 workflow steps.',
+        why: 'LIHTC development is hyper-local. The same project concept can score differently depending on county AMI limits, QAP geography preferences, local policy environment, and competitive landscape. Starting with the right geography anchors your entire analysis.',
+        not: 'This page does not evaluate or rank geographies. To compare jurisdictions by housing need before choosing, use the Compare Jurisdictions page under Explore.',
+        nextSteps: [
+          { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank all 546 geographies by need' },
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'New to LIHTC? Start here' }
+        ]
+      });
+    });
+    </script>
 
     <!-- Two entry paths -->
     <div class="sj-paths">

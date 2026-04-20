@@ -35,11 +35,40 @@ jobs:
 
       - name: Wait for server to be ready
         run: |
-          for i in $(seq 1 15); do
-            curl -sf http://127.0.0.1:8080/ > /dev/null && echo "Server ready" && break
-            echo "Waiting for server... ($i/15)"
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8080/ > /dev/null; then
+              echo "Server ready after ${i}s"
+              exit 0
+            fi
+            echo "Waiting for server... ($i/30)"
             sleep 1
           done
+          echo "ERROR: Server did not become ready within 30 seconds" >&2
+          exit 1
+
+      - name: Verify critical data files are served
+        run: |
+          failed=0
+          for path in \
+            data/fred-data.json \
+            data/chfa-lihtc.json \
+            data/co_ami_gap_by_county.json \
+            data/census-acs-state.json \
+            data/hna/ranking-index.json \
+            data/boundaries/counties_co.geojson; do
+            status=$(curl -sf -o /dev/null -w "%{http_code}" "http://127.0.0.1:8080/${path}" 2>/dev/null || echo "FAIL")
+            if [ "$status" = "200" ]; then
+              echo "  ✓ ${path} (HTTP ${status})"
+            else
+              echo "  ✗ ${path} (HTTP ${status})" >&2
+              failed=$((failed+1))
+            fi
+          done
+          if [ $failed -gt 0 ]; then
+            echo "ERROR: $failed data file(s) not served by static server" >&2
+            exit 1
+          fi
+          echo "All critical data files are served."
 
       - name: Run site audit
         run: npm run audit:site
