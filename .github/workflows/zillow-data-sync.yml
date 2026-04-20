@@ -15,7 +15,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download Zillow Research bulk CSVs
         run: |
@@ -118,7 +118,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Fetch Bridge assessments — all 13 Colorado regions
         env:
