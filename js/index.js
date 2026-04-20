@@ -53,6 +53,7 @@
         var statewide = data && data.statewide;
         var gaps = statewide && statewide.gap_units_minus_households_le_ami_pct;
         if (!gaps) return;
+        // We display magnitude of statewide deficit for readability on homepage cards.
         setText('snapGap30', fmtInt(Math.abs(gaps['30'] || 0)));
         setText('snapGap60', fmtInt(Math.abs(gaps['60'] || 0)));
 

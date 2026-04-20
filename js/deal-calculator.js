@@ -754,6 +754,7 @@
       var impactTerm = Math.max(1, safeVal('dc-impact-fee-term') || 20);
       if (impactAmt > 0) {
         var impactMc = mortgageConstant(impactRatePct / 100, impactTerm);
+        // Zero-interest public loans are amortized here as straight-line annual principal.
         impactDebtService = impactRatePct > 0 ? (impactAmt * impactMc) : (impactAmt / impactTerm);
       }
     }
