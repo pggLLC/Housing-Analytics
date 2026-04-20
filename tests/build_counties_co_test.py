@@ -8,7 +8,8 @@ Tests the resilience improvements:
 
 Usage
 -----
-    python test/build_counties_co_test.py
+    pytest tests/build_counties_co_test.py -v
+    # (or, standalone) python tests/build_counties_co_test.py
 """
 
 from __future__ import annotations

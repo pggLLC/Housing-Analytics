@@ -206,8 +206,10 @@ jobs:
 
       - name: Run pytest suite
         run: pytest tests/ -v --tb=short
-
-      - name: Run standalone Python tests
-        run: |
-          python test/economic_indicators_test.py
-          python test/build_counties_co_test.py
+        # Note: previously a separate "Run standalone Python tests" step
+        # invoked test/economic_indicators_test.py and
+        # test/build_counties_co_test.py. Those files have been moved into
+        # tests/ (see Phase 8 consolidation PR) so pytest now discovers
+        # and runs them as part of the suite above. demographic_projections_test.py
+        # has also been moved and is now exercised — it was orphaned before
+        # (existed in test/ but never invoked by any workflow).
