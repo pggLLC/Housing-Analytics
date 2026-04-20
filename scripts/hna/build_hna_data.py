@@ -1910,7 +1910,10 @@ def _build_state_projection_aggregate():
     base_units_needed = units_needed_dola[base_year_idx] if units_needed_dola else 0.0
     incremental_units_needed_dola = [round(v - base_units_needed, 2) for v in units_needed_dola]
     if not (0 <= base_year_idx < len(incremental_units_needed_dola)):
-        raise ValueError(f'State projection units_needed_dola missing index for base year {HNA_BASE_YEAR}')
+        raise ValueError(
+            f'Base year {HNA_BASE_YEAR} not found in state projection years '
+            f'(index {base_year_idx}, length {len(incremental_units_needed_dola)})'
+        )
     incremental_units_needed_dola[base_year_idx] = 0.0
 
     payload = {
