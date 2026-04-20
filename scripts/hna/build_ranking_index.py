@@ -243,10 +243,19 @@ def compute_metrics(
     rental_units = int(total_units * (pct_renter / 100.0)) if total_units and pct_renter else 1
     vacancy_rate = round((vacant_for_rent / max(rental_units, 1)) * 100, 1) if vacant_for_rent else 0.0
 
-    # Cost burden: ACS DP04_0146PE = % renters paying ≥30% income
-    pct_cost_burdened_acs = safe_float(acs.get("DP04_0146PE"))
+    # Cost burden:
+    #   Primary: ACS DP04 GRAPI bins (DP04_0141PE + DP04_0142PE) = share of
+    #     renter households paying ≥30% of income. This field is present for
+    #     both counties and places/CDPs, so it's the most accurate per-place
+    #     signal.
+    #   Legacy: DP04_0146PE was the "computed" cost-burden % but is null in
+    #     our ACS payloads, so we derive from the bins directly.
+    #   For counties, this ACS value is still overridden below by CHAS
+    #     aggregation which is more precise for AMI-tier stratification.
+    grapi_30to34 = safe_float(acs.get("DP04_0141PE"))
+    grapi_35plus = safe_float(acs.get("DP04_0142PE"))
+    pct_cost_burdened_acs = round(grapi_30to34 + grapi_35plus, 1)
 
-    # Prefer CHAS cost-burden over ACS (CHAS is more precise for AMI tiers)
     pct_cost_burdened = pct_cost_burdened_acs
 
     # Determine county FIPS for cross-reference lookups
@@ -333,15 +342,13 @@ def compute_metrics(
         pct_burdened_31to50  = _tier_pct("31to50")
         pct_burdened_51to80  = _tier_pct("51to80")
 
-        if geo_type == "county":
-            # Aggregate overall cost burden from CHAS (more precise than ACS)
-            total_renter_hh = 0
-            total_burdened = 0
-            for _tier, tier_data in renter_data.items():
-                total_renter_hh += safe_float(tier_data.get("total", 0))
-                total_burdened += safe_float(tier_data.get("cost_burdened", 0))
-            if total_renter_hh > 0:
-                pct_cost_burdened = round((total_burdened / total_renter_hh) * 100, 1)
+        # Note: we intentionally keep pct_cost_burdened as the GRAPI-derived
+        # value (DP04_0141PE + DP04_0142PE) so the metric is comparable across
+        # counties and places (both populated from the geography's own ACS
+        # profile). CHAS aggregation would filter to ≤100% AMI renters only,
+        # which gives a materially different number than "all renters" and
+        # isn't what the UI label ("% cost-burdened renters") claims.
+        # CHAS is still the source for the AMI-tier stratified fields below.
 
     # --- LEHD in-commuting stats (county level; places scale by population share) ---
     in_commuters = 0
@@ -393,6 +400,24 @@ def compute_metrics(
                     growth_factor = last_pop / base_pop
                     population_projection_20yr = int(population * growth_factor)
 
+    # Flag fields whose place-level values are downscaled from county sources
+    # (per Q2b decision: approximate rather than hide). Consumers can surface
+    # a disclaimer in the UI.
+    if geo_type == "county":
+        approximated_fields: list[str] = []
+    else:
+        approximated_fields = [
+            "ami_gap_30pct",
+            "ami_gap_50pct",
+            "ami_gap_60pct",
+            "pct_burdened_lte30",
+            "pct_burdened_31to50",
+            "pct_burdened_51to80",
+            "missing_ami_tiers",
+            "in_commuters",
+            "population_projection_20yr",
+        ]
+
     return {
         "housing_gap_units": housing_gap_units,
         "pct_cost_burdened": round(pct_cost_burdened, 1),
@@ -412,6 +437,7 @@ def compute_metrics(
         "pct_renters": round(pct_renter, 1),
         "gross_rent_median": gross_rent,
         "_null_critical_count": null_critical_count,
+        "_approximated_fields": approximated_fields,
     }
 
 
@@ -507,12 +533,19 @@ def build() -> None:
                 "pct_renters": 0.0,
                 "gross_rent_median": 0,
                 "_null_critical_count": 0,
+                "_approximated_fields": [],
             }
 
-        # Extract data-quality flag and remove private key from public metrics dict.
+        # Extract data-quality flags and remove private keys from public metrics dict.
         null_critical_count = metrics.pop("_null_critical_count", 0)
+        approximated_fields = metrics.pop("_approximated_fields", [])
         total_critical = 5  # number of CRITICAL_ACS_FIELDS checked in compute_metrics
         has_incomplete_data = null_critical_count > 0 and (null_critical_count / total_critical) > _INCOMPLETE_DATA_THRESHOLD
+
+        data_quality = {}
+        if approximated_fields:
+            data_quality["approximated_fields"] = approximated_fields
+            data_quality["approximation_basis"] = "county_scaled_by_population_share"
 
         entry = {
             "geoid": geoid,
@@ -523,6 +556,7 @@ def build() -> None:
             "metrics": metrics,
             "hasIncompleteData": has_incomplete_data,
             "nullCriticalMetrics": null_critical_count,
+            "dataQuality": data_quality,
             "percentileRank": 0,  # filled in after sorting
             "medianComparison": 1.0,
         }
