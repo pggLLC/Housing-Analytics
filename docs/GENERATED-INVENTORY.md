@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T22:26:38.034Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T23:00:41.672Z. Do not edit by hand.
 
 ---
 
@@ -348,7 +348,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 529.3 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 728.4 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1043,7 +1043,7 @@
 
 ## GitHub Actions Workflows
 
-36 workflow files found.
+37 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1077,6 +1077,7 @@
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
+| `.github/workflows/source-url-sweep.yml` | 2.0 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
