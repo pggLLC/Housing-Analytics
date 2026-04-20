@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T08:08:15.479Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T12:18:35.437Z. Do not edit by hand.
 
 ---
 
@@ -78,7 +78,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 129.9 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 130.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 983.6 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -348,7 +348,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 511.3 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 510.6 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -946,7 +946,7 @@
 
 ## Test Files
 
-87 test files found.
+88 test files found.
 
 | File | Size |
 |------|------|
@@ -1029,8 +1029,9 @@
 | `test/website-monitor.test.js` | 7.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
-| `tests/test_governance_stress.py` | 30.3 KB |
+| `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
+| `tests/test_hna_ranking_integrity.py` | 8.9 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
