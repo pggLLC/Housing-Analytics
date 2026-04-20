@@ -519,6 +519,7 @@ def build() -> None:
             "name": label,
             "type": geo_type,
             "region": region,
+            "containingCounty": county_fips5,
             "metrics": metrics,
             "hasIncompleteData": has_incomplete_data,
             "nullCriticalMetrics": null_critical_count,
