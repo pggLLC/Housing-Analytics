@@ -1695,13 +1695,10 @@ def build_dola_projections_by_county():
         if not years:
             continue
 
-        # Choose base year: prefer max year with profiles (typically 2024), else last estimate year.
-        base_year = max_profile_year if max_profile_year > 0 else (max_estimate_year if max_estimate_year > 0 else max(years))
-        if cf in profiles and base_year not in profiles[cf]:
-            base_year = max(profiles[cf].keys())
-
+        # Rule 3: keep projection base year pinned to the current data vintage.
+        base_year = HNA_BASE_YEAR
         if base_year not in comp.get(cf, {}):
-            # fall back to last comp year <= base_year
+            # fall back to last comp year <= base_year when source data is incomplete
             base_candidates = [y for y in years if y <= base_year]
             base_year = base_candidates[-1] if base_candidates else years[-1]
 
@@ -1762,7 +1759,7 @@ def build_dola_projections_by_county():
             units_needed.append(need)
             if base_units is None:
                 inc_units.append(None)
-            elif i == 0:
+            elif out_years[i] == HNA_BASE_YEAR:
                 inc_units.append(0.0)
             else:
                 inc_units.append(need - base_units)
