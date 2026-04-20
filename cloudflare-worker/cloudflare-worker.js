@@ -10,7 +10,9 @@
  *   CENSUS_API_KEY   (optional but recommended)
  *
  * Optional variables:
- *   ALLOW_ORIGIN          default "*"
+ *   ALLOW_ORIGIN          default "https://pggllc.github.io"
+ *                         (Set to a comma-separated list, or "*" only when
+ *                         deliberately exposing the API to the open web.)
  *   PROP123_CACHE_SECONDS default 86400   (1 day)
  *   AMI_CACHE_SECONDS     default 604800  (7 days)
  */
@@ -40,14 +42,20 @@ export default {
   },
 };
 
+const DEFAULT_ALLOW_ORIGIN = "https://pggllc.github.io";
+
+// Default to the production GitHub Pages origin instead of "*". To allow
+// a different origin (or wildcard for local dev), set ALLOW_ORIGIN as a
+// Cloudflare Worker variable.
 function allowOrigin(env) {
-  return (env && env.ALLOW_ORIGIN) ? env.ALLOW_ORIGIN : "*";
+  return (env && env.ALLOW_ORIGIN) ? env.ALLOW_ORIGIN : DEFAULT_ALLOW_ORIGIN;
 }
 
 function withCorsHeaders(env, headers = {}) {
   return {
     ...headers,
     "Access-Control-Allow-Origin": allowOrigin(env),
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Cache-Control": headers["Cache-Control"] || "no-store",

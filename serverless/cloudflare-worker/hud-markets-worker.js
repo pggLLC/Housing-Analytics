@@ -196,7 +196,8 @@ const FALLBACK_MARKETS = [
 function buildHeaders(cacheTtl, corsOrigin) {
   return {
     "content-type": "application/json; charset=utf-8",
-    "access-control-allow-origin": corsOrigin || "*",
+    "access-control-allow-origin": corsOrigin || "https://pggllc.github.io",
+    "vary": "Origin",
     "access-control-allow-methods": "GET, OPTIONS",
     "access-control-allow-headers": "Content-Type",
     "cache-control": `public, max-age=${cacheTtl}, s-maxage=${cacheTtl}`
@@ -287,7 +288,9 @@ export default {
     }
 
     const cacheTtl = Number(env.CO_DEMO_CACHE_SECONDS || DEFAULT_CACHE_SECONDS);
-    const corsOrigin = env.CORS_ORIGIN || "*";
+    // Default to the production GitHub Pages origin; set CORS_ORIGIN env var
+    // to override (or to "*" only when intentional).
+    const corsOrigin = env.CORS_ORIGIN || "https://pggllc.github.io";
 
     // Check Cloudflare edge cache
     const cacheKey = new Request(url.toString(), request);
