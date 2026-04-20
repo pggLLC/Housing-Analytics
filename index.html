@@ -269,21 +269,21 @@
           </div>
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">Denver Metro 1BR FMR</span>
-            <span class="home-snapshot__val" id="snapFmr1br">—</span>
-            <span class="home-snapshot__note"><a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR</a> · FY 2025</span>
+            <span class="home-snapshot__key">CO Housing Deficit ≤30% AMI</span>
+            <span class="home-snapshot__val" id="snapGap30">—</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · statewide aggregate</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">Denver 60% AMI (4-person)</span>
-            <span class="home-snapshot__val" id="snapAmi60">—</span>
-            <span class="home-snapshot__note"><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a></span>
+            <span class="home-snapshot__key">CO Housing Deficit ≤60% AMI</span>
+            <span class="home-snapshot__val" id="snapGap60">—</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · statewide aggregate</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">CO Renter Cost Burden</span>
-            <span class="home-snapshot__val" id="snapCostBurden">—</span>
-            <span class="home-snapshot__note"><a href="https://data.census.gov/table/ACSDT5Y2023.B25070" target="_blank" rel="noopener">ACS B25070</a> · % paying &gt;30% on rent</span>
+            <span class="home-snapshot__key">20-yr Units Needed (Statewide)</span>
+            <span class="home-snapshot__val" id="snapUnits20">—</span>
+            <span class="home-snapshot__note"><a href="data/hna/projections/08.json">DOLA projection</a> · base year 2024</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
@@ -294,7 +294,7 @@
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Data vintage</span>
-            <span class="home-snapshot__val" id="snapVintage">ACS 2023 · HUD FY2025</span>
+            <span class="home-snapshot__val" id="snapVintage">—</span>
             <span class="home-snapshot__note"><a href="data-sources.html">All data sources →</a></span>
           </div>
 
@@ -349,161 +349,7 @@
 
   </main>
 
-  <script>
-// Homepage initialization
-(function () {
-  'use strict';
-
-  function fmtCurrency(n) {
-    if (!n) return '—';
-    return '$' + Number(n).toLocaleString();
-  }
-  function fmtPct(n) {
-    if (n == null) return '—';
-    return (Number(n) * 100).toFixed(1) + '%';
-  }
-
-  // 1. Resume project strip
-  function initResumeStrip() {
-    if (typeof window.WorkflowState === 'undefined') return;
-    var proj = WorkflowState.getActiveProject();
-    if (!proj) return;
-    var jur = WorkflowState.getStep('jurisdiction');
-    if (!jur || !jur.name) return;
-
-    var progress = WorkflowState.getProgress();
-    var strip  = document.getElementById('homeResumeStrip');
-    var jurEl  = document.getElementById('homeResumeJurisdiction');
-    var stepEl = document.getElementById('homeResumeStep');
-    var ctaEl  = document.getElementById('homeResumeCta');
-    if (!strip) return;
-
-    if (jurEl) jurEl.textContent = jur.name;
-    if (stepEl) stepEl.textContent = 'Step ' + progress.nextStepNum + ' of 5 — ' + progress.nextStepLabel;
-    if (ctaEl) ctaEl.href = progress.nextStepUrl;
-
-    strip.hidden = false;
-
-    var newBtn = document.getElementById('homeResumeNewBtn');
-    if (newBtn) {
-      newBtn.addEventListener('click', function () {
-        WorkflowState.newProject();
-        window.location.href = 'select-jurisdiction.html';
-      });
-    }
-  }
-
-  // 2. Data snapshot
-  function loadSnapshot() {
-    var DS = window.DataService;
-    if (!DS) return;
-
-    // FMR + income limits (keyed by counties[])
-    DS.getJSON(DS.baseData('hud-fmr-income-limits.json'))
-      .then(function (data) {
-        var counties = data && data.counties;
-        if (!Array.isArray(counties)) return;
-        // Find Denver County (FIPS 08031)
-        var denver = counties.find(function (c) {
-          return c && (c.fips === '08031' ||
-            (c.county_name || '').toLowerCase().indexOf('denver') !== -1);
-        });
-        if (!denver) return;
-
-        // 1BR FMR
-        var fmr = denver.fmr || {};
-        var fmr1 = fmr.one_br || fmr['1br'] || fmr.fmr_1 || null;
-        var el = document.getElementById('snapFmr1br');
-        if (el && fmr1) el.textContent = fmtCurrency(fmr1);
-
-        // 60% AMI (4-person) = ami_4person * 0.6
-        var il = denver.income_limits || {};
-        var ami100 = il.ami_4person || null;
-        var ami60 = ami100 ? Math.round(ami100 * 0.6) : (il.il60_4person || null);
-        var el2 = document.getElementById('snapAmi60');
-        if (el2 && ami60) el2.textContent = fmtCurrency(ami60);
-      })
-      .catch(function () { /* graceful: defaults show */ });
-
-    // ACS state data for cost burden (data[] array by state)
-    DS.getJSON(DS.baseData('census-acs-state.json'))
-      .then(function (data) {
-        var states = data && data.data;
-        if (!Array.isArray(states)) return;
-        var co = states.find(function (s) {
-          return s && (s.state_fips === '08' ||
-            (s.state_name || '').toLowerCase() === 'colorado');
-        });
-        if (!co) return;
-
-        // Cost burden — check multiple possible field names
-        var cb = co.cost_burden_rate || co.renter_cost_burden || co.pct_cost_burdened || null;
-        if (cb != null) {
-          var el = document.getElementById('snapCostBurden');
-          if (el) el.textContent = fmtPct(cb);
-        }
-      })
-      .catch(function () {});
-
-    // ACS tract-level cost burden fallback (if state data lacks the field)
-    DS.getJSON(DS.baseData('market/acs_tract_metrics_co.json'))
-      .then(function (data) {
-        // Only fill if state-level didn't already populate
-        var existing = document.getElementById('snapCostBurden');
-        if (existing && existing.textContent !== '—') return;
-
-        var tracts = data && data.tracts;
-        if (!Array.isArray(tracts)) return;
-
-        // Weighted average: sum(cost_burden_rate * renter_hh) / sum(renter_hh)
-        var weightedSum = 0, totalWeight = 0;
-        for (var i = 0; i < tracts.length; i++) {
-          var t = tracts[i];
-          var rh = t.renter_hh || 0;
-          var cbr = t.cost_burden_rate || 0;
-          if (rh > 0 && cbr > 0) {
-            weightedSum += cbr * rh;
-            totalWeight += rh;
-          }
-        }
-        if (totalWeight > 0 && existing) {
-          existing.textContent = fmtPct(weightedSum / totalWeight);
-        }
-      })
-      .catch(function () {});
-
-    // LIHTC property count
-    DS.getJSON(DS.baseData('market/hud_lihtc_co.geojson'))
-      .then(function (data) {
-        var count = data && data.features ? data.features.length : null;
-        var el = document.getElementById('snapLihtcCount');
-        if (el && count) el.textContent = count.toLocaleString();
-      })
-      .catch(function () {
-        // Fallback: CHFA LIHTC
-        DS.getJSON(DS.baseData('chfa-lihtc.json'))
-          .then(function (data) {
-            var count = data && data.features ? data.features.length :
-              (Array.isArray(data) ? data.length : null);
-            var el = document.getElementById('snapLihtcCount');
-            if (el && count) el.textContent = count.toLocaleString();
-          })
-          .catch(function () {});
-      });
-  }
-
-  function init() {
-    initResumeStrip();
-    loadSnapshot();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-}());
-  </script>
+  <script defer src="js/index.js"></script>
 
   <footer class="site-footer">
     <!-- Injected by navigation.js -->

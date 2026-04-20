@@ -436,6 +436,75 @@
 
     // #11 — Audience toggle: restore saved preference, wire buttons
     (function () {
+      var hideAudienceBannerTimer = null;
+      var audienceConfig = {
+        elected: {
+          text: 'Elected officials: start with your jurisdiction Housing Needs Assessment.',
+          href: normalizeHref('housing-needs-assessment.html'),
+          cta: 'Open HNA'
+        },
+        developer: {
+          text: 'Developers: begin at Select Jurisdiction to set your project context.',
+          href: normalizeHref('select-jurisdiction.html'),
+          cta: 'Select Jurisdiction'
+        },
+        financier: {
+          text: 'Financiers: jump to Deal Calculator for capital stack sizing.',
+          href: normalizeHref('deal-calculator.html'),
+          cta: 'Open Deal Calculator'
+        }
+      };
+      function ensureAudienceBanner() {
+        var banner = document.getElementById('audienceStatusBanner');
+        if (banner) return banner;
+        banner = document.createElement('div');
+        banner.id = 'audienceStatusBanner';
+        banner.setAttribute('role', 'status');
+        banner.setAttribute('aria-live', 'polite');
+        banner.style.cssText = 'display:none;position:relative;z-index:901;padding:.55rem 1.25rem;font-size:.82rem;' +
+          'font-weight:600;background:var(--bg2);color:var(--text);border-bottom:1px solid var(--border);';
+        var msg = document.createElement('span');
+        msg.id = 'audienceStatusBannerMsg';
+        var link = document.createElement('a');
+        link.id = 'audienceStatusBannerLink';
+        link.style.cssText = 'margin-left:.55rem;color:var(--accent);font-weight:700;';
+        link.textContent = 'Open';
+        var close = document.createElement('button');
+        close.type = 'button';
+        close.setAttribute('aria-label', 'Dismiss audience banner');
+        close.style.cssText = 'float:right;background:none;border:none;color:inherit;cursor:pointer;font-size:1rem;line-height:1;';
+        close.textContent = '×';
+        close.addEventListener('click', function () {
+          banner.style.display = 'none';
+          if (hideAudienceBannerTimer) clearTimeout(hideAudienceBannerTimer);
+        });
+        banner.appendChild(close);
+        banner.appendChild(msg);
+        banner.appendChild(link);
+        var headerEl = document.querySelector('header.site-header, header');
+        if (headerEl && headerEl.parentNode) {
+          if (headerEl.nextSibling) headerEl.parentNode.insertBefore(banner, headerEl.nextSibling);
+          else headerEl.parentNode.appendChild(banner);
+        }
+        return banner;
+      }
+      function showAudienceBanner(aud) {
+        var cfg = audienceConfig[aud] || audienceConfig.developer;
+        var banner = ensureAudienceBanner();
+        var msg = document.getElementById('audienceStatusBannerMsg');
+        var link = document.getElementById('audienceStatusBannerLink');
+        if (msg) msg.textContent = cfg.text;
+        if (link) {
+          link.href = cfg.href;
+          link.textContent = cfg.cta + ' →';
+        }
+        banner.style.display = 'block';
+        if (hideAudienceBannerTimer) clearTimeout(hideAudienceBannerTimer);
+        hideAudienceBannerTimer = setTimeout(function () {
+          banner.style.display = 'none';
+        }, 8000);
+      }
+
       var saved = '';
       try { saved = localStorage.getItem('coho_audience') || 'developer'; } catch (_) {}
       var toggleWrap = document.getElementById('audienceToggleWrap');
@@ -450,6 +519,7 @@
             });
             if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(aud);
             if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(aud);
+            showAudienceBanner(aud);
           });
         });
         // Apply saved audience to modules when they load
@@ -457,6 +527,7 @@
           if (window.EduCallout && window.EduCallout.setAudience) window.EduCallout.setAudience(saved);
           if (window.LihtcTips && window.LihtcTips.setAudience) window.LihtcTips.setAudience(saved);
         });
+        showAudienceBanner(saved);
       }
     }());
 
