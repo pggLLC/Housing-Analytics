@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T23:00:41.672Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T23:44:40.268Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.8 KB |
+| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.7 KB |
 | `about.html` | About | COHO Analytics | 15.0 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.1 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
@@ -35,7 +35,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 132.8 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 18.7 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
-| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.8 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.4 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 73.5 KB |
@@ -44,7 +44,7 @@
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 25.7 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 25.6 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
@@ -1077,7 +1077,7 @@
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
-| `.github/workflows/source-url-sweep.yml` | 2.0 KB |
+| `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
