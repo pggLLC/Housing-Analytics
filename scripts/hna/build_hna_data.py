@@ -27,6 +27,14 @@ from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
+# Single source of truth for the HNA base year (DOLA SYA + projection vintage).
+# See scripts/hna/hna_constants.json. Same value is read by
+# scripts/pre_commit_check.py (Check 7) and tests/test_governance_stress.py
+# (Probe 6) so the generator and the validators cannot drift.
+_HNA_CONSTANTS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hna_constants.json')
+with open(_HNA_CONSTANTS_PATH, 'r', encoding='utf-8') as _f:
+    HNA_BASE_YEAR = int(json.load(_f)['base_year'])
+
 # Diagnostics module - imported lazily to keep startup fast
 sys.path.insert(0, os.path.dirname(__file__))
 try:
@@ -1517,8 +1525,11 @@ def build_dola_sya_by_county():
         return
 
     years_sorted = sorted(years)
-    # pick a pyramid year: 2030 if present else latest
-    pyramid_year = 2030 if 2030 in years_sorted else years_sorted[-1]
+    # Pick the source vintage year (HNA_BASE_YEAR — currently 2024) for the
+    # population pyramid snapshot; future years remain available via
+    # seniorPressure.years for projections. Picking a future projection year
+    # here would mislabel the pyramid as "as-of" a forecast year.
+    pyramid_year = HNA_BASE_YEAR if HNA_BASE_YEAR in years_sorted else years_sorted[0]
 
     # senior pressure years
     target_years = [2020, 2024, 2030, 2035, 2040, 2045, 2050]
@@ -1878,7 +1889,7 @@ def _build_state_projection_aggregate():
         'countyFips': STATE_FIPS_CO,
         'stateFips': STATE_FIPS_CO,
         'label': 'Colorado (statewide)',
-        'baseYear': 2024,
+        'baseYear': HNA_BASE_YEAR,
         'years': years,
         'population_dola': _sum_series('population_dola'),
         'population_trend': _sum_series('population_trend'),
