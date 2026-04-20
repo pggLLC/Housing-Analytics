@@ -65,8 +65,21 @@
   var bufferCircle = null;
   var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
   var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
+  var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
   var bufferMiles  = 5;
+
+  // Walking + biking ring radii (miles). The ½-mile walking ring is the
+  // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
+  // here to avoid visual overlap. Mode is used for tooltip labels + coloring.
+  var ISOCHRONE_RINGS = [
+    { miles: 0.25, mode: 'walk', color: '#16a34a' }, // 5-min walk
+    { miles: 0.75, mode: 'walk', color: '#22c55e' }, // 15-min walk
+    { miles: 1.0,  mode: 'walk', color: '#86efac' }, // 20-min walk
+    { miles: 2.0,  mode: 'bike', color: '#2563eb' }, // 10-min bike
+    { miles: 3.0,  mode: 'bike', color: '#3b82f6' }, // 15-min bike
+    { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
+  ];
   var lastResult   = null;
   var dataLoaded   = false;  // true once loadData() has settled
 
@@ -2021,7 +2034,61 @@
     // Highlight transit stops within ½ mile
     _highlightTodTransit(lat, lon, HALF_MILE_M);
 
+    // Walking + biking concentric rings (toggleable; off by default)
+    _refreshIsochroneRings(lat, lon);
+
     setText('pmaSiteCoords', lat.toFixed(5) + ', ' + lon.toFixed(5));
+  }
+
+  /**
+   * Build the walking + biking concentric-ring overlay around (lat, lon).
+   *
+   * Rings are computed as straight-line buffers (matching how CHFA QAP
+   * scoring works for transit/amenity proximity points) — not network
+   * isochrones. A future enhancement could fetch real network-aware
+   * isochrones from OSRM or Valhalla and cache per-site, but for screening
+   * the straight-line approximation is what reviewers actually use.
+   *
+   * Honors the #pmaIsochroneToggle checkbox: rings are only added to the
+   * map when checked, but the layer is built either way so toggling on/off
+   * is instant.
+   */
+  function _refreshIsochroneRings(lat, lon) {
+    var L = window.L;
+    if (!L || !map) return;
+
+    // Tear down any existing ring layer
+    if (isochroneRingsLayer) {
+      if (map.hasLayer(isochroneRingsLayer)) map.removeLayer(isochroneRingsLayer);
+      isochroneRingsLayer = null;
+    }
+
+    var rings = [];
+    for (var i = 0; i < ISOCHRONE_RINGS.length; i++) {
+      var r = ISOCHRONE_RINGS[i];
+      var radiusMeters = r.miles * 1609.34;
+      var ring = L.circle([lat, lon], {
+        radius: radiusMeters,
+        color: r.color,
+        fillColor: r.color,
+        fillOpacity: 0.0,                 // fill off — rings only, not solid disks
+        weight: 1.5,
+        dashArray: r.mode === 'walk' ? '4 4' : '6 8',
+        interactive: true
+      });
+      var label = (r.miles < 1
+        ? (r.miles * 5280).toFixed(0) + ' ft'
+        : r.miles + ' mi') +
+        ' · ' + (r.mode === 'walk' ? 'walking' : 'biking');
+      ring.bindTooltip(label, { sticky: true, className: 'pma-tooltip' });
+      rings.push(ring);
+    }
+    isochroneRingsLayer = L.featureGroup(rings);
+
+    var cb = document.getElementById('pmaIsochroneToggle');
+    if (cb && cb.checked) {
+      isochroneRingsLayer.addTo(map);
+    }
   }
 
   /**
@@ -2449,6 +2516,20 @@
     bindRunBtn();
     bindAmiInputs();
     bindExport();
+
+    // Walking + biking isochrone rings toggle. The layer is rebuilt every
+    // time the site moves; here we just show/hide the cached layer.
+    var isoCb = document.getElementById('pmaIsochroneToggle');
+    if (isoCb) {
+      isoCb.addEventListener('change', function () {
+        if (!isochroneRingsLayer) return;
+        if (isoCb.checked) {
+          if (!map.hasLayer(isochroneRingsLayer)) isochroneRingsLayer.addTo(map);
+        } else {
+          if (map.hasLayer(isochroneRingsLayer)) map.removeLayer(isochroneRingsLayer);
+        }
+      });
+    }
 
     // Validate required modules are available.
     ['DataService', 'MAState', 'MARenderers', 'SiteSelectionScore', 'MAController'].forEach(function (name) {
