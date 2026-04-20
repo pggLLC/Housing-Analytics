@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T11:55:02.152Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T12:18:35.437Z. Do not edit by hand.
 
 ---
 
@@ -348,7 +348,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 511.3 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 510.6 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -946,7 +946,7 @@
 
 ## Test Files
 
-87 test files found.
+88 test files found.
 
 | File | Size |
 |------|------|
@@ -1031,6 +1031,7 @@
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
+| `tests/test_hna_ranking_integrity.py` | 8.9 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
