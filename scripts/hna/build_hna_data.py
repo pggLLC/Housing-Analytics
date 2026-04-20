@@ -1750,7 +1750,7 @@ def build_dola_projections_by_county():
         units_needed = []
         inc_units = []
 
-        for p in pop_dola:
+        for i, p in enumerate(pop_dola):
             if p is None or headship is None:
                 hh_dola.append(None)
                 units_needed.append(None)
@@ -1760,7 +1760,12 @@ def build_dola_projections_by_county():
             hh_dola.append(hh)
             need = hh / (1.0 - target_vac)
             units_needed.append(need)
-            inc_units.append((need - base_units) if base_units is not None else None)
+            if base_units is None:
+                inc_units.append(None)
+            elif i == 0:
+                inc_units.append(0.0)
+            else:
+                inc_units.append(need - base_units)
 
         netmig_20y = None
         try:
@@ -1879,10 +1884,16 @@ def _build_state_projection_aggregate():
     )
     state_target_vac = weighted_vac / total_base_units if total_base_units else 0.05
 
+    rounded_total_base_hh = round(total_base_hh, 2)
+    rounded_total_base_units = round(total_base_units, 2)
+
     # Derived statewide vacancy rate: percentage of units that are vacant.
+    # Compute from the rounded aggregate base totals used in payload, and keep
+    # 5 decimal places so housing_units ~= households / (1 - vacancy_rate/100)
+    # remains within tolerance after serialization/rounding.
     state_vacancy_rate = round(
-        (1 - total_base_hh / total_base_units) * 100, 4
-    ) if total_base_units else 0.0
+        (1 - rounded_total_base_hh / rounded_total_base_units) * 100, 5
+    ) if rounded_total_base_units else 0.0
 
     payload = {
         'updated': utc_now_z(),
@@ -1898,8 +1909,8 @@ def _build_state_projection_aggregate():
         'net_migration_20y': round(total_nm_20y, 2),
         'base': {
             'population': round(total_base_pop, 2),
-            'households': round(total_base_hh, 2),
-            'housing_units': round(total_base_units, 2),
+            'households': rounded_total_base_hh,
+            'housing_units': rounded_total_base_units,
             'vacancy_rate': state_vacancy_rate,
             'headship_rate': base_headship,
         },
