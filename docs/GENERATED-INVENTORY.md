@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T14:11:51.785Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T14:40:30.425Z. Do not edit by hand.
 
 ---
 
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 130.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 983.6 KB | ✅ | — |
+| `data/fred-data.json` | 986.6 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
