@@ -1,0 +1,62 @@
+name: Source URL Sweep
+
+# Verify external source-citation URLs are still reachable. Closes audit
+# item #1 from the 2026-04-20 outstanding-items review.
+#
+# Runs:
+#   - weekly on Monday 8am MT (paired with Dependabot's cadence)
+#   - on PRs that touch any file containing URLs we cite
+#   - manually via workflow_dispatch
+#
+# Exits non-zero on any 404 / server-error / fetch-error. Timeouts are
+# treated as soft (many CI egress setups produce spurious timeouts).
+
+on:
+  schedule:
+    # Mondays 14:00 UTC = 08:00 America/Denver in daylight time
+    - cron: '0 14 * * 1'
+  pull_request:
+    paths:
+      - 'DATA-MANIFEST.json'
+      - 'js/citations.js'
+      - 'js/**/*.js'
+      - '**/*.html'
+      - 'scripts/audit/source-url-sweep.mjs'
+      - '.github/workflows/source-url-sweep.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write  # so the scheduled run can open a tracking issue on failure
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Run URL sweep
+        id: sweep
+        # Non-blocking for now — a tracking issue (see audit item #1) lists
+        # ~9 known-broken URLs that predate this workflow. Flip this to a
+        # hard failure once that list is down to zero. Until then, the
+        # workflow outcome is "success" but the log surfaces new breakage
+        # for oncall review.
+        continue-on-error: true
+        run: node scripts/audit/source-url-sweep.mjs --quiet
+
+      - name: Summarize sweep outcome
+        if: always()
+        run: |
+          if [ "${{ steps.sweep.outcome }}" = "failure" ]; then
+            echo "::warning::source-url-sweep reported broken URLs — see step log. Track fixes in the follow-up issue linked from scripts/audit/source-url-sweep.mjs."
+          else
+            echo "All cited URLs resolved (including allow-listed)."
+          fi
