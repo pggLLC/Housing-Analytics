@@ -2173,7 +2173,7 @@
     if (!restoredGeoType) {
       const urlParams = new URLSearchParams(window.location.search);
       const urlGeoType = urlParams.get('geoType');
-      const urlGeoid   = urlParams.get('geoid');
+      const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
       if (urlGeoType && urlGeoid) {
         restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
         restoredGeoId   = urlGeoid;
