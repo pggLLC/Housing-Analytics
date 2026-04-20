@@ -3,9 +3,18 @@
 scripts/fetch_county_economic_indicators.py
 
 Fetches and writes data/co-county-economic-indicators.json with current data from:
-  - BLS LAUS v2 API  : annual unemployment rate per county (most recent annual average)
-  - BLS QCEW API     : employment counts for 5-year job-growth calculation
+  - BLS LAUS v2 API  : annual unemployment rate per county (measure 3) AND
+                       annual employment count per county (measure 5,
+                       used to compute 5-year employment growth)
   - Census ACS 5-year: median household income, median home value, population
+
+Note on the QCEW → LAUS employment migration (2026): BLS deprecated the
+public CEW data API (data.bls.gov/cew/data/api/…). This fetcher now derives
+the "job growth" signal from BLS LAUS employment counts instead. LAUS is
+residential-based (counts employed persons who live in the county),
+whereas QCEW was workplace-based (counts jobs located in the county); for
+housing-demand modeling the residential interpretation is arguably more
+relevant. See LAUS_EMP_SUFFIX in the module body for a full rationale.
 
 All sources are freely accessible without authentication (though BLS_API_KEY and
 CENSUS_API_KEY increase rate limits when provided).
@@ -13,12 +22,12 @@ CENSUS_API_KEY increase rate limits when provided).
 Output schema (co-county-economic-indicators.json):
 {
   "updated": "<ISO-8601 UTC date>",
-  "source": "BLS LAUS (unemployment), BLS QCEW (job growth), ACS <year> (income, home price, population)",
+  "source": "BLS LAUS (unemployment + residential employment growth), ACS <year> (income, home price, population)",
   "note": "...",
   "counties": {
     "<county name>": {
       "unemployment_rate": <float>,     // most recent BLS LAUS annual average (%)
-      "job_growth_5yr_pct": <float>,    // BLS QCEW 5-year employment % change
+      "job_growth_5yr_pct": <float>,    // BLS LAUS employment-count 5-year % change (residential)
       "affordability_index": <float>,   // median_home_price / median_hh_income
       "population_growth_5yr_pct": <float>, // ACS 5-year population growth (%)
       "median_home_price": <int>,       // ACS median home value ($)
@@ -53,22 +62,38 @@ STATE_FIPS = "08"
 
 BLS_API_BASE = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 # BLS LAUS county series ID: LA + U + CN + <state-county FIPS, 5 digits>
-# + <9 zero-pad chars> + <measure code, "3" = unemployment rate>.
-# Total = 20 chars. The previous "0000000000003" suffix was 13 chars,
-# producing 23-char IDs that BLS rejected (returned no data for any
-# county). The correct 10-char suffix (9 zeros + "3") yields working IDs
-# like "LAUCN080010000000003" (Adams County unemployment rate).
-LAUS_SUFFIX = "0000000003"
+# + <9 zero-pad chars> + <measure code>. Total = 20 chars.
+# Measure codes used here:
+#   "3" = unemployment rate (%)
+#   "5" = employment count (residential, count of employed persons
+#         whose reported residence is in this county)
+LAUS_UR_SUFFIX  = "0000000003"  # unemployment rate
+LAUS_EMP_SUFFIX = "0000000005"  # employment count
 
-# BLS QCEW public data API — annual totals.
-# NOTE: As of 2026, the data.bls.gov/cew/data/api/<year>/<qtr>/area/<fips>.json
-# endpoint returns 404 for every URL pattern tried (a1, a, A, annual, q1,
-# numeric quarters). The QCEW API appears to have been deprecated or moved.
-# Fetcher now skips QCEW gracefully; job_growth_5yr_pct is left null until
-# we either (a) find the new QCEW endpoint or (b) migrate to FRED's series
-# COBPPRIVSAUS (CO private employment) for the same signal. Tracking issue
-# to be filed.
-QCEW_API = "https://data.bls.gov/cew/data/api/{year}/a1/area/{area}.json"
+# Back-compat alias — callers of the module historically imported LAUS_SUFFIX
+# assuming the unemployment-rate series; keep the name pointing at the same
+# constant so external scripts don't break.
+LAUS_SUFFIX = LAUS_UR_SUFFIX
+
+# BLS QCEW is no longer used by this fetcher.
+# Why: as of 2026, data.bls.gov/cew/data/api/<year>/<qtr>/area/<fips>.json
+# returns 404 for every URL pattern tested (a1, a, A, annual, q1, numeric
+# quarters), on both the data.bls.gov and www.bls.gov hosts. The QCEW public
+# data API has been deprecated or moved, and BLS has not published a
+# migration target.
+#
+# Instead, we derive job_growth_5yr_pct from BLS LAUS *employment counts*
+# (measure code 5) on the SAME BLS v2 endpoint we already use for
+# unemployment rate. Trade-off: LAUS is residential-based (where employed
+# persons live), QCEW was workplace-based (where jobs are located). For a
+# housing-demand signal, residential is arguably more relevant — it tracks
+# whether local residents are gaining or losing jobs, which is what drives
+# housing demand. Caveat: resort and commuter counties may skew (e.g.,
+# Pitkin residents commute to Aspen-area workplaces).
+#
+# The audit-endpoints.yml workflow includes a QCEW watchdog probe that
+# emits a GitHub notice if BLS ever restores the endpoint — that's our
+# signal to revisit this migration.
 
 # ACS candidate years (newest first; try until one succeeds)
 ACS_CANDIDATES = [2025, 2024, 2023]
@@ -234,76 +259,101 @@ def fetch_laus_unemployment(county_fips_map: dict[str, str]) -> dict[str, float]
 
 
 # ---------------------------------------------------------------------------
-# BLS QCEW — 5-year employment change
+# BLS LAUS — 5-year employment-count change (replaces broken QCEW path)
 # ---------------------------------------------------------------------------
 
-def _fetch_qcew_county_employment(area_code: str, year: int) -> int | None:
-    """Fetch all-sector all-ownership total employment for a county from QCEW.
+def fetch_laus_employment_growth(county_fips_map: dict[str, str]) -> dict[str, float]:
+    """Compute 5-year employment growth % per county from BLS LAUS v2.
 
-    Returns integer employment count or None on failure.
-    QCEW area code = 5-digit county FIPS.
-    agglvl_code "70" = county total; own_code "0" = all ownership.
+    LAUS annual-average employment counts (measure code 5) are pulled for a
+    six-year window (N-6 → N-1 where N = current year). Growth is computed
+    between the oldest and newest M13 values actually present in the
+    response — BLS annual averages lag monthly data by ~2 months, so we
+    don't assume the most recent full year is always available.
+
+    Residential-based (counts employed persons whose reported residence is
+    in the county), not workplace-based. Trade-off documented in the module
+    header next to LAUS_EMP_SUFFIX.
+
+    Returns {county_name: employment_growth_pct}. Counties with insufficient
+    observations (e.g., series with <2 M13 points) are simply absent from
+    the result.
     """
-    url = QCEW_API.format(year=year, area=area_code)
-    raw = _http_get(url, timeout=20)
-    if not raw:
-        return None
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
-        return None
+    api_key = os.environ.get("BLS_API_KEY", "").strip()
 
-    rows = data.get("annualData", [])
-    for row in rows:
-        if row.get("agglvl_code") == "70" and row.get("own_code") == "0":
-            emp = _parse_num(row.get("annual_avg_emplvl"))
-            if emp is not None:
-                return int(emp)
-    return None
+    fips_to_name: dict[str, str] = {v: k for k, v in county_fips_map.items()}
+    series_map: dict[str, str] = {}
+    for fips in county_fips_map.values():
+        series_id = f"LAUCN{fips}{LAUS_EMP_SUFFIX}"
+        series_map[series_id] = fips
 
+    all_series_ids = list(series_map.keys())
+    _log(f"  Fetching BLS LAUS employment counts for {len(all_series_ids)} counties …")
 
-def fetch_qcew_job_growth(county_fips_map: dict[str, str]) -> dict[str, float]:
-    """Compute 5-year job growth % per county from BLS QCEW.
-
-    Returns {county_name: job_growth_pct}.
-    """
     current_year = datetime.now(timezone.utc).year
-    # Try recent year first (QCEW lags ~6 months)
-    end_year = current_year - 1
-    start_year = end_year - 5
+    start_year = current_year - 6
+    end_year = current_year - 1  # BLS LAUS annual averages lag ~2 months
 
-    _log(f"  Fetching BLS QCEW employment: {start_year} → {end_year} …")
+    county_growth: dict[str, float] = {}
 
-    result: dict[str, float] = {}
-    total = len(county_fips_map)
-    done = 0
-    for county_name, fips in county_fips_map.items():
-        done += 1
-        emp_end = _fetch_qcew_county_employment(fips, end_year)
-        if emp_end is None:
-            # Try one year earlier
-            emp_end = _fetch_qcew_county_employment(fips, end_year - 1)
-            if emp_end is not None:
-                start_year_adj = start_year - 1
-            else:
-                if done % 10 == 0:
-                    _log(f"    QCEW: {done}/{total} …")
-                time.sleep(0.2)
+    batch_size = 25  # BLS v2 cap
+    for i in range(0, len(all_series_ids), batch_size):
+        batch = all_series_ids[i : i + batch_size]
+        payload: dict[str, Any] = {
+            "seriesid": batch,
+            "startyear": str(start_year),
+            "endyear": str(end_year),
+            "annualaverage": True,  # Required to get M13 entries.
+        }
+        if api_key:
+            payload["registrationkey"] = api_key
+
+        _log(f"    BLS LAUS (emp) batch {i // batch_size + 1}: {len(batch)} series")
+        result = _http_post_json(BLS_API_BASE, payload)
+        if not result or result.get("status") != "REQUEST_SUCCEEDED":
+            msgs = " | ".join(result.get("message", []) or []) if result else "no response"
+            _warn(f"    BLS LAUS (emp) batch {i // batch_size + 1} failed: {msgs}")
+            time.sleep(1)
+            continue
+
+        for series in result.get("Results", {}).get("series", []):
+            sid = series.get("seriesID", "")
+            fips = series_map.get(sid)
+            if not fips:
                 continue
-        else:
-            start_year_adj = start_year
+            county_name = fips_to_name.get(fips, fips)
 
-        emp_start = _fetch_qcew_county_employment(fips, start_year_adj)
-        if emp_start and emp_start > 0:
-            pct = round(((emp_end - emp_start) / emp_start) * 100, 2)
-            result[county_name] = pct
+            # Collect annual (M13) observations sorted ascending by year.
+            annuals: list[tuple[int, float]] = []
+            for obs in series.get("data", []):
+                if obs.get("period") != "M13":
+                    continue
+                yr = int(obs.get("year", 0))
+                val = _parse_num(obs.get("value"))
+                if val is not None and val > 0 and yr > 0:
+                    annuals.append((yr, val))
+            annuals.sort()
 
-        if done % 10 == 0:
-            _log(f"    QCEW: {done}/{total} …")
-        time.sleep(0.2)
+            if len(annuals) < 2:
+                continue
 
-    _log(f"  QCEW job growth: computed for {len(result)} / {total} counties")
-    return result
+            # Use oldest-to-newest observations in window — typically 5-6 years apart
+            # depending on BLS release timing. Label field in output JSON reflects
+            # the actual start/end years.
+            start_yr, start_val = annuals[0]
+            end_yr, end_val = annuals[-1]
+            pct = round(((end_val - start_val) / start_val) * 100, 2)
+            county_growth[county_name] = pct
+
+        time.sleep(0.5)  # Be polite to BLS API
+
+    _log(f"  BLS LAUS (emp): growth computed for {len(county_growth)} / {len(county_fips_map)} counties")
+    return county_growth
+
+
+# Back-compat alias: the module previously exposed fetch_qcew_job_growth;
+# any caller still using that name gets the new LAUS-based implementation.
+fetch_qcew_job_growth = fetch_laus_employment_growth
 
 
 # ---------------------------------------------------------------------------
@@ -437,11 +487,11 @@ def main() -> int:
     # Prior population for growth rate
     prior_pop = fetch_acs_prior_population(acs_year_used)
 
-    # ── BLS LAUS ──────────────────────────────────────────────────────────────
+    # ── BLS LAUS (unemployment rate) ──────────────────────────────────────────
     laus_ur = fetch_laus_unemployment(county_fips)
 
-    # ── BLS QCEW ──────────────────────────────────────────────────────────────
-    qcew_growth = fetch_qcew_job_growth(county_fips)
+    # ── BLS LAUS (5-year employment growth, replaces broken QCEW) ────────────
+    laus_emp_growth = fetch_laus_employment_growth(county_fips)
 
     # ── Assemble output ───────────────────────────────────────────────────────
     counties_out: dict[str, dict] = {}
@@ -468,7 +518,7 @@ def main() -> int:
 
         counties_out[county_name] = {
             "unemployment_rate":          laus_ur.get(county_name),
-            "job_growth_5yr_pct":         qcew_growth.get(county_name),
+            "job_growth_5yr_pct":         laus_emp_growth.get(county_name),
             "affordability_index":        afford_idx,
             "population_growth_5yr_pct":  pop_growth,
             "median_home_price":          home_val,
@@ -477,8 +527,8 @@ def main() -> int:
 
     laus_year = datetime.now(timezone.utc).year - 1
     source_str = (
-        f"BLS LAUS (unemployment {laus_year} annual avg), "
-        f"BLS QCEW (job growth 5-yr), "
+        f"BLS LAUS (unemployment {laus_year} annual avg + 5-yr residential "
+        f"employment growth — replaces deprecated BLS QCEW endpoint), "
         f"ACS {acs_year_used} 5-year (home price, income, population)"
     )
 
@@ -497,8 +547,8 @@ def main() -> int:
         json.dump(output, fh, indent=2, ensure_ascii=False)
     _log(f"\nWrote {OUT_FILE} ({OUT_FILE.stat().st_size:,} bytes)")
     _log(f"  Counties: {len(counties_out)}")
-    _log(f"  LAUS coverage:  {sum(1 for v in counties_out.values() if v.get('unemployment_rate') is not None)} / {len(counties_out)}")
-    _log(f"  QCEW coverage:  {sum(1 for v in counties_out.values() if v.get('job_growth_5yr_pct') is not None)} / {len(counties_out)}")
+    _log(f"  LAUS unemployment coverage:      {sum(1 for v in counties_out.values() if v.get('unemployment_rate') is not None)} / {len(counties_out)}")
+    _log(f"  LAUS employment-growth coverage: {sum(1 for v in counties_out.values() if v.get('job_growth_5yr_pct') is not None)} / {len(counties_out)}")
     _log(f"  ACS coverage:   {sum(1 for v in counties_out.values() if v.get('median_hh_income') is not None)} / {len(counties_out)}")
     return 0
 
