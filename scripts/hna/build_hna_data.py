@@ -1746,6 +1746,7 @@ def build_dola_projections_by_county():
         hh_dola = []
         units_needed = []
         inc_units = []
+        base_units_needed = None
 
         for i, p in enumerate(pop_dola):
             if p is None or headship is None:
@@ -1757,12 +1758,14 @@ def build_dola_projections_by_county():
             hh_dola.append(hh)
             need = hh / (1.0 - target_vac)
             units_needed.append(need)
-            if base_units is None:
+            if out_years[i] == base_year and base_units_needed is None:
+                base_units_needed = need
+            if base_units_needed is None:
                 inc_units.append(None)
-            elif out_years[i] == HNA_BASE_YEAR:
+            elif out_years[i] == base_year:
                 inc_units.append(0.0)
             else:
-                inc_units.append(need - base_units)
+                inc_units.append(need - base_units_needed)
 
         netmig_20y = None
         try:
