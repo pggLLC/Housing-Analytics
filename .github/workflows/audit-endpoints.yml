@@ -152,18 +152,200 @@ jobs:
           JS
 
       # ------------------------------------------------------------------ #
+      # Probe BLS LAUS (Local Area Unemployment Statistics) reachability    #
+      # Uses BLS Public API v2 with a known-good Colorado Adams County      #
+      # series (LAUCN080010000000003). Series ID format catches regression  #
+      # of the bug fixed in PR #621 (was sending 23-char IDs vs. correct    #
+      # 20-char). HTTP 200 + `REQUEST_SUCCEEDED` JSON status = up.          #
+      # ------------------------------------------------------------------ #
+      - name: Probe BLS LAUS endpoint
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          const apiKey = (process.env.BLS_API_KEY || '').trim();
+          const payload = JSON.stringify({
+            seriesid: ['LAUCN080010000000003'],
+            startyear: '2024',
+            endyear: '2024',
+            annualaverage: true,
+            ...(apiKey ? { registrationkey: apiKey } : {})
+          });
+
+          function probe() {
+            return new Promise(function(resolve, reject) {
+              const req = https.request({
+                hostname: 'api.bls.gov',
+                path: '/publicAPI/v2/timeseries/data/',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Content-Length': payload.length },
+                timeout: 20000
+              }, function(res) {
+                let body = '';
+                res.setEncoding('utf8');
+                res.on('data', function(c){ body += c; });
+                res.on('end', function(){
+                  try {
+                    const json = JSON.parse(body);
+                    resolve({ status: res.statusCode, jsonStatus: json.status, hasData: (json.Results && json.Results.series && json.Results.series.length > 0) });
+                  } catch(e) {
+                    resolve({ status: res.statusCode, jsonStatus: 'PARSE_ERROR', hasData: false });
+                  }
+                });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+              req.write(payload);
+              req.end();
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe();
+              if (r.status === 200 && r.jsonStatus === 'REQUEST_SUCCEEDED' && r.hasData) {
+                console.log('✓ BLS LAUS reachable (HTTP 200, REQUEST_SUCCEEDED, series returned)');
+              } else {
+                console.warn('::warning::BLS LAUS responded HTTP ' + r.status + ', jsonStatus=' + r.jsonStatus + ', hasData=' + r.hasData);
+              }
+            } catch(e) {
+              console.warn('::warning::BLS LAUS unreachable: ' + e.message);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe LEHD LODES (workplace + commuter flow) reachability           #
+      # LODES is published by the Census Bureau as static gz files.         #
+      # We probe the index page rather than a specific year/state to avoid  #
+      # tying the audit to a particular vintage.                            #
+      # ------------------------------------------------------------------ #
+      - name: Probe LEHD LODES endpoint
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          const url = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/';
+
+          function probe(u) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(u, { timeout: 15000 }, function(res) {
+                res.resume();
+                resolve({ status: res.statusCode, ok: res.statusCode < 500 });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(url);
+              if (r.ok) {
+                console.log('✓ LEHD LODES reachable (HTTP ' + r.status + ')');
+              } else {
+                console.warn('::warning::LEHD LODES returned HTTP ' + r.status);
+              }
+            } catch(e) {
+              console.warn('::warning::LEHD LODES unreachable: ' + e.message);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe HUD CHAS (Comprehensive Housing Affordability Strategy) data  #
+      # CHAS is published by HUD as zipped CSVs by year. Probe the data     #
+      # directory landing page.                                              #
+      # ------------------------------------------------------------------ #
+      - name: Probe HUD CHAS endpoint
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          const url = 'https://www.huduser.gov/portal/datasets/cp.html';
+
+          function probe(u) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(u, { timeout: 15000, headers: { 'User-Agent': 'HousingAnalytics-EndpointAudit/1.0' } }, function(res) {
+                res.resume();
+                resolve({ status: res.statusCode, ok: res.statusCode < 500 });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(url);
+              if (r.ok) {
+                console.log('✓ HUD CHAS reachable (HTTP ' + r.status + ')');
+              } else {
+                console.warn('::warning::HUD CHAS returned HTTP ' + r.status);
+              }
+            } catch(e) {
+              console.warn('::warning::HUD CHAS unreachable: ' + e.message);
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
+      # Probe BLS QCEW (Quarterly Census of Employment and Wages)           #
+      # KNOWN ISSUE: BLS appears to have deprecated the public CEW data API #
+      # (data.bls.gov/cew/data/api/.../area/.../json — every URL pattern    #
+      # tested returns HTTP 404, see PR #621 commit notes). This probe will #
+      # fail until the endpoint is restored or we migrate to FRED's         #
+      # COBPPRIVSAUS series. Kept here as a watchdog so we notice the day   #
+      # BLS brings the endpoint back.                                       #
+      # ------------------------------------------------------------------ #
+      - name: Probe BLS QCEW endpoint (known broken — watchdog)
+        continue-on-error: true
+        run: |
+          node - <<'JS'
+          const https = require('https');
+          const url = 'https://data.bls.gov/cew/data/api/2024/a/area/08001.json';
+
+          function probe(u) {
+            return new Promise(function(resolve, reject) {
+              const req = https.get(u, { timeout: 15000 }, function(res) {
+                res.resume();
+                resolve({ status: res.statusCode, ok: res.statusCode < 500 });
+              });
+              req.on('error', reject);
+              req.on('timeout', function(){ req.destroy(); reject(new Error('timeout')); });
+            });
+          }
+
+          (async function() {
+            try {
+              const r = await probe(url);
+              if (r.ok) {
+                console.log('::notice::BLS QCEW endpoint is BACK UP (HTTP ' + r.status + '). Time to revert FRED fallback.');
+              } else {
+                console.log('BLS QCEW still broken (HTTP ' + r.status + ') — using FRED fallback.');
+              }
+            } catch(e) {
+              console.log('BLS QCEW unreachable (' + e.message + ') — using FRED fallback.');
+            }
+          })();
+          JS
+
+      # ------------------------------------------------------------------ #
       # Summary                                                             #
       # ------------------------------------------------------------------ #
       - name: Audit summary
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           FRED_API_KEY:   ${{ secrets.FRED_API_KEY }}
+          BLS_API_KEY:    ${{ secrets.BLS_API_KEY }}
         run: |
           node - <<'JS'
           const censusKey = (process.env.CENSUS_API_KEY || '').trim();
           const fredKey   = (process.env.FRED_API_KEY   || '').trim();
+          const blsKey    = (process.env.BLS_API_KEY    || '').trim();
           console.log('=== Endpoint Audit Summary ===');
           console.log('CENSUS_API_KEY :', censusKey ? `configured (${censusKey.length} chars)` : '⚠ NOT SET');
           console.log('FRED_API_KEY   :', fredKey   ? `configured (${fredKey.length} chars)`   : '⚠ NOT SET');
+          console.log('BLS_API_KEY    :', blsKey    ? `configured (${blsKey.length} chars)`    : 'unset (BLS LAUS still works without a key but is rate-limited)');
+          console.log('Probed: Census ACS · FRED · HUD GIS · BLS LAUS · LEHD LODES · HUD CHAS · BLS QCEW (known broken).');
           console.log('Audit complete.');
           JS

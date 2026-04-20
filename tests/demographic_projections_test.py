@@ -12,7 +12,8 @@ Also tests HeadshipRateModel and HousingDemandProjector.
 
 Usage
 -----
-    python test/demographic_projections_test.py
+    pytest tests/demographic_projections_test.py -v
+    # (or, standalone) python tests/demographic_projections_test.py
 """
 
 import sys

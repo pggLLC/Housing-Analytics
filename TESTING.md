@@ -4,23 +4,42 @@ This document describes the test infrastructure for the COHO Housing Analytics p
 
 ## Test Directory Structure
 
+> **Convention (post-Phase-8 consolidation):**
+> - **`tests/`** — *all* Python tests (pytest-discovered).
+> - **`test/`**  — JavaScript test suites only (Node.js).
+>
+> Three Python test files (`build_counties_co_test.py`, `demographic_projections_test.py`,
+> `economic_indicators_test.py`) previously lived under `test/`. They have been moved
+> to `tests/` so `pytest tests/` exercises them automatically — no more standalone
+> `python test/foo.py` invocations in CI. (Bonus: `demographic_projections_test.py`
+> existed in `test/` but was never invoked by any workflow; pytest now picks it up.)
+
 ```
 tests/                          # Python pytest test suite
-  conftest.py                   # Shared fixtures and configuration
-  test_governance_stress.py     # Pre-commit governance rule validation (12 probes)
-  test_hna_geography_coverage.py  # HNA geography coverage consistency
-  test_ranking_index_sentinels.py # Sentinel/leak value detection in ranking data
-  test_pma_provenance.py        # PMA confidence module and data-quality API
-  test_stage2_temporal.py       # FRED temporal continuity checks
-  test_stage3_accessibility.py  # WCAG 2.1 AA contrast and landmark checks
-  test_stage3_visualization.py  # Chart color tokens, canvas aria, aria-live regions
+  conftest.py                          # Shared fixtures and configuration
+  test_governance_stress.py            # Pre-commit governance rule validation (12 probes)
+  test_hna_geography_coverage.py       # HNA geography coverage consistency
+  test_hna_ranking_integrity.py        # Ranking-index naming/LODES/pct_renters invariants
+  test_ranking_index_sentinels.py      # Sentinel/leak value detection in ranking data
+  test_pma_provenance.py               # PMA confidence module and data-quality API
+  test_sentinel_normalization.py       # Production JSON sentinel scan
+  test_stage2_temporal.py              # FRED temporal continuity checks
+  test_stage3_accessibility.py         # WCAG 2.1 AA contrast and landmark checks
+  test_stage3_visualization.py         # Chart color tokens, canvas aria, aria-live regions
+  build_counties_co_test.py            # Resilience tests for build_counties_co.py (moved from test/)
+  demographic_projections_test.py      # CohortComponentModel + headship + housing demand (moved from test/)
+  economic_indicators_test.py          # Employment, wage, industry concentration, J:W (moved from test/)
 
-test/                           # Legacy JavaScript test suites
-  hna-functionality-check.js    # HNA module smoke tests (Node.js, no pytest)
+test/                           # JavaScript test suites (Node.js, no pytest)
+  hna-functionality-check.js    # HNA module smoke tests
   smoke-market-analysis.js      # Market analysis smoke tests (sections 1–18)
   unit/                         # Unit tests for individual modules
   integration/                  # Integration tests for multi-module flows
 ```
+
+**Adding a new test:**
+- Python → drop into `tests/` with filename matching `test_*.py` or `*_test.py`. pytest will discover it automatically.
+- JavaScript → drop into `test/` and wire into the relevant `npm run test:*` script in `package.json`.
 
 ## Running Tests
 
