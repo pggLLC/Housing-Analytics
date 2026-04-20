@@ -312,6 +312,7 @@
           <select id="dc-soft-source"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
             <option value="chfa_htf">CHFA HTF</option>
+            <option value="chfa_cmf">CHFA Capital Magnet Fund</option>
             <option value="dola_htf">DOLA HTF</option>
             <option value="home">HOME</option>
             <option value="cdbg">CDBG</option>
