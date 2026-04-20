@@ -25,6 +25,13 @@ DATA_DIR = os.path.join(REPO_ROOT, 'data')
 JS_DIR = os.path.join(REPO_ROOT, 'js')
 CSS_DIR = os.path.join(REPO_ROOT, 'css')
 
+# Single source of truth for the HNA base year. Same JSON is read by
+# scripts/hna/build_hna_data.py (the generator) and
+# tests/test_governance_stress.py (Probe 6). Bumping in one place propagates.
+_HNA_CONSTANTS_PATH = os.path.join(REPO_ROOT, 'scripts', 'hna', 'hna_constants.json')
+with open(_HNA_CONSTANTS_PATH, 'r', encoding='utf-8') as _f:
+    HNA_BASE_YEAR = int(json.load(_f)['base_year'])
+
 PASS = 'PASS'
 FAIL = 'FAIL'
 _results = []
@@ -228,9 +235,9 @@ except Exception as e:
 # ---------------------------------------------------------------------------
 # Check 7: Stale projection baseYear (Rule 3, Bug S1-05/S2-06)
 # ---------------------------------------------------------------------------
-print('\n── Check 7: Projection baseYear/pyramidYear == 2024 ──')
+print(f'\n── Check 7: Projection baseYear/pyramidYear == {HNA_BASE_YEAR} ──')
 
-EXPECTED_BASE_YEAR = 2024
+EXPECTED_BASE_YEAR = HNA_BASE_YEAR
 stale_year_violations = []
 
 sya_files = sorted(glob.glob(os.path.join(DATA_DIR, 'hna', 'dola_sya', '*.json')))

@@ -31,6 +31,13 @@ JS_DIR = os.path.join(REPO_ROOT, 'js')
 
 PRE_COMMIT_SCRIPT = os.path.join(REPO_ROOT, 'scripts', 'pre_commit_check.py')
 
+# Single source of truth for the HNA base year. Same JSON is read by
+# scripts/hna/build_hna_data.py (the generator) and
+# scripts/pre_commit_check.py (Check 7). Bumping in one place propagates here.
+_HNA_CONSTANTS_PATH = os.path.join(REPO_ROOT, 'scripts', 'hna', 'hna_constants.json')
+with open(_HNA_CONSTANTS_PATH, 'r', encoding='utf-8') as _f:
+    HNA_BASE_YEAR = int(json.load(_f)['base_year'])
+
 # ---------------------------------------------------------------------------
 # Helpers shared across probes
 # ---------------------------------------------------------------------------
@@ -354,18 +361,18 @@ class TestProbe5FredMetadata:
 class TestProbe6ProjectionBaseYear:
     """Rule 3 / Bug S1-05/S2-06 — stale baseYear/pyramidYear must be detected."""
 
-    EXPECTED_YEAR = 2024
+    EXPECTED_YEAR = HNA_BASE_YEAR
 
     def test_detection_catches_stale_pyramid_year(self):
-        """A projection file with pyramidYear != 2024 must be detected."""
-        adversarial = {'pyramidYear': 2030, 'ages': []}
+        """A projection file with a stale (non-base) pyramidYear must be detected."""
+        adversarial = {'pyramidYear': self.EXPECTED_YEAR + 6, 'ages': []}
         assert adversarial['pyramidYear'] != self.EXPECTED_YEAR, (
             'Probe 6 FAIL: stale pyramidYear should be detected'
         )
 
     def test_detection_passes_correct_pyramid_year(self):
-        """A projection file with pyramidYear == 2024 must pass."""
-        compliant = {'pyramidYear': 2024, 'ages': []}
+        """A projection file with the current base pyramidYear must pass."""
+        compliant = {'pyramidYear': self.EXPECTED_YEAR, 'ages': []}
         assert compliant['pyramidYear'] == self.EXPECTED_YEAR, (
             'Probe 6 FAIL: correct pyramidYear should not be flagged'
         )
