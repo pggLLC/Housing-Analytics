@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T13:25:34.677Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T13:26:14.961Z. Do not edit by hand.
 
 ---
 
@@ -1064,7 +1064,7 @@
 | `.github/workflows/data-freshness-check.yml` | 5.3 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 3.9 KB |
-| `.github/workflows/data-sentinels-check.yml` | 1.2 KB |
+| `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
 | `.github/workflows/docs-sync.yml` | 1.8 KB |
