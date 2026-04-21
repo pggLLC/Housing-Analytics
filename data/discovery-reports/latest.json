@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-04-20T09:03:36.405Z",
+  "scanTimestamp": "2026-04-21T08:25:43.460Z",
   "totalScanned": 919,
   "newSourceCount": 888,
   "existingCount": 30,
@@ -38,7 +38,7 @@
     },
     {
       "path": "data/core/educational-content.json",
-      "sizeBytes": 67569,
+      "sizeBytes": 67585,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -74,7 +74,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 133033,
+      "sizeBytes": 133115,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1298,397 +1298,397 @@
     },
     {
       "path": "data/hna/projections/08.json",
-      "sizeBytes": 2500,
+      "sizeBytes": 2493,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/projections/08001.json",
-      "sizeBytes": 2967,
+      "sizeBytes": 2952,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/projections/08003.json",
-      "sizeBytes": 2870,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08005.json",
-      "sizeBytes": 2960,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08007.json",
-      "sizeBytes": 2940,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08009.json",
-      "sizeBytes": 2910,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08011.json",
-      "sizeBytes": 2898,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08013.json",
-      "sizeBytes": 2996,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08014.json",
-      "sizeBytes": 2932,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08015.json",
-      "sizeBytes": 2965,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08017.json",
-      "sizeBytes": 2870,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08019.json",
-      "sizeBytes": 2874,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08021.json",
-      "sizeBytes": 2881,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08023.json",
-      "sizeBytes": 2869,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08025.json",
-      "sizeBytes": 2900,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08027.json",
-      "sizeBytes": 2909,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08029.json",
-      "sizeBytes": 2946,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08031.json",
-      "sizeBytes": 2968,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08033.json",
-      "sizeBytes": 2877,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08035.json",
-      "sizeBytes": 2982,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08037.json",
-      "sizeBytes": 2948,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08039.json",
-      "sizeBytes": 2935,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08041.json",
-      "sizeBytes": 2958,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08043.json",
-      "sizeBytes": 2957,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08045.json",
-      "sizeBytes": 2930,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08047.json",
-      "sizeBytes": 2905,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08049.json",
-      "sizeBytes": 2905,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08051.json",
-      "sizeBytes": 2912,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08053.json",
-      "sizeBytes": 2861,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08055.json",
-      "sizeBytes": 2886,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08057.json",
       "sizeBytes": 2868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08059.json",
-      "sizeBytes": 2972,
+      "path": "data/hna/projections/08005.json",
+      "sizeBytes": 2945,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08061.json",
-      "sizeBytes": 2889,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08063.json",
-      "sizeBytes": 2894,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08065.json",
-      "sizeBytes": 2890,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08067.json",
-      "sizeBytes": 2951,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08069.json",
-      "sizeBytes": 2992,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08071.json",
-      "sizeBytes": 2935,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08073.json",
-      "sizeBytes": 2859,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08075.json",
-      "sizeBytes": 2893,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08077.json",
-      "sizeBytes": 2955,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08079.json",
-      "sizeBytes": 2827,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08081.json",
-      "sizeBytes": 2937,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08083.json",
-      "sizeBytes": 2948,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08085.json",
-      "sizeBytes": 2941,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08087.json",
-      "sizeBytes": 2936,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08089.json",
-      "sizeBytes": 2933,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08091.json",
-      "sizeBytes": 2877,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08093.json",
-      "sizeBytes": 2917,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08095.json",
-      "sizeBytes": 2888,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08097.json",
-      "sizeBytes": 2929,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08099.json",
-      "sizeBytes": 2935,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08101.json",
-      "sizeBytes": 2947,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08103.json",
-      "sizeBytes": 2924,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/hna/projections/08105.json",
+      "path": "data/hna/projections/08007.json",
       "sizeBytes": 2925,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08107.json",
-      "sizeBytes": 2969,
+      "path": "data/hna/projections/08009.json",
+      "sizeBytes": 2896,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08109.json",
-      "sizeBytes": 2891,
+      "path": "data/hna/projections/08011.json",
+      "sizeBytes": 2884,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08111.json",
-      "sizeBytes": 2851,
+      "path": "data/hna/projections/08013.json",
+      "sizeBytes": 2981,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08113.json",
-      "sizeBytes": 2901,
+      "path": "data/hna/projections/08014.json",
+      "sizeBytes": 2918,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08115.json",
-      "sizeBytes": 2917,
+      "path": "data/hna/projections/08015.json",
+      "sizeBytes": 2951,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08117.json",
-      "sizeBytes": 2959,
+      "path": "data/hna/projections/08017.json",
+      "sizeBytes": 2868,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08119.json",
-      "sizeBytes": 2968,
+      "path": "data/hna/projections/08019.json",
+      "sizeBytes": 2860,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08121.json",
+      "path": "data/hna/projections/08021.json",
+      "sizeBytes": 2867,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08023.json",
+      "sizeBytes": 2866,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08025.json",
+      "sizeBytes": 2884,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08027.json",
+      "sizeBytes": 2893,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08029.json",
+      "sizeBytes": 2932,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08031.json",
+      "sizeBytes": 2953,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08033.json",
+      "sizeBytes": 2861,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08035.json",
+      "sizeBytes": 2967,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08037.json",
+      "sizeBytes": 2933,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08039.json",
+      "sizeBytes": 2921,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08041.json",
+      "sizeBytes": 2943,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08043.json",
+      "sizeBytes": 2943,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08045.json",
       "sizeBytes": 2916,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08123.json",
-      "sizeBytes": 2960,
+      "path": "data/hna/projections/08047.json",
+      "sizeBytes": 2890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
-      "path": "data/hna/projections/08125.json",
+      "path": "data/hna/projections/08049.json",
+      "sizeBytes": 2890,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08051.json",
+      "sizeBytes": 2897,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08053.json",
+      "sizeBytes": 2846,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08055.json",
+      "sizeBytes": 2882,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08057.json",
+      "sizeBytes": 2852,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08059.json",
+      "sizeBytes": 2958,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08061.json",
+      "sizeBytes": 2874,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08063.json",
+      "sizeBytes": 2879,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08065.json",
+      "sizeBytes": 2875,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08067.json",
+      "sizeBytes": 2935,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08069.json",
+      "sizeBytes": 2978,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08071.json",
+      "sizeBytes": 2921,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08073.json",
+      "sizeBytes": 2856,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08075.json",
+      "sizeBytes": 2879,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08077.json",
+      "sizeBytes": 2941,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08079.json",
+      "sizeBytes": 2812,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08081.json",
+      "sizeBytes": 2921,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08083.json",
+      "sizeBytes": 2932,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08085.json",
+      "sizeBytes": 2927,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08087.json",
+      "sizeBytes": 2923,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08089.json",
+      "sizeBytes": 2919,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08091.json",
+      "sizeBytes": 2863,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08093.json",
+      "sizeBytes": 2903,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08095.json",
+      "sizeBytes": 2873,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08097.json",
+      "sizeBytes": 2914,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08099.json",
+      "sizeBytes": 2920,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08101.json",
+      "sizeBytes": 2932,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08103.json",
+      "sizeBytes": 2909,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08105.json",
+      "sizeBytes": 2910,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08107.json",
+      "sizeBytes": 2954,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08109.json",
+      "sizeBytes": 2876,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08111.json",
+      "sizeBytes": 2836,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08113.json",
+      "sizeBytes": 2886,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08115.json",
       "sizeBytes": 2901,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
+      "path": "data/hna/projections/08117.json",
+      "sizeBytes": 2943,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08119.json",
+      "sizeBytes": 2954,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08121.json",
+      "sizeBytes": 2901,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08123.json",
+      "sizeBytes": 2956,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/projections/08125.json",
+      "sizeBytes": 2887,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 523565,
+      "sizeBytes": 745886,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5294,7 +5294,7 @@
     },
     {
       "path": "data/policy/soft-funding-status.json",
-      "sizeBytes": 11896,
+      "sizeBytes": 12674,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5306,7 +5306,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20237,
+      "sizeBytes": 20231,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5339,109 +5339,109 @@
     {
       "path": "data/boundaries/counties_co.geojson",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/amenities/healthcare_co.geojson",
       "name": "OpenStreetMap — Overpass API (Healthcare facility nodes)",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/amenities/schools_co.geojson",
       "name": "OpenStreetMap — Overpass API (School nodes)",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/amenities/retail_nodes_co.geojson",
       "name": "OpenStreetMap — Overpass API (Retail node clusters)",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/policy/prop123_jurisdictions.json",
       "name": "Colorado Proposition 123 — DOLA Jurisdiction Opt-In Registry",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/chfa-lihtc.json",
       "name": "Colorado Housing and Finance Authority (CHFA) — LIHTC Allocation Data",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co-county-demographics.json",
       "name": "US Census Bureau — ACS 5-Year County-Level Demographics",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co-county-economic-indicators.json",
       "name": "Bureau of Labor Statistics (BLS) — Quarterly Census of Employment & Wages (QCEW)",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/dda-colorado.json",
       "name": "HUD — Difficult Development Areas (DDA) Designations",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/qct-colorado.json",
       "name": "HUD — Qualified Census Tracts (QCT) Designations",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co-county-boundaries.json",
       "name": "US Census Bureau TIGERweb — Colorado County Boundaries (Primary Cache)",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/census-acs-state.json",
       "name": "US Census Bureau — ACS 5-Year State-Level Estimates",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co_ami_gap_by_county.json",
       "name": "CHFA / HUD — Colorado AMI Gap Analysis by County",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co-demographics.json",
       "name": "US Census Bureau — Colorado Statewide Demographics",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/co-historical-allocations.json",
       "name": "CHFA — Colorado LIHTC Historical Allocation History",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/allocations.json",
       "name": "CHFA — Colorado LIHTC Allocation Ledger",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/lihtc-trends-by-county.json",
       "name": "CHFA — Colorado LIHTC Allocation Trends by County",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/states-10m.json",
       "name": "Natural Earth / US Atlas — US State Boundaries (10m)",
-      "daysSince": 840
+      "daysSince": 841
     },
     {
       "path": "data/market/nhpd_co.geojson",
       "name": "National Housing Preservation Database (NHPD) — Colorado Assisted Housing",
-      "daysSince": 474
+      "daysSince": 475
     },
     {
       "path": "data/hna/chas_affordability_gap.json",
       "name": "HUD CHAS — Colorado Affordability Gap Analysis (Derived)",
-      "daysSince": 474
+      "daysSince": 475
     }
   ],
   "agingEntries": [
     {
       "path": "data/hud-fmr-income-limits.json",
       "name": "HUD — FY2025 Fair Market Rents & Income Limits",
-      "daysSince": 384
+      "daysSince": 385
     }
   ]
 }
