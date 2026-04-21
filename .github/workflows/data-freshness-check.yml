@@ -1,0 +1,44 @@
+name: Data Freshness Check
+
+# Verify critical data files haven't gone stale. Catches silent
+# refresh-pipeline breakage (today's HNA flake on 2026-04-20 was exactly
+# this class of incident — a scheduled workflow failed mid-morning, no
+# alert, nobody would have noticed without an explicit check).
+#
+# Partial closeout of issue #656 from epic #447. Currently checks
+# 9 data files against SLAs defined in scripts/audit/data-freshness-check.mjs.
+# Issue-auto-open on failure + Slack hook remain open sub-tasks under #656.
+
+on:
+  schedule:
+    # Daily at 16:00 UTC = 10:00 America/Denver in daylight time. Offset
+    # from the other weekly scans (Dependabot Mon 09:00, source-URL-sweep
+    # Mon 08:00) so a bad morning doesn't cascade into the same run window.
+    - cron: '0 16 * * *'
+  push:
+    branches: ['main']
+    paths:
+      - 'data/**'
+      - 'scripts/audit/data-freshness-check.mjs'
+      - '.github/workflows/data-freshness-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write  # reserved for the follow-up auto-open-on-failure step
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Run freshness check
+        run: node scripts/audit/data-freshness-check.mjs
