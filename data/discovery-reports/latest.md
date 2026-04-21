@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-20T09:03:36.405Z
+**Scan timestamp:** 2026-04-21T08:25:43.460Z
 
 ## Summary
 
@@ -294,7 +294,7 @@
 - `data/hna/projections/08121.json` (3 KB)
 - `data/hna/projections/08123.json` (3 KB)
 - `data/hna/projections/08125.json` (3 KB)
-- `data/hna/ranking-index.json` (511 KB)
+- `data/hna/ranking-index.json` (728 KB)
 - `data/hna/scenarios/baseline.json` (1 KB)
 - `data/hna/scenarios/high-growth.json` (1 KB)
 - `data/hna/scenarios/low-growth.json` (1 KB)
@@ -905,27 +905,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 840 days since last update
-- **undefined** — 474 days since last update
-- **undefined** — 474 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 841 days since last update
+- **undefined** — 475 days since last update
+- **undefined** — 475 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 384 days since last update
+- undefined — 385 days since last update
