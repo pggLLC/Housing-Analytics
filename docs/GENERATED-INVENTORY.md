@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T03:47:16.397Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T13:25:34.677Z. Do not edit by hand.
 
 ---
 
@@ -80,7 +80,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 130.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 986.6 KB | ✅ | — |
+| `data/fred-data.json` | 983.8 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1061,7 +1061,7 @@
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-freshness-check.yml` | 1.4 KB |
+| `.github/workflows/data-freshness-check.yml` | 5.3 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 3.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 1.2 KB |
