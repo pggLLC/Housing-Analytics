@@ -463,7 +463,25 @@
 
         <!-- LIHTC Supply -->
         <div class="pma-card">
-          <h2>LIHTC Supply in Buffer</h2>
+          <h2 style="display:inline-block;margin:0;">LIHTC Supply in Buffer</h2>
+          <details class="info-tooltip">
+            <summary title="What's counted in 'supply'?" aria-label="Show LIHTC supply methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this counts.</strong> Every LIHTC property within the user-selected buffer radius of the site, including:</p>
+              <ul style="margin:0 0 0.5rem 1.1rem;padding:0">
+                <li><strong>Placed-in-service</strong> projects (completed and operating)</li>
+                <li><strong>Pipeline / under-construction</strong> projects (allocated but not yet in service)</li>
+              </ul>
+              <p>Properties whose affordability period has expired — or is at risk of expiring in the near term — are <strong>excluded</strong>, since they no longer represent active competitive supply.</p>
+              <dl>
+                <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
+                <dt>Primary source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>)</dd>
+                <dt>Fallback source</dt><dd>CHFA portfolio (<code>data/chfa-lihtc.json</code>) when HUD data is missing</dd>
+                <dt>Capture rate</dt><dd>existing LIHTC units ÷ renter households in buffer (ACS 2024)</dd>
+                <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
+              </dl>
+            </div>
+          </details>
           <div class="pma-stat-grid">
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcCount">—</div>
@@ -551,8 +569,22 @@
 
         <!-- Peer Benchmarking -->
         <div class="pma-card">
-          <h2>Peer Benchmarking</h2>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Compare this site to ~50 known Colorado LIHTC projects.</p>
+          <h2 style="display:inline-block;margin:0;">Peer Benchmarking</h2>
+          <details class="info-tooltip">
+            <summary title="How are peers selected?" aria-label="Show peer benchmarking methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this compares.</strong> Your site's PMA composite score against a curated set of ~50 known Colorado LIHTC projects (the "reference set"). Lets you see where the site lands relative to deals that have already been allocated and underwritten.</p>
+              <dl>
+                <dt>Reference set</dt><dd><code>data/market/reference-projects.json</code> — ~50 CO LIHTC projects (2015–2025 vintage) with known PMA score, unit count, credit type, market type</dd>
+                <dt>Primary comparison</dt><dd>percentile rank of this site's PMA score against the full reference set</dd>
+                <dt>Comparable window</dt><dd>reference projects within ±10 PMA points of this site are surfaced as "directly comparable"</dd>
+                <dt>Breakdowns</dt><dd>market-type (urban / suburban / rural / resort), credit-type (4% PAB / 9% competitive), unit-count band</dd>
+                <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA QAP scoring is a separate model (see QAP Simulator). This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
+              </dl>
+              <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
+            </div>
+          </details>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to ~50 known Colorado LIHTC projects.</p>
           <div id="pmaBenchmarkResult">
             <div class="pma-empty">Run analysis to see benchmarking.</div>
           </div>
