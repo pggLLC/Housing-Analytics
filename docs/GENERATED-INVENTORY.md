@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T13:26:14.961Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T21:30:25.143Z. Do not edit by hand.
 
 ---
 
@@ -946,7 +946,7 @@
 
 ## Test Files
 
-89 test files found.
+92 test files found.
 
 | File | Size |
 |------|------|
@@ -977,10 +977,12 @@
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
+| `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/pages-availability-check.js` | 9.9 KB |
 | `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 11.8 KB |
+| `test/pma-transit.test.js` | 11.5 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
@@ -992,6 +994,7 @@
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
 | `test/smoke.test.js` | 9.9 KB |
+| `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
