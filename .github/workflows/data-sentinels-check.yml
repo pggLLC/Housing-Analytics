@@ -6,8 +6,13 @@ name: Data Sentinels Check
 # expected 500 entries passes the freshness gate but is just as broken
 # as a week-old one.
 #
-# Partial closeout of issue #657 from epic #447. Auto-open-on-failure
-# patterning (copy from #664's freshness workflow) is a follow-up.
+# When below-floor, this workflow opens (or updates) a tracking issue
+# tagged with a fixed title marker. When every sentinel passes again,
+# it closes any open tracker with a recovery comment. Find-or-update
+# keeps the issue count bounded — a multi-day regression produces one
+# issue with repeated daily updates, not one issue per run.
+#
+# Partial closeout of issue #657 from epic #447.
 
 on:
   schedule:
@@ -24,6 +29,10 @@ on:
 
 permissions:
   contents: read
+  issues: write
+
+env:
+  ISSUE_TITLE_MARKER: '[data-sentinels-alert]'
 
 jobs:
   check:
@@ -39,4 +48,92 @@ jobs:
           node-version: '20'
 
       - name: Run sentinels check
-        run: node scripts/audit/data-sentinels-check.mjs
+        id: check
+        # Continue so downstream steps can read the JSON output and file
+        # or close the tracking issue. The final step below re-raises
+        # failure as a non-zero exit so the workflow status is correct.
+        continue-on-error: true
+        run: |
+          node scripts/audit/data-sentinels-check.mjs --json > /tmp/sentinels.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Find existing open tracking issue
+        id: find_issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Scan up to 100 open issues for the title marker. Client-side
+          # jq filter via env.MARKER survives special chars (brackets).
+          MARKER="${ISSUE_TITLE_MARKER}" \
+          number=$(gh issue list --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
+            || true)
+          if [ -z "${number}" ]; then number=0; fi
+          echo "number=${number}" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update tracking issue on regression
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          # Build a Markdown body from the sentinels JSON, surfacing any
+          # artifact below its floor or missing entirely.
+          body=$(python3 - <<'PY'
+          import json, os
+          with open('/tmp/sentinels.json') as f:
+              d = json.load(f)
+          lines = []
+          lines.append(f"**Checked at**: {d.get('checkedAt')}")
+          lines.append(f"**Summary**: {d.get('ok', 0)} ok · **{d.get('below', 0)} below floor** · {d.get('missing', 0)} missing")
+          lines.append("")
+          lines.append("| Artifact | Rows | Floor | Status |")
+          lines.append("|---|---|---|---|")
+          for r in d.get('results', []):
+              if not r.get('present'):
+                  status = '**MISSING**'
+                  rows = '—'
+              elif r.get('below'):
+                  status = '**BELOW FLOOR**'
+                  rows = r.get('rows', '—')
+              else:
+                  continue  # skip OK rows — only surface failures
+              lines.append(f"| `{r['path']}` ({r.get('label','')}) | {rows} | {r['minRows']} | {status} |")
+          lines.append("")
+          lines.append("**What this likely means.** A pipeline that previously wrote this artifact now writes fewer (or zero) rows. Common causes: upstream API schema change, silent auth failure mid-fetch, a partial-write interrupted by a CI timeout, or a regenerator that filters too aggressively after a refactor.")
+          lines.append("")
+          lines.append(f"**Workflow run**: {os.environ.get('RUN_URL','?')}")
+          lines.append("")
+          lines.append("This issue was opened automatically by `.github/workflows/data-sentinels-check.yml`. It will be closed automatically on the next green run (see issue #657).")
+          print("\n".join(lines))
+          PY
+          )
+
+          existing=${{ steps.find_issue.outputs.number }}
+          title="⚠️ ${{ env.ISSUE_TITLE_MARKER }} Data sentinels alert — row count regression"
+
+          if [ "${existing}" != "0" ]; then
+            echo "Updating existing issue #${existing}"
+            gh issue comment "${existing}" --body "$body"
+          else
+            echo "Opening new issue"
+            gh issue create --title "${title}" --body "$body"
+          fi
+
+      - name: Close tracking issue on recovery
+        if: steps.check.outcome == 'success' && steps.find_issue.outputs.number != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          number=${{ steps.find_issue.outputs.number }}
+          comment="✅ All tracked data artifacts are back above their row-count floors ([workflow run](${RUN_URL})). Auto-closing."
+          gh issue close "${number}" --comment "$comment"
+
+      - name: Re-raise failure as workflow status
+        if: steps.check.outcome == 'failure'
+        run: |
+          echo "::error::One or more data artifacts regressed below their row-count floor. See the open tracking issue for details."
+          exit 1
