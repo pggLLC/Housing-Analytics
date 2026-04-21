@@ -1,19 +1,21 @@
 name: Data Freshness Check
 
 # Verify critical data files haven't gone stale. Catches silent
-# refresh-pipeline breakage (today's HNA flake on 2026-04-20 was exactly
+# refresh-pipeline breakage (the HNA flake on 2026-04-20 was exactly
 # this class of incident — a scheduled workflow failed mid-morning, no
 # alert, nobody would have noticed without an explicit check).
 #
-# Partial closeout of issue #656 from epic #447. Currently checks
-# 9 data files against SLAs defined in scripts/audit/data-freshness-check.mjs.
-# Issue-auto-open on failure + Slack hook remain open sub-tasks under #656.
+# When stale, this workflow opens (or updates) a tracking issue tagged
+# with a fixed title marker. When everything is fresh again, it closes
+# any open stale-tracker issues with a recovery comment. Find-or-update
+# keeps the issue count bounded — a multi-day outage produces one issue
+# with repeated updates, not one issue per run.
+#
+# Partial closeout of issue #656 from epic #447.
 
 on:
   schedule:
-    # Daily at 16:00 UTC = 10:00 America/Denver in daylight time. Offset
-    # from the other weekly scans (Dependabot Mon 09:00, source-URL-sweep
-    # Mon 08:00) so a bad morning doesn't cascade into the same run window.
+    # Daily at 16:00 UTC = 10:00 America/Denver in daylight time.
     - cron: '0 16 * * *'
   push:
     branches: ['main']
@@ -25,7 +27,10 @@ on:
 
 permissions:
   contents: read
-  issues: write  # reserved for the follow-up auto-open-on-failure step
+  issues: write
+
+env:
+  ISSUE_TITLE_MARKER: '[data-freshness-alert]'
 
 jobs:
   check:
@@ -41,4 +46,91 @@ jobs:
           node-version: '20'
 
       - name: Run freshness check
-        run: node scripts/audit/data-freshness-check.mjs
+        id: check
+        # Continue so downstream steps can read the JSON output and file
+        # or close the tracking issue. The final step below re-raises
+        # failure as a non-zero exit so the workflow status is correct.
+        continue-on-error: true
+        run: |
+          node scripts/audit/data-freshness-check.mjs --json > /tmp/freshness.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          {
+            echo "json<<EOF"
+            cat /tmp/freshness.json
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Find existing open tracking issue
+        id: find_issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Grep the 100 most recent open issues for the title marker.
+          # Client-side jq filter keeps this robust to special chars in
+          # the marker (e.g. square brackets) that can trip gh's search.
+          # Tracking issues should be rare, so this scan is cheap.
+          MARKER="${ISSUE_TITLE_MARKER}" \
+          number=$(gh issue list --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
+            || true)
+          if [ -z "${number}" ]; then number=0; fi
+          echo "number=${number}" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update tracking issue on stale failure
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          # Build a Markdown body from the JSON output.
+          body=$(python3 - <<'PY'
+          import json, os
+          with open('/tmp/freshness.json') as f:
+              d = json.load(f)
+          lines = []
+          lines.append(f"**Checked at**: {d.get('checkedAt')}")
+          lines.append(f"**Summary**: {d.get('ok', 0)} ok · **{d.get('stale', 0)} stale** · {d.get('missing', 0)} missing")
+          lines.append("")
+          lines.append("| File | Age (days) | SLA | Source | Status |")
+          lines.append("|---|---|---|---|---|")
+          for r in d.get('results', []):
+              status = 'MISSING' if not r.get('present') else ('STALE' if r.get('stale') else 'ok')
+              if status == 'ok':
+                  continue
+              lines.append(f"| `{r['file']}` | {r.get('ageDays','—')} | {r['slaDays']}d | {r.get('source','mtime')} | **{status}** |")
+          lines.append("")
+          lines.append(f"**Workflow run**: {os.environ.get('RUN_URL','?')}")
+          lines.append("")
+          lines.append("This issue was opened automatically by `.github/workflows/data-freshness-check.yml`. It will be closed automatically on the next green run (see issue #656).")
+          print("\n".join(lines))
+          PY
+          )
+
+          existing=${{ steps.find_issue.outputs.number }}
+          title="⚠️ ${{ env.ISSUE_TITLE_MARKER }} Data freshness alert"
+
+          if [ "${existing}" != "0" ]; then
+            echo "Updating existing issue #${existing}"
+            gh issue comment "${existing}" --body "$body"
+          else
+            echo "Opening new issue"
+            gh issue create --title "${title}" --body "$body"
+          fi
+
+      - name: Close tracking issue on recovery
+        if: steps.check.outcome == 'success' && steps.find_issue.outputs.number != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          number=${{ steps.find_issue.outputs.number }}
+          comment="✅ All tracked data files are within their SLAs again ([workflow run](${RUN_URL})). Auto-closing."
+          gh issue close "${number}" --comment "$comment"
+
+      - name: Re-raise failure as workflow status
+        if: steps.check.outcome == 'failure'
+        run: |
+          echo "::error::One or more tracked data files are past their freshness SLA. See the open tracking issue for details."
+          exit 1
