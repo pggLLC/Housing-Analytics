@@ -1,0 +1,42 @@
+name: Data Sentinels Check
+
+# Verify critical data artifacts haven't regressed in row count.
+# Complements data-freshness-check.yml — freshness catches stale files,
+# sentinels catch silently-truncated files. A fresh file with 50 of an
+# expected 500 entries passes the freshness gate but is just as broken
+# as a week-old one.
+#
+# Partial closeout of issue #657 from epic #447. Auto-open-on-failure
+# patterning (copy from #664's freshness workflow) is a follow-up.
+
+on:
+  schedule:
+    # Daily at 16:30 UTC, 30 min after the freshness check, so the two
+    # pipeline-health signals arrive in sequence rather than overlapping.
+    - cron: '30 16 * * *'
+  push:
+    branches: ['main']
+    paths:
+      - 'data/**'
+      - 'scripts/audit/data-sentinels-check.mjs'
+      - '.github/workflows/data-sentinels-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Run sentinels check
+        run: node scripts/audit/data-sentinels-check.mjs
