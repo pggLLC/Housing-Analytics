@@ -325,21 +325,34 @@
           </select>
         </label>
         <div id="dc-impact-fee-wrap" style="display:none;">
+          <fieldset style="border:none;padding:0;margin-bottom:var(--sp2);">
+            <legend style="font-size:var(--small);color:var(--muted);padding:0;margin-bottom:0.3rem;">Accounting treatment</legend>
+            <label style="display:block;margin-bottom:0.2rem;font-size:var(--small);">
+              <input type="radio" name="dc-impact-fee-mode" value="loan" checked style="margin-right:0.35rem;">
+              Loan &mdash; amortized from cash flow
+            </label>
+            <label style="display:block;font-size:var(--small);">
+              <input type="radio" name="dc-impact-fee-mode" value="grant" style="margin-right:0.35rem;">
+              Grant / waiver &mdash; reduces eligible basis (&sect;42(d)(5)(A))
+            </label>
+          </fieldset>
           <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Amount ($)</span>
+            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Amount ($)</span>
             <input id="dc-impact-fee-amount" type="number" min="0" step="10000" value="0"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           </label>
-          <label style="display:block;margin-bottom:var(--sp2);">
-            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Rate (%)</span>
-            <input id="dc-impact-fee-rate" type="number" min="0" max="20" step="0.1" value="3.5"
-              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-          </label>
-          <label style="display:block;">
-            <span style="font-size:var(--small);color:var(--muted);">Impact Fee Loan Term (years)</span>
-            <input id="dc-impact-fee-term" type="number" min="1" max="50" step="1" value="20"
-              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-          </label>
+          <div id="dc-impact-fee-loan-inputs">
+            <label style="display:block;margin-bottom:var(--sp2);">
+              <span style="font-size:var(--small);color:var(--muted);">Loan Rate (%)</span>
+              <input id="dc-impact-fee-rate" type="number" min="0" max="20" step="0.1" value="3.5"
+                style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            </label>
+            <label style="display:block;">
+              <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
+              <input id="dc-impact-fee-term" type="number" min="1" max="50" step="1" value="20"
+                style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            </label>
+          </div>
         </div>
       </fieldset>
     </div>
@@ -425,8 +438,8 @@
             </tr>
             <tr>
               <td style="padding:0.3rem 0.25rem;">
-                Impact Fee Loan Debt Service (annual)
-                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                <span id="dc-su-impact-label">Impact Fee Loan Debt Service (annual)</span>
+                <span id="dc-su-impact-note" style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
                   Included when Impact Fee Loan is selected as a soft-funding source
                 </span>
               </td>
@@ -517,9 +530,17 @@
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
     var softSourceSel = document.getElementById('dc-soft-source');
     var impactFeeWrap = document.getElementById('dc-impact-fee-wrap');
+    var impactLoanInputs = document.getElementById('dc-impact-fee-loan-inputs');
     var syncSoftFundingUi = function () {
       var showImpact = softSourceSel && softSourceSel.value === 'impact_fee_loan';
       if (impactFeeWrap) impactFeeWrap.style.display = showImpact ? 'block' : 'none';
+      // Hide the rate/term inputs when grant mode is active — they're only
+      // meaningful for the amortizing-loan path.
+      if (impactLoanInputs) {
+        var modeInput = document.querySelector('input[name="dc-impact-fee-mode"]:checked');
+        var mode = (modeInput && modeInput.value) || 'loan';
+        impactLoanInputs.style.display = (showImpact && mode === 'loan') ? 'block' : 'none';
+      }
     };
     if (softSourceSel) {
       softSourceSel.addEventListener('change', function () {
@@ -528,6 +549,13 @@
       });
       syncSoftFundingUi();
     }
+    // Mode-radio listeners: toggle loan-only inputs + recompute basis/gap
+    document.querySelectorAll('input[name="dc-impact-fee-mode"]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        syncSoftFundingUi();
+        recalculate();
+      });
+    });
 
     // Auto-NOI toggle
     var autoNoiChk = document.getElementById('dc-auto-noi');
@@ -649,8 +677,32 @@
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
 
-    // LIHTC credit calculations
-    var eligibleBasis = tdc * basisPct;
+    // Impact-fee parameters — read BEFORE basis calc because grant-mode
+    // reduces eligible basis under §42(d)(5)(A).
+    var softSource = (document.getElementById('dc-soft-source') || {}).value || '';
+    var impactAmt = 0;
+    var impactMode = 'loan';
+    var impactGrant = 0;           // dollars subtracted from basis + applied as a source
+    var impactDebtService = 0;     // dollars amortized as annual expense
+    if (softSource === 'impact_fee_loan') {
+      impactAmt = Math.max(0, safeVal('dc-impact-fee-amount') || 0);
+      var modeInput = document.querySelector('input[name="dc-impact-fee-mode"]:checked');
+      impactMode = (modeInput && modeInput.value) || 'loan';
+      if (impactMode === 'grant') {
+        impactGrant = impactAmt;
+      } else {
+        var impactRatePct = Math.max(0, safeVal('dc-impact-fee-rate') || 0);
+        var impactTerm = Math.max(1, safeVal('dc-impact-fee-term') || 20);
+        if (impactAmt > 0) {
+          var impactMc = mortgageConstant(impactRatePct / 100, impactTerm);
+          // Zero-interest public loans amortize as straight-line principal.
+          impactDebtService = impactRatePct > 0 ? (impactAmt * impactMc) : (impactAmt / impactTerm);
+        }
+      }
+    }
+
+    // LIHTC credit calculations — grants reduce eligible basis per §42(d)(5)(A).
+    var eligibleBasis = Math.max(0, (tdc * basisPct) - impactGrant);
     var annualCredits = eligibleBasis * _creditRate;
     var equity = annualCredits * CREDIT_YEARS * equityPrice;
 
@@ -747,21 +799,10 @@
           : null)
       : null;
 
-    var softSource = (document.getElementById('dc-soft-source') || {}).value || '';
-    var impactDebtService = 0;
-    if (softSource === 'impact_fee_loan') {
-      var impactAmt = Math.max(0, safeVal('dc-impact-fee-amount') || 0);
-      var impactRatePct = Math.max(0, safeVal('dc-impact-fee-rate') || 0);
-      var impactTerm = Math.max(1, safeVal('dc-impact-fee-term') || 20);
-      if (impactAmt > 0) {
-        var impactMc = mortgageConstant(impactRatePct / 100, impactTerm);
-        // Zero-interest public loans are amortized here as straight-line annual principal.
-        impactDebtService = impactRatePct > 0 ? (impactAmt * impactMc) : (impactAmt / impactTerm);
-      }
-    }
-
-    // Sources & uses — deferred dev fee fills gap before subordinate debt is needed
-    var gap = tdc - equity - mortgage - deferredDevFee;
+    // Sources & uses — deferred dev fee + impact-fee grant (if any) fill gap
+    // before subordinate debt is needed. Loan-mode impact fee is NOT a gap
+    // source here — it shows up separately as annual debt service.
+    var gap = tdc - equity - mortgage - deferredDevFee - impactGrant;
 
     // Update LIHTC results
     document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
@@ -811,12 +852,29 @@
       }
     }
 
+    // Swap the impact-fee S&U row label + amount based on the selected mode.
+    // Grant mode shows the grant amount (a source contribution); loan mode
+    // shows the annual debt service (an expense from cash flow).
+    var impactLabelEl = document.getElementById('dc-su-impact-label');
+    var impactNoteEl  = document.getElementById('dc-su-impact-note');
+    var impactRowAmt  = impactMode === 'grant' ? impactGrant : impactDebtService;
+    if (impactLabelEl) {
+      impactLabelEl.textContent = impactMode === 'grant'
+        ? 'Impact Fee Grant / Waiver (source — offsets basis)'
+        : 'Impact Fee Loan Debt Service (annual)';
+    }
+    if (impactNoteEl) {
+      impactNoteEl.textContent = impactMode === 'grant'
+        ? 'Grant reduces eligible basis under §42(d)(5)(A); also a gap-filling source at closing.'
+        : 'Included when Impact Fee Loan is selected as a soft-funding source';
+    }
+
     // Update Sources & Uses table
     var su = {
       equity:   { amt: equity,        id: 'dc-su-equity' },
       mortgage: { amt: mortgage,       id: 'dc-su-mortgage' },
       deferred: { amt: deferredDevFee, id: 'dc-su-deferred' },
-      impactds: { amt: impactDebtService, id: 'dc-su-impact-ds' },
+      impactds: { amt: impactRowAmt,   id: 'dc-su-impact-ds' },
       gap:      { amt: gap,            id: 'dc-su-gap' },
       tdc:      { amt: tdc,            id: 'dc-su-tdc' }
     };
