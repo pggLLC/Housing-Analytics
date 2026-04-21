@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-20T23:44:40.268Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T00:08:06.570Z. Do not edit by hand.
 
 ---
 
@@ -946,7 +946,7 @@
 
 ## Test Files
 
-88 test files found.
+89 test files found.
 
 | File | Size |
 |------|------|
@@ -978,6 +978,7 @@
 | `test/integration/projections.test.js` | 15.3 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/pages-availability-check.js` | 9.9 KB |
+| `test/pma-competitive-set.test.js` | 10.1 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 11.8 KB |
 | `test/preservation.test.js` | 16.7 KB |
