@@ -399,6 +399,48 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .chart-source { font-size: 0.72rem; color: var(--faint); margin-top: var(--sp2); padding: 0 var(--sp4) var(--sp3); }
 .chart-source a { color: var(--faint); text-decoration: none; }
 .chart-source a:hover { text-decoration: underline; }
+
+/* Explainer tooltip — zero-JS inline methodology popover.
+   Used for stat cards where a one-line label can't fully describe the
+   methodology, data scope, or limitations. Built on native <details>
+   so it's keyboard-accessible and needs no framework. */
+.info-tooltip { display: inline-block; margin-left: 0.35rem; vertical-align: middle; }
+.info-tooltip > summary {
+  list-style: none;            /* hide default disclosure triangle */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem; height: 1.05rem;
+  border-radius: 50%;
+  background: var(--bg2, #f1f5f9);
+  color: var(--muted, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--border, #cbd5e1);
+  transition: background .15s, color .15s;
+}
+.info-tooltip > summary::-webkit-details-marker { display: none; }
+.info-tooltip > summary:hover,
+.info-tooltip > summary:focus-visible { background: var(--accent, #1e40af); color: #fff; outline: none; }
+.info-tooltip[open] > summary { background: var(--accent, #1e40af); color: #fff; }
+.info-tooltip-body {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius, 6px);
+  background: var(--bg2, #f8fafc);
+  border: 1px solid var(--border, #cbd5e1);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text, #0f172a);
+  max-width: 42rem;
+}
+.info-tooltip-body p { margin: 0 0 0.5rem; }
+.info-tooltip-body p:last-child { margin-bottom: 0; }
+.info-tooltip-body dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 0.75rem; margin: 0.25rem 0; font-size: 0.78rem; }
+.info-tooltip-body dt { color: var(--muted, #64748b); font-weight: 600; }
+.info-tooltip-body dd { margin: 0; }
 /* Leaflet map legend swatches (used by co-lihtc-map.js Leaflet legend control) */
 .map-legend .swatch-dda { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(255,200,90,.22);border:1px solid rgba(255,200,90,.55); }
 .map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(120,255,170,.24);border:1px solid rgba(120,255,170,.55); }
