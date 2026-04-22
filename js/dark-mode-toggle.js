@@ -90,6 +90,15 @@
 
   /**
    * Inject the floating toggle button into the page.
+   *
+   * Reads the current scheme from documentElement.classList and populates
+   * the button's aria-label + text content IMMEDIATELY on creation —
+   * rather than relying on a prior applyScheme() call. applyScheme()
+   * fires before DOMContentLoaded (to avoid FOUC), so its
+   * updateToggleButton() call no-ops because the button doesn't exist
+   * yet. The button then existed on the page with no accessible name,
+   * which axe-core flagged as button-name (critical) on 14/14 pages.
+   * Fixing here closes those 14 violations in one place.
    */
   function injectToggleButton() {
     if (document.querySelector('.dark-mode-toggle')) return;
@@ -99,6 +108,11 @@
     btn.setAttribute('aria-live', 'polite');
     btn.addEventListener('click', toggle);
     document.body.appendChild(btn);
+    // Populate accessible name + icon based on the current scheme
+    // (applyScheme already ran by this point; we just propagate the
+    // result into the newly-created button).
+    var scheme = document.documentElement.classList.contains(CLASS_DARK) ? 'dark' : 'light';
+    updateToggleButton(scheme);
   }
 
   /**
