@@ -32,8 +32,11 @@
   max-width: 720px;
   line-height: 1.55;
 }
-.hca-hero-sub a { color: var(--accent); text-decoration: none; }
-.hca-hero-sub a:hover { text-decoration: underline; }
+/* Body-copy link inside the hero sub-paragraph needs a non-color cue
+   per WCAG 1.4.1 (link-in-text-block). Accent-colored underline at
+   rest; thicker underline on hover for emphasis. */
+.hca-hero-sub a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.hca-hero-sub a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 
 /* ----------------------------------------------------------------
    How-to guide (Phase IV)

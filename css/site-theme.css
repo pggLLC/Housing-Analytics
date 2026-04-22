@@ -397,7 +397,11 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .kpi-source a, .stat-source a { color: var(--faint, #999); text-decoration: none; }
 .kpi-source a:hover, .stat-source a:hover { text-decoration: underline; }
 .chart-source { font-size: 0.72rem; color: var(--faint); margin-top: var(--sp2); padding: 0 var(--sp4) var(--sp3); }
-.chart-source a { color: var(--faint); text-decoration: none; }
+/* Source-attribution links need a non-color cue to satisfy WCAG 1.4.1
+   (link-in-text-block). The subdued faint color is reinforced with
+   a dotted underline that darkens on hover — stays visually quiet
+   in the normal state while still providing the required affordance. */
+.chart-source a { color: var(--faint); text-decoration: underline dotted; text-underline-offset: 2px; }
 .chart-source a:hover { text-decoration: underline; }
 
 /* Data vintage badge — renders age + optional stale-data warning.
