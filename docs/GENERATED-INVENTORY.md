@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T02:34:41.076Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:00:19.998Z. Do not edit by hand.
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-884 JSON files found.
+885 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -940,6 +940,7 @@
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
+| `data/reports/a11y-baseline.json` | 28.1 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
 ---
@@ -1048,10 +1049,11 @@
 
 ## GitHub Actions Workflows
 
-39 workflow files found.
+40 workflow files found.
 
 | File | Size |
 |------|------|
+| `.github/workflows/a11y-audit.yml` | 3.2 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
