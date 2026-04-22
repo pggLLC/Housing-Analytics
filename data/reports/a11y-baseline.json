@@ -1,33 +1,14 @@
 {
-  "generatedAt": "2026-04-22T11:42:58.708Z",
+  "generatedAt": "2026-04-22T19:06:01.808Z",
   "summary": {
     "byImpact": {
       "critical": 0,
-      "serious": 16,
+      "serious": 0,
       "moderate": 0,
       "minor": 0
     },
-    "byRule": {
-      "color-contrast": {
-        "impact": "serious",
-        "help": "Elements must meet minimum color contrast ratio thresholds",
-        "nodeCount": 16,
-        "pages": [
-          "housing-needs-assessment.html",
-          "hna-comparative-analysis.html",
-          "economic-dashboard.html",
-          "lihtc-allocations.html",
-          "lihtc-guide-for-stakeholders.html",
-          "dashboard.html",
-          "regional.html",
-          "deal-calculator.html",
-          "housing-legislation-2026.html",
-          "about.html",
-          "insights.html"
-        ]
-      }
-    },
-    "totalNodes": 16,
+    "byRule": {},
+    "totalNodes": 0,
     "pageCount": 14
   },
   "results": [
@@ -40,139 +21,31 @@
     },
     {
       "page": "housing-needs-assessment.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 3,
-          "sampleNode": {
-            "target": [
-              ".proj-view-label:nth-child(1) > span"
-            ],
-            "html": "<span>📈 Population</span>"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 29,
       "incompleteCount": 2,
       "inapplicable": 32
     },
     {
       "page": "hna-comparative-analysis.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              ".hca-explore-banner__link"
-            ],
-            "html": "<a href=\"select-jurisdiction.html\" class=\"hca-explore-banner__link\">I already know my jurisdiction →</a>"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 32,
       "incompleteCount": 2,
       "inapplicable": 29
     },
     {
       "page": "economic-dashboard.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 2,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 25,
       "incompleteCount": 2,
       "inapplicable": 36
     },
     {
       "page": "lihtc-allocations.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
-      "passCount": 28,
-      "incompleteCount": 3,
-      "inapplicable": 32
+      "violations": [],
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 31
     },
     {
       "page": "colorado-deep-dive.html",
@@ -183,102 +56,21 @@
     },
     {
       "page": "lihtc-guide-for-stakeholders.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 26,
       "incompleteCount": 1,
       "inapplicable": 35
     },
     {
       "page": "dashboard.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 27,
       "incompleteCount": 1,
       "inapplicable": 34
     },
     {
       "page": "regional.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 27,
       "incompleteCount": 1,
       "inapplicable": 34
@@ -292,136 +84,28 @@
     },
     {
       "page": "deal-calculator.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              ".coho-toast:nth-child(1) > .coho-toast__msg"
-            ],
-            "html": "<span class=\"coho-toast__msg\">AMI gap data unavailable — some affordability context may be missing.</span>"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 33,
       "incompleteCount": 1,
       "inapplicable": 28
     },
     {
       "page": "housing-legislation-2026.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 27,
       "incompleteCount": 1,
       "inapplicable": 34
     },
     {
       "page": "about.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 2,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 24,
       "incompleteCount": 1,
       "inapplicable": 37
     },
     {
       "page": "insights.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 2,
-          "sampleNode": {
-            "target": [
-              "button[data-audience=\"developer\"]"
-            ],
-            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 26,
       "incompleteCount": 1,
       "inapplicable": 35

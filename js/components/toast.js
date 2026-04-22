@@ -25,17 +25,22 @@
         'display:flex;flex-direction:column;gap:.5rem;' +
         'pointer-events:none;max-width:24rem;' +
       '}' +
+      /* Animation is transform-only (slide in from below) — opacity is
+         pinned at 1 so axe-core/other auditors always see the final
+         stable color pair. Prior keyframes animated opacity 0→1 which
+         gave a11y tools a mid-transition snapshot, producing spurious
+         contrast failures against partially-transparent toast bg. */
       '.coho-toast{' +
         'display:flex;align-items:flex-start;gap:.5rem;' +
         'padding:.625rem .75rem;border-radius:.375rem;' +
         'font:400 .875rem/1.35 var(--font-sans,system-ui,sans-serif);' +
-        'color:#fff;pointer-events:auto;' +
+        'color:#fff;pointer-events:auto;opacity:1;' +
         'box-shadow:0 4px 12px rgba(0,0,0,.25);' +
-        'opacity:0;transform:translateY(.5rem);' +
+        'transform:translateY(.5rem);' +
         'animation:coho-toast-in .25s ease forwards;' +
       '}' +
       '.coho-toast--error{background:var(--bad,#d32f2f)}' +
-      '.coho-toast--warn{background:var(--warn,#ed6c02)}' +
+      '.coho-toast--warn{background:var(--warn,#a84608)}' +
       '.coho-toast--info{background:var(--accent,#0288d1)}' +
       '.coho-toast--success{background:var(--good,#2e7d32)}' +
       '.coho-toast__msg{flex:1}' +
@@ -45,7 +50,7 @@
       '}' +
       '.coho-toast__close:hover{opacity:1}' +
       '@keyframes coho-toast-in{' +
-        'to{opacity:1;transform:translateY(0)}' +
+        'to{transform:translateY(0)}' +
       '}' +
       '@keyframes coho-toast-out{' +
         'to{opacity:0;transform:translateY(.5rem)}' +
