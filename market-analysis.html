@@ -16,6 +16,7 @@
   <script src="js/workflow-state-api.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/data-vintage-badge.js" defer></script>
   <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="3" data-step-label="market_analysis"></script>
   <script defer src="js/components/page-context.js"></script>
@@ -113,6 +114,13 @@
       <p class="pma-intro-note" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
       <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
       <small id="pmaDataTimestamp" class="data-timestamp"></small>
+      <!-- Data vintage badge — ACS tract metrics drive the PMA composite;
+           their monthly-refresh cadence sets the SLA. Switches to stale
+           past 32 days (matches data-freshness-check.mjs SLA_CONFIG). -->
+      <div data-vintage-source="data/market/acs_tract_metrics_co.json"
+           data-vintage-sla-days="32"
+           data-vintage-label="ACS metrics as of"
+           style="margin-top:var(--sp2);"></div>
     </div>
 
     <!-- ── Data Quality Banner ── -->
