@@ -356,7 +356,13 @@
         min: String(driver.min),
         max: String(driver.max),
         step: String(driver.step),
-        value: String(_state[driver.id] != null ? _state[driver.id] : driver.defaultVal)
+        value: String(_state[driver.id] != null ? _state[driver.id] : driver.defaultVal),
+        // The visible label is a <div> (for layout), not a <label>, so it
+        // doesn't satisfy the WCAG form-labels rule on its own. Mirror
+        // it into aria-label so screen readers + axe recognize the
+        // association. Closes the 3 label-rule violations on
+        // deal-calculator.html flagged by the a11y baseline (#658/#674).
+        'aria-label': driver.label
       });
       var valDisplay = _el('span', { className: 'qsim-range-val' },
         String(_state[driver.id] != null ? _state[driver.id] : driver.defaultVal));
