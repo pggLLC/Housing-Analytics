@@ -176,8 +176,56 @@ jobs:
           echo "✅  No fragile fetch paths found."
 
       - name: Validate JSON schemas for critical artifacts
-        run: node scripts/validate-schemas.js
+        id: schema_validate
+        # Keep continue-on-error: true so schema drift doesn't block PRs
+        # while the schema contract is still maturing. The next step
+        # promotes the output into the job summary so failures are
+        # visible on the run page without manual log-reading (see #657).
         continue-on-error: true
+        run: |
+          set +e
+          node scripts/validate-schemas.js | tee /tmp/schema-validate.log
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Surface schema validation into job summary
+        if: always()
+        shell: bash
+        run: |
+          if [ ! -s /tmp/schema-validate.log ]; then
+            echo "::warning::validate-schemas produced no output"
+            exit 0
+          fi
+          # Parse the tail line: "Results: N passed, M failed"
+          summary=$(grep -E '^Results: [0-9]+ passed, [0-9]+ failed' /tmp/schema-validate.log | tail -n1 || true)
+          failed=$(echo "$summary" | sed -n 's/.* \([0-9]\+\) failed.*/\1/p')
+          failed=${failed:-0}
+          {
+            echo '## Schema validation'
+            echo ""
+            if [ -n "$summary" ]; then
+              echo "**$summary**"
+            else
+              echo "_Schema validator produced no summary line — check raw log._"
+            fi
+            echo ""
+            if [ "$failed" -gt 0 ] 2>/dev/null; then
+              echo "### Failures"
+              echo '```'
+              grep -E '^\s*❌|^\s*FAIL' /tmp/schema-validate.log | head -40 || true
+              echo '```'
+            fi
+            echo ""
+            echo "<details><summary>Raw validator output (last 100 lines)</summary>"
+            echo ""
+            echo '```'
+            tail -n 100 /tmp/schema-validate.log
+            echo '```'
+            echo ""
+            echo "</details>"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$failed" -gt 0 ] 2>/dev/null; then
+            echo "::warning::Schema validation reported $failed failure(s). See the Summary tab for details. (Non-blocking per the current continue-on-error posture — see #657 to flip.)"
+          fi
 
       # ── JavaScript smoke tests ──
       - name: Install Node.js dependencies
