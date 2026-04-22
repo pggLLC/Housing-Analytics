@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T14:00:30.412Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T19:22:29.932Z. Do not edit by hand.
 
 ---
 
@@ -28,17 +28,17 @@
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.4 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 68.6 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 68.7 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.3 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.4 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 134.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 134.5 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.4 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 77.1 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 77.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
@@ -940,7 +940,7 @@
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
-| `data/reports/a11y-baseline.json` | 13.9 KB | ✅ | — |
+| `data/reports/a11y-baseline.json` | 2.3 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
 ---
