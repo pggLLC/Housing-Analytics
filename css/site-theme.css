@@ -647,7 +647,12 @@ select, input, textarea {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent) !important; box-shadow: var(--focus-ring); }
-label { color: var(--muted) !important; font-size: var(--small); font-weight: 600; display: block; margin-bottom: 5px; }
+/* Default label styling — NO !important so more-specific rules
+   (e.g. .proj-view-label:has(input:checked) { color: #fff }) can
+   win. Prior !important caused a color-contrast violation where the
+   checked projection-view label's muted color ran against the accent
+   background at 1.68:1. */
+label { color: var(--muted); font-size: var(--small); font-weight: 600; display: block; margin-bottom: 5px; }
 
 /* ================================================================
    12. BUTTONS
@@ -689,7 +694,11 @@ details[open] > summary::after { transform: rotate(90deg); }
 /* ================================================================
    16. KICKER / UTILITY TEXT
    ================================================================ */
-.kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent) !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
+/* Kicker text on .accent-dim backgrounds — needs the DARKER accent shade
+   to clear 4.5:1 at this small uppercase size. var(--accent) alone is
+   #096e65 which measured 4.46:1 against the 10%-accent tinted bg
+   (axe-core reported in #675). #054a42 gives ~7:1 with headroom. */
+.kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #054a42 !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
 .sub  { color: var(--muted) !important; max-width: 72ch; }
 .card-meta { color: var(--faint) !important; font-size: var(--tiny); }
 .note { color: var(--faint) !important; font-size: var(--caption); margin-top: var(--sp3); }

@@ -1000,8 +1000,9 @@
             All Primary Market Area tools — boundary delineation, CHFA requirements summary, workflow steps,
             and the CHFA PMA checklist — are consolidated on the Market Analysis &amp; PMA page.
           </p>
+          <!-- color: #fff !important is required to beat site-theme.css { a { color: var(--link) !important } }. -->
           <a href="market-analysis.html#maChfaRequirements"
-             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#fff;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
+             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#fff !important;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
             Go to PMA Delineation &amp; CHFA Checklist →
           </a>
         </div>
@@ -2125,8 +2126,9 @@
     '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
     '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
     '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
-    '.hna-save-btn{padding:10px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text);}',
-    '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent);}',
+    '/* !important on bg + color because css/pages.css .btn {color:#fff !important; background:var(--accent)} would otherwise win. */',
+    '.hna-save-btn{padding:10px 18px;background:var(--bg2) !important;border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text) !important;}',
+    '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent) !important;}',
     '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
     '.hna-continue-btn:hover{opacity:.9;}',
     '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
