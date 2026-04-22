@@ -244,8 +244,14 @@
                     .on('mousemove', moveTooltip)
                     .on('mouseleave', hideTooltip);
                 
+                // Filter features where centroid is undefined (outside projection
+                // bounds or degenerate geometry) — otherwise d3 writes
+                // `translate(NaN,NaN)` and Chrome logs a SVGAttributeException.
                 svg.selectAll('text.state-label')
-                    .data(states.features)
+                    .data(states.features.filter(d => {
+                        const c = path.centroid(d);
+                        return Number.isFinite(c[0]) && Number.isFinite(c[1]);
+                    }))
                     .enter()
                     .append('text')
                     .attr('class', 'state-label')

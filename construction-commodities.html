@@ -204,7 +204,8 @@
                     .map(key => createPriceCard(key, data[key]))
                     .join('');
                 
-                window.__announceUpdate && window.__announceUpdate(\'Commodity price data loaded\'); document.getElementById('price-cards-container').innerHTML = cardsHTML;
+                window.__announceUpdate && window.__announceUpdate('Commodity price data loaded');
+                document.getElementById('price-cards-container').innerHTML = cardsHTML;
                 
                 // Create charts
                 // Steel & Metal

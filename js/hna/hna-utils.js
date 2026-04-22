@@ -12,7 +12,13 @@
   // fetchWithTimeout is provided globally by js/fetch-helper.js (window.fetchWithTimeout).
   // Alias it locally so in-file calls work without modification.
 
-  const ACS_VINTAGES = [2025, 2024, 2023, 2022, 2021];
+  // ACS 5-year release cadence: vintage Y is released ~December of year Y+1.
+  // As of 2026-04 Census has published through 2024; 2025 (covering 2021-2025)
+  // typically ships in Dec 2026. Probing 2025 first generates a 404 on every
+  // page load that's visible in Chrome's network panel even when downstream
+  // fallback succeeds — kept 2024 as primary and slowly accept 2025 back
+  // in once Census publishes it.
+  const ACS_VINTAGES = [2024, 2023, 2022, 2021];
   // Keep named constants so existing checks and references still work.
   const ACS_YEAR_PRIMARY  = ACS_VINTAGES[0];
   const ACS_YEAR_FALLBACK = ACS_VINTAGES[1];
