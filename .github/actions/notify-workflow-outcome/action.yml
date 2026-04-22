@@ -1,0 +1,131 @@
+name: 'Notify Workflow Outcome'
+description: >
+  On failure, open (or update) a tracking issue with a per-workflow title
+  marker and optionally POST to a Slack webhook. On success, close any
+  open tracking issue for the same workflow. Idempotent — multi-day
+  outages produce one issue with repeated comments, not one per run.
+
+inputs:
+  workflow_id:
+    description: >
+      Stable identifier for the calling workflow (e.g. 'build-hna-data').
+      Used as the issue-title marker so multiple workflows can coexist.
+    required: true
+  outcome:
+    description: >
+      Overall job/workflow outcome to react to. Pass `${{ job.status }}`
+      or `${{ needs.<id>.result }}`. The action only acts on 'success'
+      and 'failure'; other values (cancelled, skipped) are no-ops.
+    required: true
+  slack_webhook:
+    description: >
+      Optional Slack incoming-webhook URL. If empty, Slack notification
+      is skipped silently. Pass `${{ secrets.SLACK_WEBHOOK_URL }}` —
+      action treats an unset secret as empty.
+    required: false
+    default: ''
+  github_token:
+    description: >
+      Token for issue open/update/close. Defaults to `${{ github.token }}`;
+      override if you need a PAT with broader repo access.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Find existing tracking issue
+      id: find
+      shell: bash
+      env:
+        GH_TOKEN:   ${{ inputs.github_token }}
+        MARKER:     '[workflow-fail:${{ inputs.workflow_id }}]'
+      run: |
+        # Scan up to 100 open issues for the marker. Client-side jq
+        # filter via env.MARKER handles the square brackets cleanly.
+        number=$(gh issue list --state open --limit 100 --json number,title \
+          --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
+          2>/dev/null || true)
+        if [ -z "${number}" ]; then number=0; fi
+        echo "number=${number}" >> "$GITHUB_OUTPUT"
+        echo "marker=${MARKER}" >> "$GITHUB_OUTPUT"
+
+    - name: Open or update tracking issue on failure
+      if: inputs.outcome == 'failure'
+      shell: bash
+      env:
+        GH_TOKEN:    ${{ inputs.github_token }}
+        RUN_URL:     ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        WORKFLOW_ID: ${{ inputs.workflow_id }}
+      run: |
+        set -euo pipefail
+        existing="${{ steps.find.outputs.number }}"
+        marker="${{ steps.find.outputs.marker }}"
+        title="⚠️ ${marker} ${WORKFLOW_ID} workflow failing"
+        body=$(cat <<EOF
+        **Workflow**: \`${WORKFLOW_ID}\`
+        **Failed run**: ${RUN_URL}
+        **Triggered by**: ${{ github.event_name }} on \`${{ github.ref_name }}\`
+
+        This issue was opened automatically by the \`notify-workflow-outcome\`
+        composite action. It will be commented on each time the workflow fails,
+        and closed automatically on the next green run.
+
+        **What to do**
+        1. Open the failed run (link above), inspect the failing step
+        2. Common causes: upstream API key expired, rate-limited request,
+           schema change, or partial-write interrupted by timeout
+        3. If the fix requires a code change, open a PR referencing this issue
+        4. If the failure is transient, a manual re-run will close this issue
+           on success
+
+        See \`docs/WORKFLOW_TROUBLESHOOTING.md\` for per-workflow runbooks
+        (where available).
+        EOF
+        )
+        if [ "${existing}" != "0" ]; then
+          echo "Commenting on existing issue #${existing}"
+          gh issue comment "${existing}" --body "$body"
+        else
+          echo "Opening new tracking issue"
+          gh issue create --title "${title}" --body "$body"
+        fi
+
+    - name: Close tracking issue on recovery
+      if: inputs.outcome == 'success' && steps.find.outputs.number != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        RUN_URL:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        number="${{ steps.find.outputs.number }}"
+        comment="✅ \`${{ inputs.workflow_id }}\` workflow recovered ([run](${RUN_URL})). Auto-closing."
+        gh issue close "${number}" --comment "$comment"
+
+    - name: Post to Slack (optional)
+      if: inputs.outcome == 'failure' && inputs.slack_webhook != ''
+      shell: bash
+      env:
+        WEBHOOK:     ${{ inputs.slack_webhook }}
+        RUN_URL:     ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        WORKFLOW_ID: ${{ inputs.workflow_id }}
+      run: |
+        # Minimal Slack Block Kit payload — keeps the webhook lightweight
+        # and avoids pulling in a full SDK. If the webhook POST fails
+        # (e.g. Slack's endpoint rate-limits us), we print a warning and
+        # do NOT fail the workflow further — the GitHub tracking issue
+        # is the primary signal path; Slack is additive.
+        payload=$(jq -n \
+          --arg wf "${WORKFLOW_ID}" \
+          --arg url "${RUN_URL}" \
+          '{
+            text: ("⚠️ Workflow failed: " + $wf),
+            blocks: [
+              { type: "section", text: { type: "mrkdwn",
+                text: ("*⚠️ Workflow failed:* `" + $wf + "`\n<" + $url + "|View run>") } }
+            ]
+          }')
+        if ! curl -fsS -X POST -H 'Content-Type: application/json' \
+               --data "$payload" "$WEBHOOK" > /dev/null 2>&1; then
+          echo "::warning::Slack webhook POST failed — tracking issue is the primary signal; not re-raising."
+        fi

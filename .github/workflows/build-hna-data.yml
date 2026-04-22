@@ -144,3 +144,11 @@ jobs:
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push
+
+      - name: Notify on failure / close tracker on recovery
+        if: always()
+        uses: ./.github/actions/notify-workflow-outcome
+        with:
+          workflow_id: build-hna-data
+          outcome: ${{ job.status }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
