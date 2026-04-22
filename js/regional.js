@@ -1,6 +1,12 @@
 // Regional Analysis Page JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
+    // The regional page migrated from a Leaflet tile map to a D3 SVG choropleth
+    // (#us-map). This module is kept for its chart/table bindings but the
+    // Leaflet init needs a guard — when regional.html doesn't define #map,
+    // L.map('map') throws "Map container not found" to the console.
+    if (!document.getElementById('map')) return;
+
     const colors = {
         primary: '#1a3a52',
         primaryLight: '#2d5573',
@@ -8,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         success: '#27ae60',
         info: '#3498db'
     };
-    
+
     // Initialize Leaflet map
     const map = L.map('map').setView([39.8283, -98.5795], 4);
     if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.8283, -98.5795], zoom: 4 }); }
