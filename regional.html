@@ -291,7 +291,13 @@
                     .on('mouseleave', hideTooltip);
                 
                 svg.selectAll('text.state-label')
-                    .data(states.features)
+                    // Filter features with non-finite centroids (outside the
+                    // Albers USA projection) — otherwise Chrome logs a SVG
+                    // attribute exception for each NaN translate.
+                    .data(states.features.filter(d => {
+                        const c = path.centroid(d);
+                        return Number.isFinite(c[0]) && Number.isFinite(c[1]);
+                    }))
                     .enter()
                     .append('text')
                     .attr('class', 'state-label')
