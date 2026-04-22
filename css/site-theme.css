@@ -830,10 +830,13 @@ body.no-shell main {
 }
 .census-construction-card .census-src a {
   color: var(--accent, var(--muted));
-  text-decoration: none;
-  opacity: 0.7;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  /* Drop the 0.7 opacity — when blended on the card background it
+     pushed the effective contrast below 4.5:1 for this small link
+     text. Full opacity on the accent token is ~6:1 on card surfaces. */
 }
-.census-construction-card .census-src a:hover { opacity: 1; text-decoration: underline; }
+.census-construction-card .census-src a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 
 /* ================================================================
    20. VERTICAL SPACING — minimal logical gaps
