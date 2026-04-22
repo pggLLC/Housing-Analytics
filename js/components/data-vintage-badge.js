@@ -66,6 +66,17 @@
 
   /**
    * Render the badge into `target`. If `target` already has one, replace it.
+   *
+   * Uses DOM APIs (createElement + textContent + setAttribute) rather
+   * than innerHTML concatenation so attribute-derived fields (info.label,
+   * info.source, info.updated) cannot reach an HTML-parsing sink. CodeQL
+   * flagged the previous innerHTML path as js/xss-through-dom; current
+   * exploitation would require control of the data-vintage-label
+   * attribute or the source JSON file (neither a realistic vector in
+   * this repo today), but building nodes preemptively removes the
+   * pattern entirely — and stops the rule from flagging every future
+   * edit to this file.
+   *
    * @param {HTMLElement} target
    * @param {{ updated: string, sla: number, source: string, label: string }} info
    */
@@ -82,19 +93,38 @@
     badge.setAttribute('role', isStale ? 'status' : 'note');
     badge.setAttribute('aria-live', isStale ? 'polite' : 'off');
 
-    var icon = isStale ? '\u26A0' : '\u25CF';  // warning triangle vs filled circle
-    var prefix = isStale ? 'Stale data &mdash; ' : (info.label || 'Data as of') + ' ';
-    var dateText = formatIsoDate(info.updated);
-    var ageText  = formatAge(ageDays);
+    var icon      = isStale ? '\u26A0' : '\u25CF';   // warning triangle vs filled circle
+    var labelText = isStale ? 'Stale data \u2014 ' : (info.label || 'Data as of') + ' ';
+    var dateText  = formatIsoDate(info.updated);
+    var ageText   = formatAge(ageDays);
 
-    badge.innerHTML =
-      '<span class="data-vintage-icon" aria-hidden="true">' + icon + '</span>' +
-      '<span class="data-vintage-text">' +
-        prefix + '<strong>' + dateText + '</strong> <span class="data-vintage-age">(' + ageText + ')</span>' +
-      '</span>' +
-      '<span class="data-vintage-source" title="Source field: ' + info.source + '">' +
-        (isStale ? ' &middot; refresh cadence exceeded' : '') +
-      '</span>';
+    var iconSpan = document.createElement('span');
+    iconSpan.className = 'data-vintage-icon';
+    iconSpan.setAttribute('aria-hidden', 'true');
+    iconSpan.textContent = icon;
+
+    var textSpan = document.createElement('span');
+    textSpan.className = 'data-vintage-text';
+    textSpan.appendChild(document.createTextNode(labelText));
+
+    var dateStrong = document.createElement('strong');
+    dateStrong.textContent = dateText;
+    textSpan.appendChild(dateStrong);
+    textSpan.appendChild(document.createTextNode(' '));
+
+    var ageSpan = document.createElement('span');
+    ageSpan.className = 'data-vintage-age';
+    ageSpan.textContent = '(' + ageText + ')';
+    textSpan.appendChild(ageSpan);
+
+    var srcSpan = document.createElement('span');
+    srcSpan.className = 'data-vintage-source';
+    srcSpan.setAttribute('title', 'Source field: ' + info.source);
+    if (isStale) srcSpan.textContent = ' \u00B7 refresh cadence exceeded';
+
+    badge.appendChild(iconSpan);
+    badge.appendChild(textSpan);
+    badge.appendChild(srcSpan);
 
     // If the target itself is a flow element (heading, hero, section),
     // append the badge. If it's a chart-card or stat container, prepend so
