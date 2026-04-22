@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:00:19.998Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:10:10.623Z. Do not edit by hand.
 
 ---
 
@@ -32,13 +32,13 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 29.8 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.3 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 132.8 KB |
-| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 18.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 134.2 KB |
+| `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.4 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 76.7 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 77.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
