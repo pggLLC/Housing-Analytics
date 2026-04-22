@@ -1,0 +1,96 @@
+name: A11y Audit (axe-core)
+
+# WCAG 2.1 AA audit via axe-core. Complements accessibility.yml
+# (CSS contrast-token linting) with runtime DOM inspection — different
+# coverage, same epic (#447 / #658).
+#
+# Design posture: the audit runs, commits any drift to the baseline
+# report, and surfaces summary counts in the job summary. It does NOT
+# hard-fail on finding violations today — the audit is a reporter
+# until the baseline is driven to zero. Regressions show up as diffs
+# on docs/reports/a11y-baseline-2026.md in subsequent PR runs.
+
+on:
+  schedule:
+    # Weekly on Tuesday 15:00 UTC = 09:00 America/Denver DST. Offset
+    # from the daily freshness/sentinels checks so the a11y run's
+    # longer runtime (Playwright launch + 14 pages) doesn't overlap.
+    - cron: '0 15 * * 2'
+  pull_request:
+    paths:
+      - 'css/**'
+      - '*.html'
+      - 'js/**'
+      - 'scripts/audit/a11y-audit.mjs'
+      - '.github/workflows/a11y-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run axe-core audit
+        id: audit
+        run: node scripts/audit/a11y-audit.mjs
+
+      - name: Post summary
+        if: always()
+        run: |
+          if [ -f data/reports/a11y-baseline.json ]; then
+            summary=$(node -e '
+              const d = require(process.cwd() + "/data/reports/a11y-baseline.json");
+              const s = d.summary || {};
+              const bi = s.byImpact || {};
+              console.log("pages=" + (s.pageCount||0));
+              console.log("total=" + (s.totalNodes||0));
+              console.log("critical=" + (bi.critical||0));
+              console.log("serious="  + (bi.serious ||0));
+              console.log("moderate=" + (bi.moderate||0));
+              console.log("minor="    + (bi.minor   ||0));
+            ')
+            eval "$summary"
+            {
+              echo "## A11y audit summary"
+              echo ""
+              echo "| Impact | Elements |"
+              echo "|---|---:|"
+              echo "| critical | $critical |"
+              echo "| serious  | $serious  |"
+              echo "| moderate | $moderate |"
+              echo "| minor    | $minor    |"
+              echo "| **Total** | **$total** |"
+              echo ""
+              echo "Audited **$pages page(s)**. Full report: \`docs/reports/a11y-baseline-2026.md\`."
+            } >> "$GITHUB_STEP_SUMMARY"
+            if [ "$critical" -gt 0 ] 2>/dev/null; then
+              echo "::warning::$critical critical a11y violation element(s) found. See baseline report."
+            fi
+          fi
+
+      - name: Upload baseline artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-baseline-${{ github.run_id }}
+          path: |
+            data/reports/a11y-baseline.json
+            docs/reports/a11y-baseline-2026.md
+          retention-days: 30
