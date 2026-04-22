@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:27:48.250Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:31:16.424Z. Do not edit by hand.
 
 ---
 
@@ -44,7 +44,7 @@
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 25.6 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 25.7 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
@@ -940,7 +940,7 @@
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
-| `data/reports/a11y-baseline.json` | 28.1 KB | ✅ | — |
+| `data/reports/a11y-baseline.json` | 13.4 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
 ---
