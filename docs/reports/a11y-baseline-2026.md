@@ -1,6 +1,6 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-22T11:42:58.708Z_
+_Generated: 2026-04-22T13:36:12.351Z_
 
 Audited 14 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
@@ -9,16 +9,16 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 | Impact | Affected element count |
 |---|---:|
 | critical | 0 |
-| serious | 16 |
+| serious | 19 |
 | moderate | 0 |
 | minor | 0 |
-| **Total** | **16** |
+| **Total** | **19** |
 
 ## Summary by rule
 
 | Rule | Impact | Elements | Pages | Help |
 |---|---|---:|---:|---|
-| `color-contrast` | serious | 16 | 11 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 19 | 10 | Elements must meet minimum color contrast ratio thresholds |
 
 ## Per-page detail
 
@@ -42,35 +42,35 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **32**
 - Incomplete (needs manual check): **2**
-- Violations: **1** (1 element(s))
-
-| Rule | Impact | Elements | Help |
-|---|---|---:|---|
-| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
-
-### economic-dashboard.html
-
-- Passing rules: **25**
-- Incomplete (needs manual check): **2**
 - Violations: **1** (2 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
 | `color-contrast` | serious | 2 | Elements must meet minimum color contrast ratio thresholds |
 
-### lihtc-allocations.html
+### economic-dashboard.html
 
-- Passing rules: **28**
-- Incomplete (needs manual check): **3**
-- Violations: **1** (1 element(s))
+- Passing rules: **27**
+- Incomplete (needs manual check): **2**
+- Violations: **1** (3 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
-| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 3 | Elements must meet minimum color contrast ratio thresholds |
+
+### lihtc-allocations.html
+
+- Passing rules: **30**
+- Incomplete (needs manual check): **3**
+- Violations: **1** (3 element(s))
+
+| Rule | Impact | Elements | Help |
+|---|---|---:|---|
+| `color-contrast` | serious | 3 | Elements must meet minimum color contrast ratio thresholds |
 
 ### colorado-deep-dive.html
 
-- Passing rules: **31**
+- Passing rules: **34**
 - Incomplete (needs manual check): **3**
 - Violations: **0** (0 element(s))
 
@@ -98,11 +98,7 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **27**
 - Incomplete (needs manual check): **1**
-- Violations: **1** (1 element(s))
-
-| Rule | Impact | Elements | Help |
-|---|---|---:|---|
-| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
+- Violations: **0** (0 element(s))
 
 ### market-analysis.html
 

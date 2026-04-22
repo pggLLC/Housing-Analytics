@@ -35,6 +35,7 @@ Reference documentation for each of the four analysis modules. Each guide covers
 
 See also:
 - [`docs/DATA_QUALITY.md`](docs/DATA_QUALITY.md) — data-pipeline freshness, corruption, schema, and workflow-failure signals
+- [`docs/A11Y.md`](docs/A11Y.md) — three-layer accessibility testing: token lint, site-wide contrast, rendered axe-core
 - [`docs/api/`](docs/api/) — auto-generated JSDoc API reference
 - [`docs/reports/test-coverage.md`](docs/reports/test-coverage.md) — weekly test-assertion coverage report
 - [`docs/reports/a11y-baseline-2026.md`](docs/reports/a11y-baseline-2026.md) — WCAG 2.1 AA baseline

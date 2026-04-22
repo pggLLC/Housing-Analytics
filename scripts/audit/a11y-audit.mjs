@@ -76,15 +76,40 @@ async function locateAxeScript() {
 }
 
 async function auditPage(browser, pagePath, axeScript) {
-  const context = await browser.newContext();
-  const page    = await context.newPage();
+  // A fresh incognito-style context for each page — prevents any cross-page
+  // state bleed. Combined with the cache-busting query-param below, this
+  // eliminates the false-positive/false-negative drift we saw earlier
+  // (batch-run flagged elements that single-page runs showed passing).
+  const context = await browser.newContext({
+    serviceWorkers: 'block',
+    // Playwright respects browser's HTTP cache by default; the one knob
+    // we can tweak without version-specific Chromium flags is to disable
+    // the context-level cache via a request interceptor (see below).
+  });
+
+  // Intercept every request on this context and strip cache-friendly
+  // headers, then append cache-busting no-store headers. Belt + braces
+  // with the query-string busting on page.goto().
+  await context.route('**/*', route => {
+    const headers = {
+      ...route.request().headers(),
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    };
+    route.continue({ headers });
+  });
+
+  const page = await context.newPage();
 
   // Silence page console errors during audit — many of our pages fetch data
   // from relative paths that 404 under file://, which is not an a11y issue.
   page.on('pageerror', () => {});
   page.on('console',   () => {});
 
-  const fileUrl = pathToFileURL(path.join(ROOT, pagePath)).href;
+  // Cache-bust the URL so Chromium never reuses a previously-cached response.
+  // Query strings are harmless on file:// — the renderer loads the same file
+  // but Chromium's internal cache keys on the full URL.
+  const fileUrl = pathToFileURL(path.join(ROOT, pagePath)).href + '?audit=' + Date.now();
   try {
     await page.goto(fileUrl, { waitUntil: 'load', timeout: 15_000 });
   } catch (err) {
