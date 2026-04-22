@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T19:22:29.932Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T22:52:54.747Z. Do not edit by hand.
 
 ---
 
@@ -24,7 +24,7 @@
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.7 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
-| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 21.9 KB |
+| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.4 KB |
@@ -44,7 +44,7 @@
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 25.7 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 26.1 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
