@@ -416,7 +416,14 @@ main {
   cursor: pointer;
   color: var(--muted);
   letter-spacing: .02em;
-  transition: all .15s;
+  /* Transition scoped to border-color + box-shadow. color/background
+     were removed because axe-core's whole-page audit occasionally
+     observed this button mid-transition (between unpressed and
+     pressed states), capturing a failing foreground/background pair
+     that doesn't represent either stable state. Single-element axe
+     runs always passed — the flake was caused by axe-core sampling
+     an interpolated color. */
+  transition: border-color .15s, box-shadow .15s;
 }
 
 .audience-toggle__btn:hover {
