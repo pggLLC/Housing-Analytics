@@ -83,18 +83,37 @@
     badge.setAttribute('aria-live', isStale ? 'polite' : 'off');
 
     var icon = isStale ? '\u26A0' : '\u25CF';  // warning triangle vs filled circle
-    var prefix = isStale ? 'Stale data &mdash; ' : (info.label || 'Data as of') + ' ';
+    var prefix = isStale ? 'Stale data — ' : (info.label || 'Data as of') + ' ';
     var dateText = formatIsoDate(info.updated);
     var ageText  = formatAge(ageDays);
 
-    badge.innerHTML =
-      '<span class="data-vintage-icon" aria-hidden="true">' + icon + '</span>' +
-      '<span class="data-vintage-text">' +
-        prefix + '<strong>' + dateText + '</strong> <span class="data-vintage-age">(' + ageText + ')</span>' +
-      '</span>' +
-      '<span class="data-vintage-source" title="Source field: ' + info.source + '">' +
-        (isStale ? ' &middot; refresh cadence exceeded' : '') +
-      '</span>';
+    var iconEl = document.createElement('span');
+    iconEl.className = 'data-vintage-icon';
+    iconEl.setAttribute('aria-hidden', 'true');
+    iconEl.textContent = icon;
+
+    var textEl = document.createElement('span');
+    textEl.className = 'data-vintage-text';
+    textEl.appendChild(document.createTextNode(prefix));
+
+    var strongEl = document.createElement('strong');
+    strongEl.textContent = dateText;
+    textEl.appendChild(strongEl);
+    textEl.appendChild(document.createTextNode(' '));
+
+    var ageEl = document.createElement('span');
+    ageEl.className = 'data-vintage-age';
+    ageEl.textContent = '(' + ageText + ')';
+    textEl.appendChild(ageEl);
+
+    var sourceEl = document.createElement('span');
+    sourceEl.className = 'data-vintage-source';
+    sourceEl.title = 'Source field: ' + info.source;
+    sourceEl.textContent = isStale ? ' · refresh cadence exceeded' : '';
+
+    badge.appendChild(iconEl);
+    badge.appendChild(textEl);
+    badge.appendChild(sourceEl);
 
     // If the target itself is a flow element (heading, hero, section),
     // append the badge. If it's a chart-card or stat container, prepend so
