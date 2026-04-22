@@ -425,9 +425,14 @@ main {
 }
 
 .audience-toggle__btn[aria-pressed="true"] {
-  background: var(--accent);
+  /* --accent (#096e65) on white is ~6:1, which passes AA for normal
+     text but axe flagged this at 0.72rem bold — computed contrast
+     varies slightly by font rendering. A darker shade of the accent
+     for the pressed state gives us a safe ~9:1 margin without
+     touching the brand accent token. */
+  background: #054a42;
   color: #fff;
-  border-color: var(--accent);
+  border-color: #054a42;
 }
 
 @media (max-width: 640px) {

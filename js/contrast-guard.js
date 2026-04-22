@@ -42,15 +42,26 @@
     return rootBg;
   }
 
+  // Pick whichever text color produces the higher actual contrast ratio
+  // against the specific background. The old approach used a
+  // luminance-threshold of 0.35, which misfired on mid-tone backgrounds
+  // (e.g. #888 at luminance ~0.33 → picked light #e5e7eb text, yielding
+  // ~1.8:1 contrast — a *created* WCAG failure). Computing both
+  // candidate contrasts and returning the winner is correct at every
+  // background luminance.
+  var TEXT_DARK   = { r: 0x0f, g: 0x17, b: 0x2a, a: 1 };
+  var TEXT_LIGHT  = { r: 0xe5, g: 0xe7, b: 0xeb, a: 1 };
+  var CARD_DARK   = { r: 0x0f, g: 0x17, b: 0x2a, a: 1 };
+  var CARD_LIGHT  = { r: 0xff, g: 0xff, b: 0xff, a: 1 };
+
   function preferredTextForBg(bgRgb) {
-    // If background is dark, pick light text; else pick dark text.
-    return luminance(bgRgb) < 0.35
-      ? 'var(--text-d, #e5e7eb)'
-      : 'var(--text-l, #0f172a)';
+    return contrastRatio(TEXT_DARK, bgRgb) >= contrastRatio(TEXT_LIGHT, bgRgb)
+      ? 'var(--text-l, #0f172a)'
+      : 'var(--text-d, #e5e7eb)';
   }
 
   function preferredCardForBg(bgRgb) {
-    return luminance(bgRgb) < 0.35
+    return contrastRatio(CARD_DARK, bgRgb) >= contrastRatio(CARD_LIGHT, bgRgb)
       ? 'var(--card-d, #0f172a)'
       : 'var(--card-l, #ffffff)';
   }

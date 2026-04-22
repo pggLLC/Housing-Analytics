@@ -114,7 +114,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  /* Darker than --accent (#096e65 → #054a42) so the tiny uppercase
+     text clears 4.5:1 against --accent-dim's tinted backdrop —
+     --accent alone was ~5.8:1 which axe flagged at this font size. */
+  color: #054a42;
   background: var(--accent-dim);
   border-radius: 99px;
   padding: 0.22rem 0.75rem;
