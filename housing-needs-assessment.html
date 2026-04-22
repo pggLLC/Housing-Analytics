@@ -26,6 +26,7 @@
   <script src="js/workflow-state-api.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/data-vintage-badge.js" defer></script>
   <script src="js/components/analytics.js" data-step="2" data-step-label="housing_needs_assessment"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -136,6 +137,10 @@
         <div id="hnaBanner" class="banner"></div>
         <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
         <small id="hnaDataTimestamp" class="data-timestamp"></small>
+        <!-- Data vintage badge — auto-attached by js/components/data-vintage-badge.js.
+             Reads metadata.generatedAt from the ranking-index (HNA's primary
+             data artifact) and switches to a stale banner past the 10-day SLA. -->
+        <div data-vintage-source="data/hna/ranking-index.json" data-vintage-sla-days="10"></div>
         <div class="hna-controls" style="margin-top:var(--sp3);">
           <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
           <select id="geoType">
@@ -372,7 +377,7 @@
       </div>
 
       <div class="chart-card span-6">
-        <h2>Cost burden by AMI tier (HUD CHAS)</h2>
+        <h2>Cost burden by AMI tier (HUD CHAS)<span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span></h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).</p>
         <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://www.huduser.gov/portal/datasets/cp.html"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
@@ -2260,6 +2265,25 @@
         { heading: 'HNA Concepts' });
     }
   });
+}());
+</script>
+
+<!-- Place-level CHAS approximation hint — toggle the "(county-approx)"
+     pill next to the CHAS AMI tier header when a place or CDP is selected.
+     CHAS data only exists at county granularity; place selections show
+     their containing county's breakdown. Twin of the detail-panel
+     disclaimer shipped in #647 for hna-comparative-analysis.html. -->
+<script>
+(function () {
+  var hint   = document.getElementById('chasApproxHint');
+  var geoSel = document.getElementById('geoType');
+  if (!hint || !geoSel) return;
+  function sync() {
+    var v = geoSel.value;
+    hint.hidden = !(v === 'place' || v === 'cdp');
+  }
+  geoSel.addEventListener('change', sync);
+  sync();
 }());
 </script>
 

@@ -25,6 +25,7 @@
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/components/data-vintage-badge.js"></script>
   <script defer src="js/mobile-menu.js"></script>
 </head>
 <body>
@@ -56,6 +57,13 @@
             Not sure where to start? Explore all Colorado jurisdictions →
           </a>
         </div>
+        <!-- Data vintage badge — shows when the statewide ranking data was last
+             rebuilt. Switches to a stale-warning pill once past the 10-day SLA
+             (matches build-hna-data.yml cadence + data-freshness-check.yml). -->
+        <div data-vintage-source="data/hna/ranking-index.json"
+             data-vintage-sla-days="10"
+             data-vintage-label="Colorado housing data as of"
+             style="margin-top:var(--sp3);"></div>
       </div>
     </section>
 

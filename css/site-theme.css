@@ -400,6 +400,54 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .chart-source a { color: var(--faint); text-decoration: none; }
 .chart-source a:hover { text-decoration: underline; }
 
+/* Data vintage badge — renders age + optional stale-data warning.
+   Auto-attached by js/components/data-vintage-badge.js to any element
+   marked with data-vintage-source="path/to/file.json". Signal agrees
+   with the CI freshness check (same timestamp-probe order). */
+.data-vintage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.65rem;
+  margin: 0.35rem 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--muted, #64748b);
+  background: var(--bg2, #f8fafc);
+  border: 1px solid var(--border, #cbd5e1);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.data-vintage-badge .data-vintage-icon { font-size: 0.65rem; opacity: 0.75; }
+.data-vintage-badge .data-vintage-age { color: var(--faint, #94a3b8); }
+.data-vintage-badge--stale {
+  color: #92400e;
+  background: rgba(217, 119, 6, 0.08);
+  border-color: rgba(217, 119, 6, 0.5);
+  white-space: normal;
+}
+.data-vintage-badge--stale .data-vintage-icon { opacity: 1; color: #d97706; }
+.data-vintage-badge--stale .data-vintage-age { color: #92400e; }
+
+/* Place-approximation hint on HNA stats — a compact pill that sits next
+   to a stat header to warn that the number is downscaled from a county
+   source. Twin of the comparative-analysis panel disclaimer shipped in
+   #647; applied to housing-needs-assessment.html's CHAS / AMI tier
+   stats when a place/CDP is selected. */
+.data-approx-hint {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #92400e;
+  background: rgba(217, 119, 6, 0.1);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  border-radius: 999px;
+  vertical-align: middle;
+  cursor: help;
+}
+
 /* Explainer tooltip — zero-JS inline methodology popover.
    Used for stat cards where a one-line label can't fully describe the
    methodology, data scope, or limitations. Built on native <details>
