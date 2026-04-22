@@ -1,47 +1,31 @@
 {
-  "generatedAt": "2026-04-22T04:25:11.586Z",
+  "generatedAt": "2026-04-22T04:36:03.140Z",
   "summary": {
     "byImpact": {
       "critical": 0,
-      "serious": 20,
+      "serious": 17,
       "moderate": 0,
       "minor": 0
     },
     "byRule": {
-      "aria-prohibited-attr": {
-        "impact": "serious",
-        "help": "Elements must only use permitted ARIA attributes",
-        "nodeCount": 1,
-        "pages": [
-          "housing-needs-assessment.html"
-        ]
-      },
       "color-contrast": {
         "impact": "serious",
         "help": "Elements must meet minimum color contrast ratio thresholds",
-        "nodeCount": 16,
+        "nodeCount": 17,
         "pages": [
           "housing-needs-assessment.html",
           "hna-comparative-analysis.html",
           "economic-dashboard.html",
+          "dashboard.html",
           "regional.html",
           "market-analysis.html",
           "deal-calculator.html",
           "about.html",
           "insights.html"
         ]
-      },
-      "link-in-text-block": {
-        "impact": "serious",
-        "help": "Links must be distinguishable without relying on color",
-        "nodeCount": 3,
-        "pages": [
-          "hna-comparative-analysis.html",
-          "colorado-deep-dive.html"
-        ]
       }
     },
-    "totalNodes": 20,
+    "totalNodes": 17,
     "pageCount": 14
   },
   "results": [
@@ -55,29 +39,6 @@
     {
       "page": "housing-needs-assessment.html",
       "violations": [
-        {
-          "id": "aria-prohibited-attr",
-          "impact": "serious",
-          "description": "Ensure ARIA attributes are not prohibited for an element's role",
-          "help": "Elements must only use permitted ARIA attributes",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-prohibited-attr?application=axeAPI",
-          "tags": [
-            "cat.aria",
-            "wcag2a",
-            "wcag412",
-            "EN-301-549",
-            "EN-9.4.1.2",
-            "RGAAv4",
-            "RGAA-7.1.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "#hnaMap"
-            ],
-            "html": "<div id=\"hnaMap\" aria-label=\"Boundary map\"></div>"
-          }
-        },
         {
           "id": "color-contrast",
           "impact": "serious",
@@ -137,31 +98,6 @@
             ],
             "html": "<a href=\"select-jurisdiction.html\" class=\"hca-explore-banner__link\">I already know my jurisdiction →</a>"
           }
-        },
-        {
-          "id": "link-in-text-block",
-          "impact": "serious",
-          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
-          "help": "Links must be distinguishable without relying on color",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/link-in-text-block?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2a",
-            "wcag141",
-            "TTv5",
-            "TT13.a",
-            "EN-301-549",
-            "EN-9.1.4.1",
-            "RGAAv4",
-            "RGAA-10.6.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              ".hca-hero-sub > a[href=\"housing-needs-assessment.html\"]"
-            ],
-            "html": "<a href=\"housing-needs-assessment.html\">Housing Needs Assessment</a>"
-          }
         }
       ],
       "passCount": 32,
@@ -205,39 +141,13 @@
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 30,
-      "incompleteCount": 2,
-      "inapplicable": 31
+      "passCount": 28,
+      "incompleteCount": 3,
+      "inapplicable": 32
     },
     {
       "page": "colorado-deep-dive.html",
-      "violations": [
-        {
-          "id": "link-in-text-block",
-          "impact": "serious",
-          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
-          "help": "Links must be distinguishable without relying on color",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/link-in-text-block?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2a",
-            "wcag141",
-            "TTv5",
-            "TT13.a",
-            "EN-301-549",
-            "EN-9.1.4.1",
-            "RGAAv4",
-            "RGAA-10.6.1"
-          ],
-          "nodeCount": 2,
-          "sampleNode": {
-            "target": [
-              ".chart-card[data-hover-init=\"1\"]:nth-child(2) > .chart-source > a[target=\"_blank\"][rel=\"noopener\"]:nth-child(1)"
-            ],
-            "html": "<a href=\"https://www.huduser.gov/portal/datasets/il.html\" target=\"_blank\" rel=\"noopener\">HUD FY2025 Income Limits</a>"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 31,
       "incompleteCount": 3,
       "inapplicable": 29
@@ -251,7 +161,34 @@
     },
     {
       "page": "dashboard.html",
-      "violations": [],
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "button[data-audience=\"developer\"]"
+            ],
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
+          }
+        }
+      ],
       "passCount": 27,
       "incompleteCount": 1,
       "inapplicable": 34

@@ -1,6 +1,6 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-22T04:25:11.588Z_
+_Generated: 2026-04-22T04:36:03.145Z_
 
 Audited 14 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
@@ -9,18 +9,16 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 | Impact | Affected element count |
 |---|---:|
 | critical | 0 |
-| serious | 20 |
+| serious | 17 |
 | moderate | 0 |
 | minor | 0 |
-| **Total** | **20** |
+| **Total** | **17** |
 
 ## Summary by rule
 
 | Rule | Impact | Elements | Pages | Help |
 |---|---|---:|---:|---|
-| `color-contrast` | serious | 16 | 8 | Elements must meet minimum color contrast ratio thresholds |
-| `link-in-text-block` | serious | 3 | 2 | Links must be distinguishable without relying on color |
-| `aria-prohibited-attr` | serious | 1 | 1 | Elements must only use permitted ARIA attributes |
+| `color-contrast` | serious | 17 | 9 | Elements must meet minimum color contrast ratio thresholds |
 
 ## Per-page detail
 
@@ -34,23 +32,21 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **29**
 - Incomplete (needs manual check): **2**
-- Violations: **2** (5 element(s))
+- Violations: **1** (4 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
 | `color-contrast` | serious | 4 | Elements must meet minimum color contrast ratio thresholds |
-| `aria-prohibited-attr` | serious | 1 | Elements must only use permitted ARIA attributes |
 
 ### hna-comparative-analysis.html
 
 - Passing rules: **32**
 - Incomplete (needs manual check): **2**
-- Violations: **2** (2 element(s))
+- Violations: **1** (1 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
 | `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
-| `link-in-text-block` | serious | 1 | Links must be distinguishable without relying on color |
 
 ### economic-dashboard.html
 
@@ -64,19 +60,15 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### lihtc-allocations.html
 
-- Passing rules: **30**
-- Incomplete (needs manual check): **2**
+- Passing rules: **28**
+- Incomplete (needs manual check): **3**
 - Violations: **0** (0 element(s))
 
 ### colorado-deep-dive.html
 
 - Passing rules: **31**
 - Incomplete (needs manual check): **3**
-- Violations: **1** (2 element(s))
-
-| Rule | Impact | Elements | Help |
-|---|---|---:|---|
-| `link-in-text-block` | serious | 2 | Links must be distinguishable without relying on color |
+- Violations: **0** (0 element(s))
 
 ### lihtc-guide-for-stakeholders.html
 
@@ -88,7 +80,11 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **27**
 - Incomplete (needs manual check): **1**
-- Violations: **0** (0 element(s))
+- Violations: **1** (1 element(s))
+
+| Rule | Impact | Elements | Help |
+|---|---|---:|---|
+| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
 
 ### regional.html
 
