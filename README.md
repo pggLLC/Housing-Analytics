@@ -24,6 +24,21 @@ For the current prioritized work queue, see:
 
 When choosing the next issue, start with the **P0** and **P1** items listed there, then proceed in the documented execution order.
 
+## Feature guides
+
+Reference documentation for each of the four analysis modules. Each guide covers what the module does, its inputs, methodology with code anchors, output interpretation, and known limitations.
+
+- [**Deal Predictor**](docs/guides/deal-predictor.md) — recommends 9% / 4% / Either execution with plain-English rationale
+- [**Operating Pro Forma**](docs/guides/pro-forma.md) — 15-year NOI / DSCR / cash-flow projection
+- [**CHFA QAP Simulator**](docs/guides/qap-simulator.md) — competitiveness scoring against 2015–2025 patterns
+- [**Primary Market Area (PMA) Analysis**](docs/guides/pma-analysis.md) — site-level composite scoring
+
+See also:
+- [`docs/DATA_QUALITY.md`](docs/DATA_QUALITY.md) — data-pipeline freshness, corruption, schema, and workflow-failure signals
+- [`docs/api/`](docs/api/) — auto-generated JSDoc API reference
+- [`docs/reports/test-coverage.md`](docs/reports/test-coverage.md) — weekly test-assertion coverage report
+- [`docs/reports/a11y-baseline-2026.md`](docs/reports/a11y-baseline-2026.md) — WCAG 2.1 AA baseline
+
 ## Live Pages (38 total)
 
 | Page | Description |
