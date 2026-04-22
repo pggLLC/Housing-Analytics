@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-22T04:36:03.140Z",
+  "generatedAt": "2026-04-22T11:42:58.708Z",
   "summary": {
     "byImpact": {
       "critical": 0,
-      "serious": 17,
+      "serious": 16,
       "moderate": 0,
       "minor": 0
     },
@@ -11,21 +11,23 @@
       "color-contrast": {
         "impact": "serious",
         "help": "Elements must meet minimum color contrast ratio thresholds",
-        "nodeCount": 17,
+        "nodeCount": 16,
         "pages": [
           "housing-needs-assessment.html",
           "hna-comparative-analysis.html",
           "economic-dashboard.html",
+          "lihtc-allocations.html",
+          "lihtc-guide-for-stakeholders.html",
           "dashboard.html",
           "regional.html",
-          "market-analysis.html",
           "deal-calculator.html",
+          "housing-legislation-2026.html",
           "about.html",
           "insights.html"
         ]
       }
     },
-    "totalNodes": 17,
+    "totalNodes": 16,
     "pageCount": 14
   },
   "results": [
@@ -57,12 +59,12 @@
             "RGAAv4",
             "RGAA-3.2.1"
           ],
-          "nodeCount": 4,
+          "nodeCount": 3,
           "sampleNode": {
             "target": [
-              ".hna-waiting-dashes"
+              ".proj-view-label:nth-child(1) > span"
             ],
-            "html": "<div class=\"hna-waiting-dashes\" aria-hidden=\"true\">— — — — —</div>"
+            "html": "<span>📈 Population</span>"
           }
         }
       ],
@@ -125,12 +127,12 @@
             "RGAAv4",
             "RGAA-3.2.1"
           ],
-          "nodeCount": 5,
+          "nodeCount": 2,
           "sampleNode": {
             "target": [
-              ".census-construction-card.card:nth-child(1) > .census-src > a[target=\"_blank\"][rel=\"noopener\"]"
+              "button[data-audience=\"developer\"]"
             ],
-            "html": "<a href=\"https://fred.stlouisfed.org/series/HOUST5F\" target=\"_blank\" rel=\"noopener\">FRED ↗</a>"
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
           }
         }
       ],
@@ -140,7 +142,34 @@
     },
     {
       "page": "lihtc-allocations.html",
-      "violations": [],
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "button[data-audience=\"developer\"]"
+            ],
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
+          }
+        }
+      ],
       "passCount": 28,
       "incompleteCount": 3,
       "inapplicable": 32
@@ -154,7 +183,34 @@
     },
     {
       "page": "lihtc-guide-for-stakeholders.html",
-      "violations": [],
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "button[data-audience=\"developer\"]"
+            ],
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
+          }
+        }
+      ],
       "passCount": 26,
       "incompleteCount": 1,
       "inapplicable": 35
@@ -229,34 +285,7 @@
     },
     {
       "page": "market-analysis.html",
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodeCount": 1,
-          "sampleNode": {
-            "target": [
-              "#pmaMethodTabBuffer > span"
-            ],
-            "html": "<span style=\"font-size:.75em;opacity:.65;\">(legacy)</span>"
-          }
-        }
-      ],
+      "violations": [],
       "passCount": 38,
       "incompleteCount": 2,
       "inapplicable": 23
@@ -282,12 +311,12 @@
             "RGAAv4",
             "RGAA-3.2.1"
           ],
-          "nodeCount": 2,
+          "nodeCount": 1,
           "sampleNode": {
             "target": [
-              "#dcSaveBtn"
+              ".coho-toast:nth-child(1) > .coho-toast__msg"
             ],
-            "html": "<button class=\"btn hna-save-btn\" id=\"dcSaveBtn\" type=\"button\">Save to Project</button>"
+            "html": "<span class=\"coho-toast__msg\">AMI gap data unavailable — some affordability context may be missing.</span>"
           }
         }
       ],
@@ -297,7 +326,34 @@
     },
     {
       "page": "housing-legislation-2026.html",
-      "violations": [],
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "button[data-audience=\"developer\"]"
+            ],
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
+          }
+        }
+      ],
       "passCount": 27,
       "incompleteCount": 1,
       "inapplicable": 34
@@ -323,12 +379,12 @@
             "RGAAv4",
             "RGAA-3.2.1"
           ],
-          "nodeCount": 1,
+          "nodeCount": 2,
           "sampleNode": {
             "target": [
-              ".kicker"
+              "button[data-audience=\"developer\"]"
             ],
-            "html": "<span class=\"kicker contrast-guard-fixed\" style=\"color: var(--text-d, #e5e7eb);\">Platform</span>"
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
           }
         }
       ],
@@ -357,12 +413,12 @@
             "RGAAv4",
             "RGAA-3.2.1"
           ],
-          "nodeCount": 1,
+          "nodeCount": 2,
           "sampleNode": {
             "target": [
-              ".kicker"
+              "button[data-audience=\"developer\"]"
             ],
-            "html": "<span class=\"kicker contrast-guard-fixed\" style=\"color: var(--text-d, #e5e7eb);\">Analysis &amp; Reports</span>"
+            "html": "<button class=\"audience-toggle__btn\" type=\"button\" data-audience=\"developer\" aria-pressed=\"true\" title=\"Developers &amp; project sponsors: technical detail, site selection, project pro-forma framing\">"
           }
         }
       ],

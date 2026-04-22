@@ -1,6 +1,6 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-22T04:36:03.145Z_
+_Generated: 2026-04-22T11:42:58.708Z_
 
 Audited 14 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
@@ -9,16 +9,16 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 | Impact | Affected element count |
 |---|---:|
 | critical | 0 |
-| serious | 17 |
+| serious | 16 |
 | moderate | 0 |
 | minor | 0 |
-| **Total** | **17** |
+| **Total** | **16** |
 
 ## Summary by rule
 
 | Rule | Impact | Elements | Pages | Help |
 |---|---|---:|---:|---|
-| `color-contrast` | serious | 17 | 9 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 16 | 11 | Elements must meet minimum color contrast ratio thresholds |
 
 ## Per-page detail
 
@@ -32,11 +32,11 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **29**
 - Incomplete (needs manual check): **2**
-- Violations: **1** (4 element(s))
+- Violations: **1** (3 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
-| `color-contrast` | serious | 4 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 3 | Elements must meet minimum color contrast ratio thresholds |
 
 ### hna-comparative-analysis.html
 
@@ -52,17 +52,21 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **25**
 - Incomplete (needs manual check): **2**
-- Violations: **1** (5 element(s))
+- Violations: **1** (2 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
-| `color-contrast` | serious | 5 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 2 | Elements must meet minimum color contrast ratio thresholds |
 
 ### lihtc-allocations.html
 
 - Passing rules: **28**
 - Incomplete (needs manual check): **3**
-- Violations: **0** (0 element(s))
+- Violations: **1** (1 element(s))
+
+| Rule | Impact | Elements | Help |
+|---|---|---:|---|
+| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
 
 ### colorado-deep-dive.html
 
@@ -74,7 +78,11 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **26**
 - Incomplete (needs manual check): **1**
-- Violations: **0** (0 element(s))
+- Violations: **1** (1 element(s))
+
+| Rule | Impact | Elements | Help |
+|---|---|---:|---|
+| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
 
 ### dashboard.html
 
@@ -100,15 +108,31 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 - Passing rules: **38**
 - Incomplete (needs manual check): **2**
+- Violations: **0** (0 element(s))
+
+### deal-calculator.html
+
+- Passing rules: **33**
+- Incomplete (needs manual check): **1**
 - Violations: **1** (1 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
 | `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
 
-### deal-calculator.html
+### housing-legislation-2026.html
 
-- Passing rules: **33**
+- Passing rules: **27**
+- Incomplete (needs manual check): **1**
+- Violations: **1** (1 element(s))
+
+| Rule | Impact | Elements | Help |
+|---|---|---:|---|
+| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
+
+### about.html
+
+- Passing rules: **24**
 - Incomplete (needs manual check): **1**
 - Violations: **1** (2 element(s))
 
@@ -116,29 +140,13 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 |---|---|---:|---|
 | `color-contrast` | serious | 2 | Elements must meet minimum color contrast ratio thresholds |
 
-### housing-legislation-2026.html
-
-- Passing rules: **27**
-- Incomplete (needs manual check): **1**
-- Violations: **0** (0 element(s))
-
-### about.html
-
-- Passing rules: **24**
-- Incomplete (needs manual check): **1**
-- Violations: **1** (1 element(s))
-
-| Rule | Impact | Elements | Help |
-|---|---|---:|---|
-| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
-
 ### insights.html
 
 - Passing rules: **26**
 - Incomplete (needs manual check): **1**
-- Violations: **1** (1 element(s))
+- Violations: **1** (2 element(s))
 
 | Rule | Impact | Elements | Help |
 |---|---|---:|---|
-| `color-contrast` | serious | 1 | Elements must meet minimum color contrast ratio thresholds |
+| `color-contrast` | serious | 2 | Elements must meet minimum color contrast ratio thresholds |
 
