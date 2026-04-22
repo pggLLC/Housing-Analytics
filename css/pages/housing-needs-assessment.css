@@ -547,8 +547,16 @@ details summary { cursor: pointer; font-weight: 900; color: var(--text); }
 /* === HNA waiting/loading state === */
 .hna-waiting{padding:20px;text-align:center;background:var(--card);border-radius:8px;margin-bottom:16px;border:1px dashed var(--border)}
 .hna-waiting-text{color:var(--muted);font-size:.95rem;margin-bottom:8px}
-.hna-waiting-dashes{font-size:1.4rem;color:var(--border);letter-spacing:.2em;animation:hna-pulse 2s ease-in-out infinite}
-@keyframes hna-pulse{0%,100%{opacity:.4}50%{opacity:1}}
+/* Decorative waiting dashes — use --muted (AA-compliant on bg) rather
+   than --border (sub-threshold). aria-hidden already marks them as
+   decorative for screen readers; sighted-low-vision users still need
+   the 4.5:1 contrast floor. Opacity animation preserved. */
+.hna-waiting-dashes{font-size:1.4rem;color:var(--muted);letter-spacing:.2em;animation:hna-pulse 2s ease-in-out infinite}
+/* Pulse must not drop below AA contrast at its minimum opacity — the
+   previous 0.4–0.55 range blended --muted to ~3.5:1 on white. 0.75
+   floor keeps the effective ratio safely >4.5:1. Visual pulse is
+   still perceptible (1.0 → 0.75 is ~25% swing) without tripping axe. */
+@keyframes hna-pulse{0%,100%{opacity:.75}50%{opacity:1}}
 
 /* ================================================================
    PMA Methodology section — coverage labels, CHFA checklist
