@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T02:33:27.366Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T02:34:41.076Z. Do not edit by hand.
 
 ---
 
@@ -1059,7 +1059,7 @@
 | `.github/workflows/build-hna-data.yml` | 5.6 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
 | `.github/workflows/car-data-update.yml` | 1.9 KB |
-| `.github/workflows/ci-checks.yml` | 7.5 KB |
+| `.github/workflows/ci-checks.yml` | 9.5 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
