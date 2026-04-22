@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:31:16.424Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T04:54:23.613Z. Do not edit by hand.
 
 ---
 
@@ -940,7 +940,7 @@
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
-| `data/reports/a11y-baseline.json` | 13.4 KB | ✅ | — |
+| `data/reports/a11y-baseline.json` | 11.3 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
 ---
