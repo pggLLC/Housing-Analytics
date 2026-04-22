@@ -1,0 +1,929 @@
+{
+  "generatedAt": "2026-04-22T03:21:09.553Z",
+  "summary": {
+    "byImpact": {
+      "critical": 21,
+      "serious": 19,
+      "moderate": 0,
+      "minor": 0
+    },
+    "byRule": {
+      "button-name": {
+        "impact": "critical",
+        "help": "Buttons must have discernible text",
+        "nodeCount": 14,
+        "pages": [
+          "index.html",
+          "housing-needs-assessment.html",
+          "hna-comparative-analysis.html",
+          "economic-dashboard.html",
+          "lihtc-allocations.html",
+          "colorado-deep-dive.html",
+          "lihtc-guide-for-stakeholders.html",
+          "dashboard.html",
+          "regional.html",
+          "market-analysis.html",
+          "deal-calculator.html",
+          "housing-legislation-2026.html",
+          "about.html",
+          "insights.html"
+        ]
+      },
+      "aria-prohibited-attr": {
+        "impact": "serious",
+        "help": "Elements must only use permitted ARIA attributes",
+        "nodeCount": 1,
+        "pages": [
+          "housing-needs-assessment.html"
+        ]
+      },
+      "color-contrast": {
+        "impact": "serious",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodeCount": 15,
+        "pages": [
+          "housing-needs-assessment.html",
+          "hna-comparative-analysis.html",
+          "economic-dashboard.html",
+          "market-analysis.html",
+          "deal-calculator.html",
+          "about.html",
+          "insights.html"
+        ]
+      },
+      "link-in-text-block": {
+        "impact": "serious",
+        "help": "Links must be distinguishable without relying on color",
+        "nodeCount": 3,
+        "pages": [
+          "hna-comparative-analysis.html",
+          "colorado-deep-dive.html"
+        ]
+      },
+      "select-name": {
+        "impact": "critical",
+        "help": "Select element must have an accessible name",
+        "nodeCount": 4,
+        "pages": [
+          "dashboard.html",
+          "regional.html"
+        ]
+      },
+      "label": {
+        "impact": "critical",
+        "help": "Form elements must have labels",
+        "nodeCount": 3,
+        "pages": [
+          "deal-calculator.html"
+        ]
+      }
+    },
+    "totalNodes": 40,
+    "pageCount": 14
+  },
+  "results": [
+    {
+      "page": "index.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        }
+      ],
+      "passCount": 26,
+      "incompleteCount": 2,
+      "inapplicable": 35
+    },
+    {
+      "page": "housing-needs-assessment.html",
+      "violations": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-prohibited-attr?application=axeAPI",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "#hnaMap"
+            ],
+            "html": "<div id=\"hnaMap\" aria-label=\"Boundary map\"></div>"
+          }
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 4,
+          "sampleNode": {
+            "target": [
+              ".hna-waiting-dashes"
+            ],
+            "html": "<div class=\"hna-waiting-dashes\" aria-hidden=\"true\">— — — — —</div>"
+          }
+        }
+      ],
+      "passCount": 29,
+      "incompleteCount": 2,
+      "inapplicable": 32
+    },
+    {
+      "page": "hna-comparative-analysis.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".hca-explore-banner__link"
+            ],
+            "html": "<a href=\"select-jurisdiction.html\" class=\"hca-explore-banner__link\">I already know my jurisdiction →</a>"
+          }
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+          "help": "Links must be distinguishable without relying on color",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/link-in-text-block?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2a",
+            "wcag141",
+            "TTv5",
+            "TT13.a",
+            "EN-301-549",
+            "EN-9.1.4.1",
+            "RGAAv4",
+            "RGAA-10.6.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".hca-hero-sub > a[href=\"housing-needs-assessment.html\"]"
+            ],
+            "html": "<a href=\"housing-needs-assessment.html\">Housing Needs Assessment</a>"
+          }
+        }
+      ],
+      "passCount": 32,
+      "incompleteCount": 2,
+      "inapplicable": 29
+    },
+    {
+      "page": "economic-dashboard.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 5,
+          "sampleNode": {
+            "target": [
+              ".census-construction-card.card:nth-child(1) > .census-src > a[target=\"_blank\"][rel=\"noopener\"]"
+            ],
+            "html": "<a href=\"https://fred.stlouisfed.org/series/HOUST5F\" target=\"_blank\" rel=\"noopener\">FRED ↗</a>"
+          }
+        }
+      ],
+      "passCount": 25,
+      "incompleteCount": 2,
+      "inapplicable": 36
+    },
+    {
+      "page": "lihtc-allocations.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        }
+      ],
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 31
+    },
+    {
+      "page": "colorado-deep-dive.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+          "help": "Links must be distinguishable without relying on color",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/link-in-text-block?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2a",
+            "wcag141",
+            "TTv5",
+            "TT13.a",
+            "EN-301-549",
+            "EN-9.1.4.1",
+            "RGAAv4",
+            "RGAA-10.6.1"
+          ],
+          "nodeCount": 2,
+          "sampleNode": {
+            "target": [
+              ".chart-card[data-hover-init=\"1\"]:nth-child(2) > .chart-source > a[target=\"_blank\"][rel=\"noopener\"]:nth-child(1)"
+            ],
+            "html": "<a href=\"https://www.huduser.gov/portal/datasets/il.html\" target=\"_blank\" rel=\"noopener\">HUD FY2025 Income Limits</a>"
+          }
+        }
+      ],
+      "passCount": 31,
+      "incompleteCount": 3,
+      "inapplicable": 29
+    },
+    {
+      "page": "lihtc-guide-for-stakeholders.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        }
+      ],
+      "passCount": 26,
+      "incompleteCount": 1,
+      "inapplicable": 35
+    },
+    {
+      "page": "dashboard.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensure select element has an accessible name",
+          "help": "Select element must have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodeCount": 2,
+          "sampleNode": {
+            "target": [
+              "#year-select"
+            ],
+            "html": "<select class=\"control-select\" id=\"year-select\">\n<option selected=\"\" value=\"2026\">2026</option>\n<option value=\"2025\">2025</option>\n<option value=\"2024\">2024</option>\n</select>"
+          }
+        }
+      ],
+      "passCount": 26,
+      "incompleteCount": 1,
+      "inapplicable": 34
+    },
+    {
+      "page": "regional.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensure select element has an accessible name",
+          "help": "Select element must have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodeCount": 2,
+          "sampleNode": {
+            "target": [
+              "#map-mode-select"
+            ],
+            "html": "<select class=\"filter-select\" id=\"map-mode-select\">\n<option value=\"allocation\">Allocation Amount</option>\n<option value=\"region\">Geographic Region</option>\n</select>"
+          }
+        }
+      ],
+      "passCount": 26,
+      "incompleteCount": 1,
+      "inapplicable": 34
+    },
+    {
+      "page": "market-analysis.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "#pmaMethodTabBuffer > span"
+            ],
+            "html": "<span style=\"font-size:.75em;opacity:.65;\">(legacy)</span>"
+          }
+        }
+      ],
+      "passCount": 38,
+      "incompleteCount": 2,
+      "inapplicable": 23
+    },
+    {
+      "page": "deal-calculator.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 2,
+          "sampleNode": {
+            "target": [
+              "#dcSaveBtn"
+            ],
+            "html": "<button class=\"btn hna-save-btn\" id=\"dcSaveBtn\" type=\"button\">Save to Project</button>"
+          }
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "description": "Ensure every form element has a label",
+          "help": "Form elements must have labels",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodeCount": 3,
+          "sampleNode": {
+            "target": [
+              "#qsim_devScore"
+            ],
+            "html": "<input type=\"range\" id=\"qsim_devScore\" name=\"devScore\" min=\"0\" max=\"15\" step=\"0.5\" value=\"11.4\">"
+          }
+        }
+      ],
+      "passCount": 33,
+      "incompleteCount": 1,
+      "inapplicable": 28
+    },
+    {
+      "page": "housing-legislation-2026.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        }
+      ],
+      "passCount": 27,
+      "incompleteCount": 1,
+      "inapplicable": 34
+    },
+    {
+      "page": "about.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".kicker"
+            ],
+            "html": "<span class=\"kicker contrast-guard-fixed\" style=\"color: var(--text-d, #e5e7eb);\">Platform</span>"
+          }
+        }
+      ],
+      "passCount": 24,
+      "incompleteCount": 1,
+      "inapplicable": 37
+    },
+    {
+      "page": "insights.html",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/button-name?application=axeAPI",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".dark-mode-toggle"
+            ],
+            "html": "<button class=\"dark-mode-toggle\" type=\"button\" aria-live=\"polite\"></button>"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              ".kicker"
+            ],
+            "html": "<span class=\"kicker contrast-guard-fixed\" style=\"color: var(--text-d, #e5e7eb);\">Analysis &amp; Reports</span>"
+          }
+        }
+      ],
+      "passCount": 26,
+      "incompleteCount": 1,
+      "inapplicable": 35
+    }
+  ]
+}
