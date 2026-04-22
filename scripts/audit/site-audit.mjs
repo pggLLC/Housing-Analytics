@@ -5,6 +5,10 @@
  * Usage:
  *   AUDIT_BASE_URL=http://127.0.0.1:8080 node scripts/audit/site-audit.mjs
  *
+ * Options (env vars):
+ *   AUDIT_BASE_URL   Base URL of the running static server (default: http://127.0.0.1:8080)
+ *   PAGE_TIMEOUT_MS  Per-page navigation timeout in ms (default: 60000)
+ *
  * Outputs JSON + HTML reports to audit-report/{timestamp}/
  * Exits non-zero only for hard failures:
  *   - JS runtime errors
@@ -22,6 +26,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BASE_URL = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:8080';
+const PAGE_TIMEOUT_MS = parseInt(process.env.PAGE_TIMEOUT_MS || '60000', 10);
 const REPORT_DIR_BASE = path.resolve(__dirname, '..', '..', 'audit-report');
 
 const PAGES_TO_AUDIT = [
@@ -313,7 +318,7 @@ async function auditPage(browser, pageConfig) {
   });
 
   try {
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'networkidle', timeout: PAGE_TIMEOUT_MS });
   } catch (e) {
     result.hardFailures.push(`Page load failed: ${e.message}`);
   }
