@@ -52,9 +52,15 @@
     badge.className = 'chart-source';
     badge.setAttribute('aria-label', 'Data source: ' + opts.source);
 
-    if (opts.url) {
-      badge.innerHTML = 'Source: <a href="' + opts.url + '" target="_blank" rel="noopener">' +
-        opts.source + '</a>';
+    var safeUrl = _safeLinkUrl(opts.url);
+    if (safeUrl) {
+      badge.appendChild(document.createTextNode('Source: '));
+      var link = document.createElement('a');
+      link.setAttribute('href', safeUrl);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+      link.textContent = opts.source;
+      badge.appendChild(link);
     } else {
       badge.textContent = 'Source: ' + opts.source;
     }
@@ -91,6 +97,22 @@
       _pendingScan = false;
       scan();
     });
+  }
+
+  /**
+   * Return a safe absolute URL for external links, or null if invalid/unsafe.
+   * @param {string|null|undefined} raw
+   * @returns {string|null}
+   */
+  function _safeLinkUrl(raw) {
+    if (!raw) return null;
+    try {
+      var url = new URL(raw, window.location.href);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+      return url.href;
+    } catch (e) {
+      return null;
+    }
   }
 
   /**
