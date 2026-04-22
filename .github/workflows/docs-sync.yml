@@ -35,6 +35,9 @@ jobs:
       - name: Regenerate JSDoc API reference
         run: npm run docs:api
 
+      - name: Regenerate test-coverage report
+        run: npm run docs:coverage
+
       - name: Check for changes
         id: changes
         run: |
