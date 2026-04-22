@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-21T21:30:25.143Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-22T01:39:58.433Z. Do not edit by hand.
 
 ---
 
@@ -946,7 +946,7 @@
 
 ## Test Files
 
-92 test files found.
+93 test files found.
 
 | File | Size |
 |------|------|
@@ -968,6 +968,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hna-functionality-check.js` | 52.5 KB |
+| `test/hna-ranking-index.test.js` | 18.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.4 KB |
