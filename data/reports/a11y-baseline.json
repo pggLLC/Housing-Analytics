@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T13:57:46.133Z",
+  "generatedAt": "2026-04-23T14:06:41.970Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -43,9 +43,9 @@
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 28,
-      "incompleteCount": 3,
-      "inapplicable": 32
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 31
     },
     {
       "page": "colorado-deep-dive.html",
@@ -90,11 +90,11 @@
       "inapplicable": 28
     },
     {
-      "page": "land-value.html",
+      "page": "historical-trends.html",
       "violations": [],
-      "passCount": 28,
+      "passCount": 31,
       "incompleteCount": 1,
-      "inapplicable": 33
+      "inapplicable": 30
     },
     {
       "page": "housing-legislation-2026.html",
