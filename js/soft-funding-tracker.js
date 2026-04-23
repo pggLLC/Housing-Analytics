@@ -287,7 +287,8 @@
         note:             prog.note || null,
         confidence:       _computeConfidence(prog),
         contactUrl:       prog.contactUrl || null,
-        description:      prog.description || ''
+        description:      prog.description || '',
+        restrictions:     Array.isArray(prog.restrictions) ? prog.restrictions.slice() : []
       });
     });
 

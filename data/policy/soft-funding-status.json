@@ -14,7 +14,14 @@
       "eligibleExecution": ["9%", "4%"],
       "maxPerProject": 750000,
       "description": "CHFA HTF provides gap financing for affordable multifamily projects. Funds are competitive statewide.",
-      "contactUrl": "https://www.chfainfo.com/"
+      "contactUrl": "https://www.chfainfo.com/",
+      "restrictions": [
+        "Must be paired with a LIHTC award (not a standalone source)",
+        "Minimum 40-year affordability period",
+        "QAP scoring preference aligned with CHFA QAP — submit in same cycle",
+        "Requires matching funds from ≥1 other source (typical match: 20–30%)",
+        "Awards tied to CHFA QAP cycle — one funding round per year"
+      ]
     },
     "CHFA-CCLA": {
       "name": "CHFA Construction/Permanent Loan Advantage",
@@ -27,7 +34,14 @@
       "eligibleExecution": ["9%", "4%"],
       "maxPerProject": 3000000,
       "description": "Below-market first mortgage financing for affordable housing. Available year-round with rolling applications.",
-      "contactUrl": "https://www.chfainfo.com/"
+      "contactUrl": "https://www.chfainfo.com/",
+      "restrictions": [
+        "Replaces conventional perm debt — CANNOT stack with another first mortgage",
+        "Requires DSCR ≥1.20 on underwriting",
+        "Fixed-rate, 35-year term, non-recourse, LIHTC-compliant",
+        "Loan size ≤85% LTV at stabilization",
+        "Rolling applications but CHFA credit committee review (4–8 weeks)"
+      ]
     },
     "CHFA-CMF": {
       "name": "CHFA Capital Magnet Fund",
@@ -40,7 +54,14 @@
       "eligibleExecution": ["9%", "4%"],
       "maxPerProject": 2000000,
       "description": "Federal U.S. Treasury CDFI Fund program re-granted by CHFA to Colorado affordable-housing projects for gap financing, predevelopment, and acquisition. Awarded to CHFA on a periodic NOFA cycle (most recent CHFA award: 2023, ~$10M). Exact available dollars vary by award cycle; verify current balance with CHFA before underwriting. Layers with LIHTC equity and first mortgage.",
-      "contactUrl": "https://www.chfainfo.com/multifamily-finance/capital-magnet-fund"
+      "contactUrl": "https://www.chfainfo.com/multifamily-finance/capital-magnet-fund",
+      "restrictions": [
+        "Federal CDFI Fund restrictions apply — 10:1 leverage ratio required",
+        "Targets affordable-housing + economic-development in LMI communities",
+        "10-year CDFI Fund compliance period with reporting obligations",
+        "CHFA re-grants on periodic NOFA cycle — not always open",
+        "Stacks with LIHTC; but OZ equity may disqualify CDFI benefit"
+      ]
     },
     "DOLA-HTF": {
       "name": "Colorado DOLA Housing Trust Fund",
@@ -53,7 +74,14 @@
       "eligibleExecution": ["9%", "4%", "non-LIHTC"],
       "maxPerProject": 500000,
       "description": "State housing trust fund administered by DOLA. Rural areas receive priority weighting.",
-      "contactUrl": "https://cdola.colorado.gov/"
+      "contactUrl": "https://cdola.colorado.gov/",
+      "restrictions": [
+        "Rural priority weighting (non-metro counties preferred in scoring)",
+        "Minimum 20-year affordability period",
+        "Matching funds required from local or other state source",
+        "DOLA review cycle separate from CHFA — apply to both for LIHTC deals",
+        "Davis-Bacon prevailing wage applies if federal funds are in the stack"
+      ]
     },
     "CDBG-DR": {
       "name": "CDBG Disaster Recovery (DOLA)",
@@ -106,7 +134,15 @@
       "eligibleExecution": ["9%", "4%"],
       "maxPerProject": 800000,
       "description": "Federal HOME funds administered by DOLA. Typically layered with LIHTC. Annual allocations.",
-      "contactUrl": "https://cdola.colorado.gov/"
+      "contactUrl": "https://cdola.colorado.gov/",
+      "restrictions": [
+        "Davis-Bacon prevailing wage required on projects with 12+ HOME-assisted units",
+        "Uniform Relocation Act (URA) applies — relocation cost + notice requirements",
+        "NEPA environmental review required — adds 2–4 months to timeline",
+        "25% CHDO (Community Housing Development Organization) set-aside",
+        "Minimum 20-year affordability period; income + rent restrictions enforced",
+        "Cannot stack with NHTF in same unit (but can mix at project level)"
+      ]
     },
     "DOH-AHTF": {
       "name": "DOH Affordable Housing Trust Fund",
@@ -149,7 +185,14 @@
       "description": "DOH grants for permanent supportive housing and homeless prevention projects. Requires service partnership with local continuum of care.",
       "contactUrl": "https://cdola.colorado.gov/division-of-housing",
       "adminEntity": "DOH",
-      "amiTargeting": "30% AMI"
+      "amiTargeting": "30% AMI",
+      "restrictions": [
+        "Permanent supportive housing (PSH) or homeless prevention ONLY",
+        "Must partner with local Continuum of Care (CoC) for services",
+        "30% AMI targeting required; mixed-AMI projects limited to PSH units",
+        "Service plan required — service provider must commit to 15+ years",
+        "Medicaid waiver alignment strongly preferred"
+      ]
     },
     "NHTF-CO": {
       "name": "National Housing Trust Fund (Colorado)",
@@ -164,7 +207,15 @@
       "description": "Federal National Housing Trust Fund allocated to Colorado, administered by CHFA. Exclusively targets extremely low income households (30% AMI). Strong layering source with 9% LIHTC.",
       "contactUrl": "https://www.chfainfo.com/",
       "adminEntity": "CHFA",
-      "amiTargeting": "30% AMI"
+      "amiTargeting": "30% AMI",
+      "restrictions": [
+        "Extremely low income (30% AMI) units ONLY — must be deeply affordable",
+        "Minimum 30-year affordability period",
+        "Davis-Bacon prevailing wage applies to federal funds",
+        "NEPA environmental review required",
+        "Cannot stack with HOME on the same unit (project-level mixing OK)",
+        "Annual reporting to HUD on tenant demographics + rent compliance"
+      ]
     },
     "PROP123-AHTF": {
       "name": "Proposition 123 Affordable Housing Fund",
@@ -179,7 +230,14 @@
       "description": "State funds from Proposition 123 (2022 ballot measure) dedicating TABOR surplus to affordable housing. Administered by DOLA. Jurisdictions must opt in. Supports land banking, gap financing, and rental assistance. First full-year allocation cycle.",
       "contactUrl": "https://cdola.colorado.gov/prop-123",
       "adminEntity": "DOLA",
-      "note": "New program — first substantive awards expected Q3 2026. Participating jurisdictions listed in prop123_jurisdictions.json."
+      "note": "New program — first substantive awards expected Q3 2026. Participating jurisdictions listed in prop123_jurisdictions.json.",
+      "restrictions": [
+        "Jurisdiction MUST have opted in to Prop 123 — check prop123_jurisdictions.json",
+        "Jurisdiction must have 3% affordable-housing growth commitment on file",
+        "Targets households ≤60% AMI (primary focus 30–50% AMI)",
+        "New program — scoring rubric + layering rules still evolving (verify with DOLA)",
+        "State funds, no federal overlay — no Davis-Bacon / URA triggers"
+      ]
     },
     "PROP123-LBTF": {
       "name": "Prop 123 Land Banking Trust Fund",
@@ -193,7 +251,14 @@
       "maxPerProject": 1500000,
       "description": "Dedicated Prop 123 subprogram for land acquisition and banking for future affordable housing development. Can reduce TDC in future LIHTC applications by removing land cost.",
       "contactUrl": "https://cdola.colorado.gov/prop-123",
-      "adminEntity": "DOLA"
+      "adminEntity": "DOLA",
+      "restrictions": [
+        "Land acquisition ONLY — cannot fund project construction or soft costs",
+        "Target site must have affordable-housing development plan within 5 years",
+        "Jurisdiction must have opted in to Prop 123",
+        "Land held by eligible public or nonprofit entity — for-profit developers cannot receive direct grant",
+        "Typical structure: nonprofit acquires + ground-leases to LIHTC partnership"
+      ]
     },
     "PAB-CO": {
       "name": "Private Activity Bond Volume Cap (Colorado)",
@@ -209,7 +274,15 @@
       "contactUrl": "https://www.chfainfo.com/",
       "adminEntity": "CHFA",
       "warning": "63% of 2026 cap already committed. Projects targeting Q4 closing should apply immediately.",
-      "isVolumeCap": true
+      "isVolumeCap": true,
+      "restrictions": [
+        "4% LIHTC deals ONLY — required for automatic 4% credit qualification",
+        "Project must use ≥50% PAB financing (IRC §42(h)(4)(B) 50% test)",
+        "First-come-first-served allocation with quarterly CHFA review",
+        "Once annual cap is exhausted, deals wait until next calendar year",
+        "Bond issuance typically 90–180 days from PAB allocation",
+        "Inducement resolution required before construction begins"
+      ]
     },
     "OZ-EQUITY": {
       "name": "Opportunity Zone Equity Investment",
