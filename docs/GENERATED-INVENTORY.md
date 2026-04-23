@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T01:16:42.782Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T07:26:50.813Z. Do not edit by hand.
 
 ---
 
@@ -968,7 +968,7 @@
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/hna-functionality-check.js` | 52.5 KB |
+| `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
