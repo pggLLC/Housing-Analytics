@@ -905,7 +905,12 @@ function getKey(){ return CONFIG_KEY || ""; }
         renderChart(canvas, labels, values);
         return true; // success
       } catch(e){
-        console.warn("Indicator failed (hidden):", ind.id, e.message || e);
+        // info-level because the card is hidden gracefully and no UI
+        // breakage is visible. Some FRED series legitimately have
+        // periods with no observations (e.g. PCU236200236200 between
+        // updates); weekly console-audit would otherwise flag these
+        // as warnings forever. Still logs for engineer investigation.
+        console.info("Indicator failed (hidden):", ind.id, e.message || e);
         // Hide the card — keep it in the DOM so IDs remain stable but remove from view
         if (card) { card.style.display = "none"; card.dataset.indicatorHidden = "1"; }
         return false; // failure
