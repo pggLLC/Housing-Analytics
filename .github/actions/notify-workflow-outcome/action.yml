@@ -13,23 +13,23 @@ inputs:
     required: true
   outcome:
     description: >
-      Overall job/workflow outcome to react to. Pass `${{ job.status }}`
-      or `${{ needs.<id>.result }}`. The action only acts on 'success'
+      Overall job/workflow outcome to react to. Pass the value of job.status
+      or needs.<id>.result. The action only acts on 'success'
       and 'failure'; other values (cancelled, skipped) are no-ops.
     required: true
   slack_webhook:
     description: >
       Optional Slack incoming-webhook URL. If empty, Slack notification
-      is skipped silently. Pass `${{ secrets.SLACK_WEBHOOK_URL }}` —
-      action treats an unset secret as empty.
+      is skipped silently. Pass the SLACK_WEBHOOK_URL secret from the
+      calling workflow. Action treats an unset/empty value as a no-op.
     required: false
     default: ''
   github_token:
     description: >
-      Token for issue open/update/close. Defaults to `${{ github.token }}`;
-      override if you need a PAT with broader repo access.
+      Token for issue open/update/close. Pass github.token from the calling
+      workflow, or a PAT with broader repo access if needed.
     required: false
-    default: ${{ github.token }}
+    default: ''
 
 runs:
   using: composite
