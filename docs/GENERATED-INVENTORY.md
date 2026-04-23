@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T11:39:40.900Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T11:57:45.016Z. Do not edit by hand.
 
 ---
 
@@ -972,7 +972,7 @@
 | `test/hna-ranking-index.test.js` | 18.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
-| `test/integration/compliance-dashboard.test.js` | 13.4 KB |
+| `test/integration/compliance-dashboard.test.js` | 13.8 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
 | `test/integration/hna-ranking.test.js` | 10.7 KB |
 | `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
@@ -1058,7 +1058,7 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 5.7 KB |
+| `.github/workflows/build-hna-data.yml` | 5.8 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 9.5 KB |
