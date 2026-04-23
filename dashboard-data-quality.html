@@ -226,7 +226,12 @@
   <!-- Pipeline Events -->
   <div class="dq-section">
     <h2>Pipeline Log</h2>
-    <pre id="pipelineLog" aria-live="polite" style="background:var(--bg-muted,#f5f7fa);border:1px solid var(--border,#dde3ec);border-radius:6px;padding:0.75rem 1rem;font-size:0.78rem;max-height:260px;overflow-y:auto;white-space:pre-wrap;"></pre>
+    <!-- `--bg-muted` is not a defined token (resolved to literal
+         #f5f7fa fallback in both light and dark mode, producing
+         light-text-on-light-bg in dark mode — the contrast complaint).
+         Using `--bg2` (a real dark-mode-aware token) + explicit
+         `--text` foreground guarantees readable contrast in either mode. -->
+    <pre id="pipelineLog" aria-live="polite" style="background:var(--bg2,#e4ecf4);color:var(--text,#0d1f35);border:1px solid var(--border,#dde3ec);border-radius:6px;padding:0.75rem 1rem;font-size:0.78rem;max-height:260px;overflow-y:auto;white-space:pre-wrap;"></pre>
   </div>
 
 </div>

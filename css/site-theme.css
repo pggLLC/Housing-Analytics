@@ -396,6 +396,16 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
 .kpi-source, .stat-source { font-size: 0.65rem; color: var(--faint, #999); margin-top: 3px; font-style: italic; }
 .kpi-source a, .stat-source a { color: var(--faint, #999); text-decoration: none; }
 .kpi-source a:hover, .stat-source a:hover { text-decoration: underline; }
+
+/* `.kpi-verify` extends `.kpi-source` for values the user should
+   sanity-check against an external authoritative source before using
+   in a decision. Slightly darker than plain source-attribution so
+   the warn glyph is readable, but still quiet enough to avoid
+   overwhelming the value itself. Links stay underlined for clear
+   affordance on an external-action element. */
+.kpi-source.kpi-verify, .stat-source.kpi-verify { color: var(--muted, #666); font-style: normal; line-height: 1.35; }
+.kpi-source.kpi-verify a, .stat-source.kpi-verify a { color: var(--link, #054a42) !important; text-decoration: underline; text-underline-offset: 2px; }
+.kpi-source.kpi-verify a:hover, .stat-source.kpi-verify a:hover { text-decoration-thickness: 2px; }
 .chart-source { font-size: 0.72rem; color: var(--faint); margin-top: var(--sp2); padding: 0 var(--sp4) var(--sp3); }
 /* Source-attribution links need a non-color cue to satisfy WCAG 1.4.1
    (link-in-text-block). The subdued faint color is reinforced with
