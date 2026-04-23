@@ -219,7 +219,7 @@
             <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
             <input id="dc-opex" type="number" min="0" step="10" value="450"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance — property tax broken out below)</span>
+            <span style="font-size:var(--tiny);color:var(--muted);">Initial default $450 reflects Denver-MSA LIHTC operating costs. <strong>Rural CO counties often run $250–$350</strong> — verify with your property manager or peer comparables.</span>
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
@@ -231,7 +231,7 @@
             <span style="font-size:var(--small);color:var(--muted);">Property Tax ($/unit/year)</span>
             <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Typical range: $600–$1,200/unit/year (broken out from OpEx for exemption modeling)</span>
+            <span style="font-size:var(--tiny);color:var(--muted);">Initial default $900 is a Front-Range ballpark. <strong>Mill levies vary 3–5× across CO</strong> — check your county assessor before committing to a pro forma.</span>
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Tax Exemption</span>
@@ -770,12 +770,22 @@
     var taxSavings = 0;
     if (autoNoi && autoNoi.checked) {
       var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
-      var opexPerUnitMonth = safeVal('dc-opex') || 450;
-      var repReservePerUnit = safeVal('dc-rep-reserve') || 350;
+      // Do NOT silently substitute Denver-MSA defaults (450/350/900) when
+      // any of these fields are blank — they vary materially across CO
+      // counties (rural opex often $250-350/mo vs. $450 Denver). A blank
+      // field should visibly zero the line, not fabricate a plausible
+      // Front-Range number. UI fields keep their initial defaults via the
+      // input `value` attribute so users see suggestions, but clearing a
+      // field now surfaces as "0" rather than silent substitution.
+      var opexPerUnitMonth = safeVal('dc-opex');
+      var repReservePerUnit = safeVal('dc-rep-reserve');
+      var propTaxPerUnit = safeVal('dc-prop-tax');
+      if (!isFinite(opexPerUnitMonth) || opexPerUnitMonth < 0) opexPerUnitMonth = 0;
+      if (!isFinite(repReservePerUnit) || repReservePerUnit < 0) repReservePerUnit = 0;
+      if (!isFinite(propTaxPerUnit) || propTaxPerUnit < 0) propTaxPerUnit = 0;
       var effectiveGrossIncome = annualRents * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);
-      var propTaxPerUnit = safeVal('dc-prop-tax') || 900;
       var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
       var annualPropTax = propTaxPerUnit * (units || 60);
       taxSavings = annualPropTax * taxExemptPct;
@@ -1036,6 +1046,7 @@
     var units = parseInt((document.getElementById('dc-units') || {}).value, 10) || 60;
     var dealInputs = {
       geoid: fips || undefined,
+      countyFips: fips || null,    // drives hard-cost geographic multiplier in predictor
       proposedUnits: units,
       isQct: !!(document.getElementById('dc-qct-dda') || {}).checked
     };
