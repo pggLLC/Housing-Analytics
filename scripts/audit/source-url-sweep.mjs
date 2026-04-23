@@ -50,6 +50,12 @@ const ALLOW_LIST = new Set([
   'https://www.novoco.com/resource-centers/affordable-housing-tax-credits',
   'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state',
   'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool',
+  // BLS and Novoco rankings endpoints return 403 to automated HEAD/GET
+  // from CI, but are valid citation targets in real browsers.
+  'https://www.bls.gov/lau/',
+  'https://www.bls.gov/ppi',
+  'https://www.bls.gov/ppi/',
+  'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rankings',
   'https://www.ncsha.org',
   'https://www.ncsha.org/advocacy-issues/lihtc/',
   'https://www.congress.gov/',
