@@ -1,8 +1,8 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-22T19:06:01.809Z_
+_Generated: 2026-04-23T13:57:46.134Z_
 
-Audited 14 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
+Audited 15 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
 ## Summary by impact
 
@@ -47,8 +47,8 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### lihtc-allocations.html
 
-- Passing rules: **30**
-- Incomplete (needs manual check): **2**
+- Passing rules: **28**
+- Incomplete (needs manual check): **3**
 - Violations: **0** (0 element(s))
 
 ### colorado-deep-dive.html
@@ -77,13 +77,19 @@ Audited 14 page(s) via axe-core. Any regression from this baseline will appear i
 
 ### market-analysis.html
 
-- Passing rules: **38**
+- Passing rules: **39**
 - Incomplete (needs manual check): **2**
 - Violations: **0** (0 element(s))
 
 ### deal-calculator.html
 
 - Passing rules: **33**
+- Incomplete (needs manual check): **1**
+- Violations: **0** (0 element(s))
+
+### land-value.html
+
+- Passing rules: **28**
 - Incomplete (needs manual check): **1**
 - Violations: **0** (0 element(s))
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-22T19:06:01.808Z",
+  "generatedAt": "2026-04-23T13:57:46.133Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -9,7 +9,7 @@
     },
     "byRule": {},
     "totalNodes": 0,
-    "pageCount": 14
+    "pageCount": 15
   },
   "results": [
     {
@@ -43,9 +43,9 @@
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 30,
-      "incompleteCount": 2,
-      "inapplicable": 31
+      "passCount": 28,
+      "incompleteCount": 3,
+      "inapplicable": 32
     },
     {
       "page": "colorado-deep-dive.html",
@@ -78,9 +78,9 @@
     {
       "page": "market-analysis.html",
       "violations": [],
-      "passCount": 38,
+      "passCount": 39,
       "incompleteCount": 2,
-      "inapplicable": 23
+      "inapplicable": 22
     },
     {
       "page": "deal-calculator.html",
@@ -88,6 +88,13 @@
       "passCount": 33,
       "incompleteCount": 1,
       "inapplicable": 28
+    },
+    {
+      "page": "land-value.html",
+      "violations": [],
+      "passCount": 28,
+      "incompleteCount": 1,
+      "inapplicable": 33
     },
     {
       "page": "housing-legislation-2026.html",

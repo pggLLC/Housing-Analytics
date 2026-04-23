@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Land Value &amp; Negotiation | COHO Analytics</title>
+  <meta name="description" content="Educational land value estimation and negotiation-support tool for early-stage LIHTC development in Colorado. Comparable sales analysis + residual land value + negotiation band." />
+  <meta property="og:title" content="Land Value &amp; Negotiation | COHO Analytics">
+  <meta property="og:description" content="Educational land valuation tool for early-stage LIHTC development. Not a formal appraisal.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Sync: required before deferred modules -->
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/site-state.js"></script>
+  <!-- Deferred: navigation and UI -->
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
+  <!-- Source + data-quality UI utilities -->
+  <script defer src="js/components/source-badge.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <!-- Deferred: land value tool (renders into #landValueMount) -->
+  <script defer src="js/components/land-value-tool.js"></script>
+</head>
+<body data-page-last-updated="2026-04-23"
+      data-page-source="User-entered comparables + residual valuation">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── Jurisdiction context banner ───────────────────────────────── -->
+    <div id="lvJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info">
+          <span class="hna-jurisdiction-banner__label">Analyzing</span>
+          <strong id="lvJurisdictionName">—</strong>
+          <span id="lvJurisdictionSub" class="hna-jurisdiction-banner__sub"></span>
+        </div>
+        <div class="hna-jurisdiction-banner__actions">
+          <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Editorial header ───────────────────────────────────────────── -->
+    <div class="dc-hero">
+      <div class="kicker">Land Value &amp; Negotiation</div>
+      <h1>What is a site worth to a LIHTC developer?</h1>
+      <p class="dc-lead">
+        Two valuation approaches, one tool. Enter your comparable sales to estimate market land value,
+        and model a residual bid based on your project's feasibility envelope. The negotiation band
+        between seller ask and developer max tells you where a deal actually has room to close.
+      </p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note">
+        <strong>Educational + negotiation-support only.</strong> This tool is not a formal appraisal.
+        Market value estimates depend on comp quality and user adjustments; residual estimates depend
+        on your project assumptions. For offer letters, refinancing, or capital-stack commitments,
+        always engage an MAI or state-certified appraiser.
+      </p>
+    </div>
+
+    <div id="pageContext" style="max-width:1200px;margin:0 auto;padding:0 18px;"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Two valuation paths in one place: (1) Market value from comparable sales you enter — you\u2019re the local knowledge source, the tool does the math; (2) Residual value from development feasibility — what your pro-forma can actually support. Outputs: market range, developer max bid, negotiation band, and a confidence score based on input completeness.',
+        why: 'Land is the single most negotiable line in a LIHTC pro forma. Sellers anchor on highest-and-best-use market value; developers anchor on what the deal can support given AMI-restricted rents. Knowing both gives you room to structure the offer — and to walk away from sites where the gap is unbridgeable.',
+        not: 'This does NOT replace a professional appraisal (MAI or state-certified). It does NOT access real-time MLS / assessor / CoStar data. It does NOT account for entitlement risk, environmental remediation, or off-site improvement costs unless you enter them. It does NOT model a ground-lease structure — that requires different inputs.',
+        nextSteps: [
+          { label: 'Market Analysis &amp; PMA', href: 'market-analysis.html', desc: 'Run PMA + site scoring for your chosen location' },
+          { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the capital stack with land cost included' },
+          { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Review how residual valuation fits in the LIHTC workflow' }
+        ]
+      });
+    });
+    </script>
+
+    <!-- ── Data Quality Summary ──────────────────────────────────────── -->
+    <div id="lvDataQuality" style="max-width:1200px;margin:1rem auto;padding:0 18px;"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('lvDataQuality', {
+          sources: [
+            { name: 'Comparable sales', status: 'user-entered', vintage: 'varies', coverage: 'Depends on your comp research (county assessor, CoStar, LoopNet, MLS closed sales)', note: 'You are the data source. Enter 3+ comps for usable results.' },
+            { name: 'Residual valuation inputs', status: 'user-entered', vintage: 'N/A', coverage: 'Your project feasibility assumptions', note: 'TDC, equity + debt capacity, soft sources, deferred fee, offsite/remediation costs' },
+            { name: 'Confidence scoring', status: 'derived', vintage: 'live', coverage: 'Based on input completeness + comp count', note: 'Moderate ≥70, Low 40\u201369, Very Low <40' }
+          ],
+          limitations: 'Educational and negotiation-support tool. No live market data feed — accuracy depends entirely on the quality of comps and assumptions you enter. Use for screening and structuring; do not use for offer letters or refinancing appraisals.'
+        });
+      }
+    });
+    </script>
+
+    <!-- ── Land Value Tool mount ─────────────────────────────────────── -->
+    <div style="max-width:1200px;margin:1.5rem auto;padding:0 18px;">
+      <div id="landValueMount"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.LandValueTool) LandValueTool.render('landValueMount');
+      });
+      </script>
+    </div>
+
+    <!-- ── Educational context section ───────────────────────────────── -->
+    <section style="max-width:1200px;margin:2rem auto;padding:0 18px;">
+      <div class="chart-card">
+        <h2 style="margin-top:0;">How this tool is used in practice</h2>
+
+        <h3 style="color:var(--accent);margin-top:1rem;">Market value from comparables</h3>
+        <p style="line-height:1.7;">
+          The first valuation approach mirrors how an appraiser would size up a site — by comparing
+          recent sales of similar land nearby. The tool asks you to enter at least 3 comparable sales
+          with acreage, sale price, and a date. It computes a median <code>$/acre</code> and applies
+          that to your site's acreage. The range between lowest and highest comp is your <em>market
+          range</em>; the median is your <em>market estimate</em>.
+        </p>
+        <p style="line-height:1.7;">
+          <strong>Where to find comps:</strong>
+        </p>
+        <ul style="line-height:1.8;">
+          <li><strong>County assessor:</strong> public record of sales, usually free via the assessor's web portal (e.g., <a href="https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Assessor" target="_blank" rel="noopener">Denver</a>, <a href="https://www.bouldercounty.org/property-and-land/assessor/" target="_blank" rel="noopener">Boulder County</a>)</li>
+          <li><strong>CoStar / LoopNet / Crexi:</strong> commercial platforms with filtering by land use, zoning, transaction date — paid subscription</li>
+          <li><strong>MLS:</strong> land category; REALTOR access required for closed sales data</li>
+          <li><strong>LIHTC + affordable-housing peers:</strong> talk to other developers. Comparable <em>multifamily-entitled</em> land in your market is often sold off-market and doesn't appear in public databases</li>
+          <li><strong>CHFA historical awards:</strong> prior LIHTC deals publicly disclose site acquisition costs — the
+            <a href="chfa-portfolio.html">CHFA Portfolio</a> page on this site shows project-level data for Colorado deals</li>
+        </ul>
+        <p style="line-height:1.7;">
+          <strong>Adjustment judgment:</strong> Raw $/acre across heterogeneous parcels can mislead. A 2-acre infill
+          parcel in Denver isn't directly comparable to a 20-acre greenfield in Weld County even if both recently sold.
+          Best practice: limit comps to the same zoning class, similar entitlement status, and within 12-24 months.
+          Apply qualitative adjustments (better transit, lower flood risk, utility availability) as confidence
+          context, not as a dollar-amount fudge.
+        </p>
+
+        <h3 style="color:var(--accent);margin-top:1.5rem;">Residual land value</h3>
+        <p style="line-height:1.7;">
+          The second valuation approach starts from the other end of the deal: what's the <em>maximum a
+          developer can afford to pay</em> for this land given the project's feasibility envelope?
+        </p>
+        <pre style="background:var(--bg2);padding:1rem;border-radius:6px;font-size:.9rem;line-height:1.6;overflow-x:auto;">
+Residual = (Equity + Debt + Soft Sources + Deferred Fee)
+           − (Total Development Cost excluding land)
+
+Where:
+  Equity        = 9% or 4% credit × 10 years × syndicator price
+  Debt          = NOI ÷ DSCR ÷ mortgage constant
+  Soft Sources  = CHFA HTF, HOME, DOLA HTF, local trust fund, etc.
+  Deferred Fee  = ~50% of developer fee, paid from cash flow yrs 8-15
+  TDC           = Hard + soft + developer fee (ex-land)
+</pre>
+        <p style="line-height:1.7;">
+          If the seller's asking price is below your residual value, the deal has <strong>margin</strong> — room
+          to negotiate and still close. If asking price is above residual, you need a public-land contribution,
+          a seller carry-note, or to walk away. The tool surfaces these outcomes explicitly via the negotiation
+          band chart.
+        </p>
+        <p style="line-height:1.7;">
+          <strong>When residual is lower than market:</strong> common in resort/high-cost markets where land pricing
+          is driven by luxury demand, not LIHTC economics. Solutions: PHA land donation, ground lease (typically
+          99-year for LIHTC compliance), Prop 123 Land Banking Fund, or community benefits negotiation with
+          the seller to bridge the gap.
+        </p>
+
+        <h3 style="color:var(--accent);margin-top:1.5rem;">Negotiation band interpretation</h3>
+        <p style="line-height:1.7;">
+          The tool outputs four price points — Seller's ask (high comp), Market (median comp), Public-partner
+          price (if a discount is entered), and Developer max (residual). The visual bars show the <em>spread
+          where a deal has room</em>:
+        </p>
+        <ul style="line-height:1.8;">
+          <li><strong>Developer max ≥ Market:</strong> project can afford market-rate land. Negotiate from strength.</li>
+          <li><strong>Developer max ≥ Public partner, &lt; Market:</strong> project needs a below-market deal, but a PHA / Prop 123 Land Banking contribution can close the gap.</li>
+          <li><strong>Developer max &gt; $0, &lt; Public partner:</strong> substantial gap. Ground lease, donated land, or seller carry-note likely required.</li>
+          <li><strong>Developer max = $0 or negative:</strong> deal cannot support any land acquisition cost. Don't pursue unless a land donation is on the table.</li>
+        </ul>
+
+        <h3 style="color:var(--accent);margin-top:1.5rem;">Further reading</h3>
+        <ul style="line-height:1.8;">
+          <li><a href="https://www.appraisalinstitute.org" target="_blank" rel="noopener">Appraisal Institute</a> — MAI certification directory; <em>The Appraisal of Real Estate</em> (14th ed.) covers residual and sales-comparison methods formally</li>
+          <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac LIHTC Resource Center</a> — developer-perspective writeups on land valuation in LIHTC deals</li>
+          <li><a href="https://www.cohnreznick.com/industries/affordable-housing" target="_blank" rel="noopener">CohnReznick Affordable Housing Credit Study</a> — operating-performance benchmarks that inform residual assumptions</li>
+          <li><a href="https://cdola.colorado.gov/prop-123" target="_blank" rel="noopener">DOLA Prop 123 Land Banking Fund</a> — Colorado-specific land-acquisition subsidy for future affordable-housing development</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+  <script defer src="js/scroll-fix.js"></script>
+</body>
+</html>
