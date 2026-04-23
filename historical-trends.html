@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Historical Trends &amp; Benchmarks | COHO Analytics</title>
+  <meta name="description" content="Colorado LIHTC award history, stock trajectory, and peer project benchmarks. Developers use this to calibrate QAP submissions; asset managers use it to benchmark operating performance." />
+  <meta property="og:title" content="Historical Trends &amp; Benchmarks | COHO Analytics">
+  <meta property="og:description" content="LIHTC award history, stock trajectory, peer benchmarks for Colorado">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .ht-panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .ht-panel h2 { margin-top: 0; font-size: 1.15rem; color: var(--text); }
+    .ht-panel .ht-intro { font-size: .88rem; color: var(--muted); line-height: 1.55; margin-bottom: .75rem; }
+    .ht-chart-wrap { position: relative; height: 340px; margin: 0.75rem 0; }
+    .ht-stat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: .5rem; margin: 0; padding: 0; }
+    .ht-stat-list > div { padding: .5rem .65rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); }
+    .ht-stat-list dt { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+    .ht-stat-list dd { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 2px 0 0; }
+    .ht-bench-controls { display: flex; gap: .75rem; margin-bottom: .75rem; flex-wrap: wrap; align-items: flex-end; }
+    .ht-bench-controls label { display: flex; flex-direction: column; font-size: .78rem; color: var(--muted); }
+    .ht-bench-controls select,
+    .ht-bench-controls input { padding: .4rem .55rem; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); font-size: .88rem; min-width: 180px; }
+    .ht-bench-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .ht-bench-table th { background: var(--bg2); padding: .5rem .65rem; text-align: left; font-weight: 700; color: var(--muted); border-bottom: 2px solid var(--border); }
+    .ht-bench-table td { padding: .5rem .65rem; border-bottom: 1px solid var(--border); }
+    .ht-empty { text-align: center; color: var(--muted); padding: 1rem; font-style: italic; }
+    .ht-error-banner { padding: 0.8rem 1rem; background: var(--bad-dim,#fee2e2); color: var(--bad,#991b1b); border: 1px solid var(--bad,#ef4444); border-radius: 6px; margin-bottom: 1rem; }
+  </style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <script defer src="js/historical-trends.js"></script>
+</head>
+<body data-page-last-updated="2026-04-23"
+      data-page-source="CHFA Awards Historical · HUD LIHTC DB">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <main id="main-content">
+    <div style="max-width:1200px;margin:0 auto;padding:1.5rem 18px;">
+
+      <!-- Editorial header -->
+      <div class="dc-hero">
+        <div class="kicker">Historical Trends &amp; Benchmarks</div>
+        <h1>What have past LIHTC deals in Colorado actually looked like?</h1>
+        <p class="dc-lead">
+          Three lenses on Colorado's LIHTC history: CHFA award patterns (helps calibrate
+          a QAP submission), LIHTC stock trajectory (shows when each county absorbed its
+          investment), and a peer benchmark table (find comparable projects by county + size).
+        </p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note">
+          <strong>Historical data, not forecasts.</strong> These panels describe what happened — they
+          do not predict future awards, pricing, or market behavior. Use for calibration, not
+          underwriting.
+        </p>
+      </div>
+
+      <div id="htErrorBanner" class="ht-error-banner" hidden></div>
+
+      <div id="pageContext"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.PageContext) PageContext.render('pageContext', {
+          what: 'Three historical-data panels drawn from CHFA\u2019s award history (2015\u20132025) and HUD\u2019s LIHTC database for Colorado (716 projects). No forecasts or predictions \u2014 just "here is what the data says" for calibration and benchmarking.',
+          why: 'First-time LIHTC applicants consistently underestimate what it takes to win a 9% award; developers in unfamiliar markets need peer projects to calibrate unit counts and AMI mixes; asset managers benchmark operating performance against comparable CO projects. This page serves all three.',
+          not: 'This does NOT forecast future pricing, award counts, or market behavior. It does NOT include multi-year rent trajectories \u2014 current ACS data is single-vintage 2023. It does NOT substitute for a CHFA pre-app meeting or a syndicator-issued pricing letter.',
+          nextSteps: [
+            { label: 'CHFA Portfolio', href: 'chfa-portfolio.html', desc: 'Project-level detail for every CHFA award' },
+            { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model your capital stack against peer benchmarks' },
+            { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understand the award process before applying' }
+          ]
+        });
+      });
+      </script>
+
+      <!-- Data Quality Summary -->
+      <div id="htDataQuality"></div>
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.DataQualitySummary) {
+          window.DataQualitySummary.render('htDataQuality', {
+            sources: [
+              { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015\u20132025', coverage: '27-project sample + aggregate summary (110 total awards)', note: 'Sample data for visualization; aggregate stats reflect full population' },
+              { name: 'HUD LIHTC Database', status: 'primary', vintage: 'FY2024', coverage: '716 Colorado projects', note: 'HUD DB typically lags placement-in-service by ~18 months — most recent allocations may not yet appear' }
+            ],
+            limitations: 'Historical view only \u2014 not a forecast. Sample CHFA award data covers 27 projects in detail; summary statistics draw from the full 110-award population. HUD LIHTC DB lag means the 2024\u20132025 award years are under-represented until those projects reach placement-in-service.'
+          });
+        }
+      });
+      </script>
+
+      <!-- Panel 1: CHFA Award History -->
+      <section class="ht-panel" aria-labelledby="htCHFAHeading">
+        <h2 id="htCHFAHeading">CHFA Annual Award History</h2>
+        <p class="ht-intro">
+          How many 9% competitive vs. 4% PAB-backed awards CHFA has made each year, with aggregate
+          scoring statistics. Use this to calibrate your QAP submission \u2014 a 78-point score was
+          the 2015\u20132025 average; median was 80. Colorado awards ~10 projects/year against ~27
+          applications (37% overall win rate).
+        </p>
+        <div class="ht-chart-wrap">
+          <canvas id="chfaTimelineChart" role="img" aria-label="CHFA annual awards by credit type, 2015\u20132025"></canvas>
+        </div>
+        <div id="chfaStats"></div>
+        <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+          Source: <a href="data/policy/chfa-awards-historical.json">chfa-awards-historical.json</a>
+          \u00b7 Verify current QAP cycle at
+          <a href="https://www.chfainfo.com/developers/rental-housing-and-funding/qualified-allocation-plan" target="_blank" rel="noopener">CHFA QAP</a>
+        </p>
+      </section>
+
+      <!-- Panel 2: LIHTC Stock Trajectory -->
+      <section class="ht-panel" aria-labelledby="htStockHeading">
+        <h2 id="htStockHeading">LIHTC Stock Trajectory (HUD Database)</h2>
+        <p class="ht-intro">
+          Cumulative Colorado LIHTC projects placed-in-service over time (line, left axis) with
+          annual placement counts (bars, right axis). Shows when each wave of state investment
+          landed \u2014 the mid-2010s multifamily expansion, the 2019\u20132021 acceleration, and
+          the lag from allocation to placement.
+        </p>
+        <div class="ht-chart-wrap">
+          <canvas id="stockTimelineChart" role="img" aria-label="Cumulative CO LIHTC projects over time"></canvas>
+        </div>
+        <div id="stockStats"></div>
+        <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+          Source: <a href="data/market/hud_lihtc_co.geojson">hud_lihtc_co.geojson</a>
+          \u00b7 \u26a0 Verify against
+          <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a>
+          (HUD DB lags placement by \u224818 mo)
+        </p>
+      </section>
+
+      <!-- Panel 3: Peer Benchmark -->
+      <section class="ht-panel" aria-labelledby="htBenchHeading">
+        <h2 id="htBenchHeading">Peer Project Benchmark</h2>
+        <p class="ht-intro">
+          Pick a county (and optionally a target unit count) to see LIHTC projects in the same
+          market. Sorted by unit-count proximity when you enter a target, or by most-recent
+          allocation year otherwise. Use for AMI-mix calibration, unit-count sanity-checking,
+          and operating-performance benchmarking.
+        </p>
+        <div class="ht-bench-controls">
+          <label for="benchCounty">County
+            <select id="benchCounty" aria-label="Colorado county">
+              <option value="">Loading\u2026</option>
+            </select>
+          </label>
+          <label for="benchUnits">Target unit count (optional)
+            <input id="benchUnits" type="number" min="0" step="5" placeholder="e.g. 60" aria-label="Target unit count for peer comparison">
+          </label>
+        </div>
+        <p id="benchSummary" style="font-size:.85rem;color:var(--muted);margin:0 0 .5rem;"></p>
+        <div style="overflow-x:auto;">
+          <table class="ht-bench-table">
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">City</th>
+                <th scope="col" style="text-align:right">Units</th>
+                <th scope="col" style="text-align:right">Year allocated</th>
+                <th scope="col" style="text-align:right">Year PIS</th>
+                <th scope="col">Credit type</th>
+              </tr>
+            </thead>
+            <tbody id="benchTableBody">
+              <tr><td colspan="6" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+          Top 20 closest-size peers shown. For full county project detail, see the
+          <a href="chfa-portfolio.html">CHFA Portfolio</a> page.
+        </p>
+      </section>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.HistoricalTrends) window.HistoricalTrends.render();
+    });
+    </script>
+  </main>
+
+  <script defer src="js/scroll-fix.js"></script>
+</body>
+</html>
