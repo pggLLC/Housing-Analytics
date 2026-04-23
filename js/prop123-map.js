@@ -167,15 +167,18 @@
     const { muni, county } = buildIndex(payload);
 
     // Fetch Colorado geometries
-    // For Places, TIGERweb uses STATEFP='08' field; for Counties, STATEFP='08' is the correct field.
+    // TIGERweb Places (layer 4) and State_County (layer 1) both expose
+    // the FIPS field as STATE, not STATEFP. Querying STATEFP returns
+    // HTTP 400 "Failed to execute query" — this was silently failing
+    // and falling back to empty geometry.
     let placesGeo, countiesGeo;
     try {
-      placesGeo = await arcgisQueryGeoJSON(TIGER_PLACES, "STATEFP='08'");
+      placesGeo = await arcgisQueryGeoJSON(TIGER_PLACES, "STATE='08'");
     } catch (e) {
       console.warn('Places geometry fetch failed', e);
     }
     try {
-      countiesGeo = await arcgisQueryGeoJSON(TIGER_COUNTIES, "STATEFP='08'");
+      countiesGeo = await arcgisQueryGeoJSON(TIGER_COUNTIES, "STATE='08'");
     } catch (e) {
       console.warn('Counties geometry fetch failed', e);
     }

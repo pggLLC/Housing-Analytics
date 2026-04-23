@@ -788,33 +788,34 @@ test('census-stats.js: each SERIES entry has a table code for source links', () 
 
 
 // ---------------------------------------------------------------------------
-// TIGERweb field-name consistency: STATEFP vs STATE
-// Both the JS county-list fetch and the Python build-script fetch_counties()
-// must use STATEFP='08' — the authoritative TIGERweb field for the state FIPS
-// code on the State_County/MapServer/1 layer.  Using the old alias STATE='08'
-// returns an empty result set on newer TIGERweb vintages.
+// TIGERweb field-name consistency: STATE (not STATEFP)
+// TIGERweb's State_County/MapServer/1 and Places_CouSub.../MapServer/4 layers
+// expose the FIPS field as STATE. Using STATEFP returns HTTP 400 "Failed to
+// execute query" — verified against the live metadata endpoint as of
+// 2026-04-22. Prior iteration of these tests enforced STATEFP which was
+// wrong; both JS and Python county fetches were silently failing.
 // ---------------------------------------------------------------------------
-test('JS: fetchCoCountiesList uses STATEFP (not STATE) for TIGERweb county query', () => {
+test('JS: fetchCoCountiesList uses STATE (not STATEFP) for TIGERweb county query', () => {
     assert(
-        js.includes("STATEFP='${STATE_FIPS_CO}'") || js.includes("STATEFP='08'") ||
-        js.includes("STATEFP='${window.HNAUtils.STATE_FIPS_CO}'"),
-        'fetchCoCountiesList queries TIGERweb with STATEFP field'
+        js.includes("STATE='${STATE_FIPS_CO}'") || js.includes("STATE='08'") ||
+        js.includes("STATE='${window.HNAUtils.STATE_FIPS_CO}'"),
+        'fetchCoCountiesList queries TIGERweb with STATE field'
     );
     assert(
-        !js.includes("where: `STATE='${STATE_FIPS_CO}'`") && !js.includes("where: \"STATE='08'\""),
-        'fetchCoCountiesList does NOT use the deprecated STATE= alias'
+        !js.match(/where:\s*`STATEFP='/) && !js.match(/where:\s*"STATEFP='08'"/),
+        'fetchCoCountiesList does NOT use STATEFP (returns HTTP 400 on TIGERweb)'
     );
 });
 
-test('Python build_hna_data.py: fetch_counties uses STATEFP (not STATE) for TIGERweb query', () => {
+test('Python build_hna_data.py: fetch_counties uses STATE (not STATEFP) for TIGERweb query', () => {
     const py = fs.readFileSync(path.join(ROOT, 'scripts', 'hna', 'build_hna_data.py'), 'utf8');
     assert(
-        py.includes("STATEFP='{STATE_FIPS_CO}'") || py.includes("STATEFP='08'"),
-        'fetch_counties queries TIGERweb with STATEFP field'
+        py.includes("STATE='{STATE_FIPS_CO}'") || py.includes("STATE='08'"),
+        'fetch_counties queries TIGERweb with STATE field'
     );
     assert(
-        !py.includes("STATE='{STATE_FIPS_CO}'") && !py.includes("STATE='08'"),
-        'fetch_counties does NOT use the deprecated STATE= alias'
+        !py.includes("STATEFP='{STATE_FIPS_CO}'") && !py.includes("STATEFP='08'"),
+        'fetch_counties does NOT use STATEFP (returns HTTP 400 on TIGERweb)'
     );
 });
 
