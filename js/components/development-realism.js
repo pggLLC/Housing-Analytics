@@ -107,7 +107,7 @@
       '<h4 class="devr-subhead">CHFA Competitiveness</h4>' +
       _checklist([
         { text: 'Review current year CHFA Qualified Allocation Plan (QAP) priorities', flag: 'verify', note: 'QAP changes annually. 2025-2026 priorities may differ from historical patterns used in this tool.' },
-        { text: 'Check CHFA geographic distribution preferences (rural vs. urban set-asides)', note: 'CHFA typically reserves 25-30% of 9% credits for non-metro areas.' },
+        { text: 'Check CHFA geographic distribution preferences (rural vs. urban set-asides)', note: 'CHFA\u2019s current QAP specifies any non-metro set-aside percentages and geographic-distribution scoring weights. Pull the figure from the current QAP rather than relying on prior-year memory \u2014 the split changes.' },
         { text: 'Confirm project type aligns with CHFA priority populations (seniors, families, PSH)', note: 'Serving priority populations adds QAP points. Check current QAP for specific point values.' },
         { text: 'Assess readiness-to-proceed factors (site control, zoning, financing commitments)', note: 'CHFA increasingly weights projects that can close quickly after award.' },
       ]) +

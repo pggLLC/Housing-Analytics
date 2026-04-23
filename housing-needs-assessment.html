@@ -1914,7 +1914,17 @@
         '</strong> local + <strong>' + stateCount + '</strong> statewide contacts for this geography.</p>'
       : '<p style="margin:0 0 6px;font-size:.78rem;color:var(--warn,#d97706)">No dedicated local PHA listed — this area is typically served by statewide programs + regional nonprofits listed below. For the authoritative federal directory, use the HUD PHA Finder link.</p>';
 
-    resultsEl.innerHTML = header +
+    // Verify banner — phone numbers + URLs in this directory were not
+    // programmatically refreshed against HUD PIH at page-render time.
+    // They are curated from the HUD Contact List but may drift as
+    // executives / websites change. Force the user to verify before
+    // cold-calling.
+    var verifyBanner =
+      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.74rem;color:var(--text);line-height:1.4">' +
+        '\u26a0 <strong>Verify before contacting:</strong> phone numbers, URLs, and roles below are curated from HUD PIH\u2019s Contact List but are NOT live-refreshed. Confirm each entry via the current <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener">HUD PHA Finder</a> before calling.' +
+      '</div>';
+
+    resultsEl.innerHTML = header + verifyBanner +
       '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
       all.map(function (a) {
         var nameCell = a.url
@@ -1931,7 +1941,7 @@
         '</li>';
       }).join('') +
     '</ul>' +
-    '<p style="margin-top:8px;font-size:.72rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
+    '<p style="margin-top:8px;font-size:.72rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. Last curated 2026-04. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
   }
 
   function getSelectedFips() {
