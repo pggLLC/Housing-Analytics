@@ -432,9 +432,12 @@ def fetch_acs5_profile_year(year: int, geo_type: str, geoid: str, vars_: list[st
 def fetch_counties() -> list[dict]:
     base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query'
     params = urllib.parse.urlencode({
-        # STATEFP is the correct TIGERweb field for the state FIPS code.
-        # STATE= was the old alias; use STATEFP= to match the JS fetch logic.
-        'where': f"STATEFP='{STATE_FIPS_CO}'",
+        # TIGERweb State_County/MapServer/1 exposes the FIPS field as
+        # STATE (not STATEFP). Querying STATEFP returns HTTP 400 "Failed
+        # to execute query" and this function was falling through to the
+        # empty-list bailout, silently producing builds with no county
+        # metadata. Verified via the ArcGIS layer metadata endpoint.
+        'where': f"STATE='{STATE_FIPS_CO}'",
         'outFields': 'NAME,GEOID',
         'returnGeometry': 'false',
         'orderByFields': 'NAME',
