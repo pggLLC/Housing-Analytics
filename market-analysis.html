@@ -494,27 +494,32 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcCount">—</div>
               <div class="pma-stat-label">LIHTC projects</div>
-              <div class="kpi-source">HUD LIHTC DB</div>
+              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a> (HUD DB lags ~18 mo)</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
               <div class="pma-stat-label">Existing LIHTC units</div>
-              <div class="kpi-source">HUD LIHTC DB</div>
+              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a> (HUD DB lags ~18 mo)</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
               <div class="pma-stat-label">Capture rate (existing)</div>
-              <div class="kpi-source">HUD · ACS 2024</div>
+              <div class="kpi-source kpi-verify">⚠ Verify: ACS 2024 (5-yr rolling) ÷ HUD LIHTC count</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
               <div class="pma-stat-label">Renter households</div>
-              <div class="kpi-source">ACS 2024</div>
+              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://data.census.gov" target="_blank" rel="noopener">ACS 2024 5-yr</a> (tract-level aggregated)</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
               <div class="pma-stat-label">In Prop 123 jurisdictions</div>
-              <div class="kpi-source">DOLA Prop 123</div>
+              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://cdola.colorado.gov/prop-123" target="_blank" rel="noopener">DOLA Prop 123 commitment list</a></div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcLastFunded" style="font-size:.85rem;line-height:1.25;">—</div>
+              <div class="pma-stat-label">Most recent LIHTC allocation</div>
+              <div class="kpi-source">HUD YR_ALLOC / YR_PIS</div>
             </div>
           </div>
         </div>
