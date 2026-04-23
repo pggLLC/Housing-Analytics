@@ -1596,6 +1596,99 @@
       placeSiteMarker(e.latlng.lat, e.latlng.lng);
       runAnalysis(e.latlng.lat, e.latlng.lng);
     });
+
+    // Address-based site selection via free US Census Geocoder.
+    // No API key required; rate-limit is generous (docs say "reasonable
+    // interactive use"). Restricts results to Colorado (STATE=08) because
+    // our downstream PMA analysis only has CO data loaded.
+    _wireAddressSearch();
+  }
+
+  /**
+   * Wire up the "Find a Colorado address" input/button to the free US
+   * Census Geocoder. Picks the first match, validates it's in Colorado
+   * (STATE=08), then fires the existing placeSiteMarker + runAnalysis
+   * flow — same code path as a map click.
+   */
+  function _wireAddressSearch() {
+    var input = document.getElementById('pmaAddressInput');
+    var btn   = document.getElementById('pmaAddressSearchBtn');
+    var status = document.getElementById('pmaAddressStatus');
+    if (!input || !btn || !status) return;   // page variant without search UI
+
+    function _setStatus(msg, level) {
+      status.textContent = msg || '';
+      status.style.color = level === 'error' ? 'var(--bad, #c0392b)'
+                        : level === 'ok' ? 'var(--good, #047857)'
+                        : 'var(--muted, #666)';
+    }
+
+    function _submit() {
+      var q = (input.value || '').trim();
+      if (!q) {
+        _setStatus('Enter a Colorado street address or landmark.', 'error');
+        input.focus();
+        return;
+      }
+      if (!dataLoaded) {
+        _setStatus('Data is still loading — wait a moment then try again.', 'error');
+        return;
+      }
+      btn.disabled = true;
+      _setStatus('Geocoding “' + q + '” via US Census Geocoder…', 'info');
+
+      // US Census Geocoder — free, no key. Public_AR_Current = latest
+      // address ranges. format=json returns coords in WGS84.
+      // Docs: https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
+      var url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress' +
+                '?address=' + encodeURIComponent(q) +
+                '&benchmark=Public_AR_Current' +
+                '&format=json';
+
+      fetch(url)
+        .then(function (r) {
+          if (!r.ok) throw new Error('Census Geocoder HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (d) {
+          var matches = (d && d.result && d.result.addressMatches) || [];
+          if (!matches.length) {
+            throw new Error('No match found. Try including the city + CO (e.g. "Main St, Pueblo CO").');
+          }
+          // First match is highest-confidence per Census API convention.
+          var m = matches[0];
+          var coords = m.coordinates || {};
+          var lon = parseFloat(coords.x);   // Census returns x=lon, y=lat
+          var lat = parseFloat(coords.y);
+          if (!isFinite(lat) || !isFinite(lon)) {
+            throw new Error('Geocoder returned invalid coordinates.');
+          }
+          // Validate it's in Colorado via STATE from addressComponents. We
+          // could also bounds-check lat/lon against CO (37-41°N, -109--102°W),
+          // but the STATE field from the geocoder is more reliable.
+          var addr = (m.addressComponents && m.addressComponents.state) || '';
+          if (addr && String(addr).toUpperCase() !== 'CO') {
+            throw new Error('Address resolved to ' + addr + ' — this site is Colorado-only. Add "CO" to your query.');
+          }
+          // Hand off to the same flow as a map click.
+          map.setView([lat, lon], 13);
+          placeSiteMarker(lat, lon);
+          runAnalysis(lat, lon);
+          _setStatus('Placed at ' + (m.matchedAddress || q) +
+                     ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')', 'ok');
+        })
+        .catch(function (err) {
+          _setStatus(err.message || 'Geocoding failed. Try clicking the map instead.', 'error');
+        })
+        .then(function () {
+          btn.disabled = false;
+        });
+    }
+
+    btn.addEventListener('click', _submit);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); _submit(); }
+    });
   }
 
   /* ── Overlay layer styles ────────────────────────────────────────── */
