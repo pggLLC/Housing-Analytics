@@ -43,11 +43,3 @@ _site/
 # (its own README admitted "It is not secured"); see SECURITY note in PR.
 # Keep local copies if you need them; host them somewhere authenticated instead.
 private/
-
-# macOS Finder "duplicate-on-copy" artifacts — when a file collides on a
-# copy/paste, Finder names the new file "foo 2.ext" (with an embedded space).
-# A batch of 163 such files accumulated across docs/api/, docs/guides/,
-# docs/reports/, test/, and js/components/ in 2026-04; deleted in cleanup.
-# Ignore the pattern so a future mis-paste doesn't silently reintroduce them.
-* 2.*
-* [3-9].*
