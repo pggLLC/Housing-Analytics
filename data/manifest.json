@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-22T08:49:21.349738Z",
+  "generated": "2026-04-23T08:17:03.811180Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1007738
+      "bytes": 1007982
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4539,7 +4539,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20227
+      "bytes": 20228
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
@@ -4549,7 +4549,7 @@
     "data/reports/a11y-baseline.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11580
+      "bytes": 2371
     },
     "data/states-10m.json": {
       "featureCount": 0,
