@@ -271,8 +271,28 @@
           </label>
           <span id="pmaSiteCoords" style="font-size:var(--tiny);color:var(--text);margin-left:auto">No site selected</span>
         </div>
+        <!-- Address-based site selection — alternative to map-click.
+             Uses free Census Geocoder (no API key) + restricts to Colorado. -->
+        <div class="pma-address-search" role="search"
+             style="display:flex;align-items:center;gap:.5rem;margin:.6rem 0 .4rem;padding:.5rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);flex-wrap:wrap">
+          <label for="pmaAddressInput" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap">
+            Find a Colorado address:
+          </label>
+          <input id="pmaAddressInput" type="search"
+                 placeholder="e.g. 1437 Bannock St, Denver CO"
+                 aria-label="Colorado street address or place name"
+                 autocomplete="street-address"
+                 style="flex:1 1 240px;min-width:220px;padding:.35rem .5rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.85rem">
+          <button id="pmaAddressSearchBtn" type="button"
+                  style="padding:.35rem .85rem;font-size:.8rem;font-weight:700;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:4px;cursor:pointer"
+                  aria-label="Geocode address and drop site marker">
+            Find &amp; drop pin
+          </button>
+          <span id="pmaAddressStatus" role="status" aria-live="polite"
+                style="font-size:.74rem;color:var(--muted);flex-basis:100%"></span>
+        </div>
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
-        <div class="pma-map-hint">Click anywhere on the map to place a site and run PMA scoring.</div>
+        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Uses the free US Census Geocoder (no API key required).</div>
 
         <!-- ── Boundary overlays ── -->
         <details class="map-layer-details map-layer-section" open>
