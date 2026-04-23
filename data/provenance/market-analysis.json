@@ -1,0 +1,59 @@
+{
+  "_comment": "Provenance metadata for market-analysis.html widgets.",
+  "widgets": [
+    {
+      "id": "pmaRadarChart",
+      "label": "PMA Dimension Scores (radar chart)",
+      "source": "ACS 5-Year + HUD LIHTC DB + FRED + DOLA",
+      "source_url": "https://www.huduser.gov/portal/datasets/lihtc.html",
+      "vintage": "ACS 2019–2023 · HUD LIHTC 2023 · FRED 2024 · DOLA 2024",
+      "type": "modeled",
+      "notes": "Composite PMA score (0–100) derived from 50/30/20 weighted sub-indices. Scoring logic in js/market-analysis-enhancements.js."
+    },
+    {
+      "id": "pmaLihtcCount",
+      "label": "LIHTC projects in buffer",
+      "source": "HUD LIHTC Database",
+      "source_url": "https://www.huduser.gov/portal/datasets/lihtc.html",
+      "vintage": "HUD LIHTC 2023",
+      "type": "raw",
+      "notes": "Projects within the selected buffer radius, excluding expired affordability periods."
+    },
+    {
+      "id": "pmaLihtcUnits",
+      "label": "Existing LIHTC units in buffer",
+      "source": "HUD LIHTC Database",
+      "source_url": "https://www.huduser.gov/portal/datasets/lihtc.html",
+      "vintage": "HUD LIHTC 2023",
+      "type": "raw",
+      "notes": "Low-income unit count summed across projects in buffer."
+    },
+    {
+      "id": "pmaCaptureRate",
+      "label": "Capture rate (existing LIHTC)",
+      "source": "HUD LIHTC DB + ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "HUD LIHTC 2023 · ACS 2024",
+      "type": "transformed",
+      "notes": "Existing LIHTC units ÷ renter households in buffer. ACS B25003 for renter HH denominator."
+    },
+    {
+      "id": "pmaRenterHh",
+      "label": "Renter households in buffer",
+      "source": "ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2024",
+      "type": "raw",
+      "notes": "Estimated renter households within the buffer from ACS B25003."
+    },
+    {
+      "id": "pmaLihtcProp123",
+      "label": "Units in Prop 123 jurisdictions",
+      "source": "DOLA Prop 123",
+      "source_url": "https://demography.dola.colorado.gov/prop123/",
+      "vintage": "DOLA 2024",
+      "type": "transformed",
+      "notes": "LIHTC units in jurisdictions participating in Colorado Proposition 123."
+    }
+  ]
+}

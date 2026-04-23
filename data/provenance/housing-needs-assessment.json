@@ -1,0 +1,149 @@
+{
+  "_comment": "Provenance metadata for housing-needs-assessment.html widgets. Each entry describes a displayed output: its data source, vintage, transformation type, and direct verification URL.",
+  "widgets": [
+    {
+      "id": "chartStock",
+      "label": "Housing stock by structure type",
+      "source": "ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2019–2023",
+      "type": "transformed",
+      "notes": "B25024 units-in-structure variable groups, aggregated by COHO."
+    },
+    {
+      "id": "chartTenure",
+      "label": "Owner/renter shares",
+      "source": "ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2019–2023",
+      "type": "transformed",
+      "notes": "B25003 tenure table, owner vs. renter share."
+    },
+    {
+      "id": "chartAfford",
+      "label": "Affordability — income needed to afford typical home",
+      "source": "ACS 5-Year DP04 + HUD FMR",
+      "source_url": "https://www.huduser.gov/portal/datasets/fmr.html",
+      "vintage": "ACS 2019–2023 · FMR FY2025",
+      "type": "modeled",
+      "notes": "Simple mortgage model applied to ACS median home value. Gross rent limits from HUD FMR. Not a market appraisal."
+    },
+    {
+      "id": "chartRentBurdenBins",
+      "label": "Rent burden distribution (GRAPI)",
+      "source": "ACS 5-Year DP04 (GRAPI)",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2019–2023",
+      "type": "raw",
+      "notes": "Gross Rent as a Percentage of Income (GRAPI) bins from ACS DP04."
+    },
+    {
+      "id": "chartChasGap",
+      "label": "Cost burden by AMI tier (HUD CHAS)",
+      "source": "HUD CHAS 2017-2021",
+      "source_url": "https://www.huduser.gov/portal/datasets/cp.html",
+      "vintage": "CHAS 2017–2021",
+      "type": "raw",
+      "notes": "Renter households by AMI tier and burden status. For place/CDP geographies, values are scaled from the containing county (proxy)."
+    },
+    {
+      "id": "chartMode",
+      "label": "Commuting mode share",
+      "source": "ACS S0801 Commuting Characteristics",
+      "source_url": "https://data.census.gov/table/ACSST5Y2023.S0801",
+      "vintage": "ACS 2019–2023",
+      "type": "raw",
+      "notes": "Travel mode to work from ACS subject table S0801."
+    },
+    {
+      "id": "chartLehd",
+      "label": "Commuting: inflow & outflow (LEHD LODES)",
+      "source": "LEHD LODES Origin-Destination",
+      "source_url": "https://lehd.ces.census.gov/data/lodes/LODES8/",
+      "vintage": "LODES 2021",
+      "type": "raw",
+      "notes": "Workplace-based OD flows from LODES8. County-level only; statewide inflow/outflow suppressed to avoid double-counting."
+    },
+    {
+      "id": "chartPyramid",
+      "label": "Age pyramid",
+      "source": "DOLA Single-Year-of-Age Estimates",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "DOLA 2024",
+      "type": "raw",
+      "notes": "County-level single-year-of-age population. For municipalities/CDPs, uses containing county as context."
+    },
+    {
+      "id": "chartSenior",
+      "label": "Senior growth pressure",
+      "source": "DOLA Single-Year-of-Age Projections",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "DOLA 2024",
+      "type": "raw",
+      "notes": "DOLA county forecasts for 55+ and 65+ age cohorts."
+    },
+    {
+      "id": "chartPopProj",
+      "label": "Population projection: DOLA forecast vs historic-trend sensitivity",
+      "source": "DOLA Components of Change",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "DOLA 2024",
+      "type": "modeled",
+      "notes": "20-year housing need projection using DOLA base population + transparent headship/vacancy formula."
+    },
+    {
+      "id": "chartIncomeDistribution",
+      "label": "Household income distribution",
+      "source": "ACS 5-Year DP03",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP03",
+      "vintage": "ACS 2019–2023",
+      "type": "raw",
+      "notes": "Household income brackets from ACS DP03."
+    },
+    {
+      "id": "chartHousingAge",
+      "label": "Age of housing stock",
+      "source": "ACS 5-Year DP04",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2019–2023",
+      "type": "raw",
+      "notes": "Year structure built from ACS B25034."
+    },
+    {
+      "id": "chartOwnerCostBurden",
+      "label": "Owner housing cost burden (SMOCAPI)",
+      "source": "ACS 5-Year DP04 (SMOCAPI)",
+      "source_url": "https://data.census.gov/table/ACSDP5Y2023.DP04",
+      "vintage": "ACS 2019–2023",
+      "type": "raw",
+      "notes": "Selected Monthly Owner Costs as a Percentage of Income (SMOCAPI) bins."
+    },
+    {
+      "id": "chartWage",
+      "label": "Wage distribution by job level",
+      "source": "LEHD WAC Wage Tiers",
+      "source_url": "https://lehd.ces.census.gov/data/lodes/LODES8/",
+      "vintage": "LODES 2021",
+      "type": "transformed",
+      "notes": "Workplace Area Characteristics (WAC) earnings-tier counts."
+    },
+    {
+      "id": "chartIndustry",
+      "label": "Top industries by employment",
+      "source": "LEHD WAC by NAICS",
+      "source_url": "https://lehd.ces.census.gov/data/lodes/LODES8/",
+      "vintage": "LODES 2021",
+      "type": "transformed",
+      "notes": "Top NAICS 2-digit sectors by jobs count from LODES WAC."
+    },
+    {
+      "id": "chartEmploymentTrend",
+      "label": "Employment trend",
+      "source": "BLS LAUS / DOLA",
+      "source_url": "https://www.bls.gov/lau/",
+      "vintage": "BLS 2023 · DOLA 2024",
+      "type": "transformed",
+      "notes": "Local Area Unemployment Statistics employment-level trend."
+    }
+  ]
+}
