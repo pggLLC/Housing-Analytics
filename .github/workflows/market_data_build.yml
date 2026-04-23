@@ -250,7 +250,7 @@ jobs:
           BRANCH="chore/market-data-rebuild-$(date -u '+%Y%m%d')"
           git checkout -b "$BRANCH"
           git commit -m "chore(data): rebuild market data artifacts [skip ci]"
-          git push --set-upstream origin "$BRANCH"
+          git push --force-with-lease --set-upstream origin "$BRANCH"
 
           gh pr create \
             --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \

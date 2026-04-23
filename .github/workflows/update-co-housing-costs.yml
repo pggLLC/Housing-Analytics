@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   build-co-housing-costs:
     runs-on: ubuntu-latest
@@ -56,6 +60,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Update CO housing costs data and maps [skip ci]"
-            git pull --rebase --autostash origin main
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi

@@ -103,6 +103,6 @@ jobs:
             echo "No changes to county data files"
           else
             git commit -m "chore: refresh county demographics and economic indicators [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase origin main
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi

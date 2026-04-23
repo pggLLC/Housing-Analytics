@@ -142,7 +142,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
-          git pull --rebase --autostash origin main
+          git pull --rebase --autostash -X theirs origin main
           git push
 
       - name: Notify on failure / close tracker on recovery
@@ -152,3 +152,4 @@ jobs:
           workflow_id: build-hna-data
           outcome: ${{ job.status }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          github_token: ${{ github.token }}
