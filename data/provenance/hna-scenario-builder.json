@@ -1,0 +1,75 @@
+{
+  "_comment": "Provenance metadata for hna-scenario-builder.html widgets.",
+  "model": {
+    "class": "modeled",
+    "type": "cohort-component demographic projection",
+    "description": "COHO Analytics cohort-component model. Base population from DOLA 2024 SYA. Annual cohort progression with age-distributed migration.",
+    "methodology_url": "docs/PROJECTION-METHODOLOGY.md"
+  },
+  "assumptions": {
+    "headship_rate": {
+      "value": 0.38,
+      "type": "fixed",
+      "source": "US ACS national estimate",
+      "notes": "Fixed at national level. Local rates may differ significantly, especially in rural or high-cost areas."
+    },
+    "vacancy_target": {
+      "value": 0.05,
+      "type": "fixed",
+      "source": "Planning assumption",
+      "notes": "5% vacancy is a common planning-level assumption. Actual vacancy varies by market."
+    },
+    "survival_rates": {
+      "source": "Approximate US life table",
+      "notes": "5-year survival rates interpolated to annual. Not county-calibrated."
+    },
+    "fertility_rates": {
+      "source": "Age-specific fertility rates (US national)",
+      "notes": "ASFRs per woman per 5-year period. Applied as multipliers in scenario presets."
+    },
+    "migration_distribution": {
+      "source": "National US age-distribution proportions",
+      "notes": "Migration distributed by age using national proportions. Not calibrated to specific counties."
+    }
+  },
+  "scenarios": {
+    "baseline": {
+      "label": "Baseline (Moderate Growth)",
+      "params": { "fertility_multiplier": 1.0, "mortality_multiplier": 1.0, "net_migration_annual": 500 },
+      "attribution": "COHO preset using DOLA base population",
+      "notes": "Multipliers of 1.0 = no change from model defaults. Migration of 500/yr is a representative moderate-growth assumption, not derived from DOLA forecasts."
+    },
+    "low-growth": {
+      "label": "Low Growth",
+      "params": { "fertility_multiplier": 0.90, "mortality_multiplier": 1.02, "net_migration_annual": 250 },
+      "attribution": "COHO preset",
+      "notes": "Conservative scenario with lower fertility and net in-migration."
+    },
+    "high-growth": {
+      "label": "High Growth",
+      "params": { "fertility_multiplier": 1.05, "mortality_multiplier": 0.98, "net_migration_annual": 1000 },
+      "attribution": "COHO preset",
+      "notes": "Optimistic scenario with higher fertility and net in-migration."
+    }
+  },
+  "widgets": [
+    {
+      "id": "sbProjectionChart",
+      "label": "Housing Units Needed 2024–2050 (line chart)",
+      "source": "DOLA Single-Year-of-Age Estimates + COHO model",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "DOLA 2024",
+      "type": "modeled",
+      "notes": "Cohort-component projection from DOLA base population using COHO-defined scenario parameters."
+    },
+    {
+      "id": "sbResultsBody",
+      "label": "Detailed Annual Projections table",
+      "source": "DOLA Single-Year-of-Age Estimates + COHO model",
+      "source_url": "https://demography.dola.colorado.gov/assets/html/sdodata.html",
+      "vintage": "DOLA 2024",
+      "type": "modeled",
+      "notes": "Annual population, households, and units-needed figures from cohort-component model."
+    }
+  ]
+}

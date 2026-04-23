@@ -403,6 +403,22 @@ footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border)
    in the normal state while still providing the required affordance. */
 .chart-source a { color: var(--faint); text-decoration: underline dotted; text-underline-offset: 2px; }
 .chart-source a:hover { text-decoration: underline; }
+/* Vintage inline span — separates the source-vintage from the link text */
+.chart-source__vintage { font-style: italic; }
+/* Source-type pill — raw / transformed / modeled */
+.chart-source__type {
+  display: inline-block;
+  padding: 0 0.38em;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  vertical-align: baseline;
+}
+.chart-source__type--raw         { background: color-mix(in srgb, var(--info,#1d4ed8) 12%, transparent); color: var(--info,#1d4ed8); }
+.chart-source__type--transformed { background: color-mix(in srgb, var(--accent,#096e65) 12%, transparent); color: var(--accent,#096e65); }
+.chart-source__type--modeled     { background: color-mix(in srgb, var(--warn,#a8460a) 12%, transparent); color: var(--warn,#a8460a); }
 
 /* Data vintage badge — renders age + optional stale-data warning.
    Auto-attached by js/components/data-vintage-badge.js to any element

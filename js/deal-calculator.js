@@ -72,6 +72,18 @@
   <h2 id="dealCalcTitle" style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">
     LIHTC Feasibility Calculator
   </h2>
+  <!-- Screening-level model disclosure -->
+  <div role="note" style="display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);font-size:var(--tiny);">
+    <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🔎</span>
+    <div>
+      <strong style="color:var(--text);">Model class: screening-level</strong> —
+      outputs are planning estimates only. Credit pricing, interest rates, equity, and lender terms
+      vary significantly by market, investor, and deal structure. This tool does not model qualified
+      basis, applicable fraction, or carryover allocation. Not a substitute for lender underwriting,
+      CHFA review, or legal/tax counsel.
+      <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">Methodology →</a>
+    </div>
+  </div>
   <p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">
     Early-stage feasibility sizing tool. Not a final underwriting or award prediction model.
     Outputs depend on assumptions and local soft-funding availability.
@@ -174,6 +186,7 @@
         </label>
         <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--muted);margin-top:-0.25rem;margin-bottom:var(--sp2);">
           Gross rent limits: 30% AMI = $930 &bull; 40% = $1,240 &bull; 50% = $1,550 &bull; 60% = $1,860
+          · Source: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener" style="color:inherit;">HUD FMR FY2025</a>
         </div>
       </fieldset>
 
@@ -360,7 +373,7 @@
     <!-- Outputs column -->
     <div>
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates</legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(screening-level)</span></legend>
         <dl id="dc-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);">Eligible Basis</dt>
           <dd id="dc-r-basis" style="font-weight:700;text-align:right;">—</dd>
@@ -378,7 +391,7 @@
       </fieldset>
 
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Supportable First Mortgage (estimate)</legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Supportable First Mortgage <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(estimate · screening-level)</span></legend>
         <dl id="dc-mortgage-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);">Mortgage Constant (annual)</dt>
           <dd id="dc-r-mc" style="font-weight:700;text-align:right;">—</dd>

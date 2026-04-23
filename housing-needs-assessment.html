@@ -348,19 +348,19 @@
       <div class="chart-card span-6">
         <h2>Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2019–2023" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Affordability</h2>
         <p>What income is needed to afford the typical home value using a simple, transparent mortgage model (assumptions shown below).</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 + HUD FMR"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 + HUD FMR" data-source-url="https://www.huduser.gov/portal/datasets/fmr.html" data-vintage="ACS 2019–2023 · FMR FY2025" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Housing affordability by income level chart"></canvas></div>
         <details style="margin-top:10px">
           <summary>Affordability assumptions (editable in JS)</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -373,13 +373,13 @@
           Households spending ≥30% of income on housing are considered cost-burdened; ≥50% severely burdened.
           <br><span style="font-size:var(--tiny);color:var(--muted)">Age-stratified rent burden (ages 55–62 and 62+) is available in the HUD CHAS data shown in the adjacent panel. Select a county to view CHAS breakdown by AMI tier.</span>
         </p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (GRAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartRentBurdenBins" role="img" aria-label="Rent burden distribution by income share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Cost burden by AMI tier (HUD CHAS)<span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span></h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).</p>
-        <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://www.huduser.gov/portal/datasets/cp.html"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
+        <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2017–2021" data-source-type="raw"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
         <p id="chasGapStatus" style="margin-top:6px;color:var(--muted);font-size:.82rem">—</p>
       </div>
@@ -387,7 +387,7 @@
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
         <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box" data-source="ACS S0801 Commuting"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
+        <div class="chart-box" data-source="ACS S0801 Commuting" data-source-url="https://data.census.gov/table/ACSST5Y2023.S0801" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
@@ -400,7 +400,7 @@
         <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
           <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
         </p>
-        <div class="chart-box" data-source="LEHD LODES Origin-Destination"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
+        <div class="chart-box" data-source="LEHD LODES Origin-Destination" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2021" data-source-type="raw"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
         <p id="lehdNote" style="margin-top:8px">—</p>
       </div>
 
@@ -417,7 +417,7 @@
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Senior growth pressure</h2>
-            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
+            <div class="chart-box" data-source="DOLA Single-Year-of-Age Projections" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="raw"><canvas id="chartSenior" role="img" aria-label="Senior population growth pressure chart"></canvas></div>
             <p id="seniorNote" style="margin-top:8px">—</p>
           </div>
         </div>
@@ -495,14 +495,14 @@
       <div class="chart-card span-6">
         <h2>Household Income Distribution</h2>
         <p>Distribution of households by income bracket — key indicator for affordable housing need stratification by AMI tier. Source: ACS DP03.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP03"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP03" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP03" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartIncomeDistribution" role="img" aria-label="Household income distribution chart"></canvas></div>
       </div>
 
       <!-- Age of Housing Stock -->
       <div class="chart-card span-6">
         <h2>Age of Housing Stock</h2>
         <p>Year housing units were built — older stock may have deferred maintenance needs; newer stock reflects recent production capacity. Source: ACS DP04.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartHousingAge" role="img" aria-label="Age of housing stock by decade built chart"></canvas></div>
       </div>
 
       <!-- Bedroom Mix -->
@@ -516,7 +516,7 @@
       <div class="chart-card span-8">
         <h2>Owner Housing Cost Burden</h2>
         <p>Owner households by monthly housing costs as a percentage of household income. Costs exceeding 30% indicate a cost burden. Source: ACS DP04.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
+        <div class="chart-box" data-source="ACS 5-Year DP04 (SMOCAPI)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP04" data-vintage="ACS 2019–2023" data-source-type="raw"><canvas id="chartOwnerCostBurden" role="img" aria-label="Owner housing cost burden distribution chart"></canvas></div>
       </div>
 
       <!-- Housing Gap Summary -->
@@ -726,14 +726,14 @@
             <h2 style="font-size:1rem">Wage Distribution</h2>
             <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
-              <div class="chart-box" data-source="LEHD WAC Wage Tiers"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC Wage Tiers" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2021" data-source-type="transformed"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2 style="font-size:1rem">Top Industries by Employment</h2>
             <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
             <div id="industryChartContainer" class="chart-container">
-              <div class="chart-box" data-source="LEHD WAC by NAICS"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC by NAICS" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2021" data-source-type="transformed"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -767,7 +767,7 @@
             <h2 style="font-size:1rem">Employment Trend</h2>
             <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
-              <div class="chart-box" data-source="BLS LAUS / DOLA"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
+              <div class="chart-box" data-source="BLS LAUS / DOLA" data-source-url="https://www.bls.gov/lau/" data-vintage="BLS 2023 · DOLA 2024" data-source-type="transformed"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
