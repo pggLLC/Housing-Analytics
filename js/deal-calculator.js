@@ -375,6 +375,12 @@
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
+        <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
+          ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
+          (CO market typically $0.85–$0.95/credit). Gross rents use
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY 2025</a>
+          published limits (lags ~18 mo); spot-check against current market rents before underwriting.
+        </p>
       </fieldset>
 
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
@@ -399,6 +405,12 @@
           <dd id="dc-r-taxsave" style="font-weight:700;text-align:right;color:var(--accent);display:none;">—</dd>
         </dl>
         <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);">Cap rate and break-even occupancy require auto-compute NOI to be enabled.</p>
+        <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
+          ⚠ Verify: Supportable mortgage is a planning-level estimate based on your DCR, rate, and term inputs —
+          actual lender underwriting differs.
+          <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA</a>
+          and conventional lenders apply independent DCR, LTV, and debt-service reserve requirements.
+        </p>
       </fieldset>
 
       <!-- Sources & Uses Panel -->

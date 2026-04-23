@@ -622,6 +622,7 @@
 
     var dims = result.dimensions;
     var dimAvail = result.dimensionDataAvailable || {};
+    var dimNotes = result.dimensionNotes || {};
     var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
     var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
@@ -631,6 +632,13 @@
       'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
     ];
+    // Per-dimension verify hints — surfaced below each bar when real data is present.
+    // Links point to the authoritative source users should cross-check.
+    var dimVerify = {
+      captureRisk:     '⚠ Verify: ratio only — <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA market analysis</a> requires income-qualified demand study',
+      rentPressure:    '⚠ Verify: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR</a> (lags ~18 mo) · spot-check vs. current market rents',
+      marketTightness: '⚠ Verify: ACS 5-yr vacancy (lags ~18 mo) · does not reflect buildable-land constraints'
+    };
     var listEl = el('pmaDimList');
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
@@ -642,12 +650,16 @@
         var stubLabel = hasData ? '' :
           ' <span style="font-size:.7em;color:var(--warn,#c0392b);font-weight:600;margin-left:.25rem" ' +
           'title="Score based on fallback defaults — real data not available">(estimated)</span>';
+        var verifyHint = (hasData && dimVerify[k])
+          ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.68rem">' + dimVerify[k] + '</span>'
+          : '';
         return '<li class="pma-dim-item" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">' +
           '<span class="pma-dim-name">' + dimLabels[i] + stubLabel +
             '<span class="pma-dim-info" aria-hidden="true" title="' + dimDescs[i].replace(/"/g, '&quot;') + '">ⓘ</span>' +
           '</span>' +
           '<div class="pma-dim-bar-wrap" style="flex:1">' +
             '<div class="pma-dim-bar" style="width:' + s + '%;background:' + barColor + ';opacity:' + barOpacity + '"></div>' +
+            verifyHint +
           '</div>' +
           '<span class="pma-dim-score" style="' + (hasData ? '' : 'color:var(--muted,#666);font-style:italic') + '">' +
             (hasData ? s : '<abbr title="No data available for this dimension" style="text-decoration:none;cursor:help">\u2014</abbr>' +
