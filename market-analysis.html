@@ -460,7 +460,7 @@
         </div>
 
         <!-- Radar Chart + Dimensions -->
-        <div class="pma-card">
+        <div class="pma-card" data-source="ACS 5-Year + HUD LIHTC DB + FRED + DOLA" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="ACS 2019–2023 · HUD LIHTC 2023 · FRED 2024 · DOLA 2024" data-source-type="modeled">
           <h2>Dimension Scores</h2>
           <div class="pma-radar-wrap">
             <canvas id="pmaRadarChart" role="img" aria-label="Radar chart: Primary Market Area scoring across affordability, demand, supply, and risk dimensions"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
@@ -514,27 +514,22 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcCount">—</div>
               <div class="pma-stat-label">LIHTC projects</div>
-              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a> (HUD DB lags ~18 mo)</div>
-            </div>
-            <div class="pma-stat">
-              <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
-              <div class="pma-stat-label">Existing LIHTC units</div>
-              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a> (HUD DB lags ~18 mo)</div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
               <div class="pma-stat-label">Capture rate (existing)</div>
-              <div class="kpi-source kpi-verify">⚠ Verify: ACS 2024 (5-yr rolling) ÷ HUD LIHTC count</div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2024</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
               <div class="pma-stat-label">Renter households</div>
-              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://data.census.gov" target="_blank" rel="noopener">ACS 2024 5-yr</a> (tract-level aggregated)</div>
+              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2024</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
               <div class="pma-stat-label">In Prop 123 jurisdictions</div>
-              <div class="kpi-source kpi-verify">⚠ Verify: <a href="https://cdola.colorado.gov/prop-123" target="_blank" rel="noopener">DOLA Prop 123 commitment list</a></div>
+              <div class="kpi-source"><a href="https://demography.dola.colorado.gov/prop123/" target="_blank" rel="noopener">DOLA Prop 123</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcLastFunded" style="font-size:.85rem;line-height:1.25;">—</div>

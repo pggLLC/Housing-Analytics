@@ -205,15 +205,15 @@
         <div id="sbScenarioButtons" class="sb-scenario-buttons">
           <button class="sb-scenario-btn active" data-scenario="baseline" type="button">
             <span data-i18n="scenarios.baseline.name">Baseline (Moderate Growth)</span>
-            <small data-i18n="hna.projections.dolaBaseline">DOLA Baseline</small>
+            <small>COHO preset · DOLA base pop.</small>
           </button>
           <button class="sb-scenario-btn" data-scenario="low-growth" type="button">
             <span data-i18n="scenarios.lowGrowth.name">Low Growth</span>
-            <small data-i18n="scenarios.attribution.fred">FRED Historical</small>
+            <small>COHO preset</small>
           </button>
           <button class="sb-scenario-btn" data-scenario="high-growth" type="button">
             <span data-i18n="scenarios.highGrowth.name">High Growth</span>
-            <small data-i18n="scenarios.attribution.dola">DOLA + Economic Projection</small>
+            <small>COHO preset</small>
           </button>
         </div>
 
@@ -305,6 +305,26 @@
           &nbsp;|&nbsp;
           <a href="docs/PROJECTION-METHODOLOGY.md" data-i18n="dataAttribution.methodologyLink">Methodology →</a>
         </div>
+        <!-- Model assumptions disclosure -->
+        <details style="margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <summary style="font-size:var(--small);font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;gap:0.4rem;">
+            <span aria-hidden="true">ℹ</span> Model assumptions &amp; provenance
+          </summary>
+          <dl style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem 1rem;font-size:var(--tiny);color:var(--text);margin:0.5rem 0 0;">
+            <dt style="color:var(--muted);font-weight:600;">Base population</dt>
+            <dd style="margin:0;"><a href="https://demography.dola.colorado.gov/assets/html/sdodata.html" target="_blank" rel="noopener">DOLA SYA 2024 vintage</a> — county-level single-year-of-age estimates</dd>
+            <dt style="color:var(--muted);font-weight:600;">Headship rate</dt>
+            <dd style="margin:0;">0.38 (fixed) — national ACS 5-yr estimate; may not reflect local conditions</dd>
+            <dt style="color:var(--muted);font-weight:600;">Vacancy target</dt>
+            <dd style="margin:0;">5.0% (fixed) — planning-level assumption; actual vacancy varies by market</dd>
+            <dt style="color:var(--muted);font-weight:600;">Scenario presets</dt>
+            <dd style="margin:0;">COHO-defined presets (fertility ×, mortality ×, net migration); not derived from DOLA or FRED forecasts</dd>
+            <dt style="color:var(--muted);font-weight:600;">Migration distribution</dt>
+            <dd style="margin:0;">Age-distributed using national US proportions; not county-calibrated</dd>
+            <dt style="color:var(--muted);font-weight:600;">Model type</dt>
+            <dd style="margin:0;"><strong>Modeled</strong> — cohort-component projection; outputs are illustrative estimates, not certified forecasts</dd>
+          </dl>
+        </details>
 
         <!-- Chart panel -->
         <div class="sb-chart-panel">
@@ -387,11 +407,16 @@
         statusEl.textContent = 'Loading DOLA data…';
 
         const root = (window.__REPO_ROOT || '');
-        fetch(root + 'data/hna/dola_sya/' + fips + '.json')
-          .then(function (r) {
-            if (!r.ok) throw new Error('Not found');
-            return r.json();
-          })
+        var dolaPath = 'data/hna/dola_sya/' + fips + '.json';
+
+        var fetchFn = (typeof window.safeFetchJSON === 'function')
+          ? function (path) { return window.safeFetchJSON(path); }
+          : function (path) {
+              return fetch(root + path)
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+            };
+
+        fetchFn(dolaPath)
           .then(function (dolaData) {
             statusEl.textContent = 'Data loaded for ' + (select.options[select.selectedIndex]?.text || fips);
             if (window.ScenarioBuilder) {

@@ -3,12 +3,21 @@
  * Auto-renders source attribution badges beneath chart/stat containers.
  *
  * Usage (declarative):
- *   <div class="chart-box" data-source="HUD CHAS 2017-2021" data-source-url="https://huduser.gov/...">
+ *   <div class="chart-box"
+ *        data-source="HUD CHAS 2017-2021"
+ *        data-source-url="https://huduser.gov/..."
+ *        data-vintage="2017–2021"
+ *        data-source-type="raw">
  *     <canvas id="myChart"></canvas>
  *   </div>
  *
+ * data-source-type values: raw | transformed | modeled
+ *   raw         – data used exactly as published by the source
+ *   transformed – aggregated, filtered, or joined from the source
+ *   modeled     – output of a formula or model applied to source data
+ *
  * Or call imperatively from chart render code:
- *   SourceBadge.attach(element, { source: 'FRED CPIAUCSL', url: '...' });
+ *   SourceBadge.attach(element, { source: 'FRED CPIAUCSL', url: '...', vintage: '2024', sourceType: 'raw' });
  *
  * Styling uses the existing .chart-source class from site-theme.css.
  * Attaching twice to the same element is a no-op.
@@ -22,10 +31,17 @@
   var _observer = null;
   var _pendingScan = false;
 
+  /** Map source-type values to human-readable labels. */
+  var SOURCE_TYPE_LABELS = {
+    raw:         'Raw data',
+    transformed: 'Transformed',
+    modeled:     'Modeled',
+  };
+
   /**
    * Attach a source badge to a container element.
    * @param {HTMLElement} el - The container to attach to.
-   * @param {{ source: string, url?: string }} opts
+   * @param {{ source: string, url?: string, vintage?: string, sourceType?: string }} opts
    * @returns {HTMLElement|null} the badge element, or null if nothing was attached.
    */
   function attach(el, opts) {
@@ -50,14 +66,34 @@
 
     var badge = document.createElement('div');
     badge.className = 'chart-source';
-    badge.setAttribute('aria-label', 'Data source: ' + opts.source);
 
+    var ariaLabel = 'Data source: ' + opts.source;
+    if (opts.vintage) ariaLabel += ' (' + opts.vintage + ')';
+    badge.setAttribute('aria-label', ariaLabel);
+
+    // Build the inner HTML with optional vintage and source-type metadata
+    var parts = [];
+
+    var sourcePart;
     if (opts.url) {
-      badge.innerHTML = 'Source: <a href="' + opts.url + '" target="_blank" rel="noopener">' +
+      sourcePart = 'Source: <a href="' + opts.url + '" target="_blank" rel="noopener">' +
         opts.source + '</a>';
     } else {
-      badge.textContent = 'Source: ' + opts.source;
+      sourcePart = 'Source: ' + opts.source;
     }
+    parts.push(sourcePart);
+
+    if (opts.vintage) {
+      parts.push('<span class="chart-source__vintage">' + opts.vintage + '</span>');
+    }
+
+    if (opts.sourceType && SOURCE_TYPE_LABELS[opts.sourceType]) {
+      var typeLabel = SOURCE_TYPE_LABELS[opts.sourceType];
+      var typeClass = 'chart-source__type chart-source__type--' + opts.sourceType;
+      parts.push('<span class="' + typeClass + '" title="Data type: ' + typeLabel + '">' + typeLabel + '</span>');
+    }
+
+    badge.innerHTML = parts.join(' · ');
 
     target.appendChild(badge);
     return badge;
@@ -72,8 +108,10 @@
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
       attach(el, {
-        source: el.getAttribute('data-source'),
-        url:    el.getAttribute('data-source-url') || null
+        source:     el.getAttribute('data-source'),
+        url:        el.getAttribute('data-source-url')  || null,
+        vintage:    el.getAttribute('data-vintage')     || null,
+        sourceType: el.getAttribute('data-source-type') || null,
       });
     }
   }
