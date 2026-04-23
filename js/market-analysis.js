@@ -622,7 +622,6 @@
 
     var dims = result.dimensions;
     var dimAvail = result.dimensionDataAvailable || {};
-    var dimNotes = result.dimensionNotes || {};
     var dimNames  = ['demand', 'captureRisk', 'rentPressure', 'marketTightness', 'workforce'];
     var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
