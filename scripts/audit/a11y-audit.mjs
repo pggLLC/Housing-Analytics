@@ -49,6 +49,7 @@ const AUDIT_PAGES = [
   'regional.html',
   'market-analysis.html',
   'deal-calculator.html',
+  'land-value.html',
   'housing-legislation-2026.html',
   'about.html',
   'insights.html',
