@@ -386,12 +386,81 @@
     return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts).score;
   }
 
-  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi) {
+  /**
+   * Compute LIHTC recency context from nearby features. A market with its
+   * last allocation in 2018 reads very differently from one last funded
+   * in 2024 — CHFA geographic-distribution scoring and competitive
+   * saturation both depend on this temporal signal, which prior PMA
+   * scoring ignored entirely.
+   *
+   * @param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
+   * @returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}
+   */
+  function _computeLihtcRecency(nearbyFeatures) {
+    var currentYear = new Date().getFullYear();
+    var years = (nearbyFeatures || []).map(function (f) {
+      var p = (f && f.properties) || {};
+      // Prefer YR_ALLOC (when CHFA awarded credits) over YR_PIS (placed-in-service).
+      // YR_ALLOC reflects CHFA decision timing; YR_PIS lags 18-30 months.
+      return parseInt(p.YR_ALLOC || p.YR_PIS || p.yearAllocated || p.yearPlaced || 0, 10);
+    }).filter(function (y) { return y > 1985 && y <= currentYear; });
+
+    if (!years.length) {
+      return {
+        mostRecentYear: null,
+        yearsSince: null,
+        recentAllocations5yr: 0,
+        activityLevel: 'no-data',
+        note: null
+      };
+    }
+
+    var mostRecent = Math.max.apply(null, years);
+    var yearsSince = currentYear - mostRecent;
+    var recent5yr = years.filter(function (y) { return currentYear - y <= 5; }).length;
+
+    // Activity labels:
+    //  - 'very-active': 3+ allocations in last 5 years (saturation risk; CHFA
+    //    geographic-distribution rules may penalize additional deals)
+    //  - 'active': 1-2 allocations in last 5 years (normal activity)
+    //  - 'quiet': last allocation 6-10 years ago (gap; opportunity)
+    //  - 'dormant': 11+ years since last allocation (deep gap; CHFA may
+    //    prioritize for geographic equity)
+    var activityLevel, note;
+    if (recent5yr >= 3) {
+      activityLevel = 'very-active';
+      note = recent5yr + ' LIHTC allocations within the PMA in the last 5 years. ' +
+        'CHFA geographic-distribution scoring may limit further awards; check QAP §6.c.';
+    } else if (recent5yr >= 1) {
+      activityLevel = 'active';
+      note = 'Most recent LIHTC allocation: ' + mostRecent + ' (' + yearsSince + ' yr' +
+        (yearsSince === 1 ? '' : 's') + ' ago). Market has active LIHTC pipeline.';
+    } else if (yearsSince <= 10) {
+      activityLevel = 'quiet';
+      note = 'No LIHTC allocations in the last 5 years (most recent: ' + mostRecent + '). ' +
+        'Possible unmet-demand signal; verify against HNA gap data.';
+    } else {
+      activityLevel = 'dormant';
+      note = 'No LIHTC allocations in the last 10+ years (most recent: ' + mostRecent + '). ' +
+        'Significant gap — CHFA may favor geographic-equity scoring for this area.';
+    }
+
+    return {
+      mostRecentYear: mostRecent,
+      yearsSince: yearsSince,
+      recentAllocations5yr: recent5yr,
+      activityLevel: activityLevel,
+      note: note
+    };
+  }
+
+  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi, nearbyLihtcFeatures) {
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits);
     var rentPressureObj    = scoreRentPressure(acs, countyAmi);
+    var lihtcRecency       = _computeLihtcRecency(nearbyLihtcFeatures);
     // Market tightness score (vacancy-based demand signal — NOT land availability)
     var _bridgeLandCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
       ? window.BridgeMarketSummary.getLandCostContext(lat, lon)
@@ -429,6 +498,16 @@
     if (rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
     }
+
+    // LIHTC recency flags — surface competitive saturation vs. gap signals
+    // that CHFA's geographic-distribution scoring explicitly considers
+    // but which prior PMA scoring ignored entirely.
+    if (lihtcRecency.activityLevel === 'very-active') {
+      flags.push({ level: 'warn', text: lihtcRecency.note });
+    } else if (lihtcRecency.activityLevel === 'dormant') {
+      flags.push({ level: 'ok', text: lihtcRecency.note });
+    }
+
     if (!flags.length) {
       flags.push({ level: 'ok', text: 'No critical risk flags detected' });
     }
@@ -523,7 +602,8 @@
       pma_data_coverage: pmaDataCoverage,
       fallback_reasons:  fallbackReasons,
       bridgeLandContext:  _bridgeLandCtx,
-      bridgeVelocity:    _bridgeVelCtx
+      bridgeVelocity:    _bridgeVelCtx,
+      lihtcRecency:      lihtcRecency
     };
   }
 
@@ -713,6 +793,22 @@
     setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
+
+    // Surface LIHTC recency — CHFA scoring considers last-funded-year;
+    // "last funded 2018 (7 yrs ago)" is a meaningfully different signal
+    // than "last funded 2024 (1 yr ago)" for both competitive saturation
+    // and geographic-distribution scoring.
+    var rec = result.lihtcRecency;
+    if (rec && rec.mostRecentYear != null) {
+      setText('pmaLihtcLastFunded',
+        rec.mostRecentYear + ' (' + rec.yearsSince + ' yr' +
+        (rec.yearsSince === 1 ? '' : 's') + ' ago' +
+        (rec.recentAllocations5yr > 0 ? ', ' + rec.recentAllocations5yr + ' in last 5 yrs' : '') +
+        ')'
+      );
+    } else {
+      setText('pmaLihtcLastFunded', 'No prior LIHTC in buffer');
+    }
 
     renderDataCoverage(result);
     updateRadarChart(result.dimensions, result.dimensionDataAvailable);
@@ -1151,7 +1247,7 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi);
+    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc);
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -1252,7 +1348,13 @@
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
         competitiveSetSize: lihtcCount || 0,
-        marketVacancy:      acs.vacancy_rate || null
+        marketVacancy:      acs.vacancy_rate || null,
+        // LIHTC recency — allows predictor to flag saturation (many recent
+        // allocations = CHFA geo-distribution pressure) vs. gap (dormant
+        // market = opportunity) separately from raw count.
+        mostRecentLihtcYear: pma.lihtcRecency && pma.lihtcRecency.mostRecentYear,
+        recentAllocations5yr: pma.lihtcRecency && pma.lihtcRecency.recentAllocations5yr,
+        lihtcActivityLevel:  pma.lihtcRecency && pma.lihtcRecency.activityLevel
       };
 
       var needProfile = null;
