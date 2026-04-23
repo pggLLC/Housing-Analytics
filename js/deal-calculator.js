@@ -2,9 +2,14 @@
   'use strict';
 
   // Financial defaults from centralized config (js/config/financial-constants.js).
-  // Overridden dynamically when HudFmr loads and a county is selected.
+  // Populated when HudFmr loads and a county is selected. AMI rent limits
+  // are INTENTIONALLY null until the user picks a county — CO AMI ranges
+  // from ~$52k (rural) to ~$124k (Denver MSA), so a one-size-fits-all
+  // default (e.g. Denver MSA at 60% = $1,860) mis-states feasibility for
+  // the majority of CO counties. Rent inputs render as placeholders until
+  // county resolution populates real values.
   var _cfg = window.COHO_DEFAULTS || {};
-  var _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
+  var _amiLimits = null;
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
@@ -51,7 +56,9 @@
     var hudFmr = window.HudFmr;
     if (!hudFmr || !hudFmr.isLoaded()) return;
     var counties = hudFmr.getAllCounties();
-    sel.innerHTML = '<option value="">Default (Denver MSA)</option>';
+    // No "Default (Denver MSA)" option — the Denver defaults are wrong for
+    // ~56 of 64 CO counties. Force the user to pick one.
+    sel.innerHTML = '<option value="">Select a county…</option>';
     counties
       .slice()
       .sort(function (a, b) { return (a.county_name || '').localeCompare(b.county_name || ''); })
@@ -172,8 +179,8 @@
             <option value="">Default (Denver MSA)</option>
           </select>
         </label>
-        <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--muted);margin-top:-0.25rem;margin-bottom:var(--sp2);">
-          Gross rent limits: 30% AMI = $930 &bull; 40% = $1,240 &bull; 50% = $1,550 &bull; 60% = $1,860
+        <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--warn, #e6a23c);margin-top:-0.25rem;margin-bottom:var(--sp2);">
+          Select a county above to load HUD-published AMI rent limits for that county.
         </div>
       </fieldset>
 
@@ -212,7 +219,7 @@
             <span style="font-size:var(--small);color:var(--muted);">Operating Expenses ($/unit/month)</span>
             <input id="dc-opex" type="number" min="0" step="10" value="450"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Typical LIHTC: $400–$600/unit/month (includes mgmt, maintenance, insurance — property tax broken out below)</span>
+            <span style="font-size:var(--tiny);color:var(--muted);">Initial default $450 reflects Denver-MSA LIHTC operating costs. <strong>Rural CO counties often run $250–$350</strong> — verify with your property manager or peer comparables.</span>
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Replacement Reserve ($/unit/year)</span>
@@ -224,7 +231,7 @@
             <span style="font-size:var(--small);color:var(--muted);">Property Tax ($/unit/year)</span>
             <input id="dc-prop-tax" type="number" min="0" step="50" value="900"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-            <span style="font-size:var(--tiny);color:var(--muted);">Typical range: $600–$1,200/unit/year (broken out from OpEx for exemption modeling)</span>
+            <span style="font-size:var(--tiny);color:var(--muted);">Initial default $900 is a Front-Range ballpark. <strong>Mill levies vary 3–5× across CO</strong> — check your county assessor before committing to a pro forma.</span>
           </label>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Tax Exemption</span>
@@ -709,12 +716,15 @@
     // Rent income — sum checked AMI-tier units
     var annualRents = 0;
     var amiUnitSum = 0;
+    // _amiLimits is null until the user selects a county. Skip the rent roll
+    // entirely rather than fabricating Denver MSA rents — NaN propagation
+    // through the pro-forma would mislead more than a visible zero.
     [30, 40, 50, 60].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
       if (chk && uInput) {
         var u = parseInt(uInput.value, 10) || 0;
-        if (chk.checked) {
+        if (chk.checked && _amiLimits && _amiLimits[pct]) {
           annualRents += u * _amiLimits[pct] * 12;
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
@@ -760,12 +770,22 @@
     var taxSavings = 0;
     if (autoNoi && autoNoi.checked) {
       var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
-      var opexPerUnitMonth = safeVal('dc-opex') || 450;
-      var repReservePerUnit = safeVal('dc-rep-reserve') || 350;
+      // Do NOT silently substitute Denver-MSA defaults (450/350/900) when
+      // any of these fields are blank — they vary materially across CO
+      // counties (rural opex often $250-350/mo vs. $450 Denver). A blank
+      // field should visibly zero the line, not fabricate a plausible
+      // Front-Range number. UI fields keep their initial defaults via the
+      // input `value` attribute so users see suggestions, but clearing a
+      // field now surfaces as "0" rather than silent substitution.
+      var opexPerUnitMonth = safeVal('dc-opex');
+      var repReservePerUnit = safeVal('dc-rep-reserve');
+      var propTaxPerUnit = safeVal('dc-prop-tax');
+      if (!isFinite(opexPerUnitMonth) || opexPerUnitMonth < 0) opexPerUnitMonth = 0;
+      if (!isFinite(repReservePerUnit) || repReservePerUnit < 0) repReservePerUnit = 0;
+      if (!isFinite(propTaxPerUnit) || propTaxPerUnit < 0) propTaxPerUnit = 0;
       var effectiveGrossIncome = annualRents * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);
-      var propTaxPerUnit = safeVal('dc-prop-tax') || 900;
       var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
       var annualPropTax = propTaxPerUnit * (units || 60);
       taxSavings = annualPropTax * taxExemptPct;
@@ -1026,6 +1046,7 @@
     var units = parseInt((document.getElementById('dc-units') || {}).value, 10) || 60;
     var dealInputs = {
       geoid: fips || undefined,
+      countyFips: fips || null,    // drives hard-cost geographic multiplier in predictor
       proposedUnits: units,
       isQct: !!(document.getElementById('dc-qct-dda') || {}).checked
     };
@@ -1139,16 +1160,25 @@
         if (fips) {
           updateAmiLimitsFromFmr(fips);
         } else {
-          _amiLimits = Object.assign({ 30: 930, 40: 1240, 50: 1550, 60: 1860 }, _cfg.defaultAmiLimits);
+          // No county selected — clear rent limits rather than defaulting to
+          // Denver MSA, which systematically over-estimates rent capacity
+          // for the ~56 non-metro CO counties.
+          _amiLimits = null;
           _countyFips = null;
         }
         // Update the FMR note
         var noteEl = document.getElementById('dc-fmr-note');
         if (noteEl) {
-          noteEl.textContent = 'Gross rent limits: ' +
-            [30, 40, 50, 60].map(function (p) {
-              return p + '% AMI = $' + _amiLimits[p].toLocaleString();
-            }).join(' \u2022 ');
+          if (_amiLimits) {
+            noteEl.textContent = 'Gross rent limits: ' +
+              [30, 40, 50, 60].map(function (p) {
+                return p + '% AMI = $' + _amiLimits[p].toLocaleString();
+              }).join(' \u2022 ');
+            noteEl.style.color = '';
+          } else {
+            noteEl.textContent = 'Select a county above to load HUD-published AMI rent limits for that county.';
+            noteEl.style.color = 'var(--warn, #e6a23c)';
+          }
         }
         _renderAmiGapInfo(fips);
         _runDealPredictor(fips);

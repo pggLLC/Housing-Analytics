@@ -153,14 +153,60 @@
   if (typeof window !== 'undefined') { _loadAssumptions(); }
 
   /**
-   * Return hard cost per unit for the given concept type.
-   * Uses concept-specific cost from JSON when available.
+   * Geographic cost multipliers by CO county FIPS. Calibrated to bracket
+   * the ~$180k (rural) to ~$450k (resort) range with a Front-Range base
+   * of ~1.0. Applied on top of concept-specific base costs from
+   * lihtc-assumptions.json. Counties not listed here use the base cost
+   * (treated as Front-Range-ish). This is explicit so callers can audit
+   * the assumption rather than inheriting a single statewide number.
    */
-  function _getHardCostPerUnit(conceptType) {
-    if (_hardCostByConcept && _hardCostByConcept[conceptType]) {
-      return _hardCostByConcept[conceptType];
-    }
-    return DEFAULT_ASSUMPTIONS.hardCostPerUnit;
+  var _HARD_COST_MULTIPLIERS_BY_FIPS = {
+    // Mountain / resort counties (high cost: labor premium + logistics)
+    '08037': 1.30,  // Eagle
+    '08049': 1.25,  // Grand
+    '08057': 1.25,  // Jackson
+    '08065': 1.20,  // Lake
+    '08067': 1.20,  // La Plata
+    '08091': 1.15,  // Ouray
+    '08097': 1.35,  // Pitkin (Aspen)
+    '08103': 1.20,  // Rio Blanco
+    '08107': 1.25,  // Routt (Steamboat)
+    '08109': 1.15,  // Saguache
+    '08113': 1.25,  // San Miguel (Telluride)
+    '08117': 1.25,  // Summit
+    // Front Range metro (base, multiplier ~1.0)
+    '08001': 1.00, '08005': 1.00, '08013': 1.00, '08014': 1.00, '08031': 1.00,
+    '08035': 1.00, '08041': 1.00, '08059': 1.00, '08069': 1.00, '08123': 1.00,
+    // Rural eastern plains + southern CO (lower labor, lower land, less logistics)
+    '08009': 0.80, '08011': 0.80, '08017': 0.75, '08025': 0.75, '08039': 0.85,
+    '08063': 0.80, '08071': 0.80, '08073': 0.75, '08075': 0.80, '08087': 0.80,
+    '08089': 0.80, '08095': 0.75, '08099': 0.80, '08115': 0.75, '08121': 0.75,
+    '08125': 0.80
+  };
+
+  /**
+   * Return hard cost per unit for the given concept type, optionally
+   * adjusted for the project's county FIPS. When countyFips is not
+   * provided (e.g. caller couldn't resolve it) returns the concept-
+   * specific base cost unmodified — callers should treat that case as
+   * "approximate, no geographic adjustment applied" and surface to user.
+   *
+   * @param {string} conceptType  'family' / 'seniors' / 'mixed-use' / 'supportive'
+   * @param {string} [countyFips] 5-digit FIPS for geographic multiplier
+   * @returns {{value:number, source:string, multiplier:number}}
+   */
+  function _getHardCostPerUnit(conceptType, countyFips) {
+    var base = (_hardCostByConcept && _hardCostByConcept[conceptType])
+      ? _hardCostByConcept[conceptType]
+      : DEFAULT_ASSUMPTIONS.hardCostPerUnit;
+    var multiplier = (countyFips && _HARD_COST_MULTIPLIERS_BY_FIPS[countyFips])
+      || 1.0;
+    var source = !countyFips
+      ? 'base (no county resolved — geographic adjustment skipped)'
+      : multiplier !== 1.0
+        ? 'base × ' + multiplier + ' (' + (multiplier > 1 ? 'resort/mountain premium' : 'rural/plains discount') + ')'
+        : 'base (Front-Range baseline)';
+    return { value: Math.round(base * multiplier), source: source, multiplier: multiplier };
   }
 
   /**
@@ -374,7 +420,8 @@
 
   function _computeCapitalStack(inputs, execution, unitMix, conceptType) {
     var totalUnits   = _num(inputs.proposedUnits, 60);
-    var hardCostPU   = _getHardCostPerUnit(conceptType || 'family');
+    var hcResult     = _getHardCostPerUnit(conceptType || 'family', inputs.countyFips || null);
+    var hardCostPU   = hcResult.value;
     var hardCost     = hardCostPU * totalUnits;
     var softCost     = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
     var totalDevCost = hardCost + softCost;
@@ -406,7 +453,10 @@
       localSoft:            Math.round(localSoft),
       stateSoft:            Math.round(stateSoft),
       deferredFee:          Math.round(deferred),
-      gap:                  Math.round(gap)
+      gap:                  Math.round(gap),
+      hardCostPerUnit:      hardCostPU,
+      hardCostSource:       hcResult.source,
+      hardCostMultiplier:   hcResult.multiplier
     };
   }
 
@@ -513,7 +563,7 @@
 
     // Equity price sensitivity: +/- 3 cents on equity pricing
     var basePrice   = (execution === '4%') ? DEFAULT_ASSUMPTIONS.equityPrice4Pct : DEFAULT_ASSUMPTIONS.equityPrice9Pct;
-    var hardCostPU  = _getHardCostPerUnit(conceptType || 'family');
+    var hardCostPU  = _getHardCostPerUnit(conceptType || 'family', inputs.countyFips || null).value;
     var hardCost    = hardCostPU * units;
     var softCost    = hardCost * DEFAULT_ASSUMPTIONS.softCostPct;
     var totalCost   = (hardCost + softCost) * (1 + DEFAULT_ASSUMPTIONS.devFeePct);

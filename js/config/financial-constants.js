@@ -25,16 +25,13 @@
     equityPrice9Pct: 0.90,         // 9% deals (national average)
     equityPrice4Pct: 0.85,         // 4%/bond deals (national average)
 
-    // ── Default AMI Rent Limits ─────────────────────────────────────
-    // Denver-Aurora-Lakewood MSA fallback values.
-    // Overridden dynamically by HudFmr when data loads.
-    // Source: HUD FY2025 FMR, Denver-Aurora-Lakewood MSA
-    defaultAmiLimits: {
-      30: 930,
-      40: 1240,
-      50: 1550,
-      60: 1860
-    },
+    // ── AMI Rent Limits (county-resolved) ──────────────────────────
+    // AMI-indexed rent limits MUST come from HudFmr.getGrossRentLimit(fips, pct)
+    // — there is intentionally NO statewide fallback. Colorado 4-person AMI
+    // ranges from ~$52k (Alamosa) to ~$124k (Denver MSA); a Denver-MSA
+    // default silently over-stated rents by up to 64% for ~56 non-metro
+    // counties. Callers must handle "no county selected" explicitly.
+    // (Removed: defaultAmiLimits {30:930, 40:1240, 50:1550, 60:1860})
 
     // ── Mortgage & Financing ────────────────────────────────────────
     // Source: Freddie Mac PMMS, Q1 2026 (~7.0% 30-yr fixed)
@@ -70,7 +67,6 @@
 
   // Freeze to prevent accidental mutation
   if (Object.freeze) Object.freeze(COHO_DEFAULTS);
-  if (Object.freeze && COHO_DEFAULTS.defaultAmiLimits) Object.freeze(COHO_DEFAULTS.defaultAmiLimits);
 
   window.COHO_DEFAULTS = COHO_DEFAULTS;
 })();
