@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T09:03:26.688Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T10:54:18.779Z. Do not edit by hand.
 
 ---
 
@@ -115,7 +115,7 @@
 | `data/hna/dola_sya/08051.json` | 1.8 KB | ✅ | — |
 | `data/hna/dola_sya/08053.json` | 1.5 KB | ✅ | — |
 | `data/hna/dola_sya/08055.json` | 1.7 KB | ✅ | — |
-| `data/hna/dola_sya/08057.json` | 1.5 KB | ✅ | — |
+| `data/hna/dola_sya/08057.json` | 1.6 KB | ✅ | — |
 | `data/hna/dola_sya/08059.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08061.json` | 1.6 KB | ✅ | — |
 | `data/hna/dola_sya/08063.json` | 1.7 KB | ✅ | — |
@@ -140,12 +140,12 @@
 | `data/hna/dola_sya/08101.json` | 2.0 KB | ✅ | — |
 | `data/hna/dola_sya/08103.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08105.json` | 1.7 KB | ✅ | — |
-| `data/hna/dola_sya/08107.json` | 1.9 KB | ✅ | — |
+| `data/hna/dola_sya/08107.json` | 1.8 KB | ✅ | — |
 | `data/hna/dola_sya/08109.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08111.json` | 1.5 KB | ✅ | — |
 | `data/hna/dola_sya/08113.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08115.json` | 1.6 KB | ✅ | — |
-| `data/hna/dola_sya/08117.json` | 1.9 KB | ✅ | — |
+| `data/hna/dola_sya/08117.json` | 1.8 KB | ✅ | — |
 | `data/hna/dola_sya/08119.json` | 1.8 KB | ✅ | — |
 | `data/hna/dola_sya/08121.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
@@ -158,52 +158,52 @@
 | `data/hna/lehd/08005.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08007.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08009.json` | 2.3 KB | ✅ | — |
-| `data/hna/lehd/08011.json` | 2.4 KB | ✅ | — |
+| `data/hna/lehd/08011.json` | 2.3 KB | ✅ | — |
 | `data/hna/lehd/08013.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08014.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08015.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08017.json` | 2.4 KB | ✅ | — |
-| `data/hna/lehd/08019.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08019.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08021.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08023.json` | 2.2 KB | ✅ | — |
 | `data/hna/lehd/08025.json` | 2.1 KB | ✅ | — |
-| `data/hna/lehd/08027.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08027.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08029.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08031.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08033.json` | 2.3 KB | ✅ | — |
-| `data/hna/lehd/08035.json` | 2.7 KB | ✅ | — |
+| `data/hna/lehd/08035.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08037.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08039.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08039.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08041.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08043.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08045.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08047.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08047.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08049.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08051.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08053.json` | 2.3 KB | ✅ | — |
-| `data/hna/lehd/08055.json` | 2.5 KB | ✅ | — |
-| `data/hna/lehd/08057.json` | 2.2 KB | ✅ | — |
+| `data/hna/lehd/08055.json` | 2.4 KB | ✅ | — |
+| `data/hna/lehd/08057.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08059.json` | 2.7 KB | ✅ | — |
-| `data/hna/lehd/08061.json` | 2.2 KB | ✅ | — |
+| `data/hna/lehd/08061.json` | 2.1 KB | ✅ | — |
 | `data/hna/lehd/08063.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08065.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08067.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08069.json` | 2.7 KB | ✅ | — |
-| `data/hna/lehd/08071.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08073.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08069.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08071.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08073.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08075.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08077.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08079.json` | 2.2 KB | ✅ | — |
-| `data/hna/lehd/08081.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08081.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08083.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08085.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08087.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08089.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08091.json` | 2.5 KB | ✅ | — |
-| `data/hna/lehd/08093.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08095.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08093.json` | 2.5 KB | ✅ | — |
+| `data/hna/lehd/08095.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08097.json` | 2.6 KB | ✅ | — |
-| `data/hna/lehd/08099.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08099.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08101.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08103.json` | 2.5 KB | ✅ | — |
 | `data/hna/lehd/08105.json` | 2.5 KB | ✅ | — |
@@ -215,8 +215,8 @@
 | `data/hna/lehd/08117.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08119.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08121.json` | 2.4 KB | ✅ | — |
-| `data/hna/lehd/08123.json` | 2.7 KB | ✅ | — |
-| `data/hna/lehd/08125.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08123.json` | 2.6 KB | ✅ | — |
+| `data/hna/lehd/08125.json` | 2.5 KB | ✅ | — |
 | `data/hna/lihtc/08001.json` | 18.5 KB | ✅ | 49 features |
 | `data/hna/lihtc/08003.json` | 1.6 KB | ✅ | 4 features |
 | `data/hna/lihtc/08005.json` | 24.0 KB | ✅ | 63 features |
@@ -287,11 +287,11 @@
 | `data/hna/projections/08001.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08003.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08005.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08007.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08007.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08009.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08011.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08013.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08014.json` | 2.8 KB | ✅ | — |
+| `data/hna/projections/08014.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08015.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08017.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08019.json` | 2.8 KB | ✅ | — |
@@ -320,7 +320,7 @@
 | `data/hna/projections/08065.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08067.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08069.json` | 2.9 KB | ✅ | — |
-| `data/hna/projections/08071.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08071.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08073.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08075.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08077.json` | 2.9 KB | ✅ | — |
@@ -333,8 +333,8 @@
 | `data/hna/projections/08091.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08093.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08095.json` | 2.8 KB | ✅ | — |
-| `data/hna/projections/08097.json` | 2.8 KB | ✅ | — |
-| `data/hna/projections/08099.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08097.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08099.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08101.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08103.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08105.json` | 2.8 KB | ✅ | — |
@@ -343,7 +343,7 @@
 | `data/hna/projections/08111.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08113.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08115.json` | 2.8 KB | ✅ | — |
-| `data/hna/projections/08117.json` | 2.9 KB | ✅ | — |
+| `data/hna/projections/08117.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08119.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
@@ -1058,9 +1058,9 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 5.6 KB |
-| `.github/workflows/cache-hud-gis-data.yml` | 10.8 KB |
-| `.github/workflows/car-data-update.yml` | 1.9 KB |
+| `.github/workflows/build-hna-data.yml` | 5.7 KB |
+| `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
+| `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 9.5 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
@@ -1069,7 +1069,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 5.3 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
-| `.github/workflows/data-refresh.yml` | 3.9 KB |
+| `.github/workflows/data-refresh.yml` | 4.0 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 1.8 KB |
@@ -1078,11 +1078,11 @@
 | `.github/workflows/fetch-chas-data.yml` | 3.9 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.1 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
-| `.github/workflows/fetch-fred-data.yml` | 9.6 KB |
+| `.github/workflows/fetch-fred-data.yml` | 9.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
-| `.github/workflows/market_data_build.yml` | 12.2 KB |
+| `.github/workflows/market_data_build.yml` | 12.3 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
@@ -1092,7 +1092,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
-| `.github/workflows/zillow-data-sync.yml` | 18.6 KB |
+| `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
 
 ---
 
