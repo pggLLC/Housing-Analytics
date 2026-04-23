@@ -190,68 +190,24 @@ class EconometricForecaster {
         return forecast;
     }
 
-    // Colorado-specific forecast
-    forecastColorado(historicalData, periods = 8) {
-        const forecast = {
-            allocation: [],
-            pricing: [],
-            starts: [],
-            demand: []
-        };
-        
-        // Allocation forecast (trend + demographic growth)
-        const allocationTrend = this.calculateTrend(
-            historicalData.allocation || [250, 265, 272, 280, 287]
-        );
-        
-        for (let i = 1; i <= periods; i++) {
-            // Allocation grows with population and policy emphasis
-            const growthRate = 0.035; // 3.5% annually
-            const base = 287000000;
-            const allocated = base * Math.pow(1 + growthRate, i / 4);
-            
-            forecast.allocation.push({
-                quarter: i,
-                amount: allocated,
-                perCapita: allocated / 5850000 // Projected CO population
-            });
-            
-            // Pricing follows national trends with regional adjustment
-            const nationalBase = 0.84;
-            const regionalPremium = 0.00; // Colorado at par
-            const price = nationalBase + regionalPremium + (Math.random() - 0.5) * 0.02;
-            
-            forecast.pricing.push({
-                quarter: i,
-                price: Math.max(0.78, Math.min(0.90, price))
-            });
-            
-            // Housing starts with seasonal adjustment
-            const startsBase = 3340;
-            const seasonal = [0.95, 1.05, 1.08, 1.02][((i - 1) % 4)];
-            const starts = startsBase * seasonal * (1 + 0.02 * i / 4);
-            
-            forecast.starts.push({
-                quarter: i,
-                units: Math.round(starts)
-            });
-            
-            // Demand index (composite indicator)
-            const demandIndex = this.calculateDemandIndex({
-                rentalVacancy: 0.05,
-                medianRent: 1650,
-                medianIncome: 82000,
-                population: 5850000
-            });
-            
-            forecast.demand.push({
-                quarter: i,
-                index: demandIndex * (1 + 0.01 * i / 4)
-            });
-        }
-        
-        return forecast;
-    }
+    // (Removed `forecastColorado`.)
+    //
+    // The prior `forecastColorado(historicalData, periods)` generated
+    // "Colorado-specific" pricing/allocation/starts/demand forecasts but
+    // ignored the `historicalData` argument for every series except
+    // allocation, and even that fell back to a hardcoded [250, 265, 272,
+    // 280, 287] array if missing. The demand index was fed literal
+    // constants (rentalVacancy: 0.05, medianRent: $1650, medianIncome:
+    // $82000, population: 5.85M) and the pricing series was
+    // `nationalBase + (Math.random() - 0.5) * 0.02` — a random walk, not
+    // a forecast. Callers would receive plausible-looking quarterly
+    // output with no relationship to input data.
+    //
+    // No module in the repo actually called `forecastColorado` (verified
+    // via grep). The pricing forecast used by the UI
+    // (js/components/equity-forecast-panel.js) calls `forecastPricing`
+    // separately. Deletion removes the silent-fallback risk without
+    // breaking any feature.
 
     // Helper methods
     calculateDifferences(series) {
