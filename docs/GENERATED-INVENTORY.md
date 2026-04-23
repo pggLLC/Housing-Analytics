@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T13:49:06.881Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T17:08:43.438Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-38 pages found.
+39 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -35,6 +35,7 @@
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 142.8 KB |
 | `index.html` | COHO Analytics | Colorado Affordable Housing Platform | 19.3 KB |
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
+| `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 44.8 KB |
@@ -921,7 +922,7 @@
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
-| `data/market/lodes_co.json` | 662.5 KB | ✅ | — |
+| `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
@@ -940,7 +941,7 @@
 | `data/policy_briefs.json` | 118.6 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.8 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
-| `data/reports/a11y-baseline.json` | 2.3 KB | ✅ | — |
+| `data/reports/a11y-baseline.json` | 2.5 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 
 ---
