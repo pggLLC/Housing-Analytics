@@ -210,10 +210,13 @@
 
 
   async function fetchCoCountiesList(){
-    // TIGERweb county layer (State_County MapServer/1)
+    // TIGERweb county layer (State_County MapServer/1) exposes the FIPS
+    // field as STATE, not STATEFP. Querying STATEFP returns HTTP 400 —
+    // the code path was silently erroring and the UI fell back to
+    // a static county list.
     const base = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
     const params = new URLSearchParams({
-      where: `STATEFP='${window.HNAUtils.STATE_FIPS_CO}'`,
+      where: `STATE='${window.HNAUtils.STATE_FIPS_CO}'`,
       outFields: 'NAME,GEOID',
       f: 'json',
       returnGeometry: 'false',
