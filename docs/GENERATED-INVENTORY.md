@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T17:08:43.438Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T17:14:13.197Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-39 pages found.
+40 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -29,6 +29,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 69.1 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 27.4 KB |
 | `housing-legislation-2026.html` | Housing for the 21st Century Act Analysis | COHO Analytics | 12.1 KB |
