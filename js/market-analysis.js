@@ -25,9 +25,12 @@
   var MAX_AFFORDABLE_RENT_PCT = 0.30;    // 30% of gross income rule
 
   /**
-   * Get county-specific AMI from HudFmr connector, falling back to statewide.
+   * Get county-specific 4-person AMI from HudFmr connector. Returns null
+   * if the county FIPS can't be resolved or HudFmr hasn't loaded — callers
+   * must handle the null case explicitly rather than relying on a statewide
+   * substitute (see scoreRentPressure / workforce scorer for the pattern).
    * @param {string|null} countyFips - 5-digit county FIPS code
-   * @returns {number} 4-person AMI in dollars
+   * @returns {number|null} 4-person AMI in dollars, or null if unresolved
    */
   function _getCountyAmi(countyFips) {
     if (countyFips && window.HudFmr) {
@@ -36,9 +39,9 @@
         if (summary && summary.ami_4person && summary.ami_4person > 0) {
           return summary.ami_4person;
         }
-      } catch (e) { /* fall through to statewide */ }
+      } catch (e) { /* fall through */ }
     }
-    return AREA_MEDIAN_INCOME_CO;
+    return null;
   }
   var STATEWIDE_TRACT_COUNT = 1500;      // expected Colorado census tract count (~2020 Census)
   var COVERAGE_PRODUCTION_THRESHOLD = 0.80; // 80% = production-ready threshold
@@ -257,18 +260,30 @@
 
   /**
    * Score rent pressure: how far market rents exceed 60% AMI affordable threshold.
+   *
+   * IMPORTANT: If countyAmi is not provided (e.g. county FIPS couldn't be
+   * resolved from buffer tracts, or HudFmr data hasn't loaded), this returns
+   * `unavailable: true` with score=null rather than silently substituting a
+   * statewide AMI. CO AMI varies from ~$52k (rural counties) to ~$124k
+   * (Denver MSA) — the statewide $95k default was systematically wrong by
+   * ±30% for most CO counties and could invert the rent-pressure signal
+   * (flagging affordable markets as pressured, or vice versa) in the
+   * direction that matters most for LIHTC decisions. Surfacing unavailable
+   * is more honest than fabricating a number.
+   *
    * @param {Object} acs - Aggregated ACS tract metrics
-   * @param {number} [countyAmi] - County-specific 4-person AMI (falls back to statewide)
-   * @returns {{ score: number, ratio: number, amiUsed: number, amiSource: string }}
+   * @param {number} [countyAmi] - County-specific 4-person AMI
+   * @returns {{ score: number|null, ratio: number, amiUsed: number|null, amiSource: string, unavailable: boolean }}
    */
   function scoreRentPressure(acs, countyAmi) {
-    var ami = (countyAmi && countyAmi > 0) ? countyAmi : AREA_MEDIAN_INCOME_CO;
-    var amiSource = (countyAmi && countyAmi > 0) ? 'county' : 'statewide-fallback';
-    var ami60Rent = (ami * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
+    if (!countyAmi || countyAmi <= 0) {
+      return { score: null, ratio: null, amiUsed: null, amiSource: 'unavailable', unavailable: true };
+    }
+    var ami60Rent = (countyAmi * AMI_60_PCT * MAX_AFFORDABLE_RENT_PCT) / 12;
     var ratio     = acs.median_gross_rent ? acs.median_gross_rent / ami60Rent : 0;
     // If market rent > affordable threshold, it signals unmet demand — higher score
     var score = Math.min(100, Math.max(0, (ratio - 0.70) / (1.50 - 0.70) * 100));
-    return { score: Math.round(score), ratio: ratio, amiUsed: ami, amiSource: amiSource };
+    return { score: Math.round(score), ratio: ratio, amiUsed: countyAmi, amiSource: 'county', unavailable: false };
   }
 
   /**
@@ -290,7 +305,7 @@
    * Internal workforce scorer that also returns data-coverage metadata.
    * @private
    */
-  function _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts) {
+  function _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts, countyAmi) {
     // Weighted composite workforce score (0–100) using 5 alternative data sources:
     //   25% LODES job accessibility
     //   25% ACS educational attainment + employment (proxied via ACS income/burden)
@@ -319,20 +334,25 @@
     }
 
     // ── 2. ACS-based educational attainment + employment (25%) ──────
-    // Proxy via median HH income relative to area median.
-    // Higher income → skilled workforce in area → better workforce availability.
-    var acsWfScore = 50; // FALLBACK: acs.median_hh_income absent. Using neutral value 50 until ACS tract metrics are aggregated.
-    var incomeRatio = 0.5; // neutral default when ACS income is unavailable
-    if (acs && acs.median_hh_income) {
-      incomeRatio = Math.min(2.0, acs.median_hh_income / AREA_MEDIAN_INCOME_CO);
+    // Proxy via median HH income relative to the COUNTY's AMI (not the
+    // statewide AMI). A rural county with $55k median HH income and $52k
+    // AMI has a strong workforce profile (106% of local AMI); dividing
+    // that $55k by the statewide $95k AMI mis-computes the ratio as 58%
+    // and mis-reports the tract as "low income." Require county AMI; if
+    // unavailable, this sub-score is skipped (set to null) rather than
+    // using a 50 neutral that silently inflates composite.
+    var acsWfScore = null;
+    var incomeRatio = null;
+    if (acs && acs.median_hh_income && countyAmi && countyAmi > 0) {
+      incomeRatio = Math.min(2.0, acs.median_hh_income / countyAmi);
       realSources++;
-    } else if (acs) {
-      reasons.push('ACS workforce proxy: median_hh_income absent, used 0.5 ratio');
-    } else {
-      reasons.push('ACS workforce proxy: no ACS data (data/market/acs_tract_metrics_co.json)');
+      // Scale 0–2 → 0–100, centred at 1.0
+      acsWfScore = Math.min(100, Math.max(0, Math.round(incomeRatio * 60)));
+    } else if (!countyAmi) {
+      reasons.push('ACS workforce proxy: county AMI unresolved, sub-score excluded');
+    } else if (!acs || !acs.median_hh_income) {
+      reasons.push('ACS workforce proxy: median_hh_income absent, sub-score excluded');
     }
-    // Scale 0–2 → 0–100, centred at 1.0
-    acsWfScore = Math.min(100, Math.max(0, Math.round(incomeRatio * 60)));
 
     // ── 3. CDLE vacancy rates (20%) — low vacancy = tight labour = risk ──
     var cdleScore = 50; // FALLBACK: window.CdleJobs unavailable. Using neutral value 50 until data/market/cdle_job_postings_co.json is loaded.
@@ -366,13 +386,28 @@
       reasons.push('CDOT: window.CdotTraffic not loaded (data/market/cdot_traffic_co.json)');
     }
 
-    var composite = Math.round(
-      lodesScore  * 0.25 +
-      acsWfScore  * 0.25 +
-      cdleScore   * 0.20 +
-      cdeScore    * 0.15 +
-      cdotScore   * 0.15
-    );
+    // Redistribute the ACS workforce sub-weight (0.25) across the remaining
+    // 4 sources when it's null (county AMI unresolved or median HH income
+    // missing). Prior code used a 50-neutral which silently inflated every
+    // tract's workforce score whenever ACS AMI data was missing.
+    var composite;
+    if (acsWfScore == null) {
+      var remaining = 0.25 + 0.20 + 0.15 + 0.15; // 0.75
+      composite = Math.round(
+        (lodesScore * 0.25 +
+         cdleScore  * 0.20 +
+         cdeScore   * 0.15 +
+         cdotScore  * 0.15) / remaining
+      );
+    } else {
+      composite = Math.round(
+        lodesScore  * 0.25 +
+        acsWfScore  * 0.25 +
+        cdleScore   * 0.20 +
+        cdeScore    * 0.15 +
+        cdotScore   * 0.15
+      );
+    }
 
     var score = Math.min(100, Math.max(0, composite));
     var coverageLevel = realSources === totalSources ? 'full'
@@ -382,8 +417,8 @@
     return { score: score, coverageLevel: coverageLevel, reasons: reasons };
   }
 
-  function scoreWorkforce(acs, lat, lon, bufTracts) {
-    return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts).score;
+  function scoreWorkforce(acs, lat, lon, bufTracts, countyAmi) {
+    return _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts, countyAmi).score;
   }
 
   function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi) {
@@ -405,19 +440,34 @@
     var _bridgeVelCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
       ? window.BridgeMarketSummary.getMarketVelocity(lat, lon)
       : null;
-    var wfResult           = _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts);
+    var wfResult           = _scoreWorkforceWithCoverage(acs, lat, lon, bufTracts, countyAmi);
     var workforceScore     = wfResult.score;
 
     // Bridge market velocity (used in result metadata)
     var _bridgeVelocityLabel = _bridgeVelCtx ? _bridgeVelCtx.label : 'unknown';
 
-    var overall = Math.round(
-      demandScore          * WEIGHTS.demand +
-      captureObj.score     * WEIGHTS.captureRisk +
-      rentPressureObj.score * WEIGHTS.rentPressure +
-      marketTightnessScore * WEIGHTS.landSupply +
-      workforceScore       * WEIGHTS.workforce
-    );
+    // When rent-pressure is unavailable (county AMI not resolved), redistribute
+    // its weight proportionally across the remaining dimensions rather than
+    // scoring it as 0 — a 0 would deflate overall by ~15 pts for every site
+    // where county FIPS resolution failed.
+    var overall;
+    if (rentPressureObj.unavailable) {
+      var remainingWeightSum = WEIGHTS.demand + WEIGHTS.captureRisk + WEIGHTS.landSupply + WEIGHTS.workforce;
+      overall = Math.round(
+        (demandScore          * WEIGHTS.demand +
+         captureObj.score     * WEIGHTS.captureRisk +
+         marketTightnessScore * WEIGHTS.landSupply +
+         workforceScore       * WEIGHTS.workforce) / remainingWeightSum
+      );
+    } else {
+      overall = Math.round(
+        demandScore          * WEIGHTS.demand +
+        captureObj.score     * WEIGHTS.captureRisk +
+        rentPressureObj.score * WEIGHTS.rentPressure +
+        marketTightnessScore * WEIGHTS.landSupply +
+        workforceScore       * WEIGHTS.workforce
+      );
+    }
 
     var flags = [];
     if ((acs.cost_burden_rate || 0) >= RISK.costBurdenHigh) {
@@ -426,8 +476,11 @@
     if (captureObj.capture >= RISK.captureHigh) {
       flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
     }
-    if (rentPressureObj.ratio >= RISK.rentPressureElev) {
+    if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
+    }
+    if (rentPressureObj.unavailable) {
+      flags.push({ level: 'warn', text: 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)' });
     }
     if (!flags.length) {
       flags.push({ level: 'ok', text: 'No critical risk flags detected' });
@@ -457,7 +510,10 @@
     }
 
     var rentPressureCoverage;
-    if (!acs || acs.median_gross_rent == null) {
+    if (rentPressureObj.unavailable) {
+      rentPressureCoverage = 'unavailable';
+      fallbackReasons.rent_pressure = 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)';
+    } else if (!acs || acs.median_gross_rent == null) {
       rentPressureCoverage = 'fallback';
       fallbackReasons.rent_pressure = 'ACS median_gross_rent missing; rent ratio defaulted to 0';
     } else {
@@ -505,12 +561,16 @@
       dimensionNotes: {
         captureRisk:     'Ratio of total affordable units to renter households in buffer — not a traditional capture rate based on income-qualified annual demand',
         marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
-        rentPressure:    'Market rent vs. 60% AMI affordable rent threshold' + (rentPressureObj.amiSource === 'county' ? ' (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')' : ' (statewide AMI fallback: $' + rentPressureObj.amiUsed.toLocaleString() + ')')
+        rentPressure:    rentPressureObj.unavailable
+          ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
+          : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'
       },
       dimensionDataAvailable: {
         demand:          demandCoverage !== 'fallback',
         captureRisk:     captureRiskCoverage !== 'fallback',
-        rentPressure:    rentPressureCoverage !== 'fallback',
+        // `rentPressureCoverage` is now 'unavailable' (county AMI missing),
+        // 'fallback' (ACS missing), or 'full'. Only 'full' counts as available.
+        rentPressure:    rentPressureCoverage === 'full',
         marketTightness: marketTightnessCoverage !== 'fallback',
         landSupply:      marketTightnessCoverage !== 'fallback',
         workforce:       wfResult.coverageLevel !== 'fallback'
