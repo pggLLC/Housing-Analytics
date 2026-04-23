@@ -152,3 +152,4 @@ jobs:
           workflow_id: build-hna-data
           outcome: ${{ job.status }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          github_token: ${{ github.token }}
