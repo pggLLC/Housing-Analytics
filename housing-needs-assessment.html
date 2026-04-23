@@ -1764,54 +1764,133 @@
 
   // Static list of Colorado public housing authorities (PHAs) + key partners.
   // Keyed by county FIPS (08XXX). "statewide" applies when no county match.
+  // Curated from HUD PIH Contact List + CHFA partner directory. Not
+  // exhaustive — ~60 PHAs serve Colorado and some are city-level nested
+  // inside counties (e.g. Longmont Housing Authority inside Boulder Co).
+  // Unlisted rural counties are typically served by regional agencies
+  // (mountain resort regions = Yampa Valley, Eagle County, etc.) or fall
+  // back to DOLA/CHFA statewide programs.
   var CO_HOUSING_AUTHORITIES = {
     statewide: [
       { name: 'Colorado Housing and Finance Authority (CHFA)', role: 'State housing finance agency — LIHTC allocator, funder', url: 'https://www.chfainfo.com/', phone: '(303) 297-7305' },
       { name: 'Colorado Division of Housing (CDOH)', role: 'State rental assistance, HTF, and housing policy', url: 'https://cdola.colorado.gov/housing', phone: '(303) 864-7810' },
       { name: 'Colorado Coalition for the Homeless', role: 'Supportive housing, PSH financing partner', url: 'https://www.coloradocoalition.org/', phone: '(303) 293-2217' },
+      { name: 'Mercy Housing Mountain Plains', role: 'Nonprofit LIHTC developer — operates across CO', url: 'https://www.mercyhousing.org/mountain-plains/', phone: '(303) 830-3300' },
+      { name: 'Rocky Mountain Communities', role: 'Nonprofit affordable-housing developer — rural + front-range CO', url: 'https://rockymtncommunities.org/', phone: '(303) 893-1199' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC in small communities', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+      { name: 'Housing Colorado', role: 'Industry trade association — training, policy advocacy', url: 'https://www.housingcolorado.org/', phone: '(303) 863-0124' },
     ],
+
+    // ── Metro Denver (Front Range) ────────────────────────────────
     '08031': [ // Denver
       { name: 'Denver Housing Authority (DHA)', role: 'Public housing authority — Section 8, LIHTC developer', url: 'https://www.denverhousing.org/', phone: '(720) 932-3000' },
       { name: 'Denver Office of Housing Stability', role: 'City affordable housing fund, inclusionary policy', url: 'https://www.denvergov.org/housing', phone: '(720) 913-1653' },
     ],
-    '08041': [ // El Paso (Colorado Springs)
-      { name: 'Colorado Springs Housing Authority (CSHA)', role: 'Public housing authority — Section 8, HCV', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
-    ],
-    '08013': [ // Boulder
-      { name: 'Boulder Housing Partners', role: 'Public housing authority — LIHTC developer, HCV', url: 'https://www.boulderhousing.org/', phone: '(720) 564-4610' },
-    ],
     '08001': [ // Adams
-      { name: 'Adams County Housing Authority', role: 'Section 8 HCV, public housing', url: 'https://www.adcogov.org/housing-authority', phone: '(303) 227-2085' },
+      { name: 'Adams County Housing Authority (Maiker)', role: 'Section 8 HCV, LIHTC co-GP, public housing (rebranded 2020)', url: 'https://www.maiker.org/', phone: '(303) 227-2085' },
     ],
     '08005': [ // Arapahoe
       { name: 'Arapahoe County Housing Authority', role: 'HCV, supportive housing', url: 'https://www.arapahoegov.com/housing', phone: '(303) 738-8080' },
+      { name: 'Aurora Housing Authority', role: 'City-level HCV + LIHTC developer for Aurora', url: 'https://www.aurorahousing.org/', phone: '(303) 363-7427' },
     ],
     '08059': [ // Jefferson
-      { name: 'Jefferson County Housing Authority', role: 'Section 8 HCV, senior housing', url: 'https://www.jeffco.us/1286/Housing-Authority', phone: '(303) 271-4100' },
-    ],
-    '08123': [ // Weld
-      { name: 'Weld County Housing Authority', role: 'HCV, rural housing programs', url: 'https://www.weldgov.com/departments/housing', phone: '(970) 304-6430' },
-    ],
-    '08069': [ // Larimer (Fort Collins)
-      { name: 'Housing Catalyst (Fort Collins)', role: 'Public housing authority — LIHTC developer', url: 'https://www.housingcatalyst.com/', phone: '(970) 416-2910' },
-    ],
-    '08101': [ // Pueblo
-      { name: 'Pueblo Housing Authority', role: 'Public housing, Section 8 HCV', url: 'https://www.pueblo.us/292/Housing-Authority', phone: '(719) 544-7662' },
-    ],
-    '08045': [ // Garfield (Glenwood Springs)
-      { name: 'Garfield County Housing Authority', role: 'Workforce housing, LIHTC developer in mountain region', url: 'https://www.garfield-county.com/housing/', phone: '(970) 945-1377' },
-    ],
-    '08097': [ // Pitkin (Aspen)
-      { name: 'Aspen/Pitkin County Housing Authority', role: 'Deed-restricted workforce housing, employee units', url: 'https://www.apcha.org/', phone: '(970) 920-5050' },
-    ],
-    '08077': [ // Mesa (Grand Junction)
-      { name: 'Grand Junction Housing Authority', role: 'Public housing, HCV, LIHTC', url: 'https://www.gjha.org/', phone: '(970) 245-0388' },
+      { name: 'Foothills Regional Housing (Jefferson Co HA)', role: 'Section 8 HCV, senior housing, LIHTC (rebranded 2019)', url: 'https://foothillsregionalhousing.org/', phone: '(303) 422-8600' },
+      { name: 'Metro West Housing Solutions (Lakewood)', role: 'Lakewood PHA — LIHTC developer', url: 'https://www.mwhsolutions.org/', phone: '(303) 232-9330' },
     ],
     '08035': [ // Douglas
-      { name: 'Douglas County Housing Authority', role: 'HCV, workforce housing programs', url: 'https://www.douglas.co.us/housing-authority/', phone: '(303) 660-7374' },
+      { name: 'Douglas County Housing Partnership', role: 'HCV, workforce housing programs', url: 'https://www.dcha.org/', phone: '(303) 660-7374' },
     ],
     '08014': [ // Broomfield
       { name: 'Broomfield Housing Authority', role: 'Section 8 HCV, affordable unit coordination', url: 'https://www.broomfield.org/housing', phone: '(303) 438-6370' },
+    ],
+    '08013': [ // Boulder
+      { name: 'Boulder Housing Partners', role: 'Public housing authority — LIHTC developer, HCV', url: 'https://www.boulderhousing.org/', phone: '(720) 564-4610' },
+      { name: 'Boulder County Housing Authority', role: 'Regional HCV + LIHTC — serves unincorporated + small-town Boulder Co', url: 'https://www.bouldercounty.org/families/housing/boulder-county-housing-authority/', phone: '(303) 441-3929' },
+      { name: 'Longmont Housing Authority', role: 'Longmont city PHA — LIHTC developer', url: 'https://longmonthousing.org/', phone: '(303) 651-8581' },
+    ],
+
+    // ── Northern Colorado ─────────────────────────────────────────
+    '08069': [ // Larimer (Fort Collins, Loveland)
+      { name: 'Housing Catalyst (Fort Collins PHA)', role: 'Public housing authority — LIHTC developer', url: 'https://www.housingcatalyst.com/', phone: '(970) 416-2910' },
+      { name: 'Loveland Housing Authority', role: 'HCV + LIHTC ownership in Loveland', url: 'https://www.lovelandhousing.org/', phone: '(970) 667-3232' },
+    ],
+    '08123': [ // Weld
+      { name: 'Weld County Housing Authority', role: 'HCV, rural housing programs', url: 'https://www.weldgov.com/departments/housing', phone: '(970) 304-6430' },
+      { name: 'Greeley Urban Renewal Authority', role: 'TIF + affordable-housing coordination for Greeley', url: 'https://greeleygov.com/government/ura', phone: '(970) 350-9380' },
+    ],
+    '08115': [ // Sedgwick (NE plains — no PHA; served regionally)
+      { name: 'North Eastern Colorado Health Department (CRHDC partner)', role: 'Rural housing coordination — no dedicated PHA, contact CRHDC for LIHTC partnership', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // ── Southern Colorado ─────────────────────────────────────────
+    '08041': [ // El Paso (Colorado Springs)
+      { name: 'Colorado Springs Housing Authority (CSHA)', role: 'Public housing authority — Section 8, HCV', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+      { name: 'El Paso County Department of Housing', role: 'County HCV + rental assistance for unincorporated areas', url: 'https://communityservices.elpasoco.com/housing/', phone: '(719) 520-6390' },
+    ],
+    '08043': [ // Fremont
+      { name: 'Fremont County Housing Authority', role: 'HCV, rural LIHTC partnerships', url: 'https://www.fremontco.com/housing-authority', phone: '(719) 275-8171' },
+    ],
+    '08055': [ // Huerfano (Walsenburg area)
+      { name: 'Walsenburg Housing Authority', role: 'Small-town PHA — limited HCV capacity', url: 'https://www.walsenburghousing.org/', phone: '(719) 738-1800' },
+    ],
+    '08071': [ // Las Animas (Trinidad)
+      { name: 'Trinidad Housing Authority', role: 'Rural PHA — Section 8, public housing', url: null, phone: '(719) 846-7201' },
+    ],
+    '08101': [ // Pueblo
+      { name: 'Pueblo Housing Authority', role: 'Public housing, Section 8 HCV', url: 'https://www.pueblo.us/292/Housing-Authority', phone: '(719) 544-7662' },
+      { name: 'Pueblo County Housing Authority', role: 'County-level HCV for unincorporated areas', url: 'https://county.pueblo.org/housing-authority', phone: '(719) 583-6225' },
+    ],
+
+    // ── San Luis Valley + Southern Mountains ──────────────────────
+    '08003': [ // Alamosa
+      { name: 'Alamosa Housing Authority', role: 'Rural PHA — serves San Luis Valley counties', url: null, phone: '(719) 589-2576' },
+    ],
+    '08021': [ // Conejos
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional housing partnership — La Jara + Antonito area', url: null, phone: '(719) 274-4805' },
+    ],
+    '08105': [ // Rio Grande (Monte Vista, Del Norte)
+      { name: 'Monte Vista Housing Authority', role: 'Rural PHA — LIHTC partnerships via CRHDC', url: null, phone: '(719) 852-4345' },
+    ],
+
+    // ── Western Slope / Mountains ─────────────────────────────────
+    '08077': [ // Mesa (Grand Junction)
+      { name: 'Grand Junction Housing Authority', role: 'Public housing, HCV, LIHTC', url: 'https://www.gjha.org/', phone: '(970) 245-0388' },
+    ],
+    '08045': [ // Garfield (Glenwood Springs, Rifle)
+      { name: 'Garfield County Housing Authority', role: 'Workforce housing, LIHTC developer in mountain region', url: 'https://www.garfield-county.com/housing/', phone: '(970) 945-1377' },
+    ],
+    '08097': [ // Pitkin (Aspen)
+      { name: 'Aspen/Pitkin County Housing Authority (APCHA)', role: 'Deed-restricted workforce housing, employee units — mandatory resort-workforce program', url: 'https://www.apcha.org/', phone: '(970) 920-5050' },
+    ],
+    '08037': [ // Eagle (Vail, Avon)
+      { name: 'Eagle County Housing Authority', role: 'Resort-workforce PHA — deed-restricted + LIHTC', url: 'https://www.eaglecountyhousing.org/', phone: '(970) 328-8770' },
+    ],
+    '08117': [ // Summit (Breckenridge, Frisco)
+      { name: 'Summit Combined Housing Authority', role: 'Ski-town regional PHA — deed-restricted workforce', url: 'https://www.summithousing.us/', phone: '(970) 453-3557' },
+    ],
+    '08107': [ // Routt (Steamboat)
+      { name: 'Yampa Valley Housing Authority', role: 'Routt + Moffat area — deed-restricted + LIHTC development', url: 'https://www.yvha.org/', phone: '(970) 879-0470' },
+    ],
+    '08049': [ // Grand (Granby, Winter Park)
+      { name: 'Grand County Housing Authority', role: 'Resort-workforce + rural — HCV + deed-restricted units', url: 'https://www.co.grand.co.us/housing-authority', phone: '(970) 725-3303' },
+    ],
+    '08113': [ // San Miguel (Telluride)
+      { name: 'San Miguel Regional Housing Authority', role: 'Telluride area — deed-restricted + LIHTC workforce', url: 'https://www.smrha.org/', phone: '(970) 728-0086' },
+    ],
+    '08091': [ // Ouray
+      { name: 'Ouray Housing Authority (regional via SMRHA)', role: 'Small resort community — coordination through SMRHA', url: 'https://www.smrha.org/', phone: '(970) 728-0086' },
+    ],
+    '08065': [ // Lake (Leadville)
+      { name: 'Lake County Housing Authority', role: 'Small rural/resort-workforce — limited capacity', url: null, phone: '(719) 486-2494' },
+    ],
+    '08067': [ // La Plata (Durango)
+      { name: 'La Plata County Housing Authority', role: 'Durango area — LIHTC + HCV', url: 'https://www.homesfund.org/', phone: '(970) 259-1418' },
+    ],
+    '08083': [ // Montezuma (Cortez)
+      { name: 'Montezuma County Housing Authority', role: 'Rural southwestern CO — USDA Rural Development partner', url: null, phone: '(970) 565-3258' },
+    ],
+    '08085': [ // Montrose
+      { name: 'Montrose County Housing Authority', role: 'Western Slope rural + mid-size — HCV + LIHTC', url: 'https://www.montrosecounty.net/housing-authority', phone: '(970) 252-4500' },
     ]
   };
 
@@ -1827,12 +1906,24 @@
       return;
     }
 
-    resultsEl.innerHTML = '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
+    // Build header noting local vs statewide breakdown
+    var localCount = matches.length;
+    var stateCount = CO_HOUSING_AUTHORITIES.statewide.length;
+    var header = localCount > 0
+      ? '<p style="margin:0 0 6px;font-size:.78rem;color:var(--muted)"><strong>' + localCount +
+        '</strong> local + <strong>' + stateCount + '</strong> statewide contacts for this geography.</p>'
+      : '<p style="margin:0 0 6px;font-size:.78rem;color:var(--warn,#d97706)">No dedicated local PHA listed — this area is typically served by statewide programs + regional nonprofits listed below. For the authoritative federal directory, use the HUD PHA Finder link.</p>';
+
+    resultsEl.innerHTML = header +
+      '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
       all.map(function (a) {
+        var nameCell = a.url
+          ? '<a href="' + a.url + '" target="_blank" rel="noopener" style="font-weight:600;color:var(--accent);font-size:.85rem">' + a.name + ' ↗</a>'
+          : '<span style="font-weight:600;color:var(--text);font-size:.85rem">' + a.name + '</span>';
         return '<li style="padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px">' +
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
             '<div>' +
-              '<a href="' + a.url + '" target="_blank" rel="noopener" style="font-weight:600;color:var(--accent);font-size:.85rem">' + a.name + ' ↗</a>' +
+              nameCell +
               '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
             '</div>' +
             (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
@@ -1840,7 +1931,7 @@
         '</li>';
       }).join('') +
     '</ul>' +
-    '<p style="margin-top:8px;font-size:.75rem;color:var(--faint)">Showing ' + all.length + ' results. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Search all PHAs on HUD ↗</a></p>';
+    '<p style="margin-top:8px;font-size:.72rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
   }
 
   function getSelectedFips() {
@@ -1855,24 +1946,35 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // Auto-render on page load so the HA directory is visible without
+    // requiring a button click — previously this section was silent
+    // until a user noticed the "Search" button.
+    var fips = getSelectedFips();
+    renderAuthorityResults(fips);
+
     var btn = document.getElementById('btnSearchHousingAuthorities');
     if (btn) {
+      btn.textContent = 'Refresh';
+      btn.setAttribute('aria-label', 'Refresh housing authority results for current jurisdiction');
       btn.addEventListener('click', function () {
-        var fips = getSelectedFips();
-        renderAuthorityResults(fips);
-        btn.textContent = 'Refresh results';
+        renderAuthorityResults(getSelectedFips());
       });
     }
 
-    // Also auto-populate when a county is selected
+    // Auto-refresh when county changes (regardless of whether results
+    // were already shown — they always are now on load).
     var countySelectors = document.querySelectorAll('#hnaCountySelect, #countySelect');
     countySelectors.forEach(function (sel) {
       sel.addEventListener('change', function () {
-        var resultsEl = document.getElementById('housingAuthorityResults');
-        if (resultsEl && resultsEl.innerHTML) {
-          renderAuthorityResults(sel.value);
-        }
+        renderAuthorityResults(sel.value);
       });
+    });
+
+    // Also refresh when SiteState broadcasts a county change (SiteState
+    // fires 'sitestate:county-changed' when the user picks via breadcrumb
+    // or jurisdiction banner).
+    document.addEventListener('sitestate:county-changed', function () {
+      renderAuthorityResults(getSelectedFips());
     });
   });
 }());
