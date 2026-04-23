@@ -235,7 +235,7 @@
       _checklist([
         { text: 'Clear title with no unresolved liens, encumbrances, or boundary disputes', flag: 'fatal', note: 'Title insurance company must be willing to insure. Unresolved title issues stop closings.' },
         { text: 'No existing leases, occupants, or relocation requirements', flag: 'verify', note: 'Uniform Relocation Act (URA) applies to federally-funded projects. Relocation can cost $10K-$50K per household.' },
-        { text: 'Site control available (purchase option, development agreement, or LOI)', flag: 'verify', note: 'CHFA requires site control documentation. Options typically need 12-24 month terms.' },
+        { text: 'Site control available (purchase option, ground lease, development agreement, or LOI)', flag: 'verify', note: 'CHFA requires site control documentation. Purchase options typically need 12-24 month terms. Ground lease is common for housing-authority or PHA land — lease must run ≥50 years to meet LIHTC long-term-affordability requirements and support financing.' },
       ]) +
 
       '<h4 class="devr-subhead">Market & Timing</h4>' +
