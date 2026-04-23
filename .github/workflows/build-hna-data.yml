@@ -142,7 +142,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
-          git pull --rebase --autostash -X theirs origin main
+          git fetch origin main
+          git merge --strategy=ours -m "Merge main (keeping auto-generated HNA data)" origin/main
           git push
 
       - name: Notify on failure / close tracker on recovery

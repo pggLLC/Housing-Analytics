@@ -225,6 +225,9 @@ test('.github/workflows/build-hna-data.yml: updated with Phase 3 steps', () => {
   const yml = fs.readFileSync(WF_YAML, 'utf8');
   assert(yml.includes('generate_tract_centroids.py'), 'tract centroid step present');
   assert(yml.includes('parse_lehd_wac.py'),           'LEHD WAC parse step present');
+  assert(yml.includes('git merge --strategy=ours -m "Merge main (keeping auto-generated HNA data)" origin/main'),
+    'Commit/push step uses merge with ours strategy for auto-generated data conflicts');
+  assert(!yml.includes('git pull --rebase --autostash'), 'Commit/push step no longer uses pull --rebase --autostash');
 });
 
 // ── Summary ───────────────────────────────────────────────────────────────────
