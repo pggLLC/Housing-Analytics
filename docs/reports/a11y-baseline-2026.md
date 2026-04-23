@@ -1,8 +1,8 @@
 # WCAG 2.1 AA accessibility baseline — 2026
 
-_Generated: 2026-04-23T14:06:41.971Z_
+_Generated: 2026-04-23T22:01:03.605Z_
 
-Audited 15 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
+Audited 16 page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.
 
 ## Summary by impact
 
@@ -84,6 +84,12 @@ Audited 15 page(s) via axe-core. Any regression from this baseline will appear i
 ### deal-calculator.html
 
 - Passing rules: **33**
+- Incomplete (needs manual check): **1**
+- Violations: **0** (0 element(s))
+
+### land-value.html
+
+- Passing rules: **28**
 - Incomplete (needs manual check): **1**
 - Violations: **0** (0 element(s))
 
