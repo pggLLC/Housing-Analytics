@@ -50,6 +50,7 @@ const AUDIT_PAGES = [
   'market-analysis.html',
   'deal-calculator.html',
   'land-value.html',
+  'historical-trends.html',
   'housing-legislation-2026.html',
   'about.html',
   'insights.html',
