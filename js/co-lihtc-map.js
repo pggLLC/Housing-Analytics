@@ -494,10 +494,15 @@
       return;
     }
 
+    // TIGERweb layer 4 (Incorporated Places) uses field `STATE`, not
+    // `STATEFP`, and has no `NAMELSAD` field — they're in layer 11's
+    // 2024 vintage variant. Querying with STATEFP returned HTTP 400
+    // "Failed to execute query" which the .catch() block warned about
+    // indefinitely.
     var PLACES_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query';
     var PLACES_PARAMS = new URLSearchParams({
-      where: "STATEFP='08'",
-      outFields: 'NAME,NAMELSAD,GEOID,LSADC,STATEFP',
+      where: "STATE='08'",
+      outFields: 'NAME,GEOID,LSADC,STATE',
       f: 'geojson',
       outSR: '4326',               // Rule 9: always outSR=4326 for ArcGIS queries
       resultRecordCount: '200',
@@ -714,11 +719,14 @@
         });
     }
 
-    // Source 2 — Census TIGERweb ArcGIS REST (State_County layer 1, Colorado STATEFP=08)
+    // Source 2 — Census TIGERweb ArcGIS REST (State_County layer 1, Colorado STATE=08)
     // Responses are cached in localStorage for 24 hours to avoid redundant round-trips
     // when data/co-county-boundaries.json is absent or empty.
+    // Field names match TIGERweb State_County layer 1 schema (STATE, COUNTY,
+    // NAME, GEOID). Earlier code used STATEFP/NAMELSAD/COUNTYFP which returned
+    // HTTP 400; layer 1 exposes STATE/NAME/COUNTY/GEOID.
     var TIGERWEB_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query';
-    var TIGERWEB_PARAMS = 'where=STATEFP%3D%2708%27&outFields=NAME%2CNAMELSAD%2CSTATEFP%2CCOUNTYFP%2CGEOID&f=geojson&outSR=4326&resultRecordCount=100&returnExceededLimitFeatures=true';
+    var TIGERWEB_PARAMS = 'where=STATE%3D%2708%27&outFields=NAME%2CSTATE%2CCOUNTY%2CGEOID&f=geojson&outSR=4326&resultRecordCount=100&returnExceededLimitFeatures=true';
     var TIGERWEB_CACHE_KEY = 'co-lihtc-map:tigerweb-co-counties';
     var TIGERWEB_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in ms
     function tWebCacheGet() {
