@@ -5,6 +5,10 @@ on:
     - cron: '0 2 * * 1'   # Every Monday 2:00 AM UTC
   workflow_dispatch:        # Manual trigger
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
   # 1. Zillow Research Data  — public bulk CSVs, no auth, no scraping
@@ -103,7 +107,7 @@ jobs:
             echo "No Zillow Research changes to commit"
           else
             git commit -m "chore: update Zillow Research bulk data [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase origin main
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi
 
@@ -314,6 +318,6 @@ jobs:
             echo "No Bridge data changes to commit"
           else
             git commit -m "chore: update Bridge public data — all CO regions [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase origin main
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi
