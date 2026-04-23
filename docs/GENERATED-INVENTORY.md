@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T11:57:45.016Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-23T12:54:33.594Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.2 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 21.7 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 22.1 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
@@ -37,8 +37,8 @@
 | `insights.html` | Market Insights | COHO Analytics | 22.2 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement Update | COHO Analytics | 7.5 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 23.4 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 77.3 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 25.3 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 78.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.3 KB |
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
