@@ -74,9 +74,17 @@
   /**
    * Derive vacancy-deficit factor from vacancy_rate (%).
    * vacancy_deficit_factor = max(0, 0.05 - vacancy_rate/100) * 10
+   *
+   * IMPORTANT: returns null when vacancyRate is null/undefined. Callers
+   * must treat null as "no adjustment available" — NOT as 0. A null
+   * (missing) rate previously silently became 0 here, which then produced
+   * the MAXIMUM deficit factor (0.5) and inflated projected need by 50%.
+   * Missing vacancy data must not be indistinguishable from "critical
+   * shortage."
    */
   function _vacancyDeficitFactor(vacancyRate) {
-    var rate = (vacancyRate || 0) / 100;
+    if (vacancyRate == null) return null;   // missing → no adjustment
+    var rate = vacancyRate / 100;
     return Math.max(0, 0.05 - rate) * 10;
   }
 
@@ -143,7 +151,10 @@
     var cd = countyData || {};
     var countyName = options.countyName || cd.name || fips;
     var households = cd.households || 0;
-    var vacancyRate = cd.vacancy_rate || 0;
+    // Preserve null/undefined distinction — `|| 0` previously collapsed
+    // missing vacancy into "0% vacancy", which then triggered the MAXIMUM
+    // _vacancyDeficitFactor (0.5) and inflated projected need by 50%.
+    var vacancyRate = (cd.vacancy_rate == null) ? null : cd.vacancy_rate;
     var costBurdenedPct = cd.cost_burdened_pct || 0;
     var severelyBurdenedPct = cd.severely_burdened_pct || 0;
 
@@ -152,8 +163,12 @@
     var baselineRate = (dolaRate !== null) ? dolaRate : 0.008; // 0.8%/yr fallback
 
     /* --- Vacancy deficit factor --- */
+    // When vacancy is unknown, skip the deficit adjustment rather than
+    // defaulting to 0% vacancy (= max deficit). Projection proceeds at
+    // the natural household growth rate, flagged as uncertain.
     var vdf = _vacancyDeficitFactor(vacancyRate);
-    var vacancyMultiplier = 1 + vdf;
+    var vacancyAdjustmentApplied = (vdf !== null);
+    var vacancyMultiplier = vacancyAdjustmentApplied ? (1 + vdf) : 1;
 
     /* --- Current gap (30% AMI severely cost-burdened) --- */
     // Severely burdened households are the primary proxy for deep affordability gap
@@ -216,6 +231,14 @@
       'Annual gap = max(currentGap / 15, baseline 20-yr need / 20) = ' + _fmt(annualGap) + ' units/yr.'
     );
 
+    // Surface missing vacancy data so callers/UI can flag projection uncertainty
+    if (!vacancyAdjustmentApplied) {
+      methodology.push(
+        'Vacancy rate unavailable for this geography; deficit adjustment skipped. ' +
+        'Projection reflects baseline household growth only — consider this a floor for projected need.'
+      );
+    }
+
     return {
       fips: fips,
       countyName: countyName,
@@ -227,7 +250,8 @@
       },
       annualGap: annualGap,
       currentGap: currentGap,
-      methodology: methodology
+      methodology: methodology,
+      vacancyAdjustmentApplied: vacancyAdjustmentApplied
     };
   }
 
