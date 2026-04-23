@@ -22,6 +22,10 @@
 
   /* ── Formatting helpers ─────────────────────────────────────────── */
 
+  function _escape(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   function _fmtDollars(n) {
     if (typeof n !== 'number' || !isFinite(n)) return '—';
     if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
@@ -191,12 +195,31 @@
       var maxNote = p.maxPerProject ? ' (max ' + _fmtDollars(p.maxPerProject) + '/project)' : '';
       var amiNote = p.amiTargeting ? '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:.66rem;font-weight:600;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-left:4px;">' + p.amiTargeting + '</span>' : '';
 
+      // Restrictions — rendered as collapsible <details> inside the program
+      // cell so the table stays scannable but the user can expand any row
+      // to see eligibility + stacking rules before committing to an app.
+      var restrictionsHtml = '';
+      if (Array.isArray(p.restrictions) && p.restrictions.length) {
+        restrictionsHtml =
+          '<details style="margin-top:3px;">' +
+            '<summary style="cursor:pointer;font-size:.68rem;color:var(--link,#054a42);font-weight:600;list-style:none;">' +
+              '▸ Restrictions &amp; eligibility (' + p.restrictions.length + ')' +
+            '</summary>' +
+            '<ul style="margin:4px 0 0 16px;padding:0;font-size:.72rem;color:var(--muted);line-height:1.5;">' +
+              p.restrictions.map(function (r) {
+                return '<li style="margin-bottom:2px;">' + _escape(r) + '</li>';
+              }).join('') +
+            '</ul>' +
+          '</details>';
+      }
+
       rows +=
         '<tr style="opacity:' + rowOpacity + ';border-bottom:1px solid var(--border);">' +
           '<td style="padding:5px 4px;font-size:.78rem;line-height:1.4;">' +
             '<strong>' + p.name + '</strong>' + amiNote + maxNote +
             (p.adminEntity ? '<br><span style="font-size:.68rem;color:var(--muted);">Admin: ' + p.adminEntity + '</span>' : '') +
             (p.warning ? '<br><span style="font-size:.68rem;color:var(--warn,#d97706);">' + p.warning + '</span>' : '') +
+            restrictionsHtml +
           '</td>' +
           '<td style="text-align:right;padding:5px 4px;font-size:.78rem;font-weight:700;white-space:nowrap;">' +
             (hasAvail ? _fmtDollars(p.available) : '<span style="color:var(--muted);">—</span>') +
