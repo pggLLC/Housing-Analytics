@@ -1,8 +1,25 @@
 /**
  * trend-analysis.js
  * Colorado Housing Trend Analysis Module
- * Compares Colorado housing metrics against 10+ peer states with
- * statistical significance indicators, time-range filtering, and CSV export.
+ *
+ * ⚠⚠⚠ DEMO / SCAFFOLD DATA — NOT PRODUCTION ⚠⚠⚠
+ *
+ * The MEDIAN_PRICE, RENT_GROWTH, VACANCY_RATE, and CONSTRUCTION_STARTS
+ * matrices below are HARDCODED placeholder values from the original
+ * scaffold commit (0dfdb273, 2026-02-22) — they were never wired to
+ * a real data pipeline. The values look plausible but are NOT sourced
+ * from MLS, CoStar, Zillow, Census ACS, or any other named provider
+ * despite the methodology strings implying otherwise.
+ *
+ * The module renders a prominent demo-data banner at the top of the
+ * #trend-analysis-section so users cannot mistake the output for a
+ * sourced analysis. Do not cite these numbers in applications,
+ * investor decks, or underwriting.
+ *
+ * To replace with real data: wire each matrix to its named provider
+ * (Zillow ZORI for rent growth, Census HVS for vacancy, HUD for
+ * construction starts, FHFA HPI for price), persist the output as a
+ * JSON file in data/, and gate the render on that file loading.
  *
  * Usage: TrendAnalysis.init()  (call after DOMContentLoaded)
  * Renders into: #trend-analysis-section
@@ -87,34 +104,42 @@
     Virginia:       [38.7, 34.5, 47.2, 52.8, 44.3, 42.6],
   };
 
+  // ⚠ Methodology strings below describe what the metrics WOULD measure
+  // if wired to real providers. The current values in the matrices above
+  // are scaffold placeholders and NOT sourced from MLS, CoStar, Zillow,
+  // Census, or BLS — despite the citations in the text.
   const METRICS = [
     {
       key: 'medianPrice',
       label: 'Median Home Price',
       unit: '$k',
       data: MEDIAN_PRICE,
-      methodology: 'Median home price (USD thousands) sourced from state-level MLS aggregates and Census ACS 5-year estimates. Values represent Q4 annual figures.',
+      demoOnly: true,
+      methodology: 'If wired to real providers: median home price (USD thousands) from state-level MLS aggregates and Census ACS 5-year estimates. Currently showing scaffold values only — not for decision use.',
     },
     {
       key: 'rentGrowth',
       label: 'Rent Growth (YoY %)',
       unit: '%',
       data: RENT_GROWTH,
-      methodology: 'Year-over-year percentage change in median asking rent for 2-bedroom units. Derived from CoStar, Zillow Observed Rent Index, and BLS CPI shelter component.',
+      demoOnly: true,
+      methodology: 'If wired to real providers: year-over-year percentage change in median asking rent for 2-bedroom units from CoStar / Zillow ZORI / BLS CPI shelter. Currently showing scaffold values only — not for decision use.',
     },
     {
       key: 'vacancyRate',
       label: 'Vacancy Rate',
       unit: '%',
       data: VACANCY_RATE,
-      methodology: 'Rental vacancy rate (%) from Census Housing Vacancy Survey and ACS estimates. Reflects the share of rental units available but unoccupied.',
+      demoOnly: true,
+      methodology: 'If wired to real providers: rental vacancy rate from Census Housing Vacancy Survey + ACS estimates. Currently showing scaffold values only — not for decision use.',
     },
     {
       key: 'constructionStarts',
       label: 'New Construction Starts',
       unit: 'k units',
       data: CONSTRUCTION_STARTS,
-      methodology: 'Annual new residential construction starts (thousands of units) from Census Bureau Building Permits Survey and State Construction Monitors.',
+      demoOnly: true,
+      methodology: 'If wired to real providers: annual new residential construction starts from Census Bureau Building Permits Survey + State Construction Monitors. Currently showing scaffold values only — not for decision use.',
     },
   ];
 
@@ -430,12 +455,34 @@
     section.innerHTML = '';
     section.setAttribute('aria-label', 'Colorado Housing Trend Analysis');
 
+    // ⚠ Demo-data banner — impossible to miss.
+    // The four metric matrices above are hardcoded scaffold values from
+    // the original 2026-02-22 commit; they were never wired to real
+    // data providers despite the per-metric methodology strings. Until
+    // that wiring happens, the UI must clearly label every render as
+    // demo data so users don't cite these numbers in real work.
+    const banner = el('div', {
+      role: 'note',
+      class: 'ta-demo-banner',
+      style: 'margin: 0 0 1rem; padding: .85rem 1rem; background: var(--warn-dim, rgba(168,70,8,.1)); border-left: 4px solid var(--warn, #a84608); border-radius: 0 6px 6px 0; color: var(--text); font-size: .9rem; line-height: 1.45;'
+    });
+    banner.innerHTML =
+      '<strong>\u26a0 Demo data — not production.</strong> ' +
+      'The peer-state comparison below uses scaffold placeholder values that were never wired to MLS, CoStar, Zillow, Census ACS, or BLS despite the methodology citations. ' +
+      'For real Colorado housing trends, pull from ' +
+      '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color: var(--link, #054a42); text-decoration: underline;">HUD datasets</a>, ' +
+      '<a href="https://data.census.gov" target="_blank" rel="noopener" style="color: var(--link, #054a42); text-decoration: underline;">Census.gov</a>, or ' +
+      '<a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener" style="color: var(--link, #054a42); text-decoration: underline;">Zillow Research</a> directly. ' +
+      'Do not use these numbers in applications, investor decks, or underwriting.';
+    section.appendChild(banner);
+
     // Header
     const header = el('div', { class: 'ta-header' },
       el('h2', { class: 'ta-title' }, 'Colorado Housing Trend Analysis'),
       el('p', { class: 'ta-subtitle' },
         'Comparing Colorado housing metrics against 11 peer states (2019–2024). ' +
-        'Statistical significance tested using Welch\u2019s two-sample t-test.'),
+        'Statistical significance tested using Welch\u2019s two-sample t-test. ' +
+        'Note: underlying data is scaffold only — see warning above.'),
     );
     section.appendChild(header);
 

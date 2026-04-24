@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T14:06:41.970Z",
+  "generatedAt": "2026-04-23T22:01:03.604Z",
   "summary": {
     "byImpact": {
       "critical": 0,
@@ -9,7 +9,7 @@
     },
     "byRule": {},
     "totalNodes": 0,
-    "pageCount": 15
+    "pageCount": 16
   },
   "results": [
     {
@@ -88,6 +88,13 @@
       "passCount": 33,
       "incompleteCount": 1,
       "inapplicable": 28
+    },
+    {
+      "page": "land-value.html",
+      "violations": [],
+      "passCount": 28,
+      "incompleteCount": 1,
+      "inapplicable": 33
     },
     {
       "page": "historical-trends.html",
