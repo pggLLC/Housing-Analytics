@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-23T08:28:01.801Z
+**Scan timestamp:** 2026-04-24T08:55:06.187Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 920 |
-| New (unregistered) | 889 |
+| Files scanned | 924 |
+| New (unregistered) | 893 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -876,7 +876,7 @@
 - `data/market/landuse_zoning_proxy_co.geojson` (7017 KB)
 - `data/market/lihtc-equity-pricing-history.json` (2 KB)
 - `data/market/lodes_co.json` (663 KB)
-- `data/market/lodes_od_arcs_co.geojson` (186 KB)
+- `data/market/lodes_od_arcs_co.geojson` (124 KB)
 - `data/market/natural_barriers_co.geojson` (11094 KB)
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (77195 KB)
@@ -895,10 +895,14 @@
 - `data/policy/county-ownership.json` (6 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
-- `data/policy/soft-funding-status.json` (12 KB)
+- `data/policy/soft-funding-status.json` (17 KB)
 - `data/policy_briefs.json` (119 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/reports/a11y-baseline.json` (2 KB)
+- `data/provenance/deal-calculator.json` (3 KB)
+- `data/provenance/hna-scenario-builder.json` (3 KB)
+- `data/provenance/housing-needs-assessment.json` (6 KB)
+- `data/provenance/market-analysis.json` (2 KB)
+- `data/reports/a11y-baseline.json` (3 KB)
 - `data/zillow/median_list_price_metro.csv` (806 KB)
 - `data/zillow/zhvi_metro.csv` (4288 KB)
 - `data/zillow/zori_metro.csv` (974 KB)
@@ -906,27 +910,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 843 days since last update
-- **undefined** — 477 days since last update
-- **undefined** — 477 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 844 days since last update
+- **undefined** — 478 days since last update
+- **undefined** — 478 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 387 days since last update
+- undefined — 388 days since last update
