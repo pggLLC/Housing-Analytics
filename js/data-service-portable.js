@@ -1187,13 +1187,21 @@
             var td = localData.tracts[tractIds[i]];
             if (!td) continue;
             if (td.hasSFHA) sfhaCount++;
+            // `floodRiskScore || 95` previously fabricated a near-perfect
+            // "safe" score (95/100) when the tract lacked the field.
+            // Flagged as a hallucination in the 2026-04-23 origin audit
+            // (issue #712). Return null so downstream composite scorers
+            // propagate "unavailable" rather than silently bumping the
+            // site's feasibility score.
+            var hasRisk = typeof td.floodRiskScore === 'number';
             floodZones.push({
               type: 'Feature',
               properties: {
                 tractId: tractIds[i],
                 FLD_ZONE: (td.zones && td.zones[0]) || 'X',
                 hasSFHA: td.hasSFHA || false,
-                floodRiskScore: td.floodRiskScore || 95,
+                floodRiskScore: hasRisk ? td.floodRiskScore : null,
+                floodRiskAvailable: hasRisk,
                 zones: td.zones || []
               },
               geometry: null

@@ -227,9 +227,15 @@
     var band        = _likelihoodToBand(likelihood);
     var percentile  = _computePercentile(scoreEst);
 
-    var avgApps   = _summary.avgApplicationsPerYear || 27;
-    var awardRate = _summary.awardRate || 0.37;
-    var funded    = Math.round(avgApps * awardRate);
+    // Historical summary stats — return null + visible "unavailable"
+    // rather than fabricating 27 apps / 37% rate when the summary file
+    // didn't load. Hardcoded fallbacks were flagged as hallucinations
+    // in the 2026-04-23 origin audit (issue #712).
+    var summaryLoaded = typeof _summary.avgApplicationsPerYear === 'number' &&
+                        typeof _summary.awardRate === 'number';
+    var avgApps   = summaryLoaded ? _summary.avgApplicationsPerYear : null;
+    var awardRate = summaryLoaded ? _summary.awardRate              : null;
+    var funded    = summaryLoaded ? Math.round(avgApps * awardRate) : null;
 
     var narrative = _buildNarrative(likelihood, band, scoreEst, c);
 
@@ -239,6 +245,9 @@
       'Developer track record assumed neutral — adjust if known.',
       'Contact CHFA for pre-application consultation before submission.'
     ];
+    if (!summaryLoaded) {
+      caveats.unshift('⚠ Historical summary data did not load — application-count and award-rate context unavailable; see CHFA directly for current figures.');
+    }
 
     if (ctx.isRural) {
       caveats.push('Rural markets have historically lower award rates — rural priority tiebreaker may offset.');
@@ -250,10 +259,13 @@
       scoreEstimate:    scoreEst,
       factors:          factors,
       competitiveContext: {
-        applicationsExpected: avgApps,
-        fundingAvailable:     funded,
+        applicationsExpected: avgApps,          // may be null
+        fundingAvailable:     funded,           // may be null
         percentileRank:       percentile,
-        note:                 'Based on ' + _awards.length + ' historical awards (2015–2025).'
+        summaryAvailable:     summaryLoaded,    // new flag for UI renderers
+        note: summaryLoaded
+          ? 'Based on ' + _awards.length + ' historical awards (2015–2025).'
+          : 'Historical-award summary not available — competitive context omitted.'
       },
       narrative: narrative,
       caveats:   caveats
