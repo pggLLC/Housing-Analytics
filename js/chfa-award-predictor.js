@@ -5,6 +5,16 @@
  * Estimates award likelihood and competitive score for a LIHTC concept
  * based on historical CHFA QAP award patterns (2015–2025).
  *
+ * ⚠ DATA SOURCE DISCLOSURE:
+ *   The underlying dataset (`data/policy/chfa-awards-historical.json`) is
+ *   a **synthesized sample** assembled from CHFA's public award
+ *   announcements — see `meta.note` in that file. It is suitable for
+ *   directional calibration but is NOT CHFA's authoritative award record.
+ *   UI surfaces that consume this predictor (see qap-competitiveness-panel.js
+ *   and lihtc-concept-card-renderer.js) render a visible banner above any
+ *   predicted score. Verify specific figures against CHFA's current award
+ *   history before citing them: https://www.chfainfo.com/developers/rental-housing-and-funding
+ *
  * Non-goals:
  *   - Does NOT predict the actual CHFA score (CHFA is the sole arbiter)
  *   - Does NOT guarantee an award — estimates only

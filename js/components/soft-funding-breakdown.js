@@ -5,9 +5,19 @@
  *
  * Shows:
  *   - All eligible programs for the selected county + execution type (9%/4%)
- *   - Per-program: available $, max per project, deadline, competitiveness
- *   - PAB volume cap warning for 4% deals
- *   - Total theoretical soft-funding capacity vs the gap
+ *   - Per-program: max per project (published rule), deadline, competitiveness,
+ *     eligibility restrictions, admin entity
+ *   - PAB volume cap qualitative warning for 4% deals
+ *
+ * ⚠ Dollar-figure policy (2026-04):
+ *   This renderer intentionally does NOT display the `available`, `awarded`,
+ *   or `capacity` fields from `data/policy/soft-funding-status.json`. Those
+ *   figures are quarterly admin-maintained estimates that drift between
+ *   refresh cycles; showing stale balances was confusing users. Tracker API
+ *   methods (`sumEligible`, `getPabStatus`) still expose them for non-UI
+ *   use, but the surface shown to users is verification-pointed, not
+ *   dollar-valued. Verify current balances with the admin entity before
+ *   citing to a client.
  *
  * Depends on: js/soft-funding-tracker.js (must load first)
  * Mount: renders into #dcSoftFundingBreakdown (created dynamically)
@@ -96,12 +106,10 @@
     var SFT = global.SoftFundingTracker;
     if (!SFT) return;
 
-    var pab = SFT.getPabStatus();
-    if (!pab) return;
-
-    var pctUsed = pab.pctCommitted;
-    var isUrgent = pctUsed >= 60;
-
+    // Qualitative PAB warning only — historical dollar/percentage figures
+    // for the state PAB ceiling and committed-to-date were
+    // admin-maintained estimates that drifted; users are now directed
+    // to CHFA's live tracker rather than shown a synthesized progress bar.
     // Find or create mount
     var mount = existing;
     if (!mount) {
@@ -112,22 +120,18 @@
       pabNote.parentNode.insertBefore(mount, pabNote.nextSibling);
     }
 
-    var barColor = isUrgent ? 'var(--warn, #d97706)' : 'var(--accent, #096e65)';
-    var bgColor = isUrgent ? 'var(--warn-dim, #fef3c7)' : 'var(--info-dim, #dbeafe)';
-    var borderColor = isUrgent ? 'var(--warn, #d97706)' : 'var(--info, #2563eb)';
-
-    mount.style.cssText = 'margin-top:8px;padding:8px 12px;border-left:3px solid ' + borderColor +
-      ';border-radius:0 4px 4px 0;background:' + bgColor + ';font-size:.78rem;';
+    mount.style.cssText = 'margin-top:8px;padding:8px 12px;border-left:3px solid var(--info, #2563eb)' +
+      ';border-radius:0 4px 4px 0;background:var(--info-dim, #dbeafe);font-size:.78rem;';
     mount.innerHTML =
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">' +
-        '<strong style="color:' + barColor + ';">PAB Volume Cap: ' + pctUsed + '% Committed</strong>' +
-        '<span style="color:var(--muted);font-size:.72rem;">' + _fmtDollars(pab.remaining) + ' of ' + _fmtDollars(pab.totalCap) + ' remaining</span>' +
-      '</div>' +
-      '<div style="height:6px;background:var(--border);border-radius:3px;margin:6px 0 4px;overflow:hidden;">' +
-        '<div style="height:100%;width:' + Math.min(pctUsed, 100) + '%;background:' + barColor + ';border-radius:3px;transition:width .4s;"></div>' +
-      '</div>' +
-      (pab.warning ? '<div style="font-size:.72rem;color:' + barColor + ';margin-top:2px;">' + pab.warning + '</div>' : '') +
-      (isUrgent ? '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">4% deals require PAB allocation before LIHTC determination. Apply early — when cap is exhausted, 4% deals cannot proceed until next calendar year.</div>' : '');
+      '<strong style="color:var(--info, #2563eb);">PAB Volume Cap — verify current availability</strong>' +
+      '<p style="font-size:.72rem;color:var(--muted);margin:4px 0 0;line-height:1.5;">' +
+        '4% deals require Private Activity Bond (PAB) allocation before LIHTC determination. ' +
+        'Colorado\u2019s state PAB ceiling is set annually and commitments accrue through the year — ' +
+        'apply early, and when the cap is exhausted 4% deals cannot proceed until the next calendar year. ' +
+        'Check current cap status at ' +
+        '<a href="https://cdola.colorado.gov/privateactivitybonds" target="_blank" rel="noopener">CDOLA\u2019s PAB program page</a> ' +
+        'or confirm directly with CHFA before finalizing a 4% structure.' +
+      '</p>';
     mount.hidden = false;
   }
 
@@ -164,7 +168,6 @@
     }
 
     var programs = SFT.getEligiblePrograms(countyFips, executionType);
-    var sum = SFT.sumEligible(countyFips, executionType);
     var updated = SFT.getLastUpdated();
 
     if (!programs || programs.length === 0) {
@@ -172,27 +175,20 @@
       return;
     }
 
-    // Gap coverage assessment
-    var gapCoverage = '';
-    if (typeof gapAmount === 'number' && gapAmount > 0 && sum.total > 0) {
-      var coverPct = Math.min(100, Math.round(sum.total / gapAmount * 100));
-      var coverColor = coverPct >= 100 ? 'var(--good, #047857)' : coverPct >= 50 ? 'var(--warn, #d97706)' : 'var(--bad, #dc2626)';
-      gapCoverage =
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:6px 10px;border-radius:4px;background:var(--bg2);">' +
-          '<span style="font-size:.78rem;color:var(--muted);">Theoretical coverage of gap:</span>' +
-          '<strong style="color:' + coverColor + ';font-size:.85rem;">' + coverPct + '%</strong>' +
-          '<span style="font-size:.72rem;color:var(--muted);">(' + _fmtDollars(sum.total) + ' available across ' + sum.programCount + ' programs vs ' + _fmtDollars(gapAmount) + ' gap)</span>' +
-        '</div>' +
-        (coverPct < 100 ? '<div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">Note: Not all programs can be stacked. Actual coverage depends on application success, timing, and program rules. Max per-project limits apply.</div>' : '');
-    }
+    // Dollar-figure policy (2026-04): dollar balances from the underlying
+    // JSON (available/awarded/capacity) are intentionally NOT rendered —
+    // quarterly admin-maintained estimates drift too quickly to show
+    // live. Users see the qualitative program list and are pointed at
+    // the admin entity for a current balance. `gapAmount` is accepted
+    // for interface compatibility but no longer drives a dollar-coverage
+    // readout.
+    void gapAmount;
 
     // Build program rows
     var rows = '';
     for (var i = 0; i < programs.length; i++) {
       var p = programs[i];
-      var hasAvail = p.available !== null && p.available > 0;
-      var rowOpacity = hasAvail ? '1' : '0.55';
-      var maxNote = p.maxPerProject ? ' (max ' + _fmtDollars(p.maxPerProject) + '/project)' : '';
+      var maxNote = p.maxPerProject ? ' (published max ' + _fmtDollars(p.maxPerProject) + '/project)' : '';
       var amiNote = p.amiTargeting ? '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:.66rem;font-weight:600;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-left:4px;">' + p.amiTargeting + '</span>' : '';
 
       // Restrictions — rendered as collapsible <details> inside the program
@@ -214,15 +210,12 @@
       }
 
       rows +=
-        '<tr style="opacity:' + rowOpacity + ';border-bottom:1px solid var(--border);">' +
+        '<tr style="border-bottom:1px solid var(--border);">' +
           '<td style="padding:5px 4px;font-size:.78rem;line-height:1.4;">' +
             '<strong>' + p.name + '</strong>' + amiNote + maxNote +
             (p.adminEntity ? '<br><span style="font-size:.68rem;color:var(--muted);">Admin: ' + p.adminEntity + '</span>' : '') +
             (p.warning ? '<br><span style="font-size:.68rem;color:var(--warn,#d97706);">' + p.warning + '</span>' : '') +
             restrictionsHtml +
-          '</td>' +
-          '<td style="text-align:right;padding:5px 4px;font-size:.78rem;font-weight:700;white-space:nowrap;">' +
-            (hasAvail ? _fmtDollars(p.available) : '<span style="color:var(--muted);">—</span>') +
           '</td>' +
           '<td style="text-align:center;padding:5px 4px;">' + _competBadge(p.competitiveness) + '</td>' +
           '<td style="text-align:right;padding:5px 4px;font-size:.75rem;white-space:nowrap;">' +
@@ -236,20 +229,24 @@
       '<details open style="margin-top:4px;">' +
         '<summary style="font-size:.82rem;font-weight:700;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:4px;padding:4px 0;">' +
           '<span>&#9660;</span> Eligible Soft-Funding Sources (' + programs.length + ' programs)' +
-          '<span style="font-size:.68rem;font-weight:400;color:var(--muted);margin-left:auto;">Updated ' + (updated || '—') + '</span>' +
+          '<span style="font-size:.68rem;font-weight:400;color:var(--muted);margin-left:auto;">Last catalog update ' + (updated || '—') + '</span>' +
         '</summary>' +
-        gapCoverage +
+        // Policy banner explaining the missing dollar column.
+        '<div role="note" style="margin:4px 0 8px;padding:6px 10px;border-left:3px solid var(--info,#2563eb);border-radius:0 4px 4px 0;background:var(--info-dim,#dbeafe);font-size:.72rem;line-height:1.45;color:var(--text);">' +
+          '<strong style="color:var(--info,#2563eb);">Balances not shown.</strong> ' +
+          'Dollar-level availability for these programs drifts quarterly and is best confirmed directly with the admin entity. ' +
+          'This catalog shows eligibility, deadline, and competition level only — call CHFA, DOLA, or the listed admin before modelling a specific source.' +
+        '</div>' +
         '<table style="width:100%;border-collapse:collapse;font-size:.78rem;">' +
           '<thead><tr style="border-bottom:2px solid var(--border);">' +
             '<th style="text-align:left;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Program</th>' +
-            '<th style="text-align:right;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Available</th>' +
             '<th style="text-align:center;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Competition</th>' +
             '<th style="text-align:right;padding:4px;color:var(--muted);font-weight:600;font-size:.72rem;">Deadline</th>' +
           '</tr></thead>' +
           '<tbody>' + rows + '</tbody>' +
         '</table>' +
         '<p style="font-size:.68rem;color:var(--muted);margin:6px 0 0;">' +
-          'Estimates only — verify availability with CHFA, DOH, or county housing offices before advising clients. ' +
+          'Catalog only — verify availability with CHFA, DOH, or county housing offices before advising clients. ' +
           'Programs may have additional eligibility criteria not shown here.' +
         '</p>' +
       '</details>';
