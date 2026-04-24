@@ -266,20 +266,26 @@
     if (fund && typeof fund === 'object') {
       var compBadge = { high: '🟡 High competition', moderate: '🟢 Moderate competition', low: '🟢 Low competition' }[fund.competitiveness]
         || _cap(fund.competitiveness || '');
+      // Dollar-figure policy (2026-04): the Available $ readout was pulled
+      // because quarterly admin-maintained balances drifted between
+      // refreshes. Users now see program + deadline + competition and
+      // are pointed at the admin for a live number.
       sections.push([
         '<details class="lihtc-cc-constraint">',
           '<summary role="button"><h4>💰 Soft Funding Status</h4></summary>',
           '<dl class="lihtc-cc-constraint-grid">',
             '<dt>Program</dt><dd>' + _esc(fund.program || '—') + '</dd>',
-            '<dt>Available</dt><dd>' + _esc(_fmtM(fund.available || 0)) + '</dd>',
             '<dt>Deadline</dt><dd>' + (fund.deadline
               ? _esc(fund.deadline) + (fund.daysRemaining !== null ? ' (' + fund.daysRemaining + ' days)' : '')
               : '—') + '</dd>',
             '<dt>Competition</dt><dd>' + _esc(compBadge) + '</dd>',
           '</dl>',
+          '<p style="margin:.35rem 0 0;font-size:.72rem;color:var(--muted);line-height:1.45;">' +
+            'Current balance not shown — verify with the program admin before modelling a specific source.' +
+          '</p>',
           fund.warning ? '<p style="margin:.35rem 0 0;font-size:.8rem;color:var(--warning,#c0392b);">⚠ ' + _esc(fund.warning) + '</p>' : '',
           fund.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(fund.narrative) + '</p>' : '',
-          fund.lastUpdated ? '<p class="lihtc-cc-constraint-narrative">Last updated: ' + _esc(fund.lastUpdated) + '</p>' : '',
+          fund.lastUpdated ? '<p class="lihtc-cc-constraint-narrative">Catalog last updated: ' + _esc(fund.lastUpdated) + '</p>' : '',
         '</details>'
       ].join(''));
     }
@@ -290,9 +296,19 @@
       var pct  = Math.round((award.awardLikelihood || 0) * 100);
       var band = award.competitiveBand || 'unknown';
       var bandBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', weak: '🔴 Weak' }[band] || _cap(band);
+      // Synthesized-data banner mirrors the deal-calculator panel. Underlying
+      // dataset is a public-sources sample, not CHFA's authoritative record.
+      var chfaBanner =
+        '<p style="margin:.35rem 0 .5rem;padding:6px 10px;border-left:3px solid var(--warn,#d97706);' +
+          'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.72rem;line-height:1.45;color:var(--text);">' +
+          '<strong style="color:var(--warn,#d97706);">⚠ Synthesized sample data.</strong> ' +
+          'Modelled from public CHFA announcements — directional only. Verify at ' +
+          '<a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a>.' +
+        '</p>';
       sections.push([
         '<details class="lihtc-cc-constraint">',
           '<summary role="button"><h4>🏆 CHFA Competitiveness ' + _esc(bandBadge) + '</h4></summary>',
+          chfaBanner,
           '<dl class="lihtc-cc-constraint-grid">',
             '<dt>Award Likelihood</dt><dd>' + _esc(bandBadge) + ' (' + pct + '%)</dd>',
             '<dt>Est. QAP Score</dt><dd>' + _esc(String(award.scoreEstimate || '—')) + ' / 100</dd>',
