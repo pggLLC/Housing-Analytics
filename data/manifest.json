@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-23T10:04:38.659418Z",
+  "generated": "2026-04-24T08:29:15.946542Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1007982
+      "bytes": 1008353
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4409,12 +4409,12 @@
     "data/market/lodes_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 678435
+      "bytes": 678458
     },
     "data/market/lodes_od_arcs_co.geojson": {
-      "featureCount": 750,
+      "featureCount": 500,
       "placeholder": false,
-      "bytes": 190232
+      "bytes": 127193
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 11175,
@@ -4529,7 +4529,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12674
+      "bytes": 16951
     },
     "data/policy_briefs.json": {
       "featureCount": 0,
@@ -4539,7 +4539,27 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20228
+      "bytes": 20264
+    },
+    "data/provenance/deal-calculator.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3108
+    },
+    "data/provenance/hna-scenario-builder.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3271
+    },
+    "data/provenance/housing-needs-assessment.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5898
+    },
+    "data/provenance/market-analysis.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2317
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
@@ -4549,7 +4569,7 @@
     "data/reports/a11y-baseline.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2371
+      "bytes": 2670
     },
     "data/states-10m.json": {
       "featureCount": 0,
