@@ -293,6 +293,18 @@
         '<h2 id="qapHeading" style="margin:0;font-size:1.1rem;">QAP Competitiveness</h2>' +
         '<span style="font-size:.72rem;color:var(--muted);">9% Competitive Credit Application</span>' +
       '</div>' +
+      // Synthesized-data banner — the historical dataset is a public-sources
+      // sample (see chfa-awards-historical.json meta.note), not CHFA's
+      // authoritative award record. Keep directional reads but verify
+      // specifics against CHFA before citing.
+      '<div role="note" style="margin:.5rem 0 .75rem;padding:8px 12px;border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.76rem;line-height:1.45;color:var(--text);">' +
+        '<strong style="color:var(--warn,#d97706);">⚠ Synthesized sample data.</strong> ' +
+        'Scores and factor averages are modelled from a public-sources sample of CHFA award announcements ' +
+        '(<code style="font-size:.72rem;">data/policy/chfa-awards-historical.json</code>, see <code style="font-size:.72rem;">meta.note</code>). ' +
+        'Use for directional calibration only — verify specifics against ' +
+        '<a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA\u2019s current award history</a> ' +
+        'before citing in an application.' +
+      '</div>' +
       '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .75rem;">' +
         'Estimated CHFA QAP scoring based on historical award patterns (2015–2025). Not a guarantee — CHFA is the sole arbiter of competitive awards.' +
       '</p>' +
