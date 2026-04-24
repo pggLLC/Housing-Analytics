@@ -10,6 +10,31 @@
  *   access      0.15
  *   policy      0.15
  *   market      0.10
+ *
+ * ## Null-propagation contract (data-unavailable dimensions)
+ *
+ * The three "data-driven" scorers — `scoreDemand`, `scoreAccess`,
+ * `scoreLandSupply` — previously returned a neutral `50` when their
+ * input was missing (no ACS aggregate, no amenity distances, etc.).
+ * That silently injected a fabricated "moderate" signal into the
+ * composite score, which for many real sites flipped their opportunity
+ * band (e.g. a pure subsidy+policy site with no ACS data was ranked
+ * identical to a genuinely moderate site). That was dishonest.
+ *
+ * Those three scorers now return `{ score: number|null, unavailable:
+ * boolean, reason?: string }`. When any component returns
+ * `unavailable: true`, `computeScore` drops its contribution and
+ * proportionally redistributes its weight across the remaining
+ * available components — the same pattern used for rent-pressure in
+ * `js/market-analysis.js` (see PR #693). The composite output
+ * surfaces `dimensionsAvailable`, `dimensionsUnavailable`, and
+ * `unavailableDimensions` so UI can show "scored on N of 6
+ * dimensions" rather than fake 100% confidence.
+ *
+ * The remaining three scorers (`scoreSubsidy`, `scoreFeasibility`,
+ * `scorePolicy`, `scoreMarket`) accept primitive numeric/boolean
+ * inputs and are treated as always-available — a missing flag is
+ * the absence of a bonus, not the absence of measurement.
  */
 (function () {
   'use strict';
@@ -73,10 +98,20 @@
    *
    * @param {object|null} acs - Aggregated ACS object.
    *   Expected keys: cost_burden_rate (0–1), renter_share (0–1), poverty_rate (0–1).
-   * @returns {number} 0–100
+   * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
+   *   When `acs` is missing or not an object, returns
+   *   `{ score: null, unavailable: true, reason: 'ACS aggregate unavailable' }`
+   *   so the composite can redistribute this dimension's weight rather than
+   *   scoring the site as "moderate" against a fabricated baseline.
    */
   function scoreDemand(acs) {
-    if (!acs || typeof acs !== 'object') return 50; // neutral fallback
+    if (!acs || typeof acs !== 'object') {
+      return {
+        score: null,
+        unavailable: true,
+        reason: 'ACS aggregate unavailable'
+      };
+    }
 
     // Cost-burden component: 45 %+ is the high-pressure ceiling.
     var cb    = _safe(acs.cost_burden_rate, 0.30);
@@ -90,7 +125,10 @@
     var pov    = _safe(acs.poverty_rate, 0.12);
     var povPts = _clamp((pov / 0.20) * 20);
 
-    return _clamp(cbPts + rsPts + povPts);
+    return {
+      score: _clamp(cbPts + rsPts + povPts),
+      unavailable: false
+    };
   }
 
   /**
@@ -190,10 +228,19 @@
    *   Keys: grocery, transit, parks, healthcare, schools.
    * @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
    *   Keys: walkScore (0-100), bikeScore (0-100).
-   * @returns {number} 0–100
+   * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
+   *   When `amenities` is missing or not an object, returns
+   *   `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
+   *   so the composite can redistribute this dimension's weight.
    */
   function scoreAccess(amenities, walkabilityCtx) {
-    if (!amenities || typeof amenities !== 'object') return 50;
+    if (!amenities || typeof amenities !== 'object') {
+      return {
+        score: null,
+        unavailable: true,
+        reason: 'amenity distances unavailable'
+      };
+    }
 
     /**
      * Convert a distance to a 0–maxPts score.
@@ -233,6 +280,7 @@
     }
 
     var distanceScore = _clamp(grocery + transitPts + parks + healthcare + schools);
+    var finalScore = distanceScore;
 
     // If walkability context is available, blend it into the access score.
     // This captures whether the measured distances are actually traversable
@@ -241,14 +289,14 @@
     if (walkabilityCtx && typeof walkabilityCtx.walkScore === 'number') {
       var walkPts = _clamp(walkabilityCtx.walkScore);
       var bikePts = _clamp(_safe(walkabilityCtx.bikeScore, walkPts));
-      return _clamp(Math.round(
+      finalScore = _clamp(Math.round(
         distanceScore * 0.55 +
         walkPts       * 0.25 +
         bikePts       * 0.20
       ));
     }
 
-    return distanceScore;
+    return { score: finalScore, unavailable: false };
   }
 
   /**
@@ -308,6 +356,11 @@
   /**
    * Compute the composite site selection score.
    *
+   * When the data-driven scorers (`scoreDemand`, `scoreAccess`) return
+   * `unavailable: true`, their weights are redistributed proportionally
+   * across the remaining available components — no fabricated neutral
+   * 50 injected into the composite.
+   *
    * @param {object} inputs
    * @param {object}  inputs.acs               - ACS aggregate (see scoreDemand).
    * @param {boolean} inputs.qctFlag            - QCT designation.
@@ -326,58 +379,84 @@
    * @param {number}  inputs.concentration      - Market concentration 0–1.
    * @param {number}  inputs.serviceStrength    - Service employment share 0–1.
    * @returns {{
-   *   demand_score: number,
+   *   demand_score: number|null,
    *   subsidy_score: number,
    *   feasibility_score: number,
-   *   access_score: number,
+   *   access_score: number|null,
    *   policy_score: number,
    *   market_score: number,
    *   final_score: number,
    *   opportunity_band: string,
    *   component_weights: object,
+   *   dimensionsAvailable: number,
+   *   dimensionsUnavailable: number,
+   *   unavailableDimensions: string[],
    *   narrative: string
    * }}
    */
   function computeScore(inputs) {
     var i = inputs || {};
+    var W = COMPONENT_WEIGHTS;
 
-    var demand_score      = Math.round(scoreDemand(i.acs));
+    var demandResult  = scoreDemand(i.acs);
+    var accessResult  = scoreAccess(i.amenities, i.walkabilityCtx);
+
+    // Subsidy, feasibility, policy, market take primitive inputs — a missing
+    // flag is the absence of a bonus, not the absence of measurement, so
+    // they are always treated as available.
     var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basisBoostEligible));
     var feasibility_score = Math.round(scoreFeasibility(i.floodRisk, i.soilScore, i.cleanupFlag));
-    var access_score      = Math.round(scoreAccess(i.amenities, i.walkabilityCtx));
     var policy_score      = Math.round(scorePolicy(i.zoningCapacity, i.publicOwnership, i.overlayCount));
     var market_score      = Math.round(scoreMarket(i.rentTrend, i.jobTrend, i.concentration, i.serviceStrength));
 
-    var W = COMPONENT_WEIGHTS;
-    var final_score = Math.round(
-      demand_score      * W.demand      +
-      subsidy_score     * W.subsidy     +
-      feasibility_score * W.feasibility +
-      access_score      * W.access      +
-      policy_score      * W.policy      +
-      market_score      * W.market
-    );
-    final_score = _clamp(final_score);
+    var demand_score = demandResult.unavailable ? null : Math.round(demandResult.score);
+    var access_score = accessResult.unavailable ? null : Math.round(accessResult.score);
+
+    // Build the list of contributing components. Unavailable components
+    // drop out — their weight is redistributed proportionally across
+    // the remaining contributors (same pattern used for rent-pressure
+    // in js/market-analysis.js).
+    var contributors = [];
+    if (!demandResult.unavailable) contributors.push({ key: 'demand',      weight: W.demand,      score: demand_score });
+    contributors.push({ key: 'subsidy',     weight: W.subsidy,     score: subsidy_score });
+    contributors.push({ key: 'feasibility', weight: W.feasibility, score: feasibility_score });
+    if (!accessResult.unavailable) contributors.push({ key: 'access',      weight: W.access,      score: access_score });
+    contributors.push({ key: 'policy',      weight: W.policy,      score: policy_score });
+    contributors.push({ key: 'market',      weight: W.market,      score: market_score });
+
+    var unavailableDimensions = [];
+    if (demandResult.unavailable) unavailableDimensions.push('demand');
+    if (accessResult.unavailable) unavailableDimensions.push('access');
+
+    var effectiveWeightSum = contributors.reduce(function (s, c) { return s + c.weight; }, 0);
+    var weighted = contributors.reduce(function (s, c) { return s + c.score * c.weight; }, 0);
+    var final_score = effectiveWeightSum > 0
+      ? _clamp(Math.round(weighted / effectiveWeightSum))
+      : 0;
 
     var opportunity_band = _band(final_score);
 
     var narrative = _buildNarrative(
       final_score, opportunity_band,
       demand_score, subsidy_score, feasibility_score,
-      access_score, policy_score, market_score
+      access_score, policy_score, market_score,
+      unavailableDimensions
     );
 
     return {
-      demand_score:      demand_score,
-      subsidy_score:     subsidy_score,
-      feasibility_score: feasibility_score,
-      access_score:      access_score,
-      policy_score:      policy_score,
-      market_score:      market_score,
-      final_score:       final_score,
-      opportunity_band:  opportunity_band,
-      component_weights: COMPONENT_WEIGHTS,
-      narrative:         narrative
+      demand_score:          demand_score,
+      subsidy_score:         subsidy_score,
+      feasibility_score:     feasibility_score,
+      access_score:          access_score,
+      policy_score:          policy_score,
+      market_score:          market_score,
+      final_score:           final_score,
+      opportunity_band:      opportunity_band,
+      component_weights:     COMPONENT_WEIGHTS,
+      dimensionsAvailable:   contributors.length,
+      dimensionsUnavailable: unavailableDimensions.length,
+      unavailableDimensions: unavailableDimensions,
+      narrative:             narrative
     };
   }
 
@@ -385,32 +464,48 @@
 
   /**
    * Build a plain-English narrative summarizing the scoring result.
+   *
+   * When some dimensions are unavailable (null scores), the narrative
+   * disclaims this explicitly instead of treating nulls as zeros — a
+   * zero would mislead the "top driver" / "risk" ranking.
+   *
    * @private
    */
-  function _buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market) {
+  function _buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market, unavailableDimensions) {
     var parts = [];
+    unavailableDimensions = unavailableDimensions || [];
+
+    var availableNote = unavailableDimensions.length > 0
+      ? ' (scored on ' + (6 - unavailableDimensions.length) + ' of 6 dimensions — '
+          + unavailableDimensions.join(', ') + ' data unavailable)'
+      : '';
 
     parts.push(
-      'This site received an overall score of ' + final + '/100, ' +
+      'This site received an overall score of ' + final + '/100' + availableNote + ', ' +
       'placing it in the \u201c' + band + '\u201d opportunity band.'
     );
 
-    // Identify the top driver (highest scoring component).
-    // Sort a copy so the original declaration order is preserved.
+    // Identify the top driver (highest scoring component). Unavailable
+    // components drop out of the ranking rather than being treated as 0.
     var comps = [
-      { label: 'housing demand', score: demand },
-      { label: 'subsidy eligibility', score: subsidy },
+      { label: 'housing demand',       score: demand },
+      { label: 'subsidy eligibility',  score: subsidy },
       { label: 'physical feasibility', score: feasibility },
-      { label: 'neighborhood access', score: access },
-      { label: 'policy environment', score: policy },
-      { label: 'market conditions', score: market }
-    ].slice().sort(function (a, b) { return b.score - a.score; });
+      { label: 'neighborhood access',  score: access },
+      { label: 'policy environment',   score: policy },
+      { label: 'market conditions',    score: market }
+    ].filter(function (c) { return c.score != null; })
+      .slice().sort(function (a, b) { return b.score - a.score; });
 
-    parts.push(
-      'The strongest driver is ' + comps[0].label +
-      ' (' + comps[0].score + '), followed by ' +
-      comps[1].label + ' (' + comps[1].score + ').'
-    );
+    if (comps.length >= 2) {
+      parts.push(
+        'The strongest driver is ' + comps[0].label +
+        ' (' + comps[0].score + '), followed by ' +
+        comps[1].label + ' (' + comps[1].score + ').'
+      );
+    } else if (comps.length === 1) {
+      parts.push('The only available driver is ' + comps[0].label + ' (' + comps[0].score + ').');
+    }
 
     // Flag any component below 40 as a risk.
     var risks = comps.filter(function (c) { return c.score < 40; });
@@ -419,8 +514,8 @@
       parts.push(
         'Areas requiring attention: ' + riskLabels + '.'
       );
-    } else {
-      parts.push('No components scored below the moderate threshold.');
+    } else if (comps.length > 0) {
+      parts.push('No available components scored below the moderate threshold.');
     }
 
     return parts.join(' ');
@@ -434,27 +529,42 @@
    * Function name retained for backward compatibility.
    *
    * @param {object|null} acs - ACS aggregate. Expected key: vacancy_rate (0–1 decimal).
-   * @returns {number} 0–100
+   * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
+   *   When `acs` is missing, returns `{ score: null, unavailable: true }`
+   *   so the composite can redistribute this dimension's weight.
    */
   function scoreLandSupply(acs) {
-    if (!acs || typeof acs !== 'object') return 50;
+    if (!acs || typeof acs !== 'object') {
+      return {
+        score: null,
+        unavailable: true,
+        reason: 'ACS vacancy data unavailable'
+      };
+    }
     var vac = _safe(acs.vacancy_rate, 0.05);
     // Very low vacancy (<1%) → score ≈ 92; at 12%+ vacancy → score ≈ 0.
-    return _clamp(Math.round((1 - vac / 0.12) * 100));
+    return {
+      score: _clamp(Math.round((1 - vac / 0.12) * 100)),
+      unavailable: false
+    };
   }
 
   /**
    * Enhanced land-supply score that incorporates Bridge assessed land value data.
    * When Bridge data is unavailable, falls back to pure ACS vacancy-based scoring.
+   * When ACS is also unavailable, propagates the unavailable flag.
    *
    * @param {object} acs - ACS data (vacancy_rate etc.)
    * @param {object|null} bridgeContext - from BridgeMarketSummary.getLandCostContext()
    *   { tier: 'low'|'moderate'|'high'|'unknown', medianLandValue: number|null, isRural: boolean }
-   * @returns {number} 0-100
+   * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
    */
   function scoreLandSupplyWithBridge(acs, bridgeContext) {
-    var base = scoreLandSupply(acs);   // ACS vacancy-rate base score
-    if (!bridgeContext || bridgeContext.tier === 'unknown') return base;
+    var baseResult = scoreLandSupply(acs);   // ACS vacancy-rate base score
+    if (baseResult.unavailable) return baseResult;
+
+    var base = baseResult.score;
+    if (!bridgeContext || bridgeContext.tier === 'unknown') return baseResult;
 
     // Blend: 60% ACS vacancy signal, 40% Bridge land cost signal
     var landCostScore;
@@ -465,7 +575,10 @@
     // Rural bonus: rural markets have structurally more developable land
     if (bridgeContext.isRural) landCostScore = Math.min(100, landCostScore + 10);
 
-    return _clamp(Math.round(base * 0.60 + landCostScore * 0.40));
+    return {
+      score: _clamp(Math.round(base * 0.60 + landCostScore * 0.40)),
+      unavailable: false
+    };
   }
 
   /**

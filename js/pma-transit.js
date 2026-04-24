@@ -114,8 +114,13 @@
       });
     });
 
+    // High-frequency classification: only count routes whose headway is
+    // actually known. Previously used `r.headwayMinutes || 60` which
+    // silently treated unknown headways as 60-minute service — effectively
+    // penalising routes with missing metadata. Routes with no reported
+    // headway now drop out of the high-frequency bucket transparently.
     var highFreqCount = nearbyRoutes.filter(function (r) {
-      return toNum(r.headwayMinutes || 60) <= HIGH_FREQUENCY_MIN;
+      return r.headwayMinutes != null && toNum(r.headwayMinutes) <= HIGH_FREQUENCY_MIN;
     }).length;
     var freqScore = nearbyRoutes.length
       ? clamp((highFreqCount / nearbyRoutes.length) * 100 + (nearbyRoutes.length > 2 ? 20 : 0), 0, 100)
@@ -229,7 +234,10 @@
           properties: {
             routeId:   r.routeId || r.id || 'unknown',
             routeName: r.name || r.routeName || 'Transit Route',
-            headway:   toNum(r.headwayMinutes || 60),
+            // Pass through null when headway is unknown rather than
+            // fabricating a 60-minute default. Map layers / downstream
+            // consumers should render "—" for null.
+            headway:   r.headwayMinutes != null ? toNum(r.headwayMinutes) : null,
             mode:      r.mode || 'Bus'
           }
         };
@@ -257,7 +265,10 @@
       nearbyRouteCount:          _lastDataSources.nearbyRouteCount || lastRoutes.length,
       serviceGaps:               lastDeserts.length,
       hasHighFrequencyService:   lastRoutes.some(function (r) {
-        return toNum(r.headwayMinutes || 60) <= HIGH_FREQUENCY_MIN;
+        // Only "known high-frequency" counts — unknown headways don't
+        // get a manufactured 60-minute default that would exclude them
+        // or (worse) falsely include them in the justification.
+        return r.headwayMinutes != null && toNum(r.headwayMinutes) <= HIGH_FREQUENCY_MIN;
       }),
       // Extended EPA SLD metrics (available when _dataSource is epa-sld-local)
       jobAccess:                 epa.jobAccess != null ? epa.jobAccess : null,

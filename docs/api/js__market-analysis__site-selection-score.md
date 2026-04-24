@@ -12,6 +12,31 @@ Component weights (must sum to 1.0):
   policy      0.15
   market      0.10
 
+## Null-propagation contract (data-unavailable dimensions)
+
+The three "data-driven" scorers — `scoreDemand`, `scoreAccess`,
+`scoreLandSupply` — previously returned a neutral `50` when their
+input was missing (no ACS aggregate, no amenity distances, etc.).
+That silently injected a fabricated "moderate" signal into the
+composite score, which for many real sites flipped their opportunity
+band (e.g. a pure subsidy+policy site with no ACS data was ranked
+identical to a genuinely moderate site). That was dishonest.
+
+Those three scorers now return `{ score: number|null, unavailable:
+boolean, reason?: string }`. When any component returns
+`unavailable: true`, `computeScore` drops its contribution and
+proportionally redistributes its weight across the remaining
+available components — the same pattern used for rent-pressure in
+`js/market-analysis.js` (see PR #693). The composite output
+surfaces `dimensionsAvailable`, `dimensionsUnavailable`, and
+`unavailableDimensions` so UI can show "scored on N of 6
+dimensions" rather than fake 100% confidence.
+
+The remaining three scorers (`scoreSubsidy`, `scoreFeasibility`,
+`scorePolicy`, `scoreMarket`) accept primitive numeric/boolean
+inputs and are treated as always-available — a missing flag is
+the absence of a bonus, not the absence of measurement.
+
 ## Symbols
 
 ### `COMPONENT_WEIGHTS`
@@ -48,7 +73,11 @@ Drivers:
 
 @param {object|null} acs - Aggregated ACS object.
   Expected keys: cost_burden_rate (0–1), renter_share (0–1), poverty_rate (0–1).
-@returns {number} 0–100
+@returns {{ score: number|null, unavailable: boolean, reason?: string }}
+  When `acs` is missing or not an object, returns
+  `{ score: null, unavailable: true, reason: 'ACS aggregate unavailable' }`
+  so the composite can redistribute this dimension's weight rather than
+  scoring the site as "moderate" against a fabricated baseline.
 
 ### `scoreSubsidy(qctFlag, ddaFlag, fmrRatio, nearbySubsidized, basis_boost_eligible)`
 
@@ -95,7 +124,10 @@ With walkability context: 55% distance + 25% walkability + 20% bikeability.
   Keys: grocery, transit, parks, healthcare, schools.
 @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
   Keys: walkScore (0-100), bikeScore (0-100).
-@returns {number} 0–100
+@returns {{ score: number|null, unavailable: boolean, reason?: string }}
+  When `amenities` is missing or not an object, returns
+  `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
+  so the composite can redistribute this dimension's weight.
 
 ### `scorePolicy(zoningCapacity, publicOwnership, overlayCount)`
 
@@ -136,6 +168,7 @@ Distance at or below `near` earns full points; at or above `far` earns 0.
     }
 
     var distanceScore = _clamp(grocery + transitPts + parks + healthcare + schools);
+    var finalScore = distanceScore;
 
     // If walkability context is available, blend it into the access score.
     // This captures whether the measured distances are actually traversable
@@ -144,14 +177,14 @@ Distance at or below `near` earns full points; at or above `far` earns 0.
     if (walkabilityCtx && typeof walkabilityCtx.walkScore === 'number') {
       var walkPts = _clamp(walkabilityCtx.walkScore);
       var bikePts = _clamp(_safe(walkabilityCtx.bikeScore, walkPts));
-      return _clamp(Math.round(
+      finalScore = _clamp(Math.round(
         distanceScore * 0.55 +
         walkPts       * 0.25 +
         bikePts       * 0.20
       ));
     }
 
-    return distanceScore;
+    return { score: finalScore, unavailable: false };
   }
 
   /**
@@ -176,6 +209,11 @@ Score market conditions for affordable housing viability.
 
 Compute the composite site selection score.
 
+When the data-driven scorers (`scoreDemand`, `scoreAccess`) return
+`unavailable: true`, their weights are redistributed proportionally
+across the remaining available components — no fabricated neutral
+50 injected into the composite.
+
 @param {object} inputs
 @param {object}  inputs.acs               - ACS aggregate (see scoreDemand).
 @param {boolean} inputs.qctFlag            - QCT designation.
@@ -194,21 +232,29 @@ Compute the composite site selection score.
 @param {number}  inputs.concentration      - Market concentration 0–1.
 @param {number}  inputs.serviceStrength    - Service employment share 0–1.
 @returns {{
-  demand_score: number,
+  demand_score: number|null,
   subsidy_score: number,
   feasibility_score: number,
-  access_score: number,
+  access_score: number|null,
   policy_score: number,
   market_score: number,
   final_score: number,
   opportunity_band: string,
   component_weights: object,
+  dimensionsAvailable: number,
+  dimensionsUnavailable: number,
+  unavailableDimensions: string[],
   narrative: string
 }}
 
-### `_buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market)`
+### `_buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market, unavailableDimensions)`
 
 Build a plain-English narrative summarizing the scoring result.
+
+When some dimensions are unavailable (null scores), the narrative
+disclaims this explicitly instead of treating nulls as zeros — a
+zero would mislead the "top driver" / "risk" ranking.
+
 @private
 
 ### `scoreLandSupply(acs)`
@@ -220,17 +266,20 @@ for new construction. Low vacancy = tight market = demand signal.
 Function name retained for backward compatibility.
 
 @param {object|null} acs - ACS aggregate. Expected key: vacancy_rate (0–1 decimal).
-@returns {number} 0–100
+@returns {{ score: number|null, unavailable: boolean, reason?: string }}
+  When `acs` is missing, returns `{ score: null, unavailable: true }`
+  so the composite can redistribute this dimension's weight.
 
 ### `scoreLandSupplyWithBridge(acs, bridgeContext)`
 
 Enhanced land-supply score that incorporates Bridge assessed land value data.
 When Bridge data is unavailable, falls back to pure ACS vacancy-based scoring.
+When ACS is also unavailable, propagates the unavailable flag.
 
 @param {object} acs - ACS data (vacancy_rate etc.)
 @param {object|null} bridgeContext - from BridgeMarketSummary.getLandCostContext()
   { tier: 'low'|'moderate'|'high'|'unknown', medianLandValue: number|null, isRural: boolean }
-@returns {number} 0-100
+@returns {{ score: number|null, unavailable: boolean, reason?: string }}
 
 ### `scoreMarketWithBridge(rentTrend, jobTrend, concentration, serviceStrength, bridgeContext)`
 
