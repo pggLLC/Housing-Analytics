@@ -110,10 +110,13 @@
       <section class="ht-panel" aria-labelledby="htCHFAHeading">
         <h2 id="htCHFAHeading">CHFA Annual Award History</h2>
         <p class="ht-intro">
-          How many 9% competitive vs. 4% PAB-backed awards CHFA has made each year, with aggregate
-          scoring statistics. Use this to calibrate your QAP submission \u2014 a 78-point score was
-          the 2015\u20132025 average; median was 80. Colorado awards ~10 projects/year against ~27
-          applications (37% overall win rate).
+          Annual 9% competitive vs. 4% PAB-backed award counts with aggregate scoring statistics.
+          <strong>Important:</strong> the underlying dataset is a <em>synthesized sample</em> assembled from CHFA's
+          public award announcements (see <code>data/policy/chfa-awards-historical.json</code> \u2014
+          <code>meta.note</code> field). Use the CHFA-sourced panels only for directional calibration;
+          verify specific numbers against
+          <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA's current award history</a>
+          before citing them in an application.
         </p>
         <div class="ht-chart-wrap">
           <canvas id="chfaTimelineChart" role="img" aria-label="CHFA annual awards by credit type, 2015\u20132025"></canvas>
