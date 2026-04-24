@@ -136,6 +136,14 @@
       if (nhpdMatch) {
         expiryYear = _propExpiryYear(nhpdMatch);
       }
+      // AMI targeting: preserve null when unknown rather than defaulting
+      // to 60% — the previous `|| 60` fallback fabricated a concrete
+      // targeting level for records that simply didn't report one,
+      // which corrupted downstream comparisons against this property's
+      // "AMI mix" in a competitive-set view.
+      var rawAmi = props.AMI_PCT != null ? props.AMI_PCT
+                 : props.amiPercent != null ? props.amiPercent
+                 : null;
       return {
         id:              props.HUDID || props.id || ('lihtc-' + Math.random().toString(36).slice(2)),
         name:            _propName(f),
@@ -144,7 +152,7 @@
         distanceMiles:   Math.round(dist * 10) / 10,
         units:           _propUnits(f),
         programType:     props.PROGRAM || props.programType || 'LIHTC',
-        amiPercent:      toNum(props.AMI_PCT || props.amiPercent || 60),
+        amiPercent:      rawAmi != null ? toNum(rawAmi) : null,
         yearPlaced:      toNum(props.YR_PIS || props.yearPlaced || 0),
         yearAllocated:   toNum(props.YR_ALLOC || props.YEAR_ALLOC || props.yearAllocated || 0),
         creditType:      props.CREDIT || props.creditType || '',
@@ -172,7 +180,8 @@
           distanceMiles:   Math.round(dist * 10) / 10,
           units:           _propUnits(f),
           programType:     props.program || props.PROGRAM || props.subsidy_type || 'Section 8',
-          amiPercent:      toNum(props.amiPercent || 60),
+          // Preserve null for unknown AMI targeting (see LIHTC branch above).
+          amiPercent:      props.amiPercent != null ? toNum(props.amiPercent) : null,
           yearPlaced:      toNum(props.yearPlaced || 0),
           hasNhpd:         true,
           subsidyExpiryYear: expYear,
