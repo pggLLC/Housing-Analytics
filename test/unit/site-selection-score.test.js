@@ -5,7 +5,7 @@
 // Verifies:
 //   1. Public API is fully exposed on window.
 //   2. Component weights sum to 1.0.
-//   3. scoreDemand — null/missing input returns 50.
+//   3. scoreDemand — null/missing input returns { score: null, unavailable: true }.
 //   4. scoreDemand — high cost burden, renter share, poverty yields high score.
 //   5. scoreDemand — all-zero inputs yield 0.
 //   6. scoreSubsidy — QCT flag awards 30 pts without basis_boost_eligible.
@@ -18,7 +18,7 @@
 //  13. scoreFeasibility — cleanupFlag deducts 10 pts.
 //  14. scoreAccess — all amenities close scores near 100.
 //  15. scoreAccess — all amenities far scores 0.
-//  16. scoreAccess — null input returns 50.
+//  16. scoreAccess — null input returns { score: null, unavailable: true }.
 //  17. scorePolicy — public ownership adds 30 pts.
 //  18. scorePolicy — overlayCount contributes up to 20 pts.
 //  19. scoreMarket — all drivers at ceiling = 100.
@@ -27,6 +27,8 @@
 //  22. computeScore — final_score is within [0, 100].
 //  23. computeScore — opportunity_band matches final_score tier.
 //  24. computeScore — narrative is a non-empty string referencing score.
+//  25. computeScore — unavailable demand/access redistributes weight (no fabricated 50).
+//  26. computeScore — unavailableDimensions array surfaces missing inputs.
 //
 // Usage: node test/unit/site-selection-score.test.js
 
@@ -88,13 +90,23 @@ test('COMPONENT_WEIGHTS sum to exactly 1.0', function () {
 });
 
 // ---------------------------------------------------------------------------
-// 3. scoreDemand — null/missing input
+// 3. scoreDemand — null/missing input signals unavailability (no fabricated 50)
 // ---------------------------------------------------------------------------
 
-test('scoreDemand returns 50 for null input', function () {
-  assert(SSS.scoreDemand(null)      === 50, 'null → 50');
-  assert(SSS.scoreDemand(undefined) === 50, 'undefined → 50');
-  assert(SSS.scoreDemand('string')  === 50, 'string → 50');
+test('scoreDemand returns { score:null, unavailable:true } for missing input', function () {
+  const nullResult = SSS.scoreDemand(null);
+  assert(nullResult && typeof nullResult === 'object',      'null → object');
+  assert(nullResult.score === null,                         'null → score === null');
+  assert(nullResult.unavailable === true,                   'null → unavailable === true');
+  assert(typeof nullResult.reason === 'string',             'null → reason string present');
+
+  const undefResult = SSS.scoreDemand(undefined);
+  assert(undefResult.score === null && undefResult.unavailable === true,
+    'undefined → { score:null, unavailable:true }');
+
+  const strResult = SSS.scoreDemand('string');
+  assert(strResult.score === null && strResult.unavailable === true,
+    'string → { score:null, unavailable:true }');
 });
 
 // ---------------------------------------------------------------------------
@@ -102,13 +114,14 @@ test('scoreDemand returns 50 for null input', function () {
 // ---------------------------------------------------------------------------
 
 test('scoreDemand returns high score for high cost burden / renter share / poverty', function () {
-  const score = SSS.scoreDemand({
+  const result = SSS.scoreDemand({
     cost_burden_rate: 0.55, // above 0.45 ceiling
     renter_share:     0.70, // above 0.60 ceiling
     poverty_rate:     0.25, // above 0.20 ceiling
   });
   // Expected: cbPts=50 + rsPts=30 + povPts=20 = 100 (clamped)
-  assert(score === 100, 'max stress inputs → 100 (got ' + score + ')');
+  assert(result.unavailable === false, 'with data → unavailable === false');
+  assert(result.score === 100, 'max stress inputs → 100 (got ' + result.score + ')');
 });
 
 // ---------------------------------------------------------------------------
@@ -116,8 +129,9 @@ test('scoreDemand returns high score for high cost burden / renter share / pover
 // ---------------------------------------------------------------------------
 
 test('scoreDemand returns 0 for all-zero ACS fields', function () {
-  const score = SSS.scoreDemand({ cost_burden_rate: 0, renter_share: 0, poverty_rate: 0 });
-  assert(score === 0, 'all zeros → 0 (got ' + score + ')');
+  const result = SSS.scoreDemand({ cost_burden_rate: 0, renter_share: 0, poverty_rate: 0 });
+  assert(result.unavailable === false, 'zeros → unavailable === false');
+  assert(result.score === 0, 'all zeros → 0 (got ' + result.score + ')');
 });
 
 // ---------------------------------------------------------------------------
@@ -225,14 +239,15 @@ test('scoreFeasibility deducts 10 pts for cleanupFlag=true', function () {
 // ---------------------------------------------------------------------------
 
 test('scoreAccess returns 100 when all amenities are at or below near threshold', function () {
-  const score = SSS.scoreAccess({
+  const result = SSS.scoreAccess({
     grocery:    0.3,  // ≤0.5
     transit:    0.2,  // ≤0.25
     parks:      0.2,  // ≤0.25
     healthcare: 0.9,  // ≤1.0
     schools:    0.4,  // ≤0.5
   });
-  assert(score === 100, 'all close amenities → 100 (got ' + score + ')');
+  assert(result.unavailable === false, 'with data → unavailable === false');
+  assert(result.score === 100, 'all close amenities → 100 (got ' + result.score + ')');
 });
 
 // ---------------------------------------------------------------------------
@@ -240,23 +255,30 @@ test('scoreAccess returns 100 when all amenities are at or below near threshold'
 // ---------------------------------------------------------------------------
 
 test('scoreAccess returns 0 when all amenities exceed far threshold', function () {
-  const score = SSS.scoreAccess({
+  const result = SSS.scoreAccess({
     grocery:    5.0,
     transit:    5.0,
     parks:      5.0,
     healthcare: 5.0,
     schools:    5.0,
   });
-  assert(score === 0, 'all far amenities → 0 (got ' + score + ')');
+  assert(result.unavailable === false, 'far amenities → unavailable === false');
+  assert(result.score === 0, 'all far amenities → 0 (got ' + result.score + ')');
 });
 
 // ---------------------------------------------------------------------------
-// 16. scoreAccess — null input
+// 16. scoreAccess — null input signals unavailability (no fabricated 50)
 // ---------------------------------------------------------------------------
 
-test('scoreAccess returns 50 for null input', function () {
-  assert(SSS.scoreAccess(null) === 50, 'null → 50');
-  assert(SSS.scoreAccess()     === 50, 'undefined → 50');
+test('scoreAccess returns { score:null, unavailable:true } for missing input', function () {
+  const nullResult = SSS.scoreAccess(null);
+  assert(nullResult && typeof nullResult === 'object', 'null → object');
+  assert(nullResult.score === null,                    'null → score === null');
+  assert(nullResult.unavailable === true,              'null → unavailable === true');
+
+  const undefResult = SSS.scoreAccess();
+  assert(undefResult.score === null && undefResult.unavailable === true,
+    'undefined → { score:null, unavailable:true }');
 });
 
 // ---------------------------------------------------------------------------
@@ -415,6 +437,71 @@ test('computeScore narrative is non-empty and references the score', function ()
     'narrative references the final score');
   assert(result.narrative.includes(result.opportunity_band),
     'narrative references the opportunity band');
+});
+
+// ---------------------------------------------------------------------------
+// 25. computeScore — unavailable demand/access redistributes weight
+// ---------------------------------------------------------------------------
+
+test('computeScore redistributes weight when demand+access unavailable (no fabricated 50)', function () {
+  // Same site with and without ACS + amenities. Composite should be
+  // computed from ONLY the available dimensions — no neutral 50
+  // silently averaged in.
+  const baseInputs = {
+    qctFlag: true, ddaFlag: true, fmrRatio: 1.2, nearbySubsidized: 50,
+    floodRisk: 0, soilScore: 80, cleanupFlag: false,
+    zoningCapacity: 120, publicOwnership: true, overlayCount: 3,
+    rentTrend: 0.05, jobTrend: 0.03, concentration: 0.2, serviceStrength: 0.30,
+  };
+
+  const allAvail = SSS.computeScore(Object.assign({}, baseInputs, {
+    acs: { cost_burden_rate: 0.30, renter_share: 0.40, poverty_rate: 0.10 },
+    amenities: { grocery: 1.0, transit: 0.5, parks: 0.5, healthcare: 2.0, schools: 1.0 },
+  }));
+
+  const demandMissing = SSS.computeScore(Object.assign({}, baseInputs, {
+    amenities: { grocery: 1.0, transit: 0.5, parks: 0.5, healthcare: 2.0, schools: 1.0 },
+    // no acs
+  }));
+
+  const bothMissing = SSS.computeScore(baseInputs);
+  // (no acs, no amenities)
+
+  assert(allAvail.dimensionsAvailable === 6, 'all 6 dims available when inputs complete');
+  assert(demandMissing.dimensionsAvailable === 5, 'demand missing → 5 dims available');
+  assert(demandMissing.dimensionsUnavailable === 1, 'demand missing → 1 unavailable');
+  assert(demandMissing.unavailableDimensions.indexOf('demand') >= 0,
+    'unavailableDimensions lists demand');
+  assert(demandMissing.demand_score === null, 'demand_score is null when ACS missing');
+  assert(typeof demandMissing.final_score === 'number' && demandMissing.final_score >= 0,
+    'final_score is still a valid number when a dim is unavailable');
+
+  assert(bothMissing.dimensionsAvailable === 4, 'both missing → 4 dims');
+  assert(bothMissing.demand_score === null && bothMissing.access_score === null,
+    'both null when both inputs missing');
+  assert(bothMissing.unavailableDimensions.length === 2,
+    'unavailableDimensions lists both');
+});
+
+// ---------------------------------------------------------------------------
+// 26. computeScore — narrative discloses unavailable dimensions
+// ---------------------------------------------------------------------------
+
+test('computeScore narrative mentions unavailable dimensions when present', function () {
+  const result = SSS.computeScore({
+    qctFlag: true, ddaFlag: false, fmrRatio: 1.0, nearbySubsidized: 50,
+    floodRisk: 0, soilScore: 70, cleanupFlag: false,
+    zoningCapacity: 100, publicOwnership: false, overlayCount: 1,
+    rentTrend: 0.02, jobTrend: 0.02, concentration: 0.4, serviceStrength: 0.25,
+    // no acs, no amenities
+  });
+  assert(result.unavailableDimensions.length === 2, 'two dims unavailable');
+  assert(result.narrative.indexOf('demand') >= 0,
+    'narrative references missing demand dimension');
+  assert(result.narrative.indexOf('access') >= 0,
+    'narrative references missing access dimension');
+  assert(result.narrative.indexOf('4 of 6') >= 0,
+    'narrative says "scored on 4 of 6 dimensions"');
 });
 
 // ---------------------------------------------------------------------------

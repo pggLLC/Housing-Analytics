@@ -501,9 +501,19 @@
       ? window.BridgeMarketSummary.getLandCostContext(lat, lon)
       : null;
     var SSS = window.SiteSelectionScore || {};
-    var marketTightnessScore = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
+    // scoreLandSupplyWithBridge now returns { score, unavailable } per the
+    // null-propagation refactor — unwrap defensively. If the Bridge path
+    // reports unavailable (ACS missing), fall back to the local
+    // scoreMarketTightness which accepts a defaulted vacancy_rate.
+    var _landResult = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
       ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
-      : scoreMarketTightness(acs);
+      : null;
+    var marketTightnessScore;
+    if (_landResult && !_landResult.unavailable && typeof _landResult.score === 'number') {
+      marketTightnessScore = _landResult.score;
+    } else {
+      marketTightnessScore = scoreMarketTightness(acs);
+    }
 
     // Enhance market score with Bridge transaction velocity
     var _bridgeVelCtx = (window.BridgeMarketSummary && window.BridgeMarketSummary.isAvailable())
