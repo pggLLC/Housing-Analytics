@@ -187,15 +187,29 @@
 
       var employmentP = (pmaEmployment && results.commuting && results.commuting.residentOriginZones)
         ? Promise.resolve().then(function () {
-            var workplaces = (results.commuting.residentOriginZones || []).map(function (z) {
-              return { lat: z.lat, lon: z.lon, jobCount: z.estimatedWorkers || 100 };
-            });
+            // `estimatedWorkers || 100` previously fabricated a 100-worker
+            // zone when LODES data lacked the count — inflating
+            // employment-center density scores. Flagged as a hallucination
+            // in the 2026-04-23 origin audit (issue #712). Skip zones
+            // without a real worker count instead of manufacturing one.
+            var rawZones = results.commuting.residentOriginZones || [];
+            var workplaces = rawZones
+              .filter(function (z) { return typeof z.estimatedWorkers === 'number' && z.estimatedWorkers > 0; })
+              .map(function (z) {
+                return { lat: z.lat, lon: z.lon, jobCount: z.estimatedWorkers };
+              });
+            var skipped = rawZones.length - workplaces.length;
             var clusters  = pmaEmployment.clusterByJobDensity(workplaces);
             var corridors = pmaEmployment.identifyMajorCorridors(clusters);
             results.employmentCenters = clusters;
             results.employmentCorridors = corridors;
             results.employmentScore = pmaEmployment.scoreEmploymentAccessibility(lat, lon, clusters);
-            progress('employment', 'Identifying employment centers…');
+            results.employmentZonesSkipped = skipped;       // surfaces in UI via renderers
+            if (skipped > 0) {
+              progress('employment', 'Identifying employment centers… (' + skipped + ' zones skipped, no worker count)');
+            } else {
+              progress('employment', 'Identifying employment centers…');
+            }
           })
         : Promise.resolve().then(function () {
             results.employmentCenters = [];
