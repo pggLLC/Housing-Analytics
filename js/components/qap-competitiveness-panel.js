@@ -314,7 +314,12 @@
           '</div>' +
           '<div style="font-size:.75rem;color:var(--muted);margin-top:2px;">' +
             'Percentile: ' + Math.round(cc.percentileRank * 100) + 'th vs historical winners' +
-            ' · ~' + cc.applicationsExpected + ' applications / ~' + cc.fundingAvailable + ' funded per year' +
+            // Suppress the apps/funded-per-year figures when the summary
+            // file didn't load — the predictor returns null for both to
+            // avoid fabricating 27 apps / 37% rate (issue #712).
+            (cc.summaryAvailable !== false && cc.applicationsExpected != null && cc.fundingAvailable != null
+              ? ' · ~' + cc.applicationsExpected + ' applications / ~' + cc.fundingAvailable + ' funded per year'
+              : ' · historical application/funding context unavailable') +
           '</div>' +
         '</div>' +
       '</div>' +
