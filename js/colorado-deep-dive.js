@@ -452,7 +452,7 @@ function initPolicyPanel(panelId) {
         }).addTo(map);
 
         var st = document.getElementById('affBurdenMapStatus');
-        if (st) st.textContent = 'County-level data · HUD CHAS 2016–2020 5-year estimates';
+        if (st) st.textContent = 'County-level data · HUD CHAS 2018–2022 5-year estimates';
       }).catch(function () {
         var st = document.getElementById('affBurdenMapStatus');
         if (st) st.textContent = 'Cost burden data currently unavailable.';
