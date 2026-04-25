@@ -29,6 +29,65 @@
   }
 
   // -------------------------------------------------------------------
+  // Rent-achievability check (pure function, testable)
+  //
+  // Compares the LIHTC rent ceiling at each AMI tier to HUD FMR 2BR
+  // for the selected county. Answers the banker/syndicator question:
+  // "will the LIHTC ceiling rents actually clear the market, or is
+  //  the proforma over-stated because the ceiling is above market?"
+  //
+  // Status thresholds (rule-of-thumb for banker review):
+  //   gap ≤ 0     clear       — LIHTC ceiling at/below market, achievable
+  //   gap ≤ $50   tight       — close to market, thin buffer
+  //   gap ≤ $200  concerning  — ceiling meaningfully above market
+  //   gap > $200  misaligned  — proforma at ceiling likely overstates revenue
+  //
+  // Positive gap = LIHTC ceiling > market rent (concerning).
+  // Negative gap = LIHTC ceiling < market rent (good — ceiling is binding).
+  //
+  // Uses HUD FMR 2BR as the market benchmark because most LIHTC projects
+  // are 2BR-dominated. A future refinement could weight by the project's
+  // actual bedroom mix.
+  //
+  // Inputs:
+  //   amiLimits — { 30: 931, 40: 1241, 50: 1551, 60: 1862 } monthly $USD
+  //   fmr       — { efficiency, one_br, two_br, three_br, four_br } monthly $USD
+  //
+  // Returns null when data isn't available (county not selected, FMR 2BR
+  // missing, or no AMI tier rent limits).
+  // -------------------------------------------------------------------
+  function computeRentAchievability(inputs) {
+    if (!inputs || !inputs.amiLimits || !inputs.fmr) return null;
+    var fmr = inputs.fmr;
+    if (typeof fmr.two_br !== 'number' || fmr.two_br <= 0) return null;
+    var fmr2br = fmr.two_br;
+
+    function _status(gap) {
+      if (gap <= 0)   return 'clear';
+      if (gap <= 50)  return 'tight';
+      if (gap <= 200) return 'concerning';
+      return 'misaligned';
+    }
+
+    var tiers = [30, 40, 50, 60]
+      .filter(function (p) { return typeof inputs.amiLimits[p] === 'number' && inputs.amiLimits[p] > 0; })
+      .map(function (pct) {
+        var ceiling = inputs.amiLimits[pct];
+        var gap = ceiling - fmr2br;
+        return {
+          pct:     pct,
+          ceiling: ceiling,
+          fmr2br:  fmr2br,
+          gap:     gap,
+          status:  _status(gap)
+        };
+      });
+
+    if (tiers.length === 0) return null;
+    return { tiers: tiers, fmr: fmr };
+  }
+
+  // -------------------------------------------------------------------
   // DSCR stress-scenario math (pure function, testable)
   //
   // Given the same inputs auto-NOI uses (rents, vacancy, opex, reserves,
@@ -546,6 +605,59 @@
           ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
           and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
           additional credit enhancement, a lower DCR sizing target, or a smaller loan.
+        </p>
+      </fieldset>
+
+      <!-- Rent Achievability Check -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Rent Achievability Check</legend>
+        <p id="dc-rent-ach-intro" style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
+          Compares LIHTC rent ceilings (at each AMI tier) against the county's HUD FMR 2BR market rent.
+          When the ceiling exceeds market rent, proforma revenue at the ceiling is over-stated and the
+          deal's actual DSCR will come in below underwriting.
+        </p>
+        <table id="dc-rent-ach-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <thead>
+            <tr>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">AMI Tier</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">LIHTC Ceiling</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">HUD FMR 2BR</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Gap</th>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Status</th>
+            </tr>
+          </thead>
+          <tbody id="dc-rent-ach-body">
+            <tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see rent-achievability check.</td></tr>
+          </tbody>
+        </table>
+        <div id="dc-rent-ach-fmr-grid" style="margin-top:var(--sp3);display:none;">
+          <div style="font-size:var(--tiny);color:var(--muted);font-weight:600;margin-bottom:0.35rem;">HUD FMR by bedroom size (FY2025, gross rent $USD/mo)</div>
+          <table style="width:100%;border-collapse:collapse;font-size:var(--tiny);">
+            <thead>
+              <tr>
+                <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.25rem 0.25rem;">Studio</th>
+                <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.25rem 0.25rem;">1BR</th>
+                <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.25rem 0.25rem;">2BR</th>
+                <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.25rem 0.25rem;">3BR</th>
+                <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.25rem 0.25rem;">4BR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="dc-fmr-studio"  style="text-align:right;padding:0.25rem 0.25rem;">—</td>
+                <td id="dc-fmr-1br"     style="text-align:right;padding:0.25rem 0.25rem;">—</td>
+                <td id="dc-fmr-2br"     style="text-align:right;padding:0.25rem 0.25rem;font-weight:700;">—</td>
+                <td id="dc-fmr-3br"     style="text-align:right;padding:0.25rem 0.25rem;">—</td>
+                <td id="dc-fmr-4br"     style="text-align:right;padding:0.25rem 0.25rem;">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
+          ⚠ LIHTC rent ceilings assume 4-person AMI (HUD standard); actual per-bedroom limits vary ±10%. HUD FMR is the 40th-percentile
+          market rent for the area and lags ~18 mo. For a binding market-rent test, commission a rent comparability study
+          before closing. Source:
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2025</a>.
         </p>
       </fieldset>
 
@@ -1077,6 +1189,67 @@
       });
     }
 
+    // ── Render rent-achievability table ────────────────────────────
+    // Pulls the AMI-tier rent ceilings from _amiLimits (already populated
+    // by HudFmr for the selected county) and the HUD FMR 2BR benchmark
+    // via HudFmr.getFmrByFips. Null-safe: shows the "select a county"
+    // message when data isn't available yet.
+    var achBody = document.getElementById('dc-rent-ach-body');
+    var fmrGrid = document.getElementById('dc-rent-ach-fmr-grid');
+    var fmrData = (window.HudFmr && _countyFips) ? window.HudFmr.getFmrByFips(_countyFips) : null;
+    var achResult = (_amiLimits && fmrData) ? computeRentAchievability({
+      amiLimits: _amiLimits,
+      fmr:       fmrData
+    }) : null;
+
+    if (achBody && achResult) {
+      var statusLabel = {
+        clear:       '✓ Rents clear market',
+        tight:       '~ Tight — thin buffer',
+        concerning:  '⚠ Above market',
+        misaligned:  '⚠⚠ Ceiling > market'
+      };
+      var statusColor = {
+        clear:       'var(--good, #047857)',
+        tight:       'var(--text)',
+        concerning:  'var(--warn, #d97706)',
+        misaligned:  'var(--bad, #dc2626)'
+      };
+      achBody.innerHTML = achResult.tiers.map(function (t) {
+        var gapSign = t.gap > 0 ? '+' : (t.gap < 0 ? '' : '');
+        var gapColor = t.gap <= 0 ? 'var(--good, #047857)'
+                     : t.gap <= 50 ? 'var(--text)'
+                     : t.gap <= 200 ? 'var(--warn, #d97706)'
+                     : 'var(--bad, #dc2626)';
+        return '<tr>' +
+          '<td style="padding:0.3rem 0.25rem;">' + t.pct + '% AMI</td>' +
+          '<td style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">' + fmt(t.ceiling) + '/mo</td>' +
+          '<td style="text-align:right;padding:0.3rem 0.25rem;">' + fmt(t.fmr2br) + '/mo</td>' +
+          '<td style="text-align:right;font-weight:600;padding:0.3rem 0.25rem;color:' + gapColor + ';">' + gapSign + fmt(t.gap) + '</td>' +
+          '<td style="padding:0.3rem 0.25rem;color:' + statusColor[t.status] + ';font-weight:600;">' + statusLabel[t.status] + '</td>' +
+        '</tr>';
+      }).join('');
+
+      // Populate the per-bedroom FMR row
+      if (fmrGrid) {
+        fmrGrid.style.display = '';
+        var bedroomCells = [
+          ['dc-fmr-studio', fmrData.efficiency],
+          ['dc-fmr-1br',    fmrData.one_br],
+          ['dc-fmr-2br',    fmrData.two_br],
+          ['dc-fmr-3br',    fmrData.three_br],
+          ['dc-fmr-4br',    fmrData.four_br]
+        ];
+        bedroomCells.forEach(function (c) {
+          var el = document.getElementById(c[0]);
+          if (el) el.textContent = (typeof c[1] === 'number' && c[1] > 0) ? fmt(c[1]) : '—';
+        });
+      }
+    } else if (achBody) {
+      achBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see rent-achievability check.</td></tr>';
+      if (fmrGrid) fmrGrid.style.display = 'none';
+    }
+
     // Update property tax display (only visible in auto-NOI mode)
     var showPropTax = (netPropTax != null);
     var showTaxSavings = (showPropTax && taxSavings > 0);
@@ -1473,8 +1646,9 @@
     init: init,
     recalculate: recalculate,
     setDesignationContext: setDesignationContext,
-    /* Exposed for testing — pure function, no DOM access */
-    computeDscrStressScenarios: computeDscrStressScenarios
+    /* Exposed for testing — pure functions, no DOM access */
+    computeDscrStressScenarios: computeDscrStressScenarios,
+    computeRentAchievability:   computeRentAchievability
   };
 
   if (document.readyState === 'loading') {
