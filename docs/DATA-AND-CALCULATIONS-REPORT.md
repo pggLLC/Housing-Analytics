@@ -239,12 +239,20 @@ The platform counts the number of renter households in each cost-burden category
 
 **Definition:** AMI is the median household income for a specific area, as calculated by HUD for each metropolitan statistical area and county. "Area" refers to a HUD-defined geographic unit, not simply the city limits.
 
-**How affordability tiers work:**
-- **30% AMI** — Extremely low income (e.g., ~$28,500/year for a family of four in Denver metro in 2025)
-- **50% AMI** — Very low income (~$47,500/year)
+**How affordability tiers work (illustrative dollar examples — verify for current year):**
+
+The dollar figures below are example values *based on* HUD FY2025 Income Limits for the Denver-Aurora-Lakewood MSA, family of four. They are illustrative of the tier structure, not current underwriting numbers.
+
+- **30% AMI** — Extremely low income (e.g., ~$28,500/year)
+- **50% AMI** — Very low income (e.g., ~$47,500/year)
 - **60% AMI** — Low income — the typical LIHTC targeting threshold (~$57,000/year)
 - **80% AMI** — Moderate income — upper boundary for most federal housing programs (~$76,000/year)
 - **120% AMI** — Middle income — sometimes used for workforce housing (~$114,000/year)
+
+> For the current-year values used in a specific underwriting, pull the
+> latest HUD Income Limits from [huduser.gov/portal/datasets/il](https://www.huduser.gov/portal/datasets/il.html)
+> — HUD publishes new MSA/county tables every April (FY2026 release
+> expected shortly after 2026-04-01 if not already posted).
 
 **Affordable rent formula:**  
 A unit is considered "affordable" for a household at a given AMI tier if the monthly rent does not exceed 30% of the monthly income at that tier.
