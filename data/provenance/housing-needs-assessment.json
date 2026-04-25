@@ -40,9 +40,9 @@
     {
       "id": "chartChasGap",
       "label": "Cost burden by AMI tier (HUD CHAS)",
-      "source": "HUD CHAS 2017-2021",
+      "source": "HUD CHAS 2018-2022",
       "source_url": "https://www.huduser.gov/portal/datasets/cp.html",
-      "vintage": "CHAS 2017–2021",
+      "vintage": "CHAS 2018–2022",
       "type": "raw",
       "notes": "Renter households by AMI tier and burden status. For place/CDP geographies, values are scaled from the containing county (proxy)."
     },
