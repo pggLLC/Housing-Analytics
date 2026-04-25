@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-25T14:52:11.439Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-25T14:53:38.995Z. Do not edit by hand.
 
 ---
 
@@ -46,7 +46,7 @@
 | `policy-briefs.html` | Housing News & Policy Briefs | COHO Analytics | 25.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.6 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 5.5 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 26.1 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 26.0 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 12.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 8.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 707 B |
