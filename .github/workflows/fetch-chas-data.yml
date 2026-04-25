@@ -1,6 +1,6 @@
 name: Fetch HUD CHAS Affordability Data
 
-# Downloads HUD CHAS 2016-2020 cost-burden cross-tabulations for Colorado,
+# Downloads HUD CHAS 2018-2022 cost-burden cross-tabulations for Colorado,
 # aggregates to county level, and writes:
 #   data/market/chas_co.json              — raw Colorado CHAS records
 #   data/hna/chas_affordability_gap.json  — county-level affordability gap for HNA dashboard
