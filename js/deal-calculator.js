@@ -28,6 +28,43 @@
     return (monthlyRate * factor / (factor - 1)) * 12;
   }
 
+  // -------------------------------------------------------------------
+  // DSCR stress-scenario math (pure function, testable)
+  //
+  // Given the same inputs auto-NOI uses (rents, vacancy, opex, reserves,
+  // property tax) plus the sized annual debt service, recompute NOI under
+  // {rent -10%, vacancy +5pts, opex +10%, combined rent-5/vac+3/opex+5}
+  // and divide by the CURRENT annual debt service.
+  //
+  // Returns null when inputs can't support a coverage calculation
+  // (e.g. zero debt service, zero rents). This is the function the
+  // banker/syndicator table reads.
+  // -------------------------------------------------------------------
+  function computeDscrStressScenarios(inputs) {
+    if (!inputs) return null;
+    var annualRents      = +inputs.annualRents || 0;
+    var vacancyPct       = +inputs.vacancyPct  || 0;
+    var annualOpex       = +inputs.annualOpex       || 0;
+    var annualRepReserve = +inputs.annualRepReserve || 0;
+    var netPropTax       = +inputs.netPropTax       || 0;
+    var annualDebtService = +inputs.annualDebtService || 0;
+    if (annualDebtService <= 0 || annualRents <= 0) return null;
+
+    function _noiFor(rentMult, vacDelta, opexMult) {
+      var effVac = Math.min(1, Math.max(0, vacancyPct + vacDelta));
+      var eff    = annualRents * rentMult * (1 - effVac);
+      return eff - annualOpex * opexMult - annualRepReserve - netPropTax;
+    }
+    var baseNoi = _noiFor(1.00, 0, 1.00);
+    return {
+      base:     { noi: baseNoi,                    dscr: baseNoi / annualDebtService },
+      rent10:   { noi: _noiFor(0.90, 0,    1.00),  dscr: _noiFor(0.90, 0,    1.00) / annualDebtService },
+      vac5:     { noi: _noiFor(1.00, 0.05, 1.00),  dscr: _noiFor(1.00, 0.05, 1.00) / annualDebtService },
+      opex10:   { noi: _noiFor(1.00, 0,    1.10),  dscr: _noiFor(1.00, 0,    1.10) / annualDebtService },
+      combined: { noi: _noiFor(0.95, 0.03, 1.05),  dscr: _noiFor(0.95, 0.03, 1.05) / annualDebtService }
+    };
+  }
+
   /**
    * Update _amiLimits from HudFmr for the given county FIPS.
    * Falls back to the default Denver MSA values if data is unavailable.
@@ -429,6 +466,86 @@
           actual lender underwriting differs.
           <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA</a>
           and conventional lenders apply independent DCR, LTV, and debt-service reserve requirements.
+        </p>
+      </fieldset>
+
+      <!-- Debt Service Coverage & Stress -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Service Coverage &amp; Stress Tests</legend>
+        <dl id="dc-dscr-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
+          <dt style="color:var(--muted);">NOI (stabilized, annual)</dt>
+          <dd id="dc-r-noi-stab" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">Annual Debt Service</dt>
+          <dd id="dc-r-ads" style="font-weight:700;text-align:right;">—</dd>
+
+          <dt style="color:var(--muted);">DSCR (stabilized)</dt>
+          <dd id="dc-r-dscr-base" style="font-weight:700;text-align:right;">—</dd>
+        </dl>
+        <p id="dc-dscr-target-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);margin-bottom:var(--sp2);">—</p>
+        <table id="dc-dscr-stress-table" style="width:100%;border-collapse:collapse;font-size:var(--small);margin-top:var(--sp2);">
+          <thead>
+            <tr>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Stress Scenario</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Stressed NOI</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">DSCR</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">vs target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">
+                Rent &minus;10%
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Soft market / concessions scenario
+                </span>
+              </td>
+              <td id="dc-r-stress-rent10-noi" style="text-align:right;font-weight:600;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-rent10-dscr" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-rent10-margin" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">
+                Vacancy +5 pts
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Slow lease-up / turnover spike scenario
+                </span>
+              </td>
+              <td id="dc-r-stress-vac5-noi" style="text-align:right;font-weight:600;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-vac5-dscr" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-vac5-margin" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.25rem;">
+                OpEx +10%
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Insurance / utility / repair-cost inflation scenario
+                </span>
+              </td>
+              <td id="dc-r-stress-opex10-noi" style="text-align:right;font-weight:600;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-opex10-dscr" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-opex10-margin" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+            <tr style="border-top:1px dashed var(--border);">
+              <td style="padding:0.3rem 0.25rem;">
+                <strong>Combined:</strong> Rent &minus;5% + Vacancy +3 pts + OpEx +5%
+                <span style="display:block;font-size:var(--tiny);color:var(--muted);font-weight:400;">
+                  Realistic multi-variable downside — what lenders actually underwrite against
+                </span>
+              </td>
+              <td id="dc-r-stress-combined-noi" style="text-align:right;font-weight:600;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-combined-dscr" style="text-align:right;font-weight:700;padding:0.3rem 0.25rem;">—</td>
+              <td id="dc-r-stress-combined-margin" style="text-align:right;color:var(--muted);padding:0.3rem 0.25rem;">—</td>
+            </tr>
+          </tbody>
+        </table>
+        <p id="dc-dscr-manual-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;">
+          Stress scenarios require auto-compute NOI to be enabled — they need the underlying rent / vacancy / opex breakdown, not just a total NOI.
+        </p>
+        <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
+          ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
+          and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
+          additional credit enhancement, a lower DCR sizing target, or a smaller loan.
         </p>
       </fieldset>
 
@@ -843,6 +960,31 @@
           : null)
       : null;
 
+    // ── DSCR + stress scenarios ──────────────────────────────────────
+    //
+    // By construction, baseDSCR === target DCR (mortgage was sized at
+    // noi/dcr). The real value is in the stress table: recompute NOI
+    // under {rent -10%, vacancy +5pts, opex +10%, combined -5/+3/+5}
+    // and divide by the CURRENT debt service (loan is already sized
+    // at stabilization). A banker/syndicator reads this to answer:
+    // "does the deal still cover debt if the market goes sideways?"
+    //
+    // Only computable when auto-NOI is on — manual NOI mode doesn't
+    // give us rent/vac/opex components to perturb.
+    var dscrAutoMode = !!(autoNoi && autoNoi.checked);
+    var baseDSCR = annualDebtService > 0 ? noi / annualDebtService : null;
+    var stress = null;
+    if (dscrAutoMode) {
+      stress = computeDscrStressScenarios({
+        annualRents:      annualRents,
+        vacancyPct:       (safeVal('dc-vacancy') || 5) / 100,
+        annualOpex:       annualOpex       || 0,
+        annualRepReserve: annualRepReserve || 0,
+        netPropTax:       netPropTax       || 0,
+        annualDebtService: annualDebtService
+      });
+    }
+
     // Sources & uses — deferred dev fee + impact-fee grant (if any) fill gap
     // before subordinate debt is needed. Loan-mode impact fee is NOT a gap
     // source here — it shows up separately as annual debt service.
@@ -863,6 +1005,77 @@
     if (capRateEl) capRateEl.textContent = capRate != null ? (capRate * 100).toFixed(2) + '%' : '—';
     var beoEl = document.getElementById('dc-r-beo');
     if (beoEl) beoEl.textContent = breakEvenOcc != null ? (breakEvenOcc * 100).toFixed(1) + '%' : '—';
+
+    // ── Render DSCR + stress table ─────────────────────────────────
+    // Color thresholds — banker/syndicator convention:
+    //   ≥ 1.20  strong   (green)
+    //   1.10-1.19 adequate (neutral / text color)
+    //   1.00-1.09 marginal (amber)
+    //   < 1.00   fails     (red)
+    function _dscrColor(v) {
+      if (v == null || !isFinite(v)) return 'var(--muted)';
+      if (v >= 1.20) return 'var(--good, #047857)';
+      if (v >= 1.10) return 'var(--text)';
+      if (v >= 1.00) return 'var(--warn, #d97706)';
+      return 'var(--bad, #dc2626)';
+    }
+    function _setDscr(id, v) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (v == null || !isFinite(v)) { el.textContent = '—'; el.style.color = 'var(--muted)'; return; }
+      el.textContent = v.toFixed(2) + 'x';
+      el.style.color = _dscrColor(v);
+    }
+    function _setMargin(id, v, target) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (v == null || !isFinite(v) || target == null) { el.textContent = '—'; return; }
+      var delta = v - target;
+      var sign = delta >= 0 ? '+' : '';
+      el.textContent = sign + delta.toFixed(2);
+      el.style.color = delta >= 0 ? 'var(--good, #047857)' : 'var(--warn, #d97706)';
+    }
+
+    var noiStabEl = document.getElementById('dc-r-noi-stab');
+    if (noiStabEl) noiStabEl.textContent = (dscrAutoMode && isFinite(noi)) ? fmt(noi)
+                                         : (!dscrAutoMode && noi > 0)      ? fmt(noi) + ' (manual)'
+                                         : '—';
+
+    var adsEl = document.getElementById('dc-r-ads');
+    if (adsEl) adsEl.textContent = annualDebtService > 0 ? fmt(annualDebtService) : '—';
+
+    _setDscr('dc-r-dscr-base', baseDSCR);
+
+    var targetNote = document.getElementById('dc-dscr-target-note');
+    if (targetNote) {
+      if (baseDSCR != null && isFinite(baseDSCR)) {
+        targetNote.textContent = 'Sized to target DCR ' + dcr.toFixed(2) + 'x · the stress table below shows how DSCR moves if rents, vacancy, or operating costs shift.';
+      } else {
+        targetNote.textContent = 'Enter NOI (or enable auto-compute) and mortgage terms to see DSCR.';
+      }
+    }
+
+    var manualNote = document.getElementById('dc-dscr-manual-note');
+    var stressTableEl = document.getElementById('dc-dscr-stress-table');
+    if (manualNote && stressTableEl) {
+      if (stress) {
+        manualNote.style.display = 'none';
+        stressTableEl.style.display = '';
+      } else {
+        manualNote.style.display = '';
+        stressTableEl.style.display = 'none';
+      }
+    }
+
+    if (stress) {
+      ['rent10', 'vac5', 'opex10', 'combined'].forEach(function (k) {
+        var row = stress[k];
+        var noiEl = document.getElementById('dc-r-stress-' + k + '-noi');
+        if (noiEl) noiEl.textContent = isFinite(row.noi) ? fmt(row.noi) : '—';
+        _setDscr('dc-r-stress-' + k + '-dscr', row.dscr);
+        _setMargin('dc-r-stress-' + k + '-margin', row.dscr, dcr);
+      });
+    }
 
     // Update property tax display (only visible in auto-NOI mode)
     var showPropTax = (netPropTax != null);
@@ -1256,7 +1469,13 @@
   // pricing) is out of scope here and requires an explicit product decision before
   // implementation. Adding automated award-probability scoring or parcel-level
   // conclusions would cross the platform's "screening, not certainty" boundary.
-  window.__DealCalc = { init: init, recalculate: recalculate, setDesignationContext: setDesignationContext };
+  window.__DealCalc = {
+    init: init,
+    recalculate: recalculate,
+    setDesignationContext: setDesignationContext,
+    /* Exposed for testing — pure function, no DOM access */
+    computeDscrStressScenarios: computeDscrStressScenarios
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
