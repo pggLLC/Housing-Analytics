@@ -63,7 +63,7 @@ The old 3× rule (`affordable_price = income × 3`) is a rough heuristic that:
 - Ignores PMI for low-down-payment buyers
 - Uses a single income multiple rather than a DTI-based qualification threshold
 
-**Example — Denver metro (2026):**
+**Example — Denver metro (illustrative, not a current forecast):**
 
 | Metric | 3× Rule | PITI Model |
 |--------|---------|-----------|
@@ -72,6 +72,13 @@ The old 3× rule (`affordable_price = income × 3`) is a rough heuristic that:
 | Estimated affordable price | $258,000 | $258,000 |
 | Gap (% over affordable) | ~117% | ~206% |
 | Required income to qualify | $86,000 ÷ 3 × 3 ≈ $187k | ~$133k (20% down, 6.5%) |
+
+> **Figures shown are an illustrative example of the methodology, not the
+> current Denver MSA values.** Median home price corresponds to ACS 5-year
+> B25077 (Median Value of Owner-Occupied Housing Units); median household
+> income corresponds to ACS 5-year B19013 / S1901. Pull the current vintage
+> from [data.census.gov](https://data.census.gov) before citing these
+> numbers in a pro forma — they move ±5–10% between 5-year releases.
 
 The PITI model shows a larger gap because it reflects the actual cash flow impact on buyers.
 
