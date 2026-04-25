@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-24T08:55:06.187Z
+**Scan timestamp:** 2026-04-25T07:59:00.563Z
 
 ## Summary
 
@@ -25,7 +25,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (130 KB)
+- `data/discovery-reports/latest.json` (131 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -910,27 +910,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 844 days since last update
-- **undefined** — 478 days since last update
-- **undefined** — 478 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 845 days since last update
+- **undefined** — 479 days since last update
+- **undefined** — 479 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 388 days since last update
+- undefined — 389 days since last update
