@@ -45,6 +45,30 @@
 
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 
+  /**
+   * Parse an AMI targeting value into a number 0–100, or null when
+   * unreported / unparseable. Accepts numeric (60), string with pct
+   * sign ("60%"), or bare string ("60"). Range strings like "30-60%"
+   * return the upper bound (the most permissive target in the range).
+   *
+   * Returns null — NOT a default — so downstream composites can
+   * distinguish "targeting unknown" from "targeting 60%".
+   */
+  function _parseAmi(v) {
+    if (v == null) return null;
+    if (typeof v === 'number') return isFinite(v) && v > 0 ? v : null;
+    var s = String(v).trim();
+    if (!s) return null;
+    // "30-60%" → take the upper bound
+    var rangeMatch = s.match(/(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)/);
+    if (rangeMatch) {
+      var upper = parseFloat(rangeMatch[2]);
+      return isFinite(upper) && upper > 0 ? upper : null;
+    }
+    var single = parseFloat(s);
+    return isFinite(single) && single > 0 ? single : null;
+  }
+
   function _propLat(f) {
     if (!f) return 0;
     if (f.geometry && f.geometry.coordinates) return toNum(f.geometry.coordinates[1]);
@@ -136,14 +160,22 @@
       if (nhpdMatch) {
         expiryYear = _propExpiryYear(nhpdMatch);
       }
-      // AMI targeting: preserve null when unknown rather than defaulting
-      // to 60% — the previous `|| 60` fallback fabricated a concrete
-      // targeting level for records that simply didn't report one,
-      // which corrupted downstream comparisons against this property's
-      // "AMI mix" in a competitive-set view.
-      var rawAmi = props.AMI_PCT != null ? props.AMI_PCT
-                 : props.amiPercent != null ? props.amiPercent
-                 : null;
+      // AMI targeting precedence (all null-preserving, no fabricated default):
+      //   1. The LIHTC record's own AMI_PCT / amiPercent field
+      //   2. If an NHPD record matched by name, its `ami_targeting` field
+      //      (e.g. "60%" → 60). NHPD has this populated on ~every subsidized
+      //      property in Colorado — filling in HUD's LIHTC DB where
+      //      per-unit AMI mix isn't published.
+      //   3. Otherwise null (unknown targeting, not "60% default").
+      var ami = _parseAmi(
+        props.AMI_PCT != null ? props.AMI_PCT :
+        props.amiPercent != null ? props.amiPercent :
+        null
+      );
+      if (ami == null && nhpdMatch) {
+        var nprops = nhpdMatch.properties || nhpdMatch;
+        ami = _parseAmi(nprops.ami_targeting != null ? nprops.ami_targeting : nprops.amiPercent);
+      }
       return {
         id:              props.HUDID || props.id || ('lihtc-' + Math.random().toString(36).slice(2)),
         name:            _propName(f),
@@ -152,7 +184,10 @@
         distanceMiles:   Math.round(dist * 10) / 10,
         units:           _propUnits(f),
         programType:     props.PROGRAM || props.programType || 'LIHTC',
-        amiPercent:      rawAmi != null ? toNum(rawAmi) : null,
+        amiPercent:      ami,
+        amiSource:       ami == null ? 'unknown'
+                       : (props.AMI_PCT != null || props.amiPercent != null) ? 'lihtc'
+                       : 'nhpd',
         yearPlaced:      toNum(props.YR_PIS || props.yearPlaced || 0),
         yearAllocated:   toNum(props.YR_ALLOC || props.YEAR_ALLOC || props.yearAllocated || 0),
         creditType:      props.CREDIT || props.creditType || '',
@@ -172,6 +207,11 @@
         var dist = haversine(siteLat, siteLon, _propLat(f), _propLon(f));
         var props = f.properties || f;
         var expYear = _propExpiryYear(f);
+        // NHPD's canonical field is `ami_targeting` (string like "60%").
+        // Previously this branch read `props.amiPercent`, which NHPD does
+        // not populate, so every NHPD-only record got amiPercent: null.
+        // Read the right field and parse the percentage.
+        var ami = _parseAmi(props.ami_targeting != null ? props.ami_targeting : props.amiPercent);
         merged.push({
           id:              props.id || props.nhpd_id || ('nhpd-' + Math.random().toString(36).slice(2)),
           name:            _propName(f),
@@ -180,8 +220,8 @@
           distanceMiles:   Math.round(dist * 10) / 10,
           units:           _propUnits(f),
           programType:     props.program || props.PROGRAM || props.subsidy_type || 'Section 8',
-          // Preserve null for unknown AMI targeting (see LIHTC branch above).
-          amiPercent:      props.amiPercent != null ? toNum(props.amiPercent) : null,
+          amiPercent:      ami,
+          amiSource:       ami == null ? 'unknown' : 'nhpd',
           yearPlaced:      toNum(props.yearPlaced || 0),
           hasNhpd:         true,
           subsidyExpiryYear: expYear,
@@ -317,7 +357,9 @@
       calculateAbsorptionRisk:   calculateAbsorptionRisk,
       getCompetitiveSetLayer:    getCompetitiveSetLayer,
       getCompetitiveJustification: getCompetitiveJustification,
-      SUBSIDY_EXPIRY_RISK_YEARS: SUBSIDY_EXPIRY_RISK_YEARS
+      SUBSIDY_EXPIRY_RISK_YEARS: SUBSIDY_EXPIRY_RISK_YEARS,
+      /* Exposed for testing */
+      _parseAmi:                 _parseAmi
     };
   }
 

@@ -66,6 +66,77 @@ test('buildCompetitiveSet — merges NHPD data', function () {
   assert(set.length >= 1,                     'set length is valid');
 });
 
+test('_parseAmi — accepts numbers, "60%" strings, bare "60", ranges, null', function () {
+  assert(CS._parseAmi(60)        === 60,   'number 60 → 60');
+  assert(CS._parseAmi('60%')     === 60,   '"60%" → 60');
+  assert(CS._parseAmi('60')      === 60,   '"60" → 60');
+  assert(CS._parseAmi(' 50 %')   === 50,   '" 50 %" → 50 (whitespace tolerated)');
+  assert(CS._parseAmi('30-60%')  === 60,   '"30-60%" → 60 (upper bound of range)');
+  assert(CS._parseAmi('30–60%')  === 60,   '"30–60%" → 60 (en-dash range)');
+  assert(CS._parseAmi(null)      === null, 'null → null');
+  assert(CS._parseAmi(undefined) === null, 'undefined → null');
+  assert(CS._parseAmi('')        === null, 'empty string → null');
+  assert(CS._parseAmi('unknown') === null, '"unknown" → null');
+  assert(CS._parseAmi(0)         === null, '0 → null (zero rejected as falsy target)');
+  assert(CS._parseAmi(-5)        === null, 'negative → null');
+});
+
+test('buildCompetitiveSet — NHPD ami_targeting fills when LIHTC AMI is missing', function () {
+  // LIHTC record with NO AMI_PCT; NHPD match carries ami_targeting='60%'
+  const lihtc = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { PROJECT_NAME: 'Housing Commons', LI_UNITS: 80, PROGRAM: 'LIHTC' }
+  }];
+  const nhpd  = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { property_name: 'Housing Commons', ami_targeting: '60%', assisted_units: 80 }
+  }];
+  const set = CS.buildCompetitiveSet(lihtc, nhpd, 39.7392, -104.9847, 5);
+  assert(set.length === 1,                'merged to one record');
+  const merged = set[0];
+  assert(merged.hasNhpd === true,         'record marked hasNhpd (merge succeeded)');
+  assert(merged.amiPercent === 60,        'NHPD ami_targeting filled the gap (got ' + merged.amiPercent + ')');
+  assert(merged.amiSource === 'nhpd',     'amiSource identifies NHPD as the source (got ' + merged.amiSource + ')');
+});
+
+test('buildCompetitiveSet — LIHTC AMI takes precedence when both present', function () {
+  const lihtc = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { PROJECT_NAME: 'Housing Commons', LI_UNITS: 80, PROGRAM: 'LIHTC', AMI_PCT: 50 }
+  }];
+  const nhpd  = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { property_name: 'Housing Commons', ami_targeting: '60%', assisted_units: 80 }
+  }];
+  const set = CS.buildCompetitiveSet(lihtc, nhpd, 39.7392, -104.9847, 5);
+  assert(set[0].amiPercent === 50,        'LIHTC 50% wins over NHPD 60%');
+  assert(set[0].amiSource === 'lihtc',    'amiSource reports LIHTC');
+});
+
+test('buildCompetitiveSet — NHPD-only property reads ami_targeting (not broken amiPercent)', function () {
+  // Previously the NHPD-only branch read props.amiPercent which doesn't
+  // exist on NHPD records, so every NHPD-only record got amiPercent: null.
+  // Verify the fix reads ami_targeting.
+  const nhpd = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { property_name: 'Section 8 Only', ami_targeting: '50%', assisted_units: 120 }
+  }];
+  const set = CS.buildCompetitiveSet([], nhpd, 39.7392, -104.9847, 5);
+  assert(set.length === 1,                   'NHPD-only record included');
+  assert(set[0].amiPercent === 50,           'NHPD-only record reports 50% AMI (got ' + set[0].amiPercent + ')');
+  assert(set[0].amiSource === 'nhpd',        'amiSource is nhpd');
+});
+
+test('buildCompetitiveSet — no AMI anywhere → null, amiSource: unknown', function () {
+  const lihtc = [{
+    geometry: { type: 'Point', coordinates: [-104.98, 39.74] },
+    properties: { PROJECT_NAME: 'Mystery Property', LI_UNITS: 60, PROGRAM: 'LIHTC' }
+  }];
+  const set = CS.buildCompetitiveSet(lihtc, [], 39.7392, -104.9847, 5);
+  assert(set[0].amiPercent === null,     'unknown AMI → null (no fabricated 60% default)');
+  assert(set[0].amiSource === 'unknown', 'amiSource reports unknown');
+});
+
 test('flagSubsidyExpiryRisk — flags properties within threshold', function () {
   const nhpd = [
     { properties: { PROPERTY_NAME: 'At Risk',  expiryYear: CURRENT_YEAR + 2, units: 80 } },
