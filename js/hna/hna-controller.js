@@ -2113,6 +2113,17 @@
     try{ window.__HNA_LOCAL_RESOURCES = await loadJson(window.HNAUtils.PATHS.localResources); }catch(_){ window.__HNA_LOCAL_RESOURCES = {}; }
     try{ window.HNAState.state.derived = await loadJson(window.HNAUtils.PATHS.derived); }catch(_){ window.HNAState.state.derived = null; }
 
+    // Load the full geography registry (513 places + CDPs with their
+    // containing-county FIPS) so countyFromGeoid resolves correctly for
+    // any CO place — not just the small subset in __HNA_GEO_CONFIG.
+    // Previously, missing entries silently fell back to Mesa County
+    // (08077), causing the Fruita/Boulder anomaly. Non-blocking — if
+    // the registry fails to load, countyFromGeoid returns null for
+    // unknown geoids and callers fall back to state-level data.
+    if (typeof window.HNAUtils.ensureGeographyRegistry === 'function') {
+      window.HNAUtils.ensureGeographyRegistry();
+    }
+
     // Wire up aria-live announcement helper for screen reader updates (Rule 11)
     const liveRegion = document.getElementById('hnaLiveRegion');
     if (liveRegion && typeof window.__announceUpdate !== 'function') {
