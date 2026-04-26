@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T23:18:44.168Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T23:19:51.983Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.2 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 22.1 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 23.1 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
@@ -953,7 +953,7 @@
 
 ## Test Files
 
-97 test files found.
+98 test files found.
 
 | File | Size |
 |------|------|
@@ -980,6 +980,7 @@
 | `test/hna-functionality-check.js` | 52.6 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-ranking-index.test.js` | 18.0 KB |
+| `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
