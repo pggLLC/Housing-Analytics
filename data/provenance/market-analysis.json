@@ -50,7 +50,7 @@
       "id": "pmaLihtcProp123",
       "label": "Units in Prop 123 jurisdictions",
       "source": "DOLA Prop 123",
-      "source_url": "https://demography.dola.colorado.gov/prop123/",
+      "source_url": "https://cdola.colorado.gov/proposition-123",
       "vintage": "DOLA 2024",
       "type": "transformed",
       "notes": "LIHTC units in jurisdictions participating in Colorado Proposition 123."
