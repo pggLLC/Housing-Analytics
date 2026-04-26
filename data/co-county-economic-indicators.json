@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-20",
+  "updated": "2026-04-26",
   "source": "BLS LAUS (unemployment 2025 annual avg + 5-yr residential employment growth — replaces deprecated BLS QCEW endpoint), ACS 2024 5-year (home price, income, population)",
   "note": "Affordability index = median home price / median household income. Values refreshed weekly by CI workflow.",
   "counties": {
