@@ -41,7 +41,12 @@ const ALLOW_LIST = new Set([
   "https://www.congress.gov/",
   "https://www.congress.gov/bill/118th-congress/house-bill/6644",
   "https://www.cbre.com/insights",
+  "https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily",
   "https://www.ffiec.gov/craadweb/main.aspx",
+  // DOL blocks CI user-agents across whole domain (returns 404 / Cloudflare
+  // challenge to non-browser requests). Davis-Bacon page is accessible
+  // to real browsers — verified manually.
+  "https://www.dol.gov/agencies/whd/government-contracts",
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
