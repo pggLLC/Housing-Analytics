@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-25T14:57:53.268Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T16:57:36.962Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `about.html` | About | COHO Analytics | 15.0 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 32.4 KB |
 | `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | COHO Analytics | 12.4 KB |
-| `census-dashboard.html` | Census Data | COHO Analytics | 4.8 KB |
+| `census-dashboard.html` | Census Data | COHO Analytics | 6.7 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 20.4 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 121.9 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.5 KB |
@@ -26,7 +26,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
-| `data-status.html` | Data Status | COHO Analytics | 15.3 KB |
+| `data-status.html` | Data Status | COHO Analytics | 19.8 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 69.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.3 KB |
@@ -953,7 +953,7 @@
 
 ## Test Files
 
-94 test files found.
+95 test files found.
 
 | File | Size |
 |------|------|
@@ -966,6 +966,7 @@
 | `test/audit-modules/report-generator.js` | 13.7 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/caching.test.js` | 7.3 KB |
+| `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
@@ -1068,7 +1069,7 @@
 | `.github/workflows/build-hna-data.yml` | 5.8 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
-| `.github/workflows/ci-checks.yml` | 9.5 KB |
+| `.github/workflows/ci-checks.yml` | 11.1 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
