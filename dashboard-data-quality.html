@@ -226,12 +226,32 @@
   <!-- Pipeline Events -->
   <div class="dq-section">
     <h2>Pipeline Log</h2>
-    <!-- `--bg-muted` is not a defined token (resolved to literal
-         #f5f7fa fallback in both light and dark mode, producing
-         light-text-on-light-bg in dark mode — the contrast complaint).
-         Using `--bg2` (a real dark-mode-aware token) + explicit
-         `--text` foreground guarantees readable contrast in either mode. -->
-    <pre id="pipelineLog" aria-live="polite" style="background:var(--bg2,#e4ecf4);color:var(--text,#0d1f35);border:1px solid var(--border,#dde3ec);border-radius:6px;padding:0.75rem 1rem;font-size:0.78rem;max-height:260px;overflow-y:auto;white-space:pre-wrap;"></pre>
+    <!-- Drift register (#723 / 2026-04) flagged this surface for low
+         readability. Improvements applied:
+           - Explicit monospace font stack (was inheriting page sans-serif)
+           - Font size 0.78 → 0.86 rem (still compact, more legible)
+           - Line height 1.55 (was pre default ~1.2, log lines crowded)
+           - Max height 260 → 320 px (more events visible without scroll)
+           - word-break: break-word (long paths don't push horizontal scroll)
+           - tab-size: 2 (consistent indenting)
+         Theme tokens unchanged: --bg2 + --text remain dark-mode aware.
+         Empty-state placeholder shown until first emit() call. -->
+    <pre id="pipelineLog" aria-live="polite" style="
+      background: var(--bg2, #e4ecf4);
+      color: var(--text, #0d1f35);
+      border: 1px solid var(--border, #dde3ec);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      max-height: 320px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      tab-size: 2;
+      margin: 0;
+    " data-empty-text="Pipeline log empty. Waiting for the first dataset check…"></pre>
   </div>
 
 </div>
@@ -245,6 +265,14 @@
   // Helpers
   // -------------------------------------------------------------------------
   var log = [];
+  // Show the empty-state placeholder until the first emit() lands so
+  // users see something other than a blank box on initial page load.
+  (function _initEmptyState() {
+    var el = document.getElementById('pipelineLog');
+    if (!el) return;
+    var placeholder = el.getAttribute('data-empty-text');
+    if (placeholder && !el.textContent) el.textContent = placeholder;
+  })();
   function emit(msg) {
     log.push('[' + new Date().toISOString().replace('T', ' ').slice(0, 19) + '] ' + msg);
     var el = document.getElementById('pipelineLog');
