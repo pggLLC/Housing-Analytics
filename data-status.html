@@ -1,361 +1,613 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Data Status | COHO Analytics</title>
-  <meta name="description" content="Live data quality and freshness diagnostics for all COHO Analytics datasets.">
-  <meta property="og:title" content="Data Status | COHO Analytics">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/og-image.png">
-  <script src="js/path-resolver.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/fetch-helper.js"></script>
-  <script src="js/data-service-portable.js"></script>
-  <script src="js/scroll-fix.js"></script>
-  <script src="js/data-quality-check.js"></script>
-  <link rel="stylesheet" href="css/site-theme.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/pages.css">
-  <script src="js/site-state.js"></script>
-  <script defer src="js/navigation.js"></script>
-  <script defer src="js/dark-mode-toggle.js"></script>
-  <script defer src="js/mobile-menu.js"></script>
-  <style>
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .status-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: .4rem;
-    }
-    .status-card__icon {
-      font-size: 1.4rem;
-      line-height: 1;
-    }
-    .status-card__label {
-      font-weight: 700;
-      font-size: .95rem;
-      color: var(--text);
-    }
-    .status-card__detail {
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-    .status-card__age {
-      font-size: .78rem;
-      color: var(--faint);
-      margin-top: .2rem;
-    }
-    .status-card--ok    { border-left: 3px solid var(--good); }
-    .status-card--warn  { border-left: 3px solid var(--warn); }
-    .status-card--error { border-left: 3px solid var(--bad); }
-    .status-card--loading { border-left: 3px solid var(--border-strong); opacity: .7; }
-    #statusSummary {
-      padding: .75rem 1rem;
-      border-radius: var(--radius);
-      font-size: .9rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    #statusSummary.ok    { background: var(--good-dim); color: var(--good); }
-    #statusSummary.warn  { background: var(--warn-dim); color: var(--warn); }
-    #statusSummary.error { background: var(--bad-dim);  color: var(--bad); }
-    #refreshBtn { margin-left: .75rem; }
-    .source-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: .88rem; }
-    .source-table th { text-align: left; padding: .5rem .75rem; border-bottom: 2px solid var(--border); color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
-    .source-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-    .source-table tr:last-child td { border-bottom: none; }
-    .badge-ok    { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--good-dim);color:var(--good);font-size:.78rem;font-weight:700; }
-    .badge-warn  { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--warn-dim);color:var(--warn);font-size:.78rem;font-weight:700; }
-    .badge-error { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bad-dim); color:var(--bad); font-size:.78rem;font-weight:700; }
-    .badge-loading { display:inline-block;padding:.15rem .5rem;border-radius:1rem;background:var(--bg2);color:var(--muted);font-size:.78rem;font-weight:700; }
-    @media (max-width: 600px) {
-      .status-grid { grid-template-columns: 1fr; }
-      .source-table { display: none; }
-    }
-  </style>
-</head>
-<body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
-<header id="site-header"></header>
-<main id="main-content" class="page-container content-shell">
-
-<section class="hero">
-  <span class="kicker">Diagnostics</span>
-  <h1>Data Status</h1>
-  <p class="sub">Live quality and freshness check for all critical datasets powering COHO Analytics dashboards.</p>
-  <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
-    <span id="lastCheckedLabel" class="data-timestamp" style="font-size:.82rem;color:var(--muted);">Checking…</span>
-    <button id="refreshBtn" class="btn secondary" type="button" style="font-size:.8rem;padding:.3rem .8rem;">Re-check now</button>
-  </div>
-</section>
-
-<div id="statusSummary" class="ok" role="status" aria-live="polite">⏳ Running data validation…</div>
-
-<div id="statusGrid" class="status-grid" aria-label="Dataset status cards">
-  <!-- Cards injected by JS -->
-  <div class="status-card status-card--loading"><div class="status-card__icon">⏳</div><div class="status-card__label">Loading…</div></div>
-</div>
-
-<section class="card" style="margin-top:1.5rem;">
-  <h2 style="font-size:1rem;margin-bottom:0;">All Data Sources</h2>
-  <table class="source-table" aria-label="Data sources detail">
-    <thead>
-      <tr>
-        <th>Dataset</th>
-        <th>Status</th>
-        <th>Records</th>
-        <th>Cache age</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody id="sourceTableBody">
-      <tr><td colspan="5" style="color:var(--muted);">Loading…</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- Content Freshness Indicators -->
-<section class="card" style="margin-top:1.5rem;" aria-labelledby="contentStatusHeading">
-  <h2 id="contentStatusHeading" style="font-size:1rem;margin-bottom:.75rem;">Content Freshness</h2>
-  <div class="status-grid" id="contentStatusGrid">
-    <div class="status-card status-card--loading" id="trendsStatusCard">
-      <div class="status-card__icon">⏳</div>
-      <div class="status-card__label">Key Market Trends</div>
-      <div class="status-card__detail">Checking verification date…</div>
-      <div class="status-card__age"></div>
-    </div>
-    <div class="status-card status-card--loading" id="alertPipelineCard">
-      <div class="status-card__icon">⏳</div>
-      <div class="status-card__label">Alert Pipeline</div>
-      <div class="status-card__detail">Checking feed status…</div>
-      <div class="status-card__age"></div>
-    </div>
-  </div>
-</section>
-
-</main>
-<footer id="site-footer"></footer>
-
-<script>
-(function () {
-  'use strict';
-
-  function relTime(ms) {
-    if (ms === null || ms === undefined) return '—';
-    var s = Math.floor(ms / 1000);
-    if (s < 60)  return s + 's ago';
-    var m = Math.floor(s / 60);
-    if (m < 60)  return m + 'm ago';
-    var h = Math.floor(m / 60);
-    if (h < 24)  return h + 'h ago';
-    return Math.floor(h / 24) + 'd ago';
-  }
-
-  function daysSince(dateObj) {
-    return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
-  }
-
-  function renderCard(report) {
-    var card = document.createElement('div');
-    var cls  = report.ok ? 'ok' : (report.critical ? 'error' : 'warn');
-    card.className = 'status-card status-card--' + cls;
-    card.innerHTML =
-      '<div class="status-card__icon">' + (report.ok ? '✅' : '⚠️') + '</div>' +
-      '<div class="status-card__label">' + _esc(report.label) + '</div>' +
-      '<div class="status-card__detail">' +
-        (report.featureCount > 0 ? report.featureCount + ' records' : '') +
-        (report.message ? '<br>' + _esc(report.message) : '') +
-      '</div>' +
-      '<div class="status-card__age">' + relTime(report.cacheAge) + '</div>';
-    return card;
-  }
-
-  function renderTableRow(report) {
-    var cls  = report.ok ? 'badge-ok' : (report.critical ? 'badge-error' : 'badge-warn');
-    var lbl  = report.ok ? '✅ OK' : (report.critical ? '⚠ Error' : '⚠ Warn');
-    var tr = document.createElement('tr');
-    tr.innerHTML =
-      '<td>' + _esc(report.label) + '</td>' +
-      '<td><span class="' + cls + '">' + lbl + '</span></td>' +
-      '<td>' + (report.featureCount > 0 ? report.featureCount : '—') + '</td>' +
-      '<td>' + relTime(report.cacheAge) + '</td>' +
-      '<td style="color:var(--muted);">' + _esc(report.message || '') + '</td>';
-    return tr;
-  }
-
-  function _esc(s) {
-    return String(s || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function runCheck() {
-    if (!window.DataQuality) {
-      document.getElementById('statusSummary').textContent = '⚠ DataQuality module not loaded.';
-      return;
-    }
-
-    document.getElementById('statusSummary').className = 'ok';
-    document.getElementById('statusSummary').textContent = '⏳ Running data validation…';
-
-    window.DataQuality.runAll().then(function (reports) {
-      var allOk = reports.every(function (r) { return r.ok; });
-      var anyCritFail = reports.some(function (r) { return !r.ok && r.critical; });
-
-      var summary = document.getElementById('statusSummary');
-      if (anyCritFail) {
-        summary.className = 'error';
-        summary.textContent = '⚠ One or more critical datasets are unavailable.';
-      } else if (!allOk) {
-        summary.className = 'warn';
-        summary.textContent = '⚠ Some datasets have warnings — dashboards may use cached data.';
-      } else {
-        summary.className = 'ok';
-        summary.textContent = '✅ All datasets validated successfully.';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#096e65"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0fd4cf"
+      media="(prefers-color-scheme: dark)"
+    />
+    <title>Data Status | COHO Analytics</title>
+    <meta
+      name="description"
+      content="Live data quality and freshness diagnostics for all COHO Analytics datasets."
+    />
+    <meta property="og:title" content="Data Status | COHO Analytics" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/og-image.png" />
+    <script src="js/path-resolver.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/fetch-helper.js"></script>
+    <script src="js/data-service-portable.js"></script>
+    <script src="js/scroll-fix.js"></script>
+    <script src="js/data-quality-check.js"></script>
+    <link rel="stylesheet" href="css/site-theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+    <script src="js/site-state.js"></script>
+    <script defer src="js/navigation.js"></script>
+    <script defer src="js/dark-mode-toggle.js"></script>
+    <script defer src="js/mobile-menu.js"></script>
+    <style>
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
       }
+      .status-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .status-card__icon {
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+      .status-card__label {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      .status-card__detail {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .status-card__age {
+        font-size: 0.78rem;
+        color: var(--faint);
+        margin-top: 0.2rem;
+      }
+      .status-card--ok {
+        border-left: 3px solid var(--good);
+      }
+      .status-card--warn {
+        border-left: 3px solid var(--warn);
+      }
+      .status-card--error {
+        border-left: 3px solid var(--bad);
+      }
+      .status-card--loading {
+        border-left: 3px solid var(--border-strong);
+        opacity: 0.7;
+      }
+      #statusSummary {
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      #statusSummary.ok {
+        background: var(--good-dim);
+        color: var(--good);
+      }
+      #statusSummary.warn {
+        background: var(--warn-dim);
+        color: var(--warn);
+      }
+      #statusSummary.error {
+        background: var(--bad-dim);
+        color: var(--bad);
+      }
+      #refreshBtn {
+        margin-left: 0.75rem;
+      }
+      .source-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+        font-size: 0.88rem;
+      }
+      .source-table th {
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--border);
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .source-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      .source-table tr:last-child td {
+        border-bottom: none;
+      }
+      .badge-ok {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 1rem;
+        background: var(--good-dim);
+        color: var(--good);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .badge-warn {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 1rem;
+        background: var(--warn-dim);
+        color: var(--warn);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .badge-error {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 1rem;
+        background: var(--bad-dim);
+        color: var(--bad);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .badge-loading {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 1rem;
+        background: var(--bg2);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      @media (max-width: 600px) {
+        .status-grid {
+          grid-template-columns: 1fr;
+        }
+        .source-table {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div
+      id="aria-live-region"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      "
+    ></div>
+    <header id="site-header"></header>
+    <main id="main-content" class="page-container content-shell">
+      <section class="hero">
+        <span class="kicker">Diagnostics</span>
+        <h1>Data Status</h1>
+        <p class="sub">
+          Live quality and freshness check for all critical datasets powering
+          COHO Analytics dashboards.
+        </p>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+          "
+        >
+          <span
+            id="lastCheckedLabel"
+            class="data-timestamp"
+            style="font-size: 0.82rem; color: var(--muted)"
+            >Checking…</span
+          >
+          <button
+            id="refreshBtn"
+            class="btn secondary"
+            type="button"
+            style="font-size: 0.8rem; padding: 0.3rem 0.8rem"
+          >
+            Re-check now
+          </button>
+        </div>
+      </section>
 
-      var grid = document.getElementById('statusGrid');
-      grid.innerHTML = '';
-      reports.forEach(function (r) { grid.appendChild(renderCard(r)); });
+      <div id="statusSummary" class="ok" role="status" aria-live="polite">
+        ⏳ Running data validation…
+      </div>
 
-      var tbody = document.getElementById('sourceTableBody');
-      tbody.innerHTML = '';
-      reports.forEach(function (r) { tbody.appendChild(renderTableRow(r)); });
+      <div
+        id="statusGrid"
+        class="status-grid"
+        aria-label="Dataset status cards"
+      >
+        <!-- Cards injected by JS -->
+        <div class="status-card status-card--loading">
+          <div class="status-card__icon">⏳</div>
+          <div class="status-card__label">Loading…</div>
+        </div>
+      </div>
 
-      var lbl = document.getElementById('lastCheckedLabel');
-      lbl.textContent = 'Last checked: ' + new Date().toLocaleTimeString();
+      <section class="card" style="margin-top: 1.5rem">
+        <h2 style="font-size: 1rem; margin-bottom: 0">All Data Sources</h2>
+        <table class="source-table" aria-label="Data sources detail">
+          <thead>
+            <tr>
+              <th>Dataset</th>
+              <th>Status</th>
+              <th>Records</th>
+              <th>Data as of</th>
+              <th>Cache age</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="sourceTableBody">
+            <tr>
+              <td colspan="6" style="color: var(--muted)">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      var liveRegion = document.getElementById('aria-live-region');
-      if (liveRegion) {
-        // Toggle aria-live off then on to force re-announcement in all AT implementations
-        liveRegion.setAttribute('aria-live', 'off');
-        liveRegion.textContent = summary.textContent;
-        requestAnimationFrame(function () {
-          liveRegion.setAttribute('aria-live', 'polite');
+      <!-- Content Freshness Indicators -->
+      <section
+        class="card"
+        style="margin-top: 1.5rem"
+        aria-labelledby="contentStatusHeading"
+      >
+        <h2
+          id="contentStatusHeading"
+          style="font-size: 1rem; margin-bottom: 0.75rem"
+        >
+          Content Freshness
+        </h2>
+        <div class="status-grid" id="contentStatusGrid">
+          <div class="status-card status-card--loading" id="trendsStatusCard">
+            <div class="status-card__icon">⏳</div>
+            <div class="status-card__label">Key Market Trends</div>
+            <div class="status-card__detail">Checking verification date…</div>
+            <div class="status-card__age"></div>
+          </div>
+          <div class="status-card status-card--loading" id="alertPipelineCard">
+            <div class="status-card__icon">⏳</div>
+            <div class="status-card__label">Alert Pipeline</div>
+            <div class="status-card__detail">Checking feed status…</div>
+            <div class="status-card__age"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer id="site-footer"></footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        function relTime(ms) {
+          if (ms === null || ms === undefined) return "—";
+          var s = Math.floor(ms / 1000);
+          if (s < 60) return s + "s ago";
+          var m = Math.floor(s / 60);
+          if (m < 60) return m + "m ago";
+          var h = Math.floor(m / 60);
+          if (h < 24) return h + "h ago";
+          return Math.floor(h / 24) + "d ago";
+        }
+
+        function daysSince(dateObj) {
+          return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
+        }
+
+        function renderCard(report) {
+          var card = document.createElement("div");
+          var cls = report.ok ? "ok" : report.critical ? "error" : "warn";
+          card.className = "status-card status-card--" + cls;
+          var asOf = report.dataAsOf
+            ? new Date(report.dataAsOf).toLocaleDateString()
+            : "unknown";
+          var dataAge =
+            report.dataAgeMs === null || report.dataAgeMs === undefined
+              ? "unknown age"
+              : relTime(report.dataAgeMs);
+          card.innerHTML =
+            '<div class="status-card__icon">' +
+            (report.ok ? "✅" : "⚠️") +
+            "</div>" +
+            '<div class="status-card__label">' +
+            _esc(report.label) +
+            "</div>" +
+            '<div class="status-card__detail">' +
+            (report.featureCount > 0 ? report.featureCount + " records" : "") +
+            "<br>Data as of: " +
+            _esc(asOf) +
+            " (" +
+            _esc(dataAge) +
+            ")" +
+            (report.message ? "<br>" + _esc(report.message) : "") +
+            "</div>" +
+            '<div class="status-card__age">' +
+            relTime(report.cacheAge) +
+            "</div>";
+          return card;
+        }
+
+        function renderTableRow(report) {
+          var cls = report.ok
+            ? "badge-ok"
+            : report.critical
+              ? "badge-error"
+              : "badge-warn";
+          var lbl = report.ok
+            ? "✅ OK"
+            : report.critical
+              ? "⚠ Error"
+              : "⚠ Warn";
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" +
+            _esc(report.label) +
+            "</td>" +
+            '<td><span class="' +
+            cls +
+            '">' +
+            lbl +
+            "</span></td>" +
+            "<td>" +
+            (report.featureCount > 0 ? report.featureCount : "—") +
+            "</td>" +
+            "<td>" +
+            (report.dataAsOf
+              ? _esc(new Date(report.dataAsOf).toLocaleDateString())
+              : "—") +
+            "</td>" +
+            "<td>" +
+            relTime(report.cacheAge) +
+            "</td>" +
+            '<td style="color:var(--muted);">' +
+            _esc(report.message || "") +
+            "</td>";
+          return tr;
+        }
+
+        function _esc(s) {
+          return String(s || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        function runCheck() {
+          if (!window.DataQuality) {
+            document.getElementById("statusSummary").textContent =
+              "⚠ DataQuality module not loaded.";
+            return;
+          }
+
+          document.getElementById("statusSummary").className = "ok";
+          document.getElementById("statusSummary").textContent =
+            "⏳ Running data validation…";
+
+          window.DataQuality.runAll().then(function (reports) {
+            var allOk = reports.every(function (r) {
+              return r.ok;
+            });
+            var anyCritFail = reports.some(function (r) {
+              return !r.ok && r.critical;
+            });
+
+            var summary = document.getElementById("statusSummary");
+            if (anyCritFail) {
+              summary.className = "error";
+              summary.textContent =
+                "⚠ One or more critical datasets are unavailable.";
+            } else if (!allOk) {
+              summary.className = "warn";
+              summary.textContent =
+                "⚠ Some datasets have warnings — dashboards may use cached data.";
+            } else {
+              summary.className = "ok";
+              summary.textContent = "✅ All datasets validated successfully.";
+            }
+
+            var grid = document.getElementById("statusGrid");
+            grid.innerHTML = "";
+            reports.forEach(function (r) {
+              grid.appendChild(renderCard(r));
+            });
+
+            var tbody = document.getElementById("sourceTableBody");
+            tbody.innerHTML = "";
+            reports.forEach(function (r) {
+              tbody.appendChild(renderTableRow(r));
+            });
+
+            var lbl = document.getElementById("lastCheckedLabel");
+            lbl.textContent =
+              "Last checked: " + new Date().toLocaleTimeString();
+
+            var liveRegion = document.getElementById("aria-live-region");
+            if (liveRegion) {
+              // Toggle aria-live off then on to force re-announcement in all AT implementations
+              liveRegion.setAttribute("aria-live", "off");
+              liveRegion.textContent = summary.textContent;
+              requestAnimationFrame(function () {
+                liveRegion.setAttribute("aria-live", "polite");
+              });
+            }
+          });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          runCheck();
+          var btn = document.getElementById("refreshBtn");
+          if (btn) btn.addEventListener("click", runCheck);
+          loadContentStatus();
         });
-      }
-    });
-  }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    runCheck();
-    var btn = document.getElementById('refreshBtn');
-    if (btn) btn.addEventListener('click', runCheck);
-    loadContentStatus();
-  });
+        // ── Content freshness checks ─────────────────────────────────────────────────
 
-  // ── Content freshness checks ─────────────────────────────────────────────────
+        var STALE_TRENDS_DAYS = 30; // warn if Key Market Trends not verified in 30d
+        var STALE_PIPELINE_DAYS = 7; // warn if alert pipeline hasn't run in 7d
 
-  var STALE_TRENDS_DAYS   = 30;   // warn if Key Market Trends not verified in 30d
-  var STALE_PIPELINE_DAYS = 7;    // warn if alert pipeline hasn't run in 7d
+        function resolvePath(p) {
+          return typeof window.resolveAssetUrl === "function"
+            ? window.resolveAssetUrl(p)
+            : p;
+        }
 
-  function resolvePath(p) {
-    return (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl(p) : p;
-  }
+        function loadContentStatus() {
+          // Key Market Trends verification status
+          fetch(resolvePath("data/insights-meta.json"))
+            .then(function (r) {
+              return r.ok ? r.json() : Promise.reject(r.status);
+            })
+            .then(function (meta) {
+              renderTrendsCard(meta);
+            })
+            .catch(function () {
+              renderTrendsCard(null);
+            });
 
-  function loadContentStatus() {
-    // Key Market Trends verification status
-    fetch(resolvePath('data/insights-meta.json'))
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (meta) { renderTrendsCard(meta); })
-      .catch(function () { renderTrendsCard(null); });
+          // Alert pipeline status
+          fetch(resolvePath("data/policy_briefs.json"))
+            .then(function (r) {
+              return r.ok ? r.json() : Promise.reject(r.status);
+            })
+            .then(function (data) {
+              renderPipelineCard(data && data.meta ? data.meta : null);
+            })
+            .catch(function () {
+              renderPipelineCard(null);
+            });
+        }
 
-    // Alert pipeline status
-    fetch(resolvePath('data/policy_briefs.json'))
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (data) { renderPipelineCard(data && data.meta ? data.meta : null); })
-      .catch(function () { renderPipelineCard(null); });
-  }
+        function renderTrendsCard(meta) {
+          var card = document.getElementById("trendsStatusCard");
+          if (!card) return;
+          if (!meta || !meta.lastVerified) {
+            card.className = "status-card status-card--warn";
+            card.innerHTML =
+              '<div class="status-card__icon">⚠️</div>' +
+              '<div class="status-card__label">Key Market Trends</div>' +
+              '<div class="status-card__detail">Verification date unavailable</div>' +
+              '<div class="status-card__age"><a href="docs/MARKET_TRENDS_UPDATE_PROTOCOL.md">View protocol →</a></div>';
+            return;
+          }
+          var verified = new Date(meta.lastVerified);
+          var ageDays = daysSince(verified);
+          var dateStr = verified.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          });
+          var isStale = ageDays > STALE_TRENDS_DAYS;
+          card.className =
+            "status-card status-card--" + (isStale ? "warn" : "ok");
+          card.innerHTML =
+            '<div class="status-card__icon">' +
+            (isStale ? "⚠️" : "✅") +
+            "</div>" +
+            '<div class="status-card__label">Key Market Trends</div>' +
+            '<div class="status-card__detail">Last verified: ' +
+            _esc(dateStr) +
+            (meta.verifiedBy ? " by " + _esc(meta.verifiedBy) : "") +
+            "</div>" +
+            '<div class="status-card__age">' +
+            ageDays +
+            "d ago" +
+            (isStale
+              ? ' — <strong style="color:var(--warn);">review recommended</strong>'
+              : "") +
+            "</div>";
+        }
 
-  function renderTrendsCard(meta) {
-    var card = document.getElementById('trendsStatusCard');
-    if (!card) return;
-    if (!meta || !meta.lastVerified) {
-      card.className = 'status-card status-card--warn';
-      card.innerHTML =
-        '<div class="status-card__icon">⚠️</div>' +
-        '<div class="status-card__label">Key Market Trends</div>' +
-        '<div class="status-card__detail">Verification date unavailable</div>' +
-        '<div class="status-card__age"><a href="docs/MARKET_TRENDS_UPDATE_PROTOCOL.md">View protocol →</a></div>';
-      return;
-    }
-    var verified = new Date(meta.lastVerified);
-    var ageDays  = daysSince(verified);
-    var dateStr  = verified.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    var isStale  = ageDays > STALE_TRENDS_DAYS;
-    card.className = 'status-card status-card--' + (isStale ? 'warn' : 'ok');
-    card.innerHTML =
-      '<div class="status-card__icon">' + (isStale ? '⚠️' : '✅') + '</div>' +
-      '<div class="status-card__label">Key Market Trends</div>' +
-      '<div class="status-card__detail">Last verified: ' + _esc(dateStr) +
-        (meta.verifiedBy ? ' by ' + _esc(meta.verifiedBy) : '') + '</div>' +
-      '<div class="status-card__age">' + ageDays + 'd ago' +
-        (isStale ? ' — <strong style="color:var(--warn);">review recommended</strong>' : '') +
-      '</div>';
-  }
-
-  function renderPipelineCard(meta) {
-    var card = document.getElementById('alertPipelineCard');
-    if (!card) return;
-    if (!meta) {
-      card.className = 'status-card status-card--warn';
-      card.innerHTML =
-        '<div class="status-card__icon">⚠️</div>' +
-        '<div class="status-card__label">Alert Pipeline</div>' +
-        '<div class="status-card__detail">Status unavailable</div>' +
-        '<div class="status-card__age"><a href="docs/alerts-pipeline.md">View docs →</a></div>';
-      return;
-    }
-    var generated  = meta.generated ? new Date(meta.generated) : null;
-    var feedCount  = meta.feed_count || 0;
-    var alertCount = meta.source_alerts || meta.alert_count || 0;
-    var briefCount = meta.brief_count || 0;
-    var ageDays    = generated ? daysSince(generated) : null;
-    var dateStr    = generated
-      ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      : '—';
-    var isActive = feedCount > 0 || alertCount > 0;
-    var isStale  = ageDays !== null && ageDays > STALE_PIPELINE_DAYS;
-    var cls, icon, action;
-    if (!isActive) {
-      cls = 'warn'; icon = '⚠️';
-      action = '<div class="status-card__age">Configure feeds — see <a href="docs/alerts-pipeline.md">alerts-pipeline.md</a></div>';
-    } else if (isStale) {
-      cls = 'warn'; icon = '⚠️';
-      action = '<div class="status-card__age">' + ageDays + 'd since last fetch — pipeline may be stalled</div>';
-    } else {
-      cls = 'ok'; icon = '✅';
-      action = '<div class="status-card__age">Last fetch: ' + _esc(dateStr) + (ageDays !== null ? ' (' + ageDays + 'd ago)' : '') + '</div>';
-    }
-    card.className = 'status-card status-card--' + cls;
-    card.innerHTML =
-      '<div class="status-card__icon">' + icon + '</div>' +
-      '<div class="status-card__label">Alert Pipeline</div>' +
-      '<div class="status-card__detail">' +
-        feedCount + ' feed' + (feedCount === 1 ? '' : 's') + ' · ' +
-        alertCount + ' alert' + (alertCount === 1 ? '' : 's') + ' · ' +
-        briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
-      '</div>' +
-      action;
-  }
-
-}());
-</script>
-</body>
+        function renderPipelineCard(meta) {
+          var card = document.getElementById("alertPipelineCard");
+          if (!card) return;
+          if (!meta) {
+            card.className = "status-card status-card--warn";
+            card.innerHTML =
+              '<div class="status-card__icon">⚠️</div>' +
+              '<div class="status-card__label">Alert Pipeline</div>' +
+              '<div class="status-card__detail">Status unavailable</div>' +
+              '<div class="status-card__age"><a href="docs/alerts-pipeline.md">View docs →</a></div>';
+            return;
+          }
+          var generated = meta.generated ? new Date(meta.generated) : null;
+          var feedCount = meta.feed_count || 0;
+          var alertCount = meta.source_alerts || meta.alert_count || 0;
+          var briefCount = meta.brief_count || 0;
+          var ageDays = generated ? daysSince(generated) : null;
+          var dateStr = generated
+            ? generated.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })
+            : "—";
+          var isActive = feedCount > 0 || alertCount > 0;
+          var isStale = ageDays !== null && ageDays > STALE_PIPELINE_DAYS;
+          var cls, icon, action;
+          if (!isActive) {
+            cls = "warn";
+            icon = "⚠️";
+            action =
+              '<div class="status-card__age">Configure feeds — see <a href="docs/alerts-pipeline.md">alerts-pipeline.md</a></div>';
+          } else if (isStale) {
+            cls = "warn";
+            icon = "⚠️";
+            action =
+              '<div class="status-card__age">' +
+              ageDays +
+              "d since last fetch — pipeline may be stalled</div>";
+          } else {
+            cls = "ok";
+            icon = "✅";
+            action =
+              '<div class="status-card__age">Last fetch: ' +
+              _esc(dateStr) +
+              (ageDays !== null ? " (" + ageDays + "d ago)" : "") +
+              "</div>";
+          }
+          card.className = "status-card status-card--" + cls;
+          card.innerHTML =
+            '<div class="status-card__icon">' +
+            icon +
+            "</div>" +
+            '<div class="status-card__label">Alert Pipeline</div>' +
+            '<div class="status-card__detail">' +
+            feedCount +
+            " feed" +
+            (feedCount === 1 ? "" : "s") +
+            " · " +
+            alertCount +
+            " alert" +
+            (alertCount === 1 ? "" : "s") +
+            " · " +
+            briefCount +
+            " brief" +
+            (briefCount === 1 ? "" : "s") +
+            "</div>" +
+            action;
+        }
+      })();
+    </script>
+  </body>
 </html>

@@ -16,34 +16,39 @@ const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs1/profile`;
 const GEOINFO_BASE = `https://api.census.gov/data/${ACS_YEAR}/geoinfo`;
 
 function censusKey() {
-  return (window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY) ? window.APP_CONFIG.CENSUS_API_KEY : '';
+  return window.APP_CONFIG && window.APP_CONFIG.CENSUS_API_KEY
+    ? window.APP_CONFIG.CENSUS_API_KEY
+    : "";
 }
 
 const VARS = {
   totalHU: "DP04_0001E",
   pct_5_9: "DP04_0011PE",
   pct_10_19: "DP04_0012PE",
-  pct_20p: "DP04_0013PE"
+  pct_20p: "DP04_0013PE",
 };
 
 let chart;
+const COLORADO_FIPS = "08";
 
-function $(id){ return document.getElementById(id); }
+function $(id) {
+  return document.getElementById(id);
+}
 
-function fmtNumber(x){
+function fmtNumber(x) {
   const n = Number(x);
   if (!Number.isFinite(n)) return x;
   return n.toLocaleString();
 }
-function fmtPct(x){
+function fmtPct(x) {
   const n = Number(x);
   if (!Number.isFinite(n)) return x;
   return `${n.toFixed(1)}%`;
 }
 
-async function fetchJson(url){
+async function fetchJson(url) {
   let res;
-  if (typeof window.fetchWithTimeout === 'function') {
+  if (typeof window.fetchWithTimeout === "function") {
     res = await window.fetchWithTimeout(url, {}, 8000, 0);
   } else {
     const controller = new AbortController();
@@ -58,43 +63,44 @@ async function fetchJson(url){
   return await res.json();
 }
 
-async function loadStates(){
-  // NAME + state FIPS
-  const url = `${GEOINFO_BASE}?get=NAME&for=state:*`;
-  const data = await fetchJson(url);
-  const rows = data.slice(1).map(r => ({ name: r[0], state: r[1] }))
-    .sort((a,b)=>a.name.localeCompare(b.name));
-
+async function loadStates() {
   const sel = $("state-select");
-  sel.innerHTML = rows.map(r => `<option value="${r.state}">${r.name}</option>`).join("");
+  // Colorado-only by design for COHO workflows.
+  sel.innerHTML = `<option value="${COLORADO_FIPS}">Colorado</option>`;
+  sel.value = COLORADO_FIPS;
 }
 
-async function loadCounties(stateFips){
+async function loadCounties(stateFips) {
   const url = `${GEOINFO_BASE}?get=NAME&for=county:*&in=state:${stateFips}`;
   const data = await fetchJson(url);
-  const rows = data.slice(1).map(r => ({ name: r[0], county: r[1] }))
-    .sort((a,b)=>a.name.localeCompare(b.name));
+  const rows = data
+    .slice(1)
+    .map((r) => ({ name: r[0], county: r[1] }))
+    .sort((a, b) => a.name.localeCompare(b.name));
   const sel = $("local-select");
-  sel.innerHTML = rows.map(r => `<option value="${r.county}">${r.name}</option>`).join("");
+  sel.innerHTML = rows
+    .map((r) => `<option value="${r.county}">${r.name}</option>`)
+    .join("");
 }
 
-async function loadPlaces(stateFips){
+async function loadPlaces(stateFips) {
   const url = `${GEOINFO_BASE}?get=NAME&for=place:*&in=state:${stateFips}`;
   const data = await fetchJson(url);
-  const rows = data.slice(1).map(r => ({ name: r[0], place: r[1] }))
-    .sort((a,b)=>a.name.localeCompare(b.name));
+  const rows = data
+    .slice(1)
+    .map((r) => ({ name: r[0], place: r[1] }))
+    .sort((a, b) => a.name.localeCompare(b.name));
   const sel = $("local-select");
-  sel.innerHTML = rows.map(r => `<option value="${r.place}">${r.name}</option>`).join("");
+  sel.innerHTML = rows
+    .map((r) => `<option value="${r.place}">${r.name}</option>`)
+    .join("");
 }
 
-function buildAcsUrl({ level, state, local }){
+function buildAcsUrl({ level, state, local }) {
   const get = `NAME,${VARS.totalHU},${VARS.pct_5_9},${VARS.pct_10_19},${VARS.pct_20p}`;
   const key = censusKey();
   const keySuffix = key ? `&key=${encodeURIComponent(key)}` : "";
 
-  if (level === "us") {
-    return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=us:1${keySuffix}`;
-  }
   if (level === "state") {
     return `${ACS_BASE}?get=${encodeURIComponent(get)}&for=state:${state}${keySuffix}`;
   }
@@ -107,25 +113,25 @@ function buildAcsUrl({ level, state, local }){
   throw new Error("Unknown geography level");
 }
 
-function renderShareChart(name, p1, p2, p3){
+function renderShareChart(name, p1, p2, p3) {
   const ctx = $("mf-share");
   const labels = ["5–9 units", "10–19 units", "20+ units"];
-  const data = [p1, p2, p3].map(v => Number(v));
+  const data = [p1, p2, p3].map((v) => Number(v));
 
   if (chart) chart.destroy();
   chart = new Chart(ctx, {
     type: "bar",
     data: {
       labels,
-      datasets: [{ label: `% of housing units – ${name}`, data }]
+      datasets: [{ label: `% of housing units – ${name}`, data }],
     },
     options: {
       responsive: true,
       plugins: { legend: { display: true } },
       scales: {
-        y: { beginAtZero: true, ticks: { callback: (v)=>`${v}%` } }
-      }
-    }
+        y: { beginAtZero: true, ticks: { callback: (v) => `${v}%` } },
+      },
+    },
   });
 
   $("mf-table").innerHTML = `
@@ -140,20 +146,25 @@ function renderShareChart(name, p1, p2, p3){
   `;
 }
 
-async function refresh(){
+async function refresh() {
   const level = $("geo-level").value;
-  const state = $("state-select").value;
+  const state = COLORADO_FIPS;
   const local = $("local-select").value;
 
   $("geo-note").textContent = "Loading…";
 
   try {
+    if (level !== "state" && !local) {
+      $("geo-note").textContent = "Select a Colorado county/place to continue.";
+      $("geo-note").style.color = "crimson";
+      return;
+    }
     const url = buildAcsUrl({ level, state, local });
     const data = await fetchJson(url);
 
     const header = data[0];
     const row = data[1];
-    const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
+    const idx = Object.fromEntries(header.map((h, i) => [h, i]));
 
     const name = row[idx["NAME"]];
     const totalHU = row[idx[VARS.totalHU]];
@@ -161,31 +172,27 @@ async function refresh(){
     const p2 = row[idx[VARS.pct_10_19]];
     const p3 = row[idx[VARS.pct_20p]];
 
-    $("geo-note").textContent = `Selected: ${name} (ACS ${ACS_YEAR} 1-year, DP04)`;
+    $("geo-note").textContent =
+      `Selected: ${name} (Colorado only · ACS ${ACS_YEAR} 1-year, DP04)`;
     $("geo-note").style.color = "";
     $("hu").textContent = fmtNumber(totalHU);
     $("hu-meta").textContent = "Total housing units (estimate)";
 
     renderShareChart(name, p1, p2, p3);
-  } catch(e) {
+  } catch (e) {
     console.error("[census-multifamily] refresh failed:", e);
-    $("geo-note").textContent = `Error: ${e.message}`;
+    $("geo-note").textContent =
+      `Error loading Colorado Census data: ${e.message}`;
     $("geo-note").style.color = "crimson";
   }
 }
 
-function setGeoUi(){
+function setGeoUi() {
   const level = $("geo-level").value;
   const stateSel = $("state-select");
   const localSel = $("local-select");
 
-  if (level === "us") {
-    stateSel.disabled = true;
-    localSel.disabled = true;
-    return;
-  }
-
-  stateSel.disabled = false;
+  stateSel.disabled = true;
 
   if (level === "state") {
     localSel.disabled = true;
@@ -194,14 +201,12 @@ function setGeoUi(){
   }
 }
 
-async function onGeoChange(){
+async function onGeoChange() {
   const level = $("geo-level").value;
   setGeoUi();
 
   try {
-    if (level === "us") return await refresh();
-
-    const state = $("state-select").value;
+    const state = COLORADO_FIPS;
     if (level === "state") return await refresh();
 
     if (level === "county") {
@@ -213,15 +218,15 @@ async function onGeoChange(){
       await loadPlaces(state);
       return await refresh();
     }
-  } catch(e) {
+  } catch (e) {
     console.error("[census-multifamily] onGeoChange failed:", e);
     $("geo-note").textContent = `Error: ${e.message}`;
     $("geo-note").style.color = "crimson";
   }
 }
 
-(async function init(){
-  try{
+(async function init() {
+  try {
     await loadStates();
     setGeoUi();
 
@@ -230,9 +235,9 @@ async function onGeoChange(){
     $("local-select").addEventListener("change", refresh);
     $("refresh").addEventListener("click", refresh);
 
-    // Initialize local list for default (us)
+    // Default to Colorado statewide view.
     await refresh();
-  } catch(e){
+  } catch (e) {
     console.error(e);
     $("geo-note").textContent = e.message;
     $("geo-note").style.color = "crimson";
