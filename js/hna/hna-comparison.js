@@ -823,6 +823,29 @@
     });
   }
 
+  // Geography-type badge for side-by-side names. Surfaces whether each
+  // jurisdiction is a county / city / CDP / town / state so users don't
+  // accidentally compare apples-to-oranges.
+  function _scopeBadge(type) {
+    var t = String(type || '').toLowerCase();
+    var label, bg, fg;
+    if (t === 'county')      { label = 'County'; bg = 'var(--info-dim, #dbeafe)'; fg = 'var(--info, #2563eb)'; }
+    else if (t === 'state')  { label = 'State';  bg = 'var(--accent-dim, #d1fae5)'; fg = 'var(--accent, #096e65)'; }
+    else if (t === 'cdp')    { label = 'CDP';    bg = 'color-mix(in oklab, var(--card,#fff) 90%, var(--warn,#d97706) 10%)'; fg = 'var(--warn, #d97706)'; }
+    else if (t === 'place')  { label = 'City';   bg = 'var(--good-dim, #d1fae5)'; fg = 'var(--good, #047857)'; }
+    else if (t === 'town')   { label = 'Town';   bg = 'var(--good-dim, #d1fae5)'; fg = 'var(--good, #047857)'; }
+    else                     { label = (type || 'Other'); bg = 'var(--bg2, #f4f4f4)'; fg = 'var(--muted, #555)'; }
+    return '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:3px;background:' + bg + ';color:' + fg + ';margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: ' + label + '">' + label + '</span>';
+  }
+
+  // CDP-specific advisory: the user should know CDPs are statistical
+  // areas, not legal jurisdictions.
+  function _scopeNote(type) {
+    var t = String(type || '').toLowerCase();
+    if (t === 'cdp') return 'Census-Designated Place — statistical boundary, not a legal jurisdiction';
+    return null;
+  }
+
   function _renderPanelHTML(panel, entryA, entryB, summaryA, summaryB) {
     var state = window.HNARanking && HNARanking._get();
     var total = state ? state.allEntries.length : 0;
@@ -836,15 +859,36 @@
       '<button type="button" class="hca-cp-close" id="hcaCpClose" title="Close comparison panel" aria-label="Close comparison panel">✕</button>' +
     '</div>';
 
-    // Names row
+    // Mismatched-scope warning — comparing a county to a city/CDP is
+    // apples-to-oranges. ACS values are at different population scales,
+    // labor stats may be unavailable for sub-county geos, and percentages
+    // can mislead. Surface this prominently.
+    var typeA = String(entryA.type || '').toLowerCase();
+    var typeB = String(entryB.type || '').toLowerCase();
+    var typesMatch = (typeA === typeB);
+    if (!typesMatch && typeA && typeB) {
+      var labelA = (typeA === 'place' ? 'city' : typeA);
+      var labelB = (typeB === 'place' ? 'city' : typeB);
+      html += '<div role="note" class="hca-cp-scope-warning" style="margin-bottom:.75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.78rem;line-height:1.45;color:var(--text);">' +
+        '<strong style="color:var(--warn,#d97706);">⚠ Mixed-scope comparison.</strong> ' +
+        'You\u2019re comparing a ' + labelA + ' to a ' + labelB + '. ACS values are at different population scales; labor stats may be unavailable for sub-county geographies; percentage metrics can be misleading across scopes. ' +
+        'Use the absolute counts and treat the comparison as directional.' +
+      '</div>';
+    }
+
+    // Names row — scope badges next to each name
+    var noteA = _scopeNote(entryA.type);
+    var noteB = _scopeNote(entryB.type);
     html += '<div class="hca-cp-names">' +
       '<div class="hca-cp-names__label"></div>' +
-      '<div class="hca-cp-names__a">' + entryA.name +
+      '<div class="hca-cp-names__a">' + entryA.name + _scopeBadge(entryA.type) +
         '<div class="hca-cp-rank">#' + entryA.rank + ' of ' + total + ' · ' + entryA.percentileRank + 'th pctile</div>' +
+        (noteA ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteA + '</div>' : '') +
       '</div>' +
       '<div class="hca-cp-names__vs">vs</div>' +
-      '<div class="hca-cp-names__b">' + entryB.name +
+      '<div class="hca-cp-names__b">' + entryB.name + _scopeBadge(entryB.type) +
         '<div class="hca-cp-rank">#' + entryB.rank + ' of ' + total + ' · ' + entryB.percentileRank + 'th pctile</div>' +
+        (noteB ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteB + '</div>' : '') +
       '</div>' +
     '</div>';
 
@@ -1018,6 +1062,9 @@
     swap: function () { var t = _compA; _compA = _compB; _compB = t; _persist(); _renderSetupBar(); _updateRowHighlights(); _dispatchUpdate(); },
     reset: function () { _compA = null; _compB = null; _persist(); _renderSetupBar(); _updateRowHighlights(); _dispatchUpdate(); },
     getState: function () { return { a: _compA, b: _compB, countyFilter: _countyFilter }; },
+    /* Exposed for testing — pure functions, no DOM access */
+    _scopeBadge: _scopeBadge,
+    _scopeNote:  _scopeNote
   };
 
   // Auto-init after DOMContentLoaded
