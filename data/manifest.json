@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-26T04:10:38.617051Z",
+  "generated": "2026-04-26T07:59:16.113461Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 881996
+      "bytes": 1008599
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4474,7 +4474,7 @@
     "data/market/transit_routes_co.geojson": {
       "featureCount": 587,
       "placeholder": false,
-      "bytes": 70524705
+      "bytes": 70524673
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -4539,7 +4539,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20225
+      "bytes": 20249
     },
     "data/provenance/deal-calculator.json": {
       "featureCount": 0,
