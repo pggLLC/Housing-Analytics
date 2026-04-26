@@ -338,22 +338,90 @@
   }
 
 
+  /**
+   * Map a Colorado geography (place / CDP / county / state) to its
+   * containing 5-digit county FIPS.
+   *
+   * Lookup order:
+   *   1. county type → return the geoid itself
+   *   2. state type  → return null (no single containing county)
+   *   3. window.__HNA_GEO_CONFIG (fast in-memory path for featured geos)
+   *   4. window.__HNA_GEOGRAPHY_REGISTRY (full 513-entry place/CDP map,
+   *      loaded once from data/hna/geography-registry.json on first use)
+   *   5. Otherwise return null — never fabricate a containing county.
+   *
+   * Previously, this function defaulted to '08077' (Mesa County) for any
+   * place/CDP not present in the small `__HNA_GEO_CONFIG` lists. That
+   * was the source of the "Fruita/Boulder anomaly" — Boulder city
+   * (0807850) wasn't in the config, so the comparison panel would silently
+   * pull MESA County data and label it as Boulder. Now: missing entries
+   * return null, callers fall back to state-level data or show a
+   * "county unknown" message.
+   */
   function countyFromGeoid(geoType, geoid){
     if (geoType === 'county') return geoid;
-    // State-level selection has no single county context.
-    if (geoType === 'state') return null;
-    // Check all config arrays (featured, places, cdps) for a containingCounty mapping.
+    if (geoType === 'state')  return null;
+
+    // Fast path: HNA_GEO_CONFIG (featured/places/cdps in-memory)
     const conf = window.__HNA_GEO_CONFIG;
-    const allEntries = [
-      ...(conf?.featured || []),
-      ...(conf?.places   || []),
-      ...(conf?.cdps     || []),
-    ];
-    const match = allEntries.find(x => x.geoid === geoid);
-    if (match?.containingCounty) return match.containingCounty;
-    // For non-featured places/CDPs default to the first county
-    // (caller will get data from the Census API for the specific place)
-    return '08077';
+    if (conf) {
+      const allEntries = [
+        ...(conf.featured || []),
+        ...(conf.places   || []),
+        ...(conf.cdps     || []),
+      ];
+      const match = allEntries.find(x => x.geoid === geoid);
+      if (match?.containingCounty) return match.containingCounty;
+    }
+
+    // Canonical path: full geography registry (covers all 513 CO places/CDPs)
+    const registry = window.__HNA_GEOGRAPHY_REGISTRY;
+    if (registry && Array.isArray(registry.geographies)) {
+      const reg = registry.geographies.find(g => g.geoid === geoid);
+      if (reg?.containingCounty) return reg.containingCounty;
+    }
+
+    // Genuinely unknown — return null rather than fabricating Mesa County.
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('[HNAUtils] countyFromGeoid: no containing county for geoid', geoid,
+        '(type=' + geoType + '). Comparison panels will fall back to state-level data.');
+    }
+    return null;
+  }
+
+  /**
+   * Lazily load `data/hna/geography-registry.json` and cache it on
+   * `window.__HNA_GEOGRAPHY_REGISTRY`. Idempotent. Returns the registry
+   * object on success, or null if loading failed (e.g. file missing).
+   *
+   * Callers should `await ensureGeographyRegistry()` before relying on
+   * `countyFromGeoid` for non-featured places.
+   */
+  let _registryLoadPromise = null;
+  function ensureGeographyRegistry(){
+    if (window.__HNA_GEOGRAPHY_REGISTRY) {
+      return Promise.resolve(window.__HNA_GEOGRAPHY_REGISTRY);
+    }
+    if (_registryLoadPromise) return _registryLoadPromise;
+    const path = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/hna/geography-registry.json')
+      : 'data/hna/geography-registry.json';
+    _registryLoadPromise = fetch(path)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && Array.isArray(data.geographies)) {
+          window.__HNA_GEOGRAPHY_REGISTRY = data;
+          return data;
+        }
+        return null;
+      })
+      .catch(err => {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn('[HNAUtils] geography-registry.json load failed:', err && err.message);
+        }
+        return null;
+      });
+    return _registryLoadPromise;
   }
 
 
@@ -1006,6 +1074,7 @@
     lihtcSourceInfo,
     lihtcPopupHtml,
     countyFromGeoid,
+    ensureGeographyRegistry,
     censusKey,
     lihtcFallbackForCounty,
     isSmallGeography,
