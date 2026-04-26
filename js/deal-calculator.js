@@ -29,6 +29,91 @@
   }
 
   // -------------------------------------------------------------------
+  // Peer-deals filter (pure function, testable)
+  //
+  // Filters HUD LIHTC database features (716 CO projects) to the most
+  // useful peer set for a banker/syndicator sanity-checking a proforma:
+  //   1. Same county (CNTY_FIPS match)
+  //   2. Same credit type ('9%' or '4%')
+  //   3. Sort by recency (most recent placed-in-service first), then
+  //      by size proximity to the proposed unit count
+  //   4. Take top N (default 5)
+  //
+  // Returns an empty array when no county is selected or no matches.
+  // Never returns synthesized records.
+  //
+  // Notes:
+  //   - HUD LIHTC DB does NOT publish per-project TDC, so peer comps
+  //     here are units / year / QCT-DDA / non-profit flags only. AMI
+  //     targeting comes from the optional NHPD lookup when available.
+  //   - The filter normalises CREDIT field variants ("9%", "9 %", "9").
+  // -------------------------------------------------------------------
+  function findPeerDeals(opts) {
+    opts = opts || {};
+    var features      = Array.isArray(opts.features) ? opts.features : [];
+    var countyFips    = opts.countyFips ? String(opts.countyFips).padStart(5, '0') : null;
+    var creditTypeRaw = opts.creditType || null;
+    var proposedUnits = +opts.proposedUnits || 0;
+    var limit         = +opts.limit || 5;
+
+    if (!countyFips || features.length === 0) return [];
+
+    function _normCredit(s) {
+      if (!s) return null;
+      var t = String(s).replace(/\s+/g, '').replace('%', '').trim();
+      // "9" or "9pct" → "9%"
+      if (/^9/.test(t)) return '9%';
+      if (/^4/.test(t)) return '4%';
+      return null;
+    }
+    var creditNorm = _normCredit(creditTypeRaw);
+
+    var filtered = features.filter(function (f) {
+      var p = (f && f.properties) ? f.properties : f;
+      if (!p) return false;
+      var fips = String(p.CNTY_FIPS || p.cnty_fips || '').padStart(5, '0');
+      if (fips !== countyFips) return false;
+      if (creditNorm) {
+        var fCredit = _normCredit(p.CREDIT || p.CREDIT_PCT || p.creditType);
+        if (fCredit && fCredit !== creditNorm) return false;
+      }
+      return true;
+    });
+
+    filtered.sort(function (a, b) {
+      var pa = (a && a.properties) ? a.properties : a;
+      var pb = (b && b.properties) ? b.properties : b;
+      var yA = parseInt(pa.YR_PIS || pa.YEAR_PIS || pa.YR_ALLOC || pa.YEAR_ALLOC || 0, 10) || 0;
+      var yB = parseInt(pb.YR_PIS || pb.YEAR_PIS || pb.YR_ALLOC || pb.YEAR_ALLOC || 0, 10) || 0;
+      if (yA !== yB) return yB - yA; // most recent first
+      if (proposedUnits > 0) {
+        var uA = parseInt(pa.N_UNITS || pa.LI_UNITS || pa.TOTAL_UNITS || 0, 10) || 0;
+        var uB = parseInt(pb.N_UNITS || pb.LI_UNITS || pb.TOTAL_UNITS || 0, 10) || 0;
+        return Math.abs(uA - proposedUnits) - Math.abs(uB - proposedUnits);
+      }
+      return 0;
+    });
+
+    return filtered.slice(0, limit).map(function (f) {
+      var p = (f && f.properties) ? f.properties : f;
+      return {
+        name:       p.PROJECT_NAME || p.PROJECT || p.projectName || 'Unknown',
+        city:       p.CITY || p.PROJ_CTY || p.city || '',
+        county:     p.CNTY_NAME || p.cnty_name || '',
+        countyFips: String(p.CNTY_FIPS || '').padStart(5, '0'),
+        units:      parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
+        liUnits:    parseInt(p.LI_UNITS || 0, 10) || 0,
+        creditType: _normCredit(p.CREDIT || p.CREDIT_PCT) || '—',
+        yearPis:    parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10) || null,
+        yearAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
+        isQct:      p.QCT === '1' || p.QCT === 1 || p.isQct === true,
+        isDda:      p.DDA === '1' || p.DDA === 1 || p.isDda === true,
+        isNonProf:  p.NON_PROF === '1' || p.NON_PROF === 1 || p.NON_PROF === '2' || p.NON_PROF === 2
+      };
+    });
+  }
+
+  // -------------------------------------------------------------------
   // DSCR stress-scenario math (pure function, testable)
   //
   // Given the same inputs auto-NOI uses (rents, vacancy, opex, reserves,
@@ -546,6 +631,35 @@
           ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
           and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
           additional credit enhancement, a lower DCR sizing target, or a smaller loan.
+        </p>
+      </fieldset>
+
+      <!-- Peer Deals — comparable LIHTC projects in same county + credit type -->
+      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Peer Deals <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(real comparable CO LIHTC projects)</span></legend>
+        <p id="dc-peers-intro" style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
+          Top 5 LIHTC projects in the selected county with the same credit type, sorted by recency then by size proximity to your proposed unit count.
+          Source: HUD LIHTC Database (716 CO projects).
+        </p>
+        <table id="dc-peers-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <thead>
+            <tr>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Project</th>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">City</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Year PIS</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Units</th>
+              <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Flags</th>
+            </tr>
+          </thead>
+          <tbody id="dc-peers-body">
+            <tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see peer deals.</td></tr>
+          </tbody>
+        </table>
+        <p id="dc-peers-empty" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
+        <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
+          ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, year placed in service, total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
+          Source:
+          <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a>.
         </p>
       </fieldset>
 
@@ -1077,6 +1191,69 @@
       });
     }
 
+    // ── Render Peer Deals table ────────────────────────────────────
+    // Pulls comparable LIHTC projects from window.HudLihtc (loaded
+    // lazily on first county selection) and renders the top 5 by
+    // recency + size proximity. No fabricated data — empty state if
+    // nothing matches.
+    var peersBody  = document.getElementById('dc-peers-body');
+    var peersEmpty = document.getElementById('dc-peers-empty');
+    var creditFor4 = document.getElementById('dc-rate-4');
+    var creditTypeForPeers = (creditFor4 && creditFor4.checked) ? '4%' : '9%';
+    var hudLihtc = window.HudLihtc;
+    var lihtcFeats = (hudLihtc && hudLihtc.isLoaded && hudLihtc.isLoaded() && hudLihtc.getFeatures)
+      ? hudLihtc.getFeatures() : [];
+
+    if (peersBody) {
+      if (!_countyFips) {
+        peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see peer deals.</td></tr>';
+        if (peersEmpty) peersEmpty.style.display = 'none';
+      } else if (lihtcFeats.length === 0) {
+        peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Loading LIHTC project database…</td></tr>';
+        if (peersEmpty) peersEmpty.style.display = 'none';
+        // Trigger a load once if we haven't tried yet
+        if (hudLihtc && hudLihtc.load && !window.__dcPeerLoadTried) {
+          window.__dcPeerLoadTried = true;
+          hudLihtc.load().then(function () { recalculate(); }).catch(function () {});
+        }
+      } else {
+        var peers = findPeerDeals({
+          features:      lihtcFeats,
+          countyFips:    _countyFips,
+          creditType:    creditTypeForPeers,
+          proposedUnits: units,
+          limit:         5
+        });
+        if (peers.length === 0) {
+          peersBody.innerHTML = '';
+          if (peersEmpty) {
+            peersEmpty.style.display = '';
+            peersEmpty.textContent = 'No comparable LIHTC projects found in this county for ' + creditTypeForPeers + ' credits. Try the other credit type, or look at county-adjacent comps in the Historical Trends page.';
+          }
+        } else {
+          if (peersEmpty) peersEmpty.style.display = 'none';
+          peersBody.innerHTML = peers.map(function (p) {
+            var flags = [];
+            if (p.isQct)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--good-dim,#d1fae5);color:var(--good,#047857);margin-right:3px;" title="Qualified Census Tract">QCT</span>');
+            if (p.isDda)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--info-dim,#dbeafe);color:var(--info,#2563eb);margin-right:3px;" title="Difficult Development Area">DDA</span>');
+            if (p.isNonProf) flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-right:3px;" title="Non-profit sponsor">NP</span>');
+            // Highlight size match
+            var sizeProximity = units > 0 ? Math.abs(p.units - units) : null;
+            var unitColor = (sizeProximity !== null && sizeProximity <= Math.max(10, units * 0.2)) ? 'var(--good,#047857)' : 'var(--text)';
+            return '<tr style="border-bottom:1px solid var(--border);">' +
+              '<td style="padding:0.3rem 0.25rem;font-weight:600;">' + p.name +
+                (p.creditType !== '—' ? ' <span style="font-size:var(--tiny);color:var(--muted);font-weight:400;">' + p.creditType + '</span>' : '') +
+              '</td>' +
+              '<td style="padding:0.3rem 0.25rem;color:var(--muted);font-size:var(--tiny);">' + (p.city || '—') + '</td>' +
+              '<td style="text-align:right;padding:0.3rem 0.25rem;">' + (p.yearPis || p.yearAlloc || '—') + '</td>' +
+              '<td style="text-align:right;padding:0.3rem 0.25rem;font-weight:600;color:' + unitColor + ';">' + (p.units || '—') + '</td>' +
+              '<td style="padding:0.3rem 0.25rem;">' + (flags.join('') || '<span style="color:var(--muted);font-size:var(--tiny);">—</span>') + '</td>' +
+            '</tr>';
+          }).join('');
+        }
+      }
+    }
+
     // Update property tax display (only visible in auto-NOI mode)
     var showPropTax = (netPropTax != null);
     var showTaxSavings = (showPropTax && taxSavings > 0);
@@ -1337,6 +1514,15 @@
     if (!mount) return;
     render(mount);
 
+    // Eagerly trigger the HUD LIHTC dataset load so the Peer Deals panel
+    // has data ready when the user picks a county. Non-blocking; fails
+    // silently — the panel handles the absent-data state gracefully.
+    if (window.HudLihtc && typeof window.HudLihtc.load === 'function' && !window.HudLihtc.isLoaded()) {
+      window.HudLihtc.load().then(function () {
+        if (typeof recalculate === 'function') recalculate();
+      }).catch(function () { /* peer deals panel handles empty case */ });
+    }
+
     // Wire up county selector
     var countySel = document.getElementById('dc-county-select');
     if (countySel) {
@@ -1473,8 +1659,9 @@
     init: init,
     recalculate: recalculate,
     setDesignationContext: setDesignationContext,
-    /* Exposed for testing — pure function, no DOM access */
-    computeDscrStressScenarios: computeDscrStressScenarios
+    /* Exposed for testing — pure functions, no DOM access */
+    computeDscrStressScenarios: computeDscrStressScenarios,
+    findPeerDeals:              findPeerDeals
   };
 
   if (document.readyState === 'loading') {
