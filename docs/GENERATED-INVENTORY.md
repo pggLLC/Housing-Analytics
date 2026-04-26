@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T22:23:41.415Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T23:18:02.691Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 19.8 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 69.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 30.0 KB |
@@ -953,7 +953,7 @@
 
 ## Test Files
 
-95 test files found.
+96 test files found.
 
 | File | Size |
 |------|------|
@@ -974,6 +974,7 @@
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
+| `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
