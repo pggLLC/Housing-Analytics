@@ -302,7 +302,7 @@
         'Scores and factor averages are modelled from a public-sources sample of CHFA award announcements ' +
         '(<code style="font-size:.72rem;">data/policy/chfa-awards-historical.json</code>, see <code style="font-size:.72rem;">meta.note</code>). ' +
         'Use for directional calibration only — verify specifics against ' +
-        '<a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA\u2019s current award history</a> ' +
+        '<a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA\u2019s current award history</a> ' +
         'before citing in an application.' +
       '</div>' +
       '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .75rem;">' +

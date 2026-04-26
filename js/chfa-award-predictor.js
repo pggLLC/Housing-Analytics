@@ -13,7 +13,7 @@
  *   UI surfaces that consume this predictor (see qap-competitiveness-panel.js
  *   and lihtc-concept-card-renderer.js) render a visible banner above any
  *   predicted score. Verify specific figures against CHFA's current award
- *   history before citing them: https://www.chfainfo.com/developers/rental-housing-and-funding
+ *   history before citing them: https://www.chfainfo.com/rental-housing/housing-credit
  *
  * Non-goals:
  *   - Does NOT predict the actual CHFA score (CHFA is the sole arbiter)

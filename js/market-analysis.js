@@ -784,7 +784,7 @@
     // Per-dimension verify hints — surfaced below each bar when real data is present.
     // Links point to the authoritative source users should cross-check.
     var dimVerify = {
-      captureRisk:     '⚠ Verify: ratio only — <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA market analysis</a> requires income-qualified demand study',
+      captureRisk:     '⚠ Verify: ratio only — <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA market analysis</a> requires income-qualified demand study',
       rentPressure:    '⚠ Verify: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR</a> (lags ~18 mo) · spot-check vs. current market rents',
       marketTightness: '⚠ Verify: ACS 5-yr vacancy (lags ~18 mo) · does not reflect buildable-land constraints'
     };
