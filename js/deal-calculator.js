@@ -464,7 +464,7 @@
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Supportable mortgage is a planning-level estimate based on your DCR, rate, and term inputs —
           actual lender underwriting differs.
-          <a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA</a>
+          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA</a>
           and conventional lenders apply independent DCR, LTV, and debt-service reserve requirements.
         </p>
       </fieldset>

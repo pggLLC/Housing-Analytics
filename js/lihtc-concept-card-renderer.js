@@ -303,7 +303,7 @@
           'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.72rem;line-height:1.45;color:var(--text);">' +
           '<strong style="color:var(--warn,#d97706);">⚠ Synthesized sample data.</strong> ' +
           'Modelled from public CHFA announcements — directional only. Verify at ' +
-          '<a href="https://www.chfainfo.com/developers/rental-housing-and-funding" target="_blank" rel="noopener">CHFA award history</a>.' +
+          '<a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA award history</a>.' +
         '</p>';
       sections.push([
         '<details class="lihtc-cc-constraint">',

@@ -29,14 +29,37 @@ const ALLOW_LIST = new Set([
   "https://overpass-api.de/api/interpreter", // POST-only API
   // Known sources that frequently block CI user-agents.
   "https://www.novoco.com",
+  "https://www.novoco.com/",
   "https://www.novoco.com/resource-centers/affordable-housing-tax-credits",
+  "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/2026-federal-lihtc-information-by-state",
+  "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool",
+  "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-basics",
+  "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rankings",
   "https://www.ncsha.org",
+  "https://www.ncsha.org/",
+  "https://www.ncsha.org/advocacy-issues/lihtc/",
   "https://www.congress.gov/",
+  "https://www.congress.gov/bill/118th-congress/house-bill/6644",
   "https://www.cbre.com/insights",
   "https://www.ffiec.gov/craadweb/main.aspx",
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
+  "https://cdola.colorado.gov/prop-123",
+  "https://cdola.colorado.gov/proposition-123",
+  "https://cdola.colorado.gov/division-of-housing",
+  // BLS blocks CI user-agents across all subpaths (returns 403).
+  "https://www.bls.gov/cew/",
+  "https://www.bls.gov/ppi/",
+  "https://www.bls.gov/ppi",
+  "https://www.bls.gov/cps",
+  "https://www.bls.gov/jlt",
+  "https://www.bls.gov/lau/",
+  "https://www.bls.gov/data/",
+  // Colorado Division of Local Government — blocks CI agents.
+  "https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance",
+  // GitHub settings URLs require authentication and are not publicly reachable.
+  "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",
 ]);
 
 const SKIP_PATTERNS = [
