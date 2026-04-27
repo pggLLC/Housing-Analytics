@@ -17,6 +17,27 @@
   const CREDIT_YEARS = 10;
 
   // -------------------------------------------------------------------
+  // Tunable constants — shown in the Methodology & Formulas panel and
+  // editable by users (bankers/syndicators with non-standard underwriting
+  // boxes). Defaults mirror standard LIHTC industry practice; deviating
+  // is appropriate when, e.g., a particular bank or program uses a 28%
+  // rent burden, a -8% rent stress, or different combined-stress
+  // assumptions. All values are stored in their natural units:
+  //   rentBurdenPct, *StressPct       — fractional (0.30 = 30 %)
+  //   *StressPp                        — percentage points (0.05 = 5 pp)
+  // -------------------------------------------------------------------
+  var DEFAULT_CONSTANTS = {
+    rentBurdenPct:   0.30,   // HUD-standard share of income spent on rent
+    rentStressPct:   0.10,   // single-variable: -10% to gross rent
+    vacStressPp:     0.05,   // single-variable: +5 pp to vacancy
+    opexStressPct:   0.10,   // single-variable: +10% to operating expenses
+    combinedRentPct: 0.05,   // combined-scenario: -5% to gross rent
+    combinedVacPp:   0.03,   // combined-scenario: +3 pp to vacancy
+    combinedOpexPct: 0.05    // combined-scenario: +5% to operating expenses
+  };
+  var _constants = Object.assign({}, DEFAULT_CONSTANTS);
+
+  // -------------------------------------------------------------------
   // Mortgage constant helper
   // Annual mortgage constant for a fully-amortising loan.
   // -------------------------------------------------------------------
@@ -184,8 +205,9 @@
   // (e.g. zero debt service, zero rents). This is the function the
   // banker/syndicator table reads.
   // -------------------------------------------------------------------
-  function computeDscrStressScenarios(inputs) {
+  function computeDscrStressScenarios(inputs, constants) {
     if (!inputs) return null;
+    constants = constants || DEFAULT_CONSTANTS;
     var annualRents      = +inputs.annualRents || 0;
     var vacancyPct       = +inputs.vacancyPct  || 0;
     var annualOpex       = +inputs.annualOpex       || 0;
@@ -194,6 +216,13 @@
     var annualDebtService = +inputs.annualDebtService || 0;
     if (annualDebtService <= 0 || annualRents <= 0) return null;
 
+    var rentS = +constants.rentStressPct;
+    var vacS  = +constants.vacStressPp;
+    var opexS = +constants.opexStressPct;
+    var cR    = +constants.combinedRentPct;
+    var cV    = +constants.combinedVacPp;
+    var cO    = +constants.combinedOpexPct;
+
     function _noiFor(rentMult, vacDelta, opexMult) {
       var effVac = Math.min(1, Math.max(0, vacancyPct + vacDelta));
       var eff    = annualRents * rentMult * (1 - effVac);
@@ -201,32 +230,43 @@
     }
     var baseNoi = _noiFor(1.00, 0, 1.00);
     return {
-      base:     { noi: baseNoi,                    dscr: baseNoi / annualDebtService },
-      rent10:   { noi: _noiFor(0.90, 0,    1.00),  dscr: _noiFor(0.90, 0,    1.00) / annualDebtService },
-      vac5:     { noi: _noiFor(1.00, 0.05, 1.00),  dscr: _noiFor(1.00, 0.05, 1.00) / annualDebtService },
-      opex10:   { noi: _noiFor(1.00, 0,    1.10),  dscr: _noiFor(1.00, 0,    1.10) / annualDebtService },
-      combined: { noi: _noiFor(0.95, 0.03, 1.05),  dscr: _noiFor(0.95, 0.03, 1.05) / annualDebtService }
+      base:     { noi: baseNoi,                       dscr: baseNoi / annualDebtService },
+      rent10:   { noi: _noiFor(1 - rentS, 0,    1.00), dscr: _noiFor(1 - rentS, 0,    1.00) / annualDebtService },
+      vac5:     { noi: _noiFor(1.00,  vacS, 1.00),     dscr: _noiFor(1.00,  vacS, 1.00) / annualDebtService },
+      opex10:   { noi: _noiFor(1.00,  0,    1 + opexS),dscr: _noiFor(1.00,  0,    1 + opexS) / annualDebtService },
+      combined: { noi: _noiFor(1 - cR, cV,   1 + cO),  dscr: _noiFor(1 - cR, cV,   1 + cO) / annualDebtService }
     };
   }
 
   /**
    * Update _amiLimits from HudFmr for the given county FIPS.
-   * Falls back to the default Denver MSA values if data is unavailable.
+   *
+   * LIHTC rent ceiling formula:
+   *   monthly_rent_limit = (AMI_4person × tier_pct × rent_burden_pct) / 12
+   *
+   * The rent_burden_pct is a tunable constant (`_constants.rentBurdenPct`,
+   * default 0.30). When the user changes it via the Methodology &
+   * Formulas panel, the ceilings recompute and propagate to the deal.
+   *
+   * Computed locally rather than calling HudFmr.getGrossRentLimit so the
+   * burden % is honored — that helper has 0.30 hardcoded.
+   *
    * @param {string} fips  5-digit county FIPS, or null/'' for default.
    */
   function updateAmiLimitsFromFmr(fips) {
     var hudFmr = window.HudFmr;
     if (!fips || !hudFmr || !hudFmr.isLoaded()) return;
+    var il = hudFmr.getIncomeLimitsByFips(fips);
+    if (!il || !il.ami_4person) return;
+    var burden = +_constants.rentBurdenPct;
+    if (!isFinite(burden) || burden <= 0) burden = DEFAULT_CONSTANTS.rentBurdenPct;
+    var ami4 = +il.ami_4person;
     var computed = {};
     [30, 40, 50, 60].forEach(function (pct) {
-      var limit = hudFmr.getGrossRentLimit(fips, pct);
-      if (limit !== null && limit > 0) computed[pct] = limit;
+      computed[pct] = Math.round((ami4 * (pct / 100) * burden) / 12);
     });
-    // Only apply if all tiers are present
-    if (Object.keys(computed).length === 4) {
-      _amiLimits = computed;
-      _countyFips = fips;
-    }
+    _amiLimits = computed;
+    _countyFips = fips;
   }
 
   /**
@@ -559,6 +599,148 @@
 
     <!-- Outputs column -->
     <div>
+
+      <!-- Methodology & Formulas — collapsed by default. Shows every formula
+           the calculator uses with the current numbers substituted in, plus
+           inline-editable tunable constants for non-standard underwriting
+           boxes (e.g. a bank using 28 % rent burden, or a lender using
+           tighter stress percentages). -->
+      <details id="dc-formulas-panel" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);background:var(--bg2);">
+        <summary style="font-size:var(--small);font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:0.5rem;">
+          <span aria-hidden="true">▶</span>
+          Methodology &amp; Formulas
+          <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">— see every formula, override industry-standard constants</span>
+        </summary>
+        <div style="margin-top:var(--sp3);font-size:var(--small);line-height:1.6;">
+          <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
+            All numbers in the calculator are computed from the inputs above plus the constants below.
+            Constants in <strong>highlighted boxes</strong> are editable — change them when your bank or
+            program uses different underwriting standards. Click "Reset to defaults" to restore industry-standard values.
+          </p>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">1. LIHTC monthly rent ceiling (per AMI tier)</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              ceiling = AMI<sub>4-person</sub> × tier_pct × <span style="background:var(--warn-dim,#fef3c7);padding:0 0.15rem;">rent_burden</span> ÷ 12
+            </code>
+            <div style="margin-top:0.4rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+              <label style="font-size:var(--tiny);color:var(--muted);">rent_burden:</label>
+              <input id="dc-const-rent-burden" type="number" min="20" max="50" step="1" value="30"
+                style="width:5rem;padding:0.25rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);"> <span style="font-size:var(--tiny);color:var(--muted);">%</span>
+              <span id="dc-formula-ceiling-eg" style="font-size:var(--tiny);color:var(--muted);margin-left:auto;">—</span>
+            </div>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              HUD-standard 30 % share of income spent on rent. Some affordable programs (FHA 221(d)(4), select state HFAs) underwrite at 28 %; reducing pulls all LIHTC ceilings down proportionally.
+            </p>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">2. Annual gross rents</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              gross_rents = Σ<sub>tier ∈ {30,40,50,60}</sub> ( units_at_tier × ceiling<sub>tier</sub> × 12 )
+            </code>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              Sums the rent rolls for each AMI-tier checkbox you've enabled. Driven by the unit-mix inputs above.
+            </p>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">3. Stabilized NOI (auto-compute mode)</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              NOI = gross_rents × (1 − vacancy) − opex − rep_reserve − net_property_tax
+            </code>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              Standard pro forma. Vacancy, per-unit opex, replacement reserve, and property tax are all inputs above. In manual-NOI mode, you type a total and the breakdown is opaque.
+            </p>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">4. Supportable first mortgage</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              mortgage = (NOI ÷ DCR_target) ÷ mortgage_constant
+            </code>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              DCR target is an input above (default 1.20×; conservative lenders use 1.25×, aggressive 1.15×). Mortgage constant is derived from the rate and term inputs (annualised debt-service-per-dollar).
+            </p>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">5. DSCR + stress scenarios</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;margin-bottom:0.35rem;">
+              DSCR = NOI ÷ annual_debt_service
+            </code>
+            <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
+              stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
+            </div>
+            <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                Rent stress &minus;
+                <input id="dc-const-rent-stress" type="number" min="0" max="50" step="1" value="10"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">%
+              </label>
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                Vacancy stress +
+                <input id="dc-const-vac-stress" type="number" min="0" max="50" step="1" value="5"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">pp
+              </label>
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                OpEx stress +
+                <input id="dc-const-opex-stress" type="number" min="0" max="50" step="1" value="10"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">%
+              </label>
+            </div>
+            <div style="margin-top:0.4rem;font-size:var(--tiny);color:var(--muted);">Combined-stress (multi-variable) deltas:</div>
+            <div style="margin-top:0.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                Rent &minus;
+                <input id="dc-const-comb-rent" type="number" min="0" max="50" step="1" value="5"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">%
+              </label>
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                Vacancy +
+                <input id="dc-const-comb-vac" type="number" min="0" max="50" step="1" value="3"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">pp
+              </label>
+              <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+                OpEx +
+                <input id="dc-const-comb-opex" type="number" min="0" max="50" step="1" value="5"
+                  style="width:4rem;padding:0.2rem 0.35rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);">%
+              </label>
+            </div>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">6. LIHTC equity (10-year credit value)</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              equity = eligible_basis × credit_rate × 10 × equity_price
+            </code>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              Credit rate: 9 % (competitive) or ≈ 4 % (4-percent / PAB-backed). Equity price ($/credit) is an input — confirm with your syndicator. Standard amortization over 10 years.
+            </p>
+          </div>
+
+          <div style="margin-bottom:var(--sp3);">
+            <strong style="display:block;margin-bottom:0.25rem;">7. Sources &amp; Uses gap</strong>
+            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
+              gap = TDC − equity − supportable_mortgage − deferred_dev_fee − impact_fee_grant
+            </code>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
+              Whatever's left after equity, perm debt, deferred fee, and grants. Bridged by soft-funding, subordinate loans, or developer contribution.
+            </p>
+          </div>
+
+          <div style="display:flex;gap:0.5rem;margin-top:var(--sp3);">
+            <button type="button" id="dc-const-reset"
+              style="padding:0.4rem 1rem;font-size:var(--tiny);font-weight:600;background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;">
+              Reset all to industry defaults
+            </button>
+            <span id="dc-const-modified-flag" style="font-size:var(--tiny);color:var(--warn,#d97706);font-weight:600;align-self:center;display:none;">
+              ⚠ Custom underwriting constants in use — your numbers reflect non-standard assumptions.
+            </span>
+          </div>
+        </div>
+      </details>
+
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(screening-level)</span></legend>
         <dl id="dc-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
@@ -1024,7 +1206,73 @@
       });
     });
 
+    // Methodology & Formulas panel — wire constants inputs to _constants
+    // and recalculate. Each input edits one entry in _constants and
+    // forces a full recalc so every panel (LIHTC equity, NOI, DSCR,
+    // stress, rent achievability, gap) reflects the new assumption.
+    var _constMap = {
+      'dc-const-rent-burden': { key: 'rentBurdenPct',   factor: 0.01 },
+      'dc-const-rent-stress': { key: 'rentStressPct',   factor: 0.01 },
+      'dc-const-vac-stress':  { key: 'vacStressPp',     factor: 0.01 },
+      'dc-const-opex-stress': { key: 'opexStressPct',   factor: 0.01 },
+      'dc-const-comb-rent':   { key: 'combinedRentPct', factor: 0.01 },
+      'dc-const-comb-vac':    { key: 'combinedVacPp',   factor: 0.01 },
+      'dc-const-comb-opex':   { key: 'combinedOpexPct', factor: 0.01 }
+    };
+    Object.keys(_constMap).forEach(function (inputId) {
+      var el = document.getElementById(inputId);
+      if (!el) return;
+      el.addEventListener('input', function () {
+        var spec = _constMap[inputId];
+        var v = parseFloat(el.value);
+        if (isFinite(v) && v >= 0) {
+          _constants[spec.key] = v * spec.factor;
+        }
+        // If rent burden changes, recompute AMI ceilings before recalc
+        if (spec.key === 'rentBurdenPct' && _countyFips) {
+          updateAmiLimitsFromFmr(_countyFips);
+        }
+        _renderConstantModifiedFlag();
+        recalculate();
+      });
+    });
+    var resetBtn = document.getElementById('dc-const-reset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        _constants = Object.assign({}, DEFAULT_CONSTANTS);
+        // Restore default values to the input fields
+        var def = {
+          'dc-const-rent-burden': 30,
+          'dc-const-rent-stress': 10,
+          'dc-const-vac-stress':  5,
+          'dc-const-opex-stress': 10,
+          'dc-const-comb-rent':   5,
+          'dc-const-comb-vac':    3,
+          'dc-const-comb-opex':   5
+        };
+        Object.keys(def).forEach(function (id) {
+          var fEl = document.getElementById(id);
+          if (fEl) fEl.value = def[id];
+        });
+        if (_countyFips) updateAmiLimitsFromFmr(_countyFips);
+        _renderConstantModifiedFlag();
+        recalculate();
+      });
+    }
+
     recalculate();
+  }
+
+  // Show a "custom constants in use" warning when the user has overridden
+  // any default. Helps bankers avoid forgetting they're not on industry
+  // standard assumptions.
+  function _renderConstantModifiedFlag() {
+    var flag = document.getElementById('dc-const-modified-flag');
+    if (!flag) return;
+    var modified = Object.keys(DEFAULT_CONSTANTS).some(function (k) {
+      return Math.abs(_constants[k] - DEFAULT_CONSTANTS[k]) > 1e-9;
+    });
+    flag.style.display = modified ? '' : 'none';
   }
 
   // -------------------------------------------------------------------
@@ -1208,7 +1456,7 @@
         annualRepReserve: annualRepReserve || 0,
         netPropTax:       netPropTax       || 0,
         annualDebtService: annualDebtService
-      });
+      }, _constants);
     }
 
     // Sources & uses — deferred dev fee + impact-fee grant (if any) fill gap
@@ -1301,6 +1549,24 @@
         _setDscr('dc-r-stress-' + k + '-dscr', row.dscr);
         _setMargin('dc-r-stress-' + k + '-margin', row.dscr, dcr);
       });
+    }
+
+    // ── Render the live formula example (60% AMI ceiling) ──────────
+    // Surfaces "AMI 124,100 × 60% × 30% / 12 = $1,862" so the user
+    // can see what their rent-burden % choice produces at the most
+    // common LIHTC tier.
+    var ceilingEgEl = document.getElementById('dc-formula-ceiling-eg');
+    if (ceilingEgEl) {
+      var hudFmr2 = window.HudFmr;
+      var il = (hudFmr2 && _countyFips) ? hudFmr2.getIncomeLimitsByFips(_countyFips) : null;
+      if (il && il.ami_4person) {
+        var burdenPct = (_constants.rentBurdenPct * 100).toFixed(0);
+        var ceilingAt60 = Math.round((il.ami_4person * 0.60 * _constants.rentBurdenPct) / 12);
+        ceilingEgEl.textContent = '@ 60% AMI: $' + il.ami_4person.toLocaleString() +
+          ' × 60% × ' + burdenPct + '% ÷ 12 = ' + fmt(ceilingAt60) + '/mo';
+      } else {
+        ceilingEgEl.textContent = 'Select a county to see the live example';
+      }
     }
 
     // ── Render rent-achievability table ────────────────────────────
@@ -1835,7 +2101,16 @@
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     findPeerDeals:              findPeerDeals,
-    computeRentAchievability:   computeRentAchievability
+    computeRentAchievability:   computeRentAchievability,
+    DEFAULT_CONSTANTS:          DEFAULT_CONSTANTS,
+    /* Test helpers — mutate the live constants and read back */
+    _getConstants:              function () { return Object.assign({}, _constants); },
+    _setConstantsForTest:       function (overrides) {
+      Object.keys(overrides || {}).forEach(function (k) {
+        if (Object.prototype.hasOwnProperty.call(DEFAULT_CONSTANTS, k)) _constants[k] = overrides[k];
+      });
+    },
+    _resetConstantsForTest:     function () { _constants = Object.assign({}, DEFAULT_CONSTANTS); }
   };
 
   if (document.readyState === 'loading') {
