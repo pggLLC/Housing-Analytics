@@ -1575,14 +1575,59 @@
    * renderChasAffordabilityGap — render a stacked bar chart showing renter
    * cost burden by AMI tier from HUD CHAS data for the selected county.
    *
-   * @param {string} countyFips5 - 5-digit county FIPS (e.g. '08031') or null for statewide
-   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json, or null to skip
+   * HUD CHAS is published at county granularity. When the user selected a
+   * place or CDP, this chart shows their CONTAINING county's CHAS data —
+   * not place-level. The optional `selectedGeo` argument lets callers
+   * pass the user's actual selection so the renderer can surface a
+   * prominent "scaled from county" disclosure inline above the chart.
+   * Without this disclosure, a place/CDP user sees county data labeled
+   * with the county name and may not realize the proxy is happening.
+   *
+   * @param {string} countyFips5 - 5-digit county FIPS to look up
+   * @param {object|null} chasData - pre-loaded chas_affordability_gap.json
+   * @param {{type:string, geoid:string, name:string}} [selectedGeo] -
+   *   User's selected geography. If type is 'place' or 'cdp' and the
+   *   geoid differs from countyFips5, an inline proxy disclosure renders.
    */
 
-  function renderChasAffordabilityGap(countyFips5, chasData) {
+  function renderChasAffordabilityGap(countyFips5, chasData, selectedGeo) {
     const canvas = document.getElementById('chartChasGap');
     const statusEl = document.getElementById('chasGapStatus');
     if (!canvas) return;
+
+    // Render or clear the proxy-disclosure note above the chart. Mounts
+    // into a sibling div #chartChasGapProxyNote (created lazily so the
+    // page HTML doesn't need to change). Visible only when a sub-county
+    // geography is selected.
+    const _renderProxyNote = (countyName) => {
+      let noteEl = document.getElementById('chartChasGapProxyNote');
+      const isProxy = selectedGeo &&
+        (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') &&
+        selectedGeo.geoid && selectedGeo.geoid !== countyFips5;
+      if (!isProxy) {
+        if (noteEl) noteEl.remove();
+        return;
+      }
+      if (!noteEl) {
+        noteEl = document.createElement('div');
+        noteEl.id = 'chartChasGapProxyNote';
+        noteEl.setAttribute('role', 'note');
+        noteEl.style.cssText =
+          'margin:0 0 .5rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
+          'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.78rem;' +
+          'line-height:1.45;color:var(--text);';
+        const wrap = canvas.closest('.chart-card') || canvas.parentElement;
+        if (wrap) wrap.insertBefore(noteEl, wrap.firstChild.nextSibling);
+      }
+      const placeLabel = selectedGeo.name || 'this place';
+      noteEl.innerHTML =
+        '<strong style="color:var(--warn,#d97706);">⚠ Scaled from county data.</strong> ' +
+        'HUD CHAS publishes cost-burden tables at county granularity only. ' +
+        'You selected <strong>' + placeLabel + '</strong>; the chart below shows ' +
+        '<strong>' + countyName + '</strong>\u2019s tier breakdown — your selected ' +
+        'place\u2019s actual mix may differ. Use this for directional context, not ' +
+        'as a place-level estimate.';
+    };
 
     const t = chartTheme();
 
@@ -1593,6 +1638,9 @@
         box.style.cssText = 'display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;padding:1rem;min-height:160px';
       }
       if (statusEl) statusEl.textContent = msg || '';
+      // Clear any stale proxy note from a previous successful render
+      const stale = document.getElementById('chartChasGapProxyNote');
+      if (stale) stale.remove();
     };
 
     if (!chasData) { showPlaceholder(); return; }
@@ -1650,6 +1698,9 @@
         ? `Estimated from ACS data (actual CHAS ${vintage} figures load via weekly workflow)`
         : `HUD CHAS ${vintage} data · ${geoName}${corruptNote}`;
     }
+
+    // Render the proxy disclosure inline (no-op if user selected a county)
+    _renderProxyNote(geoName);
 
     const c = t.chartColors;
     makeChart(canvas.getContext('2d'), {
