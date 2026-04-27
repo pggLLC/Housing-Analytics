@@ -23,6 +23,36 @@ so users can explore the underlying data.
 Render a source badge string (safe HTML) showing the ACS year, table label,
 and a clickable [Source] link to data.census.gov.
 
+### `countyFromGeoid(geoType, geoid)`
+
+Map a Colorado geography (place / CDP / county / state) to its
+containing 5-digit county FIPS.
+
+Lookup order:
+  1. county type → return the geoid itself
+  2. state type  → return null (no single containing county)
+  3. window.__HNA_GEO_CONFIG (fast in-memory path for featured geos)
+  4. window.__HNA_GEOGRAPHY_REGISTRY (full 513-entry place/CDP map,
+     loaded once from data/hna/geography-registry.json on first use)
+  5. Otherwise return null — never fabricate a containing county.
+
+Previously, this function defaulted to '08077' (Mesa County) for any
+place/CDP not present in the small `__HNA_GEO_CONFIG` lists. That
+was the source of the "Fruita/Boulder anomaly" — Boulder city
+(0807850) wasn't in the config, so the comparison panel would silently
+pull MESA County data and label it as Boulder. Now: missing entries
+return null, callers fall back to state-level data or show a
+"county unknown" message.
+
+### `_registryLoadPromise`
+
+Lazily load `data/hna/geography-registry.json` and cache it on
+`window.__HNA_GEOGRAPHY_REGISTRY`. Idempotent. Returns the registry
+object on success, or null if loading failed (e.g. file missing).
+
+Callers should `await ensureGeographyRegistry()` before relying on
+`countyFromGeoid` for non-featured places.
+
 ### `calculateJobMetrics(lehd, profile)`
 
 Calculate high-level job metrics from LEHD data.
@@ -191,6 +221,7 @@ scenario over a custom year range.
     lihtcSourceInfo,
     lihtcPopupHtml,
     countyFromGeoid,
+    ensureGeographyRegistry,
     censusKey,
     lihtcFallbackForCounty,
     isSmallGeography,

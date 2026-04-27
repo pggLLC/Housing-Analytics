@@ -25,6 +25,17 @@ Exposes window.DataVintageBadge for imperative use.
 ### `renderBadge(target, info)`
 
 Render the badge into `target`. If `target` already has one, replace it.
+
+Uses DOM APIs (createElement + textContent + setAttribute) rather
+than innerHTML concatenation so attribute-derived fields (info.label,
+info.source, info.updated) cannot reach an HTML-parsing sink. CodeQL
+flagged the previous innerHTML path as js/xss-through-dom; current
+exploitation would require control of the data-vintage-label
+attribute or the source JSON file (neither a realistic vector in
+this repo today), but building nodes preemptively removes the
+pattern entirely — and stops the rule from flagging every future
+edit to this file.
+
 @param {HTMLElement} target
 @param {{ updated: string, sla: number, source: string, label: string }} info
 

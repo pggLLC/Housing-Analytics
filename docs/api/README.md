@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-04-22. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-04-27. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -25,7 +25,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`dark-mode-toggle.js`](./js__dark-mode-toggle.md) | dark-mode-toggle. | 8 |
 | [`data-freshness-monitor.js`](./js__data-freshness-monitor.md) | _no header_ | 3 |
 | [`data-freshness.js`](./js__data-freshness.md) | js/data-freshness. | 3 |
-| [`data-quality-check.js`](./js__data-quality-check.md) | js/data-quality-check. | 5 |
+| [`data-quality-check.js`](./js__data-quality-check.md) | js/data-quality-check. | 6 |
 | [`data-quality-monitor.js`](./js__data-quality-monitor.md) | js/data-quality-monitor. | 7 |
 | [`data-review-hub.js`](./js__data-review-hub.md) | _no header_ | 1 |
 | [`data-service-portable.js`](./js__data-service-portable.md) | js/data-service-portable. | 31 |
@@ -42,6 +42,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`geo-search.js`](./js__geo-search.md) | geo-search. | 0 |
 | [`glossary.js`](./js__glossary.md) | glossary. | 0 |
 | [`help-modal.js`](./js__help-modal.md) | help-modal. | 0 |
+| [`historical-trends.js`](./js__historical-trends.md) | js/historical-trends. | 0 |
 | [`hna-export.js`](./js__hna-export.md) | _no header_ | 9 |
 | [`housing-data-integration.js`](./js__housing-data-integration.md) | housing-data-integration. | 8 |
 | [`housing-need-projector.js`](./js__housing-need-projector.md) | housing-need-projector. | 10 |
@@ -53,12 +54,12 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`legislative-tracker.js`](./js__legislative-tracker.md) | js/legislative-tracker. | 6 |
 | [`lihtc-concept-card-renderer.js`](./js__lihtc-concept-card-renderer.md) | js/lihtc-concept-card-renderer. | 6 |
 | [`lihtc-deal-predictor-enhanced.js`](./js__lihtc-deal-predictor-enhanced.md) | js/lihtc-deal-predictor-enhanced. | 9 |
-| [`lihtc-deal-predictor.js`](./js__lihtc-deal-predictor.md) | js/lihtc-deal-predictor. | 5 |
+| [`lihtc-deal-predictor.js`](./js__lihtc-deal-predictor.md) | js/lihtc-deal-predictor. | 6 |
 | [`map-error-handler.js`](./js__map-error-handler.md) | map-error-handler. | 0 |
 | [`map-overlay.js`](./js__map-overlay.md) | map-overlay. | 0 |
 | [`market-analysis-cache-fix.js`](./js__market-analysis-cache-fix.md) | js/market-analysis-cache-fix. | 13 |
 | [`market-analysis-enhancements.js`](./js__market-analysis-enhancements.md) | js/market-analysis-enhancements. | 4 |
-| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 9 |
+| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 11 |
 | [`market-data-quality.js`](./js__market-data-quality.md) | js/market-data-quality. | 0 |
 | [`market-intelligence.js`](./js__market-intelligence.md) | js/market-intelligence. | 0 |
 | [`mobile-menu.js`](./js__mobile-menu.md) | mobile-menu. | 1 |
@@ -68,7 +69,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 10 |
 | [`pma-commuting.js`](./js__pma-commuting.md) | js/pma-commuting. | 7 |
-| [`pma-competitive-set.js`](./js__pma-competitive-set.md) | js/pma-competitive-set. | 5 |
+| [`pma-competitive-set.js`](./js__pma-competitive-set.md) | js/pma-competitive-set. | 6 |
 | [`pma-confidence.js`](./js__pma-confidence.md) | js/pma-confidence. | 7 |
 | [`pma-delineation.js`](./js__pma-delineation.md) | js/pma-delineation. | 7 |
 | [`pma-employment-centers.js`](./js__pma-employment-centers.md) | js/pma-employment-centers. | 5 |
@@ -133,7 +134,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`page-context.js`](./js__components__page-context.md) | js/components/page-context. | 1 |
 | [`qap-competitiveness-panel.js`](./js__components__qap-competitiveness-panel.md) | js/components/qap-competitiveness-panel. | 0 |
 | [`soft-funding-breakdown.js`](./js__components__soft-funding-breakdown.md) | js/components/soft-funding-breakdown. | 0 |
-| [`source-badge.js`](./js__components__source-badge.md) | js/components/source-badge. | 4 |
+| [`source-badge.js`](./js__components__source-badge.md) | js/components/source-badge. | 5 |
 | [`tornado-sensitivity.js`](./js__components__tornado-sensitivity.md) | js/components/tornado-sensitivity. | 0 |
 | [`workflow-next-action.js`](./js__components__workflow-next-action.md) | workflow-next-action. | 0 |
 | [`workflow-progress.js`](./js__components__workflow-progress.md) | workflow-progress. | 0 |
@@ -180,7 +181,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
 | [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 26 |
-| [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 14 |
+| [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 16 |
 
 ## `js/market-analysis/`
 
@@ -217,6 +218,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`fetch-county-demographics.js`](./scripts__fetch-county-demographics.md) | scripts/fetch-county-demographics. | 1 |
 | [`fetch-zillow.js`](./scripts__fetch-zillow.md) | _no header_ | 5 |
 | [`generate-api-docs.mjs`](./scripts__generate-api-docs.md) | _no header_ | 5 |
+| [`generate-test-coverage.mjs`](./scripts__generate-test-coverage.md) | _no header_ | 1 |
 | [`normalize-dda.js`](./scripts__normalize-dda.md) | _no header_ | 2 |
 | [`refresh-data-pipeline.js`](./scripts__refresh-data-pipeline.md) | _no header_ | 3 |
 | [`split-lihtc-by-county.js`](./scripts__split-lihtc-by-county.md) | _no header_ | 1 |
@@ -235,7 +237,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | _no header_ | 1 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |
 | [`site-audit.mjs`](./scripts__audit__site-audit.md) | site-audit. | 2 |
-| [`source-url-sweep.mjs`](./scripts__audit__source-url-sweep.md) | _no header_ | 3 |
 
 ## `scripts/contrast-audit/`
 

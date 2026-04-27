@@ -1,6 +1,6 @@
 # Test coverage report
 
-_Auto-generated 2026-04-22 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
+_Auto-generated 2026-04-27 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
 
 This is an **assertion-count** report, not line-coverage. Pattern-matched counts of `assert()`, `assert.X()`, `expect()`, `self.assert*()`, and bare pytest `assert` statements. Deliberate choice — a c8/nyc lift comes later once the test density justifies the instrumentation cost (see #655).
 
@@ -8,9 +8,9 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 
 | Runtime | Test files | Assertions |
 |---|---:|---:|
-| JavaScript (`test/`) | 47 | 2344 |
+| JavaScript (`test/`) | 55 | 2584 |
 | Python (`tests/`)   | 12 | 350 |
-| **Total** | **59** | **2694** |
+| **Total** | **67** | **2934** |
 
 ## JavaScript — per file
 
@@ -19,21 +19,22 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/integration/housing-needs-assessment.test.js` | `housing-needs-assessment` | 644 | 201 |
 | `test/acs-etl.test.js` | `acs-etl` | 522 | 136 |
 | `test/integration/analytics.test.js` | `analytics` | 334 | 111 |
-| `test/integration/compliance-dashboard.test.js` | `compliance-dashboard` | 240 | 108 |
+| `test/integration/compliance-dashboard.test.js` | `compliance-dashboard` | 243 | 110 |
 | `test/compliance-checklist.test.js` | `compliance-checklist` | 537 | 102 |
 | `test/prop123-historical.test.js` | `prop123-historical` | 390 | 96 |
 | `test/integration/economic-indicators.test.js` | `economic-indicators` | 232 | 91 |
 | `test/analytics.test.js` | `analytics` | 401 | 84 |
 | `test/integration/projections.test.js` | `projections` | 358 | 79 |
 | `test/chfa-pma-checklist.test.js` | `chfa-pma-checklist` | 421 | 78 |
+| `test/unit/site-selection-score.test.js` | `site-selection-score` | 512 | 75 |
 | `test/preservation.test.js` | `preservation` | 406 | 67 |
 | `test/prop123.test.js` | `prop123` | 331 | 66 |
 | `test/unit/pma-employment-centers.test.js` | `pma-employment-centers` | 331 | 56 |
 | `test/unit/scenario-storage.test.js` | `scenario-storage` | 292 | 54 |
-| `test/unit/site-selection-score.test.js` | `site-selection-score` | 425 | 53 |
 | `test/acs-integration.test.js` | `acs-integration` | 417 | 52 |
 | `test/soft-funding-tracker.test.js` | `soft-funding-tracker` | 445 | 52 |
 | `test/integration/hna-ranking.test.js` | `hna-ranking` | 273 | 51 |
+| `test/unit/pma-competitive-set.test.js` | `pma-competitive-set` | 188 | 49 |
 | `test/lihtc-deal-predictor.test.js` | `lihtc-deal-predictor` | 323 | 46 |
 | `test/query-builder.test.js` | `query-builder` | 338 | 46 |
 | `test/pma-confidence.test.js` | `pma-confidence` | 189 | 44 |
@@ -44,23 +45,30 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/unit/fema-flood.test.js` | `fema-flood` | 374 | 36 |
 | `test/co-lihtc-map.test.js` | `co-lihtc-map` | 177 | 34 |
 | `test/pma-transit.test.js` | `pma-transit` | 285 | 32 |
+| `test/dc-constants.test.js` | `dc-constants` | 156 | 30 |
+| `test/dc-peer-deals.test.js` | `dc-peer-deals` | 189 | 30 |
 | `test/co-historical-allocations.test.js` | `co-historical-allocations` | 256 | 29 |
+| `test/dc-rent-achievability.test.js` | `dc-rent-achievability` | 146 | 29 |
 | `test/pma-competitive-set.test.js` | `pma-competitive-set` | 292 | 29 |
 | `test/unit/pma-commuting.test.js` | `pma-commuting` | 106 | 29 |
+| `test/data-freshness-v2.test.js` | `data-freshness-v2` | 114 | 28 |
 | `test/hna-ranking-index.test.js` | `hna-ranking-index` | 462 | 28 |
 | `test/qap-simulator.test.js` | `qap-simulator` | 205 | 28 |
 | `test/unit/pma-infrastructure.test.js` | `pma-infrastructure` | 106 | 28 |
-| `test/unit/pma-competitive-set.test.js` | `pma-competitive-set` | 117 | 26 |
+| `test/hna-scope-badges.test.js` | `hna-scope-badges` | 137 | 27 |
 | `test/website-monitor.test.js` | `website-monitor` | 187 | 26 |
 | `test/unit/pma-opportunities.test.js` | `pma-opportunities` | 113 | 25 |
 | `test/pro-forma.test.js` | `pro-forma` | 205 | 24 |
 | `test/unit/pma-barriers.test.js` | `pma-barriers` | 89 | 24 |
 | `test/unit/pma-schools.test.js` | `pma-schools` | 91 | 24 |
+| `test/dc-dscr-stress.test.js` | `dc-dscr-stress` | 162 | 23 |
 | `test/unit/pma-transit.test.js` | `pma-transit` | 91 | 22 |
 | `test/caching.test.js` | `caching` | 221 | 21 |
 | `test/integration/market-analysis.test.js` | `market-analysis` | 130 | 20 |
 | `test/data-quality-check.test.js` | `data-quality-check` | 215 | 16 |
+| `test/hna-jurisdiction-normalization.test.js` | `hna-jurisdiction-normalization` | 162 | 15 |
 | `test/tigerweb-timeout.test.js` | `tigerweb-timeout` | 146 | 14 |
+| `test/census-dashboard-scope.test.js` | `census-dashboard-scope` | 54 | 11 |
 | `test/hud-egis.test.js` | `hud-egis` | 508 | 0 |
 | `test/smoke-fmr.test.js` | `smoke-fmr` | 297 | 0 |
 
