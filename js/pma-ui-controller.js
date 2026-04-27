@@ -457,6 +457,45 @@
       }
     }
 
+    // Absorption / capture risk — was previously computed by the PMA
+    // runner (results.absorptionRisk) but never rendered. Surfacing it
+    // here so a banker can see whether the proposed unit count vs the
+    // existing competitive set raises a saturation flag.
+    var absorption = scoreRun.absorptionRisk || null;
+    var absWrap = $id('pmaAbsorptionRiskWrap');
+    var absBody = $id('pmaAbsorptionRiskBody');
+    if (absWrap && absBody) {
+      if (absorption && typeof absorption.captureRate === 'number') {
+        var risk = String(absorption.risk || 'unknown');
+        var riskColor = risk === 'low'      ? 'var(--good,#047857)'
+                      : risk === 'moderate' ? 'var(--warn,#d97706)'
+                      : risk === 'high'     ? 'var(--bad,#dc2626)'
+                      :                       'var(--muted,#888)';
+        var riskLabel = risk.charAt(0).toUpperCase() + risk.slice(1);
+        var captureRatePct = (absorption.captureRate * 100).toFixed(1);
+        var compUnits = absorption.totalCompetitiveUnits || 0;
+        var compCount = absorption.competitivePropertyCount || 0;
+        var propUnits = absorption.proposedUnits || 0;
+        absBody.innerHTML =
+          '<div><strong style="color:' + riskColor + ';">' + _esc(riskLabel) + '</strong> ' +
+            '— capture rate: <strong>' + captureRatePct + '%</strong> ' +
+            '(' + propUnits + ' proposed / ' + (compUnits + propUnits) + ' total).' +
+          '</div>' +
+          '<div style="font-size:.92em;color:var(--muted,#888);margin-top:.25rem;">' +
+            'Based on ' + compCount + ' nearby competitive ' +
+            (compCount === 1 ? 'property' : 'properties') + ' totaling ' + compUnits + ' units. ' +
+            (risk === 'high'
+               ? 'High capture rate suggests the proposed deal may struggle to lease at proforma absorption rates.'
+            : risk === 'moderate'
+               ? 'Moderate capture — verify lease-up assumptions vs comparable lease-up timelines.'
+            :  'Low capture — proposed unit count is well-absorbed by the local market.') +
+          '</div>';
+        absWrap.hidden = false;
+      } else {
+        absWrap.hidden = true;
+      }
+    }
+
     // Incentive eligibility badges
     var badgeWrap = $id('pmaIncentiveBadges');
     if (badgeWrap) {
