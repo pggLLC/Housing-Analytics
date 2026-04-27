@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-26T23:19:51.983Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-27T01:32:14.305Z. Do not edit by hand.
 
 ---
 
@@ -953,7 +953,7 @@
 
 ## Test Files
 
-98 test files found.
+100 test files found.
 
 | File | Size |
 |------|------|
@@ -973,8 +973,10 @@
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
+| `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
+| `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/hna-functionality-check.js` | 52.6 KB |
