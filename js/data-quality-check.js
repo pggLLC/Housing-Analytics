@@ -18,7 +18,27 @@
 (function (global) {
   "use strict";
 
-  /** Datasets validated by default on every page. */
+  /**
+   * Datasets validated by default on every page.
+   *
+   * Each dataset config now carries Data Freshness v2 metadata so the
+   * dashboard's per-dataset health card can answer:
+   *   - What's the upstream source? (sourceUrl)
+   *   - How is the file kept current? (ingestWorkflow)
+   *   - What does the data cover? (coverageLabel)
+   *   - When does it become stale? (staleThresholdMs)
+   *   - When does it become aging? (agingThresholdMs)
+   *
+   * Stale thresholds are tuned per-dataset because cadences differ:
+   *   - FRED data updates ~weekly (stale after 7 days)
+   *   - CHAS data updates annually (stale after ~14 months)
+   *   - LODES data updates annually (stale after ~14 months)
+   *   - HUD LIHTC DB updates annually (stale after ~14 months)
+   */
+  var DAY  = 24 * 60 * 60 * 1000;
+  var WEEK = 7 * DAY;
+  var YEAR = 365 * DAY;
+
   var DEFAULT_DATASETS = [
     {
       key: "county-boundaries",
@@ -26,6 +46,12 @@
       path: "data/co-county-boundaries.json",
       minFeatures: 60, // at least 60 of 64 CO counties
       critical: true,
+      sourceUrl: "https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html",
+      sourceLabel: "U.S. Census TIGER/Line",
+      ingestWorkflow: "fetch-county-boundaries",
+      coverageLabel: "All 64 Colorado counties",
+      agingThresholdMs: 6 * 30 * DAY,    // 6 months → aging
+      staleThresholdMs: 12 * 30 * DAY,   // 12 months → stale (annual TIGER refresh)
     },
     {
       key: "chfa-lihtc",
@@ -33,6 +59,12 @@
       path: "data/chfa-lihtc.json",
       minFeatures: 1,
       critical: true,
+      sourceUrl: "https://www.chfainfo.com/rental-housing/housing-credit",
+      sourceLabel: "CHFA ArcGIS FeatureServer",
+      ingestWorkflow: "fetch-chfa-lihtc",
+      coverageLabel: "716 placed-in-service CO LIHTC projects",
+      agingThresholdMs: 14 * DAY,       // 2 weeks → aging (CI fetches weekly)
+      staleThresholdMs: 60 * DAY,       // 60 days → stale
     },
     {
       key: "fred-data",
@@ -40,6 +72,12 @@
       path: "data/fred-data.json",
       validate: _validateFred,
       critical: false,
+      sourceUrl: "https://fred.stlouisfed.org",
+      sourceLabel: "Federal Reserve Bank of St. Louis (FRED)",
+      ingestWorkflow: "fetch-fred-data",
+      coverageLabel: "5 economic series (mortgage rates, treasuries, CPI)",
+      agingThresholdMs: 7 * DAY,         // 7 days → aging (FRED updates weekly)
+      staleThresholdMs: 30 * DAY,        // 30 days → stale
     },
     {
       key: "ami-gap",
@@ -48,13 +86,39 @@
       minFeatures: 0, // object-based file; custom check below
       validate: _validateAmiGap,
       critical: false,
+      sourceUrl: "https://www.huduser.gov/portal/datasets/cp.html",
+      sourceLabel: "HUD CHAS + ACS 5-year",
+      ingestWorkflow: "fetch-chas-data",
+      coverageLabel: "All 64 CO counties × 5 AMI tiers",
+      agingThresholdMs: 6 * 30 * DAY,    // 6 months → aging
+      staleThresholdMs: 14 * 30 * DAY,   // 14 months → stale (annual ACS / CHAS cadence)
     },
   ];
 
-  /** Relative age thresholds for freshness badges (ms). */
+  /** Cache-age thresholds for the in-browser "last fetched" badge (ms). */
   var AGE_FRESH = 2 * 60 * 60 * 1000; //  2 hours  → ✅ fresh
   var AGE_RECENT = 48 * 60 * 60 * 1000; // 48 hours  → ⚠️ recent but aging
   // Older than 48 h → ⚠️ stale
+
+  /**
+   * Compute the freshness state for a dataset given the data's age and
+   * the per-dataset thresholds. Returns one of:
+   *   'fresh'    — within the aging threshold (or thresholds not configured)
+   *   'aging'    — past aging threshold, before stale threshold
+   *   'stale'    — past stale threshold
+   *   'unknown'  — dataAgeMs is null (no timestamp in the file)
+   *
+   * Pure function, exported for testing.
+   */
+  function freshnessState(dataAgeMs, cfg) {
+    if (dataAgeMs == null || !isFinite(dataAgeMs)) return "unknown";
+    if (!cfg) return "fresh";
+    var aging = +cfg.agingThresholdMs;
+    var stale = +cfg.staleThresholdMs;
+    if (isFinite(stale) && stale > 0 && dataAgeMs >= stale) return "stale";
+    if (isFinite(aging) && aging > 0 && dataAgeMs >= aging) return "aging";
+    return "fresh";
+  }
 
   // ── Public API ──────────────────────────────────────────────────────────────
 
@@ -224,6 +288,7 @@
   function _makeReport(cfg, ok, featureCount, cacheAge, errorMsg, data) {
     var dataAsOf = _extractDataTimestamp(data);
     var dataAgeMs = dataAsOf ? Date.now() - dataAsOf.getTime() : null;
+    var freshness = freshnessState(dataAgeMs, cfg);
     return {
       key: cfg.key,
       label: cfg.label,
@@ -235,6 +300,17 @@
       cacheAge: cacheAge,
       dataAsOf: dataAsOf ? dataAsOf.toISOString() : null,
       dataAgeMs: dataAgeMs,
+      // ── Data Freshness v2 metadata, surfaced per-dataset on the
+      //    dashboard health cards (data-status.html). All optional.
+      freshness:        freshness,                       // 'fresh' | 'aging' | 'stale' | 'unknown'
+      sourceUrl:        cfg.sourceUrl     || null,
+      sourceLabel:      cfg.sourceLabel   || null,
+      ingestWorkflow:   cfg.ingestWorkflow || null,
+      coverageLabel:    cfg.coverageLabel || null,
+      stalenessThresholds: {
+        agingMs: cfg.agingThresholdMs || null,
+        staleMs: cfg.staleThresholdMs || null,
+      },
     };
   }
 
@@ -380,5 +456,7 @@
     runAll: runAll,
     validate: validate,
     renderBadge: renderBadge,
+    /* Exposed for testing — pure function, no I/O */
+    freshnessState: freshnessState,
   };
 })(window);
