@@ -25,6 +25,17 @@
       .replace(/'/g, '&#39;');
   }
 
+  /**
+   * safeUrl — returns the URL if it uses an http(s) scheme; otherwise returns '#'.
+   * Prevents javascript: and data: URL injection in href attributes.
+   * @param {string} url
+   * @returns {string}
+   */
+  function safeUrl(url) {
+    if (!url) return '#';
+    return /^https?:\/\//i.test(url) ? url : '#';
+  }
+
   // ---------------------------------------------------------------------------
   // Chart theme / core utilities
   // ---------------------------------------------------------------------------
@@ -677,7 +688,7 @@
     }).join('');
 
     panelEl.innerHTML =
-      `<p class="lihtc-source">Source: ${escHtml(S().lihtcDataSource)} · ${escHtml(visible.length)} project(s) in view</p>` +
+      `<p class="lihtc-source">Source: ${escHtml(S().lihtcDataSource)} · ${visible.length} project(s) in view</p>` +
       `<ul class="lihtc-list">${listHtml}</ul>`;
   }
 
@@ -767,10 +778,10 @@
 
     const U = window.HNAUtils;
 
-    // Source URL helpers
-    const lihtcDbUrl  = U.SOURCES.lihtcDb;
-    const hudQctUrl   = U.SOURCES.hudQct;
-    const hudDdaUrl   = U.SOURCES.hudDda;
+    // Source URL helpers (validate scheme before embedding in href)
+    const lihtcDbUrl  = escHtml(safeUrl(U.SOURCES.lihtcDb));
+    const hudQctUrl   = escHtml(safeUrl(U.SOURCES.hudQct));
+    const hudDdaUrl   = escHtml(safeUrl(U.SOURCES.hudDda));
 
     els.methodology.innerHTML = `
       <section class="method-section">
@@ -882,8 +893,9 @@
     if (r.housingPlans && Array.isArray(r.housingPlans) && r.housingPlans.length > 0) {
       html += '<section class="lr-section"><h4>Housing plans &amp; assessments</h4><ul class="lr-list">';
       for (const plan of r.housingPlans) {
-        const href = plan.url ? ` href="${escHtml(plan.url)}" target="_blank" rel="noopener noreferrer"` : '';
-        const tag  = plan.url ? 'a' : 'span';
+        const validUrl = plan.url && safeUrl(plan.url) !== '#' ? plan.url : null;
+        const href = validUrl ? ` href="${escHtml(validUrl)}" target="_blank" rel="noopener noreferrer"` : '';
+        const tag  = validUrl ? 'a' : 'span';
         html += `<li class="lr-item">
           <${tag}${href} class="lr-plan-name">${escHtml(plan.name)}</${tag}>
           ${plan.type ? `<span class="lr-plan-type">${escHtml(plan.type)}</span>` : ''}
@@ -897,8 +909,9 @@
     if (r.contacts && Array.isArray(r.contacts) && r.contacts.length > 0) {
       html += '<section class="lr-section"><h4>Key contacts</h4><ul class="lr-list">';
       for (const x of r.contacts) {
-        const href = x.url ? ` href="${escHtml(x.url)}" target="_blank" rel="noopener noreferrer"` : '';
-        const tag  = x.url ? 'a' : 'span';
+        const validUrl = x.url && safeUrl(x.url) !== '#' ? x.url : null;
+        const href = validUrl ? ` href="${escHtml(validUrl)}" target="_blank" rel="noopener noreferrer"` : '';
+        const tag  = validUrl ? 'a' : 'span';
         html += `<li class="lr-item">
           <${tag}${href} class="lr-contact-name">${escHtml(x.name)}</${tag}>
           ${x.title       ? `<span class="lr-contact-title">${escHtml(x.title)}</span>` : ''}
