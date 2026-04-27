@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-26T07:57:07.649624Z",
+  "updated": "2026-04-27T08:43:42.743003Z",
   "source": "Polymarket Gamma API",
   "event_count": 15,
   "events": {
@@ -10,7 +10,7 @@
         {
           "question": "US recession by end of 2026?",
           "outcomePrices": "[\"0.255\", \"0.745\"]",
-          "volume": "1393115.854513999",
+          "volume": "1393686.5119429997",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -22,25 +22,25 @@
         {
           "question": "50+ bps decrease",
           "outcomePrices": "[\"0.0005\", \"0.9995\"]",
-          "volume": "55715312.49200026",
+          "volume": "57513381.82200027",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps decrease",
-          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
-          "volume": "33389128.338535015",
+          "outcomePrices": "[\"0.0005\", \"0.9995\"]",
+          "volume": "37227396.00953498",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "No change",
-          "outcomePrices": "[\"0.9975\", \"0.0025\"]",
-          "volume": "37221157.154092185",
+          "outcomePrices": "[\"0.9985\", \"0.0015\"]",
+          "volume": "45253087.88422621",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25+ bps increase",
-          "outcomePrices": "[\"0.0015\", \"0.9985\"]",
-          "volume": "38525330.32629932",
+          "outcomePrices": "[\"0.0005\", \"0.9995\"]",
+          "volume": "45707841.275299326",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -51,80 +51,80 @@
       "markets": [
         {
           "question": "0 (0 bps)",
-          "outcomePrices": "[\"0.3955\", \"0.6045\"]",
-          "volume": "3475759.7916610176",
+          "outcomePrices": "[\"0.4095\", \"0.5905\"]",
+          "volume": "3503341.072175018",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1 (25 bps)",
           "outcomePrices": "[\"0.285\", \"0.715\"]",
-          "volume": "1099750.633862005",
+          "volume": "1102027.6069730048",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "2 (50 bps)",
-          "outcomePrices": "[\"0.155\", \"0.845\"]",
-          "volume": "1064816.6347499967",
+          "outcomePrices": "[\"0.165\", \"0.835\"]",
+          "volume": "1071134.6302929965",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "3 (75 bps)",
           "outcomePrices": "[\"0.075\", \"0.925\"]",
-          "volume": "976908.0676630007",
+          "volume": "978506.5035620006",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4 (100 bps)",
           "outcomePrices": "[\"0.042\", \"0.958\"]",
-          "volume": "1028915.1928300008",
+          "volume": "1038454.3588820011",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "5 (125 bps)",
-          "outcomePrices": "[\"0.011\", \"0.989\"]",
-          "volume": "1161346.9342569974",
+          "outcomePrices": "[\"0.0125\", \"0.9875\"]",
+          "volume": "1175210.5189889984",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "6 (150 bps)",
           "outcomePrices": "[\"0.006\", \"0.994\"]",
-          "volume": "2191912.947966991",
+          "volume": "2209956.62690899",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "7 (175 bps)",
           "outcomePrices": "[\"0.0035\", \"0.9965\"]",
-          "volume": "977711.997563999",
+          "volume": "978983.840560999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "8 (200 bps)",
           "outcomePrices": "[\"0.0035\", \"0.9965\"]",
-          "volume": "1321821.6871340037",
+          "volume": "1327710.2334580033",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "9 (225 bps)",
-          "outcomePrices": "[\"0.0025\", \"0.9975\"]",
-          "volume": "1426804.227497",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "1468435.8086450016",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "10 (250 bps)",
-          "outcomePrices": "[\"0.0025\", \"0.9975\"]",
-          "volume": "1887004.6586490022",
+          "outcomePrices": "[\"0.0035\", \"0.9965\"]",
+          "volume": "1922577.9024630028",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "11 (275 bps)",
           "outcomePrices": "[\"0.0025\", \"0.9975\"]",
-          "volume": "2385125.3190840506",
+          "volume": "2408586.7740840535",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "12+ (300+ bps)",
           "outcomePrices": "[\"0.0075\", \"0.9925\"]",
-          "volume": "1913147.0483340102",
+          "volume": "1918280.6697540106",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -135,20 +135,20 @@
       "markets": [
         {
           "question": "Above 4%",
-          "outcomePrices": "[\"0.405\", \"0.595\"]",
-          "volume": "147632.3497619998",
+          "outcomePrices": "[\"0.485\", \"0.515\"]",
+          "volume": "150703.5699109998",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "Above 10%",
           "outcomePrices": "[\"0.0435\", \"0.9565\"]",
-          "volume": "31080.733410000008",
+          "volume": "31336.983410000008",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "Above 5%",
-          "outcomePrices": "[\"0.185\", \"0.815\"]",
-          "volume": "80592.80029699995",
+          "outcomePrices": "[\"0.19\", \"0.81\"]",
+          "volume": "81744.70979699994",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
@@ -160,19 +160,19 @@
         {
           "question": "Above 8%",
           "outcomePrices": "[\"0.0715\", \"0.9285\"]",
-          "volume": "34303.420962",
+          "volume": "34306.69096199999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "Above 6%",
-          "outcomePrices": "[\"0.135\", \"0.865\"]",
-          "volume": "29334.39094300001",
+          "outcomePrices": "[\"0.14\", \"0.86\"]",
+          "volume": "29614.61808400001",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "Above 3.5%",
           "outcomePrices": "[\"0.905\", \"0.095\"]",
-          "volume": "136155.53453699977",
+          "volume": "136176.63343699978",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -189,7 +189,7 @@
         },
         {
           "question": "1.0\u20131.5%",
-          "outcomePrices": "[\"0.08\", \"0.92\"]",
+          "outcomePrices": "[\"0.0785\", \"0.9215\"]",
           "volume": "1500.1713040000002",
           "outcomes": "[\"Yes\", \"No\"]"
         },
@@ -207,13 +207,13 @@
         },
         {
           "question": "1.5\u20132.0%",
-          "outcomePrices": "[\"0.108\", \"0.892\"]",
+          "outcomePrices": "[\"0.103\", \"0.897\"]",
           "volume": "1317.253277",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": ">2.5%",
-          "outcomePrices": "[\"0.515\", \"0.485\"]",
+          "outcomePrices": "[\"0.5\", \"0.5\"]",
           "volume": "3961.0522919999994",
           "outcomes": "[\"Yes\", \"No\"]"
         }
@@ -225,49 +225,49 @@
       "markets": [
         {
           "question": "<429k",
-          "outcomePrices": "[\"0.075\", \"0.925\"]",
+          "outcomePrices": "[\"0.08\", \"0.92\"]",
           "volume": "1185.167631",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "435 - 437k",
-          "outcomePrices": "[\"0.215\", \"0.785\"]",
+          "outcomePrices": "[\"0.17\", \"0.83\"]",
           "volume": "270.00000000000006",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "429 - 431k",
-          "outcomePrices": "[\"0.115\", \"0.885\"]",
+          "outcomePrices": "[\"0.13\", \"0.87\"]",
           "volume": "473",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "437 - 439k",
-          "outcomePrices": "[\"0.095\", \"0.905\"]",
+          "outcomePrices": "[\"0.09\", \"0.91\"]",
           "volume": "0",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "433 - 435k",
-          "outcomePrices": "[\"0.445\", \"0.555\"]",
+          "outcomePrices": "[\"0.555\", \"0.445\"]",
           "volume": "606.0655159999999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": ">441k",
-          "outcomePrices": "[\"0.04\", \"0.96\"]",
+          "outcomePrices": "[\"0.06\", \"0.94\"]",
           "volume": "90.02",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "431 - 433k",
-          "outcomePrices": "[\"0.165\", \"0.835\"]",
+          "outcomePrices": "[\"0.19\", \"0.81\"]",
           "volume": "123.83",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "439 - 441k",
-          "outcomePrices": "[\"0.06\", \"0.94\"]",
+          "outcomePrices": "[\"0.055\", \"0.945\"]",
           "volume": "5.36",
           "outcomes": "[\"Yes\", \"No\"]"
         }
@@ -279,44 +279,44 @@
       "markets": [
         {
           "question": "<1.17m",
-          "outcomePrices": "[\"0.11\", \"0.89\"]",
-          "volume": "558.1199999999999",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "695.6941649999999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.18 - 1.19m",
-          "outcomePrices": "[\"0.45\", \"0.55\"]",
-          "volume": "1115.8458050000002",
+          "outcomePrices": "[\"0.76\", \"0.24\"]",
+          "volume": "1376.231187",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.2 - 1.21m",
-          "outcomePrices": "[\"0.0495\", \"0.9505\"]",
-          "volume": "1310.70526",
+          "outcomePrices": "[\"0.0235\", \"0.9765\"]",
+          "volume": "1448.26526",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": ">1.22m",
           "outcomePrices": "[\"0.055\", \"0.945\"]",
-          "volume": "264.78",
+          "volume": "402.34",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.17 - 1.18m",
-          "outcomePrices": "[\"0.315\", \"0.685\"]",
-          "volume": "1724.005895",
+          "outcomePrices": "[\"0.105\", \"0.895\"]",
+          "volume": "1861.855895",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.19 - 1.2m",
-          "outcomePrices": "[\"0.0355\", \"0.9645\"]",
-          "volume": "2662.7300000000005",
+          "outcomePrices": "[\"0.0345\", \"0.9655\"]",
+          "volume": "2832.2915000000007",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.21 - 1.22m",
-          "outcomePrices": "[\"0.05\", \"0.95\"]",
-          "volume": "19.03",
+          "outcomePrices": "[\"0.06\", \"0.94\"]",
+          "volume": "187.96",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -327,56 +327,56 @@
       "markets": [
         {
           "question": "\u22643.9%",
-          "outcomePrices": "[\"0.0175\", \"0.9825\"]",
+          "outcomePrices": "[\"0.015\", \"0.985\"]",
           "volume": "2583.723443",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.1%",
-          "outcomePrices": "[\"0.066\", \"0.934\"]",
-          "volume": "1737.0147229999998",
+          "outcomePrices": "[\"0.065\", \"0.935\"]",
+          "volume": "1757.0147229999998",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.3%",
-          "outcomePrices": "[\"0.335\", \"0.665\"]",
-          "volume": "2183.7228720000003",
+          "outcomePrices": "[\"0.325\", \"0.675\"]",
+          "volume": "2305.6628720000003",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.5%",
           "outcomePrices": "[\"0.095\", \"0.905\"]",
-          "volume": "1145.1092489999994",
+          "volume": "1232.1092489999994",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "\u22654.7%",
-          "outcomePrices": "[\"0.0205\", \"0.9795\"]",
-          "volume": "3675.335937",
+          "outcomePrices": "[\"0.033\", \"0.967\"]",
+          "volume": "4457.500053",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.0%",
-          "outcomePrices": "[\"0.04\", \"0.96\"]",
-          "volume": "2648.4588070000004",
+          "outcomePrices": "[\"0.034\", \"0.966\"]",
+          "volume": "2681.7988070000006",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.2%",
-          "outcomePrices": "[\"0.21\", \"0.79\"]",
-          "volume": "2241.102646",
+          "outcomePrices": "[\"0.225\", \"0.775\"]",
+          "volume": "2313.1526459999995",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.4%",
-          "outcomePrices": "[\"0.195\", \"0.805\"]",
-          "volume": "5708.750444999999",
+          "outcomePrices": "[\"0.235\", \"0.765\"]",
+          "volume": "5917.600444999998",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "4.6%",
-          "outcomePrices": "[\"0.0415\", \"0.9585\"]",
-          "volume": "1387.2777139999994",
+          "outcomePrices": "[\"0.036\", \"0.964\"]",
+          "volume": "1666.1377139999993",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -387,32 +387,32 @@
       "markets": [
         {
           "question": "25 bps decrease",
-          "outcomePrices": "[\"0.0555\", \"0.9445\"]",
-          "volume": "1525222.5731459998",
+          "outcomePrices": "[\"0.0435\", \"0.9565\"]",
+          "volume": "1574517.7344439987",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps increase",
-          "outcomePrices": "[\"0.0155\", \"0.9845\"]",
-          "volume": "1972811.7218700014",
+          "outcomePrices": "[\"0.0165\", \"0.9835\"]",
+          "volume": "1989182.870960001",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps decrease",
-          "outcomePrices": "[\"0.0075\", \"0.9925\"]",
-          "volume": "2786560.063941022",
+          "outcomePrices": "[\"0.0085\", \"0.9915\"]",
+          "volume": "2854038.2582190223",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "No change",
-          "outcomePrices": "[\"0.925\", \"0.075\"]",
-          "volume": "1976180.9845620082",
+          "outcomePrices": "[\"0.935\", \"0.065\"]",
+          "volume": "2001024.3933080076",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps increase",
           "outcomePrices": "[\"0.0035\", \"0.9965\"]",
-          "volume": "2249296.298632992",
+          "volume": "2264202.131284992",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -423,50 +423,50 @@
       "markets": [
         {
           "question": "<336k",
-          "outcomePrices": "[\"0.065\", \"0.935\"]",
-          "volume": "1370.412675",
+          "outcomePrices": "[\"0.305\", \"0.695\"]",
+          "volume": "1483.357456",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "338 - 340k",
-          "outcomePrices": "[\"0.245\", \"0.755\"]",
-          "volume": "192.5",
+          "outcomePrices": "[\"0.46\", \"0.54\"]",
+          "volume": "349.2",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "342 - 344k",
-          "outcomePrices": "[\"0.0925\", \"0.9075\"]",
-          "volume": "150.07999999999998",
+          "outcomePrices": "[\"0.051\", \"0.949\"]",
+          "volume": "220.08994199999998",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "346 - 348k",
-          "outcomePrices": "[\"0.044\", \"0.956\"]",
-          "volume": "89.5",
+          "outcomePrices": "[\"0.029\", \"0.971\"]",
+          "volume": "396.5",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "336 - 338k",
           "outcomePrices": "[\"0.14\", \"0.86\"]",
-          "volume": "82.819133",
+          "volume": "167.002465",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "340 - 342k",
-          "outcomePrices": "[\"0.38\", \"0.62\"]",
-          "volume": "160.132856",
+          "outcomePrices": "[\"0.39\", \"0.61\"]",
+          "volume": "297.512856",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "344 - 346k",
-          "outcomePrices": "[\"0.0475\", \"0.9525\"]",
-          "volume": "77.5",
+          "outcomePrices": "[\"0.027\", \"0.973\"]",
+          "volume": "152.5",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": ">348k",
-          "outcomePrices": "[\"0.0315\", \"0.9685\"]",
-          "volume": "121.2",
+          "outcomePrices": "[\"0.026\", \"0.974\"]",
+          "volume": "191.2",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -477,8 +477,8 @@
       "markets": [
         {
           "question": "Tech Layoffs Up or Down in 20\u200b26?",
-          "outcomePrices": "[\"0.88\", \"0.12\"]",
-          "volume": "24113.620362",
+          "outcomePrices": "[\"0.855\", \"0.145\"]",
+          "volume": "24138.508334000002",
           "outcomes": "[\"Up\", \"Down\"]"
         }
       ]
@@ -490,31 +490,31 @@
         {
           "question": "No change",
           "outcomePrices": "[\"0.845\", \"0.155\"]",
-          "volume": "232686.58497700034",
+          "volume": "247897.08334300027",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps increase",
-          "outcomePrices": "[\"0.0335\", \"0.9665\"]",
-          "volume": "3074484.654908014",
+          "outcomePrices": "[\"0.0295\", \"0.9705\"]",
+          "volume": "3083315.9712870144",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps decrease",
-          "outcomePrices": "[\"0.0235\", \"0.9765\"]",
-          "volume": "212974.90411999996",
+          "outcomePrices": "[\"0.0215\", \"0.9785\"]",
+          "volume": "223532.48659799996",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "50+ bps increase",
           "outcomePrices": "[\"0.0085\", \"0.9915\"]",
-          "volume": "250567.7548470002",
+          "volume": "257894.6434300002",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "25 bps decrease",
-          "outcomePrices": "[\"0.095\", \"0.905\"]",
-          "volume": "153161.39968399992",
+          "outcomePrices": "[\"0.105\", \"0.895\"]",
+          "volume": "165388.7611219999",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -525,8 +525,8 @@
       "markets": [
         {
           "question": "Negative GDP growth in 2026?",
-          "outcomePrices": "[\"0.0615\", \"0.9385\"]",
-          "volume": "21571.737266999986",
+          "outcomePrices": "[\"0.061\", \"0.939\"]",
+          "volume": "21909.291572999988",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
@@ -537,44 +537,44 @@
       "markets": [
         {
           "question": "<1.0%",
-          "outcomePrices": "[\"0.076\", \"0.924\"]",
-          "volume": "40210.89033600005",
+          "outcomePrices": "[\"0.0755\", \"0.9245\"]",
+          "volume": "40752.788606000046",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.5\u20132.0%",
-          "outcomePrices": "[\"0.266\", \"0.734\"]",
-          "volume": "38826.35627",
+          "outcomePrices": "[\"0.2075\", \"0.7925\"]",
+          "volume": "39891.205268000005",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "2.5\u20133.0%",
-          "outcomePrices": "[\"0.147\", \"0.853\"]",
-          "volume": "34531.94088299999",
+          "outcomePrices": "[\"0.181\", \"0.819\"]",
+          "volume": "34943.05039399999",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "\u22653.5%",
-          "outcomePrices": "[\"0.06\", \"0.94\"]",
-          "volume": "86300.070611",
+          "outcomePrices": "[\"0.0785\", \"0.9215\"]",
+          "volume": "87782.003104",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "1.0\u20131.5%",
-          "outcomePrices": "[\"0.1375\", \"0.8625\"]",
-          "volume": "15643.538930000002",
+          "outcomePrices": "[\"0.153\", \"0.847\"]",
+          "volume": "16334.302214000003",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "2.0\u20132.5%",
-          "outcomePrices": "[\"0.214\", \"0.786\"]",
-          "volume": "52341.40554099998",
+          "outcomePrices": "[\"0.244\", \"0.756\"]",
+          "volume": "52805.822720999975",
           "outcomes": "[\"Yes\", \"No\"]"
         },
         {
           "question": "3.0\u20133.5%",
-          "outcomePrices": "[\"0.119\", \"0.881\"]",
-          "volume": "102702.35838800008",
+          "outcomePrices": "[\"0.0855\", \"0.9145\"]",
+          "volume": "104816.57456500003",
           "outcomes": "[\"Yes\", \"No\"]"
         }
       ]
