@@ -91,13 +91,32 @@
   /**
    * Score the housing demand signal from ACS tract metrics.
    *
-   * Drivers:
-   *   cost_burden_rate – higher burden → higher demand pressure (0–50 pts)
-   *   renter_share     – higher renter concentration → higher need  (0–30 pts)
-   *   poverty_rate     – higher poverty → deeper affordability gap   (0–20 pts)
+   * The market-analysis controller aggregates an extra signal — the
+   * **severe** cost-burden rate (renters paying ≥50 % of income on
+   * rent). It's a strict subset of the regular cost-burden rate, but
+   * it's a much more specific market-stress signal: severely burdened
+   * renters are at-risk for displacement and represent the deepest
+   * affordability gap. When that field is present in the input,
+   * scoreDemand uses 4 sub-factors. When it's absent (older callers
+   * or test fixtures), scoreDemand falls back to the original
+   * 3-factor weighting so historical scores don't shift.
+   *
+   * 4-factor weights (when severe_burden_rate is present):
+   *   cost_burden_rate    (0–0.45 → 0–40 pts)
+   *   renter_share        (0–0.60 → 0–25 pts)
+   *   poverty_rate        (0–0.20 → 0–15 pts)
+   *   severe_burden_rate  (0–0.25 → 0–20 pts)   NEW
+   *   = 100 pts total
+   *
+   * 3-factor fallback (back-compat when severe_burden_rate missing):
+   *   cost_burden_rate    (0–0.45 → 0–50 pts)
+   *   renter_share        (0–0.60 → 0–30 pts)
+   *   poverty_rate        (0–0.20 → 0–20 pts)
+   *   = 100 pts total
    *
    * @param {object|null} acs - Aggregated ACS object.
-   *   Expected keys: cost_burden_rate (0–1), renter_share (0–1), poverty_rate (0–1).
+   *   Expected keys: cost_burden_rate (0–1), renter_share (0–1),
+   *   poverty_rate (0–1). Optional: severe_burden_rate (0–1).
    * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
    *   When `acs` is missing or not an object, returns
    *   `{ score: null, unavailable: true, reason: 'ACS aggregate unavailable' }`
@@ -113,18 +132,36 @@
       };
     }
 
-    // Cost-burden component: 45 %+ is the high-pressure ceiling.
-    var cb    = _safe(acs.cost_burden_rate, 0.30);
-    var cbPts = _clamp((cb / 0.45) * 50);
+    var cb  = _safe(acs.cost_burden_rate, 0.30);
+    var rs  = _safe(acs.renter_share,     0.35);
+    var pov = _safe(acs.poverty_rate,     0.12);
 
-    // Renter-share component: 60 %+ represents high renter concentration.
-    var rs    = _safe(acs.renter_share, 0.35);
-    var rsPts = _clamp((rs / 0.60) * 30);
+    // Use severe_burden_rate as a 4th factor only when it's actually
+    // present and finite. null/undefined/NaN → fall back to the
+    // 3-factor weighting so historical scores are preserved.
+    var severeRaw = acs.severe_burden_rate;
+    var severeAvailable = severeRaw !== null && severeRaw !== undefined &&
+                          isFinite(+severeRaw);
 
-    // Poverty-rate component: 20 %+ is the high-poverty ceiling.
-    var pov    = _safe(acs.poverty_rate, 0.12);
+    if (severeAvailable) {
+      // 4-factor scoring — uses the available severe-burden signal.
+      var cbPts4  = _clamp((cb  / 0.45) * 40);
+      var rsPts4  = _clamp((rs  / 0.60) * 25);
+      var povPts4 = _clamp((pov / 0.20) * 15);
+      var sev     = _safe(+severeRaw, 0);
+      var sevPts  = _clamp((sev / 0.25) * 20);
+      return {
+        score: _clamp(cbPts4 + rsPts4 + povPts4 + sevPts),
+        unavailable: false
+      };
+    }
+
+    // 3-factor back-compat — preserves historical scoring when severe
+    // burden isn't supplied (older callers, test fixtures, or older
+    // controller code paths that haven't been updated).
+    var cbPts  = _clamp((cb  / 0.45) * 50);
+    var rsPts  = _clamp((rs  / 0.60) * 30);
     var povPts = _clamp((pov / 0.20) * 20);
-
     return {
       score: _clamp(cbPts + rsPts + povPts),
       unavailable: false

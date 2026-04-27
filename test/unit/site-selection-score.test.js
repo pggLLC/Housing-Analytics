@@ -134,6 +134,69 @@ test('scoreDemand returns 0 for all-zero ACS fields', function () {
   assert(result.score === 0, 'all zeros → 0 (got ' + result.score + ')');
 });
 
+// ── 4-factor scoring (when severe_burden_rate present) ────────────────
+
+test('scoreDemand uses 4-factor scoring when severe_burden_rate is present', function () {
+  // Same 3 inputs as Test 4 + max severe burden → still 100 (all ceilings met)
+  const result = SSS.scoreDemand({
+    cost_burden_rate:   0.55,
+    renter_share:       0.70,
+    poverty_rate:       0.25,
+    severe_burden_rate: 0.30,  // above 0.25 ceiling
+  });
+  assert(result.score === 100, 'all 4 ceilings → 100 (got ' + result.score + ')');
+});
+
+test('scoreDemand 4-factor: severe burden boosts score over 3-factor case', function () {
+  const baseInputs = {
+    cost_burden_rate: 0.30,  // mid
+    renter_share:     0.35,  // mid
+    poverty_rate:     0.10,  // mid
+  };
+  const without = SSS.scoreDemand(baseInputs);
+  const with10  = SSS.scoreDemand(Object.assign({}, baseInputs, { severe_burden_rate: 0.10 }));
+  const with20  = SSS.scoreDemand(Object.assign({}, baseInputs, { severe_burden_rate: 0.20 }));
+  // The 3-factor and 4-factor weightings differ so the no-severe vs has-severe
+  // scores aren't directly comparable, but: more severe burden should always
+  // produce a higher 4-factor score than less severe burden.
+  assert(with20.score > with10.score,
+    'higher severe burden → higher demand score (with10=' + with10.score + ', with20=' + with20.score + ')');
+  assert(without.unavailable === false,             'without severe → still scored (3-factor fallback)');
+  assert(typeof without.score === 'number',         '3-factor returns numeric score');
+});
+
+test('scoreDemand: severe_burden_rate=0 explicitly uses 4-factor (not falls back to 3-factor)', function () {
+  // When severe_burden_rate is present but zero, the 4-factor path runs
+  // and contributes 0 pts from that component. NOT the same as omitting
+  // the field (which falls back to 3-factor).
+  const explicit = SSS.scoreDemand({
+    cost_burden_rate:   0.45, renter_share: 0.60, poverty_rate: 0.20,
+    severe_burden_rate: 0,
+  });
+  // 4-factor max for the first 3 components: 40+25+15=80 (severe contributes 0)
+  assert(explicit.score === 80,
+    'explicit severe=0 → 4-factor max minus severe (80, got ' + explicit.score + ')');
+});
+
+test('scoreDemand: null/undefined/NaN severe_burden_rate falls back to 3-factor', function () {
+  const baseInputs = {
+    cost_burden_rate: 0.45, renter_share: 0.60, poverty_rate: 0.20,
+  };
+  const noField = SSS.scoreDemand(baseInputs);
+  // 3-factor max: 50+30+20=100
+  assert(noField.score === 100,
+    'no severe field → 3-factor max=100 (got ' + noField.score + ')');
+
+  const nullField = SSS.scoreDemand(Object.assign({}, baseInputs, { severe_burden_rate: null }));
+  assert(nullField.score === 100, 'null severe → 3-factor (got ' + nullField.score + ')');
+
+  const undefField = SSS.scoreDemand(Object.assign({}, baseInputs, { severe_burden_rate: undefined }));
+  assert(undefField.score === 100, 'undefined severe → 3-factor (got ' + undefField.score + ')');
+
+  const nanField = SSS.scoreDemand(Object.assign({}, baseInputs, { severe_burden_rate: NaN }));
+  assert(nanField.score === 100, 'NaN severe → 3-factor (got ' + nanField.score + ')');
+});
+
 // ---------------------------------------------------------------------------
 // 6. scoreSubsidy — QCT flag
 // ---------------------------------------------------------------------------
