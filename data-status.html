@@ -316,6 +316,10 @@
 
         function renderCard(report) {
           var card = document.createElement("div");
+          // Card class reflects validation pass/fail (ok / warn / error).
+          // Freshness (fresh / aging / stale / unknown) is a SECOND axis
+          // shown via badge — a dataset can be fresh but failing
+          // validation, or stale but still passing schema checks.
           var cls = report.ok ? "ok" : report.critical ? "error" : "warn";
           card.className = "status-card status-card--" + cls;
           var asOf = report.dataAsOf
@@ -325,6 +329,43 @@
             report.dataAgeMs === null || report.dataAgeMs === undefined
               ? "unknown age"
               : relTime(report.dataAgeMs);
+
+          // Freshness badge — Data Freshness v2 layer
+          var freshness = report.freshness || "unknown";
+          var freshBadge = "";
+          if (freshness !== "unknown") {
+            var freshLabel = {
+              fresh: "🟢 Fresh",
+              aging: "🟡 Aging",
+              stale: "🔴 Stale",
+            }[freshness] || "";
+            var freshColor = {
+              fresh: "var(--good, #047857)",
+              aging: "var(--warn, #d97706)",
+              stale: "var(--bad, #dc2626)",
+            }[freshness] || "var(--muted)";
+            freshBadge =
+              '<div style="font-size:.75rem;font-weight:600;color:' +
+              freshColor + ';margin-top:.25rem;">' + freshLabel + "</div>";
+          }
+
+          // Coverage label (e.g. "All 64 CO counties")
+          var coverageLine = report.coverageLabel
+            ? "<br>" + _esc(report.coverageLabel)
+            : (report.featureCount > 0
+                ? report.featureCount + " records"
+                : "");
+
+          // Source link with attribution
+          var sourceLine = "";
+          if (report.sourceUrl) {
+            var sourceText = report.sourceLabel || "Source";
+            sourceLine =
+              '<br><a href="' + _esc(report.sourceUrl) +
+              '" target="_blank" rel="noopener" style="font-size:.72rem;color:var(--link,#054a42);">' +
+              _esc(sourceText) + " ↗</a>";
+          }
+
           card.innerHTML =
             '<div class="status-card__icon">' +
             (report.ok ? "✅" : "⚠️") +
@@ -332,13 +373,15 @@
             '<div class="status-card__label">' +
             _esc(report.label) +
             "</div>" +
+            freshBadge +
             '<div class="status-card__detail">' +
-            (report.featureCount > 0 ? report.featureCount + " records" : "") +
+            coverageLine +
             "<br>Data as of: " +
             _esc(asOf) +
             " (" +
             _esc(dataAge) +
             ")" +
+            sourceLine +
             (report.message ? "<br>" + _esc(report.message) : "") +
             "</div>" +
             '<div class="status-card__age">' +
