@@ -5,7 +5,7 @@
   "source": "DOLA State Demography Office (2024) with FRED unemployment adjustment",
   "sourceUrl": "https://demography.dola.colorado.gov/population/population-totals-colorado-counties/",
   "fredSeriesRef": "UNRATE",
-  "createdAt": "2026-04-26T03:55:19Z",
+  "createdAt": "2026-04-27T09:05:40Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "5% above baseline",
