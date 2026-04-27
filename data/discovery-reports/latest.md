@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-26T08:10:44.226Z
+**Scan timestamp:** 2026-04-27T09:12:32.320Z
 
 ## Summary
 
@@ -14,7 +14,7 @@
 
 ## 🆕 New Unregistered Sources
 
-- `data/alerts/alerts_archive.json` (144 KB)
+- `data/alerts/alerts_archive.json` (149 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
@@ -896,7 +896,7 @@
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/lihtc-assumptions.json` (3 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (119 KB)
+- `data/policy_briefs.json` (122 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
 - `data/provenance/hna-scenario-builder.json` (3 KB)
@@ -910,27 +910,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 846 days since last update
-- **undefined** — 480 days since last update
-- **undefined** — 480 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 847 days since last update
+- **undefined** — 481 days since last update
+- **undefined** — 481 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 390 days since last update
+- undefined — 391 days since last update
