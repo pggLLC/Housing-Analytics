@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-27T11:36:40.414Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-27T11:38:32.161Z. Do not edit by hand.
 
 ---
 
@@ -1036,7 +1036,7 @@
 | `test/unit/pma-schools.test.js` | 4.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
-| `test/unit/site-selection-score.test.js` | 24.5 KB |
+| `test/unit/site-selection-score.test.js` | 27.6 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
