@@ -279,7 +279,11 @@
               : [];
             var lihtcFeatures = (window.PMAEngine && window.PMAEngine._lihtcFeatures) || [];
             var set = pmaCompetitive.buildCompetitiveSet(lihtcFeatures, nhpdFeatures, lat, lon, bufferMiles);
-            var expiry = pmaCompetitive.flagSubsidyExpiryRisk(nhpdFeatures);
+            // flagSubsidyExpiryRisk is called for its side effect — it
+            // populates lastExpiryRisk inside pma-competitive-set, which
+            // getCompetitiveJustification() then exposes via the
+            // subsidyExpiryRisk field consumed by pma-ui-controller.
+            pmaCompetitive.flagSubsidyExpiryRisk(nhpdFeatures);
             var absorption = pmaCompetitive.calculateAbsorptionRisk(set, proposedUnits);
             results.competitiveSet = pmaCompetitive.getCompetitiveJustification();
             results.absorptionRisk = absorption;
