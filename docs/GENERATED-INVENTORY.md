@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-27T01:32:14.305Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-27T01:44:54.576Z. Do not edit by hand.
 
 ---
 
@@ -26,7 +26,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
-| `data-status.html` | Data Status | COHO Analytics | 19.8 KB |
+| `data-status.html` | Data Status | COHO Analytics | 21.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 43.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 69.1 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 12.2 KB |
@@ -953,7 +953,7 @@
 
 ## Test Files
 
-100 test files found.
+101 test files found.
 
 | File | Size |
 |------|------|
@@ -972,6 +972,7 @@
 | `test/co-lihtc-map.test.js` | 8.2 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
+| `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
