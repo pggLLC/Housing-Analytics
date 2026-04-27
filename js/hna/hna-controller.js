@@ -2000,7 +2000,15 @@
         window.HNAState.state.chasData = null;
       }
     }
-    window.HNARenderers.renderChasAffordabilityGap(contextCounty, window.HNAState.state.chasData);
+    // Pass the user's actual selection so the renderer can surface a
+    // "scaled from county" disclosure when the user picked a place/CDP.
+    // CHAS is published at county granularity; without this disclosure,
+    // a place/CDP user sees county data labeled with the county name.
+    window.HNARenderers.renderChasAffordabilityGap(
+      contextCounty,
+      window.HNAState.state.chasData,
+      { type: geoType, geoid: geoid, name: label }
+    );
     window.HNARenderers.renderGapCoverageStats(contextCounty, window.HNAState.state.chasData);
 
     // BLS Labour Market indicators (loaded once; keyed by county name)
