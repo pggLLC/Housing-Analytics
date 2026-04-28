@@ -173,7 +173,7 @@ jobs:
 
       - name: Comment on pull request
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
@@ -212,7 +212,7 @@ jobs:
 
       - name: Alert on audit failure
         if: failure()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:

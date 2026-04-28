@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Acknowledge trigger
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.issues.createComment({
@@ -56,7 +56,7 @@ jobs:
 
       - name: Notify on dispatch failure
         if: failure() && github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.issues.createComment({

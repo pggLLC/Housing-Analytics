@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Create Phase 3 Sub-Issues
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const dryRun = '${{ github.event.inputs.dry_run }}' === 'true';

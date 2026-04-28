@@ -367,7 +367,7 @@ jobs:
 
       - name: Alert on workflow failures
         if: failure()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
