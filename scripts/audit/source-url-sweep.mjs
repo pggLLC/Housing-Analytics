@@ -46,7 +46,7 @@ const ALLOW_LIST = new Set([
   // DOL blocks CI user-agents across whole domain (returns 404 / Cloudflare
   // challenge to non-browser requests). Davis-Bacon page is accessible
   // to real browsers — verified manually.
-  "https://www.dol.gov/agencies/whd/government-contracts",
+  "https://www.dol.gov/agencies/whd/government-contracts/construction",
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
