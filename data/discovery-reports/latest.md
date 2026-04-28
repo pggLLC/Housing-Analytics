@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-27T09:12:32.320Z
+**Scan timestamp:** 2026-04-28T09:13:22.889Z
 
 ## Summary
 
@@ -910,27 +910,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 847 days since last update
-- **undefined** — 481 days since last update
-- **undefined** — 481 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 848 days since last update
+- **undefined** — 482 days since last update
+- **undefined** — 482 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 391 days since last update
+- undefined — 392 days since last update
