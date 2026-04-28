@@ -11,6 +11,8 @@
 
   function latestObs(series) {
     // series.observations is chronological; return last valid numeric value
+    // Guard against undefined/null series (missing key in fred-data.json)
+    if (!series) return null;
     const obs = (series.observations || [])
       .filter(o => o.value !== "." && o.value != null)
       .map(o => ({ date: o.date, value: Number(o.value) }))
@@ -31,7 +33,7 @@
 
     // CPI YoY — computed from level series
     try {
-      const obs = (s.CPIAUCSL.observations || [])
+      const obs = ((s.CPIAUCSL && s.CPIAUCSL.observations) || [])
         .filter(o => o.value !== "." && o.value != null)
         .map(o => Number(o.value))
         .filter(isFinite);
