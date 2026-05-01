@@ -1,0 +1,80 @@
+{
+  "month": "2026-05",
+  "generated_at": "2026-05-01T06:40:00.930Z",
+  "source": "Colorado Association of REALTORS (CAR)",
+  "source_url": "https://coloradorealtors.com/market-trends/",
+  "version": "1.0",
+  "statewide": {
+    "median_sale_price": 583794,
+    "active_listings": 20178,
+    "median_days_on_market": 32.6,
+    "median_price_per_sqft": 276.2,
+    "closed_sales": 6691,
+    "new_listings": 9277,
+    "months_of_supply": 3.1,
+    "list_to_sale_ratio": 0.982
+  },
+  "metro_areas": {
+    "denver": {
+      "name": "Denver Metro",
+      "median_sale_price": 565614,
+      "active_listings": 7667,
+      "median_days_on_market": 29.8,
+      "median_price_per_sqft": 287.1,
+      "closed_sales": 2677,
+      "new_listings": 3526,
+      "months_of_supply": 2.8
+    },
+    "colorado_springs": {
+      "name": "Colorado Springs",
+      "median_sale_price": 442391,
+      "active_listings": 2421,
+      "median_days_on_market": 34.6,
+      "median_price_per_sqft": 254.1,
+      "closed_sales": 870,
+      "new_listings": 1112,
+      "months_of_supply": 3.3
+    },
+    "fort_collins": {
+      "name": "Fort Collins / Greeley",
+      "median_sale_price": 496932,
+      "active_listings": 1816,
+      "median_days_on_market": 32.6,
+      "median_price_per_sqft": 267.8,
+      "closed_sales": 536,
+      "new_listings": 835,
+      "months_of_supply": 3.2
+    },
+    "boulder": {
+      "name": "Boulder",
+      "median_sale_price": 670657,
+      "active_listings": 1009,
+      "median_days_on_market": 30.6,
+      "median_price_per_sqft": 325.8,
+      "closed_sales": 268,
+      "new_listings": 464,
+      "months_of_supply": 2.9
+    },
+    "pueblo": {
+      "name": "Pueblo",
+      "median_sale_price": 375729,
+      "active_listings": 808,
+      "median_days_on_market": 40.6,
+      "median_price_per_sqft": 196.1,
+      "closed_sales": 268,
+      "new_listings": 372,
+      "months_of_supply": 3.9
+    },
+    "grand_junction": {
+      "name": "Grand Junction",
+      "median_sale_price": 407040,
+      "active_listings": 808,
+      "median_days_on_market": 37.6,
+      "median_price_per_sqft": 209.8,
+      "closed_sales": 268,
+      "new_listings": 372,
+      "months_of_supply": 3.6
+    }
+  },
+  "notes": "Estimated for May 2026 by trend-projection from 2026-04. Replace with official CAR report data when published."
+}

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-30T09:13:28.994421Z",
+  "generated": "2026-05-01T06:40:06.890110Z",
   "files": {
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -60,6 +60,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2325
+    },
+    "data/car-market-report-2026-05.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2324
     },
     "data/car-market.json": {
       "featureCount": 0,
