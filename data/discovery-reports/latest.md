@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-04-30T09:06:37.218Z
+**Scan timestamp:** 2026-05-01T08:53:04.649Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 924 |
-| New (unregistered) | 893 |
+| Files scanned | 925 |
+| New (unregistered) | 894 |
 | Registered | 30 |
 | Stale (overdue) | 20 |
 | Aging (due soon) | 1 |
@@ -18,6 +18,7 @@
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
+- `data/car-market-report-2026-05.json` (2 KB)
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
 - `data/core/educational-content.json` (66 KB)
 - `data/core/neighborhood-context.json` (70 KB)
@@ -910,27 +911,27 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 850 days since last update
-- **undefined** — 484 days since last update
-- **undefined** — 484 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 851 days since last update
+- **undefined** — 485 days since last update
+- **undefined** — 485 days since last update
 
 ## ⏳ Aging Sources
 
-- undefined — 394 days since last update
+- undefined — 395 days since last update
