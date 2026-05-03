@@ -861,8 +861,8 @@
     const lrData = S().state && S().state.localResources;
     if (!lrData) {
       // Try to fetch and render asynchronously
-      const lrPath = window.HNAUtils.PATHS && window.HNAUtils.PATHS.localResources
-        ? window.HNAUtils.PATHS.localResources()
+      const lrPath = (window.HNAUtils && window.HNAUtils.PATHS && window.HNAUtils.PATHS.localResources)
+        ? window.HNAUtils.PATHS.localResources
         : 'data/hna/local-resources.json';
       fetch(lrPath)
         .then(res => res.ok ? res.json() : null)
