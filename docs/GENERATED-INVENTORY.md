@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-04-28T03:52:00.091Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-03T19:11:29.130Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-889 JSON files found.
+890 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -64,6 +64,7 @@
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-05.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 469 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 269.1 KB | ✅ | 716 features |
@@ -80,9 +81,9 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 130.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 130.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.85 MB | ✅ | — |
+| `data/fred-data.json` | 987.0 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -906,7 +907,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.7 KB | ✅ | — |
-| `data/manifest.json` | 106.4 KB | ✅ | — |
+| `data/manifest.json` | 106.6 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 547.8 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -940,7 +941,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 16.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 122.4 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.8 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
 | `data/provenance/housing-needs-assessment.json` | 5.8 KB | ✅ | — |
