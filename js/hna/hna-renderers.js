@@ -299,11 +299,28 @@
     const fmtNum  = U().fmtNum;
 
     // chartStock: occupied vs vacant
+    // DP04_0002E / DP04_0003E exist in ACS5 5-year profile; in ACS1 they may be
+    // absent because that profile starts the UNITS IN STRUCTURE section earlier.
+    // Derive occupied = renter_count / (renter_pct / 100) and vacant = total - occupied
+    // when the direct codes are unavailable (cached summaries built from ACS1).
     const stockCtx = (document.getElementById('chartStock') || {}).getContext;
     if (stockCtx) {
       const ctx = document.getElementById('chartStock').getContext('2d');
-      const occupied = safeNum(profile.DP04_0002E) || 0;
-      const vacant   = safeNum(profile.DP04_0003E) || 0;
+      let occupied = safeNum(profile.DP04_0002E);
+      let vacant   = safeNum(profile.DP04_0003E);
+      if (occupied === null) {
+        const renterCount = safeNum(profile.DP04_0047E);
+        const renterPct   = safeNum(profile.DP04_0047PE);
+        if (renterCount !== null && renterPct > 0) {
+          occupied = Math.round(renterCount / (renterPct / 100));
+        }
+      }
+      if (vacant === null) {
+        const total = safeNum(profile.DP04_0001E);
+        if (total !== null && occupied !== null) vacant = total - occupied;
+      }
+      occupied = occupied || 0;
+      vacant   = vacant   || 0;
       makeChart(ctx, {
         type: 'bar',
         data: {
@@ -323,11 +340,18 @@
     }
 
     // chartTenure: owner vs renter
+    // DP04_0046E (owner count) is not in ACS1 cached summaries; derive from
+    // renter count (DP04_0047E) and the owner/renter percentage ratio.
     const tenureCtx = (document.getElementById('chartTenure') || {}).getContext;
     if (tenureCtx) {
       const ctx = document.getElementById('chartTenure').getContext('2d');
-      const owner  = safeNum(profile.DP04_0046E) || 0;
-      const renter = safeNum(profile.DP04_0047E) || 0;
+      const renter    = safeNum(profile.DP04_0047E) || 0;
+      const ownerPct  = safeNum(profile.DP04_0046PE) || 0;
+      const renterPct = safeNum(profile.DP04_0047PE) || 0;
+      let owner = safeNum(profile.DP04_0046E) || 0;
+      if (!owner && renter && renterPct > 0) {
+        owner = Math.round(renter * ownerPct / renterPct);
+      }
       makeChart(ctx, {
         type: 'doughnut',
         data: {
@@ -396,14 +420,17 @@
     if (!canvas || !profile) return;
     const t       = chartTheme();
     const safeNum = U().safeNum;
-    // DP04 gross-rent-as-pct-of-income bins (2023 ACS confirmed)
+    // DP04 gross-rent-as-pct-of-income bins.
+    // ACS1 and ACS5 profiles return percentage-estimate (PE) codes: DP04_0137PE–0142PE.
+    // The former E-suffix count codes (DP04_0136E–0141E) are not reliably present
+    // across ACS vintages and are absent from cached summaries built from ACS1.
     const bins = [
-      { label: '<15%',    key: 'DP04_0136E' },
-      { label: '15–20%',  key: 'DP04_0137E' },
-      { label: '20–25%',  key: 'DP04_0138E' },
-      { label: '25–30%',  key: 'DP04_0139E' },
-      { label: '30–35%',  key: 'DP04_0140E' },
-      { label: '35%+',    key: 'DP04_0141E' },
+      { label: '<15%',    key: 'DP04_0137PE' },
+      { label: '15–20%',  key: 'DP04_0138PE' },
+      { label: '20–25%',  key: 'DP04_0139PE' },
+      { label: '25–30%',  key: 'DP04_0140PE' },
+      { label: '30–35%',  key: 'DP04_0141PE' },
+      { label: '35%+',    key: 'DP04_0142PE' },
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
     const colors = bins.map((_b, i) => i < 4 ? t.c1 : t.c5);
@@ -419,7 +446,7 @@
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: { ticks: { color: t.muted }, grid: { color: t.border } },
+          y: { ticks: { color: t.muted, callback: v => v + '%' }, grid: { color: t.border } },
         },
       },
     });
@@ -1243,19 +1270,22 @@
     if (!canvas || !profile) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
+    // ACS DP04 SMOCAPI percentage-estimate codes: DP04_0111PE–DP04_0115PE.
+    // The former E-suffix count codes (DP04_0113E–0117E) are not present in
+    // cached summaries; use the PE codes returned by fetchAcsExtended batchA.
     const bins = [
-      { label: '<20%',   key: 'DP04_0113E' },
-      { label: '20–25%', key: 'DP04_0114E' },
-      { label: '25–30%', key: 'DP04_0115E' },
-      { label: '30–35%', key: 'DP04_0116E' },
-      { label: '35%+',   key: 'DP04_0117E' },
+      { label: '<20%',   key: 'DP04_0111PE' },
+      { label: '20–25%', key: 'DP04_0112PE' },
+      { label: '25–30%', key: 'DP04_0113PE' },
+      { label: '30–35%', key: 'DP04_0114PE' },
+      { label: '35%+',   key: 'DP04_0115PE' },
     ];
     const values = bins.map(b => safeNum(profile[b.key]) || 0);
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted } } } },
+        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted, callback: v => v + '%' } } } },
     });
   }
 

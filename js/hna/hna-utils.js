@@ -714,7 +714,6 @@
 
     const totalUnits  = Number(profile.DP04_0001E);
     const renterPct   = Number(profile.DP04_0047PE);  // e.g. 27.5
-    const occupiedUnits = Number(profile.DP04_0003E);
 
     if (!Number.isFinite(totalUnits) || totalUnits <= 0) return null;
     if (!Number.isFinite(renterPct)  || renterPct  <= 0) return null;
@@ -723,11 +722,18 @@
     const totalRentals = Math.round(totalUnits * (renterPct / 100));
     if (totalRentals <= 0) return null;
 
-    // GRAPI bins: <15%, 15-19.9%, 20-24.9% are not-burdened (paying <30% income)
-    // Use these as a proxy for affordability at ≤60% AMI (conservative estimate)
-    const grapi_lt15   = Number(profile.DP04_0144PE);
-    const grapi_15_20  = Number(profile.DP04_0145PE);
-    const grapi_20_25  = Number(profile.DP04_0146PE);
+    // GRAPI bins: <15%, 15–19.9%, 20–24.9% are not-burdened (paying <30% income)
+    // Use these as a proxy for affordability at ≤60% AMI (conservative estimate).
+    // ACS1/ACS5 profile path: DP04_0137PE (<15%), DP04_0138PE (15–20%), DP04_0139PE (20–25%)
+    // B-series derived fallback: DP04_0144PE (<15%), DP04_0145PE (15–20%), DP04_0146PE (20–25%)
+    let grapi_lt15  = Number(profile.DP04_0137PE);
+    let grapi_15_20 = Number(profile.DP04_0138PE);
+    let grapi_20_25 = Number(profile.DP04_0139PE);
+    if (!Number.isFinite(grapi_lt15) && !Number.isFinite(grapi_15_20) && !Number.isFinite(grapi_20_25)) {
+      grapi_lt15  = Number(profile.DP04_0144PE);
+      grapi_15_20 = Number(profile.DP04_0145PE);
+      grapi_20_25 = Number(profile.DP04_0146PE);
+    }
 
     let baseline60Ami = null;
     let method = 'estimate';
@@ -967,11 +973,15 @@
   }
 
   function rentBurden30Plus(pcts){
-    // DP04_0145PE (30-34.9) + DP04_0146PE (35+)
-    const a = Number(pcts.DP04_0145PE);
-    const b = Number(pcts.DP04_0146PE);
-    if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
-    return a + b;
+    // ACS1/ACS5 profile path: DP04_0141PE (30–34.9%) + DP04_0142PE (35%+)
+    const a1 = Number(pcts.DP04_0141PE);
+    const b1 = Number(pcts.DP04_0142PE);
+    if (Number.isFinite(a1) && Number.isFinite(b1)) return a1 + b1;
+    // B-series derived fallback: DP04_0145PE (30–34.9%) + DP04_0146PE (35%+)
+    const a2 = Number(pcts.DP04_0145PE);
+    const b2 = Number(pcts.DP04_0146PE);
+    if (Number.isFinite(a2) && Number.isFinite(b2)) return a2 + b2;
+    return null;
   }
 
   // --- Renderers ---
