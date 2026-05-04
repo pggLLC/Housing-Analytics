@@ -70,10 +70,26 @@ Load constants from data/policy/lihtc-assumptions.json (once, cached).
 Overrides DEFAULT_ASSUMPTIONS where the JSON provides values.
 Falls back silently to hardcoded defaults on fetch failure.
 
-### `_getHardCostPerUnit(conceptType)`
+### `_HARD_COST_MULTIPLIERS_BY_FIPS`
 
-Return hard cost per unit for the given concept type.
-Uses concept-specific cost from JSON when available.
+Geographic cost multipliers by CO county FIPS. Calibrated to bracket
+the ~$180k (rural) to ~$450k (resort) range with a Front-Range base
+of ~1.0. Applied on top of concept-specific base costs from
+lihtc-assumptions.json. Counties not listed here use the base cost
+(treated as Front-Range-ish). This is explicit so callers can audit
+the assumption rather than inheriting a single statewide number.
+
+### `_getHardCostPerUnit(conceptType, countyFips)`
+
+Return hard cost per unit for the given concept type, optionally
+adjusted for the project's county FIPS. When countyFips is not
+provided (e.g. caller couldn't resolve it) returns the concept-
+specific base cost unmodified — callers should treat that case as
+"approximate, no geographic adjustment applied" and surface to user.
+
+@param {string} conceptType  'family' / 'seniors' / 'mixed-use' / 'supportive'
+@param {string} [countyFips] 5-digit FIPS for geographic multiplier
+@returns {{value:number, source:string, multiplier:number}}
 
 ### `_getEligibleBasisPct()`
 

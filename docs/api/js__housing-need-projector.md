@@ -29,6 +29,13 @@ Format a number with comma thousands separator.
 Derive vacancy-deficit factor from vacancy_rate (%).
 vacancy_deficit_factor = max(0, 0.05 - vacancy_rate/100) * 10
 
+IMPORTANT: returns null when vacancyRate is null/undefined. Callers
+must treat null as "no adjustment available" — NOT as 0. A null
+(missing) rate previously silently became 0 here, which then produced
+the MAXIMUM deficit factor (0.5) and inflated projected need by 50%.
+Missing vacancy data must not be indistinguishable from "critical
+shortage."
+
 ### `_incrementalGrowth(baseHouseholds, annualRate, years)`
 
 Compound growth: base * ((1 + rate)^years - 1)

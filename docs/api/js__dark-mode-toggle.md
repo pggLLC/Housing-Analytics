@@ -44,6 +44,15 @@ Update the accessible label and icon on the toggle button.
 
 Inject the floating toggle button into the page.
 
+Reads the current scheme from documentElement.classList and populates
+the button's aria-label + text content IMMEDIATELY on creation —
+rather than relying on a prior applyScheme() call. applyScheme()
+fires before DOMContentLoaded (to avoid FOUC), so its
+updateToggleButton() call no-ops because the button doesn't exist
+yet. The button then existed on the page with no accessible name,
+which axe-core flagged as button-name (critical) on 14/14 pages.
+Fixing here closes those 14 violations in one place.
+
 ### `init()`
 
 Initialise: apply correct scheme before first paint to avoid flash.

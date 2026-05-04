@@ -5,7 +5,17 @@
 ### `updateAmiLimitsFromFmr(fips)`
 
 Update _amiLimits from HudFmr for the given county FIPS.
-Falls back to the default Denver MSA values if data is unavailable.
+
+LIHTC rent ceiling formula:
+  monthly_rent_limit = (AMI_4person × tier_pct × rent_burden_pct) / 12
+
+The rent_burden_pct is a tunable constant (`_constants.rentBurdenPct`,
+default 0.30). When the user changes it via the Methodology &
+Formulas panel, the ceilings recompute and propagate to the deal.
+
+Computed locally rather than calling HudFmr.getGrossRentLimit so the
+burden % is honored — that helper has 0.30 hardcoded.
+
 @param {string} fips  5-digit county FIPS, or null/'' for default.
 
 ### `populateCountySelector(sel)`

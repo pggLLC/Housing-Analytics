@@ -7,201 +7,195 @@ Exposes: window.HNARenderers
 
 ## Symbols
 
-### `renderLaborMarketSection(lehd, profile, geoType)`
+### `escHtml(v)`
 
-Main Labor Market section renderer.
-@param {object|null} lehd
-@param {object|null} profile
+escHtml — escape a string for safe insertion into innerHTML.
+@param {*} v - value to escape
+@returns {string}
 
-### `renderEmploymentTrend(geoid)`
+### `safeUrl(url)`
 
-Render a multi-year employment trend line chart with YoY labels.
-Reads annualEmployment and yoyGrowth from the cached LEHD file.
+safeUrl — returns the URL if it uses an http(s) scheme; otherwise returns '#'.
+Prevents javascript: and data: URL injection in href attributes.
+@param {string} url
+@returns {string}
 
-@param {string|null} geoid - 5-digit county FIPS (used for data lookup); null for state-level
+### `chartTheme()`
 
-### `renderWageTrend(geoid)`
+Returns a color palette object keyed to CSS custom properties.
+Used by all Chart.js instances for consistent theming.
 
-Render a dual-axis line chart: nominal wage trend vs. annual housing cost.
-Reads data from the LEHD wage bands and ACS profile.
+### `makeChart(ctx, config)`
 
-@param {string|null} geoid - 5-digit county FIPS; null for state-level
+makeChart — create or recreate a Chart.js chart on a canvas context.
+Destroys any existing chart registered under the same canvas id so that
+repeated calls do not leak Chart instances.
 
-### `renderIndustryAnalysis(geoid)`
+@param {CanvasRenderingContext2D} ctx - 2D context from canvas.getContext('2d')
+@param {object} config - Chart.js configuration object
+@returns {Chart} The new Chart instance
 
-Render an industry analysis combining a horizontal bar chart and
-an HHI concentration badge.
+### `showChartLoading(canvasId)`
 
-@param {string|null} geoid - 5-digit county FIPS; null for state-level
+showChartLoading — show a loading overlay inside .chart-box for the given canvas ID.
+@param {string} canvasId
 
-### `renderEconomicIndicators(geoid)`
+### `hideChartLoading(canvasId)`
 
-Render a 4-card economic indicator dashboard showing:
-  1. Total jobs (latest year)
-  2. YoY employment growth
-  3. CAGR over available years
-  4. Industry diversity (HHI)
+hideChartLoading — hide the loading overlay for the given canvas ID, or all overlays if omitted.
+@param {string} [canvasId]
 
-@param {string|null} geoid - 5-digit county FIPS; null for state-level
+### `showAllChartsLoading()`
 
-### `renderWageGaps(geoid, profile)`
+showAllChartsLoading — show loading overlays on all chart canvases in the DOM.
 
-Render a wage-gap affordability table showing each LEHD wage tier vs.
-local median rent.
+### `setBanner(message, level)`
 
-@param {string} geoid   - 5-digit county FIPS
-@param {object} profile - ACS profile (for median rent DP04_0134E)
+setBanner — display (or clear) the top-of-page status banner.
+@param {string} message - Text to display; pass '' to hide the banner.
+@param {'info'|'warn'|'error'} [level='info']
 
-### `renderProp123Section(profile, geoType, countyFips)`
+### `clearStats()`
 
-Main Prop 123 section renderer.
-@param {object|null} profile - ACS profile data
-@param {string} geoType
+clearStats — reset all stat card text to '—' so stale data is not shown
+while a new geography loads.
 
-### `renderFastTrackCalculatorSection()`
+### `renderBoundary(gj, geoType)`
 
-Calculate fast-track approval timeline under HB 22-1093 / Prop 123.
+renderBoundary — draw or replace the GeoJSON boundary layer on the HNA map.
+@param {GeoJSON.FeatureCollection} gj
+@param {string} geoType - 'county'|'place'|'cdp'|'state'
 
-@param {number} projectUnits       - Total units in project
-@param {number} ami_pct            - AMI percentage (e.g. 60 for 60% AMI)
-@param {string} jurisdiction_type  - 'county' | 'place' | 'cdp'
-@returns {{
-  standardDays: number,
-  fastTrackDays: number,
-  timelineSavings: string,
-  eligible: boolean,
-  conditions: string[]
-}}
+### `renderSnapshot(profile, s0801, label, prevProfile)`
 
-### `renderHistoricalSection(baselineData, geoType, geoid)`
+renderSnapshot — populate the executive summary stat cards.
+@param {object} profile  - ACS DP-series profile object
+@param {object|null} s0801 - ACS S0801 commute table (or null)
+@param {string} label    - Human-readable geography label
+@param {object|null} prevProfile - Prior period profile for YoY deltas
 
-Render the historical compliance section using Prop123Tracker (if loaded).
+### `renderHousingCharts(profile)`
 
-@param {object|null} baselineData - from U().calculateBaseline()
+renderHousingCharts — render housing stock composition (chartStock) and
+tenure mix (chartTenure) bar charts.
+@param {object} profile - ACS DP04/DP05 profile
+
+### `renderAffordChart(profile)`
+
+renderAffordChart — render the housing affordability gap chart (chartAfford).
+Shows income needed vs median HHI to afford the median rent at 30% rule.
+@param {object} profile
+
+### `renderRentBurdenBins(profile)`
+
+renderRentBurdenBins — render cost-burden distribution by percent-of-income
+bands for renters (chartRentBurdenBins).
+@param {object} profile
+
+### `renderModeShare(s0801)`
+
+renderModeShare — render commute mode share chart (chartMode).
+@param {object|null} s0801 - ACS S0801 commute table
+
+### `renderLehd(lehd, geoType, geoid)`
+
+renderLehd — render LEHD employment flow chart (chartLehd).
+@param {object|null} lehd    - LEHD JSON data
 @param {string}      geoType
 @param {string}      geoid
 
-### `renderComplianceTable(histData, traj, baseline, container)`
+### `renderDolaPyramid(dola)`
 
-Render the multi-year compliance table.
+renderDolaPyramid — render age pyramid (chartPyramid) and senior
+housing need chart (chartSenior) from DOLA SYA data.
+@param {object|null} dola - DOLA SYA JSON object with age cohort data
 
-### `renderChasAffordabilityGap(countyFips5, chasData)`
+### `renderLihtcLayer(data)`
 
-renderChasAffordabilityGap — render a stacked bar chart showing renter
-cost burden by AMI tier from HUD CHAS data for the selected county.
+renderLihtcLayer — render LIHTC project markers on the HNA map.
+Creates a Leaflet layer with divIcon markers and popup detail panels.
+Also registers all features in HNAState.allLihtcFeatures for viewport filtering.
 
-@param {string} countyFips5 - 5-digit county FIPS (e.g. '08031') or null for statewide
-@param {object|null} chasData - pre-loaded chas_affordability_gap.json, or null to skip
+@param {GeoJSON.FeatureCollection|null} data - LIHTC project feature collection
+
+### `updateLihtcInfoPanel()`
+
+updateLihtcInfoPanel — refresh the LIHTC info panel list to show only
+projects currently visible within the map's viewport bounds.
+Registered as a 'moveend' listener on the Leaflet map.
+
+### `renderQctLayer(data)`
+
+renderQctLayer — render Qualified Census Tract polygons as a GeoJSON layer.
+@param {GeoJSON.FeatureCollection} data
+
+### `renderDdaLayer(countyFips5, data)`
+
+renderDdaLayer — render Difficult Development Area indicator for the county.
+@param {string}      countyFips5 - 5-digit FIPS
+@param {object|null} data        - DDA data (null = not a DDA county)
+
+### `renderMethodology(opts)`
+
+renderMethodology — populate the methodology accordion/section with
+data-source citations, cache status, and overlay definitions.
+
+@param {object} opts
+@param {string} opts.geoType
+@param {string} opts.geoid
+@param {string} opts.geoLabel
+@param {string} opts.usedCountyForContext
+@param {object} opts.cacheFlags        - { summary, lehd, dola, projections, derived }
+@param {object|null} opts.derivedEntry
+@param {string[]|null} opts.derivedYears
+
+### `renderLocalResources(geoType, geoid)`
+
+renderLocalResources — render housing plans and key contacts panel
+for the selected geography.
+@param {string} geoType - 'county'|'place'|'cdp'|'state'
+@param {string} geoid
+
+### `getAssumptions()`
+
+getAssumptions — read the current values of the projection assumption controls.
+@returns {{ horizon: number, targetVac: number, headshipMode: string }}
+
+### `renderScenarioDataQuality(geoType, geoid)`
+
+renderScenarioDataQuality — update the scenarioDataQuality element to
+indicate whether projection data is a direct county source or synthetic
+(scaled from county to represent a place or CDP).
+
+@param {string} geoType - 'county'|'place'|'cdp'|'state'
+@param {string} geoid
 
 ### `clearProjectionsForStateLevel()`
 
-Clear projection stat cards and set an informative note for geography types
-(such as state-level) where county-based projections do not apply.
+clearProjectionsForStateLevel — reset projection stat cards for geographies
+where county-level projection data is not applicable (e.g. full state view).
 @returns {{ ok: boolean }}
+
+### `renderProjectionChart(canvas, labels, datasets, opts)`
+
+renderProjectionChart — draw a population projection line chart.
+Called by external modules via window.__HNA_renderProjectionChart.
+
+### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t)`
+
+_renderScenarioSection — render scenario comparison charts.
+@param {object} proj        - Projection data object
+@param {number[]} popSel    - Selected geography population series
+@param {string[]} years     - Year labels
+@param {number}  baseYear   - Base year
+@param {string}  countyFips5
+@param {object}  t          - Chart theme
 
 ### `renderScenarioComparison(geoid, scenario_names, opts)`
 
-renderScenarioComparison — draw a multi-line chart comparing several
-projection scenarios on a single axis.
-
-@param {string}   geoid          - 5-digit county or place FIPS
-@param {string[]} scenario_names - array of scenario keys to compare
-@param {Object}   opts
-@param {Element}  opts.canvas        - <canvas> element
-@param {Object}   opts.seriesByScenario - {scenarioKey: [{year, population}, ...], ...}
-@param {number}   [opts.years=10]   - projection horizon
+renderScenarioComparison — draw a multi-scenario population comparison chart.
 
 ### `renderHouseholdDemand(geoid, scenario, affordability_tiers, opts)`
 
 renderHouseholdDemand — draw a stacked bar chart of projected housing demand
-broken out by affordability tier (AMI bands) for owner and renter segments.
-
-@param {string}   geoid               - 5-digit FIPS
-@param {string}   scenario            - scenario key
-@param {string[]} affordability_tiers - subset of AMI tier keys to display
-@param {Object}   opts
-@param {Element}  opts.canvas          - <canvas> element
-@param {Array}    opts.demandSeries    - array of demand-projection records:
-                                         [{year_offset, demand_by_ami: {owner: {...}, renter: {...}}}, ...]
-@param {string}   [opts.tenure='renter'] - 'owner' | 'renter' | 'both'
-
-### `showChartLoading(canvasId)`
-
-Show a loading overlay inside a .chart-box container for the given canvas ID.
-
-### `hideChartLoading(canvasId)`
-
-Hide the loading overlay for the given canvas ID (or all overlays if no id given).
-
-### `showAllChartsLoading()`
-
-Show loading overlays on all chart canvases currently in the DOM.
-
-### `renderIncomeDistribution(profile)`
-
-renderIncomeDistribution — Household income distribution chart (DP03 income brackets)
-
-### `renderHousingAgeChart(profile)`
-
-renderHousingAgeChart — Age of housing stock (DP04 year built)
-
-ACS 5-year 2023 confirmed variable codes (DP04 YEAR STRUCTURE BUILT):
-  DP04_0017E = Built 2020 or later
-  DP04_0018E = Built 2010 to 2019
-  DP04_0019E = Built 2000 to 2009
-  DP04_0020E = Built 1990 to 1999
-  DP04_0021E = Built 1980 to 1989
-  DP04_0022E = Built 1970 to 1979
-  DP04_0023E = Built 1960 to 1969
-  DP04_0024E = Built 1950 to 1959
-  DP04_0025E = Built 1940 to 1949
-  DP04_0026E = Built 1939 or earlier
-Note: DP04_0027E–DP04_0032E are ROOMS variables, not year-built.
-
-### `renderBedroomMixChart(profile)`
-
-renderBedroomMixChart — Bedroom mix (DP04 bedrooms)
-
-ACS 5-year 2023 confirmed variable codes (DP04 BEDROOMS):
-  DP04_0039E = No bedroom
-  DP04_0040E = 1 bedroom
-  DP04_0041E = 2 bedrooms
-  DP04_0042E = 3 bedrooms
-  DP04_0043E = 4 bedrooms
-  DP04_0044E = 5 or more bedrooms
-Note: DP04_0045E–DP04_0047E are HOUSING TENURE variables, not bedrooms.
-
-### `renderOwnerCostBurdenChart(profile)`
-
-renderOwnerCostBurdenChart — Owner housing cost burden (DP04 selected monthly costs as % of income)
-
-### `renderHousingGapSummary(profile, geoType)`
-
-renderHousingGapSummary — Render housing gap stats panel.
-Shows estimated housing gap at each AMI tier based on profile data.
-
-### `renderSpecialNeedsPanel(profile)`
-
-renderSpecialNeedsPanel — Senior and disability housing analysis
-
-### `renderExtendedAnalysis(profile, geoType)`
-
-renderExtendedAnalysis — Orchestrates all extended HNA section renders.
-
-### `renderBlsLabourMarket(countyFips5, geoType, econData)`
-
-Render BLS Labour Market KPI cards (unemployment rate + 5-yr job growth)
-into #blsLabourMarketCards using data from co-county-economic-indicators.json.
-
-@param {string|null} countyFips5 - 5-digit county FIPS for the selected geography
-@param {string} geoType - 'county' | 'place' | 'cdp' | 'state'
-@param {object|null} econData - parsed co-county-economic-indicators.json
-
-### `renderGapCoverageStats(countyFips5, chasData)`
-
-renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
-stat cards in the Executive Snapshot.  Derives gap = cost_burdened
-households (those paying >30% income on housing) at each AMI tier.
-
-@param {string} countyFips5 - 5-digit county FIPS or null for statewide
-@param {object|null} chasData - pre-loaded chas_affordability_gap.json
+broken out by affordability tier.

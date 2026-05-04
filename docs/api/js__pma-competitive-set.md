@@ -17,6 +17,16 @@ Exposed as window.PMACompetitiveSet.
 
 ## Symbols
 
+### `_parseAmi(v)`
+
+Parse an AMI targeting value into a number 0–100, or null when
+unreported / unparseable. Accepts numeric (60), string with pct
+sign ("60%"), or bare string ("60"). Range strings like "30-60%"
+return the upper bound (the most permissive target in the range).
+
+Returns null — NOT a default — so downstream composites can
+distinguish "targeting unknown" from "targeting 60%".
+
 ### `buildCompetitiveSet(lihtcFeatures, nhpdFeatures, siteLat, siteLon, radiusMiles)`
 
 Build the competitive property set by merging LIHTC and NHPD data

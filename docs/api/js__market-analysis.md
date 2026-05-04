@@ -20,9 +20,12 @@ Data loaded via DataService.getJSON() — no hardcoded fetch() calls.
 
 ### `_getCountyAmi(countyFips)`
 
-Get county-specific AMI from HudFmr connector, falling back to statewide.
+Get county-specific 4-person AMI from HudFmr connector. Returns null
+if the county FIPS can't be resolved or HudFmr hasn't loaded — callers
+must handle the null case explicitly rather than relying on a statewide
+substitute (see scoreRentPressure / workforce scorer for the pattern).
 @param {string|null} countyFips - 5-digit county FIPS code
-@returns {number} 4-person AMI in dollars
+@returns {number|null} 4-person AMI in dollars, or null if unresolved
 
 ### `tractInBuffer(t, lat, lon, miles)`
 
@@ -43,9 +46,20 @@ Compute statewide tract coverage vs. expected Colorado tract count.
 ### `scoreRentPressure(acs, countyAmi)`
 
 Score rent pressure: how far market rents exceed 60% AMI affordable threshold.
+
+IMPORTANT: If countyAmi is not provided (e.g. county FIPS couldn't be
+resolved from buffer tracts, or HudFmr data hasn't loaded), this returns
+`unavailable: true` with score=null rather than silently substituting a
+statewide AMI. CO AMI varies from ~$52k (rural counties) to ~$124k
+(Denver MSA) — the statewide $95k default was systematically wrong by
+±30% for most CO counties and could invert the rent-pressure signal
+(flagging affordable markets as pressured, or vice versa) in the
+direction that matters most for LIHTC decisions. Surfacing unavailable
+is more honest than fabricating a number.
+
 @param {Object} acs - Aggregated ACS tract metrics
-@param {number} [countyAmi] - County-specific 4-person AMI (falls back to statewide)
-@returns {{ score: number, ratio: number, amiUsed: number, amiSource: string }}
+@param {number} [countyAmi] - County-specific 4-person AMI
+@returns {{ score: number|null, ratio: number, amiUsed: number|null, amiSource: string, unavailable: boolean }}
 
 ### `scoreMarketTightness(acs)`
 
@@ -56,10 +70,28 @@ Low vacancy = tight market = strong demand signal.
 @param {Object} acs
 @returns {number} 0-100 score
 
-### `_scoreWorkforceWithCoverage(acs, lat, lon, bufTracts)`
+### `_scoreWorkforceWithCoverage(acs, lat, lon, bufTracts, countyAmi)`
 
 Internal workforce scorer that also returns data-coverage metadata.
 @private
+
+### `_computeLihtcRecency(nearbyFeatures)`
+
+Compute LIHTC recency context from nearby features. A market with its
+last allocation in 2018 reads very differently from one last funded
+in 2024 — CHFA geographic-distribution scoring and competitive
+saturation both depend on this temporal signal, which prior PMA
+scoring ignored entirely.
+
+@param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
+@returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}
+
+### `_wireAddressSearch()`
+
+Wire up the "Find a Colorado address" input/button to the free US
+Census Geocoder. Picks the first match, validates it's in Colorado
+(STATE=08), then fires the existing placeSiteMarker + runAnalysis
+flow — same code path as a map click.
 
 ### `_refreshIsochroneRings(lat, lon)`
 

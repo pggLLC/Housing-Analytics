@@ -6,6 +6,10 @@ Playwright-based site audit runner.
 Usage:
   AUDIT_BASE_URL=http://127.0.0.1:8080 node scripts/audit/site-audit.mjs
 
+Options (env vars):
+  AUDIT_BASE_URL   Base URL of the running static server (default: http://127.0.0.1:8080)
+  PAGE_TIMEOUT_MS  Per-page navigation timeout in ms (default: 60000)
+
 Outputs JSON + HTML reports to audit-report/{timestamp}/
 Exits non-zero only for hard failures:
   - JS runtime errors
