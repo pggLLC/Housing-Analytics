@@ -66,13 +66,32 @@ Resolve the opportunityBand helper, preferring window.MAUtils.
 
 Score the housing demand signal from ACS tract metrics.
 
-Drivers:
-  cost_burden_rate – higher burden → higher demand pressure (0–50 pts)
-  renter_share     – higher renter concentration → higher need  (0–30 pts)
-  poverty_rate     – higher poverty → deeper affordability gap   (0–20 pts)
+The market-analysis controller aggregates an extra signal — the
+**severe** cost-burden rate (renters paying ≥50 % of income on
+rent). It's a strict subset of the regular cost-burden rate, but
+it's a much more specific market-stress signal: severely burdened
+renters are at-risk for displacement and represent the deepest
+affordability gap. When that field is present in the input,
+scoreDemand uses 4 sub-factors. When it's absent (older callers
+or test fixtures), scoreDemand falls back to the original
+3-factor weighting so historical scores don't shift.
+
+4-factor weights (when severe_burden_rate is present):
+  cost_burden_rate    (0–0.45 → 0–40 pts)
+  renter_share        (0–0.60 → 0–25 pts)
+  poverty_rate        (0–0.20 → 0–15 pts)
+  severe_burden_rate  (0–0.25 → 0–20 pts)   NEW
+  = 100 pts total
+
+3-factor fallback (back-compat when severe_burden_rate missing):
+  cost_burden_rate    (0–0.45 → 0–50 pts)
+  renter_share        (0–0.60 → 0–30 pts)
+  poverty_rate        (0–0.20 → 0–20 pts)
+  = 100 pts total
 
 @param {object|null} acs - Aggregated ACS object.
-  Expected keys: cost_burden_rate (0–1), renter_share (0–1), poverty_rate (0–1).
+  Expected keys: cost_burden_rate (0–1), renter_share (0–1),
+  poverty_rate (0–1). Optional: severe_burden_rate (0–1).
 @returns {{ score: number|null, unavailable: boolean, reason?: string }}
   When `acs` is missing or not an object, returns
   `{ score: null, unavailable: true, reason: 'ACS aggregate unavailable' }`
