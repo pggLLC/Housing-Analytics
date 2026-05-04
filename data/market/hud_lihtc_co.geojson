@@ -1,13 +1,13 @@
 {
   "type": "FeatureCollection",
-  "fetchedAt": "2026-05-03T04:08:07.623Z",
+  "fetchedAt": "2026-05-04T07:47:05.294Z",
   "_metadata": {
     "source": "CHFA LIHTC FeatureServer via chfa-lihtc.json",
     "source_url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/layers",
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-05-03",
-    "fetchedAt": "2026-05-03T04:08:07.623Z",
+    "generated": "2026-05-04",
+    "fetchedAt": "2026-05-04T07:47:05.294Z",
     "coverage_note": "716 Colorado LIHTC projects normalized from data/chfa-lihtc.json. Rebuilt automatically by scripts/normalize-lihtc-to-hud-schema.js after each CHFA fetch.",
     "fallback": "Dashboards fall back to data/chfa-lihtc.json (CHFA schema) when this file is unavailable."
   },
