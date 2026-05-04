@@ -342,16 +342,19 @@
     // chartTenure: owner vs renter
     // DP04_0046E (owner count) is not in ACS1 cached summaries; derive from
     // renter count (DP04_0047E) and the owner/renter percentage ratio.
+    // DP04_0046PE and DP04_0047PE are both percentages of occupied units,
+    // so owner = renter × (ownerPct / renterPct).
     const tenureCtx = (document.getElementById('chartTenure') || {}).getContext;
     if (tenureCtx) {
       const ctx = document.getElementById('chartTenure').getContext('2d');
       const renter    = safeNum(profile.DP04_0047E) || 0;
       const ownerPct  = safeNum(profile.DP04_0046PE) || 0;
       const renterPct = safeNum(profile.DP04_0047PE) || 0;
-      let owner = safeNum(profile.DP04_0046E) || 0;
-      if (!owner && renter && renterPct > 0) {
+      let owner = safeNum(profile.DP04_0046E);
+      if ((owner === null || owner === 0) && renter > 0 && renterPct > 0) {
         owner = Math.round(renter * ownerPct / renterPct);
       }
+      if (owner === null) owner = 0;
       makeChart(ctx, {
         type: 'doughnut',
         data: {
@@ -446,14 +449,7 @@
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: { ticks: { color: t.muted, callback: v => v + '%' }, grid: { color: t.border } },
-        },
-      },
-    });
-  }
-
-  /**
-   * renderModeShare — render commute mode share chart (chartMode).
+          y: { ticks: { color: t.muted, callback: v => (typeof v === 'number' ? v : 0) + '%' }, grid: { color: t.border } },
    * @param {object|null} s0801 - ACS S0801 commute table
    */
   function renderModeShare(s0801) {
@@ -1285,7 +1281,7 @@
       type: 'bar',
       data: { labels: bins.map(b => b.label), datasets: [{ data: values, backgroundColor: [t.c1,t.c1,t.c1,t.c5,t.c5] }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted, callback: v => v + '%' } } } },
+        scales: { x: { ticks: { color: t.muted } }, y: { ticks: { color: t.muted, callback: v => (typeof v === 'number' ? v : 0) + '%' } } } },
     });
   }
 
