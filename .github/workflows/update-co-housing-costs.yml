@@ -15,6 +15,7 @@ concurrency:
 jobs:
   build-co-housing-costs:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout repo
