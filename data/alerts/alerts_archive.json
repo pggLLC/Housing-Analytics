@@ -1,11 +1,47 @@
 {
   "meta": {
-    "generated": "2026-04-27T04:29:55Z",
+    "generated": "2026-05-04T04:39:03Z",
     "feed_count": 9,
-    "alert_count": 215,
+    "alert_count": 217,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Colorado Senate passes bill loosening requirements for cities to get money from major housing fund - The Denver Post",
+      "date": "2026-04-30T21:00:19Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQcGlnalBvQ1R3Uzk1QVhidHRZNXJvUFRNNm9FeXdMdHV1eGRTU09MTmtJYlRoS2VOYmhHaWlKTUN1aTZZaS1weTdvLVM3ZTJTY2tmckJZTTI3SDZWTHNWUTFvcWQ4eXdBZnJhNUJuamFuSmJ4S2FhdFR4VUtYYWRYUzU4Zno5ejlHV1lQTEtuYzd2WVRxbmZj?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Colorado Senate passes bill loosening requirements for cities to get money from major housing fund \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Colorado lawmakers act to reality-check Prop 123 housing targets - HousingWire",
+      "date": "2026-04-30T20:31:28Z",
+      "source": "HousingWire",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNUEFIWWQ2cE11MjRKWWJnMlNEU3lndE1UcVhmUWZ6RW15YzRLS2oyMzdaWjdWYnhaZjlQRmQ4YTlVSWgwLWxCY3VBQzh2ZFZaeWZZalc2T3JUX05acll0ZjhIQmhZOC14c2paeDNhWS1GeGRJZEd1ZWtIaDNiNHFURjdaR3pIZGh0M05YMUdEeGdPemJmVHJmeFhOV3lUNVdCMkZSYw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado lawmakers act to reality-check Prop 123 housing targets \u00a0\u00a0 HousingWire"
+    },
+    {
+      "title": "Niche points to Eastern Plains for most affordable living in Colorado - The Coloradoan",
+      "date": "2026-04-29T11:01:00Z",
+      "source": "The Coloradoan",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQT0hVdjl2cGtsVFFxMnZQTjZoRmdOeXJKbnVYRlhrdzNZaFRZUUJfbXRTT2xrVld2cDVmNXB1QUJHNFdjdnVBSFZmal8zWmZzMU1vQ2I0MEt0VWNDLXRWMUhwSVN5X0VuVmsyRkdBTzJoYW92Z0FhQWNva3RPZDIxcFA2VmVaMGlaSjRpa2xkeER5ZmJ5d1BsOGxWV1Q2Q0FGaTAyMHV5Z0ZLdUc4dkk4MXVmbVBFWTN2WHRUMG9pR0xIdw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Niche points to Eastern Plains for most affordable living in Colorado \u00a0\u00a0 The Coloradoan"
+    },
+    {
+      "title": "Design Commission to Continue Hearing on Proposed 212-Unit Affordable Housing Project on East Colorado Boulevard \u2013 Pasadena Now - Pasadena Now",
+      "date": "2026-04-28T13:42:50Z",
+      "source": "Pasadena Now",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQM0doYlhUY3AzZVVDTGdHbnh6WTI0RDBpZnlKMmtpVGVldFJwOGNRUGh6aGxxeEFySFVYQWxOV09VMENqMk1UZXJQOTNick5SUC1zbHY5V3gwWDZ1OGQwWVBLbXlsd2xpY19jWHNkdEt5dkM1VjhubE1MN2JDX3pNRVlBUTJheGJiS0pOdjhFazNyb1RXT2Q0TF9abmNqQl84Yl9FUGxqMFhMOF9fZ2FPWkF1Qmc1aEJPazdVWHFRb056UVBEdW13bk5xZzVMTndTS2RVR0RJXzQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Design Commission to Continue Hearing on Proposed 212-Unit Affordable Housing Project on East Colorado Boulevard \u2013 Pasadena Now \u00a0\u00a0 Pasadena Now"
+    },
     {
       "title": "\ud83c\udf99\ud83c\udfa5 Proposed low-income housing complex in north Hays moves forward - Hays Post",
       "date": "2026-04-26T10:09:48Z",
@@ -77,6 +113,33 @@
       "topic": "general",
       "region": "Denver",
       "summary": "Can Azure Printed Homes help solve Colorado\u2019s housing crisis with plastic bottles? \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Colorado\u2019s mayors are asking Polis not to cut voter-approved funding for housing (Opinion) - Daily Camera",
+      "date": "2026-04-21T11:02:46Z",
+      "source": "Daily Camera",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNN00zRVRGWGF1VDlVRFBhMUt5akFGejVmX05QVy1GNTN4MDVDRkxhQnNFb1hkZm9oU3BBS2p4RmlheUxlMXFtdVRMcU5VZlh4dlYzdjdYWTNsNDd2NkFGMS1aZDNiYjRBVVN2bjZMZWctYUFsbmhIZ2c3S1NVbUoyWXZxRFZEOWNNV3JteDRhVzl0NWk4OTdSR0ROSHM?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado\u2019s mayors are asking Polis not to cut voter-approved funding for housing (Opinion) \u00a0\u00a0 Daily Camera"
+    },
+    {
+      "title": "In new affordability push, Colorado Democrats look to shrink the single-family home - KUNC",
+      "date": "2026-04-21T07:00:00Z",
+      "source": "KUNC",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbk00VXNkM21XVENtWFJXeW96cUZDRlpuMmJSZkJQTmwyVl85Z3NrUnZQLTlsVXVPNDdKbXdJdHE0dkFSWE5nREl3RHRSSDE3YVFqZFdYdjJabkNPTkNuM2pwRWZHbUlnV2ZpYnZsbGNxN0ViNHNDaW5pRDR0VjF5UC1QZ1JZTjJxY2lWRnN0eXVEUktXNDFDOWk0LVF6c3llbUJZLW9OdUliVmw3VE56ZHZqTmpmV2hyT0RsbnNSMi0?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "In new affordability push, Colorado Democrats look to shrink the single-family home \u00a0\u00a0 KUNC"
+    },
+    {
+      "title": "Maine lawmakers extend tax credit that will keep thousands of apartments affordable - Bangor Daily News",
+      "date": "2026-04-21T07:00:00Z",
+      "source": "Bangor Daily News",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPSmtMa3NTRGx1c2JhOERrUXZqY2FxOVplZzlmUk1Ba0QtaGc3WEtmY2ZDZFFsMzZqT3lkZC1sR3kzOExDdTBfa01xWjVFZ1F0cGJJcjN6QUZzSURIZ3RwMzVMSGZPb2tKSUx1RFM0Y1Fya3o2Q0pfeWloSzljNUppZHBidnUxZlE2dXdjR1AwOEY2OWVVU1RGbDhYWDhNS25pcFVWUHc3YV9oU0VuclI4QVdPUFpfS1ZjZVhyU2FmQUVKUQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Maine lawmakers extend tax credit that will keep thousands of apartments affordable \u00a0\u00a0 Bangor Daily News"
     },
     {
       "title": "State housing authority selling 62,444-square-foot office building by Coors Field - The Business Journals",
@@ -727,6 +790,24 @@
       "summary": "Colorado Law Lets Schools, Other Public Agencies Build Housing Regardless of Local Zoning \u00a0\u00a0 Planetizen"
     },
     {
+      "title": "Why Fort Collins will end public hearings on certain developments - The Coloradoan",
+      "date": "2026-03-27T07:00:00Z",
+      "source": "The Coloradoan",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZW15SVBPUkN1UDV1U2xXQUVBV01QbWxXS2xoTlNvMDdpRXAtSGFrdlBjb2V5eGZac0JXaXhaa2tiNzNmWTV0X1dMbUF2QjluZTBNeHJsdTZOaUd5Z1lSQUlKZVd1c3o2TmZPdmJyYUZyWEFlVGhEekh5ZDVIaEhTU2lMdUlwVzdEekVpY2N0eTRNNzRFWUllZWpJNU5jTjhVSEdZNkVfVHhZdy1aLUJaYlJTZ0R5NnZPcUlSR0ZmRVZUX3VJQjBERXl3MEM?oc=5",
+      "topic": "construction",
+      "region": "Fort Collins",
+      "summary": "Why Fort Collins will end public hearings on certain developments \u00a0\u00a0 The Coloradoan"
+    },
+    {
+      "title": "HUD Income and Rent Limits - RaleighNC.gov",
+      "date": "2026-03-27T07:00:00Z",
+      "source": "RaleighNC.gov",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQYXJ1eF9Ub0wyTGcwSlc4RGM2N3M1Z1loc0tuUHc5RDJGUTlXVTgyTFROV1VoZlVTMFhrU1Y1WVZFYy1WRXUtOHpJSFJ0R08xQ1djYkhTYUROTjlSMjFhOVJHQmVzTlVnV1BDdWd4bnNMckpMRWtDYkNnSHNEc3NfTUlJNXM5QjV5WGlOMVpaNGpsQ3RUclhj?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "HUD Income and Rent Limits \u00a0\u00a0 RaleighNC.gov"
+    },
+    {
       "title": "Cutting Prop 123 would cost Colorado far more than it saves | OPINION - Colorado Politics",
       "date": "2026-03-27T07:00:00Z",
       "source": "Colorado Politics",
@@ -842,6 +923,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Bill to Create More Affordable Housing Opportunities Passes Colorado House \u00a0\u00a0 Ark Valley Voice"
+    },
+    {
+      "title": "Colorado governor signs bill giving zoning exemptions to nonprofits, schools that want to build housing - SummitDaily.com",
+      "date": "2026-03-25T07:00:00Z",
+      "source": "SummitDaily.com",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOUG9QSDNKWUZVdEd4eGp6alJ2c3JKMzJzdXF2LU9nTlBPcWp3aDZfbkhiVEc5UzZwb0wxb0oyUXlDNG5PX1VvYjVjUDNoQjdaRE9iTWY0b21ZeWM2S0ZkaG5SNW95dHhYZmNVbFpCOXQwN19oNEJ3N1RWSnJTR3c4MkpzamowN2V2M3duQkJEOTEtdkU?oc=5",
+      "topic": "zoning",
+      "region": "Statewide",
+      "summary": "Colorado governor signs bill giving zoning exemptions to nonprofits, schools that want to build housing \u00a0\u00a0 SummitDaily.com"
     },
     {
       "title": "Gov. Jared Polis signs housing bills amid push for \u2018affordability\u2019 - Colorado Politics",
@@ -1013,6 +1103,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado Senate advances bill limiting local control over housing projects \u00a0\u00a0 Rocky Mountain Voice"
+    },
+    {
+      "title": "Leveraging Bridge Loans to Strengthen Affordable Housing Pipelines - Tax Credit Advisor",
+      "date": "2026-03-16T07:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOVWExUWNueGREQVp0QnZ4ck1nUEZ2emViU0UyQ1hHMFNWZ3hmOWNFeFV4TTZtS2JmbFUyaW1PaWhIVnpSY0YyNU1RRVd5NS1zSnN5anZkcE1sZUhobkg2TjZjeWlyMVBKWTFHb19mRzJIQlVtWE1BdGJXZlRlcEZVb3lyU25qWUE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Leveraging Bridge Loans to Strengthen Affordable Housing Pipelines \u00a0\u00a0 Tax Credit Advisor"
     },
     {
       "title": "CREA Closes Its Largest LIHTC Fund - Affordable Housing Finance",
@@ -1474,6 +1573,15 @@
       "summary": "Georgia Senate advances bill to sunset affordable housing tax credits \u00a0\u00a0 HousingWire"
     },
     {
+      "title": "Gallery of Denver Affordable Housing Challenge Winners Revealed by Buildner and AIA Colorado - 13 - ArchDaily",
+      "date": "2026-02-12T12:51:20Z",
+      "source": "ArchDaily",
+      "url": "https://news.google.com/rss/articles/CBMizAJBVV95cUxPal8zWURuVWhoeG1CNEtmX01feGJHcGdWOGdzVmVjN2NSMjliUS1MYUhsOXlLeGpBSVVEb2hqSjNvUUJJZzZ2Ui1KTHFaYUdDZlE0VTRsQ2tBU0hSQXRzcVhlUnNtWHRvaG41bXRDUmprc3NzTDBiR2JHb3hOVnRHU3ZwZjBYYTF6bHNkM2dQRVdEYVpFWXVMa2hISGFkVmJlZDgyU0xQVTUxZ0hVRUd6TXJWbE9YcDQyNEluX0dFY0ZmRy1na3E3cDlYLTJCM0toQVVFYkk5TktNZWxuVG9EUmZ6RS1qYldVU0JKZi1nSU1kUzlaUEdwQ1o1cThMMVZKWGMyeUVHbVdBM2d6MnRpc21RYW5sTExDWm9CRTBTbjIzQk9mU2htdjVQOUFxWVFTZ1pEdTlUVjVXTlYwY0V3X0lCV0RfbkRsdGRPcQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "Gallery of Denver Affordable Housing Challenge Winners Revealed by Buildner and AIA Colorado - 13 \u00a0\u00a0 ArchDaily"
+    },
+    {
       "title": "Gallery of Denver Affordable Housing Challenge Winners Revealed by Buildner and AIA Colorado - 1 - ArchDaily",
       "date": "2026-02-12T12:51:20Z",
       "source": "ArchDaily",
@@ -1850,96 +1958,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Syndicators Enter 2026 With Cautious Optimism \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Navigating Aggregator Litigation in LIHTC Contracts - Tax Credit Advisor",
-      "date": "2026-02-02T08:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOQWdqYS1meURnZFgxaGRicmt5X0xldXJJNDlabTJRTnlaTTNpRkUtY1hsTmFRVFFyd1NKaUgwVENwVTEtODNWUGF2d1RPbVR2NWhhNHprcEtHa2VxWVNrejh1YXhPRklTenNBOEZOY2EyMmtvU3RlXzUyT2RhLXJ2R2lPcEp5RkdOelZydXczYkJDNGNEenc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Navigating Aggregator Litigation in LIHTC Contracts \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "The Stables brings affordable housing to Aurora families, seniors - ColoradoBiz",
-      "date": "2026-02-02T08:00:00Z",
-      "source": "ColoradoBiz",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9qMElVMXlBZnlxWEw0UUt1RkRuYzEzTUU2UjVXWktfUlgyQW54blR6Q2c5RTdETG1WQnAxLXZSbm1UVUUyUUFWR3dhQVp2ZTh6c1NDUWFDOHBxTkdSWFJaSjV4djBSenlZTjZza3AwRQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "The Stables brings affordable housing to Aurora families, seniors \u00a0\u00a0 ColoradoBiz"
-    },
-    {
-      "title": "Groundbreaking: The Stables Affordable Housing - Mile High CRE",
-      "date": "2026-02-02T08:00:00Z",
-      "source": "Mile High CRE",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5EcjRGRnlpQndlU2FNdl9NUUdnemczbXkxRjJHc1RCa0xwVDZWQmZsLUphSGtRbnpsdGVfRzZtelFZVFk5dG5rbGtWWDVGNUFLVTBiN01xbGhzXy1hWXpVVmRYMjlqOF9GR0hTanFxYWVtZjdrUXFTcXRB?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Groundbreaking: The Stables Affordable Housing \u00a0\u00a0 Mile High CRE"
-    },
-    {
-      "title": "Here\u2019s a look inside one Colorado town's childcare fix: putting daycares in affordable homes - KUNC",
-      "date": "2026-02-02T08:00:00Z",
-      "source": "KUNC",
-      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNMkJ5WC1zNi1iVkY2VkV4QzBudHAtMVBmMjVrYlVXbGtYczcxYWNNVFZrTU1hM2VIMnpzVFh0WDRyOWVSOFlVZnUwQzRpcjFfWVFqc1QzWHhpM1ZxZ29QcHI5ZG41QjBXYjNubU1OMUxQdUhsanVOMkctLVBPV1ZXTTVITlhUS2cxUlRBTThhM2FxZmNORzRtM2g5N1QtbmVqZTY0VG53ckNHRDR3M21oQzExUU9PSTRheHN4S1lTY05QSV9z?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Here\u2019s a look inside one Colorado town's childcare fix: putting daycares in affordable homes \u00a0\u00a0 KUNC"
-    },
-    {
-      "title": "Colorado school board hears from developers on affordable housing for teachers - CBS News",
-      "date": "2026-02-02T08:00:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxONU1memVGMC04c1ZxNzVHV1QzZGFXY2JyZW1kX0gwdlNZdFNRQlprSlVwQnpOWmJhUjZ6cGZ0QktqcXl6cEJXaXdrYW5jRTFSbmQ4YmVFcno3MVhoZTZXT3hGWWdQSVlaSWUzVFNIbzN1dV9rTTlLZFhGV19YUDJqYWN2YWhOOEpwOThXelg1c21hN29MdnZkbFhWdnJWQjBy?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado school board hears from developers on affordable housing for teachers \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "What Colorado\u2019s Energy Transition Could Mean for Mesa County Residents - Mesa County",
-      "date": "2026-01-29T08:00:00Z",
-      "source": "Mesa County",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOZUdfbzFZRDBwU1pSZTdIel8wZjlNbmh0cGJMak1aNWlTWmxWRDhVaEhJc2dhSDRvRDZUNVNja3hpWnV2MU5oYjU4d0h6MjNFSXBEVzYtbDI0STdkcVlVcHJSY05RaDZRWlJIZnBpUG8xdHdJb3lTQ29ub1JIWWx1Slg2SXF3cjgwM0s4VkVJbzUtV0cwQVIxZHBhdGV1eXZCRFFtV0Zibzk4TE44UVZB?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "What Colorado\u2019s Energy Transition Could Mean for Mesa County Residents \u00a0\u00a0 Mesa County"
-    },
-    {
-      "title": "Colorado county invests in affordable housing to help residents experiencing homelessness - CBS News",
-      "date": "2026-01-28T08:00:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOWEVYdWdSXy1CR25pQWRQTGdwdFd4M2xXMHdHNE5lMkJvQjVwUDFETnFmRXpVXzVON1oxMkhrSk9LZEVrUnF5U0RGZUZLeEJPTlM2RHBkdm5vc0prZThhRTl5X2V6SDc0dTB3ekpxR18xMXBhZnpYZHYxXzYzal9SQ0FIeWVsNzJuTDR4UU92SnVjLTFyc3Z1Rm1zNU9NLTlaSktMRW9peEJpbURiUzFUZFFLcDZJOENhNTgxYl9fdENvaHl3aEFNVw?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado county invests in affordable housing to help residents experiencing homelessness \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "Colorado county takes long-term approach to address affordable housing shortage - CBS News",
-      "date": "2026-01-28T08:00:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPdXZuSUFuZVhfUWpQSVJQYkJUdWxVVUZxekMxUC16R0trVG8xUmZfTzcxWEdZWHJBRXB0bWRpeVNFTHJ4eXhJRUl4RUkwdUY4ZFFNVFVIVWxFZjgtdnZTZVNZV0dyeFpkSzNDWXE4bFRuSDRCWVp5TFR6RlFsZ3A5eFhRZUFxNlVRUGtUa082emhacmE1dWZ0Q3VZQUdiOHV1Snhj?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado county takes long-term approach to address affordable housing shortage \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "Littleton faces debate over housing future as voters pass zoning freeze - Denver7",
-      "date": "2026-01-28T08:00:00Z",
-      "source": "Denver7",
-      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPbkRtdkItX3NDSWZwTXNnYUpYNVBTZ09wVzB6el9HanpFeG9ZdEhLWTR5UVJEbEZzVGJZdFhGMm9rUTVGNm1wZVEzX0VBd2xfS0UzVFl3bVpKV1RWUkhXTHpNcE91ekhkNEp1MW5wLVhDQU1lZEFaN1VzekotWHpJdlhIUE83dVJISkpDWVJhMUsxMlBRWDIxSU10c3l5V1dtQVpmOGE2ZkhDaGhaS2RLeEtURDlCMEhlRjczbTZDVEZ6WS1reHNLT1N6RlNvSTVLdzl4VWJpU0JXU3R1ZklDUUlELU51cW9OYlFaUHlB?oc=5",
-      "topic": "zoning",
-      "region": "Denver",
-      "summary": "Littleton faces debate over housing future as voters pass zoning freeze \u00a0\u00a0 Denver7"
-    },
-    {
-      "title": "CREA Completes Milestone Year - Affordable Housing Finance",
-      "date": "2026-01-27T08:00:00Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFA1NG9hNUhJcHdxbk1GT3NsZ0RqT01qYnF6UUVRdWhORzJnaExxSnhSLWxqbVlvV1Vfb3VHV2NTcEZqRlpHMHA3UDFxTTh2MTBVbFVxdkpkb0tyWDFuTkZLNWNxMFBsVHpTWVhCcXZfY0ZiUWpBQUtj?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "CREA Completes Milestone Year \u00a0\u00a0 Affordable Housing Finance"
     }
   ]
 }
