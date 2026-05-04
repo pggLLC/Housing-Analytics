@@ -65,6 +65,8 @@ const ALLOW_LIST = new Set([
   "https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance",
   // GitHub settings URLs require authentication and are not publicly reachable.
   "https://github.com/pggLLC/Housing-Analytics/settings/secrets/actions",
+  // HUD NEPA page returns 404 to CI user-agents but is accessible to real browsers.
+  "https://www.hud.gov/program_offices/comm_planning/environment_energy/nepa",
 ]);
 
 const SKIP_PATTERNS = [
