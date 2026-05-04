@@ -177,6 +177,11 @@ class TestFredTemporalContinuity:
     ]
     # Maximum age in days before a series is considered stale
     MAX_AGE_DAYS = 60
+    # CPI-based series have a known ~1-month publication lag; allow extra headroom
+    EXTENDED_LAG_SERIES = {
+        'CPIAUCSL': 90,      # Consumer Price Index — ~6-week publication lag
+        'CUUR0000SAH1': 90,  # Housing CPI (Shelter) — same publication schedule
+    }
 
     def test_no_empty_core_series(self, fred_series):
         """Core monthly FRED series must have at least one observation."""
@@ -211,18 +216,24 @@ class TestFredTemporalContinuity:
     def test_monthly_series_have_recent_data(self, fred_series):
         """Each core monthly FRED series must have an observation within the last 60 days.
 
+        CPI-based series (CPIAUCSL, CUUR0000SAH1) have a known ~6-week publication
+        lag; they are allowed up to 90 days.  All other monthly series must have an
+        observation within the standard 60-day window.
+
         This replaces the previous hard-coded date checks (e.g. test_cpiaucsl_has_oct_2025)
         with a dynamic, date-aware assertion that remains valid as time advances.
         """
-        cutoff = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=self.MAX_AGE_DAYS)
+        now = datetime.now(timezone.utc).replace(tzinfo=None)
         for series_id in self.MONTHLY_SERIES:
             obs = fred_series.get(series_id, {}).get('observations', [])
             assert obs, f'{series_id}: has no observations'
             latest_date_str = max(o['date'] for o in obs)
             latest = datetime.fromisoformat(latest_date_str)
+            max_age = self.EXTENDED_LAG_SERIES.get(series_id, self.MAX_AGE_DAYS)
+            cutoff = now - timedelta(days=max_age)
             assert latest >= cutoff, (
                 f'{series_id}: latest observation is {latest_date_str}, '
-                f'more than {self.MAX_AGE_DAYS} days old'
+                f'more than {max_age} days old'
             )
 
     def test_monthly_series_no_internal_gaps(self, fred_series):
