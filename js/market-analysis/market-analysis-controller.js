@@ -793,6 +793,27 @@
             ' — ' + policyMetrics.overlayCount + ' supportive overlays, score=' + policyMetrics.totalScore);
         }
 
+        // ── PMA transit metrics — wire the real transit composite into
+        // scoreAccess instead of relying solely on nearest-stop distance.
+        // PMATransit.calculateTransitScore() (called by the PMA runner
+        // when present) blends frequency, coverage, and EPA SLD walk-to-
+        // transit; its output captures bus + rail service quality, not
+        // just proximity. When the runner hasn't been invoked or PMATransit
+        // isn't loaded, leave transitMetrics undefined and scoreAccess
+        // falls back to the legacy distance proxy.
+        var transitMetrics = null;
+        if (typeof window !== 'undefined' && window.PMATransit &&
+            typeof window.PMATransit.getTransitJustification === 'function') {
+          var tj = _safe(function () { return window.PMATransit.getTransitJustification(); }, null);
+          if (tj && typeof tj.transitAccessibilityScore === 'number') {
+            transitMetrics = {
+              transitAccessibilityScore: tj.transitAccessibilityScore,
+              nearbyRouteCount:          tj.nearbyRouteCount,
+              hasHighFrequencyService:   tj.hasHighFrequencyService
+            };
+          }
+        }
+
         // Build scoring inputs from available data.
         var inputs = {
           acs:              acs,
@@ -805,6 +826,7 @@
           cleanupFlag:      ejiMetrics.riskCategory === 'high',
           amenities:        amenityInputs,
           walkabilityCtx:   walkabilityCtx,
+          transitMetrics:   transitMetrics,
           ejiMetrics:       ejiMetrics,
           zoningCapacity:   policyMetrics.zoningCapacity,
           publicOwnership:  policyMetrics.publicOwnership,
