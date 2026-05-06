@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-06T04:49:49.060Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-06T19:18:39.540Z. Do not edit by hand.
 
 ---
 
@@ -1037,7 +1037,7 @@
 | `test/unit/pma-schools.test.js` | 4.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
-| `test/unit/site-selection-score.test.js` | 27.6 KB |
+| `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
@@ -1073,7 +1073,7 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 894 B |
 | `.github/workflows/audit-endpoints.yml` | 14.9 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 5.8 KB |
+| `.github/workflows/build-hna-data.yml` | 7.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 11.1 KB |
