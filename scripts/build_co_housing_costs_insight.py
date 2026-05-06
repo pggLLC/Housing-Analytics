@@ -250,6 +250,32 @@ def _fetch_json(url: str, timeout: int = 60) -> Any:
     return json.loads(_fetch_url(url, timeout=timeout).decode("utf-8"))
 
 
+def _fetch_url_with_retry(url: str, timeout: int = 60, retries: int = 3) -> bytes:
+    """Fetch URL with exponential-backoff retry on transient failures.
+
+    Args:
+        url:     URL to download.
+        timeout: Per-attempt socket timeout in seconds.
+        retries: Maximum number of attempts (including the initial attempt).
+    """
+    if retries < 1:
+        raise ValueError(f"retries must be >= 1, got {retries}")
+    last_exc: Optional[Exception] = None
+    for attempt in range(retries):
+        try:
+            return _fetch_url(url, timeout=timeout)
+        except Exception as exc:
+            last_exc = exc
+            if attempt < retries - 1:
+                wait = 2 ** (attempt + 1)  # 2 s, 4 s, …
+                log.warning(
+                    "Download attempt %d/%d failed: %s — retrying in %ds",
+                    attempt + 1, retries, exc, wait,
+                )
+                time.sleep(wait)
+    raise last_exc  # type: ignore[misc]  # last_exc is always set when retries >= 1
+
+
 def _ensure_dirs() -> None:
     for d in [DATA_DIR, ASSETS_MAPS, ASSETS_CHARTS, ASSETS_SNAPSHOTS]:
         d.mkdir(parents=True, exist_ok=True)
@@ -710,9 +736,12 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
     df: Optional["pd.DataFrame"] = None
     for year in candidate_years:
         url = cfg.QCEW_BASE_URL.format(year=year)
-        log.info("Downloading QCEW %d data from %s …", year, url)
+        log.info(
+            "Downloading QCEW %d data from %s (timeout=600s, up to 3 attempts) …",
+            year, url,
+        )
         try:
-            raw = _fetch_url(url, timeout=300)
+            raw = _fetch_url_with_retry(url, timeout=600, retries=3)
         except Exception as exc:
             log.warning("QCEW %d download failed: %s", year, exc)
             continue
