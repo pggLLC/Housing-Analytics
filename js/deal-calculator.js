@@ -262,7 +262,11 @@
     if (!isFinite(burden) || burden <= 0) burden = DEFAULT_CONSTANTS.rentBurdenPct;
     var ami4 = +il.ami_4person;
     var computed = {};
-    [30, 40, 50, 60].forEach(function (pct) {
+    // LIHTC tiers (≤60% AMI) plus workforce/market-rate tiers above 60%.
+    // Above 60% the calculator computes a rent ceiling using the same
+    // formula but those units don't qualify for tax credits (see
+    // recalc's applicable-fraction logic).
+    [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
       computed[pct] = Math.round((ami4 * (pct / 100) * burden) / 12);
     });
     _amiLimits = computed;
@@ -360,16 +364,28 @@
 
         <div style="margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);display:block;margin-bottom:0.4rem;">AMI Mix &amp; Units per Tier</span>
+          <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
+            Tiers ≤60% AMI generate LIHTC equity; tiers above 60% are workforce or
+            market-rate units that don't qualify for tax credits. Mixed-income deals
+            (some tiers above 60%) use IRC §42(c)(1)(B) applicable fraction —
+            eligible basis is prorated by LIHTC unit share. See live calculation below.
+          </div>
           <div id="dc-ami-rows" style="display:grid;grid-template-columns:auto 1fr;gap:0.4rem 0.75rem;align-items:center;">
-            ${[30, 40, 50, 60].map(pct => `
+            ${[30, 40, 50, 60, 70, 80, 100].map(pct => {
+              var lihtcEligible = pct <= 60;
+              var defaultUnits = lihtcEligible ? 15 : 0;
+              var tierLabel = lihtcEligible
+                ? pct + '% AMI'
+                : pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce)</span>';
+              return `
               <label style="display:flex;align-items:center;gap:0.4rem;min-height:44px;min-width:44px;font-size:var(--small);white-space:nowrap;">
-                <input id="dc-chk-${pct}" type="checkbox" checked style="width:16px;height:16px;">
-                ${pct}% AMI
+                <input id="dc-chk-${pct}" type="checkbox" ${lihtcEligible ? 'checked' : ''} style="width:16px;height:16px;">
+                ${tierLabel}
               </label>
-              <input id="dc-units-${pct}" type="number" min="0" step="1" value="15"
+              <input id="dc-units-${pct}" type="number" min="0" step="1" value="${defaultUnits}"
                 aria-label="Units at ${pct}% AMI"
                 style="padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
-            `).join('')}
+            `;}).join('')}
           </div>
         </div>
 
@@ -397,6 +413,12 @@
             ✓ Site marked as QCT/DDA — consider setting Eligible Basis to 100%+ to model the boost.
           </p>
         </div>
+
+        <!-- Applicable-fraction note: shown when both LIHTC and market units present -->
+        <div id="dc-applicable-fraction-note" hidden
+          style="margin:0.5rem 0 var(--sp2);padding:0.5rem 0.75rem;border-radius:var(--radius);
+                 background:var(--accent-dim,#d1fae5);border:1px solid var(--accent,#096e65);
+                 color:var(--text);font-size:var(--tiny);line-height:1.45;"></div>
 
         <!-- Unit-sync warning: shown when Total Units ≠ sum of AMI-tier units -->
         <div id="dc-units-sync-warn" hidden
@@ -1073,7 +1095,9 @@
     // Attach event listeners
     const ids = ['dc-tdc', 'dc-units', 'dc-basis-pct',
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
+      'dc-chk-70', 'dc-chk-80', 'dc-chk-100',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
+      'dc-units-70', 'dc-units-80', 'dc-units-100',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-impact-fee-amount', 'dc-impact-fee-rate', 'dc-impact-fee-term'];
@@ -1323,18 +1347,18 @@
       }
     }
 
-    // LIHTC credit calculations — grants reduce eligible basis per §42(d)(5)(A).
-    var eligibleBasis = Math.max(0, (tdc * basisPct) - impactGrant);
-    var annualCredits = eligibleBasis * _creditRate;
-    var equity = annualCredits * CREDIT_YEARS * equityPrice;
-
-    // Rent income — sum checked AMI-tier units
+    // Rent income — sum checked AMI-tier units. Track LIHTC-eligible
+    // (≤60% AMI) vs market/workforce (70/80/100% AMI) unit counts
+    // separately so we can apply the IRC §42(c)(1)(B) "applicable
+    // fraction" to eligible basis for mixed-income deals.
     var annualRents = 0;
     var amiUnitSum = 0;
+    var lihtcUnits = 0;     // units at ≤60% AMI (count toward LIHTC qualified basis)
+    var marketUnits = 0;    // units at >60% AMI (excluded from LIHTC qualified basis)
     // _amiLimits is null until the user selects a county. Skip the rent roll
     // entirely rather than fabricating Denver MSA rents — NaN propagation
     // through the pro-forma would mislead more than a visible zero.
-    [30, 40, 50, 60].forEach(function (pct) {
+    [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
       if (chk && uInput) {
@@ -1343,8 +1367,46 @@
           annualRents += u * _amiLimits[pct] * 12;
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
+        if (chk.checked) {
+          if (pct <= 60) lihtcUnits  += u;
+          else           marketUnits += u;
+        }
       }
     });
+
+    // Applicable fraction (IRC §42(c)(1)(B)): for mixed-income deals
+    // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
+    // We don't track floor area separately, so use the unit fraction.
+    // For pure-LIHTC deals (no market units), this is 1.0.
+    var totalLihtcEligibleAndMarket = lihtcUnits + marketUnits;
+    var applicableFraction = totalLihtcEligibleAndMarket > 0
+      ? lihtcUnits / totalLihtcEligibleAndMarket
+      : 1.0;
+
+    // LIHTC credit calculations — grants reduce eligible basis per
+    // §42(d)(5)(A); applicable fraction prorates basis when market-rate
+    // units are present.
+    var eligibleBasisRaw = Math.max(0, (tdc * basisPct) - impactGrant);
+    var eligibleBasis    = eligibleBasisRaw * applicableFraction;
+    var annualCredits    = eligibleBasis * _creditRate;
+    var equity           = annualCredits * CREDIT_YEARS * equityPrice;
+
+    // Surface the applicable-fraction math when market units present
+    var afNoteEl = document.getElementById('dc-applicable-fraction-note');
+    if (afNoteEl) {
+      if (marketUnits > 0 && lihtcUnits > 0) {
+        afNoteEl.innerHTML =
+          '<strong style="color:var(--accent,#096e65);">Mixed-income deal:</strong> ' +
+          lihtcUnits + ' LIHTC units / ' + totalLihtcEligibleAndMarket +
+          ' total = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
+          'Eligible basis prorated to ' + fmt(eligibleBasis) +
+          ' (vs ' + fmt(eligibleBasisRaw) + ' if 100% LIHTC). ' +
+          'Market-rate units generate rent but no tax credits per IRC §42(c)(1)(B).';
+        afNoteEl.hidden = false;
+      } else {
+        afNoteEl.hidden = true;
+      }
+    }
 
     // Warn when Total Units ≠ sum of AMI-tier units (auto-NOI uses Total Units
     // for operating expenses; rent uses AMI-tier units — divergence = wrong NOI).
