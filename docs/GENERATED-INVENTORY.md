@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-04T11:46:59.681Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-06T03:03:30.580Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 130.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.85 MB | ✅ | — |
+| `data/fred-data.json` | 987.2 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1104,7 +1104,7 @@
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 1.6 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
