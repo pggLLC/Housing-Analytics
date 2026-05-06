@@ -710,6 +710,34 @@
     var html = '<div class="hca-cp-ami">';
     html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix <span class="hca-cp-source">HUD CHAS · AMI Gap Model</span></h4>';
 
+    // Surface the systemic county-scaling pattern: the underlying
+    // ami_gap_30pct/50pct/60pct fields in ranking-index.json are
+    // computed at the COUNTY level and proportionally scaled to
+    // sub-county geographies by population share. Result: every
+    // place/CDP in the same county shows the same mix percentages —
+    // the absolute counts differ, but the % distribution is
+    // county-level, not place-specific. Without this disclosure a
+    // user comparing two places in Mesa County (e.g. Fruita vs
+    // Clifton) would see identical mix and reasonably assume real
+    // demographic similarity, when it's actually a data artifact.
+    var typeA = String((entryA && entryA.type) || '').toLowerCase();
+    var typeB = String((entryB && entryB.type) || '').toLowerCase();
+    var anyProxy = (typeA === 'place' || typeA === 'cdp' ||
+                    typeB === 'place' || typeB === 'cdp');
+    if (anyProxy) {
+      html += '<div class="hca-cp-ami__proxy-note" role="note" style="' +
+        'margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
+        'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
+        'font-size:.78rem;line-height:1.45;color:var(--text);">' +
+        '<strong style="color:var(--warn,#d97706);">⚠ Mix percentages are county-scaled, not place-specific.</strong> ' +
+        'The HUD CHAS / AMI Gap Model publishes its tier breakdown at county granularity. ' +
+        'For places and CDPs we proportionally scale county totals by renter population — so every ' +
+        'place/CDP in the same county shows the same percentage distribution (only absolute counts differ). ' +
+        'Use the totals for sizing and the percentages for directional context only — actual per-place mix ' +
+        'may vary materially within a county.' +
+      '</div>';
+    }
+
     // Stacked bar comparison
     html += '<div class="hca-cp-ami__bars">';
     [{ label: 'A', mix: mixA, entry: entryA, cls: 'a' },
