@@ -84,6 +84,22 @@ jobs:
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
+      - name: Phase 7 — Rebuild HNA ranking index
+        # Regenerates data/hna/ranking-index.json — the file consumed by
+        # the Comparative Analysis page (hna-comparative-analysis.html).
+        # Reads the freshly built summary/projections/CHAS files from the
+        # earlier phases and re-derives the comparative metrics + scores.
+        #
+        # Wired here on 2026-05-06 to close the structural gap that drove
+        # data-freshness alerts #744-#748 (file aging past 9-day SLA with
+        # no scheduled regen path). PR #749 had only band-aided the
+        # generatedAt timestamp; the actual rebuild was never automated.
+        # Non-blocking: existing file is preserved if the script fails so
+        # one bad rebuild doesn't take the comparative-analysis page down.
+        run: |
+          echo "── Rebuilding HNA ranking index ──"
+          python3 scripts/hna/build_ranking_index.py 2>&1 || echo "::warning::Ranking-index rebuild failed (non-critical; existing file will be used)"
+
       - name: Post-build verification
         id: verify
         run: |
@@ -112,6 +128,22 @@ jobs:
           if [ "$total_files" -eq 0 ]; then
             echo "::error::No HNA output files were produced"
             exit 1
+          fi
+
+          # Verify ranking-index.json was actually regenerated this run.
+          # If Phase 7 silently used the existing file (script crash, no
+          # output written), the data-freshness alert that opened #744-
+          # #748 will keep firing — surface this as a CI warning so the
+          # next run has a chance to fix it before the SLA breach repeats.
+          if [ -f data/hna/ranking-index.json ]; then
+            file_age_secs=$(( $(date +%s) - $(stat -c%Y data/hna/ranking-index.json) ))
+            file_age_days=$(( file_age_secs / 86400 ))
+            echo "── data/hna/ranking-index.json mtime age: ${file_age_days} days ──"
+            if [ "$file_age_days" -gt 1 ]; then
+              echo "::warning::ranking-index.json mtime is ${file_age_days} days old — Phase 7 likely failed to regenerate it. Check Phase 7 logs above."
+            fi
+          else
+            echo "::warning::data/hna/ranking-index.json missing after build"
           fi
 
       - name: Alert on build failure
