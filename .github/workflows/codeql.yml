@@ -1,0 +1,45 @@
+# Advanced CodeQL workflow — disabled from automatic CI triggers to avoid
+# conflict with the repository's GitHub-managed default CodeQL setup.
+# To run manually: Actions → CodeQL → Run workflow.
+# To re-enable automatic runs, restore the push/pull_request/schedule triggers
+# below and disable the default setup in Settings → Code security → Code scanning.
+name: "CodeQL"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: actions
+            build-mode: none
+          - language: javascript-typescript
+            build-mode: none
+          - language: python
+            build-mode: none
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
