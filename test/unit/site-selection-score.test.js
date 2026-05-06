@@ -344,6 +344,60 @@ test('scoreAccess returns { score:null, unavailable:true } for missing input', f
     'undefined → { score:null, unavailable:true }');
 });
 
+// ── transitMetrics: PMA transit composite replaces distance proxy ─────
+
+test('scoreAccess uses PMA transitMetrics when provided (transitSource: pma)', function () {
+  const farAmenities = {
+    grocery: 99, transit: 99, parks: 99, healthcare: 99, schools: 99
+  };
+  // Without transitMetrics: distance proxy → 0 (everything far)
+  const distOnly = SSS.scoreAccess(farAmenities);
+  assert(distOnly.score === 0,                        'no metrics + far amenities → 0');
+  assert(distOnly.transitSource === 'distance',       'transitSource: distance');
+
+  // With a strong PMA transit score, transit contributes 25 pts max
+  const withPmaHigh = SSS.scoreAccess(farAmenities, null,
+    { transitAccessibilityScore: 100, nearbyRouteCount: 12, hasHighFrequencyService: true });
+  assert(withPmaHigh.score === 25,
+    'PMA score=100 → 25 transit pts (got ' + withPmaHigh.score + ')');
+  assert(withPmaHigh.transitSource === 'pma',         'transitSource: pma');
+
+  const withPmaMid = SSS.scoreAccess(farAmenities, null,
+    { transitAccessibilityScore: 60 });
+  // 60/100 * 25 = 15 pts
+  assert(withPmaMid.score === 15,
+    'PMA score=60 → 15 transit pts (got ' + withPmaMid.score + ')');
+});
+
+test('scoreAccess: missing transitAccessibilityScore falls back to distance', function () {
+  const amenities = { grocery: 0.4, transit: 0.2, parks: 0.2, healthcare: 0.9, schools: 0.4 };
+  // transitMetrics provided but without transitAccessibilityScore — falls back
+  const fallback = SSS.scoreAccess(amenities, null,
+    { nearbyRouteCount: 12, hasHighFrequencyService: true });
+  assert(fallback.transitSource === 'distance',
+    'metrics without numeric transitAccessibilityScore → distance fallback');
+
+  // null/undefined transitMetrics → distance
+  const nullM = SSS.scoreAccess(amenities, null, null);
+  assert(nullM.transitSource === 'distance', 'null → distance');
+  const noArg = SSS.scoreAccess(amenities, null);
+  assert(noArg.transitSource === 'distance', 'omitted → distance');
+});
+
+test('scoreAccess: PMA transit + walkability blend correctly', function () {
+  const amenities = { grocery: 99, transit: 99, parks: 99, healthcare: 99, schools: 99 };
+  const result = SSS.scoreAccess(
+    amenities,
+    { walkScore: 80, bikeScore: 80 },
+    { transitAccessibilityScore: 100 }
+  );
+  // distanceScore = 25 (transit only, all else far)
+  // finalScore = 25 * 0.55 + 80 * 0.25 + 80 * 0.20 = 13.75 + 20 + 16 = 49.75 → 50
+  assert(result.score === 50,
+    'PMA transit (25) + walk/bike (80) blend = 50 (got ' + result.score + ')');
+  assert(result.transitSource === 'pma',          'transitSource preserved through blend');
+});
+
 // ---------------------------------------------------------------------------
 // 17. scorePolicy — public ownership bonus
 // ---------------------------------------------------------------------------
