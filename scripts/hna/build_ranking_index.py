@@ -4,7 +4,9 @@
 Reads all data/hna/summary/{geoid}.json files and cross-references:
   - data/hna/projections/{countyFips5}.json  (population projections)
   - data/hna/chas_affordability_gap.json     (cost-burden by AMI tier)
-  - data/co_ami_gap_by_county.json           (affordability gap units)
+  - data/co_ami_gap_by_county.json           (affordability gap units, county)
+  - data/co_ami_gap_by_place.json            (affordability gap units, place;
+                                              preferred for places/CDPs)
 
 Writes:
   data/hna/ranking-index.json
@@ -107,6 +109,27 @@ def load_ami_gap() -> dict[str, dict]:
     return result
 
 
+def load_ami_gap_by_place() -> dict[str, dict]:
+    """Return dict keyed by 7-digit place GEOID with place-specific AMI gap metrics.
+
+    This file is produced by ``scripts/hna/build_place_ami_gap.py`` and replaces
+    the previous behaviour of proportionally scaling county aggregates by
+    population share. Place-specific data fixes the systemic bug where two
+    places in the same county (e.g. Fruita and Clifton, both Mesa County)
+    appeared to have identical AMI mix profiles. When this file is missing
+    or a particular place is absent, callers fall back to county-scaled.
+    """
+    path = os.path.join(ROOT, "data", "co_ami_gap_by_place.json")
+    data = _load_json(path)
+    if not data:
+        return {}
+    places = data.get("places", {})
+    if isinstance(places, dict):
+        # Normalize keys to 7-digit
+        return {str(k).zfill(7): v for k, v in places.items()}
+    return {}
+
+
 def load_chas() -> dict[str, dict]:
     """Return dict keyed by 5-digit county FIPS with CHAS cost-burden data."""
     path = os.path.join(ROOT, "data", "hna", "chas_affordability_gap.json")
@@ -189,6 +212,7 @@ def _get_county_fips(geoid: str, geo_type: str) -> str:
 def compute_metrics(
     summary: dict,
     ami_gap_by_county: dict[str, dict],
+    ami_gap_by_place: dict[str, dict],
     chas_by_county: dict[str, dict],
     lehd_by_county: dict[str, dict],
     county_populations: dict[str, int] | None = None,
@@ -267,12 +291,50 @@ def compute_metrics(
         county_fips5 = geo.get("containingCounty", geoid[:5]).zfill(5)
 
     # --- AMI gap at 30% AMI (housing unit deficit) ---
+    # Resolution order:
+    #   1. Place-specific data from co_ami_gap_by_place.json (preferred for
+    #      places/CDPs; built directly from ACS B19001+B25063 per place).
+    #   2. County aggregate from co_ami_gap_by_county.json, scaled by
+    #      population share for places/CDPs (legacy fallback).
+    # The place-level path fixes the systemic bug where Fruita and Clifton
+    # (both Mesa County) appeared identical because the county aggregate was
+    # scaled by population without using each place's actual income/rent
+    # distribution. See scripts/hna/build_place_ami_gap.py for methodology.
     housing_gap_units = 0
     ami_gap_30 = 0
     ami_gap_50 = 0
     ami_gap_60 = 0
     missing_ami_tiers: list[str] = []
-    if county_fips5 and county_fips5 in ami_gap_by_county:
+    ami_gap_source = "none"  # one of: none, place_acs_direct, county_direct, county_proportional
+
+    place_geoid7 = ""
+    if geo_type != "county" and geoid:
+        place_geoid7 = str(geoid).zfill(7)
+
+    place_data = ami_gap_by_place.get(place_geoid7) if place_geoid7 else None
+
+    if place_data:
+        gap_dict = place_data.get("gap_units_minus_households_le_ami_pct", {})
+        coverage_dict = place_data.get("coverage_le_ami_pct", {})
+
+        def _place_gap_abs(band: str) -> int:
+            return int(abs(safe_float(gap_dict.get(band, 0))))
+
+        housing_gap_units = _place_gap_abs("30")
+        ami_gap_50 = _place_gap_abs("50")
+        ami_gap_60 = _place_gap_abs("60")
+        ami_gap_30 = housing_gap_units
+        ami_gap_source = "place_acs_direct"
+
+        # Identify missing AMI tiers from place coverage
+        for band, label in [("30", "30%"), ("40", "40%"), ("50", "50%"),
+                            ("60", "60%"), ("70", "70%"), ("80", "80%")]:
+            cov = safe_float(coverage_dict.get(band, 1.0))
+            deficit = int(abs(safe_float(gap_dict.get(band, 0))))
+            if cov < 0.75 and deficit > 100:
+                missing_ami_tiers.append(label)
+
+    elif county_fips5 and county_fips5 in ami_gap_by_county:
         county_data = ami_gap_by_county[county_fips5]
         gap_dict = county_data.get("gap_units_minus_households_le_ami_pct", {})
         coverage_dict = county_data.get("coverage_le_ami_pct", {})
@@ -288,8 +350,11 @@ def compute_metrics(
             housing_gap_units = county_gap_30
             ami_gap_50 = county_gap_50
             ami_gap_60 = county_gap_60
+            ami_gap_source = "county_direct"
         else:
-            # Scale by this place's share of county population.
+            # Legacy fallback: scale county aggregate by population share.
+            # Triggers only when place_acs_direct data is missing for this
+            # place (e.g. very small CDPs where ACS suppresses cells).
             # Prefer ACS county population (from county_populations); fall back
             # to households_le_ami_pct["100"] when the county summary is absent.
             county_total = float((county_populations or {}).get(county_fips5, 0))
@@ -302,6 +367,7 @@ def compute_metrics(
             housing_gap_units = int(county_gap_30 * share)
             ami_gap_50 = int(county_gap_50 * share)
             ami_gap_60 = int(county_gap_60 * share)
+            ami_gap_source = "county_proportional"
         ami_gap_30 = housing_gap_units
 
         # Identify missing AMI tiers: coverage < 75% and absolute deficit > 100 units
@@ -403,8 +469,22 @@ def compute_metrics(
     # Flag fields whose place-level values are downscaled from county sources
     # (per Q2b decision: approximate rather than hide). Consumers can surface
     # a disclaimer in the UI.
+    #
+    # When AMI gap data was sourced directly from per-place ACS (the default
+    # path now), the AMI fields are NOT approximated and should be removed
+    # from the warning list — only the truly county-scaled fields remain.
     if geo_type == "county":
         approximated_fields: list[str] = []
+    elif ami_gap_source == "place_acs_direct":
+        approximated_fields = [
+            # Cost-burden AMI tiers still come from county CHAS (tract aggregation
+            # is the deferred follow-up — see build_place_ami_gap.py header).
+            "pct_burdened_lte30",
+            "pct_burdened_31to50",
+            "pct_burdened_51to80",
+            "in_commuters",
+            "population_projection_20yr",
+        ]
     else:
         approximated_fields = [
             "ami_gap_30pct",
@@ -436,6 +516,7 @@ def compute_metrics(
         "vacancy_rate": vacancy_rate,
         "pct_renters": round(pct_renter, 1),
         "gross_rent_median": gross_rent,
+        "_ami_gap_source": ami_gap_source,
         "_null_critical_count": null_critical_count,
         "_approximated_fields": approximated_fields,
     }
@@ -470,10 +551,12 @@ def build() -> None:
 
     print("Loading cross-reference datasets…", file=sys.stderr)
     ami_gap = load_ami_gap()
+    ami_gap_place = load_ami_gap_by_place()
     chas = load_chas()
     lehd = load_lehd_index()
     county_pops = load_county_populations()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
+    print(f"  AMI gap places (place-specific):  {len(ami_gap_place)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
     print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
     print(f"  County populations: {len(county_pops)}", file=sys.stderr)
@@ -511,7 +594,9 @@ def build() -> None:
         region = COUNTY_REGION.get(county_fips5, "Other")
 
         try:
-            metrics = compute_metrics(summary, ami_gap, chas, lehd, county_pops)
+            metrics = compute_metrics(
+                summary, ami_gap, ami_gap_place, chas, lehd, county_pops
+            )
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
             metrics = {

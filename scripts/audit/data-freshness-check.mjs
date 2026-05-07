@@ -46,6 +46,7 @@ const SLA_CONFIG = [
   { file: 'data/market/hud_lihtc_co.geojson',               slaDays: 95,  cadence: 'quarterly (HUD LIHTC DB)' },
   { file: 'data/market/nhpd_co.geojson',                    slaDays: 95,  cadence: 'quarterly (NHPD export)' },
   { file: 'data/co_ami_gap_by_county.json',                 slaDays: 95,  cadence: 'quarterly (AMI gap build)' },
+  { file: 'data/co_ami_gap_by_place.json',                  slaDays: 9,   cadence: 'weekly (build-hna-data.yml Phase 6.5)' },
 ];
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.
