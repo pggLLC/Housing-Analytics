@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-05-07T07:18:21Z",
+    "generatedAt": "2026-05-07T17:12:20Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 273,
@@ -149,6 +149,7 @@
         "pct_renters": 31.7,
         "gross_rent_median": 2075,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 92.9
       },
       "hasIncompleteData": false,
@@ -192,6 +193,7 @@
         "pct_renters": 57.9,
         "gross_rent_median": 2068,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 92.0
       },
       "hasIncompleteData": false,
@@ -235,6 +237,7 @@
         "pct_renters": 49.0,
         "gross_rent_median": 1720,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 90.6
       },
       "hasIncompleteData": false,
@@ -278,6 +281,7 @@
         "pct_renters": 35.6,
         "gross_rent_median": 1755,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 90.4
       },
       "hasIncompleteData": false,
@@ -321,6 +325,7 @@
         "pct_renters": 38.6,
         "gross_rent_median": 1932,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 90.3
       },
       "hasIncompleteData": false,
@@ -371,6 +376,7 @@
         "pct_renters": 36.6,
         "gross_rent_median": 1751,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 90.2
       },
       "hasIncompleteData": false,
@@ -412,6 +418,7 @@
         "pct_renters": 31.3,
         "gross_rent_median": 1940,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 89.9
       },
       "hasIncompleteData": false,
@@ -453,6 +460,7 @@
         "pct_renters": 39.5,
         "gross_rent_median": 1966,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 89.4
       },
       "hasIncompleteData": false,
@@ -487,6 +495,7 @@
         "pct_renters": 26.0,
         "gross_rent_median": 2235,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 89.2
       },
       "hasIncompleteData": false,
@@ -537,6 +546,7 @@
         "pct_renters": 36.3,
         "gross_rent_median": 1755,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 89.1
       },
       "hasIncompleteData": false,
@@ -571,6 +581,7 @@
         "pct_renters": 42.8,
         "gross_rent_median": 1699,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 89.1
       },
       "hasIncompleteData": false,
@@ -614,6 +625,7 @@
         "pct_renters": 40.3,
         "gross_rent_median": 1834,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 88.9
       },
       "hasIncompleteData": false,
@@ -664,6 +676,7 @@
         "pct_renters": 34.1,
         "gross_rent_median": 2019,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 88.6
       },
       "hasIncompleteData": false,
@@ -705,6 +718,7 @@
         "pct_renters": 35.1,
         "gross_rent_median": 1977,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 88.4
       },
       "hasIncompleteData": false,
@@ -739,6 +753,7 @@
         "pct_renters": 39.4,
         "gross_rent_median": 1775,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 88.2
       },
       "hasIncompleteData": false,
@@ -782,6 +797,7 @@
         "pct_renters": 40.7,
         "gross_rent_median": 1687,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 88.0
       },
       "hasIncompleteData": false,
@@ -825,6 +841,7 @@
         "pct_renters": 27.2,
         "gross_rent_median": 1745,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 88.0
       },
       "hasIncompleteData": false,
@@ -868,6 +885,7 @@
         "pct_renters": 42.7,
         "gross_rent_median": 1853,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 87.7
       },
       "hasIncompleteData": false,
@@ -911,6 +929,7 @@
         "pct_renters": 36.2,
         "gross_rent_median": 1117,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 87.6
       },
       "hasIncompleteData": false,
@@ -954,6 +973,7 @@
         "pct_renters": 38.8,
         "gross_rent_median": 1819,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 87.5
       },
       "hasIncompleteData": false,
@@ -997,6 +1017,7 @@
         "pct_renters": 10.7,
         "gross_rent_median": 2448,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 87.3
       },
       "hasIncompleteData": false,
@@ -1047,6 +1068,7 @@
         "pct_renters": 29.9,
         "gross_rent_median": 1899,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 87.2
       },
       "hasIncompleteData": false,
@@ -1088,6 +1110,7 @@
         "pct_renters": 23.7,
         "gross_rent_median": 1579,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 86.7
       },
       "hasIncompleteData": false,
@@ -1122,6 +1145,7 @@
         "pct_renters": 39.2,
         "gross_rent_median": 1441,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 86.5
       },
       "hasIncompleteData": false,
@@ -1172,6 +1196,7 @@
         "pct_renters": 21.6,
         "gross_rent_median": 2309,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 86.3
       },
       "hasIncompleteData": false,
@@ -1206,6 +1231,7 @@
         "pct_renters": 18.0,
         "gross_rent_median": 2010,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 86.3
       },
       "hasIncompleteData": false,
@@ -1249,6 +1275,7 @@
         "pct_renters": 27.5,
         "gross_rent_median": 1656,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 86.3
       },
       "hasIncompleteData": false,
@@ -1292,6 +1319,7 @@
         "pct_renters": 51.9,
         "gross_rent_median": 1870,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 86.1
       },
       "hasIncompleteData": false,
@@ -1335,6 +1363,7 @@
         "pct_renters": 23.6,
         "gross_rent_median": 2833,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 86.1
       },
       "hasIncompleteData": false,
@@ -1378,6 +1407,7 @@
         "pct_renters": 22.4,
         "gross_rent_median": 1793,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 85.9
       },
       "hasIncompleteData": false,
@@ -1421,6 +1451,7 @@
         "pct_renters": 36.6,
         "gross_rent_median": 1845,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 85.6
       },
       "hasIncompleteData": false,
@@ -1464,6 +1495,7 @@
         "pct_renters": 12.8,
         "gross_rent_median": 1793,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 85.6
       },
       "hasIncompleteData": false,
@@ -1514,6 +1546,7 @@
         "pct_renters": 31.1,
         "gross_rent_median": 1111,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 85.5
       },
       "hasIncompleteData": false,
@@ -1552,6 +1585,7 @@
         "pct_renters": 51.9,
         "gross_rent_median": 1870,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 85.3
       },
       "hasIncompleteData": false,
@@ -1586,6 +1620,7 @@
         "pct_renters": 42.9,
         "gross_rent_median": 2081,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 85.1
       },
       "hasIncompleteData": false,
@@ -1629,6 +1664,7 @@
         "pct_renters": 50.8,
         "gross_rent_median": 1668,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 84.7
       },
       "hasIncompleteData": false,
@@ -1679,6 +1715,7 @@
         "pct_renters": 25.2,
         "gross_rent_median": 1259,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 84.5
       },
       "hasIncompleteData": false,
@@ -1713,6 +1750,7 @@
         "pct_renters": 28.3,
         "gross_rent_median": 1702,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 84.5
       },
       "hasIncompleteData": false,
@@ -1763,6 +1801,7 @@
         "pct_renters": 25.9,
         "gross_rent_median": 1611,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 84.3
       },
       "hasIncompleteData": false,
@@ -1797,6 +1836,7 @@
         "pct_renters": 28.5,
         "gross_rent_median": 1779,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 84.3
       },
       "hasIncompleteData": false,
@@ -1847,6 +1887,7 @@
         "pct_renters": 22.1,
         "gross_rent_median": 1121,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 84.0
       },
       "hasIncompleteData": false,
@@ -1881,6 +1922,7 @@
         "pct_renters": 45.6,
         "gross_rent_median": 1579,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 83.9
       },
       "hasIncompleteData": false,
@@ -1924,6 +1966,7 @@
         "pct_renters": 34.3,
         "gross_rent_median": 2121,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 83.8
       },
       "hasIncompleteData": false,
@@ -1967,6 +2010,7 @@
         "pct_renters": 25.5,
         "gross_rent_median": 1901,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 83.4
       },
       "hasIncompleteData": false,
@@ -2017,6 +2061,7 @@
         "pct_renters": 29.1,
         "gross_rent_median": 1504,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 83.4
       },
       "hasIncompleteData": false,
@@ -2058,6 +2103,7 @@
         "pct_renters": 19.0,
         "gross_rent_median": 1880,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 83.0
       },
       "hasIncompleteData": false,
@@ -2092,6 +2138,7 @@
         "pct_renters": 16.4,
         "gross_rent_median": 2176,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 82.9
       },
       "hasIncompleteData": false,
@@ -2142,6 +2189,7 @@
         "pct_renters": 23.8,
         "gross_rent_median": 942,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 82.5
       },
       "hasIncompleteData": false,
@@ -2176,6 +2224,7 @@
         "pct_renters": 32.8,
         "gross_rent_median": 2017,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 82.3
       },
       "hasIncompleteData": false,
@@ -2226,6 +2275,7 @@
         "pct_renters": 24.0,
         "gross_rent_median": 1917,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 82.2
       },
       "hasIncompleteData": false,
@@ -2260,6 +2310,7 @@
         "pct_renters": 32.1,
         "gross_rent_median": 1664,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 82.2
       },
       "hasIncompleteData": false,
@@ -2303,6 +2354,7 @@
         "pct_renters": 19.3,
         "gross_rent_median": 2211,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 81.8
       },
       "hasIncompleteData": false,
@@ -2346,6 +2398,7 @@
         "pct_renters": 52.3,
         "gross_rent_median": 2192,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 81.7
       },
       "hasIncompleteData": false,
@@ -2396,6 +2449,7 @@
         "pct_renters": 32.7,
         "gross_rent_median": 1025,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 81.7
       },
       "hasIncompleteData": false,
@@ -2430,6 +2484,7 @@
         "pct_renters": 39.8,
         "gross_rent_median": 2044,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 81.6
       },
       "hasIncompleteData": false,
@@ -2473,6 +2528,7 @@
         "pct_renters": 32.7,
         "gross_rent_median": 1777,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 81.5
       },
       "hasIncompleteData": false,
@@ -2523,6 +2579,7 @@
         "pct_renters": 37.2,
         "gross_rent_median": 2004,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 81.3
       },
       "hasIncompleteData": false,
@@ -2564,6 +2621,7 @@
         "pct_renters": 29.7,
         "gross_rent_median": 741,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 80.8
       },
       "hasIncompleteData": false,
@@ -2598,6 +2656,7 @@
         "pct_renters": 26.6,
         "gross_rent_median": 1107,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.8
       },
       "hasIncompleteData": false,
@@ -2641,6 +2700,7 @@
         "pct_renters": 34.3,
         "gross_rent_median": 1208,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.8
       },
       "hasIncompleteData": false,
@@ -2684,6 +2744,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 2180,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.7
       },
       "hasIncompleteData": false,
@@ -2734,6 +2795,7 @@
         "pct_renters": 24.6,
         "gross_rent_median": 1188,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 80.6
       },
       "hasIncompleteData": false,
@@ -2768,6 +2830,7 @@
         "pct_renters": 20.1,
         "gross_rent_median": 2213,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.2
       },
       "hasIncompleteData": false,
@@ -2811,6 +2874,7 @@
         "pct_renters": 73.6,
         "gross_rent_median": 1833,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.2
       },
       "hasIncompleteData": false,
@@ -2854,6 +2918,7 @@
         "pct_renters": 41.0,
         "gross_rent_median": 1622,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 80.1
       },
       "hasIncompleteData": false,
@@ -2904,6 +2969,7 @@
         "pct_renters": 40.1,
         "gross_rent_median": 2141,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 79.8
       },
       "hasIncompleteData": false,
@@ -2938,6 +3004,7 @@
         "pct_renters": 43.2,
         "gross_rent_median": 1953,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.8
       },
       "hasIncompleteData": false,
@@ -2981,6 +3048,7 @@
         "pct_renters": 40.1,
         "gross_rent_median": 2141,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.7
       },
       "hasIncompleteData": false,
@@ -3024,6 +3092,7 @@
         "pct_renters": 47.0,
         "gross_rent_median": 1636,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.7
       },
       "hasIncompleteData": false,
@@ -3074,6 +3143,7 @@
         "pct_renters": 18.4,
         "gross_rent_median": 1467,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 79.6
       },
       "hasIncompleteData": false,
@@ -3115,6 +3185,7 @@
         "pct_renters": 30.4,
         "gross_rent_median": 1637,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 79.6
       },
       "hasIncompleteData": false,
@@ -3149,6 +3220,7 @@
         "pct_renters": 51.3,
         "gross_rent_median": 1230,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.5
       },
       "hasIncompleteData": false,
@@ -3192,6 +3264,7 @@
         "pct_renters": 29.3,
         "gross_rent_median": 1197,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.5
       },
       "hasIncompleteData": false,
@@ -3235,6 +3308,7 @@
         "pct_renters": 26.7,
         "gross_rent_median": 1820,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.4
       },
       "hasIncompleteData": false,
@@ -3278,6 +3352,7 @@
         "pct_renters": 8.6,
         "gross_rent_median": 1488,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.2
       },
       "hasIncompleteData": false,
@@ -3321,6 +3396,7 @@
         "pct_renters": 34.0,
         "gross_rent_median": 990,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 79.1
       },
       "hasIncompleteData": false,
@@ -3364,6 +3440,7 @@
         "pct_renters": 29.8,
         "gross_rent_median": 2183,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 78.7
       },
       "hasIncompleteData": false,
@@ -3407,6 +3484,7 @@
         "pct_renters": 17.9,
         "gross_rent_median": 2125,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 78.7
       },
       "hasIncompleteData": false,
@@ -3450,6 +3528,7 @@
         "pct_renters": 24.9,
         "gross_rent_median": 1596,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 78.2
       },
       "hasIncompleteData": false,
@@ -3493,6 +3572,7 @@
         "pct_renters": 19.8,
         "gross_rent_median": 1752,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 78.1
       },
       "hasIncompleteData": false,
@@ -3543,6 +3623,7 @@
         "pct_renters": 33.7,
         "gross_rent_median": 1013,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 78.0
       },
       "hasIncompleteData": false,
@@ -3577,6 +3658,7 @@
         "pct_renters": 31.9,
         "gross_rent_median": 1582,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 77.9
       },
       "hasIncompleteData": false,
@@ -3620,6 +3702,7 @@
         "pct_renters": 33.0,
         "gross_rent_median": 1251,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 77.9
       },
       "hasIncompleteData": false,
@@ -3663,6 +3746,7 @@
         "pct_renters": 20.1,
         "gross_rent_median": 2081,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 77.9
       },
       "hasIncompleteData": false,
@@ -3713,6 +3797,7 @@
         "pct_renters": 24.4,
         "gross_rent_median": 1070,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 77.8
       },
       "hasIncompleteData": false,
@@ -3754,6 +3839,7 @@
         "pct_renters": 5.0,
         "gross_rent_median": 1311,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 77.7
       },
       "hasIncompleteData": false,
@@ -3788,6 +3874,7 @@
         "pct_renters": 12.1,
         "gross_rent_median": 1362,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 77.5
       },
       "hasIncompleteData": false,
@@ -3831,6 +3918,7 @@
         "pct_renters": 27.9,
         "gross_rent_median": 1928,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 77.3
       },
       "hasIncompleteData": false,
@@ -3865,6 +3953,7 @@
         "pct_renters": 66.0,
         "gross_rent_median": 1934,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 76.8
       },
       "hasIncompleteData": false,
@@ -3908,6 +3997,7 @@
         "pct_renters": 15.6,
         "gross_rent_median": 2127,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 76.5
       },
       "hasIncompleteData": false,
@@ -3958,6 +4048,7 @@
         "pct_renters": 33.2,
         "gross_rent_median": 1252,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 76.3
       },
       "hasIncompleteData": false,
@@ -3999,6 +4090,7 @@
         "pct_renters": 37.0,
         "gross_rent_median": 1149,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 76.1
       },
       "hasIncompleteData": false,
@@ -4033,6 +4125,7 @@
         "pct_renters": 28.3,
         "gross_rent_median": 2166,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 76.1
       },
       "hasIncompleteData": false,
@@ -4076,6 +4169,7 @@
         "pct_renters": 12.7,
         "gross_rent_median": 1345,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.8
       },
       "hasIncompleteData": false,
@@ -4119,6 +4213,7 @@
         "pct_renters": 34.4,
         "gross_rent_median": 984,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.7
       },
       "hasIncompleteData": false,
@@ -4169,6 +4264,7 @@
         "pct_renters": 31.4,
         "gross_rent_median": 891,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 75.6
       },
       "hasIncompleteData": false,
@@ -4203,6 +4299,7 @@
         "pct_renters": 24.2,
         "gross_rent_median": 3216,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.6
       },
       "hasIncompleteData": false,
@@ -4253,6 +4350,7 @@
         "pct_renters": 31.1,
         "gross_rent_median": 839,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 75.5
       },
       "hasIncompleteData": false,
@@ -4287,6 +4385,7 @@
         "pct_renters": 59.7,
         "gross_rent_median": 1652,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.4
       },
       "hasIncompleteData": false,
@@ -4330,6 +4429,7 @@
         "pct_renters": 35.9,
         "gross_rent_median": 2123,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.4
       },
       "hasIncompleteData": false,
@@ -4380,6 +4480,7 @@
         "pct_renters": 26.6,
         "gross_rent_median": 1493,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 75.3
       },
       "hasIncompleteData": false,
@@ -4414,6 +4515,7 @@
         "pct_renters": 39.6,
         "gross_rent_median": 692,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.2
       },
       "hasIncompleteData": false,
@@ -4457,6 +4559,7 @@
         "pct_renters": 38.4,
         "gross_rent_median": 1283,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.1
       },
       "hasIncompleteData": false,
@@ -4500,6 +4603,7 @@
         "pct_renters": 22.7,
         "gross_rent_median": 1414,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 75.1
       },
       "hasIncompleteData": false,
@@ -4550,6 +4654,7 @@
         "pct_renters": 19.9,
         "gross_rent_median": 1432,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 75.0
       },
       "hasIncompleteData": false,
@@ -4584,6 +4689,7 @@
         "pct_renters": 45.3,
         "gross_rent_median": 1867,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 74.8
       },
       "hasIncompleteData": false,
@@ -4627,6 +4733,7 @@
         "pct_renters": 19.2,
         "gross_rent_median": 2473,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 74.6
       },
       "hasIncompleteData": false,
@@ -4670,6 +4777,7 @@
         "pct_renters": 36.9,
         "gross_rent_median": 1972,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 73.9
       },
       "hasIncompleteData": false,
@@ -4713,6 +4821,7 @@
         "pct_renters": 41.8,
         "gross_rent_median": 1067,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 73.7
       },
       "hasIncompleteData": false,
@@ -4756,6 +4865,7 @@
         "pct_renters": 96.1,
         "gross_rent_median": 1815,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 73.7
       },
       "hasIncompleteData": false,
@@ -4799,6 +4909,7 @@
         "pct_renters": 23.5,
         "gross_rent_median": 2007,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 73.7
       },
       "hasIncompleteData": false,
@@ -4849,6 +4960,7 @@
         "pct_renters": 31.1,
         "gross_rent_median": 942,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 73.6
       },
       "hasIncompleteData": false,
@@ -4890,6 +5002,7 @@
         "pct_renters": 24.4,
         "gross_rent_median": 1397,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 73.2
       },
       "hasIncompleteData": false,
@@ -4924,6 +5037,7 @@
         "pct_renters": 36.6,
         "gross_rent_median": 1292,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 73.2
       },
       "hasIncompleteData": false,
@@ -4974,6 +5088,7 @@
         "pct_renters": 34.8,
         "gross_rent_median": 1162,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 73.0
       },
       "hasIncompleteData": false,
@@ -5008,6 +5123,7 @@
         "pct_renters": 39.7,
         "gross_rent_median": 910,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 72.5
       },
       "hasIncompleteData": false,
@@ -5051,6 +5167,7 @@
         "pct_renters": 18.4,
         "gross_rent_median": 1174,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 72.4
       },
       "hasIncompleteData": false,
@@ -5101,6 +5218,7 @@
         "pct_renters": 44.1,
         "gross_rent_median": 907,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 72.3
       },
       "hasIncompleteData": false,
@@ -5135,6 +5253,7 @@
         "pct_renters": 19.2,
         "gross_rent_median": 2099,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 72.3
       },
       "hasIncompleteData": false,
@@ -5178,6 +5297,7 @@
         "pct_renters": 26.6,
         "gross_rent_median": 1213,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 72.1
       },
       "hasIncompleteData": false,
@@ -5228,6 +5348,7 @@
         "pct_renters": 24.9,
         "gross_rent_median": 838,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 71.8
       },
       "hasIncompleteData": false,
@@ -5262,6 +5383,7 @@
         "pct_renters": 5.0,
         "gross_rent_median": 2381,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.6
       },
       "hasIncompleteData": false,
@@ -5305,6 +5427,7 @@
         "pct_renters": 36.0,
         "gross_rent_median": 858,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.6
       },
       "hasIncompleteData": false,
@@ -5348,6 +5471,7 @@
         "pct_renters": 26.9,
         "gross_rent_median": 1393,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.6
       },
       "hasIncompleteData": false,
@@ -5391,6 +5515,7 @@
         "pct_renters": 44.1,
         "gross_rent_median": 1031,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.6
       },
       "hasIncompleteData": false,
@@ -5434,6 +5559,7 @@
         "pct_renters": 20.2,
         "gross_rent_median": 2093,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.5
       },
       "hasIncompleteData": false,
@@ -5484,6 +5610,7 @@
         "pct_renters": 13.8,
         "gross_rent_median": 2161,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 71.4
       },
       "hasIncompleteData": false,
@@ -5518,6 +5645,7 @@
         "pct_renters": 36.5,
         "gross_rent_median": 1726,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 71.1
       },
       "hasIncompleteData": false,
@@ -5561,6 +5689,7 @@
         "pct_renters": 85.9,
         "gross_rent_median": 1992,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.9
       },
       "hasIncompleteData": false,
@@ -5604,6 +5733,7 @@
         "pct_renters": 30.3,
         "gross_rent_median": 997,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.6
       },
       "hasIncompleteData": false,
@@ -5647,6 +5777,7 @@
         "pct_renters": 16.2,
         "gross_rent_median": 1159,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.6
       },
       "hasIncompleteData": false,
@@ -5690,6 +5821,7 @@
         "pct_renters": 4.7,
         "gross_rent_median": 1707,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.5
       },
       "hasIncompleteData": false,
@@ -5733,6 +5865,7 @@
         "pct_renters": 28.5,
         "gross_rent_median": 1434,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.5
       },
       "hasIncompleteData": false,
@@ -5783,6 +5916,7 @@
         "pct_renters": 32.9,
         "gross_rent_median": 945,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 70.4
       },
       "hasIncompleteData": false,
@@ -5817,6 +5951,7 @@
         "pct_renters": 31.9,
         "gross_rent_median": 1195,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 70.1
       },
       "hasIncompleteData": false,
@@ -5860,6 +5995,7 @@
         "pct_renters": 12.4,
         "gross_rent_median": 2805,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.8
       },
       "hasIncompleteData": false,
@@ -5903,6 +6039,7 @@
         "pct_renters": 31.0,
         "gross_rent_median": 1511,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.5
       },
       "hasIncompleteData": false,
@@ -5946,6 +6083,7 @@
         "pct_renters": 22.1,
         "gross_rent_median": 1835,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.5
       },
       "hasIncompleteData": false,
@@ -5989,6 +6127,7 @@
         "pct_renters": 18.7,
         "gross_rent_median": 2009,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.4
       },
       "hasIncompleteData": false,
@@ -6032,6 +6171,7 @@
         "pct_renters": 20.1,
         "gross_rent_median": 1472,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.3
       },
       "hasIncompleteData": false,
@@ -6075,6 +6215,7 @@
         "pct_renters": 7.9,
         "gross_rent_median": 2102,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 69.3
       },
       "hasIncompleteData": false,
@@ -6125,6 +6266,7 @@
         "pct_renters": 14.7,
         "gross_rent_median": 1069,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 69.0
       },
       "hasIncompleteData": false,
@@ -6159,6 +6301,7 @@
         "pct_renters": 12.3,
         "gross_rent_median": 1535,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.8
       },
       "hasIncompleteData": false,
@@ -6202,6 +6345,7 @@
         "pct_renters": 21.1,
         "gross_rent_median": 1148,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.7
       },
       "hasIncompleteData": false,
@@ -6245,6 +6389,7 @@
         "pct_renters": 45.5,
         "gross_rent_median": 2139,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.7
       },
       "hasIncompleteData": false,
@@ -6288,6 +6433,7 @@
         "pct_renters": 37.9,
         "gross_rent_median": 1966,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.7
       },
       "hasIncompleteData": false,
@@ -6331,6 +6477,7 @@
         "pct_renters": 23.9,
         "gross_rent_median": 1929,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.6
       },
       "hasIncompleteData": false,
@@ -6381,6 +6528,7 @@
         "pct_renters": 30.6,
         "gross_rent_median": 1039,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 68.5
       },
       "hasIncompleteData": false,
@@ -6415,6 +6563,7 @@
         "pct_renters": 33.4,
         "gross_rent_median": 1203,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.5
       },
       "hasIncompleteData": false,
@@ -6465,6 +6614,7 @@
         "pct_renters": 12.5,
         "gross_rent_median": 1658,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 68.4
       },
       "hasIncompleteData": false,
@@ -6506,6 +6656,7 @@
         "pct_renters": 23.1,
         "gross_rent_median": 828,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 68.2
       },
       "hasIncompleteData": false,
@@ -6540,6 +6691,7 @@
         "pct_renters": 3.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 68.1
       },
       "hasIncompleteData": false,
@@ -6583,6 +6735,7 @@
         "pct_renters": 23.8,
         "gross_rent_median": 2211,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.8
       },
       "hasIncompleteData": false,
@@ -6633,6 +6786,7 @@
         "pct_renters": 27.4,
         "gross_rent_median": 973,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 67.8
       },
       "hasIncompleteData": false,
@@ -6667,6 +6821,7 @@
         "pct_renters": 8.3,
         "gross_rent_median": 2679,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.8
       },
       "hasIncompleteData": false,
@@ -6710,6 +6865,7 @@
         "pct_renters": 39.0,
         "gross_rent_median": 1211,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.8
       },
       "hasIncompleteData": false,
@@ -6753,6 +6909,7 @@
         "pct_renters": 10.9,
         "gross_rent_median": 1704,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.7
       },
       "hasIncompleteData": false,
@@ -6796,6 +6953,7 @@
         "pct_renters": 38.6,
         "gross_rent_median": 1606,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.7
       },
       "hasIncompleteData": false,
@@ -6846,6 +7004,7 @@
         "pct_renters": 23.5,
         "gross_rent_median": 748,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 67.6
       },
       "hasIncompleteData": false,
@@ -6880,6 +7039,7 @@
         "pct_renters": 55.7,
         "gross_rent_median": 837,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.4
       },
       "hasIncompleteData": false,
@@ -6930,6 +7090,7 @@
         "pct_renters": 28.2,
         "gross_rent_median": 774,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 67.3
       },
       "hasIncompleteData": false,
@@ -6964,6 +7125,7 @@
         "pct_renters": 26.1,
         "gross_rent_median": 2294,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 67.2
       },
       "hasIncompleteData": false,
@@ -7007,6 +7169,7 @@
         "pct_renters": 24.4,
         "gross_rent_median": 1270,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 66.8
       },
       "hasIncompleteData": false,
@@ -7050,6 +7213,7 @@
         "pct_renters": 36.3,
         "gross_rent_median": 2167,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 66.2
       },
       "hasIncompleteData": false,
@@ -7093,6 +7257,7 @@
         "pct_renters": 72.6,
         "gross_rent_median": 1072,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 66.2
       },
       "hasIncompleteData": false,
@@ -7136,6 +7301,7 @@
         "pct_renters": 18.0,
         "gross_rent_median": 1321,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 65.7
       },
       "hasIncompleteData": false,
@@ -7179,6 +7345,7 @@
         "pct_renters": 37.7,
         "gross_rent_median": 775,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 65.6
       },
       "hasIncompleteData": false,
@@ -7229,6 +7396,7 @@
         "pct_renters": 30.5,
         "gross_rent_median": 984,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 65.1
       },
       "hasIncompleteData": false,
@@ -7263,6 +7431,7 @@
         "pct_renters": 4.4,
         "gross_rent_median": 3071,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 65.0
       },
       "hasIncompleteData": false,
@@ -7306,6 +7475,7 @@
         "pct_renters": 35.0,
         "gross_rent_median": 1324,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 65.0
       },
       "hasIncompleteData": false,
@@ -7349,6 +7519,7 @@
         "pct_renters": 12.5,
         "gross_rent_median": 1795,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 64.8
       },
       "hasIncompleteData": false,
@@ -7399,6 +7570,7 @@
         "pct_renters": 21.0,
         "gross_rent_median": 927,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 64.7
       },
       "hasIncompleteData": false,
@@ -7440,6 +7612,7 @@
         "pct_renters": 28.9,
         "gross_rent_median": 1701,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 64.7
       },
       "hasIncompleteData": false,
@@ -7474,6 +7647,7 @@
         "pct_renters": 2.3,
         "gross_rent_median": 3244,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 64.7
       },
       "hasIncompleteData": false,
@@ -7517,6 +7691,7 @@
         "pct_renters": 44.3,
         "gross_rent_median": 1048,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 64.5
       },
       "hasIncompleteData": false,
@@ -7560,6 +7735,7 @@
         "pct_renters": 54.1,
         "gross_rent_median": 2020,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 64.4
       },
       "hasIncompleteData": false,
@@ -7610,6 +7786,7 @@
         "pct_renters": 28.5,
         "gross_rent_median": 592,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 64.0
       },
       "hasIncompleteData": false,
@@ -7644,6 +7821,7 @@
         "pct_renters": 4.2,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 63.9
       },
       "hasIncompleteData": false,
@@ -7687,6 +7865,7 @@
         "pct_renters": 17.4,
         "gross_rent_median": 2206,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 63.9
       },
       "hasIncompleteData": false,
@@ -7730,6 +7909,7 @@
         "pct_renters": 33.6,
         "gross_rent_median": 1308,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 63.8
       },
       "hasIncompleteData": false,
@@ -7780,6 +7960,7 @@
         "pct_renters": 25.7,
         "gross_rent_median": 919,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 63.6
       },
       "hasIncompleteData": false,
@@ -7814,6 +7995,7 @@
         "pct_renters": 38.9,
         "gross_rent_median": 1040,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 63.5
       },
       "hasIncompleteData": false,
@@ -7857,6 +8039,7 @@
         "pct_renters": 38.8,
         "gross_rent_median": 1045,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 63.4
       },
       "hasIncompleteData": false,
@@ -7907,6 +8090,7 @@
         "pct_renters": 28.3,
         "gross_rent_median": 868,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 63.1
       },
       "hasIncompleteData": false,
@@ -7941,6 +8125,7 @@
         "pct_renters": 17.5,
         "gross_rent_median": 1716,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.8
       },
       "hasIncompleteData": false,
@@ -7984,6 +8169,7 @@
         "pct_renters": 29.1,
         "gross_rent_median": 1689,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.7
       },
       "hasIncompleteData": false,
@@ -8027,6 +8213,7 @@
         "pct_renters": 11.2,
         "gross_rent_median": 1959,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.7
       },
       "hasIncompleteData": false,
@@ -8070,6 +8257,7 @@
         "pct_renters": 15.1,
         "gross_rent_median": 1416,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.6
       },
       "hasIncompleteData": false,
@@ -8113,6 +8301,7 @@
         "pct_renters": 14.9,
         "gross_rent_median": 1827,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.6
       },
       "hasIncompleteData": false,
@@ -8156,6 +8345,7 @@
         "pct_renters": 33.0,
         "gross_rent_median": 642,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.6
       },
       "hasIncompleteData": false,
@@ -8199,6 +8389,7 @@
         "pct_renters": 39.1,
         "gross_rent_median": 2457,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.6
       },
       "hasIncompleteData": false,
@@ -8242,6 +8433,7 @@
         "pct_renters": 40.7,
         "gross_rent_median": 2257,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.5
       },
       "hasIncompleteData": false,
@@ -8285,6 +8477,7 @@
         "pct_renters": 14.5,
         "gross_rent_median": 1981,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.3
       },
       "hasIncompleteData": false,
@@ -8328,6 +8521,7 @@
         "pct_renters": 12.0,
         "gross_rent_median": 894,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 62.2
       },
       "hasIncompleteData": false,
@@ -8371,6 +8565,7 @@
         "pct_renters": 23.0,
         "gross_rent_median": 575,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.9
       },
       "hasIncompleteData": false,
@@ -8414,6 +8609,7 @@
         "pct_renters": 7.3,
         "gross_rent_median": 2819,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.8
       },
       "hasIncompleteData": false,
@@ -8457,6 +8653,7 @@
         "pct_renters": 72.7,
         "gross_rent_median": 2045,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.6
       },
       "hasIncompleteData": false,
@@ -8500,6 +8697,7 @@
         "pct_renters": 23.7,
         "gross_rent_median": 1300,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.6
       },
       "hasIncompleteData": false,
@@ -8543,6 +8741,7 @@
         "pct_renters": 8.1,
         "gross_rent_median": 983,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.6
       },
       "hasIncompleteData": false,
@@ -8586,6 +8785,7 @@
         "pct_renters": 37.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.5
       },
       "hasIncompleteData": true,
@@ -8629,6 +8829,7 @@
         "pct_renters": 37.1,
         "gross_rent_median": 1036,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.5
       },
       "hasIncompleteData": false,
@@ -8679,6 +8880,7 @@
         "pct_renters": 28.1,
         "gross_rent_median": 999,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 61.4
       },
       "hasIncompleteData": false,
@@ -8713,6 +8915,7 @@
         "pct_renters": 7.4,
         "gross_rent_median": 1686,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.4
       },
       "hasIncompleteData": false,
@@ -8756,6 +8959,7 @@
         "pct_renters": 13.7,
         "gross_rent_median": 1021,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.2
       },
       "hasIncompleteData": false,
@@ -8806,6 +9010,7 @@
         "pct_renters": 26.4,
         "gross_rent_median": 947,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 61.0
       },
       "hasIncompleteData": false,
@@ -8840,6 +9045,7 @@
         "pct_renters": 26.2,
         "gross_rent_median": 1859,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 61.0
       },
       "hasIncompleteData": false,
@@ -8883,6 +9089,7 @@
         "pct_renters": 6.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.6
       },
       "hasIncompleteData": false,
@@ -8926,6 +9133,7 @@
         "pct_renters": 3.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.5
       },
       "hasIncompleteData": false,
@@ -8969,6 +9177,7 @@
         "pct_renters": 28.7,
         "gross_rent_median": 1409,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.5
       },
       "hasIncompleteData": false,
@@ -9012,6 +9221,7 @@
         "pct_renters": 40.3,
         "gross_rent_median": 744,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.4
       },
       "hasIncompleteData": false,
@@ -9062,6 +9272,7 @@
         "pct_renters": 17.5,
         "gross_rent_median": 1786,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 60.3
       },
       "hasIncompleteData": false,
@@ -9096,6 +9307,7 @@
         "pct_renters": 52.4,
         "gross_rent_median": 741,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.3
       },
       "hasIncompleteData": false,
@@ -9139,6 +9351,7 @@
         "pct_renters": 30.9,
         "gross_rent_median": 2104,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 60.1
       },
       "hasIncompleteData": false,
@@ -9185,6 +9398,7 @@
         "pct_renters": 47.9,
         "gross_rent_median": 1401,
         "_ami_gap_source": "county_proportional",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.9
       },
       "hasIncompleteData": false,
@@ -9194,10 +9408,10 @@
           "ami_gap_30pct",
           "ami_gap_50pct",
           "ami_gap_60pct",
+          "missing_ami_tiers",
           "pct_burdened_lte30",
           "pct_burdened_31to50",
           "pct_burdened_51to80",
-          "missing_ami_tiers",
           "in_commuters",
           "population_projection_20yr"
         ],
@@ -9232,6 +9446,7 @@
         "pct_renters": 4.4,
         "gross_rent_median": 2910,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.9
       },
       "hasIncompleteData": false,
@@ -9275,6 +9490,7 @@
         "pct_renters": 5.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.8
       },
       "hasIncompleteData": false,
@@ -9318,6 +9534,7 @@
         "pct_renters": 82.3,
         "gross_rent_median": 2242,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.5
       },
       "hasIncompleteData": false,
@@ -9361,6 +9578,7 @@
         "pct_renters": 12.0,
         "gross_rent_median": 1559,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.4
       },
       "hasIncompleteData": false,
@@ -9404,6 +9622,7 @@
         "pct_renters": 51.6,
         "gross_rent_median": 1172,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 59.0
       },
       "hasIncompleteData": false,
@@ -9447,6 +9666,7 @@
         "pct_renters": 42.0,
         "gross_rent_median": 969,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.9
       },
       "hasIncompleteData": false,
@@ -9490,6 +9710,7 @@
         "pct_renters": 8.8,
         "gross_rent_median": 2170,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.8
       },
       "hasIncompleteData": false,
@@ -9533,6 +9754,7 @@
         "pct_renters": 15.0,
         "gross_rent_median": 3056,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.8
       },
       "hasIncompleteData": false,
@@ -9576,6 +9798,7 @@
         "pct_renters": 52.6,
         "gross_rent_median": 1614,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.5
       },
       "hasIncompleteData": false,
@@ -9619,6 +9842,7 @@
         "pct_renters": 13.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.4
       },
       "hasIncompleteData": false,
@@ -9662,6 +9886,7 @@
         "pct_renters": 36.3,
         "gross_rent_median": 967,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.3
       },
       "hasIncompleteData": false,
@@ -9705,6 +9930,7 @@
         "pct_renters": 34.0,
         "gross_rent_median": 760,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.2
       },
       "hasIncompleteData": false,
@@ -9748,6 +9974,7 @@
         "pct_renters": 29.2,
         "gross_rent_median": 740,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.2
       },
       "hasIncompleteData": false,
@@ -9791,6 +10018,7 @@
         "pct_renters": 30.1,
         "gross_rent_median": 1954,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.1
       },
       "hasIncompleteData": false,
@@ -9834,6 +10062,7 @@
         "pct_renters": 8.4,
         "gross_rent_median": 2569,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 58.1
       },
       "hasIncompleteData": false,
@@ -9877,6 +10106,7 @@
         "pct_renters": 29.3,
         "gross_rent_median": 761,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.7
       },
       "hasIncompleteData": false,
@@ -9920,6 +10150,7 @@
         "pct_renters": 6.8,
         "gross_rent_median": 2276,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.7
       },
       "hasIncompleteData": false,
@@ -9963,6 +10194,7 @@
         "pct_renters": 11.1,
         "gross_rent_median": 1682,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.6
       },
       "hasIncompleteData": false,
@@ -10006,6 +10238,7 @@
         "pct_renters": 42.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.3
       },
       "hasIncompleteData": true,
@@ -10049,6 +10282,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 2264,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.2
       },
       "hasIncompleteData": false,
@@ -10092,6 +10326,7 @@
         "pct_renters": 42.9,
         "gross_rent_median": 805,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 57.1
       },
       "hasIncompleteData": false,
@@ -10135,6 +10370,7 @@
         "pct_renters": 17.2,
         "gross_rent_median": 1570,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.9
       },
       "hasIncompleteData": false,
@@ -10178,6 +10414,7 @@
         "pct_renters": 39.7,
         "gross_rent_median": 699,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.8
       },
       "hasIncompleteData": false,
@@ -10221,6 +10458,7 @@
         "pct_renters": 47.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.6
       },
       "hasIncompleteData": true,
@@ -10264,6 +10502,7 @@
         "pct_renters": 31.6,
         "gross_rent_median": 1365,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.5
       },
       "hasIncompleteData": false,
@@ -10307,6 +10546,7 @@
         "pct_renters": 15.8,
         "gross_rent_median": 1225,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.5
       },
       "hasIncompleteData": false,
@@ -10350,6 +10590,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.3
       },
       "hasIncompleteData": true,
@@ -10393,6 +10634,7 @@
         "pct_renters": 9.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 56.3
       },
       "hasIncompleteData": false,
@@ -10443,6 +10685,7 @@
         "pct_renters": 27.4,
         "gross_rent_median": 926,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 56.2
       },
       "hasIncompleteData": false,
@@ -10477,6 +10720,7 @@
         "pct_renters": 22.6,
         "gross_rent_median": 1283,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 55.9
       },
       "hasIncompleteData": false,
@@ -10525,6 +10769,7 @@
         "pct_renters": 30.3,
         "gross_rent_median": 928,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 55.8
       },
       "hasIncompleteData": false,
@@ -10559,6 +10804,7 @@
         "pct_renters": 29.8,
         "gross_rent_median": 1106,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 55.7
       },
       "hasIncompleteData": false,
@@ -10602,6 +10848,7 @@
         "pct_renters": 12.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 55.4
       },
       "hasIncompleteData": false,
@@ -10645,6 +10892,7 @@
         "pct_renters": 31.9,
         "gross_rent_median": 861,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 55.2
       },
       "hasIncompleteData": false,
@@ -10688,6 +10936,7 @@
         "pct_renters": 33.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 55.1
       },
       "hasIncompleteData": false,
@@ -10731,6 +10980,7 @@
         "pct_renters": 36.1,
         "gross_rent_median": 1123,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 54.9
       },
       "hasIncompleteData": false,
@@ -10774,6 +11024,7 @@
         "pct_renters": 73.5,
         "gross_rent_median": 874,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 54.6
       },
       "hasIncompleteData": false,
@@ -10817,6 +11068,7 @@
         "pct_renters": 25.6,
         "gross_rent_median": 1455,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 54.6
       },
       "hasIncompleteData": false,
@@ -10860,6 +11112,7 @@
         "pct_renters": 13.7,
         "gross_rent_median": 1183,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.9
       },
       "hasIncompleteData": false,
@@ -10903,6 +11156,7 @@
         "pct_renters": 14.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.8
       },
       "hasIncompleteData": false,
@@ -10946,6 +11200,7 @@
         "pct_renters": 7.1,
         "gross_rent_median": 2429,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.7
       },
       "hasIncompleteData": false,
@@ -10989,6 +11244,7 @@
         "pct_renters": 49.3,
         "gross_rent_median": 1073,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.7
       },
       "hasIncompleteData": false,
@@ -11032,6 +11288,7 @@
         "pct_renters": 27.1,
         "gross_rent_median": 1577,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.6
       },
       "hasIncompleteData": false,
@@ -11075,6 +11332,7 @@
         "pct_renters": 27.5,
         "gross_rent_median": 1236,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.5
       },
       "hasIncompleteData": false,
@@ -11118,6 +11376,7 @@
         "pct_renters": 38.4,
         "gross_rent_median": 1451,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.5
       },
       "hasIncompleteData": false,
@@ -11161,6 +11420,7 @@
         "pct_renters": 11.9,
         "gross_rent_median": 744,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.5
       },
       "hasIncompleteData": false,
@@ -11204,6 +11464,7 @@
         "pct_renters": 26.7,
         "gross_rent_median": 1012,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.5
       },
       "hasIncompleteData": false,
@@ -11247,6 +11508,7 @@
         "pct_renters": 23.4,
         "gross_rent_median": 1354,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.4
       },
       "hasIncompleteData": false,
@@ -11290,6 +11552,7 @@
         "pct_renters": 25.2,
         "gross_rent_median": 820,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 53.2
       },
       "hasIncompleteData": false,
@@ -11340,6 +11603,7 @@
         "pct_renters": 18.7,
         "gross_rent_median": 986,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 52.8
       },
       "hasIncompleteData": false,
@@ -11374,6 +11638,7 @@
         "pct_renters": 14.4,
         "gross_rent_median": 2750,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 52.7
       },
       "hasIncompleteData": false,
@@ -11417,6 +11682,7 @@
         "pct_renters": 12.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 52.2
       },
       "hasIncompleteData": false,
@@ -11460,6 +11726,7 @@
         "pct_renters": 27.6,
         "gross_rent_median": 1287,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 52.1
       },
       "hasIncompleteData": false,
@@ -11503,6 +11770,7 @@
         "pct_renters": 11.1,
         "gross_rent_median": 1348,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 52.1
       },
       "hasIncompleteData": false,
@@ -11546,6 +11814,7 @@
         "pct_renters": 16.0,
         "gross_rent_median": 1474,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.8
       },
       "hasIncompleteData": false,
@@ -11589,6 +11858,7 @@
         "pct_renters": 1.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.8
       },
       "hasIncompleteData": false,
@@ -11632,6 +11902,7 @@
         "pct_renters": 38.7,
         "gross_rent_median": 897,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.8
       },
       "hasIncompleteData": false,
@@ -11675,6 +11946,7 @@
         "pct_renters": 32.3,
         "gross_rent_median": 943,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.6
       },
       "hasIncompleteData": false,
@@ -11718,6 +11990,7 @@
         "pct_renters": 25.8,
         "gross_rent_median": 1548,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.6
       },
       "hasIncompleteData": false,
@@ -11768,6 +12041,7 @@
         "pct_renters": 31.3,
         "gross_rent_median": 800,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 51.5
       },
       "hasIncompleteData": false,
@@ -11802,6 +12076,7 @@
         "pct_renters": 11.6,
         "gross_rent_median": 1407,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.4
       },
       "hasIncompleteData": false,
@@ -11845,6 +12120,7 @@
         "pct_renters": 10.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.2
       },
       "hasIncompleteData": false,
@@ -11888,6 +12164,7 @@
         "pct_renters": 28.1,
         "gross_rent_median": 933,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.1
       },
       "hasIncompleteData": false,
@@ -11931,6 +12208,7 @@
         "pct_renters": 37.6,
         "gross_rent_median": 1077,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.1
       },
       "hasIncompleteData": false,
@@ -11974,6 +12252,7 @@
         "pct_renters": 24.9,
         "gross_rent_median": 1067,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.0
       },
       "hasIncompleteData": false,
@@ -12017,6 +12296,7 @@
         "pct_renters": 29.6,
         "gross_rent_median": 872,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 51.0
       },
       "hasIncompleteData": false,
@@ -12060,6 +12340,7 @@
         "pct_renters": 32.5,
         "gross_rent_median": 588,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 50.8
       },
       "hasIncompleteData": false,
@@ -12103,6 +12384,7 @@
         "pct_renters": 34.1,
         "gross_rent_median": 1798,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 50.7
       },
       "hasIncompleteData": false,
@@ -12146,6 +12428,7 @@
         "pct_renters": 17.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 50.4
       },
       "hasIncompleteData": false,
@@ -12189,6 +12472,7 @@
         "pct_renters": 87.6,
         "gross_rent_median": 971,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 50.2
       },
       "hasIncompleteData": false,
@@ -12232,6 +12516,7 @@
         "pct_renters": 32.1,
         "gross_rent_median": 754,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 50.1
       },
       "hasIncompleteData": false,
@@ -12275,6 +12560,7 @@
         "pct_renters": 21.7,
         "gross_rent_median": 1784,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.6
       },
       "hasIncompleteData": false,
@@ -12318,6 +12604,7 @@
         "pct_renters": 26.7,
         "gross_rent_median": 1692,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.6
       },
       "hasIncompleteData": false,
@@ -12361,6 +12648,7 @@
         "pct_renters": 0.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.5
       },
       "hasIncompleteData": false,
@@ -12404,6 +12692,7 @@
         "pct_renters": 33.9,
         "gross_rent_median": 2068,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.3
       },
       "hasIncompleteData": false,
@@ -12447,6 +12736,7 @@
         "pct_renters": 6.3,
         "gross_rent_median": 1275,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.2
       },
       "hasIncompleteData": false,
@@ -12490,6 +12780,7 @@
         "pct_renters": 17.8,
         "gross_rent_median": 634,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.0
       },
       "hasIncompleteData": true,
@@ -12533,6 +12824,7 @@
         "pct_renters": 27.3,
         "gross_rent_median": 1453,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 49.0
       },
       "hasIncompleteData": false,
@@ -12576,6 +12868,7 @@
         "pct_renters": 27.1,
         "gross_rent_median": 1154,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.9
       },
       "hasIncompleteData": false,
@@ -12625,6 +12918,7 @@
         "pct_renters": 47.1,
         "gross_rent_median": 992,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 48.9
       },
       "hasIncompleteData": false,
@@ -12659,6 +12953,7 @@
         "pct_renters": 1.4,
         "gross_rent_median": 3501,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.6
       },
       "hasIncompleteData": false,
@@ -12702,6 +12997,7 @@
         "pct_renters": 11.2,
         "gross_rent_median": 1225,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.5
       },
       "hasIncompleteData": false,
@@ -12745,6 +13041,7 @@
         "pct_renters": 39.2,
         "gross_rent_median": 2042,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.5
       },
       "hasIncompleteData": false,
@@ -12788,6 +13085,7 @@
         "pct_renters": 54.5,
         "gross_rent_median": 1042,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.4
       },
       "hasIncompleteData": false,
@@ -12831,6 +13129,7 @@
         "pct_renters": 12.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.3
       },
       "hasIncompleteData": false,
@@ -12874,6 +13173,7 @@
         "pct_renters": 29.7,
         "gross_rent_median": 1440,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.1
       },
       "hasIncompleteData": false,
@@ -12917,6 +13217,7 @@
         "pct_renters": 25.6,
         "gross_rent_median": 981,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 48.1
       },
       "hasIncompleteData": false,
@@ -12960,6 +13261,7 @@
         "pct_renters": 42.4,
         "gross_rent_median": 2155,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.9
       },
       "hasIncompleteData": false,
@@ -13003,6 +13305,7 @@
         "pct_renters": 2.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.7
       },
       "hasIncompleteData": false,
@@ -13046,6 +13349,7 @@
         "pct_renters": 6.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.7
       },
       "hasIncompleteData": false,
@@ -13089,6 +13393,7 @@
         "pct_renters": 38.3,
         "gross_rent_median": 696,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.6
       },
       "hasIncompleteData": false,
@@ -13132,6 +13437,7 @@
         "pct_renters": 41.4,
         "gross_rent_median": 330,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.5
       },
       "hasIncompleteData": false,
@@ -13175,6 +13481,7 @@
         "pct_renters": 55.2,
         "gross_rent_median": 912,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 47.2
       },
       "hasIncompleteData": false,
@@ -13218,6 +13525,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 46.8
       },
       "hasIncompleteData": true,
@@ -13261,6 +13569,7 @@
         "pct_renters": 17.7,
         "gross_rent_median": 1311,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 46.2
       },
       "hasIncompleteData": false,
@@ -13304,6 +13613,7 @@
         "pct_renters": 4.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 46.1
       },
       "hasIncompleteData": true,
@@ -13347,6 +13657,7 @@
         "pct_renters": 41.0,
         "gross_rent_median": 1660,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 46.0
       },
       "hasIncompleteData": false,
@@ -13390,6 +13701,7 @@
         "pct_renters": 6.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 46.0
       },
       "hasIncompleteData": true,
@@ -13433,6 +13745,7 @@
         "pct_renters": 27.2,
         "gross_rent_median": 1346,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 45.8
       },
       "hasIncompleteData": false,
@@ -13476,6 +13789,7 @@
         "pct_renters": 26.0,
         "gross_rent_median": 770,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 45.7
       },
       "hasIncompleteData": false,
@@ -13519,6 +13833,7 @@
         "pct_renters": 27.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 45.6
       },
       "hasIncompleteData": true,
@@ -13562,6 +13877,7 @@
         "pct_renters": 23.9,
         "gross_rent_median": 845,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 45.3
       },
       "hasIncompleteData": false,
@@ -13605,6 +13921,7 @@
         "pct_renters": 50.3,
         "gross_rent_median": 1648,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 45.0
       },
       "hasIncompleteData": false,
@@ -13648,6 +13965,7 @@
         "pct_renters": 9.9,
         "gross_rent_median": 1911,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 44.9
       },
       "hasIncompleteData": false,
@@ -13691,6 +14009,7 @@
         "pct_renters": 16.0,
         "gross_rent_median": 1239,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 44.8
       },
       "hasIncompleteData": false,
@@ -13734,6 +14053,7 @@
         "pct_renters": 32.2,
         "gross_rent_median": 754,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 44.3
       },
       "hasIncompleteData": false,
@@ -13777,6 +14097,7 @@
         "pct_renters": 8.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 44.0
       },
       "hasIncompleteData": false,
@@ -13820,6 +14141,7 @@
         "pct_renters": 9.1,
         "gross_rent_median": 1868,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.9
       },
       "hasIncompleteData": false,
@@ -13863,6 +14185,7 @@
         "pct_renters": 19.3,
         "gross_rent_median": 3501,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.7
       },
       "hasIncompleteData": false,
@@ -13906,6 +14229,7 @@
         "pct_renters": 20.1,
         "gross_rent_median": 2129,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.7
       },
       "hasIncompleteData": false,
@@ -13949,6 +14273,7 @@
         "pct_renters": 27.8,
         "gross_rent_median": 906,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.6
       },
       "hasIncompleteData": false,
@@ -13992,6 +14317,7 @@
         "pct_renters": 15.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.6
       },
       "hasIncompleteData": true,
@@ -14035,6 +14361,7 @@
         "pct_renters": 25.2,
         "gross_rent_median": 640,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.4
       },
       "hasIncompleteData": false,
@@ -14078,6 +14405,7 @@
         "pct_renters": 27.4,
         "gross_rent_median": 952,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.4
       },
       "hasIncompleteData": false,
@@ -14121,6 +14449,7 @@
         "pct_renters": 30.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.4
       },
       "hasIncompleteData": false,
@@ -14164,6 +14493,7 @@
         "pct_renters": 37.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.2
       },
       "hasIncompleteData": true,
@@ -14207,6 +14537,7 @@
         "pct_renters": 24.6,
         "gross_rent_median": 2853,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.1
       },
       "hasIncompleteData": false,
@@ -14250,6 +14581,7 @@
         "pct_renters": 30.2,
         "gross_rent_median": 490,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.1
       },
       "hasIncompleteData": false,
@@ -14293,6 +14625,7 @@
         "pct_renters": 13.8,
         "gross_rent_median": 1234,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.1
       },
       "hasIncompleteData": false,
@@ -14343,6 +14676,7 @@
         "pct_renters": 23.9,
         "gross_rent_median": 1171,
         "_ami_gap_source": "county_direct",
+        "_chas_source": "county_direct",
         "overall_need_score": 43.0
       },
       "hasIncompleteData": false,
@@ -14377,6 +14711,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 43.0
       },
       "hasIncompleteData": false,
@@ -14420,6 +14755,7 @@
         "pct_renters": 32.9,
         "gross_rent_median": 1109,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 42.8
       },
       "hasIncompleteData": true,
@@ -14463,6 +14799,7 @@
         "pct_renters": 60.9,
         "gross_rent_median": 1723,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 42.6
       },
       "hasIncompleteData": false,
@@ -14506,6 +14843,7 @@
         "pct_renters": 40.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 42.5
       },
       "hasIncompleteData": true,
@@ -14549,6 +14887,7 @@
         "pct_renters": 23.2,
         "gross_rent_median": 822,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.7
       },
       "hasIncompleteData": false,
@@ -14592,6 +14931,7 @@
         "pct_renters": 9.8,
         "gross_rent_median": 1556,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.5
       },
       "hasIncompleteData": false,
@@ -14635,6 +14975,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.4
       },
       "hasIncompleteData": false,
@@ -14678,6 +15019,7 @@
         "pct_renters": 46.0,
         "gross_rent_median": 901,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.4
       },
       "hasIncompleteData": false,
@@ -14721,6 +15063,7 @@
         "pct_renters": 44.6,
         "gross_rent_median": 969,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.3
       },
       "hasIncompleteData": false,
@@ -14764,6 +15107,7 @@
         "pct_renters": 42.6,
         "gross_rent_median": 566,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.2
       },
       "hasIncompleteData": false,
@@ -14807,6 +15151,7 @@
         "pct_renters": 38.5,
         "gross_rent_median": 1618,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.1
       },
       "hasIncompleteData": false,
@@ -14850,6 +15195,7 @@
         "pct_renters": 32.4,
         "gross_rent_median": 943,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 41.0
       },
       "hasIncompleteData": false,
@@ -14893,6 +15239,7 @@
         "pct_renters": 37.4,
         "gross_rent_median": 1495,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.8
       },
       "hasIncompleteData": false,
@@ -14936,6 +15283,7 @@
         "pct_renters": 10.2,
         "gross_rent_median": 872,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.7
       },
       "hasIncompleteData": false,
@@ -14979,6 +15327,7 @@
         "pct_renters": 14.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.6
       },
       "hasIncompleteData": false,
@@ -15022,6 +15371,7 @@
         "pct_renters": 35.3,
         "gross_rent_median": 1276,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.5
       },
       "hasIncompleteData": false,
@@ -15065,6 +15415,7 @@
         "pct_renters": 10.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.2
       },
       "hasIncompleteData": false,
@@ -15108,6 +15459,7 @@
         "pct_renters": 12.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.0
       },
       "hasIncompleteData": true,
@@ -15151,6 +15503,7 @@
         "pct_renters": 40.8,
         "gross_rent_median": 750,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 40.0
       },
       "hasIncompleteData": false,
@@ -15194,6 +15547,7 @@
         "pct_renters": 31.0,
         "gross_rent_median": 906,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.8
       },
       "hasIncompleteData": false,
@@ -15237,6 +15591,7 @@
         "pct_renters": 52.4,
         "gross_rent_median": 992,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.8
       },
       "hasIncompleteData": false,
@@ -15280,6 +15635,7 @@
         "pct_renters": 21.5,
         "gross_rent_median": 1333,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.5
       },
       "hasIncompleteData": false,
@@ -15323,6 +15679,7 @@
         "pct_renters": 25.0,
         "gross_rent_median": 1056,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.4
       },
       "hasIncompleteData": false,
@@ -15366,6 +15723,7 @@
         "pct_renters": 5.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.4
       },
       "hasIncompleteData": false,
@@ -15409,6 +15767,7 @@
         "pct_renters": 16.4,
         "gross_rent_median": 1551,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.1
       },
       "hasIncompleteData": false,
@@ -15452,6 +15811,7 @@
         "pct_renters": 34.8,
         "gross_rent_median": 929,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.0
       },
       "hasIncompleteData": false,
@@ -15495,6 +15855,7 @@
         "pct_renters": 32.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 39.0
       },
       "hasIncompleteData": false,
@@ -15538,6 +15899,7 @@
         "pct_renters": 5.8,
         "gross_rent_median": 1808,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.9
       },
       "hasIncompleteData": false,
@@ -15581,6 +15943,7 @@
         "pct_renters": 37.9,
         "gross_rent_median": 477,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.7
       },
       "hasIncompleteData": true,
@@ -15624,6 +15987,7 @@
         "pct_renters": 15.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.6
       },
       "hasIncompleteData": true,
@@ -15667,6 +16031,7 @@
         "pct_renters": 76.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.5
       },
       "hasIncompleteData": true,
@@ -15710,6 +16075,7 @@
         "pct_renters": 35.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.4
       },
       "hasIncompleteData": false,
@@ -15753,6 +16119,7 @@
         "pct_renters": 15.4,
         "gross_rent_median": 1250,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.4
       },
       "hasIncompleteData": false,
@@ -15796,6 +16163,7 @@
         "pct_renters": 24.8,
         "gross_rent_median": 935,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.3
       },
       "hasIncompleteData": false,
@@ -15839,6 +16207,7 @@
         "pct_renters": 28.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.2
       },
       "hasIncompleteData": false,
@@ -15882,6 +16251,7 @@
         "pct_renters": 44.9,
         "gross_rent_median": 1035,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 38.1
       },
       "hasIncompleteData": false,
@@ -15925,6 +16295,7 @@
         "pct_renters": 0.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.8
       },
       "hasIncompleteData": false,
@@ -15968,6 +16339,7 @@
         "pct_renters": 8.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.7
       },
       "hasIncompleteData": false,
@@ -16011,6 +16383,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.7
       },
       "hasIncompleteData": false,
@@ -16054,6 +16427,7 @@
         "pct_renters": 5.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.4
       },
       "hasIncompleteData": true,
@@ -16097,6 +16471,7 @@
         "pct_renters": 54.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.4
       },
       "hasIncompleteData": false,
@@ -16140,6 +16515,7 @@
         "pct_renters": 26.3,
         "gross_rent_median": 1700,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.4
       },
       "hasIncompleteData": false,
@@ -16183,6 +16559,7 @@
         "pct_renters": 64.3,
         "gross_rent_median": 424,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.1
       },
       "hasIncompleteData": false,
@@ -16226,6 +16603,7 @@
         "pct_renters": 56.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.0
       },
       "hasIncompleteData": true,
@@ -16269,6 +16647,7 @@
         "pct_renters": 32.3,
         "gross_rent_median": 2083,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 37.0
       },
       "hasIncompleteData": false,
@@ -16312,6 +16691,7 @@
         "pct_renters": 33.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.9
       },
       "hasIncompleteData": true,
@@ -16355,6 +16735,7 @@
         "pct_renters": 15.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.7
       },
       "hasIncompleteData": false,
@@ -16398,6 +16779,7 @@
         "pct_renters": 15.3,
         "gross_rent_median": 1484,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.7
       },
       "hasIncompleteData": false,
@@ -16441,6 +16823,7 @@
         "pct_renters": 26.3,
         "gross_rent_median": 933,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.6
       },
       "hasIncompleteData": false,
@@ -16484,6 +16867,7 @@
         "pct_renters": 2.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.5
       },
       "hasIncompleteData": false,
@@ -16527,6 +16911,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.5
       },
       "hasIncompleteData": false,
@@ -16570,6 +16955,7 @@
         "pct_renters": 15.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.4
       },
       "hasIncompleteData": false,
@@ -16613,6 +16999,7 @@
         "pct_renters": 32.2,
         "gross_rent_median": 879,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.4
       },
       "hasIncompleteData": false,
@@ -16656,6 +17043,7 @@
         "pct_renters": 1.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.3
       },
       "hasIncompleteData": false,
@@ -16699,6 +17087,7 @@
         "pct_renters": 21.1,
         "gross_rent_median": 800,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.1
       },
       "hasIncompleteData": false,
@@ -16742,6 +17131,7 @@
         "pct_renters": 48.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 36.1
       },
       "hasIncompleteData": false,
@@ -16785,6 +17175,7 @@
         "pct_renters": 55.1,
         "gross_rent_median": 2166,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.9
       },
       "hasIncompleteData": false,
@@ -16828,6 +17219,7 @@
         "pct_renters": 32.3,
         "gross_rent_median": 812,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.8
       },
       "hasIncompleteData": false,
@@ -16871,6 +17263,7 @@
         "pct_renters": 8.7,
         "gross_rent_median": 3501,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.7
       },
       "hasIncompleteData": false,
@@ -16914,6 +17307,7 @@
         "pct_renters": 68.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.5
       },
       "hasIncompleteData": false,
@@ -16957,6 +17351,7 @@
         "pct_renters": 75.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.3
       },
       "hasIncompleteData": true,
@@ -17000,6 +17395,7 @@
         "pct_renters": 36.1,
         "gross_rent_median": 1118,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.0
       },
       "hasIncompleteData": false,
@@ -17043,6 +17439,7 @@
         "pct_renters": 11.4,
         "gross_rent_median": 831,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 35.0
       },
       "hasIncompleteData": false,
@@ -17086,6 +17483,7 @@
         "pct_renters": 19.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.9
       },
       "hasIncompleteData": false,
@@ -17129,6 +17527,7 @@
         "pct_renters": 12.8,
         "gross_rent_median": 1625,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.8
       },
       "hasIncompleteData": false,
@@ -17172,6 +17571,7 @@
         "pct_renters": 42.9,
         "gross_rent_median": 925,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.7
       },
       "hasIncompleteData": false,
@@ -17215,6 +17615,7 @@
         "pct_renters": 31.9,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.6
       },
       "hasIncompleteData": false,
@@ -17258,6 +17659,7 @@
         "pct_renters": 7.0,
         "gross_rent_median": 1783,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.4
       },
       "hasIncompleteData": false,
@@ -17301,6 +17703,7 @@
         "pct_renters": 36.4,
         "gross_rent_median": 1092,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.4
       },
       "hasIncompleteData": false,
@@ -17344,6 +17747,7 @@
         "pct_renters": 49.6,
         "gross_rent_median": 1139,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.3
       },
       "hasIncompleteData": false,
@@ -17387,6 +17791,7 @@
         "pct_renters": 17.8,
         "gross_rent_median": 1250,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.2
       },
       "hasIncompleteData": false,
@@ -17430,6 +17835,7 @@
         "pct_renters": 81.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.2
       },
       "hasIncompleteData": true,
@@ -17473,6 +17879,7 @@
         "pct_renters": 35.1,
         "gross_rent_median": 889,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 34.2
       },
       "hasIncompleteData": false,
@@ -17516,6 +17923,7 @@
         "pct_renters": 21.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 33.8
       },
       "hasIncompleteData": true,
@@ -17559,6 +17967,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 33.8
       },
       "hasIncompleteData": false,
@@ -17602,6 +18011,7 @@
         "pct_renters": 35.9,
         "gross_rent_median": 606,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 33.7
       },
       "hasIncompleteData": false,
@@ -17645,6 +18055,7 @@
         "pct_renters": 36.0,
         "gross_rent_median": 945,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 33.1
       },
       "hasIncompleteData": false,
@@ -17688,6 +18099,7 @@
         "pct_renters": 3.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 33.0
       },
       "hasIncompleteData": false,
@@ -17731,6 +18143,7 @@
         "pct_renters": 24.1,
         "gross_rent_median": 1364,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.8
       },
       "hasIncompleteData": false,
@@ -17774,6 +18187,7 @@
         "pct_renters": 28.9,
         "gross_rent_median": 689,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.6
       },
       "hasIncompleteData": false,
@@ -17817,6 +18231,7 @@
         "pct_renters": 28.1,
         "gross_rent_median": 2125,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.5
       },
       "hasIncompleteData": false,
@@ -17860,6 +18275,7 @@
         "pct_renters": 25.7,
         "gross_rent_median": 774,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.4
       },
       "hasIncompleteData": false,
@@ -17903,6 +18319,7 @@
         "pct_renters": 28.9,
         "gross_rent_median": 1699,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.2
       },
       "hasIncompleteData": false,
@@ -17946,6 +18363,7 @@
         "pct_renters": 33.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.2
       },
       "hasIncompleteData": true,
@@ -17989,6 +18407,7 @@
         "pct_renters": 58.5,
         "gross_rent_median": 1135,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.1
       },
       "hasIncompleteData": false,
@@ -18032,6 +18451,7 @@
         "pct_renters": 22.5,
         "gross_rent_median": 1094,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 32.0
       },
       "hasIncompleteData": false,
@@ -18075,6 +18495,7 @@
         "pct_renters": 29.3,
         "gross_rent_median": 1109,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 31.8
       },
       "hasIncompleteData": false,
@@ -18118,6 +18539,7 @@
         "pct_renters": 27.5,
         "gross_rent_median": 1106,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 31.4
       },
       "hasIncompleteData": false,
@@ -18161,6 +18583,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 31.4
       },
       "hasIncompleteData": true,
@@ -18204,6 +18627,7 @@
         "pct_renters": 20.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 31.0
       },
       "hasIncompleteData": false,
@@ -18247,6 +18671,7 @@
         "pct_renters": 1.2,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 30.9
       },
       "hasIncompleteData": false,
@@ -18290,6 +18715,7 @@
         "pct_renters": 32.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 30.9
       },
       "hasIncompleteData": true,
@@ -18333,6 +18759,7 @@
         "pct_renters": 28.6,
         "gross_rent_median": 1021,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 30.5
       },
       "hasIncompleteData": false,
@@ -18376,6 +18803,7 @@
         "pct_renters": 27.1,
         "gross_rent_median": 1486,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 30.2
       },
       "hasIncompleteData": false,
@@ -18419,6 +18847,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 30.1
       },
       "hasIncompleteData": true,
@@ -18462,6 +18891,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 29.5
       },
       "hasIncompleteData": false,
@@ -18505,6 +18935,7 @@
         "pct_renters": 19.2,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 29.4
       },
       "hasIncompleteData": false,
@@ -18548,6 +18979,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 29.2
       },
       "hasIncompleteData": false,
@@ -18591,6 +19023,7 @@
         "pct_renters": 26.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 28.5
       },
       "hasIncompleteData": false,
@@ -18634,6 +19067,7 @@
         "pct_renters": 21.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 28.5
       },
       "hasIncompleteData": false,
@@ -18677,6 +19111,7 @@
         "pct_renters": 26.5,
         "gross_rent_median": 1175,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 28.4
       },
       "hasIncompleteData": false,
@@ -18720,6 +19155,7 @@
         "pct_renters": 71.9,
         "gross_rent_median": 1523,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 28.3
       },
       "hasIncompleteData": false,
@@ -18763,6 +19199,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 27.6
       },
       "hasIncompleteData": true,
@@ -18806,6 +19243,7 @@
         "pct_renters": 38.5,
         "gross_rent_median": 818,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 27.5
       },
       "hasIncompleteData": false,
@@ -18849,6 +19287,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 27.5
       },
       "hasIncompleteData": false,
@@ -18892,6 +19331,7 @@
         "pct_renters": 13.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 27.0
       },
       "hasIncompleteData": false,
@@ -18935,6 +19375,7 @@
         "pct_renters": 28.6,
         "gross_rent_median": 950,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 27.0
       },
       "hasIncompleteData": false,
@@ -18978,6 +19419,7 @@
         "pct_renters": 19.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 26.8
       },
       "hasIncompleteData": true,
@@ -19021,6 +19463,7 @@
         "pct_renters": 32.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.8
       },
       "hasIncompleteData": true,
@@ -19064,6 +19507,7 @@
         "pct_renters": 26.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.8
       },
       "hasIncompleteData": false,
@@ -19107,6 +19551,7 @@
         "pct_renters": 26.9,
         "gross_rent_median": 2194,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.4
       },
       "hasIncompleteData": false,
@@ -19150,6 +19595,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.1
       },
       "hasIncompleteData": false,
@@ -19193,6 +19639,7 @@
         "pct_renters": 4.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.1
       },
       "hasIncompleteData": false,
@@ -19236,6 +19683,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 25.1
       },
       "hasIncompleteData": false,
@@ -19279,6 +19727,7 @@
         "pct_renters": 14.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 24.8
       },
       "hasIncompleteData": false,
@@ -19322,6 +19771,7 @@
         "pct_renters": 36.1,
         "gross_rent_median": 1180,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 24.2
       },
       "hasIncompleteData": false,
@@ -19365,6 +19815,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 23.6
       },
       "hasIncompleteData": false,
@@ -19408,6 +19859,7 @@
         "pct_renters": 11.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 23.0
       },
       "hasIncompleteData": false,
@@ -19451,6 +19903,7 @@
         "pct_renters": 20.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 22.4
       },
       "hasIncompleteData": false,
@@ -19494,6 +19947,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 22.4
       },
       "hasIncompleteData": true,
@@ -19537,6 +19991,7 @@
         "pct_renters": 23.2,
         "gross_rent_median": 1234,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 22.1
       },
       "hasIncompleteData": false,
@@ -19580,6 +20035,7 @@
         "pct_renters": 26.6,
         "gross_rent_median": 985,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 22.1
       },
       "hasIncompleteData": false,
@@ -19623,6 +20079,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 22.0
       },
       "hasIncompleteData": true,
@@ -19666,6 +20123,7 @@
         "pct_renters": 24.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 21.9
       },
       "hasIncompleteData": false,
@@ -19709,6 +20167,7 @@
         "pct_renters": 23.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 21.6
       },
       "hasIncompleteData": false,
@@ -19752,6 +20211,7 @@
         "pct_renters": 14.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 21.3
       },
       "hasIncompleteData": false,
@@ -19795,6 +20255,7 @@
         "pct_renters": 35.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.8
       },
       "hasIncompleteData": false,
@@ -19838,6 +20299,7 @@
         "pct_renters": 28.1,
         "gross_rent_median": 869,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.8
       },
       "hasIncompleteData": false,
@@ -19881,6 +20343,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.7
       },
       "hasIncompleteData": false,
@@ -19924,6 +20387,7 @@
         "pct_renters": 27.8,
         "gross_rent_median": 1857,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.5
       },
       "hasIncompleteData": false,
@@ -19967,6 +20431,7 @@
         "pct_renters": 18.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.5
       },
       "hasIncompleteData": false,
@@ -20010,6 +20475,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 20.4
       },
       "hasIncompleteData": true,
@@ -20053,6 +20519,7 @@
         "pct_renters": 28.7,
         "gross_rent_median": 653,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 19.9
       },
       "hasIncompleteData": false,
@@ -20096,6 +20563,7 @@
         "pct_renters": 29.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 19.8
       },
       "hasIncompleteData": false,
@@ -20139,6 +20607,7 @@
         "pct_renters": 60.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 19.5
       },
       "hasIncompleteData": false,
@@ -20182,6 +20651,7 @@
         "pct_renters": 22.9,
         "gross_rent_median": 675,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 18.9
       },
       "hasIncompleteData": false,
@@ -20225,6 +20695,7 @@
         "pct_renters": 21.2,
         "gross_rent_median": 1125,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 18.2
       },
       "hasIncompleteData": false,
@@ -20268,6 +20739,7 @@
         "pct_renters": 30.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 17.9
       },
       "hasIncompleteData": false,
@@ -20311,6 +20783,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 17.8
       },
       "hasIncompleteData": false,
@@ -20354,6 +20827,7 @@
         "pct_renters": 31.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 17.8
       },
       "hasIncompleteData": true,
@@ -20397,6 +20871,7 @@
         "pct_renters": 38.9,
         "gross_rent_median": 464,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.9
       },
       "hasIncompleteData": false,
@@ -20440,6 +20915,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.7
       },
       "hasIncompleteData": false,
@@ -20483,6 +20959,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.6
       },
       "hasIncompleteData": true,
@@ -20526,6 +21003,7 @@
         "pct_renters": 56.5,
         "gross_rent_median": 875,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.5
       },
       "hasIncompleteData": false,
@@ -20569,6 +21047,7 @@
         "pct_renters": 40.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.5
       },
       "hasIncompleteData": false,
@@ -20612,6 +21091,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 16.5
       },
       "hasIncompleteData": false,
@@ -20655,6 +21135,7 @@
         "pct_renters": 7.3,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.9
       },
       "hasIncompleteData": false,
@@ -20698,6 +21179,7 @@
         "pct_renters": 16.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.9
       },
       "hasIncompleteData": false,
@@ -20741,6 +21223,7 @@
         "pct_renters": 11.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.5
       },
       "hasIncompleteData": true,
@@ -20784,6 +21267,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.2
       },
       "hasIncompleteData": false,
@@ -20827,6 +21311,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.2
       },
       "hasIncompleteData": false,
@@ -20870,6 +21355,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 15.2
       },
       "hasIncompleteData": false,
@@ -20913,6 +21399,7 @@
         "pct_renters": 46.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 14.8
       },
       "hasIncompleteData": false,
@@ -20956,6 +21443,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 14.6
       },
       "hasIncompleteData": true,
@@ -20999,6 +21487,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 14.6
       },
       "hasIncompleteData": true,
@@ -21042,6 +21531,7 @@
         "pct_renters": 26.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 14.6
       },
       "hasIncompleteData": false,
@@ -21085,6 +21575,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 14.1
       },
       "hasIncompleteData": false,
@@ -21128,6 +21619,7 @@
         "pct_renters": 47.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 13.9
       },
       "hasIncompleteData": true,
@@ -21171,6 +21663,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 13.9
       },
       "hasIncompleteData": true,
@@ -21214,6 +21707,7 @@
         "pct_renters": 63.6,
         "gross_rent_median": 769,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 13.8
       },
       "hasIncompleteData": true,
@@ -21257,6 +21751,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 13.4
       },
       "hasIncompleteData": false,
@@ -21300,6 +21795,7 @@
         "pct_renters": 8.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 13.0
       },
       "hasIncompleteData": false,
@@ -21343,6 +21839,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 12.6
       },
       "hasIncompleteData": true,
@@ -21386,6 +21883,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 12.5
       },
       "hasIncompleteData": true,
@@ -21429,6 +21927,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 12.5
       },
       "hasIncompleteData": true,
@@ -21472,6 +21971,7 @@
         "pct_renters": 16.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.9
       },
       "hasIncompleteData": true,
@@ -21515,6 +22015,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.9
       },
       "hasIncompleteData": true,
@@ -21558,6 +22059,7 @@
         "pct_renters": 4.1,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.8
       },
       "hasIncompleteData": false,
@@ -21601,6 +22103,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.6
       },
       "hasIncompleteData": true,
@@ -21644,6 +22147,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.6
       },
       "hasIncompleteData": false,
@@ -21687,6 +22191,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.4
       },
       "hasIncompleteData": true,
@@ -21730,6 +22235,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.4
       },
       "hasIncompleteData": true,
@@ -21773,6 +22279,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.3
       },
       "hasIncompleteData": true,
@@ -21816,6 +22323,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 11.3
       },
       "hasIncompleteData": true,
@@ -21859,6 +22367,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 10.6
       },
       "hasIncompleteData": true,
@@ -21902,6 +22411,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 10.6
       },
       "hasIncompleteData": true,
@@ -21945,6 +22455,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 10.4
       },
       "hasIncompleteData": true,
@@ -21988,6 +22499,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.8
       },
       "hasIncompleteData": true,
@@ -22031,6 +22543,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.4
       },
       "hasIncompleteData": true,
@@ -22074,6 +22587,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.4
       },
       "hasIncompleteData": true,
@@ -22117,6 +22631,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.2
       },
       "hasIncompleteData": true,
@@ -22160,6 +22675,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.2
       },
       "hasIncompleteData": true,
@@ -22203,6 +22719,7 @@
         "pct_renters": 18.8,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.1
       },
       "hasIncompleteData": false,
@@ -22246,6 +22763,7 @@
         "pct_renters": 19.4,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.0
       },
       "hasIncompleteData": false,
@@ -22289,6 +22807,7 @@
         "pct_renters": 8.6,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 9.0
       },
       "hasIncompleteData": true,
@@ -22332,6 +22851,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 8.2
       },
       "hasIncompleteData": false,
@@ -22375,6 +22895,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 7.7
       },
       "hasIncompleteData": true,
@@ -22418,6 +22939,7 @@
         "pct_renters": 56.7,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 7.6
       },
       "hasIncompleteData": true,
@@ -22461,6 +22983,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 7.4
       },
       "hasIncompleteData": false,
@@ -22504,6 +23027,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 7.1
       },
       "hasIncompleteData": true,
@@ -22547,6 +23071,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.9
       },
       "hasIncompleteData": true,
@@ -22590,6 +23115,7 @@
         "pct_renters": 85.7,
         "gross_rent_median": 950,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.9
       },
       "hasIncompleteData": false,
@@ -22633,6 +23159,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.8
       },
       "hasIncompleteData": true,
@@ -22676,6 +23203,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.6
       },
       "hasIncompleteData": true,
@@ -22719,6 +23247,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.5
       },
       "hasIncompleteData": true,
@@ -22762,6 +23291,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 6.2
       },
       "hasIncompleteData": true,
@@ -22805,6 +23335,7 @@
         "pct_renters": 100.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 5.8
       },
       "hasIncompleteData": true,
@@ -22848,6 +23379,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 5.7
       },
       "hasIncompleteData": true,
@@ -22891,6 +23423,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 5.6
       },
       "hasIncompleteData": true,
@@ -22934,6 +23467,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 5.2
       },
       "hasIncompleteData": true,
@@ -22977,6 +23511,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 4.8
       },
       "hasIncompleteData": true,
@@ -23020,6 +23555,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 4.2
       },
       "hasIncompleteData": true,
@@ -23063,6 +23599,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 4.2
       },
       "hasIncompleteData": true,
@@ -23106,6 +23643,7 @@
         "pct_renters": 35.5,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 3.8
       },
       "hasIncompleteData": true,
@@ -23149,6 +23687,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 3.7
       },
       "hasIncompleteData": true,
@@ -23192,6 +23731,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 2.5
       },
       "hasIncompleteData": true,
@@ -23235,6 +23775,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 2.3
       },
       "hasIncompleteData": true,
@@ -23278,6 +23819,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 2.1
       },
       "hasIncompleteData": true,
@@ -23321,6 +23863,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 2.0
       },
       "hasIncompleteData": true,
@@ -23364,6 +23907,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 1.9
       },
       "hasIncompleteData": false,
@@ -23407,6 +23951,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 1.6
       },
       "hasIncompleteData": true,
@@ -23450,6 +23995,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 1.6
       },
       "hasIncompleteData": true,
@@ -23493,6 +24039,7 @@
         "pct_renters": 0.0,
         "gross_rent_median": 0,
         "_ami_gap_source": "place_acs_direct",
+        "_chas_source": "county_inherited",
         "overall_need_score": 1.4
       },
       "hasIncompleteData": true,

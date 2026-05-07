@@ -1,0 +1,3888 @@
+{
+  "meta": {
+    "state": "CO",
+    "generated_at": "2026-05-07T16:07:02Z",
+    "source": "HUD CHAS sumlevel-140 (tract) aggregated to place via Census Geocoder centroid containment",
+    "place_count": 51,
+    "method": "tract_centroid_containment",
+    "note": "Tracts are assigned to a single place by centroid containment (Geocoder layers: Incorporated Places + Census Designated Places). Tracts with centroid in unincorporated land contribute to no place. Coverage field shows tracted-place renter HH \u00f7 county renter HH."
+  },
+  "places": {
+    "0803455": {
+      "geoid": "0803455",
+      "tract_count": 11,
+      "total_renter_hh": 9397,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.059,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 24,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 835,
+          "cost_burdened_30pct": 148,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 148,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.1772
+        },
+        "51to80": {
+          "total": 1243,
+          "cost_burdened_30pct": 259,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 259,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.2084
+        },
+        "81to100": {
+          "total": 7295,
+          "cost_burdened_30pct": 883,
+          "cost_burdened_50pct": 173,
+          "cost_burdened": 883,
+          "severely_burdened": 173,
+          "pct_cost_burdened": 0.121
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 115,
+          "cost_burdened_30pct": 85,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 85,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.7391
+        },
+        "31to50": {
+          "total": 1233,
+          "cost_burdened_30pct": 333,
+          "cost_burdened_50pct": 19,
+          "cost_burdened": 333,
+          "severely_burdened": 19,
+          "pct_cost_burdened": 0.2701
+        },
+        "51to80": {
+          "total": 1548,
+          "cost_burdened_30pct": 569,
+          "cost_burdened_50pct": 34,
+          "cost_burdened": 569,
+          "severely_burdened": 34,
+          "pct_cost_burdened": 0.3676
+        },
+        "81to100": {
+          "total": 2809,
+          "cost_burdened_30pct": 886,
+          "cost_burdened_50pct": 67,
+          "cost_burdened": 886,
+          "severely_burdened": 67,
+          "pct_cost_burdened": 0.3154
+        }
+      }
+    },
+    "0804000": {
+      "geoid": "0804000",
+      "tract_count": 7,
+      "total_renter_hh": 6295,
+      "containing_county_fips": "08001",
+      "county_renter_hh": 123765,
+      "coverage_vs_county": 0.051,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 54,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 629,
+          "cost_burdened_30pct": 320,
+          "cost_burdened_50pct": 45,
+          "cost_burdened": 320,
+          "severely_burdened": 45,
+          "pct_cost_burdened": 0.5087
+        },
+        "51to80": {
+          "total": 803,
+          "cost_burdened_30pct": 265,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 265,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.33
+        },
+        "81to100": {
+          "total": 4809,
+          "cost_burdened_30pct": 1584,
+          "cost_burdened_50pct": 159,
+          "cost_burdened": 1584,
+          "severely_burdened": 159,
+          "pct_cost_burdened": 0.3294
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 135,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 1105,
+          "cost_burdened_30pct": 300,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 300,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.2715
+        },
+        "51to80": {
+          "total": 1703,
+          "cost_burdened_30pct": 500,
+          "cost_burdened_50pct": 85,
+          "cost_burdened": 500,
+          "severely_burdened": 85,
+          "pct_cost_burdened": 0.2936
+        },
+        "81to100": {
+          "total": 3293,
+          "cost_burdened_30pct": 840,
+          "cost_burdened_50pct": 175,
+          "cost_burdened": 840,
+          "severely_burdened": 175,
+          "pct_cost_burdened": 0.2551
+        }
+      }
+    },
+    "0805120": {
+      "geoid": "0805120",
+      "tract_count": 1,
+      "total_renter_hh": 1394,
+      "containing_county_fips": "08041",
+      "county_renter_hh": 182986,
+      "coverage_vs_county": 0.008,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 115,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 199,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0201
+        },
+        "81to100": {
+          "total": 1080,
+          "cost_burdened_30pct": 160,
+          "cost_burdened_50pct": 125,
+          "cost_burdened": 160,
+          "severely_burdened": 125,
+          "pct_cost_burdened": 0.1481
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 35,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 20,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5
+        },
+        "81to100": {
+          "total": 100,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.1
+        }
+      }
+    },
+    "0806970": {
+      "geoid": "0806970",
+      "tract_count": 5,
+      "total_renter_hh": 2723,
+      "containing_county_fips": "08041",
+      "county_renter_hh": 182986,
+      "coverage_vs_county": 0.015,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 20,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 294,
+          "cost_burdened_30pct": 75,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 75,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2551
+        },
+        "51to80": {
+          "total": 275,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 25,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.0909
+        },
+        "81to100": {
+          "total": 2134,
+          "cost_burdened_30pct": 250,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 250,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.1172
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 75,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.1333
+        },
+        "31to50": {
+          "total": 1225,
+          "cost_burdened_30pct": 275,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 275,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.2245
+        },
+        "51to80": {
+          "total": 759,
+          "cost_burdened_30pct": 224,
+          "cost_burdened_50pct": 64,
+          "cost_burdened": 224,
+          "severely_burdened": 64,
+          "pct_cost_burdened": 0.2951
+        },
+        "81to100": {
+          "total": 2855,
+          "cost_burdened_30pct": 295,
+          "cost_burdened_50pct": 65,
+          "cost_burdened": 295,
+          "severely_burdened": 65,
+          "pct_cost_burdened": 0.1033
+        }
+      }
+    },
+    "0809280": {
+      "geoid": "0809280",
+      "tract_count": 17,
+      "total_renter_hh": 19632,
+      "containing_county_fips": "08014",
+      "county_renter_hh": 19260,
+      "coverage_vs_county": 1.019,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 40,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 2197,
+          "cost_burdened_30pct": 324,
+          "cost_burdened_50pct": 124,
+          "cost_burdened": 324,
+          "severely_burdened": 124,
+          "pct_cost_burdened": 0.1475
+        },
+        "51to80": {
+          "total": 2284,
+          "cost_burdened_30pct": 115,
+          "cost_burdened_50pct": 55,
+          "cost_burdened": 115,
+          "severely_burdened": 55,
+          "pct_cost_burdened": 0.0504
+        },
+        "81to100": {
+          "total": 15111,
+          "cost_burdened_30pct": 1182,
+          "cost_burdened_50pct": 332,
+          "cost_burdened": 1182,
+          "severely_burdened": 332,
+          "pct_cost_burdened": 0.0782
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 330,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 3712,
+          "cost_burdened_30pct": 722,
+          "cost_burdened_50pct": 399,
+          "cost_burdened": 722,
+          "severely_burdened": 399,
+          "pct_cost_burdened": 0.1945
+        },
+        "51to80": {
+          "total": 2417,
+          "cost_burdened_30pct": 438,
+          "cost_burdened_50pct": 43,
+          "cost_burdened": 438,
+          "severely_burdened": 43,
+          "pct_cost_burdened": 0.1812
+        },
+        "81to100": {
+          "total": 3976,
+          "cost_burdened_30pct": 664,
+          "cost_burdened_50pct": 104,
+          "cost_burdened": 664,
+          "severely_burdened": 104,
+          "pct_cost_burdened": 0.167
+        }
+      }
+    },
+    "0812393": {
+      "geoid": "0812393",
+      "tract_count": 1,
+      "total_renter_hh": 915,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 145,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 145,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 35,
+          "cost_burdened": 90,
+          "severely_burdened": 35,
+          "pct_cost_burdened": 0.6207
+        },
+        "81to100": {
+          "total": 625,
+          "cost_burdened_30pct": 140,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 140,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.224
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 305,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 60,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.1967
+        },
+        "51to80": {
+          "total": 435,
+          "cost_burdened_30pct": 130,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 130,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2989
+        },
+        "81to100": {
+          "total": 844,
+          "cost_burdened_30pct": 200,
+          "cost_burdened_50pct": 170,
+          "cost_burdened": 200,
+          "severely_burdened": 170,
+          "pct_cost_burdened": 0.237
+        }
+      }
+    },
+    "0812415": {
+      "geoid": "0812415",
+      "tract_count": 2,
+      "total_renter_hh": 1284,
+      "containing_county_fips": "08035",
+      "county_renter_hh": 102914,
+      "coverage_vs_county": 0.012,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 150,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 25,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1667
+        },
+        "51to80": {
+          "total": 134,
+          "cost_burdened_30pct": 49,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 49,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3657
+        },
+        "81to100": {
+          "total": 1000,
+          "cost_burdened_30pct": 80,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 80,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.08
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 35,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 620,
+          "cost_burdened_30pct": 125,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 125,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2016
+        },
+        "51to80": {
+          "total": 550,
+          "cost_burdened_30pct": 320,
+          "cost_burdened_50pct": 85,
+          "cost_burdened": 320,
+          "severely_burdened": 85,
+          "pct_cost_burdened": 0.5818
+        },
+        "81to100": {
+          "total": 1730,
+          "cost_burdened_30pct": 310,
+          "cost_burdened_50pct": 125,
+          "cost_burdened": 310,
+          "severely_burdened": 125,
+          "pct_cost_burdened": 0.1792
+        }
+      }
+    },
+    "0812815": {
+      "geoid": "0812815",
+      "tract_count": 3,
+      "total_renter_hh": 2755,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.017,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 20,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.5
+        },
+        "31to50": {
+          "total": 160,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4375
+        },
+        "51to80": {
+          "total": 370,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 65,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1757
+        },
+        "81to100": {
+          "total": 2205,
+          "cost_burdened_30pct": 390,
+          "cost_burdened_50pct": 75,
+          "cost_burdened": 390,
+          "severely_burdened": 75,
+          "pct_cost_burdened": 0.1769
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 270,
+          "cost_burdened_30pct": 150,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 150,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5556
+        },
+        "31to50": {
+          "total": 1075,
+          "cost_burdened_30pct": 345,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 345,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.3209
+        },
+        "51to80": {
+          "total": 420,
+          "cost_burdened_30pct": 215,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 215,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5119
+        },
+        "81to100": {
+          "total": 1680,
+          "cost_burdened_30pct": 670,
+          "cost_burdened_50pct": 105,
+          "cost_burdened": 670,
+          "severely_burdened": 105,
+          "pct_cost_burdened": 0.3988
+        }
+      }
+    },
+    "0812945": {
+      "geoid": "0812945",
+      "tract_count": 1,
+      "total_renter_hh": 1145,
+      "containing_county_fips": "08041",
+      "county_renter_hh": 182986,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 45,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 100,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1000,
+          "cost_burdened_30pct": 80,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 80,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.08
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 39,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 85,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 165,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0606
+        }
+      }
+    },
+    "0814587": {
+      "geoid": "0814587",
+      "tract_count": 1,
+      "total_renter_hh": 1629,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.01,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 44,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 4,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0909
+        },
+        "51to80": {
+          "total": 100,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1485,
+          "cost_burdened_30pct": 280,
+          "cost_burdened_50pct": 65,
+          "cost_burdened": 280,
+          "severely_burdened": 65,
+          "pct_cost_burdened": 0.1886
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 30,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 50,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 40,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 180,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 30,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1667
+        }
+      }
+    },
+    "0816000": {
+      "geoid": "0816000",
+      "tract_count": 16,
+      "total_renter_hh": 12156,
+      "containing_county_fips": "08041",
+      "county_renter_hh": 182986,
+      "coverage_vs_county": 0.066,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 119,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 30,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.2521
+        },
+        "31to50": {
+          "total": 1338,
+          "cost_burdened_30pct": 218,
+          "cost_burdened_50pct": 39,
+          "cost_burdened": 218,
+          "severely_burdened": 39,
+          "pct_cost_burdened": 0.1629
+        },
+        "51to80": {
+          "total": 1605,
+          "cost_burdened_30pct": 495,
+          "cost_burdened_50pct": 45,
+          "cost_burdened": 495,
+          "severely_burdened": 45,
+          "pct_cost_burdened": 0.3084
+        },
+        "81to100": {
+          "total": 9094,
+          "cost_burdened_30pct": 1524,
+          "cost_burdened_50pct": 340,
+          "cost_burdened": 1524,
+          "severely_burdened": 340,
+          "pct_cost_burdened": 0.1676
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 285,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 35,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1228
+        },
+        "31to50": {
+          "total": 3288,
+          "cost_burdened_30pct": 1189,
+          "cost_burdened_50pct": 329,
+          "cost_burdened": 1189,
+          "severely_burdened": 329,
+          "pct_cost_burdened": 0.3616
+        },
+        "51to80": {
+          "total": 3124,
+          "cost_burdened_30pct": 949,
+          "cost_burdened_50pct": 314,
+          "cost_burdened": 949,
+          "severely_burdened": 314,
+          "pct_cost_burdened": 0.3038
+        },
+        "81to100": {
+          "total": 6154,
+          "cost_burdened_30pct": 1614,
+          "cost_burdened_50pct": 409,
+          "cost_burdened": 1614,
+          "severely_burdened": 409,
+          "pct_cost_burdened": 0.2623
+        }
+      }
+    },
+    "0816495": {
+      "geoid": "0816495",
+      "tract_count": 2,
+      "total_renter_hh": 2255,
+      "containing_county_fips": "08029",
+      "county_renter_hh": 9333,
+      "coverage_vs_county": 0.242,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 35,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 35,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 140,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 60,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.4286
+        },
+        "51to80": {
+          "total": 260,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1731
+        },
+        "81to100": {
+          "total": 1820,
+          "cost_burdened_30pct": 380,
+          "cost_burdened_50pct": 50,
+          "cost_burdened": 380,
+          "severely_burdened": 50,
+          "pct_cost_burdened": 0.2088
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 30,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 149,
+          "cost_burdened_30pct": 39,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 39,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.2617
+        },
+        "51to80": {
+          "total": 120,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0833
+        },
+        "81to100": {
+          "total": 643,
+          "cost_burdened_30pct": 149,
+          "cost_burdened_50pct": 44,
+          "cost_burdened": 149,
+          "severely_burdened": 44,
+          "pct_cost_burdened": 0.2317
+        }
+      }
+    },
+    "0820000": {
+      "geoid": "0820000",
+      "tract_count": 16,
+      "total_renter_hh": 17066,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.107,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 254,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 25,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0984
+        },
+        "31to50": {
+          "total": 1781,
+          "cost_burdened_30pct": 624,
+          "cost_burdened_50pct": 54,
+          "cost_burdened": 624,
+          "severely_burdened": 54,
+          "pct_cost_burdened": 0.3504
+        },
+        "51to80": {
+          "total": 2078,
+          "cost_burdened_30pct": 478,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 478,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.23
+        },
+        "81to100": {
+          "total": 12953,
+          "cost_burdened_30pct": 2135,
+          "cost_burdened_50pct": 335,
+          "cost_burdened": 2135,
+          "severely_burdened": 335,
+          "pct_cost_burdened": 0.1648
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 253,
+          "cost_burdened_30pct": 83,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 83,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.3281
+        },
+        "31to50": {
+          "total": 1934,
+          "cost_burdened_30pct": 571,
+          "cost_burdened_50pct": 48,
+          "cost_burdened": 571,
+          "severely_burdened": 48,
+          "pct_cost_burdened": 0.2952
+        },
+        "51to80": {
+          "total": 1599,
+          "cost_burdened_30pct": 460,
+          "cost_burdened_50pct": 32,
+          "cost_burdened": 460,
+          "severely_burdened": 32,
+          "pct_cost_burdened": 0.2877
+        },
+        "81to100": {
+          "total": 5892,
+          "cost_burdened_30pct": 2150,
+          "cost_burdened_50pct": 335,
+          "cost_burdened": 2150,
+          "severely_burdened": 335,
+          "pct_cost_burdened": 0.3649
+        }
+      }
+    },
+    "0822200": {
+      "geoid": "0822200",
+      "tract_count": 1,
+      "total_renter_hh": 450,
+      "containing_county_fips": "08037",
+      "county_renter_hh": 13768,
+      "coverage_vs_county": 0.033,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 20,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 120,
+          "cost_burdened_30pct": 85,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 85,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.7083
+        },
+        "81to100": {
+          "total": 310,
+          "cost_burdened_30pct": 100,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 100,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3226
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 4,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 55,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.8182
+        }
+      }
+    },
+    "0824785": {
+      "geoid": "0824785",
+      "tract_count": 1,
+      "total_renter_hh": 1255,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.008,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 140,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 30,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1085,
+          "cost_burdened_30pct": 105,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 105,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.0968
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 15,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 235,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 35,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1489
+        },
+        "51to80": {
+          "total": 315,
+          "cost_burdened_30pct": 155,
+          "cost_burdened_50pct": 130,
+          "cost_burdened": 155,
+          "severely_burdened": 130,
+          "pct_cost_burdened": 0.4921
+        },
+        "81to100": {
+          "total": 650,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1077
+        }
+      }
+    },
+    "0824950": {
+      "geoid": "0824950",
+      "tract_count": 1,
+      "total_renter_hh": 2025,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.024,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 85,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 225,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1715,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 60,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.035
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 110,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 260,
+          "cost_burdened_30pct": 50,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 50,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1923
+        }
+      }
+    },
+    "0826270": {
+      "geoid": "0826270",
+      "tract_count": 1,
+      "total_renter_hh": 555,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.007,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 100,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 45,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 410,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 35,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0854
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 675,
+          "cost_burdened_30pct": 355,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 355,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.5259
+        },
+        "51to80": {
+          "total": 345,
+          "cost_burdened_30pct": 50,
+          "cost_burdened_50pct": 35,
+          "cost_burdened": 50,
+          "severely_burdened": 35,
+          "pct_cost_burdened": 0.1449
+        },
+        "81to100": {
+          "total": 450,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 65,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.1444
+        }
+      }
+    },
+    "0827425": {
+      "geoid": "0827425",
+      "tract_count": 2,
+      "total_renter_hh": 986,
+      "containing_county_fips": "08069",
+      "county_renter_hh": 96005,
+      "coverage_vs_county": 0.01,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 159,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0943
+        },
+        "51to80": {
+          "total": 65,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 762,
+          "cost_burdened_30pct": 28,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 28,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0367
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 70,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 325,
+          "cost_burdened_30pct": 50,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 50,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1538
+        },
+        "51to80": {
+          "total": 340,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 45,
+          "cost_burdened": 65,
+          "severely_burdened": 45,
+          "pct_cost_burdened": 0.1912
+        },
+        "81to100": {
+          "total": 348,
+          "cost_burdened_30pct": 95,
+          "cost_burdened_50pct": 65,
+          "cost_burdened": 95,
+          "severely_burdened": 65,
+          "pct_cost_burdened": 0.273
+        }
+      }
+    },
+    "0829845": {
+      "geoid": "0829845",
+      "tract_count": 1,
+      "total_renter_hh": 154,
+      "containing_county_fips": "08101",
+      "county_renter_hh": 44873,
+      "coverage_vs_county": 0.003,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 15,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 34,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1176
+        },
+        "81to100": {
+          "total": 105,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 20,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1905
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 20,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5
+        },
+        "31to50": {
+          "total": 180,
+          "cost_burdened_30pct": 115,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 115,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.6389
+        },
+        "51to80": {
+          "total": 125,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 60,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.48
+        },
+        "81to100": {
+          "total": 459,
+          "cost_burdened_30pct": 240,
+          "cost_burdened_50pct": 50,
+          "cost_burdened": 240,
+          "severely_burdened": 50,
+          "pct_cost_burdened": 0.5229
+        }
+      }
+    },
+    "0830780": {
+      "geoid": "0830780",
+      "tract_count": 1,
+      "total_renter_hh": 1140,
+      "containing_county_fips": "08123",
+      "county_renter_hh": 86747,
+      "coverage_vs_county": 0.013,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 70,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 190,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 880,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 90,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.1023
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 15,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 15,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 90,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1667
+        },
+        "81to100": {
+          "total": 180,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 40,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.2222
+        }
+      }
+    },
+    "0831660": {
+      "geoid": "0831660",
+      "tract_count": 1,
+      "total_renter_hh": 305,
+      "containing_county_fips": "08077",
+      "county_renter_hh": 45317,
+      "coverage_vs_county": 0.007,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 25,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 60,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1667
+        },
+        "81to100": {
+          "total": 220,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0682
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 24,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 20,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.8333
+        },
+        "31to50": {
+          "total": 105,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 60,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.5714
+        },
+        "51to80": {
+          "total": 120,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 364,
+          "cost_burdened_30pct": 79,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 79,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.217
+        }
+      }
+    },
+    "0833035": {
+      "geoid": "0833035",
+      "tract_count": 1,
+      "total_renter_hh": 1080,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.007,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 145,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 195,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 740,
+          "cost_burdened_30pct": 110,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 110,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1486
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 4,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 4,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 80,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 20,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.25
+        },
+        "51to80": {
+          "total": 30,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 205,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 35,
+          "cost_burdened": 65,
+          "severely_burdened": 35,
+          "pct_cost_burdened": 0.3171
+        }
+      }
+    },
+    "0836410": {
+      "geoid": "0836410",
+      "tract_count": 2,
+      "total_renter_hh": 2950,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.018,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 15,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 295,
+          "cost_burdened_30pct": 115,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 115,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3898
+        },
+        "51to80": {
+          "total": 635,
+          "cost_burdened_30pct": 135,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 135,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2126
+        },
+        "81to100": {
+          "total": 2005,
+          "cost_burdened_30pct": 265,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 265,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.1322
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 535,
+          "cost_burdened_30pct": 165,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 165,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3084
+        },
+        "51to80": {
+          "total": 345,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 35,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.1014
+        },
+        "81to100": {
+          "total": 1395,
+          "cost_burdened_30pct": 505,
+          "cost_burdened_50pct": 200,
+          "cost_burdened": 505,
+          "severely_burdened": 200,
+          "pct_cost_burdened": 0.362
+        }
+      }
+    },
+    "0837655": {
+      "geoid": "0837655",
+      "tract_count": 1,
+      "total_renter_hh": 725,
+      "containing_county_fips": "08014",
+      "county_renter_hh": 19260,
+      "coverage_vs_county": 0.038,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 50,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 110,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 565,
+          "cost_burdened_30pct": 105,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 105,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.1858
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 145,
+          "cost_burdened_30pct": 120,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 120,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.8276
+        },
+        "51to80": {
+          "total": 190,
+          "cost_burdened_30pct": 75,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 75,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.3947
+        },
+        "81to100": {
+          "total": 420,
+          "cost_burdened_30pct": 95,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 95,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.2262
+        }
+      }
+    },
+    "0841835": {
+      "geoid": "0841835",
+      "tract_count": 7,
+      "total_renter_hh": 8412,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.101,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 74,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 369,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 20,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0542
+        },
+        "51to80": {
+          "total": 909,
+          "cost_burdened_30pct": 230,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 230,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.253
+        },
+        "81to100": {
+          "total": 7060,
+          "cost_burdened_30pct": 715,
+          "cost_burdened_50pct": 160,
+          "cost_burdened": 715,
+          "severely_burdened": 160,
+          "pct_cost_burdened": 0.1013
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 19,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 992,
+          "cost_burdened_30pct": 253,
+          "cost_burdened_50pct": 74,
+          "cost_burdened": 253,
+          "severely_burdened": 74,
+          "pct_cost_burdened": 0.255
+        },
+        "51to80": {
+          "total": 969,
+          "cost_burdened_30pct": 269,
+          "cost_burdened_50pct": 29,
+          "cost_burdened": 269,
+          "severely_burdened": 29,
+          "pct_cost_burdened": 0.2776
+        },
+        "81to100": {
+          "total": 1989,
+          "cost_burdened_30pct": 289,
+          "cost_burdened_50pct": 39,
+          "cost_burdened": 289,
+          "severely_burdened": 39,
+          "pct_cost_burdened": 0.1453
+        }
+      }
+    },
+    "0843000": {
+      "geoid": "0843000",
+      "tract_count": 1,
+      "total_renter_hh": 945,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 65,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 120,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.125
+        },
+        "81to100": {
+          "total": 760,
+          "cost_burdened_30pct": 125,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 125,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.1645
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 50,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 30,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.6
+        },
+        "51to80": {
+          "total": 34,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 230,
+          "cost_burdened_30pct": 125,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 125,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.5435
+        }
+      }
+    },
+    "0845255": {
+      "geoid": "0845255",
+      "tract_count": 1,
+      "total_renter_hh": 1485,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.009,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 230,
+          "cost_burdened_30pct": 215,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 215,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.9348
+        },
+        "51to80": {
+          "total": 370,
+          "cost_burdened_30pct": 290,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 290,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.7838
+        },
+        "81to100": {
+          "total": 885,
+          "cost_burdened_30pct": 550,
+          "cost_burdened_50pct": 50,
+          "cost_burdened": 550,
+          "severely_burdened": 50,
+          "pct_cost_burdened": 0.6215
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 245,
+          "cost_burdened_30pct": 180,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 180,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.7347
+        },
+        "51to80": {
+          "total": 24,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 200,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 90,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.45
+        }
+      }
+    },
+    "0846355": {
+      "geoid": "0846355",
+      "tract_count": 4,
+      "total_renter_hh": 3547,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.043,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 90,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 270,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 20,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0741
+        },
+        "51to80": {
+          "total": 414,
+          "cost_burdened_30pct": 14,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 14,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0338
+        },
+        "81to100": {
+          "total": 2773,
+          "cost_burdened_30pct": 340,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 340,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.1226
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 85,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 2030,
+          "cost_burdened_30pct": 345,
+          "cost_burdened_50pct": 135,
+          "cost_burdened": 345,
+          "severely_burdened": 135,
+          "pct_cost_burdened": 0.17
+        },
+        "51to80": {
+          "total": 880,
+          "cost_burdened_30pct": 260,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 260,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.2955
+        },
+        "81to100": {
+          "total": 985,
+          "cost_burdened_30pct": 290,
+          "cost_burdened_50pct": 120,
+          "cost_burdened": 290,
+          "severely_burdened": 120,
+          "pct_cost_burdened": 0.2944
+        }
+      }
+    },
+    "0854330": {
+      "geoid": "0854330",
+      "tract_count": 1,
+      "total_renter_hh": 1104,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.013,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 49,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 160,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0625
+        },
+        "81to100": {
+          "total": 895,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0503
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 140,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 34,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 305,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        }
+      }
+    },
+    "0854750": {
+      "geoid": "0854750",
+      "tract_count": 1,
+      "total_renter_hh": 464,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.003,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 24,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1667
+        },
+        "51to80": {
+          "total": 95,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 345,
+          "cost_burdened_30pct": 75,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 75,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2174
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 55,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2727
+        },
+        "31to50": {
+          "total": 329,
+          "cost_burdened_30pct": 100,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 100,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.304
+        },
+        "51to80": {
+          "total": 465,
+          "cost_burdened_30pct": 135,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 135,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.2903
+        },
+        "81to100": {
+          "total": 920,
+          "cost_burdened_30pct": 105,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 105,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1141
+        }
+      }
+    },
+    "0857025": {
+      "geoid": "0857025",
+      "tract_count": 1,
+      "total_renter_hh": 660,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.004,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 15,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 40,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 605,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1157
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 585,
+          "cost_burdened_30pct": 325,
+          "cost_burdened_50pct": 95,
+          "cost_burdened": 325,
+          "severely_burdened": 95,
+          "pct_cost_burdened": 0.5556
+        },
+        "51to80": {
+          "total": 215,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.186
+        },
+        "81to100": {
+          "total": 1275,
+          "cost_burdened_30pct": 275,
+          "cost_burdened_50pct": 120,
+          "cost_burdened": 275,
+          "severely_burdened": 120,
+          "pct_cost_burdened": 0.2157
+        }
+      }
+    },
+    "0857445": {
+      "geoid": "0857445",
+      "tract_count": 2,
+      "total_renter_hh": 1815,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.022,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 70,
+          "cost_burdened_30pct": 60,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 60,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.8571
+        },
+        "31to50": {
+          "total": 265,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1509
+        },
+        "51to80": {
+          "total": 220,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1260,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 70,
+          "cost_burdened": 90,
+          "severely_burdened": 70,
+          "pct_cost_burdened": 0.0714
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 45,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 930,
+          "cost_burdened_30pct": 125,
+          "cost_burdened_50pct": 90,
+          "cost_burdened": 125,
+          "severely_burdened": 90,
+          "pct_cost_burdened": 0.1344
+        },
+        "51to80": {
+          "total": 285,
+          "cost_burdened_30pct": 80,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 80,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.2807
+        },
+        "81to100": {
+          "total": 300,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0333
+        }
+      }
+    },
+    "0857630": {
+      "geoid": "0857630",
+      "tract_count": 2,
+      "total_renter_hh": 1860,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.012,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 20,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 200,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.35
+        },
+        "51to80": {
+          "total": 150,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 20,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1333
+        },
+        "81to100": {
+          "total": 1490,
+          "cost_burdened_30pct": 105,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 105,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.0705
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 30,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 30,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 190,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2105
+        },
+        "51to80": {
+          "total": 164,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0244
+        },
+        "81to100": {
+          "total": 930,
+          "cost_burdened_30pct": 310,
+          "cost_burdened_50pct": 105,
+          "cost_burdened": 310,
+          "severely_burdened": 105,
+          "pct_cost_burdened": 0.3333
+        }
+      }
+    },
+    "0858510": {
+      "geoid": "0858510",
+      "tract_count": 1,
+      "total_renter_hh": 1781,
+      "containing_county_fips": "08035",
+      "county_renter_hh": 102914,
+      "coverage_vs_county": 0.017,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 194,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0206
+        },
+        "51to80": {
+          "total": 208,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0192
+        },
+        "81to100": {
+          "total": 1379,
+          "cost_burdened_30pct": 24,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 24,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.0174
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 10,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 135,
+          "cost_burdened_30pct": 80,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 80,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5926
+        }
+      }
+    },
+    "0860655": {
+      "geoid": "0860655",
+      "tract_count": 2,
+      "total_renter_hh": 1788,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.011,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 4,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 174,
+          "cost_burdened_30pct": 85,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 85,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4885
+        },
+        "51to80": {
+          "total": 365,
+          "cost_burdened_30pct": 250,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 250,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.6849
+        },
+        "81to100": {
+          "total": 1245,
+          "cost_burdened_30pct": 530,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 530,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.4257
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 25,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 25,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 345,
+          "cost_burdened_30pct": 290,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 290,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.8406
+        },
+        "51to80": {
+          "total": 75,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 65,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.8667
+        },
+        "81to100": {
+          "total": 309,
+          "cost_burdened_30pct": 290,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 290,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.9385
+        }
+      }
+    },
+    "0862000": {
+      "geoid": "0862000",
+      "tract_count": 2,
+      "total_renter_hh": 1177,
+      "containing_county_fips": "08101",
+      "county_renter_hh": 44873,
+      "coverage_vs_county": 0.026,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 85,
+          "cost_burdened_30pct": 50,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 50,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5882
+        },
+        "51to80": {
+          "total": 125,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 90,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.72
+        },
+        "81to100": {
+          "total": 967,
+          "cost_burdened_30pct": 323,
+          "cost_burdened_50pct": 8,
+          "cost_burdened": 323,
+          "severely_burdened": 8,
+          "pct_cost_burdened": 0.334
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 278,
+          "cost_burdened_30pct": 104,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 104,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.3741
+        },
+        "51to80": {
+          "total": 154,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 20,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1299
+        },
+        "81to100": {
+          "total": 509,
+          "cost_burdened_30pct": 240,
+          "cost_burdened_50pct": 15,
+          "cost_burdened": 240,
+          "severely_burdened": 15,
+          "pct_cost_burdened": 0.4715
+        }
+      }
+    },
+    "0862220": {
+      "geoid": "0862220",
+      "tract_count": 1,
+      "total_renter_hh": 1615,
+      "containing_county_fips": "08037",
+      "county_renter_hh": 13768,
+      "coverage_vs_county": 0.117,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 105,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.381
+        },
+        "51to80": {
+          "total": 265,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 1245,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 30,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0241
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 85,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5294
+        },
+        "51to80": {
+          "total": 120,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 275,
+          "cost_burdened_30pct": 55,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 55,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2
+        }
+      }
+    },
+    "0866197": {
+      "geoid": "0866197",
+      "tract_count": 1,
+      "total_renter_hh": 725,
+      "containing_county_fips": "08055",
+      "county_renter_hh": 2228,
+      "coverage_vs_county": 0.325,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 4,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 73,
+          "cost_burdened_30pct": 19,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 19,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.2603
+        },
+        "51to80": {
+          "total": 99,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0404
+        },
+        "81to100": {
+          "total": 549,
+          "cost_burdened_30pct": 29,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 29,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0528
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 45,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 20,
+          "cost_burdened": 20,
+          "severely_burdened": 20,
+          "pct_cost_burdened": 0.4444
+        },
+        "51to80": {
+          "total": 8,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5
+        },
+        "81to100": {
+          "total": 94,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 25,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.266
+        }
+      }
+    },
+    "0867500": {
+      "geoid": "0867500",
+      "tract_count": 1,
+      "total_renter_hh": 775,
+      "containing_county_fips": "08001",
+      "county_renter_hh": 123765,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 100,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4
+        },
+        "51to80": {
+          "total": 130,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 65,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5
+        },
+        "81to100": {
+          "total": 545,
+          "cost_burdened_30pct": 285,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 285,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.5229
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 235,
+          "cost_burdened_30pct": 175,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 175,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.7447
+        },
+        "51to80": {
+          "total": 260,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 90,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3462
+        },
+        "81to100": {
+          "total": 325,
+          "cost_burdened_30pct": 190,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 190,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.5846
+        }
+      }
+    },
+    "0868847": {
+      "geoid": "0868847",
+      "tract_count": 3,
+      "total_renter_hh": 2155,
+      "containing_county_fips": "08041",
+      "county_renter_hh": 182986,
+      "coverage_vs_county": 0.012,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 8,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 243,
+          "cost_burdened_30pct": 18,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 18,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0741
+        },
+        "51to80": {
+          "total": 430,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 20,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0465
+        },
+        "81to100": {
+          "total": 1474,
+          "cost_burdened_30pct": 129,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 129,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.0875
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 25,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 224,
+          "cost_burdened_30pct": 34,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 34,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.1518
+        },
+        "51to80": {
+          "total": 350,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 485,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 45,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0928
+        }
+      }
+    },
+    "0869480": {
+      "geoid": "0869480",
+      "tract_count": 1,
+      "total_renter_hh": 680,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.008,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 45,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 60,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 575,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 25,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0435
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 135,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0741
+        },
+        "51to80": {
+          "total": 115,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 40,
+          "cost_burdened": 40,
+          "severely_burdened": 40,
+          "pct_cost_burdened": 0.3478
+        },
+        "81to100": {
+          "total": 240,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        }
+      }
+    },
+    "0869810": {
+      "geoid": "0869810",
+      "tract_count": 1,
+      "total_renter_hh": 1114,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.013,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 110,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 199,
+          "cost_burdened_30pct": 14,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 14,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0704
+        },
+        "81to100": {
+          "total": 805,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 15,
+          "cost_burdened": 40,
+          "severely_burdened": 15,
+          "pct_cost_burdened": 0.0497
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 85,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 134,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0746
+        },
+        "81to100": {
+          "total": 219,
+          "cost_burdened_30pct": 39,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 39,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.1781
+        }
+      }
+    },
+    "0874375": {
+      "geoid": "0874375",
+      "tract_count": 1,
+      "total_renter_hh": 3645,
+      "containing_county_fips": "08035",
+      "county_renter_hh": 102914,
+      "coverage_vs_county": 0.035,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 105,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 15,
+          "cost_burdened": 15,
+          "severely_burdened": 15,
+          "pct_cost_burdened": 0.1429
+        },
+        "51to80": {
+          "total": 315,
+          "cost_burdened_30pct": 40,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 40,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.127
+        },
+        "81to100": {
+          "total": 3225,
+          "cost_burdened_30pct": 240,
+          "cost_burdened_50pct": 90,
+          "cost_burdened": 240,
+          "severely_burdened": 90,
+          "pct_cost_burdened": 0.0744
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 35,
+          "cost_burdened_30pct": 35,
+          "cost_burdened_50pct": 35,
+          "cost_burdened": 35,
+          "severely_burdened": 35,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 115,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 360,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1944
+        },
+        "81to100": {
+          "total": 365,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        }
+      }
+    },
+    "0874980": {
+      "geoid": "0874980",
+      "tract_count": 1,
+      "total_renter_hh": 0,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.0,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        }
+      }
+    },
+    "0875640": {
+      "geoid": "0875640",
+      "tract_count": 2,
+      "total_renter_hh": 4424,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.053,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 110,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.0909
+        },
+        "31to50": {
+          "total": 345,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 90,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2609
+        },
+        "51to80": {
+          "total": 530,
+          "cost_burdened_30pct": 65,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 65,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1226
+        },
+        "81to100": {
+          "total": 3439,
+          "cost_burdened_30pct": 524,
+          "cost_burdened_50pct": 79,
+          "cost_burdened": 524,
+          "severely_burdened": 79,
+          "pct_cost_burdened": 0.1524
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 55,
+          "cost_burdened_30pct": 55,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 55,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 1.0
+        },
+        "31to50": {
+          "total": 95,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "51to80": {
+          "total": 225,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 640,
+          "cost_burdened_30pct": 230,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 230,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.3594
+        }
+      }
+    },
+    "0879100": {
+      "geoid": "0879100",
+      "tract_count": 1,
+      "total_renter_hh": 474,
+      "containing_county_fips": "08013",
+      "county_renter_hh": 82991,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 10,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 39,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1026
+        },
+        "51to80": {
+          "total": 60,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 365,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1233
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 225,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 30,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1333
+        },
+        "51to80": {
+          "total": 185,
+          "cost_burdened_30pct": 30,
+          "cost_burdened_50pct": 30,
+          "cost_burdened": 30,
+          "severely_burdened": 30,
+          "pct_cost_burdened": 0.1622
+        },
+        "81to100": {
+          "total": 290,
+          "cost_burdened_30pct": 25,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 25,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0862
+        }
+      }
+    },
+    "0883835": {
+      "geoid": "0883835",
+      "tract_count": 14,
+      "total_renter_hh": 13804,
+      "containing_county_fips": "08014",
+      "county_renter_hh": 19260,
+      "coverage_vs_county": 0.717,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 28,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 1187,
+          "cost_burdened_30pct": 58,
+          "cost_burdened_50pct": 18,
+          "cost_burdened": 58,
+          "severely_burdened": 18,
+          "pct_cost_burdened": 0.0489
+        },
+        "51to80": {
+          "total": 1644,
+          "cost_burdened_30pct": 189,
+          "cost_burdened_50pct": 59,
+          "cost_burdened": 189,
+          "severely_burdened": 59,
+          "pct_cost_burdened": 0.115
+        },
+        "81to100": {
+          "total": 10945,
+          "cost_burdened_30pct": 1177,
+          "cost_burdened_50pct": 299,
+          "cost_burdened": 1177,
+          "severely_burdened": 299,
+          "pct_cost_burdened": 0.1075
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 95,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4737
+        },
+        "31to50": {
+          "total": 1930,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 18,
+          "cost_burdened": 70,
+          "severely_burdened": 18,
+          "pct_cost_burdened": 0.0363
+        },
+        "51to80": {
+          "total": 1667,
+          "cost_burdened_30pct": 293,
+          "cost_burdened_50pct": 70,
+          "cost_burdened": 293,
+          "severely_burdened": 70,
+          "pct_cost_burdened": 0.1758
+        },
+        "81to100": {
+          "total": 3734,
+          "cost_burdened_30pct": 645,
+          "cost_burdened_50pct": 141,
+          "cost_burdened": 645,
+          "severely_burdened": 141,
+          "pct_cost_burdened": 0.1727
+        }
+      }
+    },
+    "0884440": {
+      "geoid": "0884440",
+      "tract_count": 1,
+      "total_renter_hh": 891,
+      "containing_county_fips": "08031",
+      "county_renter_hh": 159464,
+      "coverage_vs_county": 0.006,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 49,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 4,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0816
+        },
+        "51to80": {
+          "total": 203,
+          "cost_burdened_30pct": 8,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 8,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0394
+        },
+        "81to100": {
+          "total": 639,
+          "cost_burdened_30pct": 44,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 44,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.0689
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 8,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 4,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.5
+        },
+        "31to50": {
+          "total": 64,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0625
+        },
+        "51to80": {
+          "total": 19,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 4,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.2105
+        },
+        "81to100": {
+          "total": 65,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1538
+        }
+      }
+    },
+    "0885705": {
+      "geoid": "0885705",
+      "tract_count": 2,
+      "total_renter_hh": 3025,
+      "containing_county_fips": "08045",
+      "county_renter_hh": 15670,
+      "coverage_vs_county": 0.193,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 215,
+          "cost_burdened_30pct": 70,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 70,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3256
+        },
+        "51to80": {
+          "total": 635,
+          "cost_burdened_30pct": 155,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 155,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.2441
+        },
+        "81to100": {
+          "total": 2175,
+          "cost_burdened_30pct": 685,
+          "cost_burdened_50pct": 135,
+          "cost_burdened": 685,
+          "severely_burdened": 135,
+          "pct_cost_burdened": 0.3149
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 75,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 10,
+          "cost_burdened": 10,
+          "severely_burdened": 10,
+          "pct_cost_burdened": 0.1333
+        },
+        "31to50": {
+          "total": 105,
+          "cost_burdened_30pct": 50,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 50,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4762
+        },
+        "51to80": {
+          "total": 240,
+          "cost_burdened_30pct": 90,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 90,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.375
+        },
+        "81to100": {
+          "total": 655,
+          "cost_burdened_30pct": 375,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 375,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.5725
+        }
+      }
+    },
+    "3545260": {
+      "geoid": "3545260",
+      "tract_count": 1,
+      "total_renter_hh": 434,
+      "containing_county_fips": "08005",
+      "county_renter_hh": 162720,
+      "coverage_vs_county": 0.003,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 60,
+          "cost_burdened_30pct": 20,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 20,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3333
+        },
+        "51to80": {
+          "total": 40,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "81to100": {
+          "total": 334,
+          "cost_burdened_30pct": 55,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 55,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1647
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 255,
+          "cost_burdened_30pct": 10,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 10,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0392
+        },
+        "51to80": {
+          "total": 170,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0882
+        },
+        "81to100": {
+          "total": 465,
+          "cost_burdened_30pct": 145,
+          "cost_burdened_50pct": 15,
+          "cost_burdened": 145,
+          "severely_burdened": 15,
+          "pct_cost_burdened": 0.3118
+        }
+      }
+    },
+    "3548435": {
+      "geoid": "3548435",
+      "tract_count": 1,
+      "total_renter_hh": 767,
+      "containing_county_fips": "08005",
+      "county_renter_hh": 162720,
+      "coverage_vs_county": 0.005,
+      "renter_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 29,
+          "cost_burdened_30pct": 4,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 4,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.1379
+        },
+        "51to80": {
+          "total": 89,
+          "cost_burdened_30pct": 55,
+          "cost_burdened_50pct": 25,
+          "cost_burdened": 55,
+          "severely_burdened": 25,
+          "pct_cost_burdened": 0.618
+        },
+        "81to100": {
+          "total": 649,
+          "cost_burdened_30pct": 280,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 280,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.4314
+        }
+      },
+      "owner_hh_by_ami": {
+        "lte30": {
+          "total": 0,
+          "cost_burdened_30pct": 0,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 0,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.0
+        },
+        "31to50": {
+          "total": 65,
+          "cost_burdened_30pct": 45,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 45,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.6923
+        },
+        "51to80": {
+          "total": 114,
+          "cost_burdened_30pct": 69,
+          "cost_burdened_50pct": 4,
+          "cost_burdened": 69,
+          "severely_burdened": 4,
+          "pct_cost_burdened": 0.6053
+        },
+        "81to100": {
+          "total": 50,
+          "cost_burdened_30pct": 15,
+          "cost_burdened_50pct": 0,
+          "cost_burdened": 15,
+          "severely_burdened": 0,
+          "pct_cost_burdened": 0.3
+        }
+      }
+    }
+  }
+}

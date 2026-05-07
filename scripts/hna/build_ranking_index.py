@@ -3,7 +3,9 @@
 
 Reads all data/hna/summary/{geoid}.json files and cross-references:
   - data/hna/projections/{countyFips5}.json  (population projections)
-  - data/hna/chas_affordability_gap.json     (cost-burden by AMI tier)
+  - data/hna/chas_affordability_gap.json     (cost-burden by AMI tier, county)
+  - data/co_chas_by_place.json               (cost-burden by AMI tier, place;
+                                              preferred when coverage ≥ 30%)
   - data/co_ami_gap_by_county.json           (affordability gap units, county)
   - data/co_ami_gap_by_place.json            (affordability gap units, place;
                                               preferred for places/CDPs)
@@ -139,6 +141,27 @@ def load_chas() -> dict[str, dict]:
     counties = data.get("counties", {})
     if isinstance(counties, dict):
         return counties
+    return {}
+
+
+def load_chas_by_place() -> dict[str, dict]:
+    """Return dict keyed by 7-digit place GEOID with place-specific CHAS data.
+
+    Produced by ``scripts/hna/build_place_chas.py`` (this PR), which sums HUD
+    CHAS sumlevel-140 (tract) records into places via tract centroid → place
+    containment lookup. Each value carries the same ``renter_hh_by_ami`` shape
+    as the county records, plus a ``coverage_vs_county`` field that lets
+    callers decide whether the aggregation is reliable enough to surface.
+    Place coverage typically ranges 0.05–1.0 depending on how many tracts
+    landed inside the place's boundary.
+    """
+    path = os.path.join(ROOT, "data", "co_chas_by_place.json")
+    data = _load_json(path)
+    if not data:
+        return {}
+    places = data.get("places", {})
+    if isinstance(places, dict):
+        return {str(k).zfill(7): v for k, v in places.items()}
     return {}
 
 
@@ -391,9 +414,25 @@ def compute_metrics(
                 missing_ami_tiers.append(label)
 
     # --- CHAS cost-burden override and demographic stratification (county only) ---
+    # NOTE: Place-level CHAS aggregation via tract centroid containment was
+    # explored (see scripts/hna/build_place_chas.py and data/co_chas_by_place.json
+    # produced as a foundation in this PR), but the centroid approach yields
+    # systematically biased samples — for cities that span many tracts only
+    # tracts whose centroid falls inside city limits are captured, and those
+    # are not representative of the city's full income distribution. Aurora's
+    # 7 captured tracts, for example, skew 76% to 81–100% AMI vs the city's
+    # actual much-wider distribution. Shipping that data would be WORSE than
+    # county-inherited because users would see incorrect headline burden %s.
+    #
+    # The follow-up is a TIGER PLACE shapefile spatial join (geopandas) so
+    # every tract that intersects a place contributes proportional to its
+    # area-or-population overlap. Until that lands, places inherit the county
+    # CHAS — which is the same behaviour as before this PR, but the source
+    # flag (_chas_source: 'county_inherited') makes the provenance visible.
     pct_burdened_lte30 = 0.0
     pct_burdened_31to50 = 0.0
     pct_burdened_51to80 = 0.0
+    chas_source = "none"
     if county_fips5 in chas_by_county:
         chas_county = chas_by_county[county_fips5]
         renter_data = chas_county.get("renter_hh_by_ami", {})
@@ -407,6 +446,7 @@ def compute_metrics(
         pct_burdened_lte30   = _tier_pct("lte30")
         pct_burdened_31to50  = _tier_pct("31to50")
         pct_burdened_51to80  = _tier_pct("51to80")
+        chas_source = "county_direct" if geo_type == "county" else "county_inherited"
 
         # Note: we intentionally keep pct_cost_burdened as the GRAPI-derived
         # value (DP04_0141PE + DP04_0142PE) so the metric is comparable across
@@ -414,7 +454,7 @@ def compute_metrics(
         # profile). CHAS aggregation would filter to ≤100% AMI renters only,
         # which gives a materially different number than "all renters" and
         # isn't what the UI label ("% cost-burdened renters") claims.
-        # CHAS is still the source for the AMI-tier stratified fields below.
+        # CHAS is still the source for the AMI-tier stratified fields above.
 
     # --- LEHD in-commuting stats (county level; places scale by population share) ---
     in_commuters = 0
@@ -473,30 +513,25 @@ def compute_metrics(
     # When AMI gap data was sourced directly from per-place ACS (the default
     # path now), the AMI fields are NOT approximated and should be removed
     # from the warning list — only the truly county-scaled fields remain.
+    ami_is_place_specific = (ami_gap_source == "place_acs_direct")
+
     if geo_type == "county":
         approximated_fields: list[str] = []
-    elif ami_gap_source == "place_acs_direct":
-        approximated_fields = [
-            # Cost-burden AMI tiers still come from county CHAS (tract aggregation
-            # is the deferred follow-up — see build_place_ami_gap.py header).
-            "pct_burdened_lte30",
-            "pct_burdened_31to50",
-            "pct_burdened_51to80",
-            "in_commuters",
-            "population_projection_20yr",
-        ]
     else:
-        approximated_fields = [
-            "ami_gap_30pct",
-            "ami_gap_50pct",
-            "ami_gap_60pct",
-            "pct_burdened_lte30",
-            "pct_burdened_31to50",
-            "pct_burdened_51to80",
-            "missing_ami_tiers",
-            "in_commuters",
-            "population_projection_20yr",
-        ]
+        approximated_fields = []
+        if not ami_is_place_specific:
+            approximated_fields.extend([
+                "ami_gap_30pct", "ami_gap_50pct", "ami_gap_60pct",
+                "missing_ami_tiers",
+            ])
+        # CHAS cost-burden percentages are always county-inherited for places
+        # at present (see CHAS resolution comment above). Future TIGER-spatial-
+        # join PR can flip this when place-tract aggregation produces
+        # representative samples.
+        approximated_fields.extend([
+            "pct_burdened_lte30", "pct_burdened_31to50", "pct_burdened_51to80",
+            "in_commuters", "population_projection_20yr",
+        ])
 
     return {
         "housing_gap_units": housing_gap_units,
@@ -517,6 +552,7 @@ def compute_metrics(
         "pct_renters": round(pct_renter, 1),
         "gross_rent_median": gross_rent,
         "_ami_gap_source": ami_gap_source,
+        "_chas_source": chas_source,
         "_null_critical_count": null_critical_count,
         "_approximated_fields": approximated_fields,
     }
@@ -553,11 +589,16 @@ def build() -> None:
     ami_gap = load_ami_gap()
     ami_gap_place = load_ami_gap_by_place()
     chas = load_chas()
+    # chas_place is loaded for visibility/log only — not yet wired into
+    # compute_metrics; see CHAS resolution comment in compute_metrics.
+    chas_place = load_chas_by_place()
     lehd = load_lehd_index()
     county_pops = load_county_populations()
     print(f"  AMI gap counties: {len(ami_gap)}", file=sys.stderr)
     print(f"  AMI gap places (place-specific):  {len(ami_gap_place)}", file=sys.stderr)
     print(f"  CHAS counties: {len(chas)}", file=sys.stderr)
+    print(f"  CHAS places (tract-aggregated, not yet wired): {len(chas_place)}",
+          file=sys.stderr)
     print(f"  LEHD counties: {len(lehd)}", file=sys.stderr)
     print(f"  County populations: {len(county_pops)}", file=sys.stderr)
 

@@ -710,33 +710,49 @@
     var html = '<div class="hca-cp-ami">';
     html += '<h4 class="hca-cp-ami__title">Recommended AMI Unit Mix <span class="hca-cp-source">HUD CHAS · AMI Gap Model</span></h4>';
 
-    // Determine whether the underlying AMI gap data is genuinely
-    // place-specific (sourced from per-place ACS B19001+B25063) or
-    // proportionally scaled from county aggregates. The
-    // _ami_gap_source flag was added to ranking-index in PR #768. If
-    // either side falls back to county-scaled (legacy fallback for
-    // very small CDPs that ACS suppresses), surface a disclosure;
-    // otherwise the place-level numbers are real and we're good.
-    function _amiGapSource(entry) {
-      return entry && entry.metrics &&
-             typeof entry.metrics._ami_gap_source === 'string'
-        ? entry.metrics._ami_gap_source
+    // Provenance flags from build_ranking_index.py:
+    //   _ami_gap_source — place_acs_direct | county_proportional | county_direct
+    //   _chas_source    — county_inherited | county_direct (CHAS is always
+    //                     county-inherited for places at present; place-level
+    //                     CHAS via tract aggregation is wired in foundation
+    //                     code but not surfaced because centroid containment
+    //                     yields biased samples for cities spanning many
+    //                     tracts. Future TIGER spatial-join PR will flip
+    //                     this when place-tract aggregation is reliable.)
+    function _src(entry, key) {
+      return entry && entry.metrics && typeof entry.metrics[key] === 'string'
+        ? entry.metrics[key]
         : '';
     }
-    var srcA = _amiGapSource(entryA);
-    var srcB = _amiGapSource(entryB);
-    var anyProxy = (srcA === 'county_proportional' ||
-                    srcB === 'county_proportional');
-    if (anyProxy) {
+    var amiSrcA = _src(entryA, '_ami_gap_source');
+    var amiSrcB = _src(entryB, '_ami_gap_source');
+    var chasSrcA = _src(entryA, '_chas_source');
+    var chasSrcB = _src(entryB, '_chas_source');
+
+    var amiCountyScaled = (amiSrcA === 'county_proportional' ||
+                           amiSrcB === 'county_proportional');
+    var chasCountyInherited = (chasSrcA === 'county_inherited' ||
+                               chasSrcB === 'county_inherited');
+
+    if (amiCountyScaled || chasCountyInherited) {
+      var msgs = [];
+      if (amiCountyScaled) {
+        msgs.push('AMI gap totals are county-scaled for at least one selection — ' +
+                  'place-level ACS B19001/B25063 wasn’t available, so units are scaled ' +
+                  'by population share');
+      }
+      if (chasCountyInherited) {
+        msgs.push('Cost-burden percentages by AMI tier are still county-inherited — ' +
+                  'place-level CHAS aggregation requires a TIGER spatial join (planned ' +
+                  'follow-up). The AMI gap totals above ARE place-specific');
+      }
       html += '<div class="hca-cp-ami__proxy-note" role="note" style="' +
         'margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
         'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);' +
         'font-size:.78rem;line-height:1.45;color:var(--text);">' +
-        '<strong style="color:var(--warn,#d97706);">⚠ One or both places use county-scaled AMI mix.</strong> ' +
-        'Per-place ACS B19001/B25063 distributions weren’t available for at least one selection ' +
-        '(typically a very small CDP), so its tier mix is approximated by scaling the county aggregate ' +
-        'by population share. The other side’s mix may still be genuinely place-specific. Use the ' +
-        'totals for sizing and the percentages for directional context.' +
+        '<strong style="color:var(--warn,#d97706);">⚠ Some metrics fall back to county-level data.</strong> ' +
+        msgs.join('. ') + '. ' +
+        'Use totals for sizing and percentages for directional context.' +
       '</div>';
     }
 

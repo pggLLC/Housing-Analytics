@@ -113,6 +113,7 @@ const DATA_FILES = [
     'data/census-acs-state.json',
     'data/co_ami_gap_by_county.json',
     'data/co_ami_gap_by_place.json',
+    'data/co_chas_by_place.json',
     'data/fred-data.json',
     'data/states-10m.json',
     'data/hna/geo-config.json',

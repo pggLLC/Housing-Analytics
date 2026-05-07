@@ -5,7 +5,9 @@ fetch_chas.py — Fetch HUD CHAS (Comprehensive Housing Affordability Strategy) 
 Downloads CHAS Table 1 from HUD, filters to Colorado, aggregates tract-level
 records to county-level cost-burden-by-AMI summaries, and writes:
 
-  data/market/chas_co.json              — raw Colorado CHAS records
+  data/market/chas_co.json              — raw Colorado CHAS records (county-level)
+  data/market/chas_co_tract.json        — tract-level CHAS records for downstream
+                                          place aggregation (build_place_chas.py)
   data/hna/chas_affordability_gap.json  — county-level affordability gap for HNA dashboard
 
 Usage:
@@ -13,6 +15,7 @@ Usage:
 
 Output:
     data/market/chas_co.json
+    data/market/chas_co_tract.json
     data/hna/chas_affordability_gap.json
 """
 
@@ -28,6 +31,7 @@ from datetime import datetime, timezone
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 OUT_FILE = os.path.join(REPO_ROOT, 'data', 'market', 'chas_co.json')
+TRACT_FILE = os.path.join(REPO_ROOT, 'data', 'market', 'chas_co_tract.json')
 GAP_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordability_gap.json')
 
 # HUD CHAS data — most recent available vintage (sub-county 140-jurisdiction download)
@@ -417,6 +421,98 @@ def aggregate_to_counties(records: list) -> dict:
     return accum
 
 
+def aggregate_to_tracts(records: list) -> dict:
+    """Aggregate CHAS Table 9 records to tract-level summaries.
+
+    Mirrors aggregate_to_counties but keys by 11-digit tract GEOID. The same
+    burden-first → income-first transposition runs per tract. Used as the
+    intermediate input to scripts/hna/build_place_chas.py, which sums these
+    counts across the tracts that make up each place.
+
+    Returns a dict keyed by 11-digit tract GEOID (state(2)+county(3)+tract(6)).
+    """
+    col_sums: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+
+    has_data = False
+    for row in records:
+        if not has_data:
+            if RENTER_TOTAL_COL not in row:
+                # Same column-shape guard as aggregate_to_counties.
+                break
+            has_data = True
+
+        # Build 11-digit tract GEOID. CHAS rows have either explicit
+        # st/cnty/tract fields or a single 'geoid' field; reuse the same
+        # extractor as build_county_fips for consistency.
+        geoid = str(row.get('geoid', ''))
+        digits = _extract_fips_from_geoid(geoid)
+        # Fall back to combining st/cnty/tract fields if no full geoid present.
+        if len(digits) < 11:
+            st = str(row.get('st', row.get('state', ''))).strip().zfill(2)
+            cnty = str(row.get('cnty', row.get('county', ''))).strip().zfill(3)
+            tract_raw = str(row.get('tract', '')).strip()
+            if st == COLORADO_FIPS and len(cnty) == 3 and tract_raw:
+                # Tract codes can be 4 or 6 digits in CHAS; pad to 6.
+                digits = st + cnty + tract_raw.zfill(6)
+        if len(digits) < 11 or digits[:2] != COLORADO_FIPS:
+            continue
+        tract_geoid = digits[:11]
+
+        for k, v in row.items():
+            if k.startswith(CHAS_TABLE_PREFIX):
+                col_sums[tract_geoid][k] += _int(v)
+
+    if not has_data:
+        return {}
+
+    # Use the same _extract_tiers helper as aggregate_to_counties (defined
+    # inside that function). Re-implement here to avoid scope reach-in.
+    def _extract_tiers(burden_groups, income_offsets, sums):
+        result = {}
+        for tier_name, offset in income_offsets.items():
+            total = 0
+            not_b = mod_b = sev_b = 0
+            for grp in burden_groups:
+                col = f'{CHAS_TABLE_PREFIX}{grp["start"] + offset}'
+                val = sums.get(col, 0)
+                total += val
+                lbl = grp['label']
+                if lbl == 'not_burdened':
+                    not_b += val
+                elif lbl == 'mod_burdened':
+                    mod_b += val
+                elif lbl == 'severely_burdened':
+                    sev_b += val
+            result[tier_name] = {
+                'total': total,
+                'not_burdened': not_b,
+                'mod_burdened': mod_b,
+                'severely_burdened': sev_b,
+            }
+        return result
+
+    TIER_NAME_MAP = {
+        'lte30':  'lte30',
+        '31to50': '31to50',
+        '51to80': '51to80',
+        '81plus': '81to100',
+    }
+
+    accum: dict[str, dict] = {}
+    for tract_geoid, csums in col_sums.items():
+        renter_raw = _extract_tiers(RENTER_BURDEN_GROUPS, INCOME_TIER_OFFSETS, csums)
+        owner_raw = _extract_tiers(OWNER_BURDEN_GROUPS, INCOME_TIER_OFFSETS, csums)
+        renter_tiers = {dst: renter_raw.get(src, {
+            'total': 0, 'not_burdened': 0, 'mod_burdened': 0, 'severely_burdened': 0
+        }) for src, dst in TIER_NAME_MAP.items()}
+        owner_tiers = {dst: owner_raw.get(src, {
+            'total': 0, 'not_burdened': 0, 'mod_burdened': 0, 'severely_burdened': 0
+        }) for src, dst in TIER_NAME_MAP.items()}
+        accum[tract_geoid] = {'renter': renter_tiers, 'owner': owner_tiers}
+
+    return accum
+
+
 def _burden_tier_record(tier_data: dict) -> dict:
     """Convert accumulated tier counts to burden metrics including 30% and 50% thresholds."""
     total      = tier_data.get('total', 0)
@@ -605,12 +701,55 @@ def main() -> int:
     # ── Aggregate tracts to counties ──────────────────────────────────────
     generated = utc_now()
     county_map = aggregate_to_counties(records)
+    tract_map = aggregate_to_tracts(records)
 
     if not county_map:
         print('✗ Aggregation produced 0 counties (column mismatch?).', file=sys.stderr)
         return 1
 
     print(f'  Aggregated {len(records)} tracts into {len(county_map)} counties')
+    print(f'  Aggregated {len(records)} rows into {len(tract_map)} unique tract IDs')
+
+    # ── Write tract-level chas_co_tract.json ──────────────────────────────
+    # Persist tract-level data so build_place_chas.py can sum tract counts
+    # to places via tract_place_lookup.json without re-downloading the 234 MB
+    # source ZIP. Each record carries a single tract's renter_hh_by_ami /
+    # owner_hh_by_ami breakdown — the same shape as the county records but
+    # keyed by 11-digit tract GEOID.
+    tract_records = []
+    for tract_geoid in sorted(tract_map):
+        tract_records.append({
+            'geoid': tract_geoid,
+            'county_fips': tract_geoid[:5],
+            'renter_hh_by_ami': {
+                tier: _burden_tier_record(tract_map[tract_geoid]['renter'].get(tier, {}))
+                for tier in AMI_TIERS
+            },
+            'owner_hh_by_ami': {
+                tier: _burden_tier_record(tract_map[tract_geoid]['owner'].get(tier, {}))
+                for tier in AMI_TIERS
+            },
+        })
+
+    tract_output = {
+        'meta': {
+            'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy) — tract-level',
+            'url': 'https://www.huduser.gov/portal/datasets/cp.html',
+            'state': 'Colorado',
+            'state_fips': COLORADO_FIPS,
+            'vintage': VINTAGE,
+            'generated': generated,
+            'record_count': len(tract_records),
+            'note': 'Tract-level CHAS Table 9 cost-burden by AMI tier. '
+                    'Consumed by scripts/hna/build_place_chas.py to derive '
+                    'place-level cost-burden via tract→place crosswalk.',
+        },
+        'records': tract_records,
+    }
+    os.makedirs(os.path.dirname(TRACT_FILE), exist_ok=True)
+    with open(TRACT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(tract_output, f, ensure_ascii=False)
+    print(f'✓ Wrote {len(tract_records)} tract records to {TRACT_FILE}')
 
     # ── Write county-level chas_co.json ───────────────────────────────────
     county_records = []

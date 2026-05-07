@@ -100,6 +100,37 @@ jobs:
           echo "── Rebuilding place-level AMI gap from ACS ──"
           python3 scripts/hna/build_place_ami_gap.py 2>&1 || echo "::warning::Place AMI gap rebuild failed (non-critical; build_ranking_index.py will fall back to county-scaled)"
 
+      - name: Phase 6.6 — Refresh CHAS source files (county + tract-level)
+        # fetch_chas.py emits both data/market/chas_co.json (county aggregate)
+        # and data/market/chas_co_tract.json (tract-level), used by Phase 6.7
+        # to derive per-place cost burden via tract aggregation.
+        run: |
+          echo "── Refreshing HUD CHAS county + tract files ──"
+          python3 scripts/fetch_chas.py 2>&1 || echo "::warning::CHAS refresh failed (non-critical; existing files retained)"
+
+      - name: Phase 6.7 — Aggregate place-level CHAS cost-burden from tracts (foundation)
+        # Builds data/co_chas_by_place.json by summing CHAS sumlevel-140 (tract)
+        # records into Colorado places via Census Geocoder centroid lookup.
+        # NOT YET CONSUMED by build_ranking_index.py — places still inherit the
+        # county CHAS for cost-burden percentages. The centroid-containment
+        # crosswalk yields biased samples for cities spanning many tracts (e.g.
+        # Aurora's 7 captured tracts skew 76% to 81–100% AMI vs the city's
+        # actual broader distribution). Wiring will flip in a follow-up PR
+        # that uses a TIGER PLACE shapefile spatial join with population-
+        # weighted apportionment for tracts that span boundaries.
+        #
+        # Persisting the file regardless: keeps tract→place data fresh for
+        # the follow-up, lets us track quality drift, and makes the eventual
+        # cutover a one-line config change in build_ranking_index.py.
+        #
+        # The tract→place lookup is cached at data/hna/derived/
+        # tract_place_lookup.json so subsequent runs skip the ~1600 Geocoder
+        # API calls. Non-blocking: existing place-CHAS file is preserved on
+        # script failure.
+        run: |
+          echo "── Aggregating CHAS tracts to places (foundation file) ──"
+          python3 scripts/hna/build_place_chas.py 2>&1 || echo "::warning::Place CHAS rebuild failed (non-critical; build_ranking_index.py will keep using county-inherited)"
+
       - name: Phase 7 — Rebuild HNA ranking index
         # Regenerates data/hna/ranking-index.json — the file consumed by
         # the Comparative Analysis page (hna-comparative-analysis.html).
