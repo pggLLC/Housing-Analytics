@@ -214,26 +214,30 @@ class TestFredTemporalContinuity:
                 )
 
     def test_monthly_series_have_recent_data(self, fred_series):
-        """Each core monthly FRED series must have an observation within the last 60 days.
+        """Each core monthly FRED series must have a recent-enough observation.
 
-        CPI-based series (CPIAUCSL, CUUR0000SAH1) have a known ~6-week publication
-        lag; they are allowed up to 90 days.  All other monthly series must have an
-        observation within the standard 60-day window.
+        Uses a month-aware cutoff — the first day of the month two months prior to
+        the current month — rather than a fixed day count.  This naturally accounts
+        for the normal ~1-month publication lag of monthly macroeconomic series
+        (e.g. CPIAUCSL, UNRATE) without requiring per-series overrides or brittle
+        day arithmetic that breaks near month boundaries.
 
-        This replaces the previous hard-coded date checks (e.g. test_cpiaucsl_has_oct_2025)
-        with a dynamic, date-aware assertion that remains valid as time advances.
+        Example: running on any day in May 2026, the cutoff is 2026-03-01, so a
+        series whose latest observation is 2026-03-01 passes; a series stuck at
+        2026-01-01 (three full months stale) fails.
         """
         now = datetime.now(timezone.utc).replace(tzinfo=None)
+        first_of_current_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        cutoff = first_of_current_month - relativedelta(months=2)
+
         for series_id in self.MONTHLY_SERIES:
             obs = fred_series.get(series_id, {}).get('observations', [])
             assert obs, f'{series_id}: has no observations'
             latest_date_str = max(o['date'] for o in obs)
             latest = datetime.fromisoformat(latest_date_str)
-            max_age = self.EXTENDED_LAG_SERIES.get(series_id, self.MAX_AGE_DAYS)
-            cutoff = now - timedelta(days=max_age)
             assert latest >= cutoff, (
                 f'{series_id}: latest observation is {latest_date_str}, '
-                f'more than {max_age} days old'
+                f'older than allowed monthly publication lag cutoff {cutoff.date()}'
             )
 
     def test_monthly_series_no_internal_gaps(self, fred_series):
