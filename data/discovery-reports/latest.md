@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-05-06T09:15:25.239Z
+**Scan timestamp:** 2026-05-07T09:24:45.490Z
 
 ## Summary
 
@@ -9,8 +9,8 @@
 | Files scanned | 925 |
 | New (unregistered) | 894 |
 | Registered | 30 |
-| Stale (overdue) | 20 |
-| Aging (due soon) | 1 |
+| Stale (overdue) | 21 |
+| Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
@@ -911,27 +911,24 @@
 
 ## ⚠ Stale Sources
 
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 856 days since last update
-- **undefined** — 490 days since last update
-- **undefined** — 490 days since last update
-
-## ⏳ Aging Sources
-
-- undefined — 400 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 401 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 857 days since last update
+- **undefined** — 491 days since last update
+- **undefined** — 491 days since last update
