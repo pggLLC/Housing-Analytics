@@ -227,3 +227,49 @@ class TestEnrichmentCompleteness:
         assert m.get('population', 0) > 0, (
             f'{place_name} has population=0 — likely orphaned entry'
         )
+
+
+# ---------------------------------------------------------------------------
+# Tenure orientation consistency (renter vs owner)
+# ---------------------------------------------------------------------------
+
+class TestTenureOrientation:
+    """Guard against renter/owner percentage reversals across ETL outputs."""
+
+    def test_state_summary_tenure_aligns_with_county_weighted_average(self):
+        state_path = os.path.join(SUMMARY_DIR, '08.json')
+        with open(state_path, 'r', encoding='utf-8') as f:
+            state = json.load(f)
+
+        state_profile = state.get('acsProfile', {})
+        state_renter = float(state_profile.get('DP04_0047PE', 0))
+        state_owner = float(state_profile.get('DP04_0046PE', 0))
+
+        weighted_num = 0.0
+        weighted_den = 0.0
+
+        for fp in glob.glob(os.path.join(SUMMARY_DIR, '08???.json')):
+            with open(fp, 'r', encoding='utf-8') as f:
+                rec = json.load(f)
+            if rec.get('geo', {}).get('type') != 'county':
+                continue
+            prof = rec.get('acsProfile', {})
+            pop = float(prof.get('DP05_0001E', 0) or 0)
+            renter = float(prof.get('DP04_0047PE', 0) or 0)
+            if pop <= 0:
+                continue
+            weighted_num += pop * renter
+            weighted_den += pop
+
+        assert weighted_den > 0, 'No county population weights available for tenure validation'
+        county_weighted_renter = weighted_num / weighted_den
+
+        assert abs(state_renter - county_weighted_renter) < 5.0, (
+            f"State renter share DP04_0047PE={state_renter:.1f}% is inconsistent with "
+            f"county-weighted renter share ({county_weighted_renter:.1f}%). "
+            "Likely renter/owner reversal in state summary tenure fields."
+        )
+        assert state_owner > state_renter, (
+            f"Colorado owner share should exceed renter share in current vintage, got "
+            f"owner={state_owner:.1f}% renter={state_renter:.1f}%."
+        )

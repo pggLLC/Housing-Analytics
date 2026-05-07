@@ -388,7 +388,7 @@ test('js/acs-data-loader.js references DP04 and DP05 fields in ACS_FIELD_MAPPING
   const src = fs.readFileSync(path.join(ROOT, 'js/acs-data-loader.js'), 'utf8');
   // DP04
   assert(src.includes('DP04_0001E'),  'loader maps DP04_0001E (total housing units)');
-  assert(src.includes('DP04_0046PE'), 'loader maps DP04_0046PE (renter-occupied %)');
+  assert(src.includes('DP04_0046PE'), 'loader maps DP04_0046PE (owner-occupied %)');
   assert(src.includes('DP04_0089E'),  'loader maps DP04_0089E (median home value)');
   assert(src.includes('DP04_0134E'),  'loader maps DP04_0134E (median gross rent)');
   // DP05
