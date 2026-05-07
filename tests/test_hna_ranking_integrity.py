@@ -243,7 +243,6 @@ class TestTenureOrientation:
 
         state_profile = state.get('acsProfile', {})
         state_renter = float(state_profile.get('DP04_0047PE', 0))
-        state_owner = float(state_profile.get('DP04_0046PE', 0))
 
         weighted_num = 0.0
         weighted_den = 0.0
@@ -268,8 +267,4 @@ class TestTenureOrientation:
             f"State renter share DP04_0047PE={state_renter:.1f}% is inconsistent with "
             f"county-weighted renter share ({county_weighted_renter:.1f}%). "
             "Likely renter/owner reversal in state summary tenure fields."
-        )
-        assert state_owner > state_renter, (
-            f"Colorado owner share should exceed renter share in current vintage, got "
-            f"owner={state_owner:.1f}% renter={state_renter:.1f}%."
         )

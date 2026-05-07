@@ -264,6 +264,7 @@ test('calculateBaseline: falls back to national avg when no GRAPI data', () => {
 test('calculateBaseline: returns null for missing/invalid data', () => {
   assert(calculateBaseline(null)                 === null, 'null profile → null');
   assert(calculateBaseline({})                   === null, 'empty profile → null');
+  assert(calculateBaseline({ DP04_0001E: '1000' }) === null, 'missing renter pct → null');
   assert(calculateBaseline({ DP04_0001E: '0', DP04_0047PE: '30' }) === null, 'zero units → null');
   assert(calculateBaseline({ DP04_0001E: '1000', DP04_0047PE: '0' }) === null, 'zero renter pct → null');
 });
