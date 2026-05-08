@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-07T04:42:30.632Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T03:15:35.636Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 130.9 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
-| `data/fred-data.json` | 1.85 MB | ✅ | — |
+| `data/fred-data.json` | 987.9 KB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 133.5 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1077,7 +1077,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 11.1 KB |
-| `.github/workflows/codeql.yml` | 1000 B |
+| `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 8.5 KB |
