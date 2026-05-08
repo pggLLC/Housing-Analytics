@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T12:52:11.725Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T13:15:37.210Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.1 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 14.2 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | COHO Analytics | 19.8 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 23.1 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 27.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 22.3 KB |
 | `data-review-hub.html` | Data Review &amp; Transparency Hub | COHO Analytics | 31.4 KB |
@@ -55,10 +55,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-892 JSON files found.
+893 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
+| `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 151.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
@@ -1068,7 +1069,7 @@
 
 ## GitHub Actions Workflows
 
-43 workflow files found.
+44 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1105,6 +1106,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 7.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 3.8 KB |
 | `.github/workflows/market_data_build.yml` | 12.3 KB |
+| `.github/workflows/qa-status.yml` | 4.7 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/site-audit.yml` | 2.2 KB |
