@@ -79,7 +79,9 @@ function scoreRentPressure(acs) {
 
 function scoreLandSupply(acs) {
   const vac = acs.vacancy_rate || 0;
-  return Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
+  // Mirror site-selection-score.js: 10% vacancy is the ceiling where lease-up
+  // risk and absorption pace materially threaten LIHTC underwriting.
+  return Math.max(0, Math.min(100, (1 - vac / 0.10) * 100));
 }
 
 function scoreWorkforce() { return 60; }

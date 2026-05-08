@@ -604,9 +604,12 @@
       };
     }
     var vac = _safe(acs.vacancy_rate, 0.05);
-    // Very low vacancy (<1%) → score ≈ 92; at 12%+ vacancy → score ≈ 0.
+    // Very low vacancy (<1%) → score ≈ 90; at 10%+ vacancy → score ≈ 0.
+    // 10% is the threshold where lease-up risk and absorption pace begin to
+    // materially threaten LIHTC underwriting. Above this, the market signals
+    // either oversupply or weak demand — neither is a healthy site.
     return {
-      score: _clamp(Math.round((1 - vac / 0.12) * 100)),
+      score: _clamp(Math.round((1 - vac / 0.10) * 100)),
       unavailable: false
     };
   }
