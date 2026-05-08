@@ -367,6 +367,46 @@ def test_ranking_ami_source_flag_present(ranking):
     assert not missing, f'{len(missing)} entries missing _ami_gap_source flag'
 
 
+# ── Cross-source: CDPHE county boundaries vs TIGER ──────────────────
+
+def test_cdphe_boundaries_match_tiger_county_count():
+    """CDPHE Open Data Portal county boundaries should have 64 features
+    matching TIGER's count exactly. Catches: incomplete fetch, upstream
+    boundary change, FIPS mismatch."""
+    cdphe = _load('data/market/cdphe_county_boundaries_co.geojson')
+    tiger = _load('data/co-county-boundaries.json')
+
+    cdphe_count = len(cdphe.get('features', []))
+    tiger_count = len(tiger.get('features', []))
+
+    assert cdphe_count == 64, f'CDPHE county count = {cdphe_count}; expected 64'
+    assert tiger_count == 64, f'TIGER county count = {tiger_count}; expected 64'
+
+    cdphe_fips = sorted(
+        f['properties'].get('county_fips5', '')
+        for f in cdphe['features']
+    )
+    # TIGER feature properties vary; try a few likely keys
+    def _tiger_fips(props):
+        for k in ('GEOID', 'FIPS', 'fips', 'COUNTYFP', 'GEOID20'):
+            v = props.get(k)
+            if v:
+                v = str(v)
+                # GEOID is 5-digit (state+county); COUNTYFP alone is 3-digit
+                return v.zfill(5) if len(v) == 5 else f'08{v.zfill(3)}'
+        return ''
+    tiger_fips = sorted(
+        _tiger_fips(f.get('properties', {}))
+        for f in tiger['features']
+    )
+
+    assert cdphe_fips == tiger_fips, (
+        f'CDPHE FIPS list does not match TIGER FIPS list. '
+        f'CDPHE-only: {set(cdphe_fips) - set(tiger_fips)}; '
+        f'TIGER-only: {set(tiger_fips) - set(cdphe_fips)}'
+    )
+
+
 # NOTE: _chas_source flag was previously present (PR #769 foundation work)
 # but was removed when #769 was closed in favor of the simpler #770 Table 7
 # fix. CHAS for places is unconditionally county-inherited at present, so
