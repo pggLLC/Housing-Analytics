@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T05:09:58.513Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T06:21:28.075Z. Do not edit by hand.
 
 ---
 
@@ -353,7 +353,7 @@
 | `data/hna/projections/08121.json` | 2.8 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 2.9 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 2.8 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 677.0 KB | ✅ | — |
+| `data/hna/ranking-index.json` | 676.9 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -956,7 +956,7 @@
 
 ## Test Files
 
-102 test files found.
+103 test files found.
 
 | File | Size |
 |------|------|
@@ -991,7 +991,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 13.8 KB |
 | `test/integration/economic-indicators.test.js` | 12.9 KB |
-| `test/integration/hna-ranking.test.js` | 10.7 KB |
+| `test/integration/hna-ranking.test.js` | 11.2 KB |
 | `test/integration/housing-needs-assessment.test.js` | 33.1 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.3 KB |
@@ -1053,6 +1053,7 @@
 | `tests/economic_indicators_test.py` | 24.3 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
+| `tests/test_data_plausibility.py` | 15.2 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hna_geography_coverage.py` | 8.1 KB |
 | `tests/test_hna_ranking_integrity.py` | 10.6 KB |
@@ -1067,7 +1068,7 @@
 
 ## GitHub Actions Workflows
 
-41 workflow files found.
+42 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1080,6 +1081,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 10.9 KB |
 | `.github/workflows/car-data-update.yml` | 2.0 KB |
 | `.github/workflows/ci-checks.yml` | 11.1 KB |
+| `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
 | `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
