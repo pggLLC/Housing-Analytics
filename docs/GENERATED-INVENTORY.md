@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T13:15:37.210Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-05-08T13:22:08.557Z. Do not edit by hand.
 
 ---
 
@@ -55,13 +55,14 @@
 
 ## Data Files (`data/**/*.json`)
 
-893 JSON files found.
+894 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_qa-status.json` | 5.7 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 151.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
+| `data/audit/upstream-vintage-watch.json` | 804 B | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
@@ -1069,7 +1070,7 @@
 
 ## GitHub Actions Workflows
 
-44 workflow files found.
+45 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1114,6 +1115,7 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 5.3 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 4.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
 | `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
