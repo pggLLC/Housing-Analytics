@@ -1,0 +1,10 @@
+{
+  "source_url": "https://www.huduser.gov/portal/datasets/cp/CHAS-data-dictionary-18-22.xlsx",
+  "retrieved_at": "2026-05-08T14:26:01.804Z",
+  "sha256": "b3e181dabdc60621e1b190244cafe53bd80afd6a023a5d4c92c1d14670b1ea0d",
+  "size_bytes": 492471,
+  "fetch_method": "https + browser User-Agent",
+  "notes": "HUD CHAS Table column → semantic mapping for 2018-2022 vintage. Required reference for scripts/fetch_chas.py to interpret which T7_estN column corresponds to which HAMFI tier × cost-burden cell. HUD CDN gates direct downloads behind a WAF challenge for bot User-Agents (returns HTTP 202 + empty body); using a browser UA bypasses the gate cleanly.",
+  "upstream_sha256_at_pin": "b3e181dabdc60621e1b190244cafe53bd80afd6a023a5d4c92c1d14670b1ea0d",
+  "upstream_matches": true
+}
