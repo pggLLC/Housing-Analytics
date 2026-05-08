@@ -1,0 +1,142 @@
+name: External References Drift Check
+
+# Verifies the mirrored external reference docs in docs/_external-references/
+# still match (a) their pinned SHA-256 and (b) their upstream copies. When
+# either drifts, opens a tracking issue.
+#
+# Drift sources:
+#   1. Upstream publisher silently corrected a doc (rare but happens)
+#   2. Local copy was modified without updating provenance.json (shouldn't,
+#      but the integrity check catches it)
+#   3. Upstream made the doc unreachable (404, redesigned URL, etc.)
+#
+# Refresh path on detected drift:
+#   node scripts/audit/refresh-external-references.mjs --refresh
+#   git commit + push
+
+on:
+  schedule:
+    - cron: '0 8 * * 2'   # Tuesdays 08:00 UTC
+  pull_request:
+    paths:
+      - 'docs/_external-references/**'
+      - 'scripts/audit/refresh-external-references.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: external-references-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run drift check
+        id: check
+        run: |
+          node scripts/audit/refresh-external-references.mjs --check
+        continue-on-error: true
+
+      - name: Open tracking issue on drift
+        if: steps.check.outcome == 'failure' && github.event_name == 'schedule'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const ISSUE_MARKER = '<!-- external-references-drift-tracker -->';
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = openIssues.find(i =>
+              i.body && i.body.includes(ISSUE_MARKER)
+            );
+            const body = [
+              ISSUE_MARKER,
+              '',
+              '# 📄 External reference doc drift detected',
+              '',
+              'The weekly external-references-check workflow found a mirrored ' +
+              'doc that no longer matches its pinned SHA-256.',
+              '',
+              '## What this likely means',
+              '',
+              '1. The publisher (HUD, Census, etc.) shipped a corrected version of the doc',
+              '2. The local copy was edited without bumping `provenance.json`',
+              '3. The upstream URL is unreachable (CDN/WAF behavior changed)',
+              '',
+              '## Resolution',
+              '',
+              '```bash',
+              'node scripts/audit/refresh-external-references.mjs --refresh',
+              'git commit -am "chore: refresh external references after upstream update"',
+              'git push',
+              '```',
+              '',
+              'See logs of the failing workflow run for the specific file(s) that drifted.',
+              '',
+              `<sub>Auto-managed by [external-references-check.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/external-references-check.yml). Closes when next weekly check passes.</sub>`,
+            ].join('\n');
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                issue_number: existing.number,
+                body:  `Drift still detected at ${new Date().toISOString()}.`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                title: 'External reference doc drifted from pinned SHA-256',
+                body,
+                labels: ['data-pipeline', 'external-reference-drift'],
+              });
+            }
+
+      - name: Auto-close tracking issue on recovery
+        if: steps.check.outcome == 'success' && github.event_name == 'schedule'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const ISSUE_MARKER = '<!-- external-references-drift-tracker -->';
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = openIssues.find(i =>
+              i.body && i.body.includes(ISSUE_MARKER)
+            );
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                issue_number: existing.number,
+                body: `External references back in sync as of ${new Date().toISOString()}. Closing.`,
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                issue_number: existing.number,
+                state: 'closed',
+              });
+            }
+
+      - name: Surface failure
+        if: steps.check.outcome == 'failure'
+        run: exit 1
