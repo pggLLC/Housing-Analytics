@@ -57,7 +57,7 @@ jobs:
           echo "  Run ID     : $GITHUB_RUN_ID"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Fetch HUD QCT data (Colorado)
         run: |
