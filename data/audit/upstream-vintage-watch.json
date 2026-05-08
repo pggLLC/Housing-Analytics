@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-05-08T13:19:19.767Z",
+  "sources": [
+    {
+      "source": "HUD CHAS",
+      "current_vintage": "2018-2022",
+      "latest_vintage": null,
+      "is_outdated": null,
+      "notes": "No matching CHAS download links found on HUD listing page."
+    },
+    {
+      "source": "HUD FMR",
+      "current_vintage": "FY2025",
+      "latest_vintage": "FY2026",
+      "is_outdated": false,
+      "notes": "Within expected refresh window (HUD ships FMR annually in April)."
+    },
+    {
+      "source": "Census ACS 5-year",
+      "current_vintage": "2023",
+      "latest_vintage": "2024",
+      "is_outdated": false,
+      "notes": "Within expected refresh window (ACS 5-year ships annually in December)."
+    }
+  ],
+  "summary": {
+    "checked": 3,
+    "outdated": 0,
+    "errors": 0
+  }
+}

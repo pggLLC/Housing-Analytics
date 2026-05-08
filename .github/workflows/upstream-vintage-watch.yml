@@ -1,0 +1,137 @@
+name: Upstream Vintage Watch
+
+# Weekly check for new vintage releases from external data publishers
+# (HUD CHAS, HUD FMR, Census ACS 5-year). When a new vintage is detected
+# AND we're 2+ vintages behind, opens a tracking GitHub issue.
+#
+# Refreshes data/audit/upstream-vintage-watch.json on every run for the
+# QA dashboard to display.
+
+on:
+  schedule:
+    - cron: '0 14 * * 1'   # Mondays 14:00 UTC (after most weekly fetches)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: upstream-vintage-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run vintage watcher
+        id: watch
+        run: |
+          node scripts/audit/upstream-vintage-watch.mjs
+
+      - name: Open / update tracking issue if any source is outdated
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const status = JSON.parse(
+              fs.readFileSync('data/audit/upstream-vintage-watch.json', 'utf8')
+            );
+            const outdated = (status.sources || []).filter(s => s.is_outdated);
+            const ISSUE_MARKER = '<!-- upstream-vintage-watch-tracker -->';
+
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = openIssues.find(i =>
+              i.body && i.body.includes(ISSUE_MARKER)
+            );
+
+            if (outdated.length === 0) {
+              // Close any existing tracker if everything is now current
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body: `All upstream sources are within their refresh window as of ${status.generated_at}. Closing tracker.`,
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  state: 'closed',
+                });
+              }
+              return;
+            }
+
+            const rows = outdated.map(s =>
+              `| ${s.source} | ${s.current_vintage || '?'} | ${s.latest_vintage || '?'} | ${s.notes || ''} |`
+            ).join('\n');
+            const body = [
+              ISSUE_MARKER,
+              '',
+              '# 📅 Upstream data sources have new vintages',
+              '',
+              `Detected at ${status.generated_at} by \`scripts/audit/upstream-vintage-watch.mjs\`.`,
+              '',
+              '| Source | Current vintage | Latest vintage | Notes |',
+              '| --- | --- | --- | --- |',
+              rows,
+              '',
+              '## Next steps',
+              '',
+              '- Review whether the new vintage is materially different from the current one (some annual updates are minor)',
+              '- For each outdated source, run the corresponding fetch script to upgrade:',
+              '    - HUD CHAS: `python3 scripts/fetch_chas.py`',
+              '    - HUD FMR:  `python3 scripts/fetch_fmr_api.py`',
+              '    - ACS:      bump `DEFAULT_VINTAGE` in `scripts/hna/build_place_ami_gap.py`',
+              '- Run plausibility tests + spot-check key counties before merging',
+              '',
+              `<sub>This issue is auto-managed by [upstream-vintage-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/upstream-vintage-watch.yml). It will be auto-closed when all sources are current again.</sub>`,
+            ].join('\n');
+
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: `Status updated at ${status.generated_at}.`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Upstream vintage update available — ${outdated.length} source(s)`,
+                body,
+                labels: ['data-pipeline', 'upstream-vintage'],
+              });
+            }
+
+      - name: Commit refreshed watch result
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/audit/upstream-vintage-watch.json
+          git diff --cached --quiet || git commit -m "chore: refresh upstream-vintage-watch $(date -u +'%Y-%m-%d')"
+          git fetch origin main
+          git merge --strategy=ours -m "Merge main (keeping vintage-watch)" origin/main || true
+          git push
